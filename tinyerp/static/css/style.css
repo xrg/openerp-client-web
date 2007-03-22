@@ -1,0 +1,188 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body, table {
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 12px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+}
+
+a.imglink {
+    text-decoration: none;
+}
+
+a:hover.imglink {
+    border: none;
+}
+
+#container {
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    min-width: 800px;
+    min-height: 600px;
+}
+
+#header {
+    height: 100px;
+}
+
+#titlebar {
+    height: 75px;
+    background-color: #C3D9FF;
+    vertical-align: middle;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+#linkbar {
+    height: 25px;
+    background-color: #E8EEFA;
+    border-bottom: 1px solid #C3D9FF;
+    text-align: right;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#footer {
+    height: 50px;
+    background-color: #E8EEFA;
+    border-top: 1px solid #C3D9FF;
+    text-align: center;
+}
+
+#sidebar {
+    width: 250px;
+    height: 100%;
+    min-width: 250px;
+    max-width: 250px;
+    background-color: #E8EEFA;
+    vertical-align: top;
+    border: 1px solid #C3D9FF;
+}
+
+#content {
+	height: 100%;
+    vertical-align: top;
+    background-color: #FFFFFF;
+}
+
+div.vline {
+    background-color: #C3D9FF;
+    width: 1px;
+    height: 100%;
+}
+
+div.scrollbox {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+td.title {
+    background-color: #C3D9FF;
+    height: 20px;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+div.box {
+    background-color: #E8EEFA;
+    padding: 10px;
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.message {
+    background-color: red;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+#load_status {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 100px;
+    padding: 3px;
+    background-color: #cc0000;
+    color: #ffffff;
+    display: none;
+}
+
+/* view style */
+
+.view {
+	width: 100%;
+	height: 100%;
+}
+
+.view .spacer {
+	width: 5px;
+	height: 5px;
+}
+
+.view .title {
+    background-color: #C3D9FF;
+    height: 20px;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.view .toolbar {
+    background-color: #E8EEFA;
+    border-top: 1px solid #C3D9FF;
+    border-bottom: 1px solid #C3D9FF;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.view .toolbar button {
+	background-color: #C3D9FF;
+	width: 60px;
+	border-width: 0px;
+	margin: 5px 1px;
+	padding: 2px;
+	cursor: pointer;
+}
+
+.view .fields {
+	background-color: #E8EEFA;
+	padding: 5px;
+}
+
+td.label {
+	width: 5px;
+	padding: 0 5px;
+	text-align: right;
+	white-space: nowrap;
+}
+
+td.item {
+}
+
+/**
+input, button, select, textarea {
+	border-width: 1px;
+}
+*/
+
+
