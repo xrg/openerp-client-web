@@ -40,49 +40,8 @@ import turbogears as tg
 from tinyerp import tools
 from tinyerp import rpc
 
-class TinyWidget(object):
-    """Widget interface, every widget class should implement
-    this class.
-    """
-
-    colspan = 1
-    rowspan = 1
-    string = None
-    nolabel = False
-    select = False
-
-    def __init__(self, attrs={}):
-
-        self.string = attrs.get("string", None)
-        self.model = attrs.get("model", None)
-
-        self.name = attrs['prefix'] + (attrs['prefix'] and '/' or '') + attrs.get('name', '')
-
-        self.colspan = int(attrs.get('colspan', 1))
-        self.rowspan = int(attrs.get('rowspan', 1))
-        self.select = int(attrs.get('select', 0))
-        self.nolabel = int(attrs.get('nolabel', 0))
-
-class TinyField(TinyWidget):
-    """Interface for Field widgets, every InputField widget should
-    implement this class
-    """
-
-    field_value = None
-
-    def get_value(self):
-        """Get the value of the field.
-
-        @return: field value
-        """
-        return self.field_value
-
-    def set_value(self, value):
-        """Set the value of the field.
-
-        @param value: the value
-        """
-        self.field_value = value
+from interface import TinyWidget
+from interface import TinyField
 
 class Frame(tg.widgets.CompoundWidget, TinyWidget):
     """Frame widget layouts the widgets in a table.
@@ -374,62 +333,6 @@ class Group(tg.widgets.CompoundWidget, TinyWidget):
         self.frame = Frame(attrs, children, columns=int(attrs.get('col', 4)))
         self.nolabel = True
 
-class M2O(tg.widgets.FormField, TinyField):
-    template = "tinyerp.widgets.templates.many2one"
-    params=['relation', 'field_value', 'text']
-
-    def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
-        self.relation = attrs.get('relation', '')
-
-    def set_value(self, value):
-        try:
-            super(M2O, self).set_value(value[0])
-            self.text = unicode(value[-1])
-        except:
-            pass
-
-class O2M(tg.widgets.CompoundWidget, TinyWidget):
-    """One2Many widget
-    """
-    template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id']
-
-    member_widgets = ['form']
-    form = None
-
-    def __init__(self, attrs={}):
-        TinyWidget.__init__(self, attrs)
-        tg.widgets.CompoundWidget.__init__(self, name=self.name)
-
-        #self.colspan = 4
-        #self.nolabel = True
-
-        self.model = attrs['relation']
-
-        #XXX: if self.model == parent.model then goes in infinite loop (for example: mrp.bom)
-        #TODO: generate view according to the view_mode (['form', 'tree'] or ['tree', 'form'])
-
-        view = attrs['views'].get('form', None)
-
-        id = attrs['value'] or None
-        if id and len(id) > 0:
-            id = id[0]
-
-        self.form = Form(prefix=self.name, view_id=False, model=self.model, id=id, view_preloaded=view)
-
-class M2M(tg.widgets.CompoundWidget, TinyWidget):
-    """many2many widget
-
-    @todo: implement me!!!
-    """
-    template = "tinyerp.widgets.templates.many2many"
-    params = ['relation']
-
-    def __init__(self, attrs={}):
-        TinyWidget.__init__(self, attrs)
-        self.relation = attrs.get('relation', '')
-
 class Form(tg.widgets.CompoundWidget):
     """A generic form widget
     """
@@ -557,6 +460,10 @@ class Form(tg.widgets.CompoundWidget):
                 views += [field]
 
         return views
+
+from many2one import M2O
+from one2many import O2M
+from many2many import M2M
 
 widgets_type = {
     'date': DateTime,

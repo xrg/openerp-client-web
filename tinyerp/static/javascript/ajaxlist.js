@@ -36,20 +36,22 @@ var AjaxList = function (name, checkable, editable) {
         i = 0;
 
         forEach(data, function(row){
-            tr = TR({class: i%2 == 0 ? 'even' : 'odd'});
+            tr = TR({'class': i%2 == 0 ? 'even' : 'odd'});
 
-            if (checkable) appendChildNodes(tr, TD({class: 'listButton'}, INPUT({type: 'checkbox', name: name + "_checkbox", value: row['id']})));
+            if (checkable) appendChildNodes(tr, TD({'class': 'listButton'}, INPUT({type: 'checkbox', name: name + "_checkbox", value: row['id']})));
 
             forEach(headers, function(header){
                 td = TD(null, row[header[0]]);
                 appendChildNodes(tr, td);
             });
 
-            if (editable) appendChildNodes(tr, TD({width: '25px', class: 'listButton'},
-                                                    IMG({class: 'listImage', src: '/static/images/edit_inline.gif', onclick: 'edit_' + name + '_record(' + row['id'] +')'})));
+            if (editable) {
+                appendChildNodes(tr, TD({width: '25px', 'class': 'listButton'},
+                                        IMG({'class': 'listImage', src: '/static/images/edit_inline.gif', onclick: 'edit_' + name + '_record(' + row['id'] +')'})));
 
-            if (editable) appendChildNodes(tr, TD({width: '25px', class: 'listButton'},
-                                                    IMG({class: 'listImage', src: '/static/images/delete_inline.gif', onclick: 'alert(\'Not Implemented yet!\')'})));
+                appendChildNodes(tr, TD({width: '25px', 'class': 'listButton'},
+                                        IMG({'class': 'listImage', src: '/static/images/delete_inline.gif', onclick: 'alert(\'Not Implemented yet!\')'})));
+            }
 
             appendChildNodes(tbody, tr);
 
