@@ -37,46 +37,41 @@ import xml.dom.minidom
 from elementtree import ElementTree as ET
 
 from turbogears import widgets
+from turbogears import expose
 
 from tinyerp import rpc
 from tinyerp import tools
 
 class List(widgets.Widget):
-    params = ['data', 'headers', 'model', 'checkable', 'editable']
+    params = ['model', 'checkable', 'editable']
     template = "tinyerp.widgets.templates.list"
 
-    css = [widgets.CSSLink(widgets.static, "grid.css")]
+    css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink("tinyerp", "css/ajaxlist.css")]
+    javascript = [widgets.JSLink("tinyerp", "javascript/ajaxlist.js")]
 
     def __init__(self, model, res_id=False, domain=[], view_id=None, context={}, checkable=False, editable=True):
 
         self.model = model
-        self.checkable = checkable
-        self.editable = editable
+        self.checkable = (checkable or 0) and 1
+        self.editable = (editable or 0) and 1
 
-        if view_id:
-            view_base =  rpc.session.execute('/object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
-            model = view_base['model']
-            view = rpc.session.execute('/object', 'execute', view_base['model'], 'fields_view_get', view_id, view_base['type'],context)
-        else:
-            view = rpc.session.execute('/object', 'execute', model, 'fields_view_get', False, 'tree', context)
+        res = get_list_info(model=model, nodata=True)
 
-        self.string = ""
+        self.string = res['title']
 
-        fields = view['fields']
-        dom = xml.dom.minidom.parseString(view['arch'])
-        root = dom.childNodes[0]
+def get_list_info(model, res_id=None, domain=[], view_id=None, context={}, nodata=False):
+    """Get list info, if headers is True then returns headers info otherwise
+    return list data.
 
-        attrs = tools.node_attributes(root)
-        if attrs.has_key('string'):
-            self.string = attrs.get('string','')
+    @param root: the cherrypy root controller object
+    @param model: the TinyERP model
+    @param nodata: whether to get data also
 
-        proxy = rpc.RPCProxy(model)
-        res = proxy.search([])
-        data = proxy.read(res)
+    @rtype: dict
+    @return: {title: 'title', headers: [], data: [])
+    """
 
-        self.headers, self.data = self.parse(root, fields, data)
-
-    def parse(self, root, fields, data):
+    def parse(dom, fields, data=None):
         """Parse the given node to generate valid list headers.
 
         @param root: the root node of the view
@@ -87,7 +82,7 @@ class List(widgets.Widget):
 
         headers = []
 
-        for node in root.childNodes:
+        for node in dom.childNodes:
 
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)
@@ -98,15 +93,40 @@ class List(widgets.Widget):
 
                     fields[name].update(attrs)
 
-                    if type not in CELLTYPES: continue
-
-                    for row in data:
-                        cell = CELLTYPES[type](attrs=fields[name])
-                        row[name] = cell.get_value(row[name])
+                    if data:
+                        for row in data:
+                            cell = CELLTYPES[type](attrs=fields[name])
+                            row[name] = cell.get_value(row[name])
 
                     headers += [(name, fields[name]['string'])]
 
         return headers, data
+
+    if view_id:
+        view_base =  rpc.session.execute('/object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
+        model = view_base['model']
+        view = rpc.session.execute('/object', 'execute', view_base['model'], 'fields_view_get', view_id, view_base['type'],context)
+    else:
+        view = rpc.session.execute('/object', 'execute', model, 'fields_view_get', False, 'tree', context)
+
+    title = ""
+
+    fields = view['fields']
+    dom = xml.dom.minidom.parseString(view['arch'])
+    dom = dom.childNodes[0]
+
+    attrs = tools.node_attributes(dom)
+    title = attrs.get('string', '')
+
+    data = None
+    if not nodata:
+        proxy = rpc.RPCProxy(model)
+        res = proxy.search([])
+        data = proxy.read(res)
+
+    headers, data = parse(dom, fields, data)
+
+    return dict(title=title, headers=headers, data=data)
 
 class Char(object):
 

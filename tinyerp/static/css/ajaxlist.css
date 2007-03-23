@@ -1,0 +1,12 @@
+.listButton {
+    width: 25px;
+    text-align: center;
+}
+
+.grid .listButton {
+    text-align: center;
+}
+
+.listImage {
+    cursor: pointer;
+}

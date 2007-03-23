@@ -46,7 +46,6 @@ from tinyerp.tinyres import TinyResource
 from tinyerp.modules import *
 from tinyerp.widgets import *
 
-
 class Root(controllers.RootController, TinyResource):
     """Turbogears root controller, see TG docs for more info.
     """
@@ -70,6 +69,10 @@ class Root(controllers.RootController, TinyResource):
         return actions.execute_by_keyword('tree_but_open', model=model, id=id)
 
     menu_items = tree.Tree.items;
+
+    @expose('json')
+    def list_info(self, model, res_id=None, view_id=None, nodata=False, *domain, **context):
+        return list.get_list_info(model=model, res_id=res_id, domain=domain, view_id=view_id, context=context, nodata=nodata)
 
     #methods
     edit = methods.Edit()
