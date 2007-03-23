@@ -27,24 +27,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-var AjaxList = function (id, checkable, editable) {
-
-    makeHeader = function(headers){
-
-        tr = TR(null);
-
-        if (checkable) appendChildNodes(tr, TH({class: 'listButton'}, INPUT({type: 'checkbox'})));
-
-        forEach(headers, function(header){
-            td = TH(null, header[1]);
-            appendChildNodes(tr, td);
-        });
-
-        if (editable) appendChildNodes(tr, TH({class: 'listButton'}));
-        if (editable) appendChildNodes(tr, TH({class: 'listButton'}));
-
-        return THEAD(null, tr);
-    }
+var AjaxList = function (name, checkable, editable) {
 
     makeBody = function(headers, data) {
 
@@ -55,15 +38,18 @@ var AjaxList = function (id, checkable, editable) {
         forEach(data, function(row){
             tr = TR({class: i%2 == 0 ? 'even' : 'odd'});
 
-            if (checkable) appendChildNodes(tr, TD({class: 'listButton'}, INPUT({type: 'checkbox', value: row['id']})));
+            if (checkable) appendChildNodes(tr, TD({class: 'listButton'}, INPUT({type: 'checkbox', name: name + "_checkbox", value: row['id']})));
 
             forEach(headers, function(header){
                 td = TD(null, row[header[0]]);
                 appendChildNodes(tr, td);
             });
 
-            if (editable) appendChildNodes(tr, TD({width: '25px', class: 'listButton'}, IMG({class: 'listImage', src: '/static/images/edit_inline.gif'})));
-            if (editable) appendChildNodes(tr, TD({width: '25px', class: 'listButton'}, IMG({class: 'listImage', src: '/static/images/delete_inline.gif'})));
+            if (editable) appendChildNodes(tr, TD({width: '25px', class: 'listButton'},
+                                                    IMG({class: 'listImage', src: '/static/images/edit_inline.gif', onclick: 'edit_' + name + '_record(' + row['id'] +')'})));
+
+            if (editable) appendChildNodes(tr, TD({width: '25px', class: 'listButton'},
+                                                    IMG({class: 'listImage', src: '/static/images/delete_inline.gif', onclick: 'alert(\'Not Implemented yet!\')'})));
 
             appendChildNodes(tbody, tr);
 
@@ -84,11 +70,9 @@ var AjaxList = function (id, checkable, editable) {
 		    headers = obj['headers'];
     		data = obj['data'];
 
-	    	table = TABLE({class: 'grid', cellpadding: 0, cellspacing: 1, border: 0}, makeHeader(headers), makeBody(headers, data));
+	    	tbody = makeBody(headers, data);
 
-		    swapDOM(id, table);
+		    swapDOM(name + "_body", tbody);
     	});
-
-	    wait(res, 10);
     }
 }

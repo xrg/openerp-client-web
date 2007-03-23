@@ -10,19 +10,7 @@
     <script language="javascript" src="/static/javascript/master.js"></script>
 
     <script language="javascript">
-        function checkall(selector){
-
-            boxes = document.getElementsByName('check');
-
-            forEach(boxes, function(b){
-                b.checked = selector.checked;
-            });
-        }
-
-        function new_record(){
-            window.location.href = URL('/edit', {view_id: $('view_id').value, model: $('model').value});
-        }
-
+        ${list_view.loadJS()};
     </script>
 
 </head>

@@ -43,21 +43,33 @@ from tinyerp import rpc
 from tinyerp import tools
 
 class List(widgets.Widget):
-    params = ['model', 'checkable', 'editable']
+    params = ['model', 'headers', 'checkable', 'editable']
     template = "tinyerp.widgets.templates.list"
 
     css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink("tinyerp", "css/ajaxlist.css")]
-    javascript = [widgets.JSLink("tinyerp", "javascript/ajaxlist.js")]
+    javascript = []
 
     def __init__(self, model, res_id=False, domain=[], view_id=None, context={}, checkable=False, editable=True):
+
+        self.name = model.replace('.', '_')
 
         self.model = model
         self.checkable = (checkable or 0) and 1
         self.editable = (editable or 0) and 1
 
+        self.javascript = [widgets.JSLink("tinyerp", "javascript/ajaxlist.js"),
+                           widgets.JSSource("""
+        function load_%s_data() {
+            new AjaxList("%s", %d, %d).render('/list_info', {model: '%s'});
+        }""" % (self.name, self.name, checkable, editable, self.model))]
+
         res = get_list_info(model=model, nodata=True)
 
         self.string = res['title']
+        self.headers = res['headers']
+
+    def loadJS(self):
+        return "load_%s_data()"%self.name
 
 def get_list_info(model, res_id=None, domain=[], view_id=None, context={}, nodata=False):
     """Get list info, if headers is True then returns headers info otherwise

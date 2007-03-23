@@ -411,6 +411,7 @@ class O2M(tg.widgets.CompoundWidget, TinyWidget):
         #TODO: generate view according to the view_mode (['form', 'tree'] or ['tree', 'form'])
 
         view = attrs['views'].get('form', None)
+
         id = attrs['value'] or None
         if id and len(id) > 0:
             id = id[0]
