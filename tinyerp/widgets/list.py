@@ -41,11 +41,11 @@ from turbogears import widgets
 from tinyerp import rpc
 from tinyerp import tools
 
-
-
 class List(widgets.Widget):
     params = ['data', 'headers', 'model', 'checkable', 'editable']
     template = "tinyerp.widgets.templates.list"
+
+    css = [widgets.CSSLink(widgets.static, "grid.css")]
 
     def __init__(self, model, res_id=False, domain=[], view_id=None, context={}, checkable=False, editable=True):
 
@@ -62,7 +62,7 @@ class List(widgets.Widget):
 
         self.string = ""
 
-        fields = view['fields']        
+        fields = view['fields']
         dom = xml.dom.minidom.parseString(view['arch'])
         root = dom.childNodes[0]
 
@@ -75,7 +75,7 @@ class List(widgets.Widget):
         data = proxy.read(res)
 
         self.headers, self.data = self.parse(root, fields, data)
-    
+
     def parse(self, root, fields, data):
         """Parse the given node to generate valid list headers.
 
@@ -99,8 +99,8 @@ class List(widgets.Widget):
                     fields[name].update(attrs)
 
                     if type not in CELLTYPES: continue
-                    
-                    for row in data:                        
+
+                    for row in data:
                         cell = CELLTYPES[type](attrs=fields[name])
                         row[name] = cell.get_value(row[name])
 
@@ -117,7 +117,7 @@ class Char(object):
         return unicode(value or '', 'utf-8')
 
 class M2O(Char):
-    
+
     def get_value(self, value):
         if value and len(value) > 0:
             return str(value[-1])
@@ -193,7 +193,7 @@ class Boolean(Char):
         else:
             return 'Flase'
 
-CELLTYPES = { 
+CELLTYPES = {
         'char':Char,
         'many2one':M2O,
         'date':Date,

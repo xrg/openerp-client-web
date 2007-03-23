@@ -290,12 +290,9 @@ class Boolean(tg.widgets.FormField, TinyField):
         tg.widgets.FormField.__init__(self, name=self.name)
 
     def set_value(self, value):
-        try:
-            self.field_value = int(value)
-        except:
-            self.field_value = bool(value)
+        self.field_value = value or ''
 
-        if self.field_value:
+        if value:
             self.checked['checked'] = "1"
 
 class Float(tg.widgets.FormField, TinyField):
@@ -326,8 +323,6 @@ class DateTime(tg.widgets.CalendarDatePicker, TinyField):
     def __init__(self, attrs={}):
         TinyField.__init__(self, attrs)
         tg.widgets.CalendarDatePicker.__init__(self, name=self.name)
-
-        print "XXXXXXXXXXXXXX", attrs['type'], attrs['type'] == 'date'
 
         if attrs['type'] == 'date':
             self.format = "%Y-%m-%d"
@@ -418,8 +413,8 @@ class O2M(tg.widgets.CompoundWidget, TinyWidget):
         view = attrs['views'].get('form', None)
         id = attrs['value'] or None
         if id and len(id) > 0:
-            id = id[0]        
-        
+            id = id[0]
+
         self.form = Form(prefix=self.name, view_id=False, model=self.model, id=id, view_preloaded=view)
 
 class M2M(tg.widgets.CompoundWidget, TinyWidget):

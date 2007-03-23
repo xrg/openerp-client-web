@@ -6,8 +6,6 @@
     <title>${list_view.string}</title>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
-    <link href="/tg_widgets/turbogears.widgets/grid.css" rel="stylesheet" type="text/css"/>
-
     <script language="javascript" src="/tg_static/js/MochiKit.js"></script>
     <script language="javascript" src="/static/javascript/master.js"></script>
 
