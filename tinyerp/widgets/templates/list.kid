@@ -1,30 +1,35 @@
 <span xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
-
-    <script language="javascript">
-        function ${name}_checkall(selector){
-            boxes = document.getElementsByName('${name}_checkbox');
-            forEach(boxes, function(b){
-                b.checked = selector.checked;
-            });
-        }
-
-        function edit_${name}_record(id){
-            window.location.href = URL('/edit', {view_id: 'False', model: '${model}', id: id});
-        }
-    </script>
-
-    <table class="grid" border="0" cellpadding="1" cellspacing="1">
+    <table width="100%" cellpadding="0" cellspacing="1" border="0" id="widget" class="grid">
         <thead>
-            <tr>
-                <th py:if="checkable" class="listButton">
-                    <input type="checkbox" onclick="${name}_checkall(this)"/>
-                </th>
-                <th py:for="header in headers" py:content="header[1]">Header</th>
-                <th py:if="editable" class="listButton"></th>
-                <th py:if="editable" class="listButton"></th>
+            <tr class="even">
+                <th style="text-align: center; width: 25px" py:if="checkable"><input type="checkbox" id="checkall"/></th>
+                <th py:for="field in headers" py:content="field[1]" class="col_${headers.index(field)}">Title</th>
+                <th style="text-align: center; width: 20px" py:if="editable"></th>
+                <th style="text-align: center; width: 20px" py:if="editable"></th>
             </tr>
-        </thead>                
-        <tbody id="${name}_body"></tbody>
-    </table>  
-
+        </thead>
+        <tbody>
+            <?python row_class = ['even', 'odd']?>
+            <tr py:for="row in data" class="${row_class[data.index(row) % 2]}">
+                <td align="center" py:if="checkable"><input type="checkbox" name="check" value="${row['id']}"/></td>
+                <td py:for="name, title in headers" py:content="row[name]">Data</td>
+                <td py:if="editable" style="text-align: center">
+                    <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="alert('Not implemented yet!')"/>
+                </td>
+                <td py:if="editable" style="text-align: center">
+                    <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="alert('Not implemented yet!')"/>
+                </td>
+            </tr>
+            
+            <tr py:if="not data" py:for="i in range(6)" class="even">
+                <td align="center" py:if="checkable"></td>
+                <td py:for="name, title in headers">&nbsp;</td>
+                <td py:if="editable" style="text-align: center">
+                </td>
+                <td py:if="editable" style="text-align: center">
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
 </span>

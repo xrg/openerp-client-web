@@ -32,7 +32,7 @@ import turbogears as tg
 from interface import TinyWidget
 from interface import TinyField
 
-from form import Form
+from screen import Screen
 
 class O2M(tg.widgets.CompoundWidget, TinyWidget):
     """One2Many widget
@@ -40,7 +40,7 @@ class O2M(tg.widgets.CompoundWidget, TinyWidget):
     template = "tinyerp.widgets.templates.one2many"
     params = ['string', 'id']
 
-    member_widgets = ['form']
+    member_widgets = ['screen']
     form = None
 
     def __init__(self, attrs={}):
@@ -52,13 +52,9 @@ class O2M(tg.widgets.CompoundWidget, TinyWidget):
 
         self.model = attrs['relation']
 
-        #XXX: if self.model == parent.model then goes in infinite loop (for example: mrp.bom)
-        #TODO: generate view according to the view_mode (['form', 'tree'] or ['tree', 'form'])
+        view = attrs.get('views', {})
+        mode = attrs.get('mode', 'tree,form').split(',')
 
-        view = attrs['views'].get('form', None)
+        ids = attrs['value'] or []
 
-        id = attrs['value'] or None
-        if id and len(id) > 0:
-            id = id[0]
-
-        self.form = Form(prefix=self.name, view_id=False, model=self.model, id=id, view_preloaded=view)
+        self.screen = Screen(prefix=self.name, model=self.model, ids=ids, view_mode=mode, views_preloaded=view, domain=[], context={})

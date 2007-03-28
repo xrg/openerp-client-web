@@ -70,12 +70,4 @@ class Root(controllers.RootController, TinyResource):
 
     menu_items = tree.Tree.items;
 
-    @expose('json')
-    def list_info(self, model, res_id=None, view_id=None, nodata=False, *domain, **context):
-        return list.get_list_info(model=model, res_id=res_id, domain=domain, view_id=view_id, context=context, nodata=nodata)
-
-    #methods
-    edit = methods.Edit()
-    save = methods.Save()
-    delete = methods.Delete()
-    find = methods.Find()
+    handler = gui.form.handler

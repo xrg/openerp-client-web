@@ -27,38 +27,55 @@
 #
 ###############################################################################
 
-"""
-This module implementes view for a tiny model having
-view_type = 'form'
-view_mode = 'tree,form'
-
-TODO: reimplement list view
-"""
 
 import xml.dom.minidom
-import parser
+from elementtree import ElementTree as ET
 
-from turbogears import expose
-from turbogears import widgets
+import turbogears as tg
 
-from tinyerp import rpc
 from tinyerp import tools
-from tinyerp import common
-from tinyerp import widgets as tw
+from tinyerp import rpc
 
-@expose(template="tinyerp.modules.gui.templates.list")
-def create(model, res_id=False, domain=[], view_id=None, context={}, checkable=True, editable=True):
-    """Create view for the given model.
+from interface import TinyWidget
+from interface import TinyField
 
-    @param model: the model
-    @param res_id: record id
-    @param domain: the domain
-    @param view_id: view id
-    @param context: the context
+import form
+import list
 
-    @return: view of the model (XHTML)
+class Screen(tg.widgets.CompoundWidget):
+    template = """<span>${widget.display()}
+    </span>
     """
+    member_widgets = ['widget']
+    widget = None
 
-    list_view = tw.list.List(model, res_id=res_id, domain=domain, view_id=view_id, context=context, checkable=checkable, editable=editable)
-    return dict(model=model, list_view=list_view, view_id=view_id)
+    def __init__(self, prefix, model, ids=[], view_ids=[], view_mode=['form', 'tree'], views_preloaded={}, domain=[], context={}):
+
+        self.prefix = prefix
+        self.model = model
+        self.view_ids = view_ids
+        self.view_type = view_mode[0]
+        self.views_preloaded = views_preloaded
+        self.domain = domain
+        self.context = context.copy()
+
+        self.rpc = rpc.RPCProxy(model)
+
+        view_id = False
+        if view_ids:
+            view_id = view_ids[0]
+
+        view_type = view_mode[0]
+
+        if view_type in views_preloaded:
+            view = views_preloaded[view_type]
+        else:
+            view = self.rpc.fields_view_get(view_id, view_type, self.context)
+
+        if view_type == 'form':
+            self.widget = form.Form(prefix=prefix, model=model, view=view, ids=ids)
+        else:
+            self.widget = list.List(model=model, view=view, ids=ids)
+
+        self.string = self.widget.string
 

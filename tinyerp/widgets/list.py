@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2007 TinyERP Pvt Ltd. (http://tinyerp.com) All Rights Reserved.
 #
-# $Id$
+# $Id: list.py 5 2007-03-23 06:13:51Z ame $
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -27,9 +27,6 @@
 #
 ###############################################################################
 
-"""
-@todo: Implement generic list view widget
-"""
 import locale
 import time
 import xml.dom.minidom
@@ -37,53 +34,40 @@ import xml.dom.minidom
 from elementtree import ElementTree as ET
 
 from turbogears import widgets
-from turbogears import expose
 
 from tinyerp import rpc
 from tinyerp import tools
 
 class List(widgets.Widget):
-    params = ['model', 'headers', 'checkable', 'editable']
+    params = ['data', 'headers', 'model', 'checkable', 'editable']
     template = "tinyerp.widgets.templates.list"
 
-    css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink("tinyerp", "css/ajaxlist.css")]
-    javascript = []
+    css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/ajaxlist.css')]
 
-    def __init__(self, model, res_id=False, domain=[], view_id=None, context={}, checkable=False, editable=True):
+    def __init__(self, model, view, ids=[], domain=[], context={}):
 
-        self.name = model.replace('.', '_')
+        self.string = ""
 
-        self.model = model
-        self.checkable = (checkable or 0) and 1
-        self.editable = (editable or 0) and 1
+        fields = view['fields']
+        dom = xml.dom.minidom.parseString(view['arch'])
+        root = dom.childNodes[0]
 
-        self.javascript = [widgets.JSLink("tinyerp", "javascript/ajaxlist.js"),
-                           widgets.JSSource("""
-        function load_%s_data() {
-            new AjaxList("%s", %d, %d).render('/list_info', {model: '%s'});
-        }""" % (self.name, self.name, checkable, editable, self.model))]
+        attrs = tools.node_attributes(root)
+        if attrs.has_key('string'):
+            self.string = attrs.get('string','')
 
-        res = get_list_info(model=model, nodata=True)
+        data = []
+        if ids == None or len(ids) > 0:
+            proxy = rpc.RPCProxy(model)
+            ids = ids or proxy.search([])
+            data = proxy.read(ids, fields)
 
-        self.string = res['title']
-        self.headers = res['headers']
+        self.headers, self.data = self.parse(root, fields, data)
 
-    def loadJS(self):
-        return "load_%s_data()"%self.name
+        self.checkable = True
+        self.editable = True
 
-def get_list_info(model, res_id=None, domain=[], view_id=None, context={}, nodata=False):
-    """Get list info, if headers is True then returns headers info otherwise
-    return list data.
-
-    @param root: the cherrypy root controller object
-    @param model: the TinyERP model
-    @param nodata: whether to get data also
-
-    @rtype: dict
-    @return: {title: 'title', headers: [], data: [])
-    """
-
-    def parse(dom, fields, data=None):
+    def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
 
         @param root: the root node of the view
@@ -94,7 +78,7 @@ def get_list_info(model, res_id=None, domain=[], view_id=None, context={}, nodat
 
         headers = []
 
-        for node in dom.childNodes:
+        for node in root.childNodes:
 
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)
@@ -105,40 +89,15 @@ def get_list_info(model, res_id=None, domain=[], view_id=None, context={}, nodat
 
                     fields[name].update(attrs)
 
-                    if data:
-                        for row in data:
-                            cell = CELLTYPES[type](attrs=fields[name])
-                            row[name] = cell.get_value(row[name])
+                    if type not in CELLTYPES: continue
+
+                    for row in data:
+                        cell = CELLTYPES[type](attrs=fields[name])
+                        row[name] = cell.get_value(row[name])
 
                     headers += [(name, fields[name]['string'])]
 
         return headers, data
-
-    if view_id:
-        view_base =  rpc.session.execute('/object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
-        model = view_base['model']
-        view = rpc.session.execute('/object', 'execute', view_base['model'], 'fields_view_get', view_id, view_base['type'],context)
-    else:
-        view = rpc.session.execute('/object', 'execute', model, 'fields_view_get', False, 'tree', context)
-
-    title = ""
-
-    fields = view['fields']
-    dom = xml.dom.minidom.parseString(view['arch'])
-    dom = dom.childNodes[0]
-
-    attrs = tools.node_attributes(dom)
-    title = attrs.get('string', '')
-
-    data = None
-    if not nodata:
-        proxy = rpc.RPCProxy(model)
-        res = proxy.search([])
-        data = proxy.read(res)
-
-    headers, data = parse(dom, fields, data)
-
-    return dict(title=title, headers=headers, data=data)
 
 class Char(object):
 

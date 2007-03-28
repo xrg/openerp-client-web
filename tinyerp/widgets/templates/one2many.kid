@@ -5,7 +5,7 @@
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td width="100%"><strong>${string}</strong></td>
-                    <td><button type="submit" title="Create new record...">New</button></td>
+                    <td><button type="button" title="Create new record...">New</button></td>
                     <td><button type="button" title="Delete current record...">Delete</button></td>
                     <td><button type="button" title="Previous record...">Prev</button></td>
                     <td><button type="button" title="Next record...">Next</button></td>
@@ -16,9 +16,15 @@
         </td>
     </tr>
     <tr>
-        <td py:if="form">
+        <td><div class="spacer"></div></td>
+    </tr>
+    <tr>
+        <td py:if="screen">
             <input type="hidden" name="${name}/__id" value="${id}" py:if="id"/>
-            ${form.display()}
+            ${screen.display()}
         </td>
+    </tr>
+    <tr>
+        <td><div class="spacer"></div></td>
     </tr>
 </table>

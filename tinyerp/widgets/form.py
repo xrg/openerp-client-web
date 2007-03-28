@@ -344,25 +344,7 @@ class Form(tg.widgets.CompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, view_id, model, id=None, domain=[], view_ids=[], view_preloaded=None, context={}):
-        """Create new instance of a Form.
-
-        @param prefix: prefix for all the member fields
-        @param view_id: the view id to load
-        @param model: the model
-        @param id: record id
-        @param domain: the domain
-        @param view_ids: view ids
-        @param context: the context
-
-        @return: a new instance of Form widget
-        """
-
-        proxy = rpc.RPCProxy(model)
-
-        view = view_preloaded
-        if not view:
-            view = proxy.fields_view_get(view_id, 'form', context)
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
 
         fields = view['fields']
 
@@ -371,21 +353,17 @@ class Form(tg.widgets.CompoundWidget):
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
 
+        proxy = rpc.RPCProxy(model)
+
         values = {}
+        if ids:
+            values = proxy.read(ids[:1], fields.keys())[0]
+        else: #default
+            values = proxy.default_get(fields.keys())
 
-        try:
-            if id :
-                id = int(id)
-                res = proxy.read([id], fields.keys())
-                values = res[0]
-            else: # default
-                values = proxy.default_get(fields.keys())
-        except Exception, e:
-            message = str(e)
+        self.frame = self.parse(prefix, dom, fields, values)[0]
 
-        self.frame = self.parse(prefix, model, dom, fields, values)[0]
-
-    def parse(self, prefix='', model=None, root=None, fields=None, values={}):
+    def parse(self, prefix='', root=None, fields=None, values={}):
 
         views = []
 
@@ -401,8 +379,7 @@ class Form(tg.widgets.CompoundWidget):
                 pass
 
             elif node.localName=='separator':
-                wid = Separator(attrs)
-                views += [wid]
+                views += [Separator(attrs)]
 
             elif node.localName=='label':
                 views += [Label(attrs)]
@@ -414,19 +391,19 @@ class Form(tg.widgets.CompoundWidget):
                 views += [Button(attrs)]
 
             elif node.localName == 'form':
-                n = self.parse(prefix=prefix, model=model, root=node, fields=fields, values=values)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Frame(attrs, n)]
 
             elif node.localName == 'notebook':
-                n = self.parse(prefix=prefix, model=model, root=node, fields=fields, values=values)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Notebook(attrs, n)]
 
             elif node.localName == 'page':
-                n = self.parse(prefix=prefix, model=model, root=node, fields=fields, values=values)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Frame(attrs, n)]
 
             elif node.localName=='group':
-                n = self.parse(prefix=prefix, model=model, root=node, fields=fields, values=values)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Group(attrs, n)]
 
             elif node.localName == 'field':

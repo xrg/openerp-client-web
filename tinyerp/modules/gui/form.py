@@ -49,19 +49,110 @@ from tinyerp import tools
 from tinyerp import widgets as tw
 
 @expose(template="tinyerp.modules.gui.templates.form")
-def create(view_id, model, id=None, domain=[], view_ids=[], context={}, message=None):
+def create(model, ids=None, view_ids=[], view_mode=['form', 'tree'], domain=[], context={}):
     """Create view for the given model.
 
     @param view_id: view id
     @param model: the model
-    @param id: record id
+    @param ids: record ids
     @param domain: the domain
     @param view_ids: view ids
     @param context: the context
-    @param message: the message to display
 
     @return: view of the model (XHTML)
-    """    
+    """
 
-    form = tw.form.Form(prefix='', view_id=view_id, model=model, id=id, view_ids=view_ids, domain=domain, context=context)
-    return dict(message=message, view_id=view_id, model=model, id=id, form=form)
+    screen = tw.screen.Screen(prefix='', model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+    return dict(screen=screen)
+
+def make_dict(data):
+    """Generates a valid dictionary from the given data to be used with TinyERP.
+    """
+    res = {}
+    for name, value in data.items():
+        names = name.split('/')
+
+        if len(names) > 1:
+            res.setdefault(names[0], {}).update({"/".join(names[1:]): value})
+        else:
+            res[name] = value or False
+
+    for k, v in res.items():
+        if type(v) == type({}):
+            #res[k] = make_dict(v)
+
+            id = 0
+            if '__id' in v:
+                id = int(v.pop('__id'))
+
+            res[k] = [(id and 1, id, make_dict(v))]
+
+    return res
+
+@expose()
+def handler(root, terp_model,
+                  terp_ids=[],
+                  terp_domain=[],
+                  terp_view_ids=[],
+                  terp_context={},
+                  terp_action="save",
+                  terp_state=None,
+                  terp_cview='form',
+                  terp_rview='form',
+                  **data):
+    """Form handler, performs either of the 'new', 'save', 'delete', 'edit', 'search', 'button'
+    action.
+
+    @param terp_model: the model
+    @param terp_ids: result_ids
+    @param terp_domain: the domain
+    @param terp_view_ids: view ids
+    @param terp_context: the local context
+    @param terp_action: the action
+    @param terp_state: the state
+    @param terp_cview: current view_type
+    @param terp_rview: return view_type
+    @param data: the data
+
+    @rtype: str (mostly XHTML)
+    @return: a form or search window
+    """
+
+    action = terp_action
+    model = terp_model
+    state = terp_state
+    current_view = terp_cview
+    return_view = terp_rview
+
+    ids = (terp_ids or []) and eval(terp_ids)
+    domain = (terp_domain or []) and eval(terp_domain)
+    context = (terp_context or {}) and eval(terp_context)
+    view_ids = (terp_view_ids or []) and eval(terp_view_ids)
+
+    if action == 'new':
+        #TODO: new record
+        pass
+
+    elif action == 'save':
+        #TODO: save record
+        pass
+
+    elif action == 'delete':
+        #TODO: delete record
+        pass
+
+    elif action == 'edit':
+        #TODO: open record
+        pass
+
+    elif action == 'button':
+        #TODO: perform button action
+        pass
+
+    elif action == 'search':
+        #TODO: generate search view
+        pass
+    else:
+        raise "Invalid action..."
+
+    return dict(action=action, data=make_dict(data))

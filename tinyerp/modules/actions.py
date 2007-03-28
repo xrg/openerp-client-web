@@ -47,7 +47,7 @@ from tinyerp import common
 
 import gui
 
-def _execute_window(view_id, model, res_id=False, domain=None, view_type='form', context={}, mode=None):
+def _execute_window(view_id, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
     """Performs `actions.act_window` action.
 
     @param view_id: view id
@@ -61,15 +61,10 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     @return: view (mostly XHTML code)
     """
 
-    mode = str(mode)
     mode = mode.split(',')
 
-    if view_type == 'form' and mode[0] == 'form':
-        return gui.form.create(view_id, model, res_id, domain, view_ids = (view_id and [view_id]) or [], context=context)
-
-    elif view_type == 'form' and mode[0] == 'tree':
-        return gui.list.create(model, res_id, domain, view_id, context)
-        #return "LIST VIEW: NOT IMPLEMENTED YET!"
+    if view_type == 'form':
+        return gui.form.create(model, ids=res_id, view_mode=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
 
     elif view_type == 'tree':
         #return gui.tree.create()

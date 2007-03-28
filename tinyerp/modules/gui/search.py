@@ -36,11 +36,10 @@ list view of the given model.
 
 from turbogears import expose
 
-import list
-
 #@expose(template="tinyerp.modules.gui.templates.search")
 #def create(model):
 #    pass
 
+@expose()
 def create(model):
-    return list.create(model)
+    return dict()
