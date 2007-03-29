@@ -132,17 +132,17 @@ class Form(controllers.Controller, TinyResource):
 
         if not self.id:
             res = self.proxy.create(data, self.context)
-            self.id = int(res)
-            self.ids = (self.ids or []) + [self.id]
+            self.ids = (self.ids or []) + [int(res)]
         else:
             res = self.proxy.write([self.id], data, self.context)
 
         #reload data
-        self.screen.load(ids=[self.id])
+        self.screen.load(ids=(self.id or []) and [self.id])
 
     def delete(self):
-        res = self.proxy.unlink([self.id])
-        self.ids.remove(self.id)
+        if self.id:
+            res = self.proxy.unlink([self.id])
+            self.ids.remove(self.id)
 
         self.screen.load(self.ids)
         self.id = (self.ids or None) and self.ids[0]
