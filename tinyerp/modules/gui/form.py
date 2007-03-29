@@ -63,7 +63,8 @@ def create(model, ids=None, view_ids=[], view_mode=['form', 'tree'], domain=[], 
     """
 
     screen = tw.screen.Screen(prefix='', model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
-    return dict(screen=screen)
+
+    return dict(screen=screen, model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context, state='')
 
 def make_dict(data):
     """Generates a valid dictionary from the given data to be used with TinyERP.
@@ -94,6 +95,7 @@ def handler(root, terp_model,
                   terp_ids=[],
                   terp_domain=[],
                   terp_view_ids=[],
+                  terp_view_mode=['form', 'tree'],
                   terp_context={},
                   terp_action="save",
                   terp_state=None,
@@ -107,6 +109,7 @@ def handler(root, terp_model,
     @param terp_ids: result_ids
     @param terp_domain: the domain
     @param terp_view_ids: view ids
+    @param terp_view_mode: the view mode
     @param terp_context: the local context
     @param terp_action: the action
     @param terp_state: the state
@@ -128,18 +131,35 @@ def handler(root, terp_model,
     domain = (terp_domain or []) and eval(terp_domain)
     context = (terp_context or {}) and eval(terp_context)
     view_ids = (terp_view_ids or []) and eval(terp_view_ids)
+    view_mode = (terp_view_mode or ['form', 'tree']) and eval(terp_view_mode)
+
+    data = make_dict(data)
 
     if action == 'new':
-        #TODO: new record
-        pass
+        return create(model=model, ids=[], view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
 
     elif action == 'save':
-        #TODO: save record
-        pass
+        try:
+            if not ids:
+                proxy = rpc.RPCProxy(model)
+                res = proxy.create(data, context)
+                ids = [int(res)]
+            else:
+                proxy = rpc.RPCProxy(model)
+                res = proxy.write(ids, data, context)
+        except Exception, e:
+            raise e
+
+        return create(model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
 
     elif action == 'delete':
-        #TODO: delete record
-        pass
+        try:
+            proxy = rpc.RPCProxy(model)
+            res = proxy.unlink(ids)
+        except Exception, e:
+            raise e
+
+        return create(model=model, ids=[], view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
 
     elif action == 'edit':
         #TODO: open record
@@ -155,4 +175,4 @@ def handler(root, terp_model,
     else:
         raise "Invalid action..."
 
-    return dict(action=action, data=make_dict(data))
+    return dict(action=action, data=data)

@@ -19,14 +19,15 @@
 
     <form method="post" id="view_form" name="view_form" action="/handler">
     
-        <input type="hidden" name="terp_model" value="model"/>
-        <input type="hidden" name="terp_state" value=""/>
-        <input type="hidden" name="terp_ids" value="[]"/>
-        <input type="hidden" name="terp_view_ids" value="[]"/>
-        <input type="hidden" name="terp_cview" value=""/>
-        <input type="hidden" name="terp_rview" value=""/>
-        <input type="hidden" name="terp_domain" value="['domain']"/>
-        <input type="hidden" name="terp_context" value="{}"/>
+        <input type="hidden" name="terp_model" value="${model}"/>
+        <input type="hidden" name="terp_state" value="${state}"/>
+        <input type="hidden" name="terp_ids" value="${str(ids)}"/>
+        <input type="hidden" name="terp_view_ids" value="${str(view_ids)}"/>
+        <input type="hidden" name="terp_view_mode" value="${str(view_mode)}"/>
+        <input type="hidden" name="terp_cview" value="${view_mode[0]}"/>
+        <input type="hidden" name="terp_rview" value="${view_mode[0]}"/>
+        <input type="hidden" name="terp_domain" value="${str(domain)}"/>
+        <input type="hidden" name="terp_context" value="${str(context)}"/>
     
         <div class="header">
 
