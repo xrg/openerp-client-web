@@ -17,7 +17,7 @@
 
 <div class="view">
 
-    <form method="post" id="view_form" name="view_form" action="/handler">
+    <form method="post" id="view_form" name="view_form" action="/form/action">
     
         <input type="hidden" name="terp_model" value="${model}"/>
         <input type="hidden" name="terp_state" value="${state}"/>

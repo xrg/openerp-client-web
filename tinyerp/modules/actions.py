@@ -45,7 +45,7 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 
-import gui
+from gui.form import Form
 
 def _execute_window(view_id, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
     """Performs `actions.act_window` action.
@@ -64,11 +64,10 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     mode = mode.split(',')
 
     if view_type == 'form':
-        form = gui.form.Form(model, ids=res_id, view_mode=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
-        return form.get_view()
+        form = Form.create(model, ids=res_id, view_mode=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
+        return form.view()
 
     elif view_type == 'tree':
-        #return gui.tree.create()
         return "TREE VIEW: NOT IMPLEMENTED YET!"
 
     else:

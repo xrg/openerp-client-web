@@ -70,4 +70,4 @@ class Root(controllers.RootController, TinyResource):
 
     menu_items = tree.Tree.items;
 
-    handler = gui.form.handler
+    form = gui.form.Form()
