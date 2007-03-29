@@ -25,7 +25,6 @@
         <input type="hidden" name="terp_ids" value="${str(ids)}"/>
         <input type="hidden" name="terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" name="terp_view_mode" value="${str(view_mode)}"/>
-        <input type="hidden" name="terp_view_mode2" value="${str(view_mode)}"/>
         <input type="hidden" name="terp_domain" value="${str(domain)}"/>
         <input type="hidden" name="terp_context" value="${str(context)}"/>
     
@@ -42,6 +41,7 @@
                 <button type="submit" name="terp_action" value="save" title="Save current record..." py:if="view_mode[0]=='form'">Save</button>
                 <button type="submit" name="terp_action" value="delete" title="Remove current record..." onclick="return confirm('Do you realy want to delete this record?');" py:if="view_mode[0]=='form'">Delete</button>
                 <button type="submit" name="terp_action" value="search" title="Search records...">Find</button>
+                <button type="submit" name="terp_action" value="switch" title="Switch view...">Switch</button>
             </div>
 
         </div>

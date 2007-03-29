@@ -154,7 +154,6 @@ class Form(controllers.Controller, TinyResource):
                      terp_domain=[],
                      terp_view_ids=[],
                      terp_view_mode=['form', 'tree'],
-                     terp_view_mode2=['form', 'tree'],
                      terp_context={},
                      terp_action="save",
                      terp_state=None,
@@ -168,7 +167,6 @@ class Form(controllers.Controller, TinyResource):
         @param terp_domain: the domain
         @param terp_view_ids: view ids
         @param terp_view_mode: the view mode
-        @param terp_view_mode2: the source view mode
         @param terp_context: the local context
         @param terp_action: the action
         @param terp_state: the state
@@ -187,10 +185,18 @@ class Form(controllers.Controller, TinyResource):
         context = (terp_context or {}) and eval(terp_context)
         view_ids = (terp_view_ids or []) and eval(terp_view_ids)
         view_mode = (terp_view_mode or ['form', 'tree']) and eval(terp_view_mode)
-        view_mode2 = (terp_view_mode2 or ['form', 'tree']) and eval(terp_view_mode2)
 
         if action == 'search':
             return "SEARCH: NOT IMPLEMENTED YET!"
+
+        if action == 'switch':
+            view_mode.reverse()
+            ids = ids or []
+            if ids:
+                id = ids[0]
+
+        if action == 'new' and view_mode[0] == 'tree':
+            view_mode.reverse()
 
         form = Form.create(model=model,
                            id=id,
@@ -216,8 +222,5 @@ class Form(controllers.Controller, TinyResource):
         elif action == 'button':
             #TODO: perform button action
             pass
-
-        else:
-            raise "Invalid action..."
 
         return form.view()
