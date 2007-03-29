@@ -374,6 +374,8 @@ class Form(tg.widgets.CompoundWidget):
 
         self.frame = self.parse(self.prefix, dom, fields, values)[0]
 
+        self.ids = ids
+
     def parse(self, prefix='', root=None, fields=None, values={}):
 
         views = []

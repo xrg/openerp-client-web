@@ -52,7 +52,7 @@ class List(widgets.Widget):
         self.domain = domain
         self.context = context
 
-        self.checkable = True
+        self.checkable = False
         self.editable = True
 
         self.load(ids)
@@ -74,6 +74,8 @@ class List(widgets.Widget):
             data = proxy.read(ids, fields)
 
         self.headers, self.data = self.parse(root, fields, data)
+
+        self.ids = ids
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.

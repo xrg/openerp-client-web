@@ -21,6 +21,7 @@
     
         <input type="hidden" name="terp_model" value="${model}"/>
         <input type="hidden" name="terp_state" value="${state}"/>
+        <input type="hidden" name="terp_id" value="${str(id)}"/>
         <input type="hidden" name="terp_ids" value="${str(ids)}"/>
         <input type="hidden" name="terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" name="terp_view_mode" value="${str(view_mode)}"/>

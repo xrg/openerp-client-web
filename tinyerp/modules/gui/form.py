@@ -76,11 +76,12 @@ class Form(controllers.Controller, TinyResource):
         pass
 
     @staticmethod
-    def create(model, ids=None, view_ids=[], view_mode=['form', 'tree'], domain=[], context={}):
+    def create(model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], domain=[], context={}):
         """Create a new instance of form.
 
         @param model: the model
-        @param ids: record ids
+        @param id: current record id
+        @param ids: all record ids
         @param view_ids: view ids
         @param view_mode: view mode
         @param domain: the domain
@@ -91,7 +92,6 @@ class Form(controllers.Controller, TinyResource):
 
         form.proxy = rpc.RPCProxy(model)
         form.model = model
-        form.ids = ids
         form.view_ids = view_ids
         form.view_mode = view_mode
         form.domain = domain
@@ -106,12 +106,16 @@ class Form(controllers.Controller, TinyResource):
                                        domain=domain,
                                        context=context)
 
+        form.id = id
+        form.ids = form.screen.ids
+
         return form
 
     @expose(template="tinyerp.modules.gui.templates.form")
     def view(self):
         return dict(screen=self.screen,
                     model=self.model,
+                    id=self.id,
                     ids=self.ids,
                     view_ids=self.view_ids,
                     view_mode=self.view_mode,
@@ -120,27 +124,32 @@ class Form(controllers.Controller, TinyResource):
                     state=self.state)
 
     def new(self):
-        if self.ids:
-            self.ids = []
-            self.screen.load(self.ids)
+        if self.id or self.ids:
+            self.id = None
+            self.screen.load(ids=[])
 
     def save(self, data={}):
 
-        if not self.ids:
+        if not self.id:
             res = self.proxy.create(data, self.context)
-            self.ids = [int(res)]
+            self.id = int(res)
+            self.ids = (self.ids or []) + [self.id]
         else:
-            res = self.proxy.write(self.ids, data, self.context)
+            res = self.proxy.write([self.id], data, self.context)
 
         #reload data
-        self.screen.load(self.ids)
+        self.screen.load(ids=[self.id])
 
     def delete(self):
-        res = self.proxy.unlink(self.ids)
-        self.new()
+        res = self.proxy.unlink([self.id])
+        self.ids.remove(self.id)
+
+        self.screen.load(self.ids)
+        self.id = (self.ids or None) and self.ids[0]
 
     @expose()
     def action(self, terp_model,
+                     terp_id=None,
                      terp_ids=[],
                      terp_domain=[],
                      terp_view_ids=[],
@@ -153,8 +162,9 @@ class Form(controllers.Controller, TinyResource):
         """Form action controller, performs either of the 'new', 'save',
         'delete', 'edit', 'search', 'button' actions.
 
-        @param terp_model: the model
-        @param terp_ids: result_ids
+        @param terp_model: the mode
+        @param terp_ids: current record id
+        @param terp_ids: all record ids
         @param terp_domain: the domain
         @param terp_view_ids: view ids
         @param terp_view_mode: the view mode
@@ -171,6 +181,7 @@ class Form(controllers.Controller, TinyResource):
         model = terp_model
         state = terp_state
 
+        id = (terp_id or None) and eval(terp_id)
         ids = (terp_ids or []) and eval(terp_ids)
         domain = (terp_domain or []) and eval(terp_domain)
         context = (terp_context or {}) and eval(terp_context)
@@ -182,6 +193,7 @@ class Form(controllers.Controller, TinyResource):
             return "SEARCH: NOT IMPLEMENTED YET!"
 
         form = Form.create(model=model,
+                           id=id,
                            ids=ids,
                            view_ids=view_ids,
                            view_mode=view_mode,

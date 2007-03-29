@@ -77,8 +77,10 @@ class Screen(tg.widgets.CompoundWidget):
         else:
             self.widget = list.List(model=model, view=view, ids=ids)
 
+        self.ids = self.widget.ids
+
         self.string = self.widget.string
 
     def load(self, ids=[]):
-        self.ids = ids
         self.widget.load(ids)
+        self.ids = self.widget.ids
