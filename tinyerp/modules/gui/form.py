@@ -48,23 +48,52 @@ from tinyerp import common
 from tinyerp import tools
 from tinyerp import widgets as tw
 
-@expose(template="tinyerp.modules.gui.templates.form")
-def create(model, ids=None, view_ids=[], view_mode=['form', 'tree'], domain=[], context={}):
-    """Create view for the given model.
+class Form(object):
 
-    @param view_id: view id
-    @param model: the model
-    @param ids: record ids
-    @param domain: the domain
-    @param view_ids: view ids
-    @param context: the context
+    def __init__(self, model, ids=None, view_ids=[], view_mode=['form', 'tree'], domain=[], context={}):
+        """Create a new instance of form.
 
-    @return: view of the model (XHTML)
-    """
+        @param model: the model
+        @param ids: record ids
+        @param view_ids: view ids
+        @param view_mode: view mode
+        @param domain: the domain
+        @param context: the context
+        """
 
-    screen = tw.screen.Screen(prefix='', model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+        self.proxy = rpc.RPCProxy(model)
+        self.model = model
+        self.ids = ids
+        self.view_ids = view_ids
+        self.view_mode = view_mode
+        self.domain = domain
+        self.context = context
+        self.state = '' #TODO: maintain states
 
-    return dict(screen=screen, model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context, state='')
+        self.screen = tw.screen.Screen(prefix='', model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+
+    @expose(template="tinyerp.modules.gui.templates.form")
+    def get_view(self):
+        self.screen.load(self.ids or [])
+        return dict(screen=self.screen, model=self.model, ids=self.ids, view_ids=self.view_ids, view_mode=self.view_mode, domain=self.domain, context=self.context, state=self.state)
+
+    def new(self):
+        self.ids = []
+        return self.get_view()
+
+    def save(self, data={}):
+
+        if not self.ids:
+            res = self.proxy.create(data, self.context)
+            self.ids = [int(res)]
+        else:
+            res = self.proxy.write(self.ids, data, self.context)
+
+        return self.get_view()
+
+    def delete(self):
+        res = self.proxy.unlink(self.ids)
+        return self.new()
 
 def make_dict(data):
     """Generates a valid dictionary from the given data to be used with TinyERP.
@@ -133,33 +162,19 @@ def handler(root, terp_model,
     view_ids = (terp_view_ids or []) and eval(terp_view_ids)
     view_mode = (terp_view_mode or ['form', 'tree']) and eval(terp_view_mode)
 
-    data = make_dict(data)
+    if action == 'search':
+        return "SEARCH: NOT IMPLEMENTED YET!"
+
+    form = Form(model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
 
     if action == 'new':
-        return create(model=model, ids=[], view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+        return form.new()
 
     elif action == 'save':
-        try:
-            if not ids:
-                proxy = rpc.RPCProxy(model)
-                res = proxy.create(data, context)
-                ids = [int(res)]
-            else:
-                proxy = rpc.RPCProxy(model)
-                res = proxy.write(ids, data, context)
-        except Exception, e:
-            raise e
-
-        return create(model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+        return form.save(make_dict(data))
 
     elif action == 'delete':
-        try:
-            proxy = rpc.RPCProxy(model)
-            res = proxy.unlink(ids)
-        except Exception, e:
-            raise e
-
-        return create(model=model, ids=[], view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+        return form.delete()
 
     elif action == 'edit':
         #TODO: open record

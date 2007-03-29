@@ -56,6 +56,14 @@ class List(widgets.Widget):
         if attrs.has_key('string'):
             self.string = attrs.get('string','')
 
+        self.checkable = True
+        self.editable = True
+
+        self.load(ids)
+
+    def load(self, ids=[]):
+        self.ids = ids
+
         data = []
         if ids == None or len(ids) > 0:
             proxy = rpc.RPCProxy(model)
@@ -63,9 +71,6 @@ class List(widgets.Widget):
             data = proxy.read(ids, fields)
 
         self.headers, self.data = self.parse(root, fields, data)
-
-        self.checkable = True
-        self.editable = True
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.

@@ -64,7 +64,8 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     mode = mode.split(',')
 
     if view_type == 'form':
-        return gui.form.create(model, ids=res_id, view_mode=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
+        form = gui.form.Form(model, ids=res_id, view_mode=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
+        return form.new()
 
     elif view_type == 'tree':
         #return gui.tree.create()
