@@ -35,11 +35,16 @@
             </div>
 
             <div class="spacer"></div>
+            
+<?python 
+but_attrs = {}
+if view_mode[0] == 'tree': but_attrs['disabled'] = 0
+?>
 
             <div class="toolbar">
                 <button type="submit" name="terp_action" value="new" title="Create new record...">New</button>
-                <button type="submit" name="terp_action" value="save" title="Save current record..." py:if="view_mode[0]=='form'">Save</button>
-                <button type="submit" name="terp_action" value="delete" title="Remove current record..." onclick="return confirm('Do you realy want to delete this record?');" py:if="view_mode[0]=='form'">Delete</button>
+                <button type="submit" name="terp_action" value="save" title="Save current record..." py:attrs="but_attrs">Save</button>
+                <button type="submit" name="terp_action" value="delete" title="Remove current record..." onclick="return confirm('Do you realy want to delete this record?');" py:attrs="but_attrs">Delete</button>
                 <button type="submit" name="terp_action" value="search" title="Search records...">Find</button>
                 <button type="submit" name="terp_action" value="switch" title="Switch view...">Switch</button>
             </div>
