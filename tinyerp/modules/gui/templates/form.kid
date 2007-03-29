@@ -24,8 +24,7 @@
         <input type="hidden" name="terp_ids" value="${str(ids)}"/>
         <input type="hidden" name="terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" name="terp_view_mode" value="${str(view_mode)}"/>
-        <input type="hidden" name="terp_cview" value="${view_mode[0]}"/>
-        <input type="hidden" name="terp_rview" value="${view_mode[0]}"/>
+        <input type="hidden" name="terp_view_mode2" value="${str(view_mode)}"/>
         <input type="hidden" name="terp_domain" value="${str(domain)}"/>
         <input type="hidden" name="terp_context" value="${str(context)}"/>
     

@@ -34,10 +34,6 @@ This module implementes view for a tiny model having
     view_mode = 'form,tree'
 """
 
-import xml.dom.minidom
-
-from elementtree import ElementTree as ET
-
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
@@ -102,13 +98,26 @@ class Form(controllers.Controller, TinyResource):
         form.context = context
         form.state = '' #TODO: maintain states
 
-        form.screen = tw.screen.Screen(prefix='', model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+        form.screen = tw.screen.Screen(prefix='',
+                                       model=model,
+                                       ids=ids,
+                                       view_ids=view_ids,
+                                       view_mode=view_mode,
+                                       domain=domain,
+                                       context=context)
 
         return form
 
     @expose(template="tinyerp.modules.gui.templates.form")
     def view(self):
-        return dict(screen=self.screen, model=self.model, ids=self.ids, view_ids=self.view_ids, view_mode=self.view_mode, domain=self.domain, context=self.context, state=self.state)
+        return dict(screen=self.screen,
+                    model=self.model,
+                    ids=self.ids,
+                    view_ids=self.view_ids,
+                    view_mode=self.view_mode,
+                    domain=self.domain,
+                    context=self.context,
+                    state=self.state)
 
     def new(self):
         if self.ids:
@@ -136,47 +145,48 @@ class Form(controllers.Controller, TinyResource):
                      terp_domain=[],
                      terp_view_ids=[],
                      terp_view_mode=['form', 'tree'],
+                     terp_view_mode2=['form', 'tree'],
                      terp_context={},
                      terp_action="save",
                      terp_state=None,
-                     terp_cview='form',
-                     terp_rview='form',
                      **data):
-        """Form handler, performs either of the 'new', 'save', 'delete', 'edit', 'search', 'button'
-        action.
+        """Form action controller, performs either of the 'new', 'save',
+        'delete', 'edit', 'search', 'button' actions.
 
         @param terp_model: the model
         @param terp_ids: result_ids
         @param terp_domain: the domain
         @param terp_view_ids: view ids
         @param terp_view_mode: the view mode
+        @param terp_view_mode2: the source view mode
         @param terp_context: the local context
         @param terp_action: the action
         @param terp_state: the state
-        @param terp_cview: current view_type
-        @param terp_rview: return view_type
         @param data: the data
 
-        @rtype: str (mostly XHTML)
-        @return: a form or search window
+        @return: view of the form or search controller
         """
 
         action = terp_action
         model = terp_model
         state = terp_state
-        current_view = terp_cview
-        return_view = terp_rview
 
         ids = (terp_ids or []) and eval(terp_ids)
         domain = (terp_domain or []) and eval(terp_domain)
         context = (terp_context or {}) and eval(terp_context)
         view_ids = (terp_view_ids or []) and eval(terp_view_ids)
         view_mode = (terp_view_mode or ['form', 'tree']) and eval(terp_view_mode)
+        view_mode2 = (terp_view_mode2 or ['form', 'tree']) and eval(terp_view_mode2)
 
         if action == 'search':
             return "SEARCH: NOT IMPLEMENTED YET!"
 
-        form = Form.create(model=model, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+        form = Form.create(model=model,
+                           ids=ids,
+                           view_ids=view_ids,
+                           view_mode=view_mode,
+                           domain=domain,
+                           context=context)
 
         if action == 'new':
             form.new()
@@ -195,9 +205,6 @@ class Form(controllers.Controller, TinyResource):
             #TODO: perform button action
             pass
 
-        elif action == 'search':
-            #TODO: generate search view
-            pass
         else:
             raise "Invalid action..."
 

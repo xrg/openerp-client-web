@@ -35,11 +35,37 @@ list view of the given model.
 """
 
 from turbogears import expose
+from turbogears import widgets
+from turbogears import controllers
 
-#@expose(template="tinyerp.modules.gui.templates.search")
-#def create(model):
-#    pass
+from tinyerp import rpc
+from tinyerp import tools
+from tinyerp import common
 
-@expose()
-def create(model):
-    return dict()
+from tinyerp import tools
+from tinyerp import widgets as tw
+from tinyerp.tinyres import TinyResource
+
+class Search(controllers.Controller, TinyResource):
+
+    def __init__(self):
+        pass
+
+    def create(self):
+        pass
+
+    @expose(template="tinyerp.modules.gui.templates.search")
+    def view(self):
+        pass
+
+    @expose()
+    def find(self):
+        pass
+
+    @expose()
+    def cancel(self):
+        pass
+
+    @expose()
+    def select(self):
+        pass

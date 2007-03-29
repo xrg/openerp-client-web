@@ -71,3 +71,5 @@ class Root(controllers.RootController, TinyResource):
     menu_items = tree.Tree.items;
 
     form = gui.form.Form()
+    search = gui.search.Search()
+
