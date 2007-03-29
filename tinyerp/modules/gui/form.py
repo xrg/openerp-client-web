@@ -46,6 +46,8 @@ from tinyerp import tools
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
+import search
+
 def make_dict(data):
     """Generates a valid dictionary from the given data to be used with TinyERP.
     """
@@ -187,7 +189,8 @@ class Form(controllers.Controller, TinyResource):
         view_mode = (terp_view_mode or ['form', 'tree']) and eval(terp_view_mode)
 
         if action == 'search':
-            return "SEARCH: NOT IMPLEMENTED YET!"
+            search_window = search.Search.create(model, [], view_ids, domain, context)
+            return search_window.view()
 
         if action == 'switch':
             view_mode.reverse()
