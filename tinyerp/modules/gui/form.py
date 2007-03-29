@@ -74,11 +74,11 @@ class Form(object):
 
     @expose(template="tinyerp.modules.gui.templates.form")
     def get_view(self):
-        self.screen.load(self.ids or [])
         return dict(screen=self.screen, model=self.model, ids=self.ids, view_ids=self.view_ids, view_mode=self.view_mode, domain=self.domain, context=self.context, state=self.state)
 
     def new(self):
         self.ids = []
+        self.screen.load(self.ids)
         return self.get_view()
 
     def save(self, data={}):
@@ -89,6 +89,7 @@ class Form(object):
         else:
             res = self.proxy.write(self.ids, data, self.context)
 
+        self.screen.load(self.ids)
         return self.get_view()
 
     def delete(self):
