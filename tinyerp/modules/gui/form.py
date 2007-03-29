@@ -143,11 +143,22 @@ class Form(controllers.Controller, TinyResource):
 
 
     def delete(self):
+        idx = -1
         if self.id:
             res = self.proxy.unlink([self.id])
-            self.ids.remove(self.id)
+            idx = self.ids.index(self.id)
 
-        self.id = (self.ids or None) and self.ids[0]
+            self.ids.remove(self.id)
+            if idx == len(self.ids):
+                idx = -1
+
+        if self.ids:
+            self.id = self.ids[idx]
+
+        else:
+            self.id = None
+
+        #self.id = (self.ids or None) and self.ids[0]
 
     @expose()
     def action(self, terp_model,
@@ -164,7 +175,7 @@ class Form(controllers.Controller, TinyResource):
         'delete', 'edit', 'search', 'button' actions.
 
         @param terp_model: the mode
-        @param terp_ids: current record id
+        @param terp_id: current record id
         @param terp_ids: all record ids
         @param terp_domain: the domain
         @param terp_view_ids: view ids
