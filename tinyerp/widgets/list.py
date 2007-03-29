@@ -46,15 +46,11 @@ class List(widgets.Widget):
 
     def __init__(self, model, view, ids=[], domain=[], context={}):
 
-        self.string = ""
-
-        fields = view['fields']
-        dom = xml.dom.minidom.parseString(view['arch'])
-        root = dom.childNodes[0]
-
-        attrs = tools.node_attributes(root)
-        if attrs.has_key('string'):
-            self.string = attrs.get('string','')
+        self.model = model
+        self.view = view
+        self.ids = ids
+        self.domain = domain
+        self.context = context
 
         self.checkable = True
         self.editable = True
@@ -64,9 +60,16 @@ class List(widgets.Widget):
     def load(self, ids=[]):
         self.ids = ids
 
+        fields = self.view['fields']
+        dom = xml.dom.minidom.parseString(self.view['arch'])
+        root = dom.childNodes[0]
+
+        attrs = tools.node_attributes(root)
+        self.string = attrs.get('string','')
+
         data = []
         if ids == None or len(ids) > 0:
-            proxy = rpc.RPCProxy(model)
+            proxy = rpc.RPCProxy(self.model)
             ids = ids or proxy.search([])
             data = proxy.read(ids, fields)
 
