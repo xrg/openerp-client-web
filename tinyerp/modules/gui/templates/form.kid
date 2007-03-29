@@ -10,8 +10,28 @@
     <script language="javascript" src="/static/javascript/master.js"></script>
 
     <script language="javascript">
-    </script>
+        function inline_edit(id){
+            form = $('view_form');
+            
+            form.action = '/form/action?terp_action=edit';
+            form.terp_id.value = id;
+            form.submit();
+        }
 
+        function inline_delete(id){
+        
+            if (!confirm('Do you realy want to delete this record?')) {
+                return false;
+            }
+        
+            form = $('view_form');
+            
+            form.action = '/form/action?terp_action=delete';
+            form.terp_id.value = id;
+            form.submit();
+        }
+    </script>
+    
 </head>
 <body>
 

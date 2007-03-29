@@ -49,10 +49,12 @@ class Screen(tg.widgets.CompoundWidget):
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, prefix, model, ids=[], view_ids=[], view_mode=['form', 'tree'], views_preloaded={}, domain=[], context={}):
+    def __init__(self, prefix, model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], views_preloaded={}, domain=[], context={}):
 
         self.prefix = prefix
         self.model = model
+        self.id = id
+        self.ids = ids
         self.view_ids = view_ids
         self.view_type = view_mode[0]
         self.views_preloaded = views_preloaded
@@ -73,14 +75,9 @@ class Screen(tg.widgets.CompoundWidget):
             view = self.rpc.fields_view_get(view_id, view_type, self.context)
 
         if view_type == 'form':
-            self.widget = form.Form(prefix=prefix, model=model, view=view, ids=ids)
+            self.widget = form.Form(prefix=prefix, model=model, view=view, ids=(id or []) and [id])
         else:
             self.widget = list.List(model=model, view=view, ids=ids)
-
-        self.ids = self.widget.ids
+            self.ids = self.widget.ids
 
         self.string = self.widget.string
-
-    def load(self, ids=[]):
-        self.widget.load(ids)
-        self.ids = self.widget.ids

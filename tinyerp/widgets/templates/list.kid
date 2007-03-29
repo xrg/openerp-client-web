@@ -1,4 +1,5 @@
 <span xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
+   
     <table width="100%" cellpadding="0" cellspacing="1" border="0" id="widget" class="grid">
         <thead>
             <tr class="even">
@@ -14,10 +15,10 @@
                 <td align="center" py:if="checkable"><input type="checkbox" name="check" value="${row['id']}"/></td>
                 <td py:for="name, title in headers" py:content="row[name]">Data</td>
                 <td py:if="editable" style="text-align: center">
-                    <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="alert('Not implemented yet!')"/>
+                    <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inline_edit(${row['id']})"/>
                 </td>
                 <td py:if="editable" style="text-align: center">
-                    <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="alert('Not implemented yet!')"/>
+                    <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inline_delete(${row['id']})"/>
                 </td>
             </tr>
             

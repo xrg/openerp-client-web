@@ -98,21 +98,25 @@ class Form(controllers.Controller, TinyResource):
         form.context = context
         form.state = '' #TODO: maintain states
 
-        form.screen = tw.screen.Screen(prefix='',
-                                       model=model,
-                                       ids=ids,
-                                       view_ids=view_ids,
-                                       view_mode=view_mode,
-                                       domain=domain,
-                                       context=context)
-
         form.id = id
-        form.ids = form.screen.ids
+        form.ids = ids
 
         return form
 
     @expose(template="tinyerp.modules.gui.templates.form")
     def view(self):
+
+        self.screen = tw.screen.Screen(prefix='',
+                                       model=self.model,
+                                       id=self.id,
+                                       ids=self.ids,
+                                       view_ids=self.view_ids,
+                                       view_mode=self.view_mode,
+                                       domain=self.domain,
+                                       context=self.context)
+
+        self.ids = self.screen.ids
+
         return dict(screen=self.screen,
                     model=self.model,
                     id=self.id,
@@ -126,7 +130,6 @@ class Form(controllers.Controller, TinyResource):
     def new(self):
         if self.id or self.ids:
             self.id = None
-            self.screen.load(ids=[])
 
     def save(self, data={}):
 
@@ -136,15 +139,12 @@ class Form(controllers.Controller, TinyResource):
         else:
             res = self.proxy.write([self.id], data, self.context)
 
-        #reload data
-        self.screen.load(ids=(self.id or []) and [self.id])
 
     def delete(self):
         if self.id:
             res = self.proxy.unlink([self.id])
             self.ids.remove(self.id)
 
-        self.screen.load(self.ids)
         self.id = (self.ids or None) and self.ids[0]
 
     @expose()
@@ -197,6 +197,9 @@ class Form(controllers.Controller, TinyResource):
 
         if action == 'new' and view_mode[0] == 'tree':
             view_mode.reverse()
+
+        if action == 'edit':
+            view_mode = ['form', 'tree']
 
         form = Form.create(model=model,
                            id=id,

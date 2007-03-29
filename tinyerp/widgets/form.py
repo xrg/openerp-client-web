@@ -346,35 +346,24 @@ class Form(tg.widgets.CompoundWidget):
 
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
 
-        self.prefix = prefix
-        self.model = model
-        self.view = view
-        self.ids = ids
-        self.domain = domain
-        self.context = context
+        fields = view['fields']
 
-        self.load(ids)
-
-    def load(self, ids=[]):
-
-        fields = self.view['fields']
-
-        dom = xml.dom.minidom.parseString(self.view['arch'])
+        dom = xml.dom.minidom.parseString(view['arch'])
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
 
-        proxy = rpc.RPCProxy(self.model)
+        proxy = rpc.RPCProxy(model)
+
+        print "XXXXXXXXXXXXXX", ids
 
         values = {}
         if ids:
-            values = proxy.read(ids[:1], fields.keys(), self.context)[0]
+            values = proxy.read(ids[:1], fields.keys(), context)[0]
         else: #default
-            values = proxy.default_get(fields.keys(), self.context)
+            values = proxy.default_get(fields.keys(), context)
 
-        self.frame = self.parse(self.prefix, dom, fields, values)[0]
-
-        self.ids = ids
+        self.frame = self.parse(prefix, dom, fields, values)[0]
 
     def parse(self, prefix='', root=None, fields=None, values={}):
 

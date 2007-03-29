@@ -46,22 +46,13 @@ class List(widgets.Widget):
 
     def __init__(self, model, view, ids=[], domain=[], context={}):
 
-        self.model = model
-        self.view = view
-        self.ids = ids
-        self.domain = domain
-        self.context = context
-
         self.checkable = False
         self.editable = True
 
-        self.load(ids)
-
-    def load(self, ids=[]):
         self.ids = ids
 
-        fields = self.view['fields']
-        dom = xml.dom.minidom.parseString(self.view['arch'])
+        fields = view['fields']
+        dom = xml.dom.minidom.parseString(view['arch'])
         root = dom.childNodes[0]
 
         attrs = tools.node_attributes(root)
@@ -69,13 +60,13 @@ class List(widgets.Widget):
 
         data = []
         if ids == None or len(ids) > 0:
-            proxy = rpc.RPCProxy(self.model)
+            proxy = rpc.RPCProxy(model)
             ids = ids or proxy.search([])
             data = proxy.read(ids, fields)
 
-        self.headers, self.data = self.parse(root, fields, data)
+            self.ids = ids
 
-        self.ids = ids
+        self.headers, self.data = self.parse(root, fields, data)
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
