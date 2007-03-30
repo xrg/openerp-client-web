@@ -53,26 +53,8 @@ from tinyerp.widgets.form import DateTime
 from tinyerp.widgets.form import Integer
 from tinyerp.widgets.form import Selection
 
-
-
 class RangeWidget(tg.widgets.CompoundWidget, TinyField):
-    template = """
-    <span xmlns:py="http://purl.org/kid/ns#">
-    <table>
-        <row>
-            <td width="50%">
-                ${from_field.display()}
-            </td>
-            <td>
-                -
-            </td>
-            <td width="50%">
-                ${to_field.display()}
-             </td>
-          </row>
-    </table>
-    </span>
-    """
+    template = "tinyerp.widgets_search.templates.rangewid"
 
     params = ["field_value"]
     member_widgets = ["from_field", "to_field"]
@@ -195,8 +177,7 @@ class Form(tg.widgets.CompoundWidget):
                 field = widgets_type[kind](attrs=fields[name])
                 self.fields_type[name] = kind
                 if kind == 'boolean':
-                    field.options = [['',''],[1,'Yes'],[2,'No']]
-
+                    field.options = [[1,'Yes'],['','No']]
 
                 self.widgets += [field]
 
