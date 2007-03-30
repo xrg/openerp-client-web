@@ -186,7 +186,7 @@ class Search(controllers.Controller, TinyResource):
                 ids = proxy.search(search_list,0,l)
 
             search = Search.create(model=model,
-                          ids=ids,
+                           ids=ids,
                            view_ids=view_ids,
                            domain=domain,
                            context=context)
@@ -194,7 +194,6 @@ class Search(controllers.Controller, TinyResource):
 
 
         elif action == 'Cancel':
-
             pass
 
         else:

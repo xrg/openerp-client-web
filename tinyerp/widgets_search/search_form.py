@@ -65,10 +65,8 @@ class RangeWidget(tg.widgets.CompoundWidget, TinyField):
 
         kind = attrs.get('type', 'integer')
 
-
         self.from_field = range_widgets_type[kind](attrs)
         self.to_field = range_widgets_type[kind](attrs)
-
 
 class Form(tg.widgets.CompoundWidget):
     """A generic form widget
@@ -82,7 +80,6 @@ class Form(tg.widgets.CompoundWidget):
     frame = None
 
     def __init__(self, prefix, model, view=None, domain=[], context={}):
-
 
         self.prefix = prefix
         self.model = model
@@ -129,9 +126,6 @@ class Form(tg.widgets.CompoundWidget):
 
             if attrs.has_key('nolabel'):
                 attrs['nolabel'] = False
-
-
-
 
             elif node.localName=='button' and attrs.has_key('select'):
                 self.views += [Button(attrs)]

@@ -38,6 +38,8 @@ from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
 
+import cherrypy
+
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
@@ -118,6 +120,7 @@ class Form(controllers.Controller, TinyResource):
                                        context=self.context)
 
         self.ids = self.screen.ids
+        cherrypy.session['_terp_ids'] = self.ids
 
         return dict(screen=self.screen,
                     model=self.model,
@@ -187,7 +190,6 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def action(self, _terp_model,
                      _terp_id=None,
-                     _terp_ids=[],
                      _terp_domain=[],
                      _terp_view_ids=[],
                      _terp_view_mode=['form', 'tree'],
@@ -200,7 +202,6 @@ class Form(controllers.Controller, TinyResource):
 
         @param _terp_model: the mode
         @param _terp_id: current record id
-        @param _terp_ids: all record ids
         @param _terp_domain: the domain
         @param _terp_view_ids: view ids
         @param _terp_view_mode: the view mode
@@ -216,8 +217,11 @@ class Form(controllers.Controller, TinyResource):
         model = _terp_model
         state = _terp_state
 
+        #cherrypy.session['open'] = True
+
         id = (_terp_id or None) and eval(_terp_id)
-        ids = (_terp_ids or []) and eval(_terp_ids)
+        ids = cherrypy.session.get('_terp_ids', [])
+
         domain = (_terp_domain or []) and eval(_terp_domain)
         context = (_terp_context or {}) and eval(_terp_context)
         view_ids = (_terp_view_ids or []) and eval(_terp_view_ids)

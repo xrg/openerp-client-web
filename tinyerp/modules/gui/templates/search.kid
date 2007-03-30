@@ -60,7 +60,7 @@
             	</table>
             </div>
             <div class="spacer"></div>
-            ${list_view.display()}
+                ${list_view.display()}
     	</div>
     </form>
 </body>

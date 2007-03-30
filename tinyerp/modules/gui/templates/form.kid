@@ -42,7 +42,6 @@
         <input type="hidden" name="_terp_model" value="${model}"/>
         <input type="hidden" name="_terp_state" value="${state}"/>
         <input type="hidden" name="_terp_id" value="${str(id)}"/>
-        <input type="hidden" name="_terp_ids" value="${str(ids)}"/>
         <input type="hidden" name="_terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" name="_terp_view_mode" value="${str(view_mode)}"/>
         <input type="hidden" name="_terp_domain" value="${str(domain)}"/>
@@ -55,7 +54,7 @@
             </div>
 
             <div class="spacer"></div>
-            
+                        
 <?python 
 but_attrs = {}
 if view_mode[0] == 'tree': but_attrs['disabled'] = 0
