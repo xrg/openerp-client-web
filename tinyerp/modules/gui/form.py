@@ -141,7 +141,7 @@ class Form(controllers.Controller, TinyResource):
         else:
             res = self.proxy.write([self.id], data, self.context)
 
-    def back(self):
+    def prev(self):
         idx = 0
         if self.id:
             idx = self.ids.index(self.id)
@@ -154,7 +154,7 @@ class Form(controllers.Controller, TinyResource):
             if self.ids:
                 self.id = self.ids[idx]
 
-    def forward(self):
+    def next(self):
         idx = 0
         if self.id:
             idx = self.ids.index(self.id)
@@ -185,43 +185,43 @@ class Form(controllers.Controller, TinyResource):
         #self.id = (self.ids or None) and self.ids[0]
 
     @expose()
-    def action(self, terp_model,
-                     terp_id=None,
-                     terp_ids=[],
-                     terp_domain=[],
-                     terp_view_ids=[],
-                     terp_view_mode=['form', 'tree'],
-                     terp_context={},
-                     terp_action="save",
-                     terp_state=None,
+    def action(self, _terp_model,
+                     _terp_id=None,
+                     _terp_ids=[],
+                     _terp_domain=[],
+                     _terp_view_ids=[],
+                     _terp_view_mode=['form', 'tree'],
+                     _terp_context={},
+                     _terp_action="save",
+                     _terp_state=None,
                      **data):
         """Form action controller, performs either of the 'new', 'save',
         'delete', 'edit', 'search', 'button' actions.
 
-        @param terp_model: the mode
-        @param terp_id: current record id
-        @param terp_ids: all record ids
-        @param terp_domain: the domain
-        @param terp_view_ids: view ids
-        @param terp_view_mode: the view mode
-        @param terp_context: the local context
-        @param terp_action: the action
-        @param terp_state: the state
+        @param _terp_model: the mode
+        @param _terp_id: current record id
+        @param _terp_ids: all record ids
+        @param _terp_domain: the domain
+        @param _terp_view_ids: view ids
+        @param _terp_view_mode: the view mode
+        @param _terp_context: the local context
+        @param _terp_action: the action
+        @param _terp_state: the state
         @param data: the data
 
         @return: view of the form or search controller
         """
 
-        action = terp_action
-        model = terp_model
-        state = terp_state
+        action = _terp_action
+        model = _terp_model
+        state = _terp_state
 
-        id = (terp_id or None) and eval(terp_id)
-        ids = (terp_ids or []) and eval(terp_ids)
-        domain = (terp_domain or []) and eval(terp_domain)
-        context = (terp_context or {}) and eval(terp_context)
-        view_ids = (terp_view_ids or []) and eval(terp_view_ids)
-        view_mode = (terp_view_mode or ['form', 'tree']) and eval(terp_view_mode)
+        id = (_terp_id or None) and eval(_terp_id)
+        ids = (_terp_ids or []) and eval(_terp_ids)
+        domain = (_terp_domain or []) and eval(_terp_domain)
+        context = (_terp_context or {}) and eval(_terp_context)
+        view_ids = (_terp_view_ids or []) and eval(_terp_view_ids)
+        view_mode = (_terp_view_mode or ['form', 'tree']) and eval(_terp_view_mode)
 
         if action == 'search':
             search_window = search.Search.create(model, [], view_ids, domain, context)
@@ -266,11 +266,11 @@ class Form(controllers.Controller, TinyResource):
             #TODO: open record
             pass
 
-        elif action == 'back':
-            form.back()
+        elif action == 'prev':
+            form.prev()
 
-        elif action == 'forward':
-            form.forward()
+        elif action == 'next':
+            form.next()
 
         elif action == 'button':
             #TODO: perform button action
