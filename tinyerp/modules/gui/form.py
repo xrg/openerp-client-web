@@ -205,6 +205,12 @@ class Form(controllers.Controller, TinyResource):
 
         if action == 'switch':
             view_mode.reverse()
+
+            if view_mode[0] == 'tree':
+                view_ids = [False] + view_ids
+            else:
+                if False in view_ids: view_ids.remove(False)
+
             ids = ids or []
             if ids:
                 id = ids[0]

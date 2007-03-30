@@ -355,8 +355,6 @@ class Form(tg.widgets.CompoundWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        print "XXXXXXXXXXXXXX", ids
-
         values = {}
         if ids:
             values = proxy.read(ids[:1], fields.keys(), context)[0]
