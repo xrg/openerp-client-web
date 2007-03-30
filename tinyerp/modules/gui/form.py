@@ -228,7 +228,7 @@ class Form(controllers.Controller, TinyResource):
         view_mode = (_terp_view_mode or ['form', 'tree']) and eval(_terp_view_mode)
 
         if action == 'search':
-            search_window = search.Search.create(model, [], view_ids, domain, context)
+            search_window = search.Search.create(model, id, [], view_ids, view_mode, domain, context)
             return search_window.view()
 
         if action == 'switch':

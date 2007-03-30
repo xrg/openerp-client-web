@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="sitetemplate">
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" py:replace="''"/>
-    <title>${list_view.string}</title>
+    <title>Search ${list_view.string}</title>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
     <script language="javascript" src="/tg_static/js/MochiKit.js"></script>
@@ -20,12 +20,15 @@
 	        	</div>
 	    		<div class="spacer"></div>
 	    	</div>
-    		<input type="hidden" name="terp_model" value="${model}"/>
-    	    <input type="hidden" name="terp_state" value="${state}"/>
-       		<input type="hidden" name="terp_ids" value="${str(ids)}"/>
-	        <input type="hidden" name="terp_view_ids" value="${str(view_ids)}"/>
-	        <input type="hidden" name="terp_domain" value="${str(domain)}"/>
-    	    <input type="hidden" name="terp_context" value="${str(context)}"/>
+    	    <input type="hidden" name="_terp_model" value="${model}"/>
+	        <input type="hidden" name="_terp_state" value="${state}"/>
+	        <input type="hidden" name="_terp_id" value="${str(id)}"/>
+        	<input type="hidden" name="_terp_view_ids" value="${str(view_ids)}"/>
+       		<input type="hidden" name="_terp_view_mode" value="${str(view_mode)}"/>
+	        <input type="hidden" name="_terp_domain" value="${str(domain)}"/>
+    	    <input type="hidden" name="_terp_context" value="${str(context)}"/>
+    	    <input type="hidden" name="_terp_fields_type" value="${str(form.fields_type)}"/>
+
       		${form.display()}
     		<div class="spacer"></div>
 		    <div class="toolbar" >
@@ -48,13 +51,13 @@
         				<td width="100%">
 	        			</td>
 	        			<td>
-				        	<button type="submit" name="terp_action" value='Find' title="Find Records..." >Find</button>
+				        	<button type="submit" name="_terp_action" value='Find' title="Find Records..." >Find</button>
         				</td>
         				<td>
-			    	        <button type="submit" name="terp_action" value='Cancel' title="Cancel..." >Cancel</button>
+			    	        <button type="submit" name="_terp_action" value='Cancel' title="Cancel..." >Cancel</button>
             			</td>
 	            		<td>
-				            <button type="button" name="terp_action" value='Ok' title="Select Record..." >Ok</button>
+				            <button type="submit" name="_terp_action" value='Ok' title="Select Record..." >Ok</button>
         	    		</td>
             		</tr>
             	</table>

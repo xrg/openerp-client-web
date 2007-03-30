@@ -48,13 +48,15 @@ from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 from tinyerp import widgets_search as tws
 
+import form
+
 class Search(controllers.Controller, TinyResource):
 
     def __init__(self):
         pass
 
     @staticmethod
-    def create(model, ids=[], view_ids=[], domain=[], context={}):
+    def create(model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], domain=[], context={}):
         """Create a new instance of search form.
 
         @param model: the model
@@ -69,18 +71,19 @@ class Search(controllers.Controller, TinyResource):
         search.proxy = rpc.RPCProxy(model)
 
         search.model = model
+        search.id = id
         search.ids = ids
         search.view_ids = view_ids
         search.domain = domain
         search.context = context
+        search.view_mode = view_mode
         search.view_form = search.proxy.fields_view_get({}, 'form', {})
         search.view_tree = search.proxy.fields_view_get({}, 'tree', {})
 
         search.state = '' #TODO: maintain states
         search.form = {}
-        search.form = tws.search_form.Form(prefix='', model=model, view=search.view_form, domain=domain, context=context)
-        search.list_view = tw.list.List(model,view=search.view_tree, domain=domain, ids=ids, context=context)
-
+        search.form = tws.search_form.Form(prefix='', model=search.model, ids=search.ids, view=search.view_form, domain=search.domain, context=search.context)
+        search.list_view = tw.list.List(model=search.model, view=search.view_tree, ids=search.ids, domain=domain, context=context)
         return search
 
 
@@ -90,23 +93,27 @@ class Search(controllers.Controller, TinyResource):
         return dict(form=self.form,
                     list_view = self.list_view,
                     model=self.model,
+                    id = self.id,
                     ids=self.ids,
+                    view_mode=self.view_mode,
                     view_ids=self.view_ids,
                     domain=self.domain,
                     context=self.context,
                     state=self.state)
     @expose()
-    def action(self, terp_model,
-                     terp_ids=[],
-                     terp_domain=[],
-                     terp_view_ids=[],
-                     terp_view_mode=['form', 'tree'],
-                     terp_view_mode2=['form', 'tree'],
-                     terp_context={},
-                     terp_action="save",
-                     terp_state=None,
+    def action(self, _terp_model,
+                     _terp_id=None,
+                     _terp_domain=[],
+                     _terp_view_ids=[],
+                     _terp_view_mode=[],
+                     _terp_view_mode2=[],
+                     _terp_context={},
+                     _terp_action="save",
+                     _terp_state=None,
+                     _terp_fields_type=None,
                      *args,
                      **kw):
+
         """Form action controller, performs either of the 'new', 'save',
         'delete', 'edit', 'search', 'button' actions.
 
@@ -124,23 +131,29 @@ class Search(controllers.Controller, TinyResource):
         @return: view of the form or search controller
         """
 
-        action = terp_action
-        model = terp_model
-        state = terp_state
+        action = _terp_action
+        model = _terp_model
+        state = _terp_state
+        id = (_terp_id or None) and eval(_terp_id)
+        domain = (_terp_domain or []) and eval(_terp_domain)
+        context = (_terp_context or {}) and eval(_terp_context)
+        view_ids = (_terp_view_ids or []) and eval(_terp_view_ids)
+        view_mode = (_terp_view_mode or [])and eval(_terp_view_mode)
 
-        ids = (terp_ids or []) and eval(terp_ids)
-        domain = (terp_domain or []) and eval(terp_domain)
-        context = (terp_context or {}) and eval(terp_context)
-        view_ids = (terp_view_ids or []) and eval(terp_view_ids)
-        #view_mode = (terp_view_mode or ['form', 'tree']) and eval(terp_view_mode)
-        #view_mode2 = (terp_view_mode2 or ['form', 'tree']) and eval(terp_view_mode2)
+        if not view_mode:
+            view_mode = ['form','tree']
+        view_mode2 = (_terp_view_mode2 or [])and eval(_terp_view_mode2)
+        if not view_mode2:
+            view_mode2 = ['form','tree']
 
+        fields_type = (_terp_fields_type or {}) and eval(_terp_fields_type)
 
         def getSearchString(name,type,value):
             if value:
 
                 if type == 'many2many' or type == 'one2many' or type =='many2one' or type=='char':
                     return name,'ilike',value
+
                 elif type== 'float' or type == 'integer' or type == 'datetime' or type=='date' or type=='time':
                     if value[0] and value[1]:
                         return [(name,'>=',value[0]),(name,'<=',value[1])]
@@ -148,23 +161,14 @@ class Search(controllers.Controller, TinyResource):
                         return name,'>=',value[0]
                     elif value[1]:
                         return name,'<=',value[1]
-
                     return None
 
-                elif type=='boolen' or type=='selection':
+                elif type=='boolean' or type=='selection':
                     return name,'=',value
             return None
 
-        if action == 'Ok':
-            pass
-
-        elif action == 'Find':
-            ids = None
-            fields_type = None
-            if cherrypy.session.has_key('field_type'):
-                fields_type = cherrypy.session['field_type']
+        if action == 'Find':
             search_list = []
-
             if fields_type:
                 for n,v in fields_type.items():
                     t = getSearchString(n,v,kw[n])
@@ -174,30 +178,57 @@ class Search(controllers.Controller, TinyResource):
                         else:
                             search_list += [t]
 
-            if search_list:
-                proxy = rpc.RPCProxy(model)
-                try:
-                    l = int(kw.get('limit','80'))
-                    o = int(kw.get('offset','0'))
-                except:
-                    l = 80
-                    o = 0
-
-                ids = proxy.search(search_list,0,l)
-
+            try:
+                l = int(kw.get('limit', '80'))
+                o = int(kw.get('offset', '0'))
+            except:
+                l = 80
+                o = 0
+            proxy = rpc.RPCProxy(model)
+            ids = proxy.search(search_list, o, l)
             search = Search.create(model=model,
-                           ids=ids,
-                           view_ids=view_ids,
-                           domain=domain,
-                           context=context)
+                                   ids=ids,
+                                   view_ids=view_ids,
+                                   domain=domain,
+                                   context=context)
             return search.view()
 
+
+        elif action == 'Cancel':
+            ids = cherrypy.session.get('_terp_ids',[])
+            form_view = form.Form.create(model=model,
+                                         id=id,
+                                         ids=ids,
+                                         view_ids=view_ids,
+                                         view_mode=view_mode,
+                                         domain=domain,
+                                         context=context)
+            return form_view.view()
+
+        elif action == 'Ok':
+
+            if kw.has_key('check'):
+                if type(kw['check']) == type([]):
+                    ids = [int(e) for e in kw['check']]
+                    id = ids[0]
+                else:
+                    ids = [int(kw['check'])]
+                    id = ids[0]
+            form_view = form.Form.create(model=model,
+                               id=id,
+                               ids=ids,
+                               view_ids=view_ids,
+                               view_mode=view_mode,
+                               domain=domain,
+                               context=context)
+            return form_view.view()
 
         elif action == 'Cancel':
             pass
 
         else:
             raise "Invalid action..."
+
 
         return search.view()
 

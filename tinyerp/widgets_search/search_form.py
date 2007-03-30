@@ -79,7 +79,7 @@ class Form(tg.widgets.CompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, model, view=None, domain=[], context={}):
+    def __init__(self, prefix, model, ids=[], view=None, domain=[], context={}):
 
         self.prefix = prefix
         self.model = model
@@ -87,9 +87,6 @@ class Form(tg.widgets.CompoundWidget):
         self.domain = domain
         self.context = context
         self.view = view
-        self.load()
-
-    def load(self, ids=[]):
 
         fields = self.view['fields']
 
@@ -108,7 +105,6 @@ class Form(tg.widgets.CompoundWidget):
         self.fields_type = {}
         self.widgets = []
         self.parse(self.prefix, dom, fields, values)
-        cherrypy.session['field_type'] = self.fields_type
         self.frame = Frame({'prefix':''},self.widgets,6)
 
     def parse(self, prefix='', root=None, fields=None, values={}):
@@ -167,9 +163,8 @@ class Form(tg.widgets.CompoundWidget):
 
                 if kind not in widgets_type:
                     continue
-
-                field = widgets_type[kind](attrs=fields[name])
                 self.fields_type[name] = kind
+                field = widgets_type[kind](attrs=fields[name])
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],['','No']]
 

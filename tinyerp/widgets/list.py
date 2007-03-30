@@ -46,7 +46,7 @@ class List(widgets.Widget):
 
     def __init__(self, model, view, ids=[], domain=[], context={}):
 
-        self.checkable = False
+        self.checkable = True
         self.editable = True
 
         self.ids = ids
