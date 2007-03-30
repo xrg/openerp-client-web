@@ -141,14 +141,38 @@ class Form(controllers.Controller, TinyResource):
         else:
             res = self.proxy.write([self.id], data, self.context)
 
+    def back(self):
+        idx = 0
+        if self.id:
+            idx = self.ids.index(self.id)
+            idx = idx-1
+
+            if idx == self.ids[0]:
+                idx = len(self.ids)
+                self.id = self.ids[idx]
+
+            if self.ids:
+                self.id = self.ids[idx]
+
+    def forward(self):
+        idx = 0
+        if self.id:
+            idx = self.ids.index(self.id)
+            idx = idx + 1
+
+            if idx == len(self.ids):
+                idx = 0
+
+            if self.ids:
+                self.id = self.ids[idx]
 
     def delete(self):
         idx = -1
         if self.id:
             res = self.proxy.unlink([self.id])
             idx = self.ids.index(self.id)
-
             self.ids.remove(self.id)
+
             if idx == len(self.ids):
                 idx = -1
 
@@ -241,6 +265,12 @@ class Form(controllers.Controller, TinyResource):
         elif action == 'edit':
             #TODO: open record
             pass
+
+        elif action == 'back':
+            form.back()
+
+        elif action == 'forward':
+            form.forward()
 
         elif action == 'button':
             #TODO: perform button action

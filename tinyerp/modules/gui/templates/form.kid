@@ -65,6 +65,8 @@ if view_mode[0] == 'tree': but_attrs['disabled'] = 0
                 <button type="submit" name="terp_action" value="new" title="Create new record...">New</button>
                 <button type="submit" name="terp_action" value="save" title="Save current record..." py:attrs="but_attrs">Save</button>
                 <button type="submit" name="terp_action" value="delete" title="Remove current record..." onclick="return confirm('Do you realy want to delete this record?');" py:attrs="but_attrs">Delete</button>
+                <button type="submit" name="terp_action" value="prev" title="Previois records..." py:attrs="but_attrs">Prev</button>
+                <button type="submit" name="terp_action" value="next" title="Next records..." py:attrs="but_attrs">Next</button>
                 <button type="submit" name="terp_action" value="search" title="Search records...">Find</button>
                 <button type="submit" name="terp_action" value="switch" title="Switch view...">Switch</button>
             </div>
