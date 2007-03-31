@@ -50,234 +50,160 @@ from tinyerp.tinyres import TinyResource
 
 import search
 
-def make_dict(data):
-    """Generates a valid dictionary from the given data to be used with TinyERP.
-    """
-    res = {}
-    for name, value in data.items():
-        names = name.split('/')
-
-        if len(names) > 1:
-            res.setdefault(names[0], {}).update({"/".join(names[1:]): value})
-        else:
-            res[name] = value or False
-
-    for k, v in res.items():
-        if type(v) == type({}):
-            #res[k] = make_dict(v)
-
-            id = 0
-            if '__id' in v:
-                id = int(v.pop('__id'))
-
-            res[k] = [(id and 1, id, make_dict(v))]
-
-    return res
+from utils import MyDict
+from utils import make_dict
+from utils import split
 
 class Form(controllers.Controller, TinyResource):
 
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def create(model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], domain=[], context={}):
-        """Create a new instance of form.
+    @expose(template="tinyerp.modules.gui.templates.form")
+    def create(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
+        """Create form view...
 
         @param model: the model
         @param id: current record id
         @param ids: all record ids
+        @param state: workflow state?
         @param view_ids: view ids
         @param view_mode: view mode
+        @param view_mode2: the original view mode
         @param domain: the domain
         @param context: the context
+
+        @todo: maintain states
+
+        @return: form view
         """
 
-        form = Form()
-
-        form.proxy = rpc.RPCProxy(model)
-        form.model = model
-        form.view_ids = view_ids
-        form.view_mode = view_mode
-        form.domain = domain
-        form.context = context
-        form.state = '' #TODO: maintain states
-
-        form.id = id
-        form.ids = ids
-
-        return form
-
-    @expose(template="tinyerp.modules.gui.templates.form")
-    def view(self):
-
-        self.screen = tw.screen.Screen(prefix='',
-                                       model=self.model,
-                                       id=self.id,
-                                       ids=self.ids,
-                                       view_ids=self.view_ids,
-                                       view_mode=self.view_mode,
-                                       domain=self.domain,
-                                       context=self.context)
-
-        self.ids = self.screen.ids
-        cherrypy.session['_terp_ids'] = self.ids
-
-        return dict(screen=self.screen,
-                    model=self.model,
-                    id=self.id,
-                    ids=self.ids,
-                    view_ids=self.view_ids,
-                    view_mode=self.view_mode,
-                    domain=self.domain,
-                    context=self.context,
-                    state=self.state)
-
-    def new(self):
-        if self.id or self.ids:
-            self.id = None
-
-    def save(self, data={}):
-
-        if not self.id:
-            res = self.proxy.create(data, self.context)
-            self.ids = (self.ids or []) + [int(res)]
+        if view_mode[0] != view_mode2[0]:
+            view_ids = [False] + view_ids
         else:
-            res = self.proxy.write([self.id], data, self.context)
+            if False in view_ids: view_ids.remove(False)
 
-    def prev(self):
-        idx = 0
-        if self.id:
-            idx = self.ids.index(self.id)
-            idx = idx-1
+        screen = tw.screen.Screen(prefix='', model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
 
-            if idx == self.ids[0]:
-                idx = len(self.ids)
-                self.id = self.ids[idx]
+        screen.state = state #TODO: maintain states
+        screen.view_mode2 = view_mode2
 
-            if self.ids:
-                self.id = self.ids[idx]
+        cherrypy.session['_terp_ids'] = screen.ids
 
-    def next(self):
-        idx = 0
-        if self.id:
-            idx = self.ids.index(self.id)
-            idx = idx + 1
-
-            if idx == len(self.ids):
-                idx = 0
-
-            if self.ids:
-                self.id = self.ids[idx]
-
-    def delete(self):
-        idx = -1
-        if self.id:
-            res = self.proxy.unlink([self.id])
-            idx = self.ids.index(self.id)
-            self.ids.remove(self.id)
-
-            if idx == len(self.ids):
-                idx = -1
-
-        if self.ids:
-            self.id = self.ids[idx]
-
-        else:
-            self.id = None
-
-        #self.id = (self.ids or None) and self.ids[0]
+        return dict(screen=screen)
 
     @expose()
-    def action(self, _terp_model,
-                     _terp_id=None,
-                     _terp_domain=[],
-                     _terp_view_ids=[],
-                     _terp_view_mode=['form', 'tree'],
-                     _terp_context={},
-                     _terp_action="save",
-                     _terp_state=None,
-                     **data):
-        """Form action controller, performs either of the 'new', 'save',
-        'delete', 'edit', 'search', 'button' actions.
+    def new(self, **kw):
+        terp, data = split(kw)
 
-        @param _terp_model: the mode
-        @param _terp_id: current record id
-        @param _terp_domain: the domain
-        @param _terp_view_ids: view ids
-        @param _terp_view_mode: the view mode
-        @param _terp_context: the local context
-        @param _terp_action: the action
-        @param _terp_state: the state
-        @param data: the data
+        if terp.id or terp.ids:
+            terp.id = None
 
-        @return: view of the form or search controller
+        if terp.view_mode[0] == 'tree':
+            terp.view_mode.reverse()
+
+        return self.create(**terp)
+
+    @expose()
+    def edit(self, **kw):
+        terp, data = split(kw)
+
+        if terp.view_mode[0] == 'tree':
+            terp.view_mode.reverse()
+
+        return self.create(**terp)
+
+    @expose()
+    def save(self, **kw):
+        """Controller method to save current record.
+
+        @param kw: keyword arguments
+
+        @todo: validate params
+        @todo: error_handler
+
+        @return: form view
         """
+        terp, data = split(kw)
 
-        action = _terp_action
-        model = _terp_model
-        state = _terp_state
+        proxy = rpc.RPCProxy(terp.model)
 
-        #cherrypy.session['open'] = True
+        if not terp.id:
+            res = proxy.create(data, terp.context)
+            terp.ids = (terp.ids or []) + [int(res)]
+        else:
+            res = proxy.write([terp.id], data, terp.context)
 
-        id = (_terp_id or None) and eval(_terp_id)
-        ids = cherrypy.session.get('_terp_ids', [])
+        return self.create(**terp)
 
-        domain = (_terp_domain or []) and eval(_terp_domain)
-        context = (_terp_context or {}) and eval(_terp_context)
-        view_ids = (_terp_view_ids or []) and eval(_terp_view_ids)
-        view_mode = (_terp_view_mode or ['form', 'tree']) and eval(_terp_view_mode)
+    @expose()
+    def delete(self, **kw):
+        terp, data = split(kw)
 
-        if action == 'search':
-            search_window = search.Search.create(model, id, [], view_ids, view_mode, domain, context)
-            return search_window.view()
+        proxy = rpc.RPCProxy(terp.model)
 
-        if action == 'switch':
-            view_mode.reverse()
+        idx = -1
+        if terp.id:
+            res = proxy.unlink([terp.id])
+            idx = terp.ids.index(terp.id)
+            terp.ids.remove(terp.id)
 
-            if view_mode[0] == 'tree':
-                view_ids = [False] + view_ids
-            else:
-                if False in view_ids: view_ids.remove(False)
+            if idx == len(terp.ids):
+                idx = -1
 
-            ids = ids or []
-            if ids:
-                id = ids[0]
+        terp.id = (terp.ids or None) and terp.ids[idx]
 
-        if action == 'new' and view_mode[0] == 'tree':
-            view_mode.reverse()
+        return self.create(**terp)
 
-        if action == 'edit':
-            view_mode = ['form', 'tree']
+    @expose()
+    def prev(self, **kw):
+        terp, data = split(kw)
 
-        form = Form.create(model=model,
-                           id=id,
-                           ids=ids,
-                           view_ids=view_ids,
-                           view_mode=view_mode,
-                           domain=domain,
-                           context=context)
+        idx = 0
+        if terp.id:
+            idx = terp.ids.index(terp.id)
+            idx = idx-1
 
-        if action == 'new':
-            form.new()
+            if idx == terp.ids[0]:
+                idx = len(terp.ids)
+                terp.id = terp.ids[idx]
 
-        elif action == 'save':
-            form.save(make_dict(data))
+            if terp.ids:
+                terp.id = terp.ids[idx]
 
-        elif action == 'delete':
-            form.delete()
+        return self.create(**terp)
 
-        elif action == 'edit':
-            #TODO: open record
-            pass
+    @expose()
+    def next(self, **kw):
+        terp, data = split(kw)
 
-        elif action == 'prev':
-            form.prev()
+        idx = 0
+        if terp.id:
+            idx = terp.ids.index(terp.id)
+            idx = idx + 1
 
-        elif action == 'next':
-            form.next()
+            if idx == len(terp.ids):
+                idx = 0
 
-        elif action == 'button':
-            #TODO: perform button action
-            pass
+            if terp.ids:
+                terp.id = terp.ids[idx]
 
-        return form.view()
+        return self.create(**terp)
+
+    @expose()
+    def find(self, **kw):
+        terp, data = split(kw)
+
+        terp.ids = []
+
+        search_window = search.Search()
+        return search_window.create(**terp)
+
+    @expose()
+    def switch(self, **kw):
+        terp, data = split(kw)
+
+        terp.view_mode.reverse()
+
+        terp.ids = terp.ids or []
+        if terp.ids:
+            terp.id = terp.ids[0]
+
+        return self.create(**terp)

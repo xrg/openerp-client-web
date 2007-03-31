@@ -56,6 +56,7 @@ class Screen(tg.widgets.CompoundWidget):
         self.id = id
         self.ids = ids
         self.view_ids = view_ids
+        self.view_mode = view_mode
         self.view_type = view_mode[0]
         self.views_preloaded = views_preloaded
         self.domain = domain

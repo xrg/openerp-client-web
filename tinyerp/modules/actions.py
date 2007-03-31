@@ -64,8 +64,7 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     mode = mode.split(',')
 
     if view_type == 'form':
-        form = Form.create(model, ids=res_id, view_mode=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
-        return form.view()
+        return Form().create(model, ids=res_id, view_mode=mode, view_mode2=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
 
     elif view_type == 'tree':
         return "TREE VIEW: NOT IMPLEMENTED YET!"
