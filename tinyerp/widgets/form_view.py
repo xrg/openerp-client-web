@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2007 TinyERP Pvt Ltd. (http://tinyerp.com) All Rights Reserved.
 #
-# $Id: list.py 7 2007-03-23 12:58:38Z ame $
+# $Id$
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
@@ -28,31 +28,32 @@
 ###############################################################################
 
 import turbogears as tg
-
-from interface import TinyFieldsContainer
+import cherrypy
 
 from screen import Screen
 
-class O2M(TinyFieldsContainer):
-    """One2Many widget
-    """
-    template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id']
-
+class ViewForm(tg.widgets.Form):
+    template = "tinyerp.widgets.templates.form"
     member_widgets = ['screen']
-    form = None
 
-    def __init__(self, attrs={}):
-        TinyFieldsContainer.__init__(self, attrs)
+    def __init__(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
+        super(ViewForm, self).__init__(name="view_form")
 
-        #self.colspan = 4
-        #self.nolabel = True
+        if view_mode[0] != view_mode2[0]:
+            view_ids = [False] + view_ids
+        else:
+            if False in view_ids: view_ids.remove(False)
 
-        self.model = attrs['relation']
+        cherrypy.request.terp_fields = []
 
-        view = attrs.get('views', {})
-        mode = attrs.get('mode', 'tree,form').split(',')
+        self.screen = Screen(prefix='', model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context, editable=True)
 
-        ids = attrs['value'] or []
+        self.screen.state = state #TODO: maintain states
+        self.screen.view_mode2 = view_mode2
 
-        self.screen = Screen(prefix=self.name, model=self.model, ids=ids, view_mode=mode, views_preloaded=view, domain=[], context={})
+        cherrypy.session['_terp_ids'] = self.screen.ids
+
+        self.fields = cherrypy.request.terp_fields
+
+    def validate(self, value, state=None):
+        return super(ViewForm, self).validate(value, state)

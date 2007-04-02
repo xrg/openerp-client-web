@@ -41,7 +41,7 @@ from tinyerp import tools
 from tinyerp import rpc
 
 from tinyerp.widgets.interface import TinyField
-from tinyerp.widgets.interface import TinyWidget
+from tinyerp.widgets.interface import TinyFieldsContainer
 
 from tinyerp.widgets.form import Char
 from tinyerp.widgets.form import Form
@@ -53,22 +53,21 @@ from tinyerp.widgets.form import DateTime
 from tinyerp.widgets.form import Integer
 from tinyerp.widgets.form import Selection
 
-class RangeWidget(tg.widgets.CompoundWidget, TinyField):
+class RangeWidget(TinyFieldsContainer):
     template = "tinyerp.widgets_search.templates.rangewid"
 
     params = ["field_value"]
     member_widgets = ["from_field", "to_field"]
 
     def __init__(self, attrs):
-        TinyField.__init__(self, attrs)
-        tg.widgets.CompoundWidget.__init__(self, name=self.name)
+        TinyFieldsContainer.__init__(self, attrs)
 
         kind = attrs.get('type', 'integer')
 
         self.from_field = range_widgets_type[kind](attrs)
         self.to_field = range_widgets_type[kind](attrs)
 
-class Form(tg.widgets.CompoundWidget):
+class Form(TinyFieldsContainer):
     """A generic form widget
     """
 
@@ -80,6 +79,8 @@ class Form(tg.widgets.CompoundWidget):
     frame = None
 
     def __init__(self, prefix, model, ids=[], view=None, domain=[], context={}):
+
+        super(Form, self).__init__()
 
         self.prefix = prefix
         self.model = model

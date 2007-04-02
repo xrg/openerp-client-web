@@ -29,17 +29,18 @@
 
 import turbogears as tg
 
-from interface import TinyWidget
-from interface import TinyField
+from interface import TinyFieldsContainer
 
 from form import Form
 
-class M2O(tg.widgets.FormField, TinyField):
+class M2O(TinyFieldsContainer):
     template = "tinyerp.widgets.templates.many2one"
-    params=['relation', 'field_value', 'text']
+    params=['relation', 'field_name', 'field_value', 'text']
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        TinyFieldsContainer.__init__(self, attrs)
+
+        self.field_name = self.name
         self.relation = attrs.get('relation', '')
 
     def set_value(self, value):

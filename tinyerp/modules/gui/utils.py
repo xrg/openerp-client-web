@@ -39,7 +39,7 @@ def make_dict(data):
         if len(names) > 1:
             res.setdefault(names[0], {}).update({"/".join(names[1:]): value})
         else:
-            res[name] = value or False
+            res[name] = value
 
     for k, v in res.items():
         if type(v) == type({}):

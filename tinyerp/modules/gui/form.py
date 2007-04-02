@@ -32,11 +32,16 @@ This module implementes view for a tiny model having
 
     view_type = 'form'
     view_mode = 'form,tree'
+
+@todo: show validation errors
 """
 
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
+from turbogears import validators
+from turbogears import validate
+from turbogears import error_handler
 
 import cherrypy
 
@@ -57,7 +62,7 @@ from utils import terp_split
 class Form(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.form")
-    def create(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
+    def create(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, tg_errors=None):
         """Create form view...
 
         @param model: the model
@@ -75,19 +80,12 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
 
-        if view_mode[0] != view_mode2[0]:
-            view_ids = [False] + view_ids
+        if tg_errors:
+            form = cherrypy.request.terp_form
         else:
-            if False in view_ids: view_ids.remove(False)
+            form = tw.form_view.ViewForm(model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context)
 
-        screen = tw.screen.Screen(prefix='', model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context, editable=True)
-
-        screen.state = state #TODO: maintain states
-        screen.view_mode2 = view_mode2
-
-        cherrypy.session['_terp_ids'] = screen.ids
-
-        return dict(screen=screen)
+        return dict(form=form)
 
     @expose()
     def new(self, **kw):
@@ -102,15 +100,23 @@ class Form(controllers.Controller, TinyResource):
         return self.create(**terp)
 
     @expose()
-    def edit(self, **kw):
+    def edit(self, tg_errors=None, **kw):
         terp, data = terp_split(kw)
 
         if terp.view_mode[0] == 'tree':
             terp.view_mode.reverse()
 
-        return self.create(**terp)
+        return self.create(tg_errors=tg_errors, **terp)
+
+    def get_form(self):
+        terp, data = terp_split(cherrypy.request.params)
+
+        cherrypy.request.terp_form = tw.form_view.ViewForm(**terp)
+        return cherrypy.request.terp_form
 
     @expose()
+    @error_handler(edit)
+    @validate(form=get_form)
     def save(self, **kw):
         """Controller method to save current record.
 

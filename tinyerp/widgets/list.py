@@ -38,17 +38,28 @@ from turbogears import widgets
 from tinyerp import rpc
 from tinyerp import tools
 
-class List(widgets.Widget):
+from interface import TinyFieldsContainer
+
+class List(TinyFieldsContainer):
+
     params = ['data', 'headers', 'model', 'selectable', 'editable']
     template = "tinyerp.widgets.templates.list"
+
+    data = None
+    headers = None
+    model = None
+    selectable = False
+    editable = False
 
     css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/ajaxlist.css')]
 
     def __init__(self, model, view, ids=[], domain=[], context={}, selectable=False, editable=False):
 
+        super(List, self).__init__()
+
+        self.model = model
         self.selectable = selectable
         self.editable = editable
-
         self.ids = ids
 
         fields = view['fields']

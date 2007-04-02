@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import turbogears as tg
+
 class TinyWidget(object):
     """Widget interface, every widget class should implement
     this class.
@@ -43,19 +45,43 @@ class TinyWidget(object):
         self.string = attrs.get("string", None)
         self.model = attrs.get("model", None)
 
-        self.name = attrs['prefix'] + (attrs['prefix'] and '/' or '') + attrs.get('name', '')
+        prefix = attrs.get('prefix', '')
+        self.name = prefix + (prefix and '/' or '') + attrs.get('name', '')
 
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
         self.select = int(attrs.get('select', 0))
         self.nolabel = int(attrs.get('nolabel', 0))
 
-class TinyField(TinyWidget):
+class TinyInputWidget(TinyWidget):
     """Interface for Field widgets, every InputField widget should
     implement this class
     """
 
     field_value = None
+
+    def __init__(self, attrs={}):
+        TinyWidget.__init__(self, attrs)
+
+        self._validators = []
+
+        if attrs.get('required', False):
+            self._validators += [tg.validators.NotEmpty]
+
+    def get_validator(self):
+        if self._validators:
+            return tg.validators.All(*self._validators)
+
+        return None
+
+    def set_validator(self, value):
+        if value:
+            self._validators = [value]
+
+    def add_validator(self, value):
+        self._validators += [value]
+
+    validator = property(get_validator, set_validator)
 
     def get_value(self):
         """Get the value of the field.
@@ -70,3 +96,15 @@ class TinyField(TinyWidget):
         @param value: the value
         """
         self.field_value = value
+
+class TinyField(TinyInputWidget, tg.widgets.FormField):
+
+    def __init__(self, attrs={}):
+        TinyInputWidget.__init__(self, attrs)
+        tg.widgets.FormField.__init__(self, name=self.name or 'widget')
+
+class TinyFieldsContainer(TinyInputWidget, tg.widgets.FormFieldsContainer):
+
+    def __init__(self, attrs={}):
+        TinyInputWidget.__init__(self, attrs)
+        tg.widgets.FormFieldsContainer.__init__(self, name=self.name or 'widget')

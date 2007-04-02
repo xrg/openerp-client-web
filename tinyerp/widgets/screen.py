@@ -36,20 +36,23 @@ import turbogears as tg
 from tinyerp import tools
 from tinyerp import rpc
 
-from interface import TinyWidget
-from interface import TinyField
+from interface import TinyFieldsContainer
 
 import form
 import list
 
-class Screen(tg.widgets.CompoundWidget):
-    template = """<span>${widget.display()}
+class Screen(TinyFieldsContainer):
+    template = """<span>
+    ${widget.display(value_for(widget), **params_for(widget))}
     </span>
     """
+
     member_widgets = ['widget']
     widget = None
 
     def __init__(self, prefix, model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], views_preloaded={}, domain=[], context={}, selectable=False, editable=False):
+
+        super(Screen, self).__init__()
 
         self.prefix = prefix
         self.model = model

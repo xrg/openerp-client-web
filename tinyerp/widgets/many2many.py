@@ -29,13 +29,13 @@
 
 import turbogears as tg
 
-from interface import TinyWidget
-from interface import TinyField
-
+from interface import TinyFieldsContainer
 from form import Form
-import list
+from list import List
+
 from tinyerp import rpc
-class M2M(tg.widgets.CompoundWidget, TinyWidget):
+
+class M2M(TinyFieldsContainer):
     """many2many widget
 
     @todo: implement me!!!
@@ -45,8 +45,7 @@ class M2M(tg.widgets.CompoundWidget, TinyWidget):
     member_widgets = ['list_view']
 
     def __init__(self, attrs={}):
-
-        TinyWidget.__init__(self, attrs)
+        TinyFieldsContainer.__init__(self, attrs)
 
         self.relation = attrs.get('relation', '')
         self.view = attrs.get('views',{})
@@ -57,5 +56,4 @@ class M2M(tg.widgets.CompoundWidget, TinyWidget):
             proxy = rpc.RPCProxy(self.relation)
             self.view = proxy.fields_view_get({}, 'tree', {})
 
-        self.list_view = list.List(self.relation, self.view, ids=self.ids, domain=self.domain, selectable=True)
-
+        self.list_view = List(self.relation, self.view, ids=self.ids, domain=self.domain, selectable=True)
