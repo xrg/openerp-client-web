@@ -1,9 +1,18 @@
 <span xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
-
+    <script language = "javascript">
+    function checkAll(selector){
+		
+			boxes = document.getElementsByName('check');
+			
+			forEach(boxes, function(b){
+				b.checked = selector.checked;
+			});
+		}
+	</script>
     <table width="100%" cellpadding="0" cellspacing="1" border="0" id="widget" class="grid">
         <thead>
             <tr class="even">
-                <th style="text-align: center; width: 25px" py:if="selectable"><input type="checkbox" id="checkall"/></th>
+                <th style="text-align: center; width: 25px" py:if="selectable"><input type="checkbox" id="checkall" onClick="checkAll(this)"/></th>
                 <th py:for="field in headers" py:content="field[1]" class="col_${headers.index(field)}">Title</th>
                 <th style="text-align: center; width: 20px" py:if="editable"></th>
                 <th style="text-align: center; width: 20px" py:if="editable"></th>
