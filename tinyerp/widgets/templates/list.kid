@@ -13,7 +13,7 @@
             <?python row_class = ['even', 'odd']?>
             <tr py:for="row in data" class="${row_class[data.index(row) % 2]}">
                 <td align="center" py:if="selectable"><input type="checkbox" name="check" value="${row['id']}"/></td>
-                <td py:for="name, title in headers" py:content="row[name]" name="${row['id']}">Data</td>
+                <td py:for="name, title in headers" py:content="row[name]">Data</td>
                 <td py:if="editable" style="text-align: center">
                     <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inline_edit(${row['id']})"/>
                 </td>
