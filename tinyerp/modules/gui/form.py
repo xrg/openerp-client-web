@@ -207,3 +207,9 @@ class Form(controllers.Controller, TinyResource):
             terp.id = terp.ids[0]
 
         return self.create(**terp)
+
+    @expose()
+    def search_M2O(self, model, setid, **kw):
+
+        search_window = search.Search()
+        return search_window.create(model=model, setid=setid)

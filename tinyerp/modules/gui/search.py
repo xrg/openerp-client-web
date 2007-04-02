@@ -77,7 +77,7 @@ def _search_string(name, type, value):
 class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
-    def create(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
+    def create(self, model,setid=None, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
         """Create search view...
 
         @param model: the model
@@ -103,7 +103,7 @@ class Search(controllers.Controller, TinyResource):
         form_view = tws.search_form.Form(prefix='', model=model, ids=ids, view=view_form, domain=domain, context=context)
         list_view = tw.list.List(model=model, ids=ids or [], view=view_tree, domain=domain, context=context, selectable=True)
 
-        return dict(form_view=form_view, list_view=list_view, model=model, id=id, ids=ids, state=state, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context)
+        return dict(form_view=form_view, list_view=list_view, model=model, id=id, ids=ids, state=state, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context, setid=setid)
 
     @expose()
     def ok(self, **kw):
@@ -132,7 +132,6 @@ class Search(controllers.Controller, TinyResource):
     @expose()
     def find(self, **kw):
         terp, data = terp_split(kw)
-
         fields_type = eval(terp.pop('fields_type'))
 
         search_list = []
@@ -152,7 +151,17 @@ class Search(controllers.Controller, TinyResource):
             l = 80
             o = 0
 
+        if data.has_key('setid'):
+            terp['setid'] = data.pop('setid')
+
         proxy = rpc.RPCProxy(terp.model)
         terp.ids = proxy.search(search_list, o, l)
 
         return self.create(**terp)
+
+    @expose('json')
+    def get_string(self,model,id):
+        proxy = rpc.RPCProxy(model)
+        name = proxy.name_get([id], {})
+        return dict(name=name[0][1])
+

@@ -8,7 +8,7 @@
             <div class="spacer" />
         </td>
         <td>
-            <button type="button" onclick="wopen('/find?model=${relation}', 'search', 800, 600)">Select</button>
+            <button type="button" onclick="wopen('/form/search_M2O?model=${relation}&amp;setid=${field_id}', 'search', 800, 600)">Select</button>
         </td>
     </tr>
 </table>

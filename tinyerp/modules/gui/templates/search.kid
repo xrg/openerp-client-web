@@ -8,7 +8,7 @@
 
     <script language="javascript" src="/tg_static/js/MochiKit.js"></script>
     <script language="javascript" src="/static/javascript/master.js"></script>
-    
+
     <script language="javascript">
     <!--
         function submit_form(action){
@@ -16,11 +16,47 @@
             form.action = '/search/' + action;
             form.submit();
         }
+
+        function setfield(model, setid)
+        {
+        	boxes = window.document.getElementsByName('check');
+        	if (boxes.length > 0)
+        	{
+        		for(i=0;i<=boxes.length;i++)
+        		{
+        			if (boxes[i].checked)
+        			{
+        				id = window.document.getElementsByName('check')[i].value
+
+						function settext(xmlhttp)
+        				{
+				        	data = evalJSONRequest(xmlhttp);
+				        	window.opener.document.getElementsByName(setid)[0].value = id;
+				        	window.opener.document.getElementById(setid).value = data['name'];
+				        	close_form();
+				        }
+
+				        function errtext(err)
+				        {
+				        	alert("error" + err);
+				        }
+
+        				d=doSimpleXMLHttpRequest("/search/get_string",{'model':model, 'id':id});
+        				d.addCallbacks(settext,errtext);
+						break;
+					}
+				}
+			}
+        }
+
+        function close_form()
+        {
+        	close();
+        }
     -->
     </script>
-
-
 </head>
+
 <body>
 	<form method="post" id="search_form" name="search_form" action="/search/ok">
     	<div class="view">
@@ -37,34 +73,43 @@
 	        <input type="hidden" name="_terp_domain" value="${str(domain)}"/>
     	    <input type="hidden" name="_terp_context" value="${str(context)}"/>
     	    <input type="hidden" name="_terp_fields_type" value="${str(form_view.fields_type)}"/>
+    	    <input type="hidden" name="setid" value="${setid}" py:if="setid"/>
+
 
       		${form_view.display()}
     		<div class="spacer"></div>
-		    <div class="toolbar" >
+		    <div class="toolbar">
         		<table>
         			<tr width = "100%">
         				<td aligh='left'>Limit</td>
 				        <td>
 				            <input type="text" value="80" name="limit" id="limit" algin ='left' style="width:60px" />
         				</td>
-        				
+
         				<td width="30px"></td>
-        				        				
-	        			<td aligh='left'>Offset</td>				        
+
+	        			<td aligh='left'>Offset</td>
 				        <td>
 			    	    	<input type="text" value="0" name="offset" id="offset" algin ='left' style="width:60px" />
         				</td>
-        				
+
         				<td width="100%"></td>
-        				
+
 	        			<td>
 				        	<button type="button" title="Find Records..." onclick="submit_form('find')">Find</button>
         				</td>
-        				<td>
+        				<td py:if="not setid">
 			    	        <button type="button" title="Cancel..." onclick="submit_form('cancel')">Cancel</button>
             			</td>
-	            		<td>
+            			<td py:if="setid">
+			    	        <button type="button" title="Cancel..." onclick="close_form()">Cancel</button>
+            			</td>
+
+	            		<td py:if="not setid">
 				            <button type="button" title="Select Record..." onclick="submit_form('ok')">Ok</button>
+        	    		</td>
+        	    		<td py:if="setid">
+				            <button type="button" title="Select Record..." onclick="setfield('${model}', '${setid}')">Ok</button>
         	    		</td>
             		</tr>
             	</table>
