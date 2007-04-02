@@ -80,7 +80,7 @@ class Form(controllers.Controller, TinyResource):
         else:
             if False in view_ids: view_ids.remove(False)
 
-        screen = tw.screen.Screen(prefix='', model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context)
+        screen = tw.screen.Screen(prefix='', model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context, editable=True)
 
         screen.state = state #TODO: maintain states
         screen.view_mode2 = view_mode2

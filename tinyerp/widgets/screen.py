@@ -49,7 +49,7 @@ class Screen(tg.widgets.CompoundWidget):
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, prefix, model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], views_preloaded={}, domain=[], context={}):
+    def __init__(self, prefix, model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], views_preloaded={}, domain=[], context={}, selectable=False, editable=False):
 
         self.prefix = prefix
         self.model = model
@@ -61,6 +61,8 @@ class Screen(tg.widgets.CompoundWidget):
         self.views_preloaded = views_preloaded
         self.domain = domain
         self.context = context.copy()
+        self.selectable = selectable
+        self.editable = editable
 
         self.rpc = rpc.RPCProxy(model)
 
@@ -76,9 +78,9 @@ class Screen(tg.widgets.CompoundWidget):
             view = self.rpc.fields_view_get(view_id, view_type, self.context)
 
         if view_type == 'form':
-            self.widget = form.Form(prefix=prefix, model=model, view=view, ids=(id or []) and [id])
+            self.widget = form.Form(prefix=prefix, model=model, view=view, ids=(id or []) and [id], editable=editable, selectable=selectable)
         else:
-            self.widget = list.List(model=model, view=view, ids=ids)
+            self.widget = list.List(model=model, view=view, ids=ids, editable=editable, selectable=selectable)
             self.ids = self.widget.ids
 
         self.string = self.widget.string

@@ -344,7 +344,7 @@ class Form(tg.widgets.CompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, selectable=False, editable=False):
 
         fields = view['fields']
 

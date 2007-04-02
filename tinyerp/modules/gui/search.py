@@ -101,7 +101,7 @@ class Search(controllers.Controller, TinyResource):
         view_tree = proxy.fields_view_get({}, 'tree', {})
 
         form_view = tws.search_form.Form(prefix='', model=model, ids=ids, view=view_form, domain=domain, context=context)
-        list_view = tw.list.List(model=model, ids=ids or [], view=view_tree, domain=domain, context=context)
+        list_view = tw.list.List(model=model, ids=ids or [], view=view_tree, domain=domain, context=context, selectable=True)
 
         return dict(form_view=form_view, list_view=list_view, model=model, id=id, ids=ids, state=state, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context)
 

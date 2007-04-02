@@ -39,15 +39,15 @@ from tinyerp import rpc
 from tinyerp import tools
 
 class List(widgets.Widget):
-    params = ['data', 'headers', 'model', 'checkable', 'editable']
+    params = ['data', 'headers', 'model', 'selectable', 'editable']
     template = "tinyerp.widgets.templates.list"
 
     css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/ajaxlist.css')]
 
-    def __init__(self, model, view, ids=[], domain=[], context={}):
+    def __init__(self, model, view, ids=[], domain=[], context={}, selectable=False, editable=False):
 
-        self.checkable = True
-        self.editable = True
+        self.selectable = selectable
+        self.editable = editable
 
         self.ids = ids
 
