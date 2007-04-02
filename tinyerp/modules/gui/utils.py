@@ -63,7 +63,7 @@ class MyDict(dict):
     def __setattr__(self, name, value):
         self[name] = value
 
-def split(kwargs):
+def terp_split(kwargs):
     """A helper function to extract special parameters from the given kwargs.
 
     @param kwargs: dict of keyword arguments

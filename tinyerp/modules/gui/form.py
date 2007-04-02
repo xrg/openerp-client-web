@@ -52,7 +52,7 @@ import search
 
 from utils import MyDict
 from utils import make_dict
-from utils import split
+from utils import terp_split
 
 class Form(controllers.Controller, TinyResource):
 
@@ -91,7 +91,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def new(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         if terp.id or terp.ids:
             terp.id = None
@@ -103,7 +103,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def edit(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         if terp.view_mode[0] == 'tree':
             terp.view_mode.reverse()
@@ -121,7 +121,7 @@ class Form(controllers.Controller, TinyResource):
 
         @return: form view
         """
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         proxy = rpc.RPCProxy(terp.model)
 
@@ -135,7 +135,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def delete(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         proxy = rpc.RPCProxy(terp.model)
 
@@ -154,7 +154,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def prev(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         idx = 0
         if terp.id:
@@ -172,7 +172,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def next(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         idx = 0
         if terp.id:
@@ -189,7 +189,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def find(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         terp.ids = []
 
@@ -198,7 +198,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def switch(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         terp.view_mode.reverse()
 

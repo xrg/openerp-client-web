@@ -52,7 +52,7 @@ import form
 
 from utils import MyDict
 from utils import make_dict
-from utils import split
+from utils import terp_split
 
 def _search_string(name, type, value):
     if value:
@@ -107,7 +107,7 @@ class Search(controllers.Controller, TinyResource):
 
     @expose()
     def ok(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         ids = data.get('check', None)
 
@@ -123,7 +123,7 @@ class Search(controllers.Controller, TinyResource):
 
     @expose()
     def cancel(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
         terp.ids = cherrypy.session.get('_terp_ids', [])
 
         terp.pop('fields_type')
@@ -131,7 +131,7 @@ class Search(controllers.Controller, TinyResource):
 
     @expose()
     def find(self, **kw):
-        terp, data = split(kw)
+        terp, data = terp_split(kw)
 
         fields_type = eval(terp.pop('fields_type'))
 
