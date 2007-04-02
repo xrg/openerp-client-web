@@ -33,7 +33,8 @@ from interface import TinyWidget
 from interface import TinyField
 
 from form import Form
-
+import list
+from tinyerp import rpc
 class M2M(tg.widgets.CompoundWidget, TinyWidget):
     """many2many widget
 
@@ -41,7 +42,20 @@ class M2M(tg.widgets.CompoundWidget, TinyWidget):
     """
     template = "tinyerp.widgets.templates.many2many"
     params = ['relation']
+    member_widgets = ['list_view']
 
     def __init__(self, attrs={}):
+
         TinyWidget.__init__(self, attrs)
+
         self.relation = attrs.get('relation', '')
+        self.view = attrs.get('views',{})
+        self.domain  = attrs.get('domain',{})
+        self.ids = attrs['value'] or []
+
+        if not self.view:
+            proxy = rpc.RPCProxy(self.relation)
+            self.view = proxy.fields_view_get({}, 'tree', {})
+
+        self.list_view = list.List(self.relation, self.view, ids=self.ids, domain=self.domain, selectable=True)
+
