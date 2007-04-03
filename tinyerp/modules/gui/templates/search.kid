@@ -17,7 +17,7 @@
             form.submit();
         }
 
-        function setfield(model, setid)
+        function setfield(model, textid, hiddenname)
         {
         	boxes = window.document.getElementsByName('check');
         	if (boxes.length > 0)
@@ -31,8 +31,8 @@
 						function settext(xmlhttp)
         				{
 				        	data = evalJSONRequest(xmlhttp);
-				        	window.opener.document.getElementsByName(setid)[0].value = id;
-				        	window.opener.document.getElementById(setid).value = data['name'];
+				        	window.opener.document.getElementsByName(hiddenname)[0].value = id;
+				        	window.opener.document.getElementById(textid).value = data['name'];
 				        	close_form();
 				        }
 
@@ -73,7 +73,9 @@
 	        <input type="hidden" name="_terp_domain" value="${str(domain)}"/>
     	    <input type="hidden" name="_terp_context" value="${str(context)}"/>
     	    <input type="hidden" name="_terp_fields_type" value="${str(form_view.fields_type)}"/>
-    	    <input type="hidden" name="setid" value="${setid}" py:if="setid"/>
+    	    <input type="hidden" name="textid" value="${textid}" py:if="textid"/>
+    	    <input type="hidden" name="hiddenname" value="${hiddenname}" py:if="hiddenname"/>
+
 
 
       		${form_view.display()}
@@ -98,18 +100,19 @@
 	        			<td>
 				        	<button type="button" title="Find Records..." onclick="submit_form('find')">Find</button>
         				</td>
-        				<td py:if="not setid">
+        				<td py:if="not textid">
 			    	        <button type="button" title="Cancel..." onclick="submit_form('cancel')">Cancel</button>
             			</td>
-            			<td py:if="setid">
+            			<td py:if="textid">
 			    	        <button type="button" title="Cancel..." onclick="close_form()">Cancel</button>
             			</td>
 
-	            		<td py:if="not setid">
+	            		<td py:if="not textid">
+	            			${textid}
 				            <button type="button" title="Select Record..." onclick="submit_form('ok')">Ok</button>
         	    		</td>
-        	    		<td py:if="setid">
-				            <button type="button" title="Select Record..." onclick="setfield('${model}', '${setid}')">Ok</button>
+        	    		<td py:if="textid">
+				            <button type="button" title="Select Record..." onclick="setfield('${model}', '${textid}','${hiddenname}')">Ok</button>
         	    		</td>
             		</tr>
             	</table>

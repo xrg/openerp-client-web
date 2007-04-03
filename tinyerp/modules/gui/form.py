@@ -215,7 +215,7 @@ class Form(controllers.Controller, TinyResource):
         return self.create(**terp)
 
     @expose()
-    def search_M2O(self, model, setid, **kw):
+    def search_M2O(self,model, textid, hiddenname):
 
         search_window = search.Search()
-        return search_window.create(model=model, setid=setid)
+        return search_window.create(model=model, textid=textid, hiddenname=hiddenname)
