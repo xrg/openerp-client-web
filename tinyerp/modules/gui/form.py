@@ -100,7 +100,7 @@ class Form(controllers.Controller, TinyResource):
         return self.create(**terp)
 
     @expose()
-    def edit(self, tg_errors=None, **kw):
+    def edit(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         terp, data = terp_split(kw)
 
         if terp.view_mode[0] == 'tree':
@@ -115,8 +115,8 @@ class Form(controllers.Controller, TinyResource):
         return cherrypy.request.terp_form
 
     @expose()
-    @error_handler(edit)
     @validate(form=get_form)
+    @error_handler(edit)
     def save(self, **kw):
         """Controller method to save current record.
 

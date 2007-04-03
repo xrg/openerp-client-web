@@ -28,6 +28,7 @@
 ###############################################################################
 
 import turbogears as tg
+import cherrypy
 
 class TinyWidget(object):
     """Widget interface, every widget class should implement
@@ -97,6 +98,14 @@ class TinyInputWidget(TinyWidget):
         """
         self.field_value = value
 
+    def update_params(self, d):
+        super(TinyInputWidget, self).update_params(d)
+        d['name'] = self.name
+        d['field_id'] = self.name
+
+        if hasattr(cherrypy.request, 'validation_errors'):
+            d['error'] = cherrypy.request.validation_errors.get(self.name, None)
+
 class TinyField(TinyInputWidget, tg.widgets.FormField):
 
     def __init__(self, attrs={}):
@@ -107,4 +116,4 @@ class TinyFieldsContainer(TinyInputWidget, tg.widgets.FormFieldsContainer):
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
-        tg.widgets.FormFieldsContainer.__init__(self, name=self.name or 'widget')
+        tg.widgets.FormFieldsContainer.__init__(self, name=self.name or None)

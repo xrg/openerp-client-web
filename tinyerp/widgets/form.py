@@ -33,7 +33,6 @@ several widget components.
 """
 
 import xml.dom.minidom
-from elementtree import ElementTree as ET
 
 import turbogears as tg
 import cherrypy
@@ -53,12 +52,12 @@ class Frame(TinyFieldsContainer):
     @todo: use value_for, param_for with field.display
     """
 
-    template = """
-    <div xmlns:py="http://purl.org/kid/ns#" py:replace="table"/>
-    """
+    template = "tinyerp.widgets.templates.frame"
 
     params = ['table']
     member_widgets = ['children']
+
+    table = []
 
     def __init__(self, attrs, children, columns=4):
         """Create new instance of Frame widget."
@@ -75,9 +74,6 @@ class Frame(TinyFieldsContainer):
         self.columns = columns
         self.nolabel = True
 
-        self.table = ET.Element('table', width="100%")
-        self.table.attrib['class'] = 'fields'
-
         self.add_row()
 
         self.children = children
@@ -93,8 +89,7 @@ class Frame(TinyFieldsContainer):
         self.fields = []
 
     def add_row(self):
-        tr = ET.Element('tr')
-        self.table.append(tr)
+        self.table.append([])
         self.cols = self.columns
 
     def new_line(self):
@@ -113,25 +108,18 @@ class Frame(TinyFieldsContainer):
 
         tr = self.table[-1]
 
-        td = ET.Element('td')
+        attrs = {}
+        if rowspan > 1: attrs['rowspan'] = rowspan
+        if colspan > 1: attrs['colspan'] = colspan
+        if css_class: attrs['class'] = css_class
 
-        if rowspan: td.attrib['rowspan'] = str(rowspan)
-        if colspan: td.attrib['colspan'] = str(colspan)
-        if css_class: td.attrib['class'] = css_class
+        td = [attrs]
 
         if isinstance(widget, TinyWidget):
-
-            if hasattr(cherrypy.request, 'terp_fields'):
+            if hasattr(cherrypy.request, 'terp_fields') and widget.name:
                 cherrypy.request.terp_fields += [widget]
 
-            td.append(widget.display())
-
-            if isinstance(widget, Notebook):
-                del self.table.attrib['class']
-
-        else: # string
-            td.text = widget + ":"
-
+        td.append(widget)
         tr.append(td)
 
         self.cols -= colspan
