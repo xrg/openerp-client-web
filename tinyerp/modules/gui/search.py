@@ -133,7 +133,6 @@ class Search(controllers.Controller, TinyResource):
     def find(self, **kw):
         terp, data = terp_split(kw)
         fields_type = eval(terp.pop('fields_type'))
-
         search_list = []
         if fields_type:
             for n, v in fields_type.items():
