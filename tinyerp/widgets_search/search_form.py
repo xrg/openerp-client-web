@@ -40,8 +40,8 @@ import turbogears as tg
 from tinyerp import tools
 from tinyerp import rpc
 
-
-from tinyerp.widgets.interface import TinyWidget
+from tinyerp.widgets.interface import TinyField
+from tinyerp.widgets.interface import TinyCompoundWidget
 
 from tinyerp.widgets.form import Char
 from tinyerp.widgets.form import Form
@@ -53,21 +53,21 @@ from tinyerp.widgets.form import DateTime
 from tinyerp.widgets.form import Integer
 from tinyerp.widgets.form import Selection
 
-class RangeWidget(TinyWidget,tg.widgets.CompoundWidget):
+class RangeWidget(TinyCompoundWidget):
     template = "tinyerp.widgets_search.templates.rangewid"
 
     params = ["field_value"]
     member_widgets = ["from_field", "to_field"]
 
     def __init__(self, attrs):
-        TinyWidget.__init__(self, attrs)
+        super(RangeWidget, self).__init__(attrs)
 
         kind = attrs.get('type', 'integer')
 
         self.from_field = range_widgets_type[kind](attrs)
         self.to_field = range_widgets_type[kind](attrs)
 
-class Form(tg.widgets.CompoundWidget):
+class Form(TinyCompoundWidget):
     """A generic form widget
     """
 

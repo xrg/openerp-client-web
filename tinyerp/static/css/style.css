@@ -183,4 +183,6 @@ input, button, select, textarea {
 	border-width: 1px;
 }
 
-
+.fielderror {
+    color: red;
+}

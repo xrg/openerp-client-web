@@ -42,10 +42,11 @@ from tinyerp import rpc
 
 from interface import TinyWidget
 from interface import TinyInputWidget
+from interface import TinyCompoundWidget
 from interface import TinyField
 from interface import TinyFieldsContainer
 
-class Frame(TinyFieldsContainer):
+class Frame(TinyCompoundWidget):
     """Frame widget layouts the widgets in a table.
 
     @todo: only render fields during self.display
@@ -69,7 +70,7 @@ class Frame(TinyFieldsContainer):
         @return: an instance of Frame widget
         """
 
-        TinyFieldsContainer.__init__(self, attrs)
+        TinyCompoundWidget.__init__(self, attrs)
 
         self.columns = columns
         self.nolabel = True
@@ -115,7 +116,7 @@ class Frame(TinyFieldsContainer):
 
         td = [attrs]
 
-        if isinstance(widget, TinyWidget):
+        if isinstance(widget, TinyField):
             if hasattr(cherrypy.request, 'terp_fields') and widget.name:
                 cherrypy.request.terp_fields += [widget]
 
@@ -142,7 +143,7 @@ class Frame(TinyFieldsContainer):
     def display(self, value=None, **params):
         return super(Frame, self).display(value, **params)
 
-class Notebook(TinyFieldsContainer):
+class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
     """
@@ -162,7 +163,7 @@ class Notebook(TinyFieldsContainer):
     _notebook_ = tg.widgets.Tabber()
 
     def __init__(self, attrs, children):
-        TinyFieldsContainer.__init__(self, attrs)
+        TinyCompoundWidget.__init__(self, attrs)
 
         self.children = children
         self.nolabel = True
@@ -205,27 +206,24 @@ class Label(TinyField):
 
 class Char(TinyField):
     template = "tinyerp.widgets.templates.char"
-    params = ["field_value"]
 
     def __init__(self, attrs={}):
         TinyField.__init__(self, attrs)
 
     def set_value(self, value):
-        self.field_value = unicode(value or '', 'utf-8')
+        self.default = unicode(value or '', 'utf-8')
 
 class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
-    params = ["field_value"]
 
     def __init__(self, attrs={}):
         TinyField.__init__(self, attrs)
 
     def set_value(self, value):
-        self.field_value = unicode(value or '', 'utf-8')
+        self.default = unicode(value or '', 'utf-8')
 
 class Integer(TinyField):
     template = "tinyerp.widgets.templates.integer"
-    params = ["field_value"]
 
     def __init__(self, attrs={}):
         TinyField.__init__(self, attrs)
@@ -233,12 +231,11 @@ class Integer(TinyField):
 
     def set_value(self, value):
         if value:
-            self.field_value = int(value)
+            self.default = int(value)
 
 class Boolean(TinyField):
     template = "tinyerp.widgets.templates.boolean"
-    params = ["field_value", "checked"]
-
+    params = ["checked"]
     checked = {}
 
     def __init__(self, attrs={}):
@@ -246,22 +243,24 @@ class Boolean(TinyField):
         self.add_validator(tg.validators.Bool)
 
     def set_value(self, value):
-        self.field_value = value or ''
+        self.default = value or ''
 
         if value:
             self.checked['checked'] = "1"
 
 class Float(TinyField):
     template = "tinyerp.widgets.templates.float"
-    params = ["field_value"]
 
     def __init__(self, attrs={}):
         TinyField.__init__(self, attrs)
         self.add_validator(tg.validators.Number)
 
+    def set_value(self, value):
+        self.default = value
+
 class Selection(TinyField):
     template = "tinyerp.widgets.templates.selection"
-    params = ['options', 'field_value']
+    params = ['options']
     options = []
 
     def __init__(self, attrs={}):
@@ -271,7 +270,7 @@ class Selection(TinyField):
 
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     template = "tinyerp.widgets.templates.datetime"
-    params = ["format", "field_value"]
+    params = ["format"]
     format = "%Y-%m-%d %H:%M"
     picker_shows_time = True
 
@@ -290,9 +289,9 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 
     def set_value(self, value):
         if hasattr(value, 'strftime'):
-            self.field_value = value.strftime(self.format)
+            self.default = value.strftime(self.format)
         elif value:
-            self.field_value = value
+            self.default = value
 
 class Button(TinyField):
     """Button widget
@@ -309,7 +308,7 @@ class Button(TinyField):
 
         self.nolabel = True
 
-class Group(TinyFieldsContainer):
+class Group(TinyCompoundWidget):
     template = """
     <span xmlns:py="http://purl.org/kid/ns#">
         <fieldset py:if="string">
@@ -325,12 +324,12 @@ class Group(TinyFieldsContainer):
     frame = None
 
     def __init__(self, attrs, children):
-        TinyFieldsContainer.__init__(self, attrs)
+        TinyCompoundWidget.__init__(self, attrs)
 
         self.frame = Frame(attrs, children, columns=int(attrs.get('col', 4)))
         self.nolabel = True
 
-class Form(TinyFieldsContainer):
+class Form(TinyCompoundWidget):
     """A generic form widget
     """
 

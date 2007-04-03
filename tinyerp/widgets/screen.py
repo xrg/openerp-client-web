@@ -36,12 +36,12 @@ import turbogears as tg
 from tinyerp import tools
 from tinyerp import rpc
 
-from interface import TinyFieldsContainer
+from interface import TinyCompoundWidget
 
 import form
 import list
 
-class Screen(TinyFieldsContainer):
+class Screen(TinyCompoundWidget):
     template = """<span>
     ${widget.display(value_for(widget), **params_for(widget))}
     </span>

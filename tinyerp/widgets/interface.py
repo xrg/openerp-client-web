@@ -46,8 +46,7 @@ class TinyWidget(object):
         self.string = attrs.get("string", None)
         self.model = attrs.get("model", None)
 
-        prefix = attrs.get('prefix', '')
-        self.name = prefix + (prefix and '/' or '') + attrs.get('name', '')
+        self.name = attrs.get('name', '')
 
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
@@ -100,17 +99,18 @@ class TinyInputWidget(TinyWidget):
 
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
-        d['name'] = self.name
-        d['field_id'] = self.name
-
-        if hasattr(cherrypy.request, 'validation_errors'):
-            d['error'] = cherrypy.request.validation_errors.get(self.name, None)
 
 class TinyField(TinyInputWidget, tg.widgets.FormField):
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.FormField.__init__(self, name=self.name or 'widget')
+
+class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
+
+    def __init__(self, attrs={}):
+        TinyInputWidget.__init__(self, attrs)
+        tg.widgets.CompoundWidget.__init__(self, name=self.name or None)
 
 class TinyFieldsContainer(TinyInputWidget, tg.widgets.FormFieldsContainer):
 

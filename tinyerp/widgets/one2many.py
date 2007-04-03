@@ -54,5 +54,6 @@ class O2M(TinyFieldsContainer):
         mode = attrs.get('mode', 'tree,form').split(',')
 
         ids = attrs['value'] or []
+        id = (ids or None) and ids[0]
 
-        self.screen = Screen(prefix=self.name, model=self.model, ids=ids, view_mode=mode, views_preloaded=view, domain=[], context={})
+        self.screen = Screen(prefix=self.name, model=self.model, id=id, ids=ids, view_mode=mode, views_preloaded=view, domain=[], context={})

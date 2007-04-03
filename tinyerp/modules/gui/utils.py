@@ -33,23 +33,17 @@ def make_dict(data):
     """Generates a valid dictionary from the given data to be used with TinyERP.
     """
     res = {}
-    for name, value in data.items():
-        names = name.split('/')
 
-        if len(names) > 1:
-            res.setdefault(names[0], {}).update({"/".join(names[1:]): value})
-        elif name:
-            res[name] = value or False
-
-    for k, v in res.items():
+    for k, v in data.items():
         if type(v) == type({}):
-            #res[k] = make_dict(v)
 
             id = 0
             if '__id' in v:
                 id = int(v.pop('__id'))
 
-            res[k] = [(id and 1, id, make_dict(v))]
+            res[k] = [(id and 1, id, v)]
+        elif k:
+            res[k] = v or False
 
     return res
 
