@@ -32,6 +32,7 @@ import turbogears as tg
 from interface import TinyField
 
 from form import Form
+import validators as tiny_validators
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"
@@ -40,6 +41,7 @@ class M2O(TinyField):
     def __init__(self, attrs={}):
         super(M2O, self).__init__(attrs)
         self.relation = attrs.get('relation', '')
+        self.validator = tiny_validators.Int
 
     def set_value(self, value):
         try:

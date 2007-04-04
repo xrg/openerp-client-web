@@ -267,6 +267,7 @@ class Selection(TinyField):
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)
         self.options = attrs.get('selection', [])
+        self.validator = tiny_validators.Selection
 
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     template = "tinyerp.widgets.templates.datetime"

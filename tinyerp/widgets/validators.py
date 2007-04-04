@@ -59,3 +59,7 @@ class Float(tg.validators.Number):
 
 class DateTime(tg.validators.DateTimeConverter):
     if_empty = False
+
+class Selection(tg.validators.FancyValidator):
+    if_empty = False
+
