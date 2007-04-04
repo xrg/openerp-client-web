@@ -57,3 +57,4 @@ class O2M(TinyCompoundWidget):
         id = (ids or None) and ids[0]
 
         self.screen = Screen(prefix=self.name, model=self.model, id=id, ids=ids, view_mode=mode, views_preloaded=view, domain=[], context={})
+        self.id = id
