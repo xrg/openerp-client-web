@@ -46,7 +46,8 @@ class TinyWidget(object):
         self.string = attrs.get("string", None)
         self.model = attrs.get("model", None)
 
-        self.name = attrs.get('name', '')
+        prefix = attrs.get('prefix', '')
+        self.name = prefix + (prefix and '/' or '') + attrs.get('name', '')
 
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
@@ -100,20 +101,14 @@ class TinyInputWidget(TinyWidget):
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
 
-class TinyField(TinyInputWidget, tg.widgets.FormField):
-
-    def __init__(self, attrs={}):
-        TinyInputWidget.__init__(self, attrs)
-        tg.widgets.FormField.__init__(self, name=self.name or 'widget')
-
 class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.CompoundWidget.__init__(self, name=self.name or None)
 
-class TinyFieldsContainer(TinyInputWidget, tg.widgets.FormFieldsContainer):
-
-    def __init__(self, attrs={}):
+class TinyField(TinyInputWidget, tg.widgets.FormField):
+    def __init__(self, attrs):
         TinyInputWidget.__init__(self, attrs)
-        tg.widgets.FormFieldsContainer.__init__(self, name=self.name or None)
+        tg.widgets.FormField.__init__(self, name=self.name)
+

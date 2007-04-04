@@ -40,11 +40,10 @@ import cherrypy
 from tinyerp import tools
 from tinyerp import rpc
 
+from interface import TinyField
 from interface import TinyWidget
 from interface import TinyInputWidget
 from interface import TinyCompoundWidget
-from interface import TinyField
-from interface import TinyFieldsContainer
 
 class Frame(TinyCompoundWidget):
     """Frame widget layouts the widgets in a table.
@@ -70,7 +69,7 @@ class Frame(TinyCompoundWidget):
         @return: an instance of Frame widget
         """
 
-        TinyCompoundWidget.__init__(self, attrs)
+        super(Frame, self).__init__(attrs)
 
         self.columns = columns
         self.nolabel = True
@@ -116,9 +115,9 @@ class Frame(TinyCompoundWidget):
 
         td = [attrs]
 
-        if isinstance(widget, TinyField):
-            if hasattr(cherrypy.request, 'terp_fields') and widget.name:
-                cherrypy.request.terp_fields += [widget]
+        if isinstance(widget, TinyField) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator:
+            cherrypy.request.terp_validators[str(widget.name)] = widget.validator
+            cherrypy.request.terp_fields += [widget]
 
         td.append(widget)
         tr.append(td)
@@ -163,7 +162,7 @@ class Notebook(TinyCompoundWidget):
     _notebook_ = tg.widgets.Tabber()
 
     def __init__(self, attrs, children):
-        TinyCompoundWidget.__init__(self, attrs)
+        super(Notebook, self).__init__(attrs)
 
         self.children = children
         self.nolabel = True
@@ -176,7 +175,7 @@ class Separator(TinyField):
     template = "tinyerp.widgets.templates.separator"
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(Separator, self).__init__(attrs)
 
         self.colspan = 4
         self.rowspan = 1
@@ -196,7 +195,7 @@ class Label(TinyField):
     params = ["field_value"]
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(Label, self).__init__(attrs)
 
         self.nolabel = True
         self.field_value = self.string
@@ -208,7 +207,7 @@ class Char(TinyField):
     template = "tinyerp.widgets.templates.char"
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(Char, self).__init__(attrs)
 
     def set_value(self, value):
         self.default = unicode(value or '', 'utf-8')
@@ -217,7 +216,7 @@ class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(Text, self).__init__(attrs)
 
     def set_value(self, value):
         self.default = unicode(value or '', 'utf-8')
@@ -226,7 +225,7 @@ class Integer(TinyField):
     template = "tinyerp.widgets.templates.integer"
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(Integer, self).__init__(attrs)
         self.add_validator(tg.validators.Int)
 
     def set_value(self, value):
@@ -239,7 +238,7 @@ class Boolean(TinyField):
     checked = {}
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(Boolean, self).__init__(attrs)
         self.add_validator(tg.validators.Bool)
 
     def set_value(self, value):
@@ -252,7 +251,7 @@ class Float(TinyField):
     template = "tinyerp.widgets.templates.float"
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(Float, self).__init__(attrs)
         self.add_validator(tg.validators.Number)
 
     def set_value(self, value):
@@ -264,8 +263,7 @@ class Selection(TinyField):
     options = []
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
-
+        super(Selection, self).__init__(attrs)
         self.options = attrs.get('selection', [])
 
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):

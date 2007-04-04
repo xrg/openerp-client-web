@@ -29,11 +29,11 @@
 
 import turbogears as tg
 
-from interface import TinyFieldsContainer
+from interface import TinyCompoundWidget
 
 from screen import Screen
 
-class O2M(TinyFieldsContainer):
+class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
@@ -43,7 +43,7 @@ class O2M(TinyFieldsContainer):
     form = None
 
     def __init__(self, attrs={}):
-        TinyFieldsContainer.__init__(self, attrs)
+        super(O2M, self).__init__(attrs)
 
         #self.colspan = 4
         #self.nolabel = True

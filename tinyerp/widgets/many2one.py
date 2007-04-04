@@ -38,7 +38,7 @@ class M2O(TinyField):
     params=['relation', 'field_value', 'text']
 
     def __init__(self, attrs={}):
-        TinyField.__init__(self, attrs)
+        super(M2O, self).__init__(attrs)
         self.relation = attrs.get('relation', '')
 
     def set_value(self, value):

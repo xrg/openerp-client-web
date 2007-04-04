@@ -38,9 +38,9 @@ from turbogears import widgets
 from tinyerp import rpc
 from tinyerp import tools
 
-from interface import TinyFieldsContainer
+from interface import TinyCompoundWidget
 
-class List(TinyFieldsContainer):
+class List(TinyCompoundWidget):
 
     params = ['data', 'headers', 'model', 'selectable', 'editable']
     template = "tinyerp.widgets.templates.list"

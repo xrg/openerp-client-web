@@ -80,10 +80,15 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
 
+        if view_mode[0] != view_mode2[0]:
+            view_ids = [False] + view_ids
+        else:
+            if False in view_ids: view_ids.remove(False)
+
         if tg_errors:
             form = cherrypy.request.terp_form
         else:
-            form = tw.form_view.ViewForm(model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context)
+            form = tw.form_view.ViewForm(model=model, state=state, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context)
 
         return dict(form=form)
 
@@ -100,24 +105,32 @@ class Form(controllers.Controller, TinyResource):
         return self.create(**terp)
 
     @expose()
-    def edit(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
+    def edit(self, **kw):
         terp, data = terp_split(kw)
 
         if terp.view_mode[0] == 'tree':
             terp.view_mode.reverse()
 
-        return self.create(tg_errors=tg_errors, **terp)
+        return self.create(**terp)
 
     def get_form(self):
         terp, data = terp_split(cherrypy.request.params)
 
-        cherrypy.request.terp_form = tw.form_view.ViewForm(**terp)
-        return cherrypy.request.terp_form
+        cherrypy.request.terp_validators = {}
+
+        form = tw.form_view.ViewForm(**terp)
+        cherrypy.request.terp_form = form
+
+        vals = cherrypy.request.terp_validators
+        schema = validators.Schema(**vals)
+
+        form.validator = schema
+
+        return form
 
     @expose()
     @validate(form=get_form)
-    @error_handler(edit)
-    def save(self, **kw):
+    def save(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         """Controller method to save current record.
 
         @param kw: keyword arguments
@@ -128,6 +141,11 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
         terp, data = terp_split(kw)
+
+        if tg_errors:
+            return self.create(tg_errors=tg_errors, **terp)
+
+        return str(data)
 
         proxy = rpc.RPCProxy(terp.model)
 

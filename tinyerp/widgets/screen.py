@@ -50,16 +50,18 @@ class Screen(TinyCompoundWidget):
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, prefix, model, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], views_preloaded={}, domain=[], context={}, selectable=False, editable=False):
+    def __init__(self, prefix, model, state=None, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], views_preloaded={}, domain=[], context={}, selectable=False, editable=False):
 
         super(Screen, self).__init__()
 
         self.prefix = prefix
         self.model = model
+        self.state = state #TODO: maintain states
         self.id = id
         self.ids = ids
         self.view_ids = view_ids
         self.view_mode = view_mode
+        self.view_mode2 = view_mode2
         self.view_type = view_mode[0]
         self.views_preloaded = views_preloaded
         self.domain = domain

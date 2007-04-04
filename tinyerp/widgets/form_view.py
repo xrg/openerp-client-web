@@ -36,7 +36,7 @@ class ViewForm(tg.widgets.Form):
     template = "tinyerp.widgets.templates.form"
     member_widgets = ['screen']
 
-    def __init__(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
+    def __init__(self, model, state=None, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
         super(ViewForm, self).__init__(name="view_form")
 
         if view_mode[0] != view_mode2[0]:
@@ -46,14 +46,7 @@ class ViewForm(tg.widgets.Form):
 
         cherrypy.request.terp_fields = []
 
-        self.screen = Screen(prefix='', model=model, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, domain=domain, context=context, editable=True)
-
-        self.screen.state = state #TODO: maintain states
-        self.screen.view_mode2 = view_mode2
-
+        self.screen = Screen(prefix='', model=model, state=state, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context, editable=True)
         cherrypy.session['_terp_ids'] = self.screen.ids
 
         self.fields = cherrypy.request.terp_fields
-
-    def validate(self, value, state=None):
-        return super(ViewForm, self).validate(value, state)
