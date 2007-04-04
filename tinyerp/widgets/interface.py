@@ -70,7 +70,7 @@ class TinyInputWidget(TinyWidget):
 
     def get_validator(self):
         if self._validator:
-            self._validator.not_empty = self.required
+            self._validator.not_empty = (self.required or False) and True
         elif self.required:
             self._validator = tg.validators.NotEmpty()
 

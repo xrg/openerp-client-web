@@ -228,7 +228,7 @@ class Integer(TinyField):
 
     def __init__(self, attrs={}):
         super(Integer, self).__init__(attrs)
-        self.validator = tiny_validators.Int
+        self.validator = tiny_validators.Int()
 
     def set_value(self, value):
         if value:
@@ -241,7 +241,7 @@ class Boolean(TinyField):
 
     def __init__(self, attrs={}):
         super(Boolean, self).__init__(attrs)
-        self.validator = tiny_validators.Bool
+        self.validator = tiny_validators.Bool()
 
     def set_value(self, value):
         self.default = value or ''
@@ -254,7 +254,7 @@ class Float(TinyField):
 
     def __init__(self, attrs={}):
         super(Float, self).__init__(attrs)
-        self.validator = tiny_validators.Float
+        self.validator = tiny_validators.Float()
 
     def set_value(self, value):
         self.default = value
@@ -267,7 +267,7 @@ class Selection(TinyField):
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)
         self.options = attrs.get('selection', [])
-        self.validator = tiny_validators.Selection
+        self.validator = tiny_validators.Selection()
 
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     template = "tinyerp.widgets.templates.datetime"

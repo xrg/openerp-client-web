@@ -62,4 +62,3 @@ class DateTime(tg.validators.DateTimeConverter):
 
 class Selection(tg.validators.FancyValidator):
     if_empty = False
-

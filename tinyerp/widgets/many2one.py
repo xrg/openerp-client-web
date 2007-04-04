@@ -41,7 +41,7 @@ class M2O(TinyField):
     def __init__(self, attrs={}):
         super(M2O, self).__init__(attrs)
         self.relation = attrs.get('relation', '')
-        self.validator = tiny_validators.Int
+        self.validator = tiny_validators.Int()
 
     def set_value(self, value):
         try:
