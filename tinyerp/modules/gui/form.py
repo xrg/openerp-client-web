@@ -177,8 +177,8 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def prev(self, **kw):
         terp, data = terp_split(kw)
+        idx = -1
 
-        idx = 0
         if terp.id:
             idx = terp.ids.index(terp.id)
             idx = idx-1
@@ -187,16 +187,16 @@ class Form(controllers.Controller, TinyResource):
                 idx = len(terp.ids)
                 terp.id = terp.ids[idx]
 
-            if terp.ids:
-                terp.id = terp.ids[idx]
+        if terp.ids:
+            terp.id = terp.ids[idx]
 
         return self.create(**terp)
 
     @expose()
     def next(self, **kw):
         terp, data = terp_split(kw)
-
         idx = 0
+
         if terp.id:
             idx = terp.ids.index(terp.id)
             idx = idx + 1
@@ -204,8 +204,8 @@ class Form(controllers.Controller, TinyResource):
             if idx == len(terp.ids):
                 idx = 0
 
-            if terp.ids:
-                terp.id = terp.ids[idx]
+        if terp.ids:
+            terp.id = terp.ids[idx]
 
         return self.create(**terp)
 
