@@ -29,8 +29,6 @@
 
 """
 This module defines validators.
-
-@todo: Implement DateTime validator
 """
 
 import turbogears as tg

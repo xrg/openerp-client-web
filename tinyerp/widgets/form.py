@@ -278,7 +278,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
-        tg.widgets.CalendarDatePicker.__init__(self, name=self.name)
+        tg.widgets.CalendarDatePicker.__init__(self, name=self.name, not_empty=False)
 
         if attrs['type'] == 'date':
             self.format = "%Y-%m-%d"
