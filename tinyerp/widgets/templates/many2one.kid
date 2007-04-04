@@ -2,7 +2,7 @@
     <tr>
         <td width="100%">
             <input type="hidden" name='${name}' value="${field_value}"/>
-            <input style="width: 100%" type="text" id ='${field_id}' value="${text}"/>
+            <input style="width: 100%" type="text" id ='${field_id}' value="${text}" class="${field_class}"/>
             <br py:if="error"/><span class="fielderror" py:if="error" py:content="error"/>
         </td>
         <td>

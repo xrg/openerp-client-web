@@ -184,5 +184,17 @@ input, button, select, textarea {
 }
 
 .fielderror {
-    color: red;
+    color: #FF0000;
+}
+
+.requiredfield {
+    background-color: #FFCCCC;
+}
+
+.readonlyfield {
+    background-color: #EEEEEE;
+}
+
+.errorfield {
+    background-color: #FF6666;
 }

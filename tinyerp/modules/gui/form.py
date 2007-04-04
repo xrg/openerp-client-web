@@ -145,8 +145,6 @@ class Form(controllers.Controller, TinyResource):
         if tg_errors:
             return self.create(tg_errors=tg_errors, **terp)
 
-        return str(data)
-
         proxy = rpc.RPCProxy(terp.model)
 
         if not terp.id:

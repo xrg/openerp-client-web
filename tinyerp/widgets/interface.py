@@ -40,6 +40,8 @@ class TinyWidget(object):
     string = None
     nolabel = False
     select = False
+    required = False
+    readonly = False
 
     def __init__(self, attrs={}):
 
@@ -51,36 +53,31 @@ class TinyWidget(object):
 
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
+
         self.select = int(attrs.get('select', 0))
         self.nolabel = int(attrs.get('nolabel', 0))
+        self.required = int(attrs.get('required', 0))
+        self.readonly = int(attrs.get('readonly', 0))
 
 class TinyInputWidget(TinyWidget):
     """Interface for Field widgets, every InputField widget should
     implement this class
     """
 
-    field_value = None
-
     def __init__(self, attrs={}):
         TinyWidget.__init__(self, attrs)
-
-        self._validators = []
-
-        if attrs.get('required', False):
-            self._validators += [tg.validators.NotEmpty]
+        self._validator = None
 
     def get_validator(self):
-        if self._validators:
-            return tg.validators.All(*self._validators)
+        if self._validator:
+            self._validator.not_empty = self.required
+        elif self.required:
+            self._validator = tg.validators.NotEmpty()
 
-        return None
+        return self._validator
 
     def set_validator(self, value):
-        if value:
-            self._validators = [value]
-
-    def add_validator(self, value):
-        self._validators += [value]
+        self._validator = value
 
     validator = property(get_validator, set_validator)
 
@@ -89,17 +86,26 @@ class TinyInputWidget(TinyWidget):
 
         @return: field value
         """
-        return self.field_value
+        return self.value
 
     def set_value(self, value):
         """Set the value of the field.
 
         @param value: the value
         """
-        self.field_value = value
+        self.value = value
 
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
+
+        if self.readonly:
+            d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
+
+        if self.required and 'requiredfield' not in d['field_class'].split(' '):
+            d['field_class'] = " ".join([d['field_class'], "requiredfield"])
+
+        if hasattr(self, 'error') and self.error:
+            d['field_class'] = " ".join([d['field_class'], "errorfield"])
 
 class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
 

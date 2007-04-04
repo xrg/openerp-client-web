@@ -45,6 +45,8 @@ from interface import TinyWidget
 from interface import TinyInputWidget
 from interface import TinyCompoundWidget
 
+import validators as tiny_validators
+
 class Frame(TinyCompoundWidget):
     """Frame widget layouts the widgets in a table.
 
@@ -226,7 +228,7 @@ class Integer(TinyField):
 
     def __init__(self, attrs={}):
         super(Integer, self).__init__(attrs)
-        self.add_validator(tg.validators.Int)
+        self.validator = tiny_validators.Int
 
     def set_value(self, value):
         if value:
@@ -239,7 +241,7 @@ class Boolean(TinyField):
 
     def __init__(self, attrs={}):
         super(Boolean, self).__init__(attrs)
-        self.add_validator(tg.validators.Bool)
+        self.validator = tiny_validators.Bool
 
     def set_value(self, value):
         self.default = value or ''
@@ -252,7 +254,7 @@ class Float(TinyField):
 
     def __init__(self, attrs={}):
         super(Float, self).__init__(attrs)
-        self.add_validator(tg.validators.Number)
+        self.validator = tiny_validators.Float
 
     def set_value(self, value):
         self.default = value
@@ -282,8 +284,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
         elif attrs['type'] == 'time':
             self.format = "%H:%M"
 
-        #TODO: validator and converter
-        self._validators = []
+        self.validator = tiny_validators.DateTime(format=self.format)
 
     def set_value(self, value):
         if hasattr(value, 'strftime'):
