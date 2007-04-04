@@ -167,7 +167,7 @@ class Form(TinyCompoundWidget):
                 self.fields_type[name] = kind
                 field = widgets_type[kind](attrs=fields[name])
                 if kind == 'boolean':
-                    field.options = [[1,'Yes'],['','No']]
+                    field.options = [[1,'Yes'],[0,'No']]
 
                 self.widgets += [field]
 

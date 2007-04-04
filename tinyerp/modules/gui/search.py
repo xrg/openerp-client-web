@@ -70,7 +70,7 @@ def _search_string(name, type, value):
             return None
 
         elif type=='boolean' or type=='selection':
-            return name, '=', value
+            return name, '=', int(value)
 
     return None
 
