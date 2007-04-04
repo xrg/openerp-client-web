@@ -107,14 +107,17 @@ class TinyInputWidget(TinyWidget):
         if hasattr(self, 'error') and self.error:
             d['field_class'] = " ".join([d['field_class'], "errorfield"])
 
-class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
+class TinyCompoundWidget(TinyWidget, tg.widgets.CompoundWidget):
 
     def __init__(self, attrs={}):
-        TinyInputWidget.__init__(self, attrs)
+        TinyWidget.__init__(self, attrs)
         tg.widgets.CompoundWidget.__init__(self, name=self.name or None)
+        self.validator = False
 
 class TinyField(TinyInputWidget, tg.widgets.FormField):
+
     def __init__(self, attrs):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.FormField.__init__(self, name=self.name)
+
 
