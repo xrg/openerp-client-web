@@ -93,7 +93,7 @@ class TinyInputWidget(TinyWidget):
 
         @param value: the value
         """
-        self.value = value
+        self.default = value
 
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
