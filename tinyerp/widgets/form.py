@@ -274,6 +274,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     params = ["format"]
     format = "%Y-%m-%d %H:%M"
     picker_shows_time = True
+    button_text = 'Select'
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
@@ -288,10 +289,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
         self.validator = tiny_validators.DateTime(format=self.format)
 
     def set_value(self, value):
-        if hasattr(value, 'strftime'):
-            self.default = value.strftime(self.format)
-        elif value:
-            self.default = value
+        self._default = value
 
 class Button(TinyField):
     """Button widget
@@ -431,8 +429,8 @@ class Form(TinyCompoundWidget):
 
                 field = widgets_type[kind](attrs=fields[name])
 
-                if isinstance(field, TinyField):
-                    field.set_value(values.get(name, ''))
+                if values.has_key(name) and isinstance(field, TinyInputWidget):
+                    field.set_value(values[name])
 
                 views += [field]
 

@@ -8,7 +8,7 @@
             <div class="spacer"></div>
         </td>
         <td>
-              <input type="button" id="${field_id}_trigger" class="date_field_button" value="Select" />
+              <input type="button" id="${field_id}_trigger" class="date_field_button" value="${button_text}" />
         </td>
         <script type="text/javascript">
             Calendar.setup(

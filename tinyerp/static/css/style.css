@@ -183,18 +183,18 @@ input, button, select, textarea {
 	border-width: 1px;
 }
 
-.fielderror {
+#view_form .fielderror {
     color: #FF0000;
 }
 
-.requiredfield {
+#view_form .requiredfield {
     background-color: #FFCCCC;
 }
 
-.readonlyfield {
+#view_form .readonlyfield {
     background-color: #EEEEEE;
 }
 
-.errorfield {
+#view_form .errorfield {
     background-color: #FF6666;
 }
