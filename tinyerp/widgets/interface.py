@@ -100,6 +100,9 @@ class TinyInputWidget(TinyWidget):
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
 
+        # name as field_id
+        d['field_id'] = self.name
+
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
 
