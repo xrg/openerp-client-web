@@ -39,11 +39,6 @@ class ViewForm(tg.widgets.Form):
     def __init__(self, model, state=None, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
         super(ViewForm, self).__init__(name="view_form")
 
-        if view_mode[0] != view_mode2[0]:
-            view_ids = [False] + view_ids
-        else:
-            if False in view_ids: view_ids.remove(False)
-
         cherrypy.request.terp_fields = []
 
         self.screen = Screen(prefix='', model=model, state=state, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context, editable=True)

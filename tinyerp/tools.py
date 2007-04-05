@@ -36,6 +36,7 @@ def expr_eval(string, context={}):
         return eval(string, context)
     else:
         return string
+
 def node_attributes(node):
    result = {}
    attrs = node.attributes

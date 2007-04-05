@@ -30,6 +30,8 @@
 import turbogears as tg
 import cherrypy
 
+from tinyerp import tools
+
 class TinyWidget(object):
     """Widget interface, every widget class should implement
     this class.
@@ -54,10 +56,10 @@ class TinyWidget(object):
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
 
-        self.select = int(attrs.get('select', 0))
-        self.nolabel = int(attrs.get('nolabel', 0))
-        self.required = int(attrs.get('required', 0))
-        self.readonly = int(attrs.get('readonly', 0))
+        self.select = tools.expr_eval(attrs.get('select', False))
+        self.nolabel = tools.expr_eval(attrs.get('nolabel', False))
+        self.required = tools.expr_eval(attrs.get('required', False))
+        self.readonly = tools.expr_eval(attrs.get('readonly', False))
 
 class TinyInputWidget(TinyWidget):
     """Interface for Field widgets, every InputField widget should

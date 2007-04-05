@@ -69,18 +69,20 @@ class Screen(TinyCompoundWidget):
         self.selectable = selectable
         self.editable = editable
 
-        self.rpc = rpc.RPCProxy(model)
+        # Use False as view_id if switching the vuew
+        if view_mode[0] != view_mode2[0]:
+            view_ids = [False] + view_ids
+        else:
+            if False in view_ids: view_ids.remove(False)
 
-        view_id = False
-        if view_ids:
-            view_id = view_ids[0]
-
+        view_id = (view_ids or False) and view_ids[0]
         view_type = view_mode[0]
 
         if view_type in views_preloaded:
             view = views_preloaded[view_type]
         else:
-            view = self.rpc.fields_view_get(view_id, view_type, self.context)
+            proxy = rpc.RPCProxy(model)
+            view = proxy.fields_view_get(view_id, view_type, self.context)
 
         if view_type == 'form':
             self.widget = form.Form(prefix=prefix, model=model, view=view, ids=(id or []) and [id], editable=editable, selectable=selectable)

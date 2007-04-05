@@ -47,12 +47,9 @@ from tinyerp import tools
 from tinyerp import widgets as tw
 from tinyerp import widgets_search as tws
 from tinyerp.tinyres import TinyResource
+from tinyerp.modules.utils import TinyDict
 
 import form
-
-from utils import MyDict
-from utils import make_dict
-from utils import terp_split
 
 def _search_string(name, type, value):
     if value:
@@ -77,7 +74,8 @@ def _search_string(name, type, value):
 class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
-    def create(self, model, textid=None, hiddenname=None, s_domain=[], id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
+    def create(self, model, textid=None, hiddenname=None, s_domain=[], id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, **kw):
+
         """Create search view...
 
         @param model: the model
@@ -107,7 +105,7 @@ class Search(controllers.Controller, TinyResource):
 
     @expose()
     def ok(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
 
         ids = data.get('check', None)
 
@@ -118,26 +116,23 @@ class Search(controllers.Controller, TinyResource):
                 terp.ids = [int(ids)]
             terp.id = terp.ids[0]
 
-        terp.pop('fields_type')
         return form.Form().create(**terp)
 
     @expose()
     def cancel(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
         terp.ids = cherrypy.session.get('_terp_ids', [])
 
-        terp.pop('fields_type')
         return form.Form().create(**terp)
 
     @expose()
     def find(self, **kw):
+        terp, data = TinyDict.split(kw)
 
-        s_domain = kw.get('s_domain',[])
-        s_domain = eval(s_domain)
+        fields_type = terp.fields_type
+        s_domain = terp.s_domain
 
-        terp, data = terp_split(kw)
-        fields_type = eval(terp.pop('fields_type'))
-        search_list = s_domain
+        search_list = s_domain or []
         if fields_type:
             for n, v in fields_type.items():
                 t = _search_string(n, v, kw[n])
@@ -154,12 +149,6 @@ class Search(controllers.Controller, TinyResource):
             l = 80
             o = 0
 
-        if data.has_key('textid'):
-            terp['textid'] = data.pop('textid')
-        if data.has_key('hiddenname'):
-            terp['hiddenname'] = data.pop('hiddenname')
-        if data.has_key('s_domain'):
-            terp['s_domain'] = data.pop('s_domain')
         proxy = rpc.RPCProxy(terp.model)
         terp.ids = proxy.search(search_list, o, l)
         return self.create(**terp)

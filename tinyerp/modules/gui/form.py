@@ -52,17 +52,14 @@ from tinyerp import common
 from tinyerp import tools
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
+from tinyerp.modules.utils import TinyDict
 
 import search
-
-from utils import MyDict
-from utils import make_dict
-from utils import terp_split
 
 class Form(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.form")
-    def create(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, tg_errors=None):
+    def create(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, tg_errors=None, **kw):
         """Create form view...
 
         @param model: the model
@@ -80,11 +77,6 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
 
-        if view_mode[0] != view_mode2[0]:
-            view_ids = [False] + view_ids
-        else:
-            if False in view_ids: view_ids.remove(False)
-
         if tg_errors:
             form = cherrypy.request.terp_form
         else:
@@ -94,7 +86,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def new(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
 
         if terp.id or terp.ids:
             terp.id = None
@@ -106,7 +98,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def edit(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
 
         if terp.view_mode[0] == 'tree':
             terp.view_mode.reverse()
@@ -114,7 +106,7 @@ class Form(controllers.Controller, TinyResource):
         return self.create(**terp)
 
     def get_form(self):
-        terp, data = terp_split(cherrypy.request.params)
+        terp, data = TinyDict.split(cherrypy.request.params)
 
         cherrypy.request.terp_validators = {}
 
@@ -140,7 +132,7 @@ class Form(controllers.Controller, TinyResource):
 
         @return: form view
         """
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
 
         if tg_errors:
             return self.create(tg_errors=tg_errors, **terp)
@@ -157,7 +149,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def delete(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
 
         proxy = rpc.RPCProxy(terp.model)
 
@@ -176,7 +168,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def prev(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
         idx = -1
 
         if terp.id:
@@ -194,7 +186,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def next(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
         idx = 0
 
         if terp.id:
@@ -211,7 +203,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def find(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
 
         terp.ids = []
 
@@ -220,7 +212,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def switch(self, **kw):
-        terp, data = terp_split(kw)
+        terp, data = TinyDict.split(kw)
 
         terp.view_mode.reverse()
 

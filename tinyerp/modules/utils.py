@@ -27,9 +27,10 @@
 #
 ###############################################################################
 
+import re
 import cherrypy
 
-def make_dict(data):
+def _make_dict(data):
     """Generates a valid dictionary from the given data to be used with TinyERP.
     """
     res = {}
@@ -49,45 +50,59 @@ def make_dict(data):
             if '__id' in v:
                 id = int(v.pop('__id'))
 
-            res[k] = [(id and 1, id, make_dict(v))]
+            res[k] = [(id and 1, id, _make_dict(v))]
 
     return res
 
-class MyDict(dict):
-    """A dictionary class that allows accessing it's items
-    as it's attributes.
+class TinyDict(dict):
+    """A dictionary class that allows accessing it's items as it's attributes.
+    It also converts stringified Boolean, None, Number or secuence to python object.
+    This class is mainly used by Controllers to get special `_terp_` arguments and
+    to generate valid dictionary of data fields from the controller keyword arguments.
     """
+
+    def __init__(self, **kw):
+        super(TinyDict, self).__init__(**kw)
+
+    def _eval(self, value):
+        if not (isinstance(value, str) or isinstance(value, unicode)):
+            return value
+
+        pat = re.compile('^(True|False|None|\d+(\.\d+)?|\[.*?\]|\(.*?\)|\{.*?\})$', re.M)
+        if pat.match(value):
+            return eval(value)
+
+        return value
+
+    def __setitem__(self, name, value):
+        value = self._eval(value)
+        super(TinyDict, self).__setitem__(name, value)
+
     def __getattr__(self, name):
         return self.get(name, None)
 
     def __setattr__(self, name, value):
         self[name] = value
 
-def terp_split(kwargs):
-    """A helper function to extract special parameters from the given kwargs.
+    @staticmethod
+    def split(kwargs):
+        """A helper function to extract special parameters from the given kwargs.
 
-    @param kwargs: dict of keyword arguments
+        @param kwargs: dict of keyword arguments
 
-    @rtype: tuple
-    @return: tuple of dicts, (terp, data)
-    """
+        @rtype: tuple
+        @return: tuple of dicts, (TinyDict, dict of data)
+        """
 
-    terp = MyDict()
-    data = {}
+        terp = TinyDict()
+        data = {}
 
-    for n, v in kwargs.items():
-        if n.startswith('_terp_'):
-            terp[n[6:]] = v
-        else:
-            data[n] = v
+        for n, v in kwargs.items():
+            if n.startswith('_terp_'):
+                terp[n[6:]] = v
+            else:
+                data[n] = v
 
-    terp.id = (terp.id or None) and eval(terp.id)
-    terp.ids = cherrypy.session.get('_terp_ids', [])
+        terp.ids = terp.ids or cherrypy.session.get('_terp_ids', [])
 
-    terp.domain = eval(terp.domain)
-    terp.context = eval(terp.context)
-    terp.view_ids = eval(terp.view_ids)
-    terp.view_mode = eval(terp.view_mode)
-    terp.view_mode2 = eval(terp.view_mode2)
-
-    return terp, make_dict(data)
+        return terp, _make_dict(data)
