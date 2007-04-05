@@ -74,7 +74,7 @@ def _search_string(name, type, value):
 class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
-    def create(self, model, textid=None, hiddenname=None, s_domain=[], id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, **kw):
+    def create(self, model, textid=None, hiddenname=None, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, **kw):
 
         """Create search view...
 
@@ -101,7 +101,7 @@ class Search(controllers.Controller, TinyResource):
         form_view = tws.search_form.Form(prefix='', model=model, ids=ids, view=view_form, domain=domain, context=context)
         list_view = tw.list.List(model=model, ids=ids or [], view=view_tree, domain=domain, context=context, selectable=True)
 
-        return dict(form_view=form_view, list_view=list_view, model=model, id=id, ids=ids, state=state, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context, textid=textid, hiddenname=hiddenname, s_domain=s_domain)
+        return dict(form_view=form_view, list_view=list_view, model=model, id=id, ids=ids, state=state, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context, textid=textid, hiddenname=hiddenname)
 
     @expose()
     def ok(self, **kw):
@@ -130,9 +130,8 @@ class Search(controllers.Controller, TinyResource):
         terp, data = TinyDict.split(kw)
 
         fields_type = terp.fields_type
-        s_domain = terp.s_domain
+        search_list = []
 
-        search_list = s_domain or []
         if fields_type:
             for n, v in fields_type.items():
                 t = _search_string(n, v, kw[n])

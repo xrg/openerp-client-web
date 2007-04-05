@@ -36,13 +36,12 @@ import validators as tiny_validators
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"
-    params=['relation', 'field_value', 'text', 's_domain']
+    params=['relation', 'field_value', 'text']
 
     def __init__(self, attrs={}):
         super(M2O, self).__init__(attrs)
         self.relation = attrs.get('relation', '')
         self.validator = tiny_validators.Int()
-        self.s_domain = attrs.get('domain', ' ')
 
     def set_value(self, value):
         try:
