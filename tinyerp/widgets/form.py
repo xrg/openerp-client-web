@@ -117,7 +117,7 @@ class Frame(TinyCompoundWidget):
 
         td = [attrs]
 
-        if isinstance(widget, TinyField) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator:
+        if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields += [widget]
 

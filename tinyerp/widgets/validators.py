@@ -58,5 +58,10 @@ class Float(tg.validators.Number):
 class DateTime(tg.validators.DateTimeConverter):
     if_empty = False
 
+    def _to_python(self, value, state):
+        res = super(DateTime, self)._to_python(value, state)
+        # return str instead of real datetime object
+        return value
+
 class Selection(tg.validators.FancyValidator):
     if_empty = False
