@@ -75,6 +75,7 @@
     	    <input type="hidden" name="_terp_fields_type" value="${str(form_view.fields_type)}"/>
     	    <input type="hidden" name="textid" value="${textid}" py:if="textid"/>
     	    <input type="hidden" name="hiddenname" value="${hiddenname}" py:if="hiddenname"/>
+			<input type="hidden" name="s_domain" value="${s_domain}" py:if="s_domain"/>
 
 
 
