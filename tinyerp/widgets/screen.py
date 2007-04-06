@@ -74,7 +74,7 @@ class Screen(TinyCompoundWidget):
         self.model         = terp.model
         self.state         = terp.state or None
         self.id            = terp.id or None
-        self.ids           = terp.ids or []
+        self.ids           = terp.ids
         self.view_ids      = terp.view_ids or []
         self.view_mode     = terp.view_mode or ['form', 'tree']
         self.view_mode2    = terp.view_mode2 or ['tree', 'form']
