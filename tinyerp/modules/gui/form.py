@@ -59,28 +59,12 @@ import search
 class Form(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.form")
-    def create(self, model, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, tg_errors=None, **kw):
-        """Create form view...
-
-        @param model: the model
-        @param id: current record id
-        @param ids: all record ids
-        @param state: workflow state?
-        @param view_ids: view ids
-        @param view_mode: view mode
-        @param view_mode2: the original view mode
-        @param domain: the domain
-        @param context: the context
-
-        @todo: maintain states
-
-        @return: form view
-        """
+    def create(self, terp, tg_errors=None):
 
         if tg_errors:
             form = cherrypy.request.terp_form
         else:
-            form = tw.form_view.ViewForm(model=model, state=state, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context)
+            form = tw.form_view.ViewForm(terp)
 
         return dict(form=form)
 
@@ -94,7 +78,7 @@ class Form(controllers.Controller, TinyResource):
         if terp.view_mode[0] == 'tree':
             terp.view_mode.reverse()
 
-        return self.create(**terp)
+        return self.create(terp)
 
     @expose()
     def edit(self, **kw):
@@ -103,14 +87,14 @@ class Form(controllers.Controller, TinyResource):
         if terp.view_mode[0] == 'tree':
             terp.view_mode.reverse()
 
-        return self.create(**terp)
+        return self.create(terp)
 
     def get_form(self):
         terp, data = TinyDict.split(cherrypy.request.params)
 
         cherrypy.request.terp_validators = {}
 
-        form = tw.form_view.ViewForm(**terp)
+        form = tw.form_view.ViewForm(terp)
         cherrypy.request.terp_form = form
 
         vals = cherrypy.request.terp_validators
@@ -135,7 +119,7 @@ class Form(controllers.Controller, TinyResource):
         terp, data = TinyDict.split(kw)
 
         if tg_errors:
-            return self.create(tg_errors=tg_errors, **terp)
+            return self.create(terp, tg_errors=tg_errors)
 
         proxy = rpc.RPCProxy(terp.model)
 
@@ -145,7 +129,7 @@ class Form(controllers.Controller, TinyResource):
         else:
             res = proxy.write([terp.id], data, terp.context)
 
-        return self.create(**terp)
+        return self.create(terp)
 
     @expose()
     def delete(self, **kw):
@@ -164,7 +148,7 @@ class Form(controllers.Controller, TinyResource):
 
         terp.id = (terp.ids or None) and terp.ids[idx]
 
-        return self.create(**terp)
+        return self.create(terp)
 
     @expose()
     def prev(self, **kw):
@@ -182,7 +166,7 @@ class Form(controllers.Controller, TinyResource):
         if terp.ids:
             terp.id = terp.ids[idx]
 
-        return self.create(**terp)
+        return self.create(terp)
 
     @expose()
     def next(self, **kw):
@@ -199,7 +183,7 @@ class Form(controllers.Controller, TinyResource):
         if terp.ids:
             terp.id = terp.ids[idx]
 
-        return self.create(**terp)
+        return self.create(terp)
 
     @expose()
     def find(self, **kw):
@@ -208,7 +192,7 @@ class Form(controllers.Controller, TinyResource):
         terp.ids = []
 
         search_window = search.Search()
-        return search_window.create(**terp)
+        return search_window.create(terp)
 
     @expose()
     def switch(self, **kw):
@@ -220,7 +204,7 @@ class Form(controllers.Controller, TinyResource):
         if terp.ids:
             terp.id = terp.ids[0]
 
-        return self.create(**terp)
+        return self.create(terp)
 
     @expose()
     def search_M2O(self, model, textid, hiddenname, **kw):

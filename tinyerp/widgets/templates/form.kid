@@ -1,14 +1,5 @@
 <form xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" method="post" id="view_form" name="view_form" action="/form/save">
 
-    <input type="hidden" name="_terp_model" value="${screen.model}"/>
-    <input type="hidden" name="_terp_state" value="${screen.state}"/>
-    <input type="hidden" name="_terp_id" value="${str(screen.id)}"/>
-    <input type="hidden" name="_terp_view_ids" value="${str(screen.view_ids)}"/>
-    <input type="hidden" name="_terp_view_mode" value="${str(screen.view_mode)}"/>
-    <input type="hidden" name="_terp_view_mode2" value="${str(screen.view_mode2)}"/>
-    <input type="hidden" name="_terp_domain" value="${str(screen.domain)}"/>
-    <input type="hidden" name="_terp_context" value="${str(screen.context)}"/>
-
     <div class="header">
 
         <div class="title">

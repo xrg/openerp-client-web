@@ -28,9 +28,11 @@
 ###############################################################################
 
 import turbogears as tg
+import cherrypy
+
+from tinyerp.modules.utils import TinyDict
 
 from interface import TinyCompoundWidget
-
 from screen import Screen
 
 class O2M(TinyCompoundWidget):
@@ -48,13 +50,36 @@ class O2M(TinyCompoundWidget):
         #self.colspan = 4
         #self.nolabel = True
 
+        # get terp dictionary
+        terp = cherrypy.request.terp
+        terp = terp[self.name.replace('/', '.')]
+
         self.model = attrs['relation']
 
         view = attrs.get('views', {})
-        mode = attrs.get('mode', 'tree,form').split(',')
+        mode = str(attrs.get('mode', 'tree,form')).split(',')
+
+        view_mode = mode
+        view_mode2 = mode
+
+        if terp: view_mode = terp.view_mode
+        if terp: view_mode2 = terp.view_mode2
 
         ids = attrs['value'] or []
+        #if terp: ids = terp.ids
+
         id = (ids or None) and ids[0]
 
-        self.screen = Screen(prefix=self.name, model=self.model, id=id, ids=ids, view_mode=mode, views_preloaded=view, domain=[], context={})
+        if not terp:
+            terp = TinyDict()
+
+        terp.model = self.model
+        terp.id = id
+        terp.ids = ids
+        terp.view_mode = view_mode
+        terp.view_mode2 = view_mode2
+        terp.domain = []
+        terp.context = {}
+
+        self.screen = Screen(terp, prefix=self.name, views_preloaded=view)
         self.id = id

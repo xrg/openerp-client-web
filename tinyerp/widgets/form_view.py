@@ -36,12 +36,15 @@ class ViewForm(tg.widgets.Form):
     template = "tinyerp.widgets.templates.form"
     member_widgets = ['screen']
 
-    def __init__(self, model, state=None, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}):
+    def __init__(self, terp):
+
         super(ViewForm, self).__init__(name="view_form")
+
+        # save reference of terp dictionary in requeste
+        cherrypy.request.terp = terp
 
         cherrypy.request.terp_fields = []
 
-        self.screen = Screen(prefix='', model=model, state=state, id=id, ids=ids, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context, editable=True)
-        cherrypy.session['_terp_ids'] = self.screen.ids
+        self.screen = Screen(prefix='', editable=True)
 
         self.fields = cherrypy.request.terp_fields

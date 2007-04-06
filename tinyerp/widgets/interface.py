@@ -45,6 +45,9 @@ class TinyWidget(object):
     required = False
     readonly = False
 
+    name = None
+    model = None
+
     def __init__(self, attrs={}):
 
         self.string = attrs.get("string", None)

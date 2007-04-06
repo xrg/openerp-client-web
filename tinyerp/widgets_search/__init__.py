@@ -1,1 +1,2 @@
-import search_form
+import search
+import search_view

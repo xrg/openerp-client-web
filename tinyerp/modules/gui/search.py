@@ -44,7 +44,6 @@ from tinyerp import tools
 from tinyerp import common
 
 from tinyerp import tools
-from tinyerp import widgets as tw
 from tinyerp import widgets_search as tws
 from tinyerp.tinyres import TinyResource
 from tinyerp.modules.utils import TinyDict
@@ -74,34 +73,9 @@ def _search_string(name, type, value):
 class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
-    def create(self, model, textid=None, hiddenname=None, id=None, ids=[], state='', view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], domain=[], context={}, **kw):
-
-        """Create search view...
-
-        @param model: the model
-        @param id: current record id
-        @param ids: all record ids
-        @param state: workflow state?
-        @param view_ids: view ids
-        @param view_mode: view mode
-        @param view_mode2: the original view mode
-        @param domain: the domain
-        @param context: the context
-
-        @todo: maintain states
-
-        @return: form view
-        """
-
-        proxy = rpc.RPCProxy(model)
-
-        view_form = proxy.fields_view_get({}, 'form', {})
-        view_tree = proxy.fields_view_get({}, 'tree', {})
-
-        form_view = tws.search_form.Form(prefix='', model=model, ids=ids, view=view_form, domain=domain, context=context)
-        list_view = tw.list.List(model=model, ids=ids or [], view=view_tree, domain=domain, context=context, selectable=True)
-
-        return dict(form_view=form_view, list_view=list_view, model=model, id=id, ids=ids, state=state, view_ids=view_ids, view_mode=view_mode, view_mode2=view_mode2, domain=domain, context=context, textid=textid, hiddenname=hiddenname)
+    def create(self, terp):
+        form = tws.search_view.ViewSearch(terp, name="search_form", action='/search/ok')
+        return dict(form=form)
 
     @expose()
     def ok(self, **kw):
@@ -116,14 +90,12 @@ class Search(controllers.Controller, TinyResource):
                 terp.ids = [int(ids)]
             terp.id = terp.ids[0]
 
-        return form.Form().create(**terp)
+        return form.Form().create(terp)
 
     @expose()
     def cancel(self, **kw):
         terp, data = TinyDict.split(kw)
-        terp.ids = cherrypy.session.get('_terp_ids', [])
-
-        return form.Form().create(**terp)
+        return form.Form().create(terp)
 
     @expose()
     def find(self, **kw):
@@ -150,10 +122,11 @@ class Search(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(terp.model)
         terp.ids = proxy.search(search_list, o, l)
-        return self.create(**terp)
+
+        return self.create(terp)
 
     @expose('json')
-    def get_string(self,model,id):
+    def get_string(self, model, id):
         proxy = rpc.RPCProxy(model)
         name = proxy.name_get([id], {})
         return dict(name=name[0][1])

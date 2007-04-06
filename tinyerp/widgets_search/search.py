@@ -78,11 +78,10 @@ class Form(TinyCompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, model, ids=[], view=None, domain=[], context={}):
+    def __init__(self, model, view=None, domain=[], context={}):
 
         super(Form, self).__init__()
 
-        self.prefix = prefix
         self.model = model
         self.proxy = rpc.RPCProxy(model)
         self.domain = domain
@@ -95,20 +94,15 @@ class Form(TinyCompoundWidget):
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
-        proxy = rpc.RPCProxy(self.model)
 
-        values = {}
-        if ids:
-            values = proxy.read(ids[:1], fields.keys(), self.context)[0]
-        else: #default
-            values = proxy.default_get(fields.keys(), self.context)
+        proxy = rpc.RPCProxy(self.model)
 
         self.fields_type = {}
         self.widgets = []
-        self.parse(self.prefix, dom, fields, values)
-        self.frame = Frame({'prefix':''},self.widgets,6)
+        self.parse(dom, fields)
+        self.frame = Frame({}, self.widgets, 6)
 
-    def parse(self, prefix='', root=None, fields=None, values={}):
+    def parse(self, root=None, fields=None):
 
         for node in root.childNodes:
 
@@ -116,7 +110,6 @@ class Form(TinyCompoundWidget):
                 continue
 
             attrs = tools.node_attributes(node)
-            attrs['prefix'] = prefix
 
             if attrs.has_key('colspan'):
                 attrs['colspan'] = 1
@@ -128,21 +121,20 @@ class Form(TinyCompoundWidget):
                 self.views += [Button(attrs)]
 
             elif node.localName == 'form':
-                self.parse(prefix=prefix, root=node, fields=fields,values={})
+                self.parse(root=node, fields=fields)
                 #views += [Frame(attrs, n)]
 
             elif node.localName == 'notebook':
-                self.parse(prefix=prefix, root=node, fields=fields,values={})
+                self.parse(root=node, fields=fields)
 
             elif node.localName == 'page':
-                self.parse(prefix=prefix, root=node, fields=fields,values={})
+                self.parse(root=node, fields=fields)
 
             elif node.localName=='group':
-                self.parse(prefix=prefix, root=node, fields=fields,values={})
+                self.parse(root=node, fields=fields)
 
             elif node.localName == 'field' and attrs.has_key('select'):
                 name = attrs['name']
-
 
                 if fields[name].has_key('selection'):
                     fields[name]['selection'] = [['','']] + fields[name]['selection']
@@ -164,8 +156,10 @@ class Form(TinyCompoundWidget):
 
                 if kind not in widgets_type:
                     continue
+
                 self.fields_type[name] = kind
                 field = widgets_type[kind](attrs=fields[name])
+
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],[0,'No']]
 

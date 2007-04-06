@@ -32,6 +32,7 @@ import xml.dom.minidom
 from elementtree import ElementTree as ET
 
 import turbogears as tg
+import cherrypy
 
 from tinyerp import tools
 from tinyerp import rpc
@@ -42,52 +43,70 @@ import form
 import list
 
 class Screen(TinyCompoundWidget):
-    template = """<span>
-    ${widget.display(value_for(widget), **params_for(widget))}
+    template = """
+    <span>
+        <input type="hidden" name="${name}_terp_model" value="${model}"/>
+        <input type="hidden" name="${name}_terp_state" value="${state}"/>
+        <input type="hidden" name="${name}_terp_id" value="${str(id)}"/>
+        <input type="hidden" name="${name}_terp_ids" value="${str(ids)}"/>
+        <input type="hidden" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
+        <input type="hidden" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
+        <input type="hidden" name="${name}_terp_view_mode2" value="${str(view_mode2)}"/>
+        <input type="hidden" name="${name}_terp_domain" value="${str(domain)}"/>
+        <input type="hidden" name="${name}_terp_context" value="${str(context)}"/>
+
+        ${widget.display(value_for(widget), **params_for(widget))}
     </span>
     """
+
+    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context']
 
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, prefix, model, state=None, id=None, ids=[], view_ids=[], view_mode=['form', 'tree'], view_mode2=['tree', 'form'], views_preloaded={}, domain=[], context={}, selectable=False, editable=False):
+    def __init__(self, terp=None, prefix='', views_preloaded={}, selectable=False, editable=False):
 
-        super(Screen, self).__init__()
+        super(Screen, self).__init__(dict(prefix=prefix))
 
-        self.prefix = prefix
-        self.model = model
-        self.state = state #TODO: maintain states
-        self.id = id
-        self.ids = ids
-        self.view_ids = view_ids
-        self.view_mode = view_mode
-        self.view_mode2 = view_mode2
-        self.view_type = view_mode[0]
-        self.views_preloaded = views_preloaded
-        self.domain = domain
-        self.context = context.copy()
-        self.selectable = selectable
-        self.editable = editable
+        # get terp dictionary
+        terp = terp or cherrypy.request.terp
+
+        self.model         = terp.model
+        self.state         = terp.state or None
+        self.id            = terp.id or None
+        self.ids           = terp.ids or []
+        self.view_ids      = terp.view_ids or []
+        self.view_mode     = terp.view_mode or ['form', 'tree']
+        self.view_mode2    = terp.view_mode2 or ['tree', 'form']
+
+        self.view_type     = self.view_mode[0]
+        self.domain        = terp.domain or []
+        self.context       = terp.context or {}
+
+        self.prefix             = prefix
+        self.views_preloaded    = views_preloaded
+        self.selectable         = selectable
+        self.editable           = editable
 
         # Use False as view_id if switching the vuew
-        if view_mode[0] != view_mode2[0]:
-            view_ids = [False] + view_ids
+        if self.view_mode[0] != self.view_mode2[0]:
+            self.view_ids = [False] + self.view_ids
         else:
-            if False in view_ids: view_ids.remove(False)
+            if False in self.view_ids: self.view_ids.remove(False)
 
-        view_id = (view_ids or False) and view_ids[0]
-        view_type = view_mode[0]
+        view_id = (self.view_ids or False) and self.view_ids[0]
+        view_type = self.view_mode[0]
 
-        if view_type in views_preloaded:
-            view = views_preloaded[view_type]
+        if view_type in self.views_preloaded:
+            view = self.views_preloaded[view_type]
         else:
-            proxy = rpc.RPCProxy(model)
+            proxy = rpc.RPCProxy(self.model)
             view = proxy.fields_view_get(view_id, view_type, self.context)
 
         if view_type == 'form':
-            self.widget = form.Form(prefix=prefix, model=model, view=view, ids=(id or []) and [id], editable=editable, selectable=selectable)
+            self.widget = form.Form(prefix=prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], editable=editable, selectable=selectable)
         else:
-            self.widget = list.List(model=model, view=view, ids=ids, editable=editable, selectable=selectable)
+            self.widget = list.List(model=self.model, view=view, ids=self.ids, editable=editable, selectable=selectable)
             self.ids = self.widget.ids
 
         self.string = self.widget.string

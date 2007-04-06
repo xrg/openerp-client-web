@@ -30,27 +30,36 @@
 import re
 import cherrypy
 
-def _make_dict(data):
-    """Generates a valid dictionary from the given data to be used with TinyERP.
+def _make_dict(data, is_terp=False):
+    """If is_terp is True then generates a TinyDict otherwise generates a valid
+    dictionary from the given data to be used with TinyERP.
+
+    @param data: data in the form of {'a': 1, 'b/x': 1, 'b/y': 2}
+    @param is_terp: if True generate TinyDict instead of standard dict
+
+    @return: TinyDict or dict
     """
-    res = {}
+
+    res = (is_terp or {}) and TinyDict()
+
     for name, value in data.items():
         names = name.split('/')
 
         if len(names) > 1:
-            res.setdefault(names[0], {}).update({"/".join(names[1:]): value})
+            res.setdefault(names[0], (is_terp or {}) and TinyDict()).update({"/".join(names[1:]): value})
         else:
             res[name] = value
 
     for k, v in res.items():
-        if type(v) == type({}):
-            #res[k] = make_dict(v)
+        if isinstance(v, dict):
+            if not is_terp:
+                id = 0
+                if '__id' in v:
+                    id = int(v.pop('__id'))
 
-            id = 0
-            if '__id' in v:
-                id = int(v.pop('__id'))
-
-            res[k] = [(id and 1, id, _make_dict(v))]
+                res[k] = [(id and 1, id, _make_dict(v, is_terp))]
+            else:
+                res[k] = _make_dict(v, is_terp and isinstance(v, TinyDict))
 
     return res
 
@@ -65,7 +74,7 @@ class TinyDict(dict):
         super(TinyDict, self).__init__(**kw)
 
     def _eval(self, value):
-        if not (isinstance(value, str) or isinstance(value, unicode)):
+        if not isinstance(value, basestring):
             return value
 
         pat = re.compile('^(True|False|None|\d+(\.\d+)?|\[.*?\]|\(.*?\)|\{.*?\})$', re.M)
@@ -78,8 +87,18 @@ class TinyDict(dict):
         value = self._eval(value)
         super(TinyDict, self).__setitem__(name, value)
 
+    def __getitem__(self, name):
+        names = name.split('.')
+        value = self.get(names[0], None)
+
+        for n in names[1:]:
+            if isinstance(value, TinyDict):
+                value = value.get(n, None)
+
+        return value
+
     def __getattr__(self, name):
-        return self.get(name, None)
+        return self[name]
 
     def __setattr__(self, name, value):
         self[name] = value
@@ -98,11 +117,10 @@ class TinyDict(dict):
         data = {}
 
         for n, v in kwargs.items():
-            if n.startswith('_terp_'):
-                terp[n[6:]] = v
+            if n.find('_terp_') != -1:
+                n = n.replace('_terp_', '')
+                terp[n] = v
             else:
                 data[n] = v
 
-        terp.ids = terp.ids or cherrypy.session.get('_terp_ids', [])
-
-        return terp, _make_dict(data)
+        return _make_dict(terp, True), _make_dict(data, False)
