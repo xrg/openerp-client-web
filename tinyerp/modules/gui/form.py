@@ -27,15 +27,6 @@
 #
 ###############################################################################
 
-"""
-This module implementes view for a tiny model having
-
-    view_type = 'form'
-    view_mode = 'form,tree'
-
-@todo: show validation errors
-"""
-
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
@@ -207,6 +198,10 @@ class Form(controllers.Controller, TinyResource):
         return self.create(terp)
 
     @expose()
-    def search_M2O(self, model, textid, hiddenname, **kw):
-        search_window = search.Search()
-        return search_window.create(model=model, textid=textid, hiddenname=hiddenname)
+    def search_m2o(self, model, textid, hiddenname, **kw):
+        terp = TinyDict()
+        terp.model = model
+        terp.textid = textid
+        terp.hiddenname = hiddenname
+
+        return search.Search().create(terp)

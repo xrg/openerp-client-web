@@ -58,7 +58,7 @@ class ViewSearch(tg.widgets.Form):
 
         self.view_type     = self.view_mode[0]
         self.domain        = terp.domain or []
-        self.context       = terp.context.copy() or {}
+        self.context       = terp.context or {}
 
         self.textid = terp.textid
         self.hiddenname = terp.hiddenname
