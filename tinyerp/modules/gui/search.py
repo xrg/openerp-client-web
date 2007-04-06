@@ -121,7 +121,7 @@ class Search(controllers.Controller, TinyResource):
             o = 0
 
         proxy = rpc.RPCProxy(terp.model)
-        terp.ids = proxy.search(search_list, o, l)
+        terp.found_ids = proxy.search(search_list, o, l)
 
         return self.create(terp)
 

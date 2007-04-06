@@ -51,7 +51,8 @@ class ViewSearch(tg.widgets.Form):
         self.model         = terp.model
         self.state         = terp.state or None
         self.id            = terp.id or None
-        self.ids           = terp.ids or []
+        self.ids           = terp.ids
+        self.found_ids     = terp.found_ids or []
         self.view_ids      = terp.view_ids or []
         self.view_mode     = terp.view_mode or ['form', 'tree']
         self.view_mode2    = terp.view_mode2 or ['tree', 'form']
@@ -69,6 +70,6 @@ class ViewSearch(tg.widgets.Form):
         view_tree = proxy.fields_view_get({}, 'tree', {})
 
         self.form_view = search.Form(model=self.model, view=view_form, domain=self.domain, context=self.context)
-        self.list_view = tw.list.List(model=self.model, ids=self.ids or [], view=view_tree, domain=self.domain, context=self.context, selectable=True)
+        self.list_view = tw.list.List(model=self.model, ids=self.found_ids, view=view_tree, domain=self.domain, context=self.context, selectable=True)
 
         self.string = self.form_view.string

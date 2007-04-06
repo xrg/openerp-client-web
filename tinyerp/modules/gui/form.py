@@ -180,7 +180,7 @@ class Form(controllers.Controller, TinyResource):
     def find(self, **kw):
         terp, data = TinyDict.split(kw)
 
-        terp.ids = []
+        terp.found_ids = []
 
         search_window = search.Search()
         return search_window.create(terp)
