@@ -90,7 +90,7 @@ class Screen(TinyCompoundWidget):
 
         # Use False as view_id if switching the vuew
         if self.view_mode[0] != self.view_mode2[0]:
-            self.view_ids = [False] + self.view_ids
+            if False not in self.view_ids: self.view_ids = [False] + self.view_ids
         else:
             if False in self.view_ids: self.view_ids.remove(False)
 
