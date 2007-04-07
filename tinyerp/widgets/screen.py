@@ -27,10 +27,6 @@
 #
 ###############################################################################
 
-
-import xml.dom.minidom
-from elementtree import ElementTree as ET
-
 import turbogears as tg
 import cherrypy
 

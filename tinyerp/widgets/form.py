@@ -49,9 +49,6 @@ import validators as tiny_validators
 
 class Frame(TinyCompoundWidget):
     """Frame widget layouts the widgets in a table.
-
-    @todo: only render fields during self.display
-    @todo: use value_for, param_for with field.display
     """
 
     template = "tinyerp.widgets.templates.frame"

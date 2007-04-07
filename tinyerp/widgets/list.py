@@ -31,8 +31,6 @@ import locale
 import time
 import xml.dom.minidom
 
-from elementtree import ElementTree as ET
-
 from turbogears import widgets
 
 from tinyerp import rpc
@@ -42,7 +40,7 @@ from interface import TinyCompoundWidget
 
 class List(TinyCompoundWidget):
 
-    params = ['data', 'headers', 'model', 'selectable', 'editable']
+    params = ['data', 'headers', 'model', 'selectable', 'editable', 'o2m']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -50,6 +48,7 @@ class List(TinyCompoundWidget):
     model = None
     selectable = False
     editable = False
+    o2m = None
 
     css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/ajaxlist.css')]
 

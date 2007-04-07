@@ -39,13 +39,16 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id']
+    params = ['string', 'id', 'button_name', 'button_attrs']
 
     member_widgets = ['screen']
     form = None
 
     def __init__(self, attrs={}):
         super(O2M, self).__init__(attrs)
+
+        self.button_name = self.name.replace('/', '.')
+        self.button_attrs = {}
 
         #self.colspan = 4
         #self.nolabel = True
@@ -65,10 +68,14 @@ class O2M(TinyCompoundWidget):
         if params: view_mode = params.view_mode
         if params: view_mode2 = params.view_mode2
 
+        if view_mode[0] == 'tree':
+            self.button_attrs['disabled'] = 0;
+
         ids = attrs['value'] or []
-        #if params: ids = params.ids
 
         id = (ids or None) and ids[0]
+        if params and ((params.id in ids) or (params.id is None)):
+            id = params.id
 
         if not params:
             params = TinyDict()
@@ -81,5 +88,9 @@ class O2M(TinyCompoundWidget):
         params.domain = []
         params.context = {}
 
-        self.screen = Screen(params, prefix=self.name, views_preloaded=view)
+        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=True)
+
+        if view_mode[0] == 'tree':
+            self.screen.widget.o2m = self.button_name
+
         self.id = id

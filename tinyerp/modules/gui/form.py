@@ -75,8 +75,10 @@ class Form(controllers.Controller, TinyResource):
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
 
-        if params.view_mode[0] == 'tree':
-            params.view_mode.reverse()
+        current = params[params.one2many or ''] or params
+
+        if current.view_mode[0] == 'tree':
+            current.view_mode.reverse()
 
         return self.create(params)
 
@@ -120,59 +122,74 @@ class Form(controllers.Controller, TinyResource):
         else:
             res = proxy.write([params.id], data, params.context)
 
+
+        current = params[params.one2many or '']
+        if current:
+            current.id = None
+            if current.view_mode[0] == 'tree':
+                current.view_mode.reverse()
+
         return self.create(params)
 
     @expose()
     def delete(self, **kw):
         params, data = TinyDict.split(kw)
 
-        proxy = rpc.RPCProxy(params.model)
+        current = params[params.one2many or ''] or params
+
+        proxy = rpc.RPCProxy(current.model)
 
         idx = -1
-        if params.id:
-            res = proxy.unlink([params.id])
-            idx = params.ids.index(params.id)
-            params.ids.remove(params.id)
+        if current.id:
+            res = proxy.unlink([current.id])
+            idx = current.ids.index(current.id)
+            current.ids.remove(current.id)
 
-            if idx == len(params.ids):
+            if idx == len(current.ids):
                 idx = -1
 
-        params.id = (params.ids or None) and params.ids[idx]
+        current.id = (current.ids or None) and current.ids[idx]
 
         return self.create(params)
 
     @expose()
     def prev(self, **kw):
         params, data = TinyDict.split(kw)
+
+        current = params[params.one2many or ''] or params
+
         idx = -1
 
-        if params.id:
-            idx = params.ids.index(params.id)
+        if current.id:
+            idx = current.ids.index(current.id)
             idx = idx-1
 
-            if idx == params.ids[0]:
-                idx = len(params.ids)
-                params.id = params.ids[idx]
+            if idx == current.ids[0]:
+                idx = len(current.ids)
+                current.id = current.ids[idx]
 
-        if params.ids:
-            params.id = params.ids[idx]
+        if current.ids:
+            current.id = current.ids[idx]
 
         return self.create(params)
 
     @expose()
     def next(self, **kw):
         params, data = TinyDict.split(kw)
+
+        current = params[params.one2many or ''] or params
+
         idx = 0
 
-        if params.id:
-            idx = params.ids.index(params.id)
+        if current.id:
+            idx = current.ids.index(current.id)
             idx = idx + 1
 
-            if idx == len(params.ids):
+            if idx == len(current.ids):
                 idx = 0
 
-        if params.ids:
-            params.id = params.ids[idx]
+        if current.ids:
+            current.id = current.ids[idx]
 
         return self.create(params)
 
@@ -187,14 +204,22 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def switch(self, **kw):
+
+        # get special _terp_ params and data
         params, data = TinyDict.split(kw)
 
-        params.view_mode.reverse()
+        # select the right params field (if one2many toolbar button)
+        current = params[params.one2many or ''] or params
 
-        params.ids = params.ids or []
-        if params.ids:
-            params.id = params.ids[0]
+        # switch the view mode
+        current.view_mode.reverse()
 
+        # set ids and id
+        current.ids = current.ids or []
+        if current.ids:
+            current.id = current.ids[0]
+
+        # regenerate the view
         return self.create(params)
 
     @expose()

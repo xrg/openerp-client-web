@@ -1,0 +1,34 @@
+===============================================================================
+TODO/ISSUE LISTINGS
+===============================================================================
+
+This text lists some (but not all) of the TODOs and ISSUEs that might be
+implemented or fixed in very near future...
+
+ *** : PRIORITY HIGH
+  ** : PRIORITY MIDIUM
+   * : PRIORITY LOW
+
+-------------------------------------------------------------------------------
+TODO
+-------------------------------------------------------------------------------
+
+ *** - many2many
+ *** - many2one
+  ** - button controller and state management
+  ** - List view generalisation
+  ** - domain, context
+   * - Readonly widgets
+   * - Implement all widgets (piture, image, binary etc.)
+
+-------------------------------------------------------------------------------
+ISSUE
+-------------------------------------------------------------------------------
+
+ *** - Does not remember selected Tab (Notebook Page)
+  ** - Switching the top-level view resets the view mode of all of the nested
+       one2many fields
+  ** - List View too much complex
+
+-------------------------------------------------------------------------------
+Copyright (c) 2007 TinyERP India Pvt. Ltd.
