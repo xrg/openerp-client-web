@@ -41,6 +41,7 @@ from tinyerp import tools
 from tinyerp import rpc
 
 from tinyerp.widgets.interface import TinyField
+from tinyerp.widgets.interface import TinyInputWidget
 from tinyerp.widgets.interface import TinyCompoundWidget
 
 from tinyerp.widgets.form import Char
@@ -78,7 +79,7 @@ class Form(TinyCompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, model, view=None, domain=[], context={}):
+    def __init__(self, model, view=None, domain=[], context={}, values={}):
 
         super(Form, self).__init__()
 
@@ -99,10 +100,10 @@ class Form(TinyCompoundWidget):
 
         self.fields_type = {}
         self.widgets = []
-        self.parse(dom, fields)
+        self.parse(dom, fields, values)
         self.frame = Frame({}, self.widgets, 6)
 
-    def parse(self, root=None, fields=None):
+    def parse(self, root=None, fields=None, values={}):
 
         for node in root.childNodes:
 
@@ -121,17 +122,17 @@ class Form(TinyCompoundWidget):
                 self.views += [Button(attrs)]
 
             elif node.localName == 'form':
-                self.parse(root=node, fields=fields)
+                self.parse(root=node, fields=fields, values=values)
                 #views += [Frame(attrs, n)]
 
             elif node.localName == 'notebook':
-                self.parse(root=node, fields=fields)
+                self.parse(root=node, fields=fields, values=values)
 
             elif node.localName == 'page':
-                self.parse(root=node, fields=fields)
+                self.parse(root=node, fields=fields, values=values)
 
             elif node.localName=='group':
-                self.parse(root=node, fields=fields)
+                self.parse(root=node, fields=fields, values=values)
 
             elif node.localName == 'field' and attrs.has_key('select'):
                 name = attrs['name']
@@ -162,6 +163,9 @@ class Form(TinyCompoundWidget):
 
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],[0,'No']]
+
+                if values.has_key(name) and isinstance(field, TinyInputWidget):
+                    field.set_value(str(values[name]))
 
                 self.widgets += [field]
 

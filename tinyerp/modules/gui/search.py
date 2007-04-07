@@ -73,8 +73,8 @@ def _search_string(name, type, value):
 class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
-    def create(self, params):
-        form = tws.search_view.ViewSearch(params, name="search_form", action='/search/ok')
+    def create(self, params, values={}):
+        form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok')
         return dict(form=form)
 
     @expose()
@@ -123,7 +123,7 @@ class Search(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(params.model)
         params.found_ids = proxy.search(search_list, o, l)
 
-        return self.create(params)
+        return self.create(params, data)
 
     @expose('json')
     def get_string(self, model, id):
