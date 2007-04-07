@@ -73,35 +73,35 @@ def _search_string(name, type, value):
 class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
-    def create(self, terp):
-        form = tws.search_view.ViewSearch(terp, name="search_form", action='/search/ok')
+    def create(self, params):
+        form = tws.search_view.ViewSearch(params, name="search_form", action='/search/ok')
         return dict(form=form)
 
     @expose()
     def ok(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
         ids = data.get('check', None)
 
         if ids:
             if type(ids) == type([]):
-                terp.ids = [int(e) for e in ids]
+                params.ids = [int(e) for e in ids]
             else:
-                terp.ids = [int(ids)]
-            terp.id = terp.ids[0]
+                params.ids = [int(ids)]
+            params.id = params.ids[0]
 
-        return form.Form().create(terp)
+        return form.Form().create(params)
 
     @expose()
     def cancel(self, **kw):
-        terp, data = TinyDict.split(kw)
-        return form.Form().create(terp)
+        params, data = TinyDict.split(kw)
+        return form.Form().create(params)
 
     @expose()
     def find(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
-        fields_type = terp.fields_type
+        fields_type = params.fields_type
         search_list = []
 
         if fields_type:
@@ -120,10 +120,10 @@ class Search(controllers.Controller, TinyResource):
             l = 80
             o = 0
 
-        proxy = rpc.RPCProxy(terp.model)
-        terp.found_ids = proxy.search(search_list, o, l)
+        proxy = rpc.RPCProxy(params.model)
+        params.found_ids = proxy.search(search_list, o, l)
 
-        return self.create(terp)
+        return self.create(params)
 
     @expose('json')
     def get_string(self, model, id):

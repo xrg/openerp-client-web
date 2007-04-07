@@ -64,24 +64,24 @@ class Screen(TinyCompoundWidget):
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, terp=None, prefix='', views_preloaded={}, selectable=False, editable=False):
+    def __init__(self, params=None, prefix='', views_preloaded={}, selectable=False, editable=False):
 
         super(Screen, self).__init__(dict(prefix=prefix))
 
-        # get terp dictionary
-        terp = terp or cherrypy.request.terp
+        # get params dictionary
+        params = params or cherrypy.request.terp_params
 
-        self.model         = terp.model
-        self.state         = terp.state or None
-        self.id            = terp.id or None
-        self.ids           = terp.ids
-        self.view_ids      = terp.view_ids or []
-        self.view_mode     = terp.view_mode or ['form', 'tree']
-        self.view_mode2    = terp.view_mode2 or ['tree', 'form']
+        self.model         = params.model
+        self.state         = params.state or None
+        self.id            = params.id or None
+        self.ids           = params.ids
+        self.view_ids      = params.view_ids or []
+        self.view_mode     = params.view_mode or ['form', 'tree']
+        self.view_mode2    = params.view_mode2 or ['tree', 'form']
 
         self.view_type     = self.view_mode[0]
-        self.domain        = terp.domain or []
-        self.context       = terp.context or {}
+        self.domain        = params.domain or []
+        self.context       = params.context or {}
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded

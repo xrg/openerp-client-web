@@ -30,36 +30,36 @@
 import re
 import cherrypy
 
-def _make_dict(data, is_terp=False):
-    """If is_terp is True then generates a TinyDict otherwise generates a valid
+def _make_dict(data, is_params=False):
+    """If is_params is True then generates a TinyDict otherwise generates a valid
     dictionary from the given data to be used with TinyERP.
 
     @param data: data in the form of {'a': 1, 'b/x': 1, 'b/y': 2}
-    @param is_terp: if True generate TinyDict instead of standard dict
+    @param is_params: if True generate TinyDict instead of standard dict
 
     @return: TinyDict or dict
     """
 
-    res = (is_terp or {}) and TinyDict()
+    res = (is_params or {}) and TinyDict()
 
     for name, value in data.items():
         names = name.split('/')
 
         if len(names) > 1:
-            res.setdefault(names[0], (is_terp or {}) and TinyDict()).update({"/".join(names[1:]): value})
+            res.setdefault(names[0], (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
         else:
             res[name] = value
 
     for k, v in res.items():
         if isinstance(v, dict):
-            if not is_terp:
+            if not is_params:
                 id = 0
                 if '__id' in v:
                     id = int(v.pop('__id'))
 
-                res[k] = [(id and 1, id, _make_dict(v, is_terp))]
+                res[k] = [(id and 1, id, _make_dict(v, is_params))]
             else:
-                res[k] = _make_dict(v, is_terp and isinstance(v, TinyDict))
+                res[k] = _make_dict(v, is_params and isinstance(v, TinyDict))
 
     return res
 
@@ -113,14 +113,14 @@ class TinyDict(dict):
         @return: tuple of dicts, (TinyDict, dict of data)
         """
 
-        terp = TinyDict()
+        params = TinyDict()
         data = {}
 
         for n, v in kwargs.items():
             if n.find('_terp_') != -1:
                 n = n.replace('_terp_', '')
-                terp[n] = v
+                params[n] = v
             else:
                 data[n] = v
 
-        return _make_dict(terp, True), _make_dict(data, False)
+        return _make_dict(params, True), _make_dict(data, False)

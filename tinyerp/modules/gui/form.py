@@ -50,42 +50,42 @@ import search
 class Form(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.form")
-    def create(self, terp, tg_errors=None):
+    def create(self, params, tg_errors=None):
 
         if tg_errors:
             form = cherrypy.request.terp_form
         else:
-            form = tw.form_view.ViewForm(terp)
+            form = tw.form_view.ViewForm(params)
 
         return dict(form=form)
 
     @expose()
     def new(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
-        if terp.id or terp.ids:
-            terp.id = None
+        if params.id or params.ids:
+            params.id = None
 
-        if terp.view_mode[0] == 'tree':
-            terp.view_mode.reverse()
+        if params.view_mode[0] == 'tree':
+            params.view_mode.reverse()
 
-        return self.create(terp)
+        return self.create(params)
 
     @expose()
     def edit(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
-        if terp.view_mode[0] == 'tree':
-            terp.view_mode.reverse()
+        if params.view_mode[0] == 'tree':
+            params.view_mode.reverse()
 
-        return self.create(terp)
+        return self.create(params)
 
     def get_form(self):
-        terp, data = TinyDict.split(cherrypy.request.params)
+        params, data = TinyDict.split(cherrypy.request.params)
 
         cherrypy.request.terp_validators = {}
 
-        form = tw.form_view.ViewForm(terp)
+        form = tw.form_view.ViewForm(params)
         cherrypy.request.terp_form = form
 
         vals = cherrypy.request.terp_validators
@@ -107,101 +107,101 @@ class Form(controllers.Controller, TinyResource):
 
         @return: form view
         """
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
         if tg_errors:
-            return self.create(terp, tg_errors=tg_errors)
+            return self.create(params, tg_errors=tg_errors)
 
-        proxy = rpc.RPCProxy(terp.model)
+        proxy = rpc.RPCProxy(params.model)
 
-        if not terp.id:
-            res = proxy.create(data, terp.context)
-            terp.ids = (terp.ids or []) + [int(res)]
+        if not params.id:
+            res = proxy.create(data, params.context)
+            params.ids = (params.ids or []) + [int(res)]
         else:
-            res = proxy.write([terp.id], data, terp.context)
+            res = proxy.write([params.id], data, params.context)
 
-        return self.create(terp)
+        return self.create(params)
 
     @expose()
     def delete(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
-        proxy = rpc.RPCProxy(terp.model)
+        proxy = rpc.RPCProxy(params.model)
 
         idx = -1
-        if terp.id:
-            res = proxy.unlink([terp.id])
-            idx = terp.ids.index(terp.id)
-            terp.ids.remove(terp.id)
+        if params.id:
+            res = proxy.unlink([params.id])
+            idx = params.ids.index(params.id)
+            params.ids.remove(params.id)
 
-            if idx == len(terp.ids):
+            if idx == len(params.ids):
                 idx = -1
 
-        terp.id = (terp.ids or None) and terp.ids[idx]
+        params.id = (params.ids or None) and params.ids[idx]
 
-        return self.create(terp)
+        return self.create(params)
 
     @expose()
     def prev(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
         idx = -1
 
-        if terp.id:
-            idx = terp.ids.index(terp.id)
+        if params.id:
+            idx = params.ids.index(params.id)
             idx = idx-1
 
-            if idx == terp.ids[0]:
-                idx = len(terp.ids)
-                terp.id = terp.ids[idx]
+            if idx == params.ids[0]:
+                idx = len(params.ids)
+                params.id = params.ids[idx]
 
-        if terp.ids:
-            terp.id = terp.ids[idx]
+        if params.ids:
+            params.id = params.ids[idx]
 
-        return self.create(terp)
+        return self.create(params)
 
     @expose()
     def next(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
         idx = 0
 
-        if terp.id:
-            idx = terp.ids.index(terp.id)
+        if params.id:
+            idx = params.ids.index(params.id)
             idx = idx + 1
 
-            if idx == len(terp.ids):
+            if idx == len(params.ids):
                 idx = 0
 
-        if terp.ids:
-            terp.id = terp.ids[idx]
+        if params.ids:
+            params.id = params.ids[idx]
 
-        return self.create(terp)
+        return self.create(params)
 
     @expose()
     def find(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
-        terp.found_ids = []
+        params.found_ids = []
 
         search_window = search.Search()
-        return search_window.create(terp)
+        return search_window.create(params)
 
     @expose()
     def switch(self, **kw):
-        terp, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)
 
-        terp.view_mode.reverse()
+        params.view_mode.reverse()
 
-        terp.ids = terp.ids or []
-        if terp.ids:
-            terp.id = terp.ids[0]
+        params.ids = params.ids or []
+        if params.ids:
+            params.id = params.ids[0]
 
-        return self.create(terp)
+        return self.create(params)
 
     @expose()
     def search_m2o(self, model, textid, hiddenname, **kw):
-        terp = TinyDict()
-        terp.model = model
-        terp.textid = textid
-        terp.hiddenname = hiddenname
+        params = TinyDict()
+        params.model = model
+        params.textid = textid
+        params.hiddenname = hiddenname
 
-        return search.Search().create(terp)
+        return search.Search().create(params)

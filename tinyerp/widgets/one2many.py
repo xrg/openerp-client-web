@@ -50,9 +50,9 @@ class O2M(TinyCompoundWidget):
         #self.colspan = 4
         #self.nolabel = True
 
-        # get terp dictionary
-        terp = cherrypy.request.terp
-        terp = terp[self.name.replace('/', '.')]
+        # get params dictionary
+        params = cherrypy.request.terp_params
+        params = params[self.name.replace('/', '.')]
 
         self.model = attrs['relation']
 
@@ -62,24 +62,24 @@ class O2M(TinyCompoundWidget):
         view_mode = mode
         view_mode2 = mode
 
-        if terp: view_mode = terp.view_mode
-        if terp: view_mode2 = terp.view_mode2
+        if params: view_mode = params.view_mode
+        if params: view_mode2 = params.view_mode2
 
         ids = attrs['value'] or []
-        #if terp: ids = terp.ids
+        #if params: ids = params.ids
 
         id = (ids or None) and ids[0]
 
-        if not terp:
-            terp = TinyDict()
+        if not params:
+            params = TinyDict()
 
-        terp.model = self.model
-        terp.id = id
-        terp.ids = ids
-        terp.view_mode = view_mode
-        terp.view_mode2 = view_mode2
-        terp.domain = []
-        terp.context = {}
+        params.model = self.model
+        params.id = id
+        params.ids = ids
+        params.view_mode = view_mode
+        params.view_mode2 = view_mode2
+        params.domain = []
+        params.context = {}
 
-        self.screen = Screen(terp, prefix=self.name, views_preloaded=view)
+        self.screen = Screen(params, prefix=self.name, views_preloaded=view)
         self.id = id
