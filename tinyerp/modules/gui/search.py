@@ -65,8 +65,11 @@ def _search_string(name, type, value):
                 return name, '<=', value[1]
             return None
 
-        elif type=='boolean' or type=='selection':
+        elif type=='boolean':
             return name, '=', int(value)
+
+        elif  type=='selection':
+            return name, '=', value
 
     return None
 

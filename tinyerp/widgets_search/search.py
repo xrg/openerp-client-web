@@ -137,14 +137,10 @@ class Form(TinyCompoundWidget):
             elif node.localName == 'field' and attrs.has_key('select'):
                 name = attrs['name']
 
-                if fields[name].has_key('selection'):
-                    fields[name]['selection'] = [['','']] + fields[name]['selection']
-
                 if attrs.get('widget', False):
                     if attrs['widget']=='one2many_list':
                         attrs['widget']='one2many'
                     attrs['type'] = attrs['widget']
-
 
                 try:
                     fields[name].update(attrs)
