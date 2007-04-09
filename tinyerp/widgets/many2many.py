@@ -35,6 +35,8 @@ from list import List
 
 from tinyerp import rpc
 
+import validators as tiny_validators
+
 class M2M(TinyCompoundWidget):
     """many2many widget
 
@@ -57,3 +59,5 @@ class M2M(TinyCompoundWidget):
             self.view = proxy.fields_view_get({}, 'tree', {})
 
         self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, selectable=True)
+
+        self.validator = tiny_validators.many2many()

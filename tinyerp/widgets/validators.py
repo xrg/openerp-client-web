@@ -65,3 +65,12 @@ class DateTime(tg.validators.DateTimeConverter):
 
 class Selection(tg.validators.FancyValidator):
     if_empty = False
+
+class many2many(tg.validators.FancyValidator):
+
+    if_empty = [(6, 0, [])]
+
+    def _to_python(self, value, state):
+        return [(6, 0, map(lambda id: int(id), list(value)))]
+
+
