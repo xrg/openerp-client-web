@@ -41,7 +41,12 @@ class ViewSearch(tg.widgets.Form):
 
     template = "tinyerp.widgets_search.templates.search"
 
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context', 'textid', 'hiddenname']
+    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context', 'oncancel', 'onok', 'onfind']
+
+    oncancel = None
+    onok = None
+    onfind = None
+
     member_widgets = ['form_view', 'list_view']
 
     def __init__(self, params, values={}, **kw):

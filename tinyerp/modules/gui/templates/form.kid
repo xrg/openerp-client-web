@@ -21,7 +21,7 @@
                 terp_id = document.getElementsByName(n)[0];                                
                 terp_id.value = id;
                                 
-                act = URL(act, {_terp_one2many: o2m_name});
+                act = getURL(act, {_terp_one2many: o2m_name});
                                 
             } else {
                 form._terp_id.value = id;
@@ -46,7 +46,7 @@
                 terp_id = document.getElementsByName(n)[0];                                
                 terp_id.value = id;
                                 
-                act = URL(act, {_terp_one2many: o2m_name});
+                act = getURL(act, {_terp_one2many: o2m_name});
                                 
             } else {
                 form._terp_id.value = id;
@@ -66,7 +66,7 @@
             act = '/form/' + action;
             
             if (o2m) {
-                act = URL(act, {_terp_one2many: o2m.name});
+                act = getURL(act, {_terp_one2many: o2m.name});
             }
                                                 
             form.action = act;

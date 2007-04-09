@@ -10,50 +10,13 @@
     <script language="javascript" src="/static/javascript/master.js"></script>
 
     <script language="javascript">
-    <!--
+    
         function submit_form(action){
             form = $('search_form');
             form.action = '/search/' + action;
             form.submit();
         }
 
-        function setfield(model, textid, hiddenname)
-        {
-        	boxes = window.document.getElementsByName('check');
-        	if (boxes.length > 0)
-        	{
-        		for(i=0;i<=boxes.length;i++)
-        		{
-        			if (boxes[i].checked)
-        			{
-        				id = window.document.getElementsByName('check')[i].value
-
-						function settext(xmlhttp)
-        				{
-				        	data = evalJSONRequest(xmlhttp);
-				        	window.opener.document.getElementsByName(hiddenname)[0].value = id;
-				        	window.opener.document.getElementById(textid).value = data['name'];
-				        	close_form();
-				        }
-
-				        function errtext(err)
-				        {
-				        	alert("error" + err);
-				        }
-
-        				d=doSimpleXMLHttpRequest("/search/get_string",{'model':model, 'id':id});
-        				d.addCallbacks(settext,errtext);
-						break;
-					}
-				}
-			}
-        }
-
-        function close_form()
-        {
-        	close();
-        }
-    -->
     </script>
 </head>
 

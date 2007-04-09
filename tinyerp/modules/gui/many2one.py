@@ -27,52 +27,50 @@
 #
 ###############################################################################
 
-"""
-This module implementes the RootController of the TurboGears application.
-For more information on TG controllers, please see the TG docs.
-"""
-
-from turbogears import controllers
-from turbogears import expose
-from turbogears import redirect
-
 import cherrypy
 
+from turbogears import expose
+from turbogears import widgets
+from turbogears import controllers
+
 from tinyerp import rpc
-from tinyerp.tinyres import TinyResource
+from tinyerp import tools
+from tinyerp import common
 
-#from tinyerp.subcontrollers import ActionController
+from tinyerp import tools
+from tinyerp import widgets_search as tws
+from tinyerp.modules.utils import TinyDict
 
-from tinyerp.modules import *
-from tinyerp.widgets import *
+import search
 
-class Root(controllers.RootController, TinyResource):
-    """Turbogears root controller, see TG docs for more info.
-    """
+class M2O(search.Search):
 
-    @expose(template="tinyerp.templates.index")
-    def index(self):
-        """ The index page
-        """
-        menu = tree.Tree(id="menu", title="TinyERP", url="/menu_items", model="ir.ui.menu", action="/menu", target="contentpane")
-        return dict(menu_tree=menu)
+    def _get_onok(self):
+        return "alert('Not Implemented Yet!!!')"
 
-    @expose()
-    def logout(self):
-        """ Logout method, will terminate the current session.
-        """
-        rpc.session.logout()
-        raise redirect('/')
+    def _get_oncancel(self):
+        return "window.close();"
+
+    def _get_onfind(self):
+        return "alert('Not Implemented Yet!!!')"
 
     @expose()
-    def menu(self, model, id):
-        return actions.execute_by_keyword('tree_but_open', model=model, id=id)
+    def new(self, model, **kw):
 
-    menu_items = tree.Tree.items;
+        params = TinyDict()
+        params.model = model
 
-    form = gui.form.Form()
-    search = gui.search.Search()
-    many2one = gui.many2one.M2O()
-    many2many = gui.many2many.M2M()
+        return self.create(params)
 
+    @expose('json')
+    def ok(self, **kw):
+        params, data = TinyDict.split(kw)
 
+        ids = [int(id) for id in data.get('search_list', [])]
+        return dict(ids=ids)
+
+    @expose('json')
+    def get_string(self, model, id):
+        proxy = rpc.RPCProxy(model)
+        name = proxy.name_get([id], {})
+        return dict(name=name[0][1])

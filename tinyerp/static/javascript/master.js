@@ -95,7 +95,6 @@ function wopen(url, name, w, h) {
     return window.open(url, name ? name : "popup", windowFeatures);
 }
 
-function URL(path, args) {
+function getURL(path, args) {
 	return args ? path + "?" + queryString(args) : path;
 }
-

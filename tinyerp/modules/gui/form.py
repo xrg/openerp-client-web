@@ -222,11 +222,3 @@ class Form(controllers.Controller, TinyResource):
         # regenerate the view
         return self.create(params)
 
-    @expose()
-    def search_m2o(self, model, textid, hiddenname, **kw):
-        params = TinyDict()
-        params.model = model
-        params.textid = textid
-        params.hiddenname = hiddenname
-
-        return search.Search().create(params)

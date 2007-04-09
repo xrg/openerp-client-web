@@ -9,10 +9,8 @@
     <input type="hidden" name="_terp_view_mode2" value="${str(view_mode2)}"/>
     <input type="hidden" name="_terp_domain" value="${str(domain)}"/>
     <input type="hidden" name="_terp_context" value="${str(context)}"/>
-
-    <input type="hidden" name="_terp_fields_type" value="${str(form_view.fields_type)}"/>
-    <input type="hidden" name="_terp_textid" value="${textid}" py:if="textid"/>
-    <input type="hidden" name="_terp_hiddenname" value="${hiddenname}" py:if="hiddenname"/>
+    
+    <div py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
 
     ${form_view.display(value_for(form_view), **params_for(form_view))}
          		
@@ -25,8 +23,6 @@
 		            <input type="text" value="80" name="limit" id="limit" algin ='left' style="width:60px" />
 				</td>
 
-				<td width="30px"></td>
-
     			<td aligh='left'>Offset</td>
 		        <td>
 	    	    	<input type="text" value="0" name="offset" id="offset" algin ='left' style="width:60px" />
@@ -35,20 +31,15 @@
 				<td width="100%"></td>
 
     			<td>
-		        	<button type="button" title="Find Records..." onclick="submit_form('find')">Find</button>
+		        	<button type="button" title="Find Records..." onclick="${onfind}">Find</button>
 				</td>
-				<td py:if="not textid">
-	    	        <button type="button" title="Cancel..." onclick="submit_form('cancel')">Cancel</button>
+				
+				<td>
+	    	        <button type="button" title="Cancel..." onclick="${oncancel}">Cancel</button>
     			</td>
-    			<td py:if="textid">
-	    	        <button type="button" title="Cancel..." onclick="close_form()">Cancel</button>
-    			</td>
-
-        		<td py:if="not textid">
-		            <button type="button" title="Select Record..." onclick="submit_form('ok')">OK</button>
-	    		</td>
-	    		<td py:if="textid">
-		            <button type="button" title="Select Record..." onclick="setfield('${model}', '${textid}','${hiddenname}')">OK</button>
+    			
+        		<td>
+		            <button type="button" title="Select Record..." onclick="${onok}">OK</button>
 	    		</td>
     		</tr>
     	</table>

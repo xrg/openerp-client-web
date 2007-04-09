@@ -9,7 +9,7 @@
             <div class="spacer" />
         </td>
         <td>
-            <button type="button" onclick="wopen('/form/search_m2o?model=${relation}&amp;textid=${field_id}&amp;hiddenname=${name}', 'search', 800, 600)">Select</button>
+            <button type="button" onclick="wopen(getURL('/many2one/new', {model: '${relation}'}), 'search', 800, 600)">Select</button>
         </td>
     </tr>
 </table>

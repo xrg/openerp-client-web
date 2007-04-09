@@ -30,8 +30,6 @@
 """
 This module implementes search view for a tiny model. Currently it simply displays
 list view of the given model.
-
-@todo: implement read search window
 """
 import cherrypy
 
@@ -78,7 +76,21 @@ class Search(controllers.Controller, TinyResource):
     @expose(template="tinyerp.modules.gui.templates.search")
     def create(self, params, values={}):
         form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok')
+
+        form.oncancel = self._get_oncancel()
+        form.onok = self._get_onok()
+        form.onfind = self._get_onfind()
+
         return dict(form=form)
+
+    def _get_oncancel(self):
+        return "submit_form('cancel')"
+
+    def _get_onok(self):
+        return "submit_form('ok')"
+
+    def _get_onfind(self):
+        return "submit_form('find')"
 
     @expose()
     def ok(self, **kw):
@@ -127,10 +139,3 @@ class Search(controllers.Controller, TinyResource):
         params.found_ids = proxy.search(search_list, o, l)
 
         return self.create(params, data)
-
-    @expose('json')
-    def get_string(self, model, id):
-        proxy = rpc.RPCProxy(model)
-        name = proxy.name_get([id], {})
-        return dict(name=name[0][1])
-
