@@ -96,14 +96,13 @@ class Search(controllers.Controller, TinyResource):
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
 
-        ids = [int(id) for id in data.get('search_list', [])]
+        ids = data.get('search_list', [])
+        if not isinstance(ids, list):
+            ids = [ids]
 
         if ids:
-            if type(ids) == type([]):
-                params.ids = [int(e) for e in ids]
-            else:
-                params.ids = [int(ids)]
-            params.id = params.ids[0]
+            params.ids = ids
+            params.id = ids[0]
 
         return form.Form().create(params)
 
