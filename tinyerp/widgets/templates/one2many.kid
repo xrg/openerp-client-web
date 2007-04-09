@@ -4,7 +4,7 @@
             <div class="toolbar">
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="100%"><strong>${string}</strong></td>
+                    <td width="100%"><strong>${screen.string}</strong></td>
                     <td><button type="button" title="Create new record..." name="${button_name}" onclick="submit_form('save', this)">New</button></td>
                     <td><button type="button" title="Delete current record..." py:attrs="button_attrs" name="${button_name}" onclick="submit_form('delete', this)">Delete</button></td>
                     <td><button type="button" title="Previous record..." py:attrs="button_attrs" name="${button_name}" onclick="submit_form('prev', this)">Prev</button></td>
