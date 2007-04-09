@@ -84,7 +84,7 @@ class Search(controllers.Controller, TinyResource):
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
 
-        ids = data.get('check', None)
+        ids = [int(id) for id in data.get('search_list', [])]
 
         if ids:
             if type(ids) == type([]):

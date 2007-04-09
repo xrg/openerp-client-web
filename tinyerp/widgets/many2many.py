@@ -56,4 +56,4 @@ class M2M(TinyCompoundWidget):
             proxy = rpc.RPCProxy(self.relation)
             self.view = proxy.fields_view_get({}, 'tree', {})
 
-        self.list_view = List(self.relation, self.view, ids=self.ids, domain=self.domain, selectable=True)
+        self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, selectable=True)

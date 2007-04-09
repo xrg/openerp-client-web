@@ -70,6 +70,6 @@ class ViewSearch(tg.widgets.Form):
         view_tree = proxy.fields_view_get({}, 'tree', {})
 
         self.form_view = search.Form(model=self.model, view=view_form, domain=self.domain, context=self.context, values=values)
-        self.list_view = tw.list.List(model=self.model, ids=self.found_ids, view=view_tree, domain=self.domain, context=self.context, selectable=True)
+        self.list_view = tw.list.List('search_list', model=self.model, ids=self.found_ids, view=view_tree, domain=self.domain, context=self.context, selectable=True)
 
         self.string = self.form_view.string

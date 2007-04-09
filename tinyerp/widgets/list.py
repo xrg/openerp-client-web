@@ -40,7 +40,7 @@ from interface import TinyCompoundWidget
 
 class List(TinyCompoundWidget):
 
-    params = ['data', 'headers', 'model', 'selectable', 'editable', 'o2m']
+    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'o2m']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -50,16 +50,19 @@ class List(TinyCompoundWidget):
     editable = False
     o2m = None
 
-    css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/ajaxlist.css')]
+    css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/listview.css')]
+    javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
 
-    def __init__(self, model, view, ids=[], domain=[], context={}, selectable=False, editable=False):
+    def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         super(List, self).__init__()
 
+        self.name = name
         self.model = model
-        self.selectable = selectable
-        self.editable = editable
         self.ids = ids
+
+        self.selectable = kw.get('selectable', False)
+        self.editable = kw.get('editable', False)
 
         fields = view['fields']
         dom = xml.dom.minidom.parseString(view['arch'])
