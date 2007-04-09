@@ -29,7 +29,7 @@
 
 import turbogears as tg
 
-from interface import TinyCompoundWidget
+from interface import TinyField
 from form import Form
 from list import List
 
@@ -37,17 +37,19 @@ from tinyerp import rpc
 
 import validators as tiny_validators
 
-class M2M(TinyCompoundWidget):
+class M2M(TinyField, tg.widgets.CompoundWidget):
     """many2many widget
-
-    @todo: implement me!!!
     """
+
     template = "tinyerp.widgets.templates.many2many"
     params = ['relation']
+    relation = None
+
     member_widgets = ['list_view']
 
     def __init__(self, attrs={}):
         super(M2M, self).__init__(attrs)
+        tg.widgets.CompoundWidget.__init__(self)
 
         self.relation = attrs.get('relation', '')
         self.view = attrs.get('views',{})
