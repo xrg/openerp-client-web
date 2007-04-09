@@ -269,7 +269,7 @@ class Selection(TinyField):
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     template = "tinyerp.widgets.templates.datetime"
     params = ["format"]
-    format = "%Y-%m-%d %H:%M"
+    format = "%Y-%m-%d %H:%M:%S"
     picker_shows_time = True
     button_text = 'Select'
 
@@ -281,7 +281,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
             self.format = "%Y-%m-%d"
             self.picker_shows_time = False
         elif attrs['type'] == 'time':
-            self.format = "%H:%M"
+            self.format = "%H:%M:%S"
 
         self.validator = tiny_validators.DateTime(format=self.format)
 
