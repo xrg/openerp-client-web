@@ -135,6 +135,8 @@ class Form(controllers.Controller, TinyResource):
     def delete(self, **kw):
         params, data = TinyDict.split(kw)
 
+        params.is_navigating = True
+
         current = params[params.one2many or ''] or params
 
         proxy = rpc.RPCProxy(current.model)

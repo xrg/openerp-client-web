@@ -78,7 +78,7 @@ class O2M(TinyCompoundWidget):
 
         id = (ids or None) and ids[0]
 
-        if params and ((params.id in ids) or (params.id is None)):
+        if params and (params.id in ids or params.id is None):
             if is_navigating:
                 id = params.id or id
             else:
