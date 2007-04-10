@@ -155,6 +155,7 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def prev(self, **kw):
         params, data = TinyDict.split(kw)
+        params.is_navigating = True
 
         current = params[params.one2many or ''] or params
 
@@ -176,6 +177,7 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def next(self, **kw):
         params, data = TinyDict.split(kw)
+        params.is_navigating = True
 
         current = params[params.one2many or ''] or params
 

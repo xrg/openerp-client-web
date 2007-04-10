@@ -53,8 +53,11 @@ class O2M(TinyCompoundWidget):
         #self.colspan = 4
         #self.nolabel = True
 
-        # get params dictionary
+        # get top params dictionary
         params = cherrypy.request.terp_params
+        is_navigating = params.is_navigating
+
+        # get params for this field
         params = params[self.name.replace('/', '.')]
 
         self.model = attrs['relation']
@@ -74,7 +77,8 @@ class O2M(TinyCompoundWidget):
         ids = attrs['value'] or []
 
         id = (ids or None) and ids[0]
-        if params and ((params.id in ids) or (params.id is None)):
+
+        if not is_navigating and params and ((params.id in ids) or (params.id is None)):
             id = params.id
 
         if not params:
