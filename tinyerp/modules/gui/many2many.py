@@ -45,16 +45,16 @@ import search
 
 class M2M(search.Search):
 
-    def _get_onok(self):
+    def _get_onok(self, params):
         return "alert('Not Implemented Yet!!!')"
 
-    def _get_oncancel(self):
+    def _get_oncancel(self, params):
         return "window.close();"
 
-    def _get_onfind(self):
+    def _get_onfind(self, params):
         return "submit_form('/many2many/find')"
 
-    def _get_javascript(self):
+    def _get_javascript(self, params):
         code = [widgets.JSSource("""
 function onok(){
     alert('Not Implemented Yet!!!');
@@ -62,6 +62,9 @@ function onok(){
 """)]
 
         return code
+
+    def _get_hiddenfield(self, params):
+        return []
 
     @expose()
     def new(self, model, **kw):

@@ -77,24 +77,28 @@ class Search(controllers.Controller, TinyResource):
     def create(self, params, values={}):
         form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok')
 
-        form.oncancel = self._get_oncancel()
-        form.onok = self._get_onok()
-        form.onfind = self._get_onfind()
+        form.oncancel = self._get_oncancel(params)
+        form.onok = self._get_onok(params)
+        form.onfind = self._get_onfind(params)
 
-        form.javascript = self._get_javascript()
+        form.javascript = self._get_javascript(params)
+        form.hidden_fields = self._get_hiddenfield(params)
 
         return dict(form=form)
 
-    def _get_oncancel(self):
+    def _get_oncancel(self, params):
         return "submit_form('/search/cancel')"
 
-    def _get_onok(self):
+    def _get_onok(self, params):
         return "submit_form('/search/ok')"
 
-    def _get_onfind(self):
+    def _get_onfind(self, params):
         return "submit_form('/search/find')"
 
-    def _get_javascript(self):
+    def _get_javascript(self, params):
+        return []
+
+    def _get_hiddenfield(self, params):
         return []
 
     @expose()
