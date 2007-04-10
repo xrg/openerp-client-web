@@ -40,3 +40,15 @@ ListView.prototype.checkAll = function(clear){
         box.checked = clear;
     });
 }
+
+ListView.prototype.getSelected = function() {
+
+    boxes = $(this.id).getElementsByTagName('input');
+    result = [];
+
+    forEach(boxes, function(box){
+        if (box.name && box.checked) result.push(box);
+    });
+
+    return result;
+}

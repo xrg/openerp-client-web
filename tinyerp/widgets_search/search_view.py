@@ -73,9 +73,6 @@ class ViewSearch(tg.widgets.Form):
         self.offset = values.get('offset', self.offset)
         self.limit = values.get('limit', self.limit)
 
-        self.textid = params.textid
-        self.hiddenname = params.hiddenname
-
         proxy = rpc.RPCProxy(self.model)
 
         view_form = proxy.fields_view_get({}, 'form', {})
