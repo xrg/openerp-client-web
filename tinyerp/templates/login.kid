@@ -123,7 +123,7 @@
 						</tr>
 					</table>				
 				</div>				
-				<input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${value}"/>				
+				<input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>				
 			</div>
 		</form>
 		
