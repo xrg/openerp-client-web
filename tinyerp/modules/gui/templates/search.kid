@@ -13,7 +13,7 @@
     
         function submit_form(action){
             form = $('search_form');
-            form.action = '/search/' + action;
+            form.action = action;
             form.submit();
         }
 

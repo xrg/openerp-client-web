@@ -46,13 +46,22 @@ import search
 class M2O(search.Search):
 
     def _get_onok(self):
-        return "alert('Not Implemented Yet!!!')"
+        return "onok()"
 
     def _get_oncancel(self):
         return "window.close();"
 
     def _get_onfind(self):
-        return "alert('Not Implemented Yet!!!')"
+        return "submit_form('/many2one/find')"
+
+    def _get_javascript(self):
+        code = [widgets.JSSource("""
+function onok(){
+    alert('Not Implemented Yet!!!');
+}
+""")]
+
+        return code
 
     @expose()
     def new(self, model, **kw):

@@ -81,16 +81,21 @@ class Search(controllers.Controller, TinyResource):
         form.onok = self._get_onok()
         form.onfind = self._get_onfind()
 
+        form.javascript = self._get_javascript()
+
         return dict(form=form)
 
     def _get_oncancel(self):
-        return "submit_form('cancel')"
+        return "submit_form('/search/cancel')"
 
     def _get_onok(self):
-        return "submit_form('ok')"
+        return "submit_form('/search/ok')"
 
     def _get_onfind(self):
-        return "submit_form('find')"
+        return "submit_form('/search/find')"
+
+    def _get_javascript(self):
+        return []
 
     @expose()
     def ok(self, **kw):
