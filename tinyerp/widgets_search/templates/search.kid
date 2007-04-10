@@ -20,12 +20,12 @@
 			<tr width = "100%">
 				<td aligh='left'>Limit</td>
 		        <td>
-		            <input type="text" value="80" name="limit" id="limit" algin ='left' style="width:60px" />
+		            <input type="text" value="${limit}" name="limit" id="limit" algin ='left' style="width:60px" />
 				</td>
 
     			<td aligh='left'>Offset</td>
 		        <td>
-	    	    	<input type="text" value="0" name="offset" id="offset" algin ='left' style="width:60px" />
+	    	    	<input type="text" value="${offset}" name="offset" id="offset" algin ='left' style="width:60px" />
 				</td>
 
 				<td width="100%"></td>

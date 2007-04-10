@@ -41,11 +41,15 @@ class ViewSearch(tg.widgets.Form):
 
     template = "tinyerp.widgets_search.templates.search"
 
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context', 'oncancel', 'onok', 'onfind']
+    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context',
+              'oncancel', 'onok', 'onfind', 'offset', 'limit']
 
     oncancel = None
     onok = None
     onfind = None
+
+    limit = 80
+    offset = 0
 
     member_widgets = ['form_view', 'list_view']
 
@@ -65,6 +69,9 @@ class ViewSearch(tg.widgets.Form):
         self.view_type     = self.view_mode[0]
         self.domain        = params.domain or []
         self.context       = params.context or {}
+
+        self.offset = values.get('offset', self.offset)
+        self.limit = values.get('limit', self.limit)
 
         self.textid = params.textid
         self.hiddenname = params.hiddenname
