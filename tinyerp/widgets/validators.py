@@ -55,6 +55,9 @@ class Int(tg.validators.Int):
 class Float(tg.validators.Number):
     if_empty = False
 
+    def _from_python(self, value, state):
+        return value or 0.0
+
 class DateTime(tg.validators.DateTimeConverter):
     if_empty = False
 
