@@ -14,8 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            <?python row_class = ['even', 'odd']?>
-            <tr py:for="row in data" class="${row_class[data.index(row) % 2]}">
+            <tr py:for="i, row in enumerate(data)" class="${i%2 and 'odd' or 'even'}">
                 
                 <td align="center" py:if="selectable">
                     <input type="checkbox" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
