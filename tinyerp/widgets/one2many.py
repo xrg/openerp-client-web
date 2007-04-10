@@ -78,8 +78,11 @@ class O2M(TinyCompoundWidget):
 
         id = (ids or None) and ids[0]
 
-        if not is_navigating and params and ((params.id in ids) or (params.id is None)):
-            id = params.id
+        if params:
+            if is_navigating:
+                id = params.id or id
+            else:
+                id = params.id
 
         if not params:
             params = TinyDict()
