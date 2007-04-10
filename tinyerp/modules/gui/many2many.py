@@ -52,7 +52,16 @@ class M2M(search.Search):
         return "window.close();"
 
     def _get_onfind(self):
-        return "alert('Not Implemented Yet!!!')"
+        return "submit_form('/many2many/find')"
+
+    def _get_javascript(self):
+        code = [widgets.JSSource("""
+function onok(){
+    alert('Not Implemented Yet!!!');
+}
+""")]
+
+        return code
 
     @expose()
     def new(self, model, **kw):

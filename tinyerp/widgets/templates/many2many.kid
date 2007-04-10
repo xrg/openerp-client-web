@@ -6,7 +6,7 @@
         </td>
         <td><div class="spacer"></div></td>
         <td>
-            <button type="button" onclick="wopen(getURL('/many2one/new', {model: '${relation}'}), 'search', 800, 600);">Select</button>
+            <button type="button" onclick="wopen(getURL('/many2many/new', {model: '${relation}'}), 'search', 800, 600);">Select</button>
         </td>
     </tr>
     <tr><td height="3px"></td></tr>
