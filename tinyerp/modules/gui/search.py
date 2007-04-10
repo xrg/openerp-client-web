@@ -101,7 +101,7 @@ class Search(controllers.Controller, TinyResource):
             ids = [ids]
 
         if ids:
-            params.ids = ids
+            params.ids = [int(id) for id in ids]
             params.id = ids[0]
 
         return form.Form().create(params)

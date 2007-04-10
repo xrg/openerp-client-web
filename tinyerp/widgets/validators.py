@@ -71,6 +71,7 @@ class many2many(tg.validators.FancyValidator):
     if_empty = [(6, 0, [])]
 
     def _to_python(self, value, state):
-        return [(6, 0, map(lambda id: int(id), list(value)))]
+        if not isinstance(value, list):
+            value = (value or []) and [value]
 
-
+        return [(6, 0, [int(id) for id in value])]
