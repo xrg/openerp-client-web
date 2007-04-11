@@ -36,12 +36,14 @@ from form import Form
 import validators as tiny_validators
 
 def get_name(model, id):
+    name = (id or str('')) and str(id)
+
     if model and id:
         proxy = rpc.RPCProxy(model)
         name = proxy.name_get([id], {})
-        return name[0][1]
+        name = name[0][1]
 
-    return id or ''
+    return unicode(name, 'utf-8')
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"
