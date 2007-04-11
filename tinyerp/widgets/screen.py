@@ -93,16 +93,23 @@ class Screen(TinyCompoundWidget):
         view_id = (self.view_ids or False) and self.view_ids[0]
         view_type = self.view_mode[0]
 
+        if view_type:
+            self.add_view_id(view_id, view_type)
+
+    def add_view_id(self, view_id, view_type):
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:
             proxy = rpc.RPCProxy(self.model)
             view = proxy.fields_view_get(view_id, view_type, self.context)
 
+        self.add_view(view, view_type)
+
+    def add_view(self, view, view_type='form'):
         if view_type == 'form':
-            self.widget = form.Form(prefix=prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], editable=editable, selectable=selectable)
+            self.widget = form.Form(prefix=self.prefix, model=self.model, view=view, ids=(self.id or []) and [self.id])
         else:
-            self.widget = list.List(self.name, model=self.model, view=view, ids=self.ids, editable=editable, selectable=selectable)
+            self.widget = list.List(self.name, model=self.model, view=view, ids=self.ids, editable=self.editable, selectable=self.selectable)
             self.ids = self.widget.ids
 
         self.string = self.widget.string

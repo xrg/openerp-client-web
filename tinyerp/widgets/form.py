@@ -337,7 +337,7 @@ class Form(TinyCompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, selectable=False, editable=False):
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
 
         super(Form, self).__init__()
 
