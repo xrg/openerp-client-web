@@ -33,12 +33,17 @@ import cherrypy
 from screen import Screen
 
 class ViewForm(tg.widgets.Form):
-    template = "tinyerp.widgets.templates.form"
+    template = """
+    <form method="post" id="${name}" name="${name}" action="${action}">
+        ${screen.display(value_for(screen), **params_for(screen))}
+    </form>
+    """
+
     member_widgets = ['screen']
 
-    def __init__(self, params):
+    def __init__(self, params, **kw):
 
-        super(ViewForm, self).__init__(name="view_form")
+        super(ViewForm, self).__init__(**kw)
 
         # save reference of params dictionary in requeste
         cherrypy.request.terp_params = params

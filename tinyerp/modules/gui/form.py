@@ -55,7 +55,7 @@ class Form(controllers.Controller, TinyResource):
         if tg_errors:
             form = cherrypy.request.terp_form
         else:
-            form = tw.form_view.ViewForm(params)
+            form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
         return dict(form=form)
 
@@ -87,7 +87,7 @@ class Form(controllers.Controller, TinyResource):
 
         cherrypy.request.terp_validators = {}
 
-        form = tw.form_view.ViewForm(params)
+        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
         cherrypy.request.terp_form = form
 
         vals = cherrypy.request.terp_validators
