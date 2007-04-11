@@ -82,5 +82,5 @@ class M2O(search.Search):
 
     @expose('json')
     def get_name(self, model, id):
-        name = tw.many2one.get_name(mode, id)
+        name = tw.many2one.get_name(model, id)
         return dict(name=name)
