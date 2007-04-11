@@ -38,7 +38,9 @@ from tinyerp import tools
 from tinyerp import common
 
 from tinyerp import tools
+from tinyerp import widgets as tw
 from tinyerp import widgets_search as tws
+
 from tinyerp.modules.utils import TinyDict
 
 import search
@@ -82,7 +84,6 @@ function onok(){
         return dict(ids=ids)
 
     @expose('json')
-    def get_string(self, model, id):
-        proxy = rpc.RPCProxy(model)
-        name = proxy.name_get([id], {})
-        return dict(name=name[0][1])
+    def get_name(self, model, id):
+        name = tw.many2one.get_name(mode, id)
+        return dict(name=name)

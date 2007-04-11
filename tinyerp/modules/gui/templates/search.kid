@@ -49,10 +49,10 @@
             btnCancel.disabled = true;
             btnOK.disabled = true;
            
-            req = doSimpleXMLHttpRequest(getURL('/many2one/get_string', {model: '${params.model}', id : id}));
+            req = doSimpleXMLHttpRequest(getURL('/many2one/get_name', {model: '${params.model}', id : id}));
             
             req.addCallback(function(xmlHttp){
-                res = evalJSONRequest(xmlHttp);             
+                res = evalJSONRequest(xmlHttp);
                 set_values(id, res['name']);
             });      
             

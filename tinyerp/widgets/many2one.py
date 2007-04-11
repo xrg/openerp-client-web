@@ -29,10 +29,19 @@
 
 import turbogears as tg
 
-from interface import TinyField
+from tinyerp import rpc
 
+from interface import TinyField
 from form import Form
 import validators as tiny_validators
+
+def get_name(model, id):
+    if model and id:
+        proxy = rpc.RPCProxy(model)
+        name = proxy.name_get([id], {})
+        return name[0][1]
+
+    return id or ''
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"
@@ -46,6 +55,9 @@ class M2O(TinyField):
     def set_value(self, value):
         try:
             super(M2O, self).set_value(value[0])
-            self.text = unicode(value[-1])
         except:
             pass
+
+    def update_params(self, d):
+        super(M2O, self).update_params(d)
+        d['text'] = get_name(self.relation, d['value'])
