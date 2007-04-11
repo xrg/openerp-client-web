@@ -46,6 +46,8 @@ from tinyerp import tools
 from tinyerp import common
 
 from gui.form import Form
+from gui.wizard import Wizard
+
 from utils import TinyDict
 
 def _execute_window(view_id, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
@@ -82,7 +84,12 @@ def _execute_wizard(name, **data):
 
     @return: wizard view (mostly XHTML code)
     """
-    return "WIZARD: NOT IMPLEMENTED YET!"
+    params = TinyDict()
+    params.name = name
+    params.data = data
+    params.state = 'init'
+
+    return Wizard().create(params)
 
 def _execute_report(name, **data):
     """Executes a report with the given data, on success returns `application/pdf` data

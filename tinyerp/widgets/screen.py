@@ -40,7 +40,7 @@ import list
 
 class Screen(TinyCompoundWidget):
     template = """
-    <span>
+    <span xmlns:py="http://purl.org/kid/ns#">
         <input type="hidden" name="${name}_terp_model" value="${model}"/>
         <input type="hidden" name="${name}_terp_state" value="${state}"/>
         <input type="hidden" name="${name}_terp_id" value="${str(id)}"/>
@@ -51,7 +51,7 @@ class Screen(TinyCompoundWidget):
         <input type="hidden" name="${name}_terp_domain" value="${str(domain)}"/>
         <input type="hidden" name="${name}_terp_context" value="${str(context)}"/>
 
-        ${widget.display(value_for(widget), **params_for(widget))}
+        <span py:if="widget" py:replace="widget.display(value_for(widget), **params_for(widget))"/>
     </span>
     """
 
@@ -72,10 +72,9 @@ class Screen(TinyCompoundWidget):
         self.id            = params.id or None
         self.ids           = params.ids
         self.view_ids      = params.view_ids or []
-        self.view_mode     = params.view_mode or ['form', 'tree']
+        self.view_mode     = params.view_mode
         self.view_mode2    = params.view_mode2 or ['tree', 'form']
 
-        self.view_type     = self.view_mode[0]
         self.domain        = params.domain or []
         self.context       = params.context or {}
 
@@ -84,16 +83,16 @@ class Screen(TinyCompoundWidget):
         self.selectable         = selectable
         self.editable           = editable
 
-        # Use False as view_id if switching the vuew
-        if self.view_mode[0] != self.view_mode2[0]:
-            if False not in self.view_ids: self.view_ids = [False] + self.view_ids
-        else:
-            if False in self.view_ids: self.view_ids.remove(False)
+        if self.view_mode:
+            # Use False as view_id if switching the vuew
+            if self.view_mode[0] != self.view_mode2[0]:
+                if False not in self.view_ids: self.view_ids = [False] + self.view_ids
+            else:
+                if False in self.view_ids: self.view_ids.remove(False)
 
-        view_id = (self.view_ids or False) and self.view_ids[0]
-        view_type = self.view_mode[0]
+            view_id = (self.view_ids or False) and self.view_ids[0]
+            view_type = self.view_mode[0]
 
-        if view_type:
             self.add_view_id(view_id, view_type)
 
     def add_view_id(self, view_id, view_type):

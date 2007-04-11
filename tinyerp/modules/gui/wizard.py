@@ -27,53 +27,46 @@
 #
 ###############################################################################
 
-"""
-This module implementes the RootController of the TurboGears application.
-For more information on TG controllers, please see the TG docs.
-"""
-
-from turbogears import controllers
 from turbogears import expose
-from turbogears import redirect
+from turbogears import widgets
+from turbogears import controllers
+from turbogears import validators
+from turbogears import validate
+from turbogears import error_handler
 
 import cherrypy
 
 from tinyerp import rpc
+from tinyerp import tools
+from tinyerp import common
+
+from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
+from tinyerp.modules.utils import TinyDict
 
-#from tinyerp.subcontrollers import ActionController
+import search
 
-from tinyerp.modules import *
-from tinyerp.widgets import *
+class Wizard(controllers.Controller, TinyResource):
 
-class Root(controllers.RootController, TinyResource):
-    """Turbogears root controller, see TG docs for more info.
-    """
+    @expose(template="tinyerp.modules.gui.templates.wizard")
+    def create(self, params, tg_errors=None):
 
-    @expose(template="tinyerp.templates.index")
-    def index(self):
-        """ The index page
-        """
-        menu = tree.Tree(id="menu", title="TinyERP", url="/menu_items", model="ir.ui.menu", action="/menu", target="contentpane")
-        return dict(menu_tree=menu)
+        if tg_errors:
+            return dict(form = cherrypy.request.terp_form)
+
+        params.model = "wizard."+params.name
+        params.view_mode = []
+
+        form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+
+        wiz_id = rpc.session.execute('/wizard', 'create', params.name)
+        res = rpc.session.execute('/wizard', 'execute', wiz_id, params.data, params.state, rpc.session.context)
+
+        form.screen.add_view(res)
+
+        return dict(form=form, states=res.get('state', []))
 
     @expose()
-    def logout(self):
-        """ Logout method, will terminate the current session.
-        """
-        rpc.session.logout()
-        raise redirect('/')
-
-    @expose()
-    def menu(self, model, id):
-        return actions.execute_by_keyword('tree_but_open', model=model, id=id)
-
-    menu_items = tree.Tree.items;
-
-    form = gui.form.Form()
-    wizard = gui.wizard.Wizard()
-    search = gui.search.Search()
-    many2one = gui.many2one.M2O()
-    many2many = gui.many2many.M2M()
-
-
+    def action(self, state, **kw):
+        # TODO: Perform wizard action
+        return dict()

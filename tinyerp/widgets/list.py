@@ -125,7 +125,7 @@ class M2O(Char):
 
     def get_value(self, value):
         if value and len(value) > 0:
-            return str(value[-1])
+            return unicode(value[-1], 'utf-8')
 
         return ''
 

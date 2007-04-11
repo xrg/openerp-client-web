@@ -353,7 +353,7 @@ class Form(TinyCompoundWidget):
         values = {}
         if ids:
             values = proxy.read(ids[:1], fields.keys(), context)[0]
-        else: #default
+        elif not model.startswith('wizard.'): #default
             values = proxy.default_get(fields.keys(), context)
 
         self.frame = self.parse(prefix, dom, fields, values)[0]

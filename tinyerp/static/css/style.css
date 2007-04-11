@@ -157,11 +157,12 @@ div.message {
 
 .view .toolbar button {
 	background-color: #C3D9FF;
-	width: 60px;
+	width: auto;
 	border-width: 0px;
 	margin: 5px 1px;
-	padding: 2px;
+	padding: 2px 5px;
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 .view .fields {

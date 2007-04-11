@@ -34,8 +34,8 @@ from screen import Screen
 
 class ViewForm(tg.widgets.Form):
     template = """
-    <form method="post" id="${name}" name="${name}" action="${action}">
-        ${screen.display(value_for(screen), **params_for(screen))}
+    <form xmlns:py="http://purl.org/kid/ns#" method="post" id="${name}" name="${name}" action="${action}">
+        <span py:if="screen" py:replace="screen.display(value_for(screen), **params_for(screen))"/>
     </form>
     """
 
