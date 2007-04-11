@@ -82,4 +82,5 @@ class M2O(search.Search):
     def get_string(self, model, id):
         proxy = rpc.RPCProxy(model)
         name = proxy.name_get([id], {})
+
         return dict(name=name[0][1])

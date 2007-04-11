@@ -19,7 +19,7 @@
     </script>
     
     <script language="javascript" py:if="params.m2o">
-    
+   
         function set_values(id, text){
             parent = window.opener;
             
@@ -27,9 +27,9 @@
             value_field = parent.document.getElementsByName('${params.m2o}')[0];
             
             text_field.value = text;
-            value_field.value = id;
+            value_field.value = id;           
             
-            window.close();
+            window.setTimeout('window.close()', 0);
         }
     
         function onok(){
@@ -39,17 +39,32 @@
             if (boxes.length &lt; 1) return;
             
             id = boxes[0].value;
+                        
+            btnFind = $('find_button');
+            btnOK = $('ok_button');            
+            btnCancel = $('cancel_button');
+            
+            // Disable buttons
+            btnFind.disabled = true;
+            btnCancel.disabled = true;
+            btnOK.disabled = true;
            
             req = doSimpleXMLHttpRequest(getURL('/many2one/get_string', {model: '${params.model}', id : id}));
             
             req.addCallback(function(xmlHttp){
                 res = evalJSONRequest(xmlHttp);             
                 set_values(id, res['name']);
+            });      
+            
+            req.addErrback(function(xmlHttp){
+                btnFind.disabled = false;
+                btnCancel.disabled = false;
+                btnOK.disabled = false;
             });
-                                    
-            return true; 
+            
+            return true;      
         }
-                
+
     </script>
     
     <script language="javascript" py:if="params.m2m">
@@ -65,7 +80,7 @@
             <div class="title">Search ${form.string}</div>
     		<div class="spacer"></div>
 	    </div>
-
+	    	    	    
   		${form.display()}
   	</div>   	
 </body>
