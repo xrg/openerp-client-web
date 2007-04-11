@@ -2,7 +2,7 @@
     <tr>
         <td width="100%">
             <input type="hidden" name='${name}' value="${value}"/>
-            <input style="width: 100%" type="text" id ='${name}' value="${text}" class="${field_class}"/>
+            <input style="width: 100%" type="text" id ='${name}' value="${text}" class="${field_class}" onchange="if (this.value == '') document.getElementsByName('${name}')[0].value='';"/>
             <br py:if="error"/><span class="fielderror" py:if="error" py:content="error"/>
         </td>
         <td>
