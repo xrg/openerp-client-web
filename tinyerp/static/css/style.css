@@ -160,7 +160,7 @@ div.message {
 	width: auto;
 	border-width: 0px;
 	margin: 5px 1px;
-	padding: 2px 5px;
+	padding: 2px 15px;
 	cursor: pointer;
 	white-space: nowrap;
 }
