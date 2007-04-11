@@ -10,6 +10,8 @@
     <input type="hidden" name="_terp_domain" value="${str(domain)}"/>
     <input type="hidden" name="_terp_context" value="${str(context)}"/>
     
+    <input type="hidden" name="_terp_fields_type" value="${str(form_view.fields_type)}"/>
+    
     <div py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
 
     ${form_view.display(value_for(form_view), **params_for(form_view))}
