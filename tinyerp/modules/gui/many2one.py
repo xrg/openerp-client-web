@@ -55,22 +55,19 @@ class M2O(search.Search):
         return "submit_form('/many2one/find')"
 
     def _get_javascript(self, params):
-        code = [widgets.JSSource("""
-function onok(){
-    alert('Not Implemented Yet!!!');
-}
-""")]
-
+        code = []
         return code
 
     def _get_hiddenfield(self, params):
-        return []
+        field = widgets.HiddenField(name='_terp_m2o', default=params.m2o)
+        return [field]
 
     @expose()
-    def new(self, model, **kw):
+    def new(self, model, m2o, **kw):
 
         params = TinyDict()
         params.model = model
+        params.m2o = m2o
 
         return self.create(params)
 

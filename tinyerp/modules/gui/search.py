@@ -84,7 +84,7 @@ class Search(controllers.Controller, TinyResource):
         form.javascript = self._get_javascript(params)
         form.hidden_fields = self._get_hiddenfield(params)
 
-        return dict(form=form)
+        return dict(form=form, params=params)
 
     def _get_oncancel(self, params):
         return "submit_form('/search/cancel')"
