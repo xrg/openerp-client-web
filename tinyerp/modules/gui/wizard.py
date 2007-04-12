@@ -51,22 +51,59 @@ class Wizard(controllers.Controller, TinyResource):
     @expose(template="tinyerp.modules.gui.templates.wizard")
     def create(self, params, tg_errors=None):
 
-        if tg_errors:
-            return dict(form = cherrypy.request.terp_form)
+        action = params.name
+        model = params.model
+        state = params.state
+        datas = params.datas
 
-        params.model = "wizard."+params.name
+        form = None
+        buttons = []
+
+        if model:
+            action = model.replace('wizard.', '')
+        else:
+            model = 'wizard.' + action
+
+        params.name = action
+        params.model = model
         params.view_mode = []
 
-        form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+        if 'form' not in datas:
+            datas['form'] = {}
 
-        wiz_id = rpc.session.execute('/wizard', 'create', params.name)
-        res = rpc.session.execute('/wizard', 'execute', wiz_id, params.data, params.state, rpc.session.context)
+        wiz_id = rpc.session.execute('/wizard', 'create', action)
 
-        form.screen.add_view(res)
+        if state == 'end':
+            return dict(form=form, buttons=buttons)
 
-        return dict(form=form, states=res.get('state', []))
+        res = rpc.session.execute('/wizard', 'execute', wiz_id, datas, state, {'lang': 'en_EN'})
+
+        if 'datas' in res:
+            datas['form'].update(res['datas'])
+
+        if res['type']=='form':
+            form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+            form.screen.add_view(res)
+
+            buttons = res.get('state', [])
+
+        elif res['type']=='action':
+            #TODO: execute action
+            print "TODO: (wizard) execute action..."
+            state = res['state']
+
+        elif res['type']=='print':
+            #TODO: execute report
+            print "TODO: (wizard) execute report..."
+            state = res['state']
+
+        elif res['type']=='state':
+            state = res['state']
+
+        params.state = state
+        return dict(form=form, buttons=buttons)
 
     @expose()
-    def action(self, state, **kw):
+    def action(self, **kw):
         # TODO: Perform wizard action
         return dict()

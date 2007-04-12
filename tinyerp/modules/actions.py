@@ -76,17 +76,17 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     else:
         return "ERROR: INVALID VIEW!"
 
-def _execute_wizard(name, **data):
+def _execute_wizard(name, **datas):
     """Executes given wizard with the given data
 
     @param name: name of the wizard
-    @param data: datas
+    @param datas: datas
 
     @return: wizard view (mostly XHTML code)
     """
     params = TinyDict()
     params.name = name
-    params.data = data
+    params.datas = datas
     params.state = 'init'
 
     return Wizard().create(params)
@@ -141,6 +141,7 @@ def _execute(action, **data):
 
     if 'type' not in action:
         return
+
     if action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
             data[key] = action.get(key, data.get(key, None))
@@ -148,8 +149,8 @@ def _execute(action, **data):
         if not action.get('domain', False):
             action['domain']='[]'
 
-        context = {'active_id': data.get('id',False), 'active_ids': data.get('ids',[])}
-        context.update(eval(action.get('context','{}'), context.copy()))
+        context = {'active_id': data.get('id', False), 'active_ids': data.get('ids', [])}
+        context.update(eval(action.get('context', '{}'), context.copy()))
 
         a = context.copy()
         a['time'] = time

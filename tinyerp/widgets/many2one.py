@@ -55,10 +55,13 @@ class M2O(TinyField):
         self.validator = tiny_validators.Int()
 
     def set_value(self, value):
-        try:
-            super(M2O, self).set_value(value[0])
-        except:
-            pass
+        if isinstance(value, list):
+            if len(value):
+                value = value[0]
+            else:
+                value = ''
+
+        super(M2O, self).set_value(value)
 
     def update_params(self, d):
         super(M2O, self).update_params(d)

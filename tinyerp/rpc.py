@@ -166,15 +166,19 @@ class RPCSession(object):
                 cherrypy.session['context'][c[1]] = c[2]
 
     def __convert(self, result):
-        if type(result)==type(u''):
+        if isinstance(result, unicode):
             return result.encode('utf-8')
-        elif type(result)==type([]):
-            return map(self.__convert, result)
-        elif type(result)==type({}):
+
+        elif isinstance(result, list):
+            return [self.__convert(val) for val in result]
+
+        elif isinstance(result, dict):
             newres = {}
-            for i in result.keys():
-                newres[i] = self.__convert(result[i])
+            for key, val in result.items():
+                newres[key] = self.__convert(val)
+
             return newres
+
         else:
             return result
 

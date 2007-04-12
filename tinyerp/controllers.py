@@ -66,7 +66,8 @@ class Root(controllers.RootController, TinyResource):
 
     @expose()
     def menu(self, model, id):
-        return actions.execute_by_keyword('tree_but_open', model=model, id=id)
+        id = int(id)
+        return actions.execute_by_keyword('tree_but_open', model=model, id=id, ids=[id], report_type='pdf')
 
     menu_items = tree.Tree.items;
 
