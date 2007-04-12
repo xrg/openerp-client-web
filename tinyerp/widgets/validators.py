@@ -90,4 +90,4 @@ class many2many(tg.validators.FancyValidator):
         if not isinstance(value, list):
             value = (value or []) and [value]
 
-        return [(6, 0, [int(id) for id in value])]
+        return [(6, 0, [int(id) for id in value if id])]
