@@ -343,6 +343,7 @@ class Form(TinyCompoundWidget):
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
 
         super(Form, self).__init__()
+        self.hidden_fields = []
 
         fields = view['fields']
 
