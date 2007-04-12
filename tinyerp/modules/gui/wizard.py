@@ -80,9 +80,13 @@ class Wizard(controllers.Controller, TinyResource):
 
         if 'datas' in res:
             datas['form'].update(res['datas'])
+        else:
+            res['datas'] = {}
 
         if res['type']=='form':
             form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+
+            res['datas'].update(datas['form'])
             form.screen.add_view(res)
 
             # store datas in _terp_datas

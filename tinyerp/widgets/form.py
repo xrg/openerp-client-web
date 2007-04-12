@@ -210,7 +210,7 @@ class Char(TinyField):
         self.validator = tiny_validators.String()
 
     def set_value(self, value):
-        self.default = unicode(value or '', 'utf-8')
+        self.default = value
 
 class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
@@ -220,7 +220,7 @@ class Text(TinyField):
         self.validator = tiny_validators.String()
 
     def set_value(self, value):
-        self.default = unicode(value or '', 'utf-8')
+        self.default = value
 
 class Integer(TinyField):
     template = "tinyerp.widgets.templates.integer"

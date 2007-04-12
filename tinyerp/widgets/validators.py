@@ -42,6 +42,13 @@ class String(tg.validators.String):
 
         return value
 
+    def _from_python(self, value, state):
+        value = value or ''
+        if not isinstance(value, unicode):
+            value = unicode(value, 'utf-8')
+
+        return value
+
 class Bool(tg.validators.FancyValidator):
 
     values = ['1', 'true']
