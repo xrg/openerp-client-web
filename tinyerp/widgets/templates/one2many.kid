@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <td py:if="screen">
-            <input type="hidden" name="${name}/__id" value="${id}" py:if="id"/>
+            <input type="hidden" name="${name}/__id" value="${id}"/>
             ${screen.display()}
         </td>
     </tr>

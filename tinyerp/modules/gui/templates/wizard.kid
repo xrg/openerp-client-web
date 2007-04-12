@@ -12,8 +12,11 @@
     <script language="javascript" src="/static/javascript/master.js"></script>
 
     <script language="javascript">
-        function submit_form(state){
-            alert('Perform wizard action: ' + state);
+        function submit_form(state) {
+            form = $('view_form');
+            
+            form._terp_state = state;
+            form.submit();
         }
     </script>
     

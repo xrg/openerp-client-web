@@ -52,10 +52,9 @@ def _make_dict(data, is_params=False):
 
     for k, v in res.items():
         if isinstance(v, dict):
-            if not is_params:
-                id = 0
-                if '__id' in v:
-                    id = int(v.pop('__id'))
+            if not is_params and '__id' in v:
+                id = v.pop('__id') or 0
+                id = int(id)
 
                 res[k] = [(id and 1, id, _make_dict(v, is_params))]
             else:

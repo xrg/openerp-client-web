@@ -108,7 +108,7 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     def action(self, **kw):
-        params, datas = TinyDict(kw)
+        params, datas = TinyDict.split(kw)
 
         print "XXXXXXXXXXXXXXX"
         print str(params)
