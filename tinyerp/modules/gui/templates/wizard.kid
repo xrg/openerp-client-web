@@ -15,7 +15,8 @@
         function submit_form(state) {
             form = $('view_form');
             
-            form._terp_state = state;
+            form._terp_state.value = state;
+            
             form.submit();
         }
     </script>

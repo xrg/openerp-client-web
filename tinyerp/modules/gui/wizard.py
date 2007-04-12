@@ -28,6 +28,7 @@
 ###############################################################################
 
 from turbogears import expose
+from turbogears import redirect
 from turbogears import widgets
 from turbogears import controllers
 from turbogears import validators
@@ -74,7 +75,7 @@ class Wizard(controllers.Controller, TinyResource):
         wiz_id = rpc.session.execute('/wizard', 'create', action)
 
         if state == 'end':
-            return dict(form=form, buttons=buttons)
+            raise redirect('/wizard/end')
 
         res = rpc.session.execute('/wizard', 'execute', wiz_id, datas, state, {'lang': 'en_EN'})
 
@@ -103,17 +104,19 @@ class Wizard(controllers.Controller, TinyResource):
         elif res['type']=='state':
             state = res['state']
 
+        if state == 'end':
+            raise redirect('/wizard/end')
+
         params.state = state
         return dict(form=form, buttons=buttons)
 
     @expose()
+    def end(self, **kw):
+        return ""
+
+    @expose()
     def action(self, **kw):
         params, datas = TinyDict.split(kw)
+        params.datas['form'].update(datas)
 
-        print "XXXXXXXXXXXXXXX"
-        print str(params)
-        print str(datas)
-        print "XXXXXXXXXXXXXXX"
-
-        # TODO: Perform wizard action
-        return dict()
+        return self.create(params)
