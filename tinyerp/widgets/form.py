@@ -207,6 +207,7 @@ class Char(TinyField):
 
     def __init__(self, attrs={}):
         super(Char, self).__init__(attrs)
+        self.validator = tiny_validators.String()
 
     def set_value(self, value):
         self.default = unicode(value or '', 'utf-8')
@@ -216,6 +217,7 @@ class Text(TinyField):
 
     def __init__(self, attrs={}):
         super(Text, self).__init__(attrs)
+        self.validator = tiny_validators.String()
 
     def set_value(self, value):
         self.default = unicode(value or '', 'utf-8')

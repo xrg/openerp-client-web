@@ -33,6 +33,15 @@ This module defines validators.
 
 import turbogears as tg
 
+class String(tg.validators.String):
+    if_empty = False
+
+    def _to_python(self, value, state):
+        if isinstance(value, unicode):
+            return value.encode('utf-8')
+
+        return value
+
 class Bool(tg.validators.FancyValidator):
 
     values = ['1', 'true']
