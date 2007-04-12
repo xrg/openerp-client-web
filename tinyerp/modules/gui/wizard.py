@@ -49,8 +49,7 @@ import search
 
 class Wizard(controllers.Controller, TinyResource):
 
-    @expose(template="tinyerp.modules.gui.templates.wizard")
-    def create(self, params, tg_errors=None):
+    def execute(self, params):
 
         action = params.name
         model = params.model
@@ -87,9 +86,14 @@ class Wizard(controllers.Controller, TinyResource):
             form.screen.add_view(res)
 
             # store datas in _terp_datas
-            form.hidden_fields = [widgets.HiddenField(name='_terp_datas', default=str(datas))]
+            form.hidden_fields = [
+                                  widgets.HiddenField(name='_terp_datas', default=str(datas)),
+                                  widgets.HiddenField(name='_terp_state2', default=state)
+                              ]
 
             buttons = res.get('state', [])
+            if hasattr(cherrypy.request, 'terp_form'):
+                cherrypy.request.terp_buttons = buttons
 
         elif res['type']=='action':
             #TODO: execute action
@@ -110,13 +114,42 @@ class Wizard(controllers.Controller, TinyResource):
         params.state = state
         return dict(form=form, buttons=buttons)
 
+    @expose(template="tinyerp.modules.gui.templates.wizard")
+    def create(self, params, tg_errors=None):
+
+        if tg_errors:
+            form = cherrypy.request.terp_form
+            buttons = cherrypy.request.terp_buttons
+            return dict(form=form, buttons=buttons)
+
+        return self.execute(params)
+
     @expose()
     def end(self, **kw):
         return ""
 
+    def get_form(self):
+        params, datas = TinyDict.split(cherrypy.request.params)
+        params.datas['form'].update(datas)
+
+        params.state = params.state2
+
+        cherrypy.request.terp_validators = {}
+
+        form = self.execute(params)['form']
+        cherrypy.request.terp_form = form
+
+        vals = cherrypy.request.terp_validators
+        schema = validators.Schema(**vals)
+
+        form.validator = schema
+
+        return form
+
     @expose()
-    def action(self, **kw):
+    @validate(form=get_form)
+    def action(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
 
-        return self.create(params)
+        return self.create(params, tg_errors=tg_errors)

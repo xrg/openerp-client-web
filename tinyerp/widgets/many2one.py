@@ -36,6 +36,7 @@ from form import Form
 import validators as tiny_validators
 
 def get_name(model, id):
+    id = (id or None) and int(id)
     name = (id or str('')) and str(id)
 
     if model and id:

@@ -1,7 +1,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" xmlns:py="http://purl.org/kid/ns#">
     <tr>
         <td width="100%">
-            <input type="hidden" name='${name}' value="${value}"/>
+            <input type="hidden" name='${name}' value="${value or None}"/>
             <input style="width: 100%" type="text" id ='${name}' value="${text}" class="${field_class}" onchange="if (this.value == '') document.getElementsByName('${name}')[0].value='';"/>
             <br py:if="error"/><span class="fielderror" py:if="error" py:content="error"/>
         </td>
