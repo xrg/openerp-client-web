@@ -76,9 +76,9 @@ class M2M(search.Search):
         return dict(ids=ids)
 
     @expose()
-    def get_data(self, model, ids, list_id):
-
+    def get_list(self, model, ids, list_id):
         ids = eval(ids)
+
         if not isinstance(ids, list): ids = [ids]
 
         m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))

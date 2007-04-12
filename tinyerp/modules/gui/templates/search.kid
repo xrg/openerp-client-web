@@ -71,19 +71,29 @@
     <script language="javascript" py:if="params.m2m">
         
         function onok() {
-            data = []
-            list = new ListView('search_list');
-            boxes = list.getSelected();
+        
             parent = window.opener;
+        
+            list_view = parent.document.getElementById('${params.m2m}');
+            
+            list_view = new ListView(list_view);
+            list_new = new ListView('search_list');
             
             ids = [];
+            
+            boxes = list_view.getSelected();
             forEach(boxes, function(b){
                 ids.push(b.value);
             });
             
+            boxes = list_new.getSelected();
+            forEach(boxes, function(b){
+                if (ids.indexOf(b.value) == -1) ids.push(b.value);
+            });
+            
             list_id = $('search_form__terp_m2m').value;
             
-            req = doSimpleXMLHttpRequest(getURL('/many2many/get_data', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
+            req = doSimpleXMLHttpRequest(getURL('/many2many/get_list', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
          
             req.addCallback(function(xmlHttp) {
                 res = xmlHttp.responseText;   
