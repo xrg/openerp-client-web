@@ -200,7 +200,6 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def find(self, **kw):
         params, data = TinyDict.split(kw)
-
         params.found_ids = []
 
         search_window = search.Search()

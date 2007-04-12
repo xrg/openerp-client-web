@@ -106,6 +106,7 @@ class Search(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         ids = data.get('search_list', [])
+
         if not isinstance(ids, list):
             ids = [ids]
 

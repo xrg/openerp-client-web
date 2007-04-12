@@ -38,6 +38,7 @@ from tinyerp import tools
 from tinyerp import common
 
 from tinyerp import tools
+from tinyerp import widgets as tw
 from tinyerp import widgets_search as tws
 
 from tinyerp.modules.utils import TinyDict
@@ -47,7 +48,7 @@ import search
 class M2M(search.Search):
 
     def _get_onok(self, params):
-        return "alert('Not Implemented Yet!!!')"
+        return "onok()"
 
     def _get_oncancel(self, params):
         return "window.close();"
@@ -55,23 +56,15 @@ class M2M(search.Search):
     def _get_onfind(self, params):
         return "submit_form('/many2many/find')"
 
-    def _get_javascript(self, params):
-        code = [widgets.JSSource("""
-function onok(){
-    alert('Not Implemented Yet!!!');
-}
-""")]
-
-        return code
-
     def _get_hiddenfield(self, params):
-        return []
+        field = widgets.HiddenField(name='_terp_m2m', default=params.m2m)
+        return [field]
 
     @expose()
-    def new(self, model, **kw):
-
+    def new(self, model, m2m, **kw):
         params = TinyDict()
         params.model = model
+        params.m2m = m2m
 
         return self.create(params)
 
@@ -82,10 +75,13 @@ function onok(){
         ids = [int(id) for id in data.get('search_list', [])]
         return dict(ids=ids)
 
-    @expose('json')
-    def get_string(self, model, id):
-        proxy = rpc.RPCProxy(model)
-        name = proxy.name_get([id], {})
+    @expose()
+    def get_data(self, model, ids, list_id):
 
-        return dict(name=name[0][1])
+        ids = eval(ids)
+        if not isinstance(ids, list): ids = [ids]
+
+        m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))
+        return m2m.list_view.render()
+
 

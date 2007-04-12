@@ -53,6 +53,7 @@
             
             req.addCallback(function(xmlHttp){
                 res = evalJSONRequest(xmlHttp);
+                
                 set_values(id, res['name']);
             });      
             
@@ -66,12 +67,38 @@
         }
 
     </script>
-    
+
     <script language="javascript" py:if="params.m2m">
-        function onok(){
+        
+        function onok() {
+            data = []
+            list = new ListView('search_list');
+            boxes = list.getSelected();
+            parent = window.opener;
+            
+            ids = [];
+            forEach(boxes, function(b){
+                ids.push(b.value);
+            });
+            
+            list_id = $('search_form__terp_m2m').value;
+            
+            req = doSimpleXMLHttpRequest(getURL('/many2many/get_data', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
+         
+            req.addCallback(function(xmlHttp) {
+                res = xmlHttp.responseText;   
+                       
+                list_view = parent.document.getElementById('${params.m2m}' + '_container');
+                list_view.innerHTML = res
+                c = parent.document.getElementById('${params.m2m}'+'_set');
+                c.onchange(null);                
+                
+                window.setTimeout('window.close()', 0);                                
+            });
         }
+        
     </script>
-    
+
 </head>
 
 <body>
