@@ -329,21 +329,15 @@ class Form(TinyCompoundWidget):
     """
 
     template = """
-    <span xmlns:py="http://purl.org/kid/ns#" py:if="frame">
-        <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
-        <span py:replace="frame.display(value_for(frame), **params_for(frame))"/>
-    </span>
+    <span xmlns:py="http://purl.org/kid/ns#" py:if="frame" py:replace="frame.display(value_for(frame), **params_for(frame))"/>
     """
 
-    member_widgets = ['frame', 'hidden_fields']
+    member_widgets = ['frame']
     frame = None
-
-    hidden_fields = []
 
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
 
         super(Form, self).__init__()
-        self.hidden_fields = []
 
         fields = view['fields']
 
@@ -363,12 +357,6 @@ class Form(TinyCompoundWidget):
             for f in fields:
                 if 'value' in fields[f]:
                     values[f] = fields[f]['value']
-
-            # save extra values as hidden fields
-            for k, v in values.items():
-                if k not in fields:
-                    name = prefix + (prefix and '/' or '') + k
-                    self.hidden_fields += [tg.widgets.HiddenField(name=name, default=str(v))]
 
         else: #default
             values = proxy.default_get(fields.keys(), context)

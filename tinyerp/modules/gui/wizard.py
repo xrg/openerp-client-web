@@ -85,6 +85,9 @@ class Wizard(controllers.Controller, TinyResource):
             form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
             form.screen.add_view(res)
 
+            # store datas in _terp_datas
+            form.hidden_fields = [widgets.HiddenField(name='_terp_datas', default=str(datas))]
+
             buttons = res.get('state', [])
 
         elif res['type']=='action':
@@ -105,5 +108,12 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     def action(self, **kw):
+        params, datas = TinyDict(kw)
+
+        print "XXXXXXXXXXXXXXX"
+        print str(params)
+        print str(datas)
+        print "XXXXXXXXXXXXXXX"
+
         # TODO: Perform wizard action
         return dict()
