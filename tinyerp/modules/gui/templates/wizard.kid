@@ -15,6 +15,13 @@
         function submit_form(state) {
             form = $('view_form');
             
+            act = '/wizard/action';
+            
+            if (state == 'end'){
+                act = '/wizard/end';
+            }
+            
+            form.action = act;
             form._terp_state.value = state;
             
             form.submit();
