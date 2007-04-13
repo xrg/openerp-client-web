@@ -8,7 +8,7 @@
             <div class="spacer"></div>
         </td>
         <td>
-              <input type="button" id="${field_id}_trigger" class="date_field_button" value="${button_text}" />
+              <input type="button" id="${field_id}_trigger" class="date_field_button" value="${button_text}" py:attrs="(attrs.get('readonly', False) or {}) and dict(disabled='0')"/>
         </td>
         <script type="text/javascript">
             Calendar.setup(
