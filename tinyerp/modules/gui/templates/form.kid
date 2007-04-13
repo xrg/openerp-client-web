@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="sitetemplate">
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" py:replace="''"/>
-    <title>${form.screen.string}</title>
+    <title>${form.screen.string} </title>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
     <script language="javascript" src="/tg_static/js/MochiKit.js"></script>

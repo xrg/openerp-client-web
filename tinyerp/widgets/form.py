@@ -147,7 +147,7 @@ class Notebook(TinyCompoundWidget):
     """
 
     template = """
-    <div class='tabber' xmlns:py="http://purl.org/kid/ns#">
+    <div class='tabber' id="${name}" xmlns:py="http://purl.org/kid/ns#">
         <div class='tabbertab' py:for="page in children">
             <h3>${page.string}</h3>
             <div>
@@ -158,11 +158,10 @@ class Notebook(TinyCompoundWidget):
     """
 
     member_widgets = ['_notebook_', "children"]
-    _notebook_ = tg.widgets.Tabber()
+    _notebook_ = tg.widgets.Tabber(use_cookie=True)
 
     def __init__(self, attrs, children):
         super(Notebook, self).__init__(attrs)
-
         self.children = children
         self.nolabel = True
 
@@ -397,7 +396,9 @@ class Form(TinyCompoundWidget):
 
             elif node.localName == 'notebook':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Notebook(attrs, n)]
+                nb = Notebook(attrs, n)
+                nb.name = prefix.replace('/', '_') + '_notebook'
+                views += [nb]
 
             elif node.localName == 'page':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)

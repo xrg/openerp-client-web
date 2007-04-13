@@ -51,11 +51,13 @@ class Form(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.form")
     def create(self, params, tg_errors=None):
-
         if tg_errors:
             form = cherrypy.request.terp_form
         else:
             form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+
+        if cherrypy.request.path.startswith('/menu'):
+            self.del_notebook_cookies()
 
         return dict(form=form)
 
@@ -69,6 +71,7 @@ class Form(controllers.Controller, TinyResource):
         if params.view_mode[0] == 'tree':
             params.view_mode.reverse()
 
+        self.del_notebook_cookies()
         return self.create(params)
 
     @expose()
@@ -152,6 +155,7 @@ class Form(controllers.Controller, TinyResource):
 
         current.id = (current.ids or None) and current.ids[idx]
 
+        self.del_notebook_cookies()
         return self.create(params)
 
     @expose()
@@ -224,4 +228,11 @@ class Form(controllers.Controller, TinyResource):
 
         # regenerate the view
         return self.create(params)
+
+    def del_notebook_cookies(self):
+        names = cherrypy.request.simple_cookie.keys()
+
+        for n in names:
+            if n.endswith('_notebookTGTabber'):
+                cherrypy.response.simple_cookie[n] = 0
 
