@@ -100,9 +100,8 @@ class Wizard(controllers.Controller, TinyResource):
                 cherrypy.request.terp_buttons = buttons
 
         elif res['type']=='action':
-            #TODO: execute action
-            print "TODO: (wizard) execute action..."
-            state = res['state']
+            from tinyerp.modules import actions
+            return actions._execute(res['action'], **datas)
 
         elif res['type']=='print':
             #TODO: execute report
