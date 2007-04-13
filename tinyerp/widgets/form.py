@@ -342,7 +342,6 @@ class Form(TinyCompoundWidget):
         super(Form, self).__init__()
 
         fields = view['fields']
-
         dom = xml.dom.minidom.parseString(view['arch'])
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
