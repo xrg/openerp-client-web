@@ -65,11 +65,14 @@ class M2O(search.Search):
         return [field]
 
     @expose()
-    def new(self, model, m2o, **kw):
+    def new(self, model, m2o, domain=[], context={}, **kw):
 
         params = TinyDict()
+
         params.model = model
         params.m2o = m2o
+        params.domain = domain
+        params.context = context
 
         return self.create(params)
 

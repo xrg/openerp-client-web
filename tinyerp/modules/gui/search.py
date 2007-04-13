@@ -48,28 +48,28 @@ from tinyerp.modules.utils import TinyDict
 
 import form
 
-def _search_string(name, type, value):
+def _make_domain(name, type, value):
     if value:
 
         if type == 'many2many' or type == 'one2many' or type =='many2one' or type=='char':
-            return name, 'ilike', value
+            return [(name, 'ilike', value)]
 
         elif type== 'float' or type == 'integer' or type == 'datetime' or type=='date' or type=='time':
             if value[0] and value[1]:
                 return [(name, '>=', value[0]), (name, '<=', value[1])]
             elif value[0]:
-                return name, '>=', value[0]
+                return [(name, '>=', value[0])]
             elif value[1]:
-                return name, '<=', value[1]
+                return [(name, '<=', value[1])]
             return None
 
-        elif type=='boolean':
-            return name, '=', int(value)
+        if type=='boolean':
+            return [(name, '=', int(value))]
 
-        elif  type=='selection':
-            return name, '=', value
+        if  type=='selection':
+            return [(name, '=', value)]
 
-    return None
+    return []
 
 class Search(controllers.Controller, TinyResource):
 
@@ -126,16 +126,27 @@ class Search(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         fields_type = params.fields_type
-        search_list = []
+        search_domain = []
+
+        # evaluate domain for many2many or many2one field
+        # XXX: In GTK client this domain is used only if case of no search criteria
+        sname = params.get('m2m', params.get('m2o', None))
+        if sname:
+            domain = params.get('domain', [])
+            if isinstance(domain, basestring):
+                if sname.rfind('/') > -1:
+                    sname = sname[:sname.rindex('/')].replace('/', '.')
+
+                context = params.search_form[sname]
+                domain = eval(domain, context)
+
+            search_domain.extend(domain)
 
         if fields_type:
             for n, v in fields_type.items():
-                t = _search_string(n, v, kw[n])
+                t = _make_domain(n, v, kw[n])
                 if t:
-                    if type(t) == type([]):
-                        search_list += t
-                    else:
-                        search_list += [t]
+                    search_domain += t
 
         try:
             l = int(data.get('limit', '80'))
@@ -145,6 +156,6 @@ class Search(controllers.Controller, TinyResource):
             o = 0
 
         proxy = rpc.RPCProxy(params.model)
-        params.found_ids = proxy.search(search_list, o, l)
+        params.found_ids = proxy.search(search_domain, o, l)
 
         return self.create(params, data)

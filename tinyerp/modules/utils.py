@@ -81,7 +81,10 @@ class TinyDict(dict):
 
         pat = re.compile('^(True|False|None|\d+(\.\d+)?|\[.*?\]|\(.*?\)|\{.*?\})$', re.M)
         if pat.match(value):
-            return eval(value)
+            try:
+                return eval(value)
+            except:
+                pass
 
         return value
 

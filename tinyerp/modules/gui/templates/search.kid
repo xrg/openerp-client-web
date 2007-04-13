@@ -14,6 +14,26 @@
         function submit_form(action){
             form = $('search_form');
             form.action = action;
+                        
+            pwin = window.opener;
+           
+            if (pwin &amp;&amp; pwin.document.forms &amp;&amp; pwin.document.forms.length > 0){
+                        
+                pform = pwin.document.forms[0];
+                
+                pvals = {};
+                
+                forEach(pform.elements, function(e){
+                    if (e.name &amp;&amp; e.name.indexOf('_terp_') == -1) {
+                        if (e.type != 'button'){
+                            pvals['_terp_search_form/' + e.name] = e.value;
+                        }
+                    }
+                });
+                
+                form.action = getURL(action, pvals);
+            }
+                       
             form.submit();
         }       
     </script>

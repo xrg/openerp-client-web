@@ -61,10 +61,14 @@ class M2M(search.Search):
         return [field]
 
     @expose()
-    def new(self, model, m2m, **kw):
+    def new(self, model, m2m, domain=[], context={}, **kw):
+
         params = TinyDict()
+
         params.model = model
         params.m2m = m2m
+        params.domain = domain
+        params.context = context
 
         return self.create(params)
 

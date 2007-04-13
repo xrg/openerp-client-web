@@ -42,8 +42,11 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
     """
 
     template = "tinyerp.widgets.templates.many2many"
-    params = ['relation']
+    params = ['relation', 'domain', 'context']
+
     relation = None
+    domain = []
+    context = {}
 
     member_widgets = ['list_view']
 
@@ -52,6 +55,9 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         tg.widgets.CompoundWidget.__init__(self)
 
         self.relation = attrs.get('relation', '')
+        self.domain = attrs.get('domain', [])
+        self.context = attrs.get('context', {})
+
         self.view = attrs.get('views',{})
         self.domain  = attrs.get('domain',{})
         self.ids = attrs['value'] or []
