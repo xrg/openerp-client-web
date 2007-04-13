@@ -16,7 +16,7 @@ TODO
  *** - button controller and state management in buttons and fields (ame: state done)
  *** - on_change actions
   ** - domain, context (ame: domain partially done)
-  ** - print report in wizard
+  ** - print in wizard & forms
    * - multi-column tree view
    * - The complete database creation process
    * - create the whole structure without frames
