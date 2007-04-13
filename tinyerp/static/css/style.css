@@ -188,14 +188,14 @@ input, button, select, textarea {
     color: #FF0000;
 }
 
-#view_form .readonlyfield {
-    background-color: #EEEEEE;
-}
-
 #view_form .requiredfield {
     background-color: #FFCCCC;
 }
 
 #view_form .errorfield {
     background-color: #FF6666;
+}
+
+#view_form .readonlyfield {
+    background-color: #EEEEEE;
 }

@@ -4,7 +4,7 @@
             <input type="hidden" id='${name}_domain' value="${domain}"/>
             <input type="hidden" id='${name}_context' value="${context}"/>
 
-            <input type="hidden" name='${name}' value="${value or None}"/>
+            <input type="hidden" name='${name}' value="${value or None}" py:attrs='attrs'/>
             <input style="width: 100%" type="text" id ='${name}' value="${text}" class="${field_class}" onchange="if (this.value == '') document.getElementsByName('${name}')[0].value='';" py:attrs='attrs'/>
             <br py:if="error"/><span class="fielderror" py:if="error" py:content="error"/>
         </td>
