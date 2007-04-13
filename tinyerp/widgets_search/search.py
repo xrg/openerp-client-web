@@ -157,6 +157,9 @@ class Form(TinyCompoundWidget):
                 self.fields_type[name] = kind
                 field = widgets_type[kind](attrs=fields[name])
 
+                # in search view fields should be writable
+                field.readonly = False
+
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],[0,'No']]
 

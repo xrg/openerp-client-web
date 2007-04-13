@@ -47,6 +47,7 @@ class TinyWidget(object):
 
     name = None
     model = None
+    states = None
 
     def __init__(self, attrs={}):
 
@@ -56,6 +57,10 @@ class TinyWidget(object):
         prefix = attrs.get('prefix', '')
         self.name = prefix + (prefix and '/' or '') + attrs.get('name', '')
 
+        self.states = attrs.get('states', None)
+        if isinstance(self.states, basestring):
+            self.states = self.states.split(',')
+
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
 
@@ -63,6 +68,16 @@ class TinyWidget(object):
         self.nolabel = tools.expr_eval(attrs.get('nolabel', False))
         self.required = tools.expr_eval(attrs.get('required', False))
         self.readonly = tools.expr_eval(attrs.get('readonly', False))
+
+        if 'state' in attrs:
+            self.set_state(attrs['state'])
+
+    def set_state(self, state):
+        if isinstance(self.states, dict) and state in self.states:
+            attrs = self.states[state]
+
+            for n,v in attrs:
+                setattr(self, n, v)
 
 class TinyInputWidget(TinyWidget):
     """Interface for Field widgets, every InputField widget should
@@ -108,7 +123,8 @@ class TinyInputWidget(TinyWidget):
 
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
-            d['attrs']['readonly'] = True
+            d['attrs']['disabled'] = True
+
         if self.required and 'requiredfield' not in d['field_class'].split(' '):
             d['field_class'] = " ".join([d['field_class'], "requiredfield"])
 

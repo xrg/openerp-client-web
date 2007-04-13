@@ -114,7 +114,7 @@ class Frame(TinyCompoundWidget):
 
         td = [attrs]
 
-        if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator:
+        if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator and not widget.readonly:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields += [widget]
 
@@ -125,6 +125,9 @@ class Frame(TinyCompoundWidget):
 
     def add2(self, item, label=None, rowspan=1, colspan=1):
         if not item: return
+
+        if isinstance(item, Button) and not item.visible:
+            return
 
         if isinstance(item, NewLine):
             self.new_line()
@@ -299,10 +302,16 @@ class Button(TinyField):
     template = """<button type="button" style="width: 100%" id="${name}" name="${name}">${string}</button>"""
     params = ["name", "string"]
 
+    visible = True
+
     def __init__(self, attrs={}):
         TinyField.__init__(self, attrs)
 
         self.nolabel = True
+
+    def set_state(self, state):
+        if self.states:
+            self.visible = state in self.states
 
 class Group(TinyCompoundWidget):
     template = """
@@ -374,6 +383,9 @@ class Form(TinyCompoundWidget):
 
             attrs = tools.node_attributes(node)
             attrs['prefix'] = prefix
+
+            if 'state' in values:
+                attrs['state'] = values['state']
 
             if node.localName=='image':
                 pass

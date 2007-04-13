@@ -12,7 +12,7 @@
             <div class="spacer" />
         </td>
         <td>
-            <button type="button" onclick="wopen(getURL('/many2one/new', {model: '${relation}', m2o: '${name}', domain: $('${name}_domain').value, context: $('${name}_context').value}), 'search', 800, 600)" py:attrs="(attrs.get('readonly', False) or {}) and dict(disabled='0')">Select</button>
+            <button type="button" onclick="wopen(getURL('/many2one/new', {model: '${relation}', m2o: '${name}', domain: $('${name}_domain').value, context: $('${name}_context').value}), 'search', 800, 600)" py:attrs="attrs">Select</button>
         </td>
     </tr>
 </table>
