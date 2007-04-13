@@ -13,11 +13,10 @@ implemented or fixed in very near future...
 TODO
 -------------------------------------------------------------------------------
 
- *** - button controller and state management in buttons and fields
+ *** - button controller and state management in buttons and fields (ame: state done)
  *** - on_change actions
-  ** - domain, context
-   * - wizard & forms (action, report)
-   * - Readonly widgets
+  ** - domain, context (ame: domain partially done)
+  ** - print report in wizard
    * - multi-column tree view
    * - The complete database creation process
    * - create the whole structure without frames
@@ -27,11 +26,8 @@ TODO
 ISSUE
 -------------------------------------------------------------------------------
 
-  ** - Does not remember selected Tab (Notebook Page)
    * - Better selection system for lists with link for single selection and
        checkbox for multiple selection
-     - Switching the top-level view resets the view mode of all of the nested
-       one2many fields (note fp: that's ok, do not change)
 
 -------------------------------------------------------------------------------
 Copyright (c) 2007 TinyERP India Pvt. Ltd.
