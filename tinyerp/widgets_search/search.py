@@ -68,6 +68,10 @@ class RangeWidget(TinyCompoundWidget):
         self.from_field = range_widgets_type[kind](attrs)
         self.to_field = range_widgets_type[kind](attrs)
 
+        # in search view fields should be writable
+        self.from_field.readonly = False
+        self.to_field.readonly = False
+
 class Form(TinyCompoundWidget):
     """A generic form widget
     """
