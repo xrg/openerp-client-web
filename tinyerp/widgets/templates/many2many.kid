@@ -1,9 +1,9 @@
 <table xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <td width="100%">
-            <input type="hidden" id='${name}_domain' value="${domain}"/>
-            <input type="hidden" id='${name}_context' value="${context}"/>
-            
+            <input type="hidden" id='${name}_domain' value="${str(domain)}"/>
+            <input type="hidden" id='${name}_context' value="${str(context)}"/>
+
             <input type="hidden" name='${name}' py:attrs='attrs'/>
             <input type="text" class="${field_class}" readonly="0" style="width: 100%" id='${list_view.name}_set' onchange="new ListView('${list_view.name}').checkAll();" py:attrs='attrs' />
             <br py:if="error"/><span class="fielderror" py:if="error" py:content="error"/>

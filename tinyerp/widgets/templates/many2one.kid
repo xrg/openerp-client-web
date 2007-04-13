@@ -1,8 +1,8 @@
 <table width="100%" cellpadding="0" cellspacing="0" xmlns:py="http://purl.org/kid/ns#">
     <tr>
         <td width="100%">
-            <input type="hidden" id='${name}_domain' value="${domain}"/>
-            <input type="hidden" id='${name}_context' value="${context}"/>
+            <input type="hidden" id='${name}_domain' value="${str(domain)}"/>
+            <input type="hidden" id='${name}_context' value="${str(context)}"/>
 
             <input type="hidden" name='${name}' value="${value or None}" py:attrs='attrs'/>
             <input style="width: 100%" type="text" id ='${name}' value="${text}" class="${field_class}" onchange="if (this.value == '') document.getElementsByName('${name}')[0].value='';" py:attrs='attrs'/>
