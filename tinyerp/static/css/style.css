@@ -153,6 +153,7 @@ div.message {
     border-bottom: 1px solid #C3D9FF;
     padding-left: 5px;
     padding-right: 5px;
+    white-space: nowrap;
 }
 
 .view .toolbar button {
@@ -198,4 +199,8 @@ input, button, select, textarea {
 
 #view_form .readonlyfield {
     background-color: #EEEEEE;
+}
+
+.grid td, th {
+    white-space: nowrap;
 }
