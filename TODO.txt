@@ -13,8 +13,8 @@ implemented or fixed in very near future...
 TODO
 -------------------------------------------------------------------------------
 
- *** - button controller and state management in buttons and fields (ame: state done)
- *** - on_change actions
+ *** - button controller (ame: done for form view)
+ *** - on_change actions (ame: initial work for many2one)
   ** - domain, context (ame: domain partially done)
   ** - print in wizard & forms
    * - multi-column tree view
