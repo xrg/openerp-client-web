@@ -138,6 +138,9 @@ class Search(controllers.Controller, TinyResource):
                     sname = sname[:sname.rindex('/')].replace('/', '.')
 
                 context = params.search_form[sname]
+                if not isinstance(context, dict):
+                    context = params.search_form
+
                 domain = eval(domain, context)
 
             search_domain.extend(domain)
