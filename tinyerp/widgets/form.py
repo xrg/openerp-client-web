@@ -394,6 +394,8 @@ class Form(TinyCompoundWidget):
 
             attrs = tools.node_attributes(node)
             attrs['prefix'] = prefix
+            if 'model' not in attrs:
+                attrs['model'] = self.model
 
             if 'state' in values:
                 attrs['state'] = values['state']

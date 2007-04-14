@@ -47,8 +47,11 @@
             value_field = parent.document.getElementsByName('${params.m2o}')[0];
             
             text_field.value = text;
-            value_field.value = id;           
+            value_field.value = id; 
             
+            // call onchange
+            text_field.onchange(text_field);
+
             window.setTimeout('window.close()', 0);
         }
     

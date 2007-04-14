@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import re
+
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
@@ -260,6 +262,55 @@ class Form(controllers.Controller, TinyResource):
 
         # regenerate the view
         return self.create(params)
+
+    @expose('json')
+    def on_change(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        caller = params.caller
+        callback = params.callback
+        domain = params.view_form
+        model = params.model
+
+        result = {}
+
+        prefix = ''
+        if '/' in caller:
+            prefix = caller.rsplit('/', 1)[0]
+
+        result['prefix'] = prefix
+
+        cur_domain = domain
+        par_domain = domain
+
+        if prefix:
+            cur_domain = domain[prefix.replace('/', '.')]
+
+            if '/' in prefix:
+                prefix = prefix.rsplit('/', 1)[0]
+                par_domain = domain[prefix.replace('/', '.')]
+
+        cur_domain.parent = par_domain
+
+        match = re.match('^(.*?)\((.*)\)$', callback)
+        if not match:
+            raise 'ERROR: Wrong on_change trigger: %s' % callback
+
+        func_name = match.group(1)
+        arg_names = [n.strip() for n in match.group(2).split(',')]
+        args = [eval(arg, cur_domain) for arg in arg_names]
+
+        proxy = rpc.RPCProxy(model)
+
+        ids = cur_domain.id and [cur_domain.id] or []
+        response = getattr(proxy, func_name)(ids, *args)
+
+        if 'value' not in response:
+            response['value'] = {}
+
+        result.update(response)
+
+        return result
 
     def del_notebook_cookies(self):
         names = cherrypy.request.simple_cookie.keys()

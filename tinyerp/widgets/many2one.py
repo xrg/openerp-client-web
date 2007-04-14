@@ -48,7 +48,7 @@ def get_name(model, id):
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"
-    params=['relation', 'text', 'domain', 'context']
+    params=['relation', 'text', 'model', 'onchange', 'domain', 'context']
 
     domain = []
     context = {}

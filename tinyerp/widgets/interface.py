@@ -48,6 +48,7 @@ class TinyWidget(object):
     name = None
     model = None
     states = None
+    onchange = None
 
     def __init__(self, attrs={}):
 
@@ -71,6 +72,8 @@ class TinyWidget(object):
 
         if 'state' in attrs:
             self.set_state(attrs['state'])
+
+        self.onchange = attrs.get('on_change', None)
 
     def set_state(self, state):
         if isinstance(self.states, dict) and state in self.states:
