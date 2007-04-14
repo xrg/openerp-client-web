@@ -299,13 +299,20 @@ class Button(TinyField):
     @todo: actions
     """
 
-    template = """<button type="button" style="width: 100%" id="${name}" name="${name}">${string}</button>"""
-    params = ["name", "string"]
+    template = "tinyerp.widgets.templates.button"
+    params = ["name", "string", "model", "btype", "id", "confirm"]
 
     visible = True
 
-    def __init__(self, attrs={}):
+    def __init__(self, current_model, id=None, attrs={}):
+
         TinyField.__init__(self, attrs)
+
+        self.btype = attrs.get('type', 'workflow')
+        self.confirm = attrs.get('confirm', None)
+
+        self.model = current_model
+        self.id = id
 
         self.nolabel = True
 
@@ -355,11 +362,15 @@ class Form(TinyCompoundWidget):
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
 
+        self.model = model
+        self.id = None
+
         proxy = rpc.RPCProxy(model)
 
         values = {}
         if ids:
             values = proxy.read(ids[:1], fields.keys(), context)[0]
+            self.id = ids[:1]
 
         elif 'datas' in view: # wizard data
             values = view['datas']
@@ -400,7 +411,7 @@ class Form(TinyCompoundWidget):
                 views += [NewLine(attrs)]
 
             elif node.localName=='button':
-                views += [Button(attrs)]
+                views += [Button(self.model, self.id, attrs)]
 
             elif node.localName == 'form':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)

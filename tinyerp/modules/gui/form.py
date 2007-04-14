@@ -103,12 +103,12 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     @validate(form=get_form)
     def save(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
-        """Controller method to save current record.
+        """Controller method to save/button actions...
 
+        @param tg_errors: TG special arg, used durring validation
+        @param tg_source: TG special arg, used durring validation
+        @param tg_exceptions: TG special arg, used durring validation
         @param kw: keyword arguments
-
-        @todo: validate params
-        @todo: error_handler
 
         @return: form view
         """
@@ -125,6 +125,9 @@ class Form(controllers.Controller, TinyResource):
         else:
             res = proxy.write([params.id], data, params.context)
 
+        # perform button action
+        if params.button:
+            self.button_action(params)
 
         current = params[params.one2many or '']
         if current:
@@ -133,6 +136,35 @@ class Form(controllers.Controller, TinyResource):
                 current.view_mode.reverse()
 
         return self.create(params)
+
+    def button_action(self, params):
+
+        button = params.button
+
+        name = button.name
+        btype = button.btype
+        model = button.model
+        id = button.id
+
+        id = (id or params.id) and int(id)
+
+        assert id == params.id, "Invalid id..."
+
+        if btype == 'workflow':
+            rpc.session.execute('/object', 'exec_workflow', model, name, id)
+
+        elif btype == 'object':
+            rpc.session.execute('/object', 'execute', model, name, [id], {}) #TODO: context
+
+        elif btype == 'action':
+            from tinyerp.modules import actions
+            action_id = int(name)
+            actions._execute(action_id, {'model': model, 'id': id, 'ids': [id]})
+
+        else:
+            raise 'Unallowed button type'
+
+        params.pop('button')
 
     @expose()
     def delete(self, **kw):

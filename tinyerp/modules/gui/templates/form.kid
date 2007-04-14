@@ -72,6 +72,24 @@
             form.action = act;
             form.submit();
         }
+        
+        function button_clicked(name, btype, model, id, sure){
+            
+            if (sure && !confirm(sure)){
+                return;
+            }
+        
+            params = {};
+            
+            params['_terp_button/name'] = name;
+            params['_terp_button/btype'] = btype;
+            params['_terp_button/model'] = model;
+            params['_terp_button/id'] = id;
+            
+            form = $("view_form");
+            form.action = getURL('/form/save', params);
+            form.submit();
+        }
     -->
     </script>
     
