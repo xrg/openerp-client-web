@@ -134,9 +134,13 @@ class Search(controllers.Controller, TinyResource):
         caller = params.get('m2m', params.get('m2o', None))
 
         if caller:
-            prefix = caller.rsplit('/', 1)[0]
-            ctx = params.search_form.pop(prefix.replace('/', '.'))
+            ctx = params.search_form
             pctx = params.search_form
+
+            prefix = ''
+            if '/' in caller:
+                prefix = caller.rsplit('/', 1)[0]
+                ctx = ctx[prefix.replace('/', '.')]
 
             if '/' in prefix:
                 prefix = prefix.rsplit('/', 1)[0]
