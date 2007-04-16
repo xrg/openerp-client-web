@@ -53,6 +53,73 @@ class M2O(TinyField):
     domain = []
     context = {}
 
+    javascript = [
+                  tg.widgets.JSSource("""
+
+function on_change(name, callback, model) {
+
+    var caller = $(name);
+
+    if (!callback)
+        return;
+
+    form = $("view_form");
+
+    vals = {};
+    forEach(form.elements, function(e){
+        if (e.name && e.name.indexOf('_terp_') == -1) {
+            if (e.type != 'button'){
+                vals['_terp_view_form/' + e.name] = e.value;
+            }
+        }
+    });
+
+    vals['_terp_caller'] = name;
+    vals['_terp_callback'] = callback;
+    vals['_terp_model'] = model;
+
+    req = doSimpleXMLHttpRequest(getURL('/form/on_change', vals));
+
+    req.addCallback(function(xmlHttp){
+        res = evalJSONRequest(xmlHttp);
+
+        prefix = res['prefix'];
+        values = res['value'];
+
+        prefix = prefix ? prefix + '/' : '';
+
+        for(var k in values){
+            fname = prefix + k;
+
+            fld = $(fname);
+            fld.value = values[k] ? values[k] : '';
+
+            if (typeof fld.onchange != 'undefined'){
+                fld.onchange();
+            }
+
+        }
+    });
+}
+
+function get_name(name, relation){
+
+    var value_field = $(name);
+    var text_field = $(name + '_text');
+
+    if (value_field.value){
+        var req = doSimpleXMLHttpRequest(getURL('/many2one/get_name', {model: relation, id : value_field.value}));
+
+        req.addCallback(function(xmlHttp){
+            var res = evalJSONRequest(xmlHttp);
+            text_field.value = res['name'];
+        });
+    }
+}
+                  """, tg.widgets.js_location.bodytop)
+
+                  ]
+
     def __init__(self, attrs={}):
         super(M2O, self).__init__(attrs)
         self.relation = attrs.get('relation', '')
