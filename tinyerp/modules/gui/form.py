@@ -291,6 +291,7 @@ class Form(controllers.Controller, TinyResource):
                 par_domain = domain[prefix.replace('/', '.')]
 
         cur_domain.parent = par_domain
+        cur_domain.context = rpc.session.context.copy()
 
         match = re.match('^(.*?)\((.*)\)$', callback)
         if not match:
@@ -298,7 +299,8 @@ class Form(controllers.Controller, TinyResource):
 
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]
-        args = [eval(arg, cur_domain) for arg in arg_names]
+
+        args = [tools.expr_eval(arg, cur_domain) for arg in arg_names]
 
         proxy = rpc.RPCProxy(model)
 
@@ -309,6 +311,10 @@ class Form(controllers.Controller, TinyResource):
             response['value'] = {}
 
         result.update(response)
+
+        for k, v in result['value'].items():
+            if isinstance(v, list):
+                result['value'][k] = (v or '') and v[0]
 
         return result
 

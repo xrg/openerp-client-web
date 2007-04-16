@@ -128,22 +128,40 @@ class Search(controllers.Controller, TinyResource):
         fields_type = params.fields_type
         search_domain = []
 
-        # evaluate domain for many2many or many2one field
+        # evaluate domain and context for many2many or many2one field
         # XXX: In GTK client this domain is used only if case of no search criteria
-        sname = params.get('m2m', params.get('m2o', None))
-        if sname:
-            domain = params.get('domain', [])
+
+        caller = params.get('m2m', params.get('m2o', None))
+
+        if caller:
+            prefix = caller.rsplit('/', 1)[0]
+            ctx = params.search_form.pop(prefix.replace('/', '.'))
+            pctx = params.search_form
+
+            if '/' in prefix:
+                prefix = prefix.rsplit('/', 1)[0]
+                pctx = pctx[prefix.replace('/', '.')]
+
+            ctx.parent = pctx
+            ctx.context = rpc.session.context.copy()
+
+            context = params.context
+            domain = params.domain
+
             if isinstance(domain, basestring):
-                if sname.rfind('/') > -1:
-                    sname = sname[:sname.rindex('/')].replace('/', '.')
+                domain = eval(domain, ctx)
 
-                context = params.search_form[sname]
-                if not isinstance(context, dict):
-                    context = params.search_form
+            if isinstance(context, basestring):
+                if not context.startswith('{'):
+                    context = "dict(%s)"%context
+                    ctx.dict = dict # required
 
-                domain = eval(domain, context)
+                context = eval(context, ctx)
 
             search_domain.extend(domain)
+
+            params.domain = domain
+            params.context = context
 
         if fields_type:
             for n, v in fields_type.items():
