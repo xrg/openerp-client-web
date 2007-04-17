@@ -196,7 +196,7 @@ class Boolean(Char):
         if int(value) == 1:
             return 'True'
         else:
-            return 'Flase'
+            return 'False'
 
 CELLTYPES = {
         'char':Char,
