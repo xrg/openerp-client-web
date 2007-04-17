@@ -94,7 +94,10 @@ function on_change(name, callback, model) {
             fld = $(fname);
 
             if (fld) {
-                fld.value = values[k] ? values[k] : '';
+                value = values[k];
+                //value = value == false || value == null ? '' : value
+
+                fld.value = value;
 
                 if (typeof fld.onchange != 'undefined'){
                     fld.onchange();

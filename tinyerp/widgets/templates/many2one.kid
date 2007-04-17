@@ -3,7 +3,7 @@
         <td width="100%"> 
             <input type="hidden" id='${name}_domain' value="${str(domain)}"/>
             <input type="hidden" id='${name}_context' value="${str(context)}"/>
-            <input type="hidden" id='${name}_onchange' value="${str(onchange)}"/>
+            <input type="hidden" id='${name}_onchange' value="${onchange}"/>
                        
             <input type="hidden" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' 
                 onchange="on_change('${name}', $('${name}_onchange').value, '${model}', '${name}_text'); get_name('${name}', '${relation}')"/>
