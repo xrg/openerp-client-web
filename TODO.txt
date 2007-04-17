@@ -6,20 +6,20 @@ This text lists some (but not all) of the TODOs and ISSUEs that might be
 implemented or fixed in very near future...
 
  *** : PRIORITY HIGH
-  ** : PRIORITY MIDIUM
+  ** : PRIORITY MEDIUM
    * : PRIORITY LOW
 
 -------------------------------------------------------------------------------
-TODO
+TODO: Phase 1
 -------------------------------------------------------------------------------
 
  *** - button controller (ame: done for form view)
  *** - on_change actions (ame: initial work for many2one)
   ** - domain, context (ame: domain partially done)
-  ** - print in wizard & forms
-   * - multi-column tree view
+  ** - multi-column tree view
+   * - global context for translations everywhere
+   * - print in wizard & forms
    * - The complete database creation process
-   * - create the whole structure without frames
    * - Implement all widgets (piture, image, binary etc.)
 
 -------------------------------------------------------------------------------
