@@ -95,7 +95,8 @@ function on_change(name, callback, model) {
 
             if (fld) {
                 value = values[k];
-                //value = value == false || value == null ? '' : value
+
+                value = value === false || value === null ? '' : value
 
                 fld.value = value;
 
