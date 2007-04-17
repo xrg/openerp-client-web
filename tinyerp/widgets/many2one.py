@@ -92,12 +92,14 @@ function on_change(name, callback, model) {
             fname = prefix + k;
 
             fld = $(fname);
-            fld.value = values[k] ? values[k] : '';
 
-            if (typeof fld.onchange != 'undefined'){
-                fld.onchange();
+            if (fld) {
+                fld.value = values[k] ? values[k] : '';
+
+                if (typeof fld.onchange != 'undefined'){
+                    fld.onchange();
+                }
             }
-
         }
     });
 }

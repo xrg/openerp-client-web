@@ -129,7 +129,7 @@ class Search(controllers.Controller, TinyResource):
         search_domain = []
 
         # evaluate domain and context for many2many or many2one field
-        # XXX: In GTK client this domain is used only if case of no search criteria
+        # XXX: In GTK client this domain is used only in case of no search criteria
 
         caller = params.get('m2m', params.get('m2o', None))
 
