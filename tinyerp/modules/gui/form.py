@@ -129,7 +129,9 @@ class Form(controllers.Controller, TinyResource):
 
         # perform button action
         if params.button:
-            self.button_action(params)
+            res = self.button_action(params)
+            if res:
+                return res
 
         current = params[params.one2many or '']
         if current:
@@ -143,25 +145,24 @@ class Form(controllers.Controller, TinyResource):
 
         button = params.button
 
-        name = button.name
+        name = button.name.rsplit('/', 1)[-1]
         btype = button.btype
         model = button.model
         id = button.id
 
-        id = (id or params.id) and int(id)
-
-        assert id == params.id, "Invalid id..."
+        id = (id or None) and int(id)
+        ids = (id or []) and [id]
 
         if btype == 'workflow':
             rpc.session.execute('/object', 'exec_workflow', model, name, id)
 
         elif btype == 'object':
-            rpc.session.execute('/object', 'execute', model, name, [id], {}) #TODO: context
+            rpc.session.execute('/object', 'execute', model, name, ids, {}) #TODO: context
 
         elif btype == 'action':
             from tinyerp.modules import actions
             action_id = int(name)
-            actions._execute(action_id, {'model': model, 'id': id, 'ids': [id]})
+            return actions.execute_by_id(action_id, model=model, id=id, ids=ids)
 
         else:
             raise 'Unallowed button type'
