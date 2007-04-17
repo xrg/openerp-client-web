@@ -107,6 +107,10 @@ function get_name(name, relation){
     var value_field = $(name);
     var text_field = $(name + '_text');
 
+    if (value_field.value == ''){
+        text_field.value = ''
+    }
+
     if (value_field.value){
         var req = doSimpleXMLHttpRequest(getURL('/many2one/get_name', {model: relation, id : value_field.value}));
 
