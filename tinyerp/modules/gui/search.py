@@ -46,7 +46,7 @@ from tinyerp import widgets_search as tws
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import validate_parent_form
+from tinyerp.modules.utils import TinyParent
 
 import form
 
@@ -136,8 +136,7 @@ class Search(controllers.Controller, TinyResource):
         caller = params.get('m2m', params.get('m2o', None))
 
         if caller:
-            # get the validated earch_form as current context
-            ctx = validate_parent_form(kw.copy())
+            ctx = TinyParent(**kw)
             pctx = ctx
 
             prefix = ''

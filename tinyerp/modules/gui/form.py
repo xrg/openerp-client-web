@@ -47,7 +47,7 @@ from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import validate_parent_form
+from tinyerp.modules.utils import TinyParent
 
 import search
 
@@ -283,7 +283,7 @@ class Form(controllers.Controller, TinyResource):
 
         result['prefix'] = prefix
 
-        ctx = validate_parent_form(kw.copy())
+        ctx = TinyParent(**kw)
         pctx = ctx
 
         if prefix:
