@@ -150,6 +150,8 @@ def _execute(action, **data):
             action['domain']='[]'
 
         context = {'active_id': data.get('id', False), 'active_ids': data.get('ids', [])}
+        context.update(rpc.session.context.copy())
+
         context.update(eval(action.get('context', '{}'), context.copy()))
 
         a = context.copy()
