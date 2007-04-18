@@ -36,6 +36,7 @@ import cherrypy
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
+from turbogears import validators as tg_validators
 
 from tinyerp import rpc
 from tinyerp import tools
@@ -43,6 +44,7 @@ from tinyerp import common
 
 from tinyerp import tools
 from tinyerp import widgets_search as tws
+from tinyerp.widgets import validators as terp_validators
 from tinyerp.tinyres import TinyResource
 from tinyerp.modules.utils import TinyDict
 
@@ -121,6 +123,31 @@ class Search(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         return form.Form().create(params)
 
+    def _validate_search_form(self, kw):
+        """This method will be used to convert each search_form values
+        in its python form. This method will be used by M2M, M2O search
+        window while evaluating context and domain.
+        """
+
+        # first generate validator from type type info
+        for k, v in kw.items():
+            if k.startswith('_terp_search_types') and v in VALS:
+                kw[k] = VALS[v]()
+
+        # then convert the values into pathon object
+        for k, v in kw.items():
+            if k.startswith('_terp_search_form'):
+                n = '_terp_search_types/' + k.replace('_terp_search_form/', '')
+                if n in kw and isinstance(kw[n], tg_validators.Validator):
+                    if str(v) == '':
+                        kw[k] = kw[n].if_empty
+                    else:
+                        kw[k] = kw[n].to_python(v, None)
+
+        # now split the kw dict, and return the search_form
+        params, data = TinyDict.split(kw)
+        return params.search_form
+
     @expose()
     def find(self, **kw):
         params, data = TinyDict.split(kw)
@@ -134,8 +161,9 @@ class Search(controllers.Controller, TinyResource):
         caller = params.get('m2m', params.get('m2o', None))
 
         if caller:
-            ctx = params.search_form
-            pctx = params.search_form
+            # get the validated earch_form as current context
+            ctx = self._validate_search_form(kw.copy())
+            pctx = ctx
 
             prefix = ''
             if '/' in caller:
@@ -184,3 +212,14 @@ class Search(controllers.Controller, TinyResource):
         params.found_ids = proxy.search(search_domain, o, l)
 
         return self.create(params, data)
+
+VALS = {
+        'char' : terp_validators.String,
+        'text': terp_validators.String,
+        'integer' : terp_validators.Int,
+        'float' : terp_validators.Float,
+        'boolean': terp_validators.Bool,
+        'selection' : terp_validators.Selection,
+        'many2many' : terp_validators.many2many,
+        'many2one' : terp_validators.Int
+}

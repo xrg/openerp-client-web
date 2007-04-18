@@ -49,6 +49,7 @@ class TinyWidget(object):
     model = None
     states = None
     onchange = None
+    kind=None
 
     def __init__(self, attrs={}):
 
@@ -77,6 +78,7 @@ class TinyWidget(object):
             self.set_state(attrs['state'])
 
         self.onchange = attrs.get('on_change', None)
+        self.kind = attrs.get('type', None)
 
     def set_state(self, state):
         if isinstance(self.states, dict) and state in self.states:
@@ -129,6 +131,7 @@ class TinyInputWidget(TinyWidget):
         d['attrs'] = {}
         # name as field_id
         d['field_id'] = self.name
+        d['kind'] = self.kind
 
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])

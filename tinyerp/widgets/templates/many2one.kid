@@ -5,7 +5,7 @@
             <input type="hidden" id='${name}_context' value="${str(context)}"/>
             <input type="hidden" id='${name}_onchange' value="${onchange}"/>
                        
-            <input type="hidden" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' 
+            <input type="hidden" kind="${kind}" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' 
                 onchange="on_change('${name}', $('${name}_onchange').value, '${model}', '${name}_text'); get_name('${name}', '${relation}')"/>
                 
             <input style="width: 100%" type="text" id ='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs'
