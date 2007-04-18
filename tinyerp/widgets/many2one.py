@@ -70,6 +70,9 @@ function on_change(name, callback, model) {
         if (e.name && e.name.indexOf('_terp_') == -1) {
             if (e.type != 'button'){
                 vals['_terp_parent_form/' + e.name] = e.value;
+                if (e.attributes['kind']){
+                    vals['_terp_parent_types/' + e.name] = e.attributes['kind'].value;
+                }
             }
         }
     });

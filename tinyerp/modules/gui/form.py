@@ -45,7 +45,9 @@ from tinyerp import common
 from tinyerp import tools
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
+
 from tinyerp.modules.utils import TinyDict
+from tinyerp.modules.utils import validate_parent_form
 
 import search
 
@@ -270,7 +272,7 @@ class Form(controllers.Controller, TinyResource):
 
         caller = params.caller
         callback = params.callback
-        domain = params.parent_form
+
         model = params.model
 
         result = {}
@@ -281,18 +283,18 @@ class Form(controllers.Controller, TinyResource):
 
         result['prefix'] = prefix
 
-        cur_domain = domain
-        par_domain = domain
+        ctx = validate_parent_form(kw.copy())
+        pctx = ctx
 
         if prefix:
-            cur_domain = domain[prefix.replace('/', '.')]
+            ctx = ctx[prefix.replace('/', '.')]
 
             if '/' in prefix:
                 prefix = prefix.rsplit('/', 1)[0]
-                par_domain = domain[prefix.replace('/', '.')]
+                pctx = pctx[prefix.replace('/', '.')]
 
-        cur_domain.parent = par_domain
-        cur_domain.context = rpc.session.context.copy()
+        ctx.parent = pctx
+        ctx.context = rpc.session.context.copy()
 
         match = re.match('^(.*?)\((.*)\)$', callback)
         if not match:
@@ -301,11 +303,11 @@ class Form(controllers.Controller, TinyResource):
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]
 
-        args = [tools.expr_eval(arg, cur_domain) for arg in arg_names]
+        args = [tools.expr_eval(arg, ctx) for arg in arg_names]
 
         proxy = rpc.RPCProxy(model)
 
-        ids = cur_domain.id and [cur_domain.id] or []
+        ids = ctx.id and [ctx.id] or []
         response = getattr(proxy, func_name)(ids, *args)
 
         if 'value' not in response:
