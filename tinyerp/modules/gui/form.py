@@ -124,10 +124,10 @@ class Form(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(params.model)
 
         if not params.id:
-            res = proxy.create(data, params.context)
-            params.ids = (params.ids or []) + [int(res)]
+            id = proxy.create(data, params.context)
+            params.ids = (params.ids or []) + [int(id)]
         else:
-            res = proxy.write([params.id], data, params.context)
+            id = proxy.write([params.id], data, params.context)
 
         # perform button action
         if params.button:
@@ -138,6 +138,9 @@ class Form(controllers.Controller, TinyResource):
         current = params[params.one2many or '']
         if current:
             current.id = None
+            if not params.id:
+                params.id = int(id)
+
             if current.view_mode[0] == 'tree':
                 current.view_mode.reverse()
 
