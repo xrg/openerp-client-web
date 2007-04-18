@@ -170,8 +170,9 @@ class RPCSession(object):
                 cherrypy.session['context'][c[1]] = c[2]
 
     def __convert(self, result):
-        if isinstance(result, unicode):
-            return result.encode('utf-8')
+
+        if isinstance(result, basestring):
+            return ustr(result)
 
         elif isinstance(result, list):
             return [self.__convert(val) for val in result]
@@ -202,7 +203,11 @@ class RPCSession(object):
             try:
                 sock = xmlrpclib.ServerProxy(self.url + obj)
                 result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
-                return self.__convert(result)
+                res = self.__convert(result)
+                print "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                print str(res)
+                print "XXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                return res
             except socket.error, e:
                 raise RPCException(69, 'Connection refused!')
             except xmlrpclib.Fault, e:
