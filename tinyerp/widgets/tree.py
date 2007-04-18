@@ -97,7 +97,7 @@ class Tree(Widget):
         else:
             menu_ids = proxy.read([id], ['child_id'])[0]['child_id']
 
-        res = proxy.read(menu_ids, ['name', 'child_id', 'icon'])
+        res = proxy.read(menu_ids, ['name', 'child_id', 'icon'], rpc.session.context.copy())
 
         nodes = []
         for r in res:

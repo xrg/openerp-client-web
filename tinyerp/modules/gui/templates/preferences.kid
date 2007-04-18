@@ -35,7 +35,7 @@
 			<td>
 			</td>
 			<td align="right">
-					<input type='submit' value="Ok" onclick="form.target = window.parent;" />
+					<input type='submit' value="Ok" onclick="form.target='_top'" />
 					<input type='submit' name='cancel' value='Cancel' onclick="form.target=null"/>
 			</td>
 
