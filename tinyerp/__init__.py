@@ -19,4 +19,4 @@ def ustr(value):
 
     return unicode(value, 'utf-8')
 
-__buitins__['ustr'] = ustr
+__builtins__['ustr'] = ustr
