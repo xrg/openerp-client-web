@@ -7,8 +7,8 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title py:replace="''">Your title goes here</title>
     <meta py:replace="item[:]"/>
-	<link href="/static/css/style.css" rel="stylesheet" type="text/css" />	
-	
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+
 	<script language="javascript" src="/tg_static/js/MochiKit.js"></script>
 	<script language="javascript" src="/static/javascript/master.js"></script>
 </head>
@@ -34,6 +34,8 @@
                         <span py:if="rpc.session.is_logged()">
 							Welcome ${rpc.session.fullname}
 							|
+							<a href="/pref/create/" target="contentpane">Preferences</a>
+							|
 							${str(rpc.session.url).rstrip('/xmlrpc')}
 							|
 							<a href="/logout">LOGOUT</a>
@@ -44,9 +46,9 @@
         </td>
     </tr>
 
-    <tr>    
+    <tr>
         <td height="100%">
-            <table py:replace="[item.text]+item[:]"/> 
+            <table py:replace="[item.text]+item[:]"/>
         </td>
     </tr>
 

@@ -102,6 +102,11 @@ def _check_method(obj, fn):
                 port = cherrypy.request.simple_cookie['terp_port'].value
                 db = cherrypy.request.simple_cookie['terp_db'].value
                 user = cherrypy.request.simple_cookie['terp_user'].value
+
+                if 'terp_lang' in cherrypy.session:
+                    lang = cherrypy.session.pop('terp_lang')
+                    cherrypy.response.simple_cookie['terp_lang'] = lang
+
             except:
                 pass
 

@@ -110,7 +110,11 @@ class RPCSession(object):
         cherrypy.session['uname'] = user
         cherrypy.session['passwd'] = password
         cherrypy.session['db'] = db
-        cherrypy.session['context'] = {}
+
+        lang = cherrypy.request.simple_cookie.get('terp_lang', '')
+        if lang:
+            lang = lang.value
+        cherrypy.session['context'] = {'lang': lang}
 
 
         # set host, port and uname in cookies

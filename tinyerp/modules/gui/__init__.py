@@ -4,3 +4,4 @@ import wizard
 import search
 import many2one
 import many2many
+import preferences
