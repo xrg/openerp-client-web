@@ -30,6 +30,9 @@
 import re
 import cherrypy
 
+from turbogears import validators as tg_validators
+from tinyerp.widgets import validators as terp_validators
+
 def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
     dictionary from the given data to be used with TinyERP.
@@ -129,3 +132,40 @@ class TinyDict(dict):
                 data[n] = v
 
         return _make_dict(params, True), _make_dict(data, False)
+
+def validate_parent_form(kw):
+    """This method will be used to convert each parent_form values
+    in its python equivalent. This method will be used during evaluating
+    context and domain which relies on parent form.
+    """
+
+    # first generate validator from type type info
+    for k, v in kw.items():
+        if k.startswith('_terp_parent_types') and v in VALS:
+            kw[k] = VALS[v]()
+
+    # then convert the values into pathon object
+    for k, v in kw.items():
+        if k.startswith('_terp_parent_form'):
+            n = '_terp_parent_types/' + k.replace('_terp_parent_form/', '')
+            if n in kw and isinstance(kw[n], tg_validators.Validator):
+                if str(v) == '':
+                    kw[k] = kw[n].if_empty
+                else:
+                    kw[k] = kw[n].to_python(v, None)
+
+    # now split the kw dict, and return the search_form
+    params, data = TinyDict.split(kw)
+    return params.parent_form
+
+VALS = {
+        'char' : terp_validators.String,
+        'text': terp_validators.String,
+        'integer' : terp_validators.Int,
+        'float' : terp_validators.Float,
+        'boolean': terp_validators.Bool,
+        'selection' : terp_validators.Selection,
+        'many2many' : terp_validators.many2many,
+        'many2one' : terp_validators.Int
+}
+

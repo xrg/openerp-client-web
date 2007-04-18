@@ -26,10 +26,10 @@
                 forEach(pform.elements, function(e){
                     if (e.name &amp;&amp; e.name.indexOf('_terp_') == -1) {
                         if (e.type != 'button'){
-                            pvals['_terp_search_form/' + e.name] = e.value;
+                            pvals['_terp_parent_form/' + e.name] = e.value;
                             
                             if (e.attributes['kind']){
-                                pvals['_terp_search_types/' + e.name] = e.attributes['kind'].value;
+                                pvals['_terp_parent_types/' + e.name] = e.attributes['kind'].value;
                             }
                         }
                     }

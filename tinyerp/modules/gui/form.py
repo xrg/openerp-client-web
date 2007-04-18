@@ -270,7 +270,7 @@ class Form(controllers.Controller, TinyResource):
 
         caller = params.caller
         callback = params.callback
-        domain = params.view_form
+        domain = params.parent_form
         model = params.model
 
         result = {}

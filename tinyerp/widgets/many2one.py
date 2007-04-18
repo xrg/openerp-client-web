@@ -69,7 +69,7 @@ function on_change(name, callback, model) {
     forEach(form.elements, function(e){
         if (e.name && e.name.indexOf('_terp_') == -1) {
             if (e.type != 'button'){
-                vals['_terp_view_form/' + e.name] = e.value;
+                vals['_terp_parent_form/' + e.name] = e.value;
             }
         }
     });
