@@ -101,7 +101,8 @@ class Tree(Widget):
 
         nodes = []
         for r in res:
-            node = {'text': r['name']}
+            node = {'text': ustr(r['name'])}
+
             if r['child_id']:
                 node['src'] = "/menu_items/%s/%d?action=%s&target=%s"%(model, r['id'], action, target)
 
