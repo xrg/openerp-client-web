@@ -100,8 +100,6 @@ class Form(TinyCompoundWidget):
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
 
-        proxy = rpc.RPCProxy(self.model)
-
         self.fields_type = {}
         self.widgets = []
         self.parse(dom, fields, values)
@@ -168,7 +166,7 @@ class Form(TinyCompoundWidget):
                     field.options = [[1,'Yes'],[0,'No']]
 
                 if values.has_key(name) and isinstance(field, TinyInputWidget):
-                    field.set_value(str(values[name]))
+                    field.set_value(values[name])
 
                 self.widgets += [field]
 

@@ -119,13 +119,13 @@ class Char(object):
         self.attrs = attrs
 
     def get_value(self, value):
-        return unicode(value or '', 'utf-8')
+        return value
 
 class M2O(Char):
 
     def get_value(self, value):
         if value and len(value) > 0:
-            return unicode(value[-1], 'utf-8')
+            return value[-1]
 
         return ''
 
