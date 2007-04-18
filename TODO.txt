@@ -17,6 +17,7 @@ TODO: Phase 1
  *** - on_change actions (ame: initial work for many2one)
   ** - domain, context (ame: domain partially done)
   ** - multi-column tree view
+   * - better one2many with pop when new or editing (ex: sale order lines)
    * - global context for translations everywhere
    * - print in wizard & forms
    * - The complete database creation process
