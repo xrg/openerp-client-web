@@ -75,8 +75,8 @@ class TinyDict(dict):
     to generate valid dictionary of data fields from the controller keyword arguments.
     """
 
-    def __init__(self, **kw):
-        super(TinyDict, self).__init__(**kw)
+    def __init__(self, **kwargs):
+        super(TinyDict, self).__init__(**kwargs)
 
     def _eval(self, value):
         if not isinstance(value, basestring):
@@ -168,7 +168,7 @@ class TinyParent(TinyDict):
                     else:
                         kw[k] = kw[n].to_python(v, None)
 
-        # now split the kw dict, and return the search_form
+        # now split the kw dict
         params, data = TinyDict.split(kw)
 
         super(TinyParent, self).__init__(**params.parent_form)

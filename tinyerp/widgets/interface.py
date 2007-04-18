@@ -131,6 +131,7 @@ class TinyInputWidget(TinyWidget):
         d['attrs'] = {}
         # name as field_id
         d['field_id'] = self.name
+        d['onchange'] = self.onchange
         d['kind'] = self.kind
 
         if self.readonly:

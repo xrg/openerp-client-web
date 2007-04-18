@@ -237,8 +237,6 @@ class Integer(TinyField):
 
 class Boolean(TinyField):
     template = "tinyerp.widgets.templates.boolean"
-    params = ["checked"]
-    checked = {}
 
     def __init__(self, attrs={}):
         super(Boolean, self).__init__(attrs)
@@ -246,9 +244,6 @@ class Boolean(TinyField):
 
     def set_value(self, value):
         self.default = value or ''
-
-        if value:
-            self.checked['checked'] = "1"
 
 class Float(TinyField):
     template = "tinyerp.widgets.templates.float"
