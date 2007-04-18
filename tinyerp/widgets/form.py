@@ -141,9 +141,6 @@ class Frame(TinyCompoundWidget):
 
         self.add(item, rowspan=rowspan, colspan=colspan, css_class='item')
 
-    def display(self, value=None, **params):
-        return super(Frame, self).display(value, **params)
-
 class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
@@ -352,7 +349,7 @@ class Form(TinyCompoundWidget):
         super(Form, self).__init__()
 
         fields = view['fields']
-        dom = xml.dom.minidom.parseString(view['arch'])
+        dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
