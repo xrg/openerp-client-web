@@ -211,9 +211,8 @@ class Form(controllers.Controller, TinyResource):
             idx = current.ids.index(current.id)
             idx = idx-1
 
-            if idx == current.ids[0]:
-                idx = len(current.ids)
-                current.id = current.ids[idx]
+            if idx == len(current.ids):
+                idx = len(current.ids) -1
 
         if current.ids:
             current.id = current.ids[idx]
