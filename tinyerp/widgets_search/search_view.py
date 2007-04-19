@@ -76,8 +76,6 @@ class ViewSearch(tg.widgets.Form):
         proxy = rpc.RPCProxy(self.model)
 
         ctx = rpc.session.context.copy()
-        ctx.update(self.context)
-
         view_form = proxy.fields_view_get({}, 'form', ctx)
         view_tree = proxy.fields_view_get({}, 'tree', ctx)
 

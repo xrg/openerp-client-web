@@ -72,7 +72,8 @@ class List(TinyCompoundWidget):
         self.string = attrs.get('string','')
 
         ctx = rpc.session.context.copy()
-        ctx.update(context or {})
+        if isinstance(context, dict):
+            ctx.update(context)
 
         data = []
         if ids == None or len(ids) > 0:
