@@ -6,8 +6,8 @@
             <input type="hidden" id='${name}_onchange' value="${onchange}"/>
                        
             <input type="hidden" kind="${kind}" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' 
-                onchange="on_change('${name}', $('${name}_onchange').value, '${model}', '${name}_text'); get_name('${name}', '${relation}')"/>
-                
+                onchange="on_change(this); get_name(this, '${relation}')"/>
+
             <input style="width: 100%" type="text" id ='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs'
                 onchange="if (!this.value){$('${name}').value=''; $('${name}').onchange();} else {get_name('${name}', '${relation}');}"/>
             <br py:if="error"/><span class="fielderror" py:if="error" py:content="error"/>

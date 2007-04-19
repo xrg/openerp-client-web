@@ -48,7 +48,7 @@ def get_name(model, id):
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"
-    params=['relation', 'text', 'model', 'domain', 'context']
+    params=['relation', 'text', 'domain', 'context']
 
     domain = []
     context = {}
@@ -56,28 +56,42 @@ class M2O(TinyField):
     javascript = [
                   tg.widgets.JSSource("""
 
-function on_change(name, callback, model) {
+function on_change(name) {
 
     var caller = $(name);
+    var callback = null;
+    var model = null;
 
-    if (!callback)
-        return;
+    var prefix = caller.name.split("/");
+    prefix.pop();
+    prefix = prefix.join("/");
+    prefix = prefix ? prefix + '/' : '';
 
     form = $("view_form");
 
     vals = {};
     forEach(form.elements, function(e){
-        if (e.name && e.name.indexOf('_terp_') == -1) {
-            if (e.type != 'button'){
-                vals['_terp_parent_form/' + e.name] = e.value;
-                if (e.attributes['kind']){
-                    vals['_terp_parent_types/' + e.name] = e.attributes['kind'].value;
-                }
+
+        if (!model && e.name === prefix + '_terp_model'){
+            model = e.value;
+        }
+
+        if (!callback && e.id === caller.id + '_onchange'){
+            callback = e.value;
+        }
+
+        if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button'){
+            vals['_terp_parent_form/' + e.name] = e.value;
+            if (e.attributes['kind']){
+                vals['_terp_parent_types/' + e.name] = e.attributes['kind'].value;
             }
         }
     });
 
-    vals['_terp_caller'] = name;
+    if (!callback)
+        return;
+
+    vals['_terp_caller'] = caller.id;
     vals['_terp_callback'] = callback;
     vals['_terp_model'] = model;
 
@@ -85,11 +99,7 @@ function on_change(name, callback, model) {
 
     req.addCallback(function(xmlHttp){
         res = evalJSONRequest(xmlHttp);
-
-        prefix = res['prefix'];
         values = res['value'];
-
-        prefix = prefix ? prefix + '/' : '';
 
         for(var k in values){
             fname = prefix + k;
@@ -114,7 +124,7 @@ function on_change(name, callback, model) {
 function get_name(name, relation){
 
     var value_field = $(name);
-    var text_field = $(name + '_text');
+    var text_field = $(value_field.name + '_text');
 
     if (value_field.value == ''){
         text_field.value = ''

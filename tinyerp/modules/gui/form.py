@@ -274,7 +274,6 @@ class Form(controllers.Controller, TinyResource):
 
         caller = params.caller
         callback = params.callback
-
         model = params.model
 
         result = {}
@@ -282,8 +281,6 @@ class Form(controllers.Controller, TinyResource):
         prefix = ''
         if '/' in caller:
             prefix = caller.rsplit('/', 1)[0]
-
-        result['prefix'] = prefix
 
         ctx = TinyParent(**kw)
         pctx = ctx
