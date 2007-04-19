@@ -13,14 +13,13 @@ implemented or fixed in very near future...
 TODO: Phase 1
 -------------------------------------------------------------------------------
 
- *** - button controller (ame: done for form view)
  *** - on_change actions (ame: initial work for many2one)
-  ** - domain, context (ame: domain partially done)
+  ** - domain, context (ame: partially done)
+  ** - The complete database creation process (ame: work in progress)
   ** - multi-column tree view
    * - better one2many with pop when new or editing (ex: sale order lines)
-   * - global context for translations everywhere
+   * - global context for translations everywhere (ame: partialy done)
    * - print in wizard & forms
-   * - The complete database creation process
    * - Implement all widgets (piture, image, binary etc.)
 
 -------------------------------------------------------------------------------
