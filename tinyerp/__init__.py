@@ -8,11 +8,6 @@ def ustr(value):
     @return: unicode string
     """
 
-    if isinstance(value, basestring) and not ('<' in value):
-        #if 'É' in value:
-        #    print "YYYYYYYYYYYYYYYYYYYYYYY", value
-        pass
-
     if isinstance(value, unicode):
         return value
 
