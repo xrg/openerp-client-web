@@ -100,7 +100,11 @@ class Screen(TinyCompoundWidget):
             view = self.views_preloaded[view_type]
         else:
             proxy = rpc.RPCProxy(self.model)
-            view = proxy.fields_view_get(view_id, view_type, self.context)
+
+            ctx = rpc.session.context.copy()
+            ctx.update(self.context)
+
+            view = proxy.fields_view_get(view_id, view_type, ctx)
 
         self.add_view(view, view_type)
 

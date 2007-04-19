@@ -71,11 +71,14 @@ class List(TinyCompoundWidget):
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
 
+        ctx = rpc.session.context.copy()
+        ctx.update(context or {})
+
         data = []
         if ids == None or len(ids) > 0:
             proxy = rpc.RPCProxy(model)
             ids = ids or proxy.search(domain)
-            data = proxy.read(ids, fields, context)
+            data = proxy.read(ids, fields, ctx)
 
             self.ids = ids
 

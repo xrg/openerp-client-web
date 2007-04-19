@@ -56,16 +56,19 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
 
         self.relation = attrs.get('relation', '')
         self.domain = attrs.get('domain', [])
-        self.context = attrs.get('context', {})
+        self.context = attrs.get('context', {}) or {}
 
         self.view = attrs.get('views',{})
         self.domain  = attrs.get('domain',{})
         self.ids = attrs['value'] or []
 
+        ctx = rpc.session.context.copy()
+        ctx.update(self.context)
+
         if not self.view:
             proxy = rpc.RPCProxy(self.relation)
-            self.view = proxy.fields_view_get({}, 'tree', {})
+            self.view = proxy.fields_view_get({}, 'tree', ctx)
 
-        self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, selectable=True)
+        self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, context=ctx, selectable=True)
 
         self.validator = tiny_validators.many2many()
