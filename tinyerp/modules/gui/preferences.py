@@ -28,45 +28,42 @@
 ###############################################################################
 
 import re
+import time
 
 from turbogears import expose
-from turbogears import widgets
 from turbogears import controllers
 from turbogears import redirect
-import time
 
 import cherrypy
 
 from tinyerp import rpc
-from tinyerp import common
-
-from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
+from tinyerp.widgets.form import Selection
 
 class Preferences(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.preferences")
     def create(self):
-        sock =rpc.RPCProxy('ir.values')
-        res = sock.get('meta', False, [['res.users', False]], True, {}, True)
-        lang = cherrypy.request.simple_cookie.get('terp_lang','')
-        if lang:
-            lang=lang.value
-        field = tw.form.Selection({'name':'lang','selection':res[0][3]['selection'],'label':'Language','string':'Language'});
-        field.set_value(lang)
+        proxy = rpc.RPCProxy('ir.values')
+        res = proxy.get('meta', False, [['res.users', False]], True, {}, True)
+
+        field = Selection({'name':'lang','selection':res[0][3]['selection'],'label':'Language','string':'Language'});
+
+        lang = cherrypy.request.simple_cookie.get('terp_lang')
+        field.set_value((lang or '') and lang.value)
 
         return dict(field=field)
 
     @expose()
     def ok(self, lang, cancel=None):
         if cancel:
-            return " "
+            return ""
 
-        cherrypy.session['terp_lang'] = lang
+        cherrypy.response.simple_cookie['terp_lang'] = lang
+        cherrypy.response.simple_cookie['terp_lang']['path'] = '/'
+        cherrypy.response.simple_cookie['terp_lang']['expires'] = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
 
         rpc.session.logout()
 
         raise redirect('/')
-
-
