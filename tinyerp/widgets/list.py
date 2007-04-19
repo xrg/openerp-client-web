@@ -65,7 +65,7 @@ class List(TinyCompoundWidget):
         self.editable = kw.get('editable', False)
 
         fields = view['fields']
-        dom = xml.dom.minidom.parseString(view['arch'])
+        dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
 
         attrs = tools.node_attributes(root)

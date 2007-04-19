@@ -41,10 +41,10 @@ def get_name(model, id):
 
     if model and id:
         proxy = rpc.RPCProxy(model)
-        name = proxy.name_get([id], {})
+        name = proxy.name_get([id], rpc.session.context.copy())
         name = name[0][1]
 
-    return unicode(name, 'utf-8')
+    return name
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"

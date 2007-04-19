@@ -56,9 +56,6 @@ class TinyWidget(object):
         self.string = attrs.get("string", None)
         self.model = attrs.get("model", None)
 
-        if self.string:
-            self.string = self.string.encode('utf-8')
-
         prefix = attrs.get('prefix', '')
         self.name = prefix + (prefix and '/' or '') + attrs.get('name', '')
 
@@ -122,7 +119,7 @@ class TinyInputWidget(TinyWidget):
         @param value: the value
         """
         if isinstance(value, basestring):
-            value = value.encode('utf-8')
+            value = ustr(value)
 
         self.default = value
 
