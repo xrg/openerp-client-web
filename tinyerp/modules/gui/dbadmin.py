@@ -27,62 +27,46 @@
 #
 ###############################################################################
 
-"""
-This module implementes the RootController of the TurboGears application.
-For more information on TG controllers, please see the TG docs.
-"""
+import re
 
-from turbogears import controllers
 from turbogears import expose
+from turbogears import widgets
+from turbogears import controllers
 from turbogears import redirect
+import time
 
 import cherrypy
 
 from tinyerp import rpc
-from tinyerp.tinyres import TinyResource
-from tinyerp import modules
-from tinyerp import widgets as tw
-
-#from tinyerp.subcontrollers import ActionController
-
-from tinyerp.modules import *
-from tinyerp.widgets import *
-from tinyerp import rpc
-
-class Root(controllers.RootController, TinyResource):
-    """Turbogears root controller, see TG docs for more info.
-    """
-
-    @expose(template="tinyerp.templates.index")
-    def index(self):
-        """ The index page
-        """
-        menu = tree.Tree(id="menu", title="TinyERP", url="/menu_items", model="ir.ui.menu", action="/menu", target="contentpane")
-        return dict(menu_tree=menu)
+from tinyerp import common
+import xmlrpclib
 
 
+
+class DBAdmin(controllers.Controller):
+
+    @expose(template="tinyerp.modules.gui.templates.dbadmin")
+    def index(self, *args, **kw):
+
+        tabber = widgets.Tabber(use_cookie=True)
+        return dict(tabber=tabber)
 
     @expose()
-    def logout(self):
-        """ Logout method, will terminate the current session.
-        """
-        rpc.session.logout()
-        raise redirect('/')
+    def new(self, *args, **kw):
+        pass
 
     @expose()
-    def menu(self, model, id):
-        id = int(id)
-        return actions.execute_by_keyword('tree_but_open', model=model, id=id, ids=[id], report_type='pdf')
+    def drop(self, *args, **kw):
+        pass
 
+    @expose()
+    def backup(self, *args, **kw):
+        pass
 
+    @expose()
+    def restore(self, *args, **kw):
+        pass
 
-    menu_items = tree.Tree.items;
-
-    form = gui.form.Form()
-    wizard = gui.wizard.Wizard()
-    search = gui.search.Search()
-    many2one = gui.many2one.M2O()
-    many2many = gui.many2many.M2M()
-    pref = gui.preferences.Preferences()
-    dbadmin = gui.dbadmin.DBAdmin()
-
+    @expose()
+    def password(self, *args, **kw):
+        pass
