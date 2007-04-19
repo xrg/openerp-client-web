@@ -92,7 +92,9 @@
 				<div class="box">
 					<table align="center" width="100%">
 						<tr>
-							<td align="right" width="90">Database:</td>
+							<td align="right" width="90">
+    							<a href="/dbadmin">Database:</a>
+							</td>
 							<td>
 								<select name="db" style="width: 100%;">
 									<span py:for="db in dblist">
@@ -126,10 +128,6 @@
 				<input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
 			</div>
 		</form>
-
-		<div class="box" style="text-align: center;">
-			<a href="/dbadmin">Database Administration</a>
-		</div>
 
 		<div class="box message" id="message" py:if="message is not None">
 			${message}
