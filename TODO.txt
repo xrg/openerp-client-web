@@ -23,11 +23,10 @@ TODO: Phase 1
    * - Implement all widgets (piture, image, binary etc.)
 
 -------------------------------------------------------------------------------
-ISSUE
+TODO: Phase 2
 -------------------------------------------------------------------------------
 
-   * - Better selection system for lists with link for single selection and
-       checkbox for multiple selection
+   * - https://wiki.tinyerp.com/index.php/ETiny/ErgonomyNotes
 
 -------------------------------------------------------------------------------
 Copyright (c) 2007 TinyERP India Pvt. Ltd.
