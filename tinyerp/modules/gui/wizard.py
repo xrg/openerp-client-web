@@ -136,13 +136,6 @@ class Wizard(controllers.Controller, TinyResource):
     def end(self, **kw):
         return ""
 
-    @expose()
-    def report(self, **kw):
-        params, datas = TinyDict.split(kw)
-        params.datas['form'].update(datas)
-
-        return self.execute(params)
-
     def get_form(self):
         params, datas = TinyDict.split(cherrypy.request.params)
         params.datas['form'].update(datas)
@@ -160,6 +153,14 @@ class Wizard(controllers.Controller, TinyResource):
         form.validator = schema
 
         return form
+
+    @expose()
+    @validate(form=get_form)
+    def report(self, **kw):
+        params, datas = TinyDict.split(kw)
+        params.datas['form'].update(datas)
+
+        return self.execute(params)
 
     @expose()
     @validate(form=get_form)
