@@ -242,10 +242,6 @@ def execute_by_keyword(keyword, adds={}, **data):
 
     keyact.update(adds)
 
-    print "XXXXXXXXXXXXXXXXXXXX"
-    print keyact
-    print "XXXXXXXXXXXXXXXXXXXX"
-
     if not keyact:
         raise 'No action defined!'
 

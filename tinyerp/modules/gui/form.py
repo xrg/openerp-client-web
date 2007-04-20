@@ -268,37 +268,29 @@ class Form(controllers.Controller, TinyResource):
         # regenerate the view
         return self.create(params)
 
-    @expose()
-    def report(self, **kw):
-        params, data = TinyDict.split(kw)
+    def do_action(self, name, model, id, ids=[], report_type='pdf', adds={}):
 
-        id = params.id
-        if not id and params.ids:
-            id = params.ids[0]
+        if not id and ids:
+            id = ids[0]
 
-        ids = params.ids or ((id or []) and [id])
+        ids = (id or []) and [id]
 
         if len(ids):
             from tinyerp.modules import actions
-            return actions.execute_by_keyword('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 'name':'Print Screen', 'type':'ir.actions.report.xml'}}, model=params.model, id=id, ids=ids, report_type='pdf')
+            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type=report_type)
         else:
             raise "No record selected!"
+
+    @expose()
+    def report(self, **kw):
+        params, data = TinyDict.split(kw)
+        return self.do_action('client_print_multi', model=params.model, id=params.id, ids=params.ids,
+                              adds={'Print Screen': {'report_name':'printscreen.list', 'name':'Print Screen', 'type':'ir.actions.report.xml'}})
 
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-
-        id = params.id
-        if not id and params.ids:
-            id = params.ids[0]
-
-        ids = params.ids or ((id or []) and [id])
-
-        if len(ids):
-            from tinyerp.modules import actions
-            return actions.execute_by_keyword('client_action_multi', model=params.model, id=id, ids=ids, report_type='pdf')
-        else:
-            raise "No record selected!"
+        return self.do_action('client_action_multi', model=params.model, id=params.id, ids=params.ids)
 
     @expose('json')
     def on_change(self, **kw):

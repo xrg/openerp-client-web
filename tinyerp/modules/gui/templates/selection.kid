@@ -38,7 +38,7 @@
         
         <div class="spacer"></div>
             
-            <table width="100%" border="0">
+            <table width="100%" border="0" class="fields">
                 <tr py:for="key, value in values.items()">
                     <td width="25px"><input type="radio" name="_terp_action" value="${ustr(value)}"/></td>
                     <td py:content="key"></td>
