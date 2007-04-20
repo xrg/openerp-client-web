@@ -13,7 +13,6 @@ implemented or fixed in very near future...
 TODO: Phase 1
 -------------------------------------------------------------------------------
 
- *** - on_change actions (ame: completed for many2one, selection and float)
   ** - domain, context (ame: partially done)
   ** - The complete database creation process (ame: work in progress)
   ** - multi-column tree view
