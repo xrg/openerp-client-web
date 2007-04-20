@@ -94,8 +94,8 @@ def _execute_wizard(name, **datas):
 
 PRINT_FORMATS = {
      'pdf' : 'application/pdf',
-     'doc' : 'applocation/doc',
-     'html' : 'text/html',
+     'doc' : 'application/vnd.ms-word',
+     'html': 'text/html',
 }
 
 def _print_data(data):
