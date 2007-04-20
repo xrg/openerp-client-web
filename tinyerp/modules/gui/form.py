@@ -42,7 +42,6 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 
-from tinyerp import tools
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
@@ -162,7 +161,9 @@ class Form(controllers.Controller, TinyResource):
             rpc.session.execute('/object', 'exec_workflow', model, name, id)
 
         elif btype == 'object':
-            rpc.session.execute('/object', 'execute', model, name, ids, {}) #TODO: context
+            ctx = params.context or {}
+            ctx.update(rpc.session.context.copy())
+            rpc.session.execute('/object', 'execute', model, name, ids, ctx)
 
         elif btype == 'action':
             from tinyerp.modules import actions
