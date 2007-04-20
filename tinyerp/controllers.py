@@ -83,6 +83,7 @@ class Root(controllers.RootController, TinyResource):
     search = gui.search.Search()
     many2one = gui.many2one.M2O()
     many2many = gui.many2many.M2M()
-    pref = gui.preferences.Preferences()
     dbadmin = gui.dbadmin.DBAdmin()
+    pref = gui.preferences.Preferences()
+    selection = gui.selection.Selection()
 

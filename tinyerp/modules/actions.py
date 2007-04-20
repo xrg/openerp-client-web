@@ -48,6 +48,7 @@ from tinyerp import common
 
 from gui.form import Form
 from gui.wizard import Wizard
+from gui.selection import Selection
 
 from utils import TinyDict
 
@@ -215,7 +216,7 @@ def execute_by_id(act_id, type=None, **data):
     res = rpc.session.execute('/object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
     return _execute(res, **data)
 
-def execute_by_keyword(keyword, **data):
+def execute_by_keyword(keyword, adds={}, **data):
     """Performs action represented by the given keyword argument with given data.
 
     @param keyword: action keyword
@@ -239,13 +240,17 @@ def execute_by_keyword(keyword, **data):
     for action in actions:
         keyact[action['name']] = action
 
-    #keyact.update(adds)
+    keyact.update(adds)
 
-    res = common.selection('Select your action', keyact)
+    print "XXXXXXXXXXXXXXXXXXXX"
+    print keyact
+    print "XXXXXXXXXXXXXXXXXXXX"
 
-    if res:
-        return _execute(res[1], **data)
-    elif not len(keyact):
-        common.message('No action defined!')
+    if not keyact:
+        raise 'No action defined!'
 
-    return dict()
+    if len(keyact) == 1:
+        key = keyact.keys()[0]
+        return _execute(keyact[key], **data)
+    else:
+        return Selection().create(keyact, **data)

@@ -4,5 +4,6 @@ import wizard
 import search
 import many2one
 import many2many
-import preferences
 import dbadmin
+import preferences
+import selection

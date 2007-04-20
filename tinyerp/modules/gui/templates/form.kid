@@ -28,13 +28,22 @@ if form.screen.view_mode[0] == 'tree': but_attrs['disabled'] = 0
 ?>
 
             <div class="toolbar">
-            <button type="button" title="Create new record..." onclick="submit_form('new')">New</button>
-            <button type="button" title="Save current record..." py:attrs="but_attrs" onclick="submit_form('save')">Save</button>
-            <button type="button" title="Remove current record..." onclick="submit_form('delete')" py:attrs="but_attrs">Delete</button>
-            <button type="button" title="Previois records..." py:attrs="but_attrs" onclick="submit_form('prev')">Prev</button>
-            <button type="button" title="Next records..." py:attrs="but_attrs" onclick="submit_form('next')">Next</button>
-            <button type="button" title="Search records..." onclick="submit_form('find')">Find</button>
-            <button type="button" title="Switch view..." onclick="submit_form('switch')">Switch</button>
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td width="100%">
+                        <button type="button" title="Create new record..." onclick="submit_form('new')">New</button>
+                        <button type="button" title="Save current record..." py:attrs="but_attrs" onclick="submit_form('save')">Save</button>
+                        <button type="button" title="Remove current record..." onclick="submit_form('delete')" py:attrs="but_attrs">Delete</button>
+                        <button type="button" title="Previois records..." py:attrs="but_attrs" onclick="submit_form('prev')">Prev</button>
+                        <button type="button" title="Next records..." py:attrs="but_attrs" onclick="submit_form('next')">Next</button>
+                        <button type="button" title="Search records..." onclick="submit_form('find')">Find</button>
+                        <button type="button" title="Switch view..." onclick="submit_form('switch')">Switch</button>
+                    </td>
+                    <td>
+                        <button type="button" title="Print..." onclick="submit_form('report')">Print</button>
+                    </td>
+                </tr>
+            </table>
         </div>
 
     </div>

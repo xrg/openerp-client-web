@@ -27,15 +27,29 @@
 #
 ###############################################################################
 
-def error(title, message, details=''):
-    pass
+from turbogears import expose
+from turbogears import widgets
+from turbogears import controllers
 
-def warning(msg, title='', parent=None):
-    pass
+import cherrypy
 
-def message(msg, type="INFO"):
-    # TODO: JavaScript dialog
-    return True
+from tinyerp import rpc
+from tinyerp import tools
+from tinyerp import common
 
-def to_xml(s):
-    return s.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+from tinyerp.tinyres import TinyResource
+from tinyerp.modules.utils import TinyDict
+
+class Selection(controllers.Controller, TinyResource):
+
+    @expose(template="tinyerp.modules.gui.templates.selection")
+    def create(self, values, **data):
+        return dict(values=values, data=data)
+
+    @expose()
+    def action(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        from tinyerp.modules import actions
+        return actions._execute(params.action, **params.data)
+

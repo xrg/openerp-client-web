@@ -268,6 +268,22 @@ class Form(controllers.Controller, TinyResource):
         # regenerate the view
         return self.create(params)
 
+    @expose()
+    def report(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        id = params.id
+        if not id and params.ids:
+            id = params.ids[0]
+
+        ids = params.ids or ((id or []) and [id])
+
+        if len(ids):
+            from tinyerp.modules import actions
+            return actions.execute_by_keyword('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 'name':'Print Screen', 'type':'ir.actions.report.xml'}}, model=params.model, id=id, ids=ids, report_type='pdf')
+        else:
+            raise "No record selected!"
+
     @expose('json')
     def on_change(self, **kw):
         params, data = TinyDict.split(kw)
