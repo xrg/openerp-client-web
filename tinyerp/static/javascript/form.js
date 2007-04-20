@@ -27,7 +27,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-var inline_edit = function(id, o2m_name){
+var inlineEdit = function(id, o2m_name){
 
     form = $('view_form');
 
@@ -48,7 +48,7 @@ var inline_edit = function(id, o2m_name){
     form.submit();
 }
 
-var inline_delete = function(id, o2m_name){
+var inlineDelete = function(id, o2m_name){
 
     if (!confirm('Do you realy want to delete this record?')) {
         return false;
@@ -74,6 +74,7 @@ var inline_delete = function(id, o2m_name){
 }
 
 var submit_form = function(action, o2m){
+
     form = $("view_form");
 
     if (action == 'delete' &&  !confirm('Do you realy want to delete this record?')) {
@@ -90,7 +91,7 @@ var submit_form = function(action, o2m){
     form.submit();
 }
 
-var button_clicked = function(name, btype, model, id, sure){
+var buttonClicked = function(name, btype, model, id, sure){
 
     if (sure && !confirm(sure)){
         return;
