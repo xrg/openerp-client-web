@@ -48,7 +48,7 @@ class TinyWidget(object):
     name = None
     model = None
     states = None
-    onchange = None
+    callback = None
     kind=None
 
     def __init__(self, attrs={}):
@@ -74,7 +74,7 @@ class TinyWidget(object):
         if 'state' in attrs:
             self.set_state(attrs['state'])
 
-        self.onchange = attrs.get('on_change', None)
+        self.callback = attrs.get('on_change', None)
         self.kind = attrs.get('type', None)
 
     def set_state(self, state):
@@ -128,7 +128,10 @@ class TinyInputWidget(TinyWidget):
         d['attrs'] = {}
         # name as field_id
         d['field_id'] = self.name
-        d['onchange'] = self.onchange
+
+        d['callback'] = self.callback
+        d['onchange'] = (self.callback or None) and 'onChange(this)'
+
         d['kind'] = self.kind
 
         if self.readonly:

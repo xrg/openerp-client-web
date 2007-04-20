@@ -1,7 +1,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" xmlns:py="http://purl.org/kid/ns#">
     <tr>
         <td width="100%">
-            <input type="hidden" kind="${kind}" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' callback="${onchange}" onchange="${(onchange or None) and 'onChange(this);'} getName(this, '${relation}')"/>
+            <input type="hidden" kind="${kind}" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' callback="${callback}" onchange="${onchange}; getName(this, '${relation}')"/>
             <input style="width: 100%" type="text" id ='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs' onchange="if (!this.value){$('${name}').value=''; $('${name}').onchange();} else {getName('${name}', '${relation}');}"/>
             <span class="fielderror" py:if="error" py:content="error"/>
         </td>
