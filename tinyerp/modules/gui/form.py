@@ -284,6 +284,22 @@ class Form(controllers.Controller, TinyResource):
         else:
             raise "No record selected!"
 
+    @expose()
+    def action(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        id = params.id
+        if not id and params.ids:
+            id = params.ids[0]
+
+        ids = params.ids or ((id or []) and [id])
+
+        if len(ids):
+            from tinyerp.modules import actions
+            return actions.execute_by_keyword('client_action_multi', model=params.model, id=id, ids=ids, report_type='pdf')
+        else:
+            raise "No record selected!"
+
     @expose('json')
     def on_change(self, **kw):
         params, data = TinyDict.split(kw)

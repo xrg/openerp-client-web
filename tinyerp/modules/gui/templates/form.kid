@@ -31,16 +31,17 @@ if form.screen.view_mode[0] == 'tree': but_attrs['disabled'] = 0
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="100%">
-                        <button type="button" title="Create new record..." onclick="submit_form('new')">New</button>
-                        <button type="button" title="Save current record..." py:attrs="but_attrs" onclick="submit_form('save')">Save</button>
-                        <button type="button" title="Remove current record..." onclick="submit_form('delete')" py:attrs="but_attrs">Delete</button>
-                        <button type="button" title="Previois records..." py:attrs="but_attrs" onclick="submit_form('prev')">Prev</button>
-                        <button type="button" title="Next records..." py:attrs="but_attrs" onclick="submit_form('next')">Next</button>
-                        <button type="button" title="Search records..." onclick="submit_form('find')">Find</button>
-                        <button type="button" title="Switch view..." onclick="submit_form('switch')">Switch</button>
+                        <button type="button" title="Create a new resource" onclick="submit_form('new')">New</button>
+                        <button type="button" title="Edit/Save this resource" py:attrs="but_attrs" onclick="submit_form('save')">Save</button>
+                        <button type="button" title="Delete this resource" onclick="submit_form('delete')" py:attrs="but_attrs">Delete</button>
+                        <button type="button" title="Go to previois matched search" py:attrs="but_attrs" onclick="submit_form('prev')">Prev</button>
+                        <button type="button" title="Go to next match search" py:attrs="but_attrs" onclick="submit_form('next')">Next</button>
+                        <button type="button" title="Find a resource" onclick="submit_form('find')">Find</button>
+                        <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
                     </td>
                     <td>
-                        <button type="button" title="Print..." onclick="submit_form('report')">Print</button>
+                        <button type="button" title="Launch action about this resource" onclick="submit_form('action')">Action</button>
+                        <button type="button" title="Print documents" onclick="submit_form('report')">Print</button>
                     </td>
                 </tr>
             </table>
