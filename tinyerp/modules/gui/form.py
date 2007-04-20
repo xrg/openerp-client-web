@@ -279,7 +279,7 @@ class Form(controllers.Controller, TinyResource):
 
         if view_type == 'form':
             #TODO: save current record
-            ids = [id]
+            ids = (id or []) and [id]
 
         if len(ids):
             from tinyerp.modules import actions
