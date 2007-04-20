@@ -268,29 +268,32 @@ class Form(controllers.Controller, TinyResource):
         # regenerate the view
         return self.create(params)
 
-    def do_action(self, name, model, id, ids=[], report_type='pdf', adds={}):
+    def do_action(self, name, adds={}, datas={}):
+        params, data = TinyDict.split(datas)
 
-        if not id and ids:
-            id = ids[0]
+        model = params.model
+        view_type = params.view_mode[0]
 
-        ids = (id or []) and [id]
+        id = params.id or False
+        ids = params.ids
+
+        if view_type == 'form':
+            #TODO: save current record
+            ids = [id]
 
         if len(ids):
             from tinyerp.modules import actions
-            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type=report_type)
+            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
             raise "No record selected!"
 
     @expose()
     def report(self, **kw):
-        params, data = TinyDict.split(kw)
-        return self.do_action('client_print_multi', model=params.model, id=params.id, ids=params.ids,
-                              adds={'Print Screen': {'report_name':'printscreen.list', 'name':'Print Screen', 'type':'ir.actions.report.xml'}})
+        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 'name':'Print Screen', 'type':'ir.actions.report.xml'}}, datas=kw)
 
     @expose()
     def action(self, **kw):
-        params, data = TinyDict.split(kw)
-        return self.do_action('client_action_multi', model=params.model, id=params.id, ids=params.ids)
+        return self.do_action('client_action_multi', datas=kw)
 
     @expose('json')
     def on_change(self, **kw):
