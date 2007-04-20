@@ -19,6 +19,8 @@ TODO: Phase 1
    * - better one2many with pop when new or editing (ex: sale order lines)
    * - global context for translations everywhere (ame: partialy done)
    * - print in wizard & forms
+   * - better error messages for normal exceptions
+   * - use the trunk version and implement dashboards and netrpc
    * - Implement all widgets (piture, image, binary etc.)
 
 -------------------------------------------------------------------------------
