@@ -34,6 +34,7 @@
 """
 
 import time
+import base64
 
 from turbogears import controllers
 from turbogears import expose
@@ -91,23 +92,42 @@ def _execute_wizard(name, **datas):
 
     return Wizard().create(params)
 
+PRINT_FORMATS = {
+     'pdf' : 'application/pdf',
+     'doc' : 'applocation/doc',
+     'html' : 'text/html',
+}
+
+def _print_data(data):
+
+    if data.get('code','normal')=='zlib':
+        import zlib
+        content = zlib.decompress(base64.decodestring(data['result']))
+    else:
+        content = base64.decodestring(data['result'])
+
+    cherrypy.response.headers['Content-Type'] = PRINT_FORMATS[data['format']]
+    return content
+
 def _execute_report(name, **data):
     """Executes a report with the given data, on success returns `application/pdf` data
 
     @param name: name of the report
     @param data: report data
 
-    @return: JSON object or `application/pdf` data
+    @return: `application/pdf` data
     """
     datas = data.copy()
     ids = datas['ids']
     del datas['ids']
+
     if not ids:
         ids =  rpc.session.execute('/object', 'execute', datas['model'], 'search', [])
         if ids == []:
             common.message('Nothing to print!')
             return dict()
         datas['id'] = ids[0]
+
     try:
         report_id = rpc.session.execute('/report', 'report', name, ids, datas, rpc.session.context)
         state = False
@@ -119,15 +139,12 @@ def _execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                common.message('Printing aborted, too long delay !')
-                return dict()
-        #TODO: printer.print_data(val)
-        return dict()
-    except rpc.RPCException, e:
-        #common.error('Error: '+str(e.type), e.message, e.data)
-        pass
+                raise 'Printing aborted, too long delay !'
 
-    return dict()
+        return _print_data(val)
+
+    except rpc.RPCException, e:
+        raise e
 
 def _execute(action, **data):
     """Execute the action with the provided data. for internal use only.

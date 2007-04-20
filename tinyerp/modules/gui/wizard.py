@@ -104,9 +104,14 @@ class Wizard(controllers.Controller, TinyResource):
             return actions._execute(res['action'], **datas)
 
         elif res['type']=='print':
-            #TODO: execute report
-            print "TODO: (wizard) execute report..."
-            state = res['state']
+            from tinyerp.modules import actions
+
+            datas['report_id'] = res.get('report_id', False)
+            if res.get('get_id_from_action', False):
+                backup_ids = datas['ids']
+                datas['ids'] = datas['form']['ids']
+
+            return actions._execute_report(res['report'], **datas)
 
         elif res['type']=='state':
             state = res['state']
@@ -130,6 +135,13 @@ class Wizard(controllers.Controller, TinyResource):
     @expose()
     def end(self, **kw):
         return ""
+
+    @expose()
+    def report(self, **kw):
+        params, datas = TinyDict.split(kw)
+        params.datas['form'].update(datas)
+
+        return self.execute(params)
 
     def get_form(self):
         params, datas = TinyDict.split(cherrypy.request.params)

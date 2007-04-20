@@ -12,13 +12,19 @@
     <script language="javascript" src="/static/javascript/master.js"></script>
 
     <script language="javascript">
-        function submit_form(state) {
+    
+        function wizardAction(state) {
+        
             form = $('view_form');
             
             act = '/wizard/action';
             
             if (state == 'end'){
                 act = '/wizard/end';
+            }
+            
+            if (state == 'report'){
+                act = '/wizard/report';
             }
             
             form.action = act;
@@ -42,7 +48,7 @@
         <div class="spacer"></div>                      
 
         <div class="toolbar">
-            <button py:for="state in buttons" onclick="submit_form('${state[0]}')">${state[1]}</button>
+            <button py:for="state in buttons" onclick="wizardAction('${state[0]}')">${state[1]}</button>
         </div>
 
     </div>
