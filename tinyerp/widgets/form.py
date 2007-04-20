@@ -354,6 +354,7 @@ class Form(TinyCompoundWidget):
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
 
+        self.model = model
         self.id = None
 
         proxy = rpc.RPCProxy(model)

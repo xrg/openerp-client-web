@@ -41,6 +41,7 @@ class ViewForm(tg.widgets.Form):
     """
 
     member_widgets = ['screen']
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/form.js", location=tg.widgets.js_location.bodytop)]
 
     def __init__(self, params, **kw):
 
