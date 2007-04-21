@@ -120,7 +120,8 @@ class Wizard(controllers.Controller, TinyResource):
             state = res['state']
 
         if state == 'end':
-            raise redirect('/wizard/end')
+            #raise redirect('/wizard/end')
+            return self.end()
 
         params.state = state
         return dict(form=form, buttons=buttons)

@@ -168,7 +168,9 @@ class Form(controllers.Controller, TinyResource):
         elif btype == 'action':
             from tinyerp.modules import actions
             action_id = int(name)
-            return actions.execute_by_id(action_id, model=model, id=id, ids=ids)
+            res = actions.execute_by_id(action_id, model=model, id=id, ids=ids)
+            if res:
+                return res
 
         else:
             raise 'Unallowed button type'
