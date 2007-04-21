@@ -13,8 +13,7 @@ implemented or fixed in very near future...
 TODO: Phase 1
 -------------------------------------------------------------------------------
 
-  ** - domain, context (ame: partially done)
-  ** - global context for translations everywhere (ame: partialy done)
+  ** - domain, context (local, global) (ame: almost done, need some testing)
   ** - The complete database creation process (ame: work in progress)
   ** - multi-column tree view
    * - better one2many with pop when new or editing (ex: sale order lines)
