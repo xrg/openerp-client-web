@@ -28,7 +28,7 @@
 					<tr>
 						<td align="center"><a href="/dbadmin/create?host=${host}&amp;port=${port}">Create</a></td>
 						<td align="center"><a href="/dbadmin/drop?host=${host}&amp;port=${port}">Drop</a></td>
-						<td align="center"><a href="/dbadmin/backup?host='${host}'&amp;port=${port}">Backup</a></td>
+						<td align="center"><a href="/dbadmin/backup?host=${host}&amp;port=${port}">Backup</a></td>
 						<td align="center"><a href="/dbadmin/restore?host=${host}&amp;port=${port}">Restore</a></td>
 						<td align="center"><a href="/dbadmin/password?host=${host}&amp;port=${port}">Password</a></td>
 					</tr>

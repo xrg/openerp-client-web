@@ -82,7 +82,7 @@
 							<td align="right" width="90">Host :</td>
 							<td>
 								<a href="" onclick="showElement('hostport');hideElement('userpwd');hideElement('message'); document.getElementsByName('host')[0].focus(); return false;">
-									${host}:${port}
+									${host} :${port}
 								</a>
 							</td>
 						</tr>

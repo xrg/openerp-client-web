@@ -75,6 +75,10 @@ class Root(controllers.RootController, TinyResource):
         return actions.execute_by_keyword('tree_but_open', model=model, id=id, ids=[id], report_type='pdf')
 
 
+#    @expose(content_type="application/zip")
+#    def test(self):
+#        import zlib
+#        return zlib.compress("XXXXXXXXXXXXXXXXXXXXXXXXXXX")
 
     menu_items = tree.Tree.items;
 

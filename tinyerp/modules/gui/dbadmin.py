@@ -53,9 +53,40 @@ class DBAdmin(controllers.Controller):
 
         return dict(host=host,port=port)
 
-    @expose()
-    def new(self, *args, **kw):
-        pass
+    @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
+    def create(self, host='', port='', password='', db_name='', language=[], demo_data=False, *args, **kw):
+
+        host = host or cherrypy.request.simple_cookie['terp_host'].value
+        port = port or cherrypy.request.simple_cookie['terp_port'].value
+        action=kw.get('submit','')
+        message=''
+        langlist=[]
+        url = 'http://'
+        url += "%s:%s/xmlrpc"%(host, str(port))
+
+        sock = xmlrpclib.ServerProxy(url + '/db')
+
+        langlist = sock.list_lang()
+        langlist.append( ('en_EN','English') )
+
+        if action=='':
+            return dict(host=host, port=port, langlist=langlist, message=message)
+
+        db_name=db_name
+        language = language
+        password=password
+        demo_data=demo_data
+        res=''
+
+        try:
+            res = sock.create(password, db_name, demo_data, language)
+        except Exception, e:
+                message = "Could not create database..."
+
+        if res:
+            raise redirect("/dbadmin?host=" + host + "port= " + port)
+
+        return dict(host=host, port=port, langlist=langlist, message=message)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_drop")
     def drop(self, host, port, db_name='', passwd='', *args, **kw):
@@ -90,9 +121,41 @@ class DBAdmin(controllers.Controller):
 
         return dict(host=host, port=port, selectedDb=db, message=message, dblist=dblist)
 
-    @expose()
-    def backup(self, *args, **kw):
-        pass
+    @expose(template="tinyerp.modules.gui.templates.dbadmin_backup")
+    def backup(self, host='', port='', password='', dblist='', *args, **kw):
+
+        host = host or cherrypy.request.simple_cookie['terp_host'].value
+        port = port or cherrypy.request.simple_cookie['terp_port'].value
+        dblist_load = rpc.session.list_db(host, port)
+        message=''
+        db= ''
+        db = cherrypy.request.simple_cookie.has_key('terp_db') and cherrypy.request.simple_cookie['terp_db'].value
+        action=kw.get('submit','')
+
+        if action=='':
+            return dict(host=host, port=port, dblist=dblist_load, selectedDb=db, message=message)
+
+
+        url = "http://%s:%s"%(host, str(port))
+
+
+        res = ''
+
+        sock = xmlrpclib.ServerProxy(url + '/xmlrpc/db')
+
+        db = cherrypy.request.simple_cookie['terp_db'].value
+
+        try:
+            res = sock.dump(password, dblist)
+            dump = base64.decodestring(res)
+
+        except Exception, e:
+            message = "Could not create backup..."
+        if res:
+            cherrypy.response.headers['Content-Type'] = "application/data"
+            return dump
+
+        return dict(host=host, port=port, dblist=dblist_load, selectedDb=db, message=message)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_restore")
     def restore(self,host='', port='', passwd='', new_db='', *args, **kw):
