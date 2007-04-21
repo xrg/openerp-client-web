@@ -40,7 +40,7 @@ from interface import TinyCompoundWidget
 
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'o2m']
+    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'selector', 'o2m']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -63,6 +63,11 @@ class List(TinyCompoundWidget):
 
         self.selectable = kw.get('selectable', False)
         self.editable = kw.get('editable', False)
+
+        self.selector = 'checkbox'
+
+        if not kw.get('multiselect', True):
+            self.selector = 'radio'
 
         fields = view['fields']
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))

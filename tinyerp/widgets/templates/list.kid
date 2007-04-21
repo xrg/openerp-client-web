@@ -2,7 +2,9 @@
 	<table width="100%" cellpadding="0" cellspacing="1" border="0" id="${name}" class="grid">
 	    <thead>
 	        <tr class="even">
-	            <th style="text-align: center; width: 25px" py:if="selectable"><input type="checkbox" onClick="new ListView('${name}').checkAll(this.checked)"/></th>
+	            <th style="text-align: center; width: 25px" py:if="selectable">
+	                <input type="checkbox" py:if="selector=='checkbox'" onClick="new ListView('${name}').checkAll(this.checked)"/>
+	            </th>
 	            <th py:for="field in headers" py:content="field[1]" class="col_${headers.index(field)}">Title</th>
 	            <th style="text-align: center; width: 20px" py:if="editable"></th>
 	            <th style="text-align: center; width: 20px" py:if="editable"></th>
@@ -12,7 +14,7 @@
 	        <tr py:for="i, row in enumerate(data)" class="${i%2 and 'odd' or 'even'}">
 	            
 	            <td align="center" py:if="selectable">
-	                <input type="checkbox" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
+	                <input type="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
 	            </td>                
 	            <td py:for="field, title in headers" py:content="row[field]">Data</td>                
 	            <td py:if="editable" style="text-align: center">
