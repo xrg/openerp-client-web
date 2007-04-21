@@ -44,6 +44,7 @@ class TinyWidget(object):
     select = False
     required = False
     readonly = False
+    help = None
 
     name = None
     model = None
@@ -70,6 +71,8 @@ class TinyWidget(object):
         self.nolabel = tools.expr_eval(attrs.get('nolabel', False))
         self.required = tools.expr_eval(attrs.get('required', False))
         self.readonly = tools.expr_eval(attrs.get('readonly', False))
+
+        self.help = attrs.get('help')
 
         if 'state' in attrs:
             self.set_state(attrs['state'])
@@ -133,6 +136,9 @@ class TinyInputWidget(TinyWidget):
         d['onchange'] = (self.callback or None) and 'onChange(this)'
 
         d['kind'] = self.kind
+
+        if self.help:
+            d['attrs']['title'] = self.help
 
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
