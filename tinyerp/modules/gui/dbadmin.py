@@ -40,33 +40,124 @@ import cherrypy
 from tinyerp import rpc
 from tinyerp import common
 import xmlrpclib
-
+import base64
 
 
 class DBAdmin(controllers.Controller):
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin")
-    def index(self, *args, **kw):
+    def index(self, host='', port=''):
 
-        tabber = widgets.Tabber(use_cookie=True)
-        return dict(tabber=tabber)
+        host = host or cherrypy.request.simple_cookie['terp_host'].value
+        port = port or cherrypy.request.simple_cookie['terp_port'].value
+
+        return dict(host=host,port=port)
 
     @expose()
     def new(self, *args, **kw):
         pass
 
-    @expose()
-    def drop(self, *args, **kw):
-        pass
+    @expose(template="tinyerp.modules.gui.templates.dbadmin_drop")
+    def drop(self, host, port, db_name='', passwd='', *args, **kw):
+
+
+        host = host or cherrypy.request.simple_cookie['terp_host'].value
+        port = port or cherrypy.request.simple_cookie['terp_port'].value
+        message=''
+        db = ''
+        dblist = rpc.session.list_db(host, port)
+        action = kw.get('submit','')
+
+        if dblist == -1:
+            dblist = []
+
+        if action=='':
+            return dict(host=host, port=port, selectedDb=db, message=message, dblist=dblist)
+
+        passwd=passwd
+        res = ''
+        url = 'http://'
+        url += "%s:%s/xmlrpc"%(host, str(port))
+        sock = xmlrpclib.ServerProxy(url + '/db')
+
+        try:
+            res = sock.drop(passwd,db_name)
+        except Exception, e:
+            message = str(_('Bad database administrator password !') + _("Could not drop database."))
+
+        if res:
+            raise redirect("/dbadmin?host=" + host + "&&port=" + port)
+
+        return dict(host=host, port=port, selectedDb=db, message=message, dblist=dblist)
 
     @expose()
     def backup(self, *args, **kw):
         pass
 
-    @expose()
-    def restore(self, *args, **kw):
-        pass
+    @expose(template="tinyerp.modules.gui.templates.dbadmin_restore")
+    def restore(self,host='', port='', passwd='', new_db='', *args, **kw):
 
-    @expose()
-    def password(self, *args, **kw):
-        pass
+        host = host or cherrypy.request.simple_cookie['terp_host'].value
+        port = port or cherrypy.request.simple_cookie['terp_port'].value
+        message=''
+        action = kw.get('submit','')
+
+        if action=='':
+            return dict(host=host, port=port, message=message)
+
+        new_db = new_db
+        passwd=passwd
+        path=kw.get('path')
+        action = kw.get('submit')
+        res=''
+
+        try:
+            url = 'http://'
+            url += "%s:%s/xmlrpc"%(host, str(port))
+            sock = xmlrpclib.ServerProxy(url + '/db')
+            data_b64 = base64.encodestring(path.file.read())
+            res = sock.restore(passwd, new_db, data_b64)
+        except Exception,e:
+            if e.faultString=='AccessDenied:None':
+                message = str(_('Bad database administrator password !'))+ str(_("Could not restore database."))
+            else:
+                message = str(_("Couldn't restore database"))
+
+        if res:
+            raise redirect("/dbadmin?host=" + host + "&&port=" + port)
+
+        return dict(host=host, port=port, message=message)
+
+    @expose(template="tinyerp.modules.gui.templates.dbadmin_password")
+    def password(self, new_passwd='', old_passwd='', new_passwd2='', host='', port='', *args, **kw):
+
+        host = host
+        port = port
+        action = kw.get('submit','')
+        message=''
+
+        if action=='':
+            return dict(host=host, port=port, message=message)
+
+        old_passwd = old_passwd
+        new_passwd = new_passwd
+        new_passwd2 = new_passwd2
+        res=''
+
+        if new_passwd != new_passwd2:
+            message = str(_("Confirmation password do not match new password, operation cancelled!")+ _("Validation Error."))
+        else:
+            try:
+                  url = 'http://'
+                  url += "%s:%s/xmlrpc"%(host, str(port))
+                  sock = xmlrpclib.ServerProxy(url + '/db')
+                  res = sock.change_admin_password(old_passwd, new_passwd)
+            except Exception,e:
+                if e.faultString=='AccessDenied:None':
+                    message  =str(_("Could not change password database.")+_('Bas password provided !'))
+                else:
+                    message = str(_("Error, password not changed."))
+        if res:
+            raise redirect("/dbadmin?host=" + host + "&&port=" + port)
+
+        return dict(host=host, port=port, message=message)

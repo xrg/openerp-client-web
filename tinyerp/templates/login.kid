@@ -65,7 +65,7 @@
 				<table align="center" border="0">
 
 					<tr>
-						<td align="right" width="90">Host:</td>
+						<td align="right" width="90">Host :</td>
 						<td><input type="text" name="host" style="width: 100pt;" value="${host}"/></td>
 						<td><input type="text" name="port" style="width: 50pt;" value="${port}"/></td>
 						<td>
@@ -79,7 +79,7 @@
 			    	<div class="box">
 					<table align="center" border="0" width="100%">
 						<tr>
-							<td align="right" width="90">Host:</td>
+							<td align="right" width="90">Host :</td>
 							<td>
 								<a href="" onclick="showElement('hostport');hideElement('userpwd');hideElement('message'); document.getElementsByName('host')[0].focus(); return false;">
 									${host}:${port}
@@ -93,7 +93,7 @@
 					<table align="center" width="100%">
 						<tr>
 							<td align="right" width="90">
-    							<a href="/dbadmin">Database:</a>
+    							<a href="/dbadmin?host=${host}&amp;port=${port}">Database :</a>
 							</td>
 							<td>
 								<select name="db" style="width: 100%;">
@@ -110,11 +110,11 @@
 				<div class="box">
 					<table align="center" width="100%">
 						<tr>
-							<td align="right" width="90">User:</td>
+							<td align="right" width="90">User :</td>
 							<td><input type="text" name="user" id="user" style="width: 99%;" value="${selectedUser}"/></td>
 						</tr>
 						<tr>
-							<td align="right">Password:</td>
+							<td align="right">Password :</td>
 							<td><input type="password" name="passwd"  style="width: 99%;"/></td>
 						</tr>
 						<tr>
@@ -128,11 +128,11 @@
 				<input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
 			</div>
 		</form>
-
-		<div class="box message" id="message" py:if="message is not None">
+		<span py:if="message is not None">
+		<div class="box message" id="message" >
 			${message}
 		</div>
-
+		</span>
 		</td>
 		</tr>
 	</table>

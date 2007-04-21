@@ -3,38 +3,38 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Login</title>
+    <title>Database Admin</title>
  </head>
-
 <body>
-    <table border="0" cellpadding="5px" cellspacing="0" width="100%" height="100%">
-		<tr>
-			<td id="content">
-				<div id="dbadmin_notebook" class="tabber">
-
-					<div class="tabbertab">
-						<h2>New database</h2>
-					</div>
-
-				    <div class="tabbertab">
-				    	<h2>Drop database</h2>
-				    </div>
-
-				    <div class="tabbertab">
-				    	<h2>Restore database</h2>
-				    </div>
-
-				    <div class="tabbertab">
-				    	<h2>Backup database</h2>
-				    </div>
-
-				    <div class="tabbertab">
-				    	<h2>Change Password</h2>
-				    </div>
-				</div>
-			</td>
-		</tr>
-	</table>
+	<div class="view">
+		<div class="header">
+			<div class="title">
+				<table width="100%">
+					<tr>
+						<td>
+							Database Administration
+						</td>
+						<td align="right">
+							<a href="/">Back</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="spacer"></div>
+  		<div id="content">
+  			<div class="box">
+				<table align="center" border="0" width="100%">
+					<tr>
+						<td align="center"><a href="/dbadmin/create?host=${host}&amp;port=${port}">Create</a></td>
+						<td align="center"><a href="/dbadmin/drop?host=${host}&amp;port=${port}">Drop</a></td>
+						<td align="center"><a href="/dbadmin/backup?host='${host}'&amp;port=${port}">Backup</a></td>
+						<td align="center"><a href="/dbadmin/restore?host=${host}&amp;port=${port}">Restore</a></td>
+						<td align="center"><a href="/dbadmin/password?host=${host}&amp;port=${port}">Password</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
-
 </html>
