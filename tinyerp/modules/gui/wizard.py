@@ -141,7 +141,7 @@ class Wizard(controllers.Controller, TinyResource):
 
     def get_form(self):
         params, datas = TinyDict.split(cherrypy.request.params)
-        params.datas['form'].update(datas)
+        #params.datas['form'].update(datas)
 
         params.state = params.state2
 
