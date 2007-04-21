@@ -109,6 +109,16 @@ div.box {
     margin-bottom: 10px;
 }
 
+div.box_dbadmin {
+    background-color: #E8EEFA;
+    padding: 10px;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 div.message {
     background-color: red;
     color: white;
