@@ -128,7 +128,7 @@ class Char(object):
         self.attrs = attrs
 
     def get_value(self, value):
-        return value
+        return value or ''
 
 class M2O(Char):
 
