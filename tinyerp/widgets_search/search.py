@@ -88,7 +88,6 @@ class Form(TinyCompoundWidget):
         super(Form, self).__init__()
 
         self.model = model
-        self.proxy = rpc.RPCProxy(model)
         self.domain = domain
         self.context = context
         self.view = view

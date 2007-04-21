@@ -359,9 +359,12 @@ class Form(TinyCompoundWidget):
 
         proxy = rpc.RPCProxy(model)
 
+        ctx = rpc.session.context.copy()
+        ctx.update(context)
+
         values = {}
         if ids:
-            values = proxy.read(ids[:1], fields.keys(), context)[0]
+            values = proxy.read(ids[:1], fields.keys(), ctx)[0]
             self.id = ids[:1]
 
         elif 'datas' in view: # wizard data
@@ -371,7 +374,7 @@ class Form(TinyCompoundWidget):
                     values[f] = fields[f]['value']
 
         else: #default
-            values = proxy.default_get(fields.keys(), context)
+            values = proxy.default_get(fields.keys(), ctx)
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
 

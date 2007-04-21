@@ -76,7 +76,10 @@ class Wizard(controllers.Controller, TinyResource):
         if state == 'end':
             raise redirect('/wizard/end')
 
-        res = rpc.session.execute('/wizard', 'execute', wiz_id, datas, state, {'lang': 'en_EN'})
+        ctx = rpc.session.context.copy()
+        ctx.update(params.context or {})
+
+        res = rpc.session.execute('/wizard', 'execute', wiz_id, datas, state, ctx)
 
         if 'datas' in res:
             datas['form'].update(res['datas'])

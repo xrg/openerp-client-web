@@ -28,9 +28,6 @@
 ###############################################################################
 
 """This module implementes action methods.
-
-@todo: implement _execute_wizard
-@todo: reimplement _execute_report
 """
 
 import time
@@ -233,8 +230,7 @@ def execute_by_keyword(keyword, adds={}, **data):
             actions = rpc.session.execute('/object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
-            #TODO: common.error('Error: '+str(e.type), e.message, e.data)
-            pass
+            raise e
 
     keyact = {}
     for action in actions:
