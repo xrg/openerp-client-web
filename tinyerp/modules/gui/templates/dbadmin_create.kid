@@ -3,7 +3,7 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>Login</title>     
+    <title>Login</title>
 </head>
 
 <body>
@@ -16,33 +16,33 @@
 							Create Database
 						</td>
 						<td align="right">
-							<a href="/dbadmin/">Cancel</a>
+							<a href="/dbadmin?host=${host}&amp;port=${port}">Cancel</a>
 						</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-		
+
 		<div class="spacer"></div>
-		
+
 		<div class="content">
-		
+
 			<form action="/dbadmin/create" method="post" name="create">
 			<input type="hidden" name="host" value="${host}" />
 			<input type="hidden" name="port" value="${port}" />
-	            
+
 	            <div class="box2">
 					<table align="center" border="0" width="100%">
 						<tr>
 							<td align="right" width="90">Host :</td>
 							<td>
-								${host} :${port}								
+								${host} :${port}
 							</td>
 						</tr>
 					</table>
 				</div>
-	            
-	            
+
+
 	            <div class="box2" id="create">
 					<table align="center" border="0" width="100%">
 						<tr>
@@ -50,16 +50,16 @@
 			                    Super admin password :
 			                </td>
 			                <td>
-			                    <input type="password" name="password" style="width: 99%;"/>	                       
+			                    <input type="password" name="password" style="width: 99%;"/>
 			                </td>
 			            </tr>
 			            <tr>
 			                <td></td>
 			                <td>
-			                    (use 'admin', if you did not changed it)	                    
+			                    (use 'admin', if you did not changed it)
 			                </td>
-			            </tr>			
-	
+			            </tr>
+
 				        <tr>
 			                <td align="right">
 			                    New database name :
@@ -67,7 +67,7 @@
 			                <td>
 			                    <input type="text" name="db_name" style="width: 99%;"/>
 			                </td>
-			            </tr>    
+			            </tr>
 			            <tr>
 			                <td align='right'>
 			                    Load Demonstration data :
@@ -75,7 +75,7 @@
 			                <td>
 			                    <input type="checkbox" name="demo_data" checked="true"/>
 			                </td>
-			            </tr>   
+			            </tr>
 			            <tr>
 			                <td align='right'>
 			                    Default Language :
@@ -85,21 +85,21 @@
 		                            <option py:for="i, key in enumerate(langlist)" value="${langlist[i][0]}" py:content="langlist[i][1]" selected="${(i+1 == len(langlist) or None) and 1}">Language</option>
 			                    </select>
 			                </td>
-			            </tr> 
-			        </table>    
-					    
+			            </tr>
+			        </table>
+
 				</div>
-					    
+
 				<div align="right" class="box2">
                     <input type="submit" name="submit" value="Create"/>
         		</div>
 
 				<div class="box message" id="message" py:if="message">
                     ${message}
-        		</div>        		
-        </form>			    
-		</div>    
+        		</div>
+        </form>
+		</div>
     </div>
-    
+
 </body>
 </html>
