@@ -46,18 +46,12 @@ import base64
 class DBAdmin(controllers.Controller):
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin")
-    def index(self, host='', port=''):
-
-        host = host or cherrypy.request.simple_cookie.get('terp_host','')
-        port = port or cherrypy.request.simple_cookie.get('terp_port','')
-
-        return dict(host=host,port=port)
+    def index(self, host, port):
+        return dict(host=host, port=port)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
     def create(self, host='', port='', password='', db_name='', language=[], demo_data=False, *args, **kw):
 
-        host = host or cherrypy.request.simple_cookie.get('terp_host','')
-        port = port or cherrypy.request.simple_cookie.get('terp_port','')
         action=kw.get('submit','')
         message=''
         langlist=[]
@@ -82,9 +76,9 @@ class DBAdmin(controllers.Controller):
             res = sock.create(password, db_name, demo_data, language)
         except Exception, e:
                 if e.faultString=='AccessDenied:None':
-                    message = ustr(_('Bad database administrator password !')+ _("Could not create database."))
+                    message = str(_('Bad database administrator password !')+ _("Could not create database."))
                 else:
-                    message = ustr(_("Could not create database.")+_('Error during database creation !'))
+                    message = str(_("Could not create database.")+_('Error during database creation !'))
 
 
         if res:
@@ -96,8 +90,6 @@ class DBAdmin(controllers.Controller):
     def drop(self, host, port, db_name='', passwd='', *args, **kw):
 
 
-        host = host or cherrypy.request.simple_cookie.get('terp_host','')
-        port = port or cherrypy.request.simple_cookie.get('terp_port','')
         message=''
         db= cherrypy.request.simple_cookie.get('terp_db','')
         dblist = rpc.session.list_db(host, port)
@@ -128,8 +120,6 @@ class DBAdmin(controllers.Controller):
     @expose(template="tinyerp.modules.gui.templates.dbadmin_backup")
     def backup(self, host='', port='', password='', dblist='', *args, **kw):
 
-        host = host or cherrypy.request.simple_cookie.get('terp_host','')
-        port = port or cherrypy.request.simple_cookie.get('terp_port','')
         dblist_load = rpc.session.list_db(host, port)
         message=''
         db= cherrypy.request.simple_cookie.get('terp_db','')
@@ -163,8 +153,6 @@ class DBAdmin(controllers.Controller):
     @expose(template="tinyerp.modules.gui.templates.dbadmin_restore")
     def restore(self,host='', port='', passwd='', new_db='', *args, **kw):
 
-        host = host or cherrypy.request.simple_cookie.get('terp_host','')
-        port = port or cherrypy.request.simple_cookie.get('terp_port','')
         message=''
         action = kw.get('submit','')
 
@@ -185,9 +173,9 @@ class DBAdmin(controllers.Controller):
             res = sock.restore(passwd, new_db, data_b64)
         except Exception,e:
             if e.faultString=='AccessDenied:None':
-                message = ustr(_('Bad database administrator password !'))+ str(_("Could not restore database."))
+                message = str(_('Bad database administrator password !'))+ str(_("Could not restore database."))
             else:
-                message = ustr(_("Couldn't restore database"))
+                message = str(_("Couldn't restore database"))
 
         if res:
             raise redirect("/dbadmin?host=" + host + "&&port=" + port)
@@ -197,8 +185,6 @@ class DBAdmin(controllers.Controller):
     @expose(template="tinyerp.modules.gui.templates.dbadmin_password")
     def password(self, new_passwd='', old_passwd='', new_passwd2='', host='', port='', *args, **kw):
 
-        host = host or cherrypy.request.simple_cookie.get('terp_host','')
-        port = port or cherrypy.request.simple_cookie.get('terp_port','')
         action = kw.get('submit','')
         message=''
 
@@ -211,7 +197,7 @@ class DBAdmin(controllers.Controller):
         res=''
 
         if new_passwd != new_passwd2:
-            message = ustr(_("Confirmation password do not match new password, operation cancelled!")+ _("Validation Error."))
+            message = str(_("Confirmation password do not match new password, operation cancelled!")+ _("Validation Error."))
         else:
             try:
                   url = 'http://'
@@ -220,9 +206,9 @@ class DBAdmin(controllers.Controller):
                   res = sock.change_admin_password(old_passwd, new_passwd)
             except Exception,e:
                 if e.faultString=='AccessDenied:None':
-                    message  =ustr(_("Could not change password database.")+_('Bas password provided !'))
+                    message = str(_("Could not change password database.")+_('Bas password provided !'))
                 else:
-                    message = ustr(_("Error, password not changed."))
+                    message = str(_("Error, password not changed."))
         if res:
             raise redirect("/dbadmin?host=" + host + "&&port=" + port)
 
