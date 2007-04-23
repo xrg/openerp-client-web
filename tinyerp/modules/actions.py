@@ -70,10 +70,10 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
         return Form().create(params)
 
     elif view_type == 'tree':
-        return "TREE VIEW: NOT IMPLEMENTED YET!"
+        raise common.message("TREE VIEW: NOT IMPLEMENTED YET!")
 
     else:
-        return "ERROR: INVALID VIEW!"
+        return common.error("INVALID VIEW!")
 
 def _execute_wizard(name, **datas):
     """Executes given wizard with the given data
@@ -219,7 +219,7 @@ def execute_by_keyword(keyword, adds={}, **data):
     @param keyword: action keyword
     @param data: action data
 
-    @return: JSON object or XHTML code
+    @return: XHTML code
     """
 
     actions = None
