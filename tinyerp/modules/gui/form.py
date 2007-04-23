@@ -173,7 +173,7 @@ class Form(controllers.Controller, TinyResource):
                 return res
 
         else:
-            raise 'Unallowed button type'
+            raise common.warning('Unallowed button type')
 
         params.pop('button')
 
@@ -288,7 +288,7 @@ class Form(controllers.Controller, TinyResource):
             from tinyerp.modules import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
-            raise "No record selected!"
+            raise common.message("No record selected!")
 
     @expose()
     def report(self, **kw):
@@ -327,7 +327,7 @@ class Form(controllers.Controller, TinyResource):
 
         match = re.match('^(.*?)\((.*)\)$', callback)
         if not match:
-            raise 'ERROR: Wrong on_change trigger: %s' % callback
+            raise common.error('Wrong on_change trigger: %s' % callback)
 
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]

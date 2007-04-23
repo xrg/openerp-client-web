@@ -20,6 +20,21 @@
 		    <div class="fields">
 		        <pre py:content="message"/>
 		    </div>
+		    
+		    <div class="spacer"/>
+		    
+            <div class="toolbar">
+	            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+	                <tr>
+	                    <td width="100%">
+	                    </td>
+	                    <td>
+	                        <button type="button" onclick="history.back()">OK</button>
+	                    </td>
+	                </tr>
+	            </table>
+            </div>
+		    
 	    </div>
     </div>
 
