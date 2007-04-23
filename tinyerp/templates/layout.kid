@@ -1,9 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?python from tinyerp import rpc ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="master.kid">
-<head></head>    
+
+<head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+    <title py:replace="''">Your title goes here</title>
+    <meta py:replace="item[:]"/>
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+
+	<script language="javascript" src="/tg_static/js/MochiKit.js"></script>
+	<script language="javascript" src="/static/javascript/master.js"></script>
+</head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
+
+<div id="load_status">
+    Loading...
+</div>
 
 <table border="0" cellpadding="0" cellspacing="5px" id="container">
   <tbody>
@@ -47,4 +60,3 @@
 
 </body>
 </html>
-
