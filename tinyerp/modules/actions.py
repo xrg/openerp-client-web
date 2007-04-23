@@ -122,8 +122,8 @@ def _execute_report(name, **data):
     if not ids:
         ids =  rpc.session.execute('/object', 'execute', datas['model'], 'search', [])
         if ids == []:
-            common.message('Nothing to print!')
-            return dict()
+            raise common.message('Nothing to print!')
+
         datas['id'] = ids[0]
 
     try:
@@ -137,7 +137,7 @@ def _execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise 'Printing aborted, too long delay !'
+                raise common.error('Printing aborted, too long delay !')
 
         return _print_data(val)
 
@@ -239,7 +239,7 @@ def execute_by_keyword(keyword, adds={}, **data):
     keyact.update(adds)
 
     if not keyact:
-        raise 'No action defined!'
+        raise common.message('No action defined!')
 
     if len(keyact) == 1:
         key = keyact.keys()[0]

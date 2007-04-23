@@ -32,6 +32,9 @@ This module implementes the RootController of the TurboGears application.
 For more information on TG controllers, please see the TG docs.
 """
 
+import sys
+import cgitb
+
 from turbogears import controllers
 from turbogears import expose
 from turbogears import redirect
@@ -39,11 +42,10 @@ from turbogears import redirect
 import cherrypy
 
 from tinyerp import rpc
-from tinyerp.tinyres import TinyResource
+from tinyerp import common
 from tinyerp import modules
 from tinyerp import widgets as tw
-
-#from tinyerp.subcontrollers import ActionController
+from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules import *
 from tinyerp.widgets import *
@@ -60,7 +62,23 @@ class Root(controllers.RootController, TinyResource):
         menu = tree.Tree(id="menu", title="TinyERP", url="/menu_items", model="ir.ui.menu", action="/menu", target="contentpane")
         return dict(menu_tree=menu)
 
+    def _cp_on_error(self, *args, **kw):
+        etype, value, tb = sys.exc_info()
 
+        if isinstance(value, common.TinyException):
+            raise redirect('/error', message=value.message, title=value.title)
+
+        elif not cherrypy.config.get('server.environment') == 'development':
+            raise redirect('/error', message=value, title="Internal Error")
+
+        else:
+            message = cgitb.html((etype, value, tb))
+            cherrypy.response.headers['Content-Type'] = 'text/html'
+            cherrypy.response.body = [message]
+
+    @expose(template="tinyerp.templates.error")
+    def error(self, title=None, message=None):
+        return dict(title=title, message=message)
 
     @expose()
     def logout(self):
@@ -84,4 +102,3 @@ class Root(controllers.RootController, TinyResource):
     dbadmin = gui.dbadmin.DBAdmin()
     pref = gui.preferences.Preferences()
     selection = gui.selection.Selection()
-

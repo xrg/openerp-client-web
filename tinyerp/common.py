@@ -27,15 +27,39 @@
 #
 ###############################################################################
 
-def error(title, message, details=''):
-    pass
+class TinyException(Exception):
 
-def warning(msg, title='', parent=None):
-    pass
+    def __init__(self, message, title=None):
 
-def message(msg, type="INFO"):
-    # TODO: JavaScript dialog
-    return True
+        self.title = title
+        self.message = message
+
+    def __str__(self):
+        return self.message
+
+class TinyError(TinyException):
+
+    def __init__(self, message, title="Error"):
+        TinyException.__init__(self, message=message, title=title)
+
+class TinyWarning(TinyException):
+
+    def __init__(self, message, title="Warning"):
+        TinyException.__init__(self, message=message, title=title)
+
+class TinyMessage(TinyException):
+
+    def __init__(self, message, title="Information"):
+        TinyException.__init__(self, message=message, title=title)
+
+def error(message, title=None, details=None):
+    raise TinyError(message=message, title=title or "Error")
+
+def warning(msg, title=None):
+    raise TinyWarning(message=msg, title=title or "Warning")
+
+def message(msg):
+    raise TinyMessage(message=msg)
 
 def to_xml(s):
     return s.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
