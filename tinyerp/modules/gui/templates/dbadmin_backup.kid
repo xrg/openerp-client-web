@@ -13,7 +13,7 @@
 				<table width="100%">
 					<tr>
 						<td>
-							Drop Database
+							Backup Database
 						</td>
 						<td align="right">
 							<a href="/dbadmin?host=${host}&amp;port=${port}">Cancel</a>
