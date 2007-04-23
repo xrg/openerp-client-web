@@ -48,7 +48,7 @@ class ViewSearch(tg.widgets.Form):
     onok = None
     onfind = None
 
-    limit = 80
+    limit = 0
     offset = 0
 
     member_widgets = ['form_view', 'list_view']

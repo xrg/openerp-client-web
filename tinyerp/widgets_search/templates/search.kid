@@ -20,14 +20,50 @@
     <div class="toolbar">
 		<table>
 			<tr width = "100%">
-				<td aligh='left'>Limit</td>
-		        <td>
-		            <input type="text" value="${limit}" name="limit" id="limit" algin ='left' style="width:60px" />
-				</td>
+			
+			    <td>
+			        <table border="0" cellpadding="0" cellspacing="0" id="limiter" style="display: none">
+				        <tr>
+				        	<td class="label">Limit:</td>
+					        <td>
+					            <input type="text" value="${limit}" name="limit" id="limit" style="width:50px; text-align: center;" />
+							</td>			
+			    			<td class="label">Offset:</td>
+					        <td>
+				    	    	<input type="text" value="${offset}" name="offset" id="offset" algin ='left' style="width:50px; text-align: center;" />
+							</td>
+							
+							<td style="padding: 0 4px">
+							    <script type="text/javascript">
+							        function on_change_limit(){
+							            var l = $('limit');
+							            var o = $('offset');
+							            var a = $('pager_text');
+							            
+							            a.innerHTML = '(' + parseInt(o.value) + ' to ' + (parseInt(o.value) + parseInt(l.value)) + ')';
+							            
+							            showElement('pager'); 
+							            hideElement('limiter');
+							            
+							            return false;							            
+							        }							        	        
+							    </script>
+							    <button onclick="return on_change_limit()">Change</button>
+							</td>
+				        </tr>
+    		        </table>
 
-    			<td aligh='left'>Offset</td>
-		        <td>
-	    	    	<input type="text" value="${offset}" name="offset" id="offset" algin ='left' style="width:60px" />
+				    <table border="0" cellpadding="0" cellspacing="0" id="pager">
+				        <tr>
+				            <td><button type="button" name="prev" onclick="$('offset').value = parseInt($('offset').value) - parseInt($('limit').value); ${onfind}">Prev</button></td>
+				            <td style="padding: 0 4px">
+				                <a href="#" onclick="showElement('limiter'); hideElement('pager');" id="pager_text">
+				                    (${offset} to ${limit + offset})
+				                </a>				                
+				            </td>
+				            <td><button type="button" name="next" onclick="$('offset').value = parseInt($('offset').value) + parseInt($('limit').value); ${onfind}">Next</button></td>
+				        </tr>
+				    </table>				    				   				    
 				</td>
 
 				<td width="100%"></td>

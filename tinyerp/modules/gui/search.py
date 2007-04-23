@@ -176,13 +176,19 @@ class Search(controllers.Controller, TinyResource):
                     search_domain += t
 
         try:
-            l = int(data.get('limit', '80'))
-            o = int(data.get('offset', '0'))
+            l = int(data.get('limit', 20))
+            o = int(data.get('offset', 0))
         except:
-            l = 80
+            l = 20
             o = 0
+
+        if l < 1: l = 20
+        if o < 0: o = 0
 
         proxy = rpc.RPCProxy(params.model)
         params.found_ids = proxy.search(search_domain, o, l)
+
+        data['limit'] = l
+        data['offset'] = o
 
         return self.create(params, data)
