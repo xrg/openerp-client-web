@@ -27,7 +27,7 @@
 			<div class="box2">
 				<table align="center" border="0" width="100%">
 					<tr>
-						<td align="right" width="90">Host:</td>
+						<td align="right" width="90" class="label">Host:</td>
 						<td>
 							${host}:${port}
 						</td>
@@ -40,7 +40,7 @@
 				<input type="hidden" name="port" value="${port}" />
 					<table align="center" width="100%">
 						<tr>
-							<td align="right" width="90">Database :</td>
+							<td align="right" width="90" class="label">Database :</td>
 							<td>
 								<select name="db_name" style="width: 100%;">
 									<span py:for="db in dblist">
@@ -51,7 +51,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="right" width="90">Password :</td>
+							<td align="right" width="90" class="label">Password :</td>
 							<td><input type="password" name="passwd" id="user" style="width: 99%;" /></td>
 						</tr>
 						<tr>

@@ -27,7 +27,7 @@
 			<div class="box2">
 				<table align="center" border="0" width="100%">
 					<tr>
-						<td align="right" width="90">Host:</td>
+						<td align="right" width="90" class="label">Host:</td>
 						<td>
 							${host}:${port}
 						</td>
@@ -40,15 +40,15 @@
 				<input type="hidden" name="port" value="${port}" />
 					<table align="center" width="100%">
 						<tr>
-							<td align="right" width="99">File :</td>
+							<td align="right" width="99" class="label">File :</td>
 							<td ><input type="file" name="path" id="path"/></td>
 						</tr>
 						<tr>
-							<td align="right" width="90">Password :</td>
+							<td align="right" width="90" class="label">Password :</td>
 							<td><input type="password" name="passwd" id="passwd" style="width: 99%;" /></td>
 						</tr>
 						<tr>
-							<td align="right" width="90">New Database name :</td>
+							<td align="right" width="90" class="label">New Database name :</td>
 							<td><input type="text" name="new_db"  style="width: 99%;" /></td>
 						</tr>
 						<tr>

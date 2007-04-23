@@ -34,7 +34,7 @@
 	            <div class="box2">
 					<table align="center" border="0" width="100%">
 						<tr>
-							<td align="right" width="90">Host :</td>
+							<td align="right" width="90" class="label">Host :</td>
 							<td>
 								${host} :${port}
 							</td>
@@ -46,7 +46,7 @@
 	            <div class="box2" id="create">
 					<table align="center" border="0" width="100%">
 						<tr>
-			                <td align="right">
+			                <td align="right" class="label">
 			                    Super admin password :
 			                </td>
 			                <td>
@@ -61,7 +61,7 @@
 			            </tr>
 
 				        <tr>
-			                <td align="right">
+			                <td align="right" class="label">
 			                    New database name :
 			                </td>
 			                <td>
@@ -69,7 +69,7 @@
 			                </td>
 			            </tr>
 			            <tr>
-			                <td align='right'>
+			                <td align='right' class="label">
 			                    Load Demonstration data :
 			                </td>
 			                <td>
@@ -77,7 +77,7 @@
 			                </td>
 			            </tr>
 			            <tr>
-			                <td align='right'>
+			                <td align='right' class="label">
 			                    Default Language :
 			                </td>
 			                <td>

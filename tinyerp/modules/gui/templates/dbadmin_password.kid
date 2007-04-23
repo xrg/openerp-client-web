@@ -13,7 +13,7 @@
 				<table width="100%">
 					<tr>
 						<td>
-							change Password
+							Change Password
 						</td>
 						<td align="right">
 							<a href="/dbadmin?host=${host}&amp;port=${port}">Cancel</a>
@@ -27,7 +27,7 @@
 			<div class="box2">
 				<table align="center" border="0" width="100%">
 					<tr>
-						<td align="right" width="90">Host :</td>
+						<td align="right" width="90" class="label">Host :</td>
 						<td>
 							${host}:${port}
 						</td>
@@ -40,15 +40,15 @@
 				<input type="hidden" name="port" value="${port}" />
 					<table align="center" width="100%">
 						<tr>
-							<td align="right" width="99">Old Password :</td>
+							<td align="right" width="99" class="label">Old Password :</td>
 							<td><input type="password" name="old_passwd" id="user" style="width: 99%;" /></td>
 						</tr>
 						<tr>
-							<td align="right" width="99">New Password :</td>
+							<td align="right" width="99" class="label">New Password :</td>
 							<td><input type="password" name="new_passwd" id="user" style="width: 99%;" /></td>
 						</tr>
 						<tr>
-							<td align="right" width="99">Confirm Password :</td>
+							<td align="right" width="99" class="label">Confirm Password :</td>
 							<td><input type="password" name="new_passwd2" id="user" style="width: 99%;" /></td>
 						</tr>
 						<tr>
