@@ -91,6 +91,17 @@ class Selection(tg.validators.FancyValidator):
         except:
             return value
 
+class Reference(tg.validators.FancyValidator):
+    if_empty = False
+
+    def _to_python(self, value, state):
+        ref, id = value
+        if ref and id:
+            return "%s,%d"%(ref, int(id))
+        return False
+
+
+
 class many2many(tg.validators.FancyValidator):
 
     if_empty = [(6, 0, [])]

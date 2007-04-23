@@ -461,6 +461,7 @@ class Form(TinyCompoundWidget):
 from many2one import M2O
 from one2many import O2M
 from many2many import M2M
+from reference import Reference
 
 widgets_type = {
     'date': DateTime,
@@ -472,7 +473,7 @@ widgets_type = {
     'char': Char,
     'boolean': Boolean,
     'button': Button,
-    #'reference': Reference,
+    'reference': Reference,
     #'binary': Binary,
     #'picture': Picture,
     'text': Text,
