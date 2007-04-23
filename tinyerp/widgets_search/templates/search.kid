@@ -42,13 +42,10 @@
 							            
 							            a.innerHTML = '(' + parseInt(o.value) + ' to ' + (parseInt(o.value) + parseInt(l.value)) + ')';
 							            
-							            showElement('pager'); 
-							            hideElement('limiter');
-							            
-							            return false;							            
+							            return false;
 							        }							        	        
 							    </script>
-							    <button onclick="return on_change_limit()">Change</button>
+							    <button onclick="on_change_limit(); ${onfind}">Change</button>
 							</td>
 				        </tr>
     		        </table>
