@@ -47,7 +47,7 @@
 	hostport_style = "none"
 	userpwd_style = "block"
 
-	if len(dblist) == 0:
+	if type(dblist) != type([]):
 		hostport_style = "block"
 		userpwd_style = "none"
 ?>
