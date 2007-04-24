@@ -95,12 +95,21 @@ class Reference(tg.validators.FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
+
+        if isinstance(value, basestring):
+            value = eval(value)
+
         ref, id = value
         if ref and id:
             return "%s,%d"%(ref, int(id))
+
         return False
 
+class Binary(tg.validators.FancyValidator):
+    if_empty = False
 
+    def _to_python(self, value, state):
+        return value.file.read()
 
 class many2many(tg.validators.FancyValidator):
 

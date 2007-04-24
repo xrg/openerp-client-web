@@ -284,6 +284,18 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     def set_value(self, value):
         self._default = value
 
+class Binary(TinyField):
+    template = "tinyerp.widgets.templates.binary"
+    params = ["name"]
+
+    def __init__(self, attrs={}):
+        super(Binary, self).__init__(attrs)
+        self.validator = tiny_validators.Binary()
+
+    def set_value(self, value):
+        if value:
+            super(Binary, self).set_value("%s bytes" % len(value))
+
 class Button(TinyField):
     """Button widget
 
@@ -393,6 +405,9 @@ class Form(TinyCompoundWidget):
             if 'state' in values:
                 attrs['state'] = values['state']
 
+            attrs['model'] = attrs.get('model', self.model)
+            attrs['readonly'] = attrs.get('readonly', self.readonly)
+
             if node.localName=='image':
                 pass
 
@@ -474,7 +489,7 @@ widgets_type = {
     'boolean': Boolean,
     'button': Button,
     'reference': Reference,
-    #'binary': Binary,
+    'binary': Binary,
     #'picture': Picture,
     'text': Text,
     #'text_tag': TextTag,

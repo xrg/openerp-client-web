@@ -116,7 +116,6 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
         params, data = TinyDict.split(kw)
-
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
 
@@ -242,6 +241,37 @@ class Form(controllers.Controller, TinyResource):
             current.id = current.ids[idx]
 
         return self.create(params)
+
+    @expose()
+    def save_binary(self, **kw):
+        model = kw.get("_terp_model")
+        id = kw.get("_terp_id")
+        field = kw.get("field_search")
+        demo = ''
+
+        try:
+            proxy = rpc.RPCProxy(model)
+            demo = proxy.read([id],[field])
+            cherrypy.response.headers['Content-Type'] = "application/data"
+            return demo[0]['datas']
+        except Exception, e:
+            return str(e)
+        return dict()
+
+    @expose()
+    def clear_binary(self, **kw):
+        params, data = TinyDict.split(kw)
+        model = params.model
+        id = params.id
+        field = data.get('field_search')
+        demo = ''
+        try:
+            proxy = rpc.RPCProxy(model)
+            demo = proxy.write([int(id)],{field:False})
+            return self.create(params)
+        except Exception, e:
+            return str(e)
+        return dict()
 
     @expose()
     def find(self, **kw):
