@@ -153,9 +153,8 @@ def _execute(action, **data):
     @return: mostly XHTML code
     """
 
-
     if 'type' not in action:
-        return
+        res = rpc.session.execute('/object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
 
     if action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
@@ -205,11 +204,13 @@ def execute_by_id(act_id, type=None, **data):
 
     @return: JSON object or XHTML code
     """
+
     if type==None:
         res = rpc.session.execute('/object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
         if not len(res):
             raise 'ActionNotFound'
         type=res[0]['type']
+
     res = rpc.session.execute('/object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
     return _execute(res, **data)
 

@@ -4,9 +4,10 @@
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Login</title>
+    
 </head>
 
-<body>
+<body onload="hideElement('showbar')">
     <div class="view">
 		<div class="header">
 			<div class="title">
@@ -78,6 +79,14 @@
 			            </tr>
 			            <tr>
 			                <td align='right' class="label">
+			                    Initialize Database :
+			                </td>
+			                <td>
+			                    <input type="checkbox" name="db_init" checked="true"/>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td align='right' class="label">
 			                    Default Language :
 			                </td>
 			                <td>
@@ -93,7 +102,7 @@
 				<div align="right" class="box2">
                     <input type="submit" name="submit" value="Create"/>
         		</div>
-
+        		
 				<div class="box message" id="message" py:if="message">
                     ${message}
         		</div>

@@ -41,6 +41,7 @@ from tinyerp import rpc
 from tinyerp import common
 import xmlrpclib
 import base64
+from tinyerp.modules import actions
 
 
 class DBAdmin(controllers.Controller):
@@ -50,7 +51,7 @@ class DBAdmin(controllers.Controller):
         return dict(host=host, port=port)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
-    def create(self, host='', port='', password='', db_name='', language=[], demo_data=False, *args, **kw):
+    def create(self, host='', port='', password='', db_name='', language=[], demo_data=False, db_init=False, *args, **kw):
 
         action=kw.get('submit','')
         message=''
@@ -72,23 +73,39 @@ class DBAdmin(controllers.Controller):
         demo_data=demo_data
         res=''
 
-        try:
-            res = sock.create(password, db_name, demo_data, language)
-        except Exception, e:
-                if e.faultString=='AccessDenied:None':
-                    message = str(_('Bad database administrator password !')+ _("Could not create database."))
-                else:
-                    message = str(_("Could not create database.")+_('Error during database creation !'))
+        if ((not db_name) or (not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', db_name))):
+            message = str(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.')+ _('Bad database name !'))
+        else:
+            try:
+                res = sock.create(password, db_name, demo_data, language)
+                import time
+                time.sleep(10)
 
+                if db_init:
+                    raise redirect("/dbadmin/init_db?host=" + host + "&&port=" + port + "&&db_name=" +db_name + "&&password=" + password)
+                else:
+                    raise redirect("/dbadmin?host=" + host + "&&port=" + port)
+
+            except Exception, e:
+                raise e
+                message = str(_('Bad database administrator password !')+ _("Could not create database."))
 
         if res:
             raise redirect("/dbadmin?host=" + host + "&&port=" + port)
 
         return dict(host=host, port=port, langlist=langlist, message=message)
 
+    @expose()
+    def init_db(self, host, port, db_name, password):
+
+        res1 = rpc.session.login(host, port, db_name, 'admin', password)
+        act_id = rpc.session.execute('/object', 'execute', 'res.users', 'read', [rpc.session.uid], ['action_id'], rpc.session.context)[0]
+        act_id = act_id['action_id'][0]
+
+        return actions.execute_by_id(act_id, window=None)
+
     @expose(template="tinyerp.modules.gui.templates.dbadmin_drop")
     def drop(self, host, port, db_name='', passwd='', *args, **kw):
-
 
         message=''
         db= cherrypy.request.simple_cookie.get('terp_db','')
@@ -128,9 +145,7 @@ class DBAdmin(controllers.Controller):
         if action=='':
             return dict(host=host, port=port, dblist=dblist_load, selectedDb=db, message=message)
 
-
         url = "http://%s:%s"%(host, str(port))
-
 
         res = ''
 

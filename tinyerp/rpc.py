@@ -96,7 +96,7 @@ class RPCSession(object):
         sock = xmlrpclib.ServerProxy(url + '/common')
         try:
             res = sock.login(db, user, password)
-        except:
+        except Exception, e:
             return -1
 
         if not res:
