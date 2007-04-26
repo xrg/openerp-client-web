@@ -477,6 +477,7 @@ from many2one import M2O
 from one2many import O2M
 from many2many import M2M
 from reference import Reference
+from texttag import TinyMCE
 
 widgets_type = {
     'date': DateTime,
@@ -492,13 +493,13 @@ widgets_type = {
     'binary': Binary,
     #'picture': Picture,
     'text': Text,
-    #'text_tag': TextTag,
+    'text_tag': TinyMCE,
     'one2many': O2M,
-    #'one2many_form': O2M,
-    #'one2many_list': O2M,
+    'one2many_form': O2M,
+    'one2many_list': O2M,
     'many2many': M2M,
     'many2one': M2O,
-    'email' : Char,
-    'url' : Char,
+    #'email' : Char,
+    #'url' : Char,
     #'image' : Image,
 }
