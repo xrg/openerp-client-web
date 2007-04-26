@@ -211,6 +211,17 @@ class Char(TinyField):
     def set_value(self, value):
         self.default = value
 
+class Email(TinyField):
+    template = "tinyerp.widgets.templates.email"
+
+    def __init__(self, attrs={}):
+        super(Email, self).__init__(attrs)
+        self.validator = tiny_validators.Email()
+
+    def set_value(self, value):
+        self.default = value
+
+
 class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
 
@@ -499,7 +510,7 @@ widgets_type = {
     'one2many_list': O2M,
     'many2many': M2M,
     'many2one': M2O,
-    #'email' : Char,
+    'email' : Email
     #'url' : Char,
     #'image' : Image,
 }
