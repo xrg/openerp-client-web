@@ -13,10 +13,9 @@ implemented or fixed in very near future...
 TODO: Phase 1
 -------------------------------------------------------------------------------
 
- *** - multi-column tree view
-  ** - domain, context (local, global) (ame: almost done, need some testing)
-  ** - The complete database creation process (ame: partially done)
-  ** - Implement all widgets (ame: work in progress)
+ *** - multi-column tree view (ame: work in progress)
+  ** - The complete database creation process (ame: almost done)
+  ** - Implement all widgets (ame: almost done)
    * - better one2many with pop when new or editing (ex: sale order lines)
    * - use the trunk version and implement dashboards and netrpc
 
