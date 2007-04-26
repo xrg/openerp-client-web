@@ -44,6 +44,7 @@ from tinyerp import tools
 from tinyerp import common
 
 from gui.form import Form
+from gui.tree import Tree
 from gui.wizard import Wizard
 from gui.selection import Selection
 
@@ -64,13 +65,13 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     """
 
     mode = mode.split(',')
+    params = TinyDict(model=model, ids=res_id, view_mode=mode, view_mode2=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
 
     if view_type == 'form':
-        params = TinyDict(model=model, ids=res_id, view_mode=mode, view_mode2=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
         return Form().create(params)
 
     elif view_type == 'tree':
-        raise common.message("TREE VIEW: NOT IMPLEMENTED YET!")
+        return Tree().create(params)
 
     else:
         return common.error("INVALID VIEW!")

@@ -27,30 +27,35 @@
 #
 ###############################################################################
 
-"""
-This module implementes heirarchical tree view for a tiny model having
-    view_type = 'tree'
-
-@todo: Implemente tree view
-"""
-
-import xml.dom.minidom
-import parser
-
-from turbogears import expose
 from turbogears import widgets
-from turbogears import controllers
+from interface import TinyField
 
-from tinyerp import rpc
-from tinyerp import tools
-from tinyerp import common
+class TreeGrid(TinyField):
+    template="""
+    <span xmlns:py="http://purl.org/kid/ns#">
+        <span  id="${id}"/>
+        <script type="text/javascript">
+            var ${id} = new TreeGrid('${id}');
+        </script>
 
-from tinyerp.tinyres import TinyResource
-from tinyerp.widgets import treegrid
+        <script type="text/javascript" py:if="selectable">
+            ${id}.selectable = true;
+        </script>
 
-class Tree(controllers.Controller, TinyResource):
+        <script type="text/javascript" py:if="not show_headers">
+            ${id}.show_headers = false;
+        </script>
 
-    @expose(template="tinyerp.modules.gui.templates.tree")
-    def create(self, params):
-        return dict()
+        <script type="text/javascript">
+            ${id}.load('${url}', -1, {model: '${model}'});
+        </script>
+    </span>
+    """
 
+    params = ['id', 'url', 'model', 'selectable', 'show_headers']
+
+    selectable = False
+    show_headers = True
+
+    css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
+    javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]

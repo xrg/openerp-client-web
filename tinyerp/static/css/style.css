@@ -126,17 +126,6 @@ div.message {
     font-weight: bold;
 }
 
-#load_status {
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    width: 100px;
-    padding: 3px;
-    background-color: #cc0000;
-    color: #ffffff;
-    display: none;
-}
-
 /* view style */
 
 .view {
