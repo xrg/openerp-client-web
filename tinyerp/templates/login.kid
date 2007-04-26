@@ -46,8 +46,8 @@
 <?python
 	hostport_style = "none"
 	userpwd_style = "block"
-
-	if type(dblist) != type([]):
+		    
+	if not (isinstance(dblist, list) and host and port):
 		hostport_style = "block"
 		userpwd_style = "none"
 ?>
