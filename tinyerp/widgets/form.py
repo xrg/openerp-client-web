@@ -307,6 +307,17 @@ class Binary(TinyField):
         if value:
             super(Binary, self).set_value("%s bytes" % len(value))
 
+class Url(TinyField):
+    template = "tinyerp.widgets.templates.url"
+
+    def __init__(self, attrs={}):
+        super(Url, self).__init__(attrs)
+        self.validator = tiny_validators.Url()
+
+    def set_value(self, value):
+        if value:
+            super(Url, self).set_value(value)
+
 class Button(TinyField):
     """Button widget
 
@@ -510,7 +521,7 @@ widgets_type = {
     'one2many_list': O2M,
     'many2many': M2M,
     'many2one': M2O,
-    'email' : Email
-    #'url' : Char,
+    'email' : Email,
+    'url' : Url
     #'image' : Image,
 }

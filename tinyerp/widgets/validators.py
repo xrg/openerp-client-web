@@ -50,7 +50,6 @@ class String(tg.validators.String):
         return value
 
 class Bool(tg.validators.FancyValidator):
-
     values = ['1', 'true']
 
     if_empty = False
@@ -113,6 +112,9 @@ class Binary(tg.validators.FancyValidator):
 
     def _to_python(self, value, state):
         return value.file.read()
+
+class Url(tg.validators.URL):
+    if_empty = False
 
 class many2many(tg.validators.FancyValidator):
 
