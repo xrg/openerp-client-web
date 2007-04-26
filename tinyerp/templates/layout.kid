@@ -14,10 +14,6 @@
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
 
-<div id="load_status">
-    Loading...
-</div>
-
 <table border="0" cellpadding="0" cellspacing="5px" id="container">
   <tbody>
     <tr>
