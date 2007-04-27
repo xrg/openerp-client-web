@@ -14,10 +14,9 @@
 	 tinyMCE.init({
         mode: "exact",
         theme: "advanced",
-        theme_advanced_buttons1_add : ",,fullscreen,print",
         elements: "${name}",
         plugins : "fullscreen,print",
-		fullscreen_new_window : true,
+		fullscreen_new_window : false,
 		fullscreen_settings : {theme_advanced_path_location : "top"},
         theme_advanced_disable : "styleselect",
         theme_advanced_toolbar_location : "top",
