@@ -76,8 +76,8 @@ class Tree(controllers.Controller, TinyResource):
     @expose('json')
     def data(self, ids, model, fields, domain=[]):
 
-        if isinstance(ids, basestring):
-            ids = eval(ids)
+        ids = ids.split(',')
+        ids = [int(id) for id in ids]
 
         if isinstance(fields, basestring):
             fields = eval(fields)
@@ -90,7 +90,7 @@ class Tree(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
 
-        if ids == -1:
+        if ids[0] == -1:
             ids = proxy.search(domain)
 
         ctx = {}
