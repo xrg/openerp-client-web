@@ -34,8 +34,8 @@ This module implementes heirarchical tree view for a tiny model having
 @todo: Implemente tree view
 """
 
+import time
 import xml.dom.minidom
-import parser
 
 from turbogears import expose
 from turbogears import widgets
@@ -49,6 +49,9 @@ from tinyerp.tinyres import TinyResource
 from tinyerp.widgets import tree_view
 
 from tinyerp.modules.utils import TinyDict
+
+DT_FORMAT = '%Y-%m-%d'
+DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class Tree(controllers.Controller, TinyResource):
 
@@ -92,16 +95,48 @@ class Tree(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
 
+
         if ids[0] == -1:
             ids = proxy.search(domain)
 
         ctx = {}
         ctx.update(rpc.session.context.copy())
 
+        fields_info = proxy.fields_get(fields, ctx)
         result = proxy.read(ids, fields, ctx)
+
+        # formate the data
+        for field in fields:
+            if fields_info[field]['type'] in ('date',):
+                for x in result:
+                    if x[field]:
+                        date = time.strptime(x[field], DT_FORMAT)
+                        x[field] = time.strftime('%x', date)
+
+            if fields_info[field]['type'] in ('datetime',):
+                for x in result:
+                    if x[field]:
+                        date = time.strptime(x[field], DHM_FORMAT)
+                        x[field] = time.strftime('%x %H:%M:%S', date)
+
+            if fields_info[field]['type'] in ('one2one', 'many2one'):
+                for x in result:
+                    if x[field]:
+                        x[field] = x[field][1]
+
+            if fields_info[field]['type'] in ('selection'):
+                for x in result:
+                    if x[field]:
+                        x[field] = dict(fields_info[field]['selection']).get(x[field], '')
 
         records = []
         for item in result:
+
+            # empty string instead of bool and None
+            for k, v in item.items():
+                if v==None or (v==False and type(v)==bool):
+                    item[k] = ''
+
             record = {}
 
             record['id'] = item.pop('id')
