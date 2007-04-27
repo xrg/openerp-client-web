@@ -101,9 +101,10 @@ TreeGrid.prototype._make_head = function(){
     }
 
     for(var i in this.headers){
-        var header = this.headers[i];
+        var header = this.headers[i][1];
+        var help = header.help ? header.help : '';
 
-        appendChildNodes(tr, TH(null, header[1].string));
+        appendChildNodes(tr, TH({'title': help}, header.string));
     }
 
     appendChildNodes(thd, tr);

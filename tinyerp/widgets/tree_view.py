@@ -91,7 +91,6 @@ class ViewTree(tg.widgets.Form):
 
             name = attrs['name']
             field = fields.get(name)
-
-            fields.update(attrs)
+            field.update(attrs)
 
             self.headers += [[name, field]]
