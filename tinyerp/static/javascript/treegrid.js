@@ -27,10 +27,12 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-var TreeGrid = function(id) {
+var TreeGrid = function(id, headers) {
 
-    this.tfield = null;
     this.id = id;
+
+    this.headers = eval(headers);
+    this.tfield = this.headers[0][0];
 
     this.url = null;
     this.params = {};
@@ -75,8 +77,8 @@ TreeGrid.prototype.toggle = function(row, forced) {
             // force children of child row to be hidden
             this.toggle(child, "none");
         } else if (!forced) {
-            index = parseInt(index);
-            this._add_row(index+1, cid, indent);
+            this._add_rows(index, children, indent);
+            break;
         }
     }
 
@@ -88,9 +90,7 @@ TreeGrid.prototype.toggle = function(row, forced) {
     return true;
 }
 
-TreeGrid.prototype._make_head = function(headers){
-
-    this.headers = headers;
+TreeGrid.prototype._make_head = function(){
 
     var thd = THEAD(null);
     var tr = TR(null);
@@ -100,13 +100,10 @@ TreeGrid.prototype._make_head = function(headers){
         appendChildNodes(tr, TH({'width':'20px'}, cbx));
     }
 
-    for(var i in headers){
-        var header = headers[i];
+    for(var i in this.headers){
+        var header = this.headers[i];
 
-        if (!this.tfield)
-            this.tfield = header[0];
-
-        appendChildNodes(tr, TH(null, header[1].title));
+        appendChildNodes(tr, TH(null, header[1].string));
     }
 
     appendChildNodes(thd, tr);
@@ -167,24 +164,31 @@ TreeGrid.prototype._make_row = function(record, indent){
     return tr;
 }
 
-TreeGrid.prototype._add_row = function(after, cid, indent){
+TreeGrid.prototype._add_rows = function(after, children, indent){
 
-    var args = {id: cid}; update(args, this.params);
+    var args = {ids: children}; update(args, this.params);
 
     this.isloading = true;
 
     var req = doSimpleXMLHttpRequest(this.url, args);
     var grid = this;
 
+    var index = parseInt(after);
+
     req.addCallback(function(xmlHttp){
         var res = evalJSONRequest(xmlHttp);
 
-        var tr = grid._make_row(res.records[0], indent);
-
         var g = $(grid.id);
-        var r = g.insertRow(after);
 
-        swapDOM(r, tr);
+        for (var i in res.records){
+            var tr = grid._make_row(res.records[i], indent);
+
+            index = parseInt(index) + 1;
+            var r = g.insertRow(index);
+
+            swapDOM(r, tr);
+        }
+
     });
 
     req.addBoth(function(xmlHttp){
@@ -197,7 +201,7 @@ TreeGrid.prototype.load = function(url, id, params){
     this.url = url;
     this.params = params ? params : {};
 
-    var args = {id: id}; update(args, this.params);
+    var args = {ids: id}; update(args, this.params);
 
     this.isloading = true;
 
@@ -209,7 +213,7 @@ TreeGrid.prototype.load = function(url, id, params){
 
         var table = TABLE({id: grid.id, 'class': 'tree-grid'});
 
-        var thd = grid._make_head(res.headers);
+        var thd = grid._make_head();
         var tbd = grid._make_body(res.records);
 
         appendChildNodes(table, thd, tbd);

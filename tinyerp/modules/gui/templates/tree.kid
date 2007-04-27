@@ -34,6 +34,8 @@
 
     <div class="spacer"></div>    
     
+    ${tree.display()}
+    
 </div>
 
 </body>

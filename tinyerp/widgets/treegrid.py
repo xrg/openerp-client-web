@@ -26,6 +26,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
+from turbojson import jsonify
 
 from turbogears import widgets
 from interface import TinyField
@@ -35,7 +36,7 @@ class TreeGrid(TinyField):
     <span xmlns:py="http://purl.org/kid/ns#">
         <span  id="${id}"/>
         <script type="text/javascript">
-            var ${id} = new TreeGrid('${id}');
+            var ${id} = new TreeGrid('${id}', '${headers}');
         </script>
 
         <script type="text/javascript" py:if="selectable">
@@ -47,15 +48,38 @@ class TreeGrid(TinyField):
         </script>
 
         <script type="text/javascript">
-            ${id}.load('${url}', -1, {model: '${model}'});
+            ${id}.load('${url}', -1, {model: '${model}', fields:'${fields}', domain: "${str(domain)}"});
         </script>
     </span>
     """
 
-    params = ['id', 'url', 'model', 'selectable', 'show_headers']
+    params = ['id', 'url', 'model', 'headers', 'fields', 'domain', 'selectable', 'show_headers']
 
     selectable = False
     show_headers = True
 
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
     javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]
+
+    def __init__(self, name, model, headers, url, selectable=False, show_headers=True, domain=[]):
+
+        attrs = dict(name=name, model=model, url=url, selectable=selectable, show_headers=show_headers)
+
+        super(TreeGrid, self).__init__(attrs)
+
+        self.id = name
+        self.model = model
+        self.url = url
+        self.selectable = selectable
+        self.show_headers = show_headers
+
+        self.domain = domain
+
+        self.headers = jsonify.encode(headers)
+
+        fields = []
+        for f, v in headers:
+            fields.append(f)
+
+        self.fields = jsonify.encode(fields)
+

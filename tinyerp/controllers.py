@@ -95,6 +95,7 @@ class Root(controllers.RootController, TinyResource):
     menu_items = tree.Tree.items;
 
     form = gui.form.Form()
+    tree = gui.tree.Tree()
     wizard = gui.wizard.Wizard()
     search = gui.search.Search()
     many2one = gui.many2one.M2O()
