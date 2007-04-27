@@ -13,7 +13,8 @@ implemented or fixed in very near future...
 TODO: Phase 1
 -------------------------------------------------------------------------------
 
- *** - multi-column tree view (ame: work in progress)
+ *** - multi-column tree view (ame: almost done, needs testing)
+ *** - Replace current XTree based menu with the TreeGrid based implemntation.
   ** - The complete database creation process (ame: almost done)
   ** - Implement all widgets (ame: almost done)
    * - better one2many with pop when new or editing (ex: sale order lines)

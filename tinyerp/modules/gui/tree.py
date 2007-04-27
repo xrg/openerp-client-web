@@ -30,8 +30,6 @@
 """
 This module implementes heirarchical tree view for a tiny model having
     view_type = 'tree'
-
-@todo: Implemente tree view
 """
 
 import time
