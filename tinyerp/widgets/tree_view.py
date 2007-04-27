@@ -39,11 +39,16 @@ import treegrid
 class ViewTree(tg.widgets.Form):
     template = """
     <form xmlns:py="http://purl.org/kid/ns#" method="post" id="${name}" name="${name}" action="${action}">
+        <input type="hidden" name="_terp_model" value="${model}"/>
+        <input type="hidden" name="_terp_domain" value="${str(domain)}"/>
+        <input type="hidden" name="_terp_context" value="${str(context)}"/>
+
         <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
         <span py:if="tree" py:replace="tree.display(value_for(tree), **params_for(tree))"/>
     </form>
     """
 
+    params = ['model', 'domain', 'context']
     member_widgets = ['tree']
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
@@ -56,7 +61,9 @@ class ViewTree(tg.widgets.Form):
 
         self.domain = []
 
-        if 'field_parent' in view:
+        self.field_parent = view.get("field_parent")
+
+        if self.field_parent:
             self.domain = domain
 
         self.view = view
@@ -78,7 +85,10 @@ class ViewTree(tg.widgets.Form):
 
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="treegrid", model=self.model, headers=self.headers, url="/tree/data", selectable=True, domain=self.domain)
+        self.tree = treegrid.TreeGrid(name="tree", model=self.model, headers=self.headers, url="/tree/data", selectable=True, domain=self.domain, field_parent=self.field_parent)
+
+        #register onopen callback
+        self.tree.onopen = "onopen";
 
     def parse(self, root, fields=None):
 

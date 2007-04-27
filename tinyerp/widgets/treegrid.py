@@ -47,21 +47,27 @@ class TreeGrid(TinyField):
             ${id}.show_headers = false;
         </script>
 
+        <script type="text/javascript" py:if="onopen">
+            ${id}.onopen = ${onopen};
+        </script>
+
         <script type="text/javascript">
-            ${id}.load('${url}', -1, {model: '${model}', fields:'${fields}', domain: "${str(domain)}"});
+            ${id}.load('${url}', -1, {model: '${model}', fields:'${fields}', domain: "${str(domain)}", field_parent: '${field_parent}'});
         </script>
     </span>
     """
 
-    params = ['id', 'url', 'model', 'headers', 'fields', 'domain', 'selectable', 'show_headers']
+    params = ['id', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'domain', 'selectable', 'show_headers']
 
     selectable = False
     show_headers = True
 
+    onopen = None
+
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
     javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]
 
-    def __init__(self, name, model, headers, url, selectable=False, show_headers=True, domain=[]):
+    def __init__(self, name, model, headers, url, field_parent=None, selectable=False, show_headers=True, domain=[]):
 
         attrs = dict(name=name, model=model, url=url, selectable=selectable, show_headers=show_headers)
 
@@ -82,4 +88,5 @@ class TreeGrid(TinyField):
             fields.append(f)
 
         self.fields = jsonify.encode(fields)
+        self.field_parent = field_parent
 

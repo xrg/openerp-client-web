@@ -48,6 +48,8 @@ from tinyerp import common
 from tinyerp.tinyres import TinyResource
 from tinyerp.widgets import tree_view
 
+from tinyerp.modules.utils import TinyDict
+
 class Tree(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.tree")
@@ -74,7 +76,7 @@ class Tree(controllers.Controller, TinyResource):
         return dict(tree=tree)
 
     @expose('json')
-    def data(self, ids, model, fields, domain=[]):
+    def data(self, ids, model, fields, field_parent=None, domain=[]):
 
         ids = ids.split(',')
         ids = [int(id) for id in ids]
@@ -85,8 +87,8 @@ class Tree(controllers.Controller, TinyResource):
         if isinstance(domain, basestring):
             domain = eval(domain)
 
-        if 'child_ids' not in fields:
-            fields.append('child_ids')
+        if field_parent and field_parent not in fields:
+            fields.append(field_parent)
 
         proxy = rpc.RPCProxy(model)
 
@@ -104,11 +106,54 @@ class Tree(controllers.Controller, TinyResource):
 
             record['id'] = item.pop('id')
             record['children'] = []
-            if 'child_ids' in item:
-                record['children'] = item.pop('child_ids')
+
+            if field_parent and field_parent in item:
+                record['children'] = item.pop(field_parent)
 
             record['data'] = item
 
             records += [record]
 
         return dict(records=records)
+
+    def do_action(self, name, adds={}, datas={}):
+        params, data = TinyDict.split(datas)
+
+        model = params.model
+
+        ids = data.get('tree', [])
+        if not isinstance(ids, list):
+            ids = [ids]
+
+        ids = [int(id) for id in ids]
+        id = (ids or False) and ids[0]
+
+        if len(ids):
+            from tinyerp.modules import actions
+            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
+        else:
+            raise common.message("No record selected!")
+
+    @expose()
+    def report(self, **kw):
+        return self.do_action('client_print_multi', datas=kw)
+
+    @expose()
+    def action(self, **kw):
+        return self.do_action('tree_but_action', datas=kw)
+
+    @expose()
+    def switch(self, **kw):
+        return dict()
+
+    @expose()
+    def open(self, **kw):
+        datas = {}
+
+        datas['_terp_model'] = kw.get('model')
+        datas['_terp_context'] = kw.get('context', {})
+        datas['_terp_domain'] = kw.get('domain', [])
+
+        datas['tree'] = kw.get('id')
+
+        return self.do_action('tree_but_open', datas=datas)

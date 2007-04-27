@@ -4,6 +4,23 @@
     py:extends="tinyerp/templates/master.kid">
 <head>
     <title>${tree.string}</title>
+    <script type="text/javascript">
+    
+        function submit_form(action){
+            var form = $('tree_view');
+            form.action = '/tree/' + action;
+            
+            form.submit();
+        }
+        
+        function onopen(id, args){        
+            params = {id:id};            
+            update(params, args);
+            
+            wopen(getURL('/tree/open', params), null, 800, 600);
+        }
+        
+    </script>
 </head>
 <body>
 
@@ -22,9 +39,9 @@
                 <tr>
                     <td width="100%"></td>
                     <td>
-                        <button type="button" title="Switch current view: form/list">Switch</button>
-                        <button type="button" title="Launch action about this resource">Action</button>
-                        <button type="button" title="Print documents">Print</button>
+                        <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
+                        <button type="button" title="Launch action about this resource" onclick="submit_form('action')">Action</button>
+                        <button type="button" title="Print documents" onclick="submit_form('report')">Print</button>
                     </td>
                 </tr>
             </table>

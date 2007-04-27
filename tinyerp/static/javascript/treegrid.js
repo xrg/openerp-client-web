@@ -41,6 +41,17 @@ var TreeGrid = function(id, headers) {
 
     this.selectable = false;
     this.show_headers = true;
+
+    this.onopen = function(id, args){};
+}
+
+TreeGrid.prototype._onopen = function(id) {
+
+    var func = function() {
+        this.onopen(id, this.params);
+    }
+
+    return bind(func, this);
 }
 
 TreeGrid.prototype.toggle = function(row, forced) {
@@ -150,7 +161,9 @@ TreeGrid.prototype._make_row = function(record, indent){
         var val = record.data[key];
 
         if (key === this.tfield){
-            val = A({href: 'javascript: void(0)'}, val);
+            val = A({'href': '#'}, val);
+
+            connect(val, 'onclick', this._onopen(record.id));
 
             if (record.children && record.children.length > 0)
                 appendChildNodes(td, SPAN({'class': 'plus', onclick: this.id + '.toggle("' + rid + '")' }));
