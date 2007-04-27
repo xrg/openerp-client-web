@@ -9,11 +9,12 @@ table.tree-grid th, td {
 
 table.tree-grid th {
     text-align: left;
-    background-color: #C3D9FF;
+    background-color: #F0F0F0;
+    color: #333;
 }
 
 table.tree-grid td {
-    background-color: #FCFCFC;
+    background-color: #FBFBFB;
 }
 
 table.tree-grid span.indent,
