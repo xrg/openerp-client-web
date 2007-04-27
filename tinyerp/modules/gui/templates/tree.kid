@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" 
     py:extends="tinyerp/templates/master.kid">
 <head>
-    <title></title>
+    <title>${tree.string}</title>
 </head>
 <body>
 
