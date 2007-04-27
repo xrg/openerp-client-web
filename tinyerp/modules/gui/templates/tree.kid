@@ -12,7 +12,7 @@
     <div class="header">
 
         <div class="title">
-            Title goes here...
+            ${tree.string}
         </div>
 
         <div class="spacer"></div>
