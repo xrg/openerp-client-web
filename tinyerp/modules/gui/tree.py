@@ -144,7 +144,21 @@ class Tree(controllers.Controller, TinyResource):
 
     @expose()
     def switch(self, **kw):
-        return dict()
+
+        params, data = TinyDict.split(kw)
+
+        ids = data.get('tree', [])
+
+        if isinstance(ids, list):
+            ids = [int(id) for id in ids]
+        elif ids:
+            ids = [int(ids)]
+
+        if len(ids):
+            from tinyerp.modules import actions
+            return actions._execute_window(False, res_id=ids, model=params.model, domain=params.domain)
+        else:
+            raise common.message(_('No resource selected!'))
 
     @expose()
     def open(self, **kw):

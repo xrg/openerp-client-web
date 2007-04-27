@@ -66,6 +66,7 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
 
     mode = mode.split(',')
     params = TinyDict(model=model, ids=res_id, view_mode=mode, view_mode2=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
+    params.id = (params.ids or False) and params.ids[0]
 
     if view_type == 'form':
         return Form().create(params)
