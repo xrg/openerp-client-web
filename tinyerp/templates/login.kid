@@ -47,7 +47,7 @@
 	hostport_style = "none"
 	userpwd_style = "block"
 		    
-	if not (isinstance(dblist, list) and host and port):
+	if dblist is None:
 		hostport_style = "block"
 		userpwd_style = "none"
 ?>
@@ -97,10 +97,7 @@
 							</td>
 							<td>
 								<select name="db" style="width: 100%;">
-									<span py:for="db in dblist">
-										<option py:content="db" py:if="db == selectedDb" selected="true">dbname</option>
-										<option py:content="db" py:if="db != selectedDb">dbname</option>
-									</span>
+    								<option py:for="db in dblist or []" py:content="db" selected="${(db == selectedDb or None) and 1}">dbname</option>    								
 								</select>
 							</td>
 						</tr>

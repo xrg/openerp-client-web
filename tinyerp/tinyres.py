@@ -114,7 +114,7 @@ def _check_method(obj, fn):
             if kw.has_key('login_action') and  kw['login_action']=='listdb':
                 dblist = rpc.session.list_db(host, port)
                 if dblist == -1:
-                    dblist = []
+                    dblist = None
                     message="Invalid Host or Host not found"
 
                 cherrypy.response.status = 401
