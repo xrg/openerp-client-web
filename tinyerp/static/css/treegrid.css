@@ -59,10 +59,12 @@ table.tree-grid span.loading {
     background-image: url("/static/images/treegrid/loading.gif");
 }
 
-table.tree-grid a,
-table.tree-grid a:active,
-table.tree-grid a:hover {
-	margin-left: 3px;
-	display: table-row;
+table.tree-grid a, a:active, a:hover {
+    display: table-cell;
+	text-decoration: none;
 }
 
+table.tree-grid a:hover {
+	color: blue;
+	border: none;
+}
