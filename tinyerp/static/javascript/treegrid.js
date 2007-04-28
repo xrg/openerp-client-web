@@ -43,6 +43,8 @@ var TreeGrid = function(id, headers) {
     this.show_headers = true;
 
     this.onopen = function(id, args){};
+
+    this.row_info = {0: {children: null, indent: 0}};
 }
 
 TreeGrid.prototype._onopen = function(id) {
@@ -62,14 +64,13 @@ TreeGrid.prototype.toggle = function(row, forced) {
     var table = $(this.id);
     var row = $(row);
 
-    var children = getNodeAttribute(row, 'children');
-    children = children ? children.split(',') : null;
+    var children = this.row_info[row.id].children;
 
     if (!children)
         return false;
 
     var index = -1;
-    var indent = getNodeAttribute(row, 'indent'); indent = parseInt(indent) + 1;
+    var indent = this.row_info[row.id].indent; indent = parseInt(indent) + 1;
 
     for (var i in table.rows) {
         if (table.rows[i] == row) {
@@ -87,16 +88,15 @@ TreeGrid.prototype.toggle = function(row, forced) {
             child.style.display = forced ? forced : (child.style.display == "none" ? "table-row" : "none");
             // force children of child row to be hidden
             this.toggle(child, "none");
+
+            var state = child ? (child.style.display == "none" ? 'expand' : 'collapse') : (forced ? 'expand' : 'collapse');
+            this._row_state(row, state);
+
         } else if (!forced) {
             this._add_rows(index, children, indent);
             break;
         }
     }
-
-    var plus = row.getElementsByTagName('span'); plus = plus[plus.length-1];
-    var css = child ? (child.style.display == "none" ? 'plus' : 'minus') : (forced ? 'plus' : 'minus');
-
-    setNodeAttribute(plus, 'class', css);
 
     return true;
 }
@@ -113,9 +113,12 @@ TreeGrid.prototype._make_head = function(){
 
     for(var i in this.headers){
         var header = this.headers[i][1];
-        var help = header.help ? header.help : '';
+        var th = TH(null, header.string);
 
-        appendChildNodes(tr, TH({'title': help}, header.string));
+        setNodeAttribute(th, 'title', header.help ? header.help : '');
+        setNodeAttribute(th, 'class', header.type);
+
+        appendChildNodes(tr, th);
     }
 
     appendChildNodes(thd, tr);
@@ -137,8 +140,10 @@ TreeGrid.prototype._make_body = function(records){
 TreeGrid.prototype._make_row = function(record, indent){
 
     var rid = this.id + "_row_" + record.id;
+    var tr = TR({id: rid});
 
-    var tr = TR({id: rid, children: record.children, indent: indent ? indent : 0});
+    // save children and indent info
+    this.row_info[rid] = {children: record.children, indent: indent ? indent : 0};
 
     if (this.selectable){
         var cbx = INPUT({'type':'checkbox', 'name':this.id, 'value':record.id});
@@ -163,13 +168,16 @@ TreeGrid.prototype._make_row = function(record, indent){
         if (key === this.tfield){
             val = A({'href': '#'}, val);
 
+            // connect onclick event
             connect(val, 'onclick', this._onopen(record.id));
 
             if (record.children && record.children.length > 0)
-                appendChildNodes(td, SPAN({'class': 'plus', onclick: this.id + '.toggle("' + rid + '")' }));
+                appendChildNodes(td, SPAN({'class': 'expand', 'onclick': this.id + '.toggle("' + rid + '")' }));
             else
                 appendChildNodes(td, SPAN({'class' : 'indent'}));
         }
+
+        setNodeAttribute(td, 'class', header[1].type);
 
         appendChildNodes(td, val);
         appendChildNodes(tr, td);
@@ -178,16 +186,23 @@ TreeGrid.prototype._make_row = function(record, indent){
     return tr;
 }
 
+TreeGrid.prototype._row_state = function(row, state){
+    var span = row.getElementsByTagName('span'); span = span[span.length-1];
+    setNodeAttribute(span, 'class', state);
+}
+
 TreeGrid.prototype._add_rows = function(after, children, indent){
 
     var args = {ids: children}; update(args, this.params);
+    var index = parseInt(after);
 
     this.isloading = true;
 
+    var row = $(this.id).rows[index];
+    this._row_state(row, 'loading');
+
     var req = doSimpleXMLHttpRequest(this.url, args);
     var grid = this;
-
-    var index = parseInt(after);
 
     req.addCallback(function(xmlHttp){
         var res = evalJSONRequest(xmlHttp);
@@ -207,6 +222,7 @@ TreeGrid.prototype._add_rows = function(after, children, indent){
 
     req.addBoth(function(xmlHttp){
         grid.isloading = false;
+        grid._row_state(row, 'collapse');
     });
 }
 

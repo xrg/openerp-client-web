@@ -2,13 +2,14 @@ table.tree-grid {
     width: 100%;
 }
 
-table.tree-grid th, td {
+table.tree-grid th,
+table.tree-grid td {
+    text-align: left;
     padding: 2px 5px;
     white-space: nowrap;
 }
 
 table.tree-grid th {
-    text-align: left;
     background-color: #F0F0F0;
     color: #333;
 }
@@ -17,22 +18,51 @@ table.tree-grid td {
     background-color: #FBFBFB;
 }
 
+table.tree-grid .float,
+table.tree-grid .integer {
+    text-align: right;
+}
+
+table.tree-grid .float {
+    text-align: 'center';
+}
+
 table.tree-grid span.indent,
-table.tree-grid span.plus,
-table.tree-grid span.minus {
+table.tree-grid span.expand,
+table.tree-grid span.collapse,
+table.tree-grid span.loading {
     float: left;
 	width: 1.5em;
-	height: 1.5em;
 	min-height: 18px;
 
     background-repeat: no-repeat;
     background-position: center;
 }
 
-table.tree-grid span.plus {
-    background-image: url("/static/images/plus.gif");
+table.tree-grid span.expand {
+    background-image: url("/static/images/treegrid/expand.gif");
 }
 
-table.tree-grid span.minus {
-    background-image: url("/static/images/minus.gif");
+table.tree-grid span.expand:hover {
+    background-image: url("/static/images/treegrid/expandh.gif");
 }
+
+table.tree-grid span.collapse {
+    background-image: url("/static/images/treegrid/collapse.gif");
+}
+
+table.tree-grid span.collapse:hover {
+    background-image: url("/static/images/treegrid/collapseh.gif");
+}
+
+table.tree-grid span.loading {
+    background-image: url("/static/images/treegrid/loading.gif");
+}
+
+table.tree-grid a,
+table.tree-grid a:active,
+table.tree-grid a:hover {
+	margin-left: 3px;
+	display: table-row;
+}
+

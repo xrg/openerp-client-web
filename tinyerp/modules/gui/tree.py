@@ -105,6 +105,12 @@ class Tree(controllers.Controller, TinyResource):
 
         # formate the data
         for field in fields:
+
+            if fields_info[field]['type'] in ('float', 'integer'):
+                for x in result:
+                    if x[field]:
+                        x[field] = '%s'%(x[field])
+
             if fields_info[field]['type'] in ('date',):
                 for x in result:
                     if x[field]:
@@ -141,7 +147,7 @@ class Tree(controllers.Controller, TinyResource):
             record['children'] = []
 
             if field_parent and field_parent in item:
-                record['children'] = item.pop(field_parent)
+                record['children'] = item.pop(field_parent) or None
 
             record['data'] = item
 
