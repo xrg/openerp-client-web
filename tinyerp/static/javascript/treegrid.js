@@ -235,6 +235,8 @@ TreeGrid.prototype.load = function(url, id, params){
 
     this.isloading = true;
 
+    $(this.id).innerHTML = "Loading...";
+
     var req = doSimpleXMLHttpRequest(url, args);
     var grid = this;
 
@@ -254,7 +256,6 @@ TreeGrid.prototype.load = function(url, id, params){
     req.addBoth(function(xmlHttp){
         grid.isloading = false;
     });
-
 }
 
 TreeGrid.prototype.selectAll = function(clear) {
