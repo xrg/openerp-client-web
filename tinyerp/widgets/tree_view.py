@@ -61,7 +61,7 @@ class ViewTree(tg.widgets.Form):
 
         self.domain = []
 
-        self.field_parent = view.get("field_parent")
+        self.field_parent = view.get("field_parent") or None
 
         if self.field_parent:
             self.domain = domain

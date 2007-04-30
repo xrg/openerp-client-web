@@ -24,7 +24,7 @@
             params = {id:id};
             update(params, args);
 
-            wopen_mx(getURL('/tree/open', params), null);
+            wopen_mx(getURL('/tree/open', params));
         }
 
     </script>
