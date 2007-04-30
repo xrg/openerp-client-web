@@ -51,7 +51,7 @@ class DBAdmin(controllers.Controller):
         return dict(host=host, port=port)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
-    def create(self, host='', port='', password='', db_name='', language=[], demo_data=False, db_init=False, *args, **kw):
+    def create(self, host='', port='', password='', db_name='', language=[], demo_data=False, *args, **kw):
 
         action=kw.get('submit','')
         message=''
@@ -78,13 +78,6 @@ class DBAdmin(controllers.Controller):
         else:
             try:
                 res = sock.create(password, db_name, demo_data, language)
-                import time
-                time.sleep(10)
-
-                if db_init:
-                    raise redirect("/dbadmin/init_db?host=" + host + "&&port=" + port + "&&db_name=" +db_name + "&&password=" + password)
-                else:
-                    raise redirect("/dbadmin?host=" + host + "&&port=" + port)
 
             except Exception, e:
                 raise e
@@ -94,15 +87,6 @@ class DBAdmin(controllers.Controller):
             raise redirect("/dbadmin?host=" + host + "&&port=" + port)
 
         return dict(host=host, port=port, langlist=langlist, message=message)
-
-    @expose()
-    def init_db(self, host, port, db_name, password):
-
-        res1 = rpc.session.login(host, port, db_name, 'admin', password)
-        act_id = rpc.session.execute('/object', 'execute', 'res.users', 'read', [rpc.session.uid], ['action_id'], rpc.session.context)[0]
-        act_id = act_id['action_id'][0]
-
-        return actions.execute_by_id(act_id, window=None)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_drop")
     def drop(self, host, port, db_name='', passwd='', *args, **kw):

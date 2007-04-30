@@ -42,7 +42,7 @@
 	hostport_style = "none"
 	userpwd_style = "block"
 		    
-	if dblist is None or not (host and port):
+	if dblist is None or not (host or port):
 		hostport_style = "block"
 		userpwd_style = "none"
 ?>

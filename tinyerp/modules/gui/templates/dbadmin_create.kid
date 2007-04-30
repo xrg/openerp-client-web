@@ -79,14 +79,6 @@
 			            </tr>
 			            <tr>
 			                <td align='right' class="label">
-			                    Initialize Database :
-			                </td>
-			                <td>
-			                    <input type="checkbox" name="db_init" checked="true"/>
-			                </td>
-			            </tr>
-			            <tr>
-			                <td align='right' class="label">
 			                    Default Language :
 			                </td>
 			                <td>
