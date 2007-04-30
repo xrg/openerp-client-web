@@ -64,8 +64,7 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     @return: view (mostly XHTML code)
     """
 
-    mode = mode.split(',')
-    params = TinyDict(model=model, ids=res_id, view_mode=mode, view_mode2=mode, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
+    params = TinyDict(model=model, ids=res_id, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
 
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
@@ -73,6 +72,10 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     params.id = (params.ids or False) and params.ids[0]
 
     if view_type == 'form':
+        mode = mode.split(',')
+        params.view_mode=mode
+        params.view_mode2=mode
+
         return Form().create(params)
 
     elif view_type == 'tree':
