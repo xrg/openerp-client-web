@@ -361,7 +361,7 @@ class Image(TinyField):
             attrs['name'] = attrs['name'].replace("-" or ".","_")
 
         TinyField.__init__(self, attrs)
-        self.src =  stock.get_stock_item(attrs['name'])
+        self.src =  icons.get_icon(attrs['name'])
 
 class Group(TinyCompoundWidget):
     template = """
