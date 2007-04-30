@@ -206,7 +206,6 @@ class Char(TinyField):
     template = "tinyerp.widgets.templates.char"
 
     def __init__(self, attrs={}):
-        print "================================= attrs...", attrs
         super(Char, self).__init__(attrs)
         self.validator = tiny_validators.String()
 
