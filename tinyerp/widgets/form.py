@@ -351,6 +351,20 @@ class Button(TinyField):
         if self.states:
             self.visible = state in self.states
 
+class Image(TinyField):
+
+    template = "tinyerp.widgets.templates.image"
+    params = ["src"]
+    src = ""
+
+    def __init__(self, attrs={}):
+
+        TinyField.__init__(self, attrs)
+
+        self.src =  stock.get_stock_item(attrs['name'])
+
+
+
 class Group(TinyCompoundWidget):
     template = """
     <span xmlns:py="http://purl.org/kid/ns#">
@@ -435,7 +449,7 @@ class Form(TinyCompoundWidget):
             attrs['model'] = attrs.get('model', self.model)
 
             if node.localName=='image':
-                pass
+                views += [Image(attrs)]
 
             elif node.localName=='separator':
                 views += [Separator(attrs)]
@@ -526,6 +540,6 @@ widgets_type = {
     'many2many': M2M,
     'many2one': M2O,
     'email' : Email,
-    'url' : Url
-    #'image' : Image,
+    'url' : Url,
+    'image' : Image,
 }
