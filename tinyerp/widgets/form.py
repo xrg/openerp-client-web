@@ -326,7 +326,7 @@ class Button(TinyField):
     """
 
     template = "tinyerp.widgets.templates.button"
-    params = ["name", "string", "model", "btype", "id", "confirm"]
+    params = ["name", "string", "model", "btype", "id", "confirm", "icon"]
 
     visible = True
 
