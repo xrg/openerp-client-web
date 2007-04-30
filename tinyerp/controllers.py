@@ -51,16 +51,32 @@ from tinyerp.modules import *
 from tinyerp.widgets import *
 from tinyerp import rpc
 
+import pkg_resources
+from turbogears.widgets import register_static_directory
+
+treegrid_static_dir = pkg_resources.resource_filename("tinyerp",  "static")
+register_static_directory("tinyerp", treegrid_static_dir)
+
 class Root(controllers.RootController, TinyResource):
     """Turbogears root controller, see TG docs for more info.
     """
 
-    @expose(template="tinyerp.templates.index")
+    @expose()
     def index(self):
         """ The index page
         """
-        menu = tree.Tree(id="menu", title="TinyERP", url="/menu_items", model="ir.ui.menu", action="/menu", target="contentpane")
-        return dict(menu_tree=menu)
+
+        proxy = rpc.RPCProxy("res.users")
+        act_id = proxy.read([rpc.session.uid], ['action_id', 'name'], rpc.session.context)
+
+        if not act_id[0]['action_id']:
+            common.warning('You can not log into the system !\nAsk the administrator to verify\nyou have an action defined for your user.','Access Denied !')
+            rpc.session.logout()
+            raise redirect('/');
+
+        act_id = act_id[0]['action_id'][0]
+
+        return actions.execute_by_id(act_id)
 
     def _cp_on_error(self, *args, **kw):
         etype, value, tb = sys.exc_info()
@@ -86,13 +102,6 @@ class Root(controllers.RootController, TinyResource):
         """
         rpc.session.logout()
         raise redirect('/')
-
-    @expose()
-    def menu(self, model, id):
-        id = int(id)
-        return actions.execute_by_keyword('tree_but_open', model=model, id=id, ids=[id], report_type='pdf')
-
-    menu_items = tree.Tree.items;
 
     form = gui.form.Form()
     tree = gui.tree.Tree()

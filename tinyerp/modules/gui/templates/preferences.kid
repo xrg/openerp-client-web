@@ -4,39 +4,38 @@
     <title>Prefernces</title>
 </head>
 <body>
-<form action="/pref/ok" method="post">
+
 <div class="view">
-
     <div class="header">
-
-        <div class="title">
-            Preferences
-        </div>
-
+        <div class="title">Preferences</div>
         <div class="spacer"></div>
     </div>
+    
 	<div class="box">
-		<table align="center" width="100%">
-			<tr>
-				<td align="right" width="90">Language :</td>
+		<form action="/pref/ok" method="post">
+			<table align="center" width="100%">
+				<tr>
+					<td align="right" width="90">Language :</td>
+					<td>
+						${field.display()}
+					</td>
+				</tr>
+				<tr>
+				</tr>
+				<tr>
 				<td>
-					${field.display()}
 				</td>
-			</tr>
-			<tr>
-			</tr>
-			<tr>
-			<td>
-			</td>
-			<td align="right">
-					<input type='submit' value="Ok" onclick="form.target='_top'" />
-					<input type='submit' name='cancel' value='Cancel' onclick="form.target=null"/>
-			</td>
-
-			</tr>
-		</table>
+				<td align="right">
+						<input type='submit' value="Ok" onclick="form.target='_top'" />
+						<input type='submit' name='cancel' value='Cancel' onclick="form.target=null"/>
+				</td>
+	
+				</tr>
+			</table>
+		</form>
 	</div>
+	
 </div>
-</form>
+
 </body>
 </html>

@@ -59,7 +59,7 @@ table.tree-grid span.loading {
     background-image: url("/static/images/treegrid/loading.gif");
 }
 
-table.tree-grid a, a:active, a:hover {
+table.tree-grid a, table.tree-grid a:active, table.tree-grid a:hover {
     display: table-cell;
 	text-decoration: none;
 }

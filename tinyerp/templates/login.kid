@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="layout.kid">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="master.kid">
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
@@ -31,13 +31,8 @@
 
 			document.loginform.submit();
 		}
-
-		function checkFrame(){
-			if (top.frames.length > 0) {
-				content = $("content").innerHTML;
-				$("container").innerHTML = "<tr><td valign='top'>" + content + "</td></tr>";
-			}
-		}
+		
+		connect(window, "onload", setfocus);
 	-->
 
     </script>
@@ -52,7 +47,7 @@
 		userpwd_style = "none"
 ?>
 
-<body onload="checkFrame(); setfocus(); return true;">
+<body>
 
 	<table border="0" cellpadding="5px" cellspacing="0" width="100%" height="100%">
 		<tr>
