@@ -37,9 +37,9 @@ import xml.dom.minidom
 import turbogears as tg
 import cherrypy
 
+from tinyerp import icons
 from tinyerp import tools
 from tinyerp import rpc
-from tinyerp import stock
 
 from interface import TinyField
 from interface import TinyWidget
@@ -343,8 +343,8 @@ class Button(TinyField):
         self.id = id
 
         self.nolabel = True
-        if attrs.has_key('icon'):
-            self.icon = stock.get_stock_item(attrs['icon'])
+        if 'icon' in attrs:
+            self.icon = icons.get_icon(attrs['icon'])
 
     def set_state(self, state):
         if self.states:

@@ -40,6 +40,7 @@ from turbogears import widgets
 from turbogears import controllers
 
 from tinyerp import rpc
+from tinyerp import icons
 from tinyerp import tools
 from tinyerp import common
 
@@ -77,7 +78,7 @@ class Tree(controllers.Controller, TinyResource):
         return dict(tree=tree)
 
     @expose('json')
-    def data(self, ids, model, fields, field_parent=None, domain=[]):
+    def data(self, ids, model, fields, field_parent=None, icon=0, domain=[]):
 
         ids = ids.split(',')
         ids = [int(id) for id in ids]
@@ -93,9 +94,11 @@ class Tree(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
 
-
         if ids[0] == -1:
             ids = proxy.search(domain)
+
+        if int(icon):
+            fields.append('icon')
 
         ctx = {}
         ctx.update(rpc.session.context.copy())
@@ -140,6 +143,9 @@ class Tree(controllers.Controller, TinyResource):
             for k, v in item.items():
                 if v==None or (v==False and type(v)==bool):
                     item[k] = ''
+
+                if k == 'icon':
+                    item[k] = icons.get_icon(v)
 
             record = {}
 

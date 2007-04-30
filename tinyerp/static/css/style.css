@@ -191,7 +191,3 @@ input, button, select, textarea {
 #view_form .readonlyfield {
     background-color: #EEEEEE;
 }
-
-.grid td, th {
-    white-space: nowrap;
-}

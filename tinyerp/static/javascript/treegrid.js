@@ -34,6 +34,8 @@ var TreeGrid = function(id, headers) {
     this.headers = eval(headers);
     this.tfield = this.headers[0][0];
 
+    this.show_icons = 'icon' in this.headers[0][1];
+
     this.url = null;
     this.params = {};
 
@@ -175,6 +177,10 @@ TreeGrid.prototype._make_row = function(record, indent){
                 appendChildNodes(td, SPAN({'class': 'expand', 'onclick': this.id + '.toggle("' + rid + '")' }));
             else
                 appendChildNodes(td, SPAN({'class' : 'indent'}));
+
+            if (this.show_icons) {
+                appendChildNodes(td, IMG({'src': record.data.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
+            }
         }
 
         setNodeAttribute(td, 'class', header[1].type);
@@ -230,6 +236,8 @@ TreeGrid.prototype.load = function(url, id, params){
 
     this.url = url;
     this.params = params ? params : {};
+
+    this.params['icon'] = this.show_icons ? 1 : 0;
 
     var args = {ids: id}; update(args, this.params);
 
