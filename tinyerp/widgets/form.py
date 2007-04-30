@@ -358,12 +358,11 @@ class Image(TinyField):
     src = ""
 
     def __init__(self, attrs={}):
+        if attrs.has_key('name'):
+            attrs['name'] = attrs['name'].replace("-" or ".","_")
 
         TinyField.__init__(self, attrs)
-
         self.src =  stock.get_stock_item(attrs['name'])
-
-
 
 class Group(TinyCompoundWidget):
     template = """
