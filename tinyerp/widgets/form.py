@@ -206,6 +206,7 @@ class Char(TinyField):
     template = "tinyerp.widgets.templates.char"
 
     def __init__(self, attrs={}):
+        print "================================= attrs...", attrs
         super(Char, self).__init__(attrs)
         self.validator = tiny_validators.String()
 
@@ -432,7 +433,6 @@ class Form(TinyCompoundWidget):
                 attrs['state'] = values['state']
 
             attrs['model'] = attrs.get('model', self.model)
-            attrs['readonly'] = attrs.get('readonly', self.readonly)
 
             if node.localName=='image':
                 pass
