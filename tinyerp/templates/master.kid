@@ -17,45 +17,38 @@
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
 
-<table border="0" cellpadding="0" cellspacing="5px" id="container">
-  <tbody>
-    <tr>
-        <td colspan="2" rowspan="1" id="header">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
-                <tr>
-                    <td id="titlebar">
-						<h1>Welcome to eTiny!</h1>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="linkbar">
-                        <span py:if="rpc.session.is_logged()">
-							Welcome ${rpc.session.fullname}
-							|
-							<a href="/pref/create/" target="_blank">Preferences</a>
-							|
-							${str(rpc.session.url).rstrip('/xmlrpc')}
-							|
-							<a href="/logout">LOGOUT</a>
-						</span>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
+<div id="container">
 
-    <tr>
-        <td height="100%">
-            <table py:replace="[item.text]+item[:]"/>
-        </td>
-    </tr>
+    <div id="header">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
+            <tr>
+                <td id="titlebar">
+					<h1>Welcome to eTiny!</h1>
+                </td>
+            </tr>
+            <tr>
+                <td id="linkbar">
+                    <span py:if="rpc.session.is_logged()">
+						Welcome ${rpc.session.fullname}
+						|
+						<a href="/pref/create/" target="_blank">Preferences</a>
+						|
+						${str(rpc.session.url).rstrip('/xmlrpc')}
+						|
+						<a href="/logout">LOGOUT</a>
+					</span>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-    <tr>
-      <td colspan="2" rowspan="1" id="footer">Copyright &copy; 2007 <a href="http://tinyerp.com" target="top">TinyERP Pvt Ltd.</a> All Rights Reserved.</td>
-    </tr>
+    <div py:replace="[item.text]+item[:]"/>
+    
+    <div id="footer">
+        Copyright &copy; 2007 <a href="http://tinyerp.com" target="top">TinyERP Pvt Ltd.</a> All Rights Reserved.     
+    </div>
 
-  </tbody>
-</table>
+</div>
 
 </body>
 </html>
