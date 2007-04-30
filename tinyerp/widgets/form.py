@@ -447,6 +447,7 @@ class Form(TinyCompoundWidget):
                 attrs['state'] = values['state']
 
             attrs['model'] = attrs.get('model', self.model)
+            #attrs['readonly'] = attrs.get('readonly', self.readonly)   #(For testing Binary widget remove coment...)
 
             if node.localName=='image':
                 views += [Image(attrs)]

@@ -6,8 +6,8 @@
                 ${value}
             </td>
             <td>                
-                <button type="submit" py:attrs="attrs" onclick="submit_form('save_binary?field_search=${name}')">Save As</button>
-    		    <button type="submit" onclick="submit_form('clear_binary?field_search=${name}')" >Clear</button>
+                <button type="submit" py:attrs="attrs" onclick="submit_form('save_binary?field_search=${name}')" py:if="value is not None">Save As</button>
+    		    <button type="submit" onclick="submit_form('clear_binary?field_search=${name}')" py:if="value is not None">Clear</button>
 	        </td>
         </tr>
      </table>		          
