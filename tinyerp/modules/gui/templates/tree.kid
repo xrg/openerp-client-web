@@ -1,32 +1,32 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="tinyerp/templates/master.kid">
 <head>
     <title>${tree.string}</title>
     <script type="text/javascript">
-    
+
         function submit_form(action){
             var form = $('tree_view');
-            
+
             form.action = '/tree/' + action;
             form.method = 'post';
-            
+
             if (action == 'switch'){
                 form.target = '_blank';
             } else {
                 form.target = null;
             }
-            
+
             form.submit();
         }
-        
-        function onopen(id, args){        
-            params = {id:id};            
+
+        function onopen(id, args){
+            params = {id:id};
             update(params, args);
-            
-            wopen(getURL('/tree/open', params), null, 800, 600);
+
+            wopen_mx(getURL('/tree/open', params), null);
         }
-        
+
     </script>
 </head>
 <body>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="spacer"></div>
-                        
+
         <div class="toolbar">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -56,10 +56,10 @@
 
     </div>
 
-    <div class="spacer"></div>    
-    
+    <div class="spacer"></div>
+
     ${tree.display()}
-    
+
 </div>
 
 </body>

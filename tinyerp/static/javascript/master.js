@@ -41,6 +41,17 @@ var wopen = function(url, name, w, h) {
         "screenX=" + left + ",screenY=" + top;
     return window.open(url, name ? name : "popup", windowFeatures);
 }
+var wopen_mx = function(url, name) {
+    var width = screen.availWidth;
+    var height = screen.availHeight;
+    var left = parseInt((screen.availWidth/2) - (width/2));
+    var top = parseInt((screen.availHeight/2) - (height/2));
+    var windowFeatures = "toolbar=0, statusbar=0, scrollbars=1" + ",width=" + width + ",height=" + height +
+        ",status,resizable,left=" + left + ",top=" + top +
+        "screenX=" + left + ",screenY=" + top;
+    return window.open(url, name ? name : "popup", windowFeatures);
+}
+
 
 var getURL = function(path, args) {
 	return args ? path + "?" + queryString(args) : path;
