@@ -37,47 +37,35 @@ class TreeGrid(TinyField):
         <span  id="${id}"/>
         <script type="text/javascript">
             var ${id} = new TreeGrid('${id}', '${headers}');
-        </script>
 
-        <script type="text/javascript" py:if="selectable">
-            ${id}.selectable = true;
-        </script>
-
-        <script type="text/javascript" py:if="not show_headers">
-            ${id}.show_headers = false;
-        </script>
-
-        <script type="text/javascript" py:if="onopen">
             ${id}.onopen = ${onopen};
-        </script>
+            ${id}.onselection = ${onselection};
 
-        <script type="text/javascript">
             ${id}.load('${url}', -1, {model: '${model}', fields:'${fields}', domain: "${str(domain)}", field_parent: '${field_parent}'});
         </script>
     </span>
     """
 
-    params = ['id', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'domain', 'selectable', 'show_headers']
+    params = ['id', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'onselection', 'domain']
 
     selectable = False
     show_headers = True
 
     onopen = None
+    onselection = None
 
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
     javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]
 
-    def __init__(self, name, model, headers, url, field_parent=None, selectable=False, show_headers=True, domain=[]):
+    def __init__(self, name, model, headers, url, field_parent=None, domain=[]):
 
-        attrs = dict(name=name, model=model, url=url, selectable=selectable, show_headers=show_headers)
+        attrs = dict(name=name, model=model, url=url)
 
         super(TreeGrid, self).__init__(attrs)
 
         self.id = name
         self.model = model
         self.url = url
-        self.selectable = selectable
-        self.show_headers = show_headers
 
         self.domain = domain
 
@@ -89,4 +77,3 @@ class TreeGrid(TinyField):
 
         self.fields = jsonify.encode(fields)
         self.field_parent = field_parent
-

@@ -9,13 +9,20 @@ table.tree-grid td {
     white-space: nowrap;
 }
 
-table.tree-grid th {
-    background-color: #F0F0F0;
-    color: #333;
+table.tree-grid .header {
+    background-color: #CCCCCC;
 }
 
-table.tree-grid td {
+table.tree-grid .row {
     background-color: #FBFBFB;
+}
+
+table.tree-grid .row:hover {
+    background-color: #F0F0F0;
+}
+
+table.tree-grid .row.selected{
+    background-color: #E9E9E9;
 }
 
 table.tree-grid .float,

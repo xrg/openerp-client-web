@@ -41,21 +41,66 @@ var TreeGrid = function(id, headers) {
 
     this.isloading = false;
 
-    this.selectable = false;
-    this.show_headers = true;
+    this.selection = new Array();
+    this.row_info = {0: {children: null, indent: 0}};
 
     this.onopen = function(id, args){};
-
-    this.row_info = {0: {children: null, indent: 0}};
+    this.onselection = function(rows){};
 }
 
 TreeGrid.prototype._onopen = function(id) {
 
     var func = function() {
-        this.onopen(id, this.params);
+        if (this.onopen) this.onopen(id, this.params);
     }
 
     return bind(func, this);
+}
+
+TreeGrid.prototype._on_select_row = function(evt) {
+
+    var src = evt.src();
+    var ctr = evt.modifier().ctrl;
+    var sft = evt.modifier().shift;
+
+    var selected_rows = getElementsByTagAndClassName('tr', 'selected', $(this.id));
+
+    if (ctr) {
+        if (this.selection.indexOf(src) == -1){
+            this.selection.push(src);
+        } else {
+            this.selection.splice(this.selection.indexOf(src), 1);
+        }
+    } else if (sft) {
+
+        var rows = getElementsByTagAndClassName('tr', 'row', $(this.id));
+
+        var last = this.selection.pop();
+        last = last ? last : src;
+
+        var begin = rows.indexOf(src);
+        var end = rows.indexOf(last);
+
+        if (begin > end)
+            this.selection = rows.slice(end, begin+1);
+        else
+            this.selection = rows.slice(begin, end+1);
+
+    } else {
+        this.selection = [src];
+    }
+
+    forEach(selected_rows, function(row){
+        removeElementClass(row, "selected");
+    });
+
+    forEach(this.selection, function(row){
+        addElementClass(row, "selected");
+    });
+
+    if (this.onselection){
+        this.onselection(this.selection);
+    }
 }
 
 TreeGrid.prototype.toggle = function(row, forced) {
@@ -106,12 +151,7 @@ TreeGrid.prototype.toggle = function(row, forced) {
 TreeGrid.prototype._make_head = function(){
 
     var thd = THEAD(null);
-    var tr = TR(null);
-
-    if (this.selectable){
-        var cbx = INPUT({'type':'checkbox', 'onclick': this.id + '.selectAll(this.checked);' });
-        appendChildNodes(tr, TH({'width':'20px'}, cbx));
-    }
+    var tr = TR({'class':'header'});
 
     for(var i in this.headers){
         var header = this.headers[i][1];
@@ -125,7 +165,7 @@ TreeGrid.prototype._make_head = function(){
 
     appendChildNodes(thd, tr);
 
-    return this.show_headers ? thd : null;
+    return thd;
 }
 
 TreeGrid.prototype._make_body = function(records){
@@ -142,15 +182,10 @@ TreeGrid.prototype._make_body = function(records){
 TreeGrid.prototype._make_row = function(record, indent){
 
     var rid = this.id + "_row_" + record.id;
-    var tr = TR({id: rid});
+    var tr = TR({'id': rid, 'class' : 'row'});
 
     // save children and indent info
     this.row_info[rid] = {children: record.children, indent: indent ? indent : 0};
-
-    if (this.selectable){
-        var cbx = INPUT({'type':'checkbox', 'name':this.id, 'value':record.id});
-        appendChildNodes(tr, TD(null, cbx));
-    }
 
     for(var i in this.headers) {
 
@@ -188,6 +223,10 @@ TreeGrid.prototype._make_row = function(record, indent){
         appendChildNodes(td, val);
         appendChildNodes(tr, td);
     }
+
+    // register OnClick, OnDblClick event
+    connect(tr, 'onclick', bind(this._on_select_row, this));
+    connect(tr, 'ondblclick', bind(function(){this.toggle(rid)}, this));
 
     return tr;
 }
@@ -266,23 +305,9 @@ TreeGrid.prototype.load = function(url, id, params){
     });
 }
 
-TreeGrid.prototype.selectAll = function(clear) {
-    clear = clear == null ? true: clear;
-
-    boxes = $(this.id).getElementsByTagName('input');
-    forEach(boxes, function(box){
-        box.checked = clear;
-    });
-
+TreeGrid.prototype.selectAll = function() {
 }
 
 TreeGrid.prototype.getSelected = function() {
-    var res = [];
-
-    boxes = $(this.id).getElementsByTagName('input');
-    forEach(boxes, function(box){
-        if (box.checked && box.name) res.push(parseInt(box.value));
-    });
-
-    return res;
+    return this.selected ? this.selected : [];
 }

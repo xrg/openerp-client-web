@@ -166,11 +166,11 @@ class Tree(controllers.Controller, TinyResource):
 
         model = params.model
 
-        ids = data.get('tree', [])
-        if not isinstance(ids, list):
-            ids = [ids]
+        ids = data.get('ids') or []
 
-        ids = [int(id) for id in ids]
+        if ids:
+            ids = [int(id) for id in ids.split(',')]
+
         id = (ids or False) and ids[0]
 
         if len(ids):
@@ -192,12 +192,9 @@ class Tree(controllers.Controller, TinyResource):
 
         params, data = TinyDict.split(kw)
 
-        ids = data.get('tree', [])
-
-        if isinstance(ids, list):
-            ids = [int(id) for id in ids]
-        elif ids:
-            ids = [int(ids)]
+        ids = data.get('ids') or []
+        if ids:
+            ids = [int(id) for id in ids.split(',')]
 
         if len(ids):
             from tinyerp.modules import actions
@@ -213,6 +210,6 @@ class Tree(controllers.Controller, TinyResource):
         datas['_terp_context'] = kw.get('context', {})
         datas['_terp_domain'] = kw.get('domain', [])
 
-        datas['tree'] = kw.get('id')
+        datas['ids'] = kw.get('id')
 
         return self.do_action('tree_but_open', datas=datas)

@@ -44,6 +44,17 @@ class ViewTree(tg.widgets.Form):
         <input type="hidden" name="_terp_context" value="${str(context)}"/>
 
         <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
+        <script type="text/javascript">
+            function onselection(rows){
+                var values = map(function(row){
+                    return row.id.split('_').pop();
+                }, rows);
+
+                $('tree_ids').value = values;
+            }
+        </script>
+
+        <input type="hidden" id="tree_ids" name="ids"/>
         <span py:if="tree" py:replace="tree.display(value_for(tree), **params_for(tree))"/>
     </form>
     """
@@ -85,10 +96,11 @@ class ViewTree(tg.widgets.Form):
 
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree", model=self.model, headers=self.headers, url="/tree/data", selectable=True, domain=self.domain, field_parent=self.field_parent)
+        self.tree = treegrid.TreeGrid(name="tree", model=self.model, headers=self.headers, url="/tree/data", domain=self.domain, field_parent=self.field_parent)
 
-        #register onopen callback
-        self.tree.onopen = "onopen";
+        #register onopen, onselection callback
+        self.tree.onopen = "onopen"
+        self.tree.onselection = "onselection"
 
     def parse(self, root, fields=None):
 
