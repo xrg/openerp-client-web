@@ -21,10 +21,8 @@
         }
 
         function onopen(id, args){
-            params = {id:id};
-            update(params, args);
-
-            wopen_mx(getURL('/tree/open', params));
+            params = {id:id, model: args.model};                        
+            window.location.href = getURL('/tree/open', params);            
         }
 
     </script>

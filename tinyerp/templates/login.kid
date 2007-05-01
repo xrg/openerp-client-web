@@ -49,9 +49,7 @@
 
 <body>
 
-	<table border="0" cellpadding="5px" cellspacing="0" width="100%" height="100%">
-		<tr>
-			<td id="content">
+	<div class="view">
 
 
 		<form action="${targetPage}" method="post" name="loginform">
@@ -125,9 +123,8 @@
 			${message}
 		</div>
 		</span>
-		</td>
-		</tr>
-	</table>
+		
+    </div>
 
 </body>
 

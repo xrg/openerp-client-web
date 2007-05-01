@@ -23,7 +23,7 @@
         <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
             <tr>
                 <td id="titlebar">
-					<h1>Welcome to eTiny!</h1>
+					<h1>Welcome to TinyERP</h1>
                 </td>
             </tr>
             <tr>
@@ -35,6 +35,8 @@
 						|
 						${str(rpc.session.url).rstrip('/xmlrpc')}
 						|
+						<a href="/">HOME</a>
+						|
 						<a href="/logout">LOGOUT</a>
 					</span>
                 </td>
@@ -45,7 +47,17 @@
     <div py:replace="[item.text]+item[:]"/>
     
     <div id="footer">
-        Copyright &copy; 2007 <a href="http://tinyerp.com" target="top">TinyERP Pvt Ltd.</a> All Rights Reserved.     
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">            
+            <tr>
+                <td align="left" valign="top">
+                    <b>Developped by:</b> <a href="http://axelor.com">Axelor</a> &amp; <a href="http://tinyerp.com">Tiny sprl</a>.
+                </td>
+                <td align="right" valign="top">
+                    &copy; 2007 <a href="http://tinyerp.com" target="top">TinyERP Pvt Ltd.</a> All Rights Reserved.<br/>
+                    &copy; 2007 <a href="http://axelor.com" target="top">Axelor.</a> All Rights Reserved.
+                </td>
+            </tr>
+        </table>
     </div>
 
 </div>
