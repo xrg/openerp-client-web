@@ -23,7 +23,10 @@
         <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
             <tr>
                 <td id="titlebar">
-					<h1>Welcome to TinyERP</h1>
+       				<div style="font-size: 22px; font-style: oblique; font-weight: bold; margin-bottom: 5px">Welcome to Tiny ERP</div>
+       				<div style="position: absolute; left: 100px;">
+                        <i>Developped by:</i> <a href="http://axelor.com">Axelor</a> &amp; <a href="http://tinyerp.com">Tiny sprl</a>.
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -49,11 +52,8 @@
     <div id="footer">
         <table border="0" cellpadding="0" cellspacing="0" width="100%">            
             <tr>
-                <td align="left" valign="top">
-                    <b>Developped by:</b> <a href="http://axelor.com">Axelor</a> &amp; <a href="http://tinyerp.com">Tiny sprl</a>.
-                </td>
-                <td align="right" valign="top">
-                    &copy; 2007 <a href="http://tinyerp.com" target="top">TinyERP Pvt Ltd.</a> All Rights Reserved.<br/>
+                <td align="right">
+                    &copy; 2007 <a href="http://tinyerp.com" target="top">Tiny ERP.</a> All Rights Reserved.<br/>
                     &copy; 2007 <a href="http://axelor.com" target="top">Axelor.</a> All Rights Reserved.
                 </td>
             </tr>
