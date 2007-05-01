@@ -337,7 +337,6 @@ class Button(TinyField):
         self.btype = attrs.get('type', 'workflow')
         self.confirm = attrs.get('confirm', None)
 
-
         self.model = current_model
         self.id = id
 
@@ -447,7 +446,6 @@ class Form(TinyCompoundWidget):
             #attrs['readonly'] = attrs.get('readonly', self.readonly)   #(For testing Binary widget remove coment...)
 
             if node.localName=='image':
-                print "=================== image..", attrs
                 views += [Image(attrs)]
 
             elif node.localName=='separator':

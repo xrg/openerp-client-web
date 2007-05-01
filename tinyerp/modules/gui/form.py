@@ -148,7 +148,9 @@ class Form(controllers.Controller, TinyResource):
 
         button = params.button
 
-        name = button.name.rsplit('/', 1)[-1]
+        name = ustr(button.name)
+        name = name.rsplit('/', 1)[-1]
+
         btype = button.btype
         model = button.model
         id = button.id
@@ -167,6 +169,7 @@ class Form(controllers.Controller, TinyResource):
         elif btype == 'action':
             from tinyerp.modules import actions
             action_id = int(name)
+
             res = actions.execute_by_id(action_id, model=model, id=id, ids=ids)
             if res:
                 return res
