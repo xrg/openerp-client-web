@@ -71,7 +71,9 @@ TreeGrid.prototype._on_select_row = function(evt) {
     var ctr = evt.modifier().ctrl;
     var sft = evt.modifier().shift;
 
-    var selected_rows = clone(this.selection);
+    forEach(this.selection, function(row){
+        removeElementClass(row, "selected");
+    });
 
     if (ctr) {
         if (this.selection.indexOf(src) == -1){
@@ -89,10 +91,7 @@ TreeGrid.prototype._on_select_row = function(evt) {
         var begin = rows.indexOf(src);
         var end = rows.indexOf(last);
 
-        if (begin > end)
-            this.selection = rows.slice(end, begin+1);
-        else
-            this.selection = rows.slice(begin, end+1);
+        this.selection = begin > end ? rows.slice(end, begin+1) : this.selection = rows.slice(begin, end+1);
 
     } else {
         this.selection = [src];
@@ -101,10 +100,6 @@ TreeGrid.prototype._on_select_row = function(evt) {
     if (!sft){
         this.selection_last = this.selection[this.selection.length-1];
     }
-
-    forEach(selected_rows, function(row){
-        removeElementClass(row, "selected");
-    });
 
     forEach(this.selection, function(row){
         addElementClass(row, "selected");
