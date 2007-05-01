@@ -34,7 +34,7 @@
                     <span py:if="rpc.session.is_logged()">
 						Welcome ${rpc.session.fullname}
 						|
-						<a href="/pref/create/" target="_blank">Preferences</a>
+						<a href="/pref/create/">Preferences</a>
 						|
 						${str(rpc.session.url).rstrip('/xmlrpc')}
 						|
