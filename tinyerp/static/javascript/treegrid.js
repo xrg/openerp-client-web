@@ -42,6 +42,8 @@ var TreeGrid = function(id, headers) {
     this.isloading = false;
 
     this.selection = new Array();
+    this.selection_last = null;
+
     this.row_info = {0: {children: null, indent: 0}};
 
     this.onopen = function(id, args){};
@@ -75,7 +77,7 @@ TreeGrid.prototype._on_select_row = function(evt) {
 
         var rows = getElementsByTagAndClassName('tr', 'row', $(this.id));
 
-        var last = this.selection.pop();
+        var last = this.selection_last;
         last = last ? last : src;
 
         var begin = rows.indexOf(src);
@@ -88,6 +90,10 @@ TreeGrid.prototype._on_select_row = function(evt) {
 
     } else {
         this.selection = [src];
+    }
+
+    if (!sft){
+        this.selection_last = this.selection[this.selection.length-1];
     }
 
     forEach(selected_rows, function(row){
