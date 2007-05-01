@@ -222,7 +222,6 @@ class Email(TinyField):
     def set_value(self, value):
         self.default = value
 
-
 class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
 
@@ -540,5 +539,5 @@ widgets_type = {
     'many2one': M2O,
     'email' : Email,
     'url' : Url,
-    'image' : Image,
+    'image' : Image
 }

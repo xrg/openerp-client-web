@@ -57,7 +57,7 @@
 						<tr>
 							<td></td>
 							<td align="right">
-								<input type="submit" name="submit" value="Ok" />
+								<input type="submit" name="submit" value="Drop" />
 							</td>
 						</tr>
 					</table>
