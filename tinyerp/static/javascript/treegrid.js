@@ -61,11 +61,17 @@ TreeGrid.prototype._onopen = function(id) {
 
 TreeGrid.prototype._on_select_row = function(evt) {
 
+    var trg = evt.target();
+
+    if (['collapse', 'expand', 'loading'].indexOf(trg.className) > -1){
+        return;
+    }
+
     var src = evt.src();
     var ctr = evt.modifier().ctrl;
     var sft = evt.modifier().shift;
 
-    var selected_rows = getElementsByTagAndClassName('tr', 'selected', $(this.id));
+    var selected_rows = clone(this.selection);
 
     if (ctr) {
         if (this.selection.indexOf(src) == -1){
