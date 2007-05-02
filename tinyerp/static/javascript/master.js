@@ -52,7 +52,6 @@ var wopen_mx = function(url, name) {
     return window.open(url, name ? name : "popup", windowFeatures);
 }
 
-
 var getURL = function(path, args) {
 	return args ? path + "?" + queryString(args) : path;
 }

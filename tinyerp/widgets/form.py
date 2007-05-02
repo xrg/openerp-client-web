@@ -147,16 +147,7 @@ class Notebook(TinyCompoundWidget):
     page of the the Notebook.
     """
 
-    template = """
-    <div class='tabber' id="${name}" xmlns:py="http://purl.org/kid/ns#">
-        <div class='tabbertab' py:for="page in children">
-            <h3>${page.string}</h3>
-            <div>
-                ${page.display(value_for(page), **params_for(page))}
-            </div>
-        </div>
-    </div>
-    """
+    template = "tinyerp.widgets.templates.notebook"
 
     member_widgets = ['_notebook_', "children"]
     _notebook_ = tg.widgets.Tabber(use_cookie=True)
@@ -184,13 +175,10 @@ class NewLine(TinyField):
     """NewLine widget just tells the Frame widget to start new row during
     layout process.
     """
-    template = "<span/>"
+    template = "tinyerp.widgets.templates.newline"
 
 class Label(TinyField):
-    template = """<div style="text-align: center; width: 100%" xmlns:py="http://purl.org/kid/ns#">
-        ${field_value}
-    </div>
-    """
+    template = "tinyerp.widgets.templates.label"
     params = ["field_value"]
 
     def __init__(self, attrs={}):
@@ -362,16 +350,7 @@ class Image(TinyField):
         self.src =  icons.get_icon(icon)
 
 class Group(TinyCompoundWidget):
-    template = """
-    <span xmlns:py="http://purl.org/kid/ns#">
-        <fieldset py:if="string">
-            <legend py:content="string" />
-            ${frame.display(value_for(frame), **params_for(frame))}
-        </fieldset>
-        <span py:replace="frame.display()" py:if="not string"/>
-    </span>
-    """
-
+    template = "tinyerp.widgets.templates.group"
     params = ["string"]
     member_widgets = ["frame"]
     frame = None
@@ -386,15 +365,11 @@ class Form(TinyCompoundWidget):
     """A generic form widget
     """
 
-    template = """
-    <span xmlns:py="http://purl.org/kid/ns#" py:if="frame" py:replace="frame.display(value_for(frame), **params_for(frame))"/>
-    """
-
+    template = "tinyerp.widgets.templates.form"
     member_widgets = ['frame']
     frame = None
 
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
-
         super(Form, self).__init__()
 
         fields = view['fields']

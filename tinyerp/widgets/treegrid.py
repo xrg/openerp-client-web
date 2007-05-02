@@ -32,23 +32,8 @@ from turbogears import widgets
 from interface import TinyField
 
 class TreeGrid(TinyField):
-    template="""
-    <span xmlns:py="http://purl.org/kid/ns#">
-        <span  id="${id}"/>
-        <script type="text/javascript">
-            var ${id} = new TreeGrid('${id}', '${headers}');
 
-            ${id}.onopen = ${onopen or 'null'};
-            ${id}.onselection = ${onselection or 'null'};
-
-            ${id}.action_url = '${action_url or 'null'}';
-            ${id}.action_params = ${ustr(action_params or 'null')};
-
-            ${id}.load('${url}', -1, {model: '${model}', fields:'${fields}', domain: "${str(domain)}", field_parent: '${field_parent}'});
-        </script>
-    </span>
-    """
-
+    template = "tinyerp.widgets.templates.treegrid"
     params = ['id', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'onselection', 'domain', 'action_url', 'action_params']
 
     selectable = False
@@ -64,7 +49,6 @@ class TreeGrid(TinyField):
     javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]
 
     def __init__(self, name, model, headers, url, field_parent=None, domain=[]):
-
         attrs = dict(name=name, model=model, url=url)
 
         super(TreeGrid, self).__init__(attrs)
