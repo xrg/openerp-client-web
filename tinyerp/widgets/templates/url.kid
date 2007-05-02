@@ -1,6 +1,6 @@
 <span xmlns:py="http://purl.org/kid/ns#">
     
-    <script language="javascript">
+    <script type="text/javascript">
     function open_win(site){
         var web_site;
         

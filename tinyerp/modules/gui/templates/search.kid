@@ -3,7 +3,7 @@
 <head>
     <title>Search ${form.string}</title>
 
-    <script language="javascript">
+    <script type="text/javascript">
     
         function submit_form(action){
             form = $('search_form');

@@ -10,7 +10,7 @@
         py:content="value"
 	/>
 	<span class="fielderror" py:if="error" py:content="error"/>
-	<script language="javascript">
+	<script type="text/javascript">
 	 tinyMCE.init({
         mode: "exact",
         theme: "advanced",

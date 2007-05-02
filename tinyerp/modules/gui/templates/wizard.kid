@@ -5,7 +5,7 @@
         <span py:if="form" py:replace="form.screen.string"/>
     </title>
     
-    <script language="javascript">
+    <script type="text/javascript">
     
         function wizardAction(state) {
         

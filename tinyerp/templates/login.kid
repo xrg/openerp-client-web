@@ -5,7 +5,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Login</title>
 
-    <script language="javascript">
+    <script type="text/javascript">
     <!--
         function setfocus() {
 
