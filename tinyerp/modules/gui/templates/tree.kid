@@ -11,12 +11,6 @@
             form.action = '/tree/' + action;
             form.method = 'post';
 
-            if (action == 'switch'){
-                form.target = '_blank';
-            } else {
-                form.target = null;
-            }
-
             form.submit();
         }
         
