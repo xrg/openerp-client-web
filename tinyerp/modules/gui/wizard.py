@@ -138,7 +138,7 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     def end(self, **kw):
-        return ""
+        raise redirect('/')
 
     def get_form(self):
         params, datas = TinyDict.split(cherrypy.request.params)
