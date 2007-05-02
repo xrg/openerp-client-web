@@ -19,12 +19,7 @@
 
             form.submit();
         }
-
-        function onopen(id, args){
-            params = {id:id, model: args.model};                        
-            window.location.href = getURL('/tree/open', params);            
-        }
-
+        
     </script>
 </head>
 <body>

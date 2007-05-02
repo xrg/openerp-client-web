@@ -38,21 +38,27 @@ class TreeGrid(TinyField):
         <script type="text/javascript">
             var ${id} = new TreeGrid('${id}', '${headers}');
 
-            ${id}.onopen = ${onopen};
-            ${id}.onselection = ${onselection};
+            ${id}.onopen = ${onopen or 'null'};
+            ${id}.onselection = ${onselection or 'null'};
+
+            ${id}.action_url = '${action_url or 'null'}';
+            ${id}.action_params = ${ustr(action_params or 'null')};
 
             ${id}.load('${url}', -1, {model: '${model}', fields:'${fields}', domain: "${str(domain)}", field_parent: '${field_parent}'});
         </script>
     </span>
     """
 
-    params = ['id', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'onselection', 'domain']
+    params = ['id', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'onselection', 'domain', 'action_url', 'action_params']
 
     selectable = False
     show_headers = True
 
     onopen = None
     onselection = None
+
+    action_url = None
+    action_params = []
 
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
     javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]

@@ -34,6 +34,10 @@ var TreeGrid = function(id, headers) {
     this.headers = eval(headers);
     this.tfield = this.headers[0][0];
 
+    this.action_url = null;
+    this.action_params = null;
+    this.action_target = null;
+
     this.show_icons = 'icon' in this.headers[0][1];
 
     this.url = null;
@@ -108,6 +112,23 @@ TreeGrid.prototype._on_select_row = function(evt) {
     if (this.onselection){
         this.onselection(this.selection);
     }
+}
+
+TreeGrid.prototype._make_action_url = function(id) {
+
+    var url = this.action_url;
+    var args = {id : id};
+
+    if (this.action_params) {
+        for(var i in this.action_params) {
+            var p = this.action_params[i];
+            if (p in this.params){
+                args[p] = this.params[p];
+            }
+        }
+    }
+
+    return url + '?' + queryString(args);
 }
 
 TreeGrid.prototype.toggle = function(row, forced) {
@@ -209,11 +230,16 @@ TreeGrid.prototype._make_row = function(record, indent){
 
         var val = record.data[key];
 
-        if (key === this.tfield){
+        if (key === this.tfield) {
+
             val = A({'href': '#'}, val);
 
-            // connect onclick event
-            connect(val, 'onclick', this._onopen(record.id));
+            if (this.action_url) { // use url
+                setNodeAttribute(val, 'href', this._make_action_url(record.id));
+                setNodeAttribute(val, 'target', this.action_target);
+            } else { //connect onclick event
+                connect(val, 'onclick', this._onopen(record.id));
+            }
 
             if (record.children && record.children.length > 0)
                 appendChildNodes(td, SPAN({'class': 'expand', 'onclick': this.id + '.toggle("' + rid + '")' }));

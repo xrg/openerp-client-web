@@ -98,9 +98,11 @@ class ViewTree(tg.widgets.Form):
 
         self.tree = treegrid.TreeGrid(name="tree", model=self.model, headers=self.headers, url="/tree/data", domain=self.domain, field_parent=self.field_parent)
 
-        #register onopen, onselection callback
-        self.tree.onopen = "onopen"
+        #register onselection callback
         self.tree.onselection = "onselection"
+
+        self.tree.action_url = '/tree/open'
+        self.tree.action_params = ['model']
 
     def parse(self, root, fields=None):
 
