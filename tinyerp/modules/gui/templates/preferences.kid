@@ -26,7 +26,7 @@
 				<td>
 				</td>
 				<td align="right">
-						<input type='submit' value="Ok" onclick="form.target='_top'" />
+						<input type='submit' value="OK" onclick="form.target='_top'" />
 						<button type='button' onclick="history.back()">Cancel</button>
 				</td>
 	

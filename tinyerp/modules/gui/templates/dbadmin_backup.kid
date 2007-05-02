@@ -16,7 +16,7 @@
 							Backup Database
 						</td>
 						<td align="right">
-							<a href="/dbadmin?host=${host}&amp;port=${port}">Cancel</a>
+							<a href="/dbadmin?host=${host}&amp;port=${port}">CANCEL</a>
 						</td>
 					</tr>
 				</table>

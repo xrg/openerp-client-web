@@ -15,7 +15,7 @@
 							Database Administration
 						</td>
 						<td align="right">
-							<a href="/">Back</a>
+							<a href="/">BACK</a>
 						</td>
 					</tr>
 				</table>

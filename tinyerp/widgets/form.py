@@ -263,10 +263,14 @@ class Selection(TinyField):
 
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     template = "tinyerp.widgets.templates.datetime"
+
     params = ["format"]
+
     format = "%Y-%m-%d %H:%M:%S"
     picker_shows_time = True
     button_text = 'Select'
+
+    css = [tg.widgets.CSSLink(tg.widgets.base.static, "calendar/calendar-blue.css")]
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
