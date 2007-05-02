@@ -59,7 +59,7 @@ class Form(controllers.Controller, TinyResource):
         else:
             form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
-        if cherrypy.request.path.startswith('/menu'):
+        if cherrypy.request.path.startswith('/tree/open'):
             self.del_notebook_cookies()
 
         return dict(form=form)
