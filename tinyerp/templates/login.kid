@@ -4,125 +4,96 @@
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Login</title>
-
-    <script type="text/javascript">
-    <!--
-        function setfocus() {
-
-                var active = document.getElementsByName('host')[0];
-
-                if (document.getElementById("userpwd").style.display == "block") {
-                	active = document.getElementsByName('user')[0];
-                }
-
-                active.focus();
-    	}
-
-		function submitform(){
-
-			var action = "login";
-
-			if (document.getElementById("hostport").style.display == "block") {
-				action = "listdb";
-			}
-
-			login_action = document.getElementsByName('login_action')[0];
-			login_action.value = action;
-
-			document.loginform.submit();
-		}
-		
-		connect(window, "onload", setfocus);
-	-->
-
-    </script>
  </head>
-
-<?python
-	hostport_style = "none"
-	userpwd_style = "block"
-		    
-	if dblist is None or not (host or port):
-		hostport_style = "block"
-		userpwd_style = "none"
-?>
 
 <body>
 
+<?python
+display1 = 'table'
+display2 = 'table'
+
+if action == 'change' or dblist is None:
+    display2 = 'none'
+else:
+    display1 = 'none'    
+    
+?>
+
 	<div class="view">
+		    
+		<form action="${target}" method="post">				
+		
+    		<input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
+    		    		
+			<table align="center" class="loginbox" cellspacing="5px" style="display: ${display1}">
 
+				<tr>
+					<td class="label">Host :</td>
+					<td><input type="text" name="host" value="${host}" style="width: 100%"/></td>
+				</tr>
+				<tr>
+					<td class="label">Port:</td>
+					<td><input type="text" name="port" value="${port}" style="width: 100%"/></td>    					
+				</tr>
+				<tr>
+				    <td class="label">Protocol connection:</td>
+				    <td>
+				        <select name="protocol" style="width: 100%"> 				            
+				            <option value="http" selected="${tg.selector(protocol=='http')}">XML-RPC</option>
+				            <option value="https" selected="${tg.selector(protocol=='https')}">XML-RPC (secure)</option>
+				            <option value="socket" selected="${tg.selector(protocol=='socket')}">NET-RPC (faster)</option>
+				        </select>
+				    </td>
+				</tr>
+				<tr>
+				    <td colspan="2" align="right">
+				        <button type="submit" name="login_action" value="connect">Connect</button>
+				    </td>
+				</tr>
+			</table>
+		
+		    <table align="center" class="loginbox" cellspacing="5px" style="display: ${display2}">
 
-		<form action="${targetPage}" method="post" name="loginform">
-		<input type="hidden" name="login_action" value="login" />
-			<div align="center" class="box" id="hostport" style="display: ${hostport_style}">
-				<table align="center" border="0">
-
+			        <tr>
+			            <td class="label">Host :</td>
+			            <td width="250px">
+			                <input value="${protocol}://${host}:${port}" style="width: 100%" disabled="0"/>
+                        </td>
+                        <td>
+						    <button type="submit" name="login_action" value="change">Change</button>
+						</td>
+			        </tr>	
+			        
 					<tr>
-						<td align="right" width="90">Host :</td>
-						<td><input type="text" name="host" style="width: 100pt;" value="${host}"/></td>
-						<td><input type="text" name="port" style="width: 50pt;" value="${port}"/></td>
-						<td>
-							<input type="submit" name="do_listdb" value="Connect" style="width: 50pt;" onclick="submitform()" />
+						<td class="label">Database :</td>
+						<td colspan="2">
+							<select name="db" style="width: 100%;">
+								<option py:for="v in dblist or []" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
+                            </select>
 						</td>
 					</tr>
-				</table>
-			</div>
 
-			<div align="center" id="userpwd" style="display: ${userpwd_style}">
-			    	<div class="box">
-					<table align="center" border="0" width="100%">
-						<tr>
-							<td align="right" width="90">Host :</td>
-							<td>
-								<a href="" onclick="showElement('hostport');hideElement('userpwd');hideElement('message'); document.getElementsByName('host')[0].focus(); return false;">
-									${host} :${port}
-								</a>
-							</td>
-						</tr>
-					</table>
-				</div>
+					<tr>
+						<td class="label">User :</td>
+						<td colspan="2"><input type="text" name="user" id="user" style="width: 99%;" value="${user}"/></td>
+					</tr>
+					<tr>
+						<td class="label">Password :</td>
+						<td colspan="2"><input type="password" name="passwd"  style="width: 99%;"/></td>
+					</tr>
+					<tr>
+						<td colspan="3" align="right">
+							<button type="submit" name="login_action" value="login">Log In</button>
+						</td>
+					</tr>
 
-				<div class="box">
-					<table align="center" width="100%">
-						<tr>
-							<td align="right" width="90">
-    							<a href="/dbadmin?host=${host}&amp;port=${port}">Database :</a>
-							</td>
-							<td>
-								<select name="db" style="width: 100%;">
-    								<option py:for="db in dblist or []" py:content="db" selected="${(db == selectedDb or None) and 1}">dbname</option>    								
-								</select>
-							</td>
-						</tr>
-					</table>
-				</div>
+			</table>
 
-				<div class="box">
-					<table align="center" width="100%">
-						<tr>
-							<td align="right" width="90">User :</td>
-							<td><input type="text" name="user" id="user" style="width: 99%;" value="${selectedUser}"/></td>
-						</tr>
-						<tr>
-							<td align="right">Password :</td>
-							<td><input type="password" name="passwd"  style="width: 99%;"/></td>
-						</tr>
-						<tr>
-							<td>&nbsp;</td>
-							<td align="right">
-								<input type="submit" name="do_login" value="Log In" onclick="submitform()"/>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
-			</div>
 		</form>
-		<span py:if="message is not None">
-		<div class="box message" id="message" >
+	
+		<div class="box message" id="message" py:if="message">
 			${message}
 		</div>
-		</span>
 		
     </div>
 

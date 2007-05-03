@@ -159,12 +159,12 @@ class Form(controllers.Controller, TinyResource):
         ids = (id or []) and [id]
 
         if btype == 'workflow':
-            rpc.session.execute('/object', 'exec_workflow', model, name, id)
+            rpc.session.execute('object', 'exec_workflow', model, name, id)
 
         elif btype == 'object':
             ctx = params.context or {}
             ctx.update(rpc.session.context.copy())
-            rpc.session.execute('/object', 'execute', model, name, ids, ctx)
+            rpc.session.execute('object', 'execute', model, name, ids, ctx)
 
         elif btype == 'action':
             from tinyerp.modules import actions

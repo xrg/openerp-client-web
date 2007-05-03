@@ -36,7 +36,7 @@
 						|
 						<a href="/pref/create/">Preferences</a>
 						|
-						${str(rpc.session.url).rstrip('/xmlrpc')} [${rpc.session.db}]
+						${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]
 						|
 						<a href="/">HOME</a>
 						|

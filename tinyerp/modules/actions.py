@@ -129,18 +129,18 @@ def _execute_report(name, **data):
     del datas['ids']
 
     if not ids:
-        ids =  rpc.session.execute('/object', 'execute', datas['model'], 'search', [])
+        ids =  rpc.session.execute('object', 'execute', datas['model'], 'search', [])
         if ids == []:
             raise common.message('Nothing to print!')
 
         datas['id'] = ids[0]
 
     try:
-        report_id = rpc.session.execute('/report', 'report', name, ids, datas, rpc.session.context)
+        report_id = rpc.session.execute('report', 'report', name, ids, datas, rpc.session.context)
         state = False
         attempt = 0
         while not state:
-            val = rpc.session.execute('/report', 'report_get', report_id)
+            val = rpc.session.execute('report', 'report_get', report_id)
             state = val['state']
             if not state:
                 time.sleep(1)
@@ -163,7 +163,7 @@ def _execute(action, **data):
     """
 
     if 'type' not in action:
-        res = rpc.session.execute('/object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
+        res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
 
     if action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
@@ -215,12 +215,12 @@ def execute_by_id(act_id, type=None, **data):
     """
 
     if type==None:
-        res = rpc.session.execute('/object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
+        res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
         if not len(res):
             raise 'ActionNotFound'
         type=res[0]['type']
 
-    res = rpc.session.execute('/object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
+    res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
     return _execute(res, **data)
 
 def execute_by_keyword(keyword, adds={}, **data):
@@ -237,7 +237,7 @@ def execute_by_keyword(keyword, adds={}, **data):
         try:
             id = data.get('id', False)
             if (id != False): id = int(id)
-            actions = rpc.session.execute('/object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
+            actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
             raise e

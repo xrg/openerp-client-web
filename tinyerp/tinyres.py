@@ -30,47 +30,46 @@
 """
 This modules implements custom authorization logic for the eTiny!.
 """
-
-from turbogears import redirect, expose
-import cherrypy
-import rpc
-
 import types
 
+from turbogears import expose
+from turbogears import redirect
+
+import cherrypy
+
+import rpc
+
 @expose(template="tinyerp.templates.login")
-def _login(targetPage, message=None, host='', port='8069', dblist=[], selectedDb= None, selectedUser=None, origArgs={}):
+def _login(target, protocol='http', host='', port='8069', dblist=[], db= None, user=None, action=None, message=None, origArgs={}):
     """Login page, exposed without any controller, will be used by _check_method wrapper
     """
-    return dict(targetPage=targetPage, message=message, host=host, port=port, dblist=dblist, selectedUser=selectedUser, selectedDb = selectedDb, origArgs=origArgs)
+    return dict(target=target, protocol=protocol, host=host, port=port, dblist=dblist, user=user, db=db, action=action, message=message, origArgs=origArgs)
 
 def _check_method(obj, fn):
     """A python decorator to secure exposed methods
     """
     def clear_login_fields(kw={}):
-        if not (kw.has_key('do_login') or kw.has_key('do_listdb')):
-            return
 
-        if kw.has_key('do_login'): del kw['do_login']
-        if kw.has_key('do_listdb'): del kw['do_listdb']
+        if not kw.get('login_action'):
+            return
 
         if kw.has_key('host'): del kw['host']
         if kw.has_key('port'): del kw['port']
+        if kw.has_key('protocol'): del kw['protocol']
         if kw.has_key('db'): del kw['db']
         if kw.has_key('user'): del kw['user']
         if kw.has_key('passwd'): del kw['passwd']
         if kw.has_key('login_action'): del kw['login_action']
 
     def get_orig_args(kw={}):
-        if not (kw.has_key('do_login') or kw.has_key('do_listdb')):
+        if not kw.get('login_action'):
             return kw
 
         new_kw = kw.copy()
 
-        if new_kw.has_key('do_login'): del new_kw['do_login']
-        if new_kw.has_key('do_listdb'): del new_kw['do_listdb']
-
         if new_kw.has_key('host'): del new_kw['host']
         if new_kw.has_key('port'): del new_kw['port']
+        if new_kw.has_key('protocol'): del new_kw['protocol']
         if new_kw.has_key('db'): del new_kw['db']
         if new_kw.has_key('user'): del new_kw['user']
         if new_kw.has_key('passwd'): del new_kw['passwd']
@@ -91,47 +90,52 @@ def _check_method(obj, fn):
 
             host = ''
             port = ''
+            protocol = ''
             db = ''
             user = ''
             passwd = ''
             message = None
 
+            action = kw.get('login_action')
+
             # get some settings from cookies
             try:
                 host = cherrypy.request.simple_cookie['terp_host'].value
                 port = cherrypy.request.simple_cookie['terp_port'].value
+                protocol = cherrypy.request.simple_cookie['terp_protocol'].value
                 db = cherrypy.request.simple_cookie['terp_db'].value
                 user = cherrypy.request.simple_cookie['terp_user'].value
             except:
                 pass
 
-            if kw.has_key('host'): host = kw['host']
-            if kw.has_key('port'): port = kw['port']
-            if kw.has_key('db'): db = kw['db']
-            if kw.has_key('user'): user = kw['user']
-            if kw.has_key('passwd'): passwd = kw['passwd']
+            host = kw.get('host', host)
+            port = kw.get('port', port)
+            protocol = kw.get('protocol', protocol)
+            db = kw.get('db', db)
+            user = kw.get('user', user)
+            passwd = kw.get('passwd', passwd)
 
-            if kw.has_key('login_action') and  kw['login_action']=='listdb':
-                dblist = rpc.session.list_db(host, port)
+            if kw.get('login_action') == 'connect':
+                dblist = rpc.session.list_db(host, port, protocol)
                 if dblist == -1:
                     dblist = None
                     message="Invalid Host or Host not found"
 
                 cherrypy.response.status = 401
-                return _login(cherrypy.request.path, message=message, host=host, port=port, dblist=dblist, selectedDb=db, selectedUser=user, origArgs=get_orig_args(kw))
+                return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
-            if kw.has_key('login_action') and  kw['login_action']=='login':
+            if kw.get('login_action') == 'login':
                 message='Invalid user id or password.'
 
             # See if the user just tried to log in
-            if rpc.session.login(host, port, db, user, passwd) != 1:
+            if rpc.session.login(host, port, db, user, passwd, protocol) != 1:
                 # Bad login attempt
-                dblist = rpc.session.list_db(host, port)
+                dblist = rpc.session.list_db(host, port, protocol)
                 if dblist == -1:
                     dblist = []
 
                 cherrypy.response.status = 401
-                return _login(cherrypy.request.path, message=message, host=host, port=port, dblist=dblist, selectedDb=db, selectedUser=user, origArgs=get_orig_args(kw))
+                return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # User is now logged in, so show the content
             clear_login_fields(kw)

@@ -30,11 +30,16 @@
 """
 This module provides wrappers arround xmlrpclib that allows accessing
 Tiny resources in pythonic way.
+
+@todo: socket abstraction for xmlrpc and netrpc
 """
 
 import xmlrpclib, socket
-import cherrypy
 import time
+
+import cherrypy
+
+import tiny_socket
 
 class RPCException(Exception):
     def __init__(self, code, msg):
@@ -51,53 +56,66 @@ class RPCSession(object):
     def __init__(self):
         pass
 
-    def list_db(self, host, port , secure=False):
+    def list_db(self, host, port, protocol='http'):
         """Returns list of databases on the given server
 
         @param host: the host where TinyERP server is running
         @param port: the TinyERP server port
-        @param secure: whether to use secured connection or not
+        @param protocol: protocol to be used
 
         @return: list of all databases
         """
-        url = 'http://'
 
-        if secure:
-            url = 'https://'
+        if protocol in ('http', 'https'):
+            url = "%s://%s:%s/xmlrpc"%(protocol, host, str(port))
+            sock = xmlrpclib.ServerProxy(url + '/db')
 
-        url += "%s:%s/xmlrpc"%(host, str(port))
+            try:
+                return sock.list()
+            except Exception, e:
+                return -1
 
-        sock = xmlrpclib.ServerProxy(url + '/db')
-        try:
-            return sock.list()
-        except Exception, e:
-            return -1
+        else:
+            sock = tiny_socket.mysocket()
+            try:
+                sock.connect(host, int(port))
+                sock.mysend(('db', 'list'))
+                res = sock.myreceive()
+                sock.disconnect()
+                return res
+            except Exception, e:
+                return -1
 
-    def login(self, host, port, db, user, password, secure=False):
+    def login(self, host, port, db, user, password, protocol='http'):
         """Login to a Tiny Server on given host using given database, username and password.
 
         @param host: the host on which tiny server is running
         @param db: the database
         @param user: user id
         @param password: password
-        @param secure: use secured connection?
+        @param protocol: protocol to be used
 
         @rtype: int
         @return: user id on success else error code
         """
 
-        url = 'http://'
+        if protocol in ('http', 'https'):
+            url = "%s://%s:%s/xmlrpc"%(protocol, host, str(port))
+            sock = xmlrpclib.ServerProxy(url + '/common')
 
-        if secure:
-            url = 'https://'
-
-        url += "%s:%s/xmlrpc"%(host, str(port))
-
-        sock = xmlrpclib.ServerProxy(url + '/common')
-        try:
-            res = sock.login(db, user, password)
-        except Exception, e:
-            return -1
+            try:
+                res = sock.login(db, user, password)
+            except Exception, e:
+                return -1
+        else:
+            sock = tiny_socket.mysocket()
+            try:
+                sock.connect(host, int(port))
+                sock.mysend(('common', 'login', db or '', user or '', password or ''))
+                res = sock.myreceive()
+                sock.disconnect()
+            except Exception, e:
+                return -1
 
         if not res:
             cherrypy.session['open'] = False
@@ -105,7 +123,9 @@ class RPCSession(object):
             return -2
 
         cherrypy.session['open'] = True
-        cherrypy.session['url'] = url
+        cherrypy.session['host'] = host
+        cherrypy.session['port'] = port
+        cherrypy.session['protocol'] = protocol
         cherrypy.session['uid'] = res
         cherrypy.session['uname'] = user
         cherrypy.session['passwd'] = password
@@ -117,6 +137,7 @@ class RPCSession(object):
         # set host, port and uname in cookies
         cherrypy.response.simple_cookie['terp_host'] = host
         cherrypy.response.simple_cookie['terp_port'] = port
+        cherrypy.response.simple_cookie['terp_protocol'] = protocol
         cherrypy.response.simple_cookie['terp_db'] = db
         cherrypy.response.simple_cookie['terp_user'] = user
 
@@ -124,6 +145,7 @@ class RPCSession(object):
 
         cherrypy.response.simple_cookie['terp_host']['expires'] = expiration_time;
         cherrypy.response.simple_cookie['terp_port']['expires'] = expiration_time;
+        cherrypy.response.simple_cookie['terp_protocol']['expires'] = expiration_time;
         cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
         cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
 
@@ -143,7 +165,9 @@ class RPCSession(object):
             del cherrypy.session['uname']
             del cherrypy.session['passwd']
             del cherrypy.session['db']
-            del cherrypy.session['url']
+            del cherrypy.session['host']
+            del cherrypy.session['port']
+            del cherrypy.session['protocol']
             del cherrypy.session['fullname']
         except:
             pass
@@ -154,6 +178,7 @@ class RPCSession(object):
         @rtype: bool
         @return: True if user is logged in otherwise false
         """
+
         return cherrypy.session.has_key('uid') and cherrypy.session['open']
 
     def context_reload(self):
@@ -161,7 +186,7 @@ class RPCSession(object):
         """
         self.context = {}
         # self.uid
-        context = self.execute('/object', 'execute', 'ir.values', 'get', 'meta', False, [('res.users', self.uid or False)], False, {}, True, True, False)
+        context = self.execute('object', 'execute', 'ir.values', 'get', 'meta', False, [('res.users', self.uid or False)], False, {}, True, True, False)
         for c in context:
             if c[2]:
                 cherrypy.session['context'][c[1]] = c[2]
@@ -197,19 +222,31 @@ class RPCSession(object):
         """
 
         if self.is_logged():
-            try:
-                sock = xmlrpclib.ServerProxy(self.url + obj)
-                result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
-                return self.__convert(result)
-            except socket.error, e:
-                raise RPCException(69, 'Connection refused!')
-            except xmlrpclib.Fault, e:
-                raise RPCException(e.faultCode, e.faultString + str(args))
+            if self.protocol in ('http', 'https'):
+                url = "%s://%s:%s/xmlrpc/%s"%(self.protocol, self.host, str(self.port), obj)
+                sock = xmlrpclib.ServerProxy(url)
+                try:
+                    result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
+                    return self.__convert(result)
+                except Exception, e:
+                    raise e
+                    return -1
+            else:
+                sock = tiny_socket.mysocket()
+                try:
+                    sock.connect(self.host, int(self.port))
+                    sock.mysend((obj, method, self.db, self.uid, self.passwd)+args)
+                    result = sock.myreceive()
+                    sock.disconnect()
+                    return result
+                except Exception, e:
+                    return -1
         else:
             raise RPCException(1, "not logged!")
 
-    # access cherrypy session attributes at object attribute
-    def __getattr__(self,name):
+    # access cherrypy.session attributes at object attribute
+    def __getattr__(self, name):
+
         if cherrypy.session.has_key(name):
             return cherrypy.session[name]
         else:
@@ -255,4 +292,4 @@ class RPCFunction(object):
         self.func = func_name
 
     def __call__(self, *args):
-        return session.execute("/object", "execute", self.object, self.func, *args)
+        return session.execute("object", "execute", self.object, self.func, *args)

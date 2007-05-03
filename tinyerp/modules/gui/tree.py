@@ -65,7 +65,7 @@ class Tree(controllers.Controller, TinyResource):
         model = params.model
 
         if view_id:
-            view_base =  rpc.session.execute('/object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
+            view_base =  rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
             model = view_base['model']
             proxy = rpc.RPCProxy(model)
             view = proxy.fields_view_get(view_id, view_base['type'], context)

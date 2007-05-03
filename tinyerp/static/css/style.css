@@ -92,10 +92,16 @@ td.title {
     font-weight: bold;
 }
 
+table.loginbox {
+    background-color: #E8EEFA;
+    width: 400px;
+    padding: 10px;
+}
+
 div.box {
     background-color: #E8EEFA;
+    width: 400px;
     padding: 10px;
-    width: 350px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
