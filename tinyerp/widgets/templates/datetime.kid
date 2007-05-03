@@ -8,7 +8,13 @@
             <div class="spacer"></div>
         </td>
         <td>
-              <input type="button" id="${field_id}_trigger" class="date_field_button" value="${button_text}" py:attrs='attrs'/>
+            <button type="button" id="${field_id}_trigger" py:attrs='attrs'>
+                <table align="center">
+                    <tr>
+                        <td>Select</td>
+                    </tr>
+                </table>
+            </button>
         </td>
         <script type="text/javascript">
             Calendar.setup(

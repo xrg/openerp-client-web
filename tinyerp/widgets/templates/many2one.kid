@@ -11,7 +11,13 @@
         <td>
             <button type="button" py:attrs="attrs" 
                 domain="${ustr(domain)}" context="${ustr(context)}"
-                onclick="wopen(getURL('/many2one/new', {model: '${relation}', m2o: '${name}', domain: getNodeAttribute(this, 'domain'), context: getNodeAttribute(this, 'context')}), 'search', 800, 600)">Select</button>
+                onclick="wopen(getURL('/many2one/new', {model: '${relation}', m2o: '${name}', domain: getNodeAttribute(this, 'domain'), context: getNodeAttribute(this, 'context')}), 'search', 800, 600)">
+                <table align="center">
+                    <tr>
+                        <td>Select</td>
+                    </tr>
+                </table>
+            </button>
         </td>
     </tr>
 </table>
