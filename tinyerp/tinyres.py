@@ -40,7 +40,7 @@ import cherrypy
 import rpc
 
 @expose(template="tinyerp.templates.login")
-def _login(target, protocol='http', host='', port='8069', dblist=[], db= None, user=None, action=None, message=None, origArgs={}):
+def _login(target, protocol='http', host='', port='8069', dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
     """Login page, exposed without any controller, will be used by _check_method wrapper
     """
     return dict(target=target, protocol=protocol, host=host, port=port, dblist=dblist, user=user, db=db, action=action, message=message, origArgs=origArgs)
@@ -118,7 +118,6 @@ def _check_method(obj, fn):
             if kw.get('login_action') == 'connect':
                 dblist = rpc.session.list_db(host, port, protocol)
                 if dblist == -1:
-                    dblist = None
                     message="Invalid Host or Host not found"
 
                 cherrypy.response.status = 401
@@ -131,8 +130,6 @@ def _check_method(obj, fn):
             if rpc.session.login(host, port, db, user, passwd, protocol) != 1:
                 # Bad login attempt
                 dblist = rpc.session.list_db(host, port, protocol)
-                if dblist == -1:
-                    dblist = []
 
                 cherrypy.response.status = 401
                 return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))

@@ -92,20 +92,19 @@ td.title {
     font-weight: bold;
 }
 
-table.loginbox {
+.loginbox {
     background-color: #E8EEFA;
     width: 400px;
     padding: 10px;
+    margin: 10px auto;
+    display: table;
 }
 
 div.box {
     background-color: #E8EEFA;
     width: 400px;
     padding: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: auto;
 }
 
 div.box2 {
