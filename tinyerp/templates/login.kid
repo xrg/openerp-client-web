@@ -19,14 +19,6 @@
                     user[0].focus();
     	}
 
-		function submit_form(action){
-		
-		    var form = document.loginform;
-		    form.login_action = action;
-		    
-		    form.submit();
-		}
-		
 		connect(window, "onload", setfocus);
 	-->
     </script>
