@@ -7,9 +7,9 @@
                     <td><strong>${screen.string}</strong></td>
                     <td align="right">
                         <button type="button" title="Create new record..." name="${button_name}" onclick="submit_form('save', this)">New</button>
-                        <button type="button" title="Delete current record..." py:attrs="button_attrs" name="${button_name}" onclick="submit_form('delete', this)">Delete</button>
-                        <button type="button" title="Previous record..." py:attrs="button_attrs" name="${button_name}" onclick="submit_form('prev', this)">Prev</button>
-                        <button type="button" title="Next record..." py:attrs="button_attrs" name="${button_name}" onclick="submit_form('next', this)">Next</button>
+                        <button type="button" title="Delete current record..." disabled="${tg.checker(screen.view_mode[0] == 'tree' or not screen.id)}" name="${button_name}" onclick="submit_form('delete', this)">Delete</button>
+                        <button type="button" title="Previous record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" name="${button_name}" onclick="submit_form('prev', this)">Prev</button>
+                        <button type="button" title="Next record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" name="${button_name}" onclick="submit_form('next', this)">Next</button>
                         <button type="button" title="Switch view..." name="${button_name}" onclick="submit_form('switch', this)">Switch</button>
                     </td>
                 </tr>

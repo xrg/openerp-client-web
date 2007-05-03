@@ -39,7 +39,7 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id', 'button_name', 'button_attrs']
+    params = ['string', 'id', 'button_name']
 
     member_widgets = ['screen']
     form = None
@@ -70,9 +70,6 @@ class O2M(TinyCompoundWidget):
 
         if params: view_mode = params.view_mode
         if params: view_mode2 = params.view_mode2
-
-        if view_mode[0] == 'tree':
-            self.button_attrs['disabled'] = 0;
 
         ids = attrs['value'] or []
 
