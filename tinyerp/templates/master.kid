@@ -25,7 +25,7 @@
                 <td id="titlebar">
        				<div style="font-size: 22px; font-style: oblique; font-weight: bold; margin-bottom: 5px">Welcome to Tiny ERP</div>
        				<div style="position: absolute; left: 100px;">
-                        <i>Developed by :</i> <a href="http://axelor.com">Axelor</a> &amp; <a href="http://tinyerp.com">Tiny sprl</a>.
+                        <i>Developed by :</i> <a href="http://axelor.com">Axelor</a> &amp; <a href="http://tinyerp.com">Tiny ERP</a>.
                     </div>
                 </td>
             </tr>
