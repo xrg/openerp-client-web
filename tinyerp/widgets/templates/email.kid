@@ -7,7 +7,13 @@
 			<td>
 			</td>
 			<td width="100%">
-    		    <input type="button" value="Go" onclick="javascript:if (echeck($('${field_id}').value)) window.open('mailto:' + $('${field_id}').value).close();" />
+    		    <button type="button" onclick="if (echeck($('${field_id}').value)) window.open('mailto:' + $('${field_id}').value).close();" >
+	                <table align="center">
+			            <tr>
+			                <td>Go!</td>
+			            </tr>
+			        </table>
+    		    </button>
     		</td>
     	</tr>
     </table>

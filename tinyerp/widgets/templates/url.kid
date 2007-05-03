@@ -17,7 +17,13 @@
                 <input type="text" kind="${kind}" name='${name}' id ='${field_id}' style="width :100%" value="${value}" class="${field_class}" py:attrs="attrs"/>
             </td>
             <td width="100%">
-                <button type="button" onclick="open_win($('${field_id}').value);">Open</button>
+                <button type="button" onclick="open_win($('${field_id}').value);">
+			        <table align="center">
+			            <tr>
+			                <td>Open</td>
+			            </tr>
+			        </table>
+                </button>
             </td>
          </tr>
      </table>
