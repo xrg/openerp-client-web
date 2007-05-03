@@ -396,10 +396,13 @@ class Form(TinyCompoundWidget):
             self.id = ids[:1]
 
         elif 'datas' in view: # wizard data
-            values = view['datas']
+            values = {}
+
             for f in fields:
                 if 'value' in fields[f]:
                     values[f] = fields[f]['value']
+
+            values.update(view['datas'])
 
         else: #default
             values = proxy.default_get(fields.keys(), ctx)
