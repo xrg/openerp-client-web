@@ -36,7 +36,7 @@
         }
     </script>
 
-    <script language="javascript" py:if="params.m2o">
+    <script type="text/javascript" py:if="params.m2o">
 
         function onok(){
 
@@ -59,7 +59,7 @@
 
     </script>
 
-    <script language="javascript" py:if="params.m2m">
+    <script type="text/javascript" py:if="params.m2m">
 
         function onok() {
 
@@ -110,7 +110,7 @@
 	    </div>
   		${form.display()}
   	</div>
-  	<script language="javascript">
+  	<script type="text/javascript">
   	 function onload()
         {
         	if(window.opener)
@@ -119,7 +119,6 @@
         		t.removeChild($("header"));
         		t.removeChild($("footer"));
 	       	}
-
         }
   	</script>
 </body>
