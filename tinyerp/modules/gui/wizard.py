@@ -71,7 +71,7 @@ class Wizard(controllers.Controller, TinyResource):
         if 'form' not in datas:
             datas['form'] = {}
 
-        wiz_id = rpc.session.execute('/wizard', 'create', action)
+        wiz_id = rpc.session.execute('wizard', 'create', action)
 
         if state == 'end':
             raise redirect('/wizard/end')
@@ -79,7 +79,7 @@ class Wizard(controllers.Controller, TinyResource):
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
 
-        res = rpc.session.execute('/wizard', 'execute', wiz_id, datas, state, ctx)
+        res = rpc.session.execute('wizard', 'execute', wiz_id, datas, state, ctx)
 
         if 'datas' in res:
             datas['form'].update(res['datas'])
