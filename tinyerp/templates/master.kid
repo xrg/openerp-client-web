@@ -11,8 +11,8 @@
 
     <title py:replace="''">Your title goes here</title>
     
-	<script language="javascript" src="/tg_static/js/MochiKit.js"></script>
-	<script language="javascript" src="/static/javascript/master.js"></script>
+	<script type="text/javascript" src="/tg_static/js/MochiKit.js"></script>
+	<script type="text/javascript" src="/static/javascript/master.js"></script>
 </head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">

@@ -1,0 +1,1 @@
+<span xmlns:py="http://purl.org/kid/ns#" py:replace="frame.display()" py:if="frame"/>

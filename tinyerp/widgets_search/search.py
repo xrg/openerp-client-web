@@ -76,15 +76,12 @@ class Form(TinyCompoundWidget):
     """A generic form widget
     """
 
-    template = """
-    <span xmlns:py="http://purl.org/kid/ns#" py:replace="frame.display()" py:if="frame"/>
-    """
+    template = "tinyerp.widgets_search.templates.search_form"
 
     member_widgets = ['frame']
     frame = None
 
     def __init__(self, model, view=None, domain=[], context={}, values={}):
-
         super(Form, self).__init__()
 
         self.model = model
@@ -176,7 +173,6 @@ range_widgets_type = {
     'float': Float,
     'integer': Integer,
 }
-
 
 widgets_type = {
     'date': RangeWidget,
