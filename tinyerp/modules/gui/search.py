@@ -77,7 +77,15 @@ class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
     def create(self, params, values={}):
-        form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok')
+        form = None;
+        if not values:
+            proxy = rpc.RPCProxy(params.model)
+            params.found_ids = proxy.search([], 0, 20)
+            limit = 20
+            offset = 0
+            form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok', limit=limit, offset=offset)
+        else:
+            form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok')
 
         form.oncancel = self._get_oncancel(params)
         form.onok = self._get_onok(params)
