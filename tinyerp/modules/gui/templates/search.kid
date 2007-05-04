@@ -33,15 +33,7 @@
             }
 
             form.submit();
-        }
-        
-        connect(window, 'onload', function() {
-        	if(window.opener) {
-        		t = document.getElementById("container");
-        		t.removeChild($("header"));
-        		t.removeChild($("footer"));
-	       	}	       	
-        });                
+        }        
     </script>
 
     <script type="text/javascript" py:if="params.m2o">
@@ -106,16 +98,26 @@
         }
 
     </script>
+    
+   	<script type="text/javascript">
+   	    function check_for_popup() {
+   	        if(window.opener) {
+                t = document.getElementById("container");
+                t.removeChild($("header"));
+                t.removeChild($("footer"));
+            }
+        }
+  	</script>
 
 </head>
 
-<body>
+<body onload="check_for_popup()">
     <div class="view">
         <div class="header">
             <div class="title">Search ${form.string}</div>
     		<div class="spacer"></div>
 	    </div>
   		${form.display()}
-  	</div>
+  	</div>  	 	
 </body>
 </html>
