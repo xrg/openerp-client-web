@@ -32,7 +32,7 @@
             <tr>
                 <td id="linkbar">
                     <span py:if="rpc.session.is_logged()">
-						Welcome ${rpc.session.fullname}
+						Welcome ${rpc.session.user_name}
 						|
 						<a href="/pref/create/">Preferences</a>
 						|
