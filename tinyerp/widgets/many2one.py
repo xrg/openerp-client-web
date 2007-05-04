@@ -63,7 +63,8 @@ class M2O(TinyField):
         self.validator = tiny_validators.Int()
 
     def set_value(self, value):
-        if isinstance(value, list):
+
+        if isinstance(value, (list, tuple)):
             if len(value):
                 value = value[0]
             else:
