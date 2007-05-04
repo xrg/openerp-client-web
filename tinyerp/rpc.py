@@ -30,14 +30,11 @@
 """
 This module provides wrappers arround xmlrpclib that allows accessing
 Tiny resources in pythonic way.
-
-@todo: socket abstraction for xmlrpc and netrpc
 """
 
-import xmlrpclib, socket
 import time
-
-import cherrypy
+import socket
+import xmlrpclib
 
 import tiny_socket
 
@@ -49,137 +46,239 @@ class RPCException(Exception):
     def __str__(self):
         return self.message
 
-class RPCSession(object):
-    """ Provides wrapper arround xmlrpclib and maintains HTTP session
+class RPCGateway(object):
+    """Gateway abstraction, that implement common stuffs for rpc gateways.
+    All RPC gateway should extends this class.
     """
 
-    def __init__(self):
+    def __init__(self, protocol, host, port):
+
+        self.protocol = protocol
+        self.host = host
+        self.port = port
+
+        self.uid = None
+        self.user = None
+        self.passwd = None
+
+        self.open = None
+        self.db = None
+
+    def get_url(self):
+        """Get the url
+        """
+
+        return "%s://%s:%s/"%(self.protocol, self.host, self.port)
+
+    def listdb(self):
+        """Get the list of databases.
+        """
         pass
 
-    def list_db(self, host, port, protocol='http'):
-        """Returns list of databases on the given server
+    def login(self, db, user, passwd):
+        """Do login.
 
-        @param host: the host where TinyERP server is running
-        @param port: the TinyERP server port
-        @param protocol: protocol to be used
-
-        @return: list of all databases
-        """
-
-        if protocol in ('http', 'https'):
-            url = "%s://%s:%s/xmlrpc"%(protocol, host, str(port))
-            sock = xmlrpclib.ServerProxy(url + '/db')
-
-            try:
-                return sock.list()
-            except Exception, e:
-                return -1
-
-        else:
-            sock = tiny_socket.mysocket()
-            try:
-                sock.connect(host, int(port))
-                sock.mysend(('db', 'list'))
-                res = sock.myreceive()
-                sock.disconnect()
-                return res
-            except Exception, e:
-                return -1
-
-    def login(self, host, port, db, user, password, protocol='http'):
-        """Login to a Tiny Server on given host using given database, username and password.
-
-        @param host: the host on which tiny server is running
         @param db: the database
-        @param user: user id
-        @param password: password
-        @param protocol: protocol to be used
+        @param user: the user
+        @param passwd: the password
 
-        @rtype: int
-        @return: user id on success else error code
+        @return: 1 on success else negative error value
         """
+        pass
 
-        if protocol in ('http', 'https'):
-            url = "%s://%s:%s/xmlrpc"%(protocol, host, str(port))
-            sock = xmlrpclib.ServerProxy(url + '/common')
+    def _login_result(self, db, user, passwd, result):
 
-            try:
-                res = sock.login(db, user, password)
-            except Exception, e:
-                return -1
-        else:
-            sock = tiny_socket.mysocket()
-            try:
-                sock.connect(host, int(port))
-                sock.mysend(('common', 'login', db or '', user or '', password or ''))
-                res = sock.myreceive()
-                sock.disconnect()
-            except Exception, e:
-                return -1
-
-        if not res:
-            cherrypy.session['open'] = False
-            cherrypy.session['uid'] = None
+        if not result:
+            self.open = False
+            self.uid = None
             return -2
 
-        cherrypy.session['open'] = True
-        cherrypy.session['host'] = host
-        cherrypy.session['port'] = port
-        cherrypy.session['protocol'] = protocol
-        cherrypy.session['uid'] = res
-        cherrypy.session['uname'] = user
-        cherrypy.session['passwd'] = password
-        cherrypy.session['db'] = db
+        self.uid = result
+        self.user = user
+        self.passwd = passwd
 
-        lang = cherrypy.request.simple_cookie.get('terp_lang', None)
-        cherrypy.session['context'] = (lang or {}) and {'lang': lang.value}
-
-        # set host, port and uname in cookies
-        cherrypy.response.simple_cookie['terp_host'] = host
-        cherrypy.response.simple_cookie['terp_port'] = port
-        cherrypy.response.simple_cookie['terp_protocol'] = protocol
-        cherrypy.response.simple_cookie['terp_db'] = db
-        cherrypy.response.simple_cookie['terp_user'] = user
-
-        expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
-
-        cherrypy.response.simple_cookie['terp_host']['expires'] = expiration_time;
-        cherrypy.response.simple_cookie['terp_port']['expires'] = expiration_time;
-        cherrypy.response.simple_cookie['terp_protocol']['expires'] = expiration_time;
-        cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
-        cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
-
-        # get the full user name
-        users = RPCProxy('res.users')
-        res = users.read([res], ['name'])
-        cherrypy.session['fullname'] = res[0]['name']
+        self.db = db
+        self.open = True
 
         return 1
 
-    def logout(self):
-        """Terminate the current session
+    def execute(self, obj, method, *args):
+        """Excecute the method of the obj with the given arguments.
+
+        @param obj: the object
+        @param method: the method to execute
+        @param args: the arguments
+
+        @return: the result of the method
         """
+        pass
+
+    def __setattr__(self, name, value):
+        setattr(session, name, value)
+
+    def __getattr__(self, name):
+        return getattr(session, name)
+
+class XMLRPCGateway(RPCGateway):
+    """XMLRPC implementation.
+    """
+
+    def __init__(self, host, port, protocol='http'):
+        """Create new instance of XMLRPCGateway.
+
+        @param host: the host
+        @param port: the port
+        @param protocol: either http or https
+        """
+        super(XMLRPCGateway, self).__init__(protocol, host, port)
+        self.url =  self.get_url() + 'xmlrpc/'
+
+    def listdb(self):
+        sock = xmlrpclib.ServerProxy(self.url + 'db')
         try:
-            del cherrypy.session['open']
-            del cherrypy.session['uid']
-            del cherrypy.session['uname']
-            del cherrypy.session['passwd']
-            del cherrypy.session['db']
-            del cherrypy.session['host']
-            del cherrypy.session['port']
-            del cherrypy.session['protocol']
-            del cherrypy.session['fullname']
+            return sock.list()
+        except Exception, e:
+            return -1
+
+    def login(self, db, user, passwd):
+        sock = xmlrpclib.ServerProxy(self.url + 'common')
+        try:
+            res = sock.login(db, user, passwd)
+        except Exception, e:
+            return -1
+
+        return self._login_result(db, user, passwd, res)
+
+    def execute(self, obj, method, *args):
+        sock = xmlrpclib.ServerProxy(self.url + str(obj))
+        try:
+            result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
+            return result
+        except Exception, e:
+            return -1
+
+class NETRPCGateway(RPCGateway):
+    """NETRPC Implementation.
+    """
+
+    def __init__(self, host, port):
+        super(NETRPCGateway, self).__init__('socket', host, port)
+
+    def listdb(self):
+        sock = tiny_socket.mysocket()
+        try:
+            sock.connect(self.host, self.port)
+            sock.mysend(('db', 'list'))
+            res = sock.myreceive()
+            sock.disconnect()
+            return res
+        except Exception, e:
+            return -1
+
+    def login(self, db, user, passwd):
+        sock = tiny_socket.mysocket()
+        try:
+            sock.connect(self.host, self.port)
+            sock.mysend(('common', 'login', db, user, passwd))
+            res = sock.myreceive()
+            sock.disconnect()
+        except Exception, e:
+            return -1
+
+        return self._login_result(db, user, passwd, res)
+
+    def execute(self, obj, method, *args):
+        sock = tiny_socket.mysocket()
+        try:
+            sock.connect(self.host, self.port)
+            sock.mysend((obj, method, self.db, self.uid, self.passwd) + args)
+            res = sock.myreceive()
+            sock.disconnect()
+            return res
+        except Exception, e:
+            print e.faultString
+            return -1
+
+class RPCSession(object):
+    """This is a wrapper class that provides Pythonic way to handle RPC (remote procedure call).
+    It also provides a way to store session data into different kind of store.
+    """
+
+    def __init__(self, store={}):
+        """Create new instance of RPCSession.
+
+        @param store: the storage that will be used to store session data
+        """
+        self.store = store
+        self.gateway = None
+
+    def __getattr__(self, name):
+        try:
+            return super(RPCSession, self).__getattribute__(name)
+        except:
+            pass
+
+        return self.store.get(name)
+
+    def __setattr__(self, name, value):
+        if name in ('store'):
+            super(RPCSession, self).__setattr__(name, value)
+        else:
+            self.store[name] = value
+
+    def listdb(self, host, port, protocol='http'):
+        protocol = protocol or 'http'
+
+        if protocol in ('http', 'https'):
+            gw = XMLRPCGateway(host, port, protocol)
+        elif protocol == 'socket':
+            gw = NETRPCGateway(host, port)
+        else:
+            raise "Unsupported protocol:", protocol
+
+        return gw.listdb()
+
+    def login(self, host, port, db, user, passwd, protocol='http', lang=None):
+
+        protocol = protocol or 'http'
+
+        if protocol in ('http', 'https'):
+            gw = XMLRPCGateway(host, port, protocol)
+        elif protocol == 'socket':
+            gw = NETRPCGateway(host, port)
+        else:
+            raise "Unsupported protocol:", protocol
+
+        res = gw.login(db, user, passwd)
+
+        if res != 1: return res
+
+        self.gateway = gw
+        # read the full name of the user
+        self.user_name = self.execute('object', 'execute', 'res.users', 'read', [session.uid], ['name'])[0]['name']
+
+        # set global context
+        self.context = (lang or {}) and {'lang': lang}
+
+        return res
+
+    def logout(self):
+        self.gateway = None
+        try:
+            del self.store['open']
+            del self.store['uid']
+            del self.store['user']
+            del self.store['passwd']
+            del self.store['db']
+            del self.store['host']
+            del self.store['port']
+            del self.store['protocol']
+            del self.store['user_name']
         except:
             pass
 
     def is_logged(self):
-        """Returns True if user is already logged-in otherwise returns False
-
-        @rtype: bool
-        @return: True if user is logged in otherwise false
-        """
-
-        return cherrypy.session.has_key('uid') and cherrypy.session['open']
+        return self.uid and self.open
 
     def context_reload(self):
         """Reload the context for the current user
@@ -189,7 +288,7 @@ class RPCSession(object):
         context = self.execute('object', 'execute', 'ir.values', 'get', 'meta', False, [('res.users', self.uid or False)], False, {}, True, True, False)
         for c in context:
             if c[2]:
-                cherrypy.session['context'][c[1]] = c[2]
+                self.context[c[1]] = c[2]
 
     def __convert(self, result):
 
@@ -210,51 +309,15 @@ class RPCSession(object):
             return result
 
     def execute(self, obj, method, *args):
-        """A wrapper around xmlrpclib, will execute the given method of the object with
-        all the provided arguments.
 
-        @param obj: the tiny object
-        @param method: a method of the object
-        @param args: arguments to be passed to the method
-
-        @rtype: list
-        @return: list of dict, containing results
-        """
-
-        if self.is_logged():
-            if self.protocol in ('http', 'https'):
-                url = "%s://%s:%s/xmlrpc/%s"%(self.protocol, self.host, str(self.port), obj)
-                sock = xmlrpclib.ServerProxy(url)
-                try:
-                    result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
-                    return self.__convert(result)
-                except Exception, e:
-                    raise e
-                    return -1
-            else:
-                sock = tiny_socket.mysocket()
-                try:
-                    sock.connect(self.host, int(self.port))
-                    sock.mysend((obj, method, self.db, self.uid, self.passwd)+args)
-                    result = sock.myreceive()
-                    sock.disconnect()
-                    return result
-                except Exception, e:
-                    return -1
-        else:
+        if not self.is_logged():
             raise RPCException(1, "not logged!")
 
-    # access cherrypy.session attributes at object attribute
-    def __getattr__(self, name):
+        result = self.gateway.execute(obj, method, *args)
+        return self.__convert(result)
 
-        if cherrypy.session.has_key(name):
-            return cherrypy.session[name]
-        else:
-            raise AttributeError("no such attribute '%s'"%name)
-
-
-# global session object
-session = RPCSession()
+# client must initialise session with store, e.g. session = RPCSession(store=dict())
+session = None
 
 class RPCProxy(object):
     """A wrapper arround xmlrpclib, provides pythonic way to access tiny resources.
@@ -293,3 +356,23 @@ class RPCFunction(object):
 
     def __call__(self, *args):
         return session.execute("object", "execute", self.object, self.func, *args)
+
+if __name__=="__main__":
+
+    session = RPCSession(store=dict())
+
+    host = '192.168.0.13'
+    port = '8069'
+    protocol = 'http'
+
+    res = session.listdb(host, port, protocol)
+    print res
+
+    res = session.login(host, port, 'etiny', 'admin', 'admin', protocol)
+    print res
+
+    res = RPCProxy('res.users').read([session.uid], ['name'])
+    print res
+
+    res = RPCProxy('ir.values').get('action', 'tree_but_open', [('ir.ui.menu', 73)], False, {})
+    print res

@@ -30,6 +30,8 @@
 """
 This modules implements custom authorization logic for the eTiny!.
 """
+
+import time
 import types
 
 from turbogears import expose
@@ -116,7 +118,7 @@ def _check_method(obj, fn):
             passwd = kw.get('passwd', passwd)
 
             if kw.get('login_action') == 'connect':
-                dblist = rpc.session.list_db(host, port, protocol)
+                dblist = rpc.session.listdb(host, port, protocol)
                 if dblist == -1:
                     message="Invalid Host or Host not found"
 
@@ -126,13 +128,33 @@ def _check_method(obj, fn):
             if kw.get('login_action') == 'login':
                 message='Invalid user id or password.'
 
+            # read lang
+            lang = cherrypy.request.simple_cookie.get('terp_lang')
+            lang = (lang or None) and lang.value
+
             # See if the user just tried to log in
-            if rpc.session.login(host, port, db, user, passwd, protocol) != 1:
+            if rpc.session.login(host, port, db, user, passwd, protocol=protocol, lang=lang) != 1:
                 # Bad login attempt
-                dblist = rpc.session.list_db(host, port, protocol)
+                dblist = rpc.session.listdb(host, port, protocol)
 
                 cherrypy.response.status = 401
                 return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
+            else: # login success
+                # set host, port and uname in cookies
+                cherrypy.response.simple_cookie['terp_host'] = host
+                cherrypy.response.simple_cookie['terp_port'] = port
+                cherrypy.response.simple_cookie['terp_protocol'] = protocol
+                cherrypy.response.simple_cookie['terp_db'] = db
+                cherrypy.response.simple_cookie['terp_user'] = user
+
+                expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
+
+                cherrypy.response.simple_cookie['terp_host']['expires'] = expiration_time;
+                cherrypy.response.simple_cookie['terp_port']['expires'] = expiration_time;
+                cherrypy.response.simple_cookie['terp_protocol']['expires'] = expiration_time;
+                cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
+                cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
+
 
             # User is now logged in, so show the content
             clear_login_fields(kw)
