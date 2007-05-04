@@ -34,6 +34,14 @@
 
             form.submit();
         }
+        
+        connect(window, 'onload', function() {
+        	if(window.opener) {
+        		t = document.getElementById("container");
+        		t.removeChild($("header"));
+        		t.removeChild($("footer"));
+	       	}	       	
+        });                
     </script>
 
     <script type="text/javascript" py:if="params.m2o">
@@ -55,8 +63,7 @@
 
             parent.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
             window.setTimeout("window.close()", 5);
-        }
-
+        }        
     </script>
 
     <script type="text/javascript" py:if="params.m2m">
@@ -110,16 +117,5 @@
 	    </div>
   		${form.display()}
   	</div>
-  	<script type="text/javascript">
-  	 function onload()
-        {
-        	if(window.opener)
-        	{
-        		t = document.getElementById("container");
-        		t.removeChild($("header"));
-        		t.removeChild($("footer"));
-	       	}
-        }
-  	</script>
 </body>
 </html>
