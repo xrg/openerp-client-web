@@ -12,20 +12,6 @@
 		<a href="/">HOME</a>
 	</span>
 	<div class="view">
-		<div class="header">
-			<div class="title">
-				<table width="100%">
-					<tr>
-						<td>
-							Database Administration
-						</td>
-						<td align="right">
-							<a href="/">BACK</a>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
 		<div class="spacer"></div>
 
 		<div class="box2">
