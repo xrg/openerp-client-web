@@ -49,15 +49,14 @@ class DBAdmin(controllers.Controller):
     @expose(template="tinyerp.modules.gui.templates.dbadmin")
     def index(self):
         url = rpc.session.get_url()
-        url = str(url)
-        url = url[:-1]
+        url = str(url[:-1])
         return dict(url=url)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
     def create(self, password=None, db_name=None, language=[], demo_data=False):
 
         url = rpc.session.get_url()
-
+        url = str(url[:-1])
         langlist = rpc.session.execute_db('list_lang')
         langlist.append(('en_EN','English'))
 
@@ -84,7 +83,7 @@ class DBAdmin(controllers.Controller):
         message=None
 
         url = rpc.session.get_url()
-
+        url = str(url[:-1])
         db = cherrypy.request.simple_cookie.get('terp_db')
         dblist = rpc.session.execute_db('list')
 
@@ -108,6 +107,7 @@ class DBAdmin(controllers.Controller):
     def backup(self, password=None, dblist=None):
 
         url = rpc.session.get_url()
+        url = str(url[:-1])
         db= cherrypy.request.simple_cookie.get('terp_db')
 
         dblist_load = rpc.session.execute_db('list')
@@ -132,6 +132,7 @@ class DBAdmin(controllers.Controller):
     def restore(self, passwd=None, new_db=None, path=None):
 
         url = rpc.session.get_url()
+        url = str(url[:-1])
         message=None
 
         if path is None:
@@ -155,6 +156,7 @@ class DBAdmin(controllers.Controller):
     def password(self, new_passwd=None, old_passwd=None, new_passwd2=None):
 
         url = rpc.session.get_url()
+        url = str(url[:-1])
         message=None
 
         if not new_passwd:
