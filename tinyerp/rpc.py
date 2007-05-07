@@ -191,12 +191,11 @@ class NETRPCGateway(RPCGateway):
         sock = tiny_socket.mysocket()
         try:
             sock.connect(self.host, self.port)
-            sock.mysend((obj, method, self.db, self.uid, self.passwd) + args)
+            sock.mysend((obj, method, self.db, self.uid, str(self.passwd)) + args)
             res = sock.myreceive()
             sock.disconnect()
             return res
         except Exception, e:
-            print e.faultString
             return -1
 
 class RPCSession(object):
