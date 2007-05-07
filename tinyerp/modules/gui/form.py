@@ -74,6 +74,9 @@ class Form(controllers.Controller, TinyResource):
         if params.view_mode[0] == 'tree':
             params.view_mode.reverse()
 
+        if params.view_mode[0] != 'form':
+            params.view_mode = ['form', 'tree']
+
         self.del_notebook_cookies()
         return self.create(params)
 
@@ -85,6 +88,9 @@ class Form(controllers.Controller, TinyResource):
 
         if current.view_mode[0] == 'tree':
             current.view_mode.reverse()
+
+        if current.view_mode[0] != 'form':
+            current.view_mode = ['form', 'tree']
 
         return self.create(params)
 
@@ -141,6 +147,9 @@ class Form(controllers.Controller, TinyResource):
 
             if current.view_mode[0] == 'tree':
                 current.view_mode.reverse()
+
+            if current.view_mode[0] != 'form':
+                current.view_mode = ['form', 'tree']
 
         return self.create(params)
 
@@ -295,6 +304,10 @@ class Form(controllers.Controller, TinyResource):
 
         # switch the view mode
         current.view_mode.reverse()
+
+        # if view_mode is different then the view_mode2 replace it with view_mode2
+        if set(current.view_mode) - set(current.view_mode2):
+            current.view_mode = current.view_mode2
 
         # set ids and id
         current.ids = current.ids or []
