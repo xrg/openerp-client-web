@@ -48,7 +48,10 @@ class DBAdmin(controllers.Controller):
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin")
     def index(self):
-        return dict()
+        url = rpc.session.get_url()
+        url = str(url)
+        url = url[:-1]
+        return dict(url=url)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
     def create(self, password=None, db_name=None, language=[], demo_data=False):

@@ -6,6 +6,11 @@
     <title>Database Admin</title>
  </head>
 <body>
+	<span py:match="item.tag=='{http://www.w3.org/1999/xhtml}linkbar'">
+		${url}
+		|
+		<a href="/">HOME</a>
+	</span>
 	<div class="view">
 		<div class="header">
 			<div class="title">
@@ -22,7 +27,7 @@
 			</div>
 		</div>
 		<div class="spacer"></div>
-		
+
 		<div class="box2">
 	        <div class="toolbar">
 	            <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -38,7 +43,7 @@
 	            </table>
 	        </div>
         </div>
-        
+
 	</div>
 </body>
 </html>

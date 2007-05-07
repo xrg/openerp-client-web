@@ -5,12 +5,12 @@
 
 <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    
+
     <meta py:replace="item[:]"/>
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
 
     <title py:replace="''">Your title goes here</title>
-    
+
 	<script type="text/javascript" src="/tg_static/js/MochiKit.js"></script>
 	<script type="text/javascript" src="/static/javascript/master.js"></script>
 </head>
@@ -31,26 +31,26 @@
             </tr>
             <tr>
                 <td id="linkbar">
-                    <span py:if="rpc.session.is_logged()">
+                    <linkbar>
 						Welcome ${rpc.session.user_name}
 						|
-						${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]						
+						${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} <span py:if="rpc.session.db"> [${rpc.session.db}]
 						|
                         <a href="/pref/create/">Preferences</a>
-						|						
+						|
 						<a href="/">HOME</a>
 						|
-						<a href="/logout">LOGOUT</a>
-					</span>
+						<a href="/logout">LOGOUT</a></span>
+					</linkbar>
                 </td>
             </tr>
         </table>
     </div>
 
     <div py:replace="[item.text]+item[:]"/>
-    
+
     <div id="footer">
-        <table border="0" cellpadding="0" cellspacing="0" width="100%">            
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tr>
                 <td align="right">
                     &copy; 2007 <a href="http://tinyerp.com" target="top">Tiny ERP.</a> All Rights Reserved.<br/>
