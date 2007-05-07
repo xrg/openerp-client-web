@@ -16,7 +16,7 @@
 							Change Password
 						</td>
 						<td align="right">
-							<a href="/dbadmin?host=${host}&amp;port=${port}">CANCEL</a>
+							<a href="/dbadmin">CANCEL</a>
 						</td>
 					</tr>
 				</table>
@@ -29,15 +29,14 @@
 					<tr>
 						<td align="right" width="90" class="label">Host :</td>
 						<td>
-							${host}:${port}
+							${url}
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div align="center" class="box2">
 				<form action="/dbadmin/password" method="post">
-				<input type="hidden" name="host" value="${host}" />
-				<input type="hidden" name="port" value="${port}" />
+				
 					<table align="center" width="100%">
 						<tr>
 							<td align="right" width="99" class="label">Old Password :</td>
@@ -55,7 +54,7 @@
 							<td>
 							</td>
 							<td align="right">
-								<input type="submit" name="submit" value="Change" />
+								<input type="submit" value="Change" />
 							</td>
 						</tr>
 					</table>

@@ -47,168 +47,128 @@ from tinyerp.modules import actions
 class DBAdmin(controllers.Controller):
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin")
-    def index(self, host, port):
-        return dict(host=host, port=port)
+    def index(self):
+        return dict()
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
-    def create(self, host='', port='', password='', db_name='', language=[], demo_data=False, *args, **kw):
+    def create(self, password=None, db_name=None, language=[], demo_data=False):
 
-        action=kw.get('submit','')
-        message=''
-        langlist=[]
-        url = 'http://'
-        url += "%s:%s/xmlrpc"%(host, str(port))
+        url = rpc.session.get_url()
 
-        sock = xmlrpclib.ServerProxy(url + '/db')
+        langlist = rpc.session.execute_db('list_lang')
+        langlist.append(('en_EN','English'))
 
-        langlist = sock.list_lang()
-        langlist.append( ('en_EN','English') )
+        if not db_name:
+            return dict(url=url, langlist=langlist, message=None)
 
-        if action=='':
-            return dict(host=host, port=port, langlist=langlist, message=message)
-
-        db_name=db_name
-        language = language
-        password=password
-        demo_data=demo_data
-        res=''
+        res=None
 
         if ((not db_name) or (not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', db_name))):
-            message = str(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.')+ _('Bad database name !'))
+            message = str(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + _('Bad database name !'))
         else:
             try:
-                res = sock.create(password, db_name, demo_data, language)
-
+                res = rpc.session.execute_db('create', password, db_name, demo_data, language)
             except Exception, e:
-                raise e
-                message = str(_('Bad database administrator password !')+ _("Could not create database."))
+                message = str(_('Bad database administrator password !') + _("Could not create database."))
 
         if res:
-            raise redirect("/dbadmin?host=" + host + "&&port=" + port)
+            raise redirect("/dbadmin")
 
-        return dict(host=host, port=port, langlist=langlist, message=message)
+        return dict(url=url, langlist=langlist, message=message)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_drop")
-    def drop(self, host, port, db_name='', passwd='', *args, **kw):
+    def drop(self, db_name=None, passwd=None):
+        message=None
 
-        message=''
-        db= cherrypy.request.simple_cookie.get('terp_db','')
-        dblist = rpc.session.list_db(host, port)
-        action = kw.get('submit','')
+        url = rpc.session.get_url()
+
+        db = cherrypy.request.simple_cookie.get('terp_db')
+        dblist = rpc.session.execute_db('list')
 
         if dblist == -1:
             dblist = []
 
-        if action=='':
-            return dict(host=host, port=port, selectedDb=db, message=message, dblist=dblist)
-
-        passwd=passwd
-        res = ''
-        url = 'http://'
-        url += "%s:%s/xmlrpc"%(host, str(port))
-        sock = xmlrpclib.ServerProxy(url + '/db')
+        if not db_name:
+            return dict(url=url, selectedDb=db, message=message, dblist=dblist)
 
         try:
-            res = sock.drop(passwd,db_name)
+            res = rpc.session.execute_db('drop', passwd, db_name)
         except Exception, e:
             message = str(_('Bad database administrator password !') + _("Could not drop database."))
 
         if res:
-            raise redirect("/dbadmin?host=" + host + "&&port=" + port)
+            raise redirect("/dbadmin")
 
-        return dict(host=host, port=port, selectedDb=db, message=message, dblist=dblist)
+        return dict(url=url, selectedDb=db, message=message, dblist=dblist)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_backup")
-    def backup(self, host='', port='', password='', dblist='', *args, **kw):
+    def backup(self, password=None, dblist=None):
 
-        dblist_load = rpc.session.list_db(host, port)
-        message=''
-        db= cherrypy.request.simple_cookie.get('terp_db','')
-        action=kw.get('submit','')
+        url = rpc.session.get_url()
+        db= cherrypy.request.simple_cookie.get('terp_db')
 
-        if action=='':
-            return dict(host=host, port=port, dblist=dblist_load, selectedDb=db, message=message)
+        dblist_load = rpc.session.execute_db('list')
+        message=None
 
-        url = "http://%s:%s"%(host, str(port))
-
-        res = ''
-
-        sock = xmlrpclib.ServerProxy(url + '/xmlrpc/db')
-
-        db = cherrypy.request.simple_cookie['terp_db'].value
+        if not dblist:
+            return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
 
         try:
-            res = sock.dump(password, dblist)
+            res = rpc.session.execute_db('dump', password, dblist)
             dump = base64.decodestring(res)
-
         except Exception, e:
             message = "Could not create backup..."
+
         if res:
             cherrypy.response.headers['Content-Type'] = "application/data"
             return dump
 
-        return dict(host=host, port=port, dblist=dblist_load, selectedDb=db, message=message)
+        return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_restore")
-    def restore(self,host='', port='', passwd='', new_db='', *args, **kw):
+    def restore(self, passwd=None, new_db=None, path=None):
 
-        message=''
-        action = kw.get('submit','')
+        url = rpc.session.get_url()
+        message=None
 
-        if action=='':
-            return dict(host=host, port=port, message=message)
-
-        new_db = new_db
-        passwd=passwd
-        path=kw.get('path')
-        action = kw.get('submit')
-        res=''
+        if path is None:
+            return dict(url=url, message=message)
 
         try:
-            url = 'http://'
-            url += "%s:%s/xmlrpc"%(host, str(port))
-            sock = xmlrpclib.ServerProxy(url + '/db')
             data_b64 = base64.encodestring(path.file.read())
-            res = sock.restore(passwd, new_db, data_b64)
-        except Exception,e:
+            res = rpc.session.execute_db('restore', passwd, new_db, data_b64)
+        except Exception, e:
             if e.faultString=='AccessDenied:None':
                 message = str(_('Bad database administrator password !'))+ str(_("Could not restore database."))
             else:
                 message = str(_("Couldn't restore database"))
 
         if res:
-            raise redirect("/dbadmin?host=" + host + "&&port=" + port)
+            raise redirect("/dbadmin")
 
-        return dict(host=host, port=port, message=message)
+        return dict(url=url, message=message)
 
     @expose(template="tinyerp.modules.gui.templates.dbadmin_password")
-    def password(self, new_passwd='', old_passwd='', new_passwd2='', host='', port='', *args, **kw):
+    def password(self, new_passwd=None, old_passwd=None, new_passwd2=None):
 
-        action = kw.get('submit','')
-        message=''
+        url = rpc.session.get_url()
+        message=None
 
-        if action=='':
-            return dict(host=host, port=port, message=message)
-
-        old_passwd = old_passwd
-        new_passwd = new_passwd
-        new_passwd2 = new_passwd2
-        res=''
+        if not new_passwd:
+            return dict(url=url, message=message)
 
         if new_passwd != new_passwd2:
             message = str(_("Confirmation password do not match new password, operation cancelled!")+ _("Validation Error."))
         else:
             try:
-                  url = 'http://'
-                  url += "%s:%s/xmlrpc"%(host, str(port))
-                  sock = xmlrpclib.ServerProxy(url + '/db')
-                  res = sock.change_admin_password(old_passwd, new_passwd)
+                res = rpc.session.execute_db('change_admin_password', old_passwd, new_passwd)
             except Exception,e:
                 if e.faultString=='AccessDenied:None':
                     message = str(_("Could not change password database.")+_('Bas password provided !'))
                 else:
                     message = str(_("Error, password not changed."))
-        if res:
-            raise redirect("/dbadmin?host=" + host + "&&port=" + port)
 
-        return dict(host=host, port=port, message=message)
+        if res:
+            raise redirect("/dbadmin")
+
+        return dict(url=url, message=message)

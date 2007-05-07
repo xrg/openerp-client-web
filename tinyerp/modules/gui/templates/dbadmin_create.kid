@@ -17,7 +17,7 @@
 							Create Database
 						</td>
 						<td align="right">
-							<a href="/dbadmin?host=${host}&amp;port=${port}">CANCEL</a>
+							<a href="/dbadmin">CANCEL</a>
 						</td>
 					</tr>
 				</table>
@@ -29,15 +29,13 @@
 		<div class="content">
 
 			<form action="/dbadmin/create" method="post" name="create">
-			<input type="hidden" name="host" value="${host}" />
-			<input type="hidden" name="port" value="${port}" />
 
 	            <div class="box2">
 					<table align="center" border="0" width="100%">
 						<tr>
 							<td align="right" width="90" class="label">Host :</td>
 							<td>
-								${host} :${port}
+								${url}
 							</td>
 						</tr>
 					</table>
@@ -92,7 +90,7 @@
 				</div>
 
 				<div align="right" class="box2">
-                    <input type="submit" name="submit" value="Create"/>
+                    <input type="submit" value="Create"/>
         		</div>
         		
 				<div class="box message" id="message" py:if="message">

@@ -16,7 +16,7 @@
 							Backup Database
 						</td>
 						<td align="right">
-							<a href="/dbadmin?host=${host}&amp;port=${port}">CANCEL</a>
+							<a href="/dbadmin">CANCEL</a>
 						</td>
 					</tr>
 				</table>
@@ -27,15 +27,13 @@
 
 		<div class="content">
 			<form name="backup" action="/dbadmin/backup" method="post">
-	            <input type="hidden" name="host" value="${host}" />
-			    <input type="hidden" name="port" value="${port}" />
 
 			        <div class="box2">
 						<table align="center" border="0" width="100%">
 							<tr>
 								<td align="right" width="90" class="label">Host :</td>
 								<td>
-									${host} :${port}
+									${url}
 								</td>
 							</tr>
 						</table>
@@ -72,7 +70,7 @@
 		                    <tr>
 				                <td></td>
 				                <td align="right">
-			                        <input type="submit" name="submit" value="Save"/>
+			                        <input type="submit" value="Save"/>
 			                    </td>
 				            </tr>
 				        </table>

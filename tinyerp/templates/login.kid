@@ -72,11 +72,14 @@
 		        
 				<tr>
 					<td class="label">Database :</td>
-					<td colspan="2">
+					<td>
 						<select name="db" style="width: 100%;">
 							<option py:for="v in dblist or []" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
                         </select>
 					</td>
+                    <td>
+					    <button type="button" onclick="location.href='/dbadmin'">Manage</button>
+					</td>					
 				</tr>
 
 				<tr>

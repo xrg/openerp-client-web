@@ -113,6 +113,11 @@ class RPCGateway(object):
         """
         pass
 
+    def execute_db(self, method, *args):
+        """Execute a database related method.
+        """
+        pass
+
     def __setattr__(self, name, value):
         setattr(session, name, value)
 
@@ -153,6 +158,14 @@ class XMLRPCGateway(RPCGateway):
         sock = xmlrpclib.ServerProxy(self.url + str(obj))
         try:
             result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
+            return result
+        except Exception, e:
+            return -1
+
+    def execute_db(self, method, *args):
+        sock = xmlrpclib.ServerProxy(self.url + 'db')
+        try:
+            result = getattr(sock, method)(*args)
             return result
         except Exception, e:
             return -1
@@ -198,6 +211,17 @@ class NETRPCGateway(RPCGateway):
         except Exception, e:
             return -1
 
+    def execute_db(self, method, *args):
+        sock = tiny_socket.mysocket()
+        try:
+            sock.connect(self.host, self.port)
+            sock.mysend(('db', method) + args)
+            res = sock.myreceive()
+            sock.disconnect()
+            return res
+        except Exception, e:
+            return -1
+
 class RPCSession(object):
     """This is a wrapper class that provides Pythonic way to handle RPC (remote procedure call).
     It also provides a way to store session data into different kind of store.
@@ -225,6 +249,9 @@ class RPCSession(object):
         else:
             self.store[name] = value
 
+    def get_url(self):
+        return (self.gateway or None) and self.gateway.get_url()
+
     def listdb(self, host, port, protocol='http'):
         protocol = protocol or 'http'
 
@@ -235,6 +262,7 @@ class RPCSession(object):
         else:
             raise "Unsupported protocol:", protocol
 
+        self.gateway = gw
         return gw.listdb()
 
     def login(self, host, port, db, user, passwd, protocol='http', lang=None):
@@ -314,6 +342,9 @@ class RPCSession(object):
 
         result = self.gateway.execute(obj, method, *args)
         return self.__convert(result)
+
+    def execute_db(self, method, *args):
+        return self.gateway.execute_db(method, *args)
 
 # client must initialise session with store, e.g. session = RPCSession(store=dict())
 session = None

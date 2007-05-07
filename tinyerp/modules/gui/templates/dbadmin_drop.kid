@@ -16,7 +16,7 @@
 							Drop Database
 						</td>
 						<td align="right">
-							<a href="/dbadmin?host=${host}&amp;port=${port}">CANCEL</a>
+							<a href="/dbadmin">CANCEL</a>
 						</td>
 					</tr>
 				</table>
@@ -29,15 +29,14 @@
 					<tr>
 						<td align="right" width="90" class="label">Host:</td>
 						<td>
-							${host}:${port}
+							${url}
 						</td>
 					</tr>
 				</table>
 			</div>
 			<div align="center" class="box2">
 				<form action="/dbadmin/drop" method="post">
-				<input type="hidden" name="host" value="${host}" />
-				<input type="hidden" name="port" value="${port}" />
+
 					<table align="center" width="100%">
 						<tr>
 							<td align="right" width="90" class="label">Database :</td>
@@ -57,7 +56,7 @@
 						<tr>
 							<td></td>
 							<td align="right">
-								<input type="submit" name="submit" value="Drop" />
+								<input type="submit" value="Drop" />
 							</td>
 						</tr>
 					</table>

@@ -117,10 +117,19 @@ def _check_method(obj, fn):
             user = kw.get('user', user)
             passwd = kw.get('passwd', passwd)
 
+            expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
+
             if kw.get('login_action') == 'connect':
                 dblist = rpc.session.listdb(host, port, protocol)
                 if dblist == -1:
-                    message="Invalid Host or Host not found"
+                   message="Invalid Host or Host not found"
+                else: # Connected. Set host, port and protocol in cookies
+                    cherrypy.response.simple_cookie['terp_host'] = host
+                    cherrypy.response.simple_cookie['terp_port'] = port
+                    cherrypy.response.simple_cookie['terp_protocol'] = protocol
+                    cherrypy.response.simple_cookie['terp_host']['expires'] = expiration_time;
+                    cherrypy.response.simple_cookie['terp_port']['expires'] = expiration_time;
+                    cherrypy.response.simple_cookie['terp_protocol']['expires'] = expiration_time;
 
                 cherrypy.response.status = 401
                 return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
@@ -139,22 +148,12 @@ def _check_method(obj, fn):
 
                 cherrypy.response.status = 401
                 return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
-            else: # login success
-                # set host, port and uname in cookies
-                cherrypy.response.simple_cookie['terp_host'] = host
-                cherrypy.response.simple_cookie['terp_port'] = port
-                cherrypy.response.simple_cookie['terp_protocol'] = protocol
-                cherrypy.response.simple_cookie['terp_db'] = db
-                cherrypy.response.simple_cookie['terp_user'] = user
 
-                expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
-
-                cherrypy.response.simple_cookie['terp_host']['expires'] = expiration_time;
-                cherrypy.response.simple_cookie['terp_port']['expires'] = expiration_time;
-                cherrypy.response.simple_cookie['terp_protocol']['expires'] = expiration_time;
-                cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
-                cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
-
+            # Authorized. Set db, user name in cookies
+            cherrypy.response.simple_cookie['terp_db'] = db
+            cherrypy.response.simple_cookie['terp_user'] = user
+            cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
+            cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
 
             # User is now logged in, so show the content
             clear_login_fields(kw)
