@@ -22,19 +22,23 @@
 			</div>
 		</div>
 		<div class="spacer"></div>
-  		<div id="content">
-  			<div class="box">
-				<table align="center" border="0" width="100%">
-					<tr>
-						<td align="center"><a href="/dbadmin/create">Create</a></td>
-						<td align="center"><a href="/dbadmin/drop">Drop</a></td>
-						<td align="center"><a href="/dbadmin/backup">Backup</a></td>
-						<td align="center"><a href="/dbadmin/restore">Restore</a></td>
-						<td align="center"><a href="/dbadmin/password">Password</a></td>
-					</tr>
-				</table>
-			</div>
-		</div>
+		
+		<div class="box2">
+	        <div class="toolbar">
+	            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+	                <tr>
+	                    <td width="100%">
+	                        <button type="button" title="" onclick="location.href='/dbadmin/create'">Create</button>
+	                        <button type="button" title="" onclick="location.href='/dbadmin/drop'">Drop</button>
+	                        <button type="button" title="" onclick="location.href='/dbadmin/backup'">Backup</button>
+	                        <button type="button" title="" onclick="location.href='/dbadmin/restore'">Restore</button>
+	                        <button type="button" title="" onclick="location.href='/dbadmin/password'">Password</button>
+	                    </td>
+	                </tr>
+	            </table>
+	        </div>
+        </div>
+        
 	</div>
 </body>
 </html>

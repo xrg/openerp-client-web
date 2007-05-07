@@ -34,10 +34,10 @@
                     <span py:if="rpc.session.is_logged()">
 						Welcome ${rpc.session.user_name}
 						|
-						<a href="/pref/create/">Preferences</a>
+						${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]						
 						|
-						${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]
-						|
+                        <a href="/pref/create/">Preferences</a>
+						|						
 						<a href="/">HOME</a>
 						|
 						<a href="/logout">LOGOUT</a>
