@@ -365,6 +365,42 @@ class Group(TinyCompoundWidget):
         self.frame = Frame(attrs, children, columns=int(attrs.get('col', 4)))
         self.nolabel = True
 
+class HPaned(TinyCompoundWidget):
+
+    template = """<span xmlns:py="http://purl.org/kid/ns#">
+    <table height="100%" width="100%" class="hpaned">
+        <tr>
+            <td valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
+        </tr>
+    </table>
+    </span>
+    """
+
+    member_widgets = ["children"]
+
+    def __init__(self, attrs, children):
+        super(HPaned, self).__init__(attrs)
+        self.children = children
+        self.nolabel = True
+
+class VPaned(TinyCompoundWidget):
+
+    template = """<span xmlns:py="http://purl.org/kid/ns#">
+    <table height="100%" width="100%" class="hpaned">
+        <tr py:for="child in children">
+            <td valign="top" py:content="child.display(value_for(child), **params_for(child))"></td>
+        </tr>
+    </table>
+    </span>
+    """
+
+    member_widgets = ["children"]
+
+    def __init__(self, attrs, children):
+        super(VPaned, self).__init__(attrs)
+        self.children = children
+        self.nolabel = True
+
 class Form(TinyCompoundWidget):
     """A generic form widget
     """
@@ -490,8 +526,24 @@ class Form(TinyCompoundWidget):
 
                 views += [field]
 
+            elif node.localName=='hpaned':
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                views += [HPaned(attrs, n)]
+
+            elif node.localName=='vpaned':
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                views += [VPaned(attrs, n)]
+
+            elif node.localName in ('child1', 'child2'):
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                views += [Frame(attrs, n)]
+
+            elif node.localName=='action':
+                views += [Action(attrs)]
+
         return views
 
+from action import Action
 from many2one import M2O
 from one2many import O2M
 from many2many import M2M

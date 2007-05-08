@@ -37,6 +37,7 @@ from interface import TinyCompoundWidget
 
 import form
 import list
+import graph
 
 class Screen(TinyCompoundWidget):
     template = "tinyerp.widgets.templates.screen"
@@ -94,8 +95,12 @@ class Screen(TinyCompoundWidget):
     def add_view(self, view, view_type='form'):
         if view_type == 'form':
             self.widget = form.Form(prefix=self.prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], domain=self.domain, context=self.context)
-        else:
+
+        if view_type == 'tree':
             self.widget = list.List(self.name, model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, editable=self.editable, selectable=self.selectable)
             self.ids = self.widget.ids
 
-        self.string = self.widget.string
+        if view_type == 'graph':
+            self.widget = graph.Graph(model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context)
+
+        self.string = (self.widget or '') and self.widget.string
