@@ -84,7 +84,7 @@ class Form(controllers.Controller, TinyResource):
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
 
-        current = params[params.one2many or ''] or params
+        current = params[params.source or ''] or params
 
         if current.view_mode[0] == 'tree':
             current.view_mode.reverse()
@@ -139,7 +139,7 @@ class Form(controllers.Controller, TinyResource):
             if res:
                 return res
 
-        current = params[params.one2many or '']
+        current = params[params.source or '']
         if current:
             current.id = None
             if not params.id:
@@ -194,7 +194,7 @@ class Form(controllers.Controller, TinyResource):
 
         params.is_navigating = True
 
-        current = params[params.one2many or ''] or params
+        current = params[params.source or ''] or params
 
         proxy = rpc.RPCProxy(current.model)
 
@@ -217,7 +217,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         params.is_navigating = True
 
-        current = params[params.one2many or ''] or params
+        current = params[params.source or ''] or params
 
         idx = -1
 
@@ -238,7 +238,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         params.is_navigating = True
 
-        current = params[params.one2many or ''] or params
+        current = params[params.source or ''] or params
 
         idx = 0
 
@@ -300,7 +300,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         # select the right params field (if one2many toolbar button)
-        current = params[params.one2many or ''] or params
+        current = params[params.source or ''] or params
 
         # switch the view mode
         current.view_mode.reverse()
@@ -343,6 +343,13 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def action(self, **kw):
         return self.do_action('client_action_multi', datas=kw)
+
+    @expose()
+    def dashlet(self, **kw):
+        params, data = TinyDict.split(kw)
+        current = params[str(params.source) or ''] or params
+
+        return self.create(current)
 
     @expose('json')
     def on_change(self, **kw):

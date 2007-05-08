@@ -27,18 +27,18 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-var inlineEdit = function(id, o2m_name){
+var inlineEdit = function(id, src){
 
     form = $('view_form');
 
     act = '/form/edit';
 
-    if (o2m_name) {
-        n = o2m_name.replace('.', '/') + '/_terp_id';
+    if (src) {
+        n = src.replace('.', '/') + '/_terp_id';
         terp_id = document.getElementsByName(n)[0];
         terp_id.value = id;
 
-        act = getURL(act, {_terp_one2many: o2m_name});
+        act = getURL(act, {_terp_source: src});
 
     } else {
         form._terp_id.value = id;
@@ -48,7 +48,7 @@ var inlineEdit = function(id, o2m_name){
     form.submit();
 }
 
-var inlineDelete = function(id, o2m_name){
+var inlineDelete = function(id, src){
 
     if (!confirm('Do you realy want to delete this record?')) {
         return false;
@@ -59,11 +59,11 @@ var inlineDelete = function(id, o2m_name){
     act = '/form/delete';
 
     if (o2m_name) {
-        n = o2m_name.replace('.', '/') + '/_terp_id';
+        n = src.replace('.', '/') + '/_terp_id';
         terp_id = document.getElementsByName(n)[0];
         terp_id.value = id;
 
-        act = getURL(act, {_terp_one2many: o2m_name});
+        act = getURL(act, {_terp_source: src});
 
     } else {
         form._terp_id.value = id;
@@ -73,7 +73,7 @@ var inlineDelete = function(id, o2m_name){
     form.submit();
 }
 
-var submit_form = function(action, o2m){
+var submit_form = function(action, src){
 
     form = $("view_form");
 
@@ -83,8 +83,8 @@ var submit_form = function(action, o2m){
 
     act = '/form/' + action;
 
-    if (o2m) {
-        act = getURL(act, {_terp_one2many: o2m.name});
+    if (src) {
+        act = getURL(act, {_terp_source: $(src).name});
     }
 
     form.action = act;

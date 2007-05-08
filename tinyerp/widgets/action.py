@@ -43,9 +43,9 @@ class Action(TinyCompoundWidget):
             <tr>
                 <td width="100%" py:content="string"></td>
                 <td>
-                    <button type="button" onclick="alert('not implemented yet...')">Find</button>
-                    <button type="button" onclick="alert('not implemented yet...')">Open</button>
-                    <button type="button" onclick="alert('not implemented yet...')">Switch</button>
+                    <button type="button" name="${button_name}" onclick="alert('not implemented yet...')">Find</button>
+                    <button type="button" name="${button_name}" onclick="submit_form('dashlet', this)">Open</button>
+                    <button type="button" name="${button_name}" onclick="alert('not implemented yet...')">Switch</button>
                 </td>
             </tr>
         </table>
@@ -55,7 +55,7 @@ class Action(TinyCompoundWidget):
     </span>
     """
 
-    params = ['string']
+    params = ['string', 'button_name']
     member_widgets = ['screen']
 
     screen = None
@@ -63,6 +63,8 @@ class Action(TinyCompoundWidget):
     def __init__(self, attrs={}):
         super(Action, self).__init__(attrs)
         self.nolabel = True
+
+        self.button_name = self.name.replace('/', '.')
 
         self.act_id=attrs['name']
         res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [self.act_id], ['type'], rpc.session.context)
