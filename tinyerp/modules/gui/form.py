@@ -164,7 +164,7 @@ class Form(controllers.Controller, TinyResource):
         model = button.model
         id = button.id
 
-        id = (id or None) and int(id)
+        id = (id or False) and int(id)
         ids = (id or []) and [id]
 
         if btype == 'workflow':
