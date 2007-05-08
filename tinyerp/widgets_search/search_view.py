@@ -59,7 +59,7 @@ class ViewSearch(tg.widgets.Form):
 
         self.model         = params.model
         self.state         = params.state or None
-        self.id            = params.id or None
+        self.id            = params.id or False
         self.ids           = params.ids
         self.found_ids     = params.found_ids or []
         self.view_ids      = params.view_ids or []

@@ -53,7 +53,7 @@ class Screen(TinyCompoundWidget):
 
         self.model         = params.model
         self.state         = params.state or None
-        self.id            = params.id or None
+        self.id            = params.id or False
         self.ids           = params.ids
         self.view_ids      = params.view_ids or []
         self.view_mode     = params.view_mode
