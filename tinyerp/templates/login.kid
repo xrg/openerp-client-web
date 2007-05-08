@@ -20,10 +20,6 @@
  </head>
 
 <body>
-	<span py:match="item.tag=='{http://www.w3.org/1999/xhtml}span'">
-	</span>
-
-
 	<div class="view">
 
 		<form action="${target}" method="post" name="loginform" class="loginbox">
