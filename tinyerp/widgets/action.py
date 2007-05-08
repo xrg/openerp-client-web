@@ -96,7 +96,7 @@ class Action(TinyCompoundWidget):
 
                 params = TinyDict()
                 params.model = self.action['res_model']
-                params.id = None
+                params.id = False
                 params.ids = None
                 params.view_ids = view_id
                 params.view_mode = mode

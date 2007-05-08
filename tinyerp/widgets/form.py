@@ -368,7 +368,7 @@ class Group(TinyCompoundWidget):
 class HPaned(TinyCompoundWidget):
 
     template = """<span xmlns:py="http://purl.org/kid/ns#">
-    <table height="100%" width="100%" class="hpaned">
+    <table width="100%" class="hpaned">
         <tr>
             <td valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
         </tr>
@@ -386,7 +386,7 @@ class HPaned(TinyCompoundWidget):
 class VPaned(TinyCompoundWidget):
 
     template = """<span xmlns:py="http://purl.org/kid/ns#">
-    <table height="100%" width="100%" class="hpaned">
+    <table width="100%" class="hpaned">
         <tr py:for="child in children">
             <td valign="top" py:content="child.display(value_for(child), **params_for(child))"></td>
         </tr>
