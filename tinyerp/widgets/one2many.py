@@ -93,8 +93,4 @@ class O2M(TinyCompoundWidget):
         params.context = {}
 
         self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=True)
-
-        if view_mode[0] == 'tree':
-            self.screen.widget.o2m = self.button_name
-
         self.id = id

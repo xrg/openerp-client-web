@@ -40,7 +40,7 @@ from interface import TinyCompoundWidget
 
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'selector', 'o2m']
+    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'selector', 'source']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -48,7 +48,7 @@ class List(TinyCompoundWidget):
     model = None
     selectable = False
     editable = False
-    o2m = None
+    source = None
 
     css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/listview.css')]
     javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
@@ -60,6 +60,11 @@ class List(TinyCompoundWidget):
         self.name = name
         self.model = model
         self.ids = ids
+
+        if name.endswith('/'):
+            self.name = name[:-1]
+
+        self.source = self.name.replace('/', '.') or None
 
         self.selectable = kw.get('selectable', False)
         self.editable = kw.get('editable', False)

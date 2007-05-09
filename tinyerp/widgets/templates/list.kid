@@ -18,10 +18,10 @@
 	            </td>                
 	            <td py:for="field, title in headers" py:content="row[field]">Data</td>                
 	            <td py:if="editable" style="text-align: center">
-	                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${o2m}')"/>
+	                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
 	            </td>
 	            <td py:if="editable" style="text-align: center">
-	                <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${row['id']}, '${o2m}')"/>
+	                <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${row['id']}, '${source}')"/>
 	            </td>
 	        </tr>
 	
