@@ -102,5 +102,6 @@ class Screen(TinyCompoundWidget):
 
         if view_type == 'graph':
             self.widget = graph.Graph(model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context)
+            self.ids = self.widget.ids
 
         self.string = (self.widget or '') and self.widget.string

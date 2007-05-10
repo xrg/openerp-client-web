@@ -71,6 +71,8 @@ class Graph(TinyCompoundWidget):
         if not ids:
             ids = proxy.search(domain)
 
+        self.ids = ids
+
         ctx = rpc.session.context.copy()
         ctx.update(context)
 
