@@ -130,7 +130,9 @@ def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[]):
     if type == 'pie':
         value = tuple([x[1] for x in data])
         labels = tuple([x[0] for x in data])
-        subplot.pie(value, labels=labels, autopct='%1.1f%%')
+        subplot.pie(value, autopct='%1.1f%%')
+        subplot.legend(labels, loc='lower right')
+
     elif type == 'bar':
         ind = arange(len(data))
         n = float(len(data[0])-1)
