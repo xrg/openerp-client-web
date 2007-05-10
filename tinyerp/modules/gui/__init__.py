@@ -1,5 +1,6 @@
 import form
 import tree
+import graph
 import wizard
 import search
 import many2one

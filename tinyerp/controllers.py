@@ -134,6 +134,7 @@ class Root(controllers.RootController, TinyResource):
 
     form = gui.form.Form()
     tree = gui.tree.Tree()
+    graph = gui.graph.Graph()
     wizard = gui.wizard.Wizard()
     search = gui.search.Search()
     many2one = gui.many2one.M2O()

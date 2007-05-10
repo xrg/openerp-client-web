@@ -27,6 +27,7 @@
 #
 ###############################################################################
 
+import base64
 import xml.dom.minidom
 
 import turbogears as tg
@@ -43,29 +44,70 @@ class Graph(TinyCompoundWidget):
     template = """<table width="100%">
         <tr>
             <td align="center">
-                <img class="graph" src="/static/images/stock/gtk-no.png"/>
+                <img class="graph" src="/graph?b64=${b64}"/>
             </td>
         </tr>
     </table>
     """
 
+    params = ['b64']
+    b64 = None
+
     def __init__(self, model, view, ids=[], domain=[], context={}):
-        self.model = model
+
+        self.axis = None
+        self.axis_data = None
+        self.kind = 'pie'
+        self.values = []
+
         self.fields = view['fields']
-        self.ids = ids
-        self.domain = domain
-        self.context = context
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         self.parse(root, self.fields)
 
-        datas = []
-        if self.ids:
-            proxy = rpc.RPCProxy(self.model)
-            ctx = rpc.session.context.copy()
-            ctx.update(context)
-            datas = proxy.read(self.ids, self.fields.keys(), ctx)
+        proxy = rpc.RPCProxy(model)
+
+        if not ids:
+            ids = proxy.search(domain)
+
+        ctx = rpc.session.context.copy()
+        ctx.update(context)
+
+        values = proxy.read(ids, self.fields.keys(), ctx)
+
+        for value in values:
+            res = {}
+            for x in self.axis:
+                if self.fields[x]['type'] in ('many2one', 'char','time','text','selection'):
+                    res[x] = value[x]
+                    if isinstance(res[x], (list, tuple)):
+                        res[x] = res[x][-1]
+                    res[x] = str(res[x])
+                elif self.fields[x]['type'] == 'date':
+                    date = time.strptime(value[x], DT_FORMAT)
+                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
+                elif self.fields[x]['type'] == 'datetime':
+                    date = time.strptime(value[x], DHM_FORMAT)
+                    if 'tz' in rpc.session.context:
+                        try:
+                            import pytz
+                            lzone = pytz.timezone(rpc.session.context['tz'])
+                            szone = pytz.timezone(rpc.session.timezone)
+                            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
+                            sdt = szone.localize(dt, is_dst=True)
+                            ldt = sdt.astimezone(lzone)
+                            date = ldt.timetuple()
+                        except:
+                            pass
+                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
+                else:
+                    res[x] = float(value[x])
+
+            self.values.append(res)
+
+        data = dict(axis=self.axis, axis_data=self.axis_data, kind=self.kind, values=self.values)
+        self.b64 = base64.encodestring(ustr(data))
 
     def parse(self, root, fields):
         attrs = tools.node_attributes(root)
@@ -81,5 +123,4 @@ class Graph(TinyCompoundWidget):
 
         self.axis = axis
         self.axis_data = axis_data
-        self.graph_attrs = attrs
-
+        self.kind = attrs.get('type', 'pie')
