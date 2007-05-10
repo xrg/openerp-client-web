@@ -60,7 +60,7 @@ class M2O(TinyField):
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {})
 
-        self.validator = tiny_validators.Int()
+        self.validator = tiny_validators.many2one()
 
     def set_value(self, value):
 

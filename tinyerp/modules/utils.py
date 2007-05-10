@@ -147,7 +147,7 @@ class TinyParent(TinyDict):
         'boolean': terp_validators.Bool,
         'selection' : terp_validators.Selection,
         'many2many' : terp_validators.many2many,
-        'many2one' : terp_validators.Int
+        'many2one' : terp_validators.many2one
         }
 
     def __init__(self, **kwargs):

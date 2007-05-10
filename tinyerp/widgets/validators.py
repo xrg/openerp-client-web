@@ -129,3 +129,16 @@ class many2many(tg.validators.FancyValidator):
             value = (value or []) and [value]
 
         return [(6, 0, [int(id) for id in value if id])]
+
+class many2one(tg.validators.FancyValidator):
+
+    if_empty = False
+
+    def _to_python(self, value, state):
+        if isinstance(value, (list, tuple)):
+            if len(value):
+                value = value[0]
+        try:
+            return int(value)
+        except:
+            return False
