@@ -80,7 +80,9 @@ class Graph(controllers.Controller, TinyResource):
         figure = Figure(figsize=(w, h))
         subplot = figure.add_subplot(111)
 
-        tinygraph(subplot, kind, axis, axis_data, values)
+        if not (values and tinygraph(subplot, kind, axis, axis_data, values)):
+            figure.clear()
+            figure.set_size_inches(0, 0)
 
         canvas = FigureCanvas(figure)
 
@@ -144,3 +146,6 @@ def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[]):
             subplot.bar(ind+i/n, value, 1/n)
     else:
         raise 'Graph type '+type+' does not exist !'
+
+    return True
+
