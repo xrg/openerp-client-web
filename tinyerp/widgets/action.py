@@ -43,9 +43,8 @@ class Action(TinyCompoundWidget):
             <tr>
                 <td width="100%" py:content="string"></td>
                 <td>
-                    <button type="button" name="${button_name}" onclick="alert('not implemented yet...')">Find</button>
-                    <button type="button" name="${button_name}" onclick="submit_form('dashlet', this)">Open</button>
-                    <button type="button" name="${button_name}" onclick="alert('not implemented yet...')">Switch</button>
+                    <button type="button" name="${button_name}" onclick="alert('not implemented yet...')">Filter</button>
+                    <button type="button" name="${button_name}" onclick="submit_form('dashlet', this)">Zoom</button>
                 </td>
             </tr>
         </table>
