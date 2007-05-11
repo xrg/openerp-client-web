@@ -60,7 +60,9 @@ class Shortcuts(controllers.Controller, TinyResource):
     @expose()
     def add(self, id):
         id = int(id)
-        name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
-        rpc.RPCProxy('ir.ui.view_sc').create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
+        proxy = rpc.RPCProxy('ir.ui.view_sc')
+        if not proxy.search([('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu'), ('res_id', '=', id)]):
+            name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
+            proxy.create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
 
         raise redirect('/tree/open', id=id, model='ir.ui.menu')
