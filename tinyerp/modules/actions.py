@@ -175,6 +175,9 @@ def _execute(action, **data):
         context = {'active_id': data.get('id', False), 'active_ids': data.get('ids', [])}
         context.update(rpc.session.context.copy())
 
+        # save active_id in session
+        rpc.session.active_id = data.get('id')
+
         context.update(eval(action.get('context', '{}'), context.copy()))
 
         a = context.copy()
