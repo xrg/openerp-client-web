@@ -10,3 +10,7 @@
 .listImage {
     cursor: pointer;
 }
+
+.grid .row {
+    background-color: white;
+}
