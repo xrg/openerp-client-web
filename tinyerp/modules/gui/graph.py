@@ -30,7 +30,7 @@
 import os
 import time
 import base64
-import tempfile
+from StringIO import StringIO
 
 import matplotlib
 
@@ -42,6 +42,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.numerix import arange
 import matplotlib.numerix as nx
+
+from PIL import Image as PILImage
 
 from turbogears import expose
 from turbogears import controllers
@@ -77,7 +79,7 @@ class Graph(controllers.Controller, TinyResource):
         kind = data['kind']
         values = data['values']
 
-        figure = Figure(figsize=(w, h))
+        figure = Figure(figsize=(w, h), frameon=False, facecolor=None)
         subplot = figure.add_subplot(111)
 
         if not (values and tinygraph(subplot, kind, axis, axis_data, values)):
@@ -85,18 +87,22 @@ class Graph(controllers.Controller, TinyResource):
             figure.set_size_inches(0, 0)
 
         canvas = FigureCanvas(figure)
+        canvas.draw()
 
-        fo = tempfile.TemporaryFile()
-        canvas.print_figure(fo, dpi=dpi, facecolor=None)
-        fo.seek(0)
-        fdata = fo.read()
-        fo.close()
+        size = canvas.get_renderer().get_canvas_width_height()
+        buf = canvas.buffer_rgba()
 
-        return fdata
+        im=PILImage.frombuffer('RGBA', size, buf, 'raw', 'RGBA', 0, 1)
+
+        imgdata=StringIO()
+        im.save(imgdata, 'PNG')
+
+        return imgdata.getvalue()
 
 def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[]):
 
     subplot.clear()
+    subplot.grid(True)
 
     operators = {
         '+': lambda x,y: x+y,
