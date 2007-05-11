@@ -79,7 +79,7 @@ class Graph(controllers.Controller, TinyResource):
         kind = data['kind']
         values = data['values']
 
-        figure = Figure(figsize=(w, h), frameon=False, facecolor=None)
+        figure = Figure(figsize=(w, h), dpi=dpi, frameon=False)
         subplot = figure.add_subplot(111)
 
         if not (values and tinygraph(subplot, kind, axis, axis_data, values)):
