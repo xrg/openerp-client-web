@@ -57,6 +57,12 @@ a:hover.imglink {
     padding-right: 5px;
 }
 
+#mybar {
+    text-align: right;
+    white-space: nowrap;
+    padding: 2px 5px;
+}
+
 #footer {
     height: 50px;
     background-color: #E8EEFA;

@@ -8,3 +8,4 @@ import many2many
 import dbadmin
 import preferences
 import selection
+import shortcuts

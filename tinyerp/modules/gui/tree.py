@@ -212,4 +212,7 @@ class Tree(controllers.Controller, TinyResource):
 
         datas['ids'] = kw.get('id')
 
+        # save active_id in session
+        rpc.session.active_id = kw.get('id')
+
         return self.do_action('tree_but_open', datas=datas)

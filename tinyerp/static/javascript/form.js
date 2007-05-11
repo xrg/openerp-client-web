@@ -58,7 +58,7 @@ var inlineDelete = function(id, src){
 
     act = '/form/delete';
 
-    if (o2m_name) {
+    if (src) {
         n = src.replace('.', '/') + '/_terp_id';
         terp_id = document.getElementsByName(n)[0];
         terp_id.value = id;

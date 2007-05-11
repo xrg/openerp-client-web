@@ -142,3 +142,4 @@ class Root(controllers.RootController, TinyResource):
     dbadmin = gui.dbadmin.DBAdmin()
     pref = gui.preferences.Preferences()
     selection = gui.selection.Selection()
+    shortcuts = gui.shortcuts.Shortcuts()
