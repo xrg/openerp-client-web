@@ -136,9 +136,15 @@ class many2one(tg.validators.FancyValidator):
 
     def _to_python(self, value, state):
         if isinstance(value, (list, tuple)):
-            if len(value):
-                value = value[0]
+            value = (len(value) or False) and value[0]
+
         try:
             return int(value)
         except:
             return False
+
+    def _from_python(self, value, state):
+        if isinstance(value, (list, tuple)):
+            value = (len(value) or False) and value[0]
+
+        return value

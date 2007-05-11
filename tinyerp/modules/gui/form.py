@@ -398,7 +398,7 @@ class Form(controllers.Controller, TinyResource):
         result.update(response)
 
         for k, v in result['value'].items():
-            if isinstance(v, list):
+            if isinstance(v, (list, tuple)):
                 result['value'][k] = (v or '') and v[0]
 
         return result
