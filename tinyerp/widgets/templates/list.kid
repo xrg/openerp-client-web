@@ -25,7 +25,7 @@
 	            </td>
 	        </tr>
 	
-	        <tr py:if="not data" py:for="i in range(6)">
+	        <tr py:if="not data" py:for="i in range(6)" class="row">
 	            <td align="center" py:if="selectable"></td>
 	            <td py:for="field, title in headers">&nbsp;</td>
 	            <td py:if="editable" style="text-align: center">
