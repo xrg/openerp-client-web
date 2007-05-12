@@ -101,10 +101,11 @@
     
    	<script type="text/javascript">
    	    function check_for_popup() {
-   	        if(window.opener) {
-                t = document.getElementById("container");
-                t.removeChild($("header"));
-                t.removeChild($("footer"));
+   	        if(window.opener) {                
+                var h = $('header');
+                var f = $('footer');
+                h.parentNode.removeChild(h);
+                f.parentNode.removeChild(f);
             }
         }
   	</script>
