@@ -20,7 +20,7 @@
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td height="10">
+        <td>
 	        <table id="header" width="100%" cellspacing="0" cellpadding="0" border="0">
 	            <tr>
 	                <td id="logo" rowspan="2">
@@ -74,7 +74,7 @@
         </td>
     </tr>	        
     <tr>
-        <td valign="top">
+        <td>
             <div py:replace="[item.text]+item[:]"/>
         </td>        
     </tr>        
