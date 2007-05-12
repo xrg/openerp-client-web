@@ -35,7 +35,7 @@
             ${list_view.display()}
         </td>
     </tr>
-    <script language="javascript">
+    <script type="text/javascript">
         new ListView('${list_view.name}').checkAll();
     </script>
 </table>

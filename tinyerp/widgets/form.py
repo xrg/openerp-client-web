@@ -251,6 +251,16 @@ class Float(TinyField):
     def set_value(self, value):
         self.default = value
 
+class FloatTime(TinyField):
+    template = "tinyerp.widgets.templates.floattime"
+
+    def __init__(self, attrs={}):
+        super(FloatTime, self).__init__(attrs)
+        self.validator = tiny_validators.Float()
+
+    def set_value(self, value):
+        self.default = value
+
 class Selection(TinyField):
     template = "tinyerp.widgets.templates.selection"
     params = ['options']
@@ -455,6 +465,7 @@ class Form(TinyCompoundWidget):
                 continue
 
             attrs = tools.node_attributes(node)
+
             attrs['prefix'] = prefix
 
             if 'state' in values:
@@ -553,6 +564,7 @@ from texttag import TinyMCE
 widgets_type = {
     'date': DateTime,
     'time': DateTime,
+    'float_time': FloatTime,
     'datetime': DateTime,
     'float': Float,
     'integer': Integer,
