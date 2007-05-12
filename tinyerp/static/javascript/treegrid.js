@@ -96,6 +96,7 @@ TreeGrid.prototype._on_select_row = function(evt) {
         var end = rows.indexOf(last);
 
         this.selection = begin > end ? rows.slice(end, begin+1) : this.selection = rows.slice(begin, end+1);
+        this.selection = filter(function(x){return x.style.display != 'none';}, this.selection);
 
     } else {
         this.selection = [src];
