@@ -143,3 +143,5 @@ class Root(controllers.RootController, TinyResource):
     pref = gui.preferences.Preferences()
     selection = gui.selection.Selection()
     shortcuts = gui.shortcuts.Shortcuts()
+    requests = gui.requests.Requests()
+
