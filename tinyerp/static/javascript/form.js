@@ -150,8 +150,8 @@ var onChange = function(name) {
     req.addCallback(function(xmlHttp){
         res = evalJSONRequest(xmlHttp);
         values = res['value'];
-
-        for(var k in values){
+		for(var k in values){
+			flag = false;
             fld = $(prefix + k);
             if (fld) {
                 value = values[k];
@@ -159,14 +159,15 @@ var onChange = function(name) {
 
 				if ($(prefix + k + '_id')){
                 	fld = $(prefix + k + '_id');
+                	flag = true;
                 }
 
-                if (fld.value != value) {
+                if ((fld.value != value) || flag) {
                 	fld.value = value;
                     if (typeof fld.onchange != 'undefined'){
                         fld.onchange();
-                    }
-                }
+            	     }
+               	}
             }
         }
     });
