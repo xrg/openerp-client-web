@@ -73,58 +73,55 @@ class Wizard(controllers.Controller, TinyResource):
 
         wiz_id = rpc.session.execute('wizard', 'create', action)
 
-        if state == 'end':
-            raise redirect('/wizard/end')
+        while state != 'end':
 
-        ctx = rpc.session.context.copy()
-        ctx.update(params.context or {})
+            ctx = rpc.session.context.copy()
+            ctx.update(params.context or {})
 
-        res = rpc.session.execute('wizard', 'execute', wiz_id, datas, state, ctx)
+            res = rpc.session.execute('wizard', 'execute', wiz_id, datas, state, ctx)
 
-        if 'datas' in res:
-            datas['form'].update(res['datas'])
-        else:
-            res['datas'] = {}
+            if 'datas' in res:
+                datas['form'].update(res['datas'])
+            else:
+                res['datas'] = {}
 
-        if res['type']=='form':
-            form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+            if res['type']=='form':
+                form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
 
-            res['datas'].update(datas['form'])
-            form.screen.add_view(res)
+                res['datas'].update(datas['form'])
+                form.screen.add_view(res)
 
-            # store datas in _terp_datas
-            form.hidden_fields = [
-                                  widgets.HiddenField(name='_terp_datas', default=str(datas)),
-                                  widgets.HiddenField(name='_terp_state2', default=state)
-                              ]
+                # store datas in _terp_datas
+                form.hidden_fields = [
+                                      widgets.HiddenField(name='_terp_datas', default=str(datas)),
+                                      widgets.HiddenField(name='_terp_state2', default=state)
+                                  ]
 
-            buttons = res.get('state', [])
-            if hasattr(cherrypy.request, 'terp_form'):
-                cherrypy.request.terp_buttons = buttons
+                buttons = res.get('state', [])
+                if hasattr(cherrypy.request, 'terp_form'):
+                    cherrypy.request.terp_buttons = buttons
 
-        elif res['type']=='action':
-            from tinyerp.modules import actions
-            return actions._execute(res['action'], **datas)
+                params.state = state
+                return dict(form=form, buttons=buttons)
 
-        elif res['type']=='print':
-            from tinyerp.modules import actions
+            elif res['type']=='action':
+                from tinyerp.modules import actions
+                return actions._execute(res['action'], **datas)
 
-            datas['report_id'] = res.get('report_id', False)
-            if res.get('get_id_from_action', False):
-                backup_ids = datas['ids']
-                datas['ids'] = datas['form']['ids']
+            elif res['type']=='print':
+                from tinyerp.modules import actions
 
-            return actions._execute_report(res['report'], **datas)
+                datas['report_id'] = res.get('report_id', False)
+                if res.get('get_id_from_action', False):
+                    backup_ids = datas['ids']
+                    datas['ids'] = datas['form']['ids']
 
-        elif res['type']=='state':
-            state = res['state']
+                return actions._execute_report(res['report'], **datas)
 
-        if state == 'end':
-            #raise redirect('/wizard/end')
-            return self.end()
+            elif res['type']=='state':
+                state = res['state']
 
-        params.state = state
-        return dict(form=form, buttons=buttons)
+        raise redirect('/wizard/end')
 
     @expose(template="tinyerp.modules.gui.templates.wizard")
     def create(self, params, tg_errors=None):
