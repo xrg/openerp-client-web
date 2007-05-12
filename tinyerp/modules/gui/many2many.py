@@ -81,6 +81,8 @@ class M2M(search.Search):
 
     @expose()
     def get_list(self, model, ids, list_id):
+        if not ids:
+            ids='[]'
         ids = eval(ids)
 
         if not isinstance(ids, list): ids = [ids]

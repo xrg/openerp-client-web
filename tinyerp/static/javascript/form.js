@@ -153,13 +153,16 @@ var onChange = function(name) {
 
         for(var k in values){
             fld = $(prefix + k);
-
             if (fld) {
                 value = values[k];
                 value = value === false || value === null ? '' : value
 
+				if ($(prefix + k + '_id')){
+                	fld = $(prefix + k + '_id');
+                }
+
                 if (fld.value != value) {
-                    fld.value = value;
+                	fld.value = value;
                     if (typeof fld.onchange != 'undefined'){
                         fld.onchange();
                     }

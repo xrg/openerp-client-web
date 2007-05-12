@@ -16,7 +16,7 @@
 	            <td align="center" py:if="selectable">
 	                <input type="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
 	            </td>
-	            <td py:for="field, title in headers" py:content="row[field]">Data</td>                
+	            <td py:for="field, title in headers" py:content="row[field]">Data</td>
 	            <td py:if="editable" style="text-align: center">
 	                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
 	            </td>
@@ -24,7 +24,7 @@
 	                <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${row['id']}, '${source}')"/>
 	            </td>
 	        </tr>
-	
+
 	        <tr py:if="not data" py:for="i in range(6)" class="row">
 	            <td align="center" py:if="selectable"></td>
 	            <td py:for="field, title in headers">&nbsp;</td>
@@ -33,7 +33,7 @@
 	            <td py:if="editable" style="text-align: center">
 	            </td>
 	        </tr>
-	
+
 	    </tbody>
 	</table>
 </div>

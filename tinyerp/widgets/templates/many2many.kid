@@ -1,7 +1,20 @@
 <table xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" cellspacing="0" width="100%">
     <tr>
         <td width="100%">
-            <input type="hidden" kind="${kind}" name='${name}' py:attrs='attrs'/>
+        	<script type="text/javascript">
+                function ${name.replace('/', '_')}_changed(relation, listview, e, name)
+                {
+
+                    req = doSimpleXMLHttpRequest(getURL('/many2many/get_list', {model: relation, ids : e.value, list_id : name}));
+                    req.addCallback(function(xmlHttp)
+                    {
+                        res = xmlHttp.responseText;
+                        $(listview).innerHTML = res;
+                        new ListView(name).checkAll();
+                    });
+                }
+            </script>
+            <input type="hidden" kind="${kind}" id='${list_view.name}_id' value="" onchange="${onchange};${name.replace('/', '_')}_changed('${relation}', '${list_view.name}_container', this, '${list_view.name}');" py:attrs='attrs' callback="${callback}"/>
             <input type="text" class="${field_class}" readonly="0" style="width: 100%" id='${list_view.name}_set' onchange="new ListView('${list_view.name}').checkAll();" py:attrs='attrs' />
             <span class="fielderror" py:if="error" py:content="error"/>
         </td>
