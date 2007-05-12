@@ -51,7 +51,7 @@
 	            </tr>
 	            <tr>
 	                <td id="linkbar" colspan="2">
-	                    <table py:if="rpc.session.is_logged()" border="0" cellpadding="0" cellspacing="0">
+	                    <table py:if="rpc.session.is_logged()" border="0">
 	                        <tr>
 	                            <td><a href="/"><b>HOME</b></a></td>
 	                            <td><a href="/shortcuts"><b>SHORTCUTS</b></a></td>
