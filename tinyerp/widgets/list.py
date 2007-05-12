@@ -149,11 +149,11 @@ class Date(Char):
     display_format = '%x'
 
     def get_value(self, value):
-        if value:
+        try:
             date = time.strptime(value, self.server_format)
             return time.strftime(self.display_format, date)
-
-        return ''
+        except:
+            return ''
 
 class O2M(Char):
 
@@ -198,11 +198,11 @@ class DateTime(Char):
     display_format = '%x %H:%M:%S'
 
     def get_value(self, value):
-        if value:
+        try:
             date = time.strptime(value, self.server_format)
             return time.strftime(self.display_format, date)
-
-        return ''
+        except:
+            return ''
 
 class Boolean(Char):
 
