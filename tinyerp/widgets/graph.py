@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import time
+import locale
 import base64
 import xml.dom.minidom
 
@@ -38,6 +40,16 @@ from tinyerp import tools
 from tinyerp import rpc
 
 from interface import TinyCompoundWidget
+
+DT_FORMAT = '%Y-%m-%d'
+DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
+HM_FORMAT = '%H:%M:%S'
+
+if not hasattr(locale, 'nl_langinfo'):
+    locale.nl_langinfo = lambda *a: '%x'
+
+if not hasattr(locale, 'D_FMT'):
+    locale.D_FMT = None
 
 class Graph(TinyCompoundWidget):
 
