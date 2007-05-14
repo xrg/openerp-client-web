@@ -1,7 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?python import sitetemplate ?>
-<?python from tinyerp import rpc ?>
-<?python from cherrypy import root?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="sitetemplate">
 
 <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
@@ -43,9 +41,9 @@
 	            </tr>
 	            <tr>
 	                <td id="reqbar">	                        	                
-	                <a py:def="requests(ids)" href="/requests?ids=${str(ids)}">${len(ids)}</a>
+	                <a py:def="requests(ids)" href="${tg.query('/requests', ids=ids)}">${len(ids)}</a>
 	                    <div py:if="rpc.session.is_logged()">	                            	                    
-                            Requests: ${requests(root.requests.my()[0])}
+                            Requests: ${requests(tg.root.requests.my()[0])}
                         </div>
 	                </td>
 	            </tr>
@@ -58,14 +56,14 @@
 	                            <td width="100%">
 	                                <table class="shortcuts">
 	                                    <tr>
-	                                        <td py:for="sc in root.shortcuts.my()">
-	                                            <a href="/tree/open?id=${sc['res_id']}&amp;model=ir.ui.menu">${sc['name']}</a>
+	                                        <td py:for="sc in tg.root.shortcuts.my()">
+	                                            <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 	                                            |
 	                                        </td>
 	                                    </tr>
 	                                </table>
 	                            </td>
-	                            <td><a py:if="rpc.session.active_id" href="/shortcuts/add?id=${rpc.session.active_id}">ADD</a></td>
+	                            <td><a py:if="rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}">ADD</a></td>
 	                        </tr>
 	                    </table>                    
 	                </td>

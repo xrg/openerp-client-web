@@ -43,13 +43,12 @@ import cherrypy
 
 from tinyerp import rpc
 from tinyerp import common
-from tinyerp import modules
+from tinyerp import stdvars
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules import *
 from tinyerp.widgets import *
-from tinyerp import rpc
 
 import pkg_resources
 from turbogears.widgets import register_static_directory
