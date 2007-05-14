@@ -48,14 +48,14 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td py:if="tree.toolbar" width="100" valign="top" class="treebar">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tree-grid">
                     <thead>
-                        <tr>
+                        <tr class="header">
                             <th colspan="2">Toolbar</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr py:for="tool in tree.toolbar" class="treebutton ${tree.id == tool['id']}" onclick="location.href='${tg.query('/tree/button', id=tool['id'], model=tree.model)}'">
+                        <tr py:for="tool in tree.toolbar" class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="location.href='${tg.query('/tree/button', id=tool['id'], model=tree.model)}'">
                             <td>
                                 <img src="${tool['icon']}" width="32" height="32" align="left"/>
                             </td>

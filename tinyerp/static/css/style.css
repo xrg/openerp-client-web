@@ -209,33 +209,9 @@ input, button, select, textarea {
 
 /* treebar */
 
-.treebar th,
-.treebar td {
-    text-align: left;
-    white-space: nowrap;
-}
-
-.treebar th {
-    padding: 2px 5px;
-    background-color: #CCCCCC;
-}
-
-.treebar img {
-    border: none;
-}
-
-.treebar .treebutton {
+.treebar .row {
     cursor: pointer;
-}
-
-.treebar .True {
-    background-color: #E9E9E9;
-}
-
-.treebar .treebutton:hover {
-    background-color: #F0F0F0;
 }
 
 .treesep {
 }
-
