@@ -47,8 +47,8 @@
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td py:if="tree.toolbar" width="100" valign="top" class="treebar">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tree-grid">
+            <td py:if="tree.toolbar" class="treebar" valign="top">
+                <table width="100%" border="0" class="tree-grid">
                     <thead>
                         <tr class="header">
                             <th colspan="2">Toolbar</th>
@@ -57,16 +57,17 @@
                     <tbody>
                         <tr py:for="tool in tree.toolbar" class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="location.href='${tg.query('/tree', id=tool['id'], model=tree.model)}'">
                             <td>
-                                <img src="${tool['icon']}" width="32" height="32" align="left"/>
-                            </td>
-                            <td>
-                                ${tool['name']}
+                                <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
+                                    <tr>
+                                        <td><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
+                                        <td>${tool['name']}</td>
+                                    </tr>
+                                </table>                                                                
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </td>
-            <td class="treesep" py:if="tree.toolbar" width="5px"></td>
             <td valign="top">
                 ${tree.display()}
             </td>

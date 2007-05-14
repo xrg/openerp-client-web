@@ -209,6 +209,10 @@ input, button, select, textarea {
 
 /* treebar */
 
+.treebar {
+    width: 100px;
+}
+
 .treebar .row {
     cursor: pointer;
 }
