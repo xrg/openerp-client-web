@@ -223,15 +223,26 @@ TreeGrid.prototype._make_row = function(record, indent){
         var td = TD(null);
         var key = header[0];
 
-        if (indent && key === this.tfield){
-            for(var i=0; i<indent; i++){
-                appendChildNodes(td, SPAN({'class' : 'indent'}));
-            }
-        }
-
         var val = record.data[key];
 
         if (key === this.tfield) {
+
+            var tds = [];
+
+            if (indent){
+                for(var i=0; i<indent; i++){
+                    tds.push(SPAN({'class' : 'indent'}));
+                }
+            }
+
+            if (record.children && record.children.length > 0)
+                tds.push(SPAN({'class': 'expand', 'onclick': this.id + '.toggle("' + rid + '")' }));
+            else
+                tds.push(SPAN({'class' : 'indent'}));
+
+            if (this.show_icons) {
+                tds.push(IMG({'src': record.data.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
+            }
 
             val = A({'href': '#'}, val);
 
@@ -242,14 +253,10 @@ TreeGrid.prototype._make_row = function(record, indent){
                 connect(val, 'onclick', this._onopen(record.id));
             }
 
-            if (record.children && record.children.length > 0)
-                appendChildNodes(td, SPAN({'class': 'expand', 'onclick': this.id + '.toggle("' + rid + '")' }));
-            else
-                appendChildNodes(td, SPAN({'class' : 'indent'}));
+            tds.push(val);
+            tds = map(function(x){return TD(null, x)}, tds);
 
-            if (this.show_icons) {
-                appendChildNodes(td, IMG({'src': record.data.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
-            }
+            val = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, TR(null, tds));
         }
 
         setNodeAttribute(td, 'class', header[1].type);
@@ -324,7 +331,7 @@ TreeGrid.prototype.load = function(url, id, params){
     req.addCallback(function(xmlHttp){
         var res = evalJSONRequest(xmlHttp);
 
-        var table = TABLE({id: grid.id, 'class': 'tree-grid', 'cellpadding': 0 , 'cellspacing': 0});
+        var table = TABLE({id: grid.id, 'class': 'tree-grid'});
 
         var thd = grid._make_head();
         var tbd = grid._make_body(res.records);

@@ -9,6 +9,10 @@ table.tree-grid td {
     white-space: nowrap;
 }
 
+table.tree-grid .tree-field td {
+    padding: 0 2px;
+}
+
 table.tree-grid .header {
     background-color: #CCCCCC;
 }
@@ -34,10 +38,10 @@ table.tree-grid .float {
     text-align: 'center';
 }
 
-table.tree-grid span.indent,
-table.tree-grid span.expand,
-table.tree-grid span.collapse,
-table.tree-grid span.loading {
+table.tree-grid .indent,
+table.tree-grid .expand,
+table.tree-grid .collapse,
+table.tree-grid .loading {
     float: left;
 	width: 1.5em;
 	min-height: 18px;
@@ -46,28 +50,27 @@ table.tree-grid span.loading {
     background-position: center;
 }
 
-table.tree-grid span.expand {
+table.tree-grid .expand {
     background-image: url("/static/images/treegrid/expand.gif");
 }
 
-table.tree-grid span.expand:hover {
+table.tree-grid .expand:hover {
     background-image: url("/static/images/treegrid/expandh.gif");
 }
 
-table.tree-grid span.collapse {
+table.tree-grid .collapse {
     background-image: url("/static/images/treegrid/collapse.gif");
 }
 
-table.tree-grid span.collapse:hover {
+table.tree-grid .collapse:hover {
     background-image: url("/static/images/treegrid/collapseh.gif");
 }
 
-table.tree-grid span.loading {
+table.tree-grid .loading {
     background-image: url("/static/images/treegrid/loading.gif");
 }
 
 table.tree-grid a, table.tree-grid a:active, table.tree-grid a:hover {
-    display: table-cell;
 	text-decoration: none;
 }
 
