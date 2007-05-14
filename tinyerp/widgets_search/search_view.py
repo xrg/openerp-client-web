@@ -33,29 +33,20 @@ import cherrypy
 from tinyerp import rpc
 from tinyerp.modules.utils import TinyDict
 
+
 import tinyerp.widgets as tw
+from tinyerp.widgets.interface import TinyCompoundWidget
 
 import search
 
-class ViewSearch(tg.widgets.Form):
+class ViewSearch(TinyCompoundWidget):
 
     template = "tinyerp.widgets_search.templates.search"
-
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context',
-              'oncancel', 'onok', 'onfind', 'offset', 'limit']
-
-    oncancel = None
-    onok = None
-    onfind = None
-
-    limit = 0
-    offset = 0
 
     member_widgets = ['form_view', 'list_view']
 
     def __init__(self, params, values={}, **kw):
-
-        super(ViewSearch, self).__init__(**kw)
+        super(ViewSearch, self).__init__(params)
 
         self.model         = params.model
         self.state         = params.state or None
@@ -70,16 +61,14 @@ class ViewSearch(tg.widgets.Form):
         self.domain        = params.domain or []
         self.context       = params.context or {}
 
-        self.offset = values.get('offset', self.offset)
-        self.limit = values.get('limit', self.limit)
-
         proxy = rpc.RPCProxy(self.model)
 
         ctx = rpc.session.context.copy()
         view_form = proxy.fields_view_get({}, 'form', ctx)
         view_tree = proxy.fields_view_get({}, 'tree', ctx)
 
-        self.form_view = search.Form(model=self.model, view=view_form, domain=self.domain, context=self.context, values=values)
+        self.form_view = search.Form(name=kw['name'], action=kw['action'], params=params, values=values)
         self.list_view = tw.list.List('search_list', model=self.model, ids=self.found_ids, view=view_tree, domain=self.domain, context=self.context, selectable=True, multiselect=not params.m2o and True)
 
         self.string = self.form_view.string
+

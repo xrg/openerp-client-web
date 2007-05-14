@@ -5,8 +5,7 @@
 
     <script type="text/javascript">
 
-        function submit_form(action){
-            form = $('search_form');
+        function submit_form(action, form){
             form.action = action;
 
             pwin = window.opener;
@@ -33,7 +32,24 @@
             }
 
             form.submit();
-        }        
+        }
+    </script>
+
+    <script type="text/javascript" py:if="not (params.m2o or params.m2m)">
+
+    	function onok(action, form) {
+			var boxes = new ListView('search_list').getSelected();
+			var ids = []
+	        id = boxes[0].value;
+			form._terp_id.value = id;
+
+			forEach(boxes, function(b){
+                if (ids.indexOf(b.value) == -1) ids.push(b.value);
+            });
+
+            form._terp_ids.value = '[' + ids + ']';
+			submit_form(action, form);
+    	}
     </script>
 
     <script type="text/javascript" py:if="params.m2o">
@@ -55,7 +71,7 @@
 
             parent.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
             window.setTimeout("window.close()", 5);
-        }        
+        }
     </script>
 
     <script type="text/javascript" py:if="params.m2m">
@@ -98,10 +114,10 @@
         }
 
     </script>
-    
+
    	<script type="text/javascript">
    	    function check_for_popup() {
-   	        if(window.opener) {                
+   	        if(window.opener) {
                 var h = $('header');
                 var f = $('footer');
                 h.parentNode.removeChild(h);
@@ -119,6 +135,6 @@
     		<div class="spacer"></div>
 	    </div>
   		${form.display()}
-  	</div>  	 	
+  	</div>
 </body>
 </html>

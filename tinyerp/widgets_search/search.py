@@ -72,22 +72,56 @@ class RangeWidget(TinyCompoundWidget):
         self.from_field.readonly = False
         self.to_field.readonly = False
 
-class Form(TinyCompoundWidget):
+class Form(tg.widgets.Form):
     """A generic form widget
     """
 
     template = "tinyerp.widgets_search.templates.search_form"
 
-    member_widgets = ['frame']
+    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context',
+              'oncancel', 'onok', 'onfind', 'offset', 'limit', 'name', 'action', 'fields_type']
+
+
+    oncancel = None
+    onok = None
+    onfind = None
+
+    limit = 0
+    offset = 0
+
+
+    member_widgets = ['_notebook_', 'bframe', 'aframe']
     frame = None
+    _notebook_ = tg.widgets.Tabber(use_cookie=True)
 
-    def __init__(self, model, view=None, domain=[], context={}, values={}):
-        super(Form, self).__init__()
 
-        self.model = model
-        self.domain = domain
-        self.context = context
-        self.view = view
+    def __init__(self,name, action, params, values={}):
+
+        tg.widgets.Form.__init__(self, name=name, action=action)
+
+        self.model         = params.model
+        self.state         = params.state or None
+        self.id            = params.id or False
+        self.ids           = params.ids
+        self.found_ids     = params.found_ids or []
+        self.view_ids      = params.view_ids or []
+        self.view_mode     = params.view_mode or ['form', 'tree']
+        self.view_mode2    = params.view_mode2 or ['tree', 'form']
+
+        self.view_type     = self.view_mode[0]
+        self.domain        = params.domain or []
+        self.context       = params.context or {}
+
+        #self.name = name
+        #self.action = action
+
+        self.offset = values.get('offset', self.offset)
+        self.limit = values.get('limit', self.limit)
+
+        proxy = rpc.RPCProxy(self.model)
+
+        ctx = rpc.session.context.copy()
+        self.view = proxy.fields_view_get({}, 'form', ctx)
 
         fields = self.view['fields']
 
@@ -99,7 +133,9 @@ class Form(TinyCompoundWidget):
         self.fields_type = {}
         self.widgets = []
         self.parse(dom, fields, values)
-        self.frame = Frame({}, self.widgets, 6)
+
+        self.bframe = Frame({}, [w for w in self.widgets if not w.adv], 6)
+        self.aframe = Frame({}, self.widgets, 6)
 
     def parse(self, root=None, fields=None, values={}):
 
@@ -154,6 +190,7 @@ class Form(TinyCompoundWidget):
 
                 self.fields_type[name] = kind
                 field = widgets_type[kind](attrs=fields[name])
+                field.adv = fields[name]['select'] in ('2', 2)
 
                 # in search view fields should be writable
                 field.readonly = False

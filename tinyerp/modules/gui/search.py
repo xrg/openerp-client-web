@@ -79,23 +79,23 @@ class Search(controllers.Controller, TinyResource):
     def create(self, params, values={}):
         form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok')
 
-        form.oncancel = self._get_oncancel(params)
-        form.onok = self._get_onok(params)
-        form.onfind = self._get_onfind(params)
+        form.form_view.oncancel = self._get_oncancel(params)
+        form.form_view.onok = self._get_onok(params)
+        form.form_view.onfind = self._get_onfind(params)
 
         form.javascript = self._get_javascript(params)
-        form.hidden_fields = self._get_hiddenfield(params)
+        form.form_view.hidden_fields = self._get_hiddenfield(params)
 
         return dict(form=form, params=params)
 
     def _get_oncancel(self, params):
-        return "submit_form('/search/cancel')"
+        return "submit_form('/search/cancel', form)"
 
     def _get_onok(self, params):
-        return "submit_form('/search/ok')"
+        return "onok('/search/ok', form)"
 
     def _get_onfind(self, params):
-        return "submit_form('/search/find')"
+        return "submit_form('/search/find', form)"
 
     def _get_javascript(self, params):
         return []
@@ -171,7 +171,7 @@ class Search(controllers.Controller, TinyResource):
 
         if fields_type:
             for n, v in fields_type.items():
-                t = _make_domain(n, v, kw[n])
+                t = _make_domain(n, v, kw.get(n))
                 if t:
                     search_domain += t
 
@@ -184,7 +184,6 @@ class Search(controllers.Controller, TinyResource):
 
         if l < 1: l = 20
         if o < 0: o = 0
-
         proxy = rpc.RPCProxy(params.model)
         params.found_ids = proxy.search(search_domain, o, l)
 
