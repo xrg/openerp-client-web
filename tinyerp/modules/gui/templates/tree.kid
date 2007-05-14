@@ -55,7 +55,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr py:for="tool in tree.toolbar" class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="location.href='${tg.query('/tree/button', id=tool['id'], model=tree.model)}'">
+                        <tr py:for="tool in tree.toolbar" class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="location.href='${tg.query('/tree', id=tool['id'], model=tree.model)}'">
                             <td>
                                 <img src="${tool['icon']}" width="32" height="32" align="left"/>
                             </td>

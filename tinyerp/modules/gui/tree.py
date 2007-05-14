@@ -57,8 +57,6 @@ class Tree(controllers.Controller, TinyResource):
     @expose(template="tinyerp.modules.gui.templates.tree")
     def create(self, params):
 
-        print "XXXXXX", params
-
         view_id = (params.view_ids or False) and params.view_ids[0]
         domain = params.domain
         context = params.context
@@ -81,6 +79,18 @@ class Tree(controllers.Controller, TinyResource):
                 tool['icon'] = icons.get_icon(tool['icon'])
 
         return dict(tree=tree)
+
+    @expose()
+    def default(self, id, model):
+        params = TinyDict()
+
+        params.ids = id
+        params.view_ids = [1]
+        params.model = model
+        params.domain = [('parent_id', '=', False)]
+        params.context = {}
+
+        return self.create(params)
 
     @expose('json')
     def data(self, ids, model, fields, field_parent=None, icon=0, domain=[]):
@@ -218,14 +228,3 @@ class Tree(controllers.Controller, TinyResource):
         datas['ids'] = kw.get('id')
 
         return self.do_action('tree_but_open', datas=datas)
-
-    @expose()
-    def button(self, id, model):
-        params = TinyDict()
-        params.ids = id
-        params.view_ids = [1]
-        params.model = model
-        params.domain = [('parent_id', '=', False)]
-        params.context = {}
-
-        return self.create(params)
