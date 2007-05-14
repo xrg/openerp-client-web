@@ -45,7 +45,33 @@
 
     <div class="spacer"></div>
 
-    ${tree.display()}
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td py:if="tree.toolbar" width="100" valign="top" class="treebar">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Toolbar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr py:for="tool in tree.toolbar" class="treebutton ${tree.id == tool['id']}" onclick="location.href='${tg.query('/tree/button', id=tool['id'], model=tree.model)}'">
+                            <td>
+                                <img src="${tool['icon']}" width="32" height="32" align="left"/>
+                            </td>
+                            <td>
+                                ${tool['name']}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td class="treesep" py:if="tree.toolbar" width="5px"></td>
+            <td valign="top">
+                ${tree.display()}
+            </td>
+        </tr>
+    </table>
 
 </div>
 

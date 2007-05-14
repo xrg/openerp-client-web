@@ -38,7 +38,7 @@ import treegrid
 
 class ViewTree(tg.widgets.Form):
     template = "tinyerp.widgets.templates.viewtree"
-    params = ['model', 'domain', 'context']
+    params = ['model', 'domain', 'context', 'toolbar']
     member_widgets = ['tree']
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
@@ -58,7 +58,6 @@ class ViewTree(tg.widgets.Form):
         self.view = view
 
         proxy = rpc.RPCProxy(self.model)
-        ids = proxy.search(self.domain2)
 
         ctx = context;
         ctx.update(rpc.session.context)
@@ -69,12 +68,23 @@ class ViewTree(tg.widgets.Form):
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', 'Unknown')
+        self.toolbar = attrs.get('toolbar', False)
+
+        ids = []
+        id = res_id
+
+        if self.toolbar:
+            ids = proxy.search(self.domain2)
+            self.toolbar = rpc.session.execute('object', 'execute', self.model, 'read', ids, ['name', 'icon'], ctx)
+
+            id = res_id or ids[0]
+            ids = proxy.read([id], [self.field_parent])[0][self.field_parent]
 
         self.headers = []
-
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree", model=self.model, headers=self.headers, url="/tree/data", domain=self.domain, field_parent=self.field_parent)
+        self.tree = treegrid.TreeGrid(name="tree", model=self.model, headers=self.headers, url="/tree/data", ids=ids, domain=self.domain, field_parent=self.field_parent)
+        self.id = id
 
         #register onselection callback
         self.tree.onselection = "onselection"
