@@ -34,7 +34,7 @@ from interface import TinyField
 class TreeGrid(TinyField):
 
     template = "tinyerp.widgets.templates.treegrid"
-    params = ['id', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'onselection', 'domain', 'action_url', 'action_params']
+    params = ['ids', 'url', 'model', 'headers', 'fields', 'field_parent', 'onopen', 'onselection', 'domain', 'action_url', 'action_params']
 
     selectable = False
     show_headers = True
@@ -48,12 +48,12 @@ class TreeGrid(TinyField):
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
     javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]
 
-    def __init__(self, name, model, headers, url, field_parent=None, domain=[]):
+    def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[]):
         attrs = dict(name=name, model=model, url=url)
 
         super(TreeGrid, self).__init__(attrs)
 
-        self.id = name
+        self.ids = ids
         self.model = model
         self.url = url
 

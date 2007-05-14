@@ -81,7 +81,7 @@ class Tree(controllers.Controller, TinyResource):
     def data(self, ids, model, fields, field_parent=None, icon=0, domain=[]):
 
         ids = ids.split(',')
-        ids = [int(id) for id in ids]
+        ids = [int(id) for id in ids if id != '']
 
         if isinstance(fields, basestring):
             fields = eval(fields)
@@ -94,7 +94,7 @@ class Tree(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
 
-        if ids[0] == -1:
+        if not ids:
             ids = proxy.search(domain)
 
         if int(icon):
