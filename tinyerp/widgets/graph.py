@@ -82,10 +82,13 @@ class Graph(TinyCompoundWidget):
 
         proxy = rpc.RPCProxy(model)
 
+        if self.ids is None:
+            self.ids = proxy.search(domain)
+
         ctx = rpc.session.context.copy()
         ctx.update(context)
 
-        values = proxy.read(ids, self.fields.keys(), ctx)
+        values = proxy.read(self.ids, self.fields.keys(), ctx)
 
         for value in values:
             res = {}
