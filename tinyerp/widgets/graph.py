@@ -67,6 +67,8 @@ class Graph(TinyCompoundWidget):
 
     def __init__(self, model, view, ids=[], domain=[], context={}):
 
+        self.ids = ids
+
         self.axis = None
         self.axis_data = None
         self.kind = 'pie'
@@ -79,11 +81,6 @@ class Graph(TinyCompoundWidget):
         self.parse(root, self.fields)
 
         proxy = rpc.RPCProxy(model)
-
-        if not ids:
-            ids = proxy.search(domain)
-
-        self.ids = ids
 
         ctx = rpc.session.context.copy()
         ctx.update(context)
