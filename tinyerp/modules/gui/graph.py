@@ -90,7 +90,10 @@ class Graph(controllers.Controller, TinyResource):
         canvas.draw()
 
         size = canvas.get_renderer().get_canvas_width_height()
-        buf = canvas.buffer_rgba()
+        try:
+            buf = canvas.buffer_rgba(0, 0) # matplotlib-0.90
+        except:
+            buf = canvas.buffer_rgba() # matplotlib-0.82
 
         im=PILImage.frombuffer('RGBA', size, buf, 'raw', 'RGBA', 0, 1)
 
