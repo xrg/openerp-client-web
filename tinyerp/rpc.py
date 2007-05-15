@@ -200,33 +200,11 @@ class NETRPCGateway(RPCGateway):
 
         return self._login_result(db, user, passwd, res)
 
-    def __convert(self, result):
-        """Passing unicode argument causes error, so convert each unicode argument into utf-8 encoded str.
-        """
-        if isinstance(result, unicode):
-            return result.encode('utf-8')
-
-        elif isinstance(result, list):
-            return [self.__convert(val) for val in result]
-
-        elif isinstance(result, tuple):
-            return tuple([self.__convert(val) for val in result])
-
-        elif isinstance(result, dict):
-            newres = {}
-            for key, val in result.items():
-                newres[key] = self.__convert(val)
-
-            return newres
-
-        else:
-            return result
-
     def execute(self, obj, method, *args):
         sock = tiny_socket.mysocket()
         try:
             sock.connect(self.host, self.port)
-            sock.mysend(self.__convert((obj, method, self.db, self.uid, self.passwd)+ args))
+            sock.mysend((obj, method, self.db, self.uid, self.passwd)+ args)
             res = sock.myreceive()
             sock.disconnect()
             return res
@@ -237,7 +215,7 @@ class NETRPCGateway(RPCGateway):
         sock = tiny_socket.mysocket()
         try:
             sock.connect(self.host, self.port)
-            sock.mysend(self.__convert(('db', method) + args))
+            sock.mysend(('db', method) + args)
             res = sock.myreceive()
             sock.disconnect()
             return res
