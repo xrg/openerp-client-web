@@ -119,7 +119,7 @@ def _check_method(obj, fn):
 
             expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
 
-            if kw.get('login_action') == 'connect':
+            if action == 'connect':
                 dblist = rpc.session.listdb(host, port, protocol)
                 if dblist == -1:
                    message="Invalid Host or Host not found"
@@ -134,7 +134,11 @@ def _check_method(obj, fn):
                 cherrypy.response.status = 401
                 return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
-            if kw.get('login_action') == 'login':
+            if action == 'change':
+                cherrypy.response.status = 401
+                return _login(cherrypy.request.path, protocol=protocol, host=host, port=port, action=action, origArgs=get_orig_args(kw))
+
+            if action == 'login':
                 message='Invalid user id or password.'
 
             # See if the user just tried to log in
