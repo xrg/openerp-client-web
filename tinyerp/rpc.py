@@ -275,7 +275,7 @@ class RPCSession(object):
         self.gateway = gw
         return gw.listdb()
 
-    def login(self, host, port, db, user, passwd, protocol='http', lang=None):
+    def login(self, host, port, db, user, passwd, protocol='http'):
 
         protocol = protocol or 'http'
 
@@ -294,8 +294,8 @@ class RPCSession(object):
         # read the full name of the user
         self.user_name = self.execute('object', 'execute', 'res.users', 'read', [session.uid], ['name'])[0]['name']
 
-        # set global context
-        self.context = (lang or {}) and {'lang': lang}
+        # set the context
+        self.context_reload()
 
         return res
 
@@ -320,12 +320,33 @@ class RPCSession(object):
     def context_reload(self):
         """Reload the context for the current user
         """
+
         self.context = {}
+        self.timezone = 'utc'
+
         # self.uid
         context = self.execute('object', 'execute', 'ir.values', 'get', 'meta', False, [('res.users', self.uid or False)], False, {}, True, True, False)
         for c in context:
             if c[2]:
                 self.context[c[1]] = c[2]
+            if c[1] == 'lang':
+                pass
+#                ids = self.execute('object', 'execute', 'res.lang', 'search', [('code', '=', c[2])])
+#                if ids:
+#                    l = self.execute('object', 'execute', 'res.lang', 'read', ids, ['direction'])
+#                    if l and 'direction' in l[0]:
+#                        common.DIRECTION = l[0]['direction']
+#                        import gtk
+#                        if common.DIRECTION == 'rtl':
+#                            gtk.widget_set_default_direction(gtk.TEXT_DIR_RTL)
+#                        else:
+#                            gtk.widget_set_default_direction(gtk.TEXT_DIR_LTR)
+            elif c[1] == 'tz':
+                self.timezone = self.execute('common', 'timezone_get')
+                try:
+                    import pytz
+                except:
+                    common.warning('You select a timezone but tinyERP could not find pytz library !\nThe timezone functionality will be disable.')
 
     def __convert(self, result):
 

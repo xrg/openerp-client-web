@@ -137,12 +137,8 @@ def _check_method(obj, fn):
             if kw.get('login_action') == 'login':
                 message='Invalid user id or password.'
 
-            # read lang
-            lang = cherrypy.request.simple_cookie.get('terp_lang')
-            lang = (lang or None) and lang.value
-
             # See if the user just tried to log in
-            if rpc.session.login(host, port, db, user, passwd, protocol=protocol, lang=lang) != 1:
+            if rpc.session.login(host, port, db, user, passwd, protocol=protocol) != 1:
                 # Bad login attempt
                 dblist = rpc.session.listdb(host, port, protocol)
 

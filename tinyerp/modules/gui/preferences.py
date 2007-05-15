@@ -38,32 +38,54 @@ import cherrypy
 
 from tinyerp import rpc
 from tinyerp.tinyres import TinyResource
+from tinyerp.modules.utils import TinyDict
 
-from tinyerp.widgets.form import Selection
+from tinyerp.widgets.screen import Screen
 
 class Preferences(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.preferences")
     def create(self):
         proxy = rpc.RPCProxy('ir.values')
-        res = proxy.get('meta', False, [['res.users', False]], True, {}, True)
 
-        field = Selection({'name':'lang','selection':res[0][3]['selection'],'label':'Language','string':'Language'});
+        default = proxy.get('meta', False, [('res.users', rpc.session.uid)], False, rpc.session.context, True, True, False)
+        values = {}
+        for d in default:
+            n, k, v = d
+            values[k] = v
 
-        lang = cherrypy.request.simple_cookie.get('terp_lang')
-        field.set_value((lang or '') and lang.value)
+        id = rpc.session.uid
+        model = 'res.users'
+        preferences = proxy.get('meta', False, [('res.users', False)], True, rpc.session.context, True)
 
-        return dict(field=field)
+        fields = {}
+        arch = '<?xml version="1.0"?><form string="%s">\n' % ('Preferences')
+        for p in preferences:
+            arch+='<field name="%s" colspan="4"/>' % (p[1],)
+            fields[p[1]] = p[3]
+        arch+= '</form>'
+
+        params = TinyDict()
+
+        params.model = model
+        params.context = {}
+        params.domain = []
+
+        view = dict(arch=arch, fields=fields, datas=values)
+
+        screen = Screen(params)
+        screen.add_view(view)
+
+        return dict(screen=screen, defaults=values)
 
     @expose()
-    def ok(self, lang, cancel=None):
-        if cancel:
-            return ""
+    def ok(self, **kw):
+        params, data = TinyDict.split(kw)
+        for key in data:
+            if data[key]:
+                rpc.session.execute('object', 'execute', 'ir.values', 'set', 'meta', key, key, [(params.model, rpc.session.uid)], data[key])
+            elif params.default.get(key, False):
+                rpc.session.execute('common', 'ir_del', params.default[key])
 
-        cherrypy.response.simple_cookie['terp_lang'] = lang
-        cherrypy.response.simple_cookie['terp_lang']['path'] = '/'
-        cherrypy.response.simple_cookie['terp_lang']['expires'] = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
-
-        rpc.session.logout()
-
+        rpc.session.context_reload()
         raise redirect('/')
