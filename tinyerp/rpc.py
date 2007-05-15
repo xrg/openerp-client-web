@@ -200,21 +200,33 @@ class NETRPCGateway(RPCGateway):
 
         return self._login_result(db, user, passwd, res)
 
-    def _make_args(self, *args):
+    def __convert(self, result):
         """Passing unicode argument causes error, so convert each unicode argument into utf-8 encoded str.
         """
-        result = []
-        for arg in args:
-            if isinstance(arg, unicode):
-                arg = arg.encode('utf-8')
-            result.append(arg)
-        return result
+        if isinstance(result, unicode):
+            return result.encode('utf-8')
+
+        elif isinstance(result, list):
+            return [self.__convert(val) for val in result]
+
+        elif isinstance(result, tuple):
+            return tuple([self.__convert(val) for val in result])
+
+        elif isinstance(result, dict):
+            newres = {}
+            for key, val in result.items():
+                newres[key] = self.__convert(val)
+
+            return newres
+
+        else:
+            return result
 
     def execute(self, obj, method, *args):
         sock = tiny_socket.mysocket()
         try:
             sock.connect(self.host, self.port)
-            sock.mysend(self._make_args(obj, method, self.db, self.uid, self.passwd, *args))
+            sock.mysend(self.__convert((obj, method, self.db, self.uid, self.passwd)+ args))
             res = sock.myreceive()
             sock.disconnect()
             return res
@@ -225,7 +237,7 @@ class NETRPCGateway(RPCGateway):
         sock = tiny_socket.mysocket()
         try:
             sock.connect(self.host, self.port)
-            sock.mysend(self._make_args('db', method, *args))
+            sock.mysend(self.__convert(('db', method) + args))
             res = sock.myreceive()
             sock.disconnect()
             return res
@@ -356,6 +368,9 @@ class RPCSession(object):
         elif isinstance(result, list):
             return [self.__convert(val) for val in result]
 
+        elif isinstance(result, tuple):
+            return tuple([self.__convert(val) for val in result])
+
         elif isinstance(result, dict):
             newres = {}
             for key, val in result.items():
@@ -372,6 +387,7 @@ class RPCSession(object):
             raise RPCException(1, "not logged!")
 
         result = self.gateway.execute(obj, method, *args)
+
         return self.__convert(result)
 
     def execute_db(self, method, *args):
