@@ -27,7 +27,7 @@
                 <tr>
                     <td>${tree.string}</td>
                     <td style="width: 200px; text-align: right; font-weight: normal">
-                        <a py:if="rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}">Create shortcut</a>
+                        <a py:if="rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}">Create Shortcut</a>
                     </td>
                 </tr>
             </table>
