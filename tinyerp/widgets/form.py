@@ -162,7 +162,11 @@ class Separator(TinyField):
     """
 
     params = ['string']
-    template = "tinyerp.widgets.templates.separator"
+    template = """
+        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
+            <strong>${string}</strong>
+            <hr width="100%"/>
+            </span>    """
 
     def __init__(self, attrs={}):
         super(Separator, self).__init__(attrs)
@@ -175,10 +179,15 @@ class NewLine(TinyField):
     """NewLine widget just tells the Frame widget to start new row during
     layout process.
     """
-    template = "tinyerp.widgets.templates.newline"
+    template = """ <span/> """
 
 class Label(TinyField):
-    template = "tinyerp.widgets.templates.label"
+
+    template = """
+        <div style="text-align: center; width: 100%" xmlns:py="http://purl.org/kid/ns#">
+            ${field_value}
+        </div>   """
+
     params = ["field_value"]
 
     def __init__(self, attrs={}):
@@ -352,7 +361,12 @@ class Button(TinyField):
 
 class Image(TinyField):
 
-    template = "tinyerp.widgets.templates.image"
+    template = """
+        <span xmlns:py="http://purl.org/kid/ns#">
+            <img align="left" src="${src}" />
+        </span>
+        """
+
     params = ["src"]
     src = ""
 
@@ -364,7 +378,17 @@ class Image(TinyField):
         self.src =  icons.get_icon(icon)
 
 class Group(TinyCompoundWidget):
-    template = "tinyerp.widgets.templates.group"
+    template = """
+
+    <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
+        <fieldset py:if="string">
+            <legend py:content="string" />
+            ${frame.display(value_for(frame), **params_for(frame))}
+        </fieldset>
+        <span py:replace="frame.display()" py:if="not string"/>
+    </span>
+    """
+
     params = ["string"]
     member_widgets = ["frame"]
     frame = None
@@ -377,14 +401,15 @@ class Group(TinyCompoundWidget):
 
 class HPaned(TinyCompoundWidget):
 
-    template = """<span xmlns:py="http://purl.org/kid/ns#">
-    <table width="100%" class="hpaned">
-        <tr>
-            <td valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
-        </tr>
-    </table>
-    </span>
-    """
+    template = """
+        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
+            <table width="100%" class="hpaned">
+                <tr>
+                    <td valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
+                </tr>
+            </table>
+        </span>
+        """
 
     member_widgets = ["children"]
 
@@ -395,14 +420,15 @@ class HPaned(TinyCompoundWidget):
 
 class VPaned(TinyCompoundWidget):
 
-    template = """<span xmlns:py="http://purl.org/kid/ns#">
-    <table width="100%" class="hpaned">
-        <tr py:for="child in children">
-            <td valign="top" py:content="child.display(value_for(child), **params_for(child))"></td>
-        </tr>
-    </table>
-    </span>
-    """
+    template = """
+        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
+            <table width="100%" class="hpaned">
+                <tr py:for="child in children">
+                    <td valign="top" py:content="child.display(value_for(child), **params_for(child))"></td>
+                </tr>
+            </table>
+        </span>
+        """
 
     member_widgets = ["children"]
 
@@ -415,7 +441,10 @@ class Form(TinyCompoundWidget):
     """A generic form widget
     """
 
-    template = "tinyerp.widgets.templates.form"
+    template = """
+        <span xmlns:py="http://purl.org/kid/ns#" py:if="frame" py:replace="frame.display(value_for(frame), **params_for(frame))"/>
+        """
+
     member_widgets = ['frame']
     frame = None
 

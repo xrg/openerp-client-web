@@ -1,4 +1,4 @@
-<div xmlns:py="http://purl.org/kid/ns#">
+<div xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <table width="100%" border="0" class='fields'>
         <tr py:for="row in table">
             <td py:for="attrs, widget  in row" py:attrs="attrs">

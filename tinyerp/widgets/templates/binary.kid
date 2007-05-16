@@ -1,4 +1,4 @@
-<span xmlns:py="http://purl.org/kid/ns#" >
+<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <table>
         <tr>
             <td>

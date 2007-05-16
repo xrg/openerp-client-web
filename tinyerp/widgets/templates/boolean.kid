@@ -1,4 +1,4 @@
-<span xmlns:py="http://purl.org/kid/ns#">
+<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <script type="text/javascript">
         function ${name.replace('/', '_')}_clicked(sender){
             var getter = $('${name}');

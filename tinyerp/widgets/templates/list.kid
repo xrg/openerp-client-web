@@ -33,7 +33,6 @@
 	            <td py:if="editable" style="text-align: center">
 	            </td>
 	        </tr>
-
 	    </tbody>
 	</table>
 </div>
