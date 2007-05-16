@@ -10,7 +10,14 @@
     <div class="header">
 
         <div class="title">
-            ${form.screen.string}
+            <table style="width: 100%; height: 100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>${form.screen.string}</td>
+                    <td style="width: 200px; text-align: right; font-weight: normal">
+                        <a py:if="rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}">Create shortcut</a>
+                    </td>
+                </tr>
+            </table>                        
         </div>
 
         <div class="spacer"></div>

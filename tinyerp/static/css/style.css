@@ -35,7 +35,7 @@ a:hover.imglink {
 }
 
 #header {
-    height: 100px;
+    height: 90px;
     margin-bottom: 5px;
     background-color: #C3D9FF;
 }
@@ -44,14 +44,18 @@ a:hover.imglink {
     padding: 5px;
 }
 
-#linkbar {
+#shortcuts {
     height: 25px;
     background-color: #E8EEFA;
     border-bottom: 1px solid #C3D9FF;
-    text-align: right;
     padding-left: 5px;
     padding-right: 5px;
     white-space: nowrap;
+}
+
+#shortcuts span {
+    border-left: 2px solid #C3D9FF;
+    padding-left: 5px;
 }
 
 #mybar {

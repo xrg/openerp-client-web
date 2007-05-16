@@ -34,6 +34,8 @@
 							${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]						
 							|
 	                        <a href="/pref/create/">Preferences</a>
+	                        |
+	                        <a href="/">HOME</a>
 							|						
 							<a href="/logout">LOGOUT</a>
 						</div>
@@ -48,24 +50,13 @@
 	                </td>
 	            </tr>
 	            <tr>
-	                <td id="linkbar" colspan="2">
-	                    <table py:if="rpc.session.is_logged()" border="0">
-	                        <tr>
-	                            <td><a href="/"><b>HOME</b></a></td>
-	                            <td><a href="/shortcuts"><b>SHORTCUTS</b></a></td>
-	                            <td width="100%">
-	                                <table class="shortcuts">
-	                                    <tr>
-	                                        <td py:for="sc in tg.root.shortcuts.my()">
-	                                            <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-	                                            |
-	                                        </td>
-	                                    </tr>
-	                                </table>
-	                            </td>
-	                            <td><a py:if="rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}">ADD</a></td>
-	                        </tr>
-	                    </table>                    
+	                <td id="shortcuts" colspan="2">
+	                    <span py:if="rpc.session.is_logged()" py:strip="">
+                            <b><a href="/shortcuts">SHORTCUTS</a> :</b>
+                            <span py:for="sc in tg.root.shortcuts.my()">
+                                <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                            </span>	                        
+    	                </span>
 	                </td>
 	            </tr>
 	        </table>

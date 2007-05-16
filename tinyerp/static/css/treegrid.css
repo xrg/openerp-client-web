@@ -14,7 +14,12 @@ table.tree-grid .tree-field td {
 }
 
 table.tree-grid .header {
-    background-color: #CCCCCC;
+    background-color: #C3D9FF;
+}
+
+table.tree-grid .header th {
+    background-color: #C3D9FF;
+    padding: 4px 5px;
 }
 
 table.tree-grid .row {
