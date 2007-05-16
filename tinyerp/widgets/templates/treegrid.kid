@@ -1,4 +1,4 @@
-<span xmlns:py="http://purl.org/kid/ns#">
+<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
 <span  id="${field_id}"/>
     <script type="text/javascript">
         var ${field_id} = new TreeGrid('${field_id}', '${headers}');

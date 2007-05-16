@@ -1,5 +1,4 @@
-<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    
+<span xmlns:py="http://purl.org/kid/ns#" py:strip="">    
     <script type="text/javascript">
     function open_win(site){
         var web_site;
