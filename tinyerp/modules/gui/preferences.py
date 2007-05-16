@@ -48,11 +48,13 @@ class Preferences(controllers.Controller, TinyResource):
     def create(self):
         proxy = rpc.RPCProxy('ir.values')
 
-        default = proxy.get('meta', False, [('res.users', rpc.session.uid)], False, rpc.session.context, True, True, False)
+        res = proxy.get('meta', False, [('res.users', rpc.session.uid)], False, rpc.session.context, True, True, False)
+
         values = {}
-        for d in default:
-            n, k, v = d
+        defaults = {}
+        for (n, k, v) in res:
             values[k] = v
+            defaults[k] = n
 
         id = rpc.session.uid
         model = 'res.users'
@@ -76,7 +78,7 @@ class Preferences(controllers.Controller, TinyResource):
         screen = Screen(params)
         screen.add_view(view)
 
-        return dict(screen=screen, defaults=values)
+        return dict(screen=screen, defaults=defaults)
 
     @expose()
     def ok(self, **kw):
@@ -85,7 +87,8 @@ class Preferences(controllers.Controller, TinyResource):
             if data[key]:
                 rpc.session.execute('object', 'execute', 'ir.values', 'set', 'meta', key, key, [(params.model, rpc.session.uid)], data[key])
             elif params.default.get(key, False):
-                rpc.session.execute('common', 'ir_del', params.default[key])
+                res = rpc.session.execute('common', 'ir_del', params.default[key])
+                print "XXXXXX", res
 
         rpc.session.context_reload()
         raise redirect('/')
