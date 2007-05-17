@@ -342,7 +342,15 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def action(self, **kw):
-        return self.do_action('client_action_multi', datas=kw)
+        params, data = TinyDict.split(kw)
+
+        action = params.data
+
+        if not action:
+            return self.do_action('client_action_multi', datas=kw)
+
+        from tinyerp.modules import actions
+        return actions._execute(action, model=params.model, id=params.id, ids=params.ids, report_type='pdf')
 
     @expose()
     def dashlet(self, **kw):

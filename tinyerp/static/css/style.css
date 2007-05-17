@@ -181,6 +181,36 @@ div.message {
 	padding: 5px;
 }
 
+.sidebar {
+    padding: 0 5px;
+    width: 150px;
+}
+
+.sidebar table {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.sidebar th,
+.sidebar td {
+    padding: 4px;
+    text-align: left;
+}
+
+.sidebar thead tr {
+    background-color: #C3D9FF;
+    font-weight: bold;
+}
+
+.sidebar tbody tr {
+    cursor: pointer;
+    background-color: #FBFBFB;
+}
+
+.sidebar tbody tr:hover {
+    background-color: #F0F0F0;
+}
+
 td.label {
 	width: 5px;
 	padding: 0 5px;

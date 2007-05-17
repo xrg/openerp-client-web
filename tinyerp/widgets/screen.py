@@ -61,7 +61,7 @@ class Screen(TinyCompoundWidget):
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, params=None, prefix='', views_preloaded={}, selectable=False, editable=False):
+    def __init__(self, params=None, prefix='', views_preloaded={}, hastoolbar=False, selectable=False, editable=False):
         super(Screen, self).__init__(dict(prefix=prefix))
 
         # get params dictionary
@@ -80,8 +80,11 @@ class Screen(TinyCompoundWidget):
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded
+        self.hastoolbar         = hastoolbar
         self.selectable         = selectable
         self.editable           = editable
+
+        self.toolbar            = None
 
         if self.view_mode:
             # Use False as view_id if switching the vuew
@@ -104,11 +107,14 @@ class Screen(TinyCompoundWidget):
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
 
-            view = proxy.fields_view_get(view_id, view_type, ctx)
+            view = proxy.fields_view_get(view_id, view_type, ctx, self.hastoolbar)
 
         self.add_view(view, view_type)
 
     def add_view(self, view, view_type='form'):
+
+        self.toolbar = view.get('toolbar', None)
+
         if view_type == 'form':
             self.widget = form.Form(prefix=self.prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], domain=self.domain, context=self.context)
 

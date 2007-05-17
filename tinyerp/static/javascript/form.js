@@ -73,7 +73,7 @@ var inlineDelete = function(id, src){
     form.submit();
 }
 
-var submit_form = function(action, src){
+var submit_form = function(action, src, data){
 
     form = $("view_form");
 
@@ -81,13 +81,7 @@ var submit_form = function(action, src){
         return false;
     }
 
-    act = '/form/' + action;
-
-    if (src) {
-        act = getURL(act, {_terp_source: $(src).name});
-    }
-
-    form.action = act;
+    form.action = getURL('/form/' + action, {_terp_source: src ? $(src).name : null, _terp_data: data ? data : null});
     form.submit();
 }
 
