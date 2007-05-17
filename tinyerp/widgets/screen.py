@@ -113,14 +113,15 @@ class Screen(TinyCompoundWidget):
 
     def add_view(self, view, view_type='form'):
 
-        toolbar = {}
-        for item, value in view.get('toolbar', {}).items():
-            if value: toolbar[item] = value
-
-        self.toolbar = toolbar or None
-        self.hastoolbar = (toolbar or False) and True
-
         if view_type == 'form':
+
+            toolbar = {}
+            for item, value in view.get('toolbar', {}).items():
+                if value: toolbar[item] = value
+
+            self.toolbar = toolbar or None
+            self.hastoolbar = (toolbar or False) and True
+
             self.widget = form.Form(prefix=self.prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], domain=self.domain, context=self.context)
 
         if view_type == 'tree':
