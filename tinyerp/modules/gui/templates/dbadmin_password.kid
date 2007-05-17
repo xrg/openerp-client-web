@@ -24,42 +24,30 @@
 		</div>
 		<div class="spacer"></div>
 		<div id="content">
-			<div class="box2">
-				<table align="center" border="0" width="100%">
-					<tr>
-						<td align="right" width="90" class="label">Host :</td>
-						<td>
-							${url}
-						</td>
-					</tr>
-				</table>
-			</div>
-			<div align="center" class="box2">
+			
+			
 				<form action="/dbadmin/password" method="post">
-				
-					<table align="center" width="100%">
-						<tr>
-							<td align="right" width="99" class="label">Old Password :</td>
-							<td><input type="password" name="old_passwd" id="user" style="width: 99%;" /></td>
-						</tr>
-						<tr>
-							<td align="right" width="99" class="label">New Password :</td>
-							<td><input type="password" name="new_passwd" id="user" style="width: 99%;" /></td>
-						</tr>
-						<tr>
-							<td align="right" width="99" class="label">Confirm Password :</td>
-							<td><input type="password" name="new_passwd2" id="user" style="width: 99%;" /></td>
-						</tr>
-						<tr>
-							<td>
-							</td>
-							<td align="right">
-								<input type="submit" value="Change" />
-							</td>
-						</tr>
-					</table>
+			        <div align="center" class="box2">	
+						<table align="center" width="100%">
+							<tr>
+								<td align="right" width="99" class="label">Old Password :</td>
+								<td><input type="password" name="old_passwd" id="user" style="width: 99%;" /></td>
+							</tr>
+							<tr>
+								<td align="right" width="99" class="label">New Password :</td>
+								<td><input type="password" name="new_passwd" id="user" style="width: 99%;" /></td>
+							</tr>
+							<tr>
+								<td align="right" width="99" class="label">Confirm Password :</td>
+								<td><input type="password" name="new_passwd2" id="user" style="width: 99%;" /></td>
+							</tr>
+						</table>
+					</div>
+					<div align="right" class="box2">
+						<input type="submit" value="Change" />
+                    </div>
 				</form>
-			</div>
+
 			<div class="box message" id="message" py:if="message">
 				${message}
 			</div>

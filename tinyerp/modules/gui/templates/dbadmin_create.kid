@@ -30,18 +30,6 @@
 
 			<form action="/dbadmin/create" method="post" name="create">
 
-	            <div class="box2">
-					<table align="center" border="0" width="100%">
-						<tr>
-							<td align="right" width="90" class="label">Host :</td>
-							<td>
-								${url}
-							</td>
-						</tr>
-					</table>
-				</div>
-
-
 	            <div class="box2" id="create">
 					<table align="center" border="0" width="100%">
 						<tr>

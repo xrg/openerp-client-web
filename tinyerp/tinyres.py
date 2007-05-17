@@ -36,15 +36,21 @@ import types
 
 from turbogears import expose
 from turbogears import redirect
+from turbogears import config
 
 import cherrypy
 
 import rpc
 
 @expose(template="tinyerp.templates.login")
-def _login(target, protocol='http', host='', port='8069', dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
+def _login(target, protocol, host, port, dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
     """Login page, exposed without any controller, will be used by _check_method wrapper
     """
+
+    host = config.get('tiny.host')
+    port = config.get('tiny.port')
+    protocol = config.get('tiny.protocol')
+
     return dict(target=target, protocol=protocol, host=host, port=port, dblist=dblist, user=user, db=db, action=action, message=message, origArgs=origArgs)
 
 def _check_method(obj, fn):
@@ -55,9 +61,6 @@ def _check_method(obj, fn):
         if not kw.get('login_action'):
             return
 
-        if kw.has_key('host'): del kw['host']
-        if kw.has_key('port'): del kw['port']
-        if kw.has_key('protocol'): del kw['protocol']
         if kw.has_key('db'): del kw['db']
         if kw.has_key('user'): del kw['user']
         if kw.has_key('passwd'): del kw['passwd']
@@ -69,9 +72,6 @@ def _check_method(obj, fn):
 
         new_kw = kw.copy()
 
-        if new_kw.has_key('host'): del new_kw['host']
-        if new_kw.has_key('port'): del new_kw['port']
-        if new_kw.has_key('protocol'): del new_kw['protocol']
         if new_kw.has_key('db'): del new_kw['db']
         if new_kw.has_key('user'): del new_kw['user']
         if new_kw.has_key('passwd'): del new_kw['passwd']
@@ -102,9 +102,9 @@ def _check_method(obj, fn):
 
             # get some settings from cookies
             try:
-                host = cherrypy.request.simple_cookie['terp_host'].value
-                port = cherrypy.request.simple_cookie['terp_port'].value
-                protocol = cherrypy.request.simple_cookie['terp_protocol'].value
+                host = config.get('tiny.host')
+                port = config.get('tiny.port')
+                protocol = config.get('tiny.protocol')
                 db = cherrypy.request.simple_cookie['terp_db'].value
                 user = cherrypy.request.simple_cookie['terp_user'].value
             except:
@@ -119,27 +119,6 @@ def _check_method(obj, fn):
 
             expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
 
-            if action == 'connect':
-                dblist = rpc.session.listdb(host, port, protocol)
-                if dblist == -1:
-                   message="Invalid Host or Host not found"
-                else: # Connected. Set host, port and protocol in cookies
-                    cherrypy.response.simple_cookie['terp_host'] = host
-                    cherrypy.response.simple_cookie['terp_port'] = port
-                    cherrypy.response.simple_cookie['terp_protocol'] = protocol
-                    cherrypy.response.simple_cookie['terp_host']['expires'] = expiration_time;
-                    cherrypy.response.simple_cookie['terp_port']['expires'] = expiration_time;
-                    cherrypy.response.simple_cookie['terp_protocol']['expires'] = expiration_time;
-
-                cherrypy.response.status = 401
-                return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
-
-            if action == 'change':
-                cherrypy.response.status = 401
-                return _login(cherrypy.request.path, protocol=protocol, host=host, port=port, action=action, origArgs=get_orig_args(kw))
-
-            if action == 'login':
-                message='Invalid user id or password.'
 
             # See if the user just tried to log in
             if rpc.session.login(host, port, db, user, passwd, protocol=protocol) != 1:

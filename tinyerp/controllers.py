@@ -38,6 +38,7 @@ import cgitb
 from turbogears import controllers
 from turbogears import expose
 from turbogears import redirect
+from turbogears import config
 
 import cherrypy
 
@@ -93,7 +94,6 @@ class Root(controllers.RootController, TinyResource):
     def index(self):
         """ The index page
         """
-
         proxy = rpc.RPCProxy("res.users")
         act_id = proxy.read([rpc.session.uid], ['action_id', 'name'], rpc.session.context)
 

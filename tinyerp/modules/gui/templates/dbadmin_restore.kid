@@ -24,42 +24,30 @@
 		</div>
 		<div class="spacer"></div>
 		<div id="content">
-			<div class="box2">
-				<table align="center" border="0" width="100%">
-					<tr>
-						<td align="right" width="90" class="label">Host:</td>
-						<td>
-							${url}
-						</td>
-					</tr>
-				</table>
-			</div>
-			<div align="center" class="box2">
+			
+			
 				<form action="/dbadmin/restore" method="post" enctype="multipart/form-data">
-
-					<table align="center" width="100%">
-						<tr>
-							<td align="right" width="99" class="label">File :</td>
-							<td ><input type="file" name="path" id="path"/></td>
-						</tr>
-						<tr>
-							<td align="right" width="90" class="label">Password :</td>
-							<td><input type="password" name="passwd" id="passwd" style="width: 99%;" /></td>
-						</tr>
-						<tr>
-							<td align="right" width="90" class="label">New Database name :</td>
-							<td><input type="text" name="new_db"  style="width: 99%;" /></td>
-						</tr>
-						<tr>
-							<td>
-							</td>
-							<td align="right">
-								<input type="submit" value="Restore" />
-							</td>
-						</tr>
-					</table>
+                    <div align="center" class="box2">
+						<table align="center" width="100%">
+							<tr>
+								<td align="right" width="99" class="label">File :</td>
+								<td ><input type="file" name="path" id="path"/></td>
+							</tr>
+							<tr>
+								<td align="right" width="90" class="label">Password :</td>
+								<td><input type="password" name="passwd" id="passwd" style="width: 99%;" /></td>
+							</tr>
+							<tr>
+								<td align="right" width="90" class="label">New Database name :</td>
+								<td><input type="text" name="new_db"  style="width: 99%;" /></td>
+							</tr>
+						</table>
+					</div>
+					<div align="right" class="box2">
+					    <input type="submit" value="Restore" />
+					</div>
+					
 				</form>
-			</div>
 			<div class="box message" id="message" py:if="message">
 				${message}
 			</div>
