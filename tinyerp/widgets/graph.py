@@ -53,7 +53,8 @@ if not hasattr(locale, 'D_FMT'):
 
 class Graph(TinyCompoundWidget):
 
-    template = """<table width="100%">
+    template = """
+    <table width="100%">
         <tr>
             <td align="center">
                 <img class="graph" src="/graph?b64=${b64}"/>

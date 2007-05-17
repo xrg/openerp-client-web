@@ -37,7 +37,7 @@ from interface import TinyCompoundWidget
 from tinyerp.modules.utils import TinyDict
 
 class Action(TinyCompoundWidget):
-    template = """<span xmlns:py="http://purl.org/kid/ns#">
+    template = """<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <div class="toolbar">
         <table>
             <tr>
