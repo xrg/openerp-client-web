@@ -43,15 +43,14 @@ import cherrypy
 import rpc
 
 @expose(template="tinyerp.templates.login")
-def _login(target, protocol, host, port, dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
+def _login(target, dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
     """Login page, exposed without any controller, will be used by _check_method wrapper
     """
 
-    host = config.get('tiny.host')
-    port = config.get('tiny.port')
-    protocol = config.get('tiny.protocol')
+    url = rpc.session.get_url()
+    url = str(url[:-1])
 
-    return dict(target=target, protocol=protocol, host=host, port=port, dblist=dblist, user=user, db=db, action=action, message=message, origArgs=origArgs)
+    return dict(target=target, url=url, dblist=dblist, user=user, db=db, action=action, message=message, origArgs=origArgs)
 
 def _check_method(obj, fn):
     """A python decorator to secure exposed methods
@@ -126,7 +125,7 @@ def _check_method(obj, fn):
                 dblist = rpc.session.listdb(host, port, protocol)
 
                 cherrypy.response.status = 401
-                return _login(cherrypy.request.path, message=message, protocol=protocol, host=host, port=port, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
+                return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies
             cherrypy.response.simple_cookie['terp_db'] = db

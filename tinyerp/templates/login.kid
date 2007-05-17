@@ -8,12 +8,18 @@
 
 <body>
 	<div class="view">
-
+	
 		<form action="${target}" method="post" name="loginform" class="loginbox">
         <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
         <input type="hidden" name="login_action" value="login"/>
-        
+                
     		<table align="center" width="100%" cellspacing="5px">
+		        <tr>
+		            <td class="label">Host :</td>
+		            <td width="100%">
+		                ${url} 
+		            </td>
+		        </tr>
 		        <tr>
 					<td class="label">Database :</td>
 					<td width="100%">
@@ -41,17 +47,13 @@
 						<button type="submit" style="width: 100%">Login</button>
 					</td>
 				</tr>
-
 			</table>
-
 		</form>
 
 		<div class="box message" id="message" py:if="message">
 		    ${message}
         </div>
-
     </div>
-
 </body>
 
 </html>
