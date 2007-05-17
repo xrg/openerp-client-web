@@ -48,7 +48,7 @@ class ViewForm(tg.widgets.Form):
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr py:for="item in screen.toolbar['print']" onclick='submit_form("action", null, "${str(item)}")'>
+                                <tr py:for="item in screen.toolbar['print']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                     <td nowrap="">${item['string']}</td>
                                 </tr>
                             </tbody>
@@ -61,7 +61,7 @@ class ViewForm(tg.widgets.Form):
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr py:for="item in screen.toolbar['action']" onclick='submit_form("action", null, "${str(item)}")'>
+                                <tr py:for="item in screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                     <td nowrap="">${item['string']}</td>
                                 </tr>
                             </tbody>

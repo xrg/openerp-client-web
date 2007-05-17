@@ -349,6 +349,9 @@ class Form(controllers.Controller, TinyResource):
         if not action:
             return self.do_action('client_action_multi', datas=kw)
 
+        if not params.id:
+            raise common.message('You must save this record to use the relate button !')
+
         from tinyerp.modules import actions
         return actions._execute(action, model=params.model, id=params.id, ids=params.ids, report_type='pdf')
 
