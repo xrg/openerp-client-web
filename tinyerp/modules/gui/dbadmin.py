@@ -71,8 +71,10 @@ class DBAdmin(controllers.Controller):
             except Exception, e:
                 message = str(_('Bad database administrator password !') + _("Could not create database."))
 
-        if res:
+        if res !=-1:
             raise redirect("/dbadmin")
+        else:
+            message = str(_('Bad database administrator password !') + _("Could not create database."))
 
         return dict(url=url, langlist=langlist, message=message)
 
@@ -96,8 +98,10 @@ class DBAdmin(controllers.Controller):
         except Exception, e:
             message = str(_('Bad database administrator password !') + _("Could not drop database."))
 
-        if res:
+        if res != -1:
             raise redirect("/dbadmin")
+        else:
+            message = str(_('Bad database administrator password !') + _("Could not drop database."))
 
         return dict(url=url, selectedDb=db, message=message, dblist=dblist)
 
@@ -120,9 +124,11 @@ class DBAdmin(controllers.Controller):
         except Exception, e:
             message = "Could not create backup..."
 
-        if res:
+        if res != -1:
             cherrypy.response.headers['Content-Type'] = "application/data"
             return dump
+        else:
+            message = "Could not create backup..."
 
         return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
 
@@ -145,8 +151,11 @@ class DBAdmin(controllers.Controller):
             else:
                 message = str(_("Couldn't restore database"))
 
-        if res:
+        if res != -1:
             raise redirect("/dbadmin")
+        else:
+            message = str(_('Bad database administrator password !'))+ str(_("Could not restore database."))
+
 
         return dict(url=url, message=message)
 
@@ -171,7 +180,9 @@ class DBAdmin(controllers.Controller):
                 else:
                     message = str(_("Error, password not changed."))
 
-        if res:
+        if res != -1:
             raise redirect("/dbadmin")
+        else:
+            message = str(_("Could not change password database.")+_('Bad password provided !'))
 
         return dict(url=url, message=message)
