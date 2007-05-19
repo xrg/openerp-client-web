@@ -21,8 +21,8 @@
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-    	<td>
-	    	<table class="header" height="65" cellpadding="0" cellspacing="0">
+    	<td>    	    
+	    	<table id="header" class="header" height="65" cellpadding="0" cellspacing="0">
 				<tr>
 					<td rowspan="2">
 						<a href="http://www.tinyerp.com" class="imglink"><img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0"/></a>
@@ -50,32 +50,38 @@
                         </div>
 					</td>
 				</tr>
-			</table>
-			<table width="100%" cellspacing="0" cellpadding="0" class="menu_header" >
 				<tr>
-					<td width="100" id="menu_header_menu" background="/static/images/mainmenu_button.png">
-						<a id="menu_header" href="/">MAIN MENU</a>
-					</td>
-					<td width="90" id="menu_header_shortcuts" >
-						<a id="menu_header" href="/shortcuts">SHORTCUTS</a>
-					</td>
-					<td width="35">
-						<img src="/static/images/head_diagonal.png" alt="\"/>
-					</td>
-					<td>
-						<span py:for="sc in tg.root.shortcuts.my()">
-                        	<a id="menu_header"  href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
-                        		${sc['name']}
-                        	</a>
-                        	<font color="white">&nbsp;|&nbsp;</font>
-                        </span>
-					</td>
-					<td align="right">
-							<a  py:if="rpc.session.is_logged() and rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
-							&nbsp;
-					</td>
-				</tr>
-			</table>
+                    <td colspan="2">
+
+						<table width="100%" cellspacing="0" cellpadding="0" class="menu_header" >
+							<tr>
+								<td width="100" id="menu_header_menu" background="/static/images/mainmenu_button.png">
+									<a id="menu_header" href="/">MAIN MENU</a>
+								</td>
+								<td width="90" id="menu_header_shortcuts" >
+									<a id="menu_header" href="/shortcuts">SHORTCUTS</a>
+								</td>
+								<td width="35">
+									<img src="/static/images/head_diagonal.png" alt="\"/>
+								</td>
+								<td>
+									<span py:for="sc in tg.root.shortcuts.my()">
+			                        	<a id="menu_header"  href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
+			                        		${sc['name']}
+			                        	</a>
+			                        	<font color="white">&nbsp;|&nbsp;</font>
+			                        </span>
+								</td>
+								<td align="right">
+										<a  py:if="rpc.session.is_logged() and rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
+										&nbsp;
+								</td>
+							</tr>
+						</table>
+			
+			        </td>
+                </tr>
+            </table>
         </td>
     </tr>
     <tr>
