@@ -41,10 +41,6 @@ table.tree-grid .integer {
     text-align: right;
 }
 
-table.tree-grid .float {
-    text-align: 'center';
-}
-
 table.tree-grid .indent,
 table.tree-grid .expand,
 table.tree-grid .collapse,

@@ -16,6 +16,11 @@
 	background:url(/static/images/gradientlinebg.gif);
 }
 
+.grid th,
+.grid td {
+    white-space: nowrap;
+}
+
 .grid .row {
     background-color: white;
     border: none;
