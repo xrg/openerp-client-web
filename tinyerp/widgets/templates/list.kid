@@ -53,15 +53,15 @@
 			<tr>
 				<td>
 					 
-					<a class="arrow_link" href="">Import</a> |
-					<a class="arrow_link" href="">Export</a>
+					<a class="arrow_link" href="#">Import</a> |
+					<a class="arrow_link" href="#">Export</a>
 				</td>
 				<td align="right">
-					<a href="" class="arrow_link"><img border="0" src="/static/images/newstarticon.gif"/> Start</a>   
-					<a href="" class="arrow_link"><img border="0" src="/static/images/newpericon.gif"/> Previous</a>    
-					<a href="" class="arrow_link">(1-5)</a>    
-					<a href="" class="arrow_link">Next <img border="0" src="/static/images/newnexticon.gif"/></a>   
-					<a href="" class="arrow_link">End <img border="0" src="/static/images/newendicon.gif"/></a>   
+					<a href="#" class="arrow_link"><img border="0" src="/static/images/newstarticon.gif"/> Start</a>   
+					<a href="#" class="arrow_link"><img border="0" src="/static/images/newpericon.gif"/> Previous</a>    
+					<a href="#" class="arrow_link">(1-5)</a>    
+					<a href="#" class="arrow_link">Next <img border="0" src="/static/images/newnexticon.gif"/></a>   
+					<a href="#" class="arrow_link">End <img border="0" src="/static/images/newendicon.gif"/></a>   
 				</td>
 			</tr>
 		</tbody>
