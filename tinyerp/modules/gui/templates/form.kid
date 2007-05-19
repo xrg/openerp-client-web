@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="tinyerp/templates/master.kid">
 <head>
-    <title>${form.screen.string} </title>      
+    <title>${form.screen.string} </title>
 </head>
 <body>
 
@@ -14,14 +14,13 @@
                 <tr>
                     <td>${form.screen.string}</td>
                     <td style="width: 200px; text-align: right; font-weight: normal">
-                        <a py:if="rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}">Create Shortcut</a>
                     </td>
                 </tr>
-            </table>                        
+            </table>
         </div>
 
         <div class="spacer"></div>
-                        
+
             <div class="toolbar">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
@@ -44,8 +43,8 @@
 
     </div>
 
-    <div class="spacer"></div>    
-    
+    <div class="spacer"></div>
+
     ${form.display()}
 </div>
 
