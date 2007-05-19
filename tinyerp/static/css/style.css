@@ -184,7 +184,6 @@ a.toolbar_button:link, a.toolbar_button:visited {
 	padding-left:12px;
 	height:20px !important;
 	height:25px;
-	width:100%;
 	text-decoration:none;
 }
 
@@ -336,14 +335,13 @@ div.welcome {
     background-color: #F6F6F6;
     border-top: 1px solid #bbb8a9;
     border-bottom: 1px solid #bbb8a9;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 5px;
     white-space: nowrap;
 }
 
 .view .toolbar button {
 	width: auto;
-	margin: 5px 1px;
+	margin: 0 1px;
 	cursor: pointer;
 	white-space: nowrap;
 }
@@ -415,6 +413,7 @@ td.item {
 /* treebar */
 
 .treebar {
+    padding-right: 5px;
     width: 100px;
 }
 

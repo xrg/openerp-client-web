@@ -21,23 +21,12 @@
 <div class="view">
 
     <div class="header">
-
-        <div class="title">
-            <table style="width: 100%; height: 100%" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td>${tree.string}</td>
-                    <td style="width: 200px; text-align: right; font-weight: normal">
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="spacer"></div>
-
         <div class="toolbar">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <td width="100%"></td>
+                    <td width="100%">
+                        <strong>${tree.string}</strong>
+                    </td>
                     <td>
                         <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
                         <button type="button" title="Launch action about this resource" onclick="submit_form('action')">Action</button>

@@ -18,7 +18,7 @@
 					    <div py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
 			    	  	<span py:replace="bframe.display()" py:if="bframe"/>
 			    	  	<div class="spacer"></div>
-					    <div class="toolbar">
+					    <div class="toolbar" style="border-bottom: none">
 							<table>
 								<tr width = "100%">
 								    <td>
@@ -89,7 +89,7 @@
 					    <div py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
 		    			<span py:replace="aframe.display()" py:if="aframe"/>
 		    			<div class="spacer"></div>
-					    <div class="toolbar">
+					    <div class="toolbar" style="border-bottom: none">
 							<table>
 								<tr width = "100%">
 								    <td>

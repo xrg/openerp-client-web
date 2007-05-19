@@ -5,23 +5,22 @@
 </head>
 <body>
 
-<div class="view">
-
-    <div class="header">
-
-        <div class="title">
-            <table style="width: 100%; height: 100%" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td>${form.screen.string}</td>
-                    <td style="width: 200px; text-align: right; font-weight: normal">
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="spacer"></div>
-
-            <div class="toolbar">
+    <table class="view" cellspacing="5" border="0" width="100%">
+        <tr>
+            <td>
+                <h1 id="icon_list">
+				<div class="button_right">
+					<button id="icon_list">SEARCH</button>
+					<button id="icon_list">EDIT</button>
+					<button class="inactive" id="icon_list">GRAPH</button>
+				</div>
+				${form.screen.string}
+			</h1>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                        <div class="toolbar">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="100%">
@@ -40,13 +39,12 @@
                 </tr>
             </table>
         </div>
-
-    </div>
-
-    <div class="spacer"></div>
-
-    ${form.display()}
-</div>
+            </td>
+        </tr>
+        <tr>
+            <td>${form.display()}</td>
+        </tr>
+    </table>      
 
 </body>
 </html>

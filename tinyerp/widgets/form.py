@@ -163,11 +163,14 @@ class Separator(TinyField):
     """
 
     params = ['string']
-    template = """
-        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-            <strong>${string}</strong>
-            <hr width="100%"/>
-            </span>    """
+    template = """<div class="toolbar" xmlns:py="http://purl.org/kid/ns#">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td><strong>${string}</strong></td>
+                </tr>
+            </table>
+    </div>
+    """
 
     def __init__(self, attrs={}):
         super(Separator, self).__init__(attrs)
