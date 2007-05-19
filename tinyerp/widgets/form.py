@@ -302,7 +302,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     picker_shows_time = True
     button_text = 'Select'
 
-    css = [tg.widgets.CSSLink(tg.widgets.base.static, "calendar/calendar-blue.css")]
+    css = [tg.widgets.CSSLink(tg.widgets.base.static, "calendar/skins/aqua/theme.css")]
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
