@@ -426,4 +426,54 @@ button {
 .treesep {
 }
 
+/* ------------------- Toolbar --------------- */
 
+div#toolbar_hide {
+	position:absolute;
+	right:0;
+}
+
+div#toolbar {
+	float:right;
+	width: 170px;
+	padding-top: 10px;
+	padding-left: 5px;
+}
+
+/* ----------------- Side bar ----------------- */
+
+div.toolbar_button {
+	padding:0;
+	margin-bottom:5px;
+	width: 158px;
+}
+
+a.toolbar_button:link, a.toolbar_button:visited {
+	display:block;
+	background:url('/static/images/toolbar_button_bg.png') no-repeat;
+	vertical-align:middle;
+	font-size:11px;
+	font-weight:bold;
+	color:#444;
+	text-align:left;
+	padding-top:5px;
+	padding-left:12px;
+	height:20px !important;
+	height:25px;
+	text-decoration:none;
+}
+
+a.toolbar_button:hover {
+	background-position:0px -25px;
+	text-decoration:none;
+	color:#902D2D;
+}
+
+a.toolbar_button#active_menu {
+	color:#902D2D;
+	font-weight:bold;
+}
+
+a.toolbar_button#active_menu:hover { color:#902D2D; }
+
+/* ------------- End side bar ------- */
