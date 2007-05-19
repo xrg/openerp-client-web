@@ -93,7 +93,7 @@ class Form(tg.widgets.Form):
     member_widgets = ['_notebook_', 'bframe', 'aframe']
     frame = None
     _notebook_ = tg.widgets.Tabber(use_cookie=True)
-
+    _notebook_.css = []
 
     def __init__(self,name, action, params, values={}):
 

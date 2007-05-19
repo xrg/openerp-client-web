@@ -11,6 +11,24 @@
     cursor: pointer;
 }
 
+.grid thead tr th {
+	height:22px;
+	background:url(/static/images/gradientlinebg.gif);
+}
+
 .grid .row {
     background-color: white;
+    border: none;
+    border-top: 1px solid #bbb8a9;
+}
+
+table.list_arrow {
+	height:22px;
+	background:#f3f3f3;
+	border-top: 1px solid #bbb8a9;
+	border-bottom: 1px solid #bbb8a9;
+}
+
+td.list_row {
+	border-top: 1px solid #bbb8a9;
 }

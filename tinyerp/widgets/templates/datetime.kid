@@ -9,11 +9,7 @@
         </td>
         <td>
             <button type="button" id="${field_id}_trigger" py:attrs='attrs'>
-                <table align="center">
-                    <tr>
-                        <td>Select</td>
-                    </tr>
-                </table>
+                Select
             </button>
         </td>
         <script type="text/javascript">

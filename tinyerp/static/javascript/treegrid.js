@@ -331,7 +331,7 @@ TreeGrid.prototype.load = function(url, id, params){
     req.addCallback(function(xmlHttp){
         var res = evalJSONRequest(xmlHttp);
 
-        var table = TABLE({id: grid.id, 'class': 'tree-grid'});
+        var table = TABLE({id: grid.id, 'class': 'tree-grid', 'cellpadding': 0, 'cellspacing': 1});
 
         var thd = grid._make_head();
         var tbd = grid._make_body(res.records);

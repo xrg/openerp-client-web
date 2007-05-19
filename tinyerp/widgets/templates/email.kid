@@ -9,11 +9,7 @@
             </td>
 			<td width="100%">
     		    <button type="button" onclick="if (echeck($('${field_id}').value)) window.open('mailto:' + $('${field_id}').value).close();" >
-	                <table align="center">
-			            <tr>
-			                <td>Go!</td>
-			            </tr>
-			        </table>
+                    Go!
     		    </button>
     		</td>
     	</tr>

@@ -21,11 +21,7 @@
         <td><div class="spacer"></div></td>
         <td>
             <button type="button" py:attrs='attrs' domain="${ustr(domain)}" context="${ustr(context)}" onclick="wopen(getURL('/many2many/new', {model: '${relation}', m2m: '${name}', domain: getNodeAttribute(this, 'domain'), context: getNodeAttribute(this, 'context')}), 'search', 800, 600);">
-		        <table align="center">
-		            <tr>
-		                <td>Select</td>
-		            </tr>
-		        </table>
+                Select
             </button>
         </td>
     </tr>

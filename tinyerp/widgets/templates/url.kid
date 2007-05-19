@@ -20,11 +20,7 @@
             </td>
             <td width="100%">
                 <button type="button" onclick="open_win($('${field_id}').value);">
-			        <table align="center">
-			            <tr>
-			                <td>Open</td>
-			            </tr>
-			        </table>
+                    Open
                 </button>
             </td>
          </tr>

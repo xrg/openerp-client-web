@@ -6,7 +6,7 @@ html, body {
 }
 
 body, table {
-    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
 
@@ -73,11 +73,19 @@ a:hover.imglink {
 
 #footer {
     height: 50px;
-    background-color: #E8EEFA;
-    border-top: 1px solid #C3D9FF;
+    border-top: 1px solid #999999;
     margin-top: 5px;
     padding: 5px;
     text-align: center;
+    color: #777777;
+	line-height: 20px;
+	font-size: 11px;
+}
+
+#footer a {
+	color: #777777;
+	text-decoration: underline;
+	line-indent:
 }
 
 #content {
@@ -106,23 +114,23 @@ td.title {
     font-weight: bold;
 }
 
-.loginbox {
-    background-color: #E8EEFA;
-    width: 400px;
-    padding: 10px;
-    margin: 10px auto;
-    display: table;
+div.box, div.box2 {
+    background-color:#F6F6F6;
+    background-image:url(/static/images/grdbig.png);
+    background-position:center top;
+    background-repeat:repeat-x;
+
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
 }
 
 div.box {
-    background-color: #E8EEFA;
     width: 400px;
     padding: 10px;
     margin: auto;
 }
 
 div.box2 {
-    background-color: #E8EEFA;
     padding: 10px;
     width: 450px;
     margin-left: auto;
@@ -138,6 +146,13 @@ div.message {
     font-weight: bold;
 }
 
+div.welcome {
+    text-align: center;
+    color: #990033;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 /* view style */
 
 .view {
@@ -150,7 +165,8 @@ div.message {
 }
 
 .view .title {
-    background-color: #C3D9FF;
+    background:url(/static/images/grdline1.gif) repeat-x left top;
+    border-top: 1px solid #E3E3E3;
     height: 20px;
     padding: 5px;
     font-size: 14px;
@@ -158,27 +174,36 @@ div.message {
 }
 
 .view .toolbar {
-    background-color: #E8EEFA;
-    border-top: 1px solid #C3D9FF;
-    border-bottom: 1px solid #C3D9FF;
+    background:url(/static/images/grdline1.gif) repeat-x left top;
+    border-top: 1px solid #bbb8a9;
+    border-bottom: 1px solid #bbb8a9;
     padding-left: 5px;
     padding-right: 5px;
     white-space: nowrap;
 }
 
 .view .toolbar button {
-	background-color: #C3D9FF;
 	width: auto;
-	border-width: 0px;
 	margin: 5px 1px;
-	padding: 2px 15px;
 	cursor: pointer;
 	white-space: nowrap;
 }
 
 .view .fields {
-	background-color: #E8EEFA;
+	background-color:#F6F6F6;
+    background-image:url(/static/images/grdbig.png);
+    background-position:center top;
+    background-repeat:repeat-x;
+    border-color:#999999;
 	padding: 5px;
+}
+
+.view .fields .fields {
+    background: transparent;
+}
+
+.view table.one2many {
+    border-bottom: 1px solid #bbb8a9;
 }
 
 .sidebar {
@@ -221,8 +246,22 @@ td.label {
 td.item {
 }
 
-input, button, select, textarea {
-	border-width: 1px;
+input, select, textarea {
+    background-color:#f3f3f3;
+    border: 1px solid #999999;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #990033;
+}
+
+button {
+	border:solid 1px #888888;
+	background:#999;
+	color:#000000;
+	font-weight:normal;
+	padding: 0px 3px;
+	background:url(/static/images/button_bg.png) repeat-x left top;
 }
 
 #view_form .fielderror {
@@ -253,3 +292,5 @@ input, button, select, textarea {
 
 .treesep {
 }
+
+

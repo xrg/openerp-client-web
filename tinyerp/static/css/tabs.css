@@ -1,0 +1,70 @@
+/* ---------------- TABS ----------- */
+
+.tabberlive .tabbertabhide {
+    display:none;
+}
+
+.tabberlive .tabbertab {
+    border: 1px solid #bbb8a9;
+    border-top: none;
+}
+
+.tabberlive .tabbertab h2 {
+ display:none;
+}
+.tabberlive .tabbertab h3 {
+ display:none;
+}
+
+ul.tabbernav {
+	list-style: none;
+	padding: 10px;
+	border-bottom: 1px solid #bbb8a9;
+	margin:0;
+	height: 11px;
+}
+
+ul.tabbernav li {
+	float: left;
+	display: block;
+	height: 21px;
+	padding-right: 22px;
+	margin-left: -10px;
+	position: relative;
+	background: url(/static/images/tabs_right_inactive.png) 100% 0 no-repeat;
+	border-bottom: 1px solid #bbb8a9;
+	white-space: nowrap;
+}
+
+ul.tabbernav li a {
+	height: 21px;
+	line-height: 21px;
+	padding-left: 8px;
+	display:block;
+	background: url(/static/images/tabs_left_inactive.png) no-repeat;
+}
+
+ul.tabbernav li.tabberactive {
+	z-index: 1;
+	border-bottom: 1px solid #fbfbfb;
+	height: 21px;
+	background-image: url(/static/images/tabs_right_active.png);
+}
+
+ul.tabbernav li.tabberactive a {
+	background-image: url(/static/images/tabs_left_active.png);
+}
+
+ul.tabbernav li a {
+	color: #222;
+}
+
+ul.tabbernav li a:hover {
+	border: none;
+}
+
+
+div.tabbernav {
+	background: #eeeeee;
+	border-bottom: 1px solid #bbb8a9;
+}

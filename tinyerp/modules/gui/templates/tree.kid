@@ -54,8 +54,8 @@
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td py:if="tree.toolbar" class="treebar" valign="top">
-                <table width="100%" border="0" class="tree-grid">
+            <td py:if="tree.toolbar" class="treebar" valign="top" style="padding-right: 4px">
+                <table width="100%" border="0" cellpadding="0" cellspacing="1" class="tree-grid">
                     <thead>
                         <tr class="header">
                             <th colspan="2">Toolbar</th>

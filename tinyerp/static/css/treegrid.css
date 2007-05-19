@@ -1,5 +1,7 @@
 table.tree-grid {
-    width: 100%;
+    background-color:#E3E3E3;
+    border: medium none;
+    width:100%;
 }
 
 table.tree-grid th,
@@ -7,23 +9,23 @@ table.tree-grid td {
     text-align: left;
     padding: 2px 5px;
     white-space: nowrap;
+    border: medium none;
 }
 
 table.tree-grid .tree-field td {
     padding: 0 2px;
 }
 
-table.tree-grid .header {
-    background-color: #C3D9FF;
-}
-
 table.tree-grid .header th {
-    background-color: #C3D9FF;
     padding: 4px 5px;
+    background: url(/static/images/gradientlinebg.gif);
 }
 
 table.tree-grid .row {
     background-color: #FBFBFB;
+    border-color: #BBB8A9;
+    border-style: solid none none;
+    border-width: 1px medium medium;
 }
 
 table.tree-grid .row:hover {

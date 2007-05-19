@@ -1,4 +1,4 @@
-<table border="0" cellpadding="0" cellspacing="0" style="margin: 5px 0; border-bottom: 1px solid #C3D9FF" width="100%" xmlns:py="http://purl.org/kid/ns#">
+<table border="0" cellpadding="0" cellspacing="0" class="one2many" width="100%" xmlns:py="http://purl.org/kid/ns#">
     <tr>
         <td style="padding: 2px" align='right'>
             <div class="toolbar">

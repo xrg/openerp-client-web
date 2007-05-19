@@ -151,6 +151,7 @@ class Notebook(TinyCompoundWidget):
 
     member_widgets = ['_notebook_', "children"]
     _notebook_ = tg.widgets.Tabber(use_cookie=True)
+    _notebook_.css = []
 
     def __init__(self, attrs, children):
         super(Notebook, self).__init__(attrs)

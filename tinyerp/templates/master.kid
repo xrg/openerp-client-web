@@ -7,6 +7,7 @@
     
     <meta py:replace="item[:]"/>
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/tabs.css" rel="stylesheet" type="text/css" />
 
     <title py:replace="''">Your title goes here</title>
     
@@ -31,7 +32,7 @@
 	                    <div py:if="rpc.session.is_logged()">
 							Welcome ${rpc.session.user_name}
 							|
-							${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]						
+							${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]
 							|
 	                        <a href="/pref/create/">Preferences</a>
 	                        |
@@ -70,10 +71,19 @@
     <tr>
         <td>    
 	        <table id="footer" border="0" cellpadding="0" cellspacing="0" width="100%">            
-	            <tr>
-	                <td align="right">
-	                    &copy; 2007 <a href="http://tinyerp.com" target="top">Tiny ERP.</a> All Rights Reserved.<br/>
-	                    &copy; 2007 <a href="http://axelor.com" target="top">Axelor.</a> All Rights Reserved.
+	             <tr>	             
+	                <td>
+	                    (C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on <a href="http://tinyerp.com">http://tinyerp.com</a>.
+                    </td>
+                 </tr>
+                 <tr>
+                     <td>
+                         The web client is developed by Axelor (<a href="http://axelor.com">http://axelor.com</a>) and Tiny (<a href="http://tiny.be">http://tiny.be</a>)
+                     </td>
+                 </tr>
+                 <tr py:if="rpc.session.is_logged()">
+                    <td>
+                		Running Server: ${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} [${rpc.session.db}]
 	                </td>
 	            </tr>
 	        </table>
