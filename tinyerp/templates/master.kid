@@ -23,7 +23,7 @@
 	    	<table class="header" height="65" cellpadding="0" cellspacing="0">
 				<tr>
 					<td rowspan="2">
-						<a href="http://www.tinyerp.com" ><img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0"/></a>
+						<a href="http://www.tinyerp.com" style="text-decoration: none; border: none"><img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0"/></a>
 					</td>
 					<td align="right" valign="top" py:if="rpc.session.is_logged()">
 						<table class="menu_connection" cellpadding="0" cellspacing="0">

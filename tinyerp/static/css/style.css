@@ -38,7 +38,7 @@ a:hover.imglink {
 
 
 table.header {
-	background:url(/static/images/grdline1.gif) repeat-x left top;
+	background:url(/static/images/grdheader.gif) repeat-x left top;
 	width: 100%;
 }
 
@@ -94,6 +94,7 @@ a#menu_header{
 
 table.menu_header {
 	background: #666666;
+	margin-bottom: 4px;
 }
 /*------------------------------------------------------*/
 /* ------------------- Footer --------------- */
