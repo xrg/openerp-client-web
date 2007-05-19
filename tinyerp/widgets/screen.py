@@ -117,6 +117,9 @@ class Screen(TinyCompoundWidget):
 
             toolbar = {}
             for item, value in view.get('toolbar', {}).items():
+                #XXX: relate is not implemented yet
+                if item == 'relate': continue
+
                 if value: toolbar[item] = value
 
             self.toolbar = toolbar or None
