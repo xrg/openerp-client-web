@@ -88,7 +88,7 @@
 					    <input type="hidden" name="_terp_fields_type" value="${str(fields_type)}"/>
 					    <div py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
 		    			<span py:replace="aframe.display()" py:if="aframe"/>
-		    				<div class="spacer"></div>
+		    			<div class="spacer"></div>
 					    <div class="toolbar">
 							<table>
 								<tr width = "100%">

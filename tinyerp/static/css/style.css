@@ -5,18 +5,23 @@ html, body {
     height: 100%;
 }
 
+body {
+    background: #ffffff;
+}
+
 body, table {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
+	color: #990000;
 }
 
 a:hover {
-    border-bottom-width: 1px;
-    border-bottom-style: dotted;
+	text-decoration: underline;
+	color: #690000;
 }
 
 a.imglink {
@@ -25,6 +30,52 @@ a.imglink {
 
 a:hover.imglink {
     border: none;
+}
+
+hr {
+	 border: 0px;
+	 background-color: #888;
+	 height: 1px;
+}
+
+input, select, textarea {
+    background-color:#f3f3f3;
+    border: 1px solid #999999;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #990033;
+}
+
+button {
+	border:solid 1px #888888;
+	background:#999;
+	color:#000000;
+	padding: 0px 3px;
+	background:url(/static/images/button_bg.png) repeat-x left top;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+button.inactive {
+	background:#eeeeee;
+	border:solid 1px #888888;
+	color:#999999;
+}
+
+h2 {
+	font-size: 15px;
+	color: #950000;
+	margin-bottom: 3px;
+}
+
+h1 {
+	font-size: 16px;
+	color: #950000;
+	border-bottom: solid 1px #333333;
+	margin: 0;
+	margin-bottom: 3px;
+	line-height: 24px;
 }
 
 #container {
@@ -97,6 +148,7 @@ table.menu_header {
 	margin-bottom: 4px;
 }
 /*------------------------------------------------------*/
+
 /* ------------------- Footer --------------- */
 
 div#footer {
@@ -149,33 +201,9 @@ a.toolbar_button#active_menu {
 
 a.toolbar_button#active_menu:hover { color:#902D2D; }
 
-input
-{
-   background-color:#f3f3f3;
-   border-style:ridge;
-   border-width:1px;
-   font-size: 12px;
-}
-
-h2 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 15px;
-	color: #950000;
-	margin-bottom: 3px;
-}
-
-h1 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 16px;
-	color: #950000;
-	border-bottom: solid 1px #333333;
-	margin-bottom: 3px;
-}
-
 div.button_right {
-	position:relative;
-	top:-3;
-	float:right;
+    position: relative;
+    float: right;
 }
 
 div#tab_content {
@@ -250,9 +278,6 @@ td.title {
 
 div.box, div.box2 {
     background-color:#F6F6F6;
-    background-image:url(/static/images/grdbig.png);
-    background-position:center top;
-    background-repeat:repeat-x;
 
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
@@ -308,7 +333,7 @@ div.welcome {
 }
 
 .view .toolbar {
-    background:url(/static/images/grdline1.gif) repeat-x left top;
+    background-color: #F6F6F6;
     border-top: 1px solid #bbb8a9;
     border-bottom: 1px solid #bbb8a9;
     padding-left: 5px;
@@ -324,16 +349,7 @@ div.welcome {
 }
 
 .view .fields {
-	background-color:#F6F6F6;
-    background-image:url(/static/images/grdbig.png);
-    background-position:center top;
-    background-repeat:repeat-x;
-    border-color:#999999;
 	padding: 5px;
-}
-
-.view .fields .fields {
-    background: transparent;
 }
 
 .view table.one2many {
@@ -378,24 +394,6 @@ td.label {
 }
 
 td.item {
-}
-
-input, select, textarea {
-    background-color:#f3f3f3;
-    border: 1px solid #999999;
-}
-
-input:focus, select:focus, textarea:focus {
-    border-color: #990033;
-}
-
-button {
-	border:solid 1px #888888;
-	background:#999;
-	color:#000000;
-	font-weight:normal;
-	padding: 0px 3px;
-	background:url(/static/images/button_bg.png) repeat-x left top;
 }
 
 #view_form .fielderror {

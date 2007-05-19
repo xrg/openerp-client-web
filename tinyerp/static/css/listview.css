@@ -22,6 +22,14 @@
     border-top: 1px solid #bbb8a9;
 }
 
+.grid .row:hover {
+    background-color: #F0F0F0;
+}
+
+.grid .row td {
+    border-top: 1px solid #E3E3E3;
+}
+
 table.list_arrow {
 	height:22px;
 	background:#f3f3f3;
@@ -29,6 +37,12 @@ table.list_arrow {
 	border-bottom: 1px solid #bbb8a9;
 }
 
-td.list_row {
-	border-top: 1px solid #bbb8a9;
+a.arrow_link {
+	color: #333333;
+	text-decoration: none;
 }
+
+a.arrow_link:hover {
+    text-decoration: none;
+}
+

@@ -1,5 +1,18 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" style="overflow: auto;">
-	<table width="100%" cellpadding="0" cellspacing="1" id="${name}" class="grid">
+	<table width="100%" cellspacing="0" class="list_arrow">
+		<tbody>
+			<tr>
+				<td align="right">
+					<a href="#" class="arrow_link"><img border="0" src="/static/images/newstarticon.gif"/> Start</a>   
+					<a href="#" class="arrow_link"><img border="0" src="/static/images/newpericon.gif"/> Previous</a>    
+					<a href="#" class="arrow_link">(1-5)</a>    
+					<a href="#" class="arrow_link">Next <img border="0" src="/static/images/newnexticon.gif"/></a>   
+					<a href="#" class="arrow_link">End <img border="0" src="/static/images/newendicon.gif"/></a>   
+				</td>
+			</tr>
+		</tbody>
+    </table>
+	<table width="100%" cellpadding="0" cellspacing="0" id="${name}" class="grid">
 	    <thead>
 	        <tr>
 	            <th align="center" width="20px" py:if="selectable">
@@ -34,5 +47,23 @@
 	            </td>
 	        </tr>
 	    </tbody>
+	</table>
+	<table width="100%" cellspacing="0" class="list_arrow">
+		<tbody>
+			<tr>
+				<td>
+					 
+					<a class="arrow_link" href="">Import</a> |
+					<a class="arrow_link" href="">Export</a>
+				</td>
+				<td align="right">
+					<a href="" class="arrow_link"><img border="0" src="/static/images/newstarticon.gif"/> Start</a>   
+					<a href="" class="arrow_link"><img border="0" src="/static/images/newpericon.gif"/> Previous</a>    
+					<a href="" class="arrow_link">(1-5)</a>    
+					<a href="" class="arrow_link">Next <img border="0" src="/static/images/newnexticon.gif"/></a>   
+					<a href="" class="arrow_link">End <img border="0" src="/static/images/newendicon.gif"/></a>   
+				</td>
+			</tr>
+		</tbody>
 	</table>
 </div>

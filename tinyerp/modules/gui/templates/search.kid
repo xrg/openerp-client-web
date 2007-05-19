@@ -30,7 +30,6 @@
 
                 form.action = getURL(action, pvals);
             }
-
             form.submit();
         }
     </script>
@@ -130,11 +129,7 @@
 
 <body onload="check_for_popup()">
     <div class="view">
-        <div class="header">
-            <div class="title">Search ${form.string}</div>
-    		<div class="spacer"></div>
-	    </div>
-  		${form.display()}
-  	</div>
+        ${form.display()}
+    </div>    
 </body>
 </html>

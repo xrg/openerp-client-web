@@ -1,13 +1,13 @@
 
 #icon_list {
-	background-image: url(images/icon.gif);
+	background-image: url(/static/images/icon.gif);
 	background-repeat: no-repeat;
 	background-position: 1px 6px;
 	padding-left: 24px;
 }
 
 button#icon_list {
-	background-image: url(images/button_search.png);
+	background-image: url(/static/images/button_search.png);
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 	padding-left: 17px;
