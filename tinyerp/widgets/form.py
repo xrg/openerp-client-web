@@ -147,8 +147,16 @@ class Notebook(TinyCompoundWidget):
     page of the the Notebook.
     """
 
-    template = "tinyerp.widgets.templates.notebook"
-
+    template = """
+        <div class='tabber' id="${name}" xmlns:py="http://purl.org/kid/ns#">
+            <div class='tabbertab' py:for="page in children">
+                <h3>${page.string}</h3>
+                <div>
+                    ${page.display(value_for(page), **params_for(page))}
+                </div>
+            </div>
+        </div>
+        """
     member_widgets = ['_notebook_', "children"]
     _notebook_ = tg.widgets.Tabber(use_cookie=True)
     _notebook_.css = []
@@ -163,14 +171,15 @@ class Separator(TinyField):
     """
 
     params = ['string']
-    template = """<div class="toolbar" xmlns:py="http://purl.org/kid/ns#">
+    template = """
+        <div class="toolbar" xmlns:py="http://purl.org/kid/ns#" py:strip="">
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td><strong>${string}</strong></td>
                 </tr>
             </table>
-    </div>
-    """
+        </div>
+        """
 
     def __init__(self, attrs={}):
         super(Separator, self).__init__(attrs)
