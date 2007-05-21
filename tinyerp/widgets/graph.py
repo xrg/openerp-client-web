@@ -127,15 +127,18 @@ class Graph(TinyCompoundWidget):
     def parse(self, root, fields):
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', 'Unknown')
+        self.kind = attrs.get('type', 'pie')
 
         axis = []
         axis_data = {}
         for node in root.childNodes:
-            node_attrs = tools.node_attributes(node)
+            attrs = tools.node_attributes(node)
             if node.localName == 'field':
-                axis.append(str(node_attrs['name']))
-                axis_data[str(node_attrs['name'])] = node_attrs
+                name = attrs['name']
+                attrs['string'] = fields[name]['string']
+
+                axis.append(str(name))
+                axis_data[str(name)] =  attrs
 
         self.axis = axis
         self.axis_data = axis_data
-        self.kind = attrs.get('type', 'pie')

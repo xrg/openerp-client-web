@@ -40,8 +40,10 @@ matplotlib.rcParams['ytick.labelsize'] = 10
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.numerix import arange
+from matplotlib.numerix import arange, asarray
 import matplotlib.numerix as nx
+from matplotlib.colors import colorConverter
+from matplotlib.mlab import linspace
 
 from PIL import Image as PILImage
 
@@ -107,6 +109,8 @@ def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[]):
     subplot.clear()
     subplot.grid(True)
 
+    colours = get_colours(len(axis))
+
     operators = {
         '+': lambda x,y: x+y,
         '*': lambda x,y: x*y,
@@ -114,6 +118,11 @@ def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[]):
         'max': lambda x,y: max(x,y),
         '**': lambda x,y: x**y
     }
+
+    l1 = []
+    for i in range(1,len(axis)):
+        l1.append(axis_data[axis[i]]['string'])
+
     for field in axis_data:
         group = axis_data[field].get('group', False)
         if group:
@@ -145,16 +154,47 @@ def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[]):
         subplot.legend(labels, loc='lower right')
 
     elif type == 'bar':
+#        ind = arange(len(data))
+#        n = float(len(data[0])-1)
+#        for i in range(n):
+#            value = tuple([x[1+i] for x in data])
+#            labels = tuple([x[0] for x in data])
+#            subplot.set_xticks(ind)
+#            subplot.set_xticklabels(labels, visible=True, ha='left', rotation='vertical', va='bottom')
+#            subplot.bar(ind+i/n, value, 1/n)
         ind = arange(len(data))
         n = float(len(data[0])-1)
+        l2 = []
+        width = 0.35
         for i in range(n):
             value = tuple([x[1+i] for x in data])
             labels = tuple([x[0] for x in data])
             subplot.set_xticks(ind)
-            subplot.set_xticklabels(labels, visible=True, ha='left', rotation='vertical', va='bottom')
-            subplot.bar(ind+i/n, value, 1/n)
+            subplot.set_xticklabels(labels,visible=True,rotation='vertical',ha='left')
+            subplot.bar(ind, value,width)
+            l2.append(subplot.bar(ind, value, width ,color=colours[i]))
+
+        c2 = tuple([x[0] for x in l2])
+        subplot.legend(c2, l1,shadow=True)
+
     else:
         raise 'Graph type '+type+' does not exist !'
 
     return True
 
+def get_colours(n):
+    """ Return n pastel colours. """
+    base = asarray([[1,0,0], [0,1,0], [0,0,1]])
+
+    if n <= 3:
+        return base[0:n]
+
+    # how many new colours to we need to insert between
+    # red and green and between green and blue?
+    needed = (((n - 3) + 1) / 2, (n - 3) / 2)
+    colours = []
+    for start in (0, 1):
+        for x in linspace(0, 1, needed[start]+2):
+            colours.append((base[start] * (1.0 - x)) +
+                           (base[start+2] * x))
+    return colours
