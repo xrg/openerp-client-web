@@ -37,6 +37,7 @@ import socket
 import xmlrpclib
 
 import tiny_socket
+import common
 
 class RPCException(Exception):
     def __init__(self, code, msg):
@@ -159,8 +160,10 @@ class XMLRPCGateway(RPCGateway):
         try:
             result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
             return result
-        except Exception, e:
-            return -1
+        except socket.error, (e1, e2):
+            common.error('Connection refused !', e1, e2)
+        except xmlrpclib.Fault, err:
+            raise RPCException(err.faultCode, err.faultString)
 
     def execute_db(self, method, *args):
         sock = xmlrpclib.ServerProxy(self.url + 'db')
@@ -208,8 +211,10 @@ class NETRPCGateway(RPCGateway):
             res = sock.myreceive()
             sock.disconnect()
             return res
-        except Exception, e:
-            return -1
+        except socket.error, (e1, e2):
+            common.error('Connection refused !', e1, e2)
+        except xmlrpclib.Fault, err:
+            raise RPCException(err.faultCode, err.faultString)
 
     def execute_db(self, method, *args):
         sock = tiny_socket.mysocket()

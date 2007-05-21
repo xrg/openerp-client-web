@@ -115,6 +115,9 @@ def _check_method(obj, fn):
             if rpc.session.login(host, port, db, user, passwd, protocol=protocol) != 1:
                 # Bad login attempt
                 dblist = rpc.session.listdb(host, port, protocol)
+                if dblist == -1:
+                    dblist = []
+                    message = "Invalid host or tiny server is not running..."
 
                 if action == 'login':
                     message = "Invalid user name or password..."
