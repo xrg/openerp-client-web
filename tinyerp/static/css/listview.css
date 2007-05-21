@@ -23,23 +23,13 @@
 
 .grid .row {
     background-color: white;
-    border: none;
-    border-top: 1px solid #bbb8a9;
-}
-
-.grid .row:hover {
-    background-color: #F0F0F0;
-}
-
-.grid .row td {
-    border-top: 1px solid #E3E3E3;
 }
 
 table.list_arrow {
 	height:22px;
 	background:#f3f3f3;
-	border-top: 1px solid #bbb8a9;
-	border-bottom: 1px solid #bbb8a9;
+	border-top: 1px solid #E3E3E3;
+	border-bottom: 1px solid #E3E3E3;
 }
 
 a.arrow_link {
