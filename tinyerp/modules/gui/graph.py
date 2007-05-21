@@ -193,8 +193,8 @@ def get_colours(n):
     # red and green and between green and blue?
     needed = (((n - 3) + 1) / 2, (n - 3) / 2)
     colours = []
-    for start in (0, 1):
-        for x in linspace(0, 1, needed[start]+2):
-            colours.append((base[start] * (1.0 - x)) +
-                           (base[start+2] * x))
+
+    for x in linspace(0, 1, needed[0]+2):
+        colours.append((base[0] * (1.0 - x)) + (base[2] * x))
+
     return colours
