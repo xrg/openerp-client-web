@@ -67,7 +67,7 @@ TreeGrid.prototype._on_select_row = function(evt) {
 
     var trg = evt.target();
 
-    if (['collapse', 'expand', 'loading'].indexOf(trg.className) > -1){
+    if (findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
         return;
     }
 
@@ -80,10 +80,10 @@ TreeGrid.prototype._on_select_row = function(evt) {
     });
 
     if (ctr) {
-        if (this.selection.indexOf(src) == -1){
+        if (findIdentical(this.selection, src) == -1){
             this.selection.push(src);
         } else {
-            this.selection.splice(this.selection.indexOf(src), 1);
+            this.selection.splice(findIdentical(this.selection, src), 1);
         }
     } else if (sft) {
 
@@ -92,8 +92,8 @@ TreeGrid.prototype._on_select_row = function(evt) {
         var last = this.selection_last;
         last = last ? last : src;
 
-        var begin = rows.indexOf(src);
-        var end = rows.indexOf(last);
+        var begin = findIdentical(rows, src);
+        var end = findIdentical(rows, last);
 
         this.selection = begin > end ? rows.slice(end, begin+1) : this.selection = rows.slice(begin, end+1);
         this.selection = filter(function(x){return x.style.display != 'none';}, this.selection);
@@ -145,15 +145,8 @@ TreeGrid.prototype.toggle = function(row, forced) {
     if (!children)
         return false;
 
-    var index = -1;
+    var index = findIdentical(table.rows, row);
     var indent = this.row_info[row.id].indent; indent = parseInt(indent) + 1;
-
-    for (var i in table.rows) {
-        if (table.rows[i] == row) {
-            index = i;
-            break;
-        }
-    }
 
     for(var i in children) {
 
@@ -161,7 +154,8 @@ TreeGrid.prototype.toggle = function(row, forced) {
         var child = $(this.id + "_row_" + cid);
 
         if (child) {
-            child.style.display = forced ? forced : (child.style.display == "none" ? "table-row" : "none");
+
+            child.style.display = forced ? forced : (child.style.display == "none" ? "" : "none");
             // force children of child row to be hidden
             this.toggle(child, "none");
 
@@ -256,7 +250,7 @@ TreeGrid.prototype._make_row = function(record, indent){
             tds.push(val);
             tds = map(function(x){return TD(null, x)}, tds);
 
-            val = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, TR(null, tds));
+            val = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, TBODY(null, TR(null, tds)));
         }
 
         setNodeAttribute(td, 'class', header[1].type);
@@ -295,11 +289,19 @@ TreeGrid.prototype._add_rows = function(after, children, indent){
 
         var g = $(grid.id);
 
+        /* ie hack */
+        idx = index;
+        for (var i in res.records){
+            idx = parseInt(idx) + 1;
+            g.insertRow(idx);
+        }
+
+        idx = index;
         for (var i in res.records){
             var tr = grid._make_row(res.records[i], indent);
 
-            index = parseInt(index) + 1;
-            var r = g.insertRow(index);
+            idx = parseInt(idx) + 1;
+            var r = g.rows[idx];
 
             swapDOM(r, tr);
         }
