@@ -77,13 +77,13 @@ class Screen(TinyCompoundWidget):
 
         self.domain        = params.domain or []
         self.context       = params.context or {}
+        self.nodefault           = params.nodefault or False
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded
         self.hastoolbar         = hastoolbar
         self.selectable         = selectable
         self.editable           = editable
-
         self.toolbar            = None
 
         if self.view_mode:
@@ -125,7 +125,7 @@ class Screen(TinyCompoundWidget):
             self.toolbar = toolbar or None
             self.hastoolbar = (toolbar or False) and True
 
-            self.widget = form.Form(prefix=self.prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], domain=self.domain, context=self.context)
+            self.widget = form.Form(prefix=self.prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], domain=self.domain, context=self.context, nodefault=self.nodefault)
 
         if view_type == 'tree':
             self.widget = list.List(self.name, model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, editable=self.editable, selectable=self.selectable)

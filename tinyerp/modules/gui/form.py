@@ -98,7 +98,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(cherrypy.request.params)
 
         cherrypy.request.terp_validators = {}
-
+        params.nodefault = True
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
         cherrypy.request.terp_form = form
 
@@ -150,7 +150,6 @@ class Form(controllers.Controller, TinyResource):
 
             if current.view_mode[0] != 'form':
                 current.view_mode = ['form', 'tree']
-
         return self.create(params)
 
     def button_action(self, params):

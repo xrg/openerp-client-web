@@ -460,7 +460,7 @@ class Form(TinyCompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}):
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, nodefault=False):
         super(Form, self).__init__()
 
         fields = view['fields']
@@ -491,7 +491,7 @@ class Form(TinyCompoundWidget):
 
             values.update(view['datas'])
 
-        else: #default
+        elif not nodefault: #default
             values = proxy.default_get(fields.keys(), ctx)
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
