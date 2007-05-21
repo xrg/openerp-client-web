@@ -172,7 +172,7 @@ class Separator(TinyField):
 
     params = ['string']
     template = """
-        <div class="toolbar" xmlns:py="http://purl.org/kid/ns#" py:strip="">
+        <div class="toolbar" xmlns:py="http://purl.org/kid/ns#">
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td><strong>${string}</strong></td>

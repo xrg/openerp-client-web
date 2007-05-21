@@ -30,7 +30,7 @@
 						        <tr py:for="i, row in enumerate(data)" class="row">
 					
 						            <td align="center" py:if="selectable">
-						                <input type="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
+						                <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
 						            </td>
 						            <td py:for="field, title in headers" py:content="row[field]">Data</td>
 						            <td py:if="editable" style="text-align: center">

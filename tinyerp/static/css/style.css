@@ -42,6 +42,13 @@ input:focus, select:focus, textarea:focus {
     border-color: #990033;
 }
 
+input.checkbox,
+input.radio {
+    background-color: transparent;
+    border: none;
+    margin: 0px;
+}
+
 button {
 	border:solid 1px #888888;
 	background:#999;

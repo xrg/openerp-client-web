@@ -11,6 +11,6 @@
         }
     </script>
     <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${value}" callback="${callback}" onchange="${onchange}"/>
-    <input type="checkbox" checked="${(value or None) and 1}" onclick="${name.replace('/', '_')}_clicked(this)"/>
+    <input type="checkbox" class="checkbox" checked="${(value or None) and 1}" onclick="${name.replace('/', '_')}_clicked(this)"/>
     <span class="fielderror" py:if="error" py:content="error"/>
 </span>
