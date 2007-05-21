@@ -242,10 +242,12 @@ TreeGrid.prototype._make_row = function(record, indent){
 
             if (this.action_url) { // use url
                 setNodeAttribute(val, 'href', this._make_action_url(record.id));
-                setNodeAttribute(val, 'target', this.action_target);
             } else { //connect onclick event
                 connect(val, 'onclick', this._onopen(record.id));
             }
+
+            if (this.action_target)
+                setNodeAttribute(val, 'target', this.action_target);
 
             tds.push(val);
             tds = map(function(x){return TD(null, x)}, tds);
