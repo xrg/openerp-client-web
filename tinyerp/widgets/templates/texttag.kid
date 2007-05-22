@@ -5,7 +5,7 @@
         id="${field_id}"
         rows="700"
         cols="40"
-        style="width:100%; display: none"
+        style="display: none"
         py:attrs="attrs"
         py:content="value"
 	/>

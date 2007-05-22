@@ -12,13 +12,11 @@
     
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="100%">
+            <td>
                 <input type="text" kind="${kind}" name='${name}' id ='${field_id}' style="width :100%" value="${value}" class="${field_class}" py:attrs="attrs"/>
             </td>
-            <td>
-                <div class="spacer"/>
-            </td>
-            <td width="100%">
+            <td width="2px"><div class="spacer"/></td>
+            <td width="75px">
                 <button type="button" onclick="open_win($('${field_id}').value);">
                     Open
                 </button>

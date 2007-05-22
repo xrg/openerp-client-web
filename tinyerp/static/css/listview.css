@@ -24,7 +24,7 @@
 
 .grid table td,
 .grid table th {
-    padding: 3px;
+    padding: 3px 4px;
     border: none;
 }
 

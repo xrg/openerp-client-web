@@ -49,7 +49,7 @@ class Action(TinyCompoundWidget):
         </table>
     </div>
     <div class="spacer"/>
-    <div style="overflow: auto" py:if="screen" py:content="screen.display()"/>
+    <span py:if="screen" py:replace="screen.display()"/>
     </span>
     """
 

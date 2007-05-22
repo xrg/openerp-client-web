@@ -74,6 +74,8 @@ class Frame(TinyCompoundWidget):
         self.columns = columns
         self.nolabel = True
 
+        self.width_remains = 100;
+
         self.add_row()
 
         self.children = children
@@ -91,6 +93,7 @@ class Frame(TinyCompoundWidget):
     def add_row(self):
         self.table.append([])
         self.cols = self.columns
+        self.width_remains = 100
 
     def new_line(self):
         self.add_row()
@@ -103,6 +106,15 @@ class Frame(TinyCompoundWidget):
         if isinstance(widget, TinyWidget) and widget.colspan == self.columns and self.cols < self.columns and widget.nolabel == False:
             colspan = self.columns - 1
 
+        w = (100 / self.columns) * colspan
+
+        if self.cols == 1:
+            w = self.width_remains
+        elif isinstance(widget, TinyInputWidget):
+            w += 40 * w / 100
+        else:
+            w -= 40 * w / 100
+
         if self.cols < colspan:
             self.add_row()
 
@@ -112,6 +124,9 @@ class Frame(TinyCompoundWidget):
         if rowspan > 1: attrs['rowspan'] = rowspan
         if colspan > 1: attrs['colspan'] = colspan
         if css_class: attrs['class'] = css_class
+
+        attrs['width'] = '%d%%' % w
+        self.width_remains -= w
 
         td = [attrs]
 

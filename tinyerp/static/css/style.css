@@ -269,10 +269,21 @@ div.welcome {
 }
 
 td.label {
-	width: 5px;
 	padding: 0 5px;
 	text-align: right;
 	white-space: nowrap;
+}
+
+td.item input,
+td.item select,
+td.item textarea,
+td.item button {
+    width: 100%;
+}
+
+td.item .checkbox,
+td.item .radio {
+    width: auto;
 }
 
 #view_form .fielderror {
