@@ -28,8 +28,7 @@
 			        </tr>
 			    </thead>
 			    <tbody>
-			        <tr py:for="i, row in enumerate(data)" class="row">
-		
+			        <tr py:for="i, row in enumerate(data)" class="row">		
 			            <td width="1%" py:if="selectable">
 			                <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
 			            </td>
@@ -39,15 +38,6 @@
 			            </td>
 			            <td py:if="editable" style="text-align: center">
 			                <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${row['id']}, '${source}')"/>
-			            </td>
-			        </tr>
-		
-			        <tr py:if="not data" py:for="i in range(6)" class="row">
-			            <td align="center" py:if="selectable"></td>
-			            <td py:for="field, title in headers">&nbsp;</td>
-			            <td py:if="editable" style="text-align: center">
-			            </td>
-			            <td py:if="editable" style="text-align: center">
 			            </td>
 			        </tr>
 			    </tbody>
