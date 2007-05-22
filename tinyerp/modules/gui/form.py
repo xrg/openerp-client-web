@@ -98,7 +98,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(cherrypy.request.params)
 
         cherrypy.request.terp_validators = {}
-        params.nodefault = True
+        #params.nodefault = True
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
         cherrypy.request.terp_form = form
 
@@ -124,6 +124,8 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
+
+        return str(data)
 
         proxy = rpc.RPCProxy(params.model)
 
