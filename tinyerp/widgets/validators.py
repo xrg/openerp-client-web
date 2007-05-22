@@ -64,9 +64,6 @@ class Bool(tg.validators.FancyValidator):
     def _from_python(self, value, state):
         return (value or '') and 1
 
-class Email(tg.validators.Email):
-    if_empty = False
-
 class Int(tg.validators.Int):
     if_empty = False
 
@@ -115,6 +112,15 @@ class Binary(tg.validators.FancyValidator):
 
 class Url(tg.validators.URL):
     if_empty = False
+
+    def _from_python(self, value, state):
+        return value or ''
+
+class Email(tg.validators.Email):
+    if_empty = False
+
+    def _from_python(self, value, state):
+        return value or ''
 
 class many2many(tg.validators.FancyValidator):
 
