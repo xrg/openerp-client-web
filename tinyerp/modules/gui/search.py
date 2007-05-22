@@ -127,6 +127,8 @@ class Search(controllers.Controller, TinyResource):
     def find(self, **kw):
         params, data = TinyDict.split(kw)
 
+        print "XXXXXXXXXXXXXXX", data
+
         fields_type = params.fields_type
         search_domain = []
 
