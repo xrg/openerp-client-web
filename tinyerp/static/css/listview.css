@@ -1,42 +1,53 @@
-.listButton {
-    width: 25px;
-    text-align: center;
-}
-
-.grid .listButton {
-    text-align: center;
-}
-
-.listImage {
-    cursor: pointer;
+.grid {
+    border: none;
+	border-top: 1px solid #999;
 }
 
 .grid thead tr th {
 	height:22px;
+	text-align: left;
 	background:url(/static/images/gradientlinebg.gif);
+	border-bottom: 1px solid #999;
 }
 
 .grid .row {
     background-color: white;
 }
 
+.grid .row:hover {
+    background-color: #f9f9f9;
+}
+
 .grid .row td {
-    border-top: 1px solid #E3E3E3;
+    border-bottom: 1px solid #E3E3E3;
 }
 
-table.list_arrow {
+.grid table td,
+.grid table th {
+    padding: 3px;
+    border: none;
+}
+
+.grid .pager {
 	height:22px;
-	background:#f3f3f3;
-	border-top: 1px solid #E3E3E3;
-	border-bottom: 1px solid #E3E3E3;
+	background: #f3f3f3;
+	border-bottom: 1px solid #999;
 }
 
-a.arrow_link {
+.grid .pager a {
 	color: #333333;
 	text-decoration: none;
 }
 
-a.arrow_link:hover {
+.grid .pager a:hover {
     text-decoration: none;
 }
 
+.listButton {
+    width: 25px;
+    text-align: center;
+}
+
+.listImage {
+    cursor: pointer;
+}

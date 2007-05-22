@@ -40,7 +40,7 @@ from interface import TinyCompoundWidget
 
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'selector', 'source']
+    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -50,7 +50,7 @@ class List(TinyCompoundWidget):
     editable = False
     source = None
 
-    css = [widgets.CSSLink(widgets.static, "grid.css"), widgets.CSSLink('tinyerp', 'css/listview.css')]
+    css = [widgets.CSSLink('tinyerp', 'css/listview.css')]
     javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
@@ -68,6 +68,7 @@ class List(TinyCompoundWidget):
 
         self.selectable = kw.get('selectable', False)
         self.editable = kw.get('editable', False)
+        self.pageable = kw.get('pageable', True)
 
         self.selector = 'checkbox'
 
