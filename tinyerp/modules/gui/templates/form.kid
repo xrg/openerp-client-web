@@ -18,16 +18,22 @@
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
-                <h1 id="icon_list">
-				<div class="button_right">
-					<button id="icon_list">SEARCH</button>
-					<button id="icon_list">EDIT</button>
-					<button class="inactive" id="icon_list">GRAPH</button>
-				</div>
-				${form.screen.string}
-			</h1>
+                <table width="100%" class="titlebar">
+                    <tr>
+                        <td width="32px" align="center">
+                            <img src="/static/images/icon.gif"/>
+                        </td>
+                        <td py:content="form.screen.string">Form Title</td>
+                        <td width="25px" nowrap="">
+                            <button>Search</button>
+                            <button>Edit</button>
+                            <button>Graph</button>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
+
         <tr>
             <td>
 		        <div class="toolbar">
