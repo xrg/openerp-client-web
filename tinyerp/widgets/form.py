@@ -233,7 +233,8 @@ class Email(TinyField):
         self.validator = tiny_validators.Email()
 
     def set_value(self, value):
-        self.default = value
+        if value:
+            self.default = value
 
 class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
