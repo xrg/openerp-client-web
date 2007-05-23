@@ -7,9 +7,8 @@
 
     <meta py:replace="item[:]"/>
 
-	<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
-	<link href="/static/css/icons.css" rel="stylesheet" type="text/css" />
-	<link href="/static/css/tabs.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/css/icons.css" rel="stylesheet" type="text/css"/>
 
     <title py:replace="''">Your title goes here</title>
 
@@ -25,7 +24,9 @@
 	    	<table id="header" class="header" height="65" cellpadding="0" cellspacing="0">
 				<tr>
 					<td rowspan="2">
-						<a href="http://www.tinyerp.com" class="imglink"><img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0"/></a>
+						<a href="http://www.tinyerp.com" class="imglink">
+						    <img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0"/>
+                        </a>
 					</td>
 					<td align="right" valign="top" py:if="rpc.session.is_logged()">
 						<table class="menu_connection" cellpadding="0" cellspacing="0">

@@ -6,11 +6,11 @@
                 <tr>
                     <td><strong>${screen.string}</strong></td>
                     <td align="right">
-                        <button type="button" title="Create new record..." name="${button_name}" onclick="submit_form('save', this)">New</button>
-                        <button type="button" title="Delete current record..." disabled="${tg.checker(screen.view_mode[0] == 'tree' or not screen.id)}" name="${button_name}" onclick="submit_form('delete', this)">Delete</button>
-                        <button type="button" title="Previous record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" name="${button_name}" onclick="submit_form('prev', this)">Prev</button>
-                        <button type="button" title="Next record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" name="${button_name}" onclick="submit_form('next', this)">Next</button>
-                        <button type="button" title="Switch view..." name="${button_name}" onclick="submit_form('switch', this)">Switch</button>
+                        <button type="button" title="Create new record..." onclick="submit_form('save', '${button_name}')">New</button>
+                        <button type="button" title="Delete current record..." disabled="${tg.checker(screen.view_mode[0] == 'tree' or not screen.id)}" onclick="submit_form('delete', '${button_name}')">Delete</button>
+                        <button type="button" title="Previous record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" onclick="submit_form('prev', '${button_name}')">Prev</button>
+                        <button type="button" title="Next record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" onclick="submit_form('next', '${button_name}')">Next</button>
+                        <button type="button" title="Switch view..." onclick="submit_form('switch', '${button_name}')">Switch</button>
                     </td>
                 </tr>
             </table>

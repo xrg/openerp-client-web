@@ -3,13 +3,12 @@
 <head>
     <title>${form.screen.string} </title>
     
-    <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">
-        
+    <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">        
         function loadSidebar() {
             $('sidebar').style.display = get_cookie('sidebar');
-        }      
-        connect(window, 'onload', loadSidebar);
+        }
 
+        connect(window, 'onload', loadSidebar);
     </script> 
         
 </head>
@@ -30,7 +29,7 @@
         </tr>
         <tr>
             <td>
-                <div class="toolbar">
+		        <div class="toolbar">
 		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
 		                <tr>
 		                    <td width="100%">
@@ -48,7 +47,7 @@
 		                    </td>
 		                </tr>
 		            </table>
-                </div>
+		        </div>
             </td>
         </tr>
         <tr>

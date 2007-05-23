@@ -75,13 +75,14 @@ var inlineDelete = function(id, src){
 
 var submit_form = function(action, src, data){
 
-    form = $("view_form");
-
     if (action == 'delete' &&  !confirm('Do you realy want to delete this record?')) {
         return false;
     }
 
-    form.action = getURL('/form/' + action, {_terp_source: src ? $(src).name : null, _terp_data: data ? data : null});
+    form = $("view_form");
+    source = src ? (typeof(src) == "string" ? src : src.name) : null;
+
+    form.action = getURL('/form/' + action, {_terp_source: source, _terp_data: data ? data : null});
     form.submit();
 }
 

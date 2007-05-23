@@ -89,13 +89,13 @@ class Search(controllers.Controller, TinyResource):
         return dict(form=form, params=params)
 
     def _get_oncancel(self, params):
-        return "submit_form('/search/cancel', form)"
+        return "submit_form('/search/cancel')"
 
     def _get_onok(self, params):
         return "onok('/search/ok', form)"
 
     def _get_onfind(self, params):
-        return "submit_form('/search/find', form)"
+        return "submit_form('/search/find')"
 
     def _get_javascript(self, params):
         return []
@@ -126,8 +126,6 @@ class Search(controllers.Controller, TinyResource):
     @expose()
     def find(self, **kw):
         params, data = TinyDict.split(kw)
-
-        print "XXXXXXXXXXXXXXX", data
 
         fields_type = params.fields_type
         search_domain = []

@@ -1,15 +1,94 @@
-/* ---------------- TABS ----------- */
-
+/*--------------------------------------------------
+  REQUIRED to hide the non-active tab content.
+  But do not hide them in the print stylesheet!
+  --------------------------------------------------*/
 .tabberlive .tabbertabhide {
-    display:none;
+ display:none;
 }
 
+/*--------------------------------------------------
+  .tabber = before the tabber interface is set up
+  .tabberlive = after the tabber interface is set up
+  --------------------------------------------------*/
+.tabber {
+}
+
+.tabberlive {
+}
+
+/*--------------------------------------------------
+  ul.tabbernav = the tab navigation list
+  li.tabberactive = the active tab
+  --------------------------------------------------*/
+ul.tabbernav
+{
+ margin:0;
+ padding: 3px 0;
+ border-bottom: 1px solid #BBB8A9;
+}
+
+ul.tabbernav li
+{
+ list-style: none;
+ margin: 0;
+ display: inline;
+}
+
+ul.tabbernav li a
+{
+ padding: 3px 0.5em;
+ margin-left: 3px;
+ border: 1px solid #BBB8A9;
+ border-bottom: none;
+ background: #F6F6F6;
+ text-decoration: none;
+}
+
+ul.tabbernav li a:link {
+}
+
+ul.tabbernav li a:visited {
+}
+
+ul.tabbernav li a:hover
+{
+ color: #000;
+}
+
+ul.tabbernav li.tabberactive a
+{
+ background-color: #fff;
+ border-bottom: 1px solid #fff;
+}
+
+ul.tabbernav li.tabberactive a:hover
+{
+ color: #000;
+ background: white;
+ border-bottom: 1px solid white;
+}
+
+/*--------------------------------------------------
+  .tabbertab = the tab content
+  Add style only after the tabber interface is set up (.tabberlive)
+  --------------------------------------------------*/
 .tabberlive .tabbertab {
-    background:#FBFBFB none repeat scroll 0%;
-    border: 1px solid #bbb8a9;
-    border-top: none;
+ padding:5px;
+ border:1px solid #BBB8A9;
+ border-top:0;
+
+ /* If you don't want the tab size changing whenever a tab is changed
+    you can set a fixed height */
+
+ /* height:200px; */
+
+ /* If you set a fix height set overflow to auto and you will get a
+    scrollbar when necessary */
+
+ /* overflow:auto; */
 }
 
+/* If desired, hide the heading since a heading is provided by the tab */
 .tabberlive .tabbertab h2 {
  display:none;
 }
@@ -17,55 +96,3 @@
  display:none;
 }
 
-ul.tabbernav {
-	list-style: none;
-	padding: 10px;
-	border-bottom: 1px solid #bbb8a9;
-	margin:0;
-	height: 11px;
-}
-
-ul.tabbernav li {
-	float: left;
-	display: block;
-	height: 21px;
-	padding-right: 22px;
-	margin-left: -10px;
-	position: relative;
-	background: url(/static/images/tabs_right_inactive.png) 100% 0 no-repeat;
-	border-bottom: 1px solid #bbb8a9;
-	white-space: nowrap;
-}
-
-ul.tabbernav li a {
-	height: 21px;
-	line-height: 21px;
-	padding-left: 8px;
-	display:block;
-	background: url(/static/images/tabs_left_inactive.png) no-repeat;
-}
-
-ul.tabbernav li.tabberactive {
-	z-index: 1;
-	border-bottom: 1px solid #fbfbfb;
-	height: 21px;
-	background-image: url(/static/images/tabs_right_active.png);
-}
-
-ul.tabbernav li.tabberactive a {
-	background-image: url(/static/images/tabs_left_active.png);
-}
-
-ul.tabbernav li a {
-	color: #222;
-}
-
-ul.tabbernav li a:hover {
-	border: none;
-}
-
-
-div.tabbernav {
-	background: #eeeeee;
-	border-bottom: 1px solid #bbb8a9;
-}

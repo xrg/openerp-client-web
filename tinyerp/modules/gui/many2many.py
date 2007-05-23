@@ -54,7 +54,7 @@ class M2M(search.Search):
         return "window.close();"
 
     def _get_onfind(self, params):
-        return "submit_form('/many2many/find', form)"
+        return "submit_form('/many2many/find')"
 
     def _get_hiddenfield(self, params):
         field = widgets.HiddenField(name='_terp_m2m', default=params.m2m)

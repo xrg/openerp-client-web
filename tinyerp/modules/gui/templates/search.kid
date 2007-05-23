@@ -5,32 +5,11 @@
 
     <script type="text/javascript">
 
-        function submit_form(action, form){
-            form.action = action;
-
-            pwin = window.opener;
-
-            if (pwin &amp;&amp; pwin.document.forms &amp;&amp; pwin.document.forms.length > 0){
-
-                pform = pwin.document.forms[0];
-
-                pvals = {};
-
-                forEach(pform.elements, function(e){
-                    if (e.name &amp;&amp; e.name.indexOf('_terp_') == -1) {
-                        if (e.type != 'button'){
-                            pvals['_terp_parent_form/' + e.name] = e.value;
-
-                            if (e.attributes['kind']){
-                                pvals['_terp_parent_types/' + e.name] = e.attributes['kind'].value;
-                            }
-                        }
-                    }
-                });
-
-                form.action = getURL(action, pvals);
-            }
-            
+        function submit_form(action){
+                    
+            form = $('search_form');
+            form.action = action;            
+                        
             // disable fields of hidden tab
             
             var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_form')[0];
@@ -46,11 +25,45 @@
             
             form.submit();
         }
+        
+        function generate_parent_fields(){
+            
+            pwin = window.opener;
+                                    
+            if (pwin &amp;&amp; pwin.document.forms &amp;&amp; pwin.document.forms.length > 0){
+
+                pform = pwin.document.forms[0];
+
+                forEach(pform.elements, function(e){
+                    if (e.name &amp;&amp; e.name.indexOf('_terp_') == -1) {
+                        if (e.type != 'button'){
+                        
+                            var n = '_terp_parent_form/' + e.name;
+                            var v = e.value;
+                            
+                            appendChildNodes('search_form', INPUT({type: 'hidden', name: n, value: v}));
+                            
+                            if (e.attributes['kind']){
+                            
+                                n = '_terp_parent_types/' + e.name;
+                                v = e.attributes['kind'].value;
+                                
+                                appendChildNodes('search_form', INPUT({type: 'hidden', name: n, value: v}));
+                            }                                                                                  
+                        }
+                    }
+                });
+            }
+        }
+        
+        if (window.opener)
+            connect(window, "onload", generate_parent_fields);
+        
     </script>
 
     <script type="text/javascript" py:if="not (params.m2o or params.m2m)">
 
-    	function onok(action, form) {
+    	function onok(action) {
 			var boxes = new ListView('search_list').getSelected();
 			var ids = []
 	        id = boxes[0].value;
@@ -61,7 +74,7 @@
             });
 
             form._terp_ids.value = '[' + ids + ']';
-			submit_form(action, form);
+			submit_form(action);
     	}
     </script>
 
@@ -76,13 +89,10 @@
 
             id = boxes[0].value;
 
-            parent = window.opener;
-
-            value_field = parent.document.getElementById('${params.m2o}');
-
+            value_field = window.opener.document.getElementById('${params.m2o}');
             value_field.value = id;
 
-            parent.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
+            window.opener.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
             window.setTimeout("window.close()", 5);
         }
     </script>
@@ -91,10 +101,8 @@
 
         function onok() {
 
-            parent = window.opener;
-
-            list_view = parent.document.getElementById('${params.m2m}');
-
+            list_view = window.opener.document.getElementById('${params.m2m}');
+                        
             list_view = new ListView(list_view);
             list_new = new ListView('search_list');
 
@@ -107,7 +115,7 @@
 
             boxes = list_new.getSelected();
             forEach(boxes, function(b){
-                if (ids.indexOf(b.value) == -1) ids.push(b.value);
+                if (findValue(ids, b.value) == -1) ids.push(b.value);
             });
 
             list_id = $('search_form__terp_m2m').value;
@@ -117,9 +125,9 @@
             req.addCallback(function(xmlHttp) {
                 res = xmlHttp.responseText;
 
-                list_view = parent.document.getElementById('${params.m2m}' + '_container');
-                list_view.innerHTML = res
-                c = parent.document.getElementById('${params.m2m}'+'_set');
+                list_view = window.opener.document.getElementById('${params.m2m}' + '_container');
+                list_view.innerHTML = res;
+                c = window.opener.document.getElementById('${params.m2m}'+'_set');
                 c.onchange(null);
 
                 window.setTimeout('window.close()', 0);

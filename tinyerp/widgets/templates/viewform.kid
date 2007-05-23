@@ -20,8 +20,8 @@
     </script>
     <table border="0" cellpadding="0" cellspacing="0" width="100%" py:if="screen">
         <tr>
-            <td py:content="screen.display(value_for(screen), **params_for(screen))" width="100%"></td>
-            <td py:if="screen.hastoolbar and screen.toolbar" width="100%" valign="top" style="padding-left: 4px">
+            <td valign="top" py:content="screen.display(value_for(screen), **params_for(screen))" width="100%"></td>
+            <td py:if="screen.hastoolbar and screen.toolbar" width="163" valign="top" style="padding-left: 4px">
                 <div id="toolbar_hide">
 					<a href="#" onclick="toggle_sidebar('sidebar');">
 						<img src="/static/images/toolbar_hide.png" alt="|" border="0"/>

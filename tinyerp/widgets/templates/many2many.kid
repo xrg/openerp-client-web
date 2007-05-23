@@ -25,7 +25,7 @@
             </button>
         </td>
     </tr>
-    <tr><td height="3px"></td></tr>
+    <tr><td colspan="3" height="4px"></td></tr>
     <tr>
         <td colspan="3" id="${list_view.name}_container">
             ${list_view.display()}

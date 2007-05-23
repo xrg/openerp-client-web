@@ -54,7 +54,7 @@ class M2O(search.Search):
         return "window.close();"
 
     def _get_onfind(self, params):
-        return "submit_form('/many2one/find', form)"
+        return "submit_form('/many2one/find')"
 
     def _get_javascript(self, params):
         code = []
