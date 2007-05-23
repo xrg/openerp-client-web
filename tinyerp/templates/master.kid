@@ -9,6 +9,10 @@
 
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
 	<link href="/static/css/icons.css" rel="stylesheet" type="text/css"/>
+	
+	<!--[if lt IE 7]>
+	    <link href="/static/css/iepngfix.css" rel="stylesheet" type="text/css"/>
+	<![endif]-->
 
     <title py:replace="''">Your title goes here</title>
 
@@ -25,7 +29,7 @@
 				<tr>
 					<td rowspan="2">
 						<a href="http://www.tinyerp.com" class="imglink">
-						    <img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0"/>
+						    <img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0" width="205px" height="58px"/>
                         </a>
 					</td>
 					<td align="right" valign="top" py:if="rpc.session.is_logged()">
