@@ -8,8 +8,8 @@
         
     	if (element !== null) {
 	  		if (element.style.display == "none") {
-	    	    element.style.display = "block";
-	    	    set_cookie(element_id, "block");
+	    	    element.style.display = "block";  	    	    
+	    	    set_cookie(element_id, "block");	    	    
 		    } else {
     		    element.style.display = "none";    
     		    set_cookie(element_id, "none");
@@ -77,6 +77,7 @@
 										</td>
 									</tr>
 				    			</table>
+				    			
 					    		<div class="toolbar_button">	
 					    		    <table border="0" cellpadding="0" cellspacing="0" width="100%">
 			    						<tr py:for="item in screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">

@@ -5,7 +5,8 @@
     
     <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">        
         function loadSidebar() {
-            $('sidebar').style.display = get_cookie('sidebar');
+            var sb = $('sidebar');
+            if (sb)  $('sidebar').style.display = get_cookie('sidebar');
         }
 
         connect(window, 'onload', loadSidebar);

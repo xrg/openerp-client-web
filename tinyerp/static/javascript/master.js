@@ -107,10 +107,8 @@ function set_cookie(name, value) {
 }
 
 function get_cookie(name) {
-
     var dc = document.cookie;
     var prefix = name + "=";
-
     var begin = dc.indexOf("; " + prefix);
     if (begin == -1) {
         begin = dc.indexOf(prefix);
@@ -118,11 +116,9 @@ function get_cookie(name) {
     } else {
         begin += 2;
     }
-
     var end = document.cookie.indexOf(";", begin);
     if (end == -1) {
         end = dc.length;
     }
-
     return unescape(dc.substring(begin + prefix.length, end));
 }
