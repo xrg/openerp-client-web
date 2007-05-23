@@ -98,25 +98,13 @@ class Frame(TinyCompoundWidget):
     def new_line(self):
         self.add_row()
 
-    def add(self, widget, rowspan=1, colspan=1, css_class=None):
+    def add(self, widget, rowspan=1, colspan=1, css_class=None, width=None):
 
         if self.cols == 0:
             self.add_row()
 
         if isinstance(widget, TinyWidget) and widget.colspan == self.columns and self.cols < self.columns and widget.nolabel == False:
             colspan = self.columns - 1
-
-        w = (100 / self.columns) * colspan
-
-        if self.cols == 1:
-            w = self.width_remains
-        elif isinstance(widget, TinyInputWidget):
-            w += 40 * w / 100
-        else:
-            w -= 40 * w / 100
-
-        if self.cols < colspan:
-            self.add_row()
 
         tr = self.table[-1]
 
@@ -125,8 +113,8 @@ class Frame(TinyCompoundWidget):
         if colspan > 1: attrs['colspan'] = colspan
         if css_class: attrs['class'] = css_class
 
-        attrs['width'] = '%d%%' % w
-        self.width_remains -= w
+        if width is not None:
+            attrs['width'] = '%d%%' % width
 
         td = [attrs]
 
@@ -149,13 +137,27 @@ class Frame(TinyCompoundWidget):
             self.new_line()
             return
 
+        if self.cols < colspan:
+            self.add_row()
+
+        width = (100 / self.columns) * colspan
+
+        if self.cols - colspan == 0:
+            width = self.width_remains
+
+        w1 = w2 = width
+
         if label:
-            if self.cols < colspan:
-                self.add_row()
+            w1 -= 40 * w1 / 100
+            w2 += 40 * w2 / 100
+            self.width_remains -= w1 + w2
+        else:
+            self.width_remains -= w2
 
-            self.add(label, css_class='label')
+        if label:
+            self.add(label, css_class='label', width=w1)
 
-        self.add(item, rowspan=rowspan, colspan=colspan, css_class='item')
+        self.add(item, rowspan=rowspan, colspan=colspan, css_class='item', width=w2)
 
 class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a

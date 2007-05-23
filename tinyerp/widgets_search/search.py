@@ -134,8 +134,8 @@ class Form(tg.widgets.Form):
         self.widgets = []
         self.parse(dom, fields, values)
 
-        self.bframe = Frame({}, [w for w in self.widgets if not w.adv], 6)
-        self.aframe = Frame({}, self.widgets, 6)
+        self.bframe = Frame({}, [w for w in self.widgets if not w.adv], 4)
+        self.aframe = Frame({}, self.widgets, 4)
 
     def parse(self, root=None, fields=None, values={}):
 
