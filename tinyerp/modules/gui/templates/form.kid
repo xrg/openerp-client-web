@@ -23,8 +23,8 @@
                         <td width="32px" align="center">
                             <img src="/static/images/icon.gif"/>
                         </td>
-                        <td py:content="form.screen.string">Form Title</td>
-                        <td width="25px" nowrap="">
+                        <td width="100%" py:content="form.screen.string">Form Title</td>
+                        <td nowrap="">
                             <button>Search</button>
                             <button>Edit</button>
                             <button>Graph</button>

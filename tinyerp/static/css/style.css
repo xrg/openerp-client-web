@@ -227,6 +227,13 @@ div.welcome {
 	border-bottom: 1px solid #333333;
 }
 
+.view .titlebar button {
+	width: auto;
+	margin: 0 1px;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
 .view .title {
     background:url(/static/images/grdline1.gif) repeat-x left top;
     border-top: 1px solid #E3E3E3;
