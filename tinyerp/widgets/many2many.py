@@ -54,6 +54,9 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         super(M2M, self).__init__(attrs)
         tg.widgets.CompoundWidget.__init__(self)
 
+#        self.colspan = 4
+#        self.nolabel = True
+
         self.relation = attrs.get('relation', '')
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {}) or {}

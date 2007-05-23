@@ -32,7 +32,7 @@
     				<table border="0" cellpadding="0" cellspacing="0" width="160">
 		                <tr>
 		                    <td>
-					    		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+					    		<table border="0" cellpadding="0" cellspacing="0" width="100%" py:if="'print' in screen.toolbar">
 									<tr>
 										<td width="8" bgcolor="#ac0000"></td>
 										<td width="7" bgcolor="#363636"></td>
@@ -50,7 +50,7 @@
 									</tr>
 								</table>
 								
-								<div class="toolbar_button">
+								<div class="toolbar_button" py:if="'print' in screen.toolbar">
 								    <table border="0" cellpadding="0" cellspacing="0" width="100%">
 			    						<tr py:for="item in screen.toolbar['print']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
 			    						    <td>
@@ -60,7 +60,7 @@
 								    </table>
 								</div>				
 									
-								<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<table border="0" cellpadding="0" cellspacing="0" width="100%" py:if="'action' in screen.toolbar">
 									<tr>
 										<td width="8" bgcolor="#ac0000"></td>
 										<td width="7" bgcolor="#363636"></td>
@@ -78,7 +78,7 @@
 									</tr>
 				    			</table>
 				    			
-					    		<div class="toolbar_button">	
+					    		<div class="toolbar_button" py:if="'action' in screen.toolbar">	
 					    		    <table border="0" cellpadding="0" cellspacing="0" width="100%">
 			    						<tr py:for="item in screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
 			    						    <td>			    

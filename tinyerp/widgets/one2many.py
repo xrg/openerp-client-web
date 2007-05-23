@@ -50,8 +50,8 @@ class O2M(TinyCompoundWidget):
         self.button_name = self.name.replace('/', '.')
         self.button_attrs = {}
 
-        #self.colspan = 4
-        #self.nolabel = True
+#        self.colspan = 4
+#        self.nolabel = True
 
         # get top params dictionary
         params = cherrypy.request.terp_params

@@ -140,24 +140,10 @@ class Frame(TinyCompoundWidget):
         if self.cols < colspan:
             self.add_row()
 
-        width = (100 / self.columns) * colspan
-
-        if self.cols - colspan == 0:
-            width = self.width_remains
-
-        w1 = w2 = width
-
         if label:
-            w1 -= 40 * w1 / 100
-            w2 += 40 * w2 / 100
-            self.width_remains -= w1 + w2
-        else:
-            self.width_remains -= w2
+            self.add(label, css_class='label', width=5)
 
-        if label:
-            self.add(label, css_class='label', width=w1)
-
-        self.add(item, rowspan=rowspan, colspan=colspan, css_class='item', width=w2)
+        self.add(item, rowspan=rowspan, colspan=colspan, css_class='item', width=None)
 
 class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
