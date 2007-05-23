@@ -324,7 +324,7 @@ div#toolbar_hide {
 }
 
 div#toolbar {
-	float:right;
+	float: right;
 	width: 170px;
 	padding-top: 10px;
 	padding-left: 5px;
@@ -335,12 +335,13 @@ div#toolbar {
 div.toolbar_button {
 	padding:0;
 	margin-bottom:5px;
-	width: 160px;
+	white-space: nowrap;
 }
 
 a.toolbar_button:link, a.toolbar_button:visited {
-	display:block;
 	background:url('/static/images/toolbar_button_bg.png') no-repeat;
+	display:block;
+	background-color: #DADADA;
 	vertical-align:middle;
 	font-size:11px;
 	font-weight:bold;
@@ -351,6 +352,7 @@ a.toolbar_button:link, a.toolbar_button:visited {
 	height:20px !important;
 	height:25px;
 	text-decoration:none;
+	white-space: nowrap;
 }
 
 a.toolbar_button:hover {
@@ -364,6 +366,8 @@ a.toolbar_button#active_menu {
 	font-weight:bold;
 }
 
-a.toolbar_button#active_menu:hover { color:#902D2D; }
+a.toolbar_button#active_menu:hover {
+    color:#902D2D;
+}
 
 /* ------------- End side bar ------- */
