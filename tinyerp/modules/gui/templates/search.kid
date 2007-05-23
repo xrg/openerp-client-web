@@ -67,13 +67,15 @@
 			var boxes = new ListView('search_list').getSelected();
 			var ids = []
 	        id = boxes[0].value;
-			form._terp_id.value = id;
+	        
+			$('search_form')._terp_id.value = id;
 
 			forEach(boxes, function(b){
-                if (ids.indexOf(b.value) == -1) ids.push(b.value);
+                if (findValue(ids, b.value) == -1) ids.push(b.value);
             });
 
-            form._terp_ids.value = '[' + ids + ']';
+            $('search_form')._terp_ids.value = '[' + ids + ']';
+            
 			submit_form(action);
     	}
     </script>
