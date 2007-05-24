@@ -94,16 +94,18 @@ class Frame(TinyCompoundWidget):
             if len(row) > mx:
                 mx = len(row)
 
-        width = 100.00 / mx
-
         for row in self.table:
-            for a, wid in row:
-                w = width * a.get('colspan', 1)
 
+            sn = len([w for a, w in row if isinstance(w, basestring)])
+
+            sw = 10                                # label width
+            ww = (100.00 - sw * sn) / (mx - sn)    # widget width
+
+            for a, wid in row:
                 if isinstance(wid, basestring):
-                    w -= 40 * w / 100.00
+                    w = sw
                 else:
-                    w += 40 * w / 100.00
+                    w = ww * a.get('colspan', 1)
 
                 a['width'] = '%d%%' % (w)
 
