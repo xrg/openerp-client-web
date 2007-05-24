@@ -59,22 +59,19 @@ class Frame(TinyCompoundWidget):
 
     table = []
 
-    def __init__(self, attrs, children, columns=4):
+    def __init__(self, attrs, children):
         """Create new instance of Frame widget."
 
         @param attrs: attributes
         @param children: child widgets
-        @param columns: number of layout columns
 
         @return: an instance of Frame widget
         """
 
         super(Frame, self).__init__(attrs)
 
-        self.columns = columns
+        self.columns = int(attrs.get('col', 4))
         self.nolabel = True
-
-        self.width_remains = 100;
 
         self.add_row()
 
@@ -90,10 +87,29 @@ class Frame(TinyCompoundWidget):
 
         self.fields = []
 
+        # properly distribute widths to columns
+
+        mx = 1
+        for row in self.table:
+            if len(row) > mx:
+                mx = len(row)
+
+        width = 100.00 / mx
+
+        for row in self.table:
+            for a, wid in row:
+                w = width * a.get('colspan', 1)
+
+                if isinstance(wid, basestring):
+                    w -= 40 * w / 100.00
+                else:
+                    w += 40 * w / 100.00
+
+                a['width'] = '%d%%' % (w)
+
     def add_row(self):
         self.table.append([])
         self.cols = self.columns
-        self.width_remains = 100
 
     def new_line(self):
         self.add_row()
@@ -141,9 +157,12 @@ class Frame(TinyCompoundWidget):
             self.add_row()
 
         if label:
-            self.add(label, css_class='label', width=5)
+            self.add(label, css_class='label')
+            colspan -= 1
 
-        self.add(item, rowspan=rowspan, colspan=colspan, css_class='item', width=None)
+        if colspan < 1: colspan = 1
+
+        self.add(item, rowspan=rowspan, colspan=colspan, css_class='item')
 
 class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
@@ -421,7 +440,7 @@ class Group(TinyCompoundWidget):
     def __init__(self, attrs, children):
         TinyCompoundWidget.__init__(self, attrs)
 
-        self.frame = Frame(attrs, children, columns=int(attrs.get('col', 4)))
+        self.frame = Frame(attrs, children)
         self.nolabel = True
 
 class HPaned(TinyCompoundWidget):
