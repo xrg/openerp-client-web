@@ -9,9 +9,22 @@
 
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
 	<link href="/static/css/icons.css" rel="stylesheet" type="text/css"/>
-	
+
 	<!--[if lt IE 7]>
 	    <link href="/static/css/iepngfix.css" rel="stylesheet" type="text/css"/>
+	<![endif]-->
+
+	<!--[if IE]>
+	<style type="text/css">
+		ul.tabbernav {
+	    padding: 0px;
+	}
+
+	ul.tabbernav li {
+	    left: 10px;
+    	top: 1px;
+	}
+	</style>
 	<![endif]-->
 
     <title py:replace="''">Your title goes here</title>
@@ -24,7 +37,7 @@
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-    	<td>    	    
+    	<td>
 	    	<table id="header" class="header" height="65" cellpadding="0" cellspacing="0">
 				<tr>
 					<td rowspan="2">
@@ -83,7 +96,7 @@
 								</td>
 							</tr>
 						</table>
-			
+
 			        </td>
                 </tr>
             </table>
