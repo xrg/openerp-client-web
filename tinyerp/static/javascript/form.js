@@ -47,7 +47,6 @@ var inlineEdit = function(id, src){
     form.action = act;
     form.submit();
 }
-
 var inlineDelete = function(id, src){
 
     if (!confirm('Do you realy want to delete this record?')) {
@@ -83,6 +82,14 @@ var submit_form = function(action, src, data){
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
 
     form.action = getURL('/form/' + action, {_terp_source: source, _terp_data: data ? data : null});
+    form.submit();
+}
+var submit_value = function(action, src, data){
+
+    form = $("view_form");
+    source = src ? (typeof(src) == "string" ? src : src.name) : null;
+
+    form.action = '/openm2o/save';
     form.submit();
 }
 

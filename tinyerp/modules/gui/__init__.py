@@ -10,3 +10,4 @@ import preferences
 import selection
 import shortcuts
 import requests
+import openm2o

@@ -44,6 +44,7 @@ from tinyerp import widgets_search as tws
 from tinyerp.modules.utils import TinyDict
 
 import search
+import form
 
 class M2O(search.Search):
 
@@ -76,6 +77,17 @@ class M2O(search.Search):
 
         return self.create(params)
 
+    @expose()
+    def open(self, model, m2o, domain=[], context={}, **kw):
+
+        params = TinyDict()
+        params.model = model
+        params.m2o = m2o
+        params.domain = domain
+        params.context = context
+
+        return form.Form().create(params)
+
     @expose('json')
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
@@ -86,4 +98,6 @@ class M2O(search.Search):
     @expose('json')
     def get_name(self, model, id):
         name = tw.many2one.get_name(model, id)
+        if not name:
+            name=''
         return dict(name=name)
