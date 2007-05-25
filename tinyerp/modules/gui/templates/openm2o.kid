@@ -18,6 +18,9 @@
                 var f = $('footer');
                 h.parentNode.removeChild(h);
                 f.parentNode.removeChild(f);
+                var s = $('sidebar_hide');
+                if(s)
+                	s.parentNode.removeChild(s);
 
                 if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
     	  			window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
