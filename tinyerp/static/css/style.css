@@ -135,6 +135,23 @@ a.menu_connection {
 	padding: 2px 4px;
 }
 
+#shortcuts_extra {
+    display: none;
+    float: left;
+    line-height:18px;
+    border: 1px solid #BBB;
+    width: 150px;
+    position: absolute;
+    top: 25;
+    left: 10;
+    background-color: #666666;
+}
+
+#shortcuts_extra a {
+    display: block;
+    padding: 2px 6px;"
+}
+
 /*------------------------------------------------------*/
 
 /* ------------------- Footer --------------- */
@@ -355,23 +372,3 @@ td.item .checkbox,td.item .radio {
 	color: #902D2D;
 }
 /* ------------- End side bar ------- */
-
-/* ------------- Drop down Shortcuts ------- */
-
-#shortcuts_extra {
-    display: none;
-    float: left;
-    line-height:18px;
-    border: 1px solid #BBB;
-    width: 150px;
-    position: absolute;
-    top: 25;
-    left: 10;
-    background-color: #666666;
-}
-
-#shortcuts_extra a {
-    display: block;
-    padding: 2px 6px;"
-}
-/* ------------- End Drop down Shortcuts ------- */
