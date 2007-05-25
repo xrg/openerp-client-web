@@ -64,10 +64,18 @@ class RangeWidget(TinyCompoundWidget):
         super(RangeWidget, self).__init__(attrs)
 
         kind = attrs.get('type', 'integer')
-
-        self.from_field = range_widgets_type[kind](attrs)
-        self.to_field = range_widgets_type[kind](attrs)
-
+        
+        fname = attrs['name']
+        
+        from_attrs = attrs.copy()
+        to_attrs = attrs.copy()
+                  
+        from_attrs['name'] = fname + '/from'
+        to_attrs['name'] = fname + '/to'
+                                
+        self.from_field = range_widgets_type[kind](from_attrs)
+        self.to_field = range_widgets_type[kind](to_attrs)            
+                       
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False

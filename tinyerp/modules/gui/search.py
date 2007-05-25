@@ -51,18 +51,23 @@ from tinyerp.modules.utils import TinyParent
 import form
 
 def _make_domain(name, type, value):
+
     if value:
 
-        if type == 'many2many' or type == 'one2many' or type =='many2one' or type=='char':
+        if type in ('many2many', 'one2many', 'many2one', 'char'):
             return [(name, 'ilike', value)]
 
-        elif type== 'float' or type == 'integer' or type == 'datetime' or type=='date' or type=='time':
-            if value[0] and value[1]:
-                return [(name, '>=', value[0]), (name, '<=', value[1])]
-            elif value[0]:
-                return [(name, '>=', value[0])]
-            elif value[1]:
-                return [(name, '<=', value[1])]
+        elif type in ('float', 'integer', 'date', 'time', 'datetime'):
+            
+            start = value.get('from')
+            end = value.get('to')            
+            
+            if start and end:
+                return [(name, '>=', start), (name, '<=', end)]
+            elif start:
+                return [(name, '>=', start)]
+            elif end:
+                return [(name, '<=', end)]
             return None
 
         if type=='boolean':
@@ -133,7 +138,7 @@ class Search(controllers.Controller, TinyResource):
     @expose()
     def find(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
         fields_type = params.fields_type
         search_domain = []
 
@@ -178,7 +183,7 @@ class Search(controllers.Controller, TinyResource):
 
         if fields_type:
             for n, v in fields_type.items():
-                t = _make_domain(n, v, kw.get(n))
+                t = _make_domain(n, v, data.get(n))
                 if t:
                     search_domain += t
 
