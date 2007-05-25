@@ -85,7 +85,14 @@ class Search(controllers.Controller, TinyResource):
 
         form.javascript = self._get_javascript(params)
         form.form_view.hidden_fields = self._get_hiddenfield(params)
-
+        
+        form.list_view.options.on_first = "$('offset').value = 0; %s" % self._get_onfind(params)
+        form.list_view.options.on_previous = "$('offset').value = parseInt($('offset').value) - parseInt($('limit').value); %s" % self._get_onfind(params)
+        form.list_view.options.on_next = "$('offset').value = parseInt($('offset').value) + parseInt($('limit').value); %s" % self._get_onfind(params)
+        
+        form.list_view.options.limit = values.get('limit', 20)
+        form.list_view.options.offset = values.get('offset', 0)
+                        
         return dict(form=form, params=params)
 
     def _get_oncancel(self, params):

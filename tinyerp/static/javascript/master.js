@@ -53,7 +53,8 @@ var wopen_mx = function(url, name) {
 }
 
 var getURL = function(path, args) {
-	return args ? path + "?" + queryString(args) : path;
+	var qs = args ? queryString(args) : null;
+	return qs ? path + "?" +  qs : path;
 }
 
 function echeck(str)

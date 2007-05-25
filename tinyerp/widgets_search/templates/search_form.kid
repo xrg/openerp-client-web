@@ -32,25 +32,9 @@
 	    </tr>
 	    <tr>
 	        <td>		        		    		
-	            <div class="toolbar">
-					<table>
-						<tr>
-	                        <td>			    		    
-		        				<button type="button" id='find_button' title="Find Records..." onclick="${onfind}">Find</button>
-					    		<button type="button" id='cancel_button' title="Cancel..." onclick="${oncancel}">Cancel</button>
-						    	<button type="button" id='ok_button' title="Select Record..." onclick="${onok}">OK</button>
-					    	</td>
-	    					<td width="100%"></td>
-				            <td><button type="button" name="first" onclick="$('offset').value = 0; ${onfind}">First</button></td>
-		    		        <td><button type="button" name="prev" onclick="$('offset').value = parseInt($('offset').value) - parseInt($('limit').value); ${onfind}">Prev</button></td>
-				            <td style="padding: 0 4px">
-		        	            (${offset} to ${limit + offset})
-			    	        </td>
-			        	    <td><button type="button" name="next" onclick="$('offset').value = parseInt($('offset').value) + parseInt($('limit').value); ${onfind}">Next</button></td>
-			        	    <td><button type="button" name="last" onclick="return false">Last</button></td>						
-					    </tr>
-			    	</table>
-			    </div>
+   				<button type="button" id='find_button' title="Find Records..." onclick="${onfind}">Find</button>
+                <button type="button" id='cancel_button' title="Cancel..." onclick="${oncancel}">Cancel</button>
+                <button type="button" id='ok_button' title="Select Record..." onclick="${onok}">OK</button>
 	        </td>
 	    </tr>
 	</table>

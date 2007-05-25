@@ -4,11 +4,11 @@
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="pager">
 	            <tr>
 	                <td align="right">
-						<a href="#" class="arrow_link"><img border="0" src="/static/images/newstarticon.gif"/> Start</a>   
-						<a href="#" class="arrow_link"><img border="0" src="/static/images/newpericon.gif"/> Previous</a>    
-						<a href="#" class="arrow_link">(1-5)</a>    
-						<a href="#" class="arrow_link">Next <img border="0" src="/static/images/newnexticon.gif"/></a>   
-						<a href="#" class="arrow_link">End <img border="0" src="/static/images/newendicon.gif"/></a>   
+						<a href="#" onclick="${options.on_first}"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>   
+						<a href="#" onclick="${options.on_previous}"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>    
+						<a href="#">(${options.offset} to ${options.limit + options.offset})</a>    
+						<a href="#" onclick="${options.on_next}">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>   
+						<a href="#" onclick="${options.on_end}">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>   
 					</td>			                
 	            </tr>
 	        </table>
@@ -53,11 +53,11 @@
 						<a href="#">Export</a>
 					</td>
 					<td align="right">
-						<a href="#"><img border="0" src="/static/images/newstarticon.gif"/> Start</a>   
-						<a href="#"><img border="0" src="/static/images/newpericon.gif"/> Previous</a>    
-						<a href="#">(1-5)</a>    
-						<a href="#">Next <img border="0" src="/static/images/newnexticon.gif"/></a>   
-						<a href="#">End <img border="0" src="/static/images/newendicon.gif"/></a>   
+						<a href="#" onclick="${options.on_first}"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>   
+						<a href="#" onclick="${options.on_previous}"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>    
+						<a href="#">(${options.offset} to ${options.limit + options.offset})</a>    
+						<a href="#" onclick="${options.on_next}">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>   
+						<a href="#" onclick="${options.on_end}">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>      
 					</td>
                 </tr>
             </table>

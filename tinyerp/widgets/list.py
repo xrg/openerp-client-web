@@ -38,9 +38,17 @@ from tinyerp import tools
 
 from interface import TinyCompoundWidget
 
+class ListOptions(object):
+    on_first = None
+    on_previous = None
+    on_next = None
+    on_end = None
+    limit = 20
+    offset = 0
+
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source']
+    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'options']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -49,7 +57,9 @@ class List(TinyCompoundWidget):
     selectable = False
     editable = False
     source = None
-
+    
+    options = ListOptions();
+        
     css = [widgets.CSSLink('tinyerp', 'css/listview.css')]
     javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
 
