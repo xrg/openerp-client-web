@@ -39,8 +39,9 @@ var wopen = function(url, name, w, h) {
     var windowFeatures = "toolbar=0, statusbar=0, scrollbars=1" + ",width=" + width + ",height=" + height +
         ",status,resizable,left=" + left + ",top=" + top +
         "screenX=" + left + ",screenY=" + top;
-    return window.open(url, name ? name : "popup", windowFeatures);
+    return window.open(url, name, windowFeatures);
 }
+
 var wopen_mx = function(url, name) {
     var width = screen.availWidth;
     var height = screen.availHeight;
@@ -49,7 +50,7 @@ var wopen_mx = function(url, name) {
     var windowFeatures = "toolbar=0, statusbar=0, scrollbars=1" + ",width=" + width + ",height=" + height +
         ",status,resizable,left=" + left + ",top=" + top +
         "screenX=" + left + ",screenY=" + top;
-    return window.open(url, name ? name : "popup", windowFeatures);
+    return window.open(url, name, windowFeatures);
 }
 
 var getURL = function(path, args) {

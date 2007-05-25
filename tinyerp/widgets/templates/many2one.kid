@@ -1,18 +1,4 @@
 <table width="100%" cellpadding="0" cellspacing="0" xmlns:py="http://purl.org/kid/ns#">
-<script language="javascript">
-function openm2o(action, relation, id)
-{
-	var t = '';
-	if(action=='new')
-		var t = '/openm2o/edit?_terp_model=' + relation + '&amp;_terp_view_mode=[form,tree]' + '&amp;_terp_m2o=' + id;
-	else
-	{
-		id1 = $(id);
-		var t = '/openm2o/edit?_terp_model=' + relation + '&amp;_terp_id=' + id1.value + '&amp;_terp_view_mode=[form,tree]' + '&amp;_terp_m2o=' + id;
-	}
-	wopen(getURL(t), null, 800, 600);
-}
-</script>
     <tr >
         <td>
             <input type="hidden" kind="${kind}" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' callback="${callback}" onchange="${onchange}; getName(this, '${relation}')"/>
