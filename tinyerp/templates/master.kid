@@ -79,21 +79,17 @@
 								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;"/>
 								<td py:if="rpc.session.is_logged()">								
 								    <span py:def="make_shortcuts(shortcuts)" py:strip="">
-								        <td>
-	                                        <span py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;7">
-									            <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-									        </span>
+								        <td py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6" nowrap="nowrap">
+									       <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 									    </td>
-								        <td py:if="len(shortcuts) &gt; 7" width="25" onmouseover="$('shortcuts_extra').style.display='inline';" onmouseout="$('shortcuts_extra').style.display='none'">
-								            <span>
-								                <a href="#">>>&nbsp;</a>
-								            </span>
+								        <td py:if="len(shortcuts) &gt; 6" width="25" onmouseover="$('shortcuts_extra').style.display='block';" onmouseout="$('shortcuts_extra').style.display='none'">
+    						                <a href="#">>></a>
 									        <div id="shortcuts_extra" onmouseout="this.style.display='none'" >
-									            <a py:for="sc in shortcuts[7:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+									            <a py:for="sc in shortcuts[6:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 									        </div>
    								        </td>
-								    </span>                                    
-								    <table cellspacing="0" cellpadding="0" border="0">
+								    </span>                                                            
+								    <table cellspacing="0" cellpadding="0" border="0" class="shortcuts">
 								        <tr>
     								        <td py:replace="make_shortcuts(tg.root.shortcuts.my())"/>
 								        </tr>

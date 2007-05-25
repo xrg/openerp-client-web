@@ -109,6 +109,7 @@ a.menu_connection {
 	background: #666666;
 	margin-bottom: 4px;
 	height: 25px;
+	white-space: nowrap;
 }
 
 #menu_header_menu {
@@ -129,9 +130,9 @@ a.menu_connection {
 	color: white;
 }
 
-#menu_header span {
+#menu_header .shortcuts td {
 	border-right: 2px ridge #333333;
-	margin-left: 4px;
+	padding: 2px 4px;
 }
 
 /*------------------------------------------------------*/

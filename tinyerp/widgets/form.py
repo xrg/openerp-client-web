@@ -104,7 +104,7 @@ class Frame(TinyCompoundWidget):
             for a, wid in row:
                 if isinstance(wid, basestring):
                     w = sw
-                if isinstance(wid, Image):                    
+                elif isinstance(wid, Image):                    
                     w = 0
                 else:
                     w = ww * a.get('colspan', 1)
