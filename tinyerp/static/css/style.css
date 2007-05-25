@@ -362,8 +362,7 @@ td.item .checkbox,td.item .radio {
     float: left;
     line-height:18px;
     border: 1px solid #BBB;
-    z-index:100;
-    width: 200px;
+    width: 150px;
     position: absolute;
     top: 25;
     left: 10;
