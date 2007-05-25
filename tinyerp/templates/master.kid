@@ -77,10 +77,29 @@
 									<a href="/shortcuts">SHORTCUTS</a>
 								</td>
 								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;"/>
-								<td>
-                                    <span py:for="sc in tg.root.shortcuts.my()">
-                                       <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                                    </span>
+								<td py:if="rpc.session.is_logged()">								
+								    <span py:def="make_shortcuts(shortcuts)" py:strip="">
+								        <td>
+	                                        <span py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;7">
+									            <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+									        </span>
+									    </td>
+								        <td width="25" onmouseover="$('shortcuts_extra').style.display='inline';" onmouseout="$('shortcuts_extra').style.display='none'">
+								            <span>
+								                <a href="#">>>&nbsp;</a>
+								            </span>
+									        <div py:if="len(shortcuts) > 7" id="shortcuts_extra" onmouseout="this.style.display='none'" >
+									            <a py:for="sc in shortcuts[7:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+									        </div>
+   								        </td>
+								    </span>                                    
+								    <table cellspacing="0" cellpadding="0" border="0">
+								        <tr>
+    								        <td py:replace="make_shortcuts(tg.root.shortcuts.my())"/>
+								        </tr>
+								    </table>                                    
+                                </td>
+                                <td>
                                     &nbsp;
 								</td>
 								<td align="right">
