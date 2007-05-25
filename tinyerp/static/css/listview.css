@@ -1,6 +1,7 @@
 .grid {
     border: none;
 	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
 }
 
 .grid .header td,
@@ -13,6 +14,7 @@
 	height:22px;
 	text-align: left;
 	background:url(/static/images/gradientlinebg.gif);
+	border-top: 1px solid #999;
 	border-bottom: 1px solid #999;
 	font-weight: bold;
 }
@@ -36,7 +38,6 @@
 .grid .pager table {
 	height:22px;
 	background: #f3f3f3;
-	border-bottom: 1px solid #999;
 }
 
 .grid .pager table td {

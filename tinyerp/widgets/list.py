@@ -59,7 +59,7 @@ class List(TinyCompoundWidget):
     editable = False
     source = None
     
-    options = ListOptions();
+    options = None
         
     css = [widgets.CSSLink('tinyerp', 'css/listview.css')]
     javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
@@ -111,6 +111,8 @@ class List(TinyCompoundWidget):
         
         self.columns += (self.selectable or 0) and 1
         self.columns += (self.editable or 0) and 2
+        
+        self.options = ListOptions();
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
