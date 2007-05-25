@@ -94,16 +94,18 @@ class Frame(TinyCompoundWidget):
             if len(row) > mx:
                 mx = len(row)
 
-        for row in self.table:
-
+        for row in self.table:           
+                       
             sn = len([w for a, w in row if isinstance(w, basestring)])
-
-            sw = 10                                # label width
-            ww = (100.00 - sw * sn) / (mx - sn)    # widget width
-
+            
+            sw = 10                                  # label width            
+            ww = (100.00 - sw * sn) / (mx - sn)      # widget width
+                        
             for a, wid in row:
                 if isinstance(wid, basestring):
                     w = sw
+                if isinstance(wid, Image):                    
+                    w = 0
                 else:
                     w = ww * a.get('colspan', 1)
 
@@ -410,20 +412,24 @@ class Image(TinyField):
 
     template = """
         <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-            <img align="left" src="${src}" />
+            <img align="left" src="${src}" width="${size}" height="${size}"/>
         </span>
         """
 
-    params = ["src"]
+    params = ["src", "size"]
     src = ""
-
+    size = None
+    
     def __init__(self, attrs={}):
         icon = attrs.get('name')
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
         TinyField.__init__(self, attrs)
-        self.src =  icons.get_icon(icon)
-
+        
+        self.src =  icons.get_icon(icon)        
+        self.size = attrs.get('size')        
+        self.size = (self.size or None) and int(self.size)
+                
 class Group(TinyCompoundWidget):
     template = """
     <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
