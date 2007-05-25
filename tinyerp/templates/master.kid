@@ -84,11 +84,11 @@
 									            <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 									        </span>
 									    </td>
-								        <td width="25" onmouseover="$('shortcuts_extra').style.display='inline';" onmouseout="$('shortcuts_extra').style.display='none'">
+								        <td py:if="len(shortcuts) &gt; 7" width="25" onmouseover="$('shortcuts_extra').style.display='inline';" onmouseout="$('shortcuts_extra').style.display='none'">
 								            <span>
 								                <a href="#">>>&nbsp;</a>
 								            </span>
-									        <div py:if="len(shortcuts) > 7" id="shortcuts_extra" onmouseout="this.style.display='none'" >
+									        <div id="shortcuts_extra" onmouseout="this.style.display='none'" >
 									            <a py:for="sc in shortcuts[7:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 									        </div>
    								        </td>
