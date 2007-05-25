@@ -205,16 +205,19 @@ function getName(name, relation){
 function openm2o(action, relation, id)
 {
     wname = 'select_' + relation;
-    
+	id1 = '';
     if (window.opener){
         if (typeof window.popup_counter == "undefined")
             window.popup_counter = 0;
-        
+
         window.popup_counter += 1;
         wname += window.popup_counter;
     }
-
-	act = getURL('/openm2o/edit', {_terp_model: relation, _terp_view_mode: '[form,tree]', _terp_m2o: id, _terp_id: $(id) ? $(id).value : null});
+	if (action=="new")
+		id1 = null;
+	else if($(id))
+		id1 = $(id) ? $(id).value : null;
+	act = getURL('/openm2o/edit', {_terp_model: relation, _terp_view_mode: '[form,tree]', _terp_m2o: id, _terp_id: id1});
 	wopen(act, wname, 800, 600);
 }
-    
+
