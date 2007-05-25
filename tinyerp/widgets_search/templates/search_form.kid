@@ -31,7 +31,7 @@
 	        </td>
 	    </tr>
 	    <tr>
-	        <td>		        		    		
+	        <td align="right">		        		    		
    				<button type="button" id='find_button' title="Find Records..." onclick="${onfind}">Find</button>
                 <button type="button" id='cancel_button' title="Cancel..." onclick="${oncancel}">Cancel</button>
                 <button type="button" id='ok_button' title="Select Record..." onclick="${onok}">OK</button>

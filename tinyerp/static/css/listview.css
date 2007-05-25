@@ -3,11 +3,18 @@
 	border-top: 1px solid #999;
 }
 
-.grid thead tr th {
+.grid .header td,
+.grid .row td {
+    padding: 3px 4px;
+    border: none;
+}
+
+.grid .header td {
 	height:22px;
 	text-align: left;
 	background:url(/static/images/gradientlinebg.gif);
 	border-bottom: 1px solid #999;
+	font-weight: bold;
 }
 
 .grid .row {
@@ -22,16 +29,18 @@
     border-bottom: 1px solid #E3E3E3;
 }
 
-.grid table td,
-.grid table th {
-    padding: 3px 4px;
-    border: none;
+.grid .pager {
+	white-space: nowrap;
 }
 
-.grid .pager {
+.grid .pager table {
 	height:22px;
 	background: #f3f3f3;
 	border-bottom: 1px solid #999;
+}
+
+.grid .pager table td {
+	padding: 2px 4px;
 }
 
 .grid .pager a {

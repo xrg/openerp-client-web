@@ -48,10 +48,11 @@ class ListOptions(object):
 
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'options']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'options']
     template = "tinyerp.widgets.templates.list"
 
     data = None
+    columns = 0
     headers = None
     model = None
     selectable = False
@@ -105,6 +106,11 @@ class List(TinyCompoundWidget):
             self.ids = ids
 
         self.headers, self.data = self.parse(root, fields, data)
+        
+        self.columns = len(self.headers) 
+        
+        self.columns += (self.selectable or 0) and 1
+        self.columns += (self.editable or 0) and 2
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
