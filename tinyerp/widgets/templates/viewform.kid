@@ -70,7 +70,7 @@
 			    </table>	          
 		    </td>	  		    
             
-            <td id="sidebar_hide" valign="top">
+            <td id="sidebar_hide" valign="top" py:if="screen.hastoolbar and screen.toolbar">
                 <a href="#" onclick="toggle_sidebar('sidebar');">
                     <img src="/static/images/sidebar_hide.png" border="0"/>
                 </a>
