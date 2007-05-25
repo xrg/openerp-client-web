@@ -6,9 +6,9 @@
     <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">        
         function loadSidebar() {
             var sb = $('sidebar');
-            if (sb)  $('sidebar').style.display = get_cookie('sidebar');
+            if (sb)  $('sidebar').style.display = get_cookie('terp_sidebar');
         }
-
+        
         connect(window, 'onload', loadSidebar);
     </script> 
         
@@ -24,7 +24,7 @@
                             <img src="/static/images/icon.gif"/>
                         </td>
                         <td width="100%" py:content="form.screen.string">Form Title</td>
-                        <td nowrap="">
+                        <td nowrap="nowrap">
                             <button>Search</button>
                             <button>Edit</button>
                             <button>Graph</button>

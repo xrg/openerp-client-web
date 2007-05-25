@@ -4,7 +4,6 @@
 
 <head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-
     <meta py:replace="item[:]"/>
 
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
@@ -26,10 +25,8 @@
 	}
 	</style>
 	<![endif]-->
-
-    <title py:replace="''">Your title goes here</title>
-
-	<script type="text/javascript" src="/tg_static/js/MochiKit.js"></script>
+	
+	<title py:replace="''">Your title goes here</title>
 	<script type="text/javascript" src="/static/javascript/master.js"></script>
 </head>
 
@@ -37,8 +34,8 @@
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
 	<tr>
-    	<td>
-	    	<table id="header" class="header" height="65" cellpadding="0" cellspacing="0">
+	   	<td>
+	    	<table id="header" class="header" cellpadding="0" cellspacing="0">
 				<tr>
 					<td rowspan="2">
 						<a href="http://www.tinyerp.com" class="imglink">
@@ -47,7 +44,7 @@
 					</td>
 					<td align="right" valign="top" py:if="rpc.session.is_logged()">
 						<table class="menu_connection" cellpadding="0" cellspacing="0">
-							<tr height="">
+							<tr>
 								<td><img src="/static/images/corner.gif" alt="\"/></td>
 								<td class="menu_connection_welcome" >Welcome ${rpc.session.user_name}</td>
 								<td class="menu_connection">
@@ -61,7 +58,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="right" valign="Top">
+					<td align="right" valign="top">
 						<a py:def="requests(ids)" href="${tg.query('/requests', ids=ids)}">${len(ids)}</a>
 	                    <div py:if="rpc.session.is_logged()">
                             Requests: ${requests(tg.root.requests.my()[0])} &nbsp; &nbsp;<button>NEW</button> &nbsp;
@@ -73,7 +70,7 @@
 
 						<table width="100%" cellspacing="0" cellpadding="0" class="menu_header" >
 							<tr>
-								<td width="100" id="menu_header_menu" background="/static/images/mainmenu_button.png">
+								<td width="100" id="menu_header_menu">
 									<a id="menu_header" href="/">MAIN MENU</a>
 								</td>
 								<td width="90" id="menu_header_shortcuts" >
@@ -84,15 +81,12 @@
 								</td>
 								<td>
 									<span py:for="sc in tg.root.shortcuts.my()">
-			                        	<a id="menu_header"  href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
-			                        		${sc['name']}
-			                        	</a>
+			                        	<a id="menu_header"  href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 			                        	<font color="white">&nbsp;|&nbsp;</font>
 			                        </span>
 								</td>
 								<td align="right">
-										<a  py:if="rpc.session.is_logged() and rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
-										&nbsp;
+									<a  py:if="rpc.session.is_logged() and rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
 								</td>
 							</tr>
 						</table>
@@ -104,7 +98,7 @@
     </tr>
     <tr>
         <td>
-            <div py:replace="[item.text]+item[:]"/>
+			<div py:replace="[item.text]+item[:]"/>
         </td>
     </tr>
     <tr>
