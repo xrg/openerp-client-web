@@ -2,13 +2,17 @@
     <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
  
     <script type="text/javascript">    
-        function toggle_sidebar(element_id) {
-        	var elem = $(element_id);
-                       
-            if (elem){
-                elem.style.display = elem.style.display == "none" ? "" : "none";
-                set_cookie("terp_sidebar", elem.style.display);
-           	}
+        function toggle_sidebar(element_id, forced) {
+        	var sb = $(element_id);
+            
+            sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");            
+            set_cookie("terp_sidebar", sb.style.display);
+
+            var img = getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
+            if (sb.style.display == "none")
+                img.src = '/static/images/sidebar_show.gif';
+            else
+                img.src = '/static/images/sidebar_hide.gif';
         }
     </script>
 
@@ -71,9 +75,7 @@
 		    </td>	  		    
             
             <td id="sidebar_hide" valign="top" py:if="screen.hastoolbar and screen.toolbar">
-                <a href="#" onclick="toggle_sidebar('sidebar');">
-                    <img src="/static/images/sidebar_hide.png" border="0"/>
-                </a>
+               <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar('sidebar');" style="cursor: pointer;"/>
             </td>
         </tr>
     </table>

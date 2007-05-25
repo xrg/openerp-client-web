@@ -6,7 +6,7 @@
     <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">        
         function loadSidebar() {
             var sb = $('sidebar');
-            if (sb)  $('sidebar').style.display = get_cookie('terp_sidebar');
+            if (sb) toggle_sidebar('sidebar', get_cookie('terp_sidebar'));
         }
         
         connect(window, 'onload', loadSidebar);
