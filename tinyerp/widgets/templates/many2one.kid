@@ -20,7 +20,7 @@ function openm2o(action, relation, id)
             <span class="fielderror" py:if="error" py:content="error"/>
         </td>
         <td width="1px"><div class="spacer"/></td>
-        <td width="35px">
+        <td width="45px">
             <button type="button" py:attrs="attrs"
                 domain="${ustr(domain)}" context="${ustr(context)}"
                 onclick="openm2o('new', '${relation}', '${name}');">
