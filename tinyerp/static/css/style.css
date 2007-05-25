@@ -105,13 +105,19 @@ a.menu_connection {
 	text-transform: uppercase;
 }
 
-td#menu_header_menu {
+#menu_header {
+	background: #666666;
+	margin-bottom: 4px;
+	height: 25px;
+}
+
+#menu_header_menu {
 	background: url(/static/images/mainmenu_button.png) repeat-x;
 	text-align: center;
 	font-weight: bold;
 }
 
-td#menu_header_shortcuts {
+#menu_header_shortcuts {
 	background: #333333;
 	text-align: center;
 	padding-left: 10px;
@@ -119,13 +125,13 @@ td#menu_header_shortcuts {
 	font-weight: bold;
 }
 
-a#menu_header {
+#menu_header a {
 	color: white;
 }
 
-table.menu_header {
-	background: #666666;
-	margin-bottom: 4px;
+#menu_header span {
+	border-right: 2px ridge #333333;
+	margin-left: 4px;
 }
 
 /*------------------------------------------------------*/

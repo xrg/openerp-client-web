@@ -68,22 +68,20 @@
 				<tr>
                     <td colspan="2">
 
-						<table width="100%" cellspacing="0" cellpadding="0" class="menu_header" >
+						<table width="100%" cellspacing="0" cellpadding="0" id="menu_header" >
 							<tr>
 								<td width="100" id="menu_header_menu">
-									<a id="menu_header" href="/">MAIN MENU</a>
+									<a href="/">MAIN MENU</a>
 								</td>
 								<td width="90" id="menu_header_shortcuts" >
-									<a id="menu_header" href="/shortcuts">SHORTCUTS</a>
+									<a href="/shortcuts">SHORTCUTS</a>
 								</td>
-								<td width="35">
-									<img src="/static/images/head_diagonal.png" alt="\"/>
-								</td>
+								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;"/>
 								<td>
-									<span py:for="sc in tg.root.shortcuts.my()">
-			                        	<a id="menu_header"  href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-			                        	<font color="white">&nbsp;|&nbsp;</font>
-			                        </span>
+                                    <span py:for="sc in tg.root.shortcuts.my()">
+                                       <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                    </span>
+                                    &nbsp;
 								</td>
 								<td align="right">
 									<a  py:if="rpc.session.is_logged() and rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
