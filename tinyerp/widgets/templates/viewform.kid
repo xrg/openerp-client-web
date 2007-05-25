@@ -20,21 +20,23 @@
 				<table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
 	                <tr py:if="'print' in screen.toolbar">
 	                    <td>
-				    		<table border="0" cellpadding="0" cellspacing="0" width="100%">
+				    		<table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
 								<tr>
-									<td width="8" bgcolor="#ac0000"></td>
-									<td width="7" bgcolor="#363636"></td>
-									<td bgcolor="#363636" style="font:verdana; color:white; font-weight:bold; font-size:12px">
-										REPORTS
-									</td>
-									<td width="25" bgcolor="#666666" valign="top">
-										<img src="/static/images/head_diagonal.png"/>
-									</td>
-									<td bgcolor="#666666" width="50"></td>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+            									<td width="8" style="background: #ac0000"/>
+            									<td width="7" style="background-color: #363636"/>
+            									<td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">REPORTS</td>
+            									<td width="25" valign="top" style="background: url(/static/images/head_diagonal.png) no-repeat; background-color: #666666"/>
+            									<td width="50" style="background-color: #666666"/>
+                                            </tr>
+                                        </table>
+                                    </td>
 								</tr>
 							
 	    						<tr py:for="item in screen.toolbar['print']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
-	    						    <td colspan="5">
+	    						    <td>
 									    <a href="#">${item['string']}</a>								    
 									</td>
 						        </tr>
@@ -43,17 +45,19 @@
                     </tr>
 					<tr py:if="'action' in screen.toolbar">
                         <td>											
-							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+							<table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
 								<tr>
-									<td width="8" bgcolor="#ac0000"></td>
-									<td width="7" bgcolor="#363636"></td>
-									<td bgcolor="#363636" style="font:verdana; color:white; font-weight:bold; font-size:12px">
-										ACTIONS
-									</td>
-									<td width="25" bgcolor="#666666" valign="top">
-										<img src="/static/images/head_diagonal.png"/>
-									</td>
-									<td bgcolor="#666666" width="50"></td>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+            									<td width="8" style="background: #ac0000"/>
+            									<td width="7" style="background-color: #363636"/>
+            									<td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">ACTIONS</td>
+            									<td width="25" valign="top" style="background: url(/static/images/head_diagonal.png) no-repeat; background-color: #666666"/>
+            									<td width="50" style="background-color: #666666"/>
+                                            </tr>
+                                        </table>
+                                    </td>
 								</tr>
 	    						<tr py:for="item in screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
 	    						    <td colspan="5">			    
@@ -68,7 +72,7 @@
             
             <td id="sidebar_hide" valign="top">
                 <a href="#" onclick="toggle_sidebar('sidebar');">
-                    <img src="/static/images/sidebar_hide.png" alt="|" border="0"/>
+                    <img src="/static/images/sidebar_hide.png" border="0"/>
                 </a>
             </td>
         </tr>

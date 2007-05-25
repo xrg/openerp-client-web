@@ -308,16 +308,25 @@ td.item .checkbox,td.item .radio {
 #sidebar {
 }
 
+#sidebar .sidebox {
+	margin-bottom: 6px;
+}
+
 #sidebar table {
 	padding: 0;
-	margin-bottom: 5px;
 	white-space: nowrap;
 }
 
+#sidebar td {
+	height: 25px;
+}
+
 #sidebar a {
-	background: url('/static/images/sidebar_button_bg.png') no-repeat;
+	background: url(/static/images/sidebar_button_bg.png) no-repeat;
+	background-color: #dadada;
+	border-top: 2px solid white;
+		
 	display: block;
-	background-color: #DADADA;
 	vertical-align: middle;
 	font-size: 11px;
 	font-weight: bold;
@@ -325,14 +334,16 @@ td.item .checkbox,td.item .radio {
 	text-align: left;
 	padding-top: 5px;
 	padding-left: 12px;
-	height: 20px !important;
-	height: 25px;
+	padding-right: 4px;
+	height: 20px;
 	text-decoration: none;
 	white-space: nowrap;
 }
 
 #sidebar a:hover {
 	background-position: 0px -25px;
+	border-top: 2px solid #a6a6a6;
+		
 	text-decoration: none;
 	color: #902D2D;
 }
