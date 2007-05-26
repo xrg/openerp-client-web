@@ -28,8 +28,8 @@
         <td width="1%" py:if="selectable">
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
-        <td py:for="field, title in headers">
-        	<a href="#" onclick="inlineEdit(${row['id']}, '${source}')" py:strip="not editable">${row[field]}</a>
+        <td py:for="i, (field, title) in enumerate(headers)">
+        	<a href="#" onclick="inlineEdit(${row['id']}, '${source}')" py:strip="not editable or i > 0">${row[field]}</a>
         </td>
         <td py:if="editable" style="text-align: center">
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
