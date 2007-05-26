@@ -27,6 +27,7 @@
 
 .menubar li a:hover
 {
+	background: #505050;
 }
 
 .menubar div
@@ -49,5 +50,5 @@
 
 .menubar div a:hover
 {	
-    background: #606060;
+    background: #505050;
 }
