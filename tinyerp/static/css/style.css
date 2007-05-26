@@ -53,7 +53,7 @@ button {
 	background: #999;
 	padding: 0px 3px;
 	background: url(/static/images/button_bg.png) repeat-x left top;
-	font-size: 12px;
+	font-size: 11px;
 }
 
 button.inactive {
@@ -100,9 +100,7 @@ td.menu_connection {
 
 a.menu_connection {
 	color: white;
-	font-weight: bold;
 	padding: 0 2px;
-	text-transform: uppercase;
 }
 
 #menu_header {
