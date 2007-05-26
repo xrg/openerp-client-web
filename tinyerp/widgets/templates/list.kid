@@ -36,7 +36,15 @@
         </td>
         <td py:if="editable" style="text-align: center">
             <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${row['id']}, '${source}')"/>
-        </td>
+        </td>                
+        
+    </tr>
+    
+    <tr py:for="i in range(0, 6 - len(data))" class="row">
+        <td width="1%" py:if="selectable">&nbsp;</td>
+        <td py:for="i, (field, title) in enumerate(headers)">&nbsp;</td>
+        <td py:if="editable" style="text-align: center">&nbsp;</td>
+        <td py:if="editable" style="text-align: center">&nbsp;</td>        
     </tr>
 
 	<tr class="pager" py:if="pageable">
