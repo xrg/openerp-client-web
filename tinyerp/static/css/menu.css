@@ -1,5 +1,6 @@
 .menubar
-{	margin: 0;
+{	
+	margin: 0;
 	padding: 0;
 	white-space: nowrap;
 }
@@ -14,7 +15,8 @@
 }
 
 .menubar li a
-{	display: block;
+{	
+	display: block;
 	text-align: center;
 	background: #666;
 	padding: 4px 10px;
@@ -28,7 +30,8 @@
 }
 
 .menubar div
-{	background: #666;
+{	
+	background: #666;
 	border: 1px solid #333;
 	visibility: hidden;
 	position: absolute;

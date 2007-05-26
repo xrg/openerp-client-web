@@ -363,7 +363,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose('json')
     def on_change(self, **kw):
-        params, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)        
 
         caller = params.caller
         callback = params.callback
@@ -395,8 +395,9 @@ class Form(controllers.Controller, TinyResource):
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]
 
-        args = [tools.expr_eval(arg, ctx) for arg in arg_names]
-
+        ctx_dict = dict(**ctx)
+        args = [tools.expr_eval(arg, ctx_dict) for arg in arg_names]
+                        
         proxy = rpc.RPCProxy(model)
 
         ids = ctx.id and [ctx.id] or []

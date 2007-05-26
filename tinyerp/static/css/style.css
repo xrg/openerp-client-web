@@ -92,7 +92,7 @@ td.menu_connection_welcome {
 }
 
 td.menu_connection {
-	background: #950000;
+	background: url(/static/images/mainmenu_button.png) repeat-x;
 	padding-left: 10px;
 	padding-right: 10px;
 	color: white;
