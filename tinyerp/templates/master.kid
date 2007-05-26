@@ -13,7 +13,7 @@
 	    <link href="/static/css/iepngfix.css" rel="stylesheet" type="text/css"/>
 	<![endif]-->
 
-	<!--[if IE]>
+	<!--[if lt IE 7]>
 	<style type="text/css">
 		ul.tabbernav {
 	    padding: 0px;
