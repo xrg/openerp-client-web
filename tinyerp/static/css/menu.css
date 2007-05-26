@@ -1,0 +1,50 @@
+.menubar
+{	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+.menubar li
+{	
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	border-right: 1px solid #333;
+}
+
+.menubar li a
+{	display: block;
+	text-align: center;
+	background: #666;
+	padding: 4px 10px;
+	margin: 0 1px 0 0;
+	color: #FFF;
+	text-decoration: none
+}
+
+.menubar li a:hover
+{
+}
+
+.menubar div
+{	background: #666;
+	border: 1px solid #333;
+	visibility: hidden;
+	position: absolute;
+	z-index: 3
+}
+
+.menubar div a
+{	
+    display: block;
+    text-align: left;
+    text-decoration: none;
+    padding: 5px;
+    color: #FFF;
+}
+
+.menubar div a:hover
+{	
+    background: #606060;
+}

@@ -8,6 +8,7 @@
 
 	<link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
 	<link href="/static/css/icons.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css/menu.css" rel="stylesheet" type="text/css"/>
 
 	<!--[if lt IE 7]>
 	    <link href="/static/css/iepngfix.css" rel="stylesheet" type="text/css"/>
@@ -28,6 +29,7 @@
 	
 	<title py:replace="''">Your title goes here</title>
 	<script type="text/javascript" src="/static/javascript/master.js"></script>
+    <script type="text/javascript" src="/static/javascript/menu.js"></script>
 </head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
@@ -82,7 +84,7 @@ requests = tg.root.requests.my()[0]
 								</td>
 								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;"/>
 								<td py:if="rpc.session.is_logged()">								
-								    <table cellspacing="0" cellpadding="0" border="0" class="shortcuts">
+								    <!-- table cellspacing="0" cellpadding="0" border="0" class="shortcuts">
 								        <tr>
                                             <td py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6" nowrap="nowrap">
     									       <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
@@ -94,7 +96,22 @@ requests = tg.root.requests.my()[0]
     									        </div>
        								        </td>
 								        </tr>
-								    </table>                                    
+								    </table-->
+                                    
+                                    <ul id="shortcuts" class="menubar">
+                                        <li py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6">
+                                            <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                        </li>
+                                        <li py:if="len(shortcuts) &gt; 6" id="shortcuts_menu">
+                                            <a href="#">>></a>
+                                            <div id="shortcuts_submenu">
+                                                <a py:for="sc in shortcuts[6:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                            </div>                                            
+                                        </li>
+                                        <script type="text/javascript" py:if="len(shortcuts) &gt; 6">
+                                            new Menu('shortcuts_menu', 'shortcuts_submenu');
+                                        </script>
+                                    </ul>
                                 </td>
                                 <td>
                                     &nbsp;

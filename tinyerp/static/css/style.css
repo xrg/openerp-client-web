@@ -130,28 +130,6 @@ a.menu_connection {
 	color: white;
 }
 
-#menu_header .shortcuts td {
-	border-right: 2px ridge #333333;
-	padding: 2px 4px;
-}
-
-#shortcuts_extra {
-    display: none;
-    float: left;
-    line-height:18px;
-    border: 1px solid #BBB;
-    width: 150px;
-    position: absolute;
-    top: 25;
-    left: 10;
-    background-color: #666666;
-}
-
-#shortcuts_extra a {
-    display: block;
-    padding: 2px 6px;
-}
-
 /*------------------------------------------------------*/
 
 /* ------------------- Footer --------------- */
