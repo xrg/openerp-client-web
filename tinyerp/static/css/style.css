@@ -131,7 +131,7 @@ a.menu_connection {
 /*------------------------------------------------------*/
 
 /* ------------------- Footer --------------- */
-div#footer {
+#footer {
 	clear: both;
 	padding: 5px;
 	text-align: center;
@@ -140,7 +140,7 @@ div#footer {
 	line-height: 20px;
 }
 
-a#footer {
+#footer a {
 	color: #777777;
 	text-decoration: underline;
 }

@@ -55,9 +55,9 @@ requests = tg.root.requests.my()[0]
 								<td><img src="/static/images/corner.gif" alt="\"/></td>
 								<td class="menu_connection_welcome" >Welcome ${rpc.session.user_name}</td>
 								<td class="menu_connection">
-									<a class="menu_connection" href="/">Home</a> &nbsp;
-									<a class="menu_connection" href="/pref/create/">Preferences</a> &nbsp;
-									<a class="menu_connection" href="">About</a> &nbsp;
+									<a class="menu_connection" href="/">Home</a>
+									<a class="menu_connection" href="/pref/create/">Preferences</a>
+									<a class="menu_connection" href="#">About</a>
 									<a class="menu_connection" href="/logout">Logout</a>
 								</td>
 							</tr>
