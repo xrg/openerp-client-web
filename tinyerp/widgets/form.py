@@ -328,7 +328,15 @@ class Selection(TinyField):
         super(Selection, self).__init__(attrs)
         self.options = attrs.get('selection', [])
         self.validator = tiny_validators.Selection()
-
+        
+    def set_value(self, value):
+        try:
+            value = eval(value) # try to convert the value in int or boolean
+        except:
+            pass
+        
+        self.default = value
+        
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     template = "tinyerp.widgets.templates.datetime"
 

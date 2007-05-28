@@ -79,7 +79,14 @@ class RangeWidget(TinyCompoundWidget):
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
-
+        
+    def set_value(self, value):
+        start = value.get('from', '')
+        end = value.get('to', '')
+        
+        self.from_field.set_value(start)
+        self.to_field.set_value(end)
+                
 class Form(tg.widgets.Form):
     """A generic form widget
     """
@@ -103,7 +110,7 @@ class Form(tg.widgets.Form):
     _notebook_ = tg.widgets.Tabber(use_cookie=True)
     _notebook_.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
 
-    def __init__(self,name, action, params, values={}):
+    def __init__(self, name, action, params, values={}):
 
         tg.widgets.Form.__init__(self, name=name, action=action)
 
@@ -206,7 +213,7 @@ class Form(tg.widgets.Form):
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],[0,'No']]
 
-                if values.has_key(name) and isinstance(field, TinyInputWidget):
+                if values.has_key(name) and isinstance(field, (TinyInputWidget, RangeWidget)):
                     field.set_value(values[name])
 
                 self.widgets += [field]
