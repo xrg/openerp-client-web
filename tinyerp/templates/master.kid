@@ -84,21 +84,7 @@ requests = tg.root.requests.my()[0]
 								</td>
 								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;"/>
 								<td py:if="rpc.session.is_logged()">								
-								    <!-- table cellspacing="0" cellpadding="0" border="0" class="shortcuts">
-								        <tr>
-                                            <td py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6" nowrap="nowrap">
-    									       <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-    									    </td>
-    								        <td py:if="len(shortcuts) &gt; 6" width="25" onmouseover="$('shortcuts_extra').style.display='block';" onmouseout="$('shortcuts_extra').style.display='none'">
-        						                <a href="#">>></a>
-    									        <div id="shortcuts_extra" onmouseout="this.style.display='none'" >
-    									            <a py:for="sc in shortcuts[6:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-    									        </div>
-       								        </td>
-								        </tr>
-								    </table-->
-                                    
-                                    <ul id="shortcuts" class="menubar">
+								    <ul id="shortcuts" class="menubar">
                                         <li py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6">
                                             <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
                                         </li>

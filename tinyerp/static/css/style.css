@@ -309,7 +309,7 @@ td.item .checkbox,td.item .radio {
 }
 
 #sidebar .sidebox {
-	margin-bottom: 6px;
+	margin-bottom: 4px;
 }
 
 #sidebar table {
@@ -324,7 +324,7 @@ td.item .checkbox,td.item .radio {
 #sidebar a {
 	background: url(/static/images/sidebar_button_bg.png) no-repeat;
 	background-color: #dadada;
-	border-top: 2px solid white;
+	border-top: 1.5px solid white;
 
 	display: block;
 	vertical-align: middle;
