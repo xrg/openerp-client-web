@@ -310,8 +310,15 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def find(self, **kw):
         params, data = TinyDict.split(kw)
-        params.found_ids = []
+        
+        params.found_ids = params.ids
+        params.limit = params.limit or 20
+        params.offset = params.offset or 0
 
+        if params.found_ids is None:
+            proxy = rpc.RPCProxy(params.model)                    
+            params.found_ids = proxy.search(params.domain or [], params.offset, params.limit)
+            
         search_window = search.Search()
         return search_window.create(params)
 

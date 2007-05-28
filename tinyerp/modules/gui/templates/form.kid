@@ -41,10 +41,10 @@
 		                <tr>
 		                    <td width="100%">
 		                        <button type="button" title="Create a new resource" onclick="submit_form('new')">New</button>
-		                        <button type="button" title="Edit/Save this resource" disabled="${tg.checker(form.screen.view_mode[0] == 'tree')}" onclick="submit_form('save')">Save</button>
-		                        <button type="button" title="Delete this resource" disabled="${tg.checker(form.screen.view_mode[0] == 'tree' or not form.screen.id)}" onclick="submit_form('delete')">Delete</button>
-		                        <button type="button" title="Go to previois matched search" disabled="${tg.checker(form.screen.view_mode[0] == 'tree')}" onclick="submit_form('prev')">Prev</button>
-		                        <button type="button" title="Go to next match search" disabled="${tg.checker(form.screen.view_mode[0] == 'tree')}" onclick="submit_form('next')">Next</button>
+		                        <button type="button" title="Edit/Save this resource" disabled="${tg.checker(not form.screen.editable)}" onclick="submit_form('save')">Save</button>
+		                        <button type="button" title="Delete this resource" disabled="${tg.checker(not form.screen.id)}" onclick="submit_form('delete')">Delete</button>
+		                        <button type="button" title="Go to previois matched search" onclick="submit_form('prev')">Prev</button>
+		                        <button type="button" title="Go to next match search" onclick="submit_form('next')">Next</button>
 		                        <button type="button" title="Find a resource" onclick="submit_form('find')">Find</button>
 		                        <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
 		                    </td>
