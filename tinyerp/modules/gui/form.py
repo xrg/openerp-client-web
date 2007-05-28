@@ -90,8 +90,9 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         current = params[params.source or ''] or params
+        current.editable = True
         
-        if params.inline is None:
+        if params.inline is None and ('model' in data and 'id' in data):
             current.view_mode = ['form', 'tree']
             current.model = data.get('model')
             current.id = data.get('id')
@@ -102,6 +103,11 @@ class Form(controllers.Controller, TinyResource):
         if current.view_mode[0] != 'form':
             current.view_mode = ['form', 'tree']
 
+        return self.create(params)
+    
+    @expose()
+    def view(self, model, id):
+        params = TinyDict(model=model, id=id, view_mode=['form', 'tree'], editable=False)
         return self.create(params)
 
     def get_form(self):

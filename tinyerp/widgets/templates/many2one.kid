@@ -26,6 +26,6 @@
         </tr>
     </table>
     <span py:if="not editable">
-        <a href="${tg.query('/form/edit', model=relation, id=value)}" py:content="text"/>
+        <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"/>
     </span>    
 </span>

@@ -26,7 +26,7 @@
                         <td width="100%" py:content="form.screen.string">Form Title</td>
                         <td nowrap="nowrap">
                             <button>Search</button>
-                            <button>Edit</button>
+                            <button onclick="submit_form('edit')">Edit</button>
                             <button>Graph</button>
                         </td>
                     </tr>
