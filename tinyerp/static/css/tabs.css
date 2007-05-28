@@ -48,13 +48,14 @@ ul.tabbernav li a {
 
 ul.tabbernav li.tabberactive {
     z-index: 1;
-    height: 21px;
+    height: 22px;
     background-image: url(/static/images/tabs_right_active.gif);
-    top: 1px;
 }
 
 ul.tabbernav li.tabberactive a {
     background-image: url(/static/images/tabs_left_active.gif);
+    height: 22px;
+    line-height: 22px;
 }
 
 ul.tabbernav li a {
