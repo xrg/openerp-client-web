@@ -136,6 +136,10 @@ class Search(controllers.Controller, TinyResource):
     @expose()
     def cancel(self, **kw):
         params, data = TinyDict.split(kw)
+        
+        if params.view_mode[0] == 'tree':
+            params.view_mode.reverse() #reverse the mode
+            
         return form.Form().create(params)
 
     @expose()
