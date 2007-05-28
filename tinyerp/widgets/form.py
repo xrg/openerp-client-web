@@ -173,16 +173,8 @@ class Notebook(TinyCompoundWidget):
     page of the the Notebook.
     """
 
-    template = """
-        <div class='tabber' id="${name}" xmlns:py="http://purl.org/kid/ns#">
-            <div class='tabbertab' py:for="page in children">
-                <h3>${page.string}</h3>
-                <div>
-                    ${page.display(value_for(page), **params_for(page))}
-                </div>
-            </div>
-        </div>
-        """
+    template = "tinyerp.widgets.templates.notebook"
+    
     member_widgets = ['_notebook_', "children"]
     _notebook_ = tg.widgets.Tabber(use_cookie=True)
     _notebook_.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
@@ -197,15 +189,7 @@ class Separator(TinyField):
     """
 
     params = ['string']
-    template = """
-        <div class="toolbar" xmlns:py="http://purl.org/kid/ns#">
-            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td><strong>${string}</strong></td>
-                </tr>
-            </table>
-        </div>
-        """
+    template = "tinyerp.widgets.templates.separator"
 
     def __init__(self, attrs={}):
         super(Separator, self).__init__(attrs)
@@ -311,17 +295,8 @@ class FloatTime(TinyField):
         self.default = value
 
 class Selection(TinyField):
-    template = """
-        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-            <select py:if="editable" id="${field_id}" kind="${kind}" name="${name}" style="width : 100%" class="${field_class}" py:attrs='attrs' callback="${callback}" onchange="${onchange}">
-                <option value=""></option>
-                <option py:for="(k, v) in options" value="${k}" py:content="v" selected="1" py:if="value == k">Selected</option>
-                <option py:for="(k, v) in options" value="${k}" py:content="v" py:if="value != k">Not Selected</option>
-            </select>
-            <span py:if="editable and error" class="fielderror" py:content="error"/>
-            <span py:if="not editable" py:content="dict(options).get(value)"/>
-        </span>
-        """
+    template = "tinyerp.widgets.templates.selection"
+    
     params = ['options']
     options = []
 

@@ -48,9 +48,9 @@ ul.tabbernav li a {
 
 ul.tabbernav li.tabberactive {
     z-index: 1;
-    border-bottom: 1px solid #fbfbfb;
     height: 21px;
     background-image: url(/static/images/tabs_right_active.gif);
+    top: 1px;
 }
 
 ul.tabbernav li.tabberactive a {
