@@ -1,4 +1,6 @@
 <form xmlns:py="http://purl.org/kid/ns#" method="post" id="${name}" name="${name}" action="${action}" enctype="multipart/form-data">
+    <input type="hidden" value="${limit}" name="_terp_limit" id="_terp_limit"/>
+    <input type="hidden" value="${offset}" name="_terp_offset" id="_terp_offset"/>
     <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
  
     <script type="text/javascript">    

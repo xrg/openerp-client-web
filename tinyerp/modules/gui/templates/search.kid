@@ -65,6 +65,9 @@
 
     	function onok(action) {
 			var boxes = new ListView('search_list').getSelected();
+            
+            if (boxes.length &lt; 1) return;
+            
 			var ids = []
 	        id = boxes[0].value;
 	        

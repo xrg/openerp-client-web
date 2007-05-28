@@ -87,18 +87,18 @@ class Search(controllers.Controller, TinyResource):
 
         form.form_view.oncancel = self._get_oncancel(params)
         form.form_view.onok = self._get_onok(params)
-        form.form_view.onfind = self._get_onfind(params)
+        form.form_view.onfind = "$('_terp_offset').value = 0; %s" % self._get_onfind(params)
 
         form.javascript = self._get_javascript(params)
         form.form_view.hidden_fields = self._get_hiddenfield(params)
         
-        form.list_view.options.on_first = "$('offset').value = 0; %s" % self._get_onfind(params)
-        form.list_view.options.on_previous = "$('offset').value = parseInt($('offset').value) - parseInt($('limit').value); %s" % self._get_onfind(params)
-        form.list_view.options.on_next = "$('offset').value = parseInt($('offset').value) + parseInt($('limit').value); %s" % self._get_onfind(params)
+        form.list_view.options.on_first = "$('_terp_offset').value = 0; %s" % self._get_onfind(params)
+        form.list_view.options.on_previous = "$('_terp_offset').value = parseInt($('_terp_offset').value) - parseInt($('_terp_limit').value); %s" % self._get_onfind(params)
+        form.list_view.options.on_next = "$('_terp_offset').value = parseInt($('_terp_offset').value) + parseInt($('_terp_limit').value); %s" % self._get_onfind(params)
         
-        form.list_view.options.limit = values.get('limit', 20)
-        form.list_view.options.offset = values.get('offset', 0)
-                        
+        form.list_view.options.limit = params.get('limit', 20)
+        form.list_view.options.offset = params.get('offset', 0)
+                                
         return dict(form=form, params=params)
 
     def _get_oncancel(self, params):
@@ -199,19 +199,16 @@ class Search(controllers.Controller, TinyResource):
                 if t:
                     search_domain += t
 
-        try:
-            l = int(data.get('limit', 20))
-            o = int(data.get('offset', 0))
-        except:
-            l = 20
-            o = 0
-
+        l = params.get('limit', 20)
+        o = params.get('offset', 0)
+        
         if l < 1: l = 20
         if o < 0: o = 0
+        
         proxy = rpc.RPCProxy(params.model)
         params.found_ids = proxy.search(search_domain, o, l)
 
-        data['limit'] = l
-        data['offset'] = o
+        params.limit = l
+        params.offset = o
 
         return self.create(params, data)

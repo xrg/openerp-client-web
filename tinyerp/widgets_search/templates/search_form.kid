@@ -11,8 +11,8 @@
     <input type="hidden" name="_terp_editable" value="${editable}"/>
 	<input type="hidden" name="_terp_fields_type" value="${str(fields_type)}"/>
 	
-	<input type="hidden" value="${limit}" name="limit" id="limit"/>
-    <input type="hidden" value="${offset}" name="offset" id="offset"/>
+	<input type="hidden" value="${limit}" name="_terp_limit" id="_terp_limit"/>
+    <input type="hidden" value="${offset}" name="_terp_offset" id="_terp_offset"/>
     		    	
 	<span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
 	
@@ -32,10 +32,10 @@
 	        </td>
 	    </tr>
 	    <tr>
-	        <td align="right">		        		    		
+	        <td align="left">		        		    		
    				<button type="button" id='find_button' title="Find Records..." onclick="${onfind}">Find</button>
                 <button type="button" id='cancel_button' title="Cancel..." onclick="${oncancel}">Cancel</button>
-                <button type="button" id='ok_button' title="Select Record..." onclick="${onok}">OK</button>
+                <button type="button" id='select_button' title="Select Record(s)..." onclick="${onok}">Select</button>
 	        </td>
 	    </tr>
 	</table>

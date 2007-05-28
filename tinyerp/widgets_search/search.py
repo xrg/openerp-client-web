@@ -131,9 +131,9 @@ class Form(tg.widgets.Form):
         self.name = name
         self.action = action
 
-        self.offset = values.get('offset', self.offset)
-        self.limit = values.get('limit', self.limit)
-
+        self.offset = params.get('offset', self.offset)
+        self.limit = params.get('limit', self.limit)
+        
         proxy = rpc.RPCProxy(self.model)
 
         ctx = rpc.session.context.copy()

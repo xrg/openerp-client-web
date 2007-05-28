@@ -36,6 +36,7 @@ class ViewForm(tg.widgets.Form):
 
     template = "tinyerp.widgets.templates.viewform"
 
+    params = ['limit', 'offset']
     member_widgets = ['screen']
     javascript = [tg.widgets.JSLink("tinyerp", "javascript/form.js", location=tg.widgets.js_location.bodytop)]
 
@@ -47,5 +48,8 @@ class ViewForm(tg.widgets.Form):
         cherrypy.request.terp_fields = []
 
         self.screen = Screen(prefix='', hastoolbar=True, editable=params.get('editable', True))
+        
+        self.limit = params.limit
+        self.offset = params.offset
 
         self.fields = cherrypy.request.terp_fields

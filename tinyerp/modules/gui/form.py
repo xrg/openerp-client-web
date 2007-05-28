@@ -58,7 +58,14 @@ class Form(controllers.Controller, TinyResource):
             form = cherrypy.request.terp_form
             
         elif params.view_mode[0] == 'tree': # use search view instead of list view
-            params.found_ids = []
+            params.found_ids = params.ids
+            if params.found_ids is None:
+                proxy = rpc.RPCProxy(params.model)
+                
+                params.limit = params.limit or 20
+                params.offset = params.offset or 0
+                params.found_ids = proxy.search(params.domain or [], params.offset, params.limit)
+                                        
             return search.Search().create(params)
         
         else:
