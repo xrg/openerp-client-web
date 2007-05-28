@@ -93,7 +93,7 @@ class Form(tg.widgets.Form):
 
     template = "tinyerp.widgets_search.templates.search_form"
 
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context',
+    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context', 'editable',
               'oncancel', 'onok', 'onfind', 'offset', 'limit', 'name', 'action', 'fields_type']
 
 
@@ -126,9 +126,10 @@ class Form(tg.widgets.Form):
         self.view_type     = self.view_mode[0]
         self.domain        = params.domain or []
         self.context       = params.context or {}
+        self.editable      = params.editable
 
-        #self.name = name
-        #self.action = action
+        self.name = name
+        self.action = action
 
         self.offset = values.get('offset', self.offset)
         self.limit = values.get('limit', self.limit)

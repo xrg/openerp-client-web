@@ -161,6 +161,7 @@ class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
 
     def update_params(self, d):
         tg.widgets.CompoundWidget.update_params(self, d)
+        d['editable'] = self.editable
 
 class TinyField(TinyInputWidget, tg.widgets.FormField):
 

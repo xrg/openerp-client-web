@@ -8,6 +8,7 @@
 	<input type="hidden" name="_terp_view_mode2" value="${str(view_mode2)}"/>
 	<input type="hidden" name="_terp_domain" value="${str(domain)}"/>
 	<input type="hidden" name="_terp_context" value="${str(context)}"/>
+    <input type="hidden" name="_terp_editable" value="${editable}"/>
 	<input type="hidden" name="_terp_fields_type" value="${str(fields_type)}"/>
 	
 	<input type="hidden" value="${limit}" name="limit" id="limit"/>
