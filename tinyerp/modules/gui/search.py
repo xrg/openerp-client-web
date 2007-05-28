@@ -128,7 +128,9 @@ class Search(controllers.Controller, TinyResource):
             params.ids = [int(id) for id in ids]
             params.id = ids[0]
 
-        params.view_mode.reverse() #reverse the mode
+        if params.view_mode[0] == 'tree':
+            params.view_mode.reverse() #reverse the mode
+            
         return form.Form().create(params)
 
     @expose()
