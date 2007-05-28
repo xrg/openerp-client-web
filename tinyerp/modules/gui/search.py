@@ -35,6 +35,7 @@ import cherrypy
 
 from turbogears import expose
 from turbogears import widgets
+from turbogears import redirect
 from turbogears import controllers
 
 from tinyerp import rpc
@@ -137,6 +138,9 @@ class Search(controllers.Controller, TinyResource):
     @expose()
     def cancel(self, **kw):
         params, data = TinyDict.split(kw)
+        
+        if params.view_mode2[0] == 'tree' and not params.id:
+            raise redirect('/')
         
         if params.view_mode[0] == 'tree':
             params.view_mode.reverse() #reverse the mode
