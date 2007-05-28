@@ -56,6 +56,11 @@ class Form(controllers.Controller, TinyResource):
     def create(self, params, tg_errors=None):
         if tg_errors:
             form = cherrypy.request.terp_form
+            
+        elif params.view_mode[0] == 'tree': # use search view instead of list view
+            params.found_ids = []
+            return search.Search().create(params)
+        
         else:
             form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 

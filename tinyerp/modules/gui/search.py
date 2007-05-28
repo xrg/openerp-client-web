@@ -128,6 +128,7 @@ class Search(controllers.Controller, TinyResource):
             params.ids = [int(id) for id in ids]
             params.id = ids[0]
 
+        params.view_mode.reverse() #reverse the mode
         return form.Form().create(params)
 
     @expose()
