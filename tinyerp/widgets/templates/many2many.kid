@@ -1,5 +1,5 @@
-<table xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" cellspacing="0" width="100%">
-    <tr>
+<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr py:if="editable">
         <td>
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
@@ -31,13 +31,14 @@
             </table>
         </td>
     </tr>
-    <tr><td colspan="3" height="4px"></td></tr>
+    <tr><td py:if="not editable"><input type="text" class="${field_class}" disabled="disabled" id='${list_view.name}_set'/></td></tr>
+    <tr><td colspan="${(editable or None) and 3}" height="4px"></td></tr>
     <tr>
-        <td colspan="3" id="${list_view.name}_container">
+        <td colspan="${(editable or None) and 3}" id="${list_view.name}_container">
             ${list_view.display()}
+            <script type="text/javascript">
+                new ListView('${list_view.name}').checkAll();
+            </script>
         </td>
     </tr>
-    <script type="text/javascript">
-        new ListView('${list_view.name}').checkAll();
-    </script>
 </table>

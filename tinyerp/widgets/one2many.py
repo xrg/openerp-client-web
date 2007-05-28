@@ -92,7 +92,7 @@ class O2M(TinyCompoundWidget):
         params.domain = []
         params.context = {}
 
-        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=True)        
+        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable)
         self.id = id
         
         if view_mode[0] == 'tree':

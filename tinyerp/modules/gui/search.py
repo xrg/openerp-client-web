@@ -131,6 +131,7 @@ class Search(controllers.Controller, TinyResource):
         if params.view_mode[0] == 'tree':
             params.view_mode.reverse() #reverse the mode
             
+        params.editable = False # default not-editable view
         return form.Form().create(params)
 
     @expose()

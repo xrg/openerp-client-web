@@ -38,7 +38,7 @@ var inlineEdit = function(id, src){
         terp_id = document.getElementsByName(n)[0];
         terp_id.value = id;
 
-        act = getURL(act, {_terp_source: src});
+        act = getURL(act, {_terp_source: src, _terp_inline: 1});
 
     } else {
         form._terp_id.value = id;

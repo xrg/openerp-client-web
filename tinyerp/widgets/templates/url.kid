@@ -1,5 +1,5 @@
 <span xmlns:py="http://purl.org/kid/ns#" py:strip="">    
-    <script type="text/javascript">
+    <script py:if="editable" type="text/javascript">
     function open_win(site){
         var web_site;
         
@@ -10,7 +10,7 @@
       
     </script>
     
-    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <table py:if="editable" width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>
                 <input type="text" kind="${kind}" name='${name}' id ='${field_id}' style="width :100%" value="${value}" class="${field_class}" py:attrs="attrs"/>
@@ -23,5 +23,6 @@
             </td>
          </tr>
      </table>
-    <span class="fielderror" py:if="error" py:content="error"/>
+    <span py:if="editable and error" class="fielderror" py:content="error"/>
+    <a py:if="editable" py:content="value" href="value"/>
 </span>

@@ -46,6 +46,6 @@ class ViewForm(tg.widgets.Form):
 
         cherrypy.request.terp_fields = []
 
-        self.screen = Screen(prefix='', hastoolbar=True, editable=True)
+        self.screen = Screen(prefix='', hastoolbar=True, editable=params.get('editable', True))
 
         self.fields = cherrypy.request.terp_fields

@@ -86,10 +86,15 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def edit(self, **kw):
+    def edit(self, **kw):            
         params, data = TinyDict.split(kw)
 
         current = params[params.source or ''] or params
+        
+        if params.inline is None:
+            current.view_mode = ['form', 'tree']
+            current.model = data.get('model')
+            current.id = data.get('id')
 
         if current.view_mode[0] == 'tree':
             current.view_mode.reverse()

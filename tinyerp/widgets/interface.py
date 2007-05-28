@@ -45,7 +45,8 @@ class TinyWidget(object):
     required = False
     readonly = False
     help = None
-
+    editable = True
+    
     name = None
     model = None
     states = None
@@ -73,7 +74,8 @@ class TinyWidget(object):
         self.readonly = tools.expr_eval(attrs.get('readonly', False))
 
         self.help = attrs.get('help')
-
+        self.editable = attrs.get('editable', True)
+        
         if 'state' in attrs:
             self.set_state(attrs['state'])
 
@@ -136,7 +138,8 @@ class TinyInputWidget(TinyWidget):
         d['onchange'] = (self.callback or None) and 'onChange(this)'
 
         d['kind'] = self.kind
-
+        d['editable'] = self.editable
+        
         if self.help:
             d['attrs']['title'] = self.help
 
