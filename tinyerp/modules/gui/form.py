@@ -153,6 +153,7 @@ class Form(controllers.Controller, TinyResource):
         if not params.id:
             id = proxy.create(data, params.context)
             params.ids = (params.ids or []) + [int(id)]
+            params.id = int(id)
         else:
             id = proxy.write([params.id], data, params.context)
 
@@ -174,7 +175,6 @@ class Form(controllers.Controller, TinyResource):
             if current.view_mode[0] != 'form':
                 current.view_mode = ['form', 'tree']
         
-        params.editable = False
         return self.create(params)
 
     def button_action(self, params):

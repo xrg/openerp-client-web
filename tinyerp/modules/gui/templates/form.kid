@@ -3,7 +3,19 @@
 <head>
     <title>${form.screen.string} </title>
     
-    <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">        
+    <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">
+        
+        function onCancel() {
+        
+            var ids = document.getElementsByName('_terp_ids')[0];
+            var id = document.getElementsByName('_terp_id')[0];
+                        
+            ids.value='None'; 
+            id.value = 'None';
+                        
+            submit_form('find');            
+        }
+        
         function loadSidebar() {
             var sb = $('sidebar');
             if (sb) toggle_sidebar('sidebar', get_cookie('terp_sidebar'));
@@ -46,9 +58,10 @@
 		                        <button type="button" title="Delete this resource" disabled="${tg.checker(not form.screen.id)}" onclick="submit_form('delete')">Delete</button>
 		                        <button type="button" title="Go to previois matched search" onclick="submit_form('prev')">Prev</button>
 		                        <button type="button" title="Go to next match search" onclick="submit_form('next')">Next</button>
-		                        <button type="button" title="Find a resource" onclick="submit_form('find')">Find</button>		                        
+		                        <button type="button" title="Find a resource" onclick="submit_form('find')">Find</button>
 		                    </td>
 		                    <td>
+                                <button type="button" title="Cancel the view" onclick="onCancel()">Cancel</button>
 		                        <button type="button" title="Launch action about this resource" disabled="${tg.checker(not form.screen.id)}" onclick="submit_form('action')">Action</button>
 		                        <button type="button" title="Print documents" disabled="${tg.checker(not form.screen.id)}" onclick="submit_form('report')">Print</button>
 		                    </td>
