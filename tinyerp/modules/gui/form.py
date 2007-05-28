@@ -384,7 +384,8 @@ class Form(controllers.Controller, TinyResource):
             raise common.message('You must save this record to use the relate button !')
 
         from tinyerp.modules import actions
-        return actions._execute(action, model=params.model, id=params.id, ids=params.ids, report_type='pdf')
+        #return actions._execute(action, model=params.model, id=params.id, ids=params.ids, report_type='pdf')
+        return actions._execute(action, model=params.model, id=params.id, ids=[params.id], report_type='pdf')
 
     @expose()
     def dashlet(self, **kw):
