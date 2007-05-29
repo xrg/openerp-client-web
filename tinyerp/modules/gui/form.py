@@ -106,6 +106,11 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def view(self, **kw):
         params, data = TinyDict.split(kw)
+        
+        if params.model is None:
+            params.model = data.get('model')
+            params.id = data.get('id')
+
         params.view_mode = ['form', 'tree']
         params.editable = False
         
