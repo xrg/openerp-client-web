@@ -75,7 +75,7 @@ class Preferences(controllers.Controller, TinyResource):
 
         view = dict(arch=arch, fields=fields, datas=values)
 
-        screen = Screen(params)
+        screen = Screen(params, editable=True)
         screen.add_view(view)
 
         return dict(screen=screen, defaults=defaults)
