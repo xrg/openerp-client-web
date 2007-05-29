@@ -31,8 +31,6 @@
             </table>
         </td>
     </tr>
-    <tr><td py:if="not editable"><input type="text" class="${field_class}" disabled="disabled" id='${list_view.name}_set'/></td></tr>
-    <tr><td colspan="${(editable or None) and 3}" height="4px"></td></tr>
     <tr>
         <td colspan="${(editable or None) and 3}" id="${list_view.name}_container">
             ${list_view.display()}

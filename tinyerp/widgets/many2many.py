@@ -73,6 +73,6 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
 
             self.view = proxy.fields_view_get({}, 'tree', ctx)
 
-        self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, context=self.context, selectable=2, pageable=False)
+        self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, context=self.context, selectable=(self.editable or 0) and 2, pageable=False)
 
         self.validator = tiny_validators.many2many()
