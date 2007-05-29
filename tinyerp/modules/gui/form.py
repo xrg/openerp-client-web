@@ -103,10 +103,13 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
     
     @expose()
-    def view(self, model, id):
-        params = TinyDict(model=model, id=id, view_mode=['form', 'tree'], editable=False)
+    def view(self, **kw):
+        params, data = TinyDict.split(kw)
+        params.view_mode = ['form', 'tree']
+        params.editable = False
+        
         return self.create(params)
-
+    
     def get_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
 

@@ -29,7 +29,7 @@
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
         <td py:for="i, (field, title) in enumerate(headers)">
-        	<a href="#" onclick="inlineEdit(${row['id']}, '${source}')" py:strip="not editable or i > 0">${row[field]}</a>
+        	<a href="#" onclick="inlineView(${row['id']}, '${source}')" py:strip="name != '_terp_list' or i > 0 or not editable">${row[field]}</a>
         </td>
         <td py:if="editable" style="text-align: center">
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>

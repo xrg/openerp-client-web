@@ -47,6 +47,17 @@ var inlineEdit = function(id, src){
     form.action = act;
     form.submit();
 }
+
+var inlineView = function(id){
+
+    form = $('view_form');
+
+    form.action = '/form/view';
+    form._terp_id.value = id;
+        
+    form.submit();
+}
+
 var inlineDelete = function(id, src){
 
     if (!confirm('Do you realy want to delete this record?')) {
