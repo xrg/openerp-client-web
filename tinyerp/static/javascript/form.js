@@ -84,6 +84,24 @@ var submit_form = function(action, src, data){
     form.action = getURL('/form/' + action, {_terp_source: source, _terp_data: data ? data : null});
     form.submit();
 }
+
+var submit_search_form = function(){    
+    // disable fields of hidden tab
+        
+    var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
+    var disabled = [];            
+    
+    disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
+    disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
+    disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
+                                                               
+    forEach(disabled, function(fld){
+        fld.disabled = true;
+    });
+    
+	submit_form('filter');
+}
+
 var submit_value = function(action, src, data){
 
     form = $("view_form");
@@ -193,13 +211,52 @@ function getName(name, relation){
     }
 
     if (value_field.value){
-        var req = doSimpleXMLHttpRequest(getURL('/many2one/get_name', {model: relation, id : value_field.value}));
+        var req = doSimpleXMLHttpRequest(getURL('/search/get_name', {model: relation, id : value_field.value}));
 
         req.addCallback(function(xmlHttp){
             var res = evalJSONRequest(xmlHttp);
             text_field.value = res['name'];
         });
     }
+}
+
+function open_search_window(relation, domain, context, source, kind) {
+
+	if (domain == '' || domain == '[]'){
+		return wopen(getURL('/search/new', {model: relation, domain: domain, context: context, source: source, kind: kind}), 'search', 800, 600);
+	}
+
+	var prefix = source.split("/");
+    prefix.pop();
+
+	var form = $('view_form');	
+	var params = {'_terp_domain': domain, '_terp_context': context, '_terp_prefix': prefix};
+				
+    forEach(form.elements, function(e){
+
+        if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button') {
+           	
+           	var n = n = '_terp_parent_form/' + e.name;
+           	var v = e.value;           	
+            
+            params[n] = v;
+            
+            if (e.attributes['kind']){
+            
+                n = '_terp_parent_types/' + e.name;
+                v = e.attributes['kind'].value;
+                
+                params[n] = v;
+          	}
+    	}
+    });	
+
+    var req = doSimpleXMLHttpRequest('/search/get_domain', params);
+    
+    req.addCallback(function(xmlHttp){
+		var domain = evalJSONRequest(xmlHttp).domain;
+		wopen(getURL('/search/new', {model: relation, domain: domain, context: context, source: source, kind: kind}), 'search', 800, 600)
+    });
 }
 
 function openm2o(action, relation, id)

@@ -49,24 +49,12 @@
         <tr>
             <td>
 		        <div class="toolbar">
-		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-		                <tr>
-		                    <td width="100%">
-		                        <button type="button" title="Create a new resource" onclick="submit_form('new')">New</button>
-                                <button type="button" title="Edit current record" disabled="${tg.checker(form.screen.editable or form.screen.view_mode[0] == 'graph')}" onclick="submit_form('edit')">Edit</button>
-		                        <button type="button" title="Edit/Save this resource" disabled="${tg.checker(not form.screen.editable)}" onclick="submit_form('save')">Save</button>
-		                        <button type="button" title="Delete this resource" disabled="${tg.checker(not form.screen.id)}" onclick="submit_form('delete')">Delete</button>
-		                        <button type="button" title="Go to previois matched search" onclick="submit_form('prev')">Prev</button>
-		                        <button type="button" title="Go to next match search" onclick="submit_form('next')">Next</button>
-		                        <button type="button" title="Find a resource" onclick="submit_form('find')">Find</button>
-		                    </td>
-		                    <td>
-                                <button type="button" title="Cancel the view" onclick="onCancel()">Cancel</button>
-		                        <button type="button" title="Launch action about this resource" disabled="${tg.checker(not form.screen.id)}" onclick="submit_form('action')">Action</button>
-		                        <button type="button" title="Print documents" disabled="${tg.checker(not form.screen.id)}" onclick="submit_form('report')">Print</button>
-		                    </td>
-		                </tr>
-		            </table>
+                    <button type="button" title="Create a new resource" onclick="submit_form('new')">New</button>
+                    <button type="button" title="Edit current record" py:if="form.screen.editable or form.screen.view_mode[0] == 'graph'" onclick="submit_form('edit')">Edit</button>
+                    <button type="button" title="Edit/Save this resource" py:if="form.screen.editable" onclick="submit_form('save')">Save</button>
+                    <button type="button" title="Delete this resource" py:if="not form.screen.id" onclick="submit_form('delete')">Delete</button>
+                    <button type="button" title="Cancel the view" onclick="onCancel()">Cancel</button>
+                    <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
 		        </div>
             </td>
         </tr>

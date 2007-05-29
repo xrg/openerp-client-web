@@ -55,20 +55,10 @@ class Form(controllers.Controller, TinyResource):
     @expose(template="tinyerp.modules.gui.templates.form")
     def create(self, params, tg_errors=None):
         if tg_errors:
-            form = cherrypy.request.terp_form
-            
-        elif params.view_mode[0] == 'tree': # use search view instead of list view
-            params.found_ids = params.ids
-            if params.found_ids is None:
-                proxy = rpc.RPCProxy(params.model)
-                
-                params.limit = params.limit or 20
-                params.offset = params.offset or 0
-                params.found_ids = proxy.search(params.domain or [], params.offset, params.limit)
-                                        
-            return search.Search().create(params)
-        
+            form = cherrypy.request.terp_form       
         else:
+            params.setdefault('offset', 0)
+            params.setdefault('limit', 20)
             form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
         if cherrypy.request.path.startswith('/tree/open'):
@@ -308,21 +298,19 @@ class Form(controllers.Controller, TinyResource):
         except Exception, e:
             return str(e)
         return dict()
-
+   
     @expose()
-    def find(self, **kw):
+    @validate(form=get_form)
+    def filter(self, **kw):
         params, data = TinyDict.split(kw)
-        
-        params.found_ids = params.ids
-        params.limit = params.limit or 20
-        params.offset = params.offset or 0
 
-        if params.found_ids is None:
-            proxy = rpc.RPCProxy(params.model)                    
-            params.found_ids = proxy.search(params.domain or [], params.offset, params.limit)
-            
-        search_window = search.Search()
-        return search_window.create(params)
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
+        
+        res = search.search(params.model, o, l, data=data)
+        params.update(res)
+                        
+        return self.create(params)
 
     @expose()
     def switch(self, **kw):
@@ -384,6 +372,8 @@ class Form(controllers.Controller, TinyResource):
             raise common.message('You must save this record to use the relate button !')
 
         from tinyerp.modules import actions
+        
+        #TODO: single record for form view and multiple records for list view
         #return actions._execute(action, model=params.model, id=params.id, ids=params.ids, report_type='pdf')
         return actions._execute(action, model=params.model, id=params.id, ids=[params.id], report_type='pdf')
 
@@ -453,4 +443,4 @@ class Form(controllers.Controller, TinyResource):
         for n in names:
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
-
+                

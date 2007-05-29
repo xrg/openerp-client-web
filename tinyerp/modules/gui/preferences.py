@@ -88,7 +88,6 @@ class Preferences(controllers.Controller, TinyResource):
                 rpc.session.execute('object', 'execute', 'ir.values', 'set', 'meta', key, key, [(params.model, rpc.session.uid)], data[key])
             elif params.default.get(key, False):
                 res = rpc.session.execute('common', 'ir_del', params.default[key])
-                print "XXXXXX", res
 
         rpc.session.context_reload()
         raise redirect('/')

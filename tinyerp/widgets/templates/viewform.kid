@@ -20,7 +20,22 @@
 
     <table border="0" cellpadding="0" cellspacing="0" width="100%" py:if="screen">
         <tr>
-            <td valign="top" py:content="screen.display(value_for(screen), **params_for(screen))" width="100%"></td>
+            <td valign="top" width="100%">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr><td valign="top" py:if="search" py:content="search.display(value_for(search), **params_for(search))" width="100%"></td></tr>
+                        <tr>
+                            <td py:if="search">
+                                <div class="spacer"/>
+                                <div class="toolbar">
+                                    <button type="button" onclick="submit_search_form()">Find</button>
+                                    <button type="button">Cancel</button>
+                                </div>
+                                <div class="spacer"/>
+                            </td>
+                        </tr>
+                        <tr><td valign="top" width="100%" py:content="screen.display(value_for(screen), **params_for(screen))"></td></tr>
+                </table>
+            </td>
             <td py:if="screen.hastoolbar and screen.toolbar" width="163" valign="top" style="padding-left: 4px">
 		
 				<table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">

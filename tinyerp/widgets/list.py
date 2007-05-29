@@ -75,15 +75,19 @@ class List(TinyCompoundWidget):
         if name.endswith('/'):
             self.name = name[:-1]
 
-        self.source = self.name.replace('/', '.') or None
-
-        self.selectable = kw.get('selectable', False)
+        if name != '_terp_list':
+            self.source = self.name.replace('/', '.') or None
+            
+        self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-
+        
+        self.offset = kw.get('offset', 0)
+        self.limit = kw.get('limit', 0)
+        
         self.selector = 'checkbox'
 
-        if not kw.get('multiselect', True):
+        if self.selectable == 1:
             self.selector = 'radio'
 
         fields = view['fields']
@@ -96,8 +100,7 @@ class List(TinyCompoundWidget):
         data = []
         if ids == None or len(ids) > 0:
             proxy = rpc.RPCProxy(model)
-            ids = ids or proxy.search(domain)
-
+            ids = ids or proxy.search(domain, self.offset, self.limit)
             ctx = rpc.session.context.copy()
             ctx.update(context)
 

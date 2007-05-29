@@ -42,7 +42,6 @@ import graph
 class Screen(TinyCompoundWidget):
 
     template = """
-
     <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
         <input type="hidden" name="${name}_terp_model" value="${model}"/>
         <input type="hidden" name="${name}_terp_state" value="${state}"/>
@@ -54,17 +53,18 @@ class Screen(TinyCompoundWidget):
         <input type="hidden" name="${name}_terp_domain" value="${str(domain)}"/>
         <input type="hidden" name="${name}_terp_context" value="${str(context)}"/>
         <input type="hidden" name="${name}_terp_editable" value="${editable}"/>
-        
         <span py:if="widget" py:replace="widget.display(value_for(widget), **params_for(widget))"/>
-    </span>  """
+    </span>
+    """
 
     params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context']
+    
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, params=None, prefix='', views_preloaded={}, hastoolbar=False, selectable=False, editable=False):
-        super(Screen, self).__init__(dict(prefix=prefix))
-
+    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, selectable=0):
+        super(Screen, self).__init__(dict(prefix=prefix, name=name))
+        
         # get params dictionary
         params = params or cherrypy.request.terp_params
 
@@ -78,15 +78,20 @@ class Screen(TinyCompoundWidget):
 
         self.domain        = params.domain or []
         self.context       = params.context or {}
-        self.nodefault           = params.nodefault or False
+        self.nodefault     = params.nodefault or False
+        
+        self.offset        = params.offset
+        self.limit         = params.limit
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded
+                
         self.hastoolbar         = hastoolbar
+        self.toolbar            = None
+        
         self.selectable         = selectable
         self.editable           = editable
-        self.toolbar            = None
-
+        
         if self.view_mode:
             # Use False as view_id if switching the vuew
             if self.view_mode[0] != self.view_mode2[0]:
@@ -115,25 +120,40 @@ class Screen(TinyCompoundWidget):
     def add_view(self, view, view_type='form'):
 
         if view_type == 'form':
+            self.widget = form.Form(prefix=self.prefix, 
+                                    model=self.model, 
+                                    view=view, 
+                                    ids=(self.id or []) and [self.id], 
+                                    domain=self.domain, 
+                                    context=self.context, 
+                                    editable=self.editable, nodefault=self.nodefault)
 
-            toolbar = {}
-            for item, value in view.get('toolbar', {}).items():
-                #XXX: relate is not implemented yet
-                if item == 'relate': continue
-
-                if value: toolbar[item] = value
-
-            self.toolbar = toolbar or None
-            self.hastoolbar = (toolbar or False) and True
-
-            self.widget = form.Form(prefix=self.prefix, model=self.model, view=view, ids=(self.id or []) and [self.id], domain=self.domain, context=self.context, editable=self.editable, nodefault=self.nodefault)
-
-        if view_type == 'tree':
-            self.widget = list.List(self.name, model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, editable=self.editable, selectable=self.selectable)
+        elif view_type == 'tree':
+            self.widget = list.List(self.name or '_terp_list', 
+                                    model=self.model, 
+                                    view=view, 
+                                    ids=self.ids, 
+                                    domain=self.domain, 
+                                    context=self.context, 
+                                    editable=self.editable, 
+                                    selectable=self.selectable,
+                                    offset=self.offset, limit=self.limit)
+            
             self.ids = self.widget.ids
 
-        if view_type == 'graph':
+        elif view_type == 'graph':
             self.widget = graph.Graph(model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context)
             self.ids = self.widget.ids
 
         self.string = (self.widget or '') and self.widget.string
+        
+
+        toolbar = {}
+        for item, value in view.get('toolbar', {}).items():
+            #XXX: relate is not implemented yet
+            if item == 'relate': continue
+
+            if value: toolbar[item] = value
+
+        self.toolbar = toolbar or None
+        self.hastoolbar = (toolbar or False) and True        

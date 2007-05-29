@@ -31,10 +31,9 @@
 This module implementes widget parser for form view, and
 several widget components.
 """
-import cherrypy
 import xml.dom.minidom
-from elementtree import ElementTree as ET
 
+import cherrypy
 import turbogears as tg
 
 from tinyerp import tools
@@ -79,66 +78,36 @@ class RangeWidget(TinyCompoundWidget):
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
-        
+                        
     def set_value(self, value):
         start = value.get('from', '')
         end = value.get('to', '')
         
         self.from_field.set_value(start)
         self.to_field.set_value(end)
-                
-class Form(tg.widgets.Form):
-    """A generic form widget
-    """
-
-    template = "tinyerp.widgets_search.templates.search_form"
-
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context', 'editable',
-              'oncancel', 'onok', 'onfind', 'offset', 'limit', 'name', 'action', 'fields_type']
-
-
-    oncancel = None
-    onok = None
-    onfind = None
-
-    limit = 0
-    offset = 0
-
-
-    member_widgets = ['_notebook_', 'bframe', 'aframe']
-    frame = None
-    _notebook_ = tg.widgets.Tabber(use_cookie=True)
-    _notebook_.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
-
-    def __init__(self, name, action, params, values={}):
-
-        tg.widgets.Form.__init__(self, name=name, action=action)
-
-        self.model         = params.model
-        self.state         = params.state or None
-        self.id            = params.id or False
-        self.ids           = params.ids
-        self.found_ids     = params.found_ids or []
-        self.view_ids      = params.view_ids or []
-        self.view_mode     = params.view_mode or ['form', 'tree']
-        self.view_mode2    = params.view_mode2 or ['tree', 'form']
-
-        self.view_type     = self.view_mode[0]
-        self.domain        = params.domain or []
-        self.context       = params.context or {}
-        self.editable      = params.editable
-
-        self.name = name
-        self.action = action
-
-        self.offset = params.get('offset', self.offset)
-        self.limit = params.get('limit', self.limit)
+                    
+class Search(TinyCompoundWidget):
+    template = "tinyerp.widgets_search.templates.search"
+    params = ['fields_type']
+    member_widgets = ['_notebook', 'basic', 'advance']
         
+    _notebook = tg.widgets.Tabber(use_cookie=True, hide_on_load=False)
+    _notebook.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
+
+    def __init__(self, model, domain=[], context={}, values={}):
+
+        super(Search, self).__init__({})
+        
+        self.model         = model
+        
+        self.domain        = domain
+        self.context       = context
+
         proxy = rpc.RPCProxy(self.model)
 
         ctx = rpc.session.context.copy()
         self.view = proxy.fields_view_get({}, 'form', ctx)
-
+        
         fields = self.view['fields']
 
         dom = xml.dom.minidom.parseString(self.view['arch'].encode('utf-8'))
@@ -150,9 +119,9 @@ class Form(tg.widgets.Form):
         self.widgets = []
         self.parse(dom, fields, values)
 
-        self.bframe = Frame({}, [w for w in self.widgets if not w.adv])
-        self.aframe = Frame({}, self.widgets)
-
+        self.basic = Frame({}, [w for w in self.widgets if not w.adv])
+        self.advance = Frame({}, self.widgets)
+        
     def parse(self, root=None, fields=None, values={}):
 
         for node in root.childNodes:
@@ -191,7 +160,11 @@ class Form(tg.widgets.Form):
                     if attrs['widget']=='one2many_list':
                         attrs['widget']='one2many'
                     attrs['type'] = attrs['widget']
-
+                    
+                # in search view fields should be writable
+                attrs['readonly'] = False
+                attrs['required'] = False
+                
                 try:
                     fields[name].update(attrs)
                 except:
@@ -205,11 +178,9 @@ class Form(tg.widgets.Form):
                     continue
 
                 self.fields_type[name] = kind
+                
                 field = widgets_type[kind](attrs=fields[name])
                 field.adv = fields[name]['select'] in ('2', 2)
-
-                # in search view fields should be writable
-                field.readonly = False
 
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],[0,'No']]

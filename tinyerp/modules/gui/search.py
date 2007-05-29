@@ -43,172 +43,166 @@ from tinyerp import tools
 from tinyerp import common
 
 from tinyerp import tools
+from tinyerp import widgets as tw
 from tinyerp import widgets_search as tws
+
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules.utils import TinyDict
 from tinyerp.modules.utils import TinyParent
 
-import form
-
-def _make_domain(name, type, value):
-
-    if value:
-
-        if type in ('many2many', 'one2many', 'many2one', 'char'):
-            return [(name, 'ilike', value)]
-
-        elif type in ('float', 'integer', 'date', 'time', 'datetime'):
-            
-            start = value.get('from')
-            end = value.get('to')            
-            
-            if start and end:
-                return [(name, '>=', start), (name, '<=', end)]
-            elif start:
-                return [(name, '>=', start)]
-            elif end:
-                return [(name, '<=', end)]
-            return None
-
-        if type=='boolean':
-            return [(name, '=', int(value))]
-
-        if  type=='selection':
-            return [(name, '=', value)]
-
-    return []
-
-class Search(controllers.Controller, TinyResource):
-
-    @expose(template="tinyerp.modules.gui.templates.search")
-    def create(self, params, values={}):
-        form = tws.search_view.ViewSearch(params, values=values, name="search_form", action='/search/ok')
-
-        form.form_view.oncancel = self._get_oncancel(params)
-        form.form_view.onok = self._get_onok(params)
-        form.form_view.onfind = "$('_terp_offset').value = 0; %s" % self._get_onfind(params)
-
-        form.javascript = self._get_javascript(params)
-        form.form_view.hidden_fields = self._get_hiddenfield(params)
-        
-        form.list_view.options.on_first = "$('_terp_offset').value = 0; %s" % self._get_onfind(params)
-        form.list_view.options.on_previous = "$('_terp_offset').value = parseInt($('_terp_offset').value) - parseInt($('_terp_limit').value); %s" % self._get_onfind(params)
-        form.list_view.options.on_next = "$('_terp_offset').value = parseInt($('_terp_offset').value) + parseInt($('_terp_limit').value); %s" % self._get_onfind(params)
-        
-        form.list_view.options.limit = params.get('limit', 20)
-        form.list_view.options.offset = params.get('offset', 0)
-                                
-        return dict(form=form, params=params)
-
-    def _get_oncancel(self, params):
-        return "submit_form('/search/cancel')"
-
-    def _get_onok(self, params):
-        return "onok('/search/ok', form)"
-
-    def _get_onfind(self, params):
-        return "submit_form('/search/find')"
-
-    def _get_javascript(self, params):
+def make_domain(name, value):
+    
+    if not value:
         return []
-
-    def _get_hiddenfield(self, params):
-        return []
-
-    @expose()
-    def ok(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        ids = data.get('search_list', [])
-
-        if not isinstance(ids, list):
-            ids = [ids]
-
-        if ids:
-            params.ids = [int(id) for id in ids]
-            params.id = ids[0]
-
-        if params.view_mode[0] == 'tree':
-            params.view_mode.reverse() #reverse the mode
-            
-        params.editable = False # default not-editable view
-        return form.Form().create(params)
-
-    @expose()
-    def cancel(self, **kw):
-        params, data = TinyDict.split(kw)
+    
+    elif isinstance(value, dict):
+                    
+        start = value.get('from')
+        end = value.get('to')            
         
-        if params.view_mode2[0] == 'tree' and not params.id:
-            raise redirect('/')
-        
-        if params.view_mode[0] == 'tree':
-            params.view_mode.reverse() #reverse the mode
-            
-        return form.Form().create(params)
+        if start and end:
+            return [(name, '>=', start), (name, '<=', end)]
+        elif start:
+            return [(name, '>=', start)]
+        elif end:
+            return [(name, '<=', end)]
+        return None
+    
+    elif isinstance(value, (int, bool)):
+        return [(name, '=', int(value))]
+    
+    else:
+        return [(name, 'ilike', value)]
 
-    @expose()
-    def find(self, **kw):
-        params, data = TinyDict.split(kw)
+def search(model, offset=0, limit=20, domain=[], data={}):
         
-        fields_type = params.fields_type
         search_domain = []
-
-        # evaluate domain and context for many2many or many2one field
-        # XXX: In GTK client this domain is used only in case of no search criteria
-
-        caller = params.get('m2m', params.get('m2o', None))
-
-        if caller:
-            ctx = TinyParent(**kw)
-            pctx = ctx
-
-            prefix = ''
-            if '/' in caller:
-                prefix = caller.rsplit('/', 1)[0]
-                ctx = ctx[prefix.replace('/', '.')]
-
-            if '/' in prefix:
-                prefix = prefix.rsplit('/', 1)[0]
-                pctx = pctx[prefix.replace('/', '.')]
-
-            ctx.parent = pctx
-            ctx.context = rpc.session.context.copy()
-
-            context = params.context
-            domain = params.domain
-
-            if isinstance(domain, basestring):
-                domain = eval(domain, ctx)
-
-            if isinstance(context, basestring):
-                if not context.startswith('{'):
-                    context = "dict(%s)"%context
-                    ctx.dict = dict # required
-
-                context = eval(context, ctx)
-
-            search_domain.extend(domain)
-
-            params.domain = domain
-            params.context = context
-
-        if fields_type:
-            for n, v in fields_type.items():
-                t = _make_domain(n, v, data.get(n))
-                if t:
-                    search_domain += t
-
-        l = params.get('limit', 20)
-        o = params.get('offset', 0)
+        search_data = {}
         
+        for k, v in data.items():
+            t = make_domain(k, v)
+            if t:
+                search_domain += t
+                search_data[k] = v
+
+        l = limit
+        o = offset
+
         if l < 1: l = 20
         if o < 0: o = 0
         
-        proxy = rpc.RPCProxy(params.model)
-        params.found_ids = proxy.search(search_domain, o, l)
+        proxy = rpc.RPCProxy(model)
+                        
+        ids = proxy.search(search_domain, o, l)        
+        search_domain = search_domain
+        search_data = search_data
+        
+        return dict(model=model, ids=ids, domain=search_domain, data=search_data, offset=o, limit=l)
+  
+class Search(controllers.Controller, TinyResource):
 
-        params.limit = l
-        params.offset = o
+    @expose(template="tinyerp.modules.gui.templates.search")
+    def create(self, params):
+        
+        params.view_mode = ['tree', 'form']
+        
+        params.setdefault('limit', 20)
+        params.setdefault('offset', 0)
+                        
+        search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})        
+        screen = tw.screen.Screen(params=params, selectable=2)
+                
+        return dict(search=search, screen=screen, params=params)
+    
+    @expose()
+    def new(self, model, source=None, kind=0, domain=[], context={}):
+        """Create new search view...
+        
+        @param model: the model
+        @param source: the source, in case of m2m, m2o search
+        @param kind: 0=normal, 1=m2o, 2=m2m
+        @param domain: the domain
+        @param context: the context
+        """
 
-        return self.create(params, data)
+        params = TinyDict()
+
+        params.model = model
+        params.domain = domain
+        params.context = context
+        
+        params.source = source
+        params.kind = kind
+        
+        return self.create(params)
+    
+    @expose('json')
+    def get_domain(self, **kw):
+        params, data = TinyDict.split(kw)        
+    
+        ctx = TinyParent(**kw)
+        pctx = ctx
+
+        prefix = params.prefix
+        ctx = ctx[prefix.replace('/', '.')]
+
+        if '/' in prefix:
+            prefix = prefix.rsplit('/', 1)[0]
+            pctx = pctx[prefix.replace('/', '.')]
+
+        ctx.parent = pctx
+        ctx.context = rpc.session.context.copy()
+
+        context = params.context
+        domain = params.domain
+
+        if isinstance(domain, basestring):
+            domain = eval(domain, ctx)
+
+        if isinstance(context, basestring):
+            if not context.startswith('{'):
+                context = "dict(%s)"%context
+                ctx.dict = dict # required
+
+            context = eval(context, ctx)
+
+        return dict(domain=ustr(domain))
+            
+    @expose()
+    def filter(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
+        
+        res = search(params.model, o, l, domain=params.domain, data=data)
+        params.update(res)
+                        
+        return self.create(params)
+    
+    @expose('json')
+    def ok(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        ids = [int(id) for id in data.get('search_list', [])]
+        return dict(ids=ids)
+
+    @expose('json')
+    def get_name(self, model, id):
+        name = tw.many2one.get_name(model, id)
+        if not name:
+            name=''
+        return dict(name=name)
+    
+    @expose()
+    def get_list(self, model, ids, list_id):
+        if not ids:
+            ids='[]'
+        ids = eval(ids)
+
+        if not isinstance(ids, list): ids = [ids]
+
+        m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))
+        return m2m.list_view.render()
+    

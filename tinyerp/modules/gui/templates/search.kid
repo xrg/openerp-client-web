@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="tinyerp/templates/master.kid">
 <head>
-    <title>Search ${form.string}</title>
+    <title>Search ${screen.string}</title>
 
     <script type="text/javascript">
 
@@ -24,92 +24,36 @@
             });
             
             form.submit();
-        }
-        
-        function generate_parent_fields(){
-            
-            pwin = window.opener;
-                                    
-            if (pwin &amp;&amp; pwin.document.forms &amp;&amp; pwin.document.forms.length > 0){
-
-                pform = pwin.document.forms[0];
-
-                forEach(pform.elements, function(e){
-                    if (e.name &amp;&amp; e.name.indexOf('_terp_') == -1) {
-                        if (e.type != 'button'){
-                        
-                            var n = '_terp_parent_form/' + e.name;
-                            var v = e.value;
-                            
-                            appendChildNodes('search_form', INPUT({type: 'hidden', name: n, value: v}));
-                            
-                            if (e.attributes['kind']){
-                            
-                                n = '_terp_parent_types/' + e.name;
-                                v = e.attributes['kind'].value;
-                                
-                                appendChildNodes('search_form', INPUT({type: 'hidden', name: n, value: v}));
-                            }                                                                                  
-                        }
-                    }
-                });
-            }
-        }
-        
-        if (window.opener)
-            connect(window, "onload", generate_parent_fields);
-        
+        }       
     </script>
 
-    <script type="text/javascript" py:if="not (params.m2o or params.m2m)">
+    <script type="text/javascript" py:if="params.kind == 1">
 
-    	function onok(action) {
-			var boxes = new ListView('search_list').getSelected();
-            
-            if (boxes.length &lt; 1) return;
-            
-			var ids = []
-	        id = boxes[0].value;
-	        
-			$('search_form')._terp_id.value = id;
+        function onSelect(){
 
-			forEach(boxes, function(b){
-                if (findValue(ids, b.value) == -1) ids.push(b.value);
-            });
-
-            $('search_form')._terp_ids.value = '[' + ids + ']';
-            
-			submit_form(action);
-    	}
-    </script>
-
-    <script type="text/javascript" py:if="params.m2o">
-
-        function onok(){
-
-            list = new ListView('search_list');
+            list = new ListView('_terp_list');
             boxes = list.getSelected();
 
             if (boxes.length &lt; 1) return;
 
             id = boxes[0].value;
 
-            value_field = window.opener.document.getElementById('${params.m2o}');
+            value_field = window.opener.document.getElementById('${params.source}');
             value_field.value = id;
 
-            window.opener.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
+            window.opener.setTimeout("$('${params.source}').onchange($('${params.source}'))", 0);
             window.setTimeout("window.close()", 5);
         }
     </script>
 
-    <script type="text/javascript" py:if="params.m2m">
+    <script type="text/javascript" py:if="params.kind == 2">
 
-        function onok() {
+        function onSelect() {
 
-            list_view = window.opener.document.getElementById('${params.m2m}');
+            list_view = window.opener.document.getElementById('${params.source}');
                         
             list_view = new ListView(list_view);
-            list_new = new ListView('search_list');
+            list_new = new ListView('_terp_list');
 
             ids = [];
 
@@ -123,40 +67,71 @@
                 if (findValue(ids, b.value) == -1) ids.push(b.value);
             });
 
-            list_id = $('search_form__terp_m2m').value;
+            list_id = $('_terp_source').value;
 
-            req = doSimpleXMLHttpRequest(getURL('/many2many/get_list', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
+            req = doSimpleXMLHttpRequest(getURL('/search/get_list', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
 
             req.addCallback(function(xmlHttp) {
                 res = xmlHttp.responseText;
 
-                list_view = window.opener.document.getElementById('${params.m2m}' + '_container');
+                list_view = window.opener.document.getElementById('${params.source}' + '_container');
                 list_view.innerHTML = res;
-                c = window.opener.document.getElementById('${params.m2m}'+'_set');
+                c = window.opener.document.getElementById('${params.source}'+'_set');
                 c.onchange(null);
 
                 window.setTimeout('window.close()', 0);
             });
-        }
-
+        }        
     </script>
-
-   	<script type="text/javascript">
-   	    function check_for_popup() {
-   	        if(window.opener) {
+    
+    <script type="text/javascript">    
+        function check_for_popup() {
+            if(window.opener) {
                 var h = $('header');
                 var f = $('footer');
                 h.parentNode.removeChild(h);
                 f.parentNode.removeChild(f);
             }
-        }
-  	</script>
-
+        }        
+        connect(window, "onload", check_for_popup);
+   </script>        
 </head>
 
-<body onload="check_for_popup()">
-    <div class="view">
-        ${form.display()}
-    </div>    
+<body>
+<div class="view">  
+    <form id="search_form" name="search_form" action="/search/filter" method="post">
+        <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
+        <input type="hidden" id="_terp_kind" name="_terp_kind" value="${params.kind}"/>
+        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
+            <tr>
+                <td>
+                    <table width="100%" class="titlebar">
+                        <tr>
+                            <td width="32px" align="center">
+                                <img src="/static/images/icon.gif"/>
+                            </td>
+                            <td width="100%">Search ${screen.string}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td py:content="search.display()">Search View</td>                
+            </tr>
+            <tr>
+                <td>           
+                    <div class="toolbar">
+                        <button type="button" onclick="submit_form('filter')">Find</button>
+                        <button type="button" onclick="onSelect()">Select</button>
+                    </div>
+                </td>
+            </tr>        
+            <tr>
+                <td py:content="screen.display()">Screen View</td>
+            </tr>       
+        </table>    
+    </form>        
+</div>
+    
 </body>
 </html>

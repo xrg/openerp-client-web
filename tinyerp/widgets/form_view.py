@@ -27,9 +27,10 @@
 #
 ###############################################################################
 
-import turbogears as tg
 import cherrypy
+import turbogears as tg
 
+from tinyerp.widgets_search.search import Search
 from screen import Screen
 
 class ViewForm(tg.widgets.Form):
@@ -37,7 +38,7 @@ class ViewForm(tg.widgets.Form):
     template = "tinyerp.widgets.templates.viewform"
 
     params = ['limit', 'offset']
-    member_widgets = ['screen']
+    member_widgets = ['screen', 'search']    
     javascript = [tg.widgets.JSLink("tinyerp", "javascript/form.js", location=tg.widgets.js_location.bodytop)]
 
     def __init__(self, params, **kw):
@@ -46,9 +47,13 @@ class ViewForm(tg.widgets.Form):
         cherrypy.request.terp_params = params
 
         cherrypy.request.terp_fields = []
-
-        self.screen = Screen(prefix='', hastoolbar=True, editable=params.get('editable', True))
         
+        self.screen = Screen(prefix='', hastoolbar=True, editable=params.get('editable', True), selectable=2)
+        self.search = None
+        
+        if params.view_mode[0] == 'tree':
+            self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
+                            
         self.limit = params.limit
         self.offset = params.offset
 
