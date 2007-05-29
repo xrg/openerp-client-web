@@ -69,7 +69,8 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def new(self, **kw):
         params, data = TinyDict.split(kw)
-
+        params.editable = True
+        
         if params.id or params.ids:
             params.id = None
 
