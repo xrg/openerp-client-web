@@ -302,7 +302,7 @@ class Form(controllers.Controller, TinyResource):
         domain = params.domain
         if params.view_mode[0] == 'form':
             domain = params.search_domain
-            data = {}
+            data = params.search_data
         
         res = search.search(params.model, o, l, domain=domain, data=data)
         params.update(res)

@@ -37,7 +37,7 @@ class ViewForm(tg.widgets.Form):
 
     template = "tinyerp.widgets.templates.viewform"
 
-    params = ['limit', 'offset', 'search_domain']
+    params = ['limit', 'offset', 'search_domain', 'search_data']
     member_widgets = ['screen', 'search']    
     javascript = [tg.widgets.JSLink("tinyerp", "javascript/form.js", location=tg.widgets.js_location.bodytop)]
 
@@ -70,5 +70,6 @@ class ViewForm(tg.widgets.Form):
         self.offset = params.offset
         
         self.search_domain = params.search_domain
-
+        self.search_data = params.search_data
+        
         self.fields = cherrypy.request.terp_fields
