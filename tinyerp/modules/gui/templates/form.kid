@@ -42,12 +42,13 @@
             </td>
         </tr>
 
-        <tr>
+        <tr py:if="form.screen.view_mode[0] != 'tree'">
             <td>
 		        <div class="toolbar">
-                    <button type="button" title="Create a new resource" onclick="submit_form('new')">New</button>
+                    <button type="button" title="Create a new resource" py:if="not form.screen.editable" onclick="submit_form('new')">New</button>
                     <button type="button" title="Edit current record" py:if="not form.screen.editable" onclick="submit_form('edit')">Edit</button>
-                    <button type="button" title="Edit/Save this resource" py:if="form.screen.editable" onclick="submit_form('save')">Save</button>                    
+                    <button type="button" title="Edit/Save this resource" py:if="form.screen.editable" onclick="submit_form('save')">Save</button>
+                    <button type="button" title="Cancel editing the current resource" py:if="form.screen.editable" onclick="submit_form('cancel')">Cancel</button>
                     <button type="button" title="Delete this resource" py:if="not form.screen.editable" onclick="submit_form('delete')">Delete</button>
                     <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
 		        </div>

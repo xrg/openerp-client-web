@@ -116,6 +116,13 @@ class Form(controllers.Controller, TinyResource):
         
         return self.create(params)
     
+    @expose()
+    def cancel(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        params.editable = False        
+        return self.create(params)
+            
     def get_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
 
