@@ -125,7 +125,7 @@ class Form(controllers.Controller, TinyResource):
             
     def get_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
-
+        
         cherrypy.request.terp_validators = {}
         params.nodefault = True
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
@@ -272,18 +272,43 @@ class Form(controllers.Controller, TinyResource):
         except Exception, e:
             return str(e)
         return dict()
+
+    def get_filter_form(self):
+        params, data = TinyDict.split(cherrypy.request.params)
+        
+        if params.view_mode[0] == 'form':
+            return None
+                        
+        cherrypy.request.terp_validators = {}
+        params.nodefault = True
+        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+        cherrypy.request.terp_form = form
+
+        vals = cherrypy.request.terp_validators
+        schema = validators.Schema(**vals)
+
+        form.validator = schema
+
+        return form   
    
     @expose()
-    @validate(form=get_form)
-    def filter(self, **kw):
+    @validate(form=get_filter_form)
+    def filter(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         params, data = TinyDict.split(kw)
 
         l = params.get('limit') or 20
         o = params.get('offset') or 0
         
-        res = search.search(params.model, o, l, domain=params.domain, data=data)
+        domain = params.domain
+        if params.view_mode[0] == 'form':
+            domain = params.search_domain
+            data = {}
+        
+        res = search.search(params.model, o, l, domain=domain, data=data)
         params.update(res)
-                        
+
+        params.id = (params.ids or False) and params.ids[0]
+                                    
         return self.create(params)
 
     @expose()
