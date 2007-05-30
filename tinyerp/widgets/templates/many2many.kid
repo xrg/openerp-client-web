@@ -31,6 +31,7 @@
             </table>
         </td>
     </tr>
+    <tr py:if="editable"><td colspan="${(editable or None) and 3}" height="4px"></td></tr>
     <tr>
         <td colspan="${(editable or None) and 3}" id="${list_view.name}_container">
             ${list_view.display()}

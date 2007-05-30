@@ -3,7 +3,7 @@
 <head>
     <title>${form.screen.string} </title>
     
-    <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">
+    <script type="text/javascript">
         
         function onCancel() {
         
@@ -16,6 +16,13 @@
             submit_form('find');            
         }
         
+        function doSelect(id){
+            form = $('view_form');
+            form.action = '/form/view';
+            form._terp_id.value = id;
+            form.submit();
+        }
+
         function loadSidebar() {
             var sb = $('sidebar');
             if (sb) toggle_sidebar('sidebar', get_cookie('terp_sidebar'));

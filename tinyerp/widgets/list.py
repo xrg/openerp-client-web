@@ -39,16 +39,18 @@ from tinyerp import tools
 from interface import TinyCompoundWidget
 
 class ListOptions(object):
-    on_first = None
-    on_previous = None
-    on_next = None
-    on_end = None
-    limit = 20
-    offset = 0
-
+    
+    def __init__(self):        
+        self.on_next = None
+        self.on_previous = None
+        self.on_first = None
+        self.on_last = None
+        self.on_select = None
+        self.do_select = None
+        
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'options']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'options']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -96,11 +98,18 @@ class List(TinyCompoundWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
+        
+        proxy = rpc.RPCProxy(model)
+        
+        if ids == None:
+            if self.limit > 0:
+                ids = proxy.search(domain, self.offset, self.limit)
+            else:
+                ids = proxy.search(domain)
 
         data = []
-        if ids == None or len(ids) > 0:
-            proxy = rpc.RPCProxy(model)
-            ids = ids or proxy.search(domain, self.offset, self.limit)
+        if len(ids) > 0:
+               
             ctx = rpc.session.context.copy()
             ctx.update(context)
 
@@ -113,9 +122,9 @@ class List(TinyCompoundWidget):
         self.columns = len(self.headers) 
         
         self.columns += (self.selectable or 0) and 1
-        self.columns += (self.editable or 0) and 2
+        self.columns += (self.editable or 0) and 2  
         
-        self.options = ListOptions();
+        self.options = ListOptions()      
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.

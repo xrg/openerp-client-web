@@ -29,14 +29,17 @@
 
     <script type="text/javascript" py:if="params.kind == 1">
 
-        function onSelect(){
-
-            list = new ListView('_terp_list');
-            boxes = list.getSelected();
-
-            if (boxes.length &lt; 1) return;
-
-            id = boxes[0].value;
+        function onSelect(id){
+        
+            if (!id) {
+            
+                list = new ListView('_terp_list');
+                boxes = list.getSelected();
+                
+                if (boxes.length &lt; 1) return;
+                
+                id = boxes[0].value;
+            }
 
             value_field = window.opener.document.getElementById('${params.source}');
             value_field.value = id;
@@ -48,7 +51,7 @@
 
     <script type="text/javascript" py:if="params.kind == 2">
 
-        function onSelect() {
+        function onSelect(id) {
 
             list_view = window.opener.document.getElementById('${params.source}');
                         
@@ -61,11 +64,15 @@
             forEach(boxes, function(b){
                 ids.push(b.value);
             });
-
-            boxes = list_new.getSelected();
-            forEach(boxes, function(b){
-                if (findValue(ids, b.value) == -1) ids.push(b.value);
-            });
+            
+            if (id){
+                if (findValue(ids, id) == -1) ids.push(id);
+            } else {
+                boxes = list_new.getSelected();
+                forEach(boxes, function(b){
+                    if (findValue(ids, b.value) == -1) ids.push(b.value);
+                });
+            }
 
             list_id = $('_terp_source').value;
 

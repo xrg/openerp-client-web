@@ -93,12 +93,10 @@ def search(model, offset=0, limit=20, domain=[], data={}):
         if o < 0: o = 0
         
         proxy = rpc.RPCProxy(model)
-                        
-        ids = proxy.search(search_domain, o, l)        
-        search_domain = search_domain
-        search_data = search_data
-        
-        return dict(model=model, ids=ids, domain=search_domain, data=search_data, offset=o, limit=l)
+                                
+        ids = proxy.search(search_domain, o, l)
+                
+        return dict(model=model, ids=ids, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
   
 class Search(controllers.Controller, TinyResource):
 
@@ -112,6 +110,8 @@ class Search(controllers.Controller, TinyResource):
                         
         search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})        
         screen = tw.screen.Screen(params=params, selectable=2)
+        
+        screen.widget.options.do_select = "onSelect"
                 
         return dict(search=search, screen=screen, params=params)
     
