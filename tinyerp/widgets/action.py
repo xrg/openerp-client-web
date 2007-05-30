@@ -103,8 +103,14 @@ class Action(TinyCompoundWidget):
                 params.view_mode2 = mode
                 params.context = self.context
                 params.domain = self.domain
+                
+                #params.offset = 0
+                #params.limit = 20
 
                 self.screen = screen.Screen(params, prefix=self.name)
+                
+                if self.screen.view_mode[0] == 'tree':
+                    self.screen.widget.pageable = False
 
             elif self.action['view_type']=='tree':
                 pass #TODO

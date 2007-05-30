@@ -79,6 +79,8 @@ def search(model, offset=0, limit=20, domain=[], data={}):
         
         search_domain = []
         search_data = {}
+                
+        search_domain.extend(domain)
         
         for k, v in data.items():
             t = make_domain(k, v)
@@ -91,7 +93,7 @@ def search(model, offset=0, limit=20, domain=[], data={}):
 
         if l < 1: l = 20
         if o < 0: o = 0
-        
+              
         proxy = rpc.RPCProxy(model)
                                 
         ids = proxy.search(search_domain, o, l)
@@ -180,7 +182,7 @@ class Search(controllers.Controller, TinyResource):
         
         l = params.get('limit') or 20
         o = params.get('offset') or 0
-        
+
         res = search(params.model, o, l, domain=params.domain, data=data)
         params.update(res)
                         

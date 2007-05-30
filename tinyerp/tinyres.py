@@ -108,10 +108,8 @@ def _check_method(obj, fn):
                 pass
 
             db = kw.get('db', db)
-            #user = kw.get('user', user)
-            #passwd = kw.get('passwd', passwd)
-            user = 'admin'
-            passwd = 'admin'
+            user = kw.get('user', user)
+            passwd = kw.get('passwd', passwd)
 
             # See if the user just tried to log in
             if rpc.session.login(host, port, db, user, passwd, protocol=protocol) != 1:

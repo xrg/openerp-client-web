@@ -281,7 +281,7 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0
         
-        res = search.search(params.model, o, l, data=data)
+        res = search.search(params.model, o, l, domain=params.domain, data=data)
         params.update(res)
                         
         return self.create(params)

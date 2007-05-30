@@ -42,7 +42,7 @@
             </td>
         </tr>
 
-        <tr py:if="form.screen.view_mode[0] != 'tree'">
+        <tr py:if="len(form.screen.view_mode) > 1 and form.screen.view_mode[0] == 'form'">
             <td>
 		        <div class="toolbar">
                     <button type="button" title="Create a new resource" py:if="not form.screen.editable" onclick="submit_form('new')">New</button>
