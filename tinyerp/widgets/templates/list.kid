@@ -4,11 +4,11 @@
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
 	                <td align="right">
-						<a href="#"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="#"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
-						<a href="#">(${offset} to ${limit + offset})</a>
-						<a href="#">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="#">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
+						<a href="javascript: void(0)" onclick="${options.on_first}"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
+						<a href="javascript: void(0)" onclick="${options.on_previous}"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
+						<a href="javascript: void(0)">(${offset} to ${limit + offset})</a>
+						<a href="javascript: void(0)" onclick="${options.on_next}">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
+						<a href="javascript: void(0)" onclick="${options.on_last}">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
 					</td>
 	            </tr>
 	        </table>
@@ -55,12 +55,12 @@
 						<a href="#">Import</a> |
 						<a href="#">Export</a>
 					</td>
-					<td align="right">
-						<a href="#"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="#"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
-						<a href="#">(${offset} to ${limit + offset})</a>
-						<a href="#">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="#">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
+	                <td align="right">
+						<a href="javascript: void(0)" onclick="${options.on_first}"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
+						<a href="javascript: void(0)" onclick="${options.on_previous}"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
+						<a href="javascript: void(0)">(${offset} to ${limit + offset})</a>
+						<a href="javascript: void(0)" onclick="${options.on_next}">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
+						<a href="javascript: void(0)" onclick="${options.on_last}">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
 					</td>
                 </tr>
             </table>

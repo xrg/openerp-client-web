@@ -236,48 +236,6 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def prev(self, **kw):
-        params, data = TinyDict.split(kw)
-        params.is_navigating = True
-
-        current = params[params.source or ''] or params
-
-        idx = -1
-
-        if current.id:
-            idx = current.ids.index(current.id)
-            idx = idx-1
-
-            if idx == len(current.ids):
-                idx = len(current.ids) -1
-
-        if current.ids:
-            current.id = current.ids[idx]
-
-        return self.create(params)
-
-    @expose()
-    def next(self, **kw):
-        params, data = TinyDict.split(kw)
-        params.is_navigating = True
-
-        current = params[params.source or ''] or params
-
-        idx = 0
-
-        if current.id:
-            idx = current.ids.index(current.id)
-            idx = idx + 1
-
-            if idx == len(current.ids):
-                idx = 0
-
-        if current.ids:
-            current.id = current.ids[idx]
-
-        return self.create(params)
-
-    @expose()
     def save_binary(self, **kw):
         model = kw.get("_terp_model")
         id = kw.get("_terp_id")
@@ -320,6 +278,96 @@ class Form(controllers.Controller, TinyResource):
         params.update(res)
                         
         return self.create(params)
+
+    @expose()
+    def first(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        l = params.get('limit') or 20
+        o = 0
+
+        kw['_terp_offset'] = o
+        
+        return self.filter(**kw)
+    
+    @expose()
+    def previous(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        if params.source:
+            return self.previous_o2m(**kw)
+        
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
+        
+        o -= l
+        
+        kw['_terp_offset'] = o
+        
+        return self.filter(**kw)    
+    
+    @expose()
+    def previous_o2m(self, **kw):
+        params, data = TinyDict.split(kw)
+        params.is_navigating = True
+
+        current = params[params.source or ''] or params
+
+        idx = -1
+
+        if current.id:
+            idx = current.ids.index(current.id)
+            idx = idx-1
+
+            if idx == len(current.ids):
+                idx = len(current.ids) -1
+
+        if current.ids:
+            current.id = current.ids[idx]
+
+        return self.create(params)    
+    
+    @expose()
+    def next(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        if params.source:
+            return self.next_o2m(**kw)
+        
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0            
+        
+        o += l
+        
+        kw['_terp_offset'] = o
+                
+        return self.filter(**kw)
+    
+    @expose()
+    def next_o2m(self, **kw):
+        params, data = TinyDict.split(kw)
+        params.is_navigating = True
+
+        current = params[params.source or ''] or params
+
+        idx = 0
+
+        if current.id:
+            idx = current.ids.index(current.id)
+            idx = idx + 1
+
+            if idx == len(current.ids):
+                idx = 0
+
+        if current.ids:
+            current.id = current.ids[idx]
+
+        return self.create(params)        
+          
+    @expose()
+    def last(self, **kw):
+        #TODO: not implemented yet
+        return self.filter(**kw)
 
     @expose()
     def switch(self, **kw):

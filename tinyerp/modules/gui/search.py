@@ -112,6 +112,11 @@ class Search(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params=params, selectable=2)
         
         screen.widget.options.do_select = "onSelect"
+        
+        screen.widget.options.on_first = "submit_form('first')"
+        screen.widget.options.on_previous = "submit_form('previous')"
+        screen.widget.options.on_next = "submit_form('next')"
+        screen.widget.options.on_last = "submit_form('last')"
                 
         return dict(search=search, screen=screen, params=params)
     
@@ -180,7 +185,49 @@ class Search(controllers.Controller, TinyResource):
         params.update(res)
                         
         return self.create(params)
+
+    @expose()
+    def first(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        l = params.get('limit') or 20
+        o = 0
+
+        kw['_terp_offset'] = o
+        
+        return self.filter(**kw)
     
+    @expose()
+    def previous(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
+        
+        o -= l
+        
+        kw['_terp_offset'] = o
+        
+        return self.filter(**kw)    
+    
+    @expose()
+    def next(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0            
+        
+        o += l
+        
+        kw['_terp_offset'] = o
+                
+        return self.filter(**kw)
+        
+    @expose()
+    def last(self, **kw):
+        #TODO: not implemented yet
+        return self.filter(**kw)
+        
     @expose('json')
     def ok(self, **kw):
         params, data = TinyDict.split(kw)

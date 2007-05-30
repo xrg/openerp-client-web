@@ -86,7 +86,7 @@ var submit_form = function(action, src, data){
     form.submit();
 }
 
-var submit_search_form = function(){    
+var submit_search_form = function(action){    
     // disable fields of hidden tab
         
     var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
@@ -100,7 +100,7 @@ var submit_search_form = function(){
         fld.disabled = true;
     });
     
-	submit_form('filter');
+	submit_form(action ? action : 'filter');
 }
 
 var submit_value = function(action, src, data){

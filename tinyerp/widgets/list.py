@@ -41,10 +41,12 @@ from interface import TinyCompoundWidget
 class ListOptions(object):
     
     def __init__(self):        
+        
         self.on_next = None
         self.on_previous = None
         self.on_first = None
         self.on_last = None
+        
         self.on_select = None
         self.do_select = None
         
