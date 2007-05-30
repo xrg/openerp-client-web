@@ -4,18 +4,7 @@
     <title>${form.screen.string} </title>
     
     <script type="text/javascript">
-        
-        function onCancel() {
-        
-            var ids = document.getElementsByName('_terp_ids')[0];
-            var id = document.getElementsByName('_terp_id')[0];
-                        
-            ids.value='None'; 
-            id.value = 'None';
-                        
-            submit_form('find');            
-        }
-        
+       
         function doSelect(id){
             form = $('view_form');
             form.action = '/form/view';

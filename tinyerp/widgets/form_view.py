@@ -53,7 +53,7 @@ class ViewForm(tg.widgets.Form):
         
         if params.view_mode[0] == 'tree':
             self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
-            self.screen.widget.options.do_select = "onSelect"
+            self.screen.widget.options.do_select = "doSelect"
 
         self.limit = params.limit
         self.offset = params.offset

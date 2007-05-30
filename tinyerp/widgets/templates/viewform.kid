@@ -28,7 +28,6 @@
                                 <div class="spacer"/>
                                 <div class="toolbar">
                                     <button type="button" onclick="submit_search_form()">Find</button>
-                                    <button type="button">Cancel</button>
                                 </div>
                                 <div class="spacer"/>
                             </td>
