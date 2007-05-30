@@ -7,7 +7,7 @@
 		    	  	<span py:replace="basic.display(value_for(basic), **params_for(basic))" py:if="basic"/>
 				</div>
 				<div class="tabbertab">
-					<h3>Advance Search</h3>
+					<h3>Advanced Search</h3>
 	    			<span py:replace="advance.display(value_for(advance), **params_for(advance))" py:if="advance"/>
 				</div>
 			</div>

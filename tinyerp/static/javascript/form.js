@@ -173,7 +173,7 @@ var onChange = function(name) {
     vals['_terp_callback'] = callback;
     vals['_terp_model'] = model;
 
-    req = doSimpleXMLHttpRequest(getURL('/form/on_change', vals));
+    req = Ajax.post('/form/on_change', vals);
 
     req.addCallback(function(xmlHttp){
         res = evalJSONRequest(xmlHttp);
@@ -219,7 +219,7 @@ function getName(name, relation){
     }
 
     if (value_field.value){
-        var req = doSimpleXMLHttpRequest(getURL('/search/get_name', {model: relation, id : value_field.value}));
+        var req = Ajax.get('/search/get_name', {model: relation, id : value_field.value});
 
         req.addCallback(function(xmlHttp){
             var res = evalJSONRequest(xmlHttp);
@@ -259,12 +259,12 @@ function open_search_window(relation, domain, context, source, kind) {
     	}
     });	
 
-    var req = doSimpleXMLHttpRequest('/search/eval_domain_and_context', params);
+    var req = Ajax.post('/search/eval_domain_and_context', params);
     
     req.addCallback(function(xmlHttp){
     	var res = evalJSONRequest(xmlHttp); 
-		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search', 800, 600)
-    });
+		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search', 800, 600);
+    });    
 }
 
 function openm2o(action, relation, id)
