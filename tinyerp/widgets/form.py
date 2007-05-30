@@ -97,9 +97,10 @@ class Frame(TinyCompoundWidget):
         for row in self.table:           
                        
             sn = len([w for a, w in row if isinstance(w, basestring)])
+            pn = len([w for a, w in row if isinstance(w, Image)])
             
             sw = 10                                  # label width            
-            ww = (100.00 - sw * sn) / (mx - sn)      # widget width
+            ww = (100.00 - sw * sn) / (mx - sn - pn) # widget width
                         
             for a, wid in row:
                 if isinstance(wid, basestring):
