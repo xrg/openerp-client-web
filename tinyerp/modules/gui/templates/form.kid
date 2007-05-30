@@ -54,10 +54,10 @@
 </head>
 <body>
 
-    <table class="view" cellspacing="0" border="0" width="100%">
+    <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td width="100%">
-                <table cellspacing="0" border="0" width="100%">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <tr>
                         <td>
                             <table width="100%" class="titlebar">
@@ -89,12 +89,12 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>${form.display()}</td>
+                        <td style="padding: 2px">${form.display()}</td>
                     </tr>
                 </table>      
             </td>
             
-            <td py:if="form.screen.hastoolbar and form.screen.toolbar" width="163" valign="top">
+            <td py:if="form.screen.hastoolbar and form.screen.toolbar" width="163" valign="top" style="padding-left: 2px">
         
                 <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
                     <tr py:if="'print' in form.screen.toolbar">
