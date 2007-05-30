@@ -18,9 +18,10 @@
             <td width="75px">
                 <button type="button" py:attrs="attrs"
                     domain="${ustr(domain)}" context="${ustr(context)}"
-                    onclick="if($('${name}_select').value) wopen(getURL('/many2one/new', {model: $('${name}_select').value, m2o: '${name}', domain: getNodeAttribute(this, 'domain'), context: getNodeAttribute(this, 'context')}), 'search', 800, 600);">Select</button>
+                    onclick="if($('${name}_select').value) open_search_window($('${name}_select').value, getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 1);">Select</button>
+
             </td>
         </tr>
     </table>
     <span py:if="not editable" py:content="'(%s) %s'%(dict(options).get(ref), text)"/>
-</span>    
+</span>
