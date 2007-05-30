@@ -4,7 +4,25 @@
     <title>${form.screen.string} </title>
     
     <script type="text/javascript">
-       
+    
+        function onSelect(source){
+            var terp_id = document.getElementsByName('_terp_id')[0];            
+            var ids = terp_id.value;
+            
+            if (ids == 'False')
+                ids = []
+            else
+                ids = ids.split(',')
+            
+            if (findValue(ids, source.value) == -1) {
+                ids.push(source.value);
+            } else {
+                ids.splice(findValue(ids, source.value), 1);
+            }
+            
+            terp_id.value = ids.join(',');
+        }
+               
         function doSelect(id){
             form = $('view_form');
             form.action = '/form/view';

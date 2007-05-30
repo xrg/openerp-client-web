@@ -55,7 +55,11 @@ class ViewForm(tg.widgets.Form):
             self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
             
         if params.view_mode[0] == 'tree':
+            
+            self.screen.id = False
+            
             self.screen.widget.options.do_select = "doSelect"
+            
             self.screen.widget.options.on_first = "submit_search_form('first')"
             self.screen.widget.options.on_previous = "submit_search_form('previous')"
             self.screen.widget.options.on_next = "submit_search_form('next')"

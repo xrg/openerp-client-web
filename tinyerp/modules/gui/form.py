@@ -437,9 +437,14 @@ class Form(controllers.Controller, TinyResource):
 
         from tinyerp.modules import actions
         
-        #TODO: single record for form view and multiple records for list view
-        #return actions._execute(action, model=params.model, id=params.id, ids=params.ids, report_type='pdf')
-        return actions._execute(action, model=params.model, id=params.id, ids=[params.id], report_type='pdf')
+        ids = [params.id]
+        if isinstance(params.id, basestring):
+            ids = params.id.split(',')
+            ids = [int(i) for i in ids]
+        
+        id = ids[0]
+        
+        return actions._execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
     @expose()
     def dashlet(self, **kw):

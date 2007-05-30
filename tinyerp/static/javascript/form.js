@@ -81,6 +81,13 @@ var submit_form = function(action, src, data){
 
     form = $("view_form");
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
+    
+    if (action == 'action' && $('_terp_list')){
+    	var list = new ListView('_terp_list');
+    	var boxes = list.getSelected();
+    	
+    	form._terp_id.value = map(function(b){return b.value}, boxes);
+    }
 
     form.action = getURL('/form/' + action, {_terp_source: source, _terp_data: data ? data : null});
     form.submit();
