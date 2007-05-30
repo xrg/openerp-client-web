@@ -230,7 +230,7 @@ function getName(name, relation){
 
 function open_search_window(relation, domain, context, source, kind) {
 
-	if (domain == '' || domain == '[]'){
+	if ((domain == '' || domain == '[]') && (context == '' || context == '{}')){
 		return wopen(getURL('/search/new', {model: relation, domain: domain, context: context, source: source, kind: kind}), 'search', 800, 600);
 	}
 
@@ -259,11 +259,11 @@ function open_search_window(relation, domain, context, source, kind) {
     	}
     });	
 
-    var req = doSimpleXMLHttpRequest('/search/get_domain', params);
+    var req = doSimpleXMLHttpRequest('/search/eval_domain_and_context', params);
     
     req.addCallback(function(xmlHttp){
-		var domain = evalJSONRequest(xmlHttp).domain;
-		wopen(getURL('/search/new', {model: relation, domain: domain, context: context, source: source, kind: kind}), 'search', 800, 600)
+    	var res = evalJSONRequest(xmlHttp); 
+		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search', 800, 600)
     });
 }
 

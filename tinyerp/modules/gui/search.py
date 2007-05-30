@@ -145,8 +145,8 @@ class Search(controllers.Controller, TinyResource):
         return self.create(params)
     
     @expose('json')
-    def get_domain(self, **kw):
-        params, data = TinyDict.split(kw)        
+    def eval_domain_and_context(self, **kw):
+        params, data = TinyDict.split(kw)                
     
         ctx = TinyParent(**kw)
         pctx = ctx
@@ -174,7 +174,7 @@ class Search(controllers.Controller, TinyResource):
 
             context = eval(context, ctx)
 
-        return dict(domain=ustr(domain))
+        return dict(domain=ustr(domain), context=ustr(context))
             
     @expose()
     def filter(self, **kw):
