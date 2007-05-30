@@ -43,11 +43,12 @@ class ViewForm(tg.widgets.Form):
 
     def __init__(self, params, **kw):
         super(ViewForm, self).__init__(**kw)
+        
         # save reference of params dictionary in requeste
         cherrypy.request.terp_params = params
-
-        cherrypy.request.terp_fields = []
         
+        cherrypy.request.terp_fields = []
+
         self.screen = Screen(prefix='', hastoolbar=True, editable=params.get('editable', True), selectable=2)
         self.search = None
         

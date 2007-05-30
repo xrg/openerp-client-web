@@ -106,7 +106,8 @@ class Screen(TinyCompoundWidget):
 
             self.add_view_id(view_id, view_type)
 
-    def add_view_id(self, view_id, view_type):
+    def add_view_id(self, view_id, view_type):            
+        
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:
@@ -114,7 +115,7 @@ class Screen(TinyCompoundWidget):
 
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
-
+            
             view = proxy.fields_view_get(view_id, view_type, ctx, self.hastoolbar)
 
         self.add_view(view, view_type)

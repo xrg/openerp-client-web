@@ -31,6 +31,7 @@
 """
 
 import time
+import datetime
 import base64
 
 from turbogears import controllers
@@ -50,10 +51,10 @@ from gui.selection import Selection
 
 from utils import TinyDict
 
-def _execute_window(view_id, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
+def _execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
     """Performs `actions.act_window` action.
 
-    @param view_id: view id
+    @param view_ids: view ids
     @param model: a model for which the action should be performed
     @param res_id: res id
     @param domain: domain
@@ -64,7 +65,7 @@ def _execute_window(view_id, model, res_id=False, domain=None, view_type='form',
     @return: view (mostly XHTML code)
     """
 
-    params = TinyDict(model=model, ids=res_id, view_ids = (view_id and [view_id]) or [], domain=domain, context=context)
+    params = TinyDict(model=model, ids=res_id, view_ids=view_ids, domain=domain, context=context)
 
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
@@ -168,7 +169,14 @@ def _execute(action, **data):
     if action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
             data[key] = action.get(key, data.get(key, None))
-
+            
+        view_ids=False
+        if action.get('views', []):
+            view_ids=[x[0] for x in action['views']]
+            data['view_mode']=",".join([x[1] for x in action['views']])
+        elif action.get('view_id', False):
+            view_ids=[action['view_id'][0]]
+            
         if not action.get('domain', False):
             action['domain']='[]'
 
@@ -182,12 +190,13 @@ def _execute(action, **data):
 
         a = context.copy()
         a['time'] = time
+        a['datetime'] = datetime
         domain = tools.expr_eval(action['domain'], a)
 
         if data.get('domain', False):
             domain.append(data['domain'])
 
-        res = _execute_window(action['view_id'] and action['view_id'][0],
+        res = _execute_window(view_ids,
                               data['res_model'],
                               data['res_id'],
                               domain,
