@@ -332,7 +332,10 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0
         
-        o -= l
+        if params.view_mode[0] == 'form':
+            o -= 1
+        else:
+            o -= l
         
         kw['_terp_offset'] = o
         
@@ -369,7 +372,10 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0            
         
-        o += l
+        if params.view_mode[0] == 'form':
+            o += 1
+        else:
+            o += l
         
         kw['_terp_offset'] = o
                 

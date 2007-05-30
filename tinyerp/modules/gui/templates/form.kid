@@ -92,7 +92,7 @@
                                         <td align="right" nowrap="nowrap" py:if="form.screen.view_mode[0] == 'form' and not form.screen.editable" class="pager">
                                             <a href="javascript: void(0)" onclick="submit_form('first')"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
                                             <a href="javascript: void(0)" onclick="submit_form('previous')"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
-                                            <a href="javascript: void(0)">(${form.screen.offset} to ${form.screen.limit + form.screen.offset})</a>
+                                            <a href="javascript: void(0)">(1st of ${form.screen.offset} to ${form.screen.limit + form.screen.offset})</a>
                                             <a href="javascript: void(0)" onclick="submit_form('next')">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
                                             <a href="javascript: void(0)" onclick="submit_form('last')">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
                                         </td>
