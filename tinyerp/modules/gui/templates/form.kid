@@ -29,6 +29,19 @@
             form._terp_id.value = id;
             form.submit();
         }
+        
+        function toggle_sidebar(element_id, forced) {
+            var sb = $(element_id);
+            
+            sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");            
+            set_cookie("terp_sidebar", sb.style.display);
+
+            var img = getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
+            if (sb.style.display == "none")
+                img.src = '/static/images/sidebar_show.gif';
+            else
+                img.src = '/static/images/sidebar_hide.gif';
+        }        
 
         function loadSidebar() {
             var sb = $('sidebar');
@@ -41,41 +54,106 @@
 </head>
 <body>
 
-    <table class="view" cellspacing="5" border="0" width="100%">
+    <table class="view" cellspacing="0" border="0" width="100%">
         <tr>
-            <td>
-                <table width="100%" class="titlebar">
+            <td width="100%">
+                <table cellspacing="0" border="0" width="100%">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/static/images/icon.gif"/>
-                        </td>
-                        <td width="100%" py:content="form.screen.string">Form Title</td>
-                        <td nowrap="nowrap">
-                            <button>Search</button>
-                            <button>Edit</button>
-                            <button>Graph</button>
+                        <td>
+                            <table width="100%" class="titlebar">
+                                <tr>
+                                    <td width="32px" align="center">
+                                        <img src="/static/images/icon.gif"/>
+                                    </td>
+                                    <td width="100%" py:content="form.screen.string">Form Title</td>
+                                    <td nowrap="nowrap">
+                                        <button>Search</button>
+                                        <button>Edit</button>
+                                        <button>Graph</button>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                </table>
+            
+                    <tr py:if="len(form.screen.view_mode) > 1 and form.screen.view_mode[0] == 'form'">
+                        <td>
+            		        <div class="toolbar">
+                                <button type="button" title="Create a new resource" py:if="not form.screen.editable" onclick="submit_form('new')">New</button>
+                                <button type="button" title="Edit current record" py:if="not form.screen.editable" onclick="submit_form('edit')">Edit</button>
+                                <button type="button" title="Edit/Save this resource" py:if="form.screen.editable" onclick="submit_form('save')">Save</button>
+                                <button type="button" title="Cancel editing the current resource" py:if="form.screen.editable and form.screen.id" onclick="submit_form('cancel')">Cancel</button>
+                                <button type="button" title="Delete this resource" py:if="not form.screen.editable" onclick="submit_form('delete')">Delete</button>
+                                <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
+            		        </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>${form.display()}</td>
+                    </tr>
+                </table>      
             </td>
+            
+            <td py:if="form.screen.hastoolbar and form.screen.toolbar" width="163" valign="top">
+        
+                <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
+                    <tr py:if="'print' in form.screen.toolbar">
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td width="8" style="background: #ac0000"/>
+                                                <td width="7" style="background-color: #363636"/>
+                                                <td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">REPORTS</td>
+                                                <td width="25" valign="top" style="background: url(/static/images/head_diagonal.png) no-repeat; background-color: #666666"/>
+                                                <td width="50" style="background-color: #666666"/>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            
+                                <tr py:for="item in form.screen.toolbar['print']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                                    <td>
+                                        <a href="#">${item['string']}</a>                                   
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr py:if="'action' in form.screen.toolbar">
+                        <td>                                            
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td width="8" style="background: #ac0000"/>
+                                                <td width="7" style="background-color: #363636"/>
+                                                <td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">ACTIONS</td>
+                                                <td width="25" valign="top" style="background: url(/static/images/head_diagonal.png) no-repeat; background-color: #666666"/>
+                                                <td width="50" style="background-color: #666666"/>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr py:for="item in form.screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                                    <td colspan="5">                
+                                        <a href="#">${item['string']}</a>                                                           
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>              
+            </td>               
+            
+            <td id="sidebar_hide" valign="top" py:if="form.screen.hastoolbar and form.screen.toolbar">
+               <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar('sidebar');" style="cursor: pointer;"/>
+            </td>            
+            
         </tr>
-
-        <tr py:if="len(form.screen.view_mode) > 1 and form.screen.view_mode[0] == 'form'">
-            <td>
-		        <div class="toolbar">
-                    <button type="button" title="Create a new resource" py:if="not form.screen.editable" onclick="submit_form('new')">New</button>
-                    <button type="button" title="Edit current record" py:if="not form.screen.editable" onclick="submit_form('edit')">Edit</button>
-                    <button type="button" title="Edit/Save this resource" py:if="form.screen.editable" onclick="submit_form('save')">Save</button>
-                    <button type="button" title="Cancel editing the current resource" py:if="form.screen.editable and form.screen.id" onclick="submit_form('cancel')">Cancel</button>
-                    <button type="button" title="Delete this resource" py:if="not form.screen.editable" onclick="submit_form('delete')">Delete</button>
-                    <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
-		        </div>
-            </td>
-        </tr>
-        <tr>
-            <td>${form.display()}</td>
-        </tr>
-    </table>      
-
+    </table>
 </body>
 </html>
