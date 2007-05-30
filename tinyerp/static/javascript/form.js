@@ -283,6 +283,9 @@ function openm2o(action, relation, id)
 	else if($(id))
 		id1 = $(id) ? $(id).value : null;
 	act = getURL('/openm2o/edit', {_terp_model: relation, _terp_view_mode: '[form,tree]', _terp_m2o: id, _terp_id: id1});
+	
+	wname = wname.replace('.', '_');
+	
 	wopen(act, wname, 800, 600);
 }
 
