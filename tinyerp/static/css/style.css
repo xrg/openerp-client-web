@@ -356,7 +356,7 @@ td.item .checkbox,td.item .radio {
 
 #sidebar a:hover {
 	background-position: 0px -25px;
-	border-top: 2px solid #a6a6a6;
+	border-top: 1.5px solid #a6a6a6;
 
 	text-decoration: none;
 	color: #902D2D;
