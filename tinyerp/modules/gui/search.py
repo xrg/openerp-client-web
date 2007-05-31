@@ -146,23 +146,24 @@ class Search(controllers.Controller, TinyResource):
     
     @expose('json')
     def eval_domain_and_context(self, **kw):
-        params, data = TinyDict.split(kw)                
-    
+        params, data = TinyDict.split(kw)
+                
+        domain = params.domain
+        context = params.context
+
         ctx = TinyParent(**kw)
         pctx = ctx
 
         prefix = params.prefix
-        ctx = ctx[prefix.replace('/', '.')]
-
-        if '/' in prefix:
+        if prefix:
+            ctx = ctx[prefix.replace('/', '.')]
+            
+        if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
             pctx = pctx[prefix.replace('/', '.')]
 
         ctx.parent = pctx
-        ctx.context = rpc.session.context.copy()
-
-        context = params.context
-        domain = params.domain
+        ctx.context = rpc.session.context.copy()        
 
         if isinstance(domain, basestring):
             domain = eval(domain, ctx)
