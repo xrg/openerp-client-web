@@ -1,4 +1,4 @@
-<table border="0" cellpadding="0" cellspacing="0" width="100%" xmlns:py="http://purl.org/kid/ns#">
+<table class="fields" border="0" width="100%" xmlns:py="http://purl.org/kid/ns#">
     <tr>
         <td>
 			<div class="tabber" id="search_view_notebook">

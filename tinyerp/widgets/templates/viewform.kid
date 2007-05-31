@@ -5,17 +5,20 @@
     <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${ustr(search_data)}"/>
     
     <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
+    
     <table border="0" cellpadding="0" cellspacing="0" width="100%" py:if="screen">
-            <tr><td valign="top" py:if="search" py:content="search.display(value_for(search), **params_for(search))" width="100%"></td></tr>
             <tr>
-                <td py:if="search">
-                    <div class="spacer"/>
+                <td valign="top" width="100%" py:if="search" py:content="search.display(value_for(search), **params_for(search))"></td>
+            </tr>
+            <tr>
+                <td py:if="search" style="padding: 3px; padding-top: 0px">                    
                     <div class="toolbar">
                         <button type="button" onclick="submit_search_form()">Find</button>
-                    </div>
-                    <div class="spacer"/>
+                    </div>                    
                 </td>
             </tr>
-            <tr><td valign="top" width="100%" py:content="screen.display(value_for(screen), **params_for(screen))"></td></tr>
+            <tr>
+                <td valign="top" width="100%" py:content="screen.display(value_for(screen), **params_for(screen))"></td>
+            </tr>
     </table>
 </form>

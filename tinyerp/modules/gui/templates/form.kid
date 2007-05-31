@@ -77,20 +77,20 @@
                         </td>
                     </tr>
             
-                    <tr py:if="len(form.screen.view_mode) > 1 and form.screen.view_mode[0] == 'form'">
+                    <tr py:if="len(form.screen.view_mode) > 1">
                         <td>
             		        <div class="toolbar">
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td>
-                                            <button type="button" title="Create a new resource" py:if="not form.screen.editable" onclick="submit_form('new')">New</button>
-                                            <button type="button" title="Edit current record" py:if="not form.screen.editable" onclick="submit_form('edit')">Edit</button>
-                                            <button type="button" title="Edit/Save this resource" py:if="form.screen.editable" onclick="submit_form('save')">Save</button>
-                                            <button type="button" title="Cancel editing the current resource" py:if="form.screen.editable and form.screen.id" onclick="submit_form('cancel')">Cancel</button>
-                                            <button type="button" title="Delete this resource" py:if="not form.screen.editable" onclick="submit_form('delete')">Delete</button>
+                                            <button type="button" title="Create a new resource" py:if="buttons.new" onclick="submit_form('new')">New</button>
+                                            <button type="button" title="Edit current record" py:if="buttons.edit" onclick="submit_form('edit')">Edit</button>
+                                            <button type="button" title="Edit/Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>
+                                            <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
+                                            <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
                                             <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
                                         </td>
-                                        <td align="right" nowrap="nowrap" py:if="form.screen.view_mode[0] == 'form' and not form.screen.editable" class="pager">
+                                        <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager">
                                             <a href="javascript: void(0)" onclick="submit_form('first'); return false;"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
                                             <a href="javascript: void(0)" onclick="submit_form('previous'); return false;"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
                                             <a href="javascript: void(0)">(1st of ${form.screen.offset} to ${form.screen.limit + form.screen.offset})</a>

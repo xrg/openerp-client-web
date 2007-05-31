@@ -63,8 +63,17 @@ class Form(controllers.Controller, TinyResource):
 
         if cherrypy.request.path.startswith('/tree/open'):
             self.del_notebook_cookies()
+            
+        buttons = TinyDict()
+                
+        buttons.new = not params.editable or params.view_mode[0] == 'tree'
+        buttons.edit = not params.editable and params.view_mode[0] == 'form'
+        buttons.save = params.editable and params.view_mode[0] == 'form'
+        buttons.cancel = params.editable and params.id and params.view_mode[0] == 'form'
+        buttons.delete = not params.editable and params.view_mode[0] == 'form'
+        buttons.pager =  not params.editable and params.view_mode[0] == 'form'
 
-        return dict(form=form)
+        return dict(form=form, buttons=buttons)
 
     @expose()
     def new(self, **kw):
@@ -180,6 +189,8 @@ class Form(controllers.Controller, TinyResource):
 
             if current.view_mode[0] != 'form':
                 current.view_mode = ['form', 'tree']
+        else:
+            params.editable = False
         
         return self.create(params)
 
