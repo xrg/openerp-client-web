@@ -55,7 +55,7 @@ class Form(controllers.Controller, TinyResource):
     @expose(template="tinyerp.modules.gui.templates.form")
     def create(self, params, tg_errors=None):
         if tg_errors:
-            form = cherrypy.request.terp_form       
+            form = cherrypy.request.terp_form
         else:
             params.setdefault('offset', 0)
             params.setdefault('limit', 20)
@@ -63,9 +63,9 @@ class Form(controllers.Controller, TinyResource):
 
         if cherrypy.request.path.startswith('/tree/open'):
             self.del_notebook_cookies()
-            
+
         buttons = TinyDict()
-                
+
         buttons.new = not params.editable or params.view_mode[0] == 'tree'
         buttons.edit = not params.editable and params.view_mode[0] == 'form'
         buttons.save = params.editable and params.view_mode[0] == 'form'
@@ -79,7 +79,7 @@ class Form(controllers.Controller, TinyResource):
     def new(self, **kw):
         params, data = TinyDict.split(kw)
         params.editable = True
-        
+
         if params.id or params.ids:
             params.id = None
 
@@ -93,12 +93,12 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def edit(self, **kw):            
+    def edit(self, **kw):
         params, data = TinyDict.split(kw)
 
         current = params[params.source or ''] or params
         current.editable = True
-        
+
         if params.inline is None and ('model' in data and 'id' in data):
             current.view_mode = ['form', 'tree']
             current.model = data.get('model')
@@ -111,30 +111,30 @@ class Form(controllers.Controller, TinyResource):
             current.view_mode = ['form', 'tree']
 
         return self.create(params)
-    
+
     @expose()
     def view(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         if params.model is None:
             params.model = data.get('model')
             params.id = data.get('id')
 
         params.view_mode = ['form', 'tree']
         params.editable = False
-        
+
         return self.create(params)
-    
+
     @expose()
     def cancel(self, **kw):
         params, data = TinyDict.split(kw)
-        
-        params.editable = False        
+
+        params.editable = False
         return self.create(params)
-            
+
     def get_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
-        
+
         cherrypy.request.terp_validators = {}
         params.nodefault = True
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
@@ -191,7 +191,7 @@ class Form(controllers.Controller, TinyResource):
                 current.view_mode = ['form', 'tree']
         else:
             params.editable = False
-        
+
         return self.create(params)
 
     def button_action(self, params):
@@ -286,10 +286,10 @@ class Form(controllers.Controller, TinyResource):
 
     def get_filter_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
-        
+
         if params.view_mode[0] == 'form':
             return None
-                        
+
         cherrypy.request.terp_validators = {}
         params.nodefault = True
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
@@ -300,8 +300,8 @@ class Form(controllers.Controller, TinyResource):
 
         form.validator = schema
 
-        return form   
-   
+        return form
+
     @expose()
     @validate(form=get_filter_form)
     def filter(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
@@ -309,49 +309,49 @@ class Form(controllers.Controller, TinyResource):
 
         l = params.get('limit') or 20
         o = params.get('offset') or 0
-        
+
         domain = params.domain
         if params.view_mode[0] == 'form':
             domain = params.search_domain
             data = params.search_data
-        
+
         res = search.search(params.model, o, l, domain=domain, data=data)
         params.update(res)
 
         params.id = (params.ids or False) and params.ids[0]
-                                    
+
         return self.create(params)
 
     @expose()
     def first(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         l = params.get('limit') or 20
         o = 0
 
         kw['_terp_offset'] = o
-        
+
         return self.filter(**kw)
-    
+
     @expose()
     def previous(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         if params.source:
             return self.previous_o2m(**kw)
-        
+
         l = params.get('limit') or 20
         o = params.get('offset') or 0
-        
+
         if params.view_mode[0] == 'form':
             o -= 1
         else:
             o -= l
-        
+
         kw['_terp_offset'] = o
-        
-        return self.filter(**kw)    
-    
+
+        return self.filter(**kw)
+
     @expose()
     def previous_o2m(self, **kw):
         params, data = TinyDict.split(kw)
@@ -371,27 +371,27 @@ class Form(controllers.Controller, TinyResource):
         if current.ids:
             current.id = current.ids[idx]
 
-        return self.create(params)    
-    
+        return self.create(params)
+
     @expose()
     def next(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         if params.source:
             return self.next_o2m(**kw)
-        
+
         l = params.get('limit') or 20
-        o = params.get('offset') or 0            
-        
+        o = params.get('offset') or 0
+
         if params.view_mode[0] == 'form':
             o += 1
         else:
             o += l
-        
+
         kw['_terp_offset'] = o
-                
+
         return self.filter(**kw)
-    
+
     @expose()
     def next_o2m(self, **kw):
         params, data = TinyDict.split(kw)
@@ -411,8 +411,8 @@ class Form(controllers.Controller, TinyResource):
         if current.ids:
             current.id = current.ids[idx]
 
-        return self.create(params)        
-          
+        return self.create(params)
+
     @expose()
     def last(self, **kw):
         #TODO: not implemented yet
@@ -478,14 +478,14 @@ class Form(controllers.Controller, TinyResource):
             raise common.message('You must save this record to use the relate button !')
 
         from tinyerp.modules import actions
-        
+
         ids = [params.id]
         if isinstance(params.id, basestring):
             ids = params.id.split(',')
             ids = [int(i) for i in ids]
-        
+
         id = ids[0]
-        
+
         return actions._execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
     @expose()
@@ -497,7 +497,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose('json')
     def on_change(self, **kw):
-        params, data = TinyDict.split(kw)        
+        params, data = TinyDict.split(kw)
 
         caller = params.caller
         callback = params.callback
@@ -531,7 +531,7 @@ class Form(controllers.Controller, TinyResource):
 
         ctx_dict = dict(**ctx)
         args = [tools.expr_eval(arg, ctx_dict) for arg in arg_names]
-                        
+
         proxy = rpc.RPCProxy(model)
 
         ids = ctx.id and [ctx.id] or []
@@ -554,4 +554,4 @@ class Form(controllers.Controller, TinyResource):
         for n in names:
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
-                
+

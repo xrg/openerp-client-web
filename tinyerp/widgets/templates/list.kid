@@ -8,7 +8,7 @@
 						<a href="javascript: void(0)" onclick="${options.on_first}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
 						<a href="javascript: void(0)" onclick="${options.on_previous}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
 
-						<a href="javascript: void(0)">(${offset} to ${limit + offset})</a>
+						<a href="javascript: void(0)">(${offset} to ${len(data) + offset})</a>
 
 						<a href="javascript: void(0)" onclick="${options.on_next}; return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
 						<a href="javascript: void(0)" onclick="${options.on_last}; return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
@@ -64,7 +64,7 @@
 						<a href="javascript: void(0)" onclick="${options.on_first}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
 						<a href="javascript: void(0)" onclick="${options.on_previous}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
 
-						<a href="javascript: void(0)">(${offset} to ${limit + offset})</a>
+						<a href="javascript: void(0)">(${offset} to ${len(data) + offset})</a>
 
 						<a href="javascript: void(0)" onclick="${options.on_next}; return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
 						<a href="javascript: void(0)" onclick="${options.on_last}; return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
