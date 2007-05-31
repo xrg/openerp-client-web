@@ -94,11 +94,14 @@ class Screen(TinyCompoundWidget):
         
         if self.view_mode:
 
-            view_type = self.view_mode[0]
-            view_index = self.view_mode2.index(view_type)            
-            view_id = False
+            view_type = self.view_mode[0]            
+            
+            view_index = False
+            if view_type in self.view_mode2:
+                view_index = self.view_mode2.index(view_type)
 
-            if self.view_ids and view_index < len(self.view_ids):
+            view_id = False
+            if view_index and self.view_ids and view_index < len(self.view_ids):
                 view_id = self.view_ids[view_index]
 
             self.add_view_id(view_id, view_type)
