@@ -24,5 +24,5 @@
          </tr>
      </table>
     <span py:if="editable and error" class="fielderror" py:content="error"/>
-    <a py:if="editable" py:content="value" href="value"/>
+    <a py:if="not editable" py:content="value" href="${value}"/>
 </span>
