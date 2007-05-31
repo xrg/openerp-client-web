@@ -4,11 +4,11 @@
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
 	                <td align="right">
-						<a href="javascript: void(0)" onclick="${options.on_first}"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="javascript: void(0)" onclick="${options.on_previous}"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
+						<a href="javascript: void(0)" onclick="${options.on_first}; return false;"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
+						<a href="javascript: void(0)" onclick="${options.on_previous}; return false;"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
 						<a href="javascript: void(0)">(${offset} to ${limit + offset})</a>
-						<a href="javascript: void(0)" onclick="${options.on_next}">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="javascript: void(0)" onclick="${options.on_last}">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
+						<a href="javascript: void(0)" onclick="${options.on_next}; return false;">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
+						<a href="javascript: void(0)" onclick="${options.on_last}; return false;">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
 					</td>
 	            </tr>
 	        </table>
@@ -29,7 +29,7 @@
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
         <td py:for="i, (field, title) in enumerate(headers)">
-        	<a href="javascript: void(0)" onclick="${options.do_select}(${row['id']})" py:strip="not options.do_select or i > 0">${row[field]}</a>
+        	<a href="javascript: void(0)" onclick="${options.do_select}(${row['id']}); return false;" py:strip="not options.do_select or i > 0">${row[field]}</a>
         </td>
         <td py:if="editable" style="text-align: center">
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
@@ -56,11 +56,11 @@
 						<a href="#">Export</a>
 					</td>
 	                <td align="right">
-						<a href="javascript: void(0)" onclick="${options.on_first}"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="javascript: void(0)" onclick="${options.on_previous}"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
+						<a href="javascript: void(0)" onclick="${options.on_first}; return false;"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
+						<a href="javascript: void(0)" onclick="${options.on_previous}; return false;"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
 						<a href="javascript: void(0)">(${offset} to ${limit + offset})</a>
-						<a href="javascript: void(0)" onclick="${options.on_next}">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="javascript: void(0)" onclick="${options.on_last}">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
+						<a href="javascript: void(0)" onclick="${options.on_next}; return false;">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
+						<a href="javascript: void(0)" onclick="${options.on_last}; return false;">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
 					</td>
                 </tr>
             </table>

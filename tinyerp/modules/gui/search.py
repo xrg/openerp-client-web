@@ -75,30 +75,33 @@ def make_domain(name, value):
     else:
         return [(name, 'ilike', value)]
 
+from turbogears import validate, validators
+
 def search(model, offset=0, limit=20, domain=[], data={}):
-        
-        search_domain = []
-        search_data = {}
-                
-        search_domain.extend(domain)
-        
-        for k, v in data.items():
-            t = make_domain(k, v)
-            if t:
-                search_domain += t
-                search_data[k] = v
+    
+    domain = domain or []
+    data = data or {}
 
-        l = limit
-        o = offset
+    search_domain = []
+    search_data = {}
+    
+    for k, v in data.items():
+        t = make_domain(k, v)
+        if t:
+            search_domain += t
+            search_data[k] = v
 
-        if l < 1: l = 20
-        if o < 0: o = 0
-              
-        proxy = rpc.RPCProxy(model)
-                                
-        ids = proxy.search(search_domain, o, l)
-                
-        return dict(model=model, ids=ids, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
+    l = limit
+    o = offset
+
+    if l < 1: l = 20
+    if o < 0: o = 0
+          
+    proxy = rpc.RPCProxy(model)
+                            
+    ids = proxy.search(search_domain, o, l)
+            
+    return dict(model=model, ids=ids, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
   
 class Search(controllers.Controller, TinyResource):
 
