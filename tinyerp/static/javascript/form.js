@@ -230,8 +230,8 @@ function getName(name, relation){
 
 function open_search_window(relation, domain, context, source, kind) {
 
-	if ((domain == '' || domain == '[]') && (context == '' || context == '{}')){
-		return wopen(getURL('/search/new', {model: relation, domain: domain, context: context, source: source, kind: kind}), 'search', 800, 600);
+	if ((domain == '' || domain == '[]') && (context == '' || context == '{}')){	
+		return wopen(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind}), 'search_window', 800, 600);
 	}
 
 	var prefix = source.split("/");
@@ -263,7 +263,7 @@ function open_search_window(relation, domain, context, source, kind) {
     
     req.addCallback(function(xmlHttp){
     	var res = evalJSONRequest(xmlHttp); 
-		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search', 800, 600);
+		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search_window', 800, 600);
     });    
 }
 
