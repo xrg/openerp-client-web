@@ -5,11 +5,14 @@
 
     <script type="text/javascript">
 
-        function submit_form(action){
-                    
+        function submit_form(action){                    
             form = $('search_form');
-            form.action = action;            
-                        
+            form.action = action;    
+                    
+            form.submit();
+        }       
+        
+        function disable_hidden_search_fields(){
             // disable fields of hidden tab
             
             var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_form')[0];
@@ -21,10 +24,11 @@
                                                                        
             forEach(disabled, function(fld){
                 fld.disabled = true;
-            });
+            });        
             
-            form.submit();
-        }       
+            return true;
+        }
+        
     </script>
 
     <script type="text/javascript" py:if="params.kind == 1">
@@ -106,7 +110,7 @@
 
 <body>
 <div class="view">  
-    <form id="search_form" name="search_form" action="/search/filter" method="post">
+    <form id="search_form" name="search_form" action="/search/filter" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_kind" name="_terp_kind" value="${params.kind}"/>
         <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
@@ -128,7 +132,7 @@
             <tr>
                 <td>           
                     <div class="toolbar">
-                        <button type="button" onclick="submit_form('filter')">Find</button>
+                        <button type="submit">Find</button>
                         <button type="button" onclick="onSelect()">Select</button>
                     </div>
                 </td>
