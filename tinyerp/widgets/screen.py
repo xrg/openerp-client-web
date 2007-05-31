@@ -93,14 +93,13 @@ class Screen(TinyCompoundWidget):
         self.editable           = editable
         
         if self.view_mode:
-            # Use False as view_id if switching the vuew
-            if self.view_mode[0] != self.view_mode2[0]:
-                if False not in self.view_ids: self.view_ids = [False] + self.view_ids
-            else:
-                if False in self.view_ids: self.view_ids.remove(False)
 
-            view_id = (self.view_ids or False) and self.view_ids[0]
             view_type = self.view_mode[0]
+            view_index = self.view_mode2.index(view_type)            
+            view_id = False
+
+            if self.view_ids and view_index < len(self.view_ids):
+                view_id = self.view_ids[view_index]
 
             self.add_view_id(view_id, view_type)
 

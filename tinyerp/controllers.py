@@ -90,21 +90,35 @@ class Root(controllers.RootController, TinyResource):
     """Turbogears root controller, see TG docs for more info.
     """
 
-    @expose()
-    def index(self):
-        """ The index page
+    def user_action(self, id='action_id'):
+        """Perform default user action.
+                
+        @param id: `action_id` or `menu_id`
         """
+                                
         proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], ['action_id', 'name'], rpc.session.context)
+        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
 
-        if not act_id[0]['action_id']:
+        if not act_id[0][id]:
             common.warning('You can not log into the system !\nAsk the administrator to verify\nyou have an action defined for your user.','Access Denied !')
             rpc.session.logout()
             raise redirect('/');
 
-        act_id = act_id[0]['action_id'][0]
+        act_id = act_id[0][id][0]
 
         return actions.execute_by_id(act_id)
+    
+    @expose()
+    def index(self):
+        """Index page, loads the view defined by `action_id`.
+        """
+        return self.user_action('action_id')
+        
+    @expose()
+    def menu(self):
+        """Main menu page, loads the view defined by `menu_id`.
+        """
+        return self.user_action('menu_id')
 
     def _cp_on_error(self, *args, **kw):
         etype, value, tb = sys.exc_info()

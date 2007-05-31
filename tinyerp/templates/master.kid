@@ -78,7 +78,7 @@ requests = tg.root.requests.my()[0]
 						<table width="100%" cellspacing="0" cellpadding="0" id="menu_header" >
 							<tr>
 								<td width="100" id="menu_header_menu">
-									<a href="/">MAIN MENU</a>
+									<a href="/menu">MAIN MENU</a>
 								</td>
 								<td width="90" id="menu_header_shortcuts" >
 									<a href="/shortcuts">SHORTCUTS</a>
