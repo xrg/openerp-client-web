@@ -4,15 +4,11 @@
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
 	                <td align="right">
-
-						<a href="javascript: void(0)" onclick="${options.on_first}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="javascript: void(0)" onclick="${options.on_previous}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
-
+						<a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
+						<a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
 						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
-
-						<a href="javascript: void(0)" onclick="${options.on_next}; return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="javascript: void(0)" onclick="${options.on_last}; return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
-
+						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
+						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
 					</td>
 	            </tr>
 	        </table>
@@ -33,8 +29,7 @@
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
         <td py:for="i, (name, field) in enumerate(headers)">
-        	<a py:if="i==0" py:strip="not options.do_select" href="javascript: void(0)" onclick="${options.do_select}(${row['id']}); return false;">${row[name]}</a>
-            <a py:if="i>0" py:strip="not (options.show_links and row[name].link)" href="${row[name].link}">${row[name]}</a>
+            <a py:strip="(not show_links and i > 0) or not row[name].link" href="${row[name].link}" onclick="${row[name].onclick}">${row[name]}</a>
         </td>
         <td py:if="editable" style="text-align: center">
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
@@ -61,15 +56,11 @@
 						<a href="#">Export</a>
 					</td>
 	                <td align="right">
-
-						<a href="javascript: void(0)" onclick="${options.on_first}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="javascript: void(0)" onclick="${options.on_previous}; return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
-
+						<a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
+						<a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
 						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
-
-						<a href="javascript: void(0)" onclick="${options.on_next}; return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="javascript: void(0)" onclick="${options.on_last}; return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
-
+						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
+						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
 					</td>
                 </tr>
             </table>

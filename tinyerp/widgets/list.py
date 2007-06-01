@@ -37,24 +37,10 @@ from tinyerp import rpc
 from tinyerp import tools
 
 from interface import TinyCompoundWidget
-
-class ListOptions(object):
-    
-    def __init__(self):        
-        
-        self.on_next = None
-        self.on_previous = None
-        self.on_first = None
-        self.on_last = None
-        
-        self.on_select = None
-        self.do_select = None
-        
-        self.show_links = True
-        
+       
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'options']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links']
     template = "tinyerp.widgets.templates.list"
 
     data = None
@@ -63,10 +49,9 @@ class List(TinyCompoundWidget):
     model = None
     selectable = False
     editable = False
+    show_links = True
     source = None
-    
-    options = None
-        
+            
     css = [widgets.CSSLink('tinyerp', 'css/listview.css')]
     javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
 
@@ -126,9 +111,7 @@ class List(TinyCompoundWidget):
         self.columns = len(self.headers) 
         
         self.columns += (self.selectable or 0) and 1
-        self.columns += (self.editable or 0) and 2  
-        
-        self.options = ListOptions()      
+        self.columns += (self.editable or 0) and 2                  
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
@@ -143,13 +126,13 @@ class List(TinyCompoundWidget):
                 
         for node in root.childNodes:
             if node.nodeName=='field':
-                attrs = tools.node_attributes(node)
+                attrs = tools.node_attributes(node)                
                                 
                 if 'name' in attrs:
                     
                     name = attrs['name']
-                    kind = fields[name]['type']
-                    
+                    kind = fields[name]['type']                    
+                   
                     if kind not in CELLTYPES: 
                         continue
                                         
@@ -159,9 +142,16 @@ class List(TinyCompoundWidget):
                         row[name] = CELLTYPES[kind](attrs=fields[name], value=row[name])
 
                     headers += [(name, fields[name])]
-
+        
+        # generate do_select links
+        if self.selectable:
+            name, field = headers[0]
+            for row in data:
+                cell = row[name]
+                cell.link = "javascript: void(0)"
+                cell.onclick = "do_select(%d)"%(row['id'])
+                
         return headers, data    
-    
 
 from tinyerp.stdvars import tg_query
 
@@ -173,13 +163,14 @@ class Char(object):
 
         self.text = self.get_text()
         self.link = self.get_link()
+        self.onclick = None
            
     def get_text(self):
         return self.value or ''
     
     def get_link(self):
         return None
-
+    
     def __str__(self):
         return ustr(self.text)
                 
@@ -215,7 +206,7 @@ class M2M(Char):
 
     def get_text(self):
         return "(%d)" % len(self.value)
-
+    
 class Selection(Char):
 
     def get_text(self):

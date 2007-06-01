@@ -5,10 +5,12 @@
 
     <script type="text/javascript">
 
-        function submit_form(action){                    
+        function submit_search_form(action){                    
             form = $('search_form');
-            form.action = action;    
-                    
+            form.action = action;
+            
+            disable_hidden_search_fields();
+                                
             form.submit();
         }       
         
@@ -25,7 +27,7 @@
             forEach(disabled, function(fld){
                 fld.disabled = true;
             });        
-            
+                        
             return true;
         }
         
@@ -33,7 +35,7 @@
 
     <script type="text/javascript" py:if="params.kind == 1">
 
-        function onSelect(id){
+        function do_select(id){
         
             if (!id) {
             
@@ -55,7 +57,7 @@
 
     <script type="text/javascript" py:if="params.kind == 2">
 
-        function onSelect(id) {
+        function do_select(id) {
 
             list_view = window.opener.document.getElementById('${params.source}');
                         
@@ -113,6 +115,8 @@
     <form id="search_form" name="search_form" action="/search/filter" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_kind" name="_terp_kind" value="${params.kind}"/>
+        <input type="hidden" value="${params.limit}" name="_terp_limit" id="_terp_limit"/>
+        <input type="hidden" value="${params.offset}" name="_terp_offset" id="_terp_offset"/>
         <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
             <tr>
                 <td>
@@ -133,7 +137,7 @@
                 <td>           
                     <div class="toolbar">
                         <button type="submit">Find</button>
-                        <button type="button" onclick="onSelect()">Select</button>
+                        <button type="button" onclick="do_select()">Select</button>
                     </div>
                 </td>
             </tr>        
