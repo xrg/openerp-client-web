@@ -138,7 +138,11 @@ class Form(controllers.Controller, TinyResource):
 
     def get_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
-
+        
+        # bypass validations, if saving from button in non-editable view
+        if params.button and not params.editable and params.id:
+            return None
+        
         cherrypy.request.terp_validators = {}
         params.nodefault = True
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
@@ -163,18 +167,22 @@ class Form(controllers.Controller, TinyResource):
 
         @return: form view
         """
-        params, data = TinyDict.split(kw)
+        params, data = TinyDict.split(kw)                
+                        
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
+                
+        # bypass save, for button action in non-editable view
+        if not (params.button and not params.editable and params.id):
 
-        proxy = rpc.RPCProxy(params.model)
-
-        if not params.id:
-            id = proxy.create(data, params.context)
-            params.ids = (params.ids or []) + [int(id)]
-            params.id = int(id)
-        else:
-            id = proxy.write([params.id], data, params.context)
+            proxy = rpc.RPCProxy(params.model)
+    
+            if not params.id:
+                id = proxy.create(data, params.context)
+                params.ids = (params.ids or []) + [int(id)]
+                params.id = int(id)
+            else:
+                id = proxy.write([params.id], data, params.context)
 
         # perform button action
         if params.button:
