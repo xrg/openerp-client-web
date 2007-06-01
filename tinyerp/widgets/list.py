@@ -49,7 +49,7 @@ class List(TinyCompoundWidget):
     model = None
     selectable = False
     editable = False
-    show_links = True
+    show_links = 1
     source = None
             
     css = [widgets.CSSLink('tinyerp', 'css/listview.css')]

@@ -117,7 +117,7 @@ class Search(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params=params, selectable=2)
         
         # don't show links in list view, except the do_select link
-        screen.widget.show_links = False
+        screen.widget.show_links = 0
                 
         return dict(search=search, screen=screen, params=params)
     
