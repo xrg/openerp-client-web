@@ -19,7 +19,7 @@
         <td width="1%" py:if="selectable">
             <input type="checkbox" class="checkbox" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
         </td>
-        <td py:for="(name, field) in headers" py:content="field['string']">Title</td>
+        <td py:for="(field, field_attrs) in headers" py:content="field_attrs['string']">Title</td>
         <td align="center" width="20px" py:if="editable"></td>
         <td align="center" width="20px" py:if="editable"></td>
     </tr>
@@ -28,8 +28,8 @@
         <td width="1%" py:if="selectable">
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
-        <td py:for="i, (name, field) in enumerate(headers)">
-            <a py:strip="(show_links &lt; 0 or (i > 0 and show_links==0)) or not row[name].link" href="${row[name].link}" onclick="${row[name].onclick}">${row[name]}</a>
+        <td py:for="i, (field, field_attrs) in enumerate(headers)">
+            <a py:strip="(show_links &lt; 0 or (i > 0 and show_links==0)) or not row[field].link" href="${row[field].link}" onclick="${row[field].onclick}">${row[field]}</a>
         </td>
         <td py:if="editable" style="text-align: center">
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
@@ -42,7 +42,7 @@
     
     <tr py:for="i in range(0, 4 - len(data))" class="row">
         <td width="1%" py:if="selectable">&nbsp;</td>
-        <td py:for="i, (name, field) in enumerate(headers)">&nbsp;</td>
+        <td py:for="i, (field, field_attrs) in enumerate(headers)">&nbsp;</td>
         <td py:if="editable" style="text-align: center">&nbsp;</td>
         <td py:if="editable" style="text-align: center">&nbsp;</td>        
     </tr>
