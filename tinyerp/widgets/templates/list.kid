@@ -23,7 +23,7 @@
         <td width="1%" py:if="selectable">
             <input type="checkbox" class="checkbox" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
         </td>
-        <td py:for="field in headers" py:content="field[1]">Title</td>
+        <td py:for="(name, field) in headers" py:content="field['string']">Title</td>
         <td align="center" width="20px" py:if="editable"></td>
         <td align="center" width="20px" py:if="editable"></td>
     </tr>
@@ -32,8 +32,9 @@
         <td width="1%" py:if="selectable">
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
-        <td py:for="i, (field, title) in enumerate(headers)">
-        	<a href="javascript: void(0)" onclick="${options.do_select}(${row['id']}); return false;" py:strip="not options.do_select or i > 0">${row[field]}</a>
+        <td py:for="i, (name, field) in enumerate(headers)">
+        	<a py:if="i==0" py:strip="not options.do_select" href="javascript: void(0)" onclick="${options.do_select}(${row['id']}); return false;">${row[name]}</a>
+            <a py:if="i>0" py:strip="not (options.show_links and row[name].link)" href="${row[name].link}">${row[name]}</a>
         </td>
         <td py:if="editable" style="text-align: center">
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
@@ -46,7 +47,7 @@
     
     <tr py:for="i in range(0, 4 - len(data))" class="row">
         <td width="1%" py:if="selectable">&nbsp;</td>
-        <td py:for="i, (field, title) in enumerate(headers)">&nbsp;</td>
+        <td py:for="i, (name, field) in enumerate(headers)">&nbsp;</td>
         <td py:if="editable" style="text-align: center">&nbsp;</td>
         <td py:if="editable" style="text-align: center">&nbsp;</td>        
     </tr>

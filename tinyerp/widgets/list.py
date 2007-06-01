@@ -50,6 +50,8 @@ class ListOptions(object):
         self.on_select = None
         self.do_select = None
         
+        self.show_links = True
+        
 class List(TinyCompoundWidget):
 
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'options']
@@ -134,113 +136,129 @@ class List(TinyCompoundWidget):
         @param root: the root node of the view
         @param fields: the fields
 
-        @return: an instance of turbogears.widgets.DataGrid
+        @return: an instance of List
         """
-
+                
         headers = []
-
+                
         for node in root.childNodes:
-
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)
-
-                if attrs.has_key('name'):
-                    name = attrs.get('name')
-                    type = fields[name]['type']
-
-                    fields[name].update(attrs)
-
-                    if type not in CELLTYPES: continue
+                                
+                if 'name' in attrs:
+                    
+                    name = attrs['name']
+                    kind = fields[name]['type']
+                    
+                    if kind not in CELLTYPES: 
+                        continue
+                                        
+                    fields[name].update(attrs)                                    
 
                     for row in data:
-                        cell = CELLTYPES[type](attrs=fields[name])
-                        row[name] = cell.get_value(row[name])
+                        row[name] = CELLTYPES[kind](attrs=fields[name], value=row[name])
 
-                    headers += [(name, fields[name]['string'])]
+                    headers += [(name, fields[name])]
 
-        return headers, data
+        return headers, data    
+    
+
+from tinyerp.stdvars import tg_query
 
 class Char(object):
 
-    def __init__(self, attrs={}):
-        self.attrs = attrs
+    def __init__(self, attrs={}, value=False):
+        self.attrs = attrs        
+        self.value = value
 
-    def get_value(self, value):
-        return value or ''
+        self.text = self.get_text()
+        self.link = self.get_link()
+           
+    def get_text(self):
+        return self.value or ''
+    
+    def get_link(self):
+        return None
 
+    def __str__(self):
+        return ustr(self.text)
+                
 class M2O(Char):
 
-    def get_value(self, value):
-        if value and len(value) > 0:
-            return value[-1]
-
+    def get_text(self):
+        if self.value and len(self.value) > 0:
+            return self.value[-1]
+        
         return ''
-
+    
+    def get_link(self):
+        return tg_query('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+    
 class Date(Char):
 
     server_format = '%Y-%m-%d'
     display_format = '%x'
 
-    def get_value(self, value):
+    def get_text(self):
         try:
-            date = time.strptime(value, self.server_format)
+            date = time.strptime(self.value, self.server_format)
             return time.strftime(self.display_format, date)
         except:
             return ''
 
 class O2M(Char):
 
-    def get_value(self, value):
-        return "(%d)" % len(value)
+    def get_text(self):
+        return "(%d)" % len(self.value)
 
 class M2M(Char):
 
-    def get_value(self, value):
-        return "(%d)" % len(value)
+    def get_text(self):
+        return "(%d)" % len(self.value)
 
 class Selection(Char):
 
-    def get_value(self, value):
-        if value:
+    def get_text(self):
+        if self.value:
             selection = self.attrs['selection']
             for k, v in selection:
-                if k == value:
+                if k == self.value:
                     return v
         return ''
 
 class Float(Char):
 
-    def get_value(self, value):
+    def get_text(self):
         _, digit = (16,2)
 
-        if value:
-            return locale.format('%.' + str(digit) + 'f', value or 0.0)
+        if self.value:
+            return locale.format('%.' + str(digit) + 'f', self.value or 0.0)
 
-        return value
+        return self.value
 
 class Int(Char):
 
-    def get_value(self, value):
-        if value:
-            return int(value)
+    def get_text(self):
+        if self.value:
+            return int(self.value)
 
-        return value
+        return self.value
 
 class DateTime(Char):
     server_format = '%Y-%m-%d %H:%M:%S'
     display_format = '%x %H:%M:%S'
 
-    def get_value(self, value):
+    def get_text(self):
         try:
-            date = time.strptime(value, self.server_format)
+            date = time.strptime(self.value, self.server_format)
             return time.strftime(self.display_format, date)
         except:
             return ''
 
 class Boolean(Char):
 
-    def get_value(self, value):
-        if int(value) == 1:
+    def get_text(self):
+        if int(self.value) == 1:
             return 'True'
         else:
             return 'False'
