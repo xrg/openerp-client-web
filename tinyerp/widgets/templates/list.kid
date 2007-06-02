@@ -8,7 +8,7 @@
 						    <img border="0" align="absmiddle" src="/static/images/first_off.gif"/> Start
 						</span>
 						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:if="(offset&gt;0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;">
 						        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
 						    </a>
 						</span>    
@@ -17,7 +17,7 @@
 						    <img border="0" align="absmiddle" src="/static/images/previous_off.gif"/> Previous
 						</span>
 						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;">
 						        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
 						    </a>
                         </span>
@@ -93,7 +93,7 @@
 						    <img border="0" align="absmiddle" src="/static/images/first_off.gif"/> Start
 						</span>
 						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:if="(offset&gt;0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;">
 						        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
 						    </a>
 						</span>    
@@ -102,7 +102,7 @@
 						    <img border="0" align="absmiddle" src="/static/images/previous_off.gif"/> Previous
 						</span>
 						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;">
 						        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
 						    </a>
                         </span>
