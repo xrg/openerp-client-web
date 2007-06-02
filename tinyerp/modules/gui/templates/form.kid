@@ -50,9 +50,8 @@
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>
                                     <td nowrap="nowrap">
-                                        <button>Search</button>
-                                        <button>Edit</button>
-                                        <button>Graph</button>
+                                        <button type="button" title="Search..." py:if="buttons.search" onclick="submit_form('switch')">Search</button>
+                                        <button type="button" title="View Graph..." py:if="buttons.graph" onclick="submit_form('switch')">Graph</button>
                                     </td>
                                 </tr>
                             </table>
@@ -70,7 +69,6 @@
                                             <button type="button" title="Edit/Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>
                                             <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
                                             <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
-                                            <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
                                         </td>
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager">
                                             <a href="javascript: void(0)" onclick="submit_form('first'); return false;"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>

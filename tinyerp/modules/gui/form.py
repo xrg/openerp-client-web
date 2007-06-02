@@ -77,6 +77,9 @@ class Form(controllers.Controller, TinyResource):
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  not editable and mode == 'form'
         
+        buttons.search = mode != 'tree'
+        buttons.graph = 'graph' in params.view_mode and mode != 'graph'
+                
         return dict(form=form, buttons=buttons)
 
     @expose()
