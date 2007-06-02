@@ -68,22 +68,45 @@
                                             <button type="button" title="View Graph..." py:if="buttons.graph" onclick="submit_form('switch')">Graph</button>                                            
                                         </td>
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager">
-                                            <a href="javascript: void(0)" onclick="submit_form('first'); return false;">
-                                                <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start
-                                            </a>
-
-                                            <a href="javascript: void(0)" onclick="submit_form('previous'); return false;">
-                                                <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous
-                                            </a>
+                                            
+                                            <span py:if="(form.screen.offset&lt;0) or (form.screen.offset is 0)" class="disabled_text">
+											    <img border="0" align="absmiddle" src="/static/images/first_off.gif"/> Start
+											</span>
+											<span py:if="(form.screen.offset&gt;0)">
+											    <a href="javascript: void(0)" onclick="submit_form('first'); return false;">
+											        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
+											    </a>
+											</span>   				                               
+                                           
+                                            <span py:if="(form.screen.offset&lt;0) or (form.screen.offset is 0)" class="disabled_text">
+											    <img border="0" align="absmiddle" src="/static/images/previous_off.gif"/> Previous
+											</span>
+											<span py:if="(form.screen.offset&gt;0)">
+											    <a href="javascript: void(0)" onclick="submit_form('previous'); return false;">
+											        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
+											    </a>
+					                        </span>
 
                                             <a href="javascript: void(0)">(1st of ${form.screen.offset} to ${form.screen.limit + form.screen.offset})</a>
 
-                                            <a href="javascript: void(0)" onclick="submit_form('next'); return false;">
-                                                Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
-                                            </a>
-
-                                            <a href="javascript: void(0)" onclick="submit_form('last'); return false;">
-                                            End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
+                                            <span py:if="not form.screen.ids" class="disabled_text">
+					                            Next <img border="0" align="absmiddle" src="/static/images/next_off.gif"/>
+											</span>
+					                        <span py:if="form.screen.ids">
+					       						<a href="javascript: void(0)" onclick="submit_form('next'); return false;">
+					       						    <b>Next </b><img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
+					       						</a>
+					                        </span>
+                                                            
+                                            <span py:if="not form.screen.ids" class="disabled_text">
+					                            End <img border="0" align="absmiddle" src="/static/images/end_off.gif"/>
+											</span>						
+											<span py:if="form.screen.ids">
+					    						<a href="javascript: void(0)" onclick="submit_form('last'); return false;">
+					    						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
+					    						</a>
+					    				    </span>
+                                            
                                         </td>
                                     </tr>
                                 </table>
@@ -95,7 +118,7 @@
                     </tr>
                 </table>      
             </td>
-            
+                       
             <td py:if="form.screen.hastoolbar and form.screen.toolbar" width="163" valign="top" style="padding-left: 2px">
         
                 <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">

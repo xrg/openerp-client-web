@@ -4,6 +4,7 @@
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
 	                <td align="right">
+	                    
 	                    <span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
 						    <img border="0" align="absmiddle" src="/static/images/first_off.gif"/> Start
 						</span>
@@ -35,13 +36,13 @@
                         
                         <span py:if="(len(data)&lt;20)" class="disabled_text">
                             End <img border="0" align="absmiddle" src="/static/images/end_off.gif"/>
-						</span>
-						
+						</span>						
 						<span py:if="(len(data)&gt;20) or (len(data) is 20)">
     						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
     						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
     						</a>
     				    </span>
+    				    
 					</td>
 	            </tr>
 	        </table>
