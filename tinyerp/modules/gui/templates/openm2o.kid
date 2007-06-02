@@ -2,10 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="tinyerp/templates/master.kid">
 <head>
     <title>${form.screen.string} </title>
+    
+    <script type="text/javascript">
+        var form_controller = '/openm2o';
+    </script>
 
-    <script type="text/javascript" py:if="form.screen.view_mode[0]=='form'">
-
-    	  function onclose() {
+    <script type="text/javascript">
+        
+    	  function on_close() {
      	  	if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
     	  		window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
     	  	window.opener.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
@@ -29,7 +33,7 @@
             connect(window, 'onload', check_for_popup);
 
         }
-        connect(window, 'onunload', onclose);
+        connect(window, 'onclose', on_close);
     </script>
 
 </head>
@@ -63,8 +67,8 @@
 		                    <td width="100%">
 		                    </td>
 		                    <td>
-		                        <button type="button" onclick="onclose();">Close</button>
-		                        <button type="button" onclick="submit_value('save')">Save</button>
+		                        <button type="button" onclick="window.close()">Close</button>
+		                        <button type="button" onclick="submit_form('save')">Save</button>
 		                    </td>
 		                </tr>
 		            </table>

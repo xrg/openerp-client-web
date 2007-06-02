@@ -52,18 +52,25 @@ import search
 
 class Form(controllers.Controller, TinyResource):
 
-    @expose(template="tinyerp.modules.gui.templates.form")
-    def create(self, params, tg_errors=None):
+    def create_form(self, params, tg_errors=None):
         if tg_errors:
-            form = cherrypy.request.terp_form
-        else:
-            params.setdefault('offset', 0)
-            params.setdefault('limit', 20)
-            form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+            return cherrypy.request.terp_form
+        
+        params.setdefault('offset', 0)
+        params.setdefault('limit', 20)
 
+        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+        
         if cherrypy.request.path.startswith('/tree/open'):
             self.del_notebook_cookies()
        
+        return form
+
+    @expose(template="tinyerp.modules.gui.templates.form")
+    def create(self, params, tg_errors=None):
+        
+        form = self.create_form(params, tg_errors)
+        
         editable = form.screen.editable
         mode = form.screen.view_mode[0]        
         id = form.screen.id
@@ -79,7 +86,7 @@ class Form(controllers.Controller, TinyResource):
         
         buttons.search = mode != 'tree'
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
-                
+        
         return dict(form=form, buttons=buttons)
 
     @expose()

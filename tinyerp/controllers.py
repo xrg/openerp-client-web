@@ -155,5 +155,5 @@ class Root(controllers.RootController, TinyResource):
     selection = gui.selection.Selection()
     shortcuts = gui.shortcuts.Shortcuts()
     requests = gui.requests.Requests()
-    openm2o = gui.openm2o.Form()
+    openm2o = gui.openm2o.OpenM2O()
 

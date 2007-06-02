@@ -45,71 +45,17 @@ from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules.utils import TinyDict
 from tinyerp.modules.utils import TinyParent
-from turbogears import  widgets
 
-class Form(controllers.Controller, TinyResource):
+from form import Form
 
+class OpenM2O(Form):
+    
     @expose(template="tinyerp.modules.gui.templates.openm2o")
-    def create(self, params, tg_errors=None):
-        if tg_errors:
-            form = cherrypy.request.terp_form
-        else:
-            form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
-            form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]
-
+    def create(self, params, tg_errors=None):     
+        
+        params.editable = True
+        form = self.create_form(params, tg_errors)        
+        
+        form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]        
+        
         return dict(form=form, params=params)
-
-
-    @expose()
-    def edit(self, **kw):
-
-        params, data = TinyDict.split(kw)
-        current = params[params.source or ''] or params
-
-
-        if current.view_mode[0] != 'form':
-            current.view_mode = ['form', 'tree']
-
-        return self.create(params)
-
-    def get_form(self):
-        params, data = TinyDict.split(cherrypy.request.params)
-
-        cherrypy.request.terp_validators = {}
-        params.nodefault = True
-        form = tw.form_view.ViewForm(params, name="view_form", action="/openm2o/save")
-        cherrypy.request.terp_form = form
-
-        vals = cherrypy.request.terp_validators
-        schema = validators.Schema(**vals)
-
-        form.validator = schema
-
-        return form
-
-    @expose()
-    @validate(form=get_form)
-    def save(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
-        """Controller method to save/button actions...
-
-        @param tg_errors: TG special arg, used durring validation
-        @param tg_source: TG special arg, used durring validation
-        @param tg_exceptions: TG special arg, used durring validation
-        @param kw: keyword arguments
-
-        @return: form view
-        """
-        params, data = TinyDict.split(kw)
-        if tg_errors:
-            return self.create(params, tg_errors=tg_errors)
-
-        proxy = rpc.RPCProxy(params.model)
-
-        if not params.id:
-            id = proxy.create(data, params.context)
-            params.id = id
-            params.ids = (params.ids or []) + [int(id)]
-        else:
-            id = proxy.write([params.id], data, params.context)
-
-        return self.create(params)

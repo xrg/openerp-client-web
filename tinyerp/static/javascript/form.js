@@ -27,18 +27,23 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+function get_form_action(action, params){
+	var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
+	return getURL(act + '/' + action, params);
+}
+
 var inlineEdit = function(id, src){
 
     form = $('view_form');
 
-    act = '/form/edit';
+    act = get_form_action('edit');
 
     if (src) {
         n = src.replace('.', '/') + '/_terp_id';
         terp_id = document.getElementsByName(n)[0];
         terp_id.value = id;
 
-        act = getURL(act, {_terp_source: src, _terp_inline: 1});
+        act = get_form_action('edit', {_terp_source: src, _terp_inline: 1});
 
     } else {
         form._terp_id.value = id;
@@ -56,14 +61,14 @@ var inlineDelete = function(id, src){
 
     form = $('view_form');
 
-    act = '/form/delete';
+    act = get_form_action('delete');
 
     if (src) {
         n = src.replace('.', '/') + '/_terp_id';
         terp_id = document.getElementsByName(n)[0];
         terp_id.value = id;
 
-        act = getURL(act, {_terp_source: src});
+        act = get_form_action('delete', {_terp_source: src});
 
     } else {
         form._terp_id.value = id;
@@ -89,7 +94,7 @@ var submit_form = function(action, src, data){
     	form._terp_id.value = map(function(b){return b.value}, boxes);
     }
 
-    form.action = getURL('/form/' + action, {_terp_source: source, _terp_data: data ? data : null});
+    form.action = get_form_action(action, {_terp_source: source, _terp_data: data ? data : null});
     form.submit();
 }
 
@@ -132,8 +137,8 @@ var buttonClicked = function(name, btype, model, id, sure){
     params['_terp_button/model'] = model;
     params['_terp_button/id'] = id;
 
-    form = $("view_form");
-    form.action = getURL('/form/save', params);
+    form = $("view_form");    
+    form.action = get_form_action('save', params);
     form.submit();
 }
 
