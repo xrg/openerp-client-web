@@ -3,7 +3,7 @@
         <tr>
             <td>
                 <input type="hidden" kind="${kind}" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' callback="${callback}" onchange="${onchange}; getName(this, '${relation}')"/>
-                <input type="text" id ='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs' onchange="$('${name}').onchange();if (!this.value){$('${name}').value=''; } else {getName('${name}', '${relation}');}"/>
+                <input type="text" id ='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs' onchange="if (!this.value){$('${name}').value=''; $('${name}').onchange();} else {getName('${name}', '${relation}');}"/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
             <td width="1px"><div class="spacer"/></td>
