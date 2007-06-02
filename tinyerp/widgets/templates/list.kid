@@ -4,11 +4,44 @@
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
 	                <td align="right">
-						<a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
+	                    <span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
+						    <img border="0" align="absmiddle" src="/static/images/first_off.gif"/> Start
+						</span>
+						<span py:if="(offset&gt;0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:if="(offset&gt;0)">
+						        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
+						    </a>
+						</span>    
+						
+						<span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
+						    <img border="0" align="absmiddle" src="/static/images/previous_off.gif"/> Previous
+						</span>
+						<span py:if="(offset&gt;0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)">
+						        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
+						    </a>
+                        </span>
+                        						    
 						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
-						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
+						
+						<span py:if="(len(data)&lt;20)" class="disabled_text">
+                            Next <img border="0" align="absmiddle" src="/static/images/next_off.gif"/>
+						</span>
+                        <span py:if="(len(data)&gt;20) or (len(data) is 20)">
+       						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;">
+       						    <b>Next</b> <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
+       						</a>
+                        </span>
+                        
+                        <span py:if="(len(data)&lt;20)" class="disabled_text">
+                            End <img border="0" align="absmiddle" src="/static/images/end_off.gif"/>
+						</span>
+						
+						<span py:if="(len(data)&gt;20) or (len(data) is 20)">
+    						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
+    						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
+    						</a>
+    				    </span>
 					</td>
 	            </tr>
 	        </table>
@@ -56,11 +89,44 @@
 						<a href="#">Export</a>
 					</td>
 	                <td align="right">
-						<a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> Start</a>
-						<a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)"><img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> Previous</a>
+						<span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
+						    <img border="0" align="absmiddle" src="/static/images/first_off.gif"/> Start
+						</span>
+						<span py:if="(offset&gt;0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;" py:if="(offset&gt;0)">
+						        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
+						    </a>
+						</span>    
+						
+						<span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
+						    <img border="0" align="absmiddle" src="/static/images/previous_off.gif"/> Previous
+						</span>
+						<span py:if="(offset&gt;0)">
+						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;" py:strip="(offset&lt;0) or (offset is 0)">
+						        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
+						    </a>
+                        </span>
+                        						    
 						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
-						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;" py:strip="len(data)&lt;20">Next <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/></a>
-						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;" py:strip="len(data)&lt;20">End <img border="0" align="absmiddle" src="/static/images/pager_end.gif"/></a>
+						
+						<span py:if="(len(data)&lt;20)" class="disabled_text">
+                            Next <img border="0" align="absmiddle" src="/static/images/next_off.gif"/>
+						</span>
+                        <span py:if="(len(data)&gt;20) or (len(data) is 20)">
+       						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;">
+       						    <b>Next </b><img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
+       						</a>
+                        </span>
+                        
+                        <span py:if="(len(data)&lt;20)" class="disabled_text">
+                            End <img border="0" align="absmiddle" src="/static/images/end_off.gif"/>
+						</span>
+						
+						<span py:if="(len(data)&gt;20) or (len(data) is 20)">
+    						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
+    						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
+    						</a>
+    				    </span>
 					</td>
                 </tr>
             </table>

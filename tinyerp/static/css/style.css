@@ -128,7 +128,14 @@ a.menu_connection {
 	color: white;
 }
 
-/*------------------------------------------------------*/
+/*------------------ Header End ---------------*/
+
+/* ----------------- Navigation -------------- */
+
+span.disabled_text {
+    color: gray;
+}
+
 
 /* ------------------- Footer --------------- */
 #footer {
@@ -244,7 +251,7 @@ div.welcome {
 	border-top: 1px solid #bbb8a9;
 	border-bottom: 1px solid #bbb8a9;
 	padding: 5px;
-	white-space: nowrap;	
+	white-space: nowrap;
 }
 
 .view .toolbar button {
@@ -255,7 +262,7 @@ div.welcome {
 }
 
 .view .toolbar .pager {
-	white-space: nowrap;	
+	white-space: nowrap;
 }
 
 .view .toolbar .pager a {
