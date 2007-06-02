@@ -48,6 +48,11 @@
                                         <img src="/static/images/icon.gif"/>
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>
+                                    <td nowrap="nowrap">
+                                        <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="submit_form('switch')">Search</button>
+                                        <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="submit_form('switch')">Form</button>
+                                        <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>                                            
+                                    </td>
                                 </tr>
                             </table>
                         </td>
@@ -64,8 +69,6 @@
                                             <button type="button" title="Edit/Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>
                                             <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
                                             <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
-                                            <button type="button" title="Search..." py:if="buttons.search" onclick="submit_form('switch')">Search</button>
-                                            <button type="button" title="View Graph..." py:if="buttons.graph" onclick="submit_form('switch')">Graph</button>                                            
                                         </td>
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager">
                                             
