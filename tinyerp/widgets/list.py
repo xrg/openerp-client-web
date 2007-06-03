@@ -149,7 +149,7 @@ class List(TinyCompoundWidget):
             for row in data:
                 cell = row[name]
                 cell.link = "javascript: void(0)"
-                cell.onclick = "do_select(%s); return false;"%(row['id'].text)
+                cell.onclick = "do_select(%s); return false;"%(row['id'])
                 
         return headers, data    
 
