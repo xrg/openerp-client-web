@@ -25,19 +25,19 @@
                         						    
 						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
 						
-						<span py:if="(len(data)&lt;20)" class="disabled_text">
+						<span py:if="(len(data)&lt;limit)" class="disabled_text">
                             Next <img border="0" align="absmiddle" src="/static/images/next_off.gif"/>
 						</span>
-                        <span py:if="(len(data)&gt;20) or (len(data) is 20)">
+                        <span py:if="(len(data)&gt;limit) or (len(data) is limit)">
        						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;">
        						    <b>Next</b> <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
        						</a>
                         </span>
                         
-                        <span py:if="(len(data)&lt;20)" class="disabled_text">
+                        <span py:if="(len(data)&lt;limit)" class="disabled_text">
                             End <img border="0" align="absmiddle" src="/static/images/end_off.gif"/>
 						</span>						
-						<span py:if="(len(data)&gt;20) or (len(data) is 20)">
+						<span py:if="(len(data)&gt;limit) or (len(data) is limit)">
     						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
     						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
     						</a>
@@ -110,20 +110,20 @@
                         						    
 						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
 						
-						<span py:if="(len(data)&lt;20)" class="disabled_text">
+						<span py:if="(len(data)&lt;limit)" class="disabled_text">
                             Next <img border="0" align="absmiddle" src="/static/images/next_off.gif"/>
 						</span>
-                        <span py:if="(len(data)&gt;20) or (len(data) is 20)">
+                        <span py:if="(len(data)&gt;limit) or (len(data) is limit)">
        						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;">
        						    <b>Next </b><img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
        						</a>
                         </span>
                         
-                        <span py:if="(len(data)&lt;20)" class="disabled_text">
+                        <span py:if="(len(data)&lt;limit)" class="disabled_text">
                             End <img border="0" align="absmiddle" src="/static/images/end_off.gif"/>
 						</span>
 						
-						<span py:if="(len(data)&gt;20) or (len(data) is 20)">
+						<span py:if="(len(data)&gt;limit) or (len(data) is limit)">
     						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
     						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
     						</a>
