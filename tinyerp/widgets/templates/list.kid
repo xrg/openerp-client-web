@@ -54,8 +54,8 @@
             <input type="checkbox" class="checkbox" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
         </td>
         <td py:for="(field, field_attrs) in headers" py:content="field_attrs['string']">Title</td>
-        <td align="center" width="20px" py:if="editable"></td>
-        <td align="center" width="20px" py:if="editable"></td>
+        <td align="center" width="10px" py:if="editable"></td>
+        <td align="center" width="10px" py:if="editable"></td>
     </tr>
 
     <tr py:for="i, row in enumerate(data)" class="row">
