@@ -94,12 +94,12 @@ class Tree(controllers.Controller, TinyResource):
 
     @expose('json')
     def data(self, ids, model, fields, field_parent=None, icon=0, domain=[]):
-
+        
         ids = ids.split(',')
         ids = [int(id) for id in ids if id != '']
 
         if isinstance(fields, basestring):
-            fields = eval(fields)
+            fields = fields.split(',')
 
         if isinstance(domain, basestring):
             domain = eval(domain)
@@ -153,27 +153,36 @@ class Tree(controllers.Controller, TinyResource):
 
         records = []
         for item in result:
-
+            
             # empty string instead of bool and None
             for k, v in item.items():
                 if v==None or (v==False and type(v)==bool):
                     item[k] = ''
 
-                if k == 'icon':
-                    item[k] = icons.get_icon(v)
-
             record = {}
 
             record['id'] = item.pop('id')
+            record['action'] = '/tree/open?model=%s&id=%s'%(model, record['id'])
+            record['target'] = None
+            
+            record['icon'] = None
+                                    
+            if 'icon' in item:
+                icon = item.pop('icon')
+                record['icon'] = icons.get_icon(icon)            
+                
+                if icon == 'STOCK_OPEN':
+                    record['action'] = None
+                    
             record['children'] = []
 
             if field_parent and field_parent in item:
-                record['children'] = item.pop(field_parent) or None
-
-            record['data'] = item
-
+                record['children'] = item.pop(field_parent) or None            
+                
+            record['data'] = item                
+            
             records += [record]
-
+        
         return dict(records=records)
 
     def do_action(self, name, adds={}, datas={}):

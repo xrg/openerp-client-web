@@ -6,9 +6,6 @@
         ${field_id}.onopen = ${onopen or 'null'};
         ${field_id}.onselection = ${onselection or 'null'};
 
-        ${field_id}.action_url = '${action_url or 'null'}';
-        ${field_id}.action_params = ${ustr(action_params or 'null')};
-
-        ${field_id}.load('${url}', ${str(ids)}, {model: '${model}', fields:'${fields}', domain: "${str(domain)}", field_parent: '${field_parent}'});
+        ${field_id}.load('${url}', ${str(ids)}, {model: '${model}', domain: "${str(domain)}", field_parent: '${field_parent}'});
     </script>
 </span>

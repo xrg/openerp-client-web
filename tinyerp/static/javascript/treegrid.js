@@ -32,13 +32,8 @@ var TreeGrid = function(id, headers) {
     this.id = id;
 
     this.headers = eval(headers);
-    this.tfield = this.headers[0][0];
-
-    this.action_url = null;
-    this.action_params = null;
-    this.action_target = null;
-
-    this.show_icons = 'icon' in this.headers[0][1];
+            
+    this.show_icons = 'icon' in this.headers[0];
 
     this.url = null;
     this.params = {};
@@ -177,7 +172,7 @@ TreeGrid.prototype._make_head = function(){
     var tr = TR({'class':'header'});
 
     for(var i in this.headers){
-        var header = this.headers[i][1];
+        var header = this.headers[i];
         var th = TH(null, header.string);
 
         setNodeAttribute(th, 'title', header.help ? header.help : '');
@@ -215,11 +210,11 @@ TreeGrid.prototype._make_row = function(record, indent){
         var header = this.headers[i];
 
         var td = TD(null);
-        var key = header[0];
-
+        var key = header.name;
+                       
         var val = record.data[key];
-
-        if (key === this.tfield) {
+        
+        if (i == 0) { // first column
 
             var tds = [];
 
@@ -235,19 +230,20 @@ TreeGrid.prototype._make_row = function(record, indent){
                 tds.push(SPAN({'class' : 'indent'}));
 
             if (this.show_icons) {
-                tds.push(IMG({'src': record.data.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
+                tds.push(IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
             }
 
-            val = A({'href': '#'}, val);
-
-            if (this.action_url) { // use url
-                setNodeAttribute(val, 'href', this._make_action_url(record.id));
-            } else { //connect onclick event
-                connect(val, 'onclick', this._onopen(record.id));
-            }
-
-            if (this.action_target)
-                setNodeAttribute(val, 'target', this.action_target);
+			val = A({'href': '#'}, val);
+			
+           	if (record.action){
+				setNodeAttribute(val, 'href', record.action);
+           	} else {
+           		MochiKit.Signal.connect(val, 'onclick', bind(function(){this.toggle(rid)}, this));
+           	}
+           	
+			if (record.target) {
+				setNodeAttribute(val, 'target', record.target);
+			}
 
             tds.push(val);
             tds = map(function(x){return TD(null, x)}, tds);
@@ -255,16 +251,16 @@ TreeGrid.prototype._make_row = function(record, indent){
             val = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, TBODY(null, TR(null, tds)));
         }
 
-        setNodeAttribute(td, 'class', header[1].type);
+        setNodeAttribute(td, 'class', header.type);
 
         appendChildNodes(td, val);
         appendChildNodes(tr, td);
     }
 
     // register OnClick, OnDblClick event
-    connect(tr, 'onclick', bind(this._on_select_row, this));
-    connect(tr, 'ondblclick', bind(function(){this.toggle(rid)}, this));
-
+    MochiKit.Signal.connect(tr, 'onclick', bind(this._on_select_row, this));
+    MochiKit.Signal.connect(tr, 'ondblclick', bind(function(){this.toggle(rid)}, this));
+    
     return tr;
 }
 
@@ -320,7 +316,8 @@ TreeGrid.prototype.load = function(url, id, params){
 
     this.url = url;
     this.params = params ? params : {};
-
+    
+	this.params['fields'] = map(function(h){return h.name}, this.headers);
     this.params['icon'] = this.show_icons ? 1 : 0;
 
     var args = {ids: id}; update(args, this.params);

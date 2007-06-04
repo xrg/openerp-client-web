@@ -89,9 +89,6 @@ class ViewTree(tg.widgets.Form):
         #register onselection callback
         self.tree.onselection = "onselection"
 
-        self.tree.action_url = '/tree/open'
-        self.tree.action_params = ['model']
-
     def parse(self, root, fields=None):
 
         for node in root.childNodes:
@@ -100,9 +97,8 @@ class ViewTree(tg.widgets.Form):
                 continue
 
             attrs = tools.node_attributes(node)
-
-            name = attrs['name']
-            field = fields.get(name)
+            
+            field = fields.get(attrs['name'])
             field.update(attrs)
-
-            self.headers += [[name, field]]
+            
+            self.headers += [field]
