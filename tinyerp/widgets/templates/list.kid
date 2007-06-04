@@ -6,7 +6,7 @@
 	                <td align="right">
 	                    
 	                    <span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
-						    <img border="0" align="absmiddle" src="/static/images/first_off.gif"/> Start
+						    <img border="0" align="absmiddle" src="/static/images/pager_start_off.gif"/> Start
 						</span>
 						<span py:if="(offset&gt;0)">
 						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;">
@@ -15,7 +15,7 @@
 						</span>    
 						
 						<span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
-						    <img border="0" align="absmiddle" src="/static/images/previous_off.gif"/> Previous
+						    <img border="0" align="absmiddle" src="/static/images/pager_prev_off.gif"/> Previous
 						</span>
 						<span py:if="(offset&gt;0)">
 						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;">
@@ -26,7 +26,7 @@
 						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
 						
 						<span py:if="(len(data)&lt;limit)" class="disabled_text">
-                            Next <img border="0" align="absmiddle" src="/static/images/next_off.gif"/>
+                            Next <img border="0" align="absmiddle" src="/static/images/pager_next_off.gif"/>
 						</span>
                         <span py:if="(len(data)&gt;limit) or (len(data) is limit)">
        						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;">
@@ -35,7 +35,7 @@
                         </span>
                         
                         <span py:if="(len(data)&lt;limit)" class="disabled_text">
-                            End <img border="0" align="absmiddle" src="/static/images/end_off.gif"/>
+                            End <img border="0" align="absmiddle" src="/static/images/pager_end_off.gif"/>
 						</span>						
 						<span py:if="(len(data)&gt;limit) or (len(data) is limit)">
     						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
