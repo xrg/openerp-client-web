@@ -54,12 +54,12 @@ requests = tg.root.requests.my()[0]
 						<table class="menu_connection" cellpadding="0" cellspacing="0">
 							<tr>
 								<td><img src="/static/images/corner.gif" alt="\"/></td>
-								<td class="menu_connection_welcome" >Welcome ${rpc.session.user_name}</td>
-								<td class="menu_connection">
-									<a class="menu_connection" href="/">Home</a>
-									<a class="menu_connection" href="/pref/create/">Preferences</a>
-									<a class="menu_connection" href="#">About</a>
-									<a class="menu_connection" href="/logout">Logout</a>
+								<td class="menu_connection_welcome">Welcome ${rpc.session.user_name}</td>
+								<td class="menu_connection_links">
+									<a href="/">Home</a>
+									<a href="/pref/create/">Preferences</a>
+									<a href="#">About</a>
+									<a href="/logout">Logout</a>
 								</td>
 							</tr>
 						</table>

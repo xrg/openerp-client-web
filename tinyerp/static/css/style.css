@@ -73,34 +73,32 @@ table.header {
 	width: 100%;
 }
 
-div.menu_connection {
-	position: relative;
-	top: 0;
-	right: 0;
-}
-
 table.menu_connection {
 	padding: 0px;
 	border: 0px;
 }
 
-td.menu_connection_welcome {
+table.menu_connection td.menu_connection_welcome {
 	background: #333333;
 	padding-left: 10px;
 	padding-right: 18px;
 	color: white;
 }
 
-td.menu_connection {
+table.menu_connection td.menu_connection_links {
 	background: url(/static/images/mainmenu_button.png) repeat-x;
 	padding-left: 10px;
 	padding-right: 10px;
 	color: white;
 }
 
-a.menu_connection {
+table.menu_connection a {
 	color: white;
 	padding: 0 2px;
+}
+
+table.menu_connection a:hover {
+	color: white;
 }
 
 #menu_header {
