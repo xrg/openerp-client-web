@@ -105,7 +105,7 @@ function echeck(str)
 }
 
 function set_cookie(name, value) {
-    document.cookie= name + "=" + escape(value);
+    document.cookie = name + "=" + escape(value) + "; path=/";
 }
 
 function get_cookie(name) {
