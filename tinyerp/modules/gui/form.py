@@ -88,7 +88,11 @@ class Form(controllers.Controller, TinyResource):
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
         
-        return dict(form=form, buttons=buttons)
+        pager = None
+        if buttons.pager:
+            pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, total=len(form.screen.ids))
+                                
+        return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
     def new(self, **kw):

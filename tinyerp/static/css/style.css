@@ -261,19 +261,6 @@ div.welcome {
 	white-space: nowrap;
 }
 
-.view .toolbar .pager {
-	white-space: nowrap;
-}
-
-.view .toolbar .pager a {
-	color: #333333;
-	text-decoration: none;
-}
-
-.view .toolbar .pager a:hover {
-    text-decoration: none;
-}
-
 .view .fields {
 }
 

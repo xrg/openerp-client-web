@@ -35,13 +35,66 @@ from turbogears import widgets
 
 from tinyerp import rpc
 from tinyerp import tools
+from tinyerp.modules.utils import TinyDict
 
 from interface import TinyCompoundWidget
-       
+
+class Pager(TinyCompoundWidget):
+    
+    template = "tinyerp.widgets.templates.pager"
+    params = ['offset', 'limit', 'count', 'total', 'buttons']
+    
+    css = [widgets.CSSLink('tinyerp', 'css/pager.css')]
+    
+    offset = 0
+    limit = 20
+    count = -1
+    total = -1
+            
+    def __init__(self, offset=0, limit=20, count=128, total=-1):
+        super(Pager, self).__init__()
+        
+        self.limit = limit
+        self.offset = offset
+        self.count = count        
+        self.total = total
+                
+        self.buttons = TinyDict()
+                               
+        first = TinyDict()
+        first['class'] = 'button'
+        first.disabled = "disabled"
+        
+        if (self.offset > 0):
+            first.disabled = None
+                                    
+        prev = TinyDict()
+        prev['class'] = 'button'
+        prev.disabled = first.disabled
+        
+        next = TinyDict()
+        next['class'] = 'button'
+        next.disabled = "disabled"
+        
+        if (self.total == self.limit):
+            next.disabled = None
+
+        last = TinyDict()
+        last['class'] = 'button'
+        last.disabled = next.disabled
+        
+        self.buttons.first = first
+        self.buttons.prev  = prev
+        self.buttons.next  = next
+        self.buttons.last  = last
+                                      
 class List(TinyCompoundWidget):
 
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links']
     template = "tinyerp.widgets.templates.list"
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links']
+    member_widgets = ['pager']
+    
+    pager = None
 
     data = None
     columns = 0
@@ -49,6 +102,7 @@ class List(TinyCompoundWidget):
     model = None
     selectable = False
     editable = False
+    pageable = False
     show_links = 1
     source = None
             
@@ -111,8 +165,11 @@ class List(TinyCompoundWidget):
         self.columns = len(self.headers) 
         
         self.columns += (self.selectable or 0) and 1
-        self.columns += (self.editable or 0) and 2                  
-
+        self.columns += (self.editable or 0) and 2      
+        
+        if self.pageable:
+            self.pager = Pager(offset=self.offset, limit=self.limit, total=len(self.ids))
+            
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
 

@@ -70,47 +70,7 @@
                                             <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
                                             <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
                                         </td>
-                                        <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager">
-                                            
-                                            <span py:if="(form.screen.offset&lt;0) or (form.screen.offset is 0)" class="disabled_text">
-											    <img border="0" align="absmiddle" src="/static/images/pager_start_off.gif"/> Start
-											</span>
-											<span py:if="(form.screen.offset&gt;0)">
-											    <a href="javascript: void(0)" onclick="submit_form('first'); return false;">
-											        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
-											    </a>
-											</span>   				                               
-                                           
-                                            <span py:if="(form.screen.offset&lt;0) or (form.screen.offset is 0)" class="disabled_text">
-											    <img border="0" align="absmiddle" src="/static/images/pager_prev_off.gif"/> Previous
-											</span>
-											<span py:if="(form.screen.offset&gt;0)">
-											    <a href="javascript: void(0)" onclick="submit_form('previous'); return false;">
-											        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
-											    </a>
-					                        </span>
-
-                                            <a href="javascript: void(0)">(1st of ${form.screen.offset} to ${form.screen.limit + form.screen.offset})</a>
-
-                                            <span py:if="not form.screen.ids" class="disabled_text">
-					                            Next <img border="0" align="absmiddle" src="/static/images/pager_next_off.gif"/>
-											</span>
-					                        <span py:if="form.screen.ids">
-					       						<a href="javascript: void(0)" onclick="submit_form('next'); return false;">
-					       						    <b>Next </b><img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
-					       						</a>
-					                        </span>
-					                                                                                    
-                                            <span py:if="not form.screen.ids" class="disabled_text">
-					                            End <img border="0" align="absmiddle" src="/static/images/pager_end_off.gif"/>
-											</span>						
-											<span py:if="form.screen.ids">
-					    						<a href="javascript: void(0)" onclick="submit_form('last'); return false;">
-					    						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
-					    						</a>
-					    				    </span>
-                                            
-                                        </td>
+                                        <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager" py:content="pager.display()"></td>
                                     </tr>
                                 </table>
             		        </div>

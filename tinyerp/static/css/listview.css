@@ -29,26 +29,26 @@
     border-bottom: 1px solid #E3E3E3;
 }
 
-.grid .pager {
+.grid .pagerbar {
 	white-space: nowrap;	
 }
 
-.grid .pager table {
+.grid .pagerbar table {
 	height:22px;
 	background: #f3f3f3;
 	border-bottom: 1px solid #999;	
 }
 
-.grid .pager table td {
+.grid .pagerbar table td {
 	padding: 2px 4px;
 }
 
-.grid .pager a {
+.grid .pagerbar a {
 	color: #333333;
 	text-decoration: none;
 }
 
-.grid .pager a:hover {
+.grid .pagerbar a:hover {
     text-decoration: none;
 }
 

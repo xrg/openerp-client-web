@@ -1,49 +1,9 @@
 <table id="${name}" class="grid" width="100%" cellspacing="0" cellpadding="0" xmlns:py="http://purl.org/kid/ns#">
-	<tr class="pager" py:if="pageable">
+	<tr class="pagerbar" py:if="pageable">
 	    <td colspan="${columns}">
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
-	                <td align="right">
-	                    
-	                    <span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
-						    <img border="0" align="absmiddle" src="/static/images/pager_start_off.gif"/> Start
-						</span>
-						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;">
-						        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
-						    </a>
-						</span>    
-						
-						<span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
-						    <img border="0" align="absmiddle" src="/static/images/pager_prev_off.gif"/> Previous
-						</span>
-						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;">
-						        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
-						    </a>
-                        </span>
-                        						    
-						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
-						
-						<span py:if="(len(data)&lt;limit)" class="disabled_text">
-                            Next <img border="0" align="absmiddle" src="/static/images/pager_next_off.gif"/>
-						</span>
-                        <span py:if="(len(data)&gt;limit) or (len(data) is limit)">
-       						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;">
-       						    <b>Next</b> <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
-       						</a>
-                        </span>
-                        
-                        <span py:if="(len(data)&lt;limit)" class="disabled_text">
-                            End <img border="0" align="absmiddle" src="/static/images/pager_end_off.gif"/>
-						</span>						
-						<span py:if="(len(data)&gt;limit) or (len(data) is limit)">
-    						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
-    						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
-    						</a>
-    				    </span>
-    				    
-					</td>
+	                <td align="right" py:content="pager.display()"></td>
 	            </tr>
 	        </table>
 	    </td>
@@ -81,7 +41,7 @@
         <td py:if="editable" style="text-align: center">&nbsp;</td>        
     </tr>
 
-	<tr class="pager" py:if="pageable">
+	<tr class="pagerbar" py:if="pageable">
 	    <td colspan="${columns}">
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
@@ -89,45 +49,7 @@
 						<a href="#">Import</a> |
 						<a href="#">Export</a>
 					</td>
-	                <td align="right">
-	                    <span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
-						    <img border="0" align="absmiddle" src="/static/images/pager_start_off.gif"/> Start
-						</span>
-						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('first'); return false;">
-						        <img border="0" align="absmiddle" src="/static/images/pager_start.gif"/> <b>Start</b>
-						    </a>
-						</span>    
-						
-						<span py:if="(offset&lt;0) or (offset is 0)" class="disabled_text">
-						    <img border="0" align="absmiddle" src="/static/images/pager_prev_off.gif"/> Previous
-						</span>
-						<span py:if="(offset&gt;0)">
-						    <a href="javascript: void(0)" onclick="submit_search_form('previous'); return false;">
-						        <img border="0" align="absmiddle" src="/static/images/pager_prev.gif"/> <b>Previous</b>
-						    </a>
-                        </span>
-                        						    
-						<a href="javascript: void(0)" py:strip="">(${offset} to ${len(data) + offset})</a>
-						
-						<span py:if="(len(data)&lt;limit)" class="disabled_text">
-                            Next <img border="0" align="absmiddle" src="/static/images/pager_next_off.gif"/>
-						</span>
-                        <span py:if="(len(data)&gt;limit) or (len(data) is limit)">
-       						<a href="javascript: void(0)" onclick="submit_search_form('next'); return false;">
-       						    <b>Next</b> <img border="0" align="absmiddle" src="/static/images/pager_next.gif"/>
-       						</a>
-                        </span>
-                        
-                        <span py:if="(len(data)&lt;limit)" class="disabled_text">
-                            End <img border="0" align="absmiddle" src="/static/images/pager_end_off.gif"/>
-						</span>						
-						<span py:if="(len(data)&gt;limit) or (len(data) is limit)">
-    						<a href="javascript: void(0)" onclick="submit_search_form('last'); return false;">
-    						    <b>End </b><img border="0" align="absmiddle" src="/static/images/pager_end.gif"/>
-    						</a>
-    				    </span>
-					</td>
+                    <td align="right" py:content="pager.display()"></td>
                 </tr>
             </table>
         </td>

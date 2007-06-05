@@ -99,18 +99,22 @@ var submit_form = function(action, src, data){
 }
 
 var submit_search_form = function(action){    
-    // disable fields of hidden tab
-        
-    var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
-    var disabled = [];            
-    
-    disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
-    disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
-    disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
-                                                               
-    forEach(disabled, function(fld){
-        fld.disabled = true;
-    });
+
+	if ($('search_view_notebook')) {
+
+	    // disable fields of hidden tab
+	
+	    var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
+	    var disabled = [];
+	    
+	    disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
+	    disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
+	    disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
+	                                                               
+	    forEach(disabled, function(fld){
+	        fld.disabled = true;
+	    });
+	}
     
 	submit_form(action ? action : 'find');
 }
