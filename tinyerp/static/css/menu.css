@@ -1,20 +1,18 @@
-.menubar
+table.menubar
 {	
 	margin: 0;
 	padding: 0;
 	white-space: nowrap;
 }
 
-.menubar li
+table.menubar td
 {	
 	margin: 0;
 	padding: 0;
-	list-style: none;
-	float: left;
 	border-right: 1px solid #333;
 }
 
-.menubar li a
+table.menubar td a
 {	
 	display: block;
 	text-align: center;
@@ -25,13 +23,13 @@
 	text-decoration: none
 }
 
-.menubar li a:hover
+table.menubar td a:hover
 {
 	background: #505050;
 	text-decoration: none;
 }
 
-.menubar div
+table.menubar div
 {	
 	background: #666;
 	border: 1px solid #333;
@@ -40,7 +38,7 @@
 	z-index: 3
 }
 
-.menubar div a
+table.menubar div a
 {	
     display: block;
     text-align: left;
@@ -49,7 +47,7 @@
     color: #FFF;
 }
 
-.menubar div a:hover
+table.menubar div a:hover
 {	
     background: #505050;
   	text-decoration: none;

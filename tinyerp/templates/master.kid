@@ -73,32 +73,34 @@ requests, requests_message = tg.root.requests.my()
 					</td>
 				</tr>
 				<tr>
-                    <td colspan="2">
+                    <td colspan="2" nowrap="nowrap">
 
 						<table width="100%" cellspacing="0" cellpadding="0" id="menu_header" >
 							<tr>
-								<td width="100" id="menu_header_menu">
+								<td width="100" id="menu_header_menu" nowrap="nowrap">
 									<a href="/menu">MAIN MENU</a>
 								</td>
-								<td width="90" id="menu_header_shortcuts" >
+								<td width="90" id="menu_header_shortcuts" nowrap="nowrap">
 									<a href="/shortcuts">SHORTCUTS</a>
 								</td>
-								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;"/>
-								<td py:if="rpc.session.is_logged()">								
-								    <ul id="shortcuts" class="menubar">
-                                        <li py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6">
-                                            <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                                        </li>
-                                        <li py:if="len(shortcuts) &gt; 6" id="shortcuts_menu">
-                                            <a href="#">>></a>
-                                            <div id="shortcuts_submenu">
-                                                <a py:for="sc in shortcuts[6:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                                            </div>                                            
-                                        </li>
-                                        <script type="text/javascript" py:if="len(shortcuts) &gt; 6">
-                                            new Menu('shortcuts_menu', 'shortcuts_submenu');
-                                        </script>
-                                    </ul>
+								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;" nowrap="nowrap"/>
+								<td py:if="rpc.session.is_logged()" nowrap="nowrap">								
+								    <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <td py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6" nowrap="nowrap">
+                                                <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                            </td>
+                                            <td py:if="len(shortcuts) &gt; 6" id="shortcuts_menu" nowrap="nowrap">
+                                                <a href="#">>></a>
+                                                <div id="shortcuts_submenu">
+                                                    <a py:for="sc in shortcuts[6:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <script type="text/javascript" py:if="len(shortcuts) &gt; 6">
+                                        new Menu('shortcuts_menu', 'shortcuts_submenu');
+                                    </script>
                                 </td>
                                 <td>
                                     &nbsp;
