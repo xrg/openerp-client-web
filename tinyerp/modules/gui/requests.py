@@ -38,7 +38,7 @@ from tinyerp import common
 from tinyerp.tinyres import TinyResource
 
 class Requests(controllers.Controller, TinyResource):
-
+    
     def my(self):
 
         if not rpc.session.is_logged():
@@ -46,9 +46,16 @@ class Requests(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy('res.request')
         ids, ids2 = proxy.request_get()
+        
+        msg = "No request"
+        if len(ids):
+            msg = '%s request(s)' % len(ids)
+            
+        if len(ids2):
+            msg += ' - %s pending request(s)' % len(ids2)
 
-        return ids, ids2
-
+        return ids, msg
+    
     @expose()
     def default(self, ids):
         from tinyerp.modules import actions

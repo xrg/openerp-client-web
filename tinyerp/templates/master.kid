@@ -37,7 +37,7 @@
 
 <?python
 shortcuts = tg.root.shortcuts.my()
-requests = tg.root.requests.my()[0]
+requests, requests_message = tg.root.requests.my()
 ?>
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
@@ -68,7 +68,7 @@ requests = tg.root.requests.my()[0]
 				<tr>
 					<td align="right" valign="top">						
 	                    <div py:if="rpc.session.is_logged()">
-                            Requests: <a href="${tg.query('/requests', ids=requests)}">${len(requests)}</a> &nbsp; &nbsp;<button>NEW</button>
+                            Requests: <a href="${tg.query('/requests', ids=requests)}">${requests_message}</a>&nbsp;&nbsp;
                         </div>
 					</td>
 				</tr>
