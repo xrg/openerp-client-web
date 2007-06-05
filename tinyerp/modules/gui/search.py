@@ -182,11 +182,28 @@ class Search(controllers.Controller, TinyResource):
         
         l = params.get('limit') or 20
         o = params.get('offset') or 0
-
+        
+        domain = params.domain
+                
+        if params.search_domain is not None:
+            domain = params.search_domain
+            data = params.search_data
+            
         res = search(params.model, o, l, domain=params.domain, data=data)
         params.update(res)
-                        
+
         return self.create(params)
+    
+    @expose()
+    def find(self, **kw):
+        
+        kw['_terp_offset'] = None
+        kw['_terp_limit'] = None
+        
+        kw['_terp_search_domain'] = None
+        kw['_terp_search_data'] = None
+        
+        return self.filter(**kw)
 
     @expose()
     def first(self, **kw):

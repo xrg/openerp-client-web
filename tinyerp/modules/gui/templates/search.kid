@@ -112,11 +112,14 @@
 
 <body>
 <div class="view">  
-    <form id="search_form" name="search_form" action="/search/filter" method="post" onsubmit="return disable_hidden_search_fields();">
+    <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_kind" name="_terp_kind" value="${params.kind}"/>
         <input type="hidden" value="${params.limit}" name="_terp_limit" id="_terp_limit"/>
         <input type="hidden" value="${params.offset}" name="_terp_offset" id="_terp_offset"/>
+        <input type="hidden" value="${ustr(params.search_domain)}" name="_terp_search_domain" id="_terp_search_domain"/>
+        <input type="hidden" value="${ustr(params.search_data)}" name="_terp_search_data" id="_terp_search_data"/>
+        
         <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
             <tr>
                 <td>

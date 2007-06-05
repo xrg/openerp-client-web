@@ -334,7 +334,8 @@ class Form(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
 
         domain = params.domain
-        if params.view_mode[0] == 'form':
+        
+        if params.search_domain is not None:
             domain = params.search_domain
             data = params.search_data
 
@@ -344,7 +345,17 @@ class Form(controllers.Controller, TinyResource):
         params.id = (params.ids or False) and params.ids[0]
 
         return self.create(params)
+    
+    @expose()
+    def find(self, **kw):
+        kw['_terp_offset'] = None
+        kw['_terp_limit'] = None
+        
+        kw['_terp_search_domain'] = None
+        kw['_terp_search_data'] = None
 
+        return self.filter(**kw)
+    
     @expose()
     def first(self, **kw):
         params, data = TinyDict.split(kw)

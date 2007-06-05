@@ -112,7 +112,7 @@ var submit_search_form = function(action){
         fld.disabled = true;
     });
     
-	submit_form(action ? action : 'filter');
+	submit_form(action ? action : 'find');
 }
 
 var submit_value = function(action, src, data){
