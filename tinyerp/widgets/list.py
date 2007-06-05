@@ -176,7 +176,7 @@ class List(TinyCompoundWidget):
         self.columns += (self.editable or 0) and 2      
         
         if self.pageable:
-            self.pager = Pager(offset=self.offset, limit=self.limit, total=len(self.ids))
+            self.pager = Pager(offset=self.offset, limit=self.limit, total=len(self.ids or []))
             
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.

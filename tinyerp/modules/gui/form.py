@@ -74,6 +74,7 @@ class Form(controllers.Controller, TinyResource):
         editable = form.screen.editable
         mode = form.screen.view_mode[0]        
         id = form.screen.id
+        ids = form.screen.ids
 
         buttons = TinyDict()
 
@@ -90,7 +91,8 @@ class Form(controllers.Controller, TinyResource):
         
         pager = None
         if buttons.pager:
-            pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, total=len(form.screen.ids))
+            total = len(ids or (id or []) and [id])
+            pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, total=total)
                                 
         return dict(form=form, pager=pager, buttons=buttons)
 
