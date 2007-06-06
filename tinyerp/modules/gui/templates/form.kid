@@ -47,11 +47,14 @@
                                     <td width="32px" align="center">
                                         <img src="/static/images/icon.gif"/>
                                     </td>
-                                    <td width="100%" py:content="form.screen.string">Form Title</td>
-                                    <td nowrap="nowrap">
+                                    <td width="100%" py:content="form.screen.string">Form Title</td>                                    
+                                    <td nowrap="nowrap">                                        
                                         <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="submit_form('switch')">Search</button>
                                         <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="submit_form('switch')">Form</button>
                                         <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>                                            
+                                    </td>
+                                    <td align="center" valign="middle" width="16">
+                                        <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
                                     </td>
                                 </tr>
                             </table>
