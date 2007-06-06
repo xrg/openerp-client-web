@@ -35,7 +35,6 @@ from turbogears import widgets
 
 from tinyerp import rpc
 from tinyerp import tools
-from tinyerp.modules.utils import TinyDict
 
 from interface import TinyCompoundWidget
 
@@ -130,7 +129,7 @@ class List(TinyCompoundWidget):
             ctx = rpc.session.context.copy()
             ctx.update(context)
 
-            data = proxy.read(ids, fields, ctx)
+            data = proxy.read(ids, fields.keys(), ctx)
 
             self.ids = ids
 
@@ -152,9 +151,9 @@ class List(TinyCompoundWidget):
 
         @return: an instance of List
         """
-                
+
         headers = []
-                
+
         for node in root.childNodes:
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)                
@@ -167,9 +166,16 @@ class List(TinyCompoundWidget):
                     if kind not in CELLTYPES: 
                         continue
                                         
-                    fields[name].update(attrs)                                    
-
-                    for row in data:
+                    fields[name].update(attrs)
+                    
+                    invisible = fields[name].get('invisible', False)
+                    if isinstance(invisible, basestring):
+                        invisible = eval(invisible)
+                    
+                    if invisible:
+                        continue
+                    
+                    for row in data:                        
                         row[name] = CELLTYPES[kind](attrs=fields[name], value=row[name])
 
                     headers += [(name, fields[name])]
