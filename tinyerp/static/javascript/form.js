@@ -86,11 +86,11 @@ var submit_form = function(action, src, data){
 
     form = $("view_form");
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
-    
+
     if (action == 'action' && $('_terp_list')){
     	var list = new ListView('_terp_list');
     	var boxes = list.getSelected();
-    	
+
     	form._terp_id.value = map(function(b){return b.value}, boxes);
     }
 
@@ -98,24 +98,24 @@ var submit_form = function(action, src, data){
     form.submit();
 }
 
-var submit_search_form = function(action){    
+var submit_search_form = function(action) {
 
 	if ($('search_view_notebook')) {
 
 	    // disable fields of hidden tab
-	
+
 	    var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
 	    var disabled = [];
-	    
+
 	    disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
 	    disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
 	    disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
-	                                                               
+
 	    forEach(disabled, function(fld){
 	        fld.disabled = true;
 	    });
 	}
-    
+
 	submit_form(action ? action : 'find');
 }
 
@@ -141,7 +141,7 @@ var buttonClicked = function(name, btype, model, id, sure){
     params['_terp_button/model'] = model;
     params['_terp_button/id'] = id;
 
-    form = $("view_form");    
+    form = $("view_form");
     form.action = get_form_action('save', params);
     form.submit();
 }
@@ -239,41 +239,41 @@ function getName(name, relation){
 
 function open_search_window(relation, domain, context, source, kind) {
 
-	if ((domain == '' || domain == '[]') && (context == '' || context == '{}')){	
+	if ((domain == '' || domain == '[]') && (context == '' || context == '{}')){
 		return wopen(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind}), 'search_window', 800, 600);
 	}
 
 	var prefix = source.split("/");
     prefix.pop();
 
-	var form = $('view_form');	
+	var form = $('view_form');
 	var params = {'_terp_domain': domain, '_terp_context': context, '_terp_prefix': prefix};
-				
+
     forEach(form.elements, function(e){
 
         if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button') {
-           	
+
            	var n = n = '_terp_parent_form/' + e.name;
-           	var v = e.value;           	
-            
+           	var v = e.value;
+
             params[n] = v;
-            
+
             if (e.attributes['kind']){
-            
+
                 n = '_terp_parent_types/' + e.name;
                 v = e.attributes['kind'].value;
-                
+
                 params[n] = v;
           	}
     	}
-    });	
+    });
 
     var req = Ajax.post('/search/eval_domain_and_context', params);
-    
+
     req.addCallback(function(xmlHttp){
-    	var res = evalJSONRequest(xmlHttp); 
+    	var res = evalJSONRequest(xmlHttp);
 		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search_window', 800, 600);
-    });    
+    });
 }
 
 function openm2o(action, relation, id)
@@ -292,9 +292,9 @@ function openm2o(action, relation, id)
 	else if($(id))
 		id1 = $(id) ? $(id).value : null;
 	act = getURL('/openm2o/edit', {_terp_model: relation, _terp_view_mode: '[form,tree]', _terp_m2o: id, _terp_id: id1});
-	
+
 	wname = wname.replace('.', '_');
-	
+
 	wopen(act, wname, 800, 600);
 }
 
