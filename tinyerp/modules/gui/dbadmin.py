@@ -73,12 +73,12 @@ class DBAdmin(controllers.Controller):
         else:
             try:
                 res = rpc.session.execute_db('create', password, db_name, demo_data, language)
-                time.sleep(5) # wait for some time
+                time.sleep(5) # wait for few seconds
             except Exception, e:
                 message = str(_('Bad database administrator password !') + _("Could not create database."))
 
         if res !=-1:
-            raise redirect("/dbadmin")
+            raise redirect("/")
         else:
             message = str(_('Bad database administrator password !') + _("Could not create database."))
 
