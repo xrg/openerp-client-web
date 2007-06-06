@@ -61,41 +61,17 @@ class Pager(TinyCompoundWidget):
                 
         self.buttons = TinyDict()
                                
-        first = TinyDict()
-        first['class'] = 'button first'
-        first.disabled = 'disabled'
-        
-        if (self.offset > 0):
-            first.disabled = None
-        
-        first['class'] += (first.disabled or '') and ' disabled'
-                                    
-        prev = TinyDict()
-        prev['class'] = 'button prev'
-        prev.disabled = first.disabled
-        
-        prev['class'] += (prev.disabled or '') and ' disabled'
-        
-        next = TinyDict()
-        next['class'] = 'button next'
-        next.disabled = 'disabled'
-        
-        if (self.total == self.limit):
-            next.disabled = None
-            
-        next['class'] += (next.disabled or '') and ' disabled'
+        prev = {'class' : 'pager-button'}
+        next = {'class' : 'pager-button'}
 
-        last = TinyDict()
-        last['class'] = 'button last'
-        last.disabled = next.disabled
-        
-        last['class'] += (last.disabled or '') and ' disabled'
-        
-        self.buttons.first = first
-        self.buttons.prev  = prev
-        self.buttons.next  = next
-        self.buttons.last  = last
-                                      
+        if not (self.offset > 0):
+            prev['class'] += '-disabled'
+
+        if not (self.total == self.limit):
+            next['class'] += '-disabled'
+                
+        self.buttons = dict(prev=prev, next=next)
+                                              
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.list"

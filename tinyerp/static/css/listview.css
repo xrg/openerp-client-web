@@ -30,25 +30,22 @@
 }
 
 .grid .pagerbar {
-	white-space: nowrap;	
+	white-space: nowrap;
+	height:22px;
 }
 
-.grid .pagerbar table {
-	height:22px;
+.grid .pagerbar .pagerbar-cell {
 	background: #f3f3f3;
 	border-bottom: 1px solid #999;	
-}
-
-.grid .pagerbar table td {
 	padding: 2px 4px;
 }
 
-.grid .pagerbar a {
-	color: #333333;
+.grid .pagerbar .pagerbar-links a {
+	color: #333;
 	text-decoration: none;
 }
 
-.grid .pagerbar a:hover {
+.grid .pagerbar .pagerbar-links a:hover {
     text-decoration: none;
 }
 

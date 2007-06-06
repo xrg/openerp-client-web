@@ -1,53 +1,21 @@
-.pager .button {
-	background: transparent;
-	border: none;
-	cursor: pointer;
-	margin: 2px 0px;
-	padding: 0px;
+.pager {
+	vertical-align: middle;
+}
+
+.pager a {
 	font-size: 11px;
-	font-weight: bold;
+	font-weight: bold;	
+	vertical-align: middle;	
 }
 
-.pager .first {
-	background: url("/static/images/pager-first.gif") no-repeat;
-	padding-left: 16px;
+.pager a:hover {
+	text-decoration: none;
 }
 
-.pager .first.disabled {
-	background: url("/static/images/pager-first-off.gif") no-repeat;
-	padding-left: 16px;
+.pager .pager-button {
+	color: #333;
 }
 
-.pager .prev {
-	background: url("/static/images/pager-prev.gif") no-repeat;
-	padding-left: 8px;
-}
-
-.pager .prev.disabled {
-	background: url("/static/images/pager-prev-off.gif") no-repeat;
-	padding-left: 8px;
-}
-
-.pager .last {
-	background: url("/static/images/pager-last.gif") no-repeat;
-	background-position: right;
-	padding-right: 16px;
-}
-
-.pager .last.disabled {
-	background: url("/static/images/pager-last-off.gif") no-repeat;
-	background-position: right;
-	padding-right: 16px;
-}
-
-.pager .next {
-	background: url("/static/images/pager-next.gif") no-repeat;
-	background-position: right;
-	padding-right: 8px;
-}
-
-.pager .next.disabled {
-	background: url("/static/images/pager-next-off.gif") no-repeat;
-	background-position: right;
-	padding-right: 8px;
+.pager .pager-button-disabled {
+	color: #999;
 }

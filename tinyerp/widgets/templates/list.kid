@@ -1,6 +1,6 @@
 <table id="${name}" class="grid" width="100%" cellspacing="0" cellpadding="0" xmlns:py="http://purl.org/kid/ns#">
 	<tr class="pagerbar" py:if="pageable">
-	    <td colspan="${columns}">
+	    <td colspan="${columns}" class="pagerbar-cell">
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
 	                <td align="right" py:content="pager.display()"></td>
@@ -42,10 +42,10 @@
     </tr>
 
 	<tr class="pagerbar" py:if="pageable">
-	    <td colspan="${columns}">
+	    <td colspan="${columns}" class="pagerbar-cell">
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
-					<td>		 
+					<td class="pagerbar-links">		 
 						<a href="#">Import</a> |
 						<a href="#">Export</a>
 					</td>

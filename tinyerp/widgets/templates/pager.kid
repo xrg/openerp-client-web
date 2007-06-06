@@ -1,7 +1,7 @@
 <div class="pager" xmlns:py="http://purl.org/kid/ns#">    
-    <button py:attrs="buttons['first']" type="button" onclick="submit_search_form('first')">First</button>
-    <button py:attrs="buttons['prev']" type="button" onclick="submit_search_form('previous')">Preious</button>
-    <button class="button" type="button" py:strip=""><b>(${offset} to ${offset + total})</b></button>
-    <button py:attrs="buttons['next']" type="button" onclick="submit_search_form('next')">Next</button>
-    <button py:attrs="buttons['last']" type="button" onclick="submit_search_form('last')">Last</button>
+    <a href="javascript: void(0);" py:attrs="buttons['prev']" onclick="submit_search_form('first'); return false;">&lt;&lt; First</a>
+    <a href="javascript: void(0);" py:attrs="buttons['prev']" onclick="submit_search_form('previous'); return false;">&lt; Previous</a>
+    <a href="javascript: void(0);" class="pager-button">(${offset} to ${offset + total})</a>
+    <a href="javascript: void(0);" py:attrs="buttons['next']" onclick="submit_search_form('next'); return false;">Next &gt;</a>
+    <a href="javascript: void(0);" py:attrs="buttons['next']" onclick="submit_search_form('last'); return false;">Last &gt;&gt;</a> 
 </div>
