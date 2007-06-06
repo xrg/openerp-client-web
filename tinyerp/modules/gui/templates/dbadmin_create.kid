@@ -60,7 +60,7 @@
 			                    Load Demonstration data :
 			                </td>
 			                <td>
-			                    <input type="checkbox" name="demo_data" checked="true"/>
+			                    <input type="checkbox" name="demo_data" value="True" checked="checked"/>
 			                </td>
 			            </tr>
 			            <tr>

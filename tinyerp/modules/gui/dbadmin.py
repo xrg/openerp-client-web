@@ -33,6 +33,7 @@ from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
 from turbogears import redirect
+
 import time
 
 import cherrypy
@@ -50,11 +51,15 @@ class DBAdmin(controllers.Controller):
     def index(self):
         return dict()
 
-    @expose(template="tinyerp.modules.gui.templates.dbadmin_create")
+    @expose(template="tinyerp.modules.gui.templates.dbadmin_create")    
     def create(self, password=None, db_name=None, language=[], demo_data=False):
-
+                
+        if demo_data:
+            demo_data = eval(demo_data)
+                                            
         url = rpc.session.get_url()
         url = str(url[:-1])
+        
         langlist = rpc.session.execute_db('list_lang')
         langlist.append(('en_EN','English'))
 
@@ -68,6 +73,7 @@ class DBAdmin(controllers.Controller):
         else:
             try:
                 res = rpc.session.execute_db('create', password, db_name, demo_data, language)
+                time.sleep(5) # wait for some time
             except Exception, e:
                 message = str(_('Bad database administrator password !') + _("Could not create database."))
 
