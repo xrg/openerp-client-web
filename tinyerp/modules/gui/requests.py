@@ -31,6 +31,8 @@ from turbogears import expose
 from turbogears import redirect
 from turbogears import controllers
 
+import cherrypy
+
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
@@ -43,10 +45,12 @@ class Requests(controllers.Controller, TinyResource):
 
         if not rpc.session.is_logged():
             return [],[]
-
-        proxy = rpc.RPCProxy('res.request')
-        ids, ids2 = proxy.request_get()
         
+        ids, ids2 = cherrypy.session.get('terp_requests', (False, False))
+        if ids == False:
+            ids, ids2 = rpc.RPCProxy('res.request').request_get()
+            cherrypy.session['terp_requests'] = (ids, ids2)
+
         msg = "No request"
         if len(ids):
             msg = '%s request(s)' % len(ids)
@@ -59,5 +63,10 @@ class Requests(controllers.Controller, TinyResource):
     @expose()
     def default(self, ids):
         from tinyerp.modules import actions
-        ids = eval(ids)
-        return actions._execute_window(False, 'res.request', res_id=ids, domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
+        #ids = eval(ids)
+        
+        #read requests
+        ids, ids2 = rpc.RPCProxy('res.request').request_get()
+        
+        return actions._execute_window(False, 'res.request', res_id=None, domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
+
