@@ -82,7 +82,10 @@ class SessionStore(object):
             return cherrypy.session.get(name, default)
         except:
             return default
-
+        
+    def clear(self):        
+        cherrypy.session.clear()
+        
 # initialize the rpc session
 rpc.session = rpc.RPCSession(store=SessionStore())
 

@@ -297,16 +297,8 @@ class RPCSession(object):
     def logout(self):
         self.gateway = None
         try:
-            del self.store['open']
-            del self.store['uid']
-            del self.store['user']
-            del self.store['passwd']
-            del self.store['db']
-            del self.store['host']
-            del self.store['port']
-            del self.store['protocol']
-            del self.store['user_name']
-        except:
+            self.store.clear()
+        except Exception, e:
             pass
 
     def is_logged(self):
