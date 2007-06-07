@@ -81,9 +81,7 @@
                     <input type="submit" value="Create"/>
         		</div>
         		
-				<div class="box message" id="message" py:if="message">
-                    ${message}
-        		</div>
+				<div class="box message" id="message" py:if="message" py:content="message"/>
         </form>
 		</div>
     </div>

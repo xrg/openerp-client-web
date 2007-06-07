@@ -48,9 +48,7 @@
 					</div>
 					
 				</form>
-			<div class="box message" id="message" py:if="message">
-				${message}
-			</div>
+			<div class="box message" id="message" py:if="message" py:content="message"/>				
 		</div>
 	</div>
 </body>
