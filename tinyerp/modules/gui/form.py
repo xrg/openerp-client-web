@@ -130,21 +130,26 @@ class Form(controllers.Controller, TinyResource):
 
         if current.view_mode[0] != 'form':
             current.view_mode = ['form', 'tree']
+            
+        if params.ids is None:
+            return self.create(current)
 
         return self.create(params)
 
     @expose()
     def view(self, **kw):
         params, data = TinyDict.split(kw)
+        
+        current = params[params.source or ''] or params
+        
+        if current.model is None:
+            current.model = data.get('model')
+            current.id = data.get('id')
 
-        if params.model is None:
-            params.model = data.get('model')
-            params.id = data.get('id')
+        current.view_mode = ['form', 'tree']
+        current.editable = False
 
-        params.view_mode = ['form', 'tree']
-        params.editable = False
-
-        return self.create(params)
+        return self.create(current)
 
     @expose()
     def cancel(self, **kw):

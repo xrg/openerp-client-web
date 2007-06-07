@@ -209,11 +209,9 @@ class List(TinyCompoundWidget):
             for row in data:
                 cell = row[name]
                 
-                if self.selectable == 3:
-                    cell.link = "/form/view?model=%s&id=%s"%(self.model, row['id'])
-                else:
+                if self.selectable:
                     cell.link = "javascript: void(0)"
-                    cell.onclick = "do_select(%s); return false;"%(row['id'])
+                    cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
 
         return headers, data
 

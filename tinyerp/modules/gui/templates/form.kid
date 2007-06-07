@@ -4,12 +4,25 @@
     <title py:content="form.screen.string">Form Title</title>
     
     <script type="text/javascript">                 
-        function do_select(id){
+        function do_select(id, src){
+        
             form = $('view_form');
-            form.action = '/form/view';
-            form._terp_id.value = id;
-            
-            form.submit();
+          
+            act = get_form_action('view');
+        
+            if (src &amp;&amp; src != '_terp_list') {
+                n = src.replace('.', '/') + '/_terp_id';
+                terp_id = document.getElementsByName(n)[0];
+                terp_id.value = id;
+        
+                act = get_form_action('view', {_terp_source: src});
+        
+            } else {
+                form._terp_id.value = id;
+            }
+        
+            form.action = act;
+            form.submit();            
         }
         
         function toggle_sidebar(element_id, forced) {
