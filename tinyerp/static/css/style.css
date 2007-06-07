@@ -56,6 +56,10 @@ button {
 	font-size: 11px;
 }
 
+button:hover {
+	background: url(/static/images/button_bg2.png) repeat-x left top;
+}
+
 button.inactive {
 	background: #eeeeee;
 	border: solid 1px #888888;
