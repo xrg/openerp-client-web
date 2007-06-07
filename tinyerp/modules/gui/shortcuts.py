@@ -31,6 +31,8 @@ from turbogears import expose
 from turbogears import redirect
 from turbogears import controllers
 
+import cherrypy
+
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
@@ -43,12 +45,16 @@ class Shortcuts(controllers.Controller, TinyResource):
 
         if not rpc.session.is_logged():
             return []
+        
+        sc = cherrypy.session.get('terp_shortcuts', False)
+        if not sc:
+            proxy = rpc.RPCProxy('ir.ui.view_sc')
+            ids = proxy.search([('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu')])
+            sc = proxy.read(ids, ['res_id', 'name'])
+            
+            cherrypy.session['terp_shortcuts'] = sc
 
-        proxy = rpc.RPCProxy('ir.ui.view_sc')
-        res = proxy.search([('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu')])
-        res = proxy.read(res, ['res_id', 'name'])
-
-        return res
+        return sc
 
     @expose()
     def default(self):
@@ -61,8 +67,19 @@ class Shortcuts(controllers.Controller, TinyResource):
     def add(self, id):
         id = int(id)
         proxy = rpc.RPCProxy('ir.ui.view_sc')
-        if not proxy.search([('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu'), ('res_id', '=', id)]):
-            name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
-            proxy.create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
+        
+        sc = cherrypy.session.get('terp_shortcuts', False)
+        
+        if sc:
+            for s in sc:
+                if s['res_id'] == id:
+                    raise redirect('/tree/open', id=id, model='ir.ui.menu')
+
+        name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
+        proxy.create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
+        
+        ids = proxy.search([('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu')])
+        sc = proxy.read(ids, ['res_id', 'name'])
+        cherrypy.session['terp_shortcuts'] = sc
 
         raise redirect('/tree/open', id=id, model='ir.ui.menu')
