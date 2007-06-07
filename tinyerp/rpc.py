@@ -369,7 +369,9 @@ class RPCSession(object):
         if not self.is_logged():
             raise RPCException(1, "not logged!")
 
-        result = self.gateway.execute(obj, method, *args)
+#        print "TERP-CALLING:", obj, method, args
+        result = self.gateway.execute(obj, method, *args)        
+#        print "TERP-RESULT:", result
 
         return self.__convert(result)
 
