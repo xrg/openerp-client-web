@@ -114,6 +114,12 @@ class List(TinyCompoundWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
+        
+        self.colors = {}
+        for color_spec in attrs.get('colors', '').split(';'):
+            if color_spec:
+                colour, test = color_spec.split(':')
+                self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
 
@@ -153,7 +159,8 @@ class List(TinyCompoundWidget):
         """
 
         headers = []
-
+        values  = [row.copy() for row in data]
+                
         for node in root.childNodes:
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)
@@ -175,8 +182,21 @@ class List(TinyCompoundWidget):
                     if invisible:
                         continue
 
-                    for row in data:
-                        row[name] = CELLTYPES[kind](attrs=fields[name], value=row[name])
+                    for i, row in enumerate(data):
+                        
+                        row_value = values[i]
+                                                
+                        cell = CELLTYPES[kind](attrs=fields[name], value=row_value[name])
+
+                        for color, expr in self.colors.items():
+                            try:
+                                if tools.expr_eval(expr, row_value):
+                                    cell.color = color
+                                    break
+                            except:
+                                pass
+
+                        row[name] = cell
 
                     headers += [(name, fields[name])]
 
@@ -200,6 +220,8 @@ class Char(object):
 
         self.text = self.get_text()
         self.link = self.get_link()
+        
+        self.color = None        
         self.onclick = None
 
     def get_text(self):
@@ -207,7 +229,7 @@ class Char(object):
 
     def get_link(self):
         return None
-
+            
     def __str__(self):
         return ustr(self.text)
 

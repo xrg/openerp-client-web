@@ -22,7 +22,7 @@
         <td width="1%" py:if="selectable">
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
-        <td py:for="i, (field, field_attrs) in enumerate(headers)"  class="${field_attrs.get('type', 'char')}">
+        <td py:for="i, (field, field_attrs) in enumerate(headers)"  class="${field_attrs.get('type', 'char')}" style="color: ${row[field].color};" >
             <a py:strip="(show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not row[field].link" href="${row[field].link}" onclick="${row[field].onclick}">${row[field]}</a>             
         </td>
         <td py:if="editable" style="text-align: center; padding: 0px;">
