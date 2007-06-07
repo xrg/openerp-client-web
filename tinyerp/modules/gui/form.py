@@ -55,24 +55,24 @@ class Form(controllers.Controller, TinyResource):
     def create_form(self, params, tg_errors=None):
         if tg_errors:
             return cherrypy.request.terp_form
-        
+
         params.setdefault('offset', 0)
         params.setdefault('limit', 20)
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
-        
-        if cherrypy.request.path.startswith('/tree/open'):
+
+        if cherrypy.request.path.startswith('/form/switch'):
             self.del_notebook_cookies()
-       
+
         return form
 
     @expose(template="tinyerp.modules.gui.templates.form")
     def create(self, params, tg_errors=None):
-        
+
         form = self.create_form(params, tg_errors)
-        
+
         editable = form.screen.editable
-        mode = form.screen.view_mode[0]        
+        mode = form.screen.view_mode[0]
         id = form.screen.id
         ids = form.screen.ids
 
@@ -84,16 +84,16 @@ class Form(controllers.Controller, TinyResource):
         buttons.cancel = editable and id and mode == 'form'
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  not editable and mode == 'form'
-        
+
         buttons.search = 'tree' in params.view_mode and mode != 'tree'
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
-        
+
         pager = None
         if buttons.pager:
             total = len(ids or (id or []) and [id])
             pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, total=total)
-                                
+
         return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
@@ -155,11 +155,11 @@ class Form(controllers.Controller, TinyResource):
 
     def get_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
-        
+
         # bypass validations, if saving from button in non-editable view
         if params.button and not params.editable and params.id:
             return None
-        
+
         cherrypy.request.terp_validators = {}
         params.nodefault = True
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
@@ -184,16 +184,16 @@ class Form(controllers.Controller, TinyResource):
 
         @return: form view
         """
-        params, data = TinyDict.split(kw)                
-                        
+        params, data = TinyDict.split(kw)
+
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
-                
+
         # bypass save, for button action in non-editable view
         if not (params.button and not params.editable and params.id):
 
             proxy = rpc.RPCProxy(params.model)
-    
+
             if not params.id:
                 id = proxy.create(data, params.context)
                 params.ids = (params.ids or []) + [int(id)]
@@ -340,7 +340,7 @@ class Form(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
 
         domain = params.domain
-        
+
         if params.search_domain is not None:
             domain = params.search_domain
             data = params.search_data
@@ -351,17 +351,17 @@ class Form(controllers.Controller, TinyResource):
         params.id = (params.ids or False) and params.ids[0]
 
         return self.create(params)
-    
+
     @expose()
     def find(self, **kw):
         kw['_terp_offset'] = None
         kw['_terp_limit'] = None
-        
+
         kw['_terp_search_domain'] = None
         kw['_terp_search_data'] = None
 
         return self.filter(**kw)
-    
+
     @expose()
     def first(self, **kw):
         params, data = TinyDict.split(kw)
