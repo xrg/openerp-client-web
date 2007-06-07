@@ -150,6 +150,9 @@ class Form(controllers.Controller, TinyResource):
     def cancel(self, **kw):
         params, data = TinyDict.split(kw)
         
+        if not params.id and params.ids:
+            params.id = params.ids[0]
+
         if params.editable:
             params.editable = False
         else:
