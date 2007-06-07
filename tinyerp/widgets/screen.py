@@ -114,7 +114,7 @@ class Screen(TinyCompoundWidget):
         else:
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
-            view = cache.get_view(self.model, view_id, view_type, ctx, self.hastoolbar)
+            view = cache.fields_view_get(self.model, view_id, view_type, ctx, self.hastoolbar)
 
         self.add_view(view, view_type)
 

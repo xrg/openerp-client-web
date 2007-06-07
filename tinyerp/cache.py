@@ -58,8 +58,12 @@ def memoize(function, limit=None):
 
 class CacheManager(object):
 
-    @memoize(500)
-    def get_view(self, model, view_id, view_type, context, hastoolbar=False):
+    @memoize(100)
+    def fields_view_get(self, model, view_id, view_type, context, hastoolbar=False):
         return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
-
+    
+    @memoize(100)
+    def fields_get(self, model, fields, context):
+        return rpc.RPCProxy(model).fields_get(fields, context)
+    
 cache = CacheManager()

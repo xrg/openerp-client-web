@@ -33,6 +33,7 @@ import cherrypy
 
 from tinyerp import rpc
 from tinyerp import tools
+from tinyerp.cache import cache
 
 import treegrid
 
@@ -62,7 +63,7 @@ class ViewTree(tg.widgets.Form):
         ctx = context;
         ctx.update(rpc.session.context)
 
-        fields = proxy.fields_get(False, ctx)
+        fields = cache.fields_get(self.model, False, ctx)
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
 
         root = dom.childNodes[0]
@@ -75,7 +76,7 @@ class ViewTree(tg.widgets.Form):
 
         if self.toolbar:
             ids = proxy.search(self.domain2)
-            self.toolbar = rpc.session.execute('object', 'execute', self.model, 'read', ids, ['name', 'icon'], ctx)
+            self.toolbar = proxy.read(ids, ['name', 'icon'], ctx)
 
             id = res_id or ids[0]
             ids = proxy.read([id], [self.field_parent])[0][self.field_parent]

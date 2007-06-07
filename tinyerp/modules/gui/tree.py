@@ -68,9 +68,9 @@ class Tree(controllers.Controller, TinyResource):
         if view_id:
             view_base =  rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
             model = view_base['model']
-            view = cache.get_view(model, view_id, view_base['type'], context)
+            view = cache.fields_view_get(model, view_id, view_base['type'], context)
         else:
-            view = cache.get_view(model, False, 'tree', context)
+            view = cache.fields_view_get(model, False, 'tree', context)
 
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context)
         if tree.toolbar:
@@ -117,7 +117,7 @@ class Tree(controllers.Controller, TinyResource):
         ctx = {}
         ctx.update(rpc.session.context.copy())
 
-        fields_info = proxy.fields_get(fields, ctx)
+        fields_info = cache.fields_get(model, fields, ctx)
         result = proxy.read(ids, fields, ctx)
 
         # formate the data

@@ -105,7 +105,7 @@ class Search(TinyCompoundWidget):
         self.context       = context
 
         ctx = rpc.session.context.copy()
-        self.view = cache.get_view(self.model, {}, 'form', ctx, False)
+        self.view = cache.fields_view_get(self.model, {}, 'form', ctx, False)
 
         fields = self.view['fields']
 
