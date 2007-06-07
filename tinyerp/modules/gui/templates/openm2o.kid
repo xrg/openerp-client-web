@@ -53,11 +53,8 @@
                 </table>
             </td>
         </tr>
-		 <tr>
-            <td>${form.display()}
-
-            </td>
-
+		<tr>
+            <td py:content="form.display()">Form View</td>
         </tr>
         <tr>
             <td>

@@ -7,15 +7,13 @@
 
 <div class="view">
     <div class="header">
-        <div class="title">${screen.string}</div>
+        <div class="title" py:content="screen.string"/>
         <div class="spacer"></div>
     </div>
     
 		<form action="/pref/ok" method="post">    		
 		    <input type="hidden" name="_terp_default" value="${ustr(defaults)}"/>
-		    <div class="box">
-		        ${screen.display()}
-		    </div>			
+		    <div class="box" py:content="screen.display()">Screen View</div>			
 		    <div class="spacer"></div>    
 		    <div class="box">
 		        <table width="100%">
@@ -25,10 +23,7 @@
 		            </td>
 		        </table>
 		    </div>
-
-		</form>				
-	
+		</form>			
 </div>
-
 </body>
 </html>

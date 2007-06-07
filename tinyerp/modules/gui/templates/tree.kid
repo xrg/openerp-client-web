@@ -66,9 +66,7 @@
                     </tbody>
                 </table>
             </td>
-            <td valign="top">
-                ${tree.display()}
-            </td>
+            <td valign="top" py:content="tree.display()">Tree View</td>
         </tr>
     </table>
 
