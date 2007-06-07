@@ -23,7 +23,8 @@
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
         <td py:for="i, (field, field_attrs) in enumerate(headers)">
-            <a py:strip="(show_links &lt; 0 or (i > 0 and show_links==0)) or not row[field].link" href="${row[field].link}" onclick="${row[field].onclick}">${row[field]}</a>
+            <a py:strip="(show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not row[field].link" href="${row[field].link}" onclick="${row[field].onclick}">${row[field]}</a>             
+            <span py:if="not row[field].text">&nbsp;</span>
         </td>
         <td py:if="editable" style="text-align: center; padding: 0px;">
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>

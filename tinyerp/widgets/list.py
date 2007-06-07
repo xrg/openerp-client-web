@@ -39,23 +39,23 @@ from tinyerp import tools
 from interface import TinyCompoundWidget
 
 class Pager(TinyCompoundWidget):
-    
+
     template = "tinyerp.widgets.templates.pager"
     params = ['offset', 'limit', 'count', 'total', 'prev', 'next']
-    
+
     css = [widgets.CSSLink('tinyerp', 'css/pager.css')]
-    
+
     offset = 0
     limit = 20
     count = -1
     total = -1
-            
+
     def __init__(self, offset=0, limit=20, count=128, total=-1):
         super(Pager, self).__init__()
-        
+
         self.limit = limit
         self.offset = offset
-        self.count = count        
+        self.count = count
         self.total = total
 
         self.prev = self.offset > 0
@@ -66,7 +66,7 @@ class List(TinyCompoundWidget):
     template = "tinyerp.widgets.templates.list"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links']
     member_widgets = ['pager']
-    
+
     pager = None
 
     data = None
@@ -78,7 +78,7 @@ class List(TinyCompoundWidget):
     pageable = False
     show_links = 1
     source = None
-            
+
     css = [widgets.CSSLink('tinyerp', 'css/listview.css')]
     javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
 
@@ -95,14 +95,14 @@ class List(TinyCompoundWidget):
 
         if name != '_terp_list':
             self.source = self.name.replace('/', '.') or None
-            
+
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-        
+
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
-        
+
         self.selector = 'checkbox'
 
         if self.selectable == 1:
@@ -114,9 +114,9 @@ class List(TinyCompoundWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
-        
+
         proxy = rpc.RPCProxy(model)
-        
+
         if ids == None:
             if self.limit > 0:
                 ids = proxy.search(domain, self.offset, self.limit)
@@ -125,7 +125,7 @@ class List(TinyCompoundWidget):
 
         data = []
         if len(ids) > 0:
-               
+
             ctx = rpc.session.context.copy()
             ctx.update(context)
 
@@ -134,15 +134,15 @@ class List(TinyCompoundWidget):
             self.ids = ids
 
         self.headers, self.data = self.parse(root, fields, data)
-        
-        self.columns = len(self.headers) 
-        
+
+        self.columns = len(self.headers)
+
         self.columns += (self.selectable or 0) and 1
-        self.columns += (self.editable or 0) and 2      
-        
+        self.columns += (self.editable or 0) and 2
+
         if self.pageable:
             self.pager = Pager(offset=self.offset, limit=self.limit, total=len(self.ids or []))
-            
+
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
 
@@ -156,30 +156,30 @@ class List(TinyCompoundWidget):
 
         for node in root.childNodes:
             if node.nodeName=='field':
-                attrs = tools.node_attributes(node)                
-                                
+                attrs = tools.node_attributes(node)
+
                 if 'name' in attrs:
-                    
+
                     name = attrs['name']
-                    kind = fields[name]['type']                    
-                   
-                    if kind not in CELLTYPES: 
+                    kind = fields[name]['type']
+
+                    if kind not in CELLTYPES:
                         continue
-                                        
+
                     fields[name].update(attrs)
-                    
+
                     invisible = fields[name].get('invisible', False)
                     if isinstance(invisible, basestring):
                         invisible = eval(invisible)
-                    
+
                     if invisible:
                         continue
-                    
-                    for row in data:                        
+
+                    for row in data:
                         row[name] = CELLTYPES[kind](attrs=fields[name], value=row[name])
 
                     headers += [(name, fields[name])]
-        
+
         # generate do_select links
         if self.selectable:
             name, field = headers[0]
@@ -187,41 +187,41 @@ class List(TinyCompoundWidget):
                 cell = row[name]
                 cell.link = "javascript: void(0)"
                 cell.onclick = "do_select(%s); return false;"%(row['id'])
-                
-        return headers, data    
+
+        return headers, data
 
 from tinyerp.stdvars import tg_query
 
 class Char(object):
 
     def __init__(self, attrs={}, value=False):
-        self.attrs = attrs        
+        self.attrs = attrs
         self.value = value
 
         self.text = self.get_text()
         self.link = self.get_link()
         self.onclick = None
-           
+
     def get_text(self):
         return self.value or ''
-    
+
     def get_link(self):
         return None
-    
+
     def __str__(self):
         return ustr(self.text)
-                
+
 class M2O(Char):
 
     def get_text(self):
         if self.value and len(self.value) > 0:
             return self.value[-1]
-        
+
         return ''
-    
+
     def get_link(self):
         return tg_query('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
-    
+
 class Date(Char):
 
     server_format = '%Y-%m-%d'
@@ -243,7 +243,7 @@ class M2M(Char):
 
     def get_text(self):
         return "(%d)" % len(self.value)
-    
+
 class Selection(Char):
 
     def get_text(self):
