@@ -1,20 +1,21 @@
 .grid {
-    border: none;
+    border: none;    
 	border-top: 1px solid #999;
+    border-collapse: collapse;	
 }
 
 .grid .header td,
 .grid .row td {
     padding: 2px 4px;
     border: none;
+    border: 1px solid #E3E3E3;
 }
 
 .grid .header td {
 	height:22px;
-	text-align: left;
-	background:url(/static/images/gradientlinebg.gif);
-	border-bottom: 1px solid #999;
+	background:url(/static/images/gradientlinebg.gif);	
 	font-weight: bold;
+	border-top: none;
 }
 
 .grid .row {
@@ -25,8 +26,9 @@
     background-color: #f9f9f9;
 }
 
-.grid .row td {
-    border-bottom: 1px solid #E3E3E3;
+.grid .float,
+.grid .integer {
+    text-align: right;
 }
 
 .grid .pagerbar {
