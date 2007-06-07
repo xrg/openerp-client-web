@@ -36,8 +36,9 @@ import xml.dom.minidom
 import cherrypy
 import turbogears as tg
 
-from tinyerp import tools
 from tinyerp import rpc
+from tinyerp import tools
+from tinyerp.cache import cache
 
 from tinyerp.widgets.interface import TinyField
 from tinyerp.widgets.interface import TinyInputWidget
@@ -103,11 +104,9 @@ class Search(TinyCompoundWidget):
         self.domain        = domain
         self.context       = context
 
-        proxy = rpc.RPCProxy(self.model)
-
         ctx = rpc.session.context.copy()
-        self.view = proxy.fields_view_get({}, 'form', ctx)
-        
+        self.view = cache.get_view(self.model, {}, 'form', ctx, False)
+
         fields = self.view['fields']
 
         dom = xml.dom.minidom.parseString(self.view['arch'].encode('utf-8'))

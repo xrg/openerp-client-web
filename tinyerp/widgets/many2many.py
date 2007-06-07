@@ -34,6 +34,7 @@ from form import Form
 from list import List
 
 from tinyerp import rpc
+from tinyerp.cache import cache
 
 import validators as tiny_validators
 
@@ -66,12 +67,9 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         self.ids = attrs['value'] or []
 
         if not self.view:
-            proxy = rpc.RPCProxy(self.relation)
-
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
-
-            self.view = proxy.fields_view_get({}, 'tree', ctx)
+            self.view = cache.get_view(self.relation, {}, 'tree', ctx, False)
 
         self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, context=self.context, selectable=(self.editable or 0) and 2, pageable=False)
         self.list_view.show_links = -1

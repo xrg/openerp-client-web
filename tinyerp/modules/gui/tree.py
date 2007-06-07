@@ -43,6 +43,7 @@ from tinyerp import rpc
 from tinyerp import icons
 from tinyerp import tools
 from tinyerp import common
+from tinyerp.cache import cache
 
 from tinyerp.tinyres import TinyResource
 from tinyerp.widgets import tree_view
@@ -67,11 +68,9 @@ class Tree(controllers.Controller, TinyResource):
         if view_id:
             view_base =  rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
             model = view_base['model']
-            proxy = rpc.RPCProxy(model)
-            view = proxy.fields_view_get(view_id, view_base['type'], context)
+            view = cache.get_view(model, view_id, view_base['type'], context)
         else:
-            proxy = rpc.RPCProxy(model)
-            view = proxy.fields_view_get(False, 'tree', context)
+            view = cache.get_view(model, False, 'tree', context)
 
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context)
         if tree.toolbar:

@@ -32,6 +32,7 @@ import cherrypy
 
 from tinyerp import tools
 from tinyerp import rpc
+from tinyerp.cache import cache
 
 from interface import TinyCompoundWidget
 
@@ -111,12 +112,9 @@ class Screen(TinyCompoundWidget):
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:
-            proxy = rpc.RPCProxy(self.model)
-
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
-            
-            view = proxy.fields_view_get(view_id, view_type, ctx, self.hastoolbar)
+            view = cache.get_view(self.model, view_id, view_type, ctx, self.hastoolbar)
 
         self.add_view(view, view_type)
 
