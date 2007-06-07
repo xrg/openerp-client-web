@@ -10,7 +10,7 @@
 	</tr>
 
     <tr class="header">
-        <td width="1%" py:if="selectable">
+        <td width="1%" py:if="selector">
             <input type="checkbox" class="checkbox" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
         </td>
         <td py:for="(field, field_attrs) in headers" py:content="field_attrs['string']" class="${field_attrs.get('type', 'char')}">Title</td>
@@ -19,7 +19,7 @@
     </tr>
 
     <tr py:for="i, row in enumerate(data)" class="row">
-        <td width="1%" py:if="selectable">
+        <td width="1%" py:if="selector">
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
         <td py:for="i, (field, field_attrs) in enumerate(headers)"  class="${field_attrs.get('type', 'char')}" style="color: ${row[field].color};" >
@@ -35,7 +35,7 @@
     </tr>
     
     <tr py:for="i in range(0, 4 - len(data))" class="row">
-        <td width="1%" py:if="selectable">&nbsp;</td>
+        <td width="1%" py:if="selector">&nbsp;</td>
         <td py:for="i, (field, field_attrs) in enumerate(headers)">&nbsp;</td>
         <td py:if="editable" style="text-align: center">&nbsp;</td>
         <td py:if="editable" style="text-align: center">&nbsp;</td>        

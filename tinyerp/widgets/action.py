@@ -107,7 +107,7 @@ class Action(TinyCompoundWidget):
                 #params.offset = 0
                 #params.limit = 20
 
-                self.screen = screen.Screen(params, prefix=self.name)
+                self.screen = screen.Screen(params, prefix=self.name, editable=True, selectable=3)
                 
                 if self.screen.view_mode[0] == 'tree':
                     self.screen.widget.pageable = False

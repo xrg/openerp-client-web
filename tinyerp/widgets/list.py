@@ -60,7 +60,7 @@ class Pager(TinyCompoundWidget):
 
         self.prev = self.offset > 0
         self.next = self.total == self.limit
-
+        
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.list"
@@ -103,10 +103,13 @@ class List(TinyCompoundWidget):
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
 
-        self.selector = 'checkbox'
-
+        self.selector = None
+                        
         if self.selectable == 1:
             self.selector = 'radio'
+            
+        if self.selectable == 2:
+            self.selector = 'checkbox'
 
         fields = view['fields']
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
@@ -205,8 +208,12 @@ class List(TinyCompoundWidget):
             name, field = headers[0]
             for row in data:
                 cell = row[name]
-                cell.link = "javascript: void(0)"
-                cell.onclick = "do_select(%s); return false;"%(row['id'])
+                
+                if self.selectable == 3:
+                    cell.link = "/form/view?model=%s&id=%s"%(self.model, row['id'])
+                else:
+                    cell.link = "javascript: void(0)"
+                    cell.onclick = "do_select(%s); return false;"%(row['id'])
 
         return headers, data
 
