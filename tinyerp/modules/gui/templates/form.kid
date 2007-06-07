@@ -68,10 +68,10 @@
                                     <tr>
                                         <td>
                                             <button type="button" title="Create a new resource" py:if="buttons.new" onclick="submit_form('new')">New</button>
-                                            <button type="button" title="Edit current record" py:if="buttons.edit" onclick="submit_form('edit')">Edit</button>
-                                            <button type="button" title="Edit/Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>
-                                            <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
+                                            <button type="button" title="Edit this resource" py:if="buttons.edit" onclick="submit_form('edit')">Edit</button>
+                                            <button type="button" title="Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>                                            
                                             <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
+                                            <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
                                         </td>
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager" py:content="pager.display()"></td>
                                     </tr>
