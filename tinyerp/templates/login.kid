@@ -19,9 +19,7 @@
 	    		<table align="center" width="100%" cellspacing="5px">
 			        <tr>
 			            <td class="label">Host :</td>
-			            <td width="100%">
-			                ${url} 
-			            </td>
+			            <td width="100%" py:content="url"/>
 			        </tr>
 			        <tr>
 						<td class="label">Database :</td>
@@ -54,9 +52,7 @@
 			</form>
 		</div>
 
-		<div class="box message" id="message" py:if="message">
-		    ${message}
-        </div>
+		<div class="box message" id="message" py:if="message" py:content="message"/>
     </div>
 </body>
 

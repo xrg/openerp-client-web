@@ -52,7 +52,6 @@ class Reference(TinyField):
         self.context = {}
         self.validator = tiny_validators.Reference()
 
-
     def set_value(self, value):
         if value:
             self.ref, self.default = value.split(",")
