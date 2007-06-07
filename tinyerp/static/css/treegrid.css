@@ -1,6 +1,6 @@
 table.tree-grid {
     background-color:#E3E3E3;
-    border: none;
+    border-collapse: collapse;
     width:100%;
 }
 
@@ -9,11 +9,12 @@ table.tree-grid td {
     text-align: left;
     padding: 2px 5px;
     white-space: nowrap;
-    border: none;
+    border: 1px solid #E3E3E3;
 }
 
 table.tree-grid .tree-field td {
     padding: 0 2px;
+    border: none;
 }
 
 table.tree-grid .header th {
