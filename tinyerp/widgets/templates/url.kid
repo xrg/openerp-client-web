@@ -5,7 +5,10 @@
         
         if(site.indexOf("://")== -1)
             web_site='http://'+site;
-        window.open(web_site);
+    
+        if(site.length > 0) {
+            window.open(web_site); 
+        }
     }
       
     </script>
