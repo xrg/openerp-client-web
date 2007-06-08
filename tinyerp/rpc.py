@@ -282,7 +282,7 @@ class RPCSession(object):
         else:
             raise "Unsupported protocol:", protocol
 
-        res = gw.login(db, user, passwd)
+        res = gw.login(db, user or '', passwd or '')
 
         if res != 1: return res
 
