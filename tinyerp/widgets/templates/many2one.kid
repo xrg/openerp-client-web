@@ -17,7 +17,7 @@
             <td width="1px"><div class="spacer"/></td>
     
             <td width="45px">
-                <button type="button" py:attrs="attrs"
+                <button type="button" disabled="${tg.selector(attrs.get('disabled') and not value)}"
                     domain="${ustr(domain)}" context="${ustr(context)}"
                     onclick="if($('${name}').value) openm2o('edit', '${relation}', '${name}'); else open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 1);">
                     Select
