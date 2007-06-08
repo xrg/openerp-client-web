@@ -55,6 +55,9 @@ class Shortcuts(controllers.Controller, TinyResource):
             cherrypy.session['terp_shortcuts'] = sc
 
         return sc
+    
+    def can_create(self):
+        return rpc.session.is_logged() and cherrypy.request.path == '/tree/open' and cherrypy.request.params.get('model') == 'ir.ui.menu'
 
     @expose()
     def default(self):

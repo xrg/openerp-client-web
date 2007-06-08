@@ -106,7 +106,7 @@ requests, requests_message = tg.root.requests.my()
                                     &nbsp;
 								</td>
 								<td align="right">
-									<a  py:if="rpc.session.is_logged() and rpc.session.active_id" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
+									<a  py:if="tg.root.shortcuts.can_create()" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
 								</td>
 							</tr>
 						</table>
