@@ -87,6 +87,7 @@ class Wizard(controllers.Controller, TinyResource):
 
             if res['type']=='form':
                 form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+
                 res['datas'].update(datas['form'])
                 form.screen.add_view(res)
 
@@ -105,14 +106,11 @@ class Wizard(controllers.Controller, TinyResource):
 
             elif res['type']=='action':
                 from tinyerp.modules import actions
-
-                dmodel = datas['model']
-                did = datas['id']
-
-                if res['action']:
-                    return actions._execute(res['action'], **datas)
-                else:
-                    raise redirect('/tree/open?model=%s&id=%s'%(dmodel,did))
+                act_res = actions._execute(res['action'], **datas)
+                if act_res:
+                    return act_res
+                
+                state = res['state']
 
             elif res['type']=='print':
                 from tinyerp.modules import actions
@@ -174,5 +172,5 @@ class Wizard(controllers.Controller, TinyResource):
     def action(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
-
+        
         return self.create(params, tg_errors=tg_errors)
