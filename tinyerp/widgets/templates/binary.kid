@@ -4,9 +4,11 @@
             <td>
                 <input type="file" py:attrs="attrs" id="${name}" name="${name}" py:if="text is None"/>${text}
             </td>
-            <td py:if="text is not None">                
+            <td py:if="text is not None" width="250px">                
                 <button type="submit" py:attrs="attrs" onclick="submit_form('save_binary?field_search=${name}')">Save As</button>
-    		    <button type="submit" onclick="submit_form('clear_binary?field_search=${name}')">Clear</button>
+            </td>
+            <td py:if="text is not None" width="250px">    
+                <button type="submit" onclick="submit_form('clear_binary?field_search=${name}')">Clear</button>
 	        </td>
         </tr>
      </table>		          

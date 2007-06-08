@@ -108,6 +108,9 @@ class Binary(tg.validators.FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
+        if isinstance(value, basestring):
+            return value
+
         return value.file.read()
 
 class Url(tg.validators.URL):

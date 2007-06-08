@@ -5,7 +5,7 @@
 
     <script type="text/javascript">
 
-        function submit_search_form(action){                    
+        function submit_search_form(action){   
             form = $('search_form');
             form.action = action;
             

@@ -164,19 +164,21 @@ def _execute(action, **data):
     """
 
     if 'type' not in action:
-        res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
+        res = rpc.session.execute('/object', 'execute', 'ir.actions.actions', 'read', act_id, ['type'], rpc.session.context)
+
 
     if action['type']=='ir.actions.act_window':
+
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
             data[key] = action.get(key, data.get(key, None))
-            
+
         view_ids=False
         if action.get('views', []):
             view_ids=[x[0] for x in action['views']]
             data['view_mode']=",".join([x[1] for x in action['views']])
         elif action.get('view_id', False):
             view_ids=[action['view_id'][0]]
-            
+
         if not action.get('domain', False):
             action['domain']='[]'
 
@@ -205,8 +207,10 @@ def _execute(action, **data):
         return res
 
     elif action['type']=='ir.actions.wizard':
+
         if 'window' in data:
             del data['window']
+
         return _execute_wizard(action['wiz_name'], **data)
 
     elif action['type']=='ir.actions.report.custom':
@@ -217,6 +221,7 @@ def _execute(action, **data):
         return _execute_report(action['report_name'], **data)
 
 def execute_by_id(act_id, type=None, **data):
+
     """Perforns the given action of type `type` with the provided data.
 
     @param act_id: the action id
@@ -225,9 +230,9 @@ def execute_by_id(act_id, type=None, **data):
 
     @return: JSON object or XHTML code
     """
-
     if type==None:
         res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
+
         if not len(res):
             raise 'ActionNotFound'
         type=res[0]['type']
@@ -245,6 +250,7 @@ def execute_by_keyword(keyword, adds={}, **data):
     """
 
     actions = None
+
     if 'id' in data:
         try:
             id = data.get('id', False)
@@ -265,6 +271,7 @@ def execute_by_keyword(keyword, adds={}, **data):
 
     if len(keyact) == 1:
         key = keyact.keys()[0]
+
         return _execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)

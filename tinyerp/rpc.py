@@ -211,6 +211,9 @@ class NETRPCGateway(RPCGateway):
             res = sock.myreceive()
             sock.disconnect()
             return res
+        except Exception, e:
+            print "============================ fault string....", e.faultString
+
         except socket.error, (e1, e2):
             common.error('Connection refused !', e1, e2)
         except xmlrpclib.Fault, err:
@@ -362,7 +365,7 @@ class RPCSession(object):
             raise RPCException(1, "not logged!")
 
 #        print "TERP-CALLING:", obj, method, args
-        result = self.gateway.execute(obj, method, *args)        
+        result = self.gateway.execute(obj, method, *args)
 #        print "TERP-RESULT:", result
 
         return self.__convert(result)
