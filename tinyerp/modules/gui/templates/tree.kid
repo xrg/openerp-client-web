@@ -33,7 +33,7 @@
                         <button type="button" title="Print documents" onclick="submit_form('report')">Print</button>
                     </td>
                     <td align="center" valign="middle" width="16">
-                        <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/help.png" width="16" height="16"/></a>
+                        <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/gtk-help_16x16.png" width="16" height="16"/></a>
                     </td>                    
                 </tr>
             </table>
