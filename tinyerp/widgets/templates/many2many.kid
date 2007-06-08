@@ -5,12 +5,11 @@
                 <tr>
                     <td>
 			        	<script type="text/javascript">
-			                function ${name.replace('/', '_')}_changed(relation, listview, e, name)
-			                {
-			
-			                    req = doSimpleXMLHttpRequest(getURL('/many2many/get_list', {model: relation, ids : e.value, list_id : name}));
-			                    req.addCallback(function(xmlHttp)
-			                    {
+			                function ${name.replace('/', '_')}_changed(relation, listview, e, name) {
+
+			                    req = Ajax.get('/search/get_list', {model: relation, ids : e.value, list_id : name});
+                                
+			                    req.addCallback(function(xmlHttp){
 			                        res = xmlHttp.responseText;
 			                        $(listview).innerHTML = res;
 			                        new ListView(name).checkAll();
