@@ -186,7 +186,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_form)
-    def save(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
+    def save(self, terp_save_only=False, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         """Controller method to save/button actions...
 
         @param tg_errors: TG special arg, used durring validation
@@ -232,6 +232,9 @@ class Form(controllers.Controller, TinyResource):
                 current.view_mode = ['form', 'tree']
         else:
             params.editable = False
+
+        if terp_save_only:
+            return dict(params=params, data=data)
 
         return self.create(params)
 
@@ -414,6 +417,11 @@ class Form(controllers.Controller, TinyResource):
         idx = -1
 
         if current.id:
+
+            # save current record
+            if params.editable:
+                self.save(terp_save_only=True, **kw)
+
             idx = current.ids.index(current.id)
             idx = idx-1
 
@@ -454,6 +462,11 @@ class Form(controllers.Controller, TinyResource):
         idx = 0
 
         if current.id:
+            
+            # save current record
+            if params.editable:
+                self.save(terp_save_only=True, **kw)
+
             idx = current.ids.index(current.id)
             idx = idx + 1
 
@@ -477,7 +490,11 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         # select the right params field (if one2many toolbar button)
-        current = params[params.source or ''] or params
+        current = params[params.source or ''] or params                
+
+        # save current record (O2M)
+        if params.source and params.editable and current.view_mode[0] == 'form':
+            self.save(terp_save_only=True, **kw)
 
         # switch the view mode
         current.view_mode.reverse()
