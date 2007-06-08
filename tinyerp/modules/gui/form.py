@@ -93,6 +93,14 @@ class Form(controllers.Controller, TinyResource):
         if buttons.pager:
             total = len(ids or (id or []) and [id])
             pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, total=total)
+            
+            idx = 0
+            try:
+                idx = ids.index(id)
+            except:
+                pass
+                        
+            pager.page_info = "[ Record %d of (%d to %d) ]"%(idx+1, pager.offset, pager.offset + pager.total)
 
         return dict(form=form, pager=pager, buttons=buttons)
 
