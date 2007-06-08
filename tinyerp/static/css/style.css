@@ -200,6 +200,25 @@ div.box2 {
 	margin-bottom: 10px;
 }
 
+td.errorbox {
+	padding: 10px;
+	white-space: nowrap;
+	margin-left: auto;
+	margin-right: auto;
+    margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #F6F6F6;
+	border-top: 1px solid #999999;
+	border-bottom: 1px solid #999999;
+}
+
+td.welcome {
+	text-align: center;
+	color: #990033;
+	font-size: 16px;
+	font-weight: bold;
+}
+
 div.message {
 	background-color: red;
 	color: white;
@@ -209,7 +228,7 @@ div.message {
 
 div.welcome {
 	text-align: center;
-	color: #990033;
+        color: #990033;
 	font-size: 16px;
 	font-weight: bold;
 }
