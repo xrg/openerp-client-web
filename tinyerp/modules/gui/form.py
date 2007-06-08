@@ -81,7 +81,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
-        buttons.cancel = mode == 'form'
+        buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  not editable and mode == 'form'
 
