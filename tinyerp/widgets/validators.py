@@ -30,7 +30,7 @@
 """
 This module defines validators.
 """
-
+import cgi
 import turbogears as tg
 
 class String(tg.validators.String):
@@ -108,11 +108,14 @@ class Binary(tg.validators.FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
-        if isinstance(value, basestring):
-            return value
-
-        return value.file.read()
-
+        if isinstance(value, cgi.FieldStorage):
+            if value.filename:
+                return value.file.read()
+            elif self.not_empty:
+                raise tg.validators.Invalid('Please select a file...', value, state)
+                
+        return self.if_empty
+    
 class Url(tg.validators.URL):
     if_empty = False
 
