@@ -80,10 +80,11 @@ table.header {
 table.menu_connection {
 	padding: 0px;
 	border: 0px;
+	height: 25px;
 }
 
 table.menu_connection td.menu_connection_welcome {
-	background: #333333;
+	background: #363636;
 	padding-left: 10px;
 	padding-right: 18px;
 	color: white;
@@ -119,7 +120,7 @@ table.menu_connection a:hover {
 }
 
 #menu_header_shortcuts {
-	background: #333333;
+	background: #363636;
 	text-align: center;
 	padding-left: 10px;
 	padding-right: 0px;
@@ -230,7 +231,7 @@ div.welcome {
 	text-align: center;
         color: #990033;
 	font-size: 16px;
-	font-weight: bold;
+	font-weight: bold;position
 }
 
 /* view style */
@@ -247,7 +248,7 @@ div.welcome {
 	font-size: 16px;
 	font-weight: bold;
 	color: #950000;
-	border-bottom: 1px solid #333333;
+	border-bottom: 1px solid #363636;
 	margin-bottom: 4px;
 }
 

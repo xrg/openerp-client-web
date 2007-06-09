@@ -57,7 +57,7 @@ requests, requests_message = tg.root.requests.my()
 					<td align="right" valign="top">
 						<table class="menu_connection" cellpadding="0" cellspacing="0">
 							<tr>
-								<td><img src="/static/images/corner.gif" alt="\"/></td>
+								<td width="35" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap"/>
 								<td class="menu_connection_welcome"><span>Welcome ${rpc.session.user_name or 'guest'}</span></td>
 								<td class="menu_connection_links">
 									<a href="/">Home</a>
@@ -87,7 +87,7 @@ requests, requests_message = tg.root.requests.my()
 								<td width="90" id="menu_header_shortcuts" nowrap="nowrap">
 									<a href="/shortcuts">SHORTCUTS</a>
 								</td>
-								<td width="35" style="background: url(/static/images/head_diagonal.png) no-repeat;" nowrap="nowrap"/>
+								<td width="35" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
 								<td py:if="rpc.session.is_logged()" nowrap="nowrap">								
 								    <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
