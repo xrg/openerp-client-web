@@ -17,11 +17,11 @@
 			                }
 			            </script>
 			            <input type="hidden" kind="${kind}" id='${list_view.name}_id' value="" onchange="${onchange};${name.replace('/', '_')}_changed('${relation}', '${list_view.name}_container', this, '${list_view.name}');" py:attrs='attrs' callback="${callback}"/>
-			            <input type="text" class="${field_class}" readonly="0" id='${list_view.name}_set' onchange="new ListView('${list_view.name}').checkAll();" py:attrs='attrs' />
+			            <input type="text" class="${field_class}" readonly="0" id='${list_view.name}_set' onchange="new ListView('${list_view.name}').checkAll();" py:attrs='attrs' style="width: 100%;"/>
 			            <span class="fielderror" py:if="error" py:content="error"/>                    
                     </td>
 			        <td width="2px"><div class="spacer"/></td>
-			        <td width="75px">
+			        <td width="75px" style="padding-left: 2px;">
 			            <button type="button" py:attrs='attrs' domain="${ustr(domain)}" context="${ustr(context)}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2);">
 			                Select
 			            </button>

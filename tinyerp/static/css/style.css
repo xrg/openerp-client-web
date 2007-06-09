@@ -239,8 +239,8 @@ div.welcome {
 }
 
 .view .spacer {
-	width: 5px;
-	height: 5px;
+	width: 4px;
+	height: 4px;
 }
 
 .view .titlebar {
@@ -290,13 +290,13 @@ div.welcome {
 }
 
 td.label {
-	padding: 0 5px;
+	padding: 0 4px;
 	text-align: right;
 	white-space: nowrap;
 }
 
 td.item input,td.item select,td.item textarea,td.item button {
-	width: 100%;
+	width: 99%;
 }
 
 td.item .checkbox,td.item .radio {

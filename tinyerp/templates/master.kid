@@ -24,8 +24,12 @@
 	    left: 10px;
     	top: 1px;
 	}
-	</style>
+	</style>        
 	<![endif]-->
+    
+    <!--[if IE]>
+        <link href="/static/css/style-ie.css" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 	
 	<title py:replace="''">Your title goes here</title>
 	<script type="text/javascript" src="/static/javascript/master.js"></script>    

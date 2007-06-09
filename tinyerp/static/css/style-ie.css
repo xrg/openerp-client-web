@@ -1,0 +1,8 @@
+td.label,
+td.item {
+	padding: 0px;
+}
+
+td.label {
+	padding: 0px 4px;
+}
