@@ -42,7 +42,14 @@ import common
 class RPCException(Exception):
     def __init__(self, code, msg):
         self.code = code
-        self.message = msg
+
+#        lines = msg.split('\n')
+        lines = code.split('\n')        
+        self.data = '\n'.join(lines[2:])
+        self.type = lines[0].split(' -- ')[0]
+        self.message = ''
+        if len(lines[0].split(' -- ')) > 1:
+            self.message = lines[0].split(' -- ')[1]        
 
     def __str__(self):
         return self.message
@@ -161,7 +168,7 @@ class XMLRPCGateway(RPCGateway):
             result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
             return result
         except socket.error, (e1, e2):
-            common.error('Connection refused !', e1, e2)
+            raise common.error('Connection refused !', e1, e2)
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
 
@@ -211,10 +218,14 @@ class NETRPCGateway(RPCGateway):
             res = sock.myreceive()
             sock.disconnect()
             return res
-
+        
         except socket.error, (e1, e2):
-            common.error('Connection refused !', e1, e2)
+            raise common.error('Connection refused !', e1, e2)
+        
         except xmlrpclib.Fault, err:
+            raise RPCException(err.faultCode, err.faultString)
+        
+        except tiny_socket.Myexception, err:
             raise RPCException(err.faultCode, err.faultString)
 
     def execute_db(self, method, *args):
@@ -360,13 +371,27 @@ class RPCSession(object):
     def execute(self, obj, method, *args):
 
         if not self.is_logged():
-            raise RPCException(1, "not logged!")
+            raise common.error('Not logged!')
 
-#        print "TERP-CALLING:", obj, method, args
-        result = self.gateway.execute(obj, method, *args)
-#        print "TERP-RESULT:", result
+        try:
+            
+            #print "TERP-CALLING:", obj, method, args
+            result = self.gateway.execute(obj, method, *args)
+            #print "TERP-RESULT:", result
+            return self.__convert(result)
+                
+        except socket.error, (e1, e2):
+            raise common.error('Connection refused !', e1, e2)
+        
+        except RPCException, err:
 
-        return self.__convert(result)
+            if err.type in ('warning', 'UserError'):
+                raise common.warning(err.data, err.message)
+            else:
+                raise common.error('Application Error', err.data, err.message)
+            
+        except Exception, e:
+            raise common.error('Application Error', 'View details', str(e))
 
     def execute_db(self, method, *args):
         return self.gateway.execute_db(method, *args)
