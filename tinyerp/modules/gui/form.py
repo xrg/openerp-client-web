@@ -58,6 +58,9 @@ class Form(controllers.Controller, TinyResource):
 
         params.setdefault('offset', 0)
         params.setdefault('limit', 20)
+        
+        if params.view_mode[0] == 'tree':
+            params.editable = True
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
