@@ -54,15 +54,15 @@ requests, requests_message = tg.root.requests.my()
 						    <img src="/static/images/tiny_good.png" alt="Tiny ERP logo" border="0" width="205px" height="58px"/>
                         </a>
 					</td>
-					<td align="right" valign="top" py:if="rpc.session.is_logged()">
+					<td align="right" valign="top">
 						<table class="menu_connection" cellpadding="0" cellspacing="0">
 							<tr>
 								<td><img src="/static/images/corner.gif" alt="\"/></td>
-								<td class="menu_connection_welcome">Welcome ${rpc.session.user_name}</td>
+								<td class="menu_connection_welcome"><span>Welcome ${rpc.session.user_name or 'guest'}</span></td>
 								<td class="menu_connection_links">
 									<a href="/">Home</a>
 									<a href="/pref/create/">Preferences</a>
-									<a href="#">About</a>
+									<a href="/about">About</a>
 									<a href="/logout">Logout</a>
 								</td>
 							</tr>

@@ -147,7 +147,9 @@ class Root(controllers.RootController, TinyResource):
         """
         rpc.session.logout()
         raise redirect('/')
-
+    
+    
+    about = gui.about.About()
     form = gui.form.Form()
     tree = gui.tree.Tree()
     graph = gui.graph.Graph()
