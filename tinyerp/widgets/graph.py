@@ -139,6 +139,7 @@ class Graph(TinyCompoundWidget):
         axis = []
         axis_data = {}
         axis_group = {}
+
         for node in root.childNodes:
             attrs = tools.node_attributes(node)
             if node.localName == 'field':

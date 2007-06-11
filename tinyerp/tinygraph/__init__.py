@@ -40,7 +40,7 @@ def choice_colors(n):
     return []
 
 
-def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[], axis_group_field=[], orientation='horizontal'):
+def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[], axis_group_field={}, orientation='horizontal'):
     subplot.clear()
     operators = {
         '+': lambda x,y: x+y,

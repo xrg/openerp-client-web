@@ -70,16 +70,24 @@ class Graph(controllers.Controller, TinyResource):
         axis = data['axis']
         axis_data = data['axis_data']
         axis_group_field = data['axis_group_field']
-        kind = data['kind']        
+        kind = data['kind']
         values = data['values']
         orientation = data['orientation']
 
         figure = Figure(figsize=(w, h), dpi=dpi, frameon=False)
-        subplot = figure.add_subplot(111)
+        subplot = figure.add_subplot(111, axisbg='#eeeeee')
+        
+        if kind == 'bar':
+            if orientation == 'vertical':
+                figure.subplots_adjust(left=0.08,right=0.98,bottom=0.25,top=0.98)
+            else:
+                figure.subplots_adjust(left=0.20,right=0.97,bottom=0.07,top=0.98)
+        else:
+            figure.subplots_adjust(left=0.03,right=0.97,bottom=0.03,top=0.97)
 
-        if not (values and tinygraph(subplot, kind, axis, axis_data, values, axis_group_field, orientation)):
+        if not (values and tinygraph(subplot, kind, axis, axis_data, values)): #, axis_group_field, orientation)):
             figure.clear()
-            #figure.set_size_inches(0, 0)
+            figure.set_size_inches(0, 0)
 
         canvas = FigureCanvas(figure)
         canvas.draw()
