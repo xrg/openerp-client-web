@@ -30,14 +30,13 @@
     	  			window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
     		  	window.opener.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
     	    }
-            connect(window, 'onload', check_for_popup);
-
         }
+        connect(window, 'onload', check_for_popup);
         connect(window, 'onclose', on_close);
     </script>
 
 </head>
-<body onload="check_for_popup()">
+<body>
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
