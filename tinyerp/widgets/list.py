@@ -41,7 +41,7 @@ from interface import TinyCompoundWidget
 class Pager(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.pager"
-    params = ['offset', 'limit', 'count', 'total', 'prev', 'next', 'page_info']
+    params = ['offset', 'limit', 'count', 'total', 'prev', 'next', 'page_info', 'idx']
 
     css = [widgets.CSSLink('tinyerp', 'css/pager.css')]
 
@@ -49,20 +49,21 @@ class Pager(TinyCompoundWidget):
     limit = 20
     count = -1
     total = -1
-    
+
     page_info = None
-    
-    def __init__(self, offset=0, limit=20, count=128, total=-1):
+
+    def __init__(self, idx = 0, offset=0, limit=20, count=128, total=-1):
         super(Pager, self).__init__()
 
         self.limit = limit or 20
         self.offset = offset or 0
+        self.idx = 0
         self.count = count
         self.total = total
 
         self.prev = self.offset > 0
         self.next = self.total == self.limit
-        
+
         self.page_info = "(%s to %s)" % (self.offset, self.offset + self.total)
 
 class List(TinyCompoundWidget):
@@ -108,10 +109,10 @@ class List(TinyCompoundWidget):
         self.limit = kw.get('limit', 0)
 
         self.selector = None
-                        
+
         if self.selectable == 1:
             self.selector = 'radio'
-            
+
         if self.selectable == 2:
             self.selector = 'checkbox'
 
@@ -121,7 +122,7 @@ class List(TinyCompoundWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
-        
+
         self.colors = {}
         for color_spec in attrs.get('colors', '').split(';'):
             if color_spec:
@@ -167,7 +168,7 @@ class List(TinyCompoundWidget):
 
         headers = []
         values  = [row.copy() for row in data]
-                
+
         for node in root.childNodes:
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)
@@ -190,9 +191,9 @@ class List(TinyCompoundWidget):
                         continue
 
                     for i, row in enumerate(data):
-                        
+
                         row_value = values[i]
-                                                
+
                         cell = CELLTYPES[kind](attrs=fields[name], value=row_value[name])
 
                         for color, expr in self.colors.items():
@@ -212,7 +213,7 @@ class List(TinyCompoundWidget):
             name, field = headers[0]
             for row in data:
                 cell = row[name]
-                
+
                 if self.selectable:
                     cell.link = "javascript: void(0)"
                     cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
@@ -229,8 +230,8 @@ class Char(object):
 
         self.text = self.get_text()
         self.link = self.get_link()
-        
-        self.color = None        
+
+        self.color = None
         self.onclick = None
 
     def get_text(self):
@@ -238,7 +239,7 @@ class Char(object):
 
     def get_link(self):
         return None
-            
+
     def __str__(self):
         return ustr(self.text)
 

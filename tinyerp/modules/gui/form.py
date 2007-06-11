@@ -58,7 +58,7 @@ class Form(controllers.Controller, TinyResource):
 
         params.setdefault('offset', 0)
         params.setdefault('limit', 20)
-        
+
         if params.view_mode[0] == 'tree':
             params.editable = True
 
@@ -96,14 +96,17 @@ class Form(controllers.Controller, TinyResource):
         if buttons.pager:
             total = len(ids or (id or []) and [id])
             pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, total=total)
-            
-            idx = 0
+
+            pager.idx = 0
             try:
-                idx = ids.index(id)
+                pager.idx = ids.index(id)
             except:
                 pass
-                        
-            pager.page_info = "[ Record %d of (%d to %d) ]"%(idx+1, pager.offset, pager.offset + pager.total)
+
+            pager.prev = (pager.idx and pager.offset+1)
+            pager.next = not (pager.total == pager.idx+1)
+
+            pager.page_info = "(%d/%d)"%(pager.idx+1, pager.total)
 
         return dict(form=form, pager=pager, buttons=buttons)
 
@@ -141,7 +144,7 @@ class Form(controllers.Controller, TinyResource):
 
         if current.view_mode[0] != 'form':
             current.view_mode = ['form', 'tree']
-            
+
         if params.ids is None:
             return self.create(current)
 
@@ -150,9 +153,9 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def view(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         current = params[params.source or ''] or params
-        
+
         if current.model is None:
             current.model = data.get('model')
             current.id = data.get('id')
@@ -165,7 +168,7 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def cancel(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         if not params.id and params.ids:
             params.id = params.ids[0]
 
@@ -375,7 +378,6 @@ class Form(controllers.Controller, TinyResource):
         params.update(res)
 
         params.id = (params.ids or False) and params.ids[0]
-
         return self.create(params)
 
     @expose()
@@ -410,7 +412,18 @@ class Form(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
 
         if params.view_mode[0] == 'form':
-            o -= 1
+            idx = 0
+            if params.id:
+                idx = params.ids.index(params.id)
+                idx = idx - 1
+
+                if idx == len(params.ids):
+                    idx = len(params.ids) - 1
+
+            if params.ids:
+                params.id = params.ids[idx]
+
+            return self.create(params)
         else:
             o -= l
 
@@ -446,8 +459,8 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def next(self, **kw):
-        params, data = TinyDict.split(kw)
 
+        params, data = TinyDict.split(kw)
         if params.source:
             return self.next_o2m(**kw)
 
@@ -455,7 +468,19 @@ class Form(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
 
         if params.view_mode[0] == 'form':
-            o += 1
+            idx = 0
+            if params.id:
+                if params.ids.index(params.id) < len(params.ids):
+                    idx = params.ids.index(params.id)
+                    idx = idx+ 1
+
+                if idx == len(params.ids):
+                    idx = 0
+            if params.ids:
+                params.id = params.ids[idx]
+
+            return self.create(params)
+
         else:
             o += l
 
@@ -473,7 +498,7 @@ class Form(controllers.Controller, TinyResource):
         idx = 0
 
         if current.id:
-            
+
             # save current record
             if params.editable:
                 self.save(terp_save_only=True, **kw)
@@ -491,8 +516,20 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def last(self, **kw):
+
+        params, data = TinyDict.split(kw)
+
+        idx = 0
+        if params.view_mode[0] == 'form':
+            idx = len(params.ids)
+
+            if params.ids:
+                params.id = params.ids[idx-1]
+
+        return self.create(params)
+
         #TODO: not implemented yet
-        return self.filter(**kw)
+        #return self.filter(**kw)
 
     @expose()
     def switch(self, **kw):
@@ -501,7 +538,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         # select the right params field (if one2many toolbar button)
-        current = params[params.source or ''] or params                
+        current = params[params.source or ''] or params
 
         # save current record (O2M)
         if params.source and params.editable and current.view_mode[0] == 'form':
