@@ -77,12 +77,12 @@ def make_domain(name, value):
 
 from turbogears import validate, validators
 
-def search(model, offset=0, limit=20, domain=[], data={}):
+def search(model, offset=0, limit=20, domain=[], data={}):        
     
     domain = domain or []
     data = data or {}
 
-    search_domain = []
+    search_domain = domain[:]
     search_data = {}
     
     for k, v in data.items():
@@ -96,9 +96,8 @@ def search(model, offset=0, limit=20, domain=[], data={}):
 
     if l < 1: l = 20
     if o < 0: o = 0
-          
-    proxy = rpc.RPCProxy(model)
-                            
+
+    proxy = rpc.RPCProxy(model)                            
     ids = proxy.search(search_domain, o, l)
             
     return dict(model=model, ids=ids, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
