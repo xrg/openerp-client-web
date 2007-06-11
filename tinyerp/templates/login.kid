@@ -8,6 +8,7 @@
 
 <body>
 	<div class="view">
+		<br/>
 	    <div class="box2 welcome">
 	        Welcome to Tiny ERP
 	    </div>
@@ -53,6 +54,11 @@
 		</div>
 
 		<div class="box message" id="message" py:if="message" py:content="message"/>
+
+		<br/>
+		<center>
+		<img src="/static/images/developped_by.png" alt="Developped by Axelor and Tiny"/>
+		</center>
     </div>
 </body>
 
