@@ -100,7 +100,7 @@ class Graph(TinyCompoundWidget):
 
         for value in values:
             res = {}
-            for x in self.axis:
+            for x in self.axis_data.keys():
                 if self.fields[x]['type'] in ('many2one', 'char','time','text','selection'):
                     res[x] = value[x]
                     if isinstance(res[x], (list, tuple)):
