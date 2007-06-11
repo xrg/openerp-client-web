@@ -91,6 +91,9 @@ class Form(controllers.Controller, TinyResource):
         buttons.search = 'tree' in params.view_mode and mode != 'tree'
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
+        
+        buttons.action = (buttons.search or buttons.form) and not form.screen.hastoolbar
+        buttons.report = buttons.action
 
         pager = None
         if buttons.pager:
@@ -566,7 +569,7 @@ class Form(controllers.Controller, TinyResource):
         view_type = params.view_mode[0]
 
         id = params.id or False
-        ids = params.ids
+        ids = params.ids or []
 
         if view_type == 'form':
             #TODO: save current record
