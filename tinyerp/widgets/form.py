@@ -162,6 +162,9 @@ class Frame(TinyCompoundWidget):
             self.add_row()
 
         if label:
+            if self.cols == 1:
+                self.add_row()
+                                
             self.add(label, css_class='label')
             colspan -= 1
 
