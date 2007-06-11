@@ -45,7 +45,10 @@ class O2M(TinyCompoundWidget):
     form = None
 
     def __init__(self, attrs={}):
-        super(O2M, self).__init__(attrs)
+        #FIXME: validation error in `Pricelist Version`
+        attrs['required'] = False
+        
+        super(O2M, self).__init__(attrs)                
 
         self.button_name = self.name.replace('/', '.')
         self.button_attrs = {}
