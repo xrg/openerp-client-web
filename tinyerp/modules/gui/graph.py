@@ -85,7 +85,7 @@ class Graph(controllers.Controller, TinyResource):
         else:
             figure.subplots_adjust(left=0.03,right=0.97,bottom=0.03,top=0.97)
 
-        if not (values and tinygraph(subplot, kind, axis, axis_data, values)): #, axis_group_field, orientation)):
+        if not (values and tinygraph(subplot, kind, axis, axis_data, values, axis_group_field, orientation)):
             figure.clear()
             figure.set_size_inches(0, 0)
 
