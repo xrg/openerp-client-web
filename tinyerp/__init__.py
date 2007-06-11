@@ -1,5 +1,6 @@
 import cache
 import modules
+import tinygraph
 import widgets
 import widgets_search
 

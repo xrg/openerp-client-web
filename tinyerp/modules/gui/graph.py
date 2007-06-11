@@ -32,21 +32,6 @@ import time
 import base64
 from StringIO import StringIO
 
-import matplotlib
-
-matplotlib.use('Agg')  # force the antigrain backend
-matplotlib.rcParams['xtick.labelsize'] = 10
-matplotlib.rcParams['ytick.labelsize'] = 10
-
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.numerix import arange, asarray
-import matplotlib.numerix as nx
-from matplotlib.colors import colorConverter
-from matplotlib.mlab import linspace
-
-from PIL import Image as PILImage
-
 from turbogears import expose
 from turbogears import controllers
 
@@ -57,9 +42,15 @@ from tinyerp import tools
 from tinyerp import common
 
 from tinyerp.tinyres import TinyResource
+from tinyerp.tinygraph import tinygraph
 
 from tinyerp.modules.utils import TinyDict
 from tinyerp.modules.utils import TinyParent
+
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
+from PIL import Image as PILImage
 
 class Graph(controllers.Controller, TinyResource):
 
@@ -78,15 +69,17 @@ class Graph(controllers.Controller, TinyResource):
 
         axis = data['axis']
         axis_data = data['axis_data']
-        kind = data['kind']
+        axis_group_field = data['axis_group_field']
+        kind = data['kind']        
         values = data['values']
+        orientation = data['orientation']
 
         figure = Figure(figsize=(w, h), dpi=dpi, frameon=False)
         subplot = figure.add_subplot(111)
 
-        if not (values and tinygraph(subplot, kind, axis, axis_data, values)):
+        if not (values and tinygraph(subplot, kind, axis, axis_data, values, axis_group_field, orientation)):
             figure.clear()
-            figure.set_size_inches(0, 0)
+            #figure.set_size_inches(0, 0)
 
         canvas = FigureCanvas(figure)
         canvas.draw()
@@ -103,98 +96,3 @@ class Graph(controllers.Controller, TinyResource):
         im.save(imgdata, 'PNG')
 
         return imgdata.getvalue()
-
-def tinygraph(subplot, type='pie', axis={}, axis_data={}, datas=[]):
-
-    subplot.clear()
-    subplot.grid(True)
-
-    colours = get_colours(len(axis))
-
-    operators = {
-        '+': lambda x,y: x+y,
-        '*': lambda x,y: x*y,
-        'min': lambda x,y: min(x,y),
-        'max': lambda x,y: max(x,y),
-        '**': lambda x,y: x**y
-    }
-
-    l1 = []
-    for i in range(1,len(axis)):
-        l1.append(axis_data[axis[i]]['string'])
-
-    for field in axis_data:
-        group = axis_data[field].get('group', False)
-        if group:
-            keys = {}
-            for d in datas:
-                if d[field] in keys:
-                    for a in axis:
-                        if a<>field:
-                            oper = operators[axis_data[a].get('operator', '+')]
-                            keys[d[field]][a] = oper(keys[d[field]][a], d[a])
-                else:
-                    keys[d[field]] = d
-            datas = keys.values()
-
-    data = []
-    for d in datas:
-        res = []
-        for x in axis:
-            res.append(d[x])
-        data.append(res)
-
-    if not data:
-        return False
-
-    if type == 'pie':
-        value = tuple([x[1] for x in data])
-        labels = tuple([x[0] for x in data])
-        subplot.pie(value, autopct='%1.1f%%')
-        subplot.legend(labels, loc='lower right')
-
-    elif type == 'bar':
-#        ind = arange(len(data))
-#        n = float(len(data[0])-1)
-#        for i in range(n):
-#            value = tuple([x[1+i] for x in data])
-#            labels = tuple([x[0] for x in data])
-#            subplot.set_xticks(ind)
-#            subplot.set_xticklabels(labels, visible=True, ha='left', rotation='vertical', va='bottom')
-#            subplot.bar(ind+i/n, value, 1/n)
-        ind = arange(len(data))
-        n = float(len(data[0])-1)
-        l2 = []
-        width = 0.35
-        for i in range(n):
-            value = tuple([x[1+i] for x in data])
-            labels = tuple([x[0] for x in data])
-            subplot.set_xticks(ind)
-            subplot.set_xticklabels(labels,visible=True,rotation='vertical',ha='left')
-            subplot.bar(ind, value,width)
-            l2.append(subplot.bar(ind, value, width ,color=colours[i]))
-
-        c2 = tuple([x[0] for x in l2])
-        subplot.legend(c2, l1,shadow=True)
-
-    else:
-        raise 'Graph type '+type+' does not exist !'
-
-    return True
-
-def get_colours(n):
-    """ Return n pastel colours. """
-    base = asarray([[1,0,0], [0,1,0], [0,0,1]])
-
-    if n <= 3:
-        return base[0:n]
-
-    # how many new colours to we need to insert between
-    # red and green and between green and blue?
-    needed = (((n - 3) + 1) / 2, (n - 3) / 2)
-    colours = []
-
-    for x in linspace(0, 1, needed[0]+2):
-        colours.append((base[0] * (1.0 - x)) + (base[2] * x))
-
-    return colours

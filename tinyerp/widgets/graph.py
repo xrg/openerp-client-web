@@ -72,6 +72,7 @@ class Graph(TinyCompoundWidget):
 
         self.axis = None
         self.axis_data = None
+        self.axis_group = []
         self.kind = 'pie'
         self.values = []
 
@@ -79,6 +80,12 @@ class Graph(TinyCompoundWidget):
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
+        
+        self.attrs = tools.node_attributes(root)
+        
+        self.kind = self.attrs.get('kind', 'pie')
+        self.orientation = self.attrs.get('orientation', 'vertical')
+                
         self.parse(root, self.fields)
 
         proxy = rpc.RPCProxy(model)
@@ -121,7 +128,7 @@ class Graph(TinyCompoundWidget):
 
             self.values.append(res)
 
-        data = dict(axis=self.axis, axis_data=self.axis_data, kind=self.kind, values=self.values)
+        data = dict(axis=self.axis, axis_data=self.axis_data, axis_group_field=self.axis_group, kind=self.kind, values=self.values, orientation=self.orientation)
         self.b64 = base64.encodestring(ustr(data))
 
     def parse(self, root, fields):
@@ -131,6 +138,7 @@ class Graph(TinyCompoundWidget):
 
         axis = []
         axis_data = {}
+        axis_group = {}
         for node in root.childNodes:
             attrs = tools.node_attributes(node)
             if node.localName == 'field':
@@ -140,5 +148,13 @@ class Graph(TinyCompoundWidget):
                 axis.append(str(name))
                 axis_data[str(name)] =  attrs
 
+        for i in axis_data:
+            axis_data[i]['string'] = fields[i]['string']
+            if axis_data[i].get('group', False):
+                axis_group[i]=1
+                axis.remove(i)
+                
         self.axis = axis
         self.axis_data = axis_data
+        self.axis_group = axis_group        
+        
