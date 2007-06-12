@@ -31,6 +31,7 @@ import os
 import time
 import base64
 from StringIO import StringIO
+import pkg_resources
 
 from turbogears import expose
 from turbogears import controllers
@@ -86,8 +87,8 @@ class Graph(controllers.Controller, TinyResource):
             figure.subplots_adjust(left=0.03,right=0.97,bottom=0.03,top=0.97)
 
         if not (values and tinygraph(subplot, kind, axis, axis_data, values, axis_group_field, orientation)):
-            figure.clear()
-            figure.set_size_inches(0, 0)
+            cherrypy.response.headers['Content-Type'] = "image/gif"
+            return cherrypy.lib.cptools.serveFile(pkg_resources.resource_filename("tinyerp", "static/images/blank.gif"))
 
         canvas = FigureCanvas(figure)
         canvas.draw()
