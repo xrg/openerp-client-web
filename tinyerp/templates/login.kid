@@ -57,7 +57,7 @@
 
 		<br/>
 		<center>
-		<img src="/static/images/developped_by.png" alt="Developped by Axelor and Tiny"/>
+		<img src="/static/images/developped_by.png" width="200" height="60" alt="Developped by Axelor and Tiny"/>
 		</center>
     </div>
 </body>
