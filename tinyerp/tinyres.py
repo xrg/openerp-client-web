@@ -50,10 +50,10 @@ def _login(target, dblist=None, db= None, user=None, action=None, message=None, 
     url = rpc.session.get_url()
     url = str(url[:-1])
 
-    return dict(target=target, url=url, dblist=dblist, user=user, db=db, action=action, message=message, origArgs=origArgs)
+    return dict(target=target, url=url, dblist=dblist, user=user, passwd=None, db=db, action=action, message=message, origArgs=origArgs)
 
-def _check_method(obj, fn):
-    """A python decorator to secure exposed methods
+def secured(fn):
+    """A Decorator to make a TinyResource controller method secured.
     """
     def clear_login_fields(kw={}):
 
@@ -136,12 +136,31 @@ def _check_method(obj, fn):
             clear_login_fields(kw)
             return fn(*args, **kw)
 
-   # restore the original values
+    # restore the original values
     wrapper.__name__ = fn.__name__
     wrapper.__doc__ = fn.__doc__
     wrapper.__dict__ = fn.__dict__.copy()
     wrapper.__module__ = fn.__module__
+    
+    wrapper.secured = True
 
+    return wrapper
+
+def unsecured(fn):
+    """A Decorator to make a TinyResource controller method unsecured.    
+    """
+
+    def wrapper(*args, **kw):
+        return fn(*args, **kw)
+    
+    # restore the original values
+    wrapper.__name__ = fn.__name__
+    wrapper.__doc__ = fn.__doc__
+    wrapper.__dict__ = fn.__dict__.copy()
+    wrapper.__module__ = fn.__module__
+    
+    wrapper.secured = False
+    
     return wrapper
 
 class TinyResource(object):
@@ -149,8 +168,9 @@ class TinyResource(object):
     """
     def __getattribute__( self, name ):
         value= object.__getattribute__(self, name)
-        if (isinstance(value, types.MethodType ) and hasattr( value, "exposed" )):
-            return _check_method(self, value)
+
+        if isinstance(value, types.MethodType ) and hasattr(value, "exposed") and not (hasattr(value, "secured") and not value.secured):
+            return secured(value)
 
         # Some other property
         return value

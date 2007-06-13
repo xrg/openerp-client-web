@@ -46,7 +46,7 @@ from tinyerp import rpc
 from tinyerp import common
 from tinyerp import stdvars
 from tinyerp import widgets as tw
-from tinyerp.tinyres import TinyResource
+from tinyerp.tinyres import TinyResource, unsecured
 
 from tinyerp.modules import *
 from tinyerp.widgets import *
@@ -140,14 +140,28 @@ class Root(controllers.RootController, TinyResource):
     @expose(template="tinyerp.templates.error")
     def error(self, title=None, message=None):
         return dict(title=title, message=message)
-
+    
+    @expose(template="tinyerp.templates.login")
+    @unsecured
+    def login(self, db=None, user=None, passwd=None):
+                
+        host = config.get('tiny.host')
+        port = config.get('tiny.port')
+        protocol = config.get('tiny.protocol')
+                    
+        dblist = rpc.session.listdb(host, port, protocol)
+                
+        url = "%s://%s:%s"%(protocol, host, port)
+                                
+        return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=None, origArgs={})
+    
     @expose()
+    @unsecured
     def logout(self):
         """ Logout method, will terminate the current session.
         """
         rpc.session.logout()
-        raise redirect('/')
-    
+        raise redirect('/')    
     
     about = gui.about.About()
     form = gui.form.Form()
