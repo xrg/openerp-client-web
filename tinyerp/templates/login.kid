@@ -57,7 +57,11 @@
 
 		<br/>
 		<center>
-		<img src="/static/images/developped_by.png" width="200" height="60" alt="Developped by Axelor and Tiny"/>
+    		<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="Developped by Axelor and Tiny" usemap="devby_map"/>
+            <map name="devby_map">                
+                <area shape="rect" coords="0,20,100,60" href="http://axelor.com" />
+                <area shape="rect" coords="120,20,200,60" href="http://tinyerp.com" />
+            </map>
 		</center>
     </div>
 </body>
