@@ -9,12 +9,12 @@ setup(
     version=version,
     
     # uncomment the following lines if you fill them out in release.py
-    #description=description,
-    #author=author,
-    #author_email=email,
-    #url=url,
-    #download_url=download_url,
-    #license=license,
+    description='Tiny ERP is a free enterprise management software: accounting, stock, manufacturing, project mgt, ... eTiny is the web client of the Tiny ERP project',
+    author='Tiny ERP Pvt. Ltd.',
+    author_email='info@tinyerp.com',
+    url='http://www.tinyerp.com/demonstration.html',
+    download_url='http://tinyerp.com',
+    license='GPL',
     
     install_requires = [
         "TurboGears >= 1.0.1",
@@ -41,7 +41,7 @@ setup(
         # 'python.templating.engines',
         
         # If this is a full application, uncomment the next line
-        # 'turbogears.app',
+        'turbogears.app'
     ],
     classifiers = [
         'Development Status :: 3 - Alpha',
@@ -51,7 +51,7 @@ setup(
         'Framework :: TurboGears',
         # if this is an application that you'll distribute through
         # the Cheeseshop, uncomment the next line
-        # 'Framework :: TurboGears :: Applications',
+        'Framework :: TurboGears :: Applications',
         
         # if this is a package that includes widgets that you'll distribute
         # through the Cheeseshop, uncomment the next line

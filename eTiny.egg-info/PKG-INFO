@@ -1,15 +1,18 @@
 Metadata-Version: 1.0
 Name: eTiny
-Version: 1.0
-Summary: UNKNOWN
-Home-page: UNKNOWN
-Author: UNKNOWN
-Author-email: UNKNOWN
-License: UNKNOWN
+Version: 0.0.1
+Summary: Tiny ERP is a free enterprise management software: accounting, stock, manufacturing, project mgt, ... eTiny is the web client of the Tiny ERP project
+Home-page: http://www.tinyerp.com/demonstration.html
+Author: Tiny ERP Pvt. Ltd.
+Author-email: info@tinyerp.com
+License: GPL
+Download-URL: http://tinyerp.com
 Description: UNKNOWN
+Keywords: turbogears.app
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
 Classifier: Framework :: TurboGears
+Classifier: Framework :: TurboGears :: Applications
