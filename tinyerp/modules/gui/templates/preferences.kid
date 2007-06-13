@@ -4,26 +4,16 @@
     <title>${screen.string}</title>
 </head>
 <body>
-
-<div class="view">
-    <div class="header">
-        <div class="title" py:content="screen.string"/>
-        <div class="spacer"></div>
+    <div class="view">        
+    	<form action="/pref/ok" method="post">
+            <input type="hidden" name="_terp_default" value="${ustr(defaults)}"/>        
+            <div class="box2 welcome">${screen.string}</div>	    
+    	    <div class="box2" py:content="screen.display()">Screen View</div>			
+    	    <div class="box2" align="right">
+                <button type='button' style="width: 80px" onclick="history.back()">Cancel</button>
+                <button type='submit' style="width: 80px">OK</button>
+    	    </div>
+    	</form>
     </div>
-    
-		<form action="/pref/ok" method="post">    		
-		    <input type="hidden" name="_terp_default" value="${ustr(defaults)}"/>
-		    <div class="box" py:content="screen.display()">Screen View</div>			
-		    <div class="spacer"></div>    
-		    <div class="box">
-		        <table width="100%">
-		            <td align="right">
-		                <button type='button' style="width: 80px" onclick="history.back()">Cancel</button>
-		                <button type='submit' style="width: 80px">OK</button>
-		            </td>
-		        </table>
-		    </div>
-		</form>			
-</div>
 </body>
 </html>
