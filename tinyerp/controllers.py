@@ -148,11 +148,11 @@ class Root(controllers.RootController, TinyResource):
         host = config.get('tiny.host')
         port = config.get('tiny.port')
         protocol = config.get('tiny.protocol')
-                    
+
         dblist = rpc.session.listdb(host, port, protocol)
-                
+
         url = "%s://%s:%s"%(protocol, host, port)
-                                
+
         return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=None, origArgs={})
     
     @expose()
@@ -163,7 +163,11 @@ class Root(controllers.RootController, TinyResource):
         rpc.session.logout()
         raise redirect('/')    
     
-    about = gui.about.About()
+    @expose(template="tinyerp.templates.about")
+    @unsecured
+    def about(self):
+        return dict()
+
     form = gui.form.Form()
     tree = gui.tree.Tree()
     graph = gui.graph.Graph()
