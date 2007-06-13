@@ -302,7 +302,7 @@ class Int(Char):
         if self.value:
             return int(self.value)
 
-        return self.value
+        return self.value or ''
 
 class DateTime(Char):
     server_format = '%Y-%m-%d %H:%M:%S'
