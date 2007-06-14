@@ -67,6 +67,6 @@ class Requests(controllers.Controller, TinyResource):
         
         #read requests
         ids, ids2 = rpc.RPCProxy('res.request').request_get()
-        
-        return actions._execute_window(False, 'res.request', res_id=None, domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
+
+        return actions.execute_window(False, 'res.request', res_id=None, domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
 

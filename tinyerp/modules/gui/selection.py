@@ -51,5 +51,5 @@ class Selection(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         from tinyerp.modules import actions
-        return actions._execute(params.action, **params.data)
+        return actions.execute(params.action, **params.data)
 

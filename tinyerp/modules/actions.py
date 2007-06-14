@@ -51,12 +51,12 @@ from gui.selection import Selection
 
 from utils import TinyDict
 
-def _execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
     @param model: a model for which the action should be performed
-    @param res_id: res id
+    @param res_id: resource id
     @param domain: domain
     @param view_type: view type, eigther `form` or `tree`
     @param context: the context
@@ -85,7 +85,7 @@ def _execute_window(view_ids, model, res_id=False, domain=None, view_type='form'
     else:
         return common.error("INVALID VIEW!")
 
-def _execute_wizard(name, **datas):
+def execute_wizard(name, **datas):
     """Executes given wizard with the given data
 
     @param name: name of the wizard
@@ -117,7 +117,7 @@ def _print_data(data):
     cherrypy.response.headers['Content-Type'] = PRINT_FORMATS[data['format']]
     return content
 
-def _execute_report(name, **data):
+def execute_report(name, **data):
     """Executes a report with the given data, on success returns `application/pdf` data
 
     @param name: name of the report
@@ -154,7 +154,7 @@ def _execute_report(name, **data):
     except rpc.RPCException, e:
         raise e
 
-def _execute(action, **data):
+def execute(action, **data):
     """Execute the action with the provided data. for internal use only.
 
     @param action: the action
@@ -198,25 +198,25 @@ def _execute(action, **data):
         if data.get('domain', False):
             domain.append(data['domain'])
 
-        res = _execute_window(view_ids,
-                              data['res_model'],
-                              data['res_id'],
-                              domain,
-                              action['view_type'],
-                              context,data['view_mode'])
+        res = execute_window(view_ids,
+                             data['res_model'],
+                             data['res_id'],
+                             domain,
+                             action['view_type'],
+                             context,data['view_mode'])
         return res
 
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
             del data['window']
-        return _execute_wizard(action['wiz_name'], **data)
+        return execute_wizard(action['wiz_name'], **data)
 
     elif action['type']=='ir.actions.report.custom':
         data['report_id'] = action['report_id']
-        return _execute_report('custom', **data)
+        return execute_report('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
-        return _execute_report(action['report_name'], **data)
+        return execute_report(action['report_name'], **data)
 
 def execute_by_id(act_id, type=None, **data):
     """Perforns the given action of type `type` with the provided data.
@@ -235,7 +235,7 @@ def execute_by_id(act_id, type=None, **data):
         type=res[0]['type']
 
     res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
-    return _execute(res, **data)
+    return execute(res, **data)
 
 def execute_by_keyword(keyword, adds={}, **data):
     """Performs action represented by the given keyword argument with given data.
@@ -267,6 +267,6 @@ def execute_by_keyword(keyword, adds={}, **data):
 
     if len(keyact) == 1:
         key = keyact.keys()[0]
-        return _execute(keyact[key], **data)
+        return execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)

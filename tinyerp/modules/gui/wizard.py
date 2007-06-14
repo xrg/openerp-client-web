@@ -50,7 +50,7 @@ import search
 class Wizard(controllers.Controller, TinyResource):
 
     def execute(self, params):
-
+        
         action = params.name
         model = params.model
         state = params.state
@@ -106,21 +106,22 @@ class Wizard(controllers.Controller, TinyResource):
 
             elif res['type']=='action':
                 from tinyerp.modules import actions
-                act_res = actions._execute(res['action'], **datas)
+                
+                act_res = actions.execute(res['action'], **datas)
                 if act_res:
                     return act_res
-                
+
                 state = res['state']
 
             elif res['type']=='print':
                 from tinyerp.modules import actions
-
+                
                 datas['report_id'] = res.get('report_id', False)
                 if res.get('get_id_from_action', False):
                     backup_ids = datas['ids']
                     datas['ids'] = datas['form']['ids']
 
-                return actions._execute_report(res['report'], **datas)
+                return actions.execute_report(res['report'], **datas)
 
             elif res['type']=='state':
                 state = res['state']

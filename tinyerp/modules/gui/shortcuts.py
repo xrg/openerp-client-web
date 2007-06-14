@@ -64,7 +64,7 @@ class Shortcuts(controllers.Controller, TinyResource):
         from tinyerp.modules import actions
 
         domain = [('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu')]
-        return actions._execute_window(False, 'ir.ui.view_sc', res_id=None, domain=domain, view_type='form', mode='tree,form')
+        return actions.execute_window(False, 'ir.ui.view_sc', res_id=None, domain=domain, view_type='form', mode='tree,form')
 
     @expose()
     def add(self, id):

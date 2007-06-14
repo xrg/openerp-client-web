@@ -221,7 +221,7 @@ class Tree(controllers.Controller, TinyResource):
 
         if len(ids):
             from tinyerp.modules import actions
-            return actions._execute_window(False, res_id=ids, model=params.model, domain=params.domain)
+            return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
         else:
             raise common.message(_('No resource selected!'))
 

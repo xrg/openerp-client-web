@@ -281,7 +281,7 @@ class Form(controllers.Controller, TinyResource):
             from tinyerp.modules import actions
             action_id = int(name)
 
-            res = actions.execute_by_id(action_id, model=model, id=id, ids=ids)
+            res = actions.execute_by_id(action_id, model=model, id=id, ids=ids)           
             if res:
                 return res
 
@@ -606,7 +606,7 @@ class Form(controllers.Controller, TinyResource):
 
         id = ids[0]
 
-        return actions._execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
+        return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
     @expose()
     def dashlet(self, **kw):
