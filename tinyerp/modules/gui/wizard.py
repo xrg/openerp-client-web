@@ -45,6 +45,7 @@ from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 from tinyerp.modules.utils import TinyDict
 
+import form
 import search
 
 class Wizard(controllers.Controller, TinyResource):
@@ -106,7 +107,7 @@ class Wizard(controllers.Controller, TinyResource):
 
             elif res['type']=='action':
                 from tinyerp.modules import actions
-                
+
                 act_res = actions.execute(res['action'], **datas)
                 if act_res:
                     return act_res
@@ -140,6 +141,11 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     def end(self, **kw):
+        
+        if 'wizard_parent' in cherrypy.session:
+            params = cherrypy.session.pop('wizard_parent_form')
+            return form.Form().create(params)
+
         raise redirect('/')
 
     def get_form(self):
