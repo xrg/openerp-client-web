@@ -29,9 +29,9 @@
 
 import os
 import time
-import base64
-from StringIO import StringIO
 import pkg_resources
+
+from StringIO import StringIO
 
 from turbogears import expose
 from turbogears import controllers
@@ -46,7 +46,7 @@ from tinyerp.tinyres import TinyResource
 from tinyerp.tinygraph import tinygraph
 
 from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import TinyParent
+from tinyerp.widgets.graph import GraphData
 
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -56,37 +56,27 @@ from PIL import Image as PILImage
 class Graph(controllers.Controller, TinyResource):
 
     @expose(content_type="image/png")
-    def default(self, width=400, height=400, b64=None):
+    def default(self, width=400, height=400, **kw):                        
+        params, data = TinyDict.split(kw)
 
-        if not b64:
-            raise common.error('no graph data!')
-
-        data = base64.decodestring(b64)
-        data = eval(data)
+        graph = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
 
         dpi = 72
         w = int(width) / dpi
         h = int(height) / dpi
 
-        axis = data['axis']
-        axis_data = data['axis_data']
-        axis_group_field = data['axis_group_field']
-        kind = data['kind']
-        values = data['values']
-        orientation = data['orientation']
-
         figure = Figure(figsize=(w, h), dpi=dpi, frameon=False)
         subplot = figure.add_subplot(111, axisbg='#eeeeee')
         
-        if kind == 'bar':
-            if orientation == 'vertical':
-                figure.subplots_adjust(left=0.08,right=0.98,bottom=0.25,top=0.98)
+        if graph.kind == 'bar':
+            if graph.orientation == 'vertical':
+                figure.subplots_adjust(left=0.08, right=0.98, bottom=0.25, top=0.98)
             else:
-                figure.subplots_adjust(left=0.20,right=0.97,bottom=0.07,top=0.98)
+                figure.subplots_adjust(left=0.20, right=0.97, bottom=0.07, top=0.98)
         else:
-            figure.subplots_adjust(left=0.03,right=0.97,bottom=0.03,top=0.97)
+            figure.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97)
 
-        if not (values and tinygraph(subplot, kind, axis, axis_data, values, axis_group_field, orientation)):
+        if not (graph.values and tinygraph(subplot, graph.kind, graph.axis, graph.axis_data, graph.values, graph.axis_group_field, graph.orientation)):
             cherrypy.response.headers['Content-Type'] = "image/gif"
             return cherrypy.lib.cptools.serveFile(pkg_resources.resource_filename("tinyerp", "static/images/blank.gif"))
 

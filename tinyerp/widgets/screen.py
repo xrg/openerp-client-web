@@ -143,7 +143,7 @@ class Screen(TinyCompoundWidget):
             self.ids = self.widget.ids
 
         elif view_type == 'graph':
-            self.widget = graph.Graph(model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context)
+            self.widget = graph.Graph(model=self.model, view_id=view.get('view_id', False), ids=self.ids, domain=self.domain, context=self.context)
             self.ids = self.widget.ids
 
         self.string = (self.widget or '') and self.widget.string

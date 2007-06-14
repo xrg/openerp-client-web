@@ -27,17 +27,16 @@
 #
 ###############################################################################
 
+import os
 import time
 import locale
-import base64
 import xml.dom.minidom
 
-import turbogears as tg
-import cherrypy
-
-from tinyerp import icons
-from tinyerp import tools
 from tinyerp import rpc
+from tinyerp import tools
+from tinyerp import common
+
+from tinyerp.cache import cache
 
 from interface import TinyCompoundWidget
 
@@ -57,59 +56,69 @@ class Graph(TinyCompoundWidget):
     <table width="100%">
         <tr>
             <td align="center">
-                <img class="graph" src="/graph?b64=${b64}"/>
+                <img class="graph" src="${tg.query('/graph', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context), width=width, height=height)}"/>
             </td>
         </tr>
     </table>
     """
 
-    params = ['b64']
-    b64 = None
+    params = ['model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
+    
+    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=400, height=400):
 
-    def __init__(self, model, view, ids=[], domain=[], context={}):
-
+        self.model = model
+        self.view_id = view_id
         self.ids = ids
+        self.domain = domain
+        self.context = context
+        
+        self.width = width
+        self.height = height
+        
+        if ids is None:
+            self.ids = rpc.RPCProxy(model).search(domain)
 
-        self.axis = None
-        self.axis_data = None
-        self.axis_group = []
-        self.kind = 'pie'
-        self.values = []
-
-        self.fields = view['fields']
-
+class GraphData(object):
+    
+    def __init__(self, model, view_id=False, ids=[], domain=[], context={}):
+        
+        view = cache.fields_view_get(model, view_id, 'graph', context)
+        fields = view['fields']
+        
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-        
-        self.attrs = tools.node_attributes(root)
-        
-        self.kind = self.attrs.get('kind', 'pie')
-        self.orientation = self.attrs.get('orientation', 'vertical')
                 
-        self.parse(root, self.fields)
+        attrs = tools.node_attributes(root)
+        
+        self.string = attrs.get('string', 'Unknown')
+        self.kind = attrs.get('type', 'pie')
+        self.orientation = attrs.get('orientation', 'vertical')
+        self.values = []
+                
+        axis, axis_data, axis_group = self.parse(root, fields)                       
 
         proxy = rpc.RPCProxy(model)
 
-        if self.ids is None:
-            self.ids = proxy.search(domain)
+        if ids is None:
+            ids = proxy.search(domain)
 
         ctx = rpc.session.context.copy()
         ctx.update(context)
 
-        values = proxy.read(self.ids, self.fields.keys(), ctx)
-
+        values = proxy.read(ids, fields.keys(), ctx)
+        
         for value in values:
             res = {}
-            for x in self.axis_data.keys():
-                if self.fields[x]['type'] in ('many2one', 'char','time','text','selection'):
+            for x in axis_data.keys():
+                if fields[x]['type'] in ('many2one', 'char','time','text','selection'):
                     res[x] = value[x]
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
                     res[x] = str(res[x])
-                elif self.fields[x]['type'] == 'date':
+                elif fields[x]['type'] == 'date':
                     date = time.strptime(value[x], DT_FORMAT)
                     res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
-                elif self.fields[x]['type'] == 'datetime':
+                elif fields[x]['type'] == 'datetime':
                     date = time.strptime(value[x], DHM_FORMAT)
                     if 'tz' in rpc.session.context:
                         try:
@@ -125,16 +134,16 @@ class Graph(TinyCompoundWidget):
                     res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
                 else:
                     res[x] = float(value[x])
-
+                    
             self.values.append(res)
 
-        data = dict(axis=self.axis, axis_data=self.axis_data, axis_group_field=self.axis_group, kind=self.kind, values=self.values, orientation=self.orientation)
-        self.b64 = base64.encodestring(ustr(data))
+        self.axis = axis
+        self.axis_data = axis_data
+        self.axis_group_field = axis_group
 
     def parse(self, root, fields):
+        
         attrs = tools.node_attributes(root)
-        self.string = attrs.get('string', 'Unknown')
-        self.kind = attrs.get('type', 'pie')
 
         axis = []
         axis_data = {}
@@ -155,7 +164,5 @@ class Graph(TinyCompoundWidget):
                 axis_group[i]=1
                 axis.remove(i)
                 
-        self.axis = axis
-        self.axis_data = axis_data
-        self.axis_group = axis_group        
-        
+        return axis, axis_data, axis_group
+            
