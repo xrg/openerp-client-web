@@ -142,7 +142,7 @@ class Wizard(controllers.Controller, TinyResource):
     @expose()
     def end(self, **kw):
         
-        if 'wizard_parent' in cherrypy.session:
+        if 'wizard_parent_form' in cherrypy.session:
             params = cherrypy.session.pop('wizard_parent_form')
             return form.Form().create(params)
 
