@@ -107,7 +107,8 @@ PRINT_FORMATS = {
 }
 
 def _print_data(data):
-
+    if 'result' not in data:
+        common.message(_('Error no report'))
     if data.get('code','normal')=='zlib':
         import zlib
         content = zlib.decompress(base64.decodestring(data['result']))
@@ -167,18 +168,18 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Invalid action...')
         return
-    
+
     if action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
             data[key] = action.get(key, data.get(key, None))
-            
+
         view_ids=False
         if action.get('views', []):
             view_ids=[x[0] for x in action['views']]
             data['view_mode']=",".join([x[1] for x in action['views']])
         elif action.get('view_id', False):
             view_ids=[action['view_id'][0]]
-            
+
         if not action.get('domain', False):
             action['domain']='[]'
 
