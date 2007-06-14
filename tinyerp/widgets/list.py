@@ -319,9 +319,9 @@ class Boolean(Char):
 
     def get_text(self):
         if int(self.value) == 1:
-            return 'True'
+            return 'Yes'
         else:
-            return 'False'
+            return 'No'
 
 CELLTYPES = {
         'char':Char,
