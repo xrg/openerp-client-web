@@ -110,23 +110,6 @@ TreeGrid.prototype._on_select_row = function(evt) {
     }
 }
 
-TreeGrid.prototype._make_action_url = function(id) {
-
-    var url = this.action_url;
-    var args = {id : id};
-
-    if (this.action_params) {
-        for(var i in this.action_params) {
-            var p = this.action_params[i];
-            if (p in this.params){
-                args[p] = this.params[p];
-            }
-        }
-    }
-
-    return url + '?' + queryString(args);
-}
-
 TreeGrid.prototype.toggle = function(row, forced) {
 
     if (this.isloading)
@@ -347,7 +330,7 @@ TreeGrid.prototype.load = function(url, id, params){
     });
 }
 
-TreeGrid.prototype.selectAll = function() {
+TreeGrid.prototype.selectAll = function() {	
 }
 
 TreeGrid.prototype.getSelected = function() {
