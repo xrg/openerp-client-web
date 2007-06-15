@@ -136,10 +136,7 @@ class List(TinyCompoundWidget):
             if self.limit > 0:
                 ids = proxy.search(domain, self.offset, self.limit)
             else:
-                ids = proxy.search(domain)
-                
-            if self.pageable:
-                self.count = proxy.search_count(domain)
+                ids = proxy.search(domain)                            
 
         data = []
         if len(ids) > 0:
@@ -158,7 +155,9 @@ class List(TinyCompoundWidget):
         self.columns += (self.selectable or 0) and 1
         self.columns += (self.editable or 0) and 2
 
-        if self.pageable:            
+        if self.pageable:
+            if self.ids and self.count == 0:
+                self.count = proxy.search_count(domain)
             self.pager = Pager(offset=self.offset, limit=self.limit, count=self.count, total=len(self.ids or []))
 
     def parse(self, root, fields, data=[]):
