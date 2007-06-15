@@ -60,11 +60,11 @@ class Pager(TinyCompoundWidget):
         self.idx = 0
         self.count = count
         self.total = total
-
+        
         self.prev = self.offset > 0
-        self.next = self.total == self.limit
+        self.next = self.offset+self.total < self.count
 
-        self.page_info = "(%s to %s)" % (self.offset, self.offset + self.total)
+        self.page_info = "[%s - %s of %s]" % (self.offset, self.offset + self.total, self.count)
 
 class List(TinyCompoundWidget):
 
@@ -107,6 +107,7 @@ class List(TinyCompoundWidget):
 
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
+        self.count = kw.get('count', 0)
 
         self.selector = None
 
@@ -131,11 +132,14 @@ class List(TinyCompoundWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if ids == None:
+        if ids == None:            
             if self.limit > 0:
                 ids = proxy.search(domain, self.offset, self.limit)
             else:
                 ids = proxy.search(domain)
+                
+            if self.pageable:
+                self.count = proxy.search_count(domain)
 
         data = []
         if len(ids) > 0:
@@ -154,8 +158,8 @@ class List(TinyCompoundWidget):
         self.columns += (self.selectable or 0) and 1
         self.columns += (self.editable or 0) and 2
 
-        if self.pageable:
-            self.pager = Pager(offset=self.offset, limit=self.limit, total=len(self.ids or []))
+        if self.pageable:            
+            self.pager = Pager(offset=self.offset, limit=self.limit, count=self.count, total=len(self.ids or []))
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.

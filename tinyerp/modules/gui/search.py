@@ -111,6 +111,7 @@ class Search(controllers.Controller, TinyResource):
         
         params.setdefault('limit', 20)
         params.setdefault('offset', 0)
+        params.setdefault('count', 0)
                         
         search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})        
         screen = tw.screen.Screen(params=params, selectable=2)
@@ -242,8 +243,17 @@ class Search(controllers.Controller, TinyResource):
         return self.filter(**kw)
         
     @expose()
-    def last(self, **kw):
-        #TODO: not implemented yet
+    def last(self, **kw):        
+        params, data = TinyDict.split(kw)
+
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
+        c = params.get('count') or 0
+        
+        o = c - l
+
+        kw['_terp_offset'] = o
+
         return self.filter(**kw)
         
     @expose('json')

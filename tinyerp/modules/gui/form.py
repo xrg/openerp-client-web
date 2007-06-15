@@ -58,9 +58,13 @@ class Form(controllers.Controller, TinyResource):
 
         params.setdefault('offset', 0)
         params.setdefault('limit', 20)
+        params.setdefault('count', 0)
 
         if params.view_mode[0] == 'tree':
             params.editable = True
+            
+        if params.view_mode[0] == 'form' and params.id and params.ids and params.id != params.ids[0]:
+            params.offset += params.ids.index(params.id)
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
@@ -98,18 +102,12 @@ class Form(controllers.Controller, TinyResource):
         pager = None
         if buttons.pager:
             total = len(ids or (id or []) and [id])
-            pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, total=total)
+            pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, count=form.screen.count, total=total)
 
-            pager.idx = 0
-            try:
-                pager.idx = ids.index(id)
-            except:
-                pass
-
-            pager.prev = (pager.idx and pager.offset+1)
-            pager.next = not (pager.total == pager.idx+1)
-
-            pager.page_info = "(%d/%d)"%(pager.idx+1, pager.total)
+            pager.prev = pager.offset > 0
+            pager.next = pager.offset+1 < pager.count
+            
+            pager.page_info = "[%d/%d]"%(pager.offset+1, pager.count)
 
         return dict(form=form, pager=pager, buttons=buttons)
 
@@ -420,18 +418,7 @@ class Form(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
 
         if params.view_mode[0] == 'form':
-            idx = 0
-            if params.id:
-                idx = params.ids.index(params.id)
-                idx = idx - 1
-
-                if idx == len(params.ids):
-                    idx = len(params.ids) - 1
-
-            if params.ids:
-                params.id = params.ids[idx]
-
-            return self.create(params)
+            o -= 1
         else:
             o -= l
 
@@ -476,19 +463,7 @@ class Form(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
 
         if params.view_mode[0] == 'form':
-            idx = 0
-            if params.id:
-                if params.ids.index(params.id) < len(params.ids):
-                    idx = params.ids.index(params.id)
-                    idx = idx+ 1
-
-                if idx == len(params.ids):
-                    idx = 0
-            if params.ids:
-                params.id = params.ids[idx]
-
-            return self.create(params)
-
+            o += 1
         else:
             o += l
 
@@ -499,6 +474,7 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def next_o2m(self, **kw):
         params, data = TinyDict.split(kw)
+        c = params.get('count') or 0
         params.is_navigating = True
 
         current = params[params.source or ''] or params
@@ -527,17 +503,18 @@ class Form(controllers.Controller, TinyResource):
 
         params, data = TinyDict.split(kw)
 
-        idx = 0
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
+        c = params.get('count') or 0
+        
         if params.view_mode[0] == 'form':
-            idx = len(params.ids)
+            o = c - 1
+        else:
+            o = c - l
 
-            if params.ids:
-                params.id = params.ids[idx-1]
+        kw['_terp_offset'] = o
 
-        return self.create(params)
-
-        #TODO: not implemented yet
-        #return self.filter(**kw)
+        return self.filter(**kw)
 
     @expose()
     def switch(self, **kw):

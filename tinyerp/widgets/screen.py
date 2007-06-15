@@ -83,6 +83,7 @@ class Screen(TinyCompoundWidget):
         
         self.offset        = params.offset
         self.limit         = params.limit
+        self.count         = params.count
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded
@@ -138,9 +139,10 @@ class Screen(TinyCompoundWidget):
                                     context=self.context, 
                                     editable=self.editable, 
                                     selectable=self.selectable,
-                                    offset=self.offset, limit=self.limit)
+                                    offset=self.offset, limit=self.limit, count=self.count)
             
             self.ids = self.widget.ids
+            self.count = self.widget.count
 
         elif view_type == 'graph':
             self.widget = graph.Graph(model=self.model, view_id=view.get('view_id', False), ids=self.ids, domain=self.domain, context=self.context)

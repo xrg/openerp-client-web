@@ -37,7 +37,7 @@ class ViewForm(tg.widgets.Form):
 
     template = "tinyerp.widgets.templates.viewform"
 
-    params = ['limit', 'offset', 'search_domain', 'search_data']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
     member_widgets = ['screen', 'search']    
     javascript = [tg.widgets.JSLink("tinyerp", "javascript/form.js", location=tg.widgets.js_location.bodytop)]
 
@@ -57,9 +57,11 @@ class ViewForm(tg.widgets.Form):
             
         if params.view_mode and params.view_mode[0] == 'tree':            
             self.screen.id = False
-            
-        self.limit = params.limit
-        self.offset = params.offset
+
+        # get the actual pager data
+        self.limit = self.screen.limit
+        self.offset = self.screen.offset        
+        self.count = self.screen.count
         
         self.search_domain = params.search_domain
         self.search_data = params.search_data
