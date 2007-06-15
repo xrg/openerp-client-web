@@ -41,14 +41,14 @@ from interface import TinyCompoundWidget
 class Pager(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.pager"
-    params = ['offset', 'limit', 'count', 'total', 'prev', 'next', 'page_info', 'idx']
+    params = ['offset', 'limit', 'count', 'total', 'prev', 'next', 'page_info']
 
     css = [widgets.CSSLink('tinyerp', 'css/pager.css')]
 
     offset = 0
     limit = 20
-    count = -1
-    total = -1
+    count = 0
+    total = 0
 
     page_info = None
 
@@ -57,7 +57,6 @@ class Pager(TinyCompoundWidget):
 
         self.limit = limit or 20
         self.offset = offset or 0
-        self.idx = 0
         self.count = count
         self.total = total
         
