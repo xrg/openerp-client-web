@@ -14,7 +14,7 @@
             <tr>
                 <td py:if="search" style="padding: 3px; padding-top: 0px">                    
                     <div class="toolbar">                        
-                        <button type="button" onclick="submit_search_form('find')">Find</button>
+                        <button type="submit" onclick="submit_search_form('find')">Find</button>
                         <button type="button" onclick="submit_form('new')">New</button>
                     </div>                    
                 </td>
