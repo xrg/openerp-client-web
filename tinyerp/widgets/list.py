@@ -63,7 +63,7 @@ class Pager(TinyCompoundWidget):
         self.prev = self.offset > 0
         self.next = self.offset+self.total < self.count
 
-        self.page_info = "[%s - %s of %s]" % (self.offset, self.offset + self.total, self.count)
+        self.page_info = "[%s - %s of %s]" % (self.offset+1, self.offset + self.total, self.count)
 
 class List(TinyCompoundWidget):
 
