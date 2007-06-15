@@ -84,6 +84,9 @@ class Screen(TinyCompoundWidget):
         self.offset        = params.offset
         self.limit         = params.limit
         self.count         = params.count
+        
+        if (self.ids or self.id) and self.count == 0:
+            self.count = rpc.RPCProxy(self.model).search_count(self.domain)
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded

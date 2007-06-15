@@ -99,8 +99,9 @@ def search(model, offset=0, limit=20, domain=[], data={}):
 
     proxy = rpc.RPCProxy(model)                            
     ids = proxy.search(search_domain, o, l)
+    count = proxy.search_count(search_domain)
             
-    return dict(model=model, ids=ids, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
+    return dict(model=model, ids=ids, count=count, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
   
 class Search(controllers.Controller, TinyResource):
 
@@ -113,9 +114,9 @@ class Search(controllers.Controller, TinyResource):
         params.setdefault('offset', 0)
         params.setdefault('count', 0)
                         
-        search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})        
+        search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})       
         screen = tw.screen.Screen(params=params, selectable=2)
-        
+
         # don't show links in list view, except the do_select link
         screen.widget.show_links = 0
                 
