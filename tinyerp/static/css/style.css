@@ -225,6 +225,7 @@ div.message {
 	color: white;
 	text-align: center;
 	font-weight: bold;
+	border: none;
 }
 
 div.welcome {
