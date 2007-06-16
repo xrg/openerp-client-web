@@ -83,7 +83,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
         return Tree().create(params)
 
     else:
-        return common.error("INVALID VIEW!")
+        return common.error('Error', "Invalid View!")
 
 def execute_wizard(name, **datas):
     """Executes given wizard with the given data
@@ -148,7 +148,7 @@ def execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise common.error('Printing aborted, too long delay !')
+                raise common.error('Error', 'Printing aborted, too long delay !')
 
         return _print_data(val)
 
@@ -166,7 +166,7 @@ def execute(action, **data):
 
     if 'type' not in action:
         #XXX: in gtk client just returns to the caller
-        #raise common.error('Invalid action...')
+        #raise common.error('Error', 'Invalid action...')
         return
 
     if action['type']=='ir.actions.act_window':
@@ -228,7 +228,7 @@ def get_action_type(act_id):
     res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
     
     if not len(res):
-        raise common.error('Action not found!!!')
+        raise common.error('Error', 'Action not found!!!')
     
     return res[0]['type']
 

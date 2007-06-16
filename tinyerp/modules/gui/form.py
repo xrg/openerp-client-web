@@ -626,7 +626,7 @@ class Form(controllers.Controller, TinyResource):
 
         match = re.match('^(.*?)\((.*)\)$', callback)
         if not match:
-            raise common.error('Wrong on_change trigger: %s' % callback)
+            raise common.error('Error', 'Wrong on_change trigger: %s' % callback)
 
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]

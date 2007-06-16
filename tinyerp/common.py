@@ -52,8 +52,8 @@ class TinyMessage(TinyException):
     def __init__(self, message, title="Information"):
         TinyException.__init__(self, message=message, title=title)
 
-def error(message, title=None, details=None):
-    raise TinyError(message=message, title=title or "Error")
+def error(title, msg, details=None):
+    raise TinyError(message=msg, title=title or "Error")
 
 def warning(msg, title=None):
     raise TinyWarning(message=msg, title=title or "Warning")

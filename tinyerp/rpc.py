@@ -371,7 +371,7 @@ class RPCSession(object):
     def execute(self, obj, method, *args):
 
         if not self.is_logged():
-            raise common.error('Not logged!')
+            raise common.error('Authorization Error!', 'Not logged...')
 
         try:
             
@@ -379,14 +379,14 @@ class RPCSession(object):
             result = self.gateway.execute(obj, method, *args)
             #print "TERP-RESULT:", result
             return self.__convert(result)
-                
+
         except socket.error, (e1, e2):
             raise common.error('Connection refused !', e1, e2)
         
         except RPCException, err:
 
             if err.type in ('warning', 'UserError'):
-                raise common.warning(err.data, err.message)
+                raise common.warning(err.data)
             else:
                 raise common.error('Application Error', err.data, err.message)
             
@@ -441,14 +441,14 @@ if __name__=="__main__":
 
     session = RPCSession(store=dict())
 
-    host = '192.168.0.13'
-    port = '8069'
-    protocol = 'http'
+    host = 'localhost'
+    port = '8070'
+    protocol = 'socket'
 
     res = session.listdb(host, port, protocol)
     print res
 
-    res = session.login(host, port, 'etiny', 'admin', 'admin', protocol)
+    res = session.login(host, port, 'demo', 'admin', 'admin', protocol)
     print res
 
     res = RPCProxy('res.users').read([session.uid], ['name'])
