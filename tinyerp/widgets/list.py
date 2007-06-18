@@ -41,7 +41,7 @@ from interface import TinyCompoundWidget
 class Pager(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.pager"
-    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info']
+    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id']
 
     css = [widgets.CSSLink('tinyerp', 'css/pager.css')]
 
@@ -50,6 +50,7 @@ class Pager(TinyCompoundWidget):
     count = 0
     
     page_info = None
+    pager_id = 'pager'
 
     def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_mode=['tree','form']):
         

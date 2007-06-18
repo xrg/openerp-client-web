@@ -50,7 +50,7 @@
 						<a href="#">Import</a> |
 						<a href="#">Export</a>
 					</td>
-                    <td align="right" py:content="pager.display()"></td>
+                    <td align="right" py:content="pager.display(pager_id='pager2')"></td>
                 </tr>
             </table>
         </td>
