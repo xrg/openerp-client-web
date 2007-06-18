@@ -37,7 +37,7 @@ from tinyerp import rpc
 from tinyerp import tools
 
 from interface import TinyCompoundWidget
-
+       
 class Pager(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.pager"
@@ -48,23 +48,35 @@ class Pager(TinyCompoundWidget):
     offset = 0
     limit = 20
     count = 0
-    total = 0
-
+    
     page_info = None
 
-    def __init__(self, idx = 0, offset=0, limit=20, count=128, total=-1):
+    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_mode=['tree','form']):
+        
         super(Pager, self).__init__()
 
         self.limit = limit or 20
         self.offset = offset or 0
         self.count = count
-        self.total = total
         
-        self.prev = self.offset > 0
-        self.next = self.offset+self.total < self.count
+        self.id = id or False
+        self.ids = ids or []
+        
+        if view_mode[0] == 'form':
+            index = 0            
+            if self.id in self.ids:
+                index = self.offset + self.ids.index(self.id) + 1
 
-        self.page_info = "[%s - %s of %s]" % (self.offset+1, self.offset + self.total, self.count)
+            self.page_info = "[%s/%s]" % (index or '-', self.count)
+                        
+            self.prev = index > 0
+            self.next = index < self.count
 
+        else:
+            self.page_info = "[%s - %s of %s]" % (self.offset+1, self.offset + len(self.ids), self.count)
+            self.prev = self.offset > 0
+            self.next = self.offset+len(self.ids) < self.count
+                        
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.list"
@@ -157,7 +169,7 @@ class List(TinyCompoundWidget):
         self.columns += (self.editable or 0) and 2
 
         if self.pageable:            
-            self.pager = Pager(offset=self.offset, limit=self.limit, count=self.count, total=len(self.ids or []))
+            self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
 
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.

@@ -102,13 +102,8 @@ class Form(controllers.Controller, TinyResource):
         pager = None
         if buttons.pager:
             total = len(ids or (id or []) and [id])
-            pager = tw.list.Pager(limit=form.screen.limit, offset=form.screen.offset, count=form.screen.count, total=total)
-
-            pager.prev = pager.offset > 0
-            pager.next = pager.offset+1 < pager.count
+            pager = tw.list.Pager(id=form.screen.id, ids=form.screen.ids, limit=form.screen.limit, offset=form.screen.offset, count=form.screen.count, view_mode=params.view_mode)
             
-            pager.page_info = "[%d/%d]"%(pager.offset+1, pager.count)
-
         return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
