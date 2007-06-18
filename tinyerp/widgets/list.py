@@ -69,7 +69,7 @@ class Pager(TinyCompoundWidget):
 
             self.page_info = "[%s/%s]" % (index or '-', self.count)
                         
-            self.prev = index > 0
+            self.prev = index > 1
             self.next = index < self.count
 
         else:
