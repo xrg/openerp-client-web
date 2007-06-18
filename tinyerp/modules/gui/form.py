@@ -62,9 +62,6 @@ class Form(controllers.Controller, TinyResource):
 
         if params.view_mode[0] == 'tree':
             params.editable = True
-            
-        if params.view_mode[0] == 'form' and params.id and params.ids and params.id != params.ids[0]:
-            params.offset += params.ids.index(params.id)
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
@@ -101,8 +98,7 @@ class Form(controllers.Controller, TinyResource):
 
         pager = None
         if buttons.pager:
-            total = len(ids or (id or []) and [id])
-            pager = tw.list.Pager(id=form.screen.id, ids=form.screen.ids, limit=form.screen.limit, offset=form.screen.offset, count=form.screen.count, view_mode=params.view_mode)
+            pager = tw.list.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_mode=params.view_mode)
             
         return dict(form=form, pager=pager, buttons=buttons)
 
@@ -158,6 +154,18 @@ class Form(controllers.Controller, TinyResource):
 
         current.view_mode = ['form', 'tree']
         current.editable = False
+        
+        if current.ids == None and current.id:
+            proxy = rpc.RPCProxy(current.model)                                    
+            ids = proxy.search([])
+            
+            index = 0
+            if current.id in ids:
+                index = ids.index(current.id)
+                
+            current.offset = index
+            current.limit = 20
+            current.ids = proxy.search([], current.offset, current.limit)
 
         return self.create(current)
 
@@ -220,6 +228,7 @@ class Form(controllers.Controller, TinyResource):
                 id = proxy.create(data, params.context)
                 params.ids = (params.ids or []) + [int(id)]
                 params.id = int(id)
+                params.count = 0 # invalidate count
             else:
                 id = proxy.write([params.id], data, params.context)
 
@@ -302,7 +311,8 @@ class Form(controllers.Controller, TinyResource):
         if current.id:
             res = proxy.unlink([current.id])
             idx = current.ids.index(current.id)
-            current.ids.remove(current.id)
+            current.ids.remove(current.id)            
+            params.count = 0 # invalidate count
 
             if idx == len(current.ids):
                 idx = -1
@@ -377,8 +387,30 @@ class Form(controllers.Controller, TinyResource):
 
         res = search.search(params.model, o, l, domain=domain, data=data)
         params.update(res)
-
-        params.id = (params.ids or False) and params.ids[0]
+        
+        if params.ids:
+            
+            if params.filter_action == 'FIRST':
+                params.id = params.ids[0]
+            
+            if params.filter_action == 'PREV':
+                if params.id in params.ids and params.ids.index(params.id) > 0:
+                    params.id = params.ids[params.ids.index(params.id)-1]
+                else:
+                    params.id = params.ids[-1]
+                    
+            if params.filter_action == 'NEXT':
+                if params.id in params.ids and params.ids.index(params.id) < len(params.ids):
+                    params.id = params.ids[params.ids.index(params.id)+1]
+                else:
+                    params.id = params.ids[0]
+        
+            if params.filter_action == 'LAST':
+                params.id = params.ids[-1]
+                
+        if not params.id:
+            params.id = (params.ids or False) and params.ids[0]
+            
         return self.create(params)
 
     @expose()
@@ -399,6 +431,7 @@ class Form(controllers.Controller, TinyResource):
         o = 0
 
         kw['_terp_offset'] = o
+        kw['_terp_filter_action'] = 'FIRST'
 
         return self.filter(**kw)
 
@@ -412,12 +445,11 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0
 
-        if params.view_mode[0] == 'form':
-            o -= 1
-        else:
+        if not (params.view_mode[0] == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)-1 > 0):
             o -= l
 
         kw['_terp_offset'] = o
+        kw['_terp_filter_action'] = 'PREV'
 
         return self.filter(**kw)
 
@@ -457,12 +489,11 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0
 
-        if params.view_mode[0] == 'form':
-            o += 1
-        else:
+        if not (params.view_mode[0] == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)+1 < len(params.ids)):
             o += l
 
         kw['_terp_offset'] = o
+        kw['_terp_filter_action'] = 'NEXT'
 
         return self.filter(**kw)
 
@@ -502,12 +533,10 @@ class Form(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
         c = params.get('count') or 0
         
-        if params.view_mode[0] == 'form':
-            o = c - 1
-        else:
-            o = c - l
+        o = c - (c % l)
 
         kw['_terp_offset'] = o
+        kw['_terp_filter_action'] = 'LAST'
 
         return self.filter(**kw)
 

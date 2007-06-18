@@ -41,7 +41,7 @@ from interface import TinyCompoundWidget
 class Pager(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.pager"
-    params = ['offset', 'limit', 'count', 'total', 'prev', 'next', 'page_info']
+    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info']
 
     css = [widgets.CSSLink('tinyerp', 'css/pager.css')]
 
@@ -63,17 +63,20 @@ class Pager(TinyCompoundWidget):
         self.ids = ids or []
         
         if view_mode[0] == 'form':
-            index = 0            
+            
+            index = 0
             if self.id in self.ids:
                 index = self.offset + self.ids.index(self.id) + 1
-
+                
             self.page_info = "[%s/%s]" % (index or '-', self.count)
                         
             self.prev = index > 1
             self.next = index < self.count
 
         else:
-            self.page_info = "[%s - %s of %s]" % (self.offset+1, self.offset + len(self.ids), self.count)
+            index = (self.count or 0) and self.offset + 1
+
+            self.page_info = "[%s - %s of %s]" % (index, self.offset + len(self.ids), self.count)
             self.prev = self.offset > 0
             self.next = self.offset+len(self.ids) < self.count
                         

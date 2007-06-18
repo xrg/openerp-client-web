@@ -251,7 +251,7 @@ class Search(controllers.Controller, TinyResource):
         o = params.get('offset') or 0
         c = params.get('count') or 0
         
-        o = c - l
+        o = c - (c % l)
 
         kw['_terp_offset'] = o
 
