@@ -187,6 +187,8 @@ class Notebook(TinyCompoundWidget):
         super(Notebook, self).__init__(attrs)
         self.children = children
         self.nolabel = True
+                
+        self.colspan = attrs.get('colspan', 3)
 
 class Separator(TinyField):
     """Separator widget.
