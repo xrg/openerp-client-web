@@ -14,12 +14,12 @@
             <input type="checkbox" class="checkbox" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
         </td>
         <td py:for="(field, field_attrs) in headers" py:content="field_attrs['string']" class="${field_attrs.get('type', 'char')}">Title</td>
-        <td align="center" width="10px" py:if="editable">&nbsp;</td>
-        <td align="center" width="10px" py:if="editable">&nbsp;</td>
+        <td width="1%" py:if="editable">&nbsp;</td>
+        <td width="1%" py:if="editable">&nbsp;</td>
     </tr>
 
     <tr py:for="i, row in enumerate(data)" class="row">
-        <td width="1%" py:if="selector">
+        <td py:if="selector">
             <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
         </td>
         <td py:for="i, (field, field_attrs) in enumerate(headers)"  class="${field_attrs.get('type', 'char')}" style="color: ${row[field].color};" >
