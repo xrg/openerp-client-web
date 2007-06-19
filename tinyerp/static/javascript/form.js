@@ -237,18 +237,14 @@ function getName(name, relation){
     }
 }
 
-function open_search_window(relation, domain, context, source, kind) {
+function eval_domain_context_request(options){
 
-	if ((domain == '' || domain == '[]') && (context == '' || context == '{}')){
-		return wopen(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind}), 'search_window', 800, 600);
-	}
-
-	var prefix = source.split("/");
+	var prefix = options.source.split("/");
     prefix.pop();
-
+    
 	var form = $('view_form');
-	var params = {'_terp_domain': domain, '_terp_context': context, '_terp_prefix': prefix};
-
+	var params = {'_terp_domain': options.domain, '_terp_context': options.context, '_terp_prefix': prefix};
+	
     forEach(form.elements, function(e){
 
         if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button') {
@@ -267,11 +263,20 @@ function open_search_window(relation, domain, context, source, kind) {
           	}
     	}
     });
+    
+    return Ajax.post('/search/eval_domain_and_context', params);	
+}
 
-    var req = Ajax.post('/search/eval_domain_and_context', params);
+function open_search_window(relation, domain, context, source, kind, text) {
 
-    req.addCallback(function(xmlHttp){
+	if (text || (domain == '' || domain == '[]') && (context == '' || context == '{}')){
+		return wopen(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind, text: text}), 'search_window', 800, 600);
+	}
+	
+	var req = eval_domain_context_request({source: source, domain: domain, context: context});
+	
+	req.addCallback(function(xmlHttp){
     	var res = evalJSONRequest(xmlHttp);
-		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search_window', 800, 600);
+		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind, text: text}), 'search_window', 800, 600);
     });
 }

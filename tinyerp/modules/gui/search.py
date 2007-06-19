@@ -123,12 +123,13 @@ class Search(controllers.Controller, TinyResource):
         return dict(search=search, screen=screen, params=params)
     
     @expose()
-    def new(self, model, source=None, kind=0, domain=[], context={}):
+    def new(self, model, source=None, kind=0, text=None, domain=[], context={}):
         """Create new search view...
         
         @param model: the model
         @param source: the source, in case of m2m, m2o search
         @param kind: 0=normal, 1=m2o, 2=m2m
+        @param text: do `name_search` if text is provided
         @param domain: the domain
         @param context: the context
         """
@@ -142,6 +143,12 @@ class Search(controllers.Controller, TinyResource):
         params.source = source
         params.kind = kind
         
+        if text:
+            proxy = rpc.RPCProxy(model)
+            ids = proxy.name_search(text, params.domain or [], 'ilike', params.context or {})
+            if ids:
+                params.ids = [id[0] for id in ids]
+
         return self.create(params)
     
     @expose('json')
@@ -271,6 +278,22 @@ class Search(controllers.Controller, TinyResource):
             name=''
         return dict(name=name)
     
+    @expose('json')
+    def get_matched(self, model, text, **kw):
+        params, data = TinyDict.split(kw)
+
+        domain = params.domain or []
+        context = params.context or {}
+
+        proxy = rpc.RPCProxy(model)
+                
+        ids = proxy.name_search(text, domain, 'ilike', context)
+        
+        if ids:
+            ids = [id[0] for id in ids]
+
+        return dict(ids=ids)
+
     @expose()
     def get_list(self, model, ids, list_id):
         if not ids:
