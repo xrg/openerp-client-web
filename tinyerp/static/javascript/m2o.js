@@ -112,7 +112,7 @@ ManyToOne.prototype.on_change_text = function(evt){
 	}
 }
 
-ManyToOne.prototype.on_keypdown = function(evt){
+ManyToOne.prototype.on_keydown = function(evt){
 
 	var key = evt.event().keyCode;
 
