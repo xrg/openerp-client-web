@@ -186,8 +186,9 @@ var onChange = function(name) {
 
     req.addCallback(function(xmlHttp){
         res = evalJSONRequest(xmlHttp);
-        values = res['value'];
-		for(var k in values){
+        values = res['value'];        
+
+		for(var k in values){				
 			flag = false;
             fld = $(prefix + k);
             if (fld) {
@@ -198,13 +199,14 @@ var onChange = function(name) {
                 	fld = $(prefix + k + '_id');
                 	flag = true;
                 }
-
+                                
                 if ((fld.value != value) || flag) {
                 	fld.value = value;
-                    if (typeof fld.onchange != 'undefined'){
+                	
+                	if (!isUndefinedOrNull(fld.onchange)){
                         fld.onchange();
             	    }else{
-            	    	signal(fld, 'onchange');
+            	    	MochiKit.Signal.signal(fld, 'onchange');
             	    }
                	}
             }
