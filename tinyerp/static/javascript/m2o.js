@@ -43,7 +43,7 @@ var ManyToOne = function(name){
 	
 	connect(this.field, 'onchange', this, this.on_change);
 	//connect(this.text, 'onchange', this, this.on_change_text);
-	connect(this.text, 'onkeypress', this, this.on_keypress);
+	connect(this.text, 'onkeydown', this, this.on_keydown);
 	
 	connect(this.create_button, 'onclick', this, this.create);
 	connect(this.select_button, 'onclick', this, this.select);
@@ -112,16 +112,16 @@ ManyToOne.prototype.on_change_text = function(evt){
 	}
 }
 
-ManyToOne.prototype.on_keypress = function(evt){
+ManyToOne.prototype.on_keypdown = function(evt){
 
 	var key = evt.event().keyCode;
 
 	if (key == 8 || key == 46){
-		this.text.value = null;
-		this.field.value = null;
+		this.text.value = '';
+		this.field.value = '';
 		this.on_change(evt);
 	}
-			
+
 	if (key == 13 && this.text.value && !this.field.value){
 		this.get_matched();
 	}
