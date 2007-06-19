@@ -8,12 +8,12 @@
             </td>
             <td width="1px"><div class="spacer"/></td>
             <td width="45px">
-                <button type="button" id='${name}_create' title="Create a new resource" py:attrs="attrs" tabindex="-1">New</button>
+                <button type="button" id='${name}_create' title="Create a new resource" py:attrs="attrs">New</button>
             </td>
             <td width="1px"><div class="spacer"/></td>
     
             <td width="45px">
-                <button type="button" id='${name}_select' title="Search / Open a resource" disabled="${tg.selector(attrs.get('disabled') and not value)}" tabindex="-1">Select</button>
+                <button type="button" id='${name}_select' title="Search / Open a resource" disabled="${tg.selector(attrs.get('disabled') and not value)}">Select</button>
             </td>
         </tr>
     </table>
