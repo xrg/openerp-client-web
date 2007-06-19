@@ -49,8 +49,8 @@
 
             value_field = window.opener.document.getElementById('${params.source}');
             value_field.value = id;
-
-            window.opener.setTimeout("$('${params.source}').onchange($('${params.source}'))", 0);
+            
+            window.opener.setTimeout("signal($('${params.source}'), 'onchange')", 0);
             window.setTimeout("window.close()", 5);
         }
     </script>

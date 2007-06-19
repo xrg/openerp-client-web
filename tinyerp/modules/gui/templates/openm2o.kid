@@ -9,13 +9,6 @@
 
     <script type="text/javascript">
         
-    	  function on_close() {
-     	  	if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
-    	  		window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
-    	  	window.opener.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
-            window.setTimeout("window.close()", 5);
-    	  }
-
           function check_for_popup() {
    	        if(window.opener) {
                 var h = $('header');
@@ -25,14 +18,18 @@
                 var s = $('sidebar_hide');
                 if(s)
                 	s.parentNode.removeChild(s);
-
-                if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
-    	  			window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
-    		  	window.opener.setTimeout("$('${params.m2o}').onchange($('${params.m2o}'))", 0);
-    	    }
+    	    }                        
         }
-        connect(window, 'onload', check_for_popup);
-        connect(window, 'onclose', on_close);
+        
+        function on_load() {
+
+            check_for_popup();
+        
+            if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
+                window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
+            window.opener.setTimeout("signal($('${params.m2o}'), 'onchange')", 0);                        
+        }
+        connect(window, 'onload', on_load);
     </script>
 
 </head>

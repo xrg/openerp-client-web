@@ -275,26 +275,3 @@ function open_search_window(relation, domain, context, source, kind) {
 		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind}), 'search_window', 800, 600);
     });
 }
-
-function openm2o(action, relation, id)
-{
-    wname = 'select_' + relation;
-	id1 = '';
-    if (window.opener){
-        if (typeof window.popup_counter == "undefined")
-            window.popup_counter = 0;
-
-        window.popup_counter += 1;
-        wname += window.popup_counter;
-    }
-	if (action=="new")
-		id1 = null;
-	else if($(id))
-		id1 = $(id) ? $(id).value : null;
-	act = getURL('/openm2o/edit', {_terp_model: relation, _terp_view_mode: '[form,tree]', _terp_m2o: id, _terp_id: id1});
-
-	wname = wname.replace('.', '_');
-
-	wopen(act, wname, 800, 600);
-}
-
