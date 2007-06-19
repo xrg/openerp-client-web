@@ -174,7 +174,7 @@ var onChange = function(name) {
             }
         }
     });
-
+    
     if (!callback)
         return;
 
@@ -203,7 +203,9 @@ var onChange = function(name) {
                 	fld.value = value;
                     if (typeof fld.onchange != 'undefined'){
                         fld.onchange();
-            	     }
+            	    }else{
+            	    	signal(fld, 'onchange');
+            	    }
                	}
             }
         }
