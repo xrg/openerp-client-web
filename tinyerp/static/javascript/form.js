@@ -182,11 +182,10 @@ var onChange = function(name) {
     vals['_terp_callback'] = callback;
     vals['_terp_model'] = model;
 
-    req = Ajax.post('/form/on_change', vals);
+    req = Ajax.JSON.post('/form/on_change', vals);
 
-    req.addCallback(function(xmlHttp){
-        res = evalJSONRequest(xmlHttp);
-        values = res['value'];        
+    req.addCallback(function(obj){
+        values = obj['value'];
 
 		for(var k in values){				
 			flag = false;
@@ -232,11 +231,9 @@ function getName(name, relation){
     }
 
     if (value_field.value){
-        var req = Ajax.get('/search/get_name', {model: relation, id : value_field.value});
-
-        req.addCallback(function(xmlHttp){
-            var res = evalJSONRequest(xmlHttp);
-            text_field.value = res['name'];
+        var req = Ajax.JSON.get('/search/get_name', {model: relation, id : value_field.value});
+        req.addCallback(function(obj){
+            text_field.value = obj.name;
         });
     }
 }
@@ -268,7 +265,7 @@ function eval_domain_context_request(options){
     	}
     });
     
-    return Ajax.post('/search/eval_domain_and_context', params);	
+    return Ajax.JSON.post('/search/eval_domain_and_context', params);
 }
 
 function open_search_window(relation, domain, context, source, kind, text) {
@@ -279,8 +276,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
 	
 	var req = eval_domain_context_request({source: source, domain: domain, context: context});
 	
-	req.addCallback(function(xmlHttp){
-    	var res = evalJSONRequest(xmlHttp);
-		wopen(getURL('/search/new', {model: relation, domain: res.domain, context: res.context, source: source, kind: kind, text: text}), 'search_window', 800, 600);
+	req.addCallback(function(obj){
+		wopen(getURL('/search/new', {model: relation, domain: obj.domain, context: obj.context, source: source, kind: kind, text: text}), 'search_window', 800, 600);
     });
 }

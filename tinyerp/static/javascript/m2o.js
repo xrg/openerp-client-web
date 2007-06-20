@@ -44,6 +44,7 @@ var ManyToOne = function(name){
 	connect(this.field, 'onchange', this, this.on_change);
 	//connect(this.text, 'onchange', this, this.on_change_text);
 	connect(this.text, 'onkeydown', this, this.on_keydown);
+	connect(this.text, 'onkeypress', this, this.on_keypress);
 	
 	connect(this.create_button, 'onclick', this, this.create);
 	connect(this.select_button, 'onclick', this, this.select);
@@ -84,12 +85,11 @@ ManyToOne.prototype.get_text = function(evt){
 	}
 
     if (this.field.value){
-        var req = Ajax.get('/search/get_name', {model: this.relation, id : this.field.value});
+        var req = Ajax.JSON.get('/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
         
-        req.addCallback(function(xmlHttp){
-            var res = evalJSONRequest(xmlHttp);
-            text_field.value = res['name'];
+        req.addCallback(function(obj){
+            text_field.value = obj.name;
         });
     }
 }
@@ -122,8 +122,14 @@ ManyToOne.prototype.on_keydown = function(evt){
 		this.on_change(evt);
 	}
 
-	if (key == 13 && this.text.value && !this.field.value){
+	if ((key == 13 || key == 9) && this.text.value && !this.field.value){
 		this.get_matched();
+	}
+}
+
+ManyToOne.prototype.on_keypress = function(evt){
+	if (this.field.value && evt.key().string){
+		evt.stop();
 	}
 }
 
@@ -133,13 +139,11 @@ ManyToOne.prototype.get_matched = function(){
 	
 	var do_get_matched = function(relation, text, domain, context){
 
-		req2 = Ajax.get('/search/get_matched', {model: relation, text: text, _terp_domain: domain, _terp_context: context});
+		var req2 = Ajax.JSON.get('/search/get_matched', {model: relation, text: text, _terp_domain: domain, _terp_context: context});
 						
-		req2.addCallback(function(xmlHttp){
-			var ids = evalJSONRequest(xmlHttp)['ids'];
-				
-			if (ids.length == 1) {
-				m2o.field.value = ids[0];
+		req2.addCallback(function(obj){				
+			if (obj.ids.length == 1) {
+				m2o.field.value = obj.ids[0];
 				m2o.on_change();
 			}else{
 				open_search_window(relation, domain, context, m2o.name, 1, text);
@@ -148,9 +152,8 @@ ManyToOne.prototype.get_matched = function(){
 	}
 
 	var req = eval_domain_context_request({source: this.name, domain: this.domain, context: this.context});
-	
-	req.addCallback(function(xmlHttp){
-		res = evalJSONRequest(xmlHttp);
-		do_get_matched(m2o.relation, m2o.text.value, res.domain, res.context);
+		
+	req.addCallback(function(obj){
+		do_get_matched(m2o.relation, m2o.text.value, obj.domain, obj.context);
 	});
 }
