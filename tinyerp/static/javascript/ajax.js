@@ -30,26 +30,28 @@
 var Ajax = function(){
 }
 
-Ajax.prototype.get = function(url, params){
-	return MochiKit.Async.doSimpleXMLHttpRequest(url, params);
-}
+Ajax.prototype = {
 
-Ajax.prototype.post = function(url, params){
-	var req = MochiKit.Async.getXMLHttpRequest();
+	get: function(url, params){
+		return MochiKit.Async.doSimpleXMLHttpRequest(url, params);
+	},
+
+	post: function(url, params){
+		var req = MochiKit.Async.getXMLHttpRequest();
+		req.open("POST", url, true);
+	
+		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		req.setRequestHeader("Connection", "close");
+
+		var qs = null;
+					
+		if (params) {
+			qs = MochiKit.Base.queryString(params);
+			req.setRequestHeader("Content-length", qs.length);
+		}
 		
-	req.open("POST", url, true);
-	
-	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	req.setRequestHeader("Connection", "close");
-	
-	var qs = null;
-				
-	if (params) {
-		qs = MochiKit.Base.queryString(params);
-		req.setRequestHeader("Content-length", qs.length);
+		return MochiKit.Async.sendXMLHttpRequest(req, qs);
 	}
-	
-	return MochiKit.Async.sendXMLHttpRequest(req, qs);
 }
 
 Ajax.get = function(url, params){
@@ -59,3 +61,29 @@ Ajax.get = function(url, params){
 Ajax.post = function(url, params){
 	return new Ajax().post(url, params);
 }
+
+var JSON = function(){
+}
+
+JSON.prototype = {
+
+	get: function(url, params){
+		var req = Ajax.get(url, params);
+		return req.addCallback(MochiKit.Async.evalJSONRequest);
+	},
+
+	post: function(url, params){
+		var req = Ajax.post(url, params);
+		return req.addCallback(MochiKit.Async.evalJSONRequest);
+	}
+}
+
+JSON.get = function(url, params){
+	return new JSON().get(url, params);
+}
+
+JSON.post = function(url, params){
+	return new JSON().post(url, params);
+}
+
+Ajax.JSON = new JSON();
