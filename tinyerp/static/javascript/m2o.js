@@ -128,7 +128,7 @@ ManyToOne.prototype.on_keydown = function(evt){
 }
 
 ManyToOne.prototype.on_keypress = function(evt){
-	if (this.field.value && evt.key().string){
+	if ((this.field.value && evt.key().string) || evt.event().keyCode == 13){
 		evt.stop();
 	}
 }
