@@ -230,9 +230,9 @@ div.message {
 
 div.welcome {
 	text-align: center;
-        color: #990033;
+    color: #990033;
 	font-size: 16px;
-	font-weight: bold;position
+	font-weight: bold;
 }
 
 /* view style */
@@ -299,6 +299,10 @@ td.label {
 
 td.item input,td.item select,td.item textarea,td.item button {
 	width: 99%;
+}
+
+td.item .mceSelectList {
+    width: auto;
 }
 
 td.item .checkbox,td.item .radio {
