@@ -72,7 +72,10 @@ class Frame(TinyCompoundWidget):
 
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
-
+        
+        self.x = 0
+        self.y = 0
+        
         self.add_row()
 
         self.children = children
@@ -82,8 +85,14 @@ class Frame(TinyCompoundWidget):
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
-
-            self.add2(child, string, rowspan=rowspan, colspan=colspan)
+            
+            if isinstance(child, Button) and not child.visible:
+                continue
+            
+            if isinstance(child, NewLine):
+                self.add_row()
+            else:
+                self.add(child, string, rowspan, colspan)
 
         self.fields = []
 
@@ -108,70 +117,54 @@ class Frame(TinyCompoundWidget):
                 elif isinstance(wid, Image):                    
                     w = 0
                 else:
-                    w = ww * a.get('colspan', 1)
+                    c = a.get('colspan', 1)
+                    if c > mx:
+                        c = 1
+                        
+                    w = ww * c
 
                 a['width'] = '%d%%' % (w)
 
     def add_row(self):
         self.table.append([])
-        self.cols = self.columns
 
-    def new_line(self):
-        self.add_row()
+        self.x = 0
+        self.y += 1
+            
+    def add(self, widget, label=None, rowspan=1, colspan=1):
 
-    def add(self, widget, rowspan=1, colspan=1, css_class=None, width=None):
-
-        if self.cols == 0:
+        if colspan > self.columns:
+            colspan = self.columns
+                        
+        a = label and 1 or 0
+                
+        if colspan + self.x + a > self.columns:
             self.add_row()
 
-        if isinstance(widget, TinyWidget) and widget.colspan == self.columns and self.cols < self.columns and widget.nolabel == False:
-            colspan = self.columns - 1
-
+        if colspan == 1 and a == 1:
+            colspan = 2
+            
         tr = self.table[-1]
-
-        attrs = {}
-        if rowspan > 1: attrs['rowspan'] = rowspan
-        if colspan > 1: attrs['colspan'] = colspan
-        if css_class: attrs['class'] = css_class
-
-        if width is not None:
-            attrs['width'] = '%d%%' % width
-
-        td = [attrs]
+        
+        if label: 
+            colspan -= 1            
+            attrs = {'class': 'label'}
+            td = [attrs, label]
+            tr.append(td)            
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator and not widget.readonly:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields += [widget]
 
-        td.append(widget)
+        attrs = {'class': 'item'}
+        if rowspan > 1: attrs['rowspan'] = rowspan
+        if colspan > 1: attrs['colspan'] = colspan        
+
+        td = [attrs, widget]
         tr.append(td)
 
-        self.cols -= colspan
-
-    def add2(self, item, label=None, rowspan=1, colspan=1):
-        if not item: return
-
-        if isinstance(item, Button) and not item.visible:
-            return
-
-        if isinstance(item, NewLine):
-            self.new_line()
-            return
-
-        if self.cols < colspan:
-            self.add_row()
-
-        if label:
-            if self.cols == 1:
-                self.add_row()
-                                
-            self.add(label, css_class='label')
-            colspan -= 1
-
-        if colspan < 1: colspan = 1
-
-        self.add(item, rowspan=rowspan, colspan=colspan, css_class='item')
-
+        self.x += colspan + a
+        
 class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
