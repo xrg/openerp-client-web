@@ -152,6 +152,30 @@
                             </table>
                         </td>
                     </tr>
+                    <tr py:if="'relate' in form.screen.toolbar">
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
+                                <tr>
+                                    <td>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td width="8" style="background: #ac0000"/>
+                                                <td width="7" style="background-color: #363636"/>
+                                                <td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">LINKS</td>
+                                                <td width="25" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
+                                                <td width="50" style="background-color: #666666"/>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                                    <td colspan="5">
+                                        <a href="#">${item['string']}</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                 </table>              
             </td>               
             
