@@ -223,10 +223,13 @@ class Label(TinyField):
 
 class Char(TinyField):
     template = "tinyerp.widgets.templates.char"
-
+    params = ['invisible']
+    invisible = False
+    
     def __init__(self, attrs={}):
         super(Char, self).__init__(attrs)
-        self.validator = tiny_validators.String()
+        self.validator = tiny_validators.String()        
+        self.invisible = attrs.get('invisible', False)
 
     def set_value(self, value):
         self.default = value
