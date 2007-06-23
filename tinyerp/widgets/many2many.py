@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2007 TinyERP Pvt Ltd. (http://tinyerp.com) All Rights Reserved.
 #
-# $Id: list.py 7 2007-03-23 12:58:38Z ame $
+# $Id$
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential

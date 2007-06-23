@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2007 TinyERP Pvt Ltd. (http://tinyerp.com) All Rights Reserved.
 #
-# $Id: shortcuts.py 334 2007-05-11 13:22:31Z ame $
+# $Id$
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsability of assessing all potential
