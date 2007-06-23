@@ -40,16 +40,20 @@ import tiny_socket
 import common
 
 class RPCException(Exception):
-    def __init__(self, code, msg):
-        self.code = code
+           
+    def __init__(self, code, backtrace):
 
-#        lines = msg.split('\n')
-        lines = code.split('\n')        
-        self.data = '\n'.join(lines[2:])
+        self.code = code
+        lines = code.split('\n')
+
         self.type = lines[0].split(' -- ')[0]
         self.message = ''
         if len(lines[0].split(' -- ')) > 1:
-            self.message = lines[0].split(' -- ')[1]        
+            self.message = lines[0].split(' -- ')[1]
+
+        self.data = '\n'.join(lines[2:])
+
+        self.backtrace = backtrace
 
     def __str__(self):
         return self.message
@@ -388,7 +392,7 @@ class RPCSession(object):
             if err.type in ('warning', 'UserError'):
                 raise common.warning(err.data)
             else:
-                raise common.error('Application Error', err.data, err.message)
+                raise common.error('Application Error', err.code, err.backtrace)
             
         except Exception, e:
             raise common.error('Application Error', 'View details', str(e))
