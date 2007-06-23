@@ -6,11 +6,11 @@
             </td>
 
             <td py:if="text is not None" width="75px">
-                <button type="submit" onclick="submit_form('save_binary?field_search=${name}')">Save As</button>
+                <button type="submit" onclick="submit_form('save_binary?_terp_field=${name}')">Save As</button>
             </td>
             <td py:if="text is not None" width="1px"><div class="spacer"/></td>    
-            <td py:if="text is not None" width="75px">
-                <button type="submit" onclick="submit_form('clear_binary?field_search=${name}')">Clear</button>                
+            <td py:if="text is not None and not readonly" width="75px">
+                <button type="submit" onclick="submit_form('clear_binary?_terp_field=${name}')">Clear</button>                
             </td>            
         </tr>
      </table>		          

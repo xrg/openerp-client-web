@@ -28,6 +28,7 @@
 ###############################################################################
 
 import re
+import base64
 
 from turbogears import expose
 from turbogears import widgets
@@ -322,36 +323,28 @@ class Form(controllers.Controller, TinyResource):
         self.del_notebook_cookies()
         return self.create(params)
 
-    @expose()
+    @expose(content_type='application/octet')
     def save_binary(self, **kw):
-        model = kw.get("_terp_model")
-        id = kw.get("_terp_id")
-        field = kw.get("field_search")
-        demo = ''
+        params, data = TinyDict.split(kw)
+        
+        if params.datas:
+            form = params.datas['form']
+            res = form.get(params.field)
+            return base64.decodestring(res)
+        
+        proxy = rpc.RPCProxy(params.model)
+        res = proxy.read([params.id],[params.field])
 
-        try:
-            proxy = rpc.RPCProxy(model)
-            demo = proxy.read([id],[field])
-            cherrypy.response.headers['Content-Type'] = "application/data"
-            return demo[0]['datas']
-        except Exception, e:
-            return str(e)
-        return dict()
+        return res[0]['datas']
 
     @expose()
-    def clear_binary(self, **kw):
+    def clear_binary(self, **kw):        
         params, data = TinyDict.split(kw)
-        model = params.model
-        id = params.id
-        field = data.get('field_search')
-        demo = ''
-        try:
-            proxy = rpc.RPCProxy(model)
-            demo = proxy.write([int(id)],{field:False})
-            return self.create(params)
-        except Exception, e:
-            return str(e)
-        return dict()
+        
+        proxy = rpc.RPCProxy(params.model)
+        proxy.write([params.id], {params.field: False})
+                
+        return self.create(params)
 
     def get_filter_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
