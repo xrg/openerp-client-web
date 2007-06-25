@@ -15,5 +15,5 @@
         </tr>
      </table>		          
 	 <span py:if="editable and error" class="fielderror" py:content="error"/>
-     <span py:if="not editable" py:content="value"/>
+     <span py:if="not editable" py:content="value or text"/>
 </span>
