@@ -6,21 +6,26 @@ This text lists some (but not all) of the TODOs and ISSUEs that might be
 implemented or fixed in very near future...
 
  *** : PRIORITY HIGH
-  ** : PRIORITY MEDIUM
+  ** : PRIORITY NORMAL
    * : PRIORITY LOW
 
 -------------------------------------------------------------------------------
-TODO: Phase 1
+TODO:
 -------------------------------------------------------------------------------
 
-    * - better one2many with pop when new or editing (ex: sale order lines)
-    * - use the trunk version and implement dashboards and netrpc
-
+   *** - Add pager in dashboard and O2M lists.
+	** - Quick Create
+    ** - Columns Sorting in List View
+    ** - Right click on fields
+    ** - New on O2M        
+   *** - Editable List View
+     * - multi-lingual web client
+     
 -------------------------------------------------------------------------------
-TODO: Phase 2
--------------------------------------------------------------------------------
+ISSUES:
+-------------------------------------------------------------------------------     
 
-    * - https://wiki.tinyerp.com/index.php/ETiny/ErgonomyNotes
+	-
 
 -------------------------------------------------------------------------------
 Copyright (c) 2007 TinyERP India Pvt. Ltd.
