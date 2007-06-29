@@ -11,18 +11,18 @@
     background-color: #f9f9f9;
 }
 
-.grid-header-cell {
+.grid-cell {
     padding: 2px 4px;
     border: none;
 }
 
-.grid-header .grid-header-cell {
+.grid-header .grid-cell {
 	background:url(/static/images/gradientlinebg.gif);
 	border-bottom: 1px solid #999;
 	font-weight: bold;
 }
 
-.grid-row .grid-header-cell {
+.grid-row .grid-cell {
     border-bottom: 1px solid #E3E3E3;
 }
 
