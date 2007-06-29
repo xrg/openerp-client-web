@@ -3,27 +3,26 @@
 	border-top: 1px solid #999;
 }
 
-.grid .header td,
-.grid .row td {
+.grid-row {
+    background-color: white;
+}
+
+.grid-row:hover {
+    background-color: #f9f9f9;
+}
+
+.grid-header-cell {
     padding: 2px 4px;
     border: none;
 }
 
-.grid .header td {
+.grid-header .grid-header-cell {
 	background:url(/static/images/gradientlinebg.gif);
 	border-bottom: 1px solid #999;
 	font-weight: bold;
 }
 
-.grid .row {
-    background-color: white;
-}
-
-.grid .row:hover {
-    background-color: #f9f9f9;
-}
-
-.grid .row td {
+.grid-row .grid-header-cell {
     border-bottom: 1px solid #E3E3E3;
 }
 
