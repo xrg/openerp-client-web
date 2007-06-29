@@ -37,8 +37,8 @@ from tinyerp.cache import cache
 from interface import TinyCompoundWidget
 
 import form
-import list
 import graph
+import listgrid
 
 class Screen(TinyCompoundWidget):
 
@@ -134,16 +134,16 @@ class Screen(TinyCompoundWidget):
                                     editable=self.editable, nodefault=self.nodefault)
 
         elif view_type == 'tree':
-            self.widget = list.List(self.name or '_terp_list', 
-                                    model=self.model, 
-                                    view=view, 
-                                    ids=self.ids, 
-                                    domain=self.domain, 
-                                    context=self.context, 
-                                    editable=self.editable, 
-                                    selectable=self.selectable,
-                                    offset=self.offset, limit=self.limit, count=self.count)
-            
+            self.widget = listgrid.List(self.name or '_terp_list', 
+                                        model=self.model, 
+                                        view=view, 
+                                        ids=self.ids, 
+                                        domain=self.domain, 
+                                        context=self.context, 
+                                        editable=self.editable, 
+                                        selectable=self.selectable,
+                                        offset=self.offset, limit=self.limit, count=self.count)
+
             self.ids = self.widget.ids
             self.count = self.widget.count
 

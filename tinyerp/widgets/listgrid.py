@@ -83,7 +83,7 @@ class Pager(TinyCompoundWidget):
                         
 class List(TinyCompoundWidget):
 
-    template = "tinyerp.widgets.templates.list"
+    template = "tinyerp.widgets.templates.listgrid"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links']
     member_widgets = ['pager']
 
@@ -99,8 +99,8 @@ class List(TinyCompoundWidget):
     show_links = 1
     source = None
 
-    css = [widgets.CSSLink('tinyerp', 'css/listview.css')]
-    javascript = [widgets.JSLink('tinyerp', 'javascript/listview.js')]
+    css = [widgets.CSSLink('tinyerp', 'css/listgrid.css')]
+    javascript = [widgets.JSLink('tinyerp', 'javascript/listgrid.js')]
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 

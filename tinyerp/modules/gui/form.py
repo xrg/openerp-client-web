@@ -99,7 +99,7 @@ class Form(controllers.Controller, TinyResource):
 
         pager = None
         if buttons.pager:
-            pager = tw.list.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_mode=params.view_mode)
+            pager = tw.listgrid.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_mode=params.view_mode)
             
         return dict(form=form, pager=pager, buttons=buttons)
 

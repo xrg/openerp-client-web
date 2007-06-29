@@ -31,7 +31,7 @@ import turbogears as tg
 
 from interface import TinyField
 from form import Form
-from list import List
+from listgrid import List
 
 from tinyerp import rpc
 from tinyerp.cache import cache
