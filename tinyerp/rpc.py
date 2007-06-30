@@ -172,7 +172,7 @@ class XMLRPCGateway(RPCGateway):
             result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
             return result
         except socket.error, (e1, e2):
-            raise common.error('Connection refused !', e1, e2)
+            raise common.error(_('Connection refused !'), e1, e2)
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
 
@@ -224,7 +224,7 @@ class NETRPCGateway(RPCGateway):
             return res
         
         except socket.error, (e1, e2):
-            raise common.error('Connection refused !', e1, e2)
+            raise common.error(_('Connection refused !'), e1, e2)
         
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
@@ -281,7 +281,7 @@ class RPCSession(object):
         elif protocol == 'socket':
             gw = NETRPCGateway(host, port)
         else:
-            raise "Unsupported protocol:", protocol
+            raise _("Unsupported protocol:"), protocol
 
         self.gateway = gw
         return gw.listdb()
@@ -295,7 +295,7 @@ class RPCSession(object):
         elif protocol == 'socket':
             gw = NETRPCGateway(host, port)
         else:
-            raise "Unsupported protocol:", protocol
+            raise _("Unsupported protocol:"), protocol
 
         res = gw.login(db, user or '', passwd or '')
 
@@ -349,7 +349,11 @@ class RPCSession(object):
                 try:
                     import pytz
                 except:
-                    common.warning('You select a timezone but tinyERP could not find pytz library !\nThe timezone functionality will be disable.')
+                    common.warning(_('You select a timezone but tinyERP could not find pytz library !\nThe timezone functionality will be disable.'))
+                    
+
+        # set language in session
+        #self.language = self.context.get('lang')
 
     def __convert(self, result):
 
@@ -375,7 +379,7 @@ class RPCSession(object):
     def execute(self, obj, method, *args):
 
         if not self.is_logged():
-            raise common.error('Authorization Error!', 'Not logged...')
+            raise common.error(_('Authorization Error !'), _('Not logged...'))
 
         try:
             
@@ -385,17 +389,17 @@ class RPCSession(object):
             return self.__convert(result)
 
         except socket.error, (e1, e2):
-            raise common.error('Connection refused !', e1, e2)
+            raise common.error(_('Connection refused !'), e1, e2)
         
         except RPCException, err:
 
             if err.type in ('warning', 'UserError'):
                 raise common.warning(err.data)
             else:
-                raise common.error('Application Error', err.code, err.backtrace)
+                raise common.error(_('Application Error !'), err.code, err.backtrace)
             
         except Exception, e:
-            raise common.error('Application Error', 'View details', str(e))
+            raise common.error(_('Application Error !'), str(e))
 
     def execute_db(self, method, *args):
         return self.gateway.execute_db(method, *args)

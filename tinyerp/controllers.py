@@ -103,7 +103,7 @@ class Root(controllers.RootController, TinyResource):
         act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
 
         if not act_id[0][id]:
-            common.warning('You can not log into the system !\nAsk the administrator to verify\nyou have an action defined for your user.','Access Denied !')
+            common.warning(_('You can not log into the system !\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied !'))
             rpc.session.logout()
             raise redirect('/');
 
@@ -116,7 +116,7 @@ class Root(controllers.RootController, TinyResource):
         """Index page, loads the view defined by `action_id`.
         """
         return self.user_action('action_id')
-        
+
     @expose()
     def menu(self):
         """Main menu page, loads the view defined by `menu_id`.

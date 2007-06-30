@@ -60,7 +60,7 @@ requests, requests_message = tg.root.requests.my()
 						<table class="menu_connection" cellpadding="0" cellspacing="0">
 							<tr>
 								<td width="35" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap"/>
-								<td class="menu_connection_welcome"><span>Welcome ${rpc.session.user_name or 'guest'}</span></td>
+								<td class="menu_connection_welcome">Welcome <span>${rpc.session.user_name or 'guest'}</span></td>
 								<td class="menu_connection_links">
 									<a href="/">Home</a>
 									<a href="/pref/create/">Preferences</a>
@@ -83,10 +83,10 @@ requests, requests_message = tg.root.requests.my()
 
 						<table width="100%" cellspacing="0" cellpadding="0" id="menu_header" >
 							<tr>
-								<td width="100" id="menu_header_menu" nowrap="nowrap">
+								<td width="5%" id="menu_header_menu" nowrap="nowrap">
 									<a href="/menu">MAIN MENU</a>
 								</td>
-								<td width="90" id="menu_header_shortcuts" nowrap="nowrap">
+								<td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
 									<a href="/shortcuts">SHORTCUTS</a>
 								</td>
 								<td width="35" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
@@ -134,7 +134,7 @@ requests, requests_message = tg.root.requests.my()
 			<hr/>
 			(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on <a id="footer" href="http://tinyerp.com">http://tinyerp.com</a>.<br/>
 			The web client is developed by Axelor (<a id="footer" href="http://axelor.com">http://axelor.com</a>) and Tiny (<a id="footer" href="http://tiny.be">http://tiny.be</a>)<br/>
-			Running Server: http://${rpc.session.host}:${rpc.session.port} - database:${rpc.session.db}<br/>
+			Running Server: <span>http://${rpc.session.host}:${rpc.session.port} - database:${rpc.session.db}</span><br/>
 			</div>
         </td>
     </tr>

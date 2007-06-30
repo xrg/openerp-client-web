@@ -1,0 +1,715 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2007-06-30 16:42\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: utf-8\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: tinyerp/common.py:42 tinyerp/common.py:56 tinyerp/modules/actions.py:86
+#: tinyerp/modules/actions.py:151 tinyerp/modules/actions.py:231
+#: tinyerp/modules/gui/form.py:646
+msgid "Error"
+msgstr ""
+
+#: tinyerp/common.py:47 tinyerp/common.py:59
+msgid "Warning"
+msgstr ""
+
+#: tinyerp/common.py:52
+msgid "Information"
+msgstr ""
+
+#: tinyerp/controllers.py:106
+msgid "Access Denied !"
+msgstr ""
+
+#: tinyerp/controllers.py:106
+msgid ""
+"You can not log into the system !\n"
+"Ask the administrator to verify\n"
+"you have an action defined for your user."
+msgstr ""
+
+#: tinyerp/modules/actions.py:86
+msgid "Invalid View!"
+msgstr ""
+
+#: tinyerp/modules/actions.py:111
+msgid "Error no report"
+msgstr ""
+
+#: tinyerp/modules/actions.py:136
+msgid "Nothing to print!"
+msgstr ""
+
+#: tinyerp/modules/actions.py:151
+msgid "Printing aborted, too long delay !"
+msgstr ""
+
+#: tinyerp/modules/actions.py:231
+msgid "Action not found!!!"
+msgstr ""
+
+#: tinyerp/modules/actions.py:277
+msgid "No action defined!"
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:72
+msgid "Bad database name !"
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:72
+msgid ""
+"The database name must contain only normal characters or \"_\".\n"
+"You must avoid all accents, space or special characters."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:78 tinyerp/modules/gui/dbadmin.py:83
+msgid "Could not create database."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:78 tinyerp/modules/gui/dbadmin.py:83
+#: tinyerp/modules/gui/dbadmin.py:105 tinyerp/modules/gui/dbadmin.py:110
+#: tinyerp/modules/gui/dbadmin.py:156 tinyerp/modules/gui/dbadmin.py:163
+msgid "Bad database administrator password !"
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:105 tinyerp/modules/gui/dbadmin.py:110
+msgid "Could not drop database."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:131 tinyerp/modules/gui/dbadmin.py:137
+msgid "Could not create backup."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:156 tinyerp/modules/gui/dbadmin.py:163
+msgid "Could not restore database."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:158
+msgid "Couldn't restore database"
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:179
+msgid "Confirmation password do not match new password, operation cancelled!"
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:179
+msgid "Validation Error."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:185
+msgid "Bas password provided !"
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:185 tinyerp/modules/gui/dbadmin.py:192
+msgid "Could not change password database."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:187
+msgid "Error, password not changed."
+msgstr ""
+
+#: tinyerp/modules/gui/dbadmin.py:192
+msgid "Bad password provided !"
+msgstr ""
+
+#: tinyerp/modules/gui/form.py:581 tinyerp/modules/gui/tree.py:203
+msgid "No record selected !"
+msgstr ""
+
+#: tinyerp/modules/gui/form.py:585
+msgid "Print Screen"
+msgstr ""
+
+#: tinyerp/modules/gui/form.py:597
+msgid "You must save this record to use the relate button !"
+msgstr ""
+
+#: tinyerp/modules/gui/form.py:646
+msgid "Wrong on_change trigger: %s"
+msgstr ""
+
+#: tinyerp/modules/gui/requests.py:54
+msgid "No request"
+msgstr ""
+
+#: tinyerp/modules/gui/requests.py:56
+msgid "%s request(s)"
+msgstr ""
+
+#: tinyerp/modules/gui/requests.py:59
+msgid " - %s pending request(s)"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:a
+msgid "BACK"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:a
+msgid "HOME"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:button
+msgid "Backup"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:button
+msgid "Create"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:button
+msgid "Drop"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:button
+msgid "Password"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:button
+msgid "Restore"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:td
+msgid "Database Administration"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin.kid:title
+msgid "Database Admin"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_backup.kid:a
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:a
+#: tinyerp/modules/gui/templates/dbadmin_drop.kid:a
+#: tinyerp/modules/gui/templates/dbadmin_password.kid:a
+#: tinyerp/modules/gui/templates/dbadmin_restore.kid:a
+msgid "CANCEL"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_backup.kid:option
+msgid "Database"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_backup.kid:td
+msgid "Backup Database"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_backup.kid:td
+msgid "Databases :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_backup.kid:td
+#: tinyerp/modules/gui/templates/dbadmin_drop.kid:td
+#: tinyerp/modules/gui/templates/dbadmin_restore.kid:td
+#: tinyerp/templates/login.kid:td
+msgid "Password :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_backup.kid:title
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:title
+#: tinyerp/templates/login.kid:button tinyerp/templates/login.kid:title
+msgid "Login"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:option
+msgid "Language"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:td
+msgid "(use 'admin', if you did not changed it)"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:td
+msgid "Create Database"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:td
+msgid "Default Language :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:td
+msgid "Load Demonstration data :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:td
+msgid "New database name :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_create.kid:td
+msgid "Super admin password :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_drop.kid:option
+#: tinyerp/templates/login.kid:option
+msgid "dbname"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_drop.kid:td
+#: tinyerp/modules/gui/templates/dbadmin_drop.kid:title
+msgid "Drop Database"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_drop.kid:td
+#: tinyerp/templates/login.kid:td
+msgid "Database :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_password.kid:td
+msgid "Change Password"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_password.kid:td
+msgid "Confirm Password :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_password.kid:td
+msgid "New Password :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_password.kid:td
+msgid "Old Password :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_password.kid:title
+msgid "Admin Password"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_restore.kid:td
+msgid "File :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_restore.kid:td
+msgid "New Database name :"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/dbadmin_restore.kid:td
+#: tinyerp/modules/gui/templates/dbadmin_restore.kid:title
+msgid "Restore Database"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+msgid "Edit"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+msgid "Form"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+msgid "Graph"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+msgid "Search"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+#: tinyerp/modules/gui/templates/openm2o.kid:button
+msgid "Save"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+#: tinyerp/modules/gui/templates/preferences.kid:button
+#: tinyerp/modules/gui/templates/selection.kid:button
+msgid "Cancel"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+#: tinyerp/modules/gui/templates/tree.kid:button
+msgid "Action"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+#: tinyerp/modules/gui/templates/tree.kid:button
+msgid "Print"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+#: tinyerp/widgets/templates/many2one.kid:button
+#: tinyerp/widgets/templates/one2many.kid:button
+#: tinyerp/widgets/templates/viewform.kid:button
+msgid "New"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:button
+#: tinyerp/widgets/templates/one2many.kid:button
+msgid "Delete"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:td
+msgid "ACTIONS"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:td
+msgid "LINKS"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:td
+msgid "REPORTS"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/form.kid:td
+#: tinyerp/modules/gui/templates/form.kid:title
+#: tinyerp/modules/gui/templates/openm2o.kid:td
+msgid "Form Title"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/openm2o.kid:button
+msgid "Close"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/openm2o.kid:td
+msgid "Form View"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/preferences.kid:button
+#: tinyerp/modules/gui/templates/selection.kid:button
+#: tinyerp/templates/error.kid:button
+msgid "OK"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/preferences.kid:div
+#: tinyerp/modules/gui/templates/search.kid:td
+msgid "Screen View"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/search.kid:button
+#: tinyerp/widgets/templates/datetime.kid:button
+#: tinyerp/widgets/templates/many2many.kid:button
+#: tinyerp/widgets/templates/many2one.kid:button
+#: tinyerp/widgets/templates/reference.kid:button
+msgid "Select"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/search.kid:button
+#: tinyerp/widgets/templates/viewform.kid:button
+msgid "Find"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/search.kid:td
+msgid "Search View"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/selection.kid:div
+msgid "Select your action"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/selection.kid:title
+msgid "Select action"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/tree.kid:button
+#: tinyerp/widgets/templates/one2many.kid:button
+msgid "Switch"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/tree.kid:td
+msgid "Tree View"
+msgstr ""
+
+#: tinyerp/modules/gui/templates/tree.kid:th
+msgid "Toolbar"
+msgstr ""
+
+#: tinyerp/modules/gui/tree.py:226
+msgid "No resource selected !"
+msgstr ""
+
+#: tinyerp/rpc.py:175 tinyerp/rpc.py:227 tinyerp/rpc.py:392
+msgid "Connection refused !"
+msgstr ""
+
+#: tinyerp/rpc.py:284 tinyerp/rpc.py:298
+msgid "Unsupported protocol:"
+msgstr ""
+
+#: tinyerp/rpc.py:352
+msgid ""
+"You select a timezone but tinyERP could not find pytz library !\n"
+"The timezone functionality will be disable."
+msgstr ""
+
+#: tinyerp/rpc.py:382
+msgid "Authorization Error !"
+msgstr ""
+
+#: tinyerp/rpc.py:382
+msgid "Not logged..."
+msgstr ""
+
+#: tinyerp/rpc.py:399 tinyerp/rpc.py:402
+msgid "Application Error !"
+msgstr ""
+
+#: tinyerp/templates/about.kid:td
+msgid "About Tiny ERP"
+msgstr ""
+
+#: tinyerp/templates/about.kid:td
+msgid "About this web client"
+msgstr ""
+
+#: tinyerp/templates/about.kid:td
+msgid "Links"
+msgstr ""
+
+#: tinyerp/templates/about.kid:td
+msgid "TODO: about tiny erp"
+msgstr ""
+
+#: tinyerp/templates/about.kid:td
+msgid "TODO: about web client"
+msgstr ""
+
+#: tinyerp/templates/about.kid:td
+msgid "TODO: links"
+msgstr ""
+
+#: tinyerp/templates/about.kid:title tinyerp/templates/master.kid:a
+msgid "About"
+msgstr ""
+
+#: tinyerp/templates/login.kid:button
+msgid "Manage"
+msgstr ""
+
+#: tinyerp/templates/login.kid:div
+msgid "Welcome to Tiny ERP"
+msgstr ""
+
+#: tinyerp/templates/login.kid:td
+msgid "Server :"
+msgstr ""
+
+#: tinyerp/templates/login.kid:td
+msgid "User :"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid ")"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid ") and Tiny ("
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "."
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid ">>"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "Home"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "Logout"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "MAIN MENU"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "Preferences"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "SHORTCUTS"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "[ADD]"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "http://axelor.com"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "http://tiny.be"
+msgstr ""
+
+#: tinyerp/templates/master.kid:a
+msgid "http://tinyerp.com"
+msgstr ""
+
+#: tinyerp/templates/master.kid:br
+msgid "Running Server:"
+msgstr ""
+
+#: tinyerp/templates/master.kid:br
+msgid "The web client is developed by Axelor ("
+msgstr ""
+
+#: tinyerp/templates/master.kid:div
+msgid "Requests:"
+msgstr ""
+
+#: tinyerp/templates/master.kid:hr
+msgid "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on"
+msgstr ""
+
+#: tinyerp/templates/master.kid:td
+msgid "Welcome"
+msgstr ""
+
+#: tinyerp/templates/master.kid:title
+msgid "Your title goes here"
+msgstr ""
+
+#: tinyerp/tinyres.py:120
+msgid "Could not connect to server !"
+msgstr ""
+
+#: tinyerp/tinyres.py:123
+msgid "Bad username or password !"
+msgstr ""
+
+#: tinyerp/widgets/action.py:70
+msgid "Action not found !"
+msgstr ""
+
+#: tinyerp/widgets/listgrid.py:72
+msgid "[%s/%s]"
+msgstr ""
+
+#: tinyerp/widgets/listgrid.py:80
+msgid "[%s - %s of %s]"
+msgstr ""
+
+#: tinyerp/widgets/listgrid.py:340
+msgid "Yes"
+msgstr ""
+
+#: tinyerp/widgets/listgrid.py:342
+msgid "No"
+msgstr ""
+
+#: tinyerp/widgets/templates/Copy of listgrid.kid:a
+#: tinyerp/widgets/templates/listgrid.kid:a
+msgid "Export"
+msgstr ""
+
+#: tinyerp/widgets/templates/Copy of listgrid.kid:a
+#: tinyerp/widgets/templates/listgrid.kid:a
+msgid "Import"
+msgstr ""
+
+#: tinyerp/widgets/templates/Copy of listgrid.kid:a
+#: tinyerp/widgets/templates/listgrid.kid:a
+msgid "|"
+msgstr ""
+
+#: tinyerp/widgets/templates/Copy of listgrid.kid:td
+#: tinyerp/widgets/templates/listgrid.kid:td
+msgid "Title"
+msgstr ""
+
+#: tinyerp/widgets/templates/binary.kid:button
+msgid "Clear"
+msgstr ""
+
+#: tinyerp/widgets/templates/binary.kid:button
+msgid "Save As"
+msgstr ""
+
+#: tinyerp/widgets/templates/button.kid:td
+msgid "Button Label"
+msgstr ""
+
+#: tinyerp/widgets/templates/email.kid:button
+msgid "Go!"
+msgstr ""
+
+#: tinyerp/widgets/templates/one2many.kid:button
+msgid "Next"
+msgstr ""
+
+#: tinyerp/widgets/templates/one2many.kid:button
+msgid "Prev"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:a
+msgid "< Previous"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:a
+msgid "<< First"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:a
+msgid "Change Limit:"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:a
+msgid "Last >>"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:a
+msgid "Next >"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:option
+msgid "100"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:option
+msgid "20"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:option
+msgid "40"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:option
+msgid "60"
+msgstr ""
+
+#: tinyerp/widgets/templates/pager.kid:option
+msgid "80"
+msgstr ""
+
+#: tinyerp/widgets/templates/reference.kid:option
+#: tinyerp/widgets/templates/selection.kid:option
+msgid "Not Selected"
+msgstr ""
+
+#: tinyerp/widgets/templates/reference.kid:option
+#: tinyerp/widgets/templates/selection.kid:option
+msgid "Selected"
+msgstr ""
+
+#: tinyerp/widgets/templates/url.kid:button
+msgid "Open"
+msgstr ""
+
+#: tinyerp/widgets/validators.py:115
+msgid "Please select a file."
+msgstr ""
+
+#: tinyerp/widgets_search/templates/rangewid.kid:b
+msgid "-"
+msgstr ""
+
+#: tinyerp/widgets_search/templates/search.kid:h3
+msgid "Advanced Search"
+msgstr ""
+
+#: tinyerp/widgets_search/templates/search.kid:h3
+msgid "Basic Search"
+msgstr ""
+

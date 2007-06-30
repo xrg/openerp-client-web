@@ -69,7 +69,7 @@ class Pager(TinyCompoundWidget):
             if self.id in self.ids:
                 index = self.offset + self.ids.index(self.id) + 1
                 
-            self.page_info = "[%s/%s]" % (index or '-', self.count)
+            self.page_info = _("[%s/%s]") % (index or '-', self.count)
                         
             self.prev = index > 1
             self.next = index < self.count
@@ -77,7 +77,7 @@ class Pager(TinyCompoundWidget):
         else:
             index = (self.count or 0) and self.offset + 1
 
-            self.page_info = "[%s - %s of %s]" % (index, self.offset + len(self.ids), self.count)
+            self.page_info = _("[%s - %s of %s]") % (index, self.offset + len(self.ids), self.count)
             self.prev = self.offset > 0
             self.next = self.offset+len(self.ids) < self.count
                         
@@ -337,9 +337,9 @@ class Boolean(Char):
 
     def get_text(self):
         if int(self.value) == 1:
-            return 'Yes'
+            return _('Yes')
         else:
-            return 'No'
+            return _('No')
 
 CELLTYPES = {
         'char':Char,

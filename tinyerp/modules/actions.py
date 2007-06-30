@@ -83,7 +83,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
         return Tree().create(params)
 
     else:
-        return common.error('Error', "Invalid View!")
+        return common.error(_('Error'), _("Invalid View!"))
 
 def execute_wizard(name, **datas):
     """Executes given wizard with the given data
@@ -133,7 +133,7 @@ def execute_report(name, **data):
     if not ids:
         ids =  rpc.session.execute('object', 'execute', datas['model'], 'search', [])
         if ids == []:
-            raise common.message('Nothing to print!')
+            raise common.message(_('Nothing to print!'))
 
         datas['id'] = ids[0]
 
@@ -148,7 +148,7 @@ def execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise common.error('Error', 'Printing aborted, too long delay !')
+                raise common.error(_('Error'), _('Printing aborted, too long delay !'))
 
         return _print_data(val)
 
@@ -228,7 +228,7 @@ def get_action_type(act_id):
     res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
     
     if not len(res):
-        raise common.error('Error', 'Action not found!!!')
+        raise common.error(_('Error'), _('Action not found!!!'))
     
     return res[0]['type']
 
@@ -274,7 +274,7 @@ def execute_by_keyword(keyword, adds={}, **data):
     keyact.update(adds)
 
     if not keyact:
-        raise common.message('No action defined!')
+        raise common.message(_('No action defined!'))
 
     if len(keyact) == 1:
         key = keyact.keys()[0]

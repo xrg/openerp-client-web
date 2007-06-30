@@ -19,7 +19,7 @@
 	                
 	    		<table align="center" width="100%" cellspacing="5px">
 			        <tr>
-			            <td class="label">Host :</td>
+			            <td class="label">Server :</td>
 			            <td width="100%" py:content="url"/>
 			        </tr>
 			        <tr>

@@ -67,7 +67,7 @@ class Action(TinyCompoundWidget):
         self.act_id=attrs['name']
         res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [self.act_id], ['type'], rpc.session.context)
         if not res:
-            raise 'ActionNotFound'
+            raise _('Action not found !')
 
         type=res[0]['type']
         self.action = rpc.session.execute('object', 'execute', type, 'read', [self.act_id], False, rpc.session.context)[0]

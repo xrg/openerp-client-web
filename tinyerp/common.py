@@ -39,24 +39,24 @@ class TinyException(Exception):
 
 class TinyError(TinyException):
 
-    def __init__(self, message, title="Error"):
+    def __init__(self, message, title=_("Error")):
         TinyException.__init__(self, message=message, title=title)
 
 class TinyWarning(TinyException):
 
-    def __init__(self, message, title="Warning"):
+    def __init__(self, message, title=_("Warning")):
         TinyException.__init__(self, message=message, title=title)
 
 class TinyMessage(TinyException):
 
-    def __init__(self, message, title="Information"):
+    def __init__(self, message, title=_("Information")):
         TinyException.__init__(self, message=message, title=title)
 
 def error(title, msg, details=None):
-    raise TinyError(message=msg, title=title or "Error")
+    raise TinyError(message=msg, title=title or _("Error"))
 
 def warning(msg, title=None):
-    raise TinyWarning(message=msg, title=title or "Warning")
+    raise TinyWarning(message=msg, title=title or _("Warning"))
 
 def message(msg):
     raise TinyMessage(message=msg)

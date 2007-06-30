@@ -117,10 +117,10 @@ def secured(fn):
                 dblist = rpc.session.listdb(host, port, protocol)
                 if dblist == -1:
                     dblist = []
-                    message = "Invalid host or tiny server is not running..."
+                    message = _("Could not connect to server !")
 
                 if action == 'login':
-                    message = "Invalid user name or password..."
+                    message = _("Bad username or password !")
 
                 cherrypy.response.status = 401
                 return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))

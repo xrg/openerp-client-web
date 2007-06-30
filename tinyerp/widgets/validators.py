@@ -112,7 +112,7 @@ class Binary(tg.validators.FancyValidator):
             if value.filename:
                 return value.file.read()
             elif self.not_empty:
-                raise tg.validators.Invalid('Please select a file...', value, state)
+                raise tg.validators.Invalid(_('Please select a file.'), value, state)
                 
         return self.if_empty
     

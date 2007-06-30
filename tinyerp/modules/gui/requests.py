@@ -51,12 +51,12 @@ class Requests(controllers.Controller, TinyResource):
             ids, ids2 = rpc.RPCProxy('res.request').request_get()
             cherrypy.session['terp_requests'] = (ids, ids2)
 
-        msg = "No request"
+        msg = _("No request")
         if len(ids):
-            msg = '%s request(s)' % len(ids)
+            msg = _('%s request(s)') % len(ids)
             
         if len(ids2):
-            msg += ' - %s pending request(s)' % len(ids2)
+            msg += _(' - %s pending request(s)') % len(ids2)
 
         return ids, msg
     

@@ -128,13 +128,13 @@ class DBAdmin(controllers.Controller):
             res = rpc.session.execute_db('dump', password, dblist)
             dump = base64.decodestring(res)
         except Exception, e:
-            message = "Could not create backup..."
+            message = _("Could not create backup.")
 
         if res != -1:
             cherrypy.response.headers['Content-Type'] = "application/data"
             return dump
         else:
-            message = "Could not create backup..."
+            message = _("Could not create backup.")
 
         return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
 
