@@ -17,7 +17,7 @@ setup(
     license='GPL',
     
     install_requires = [
-        "TurboGears >= 1.0.1",
+        "TurboGears >= 1.0.2.2",
     ],
     scripts = ["start-tinyerp.py"],
     zip_safe=False,
@@ -41,7 +41,7 @@ setup(
         # 'python.templating.engines',
         
         # If this is a full application, uncomment the next line
-        'turbogears.app'
+        'turbogears.app',
     ],
     classifiers = [
         'Development Status :: 3 - Alpha',

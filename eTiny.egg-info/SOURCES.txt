@@ -16,6 +16,9 @@ eTiny.egg-info/paster_plugins.txt
 eTiny.egg-info/requires.txt
 eTiny.egg-info/sqlobject.txt
 eTiny.egg-info/top_level.txt
+locales/messages.pot
+locales/fr/LC_MESSAGES/messages.mo
+locales/fr/LC_MESSAGES/messages.po
 tinyerp/__init__.py
 tinyerp/cache.py
 tinyerp/common.py
@@ -63,7 +66,7 @@ tinyerp/modules/gui/templates/wizard.kid
 tinyerp/static/css/icons.css
 tinyerp/static/css/iepngfix.css
 tinyerp/static/css/iepngfix.htc
-tinyerp/static/css/listview.css
+tinyerp/static/css/listgrid.css
 tinyerp/static/css/menu.css
 tinyerp/static/css/pager.css
 tinyerp/static/css/style-ie.css
@@ -78,6 +81,7 @@ tinyerp/static/images/developped_by.png
 tinyerp/static/images/diagonal_left.gif
 tinyerp/static/images/diagonal_right.gif
 tinyerp/static/images/edit_inline.gif
+tinyerp/static/images/favicon.ico
 tinyerp/static/images/gradientlinebg.gif
 tinyerp/static/images/grdbig.png
 tinyerp/static/images/grdheader.gif
@@ -212,7 +216,8 @@ tinyerp/static/images/treegrid/header.gif
 tinyerp/static/images/treegrid/loading.gif
 tinyerp/static/javascript/ajax.js
 tinyerp/static/javascript/form.js
-tinyerp/static/javascript/listview.js
+tinyerp/static/javascript/listgrid.js
+tinyerp/static/javascript/m2o.js
 tinyerp/static/javascript/master.js
 tinyerp/static/javascript/menu.js
 tinyerp/static/javascript/treegrid.js
@@ -377,7 +382,7 @@ tinyerp/widgets/form.py
 tinyerp/widgets/form_view.py
 tinyerp/widgets/graph.py
 tinyerp/widgets/interface.py
-tinyerp/widgets/list.py
+tinyerp/widgets/listgrid.py
 tinyerp/widgets/many2many.py
 tinyerp/widgets/many2one.py
 tinyerp/widgets/one2many.py
@@ -398,7 +403,7 @@ tinyerp/widgets/templates/float.kid
 tinyerp/widgets/templates/floattime.kid
 tinyerp/widgets/templates/frame.kid
 tinyerp/widgets/templates/integer.kid
-tinyerp/widgets/templates/list.kid
+tinyerp/widgets/templates/listgrid.kid
 tinyerp/widgets/templates/many2many.kid
 tinyerp/widgets/templates/many2one.kid
 tinyerp/widgets/templates/notebook.kid
