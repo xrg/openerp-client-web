@@ -9,82 +9,61 @@
 
 <body onload="hideElement('showbar')">
     <div class="view">
-		<div class="header">
-			<div class="title">
-				<table width="100%">
+		<div class="box2 welcome">Create Database</div>    
+		<form action="/dbadmin/create" method="post" name="create">        
+            <div class="box2" id="create">
+				<table align="center" border="0" width="100%">
 					<tr>
-						<td>
-							Create Database
-						</td>
-						<td align="right">
-							<a href="/dbadmin">CANCEL</a>
-						</td>
-					</tr>
-				</table>
+		                <td align="right" class="label">
+		                    Super admin password :
+		                </td>
+		                <td>
+		                    <input type="password" name="password" style="width: 99%;"/>
+		                </td>
+		            </tr>
+		            <tr>
+		                <td></td>
+		                <td>
+		                    (use 'admin', if you did not changed it)
+		                </td>
+		            </tr>
+
+			        <tr>
+		                <td align="right" class="label">
+		                    New database name :
+		                </td>
+		                <td>
+		                    <input type="text" name="db_name" style="width: 99%;"/>
+		                </td>
+		            </tr>
+		            <tr>
+		                <td align='right' class="label">
+		                    Load Demonstration data :
+		                </td>
+		                <td>
+		                    <input type="checkbox" name="demo_data" value="True" checked="checked"/>
+		                </td>
+		            </tr>
+		            <tr>
+		                <td align='right' class="label">
+		                    Default Language :
+		                </td>
+		                <td>
+		                    <select name="language" style="width: 100%;">
+	                            <option py:for="i, key in enumerate(langlist)" value="${langlist[i][0]}" py:content="langlist[i][1]" selected="${(i+1 == len(langlist) or None) and 1}">Language</option>
+		                    </select>
+		                </td>
+		            </tr>
+		        </table>
 			</div>
-		</div>
 
-		<div class="spacer"></div>
-
-		<div class="content">
-
-			<form action="/dbadmin/create" method="post" name="create">
-
-	            <div class="box2" id="create">
-					<table align="center" border="0" width="100%">
-						<tr>
-			                <td align="right" class="label">
-			                    Super admin password :
-			                </td>
-			                <td>
-			                    <input type="password" name="password" style="width: 99%;"/>
-			                </td>
-			            </tr>
-			            <tr>
-			                <td></td>
-			                <td>
-			                    (use 'admin', if you did not changed it)
-			                </td>
-			            </tr>
-
-				        <tr>
-			                <td align="right" class="label">
-			                    New database name :
-			                </td>
-			                <td>
-			                    <input type="text" name="db_name" style="width: 99%;"/>
-			                </td>
-			            </tr>
-			            <tr>
-			                <td align='right' class="label">
-			                    Load Demonstration data :
-			                </td>
-			                <td>
-			                    <input type="checkbox" name="demo_data" value="True" checked="checked"/>
-			                </td>
-			            </tr>
-			            <tr>
-			                <td align='right' class="label">
-			                    Default Language :
-			                </td>
-			                <td>
-			                    <select name="language" style="width: 100%;">
-		                            <option py:for="i, key in enumerate(langlist)" value="${langlist[i][0]}" py:content="langlist[i][1]" selected="${(i+1 == len(langlist) or None) and 1}">Language</option>
-			                    </select>
-			                </td>
-			            </tr>
-			        </table>
-
-				</div>
-
-				<div align="right" class="box2">
-                    <input type="submit" value="Create"/>
-        		</div>
-        		
-				<div class="box message" id="message" py:if="message" py:content="message"/>
+			<div align="right" class="box2">
+                <button type="button" onclick="window.location.href='/dbadmin'">Cancel</button>
+                <button type="submit">OK</button>
+    		</div>
+    		
+			<div class="box message" id="message" py:if="message" py:content="message"/>
         </form>
-		</div>
     </div>
-
 </body>
 </html>

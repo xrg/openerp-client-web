@@ -8,51 +8,34 @@
 
 <body>
 	<div class="view">
-		<div class="header">
-			<div class="title">
-				<table width="100%">
+    	<div class="box2 welcome">Drop Database</div>
+		<form action="/dbadmin/drop" method="post">
+            <div align="center" class="box2">
+				<table align="center" width="100%">
 					<tr>
+						<td align="right" width="90" class="label">Database :</td>
 						<td>
-							Drop Database
-						</td>
-						<td align="right">
-							<a href="/dbadmin">CANCEL</a>
+							<select name="db_name" style="width: 100%;">
+								<span py:for="db in dblist">
+									<option py:content="db" py:if="db == selectedDb" selected="true">dbname</option>
+									<option py:content="db" py:if="db != selectedDb">dbname</option>
+								</span>
+							</select>
 						</td>
 					</tr>
+					<tr>
+						<td align="right" width="90" class="label">Password :</td>
+						<td><input type="password" name="passwd" id="user" style="width: 99%;" /></td>
+					</tr>
 				</table>
-			</div>
-		</div>
-		<div class="spacer"></div>
-		
-		<div id="content">
-			<form action="/dbadmin/drop" method="post">
-	            <div align="center" class="box2">
-					<table align="center" width="100%">
-						<tr>
-							<td align="right" width="90" class="label">Database :</td>
-							<td>
-								<select name="db_name" style="width: 100%;">
-									<span py:for="db in dblist">
-										<option py:content="db" py:if="db == selectedDb" selected="true">dbname</option>
-										<option py:content="db" py:if="db != selectedDb">dbname</option>
-									</span>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td align="right" width="90" class="label">Password :</td>
-							<td><input type="password" name="passwd" id="user" style="width: 99%;" /></td>
-						</tr>
-					</table>
-	            </div>					
-					
-				<div align="right" class="box2">
-					<input type="submit" value="Drop" />
-	            </div>
-			</form>
-		
-			<div class="box message" id="message" py:if="message" py:content="message"/>
-		</div>
+            </div>					
+				
+			<div align="right" class="box2">
+                <button type="button" onclick="window.location.href='/dbadmin'">Cancel</button>
+                <button type="submit">OK</button>
+            </div>
+		</form>		
+		<div class="box message" id="message" py:if="message" py:content="message"/>
 	</div>
 </body>
 </html>

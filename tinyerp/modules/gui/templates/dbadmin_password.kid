@@ -8,48 +8,30 @@
 
 <body>
 	<div class="view">
-		<div class="header">
-			<div class="title">
-				<table width="100%">
+		<div class="box2 welcome">Change Password</div>
+		<form action="/dbadmin/password" method="post">
+	        <div align="center" class="box2">	
+				<table align="center" width="100%">
 					<tr>
-						<td>
-							Change Password
-						</td>
-						<td align="right">
-							<a href="/dbadmin">CANCEL</a>
-						</td>
+						<td align="right" width="99" class="label">Old Password :</td>
+						<td><input type="password" name="old_passwd" id="user" style="width: 99%;" /></td>
+					</tr>
+					<tr>
+						<td align="right" width="99" class="label">New Password :</td>
+						<td><input type="password" name="new_passwd" id="user" style="width: 99%;" /></td>
+					</tr>
+					<tr>
+						<td align="right" width="99" class="label">Confirm Password :</td>
+						<td><input type="password" name="new_passwd2" id="user" style="width: 99%;" /></td>
 					</tr>
 				</table>
 			</div>
-		</div>
-		<div class="spacer"></div>
-		<div id="content">
-			
-			
-				<form action="/dbadmin/password" method="post">
-			        <div align="center" class="box2">	
-						<table align="center" width="100%">
-							<tr>
-								<td align="right" width="99" class="label">Old Password :</td>
-								<td><input type="password" name="old_passwd" id="user" style="width: 99%;" /></td>
-							</tr>
-							<tr>
-								<td align="right" width="99" class="label">New Password :</td>
-								<td><input type="password" name="new_passwd" id="user" style="width: 99%;" /></td>
-							</tr>
-							<tr>
-								<td align="right" width="99" class="label">Confirm Password :</td>
-								<td><input type="password" name="new_passwd2" id="user" style="width: 99%;" /></td>
-							</tr>
-						</table>
-					</div>
-					<div align="right" class="box2">
-						<input type="submit" value="Change" />
-                    </div>
-				</form>
-
-			<div class="box message" id="message" py:if="message" py:content="message"/>
-		</div>
+			<div align="right" class="box2">
+                <button type="button" onclick="window.location.href='/dbadmin'">Cancel</button>
+                <button type="submit">OK</button>
+            </div>
+		</form>
+		<div class="box message" id="message" py:if="message" py:content="message"/>
 	</div>
 </body>
 </html>
