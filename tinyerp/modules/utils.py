@@ -152,16 +152,19 @@ class TinyForm(TinyDict):
     def __init__(self, _value_key, _kind_key, **kwargs):
         
         kw = kwargs.copy()
+        
+        vk = '_terp_' + _value_key + '/'
+        kk = '_terp_' + _kind_key + '/'
 
         # first generate validator from type info
         for k, v in kw.items():
-            if k.startswith(_kind_key) and v in self.VALS:
+            if k.startswith(kk) and v in self.VALS:
                 kw[k] = self.VALS[v]()
 
         # then convert the values into pathon object
         for k, v in kw.items():
-            if k.startswith(_value_key):
-                n = _kind_key + '/' + k.replace(_value_key + '/', '')
+            if k.startswith(vk):
+                n = kk + k.replace(vk, '')
                 if n in kw and isinstance(kw[n], tg_validators.Validator):
                     if str(v) == '':
                         kw[k] = kw[n].if_empty
@@ -171,9 +174,9 @@ class TinyForm(TinyDict):
         # now split the kw dict
         params, data = TinyDict.split(kw)
 
-        super(TinyForm, self).__init__(**params.parent_form)
+        super(TinyForm, self).__init__(**params[_value_key])
 
 class TinyParent(TinyForm):
 
     def __init__(self, **kwargs):
-        super(TinyParent, self).__init__('_terp_parent_form', '_terp_parent_types', **kwargs)
+        super(TinyParent, self).__init__('parent_form', 'parent_types', **kwargs)
