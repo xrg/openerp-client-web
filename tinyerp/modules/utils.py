@@ -132,11 +132,10 @@ class TinyDict(dict):
                 data[n] = v
 
         return _make_dict(params, True), _make_dict(data, False)
-
-class TinyParent(TinyDict):
-    """This class will be used to convert each parent_form values in its python
-    equivalent. This method will be used during evaluating context and domain
-    which relies on parent form.
+    
+class TinyForm(TinyDict):
+    """A special helper class for AJAX form actions, will be used to convert each 
+    form values in its python equivalent.
     """
 
     VALS = {
@@ -150,18 +149,19 @@ class TinyParent(TinyDict):
         'many2one' : terp_validators.many2one
         }
 
-    def __init__(self, **kwargs):
+    def __init__(self, _value_key, _kind_key, **kwargs):
+        
         kw = kwargs.copy()
 
-        # first generate validator from type type info
+        # first generate validator from type info
         for k, v in kw.items():
-            if k.startswith('_terp_parent_types') and v in self.VALS:
+            if k.startswith(_kind_key) and v in self.VALS:
                 kw[k] = self.VALS[v]()
 
         # then convert the values into pathon object
         for k, v in kw.items():
-            if k.startswith('_terp_parent_form'):
-                n = '_terp_parent_types/' + k.replace('_terp_parent_form/', '')
+            if k.startswith(_value_key):
+                n = _kind_key + '/' + k.replace(_value_key + '/', '')
                 if n in kw and isinstance(kw[n], tg_validators.Validator):
                     if str(v) == '':
                         kw[k] = kw[n].if_empty
@@ -171,4 +171,9 @@ class TinyParent(TinyDict):
         # now split the kw dict
         params, data = TinyDict.split(kw)
 
-        super(TinyParent, self).__init__(**params.parent_form)
+        super(TinyForm, self).__init__(**params.parent_form)
+
+class TinyParent(TinyForm):
+
+    def __init__(self, **kwargs):
+        super(TinyParent, self).__init__('_terp_parent_form', '_terp_parent_types', **kwargs)
