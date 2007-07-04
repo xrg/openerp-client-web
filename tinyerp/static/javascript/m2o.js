@@ -125,6 +125,18 @@ ManyToOne.prototype.on_keydown = function(evt){
 	if ((key == 13 || key == 9) && this.text.value && !this.field.value){
 		this.get_matched();
 	}
+
+	// F1	
+	if (key == 112){
+		this.create(evt);
+		evt.stop();
+	}
+	
+	// F2
+	if (key == 113){
+		this.select(evt);
+		evt.stop();
+	}
 }
 
 ManyToOne.prototype.on_keypress = function(evt){
