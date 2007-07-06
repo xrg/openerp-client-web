@@ -1,7 +1,7 @@
 <form xmlns:py="http://purl.org/kid/ns#" method="post" id="${name}" name="${name}" action="${action}" enctype="multipart/form-data">
-    <input type="hidden" value="${limit}" name="_terp_limit" id="_terp_limit"/>
-    <input type="hidden" value="${offset}" name="_terp_offset" id="_terp_offset"/>
-    <input type="hidden" value="${count}" name="_terp_count" id="_terp_count"/>
+    <input type="hidden" id="_terp_limit" name="_terp_limit" value="${limit}"/>
+    <input type="hidden" id="_terp_offset" name="_terp_offset" value="${offset}"/>
+    <input type="hidden" id="_terp_count" name="_terp_count" value="${count}"/>
     <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(search_domain)}"/>
     <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${ustr(search_data)}"/>
     
