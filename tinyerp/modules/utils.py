@@ -158,18 +158,19 @@ class TinyForm(TinyDict):
 
         # first generate validator from type info
         for k, v in kw.items():
-            if k.startswith(kk) and v in self.VALS:
-                kw[k] = self.VALS[v]()
+            
+            vals = v.split(' ')
+            required = vals[0] != vals[-1]
+
+            if k.startswith(kk) and vals[0] in self.VALS:
+                kw[k] = self.VALS[vals[0]](not_empty=required)
 
         # then convert the values into pathon object
         for k, v in kw.items():
             if k.startswith(vk):
                 n = kk + k.replace(vk, '')
                 if n in kw and isinstance(kw[n], tg_validators.Validator):
-                    if str(v) == '':
-                        kw[k] = kw[n].if_empty
-                    else:
-                        kw[k] = kw[n].to_python(v, None)
+                    kw[k] = kw[n].to_python(v, None)
 
         # now split the kw dict
         params, data = TinyDict.split(kw)
