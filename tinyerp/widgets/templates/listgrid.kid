@@ -11,29 +11,50 @@
 
     <tr class="grid-header">
         <td width="1%" py:if="selector" class="grid-cell">
-            <input type="checkbox" class="checkbox" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
+            <input type="checkbox" class="checkbox grid-record-selector" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
         </td>
         <td py:for="(field, field_attrs) in headers" py:content="field_attrs['string']" class="grid-cell ${field_attrs.get('type', 'char')}">Title</td>
         <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
         <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
     </tr>
-
-    <tr py:for="i, row in enumerate(data)" class="grid-row">
-        <td py:if="selector" class="grid-cell">
-            <input type="${selector}" class="${selector}" id="${name}/${row['id']}" name="${name}" value="${row['id']}"/>
-        </td>
-        <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${row[field].color};" >
-            <a py:strip="(show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not row[field].link" href="${row[field].link}" onclick="${row[field].onclick}">${row[field]}</a>
-            <span py:if="row[field].text == ''">&nbsp;</span>
+    
+    <tr py:def="make_editors(data=None)" class="grid-row editors" py:if="editable and editors">
+        <td py:if="selector" class="grid-cell">&nbsp;</td>
+        <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">
+            ${editors[field].display()}
         </td>
         <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" onclick="inlineEdit(${row['id']}, '${source}')"/>
+            <img src="/static/images/save_inline.gif" class="listImage" border="0" title="Update" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'}, '${model}')"/>
         </td>
         <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${row['id']}, '${source}')"/>
+            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Cancel" onclick="new ListView('${name}').reload()"/>
         </td>
     </tr>
     
+    <tr py:def="make_row(data)" class="grid-row">
+        <td py:if="selector" class="grid-cell">
+            <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${name}" value="${data['id']}"/>
+        </td>
+        <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" >
+            <a py:strip="(show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not data[field].link" href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
+            <span py:if="data[field].text == ''">&nbsp;</span>
+        </td>
+        <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
+            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="not editors" onclick="inlineEdit(${data['id']}, '${source}')"/>
+            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
+        </td>
+        <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
+            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${data['id']}, '${source}')"/>
+        </td>
+    </tr>
+
+    <tr py:replace="make_editors()" py:if="edit_inline == -1"/>
+    
+    <span py:for="i, d in enumerate(data)" py:strip="">
+        <tr py:if="d['id'] == edit_inline" class="grid-row" py:replace="make_editors(d)"/>
+        <tr py:if="d['id'] != edit_inline" class="grid-row" py:replace="make_row(d)"/>
+    </span>
+
     <tr py:for="i in range(0, 4 - len(data))" class="grid-row">
         <td width="1%" py:if="selector" class="grid-cell">&nbsp;</td>
         <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">&nbsp;</td>

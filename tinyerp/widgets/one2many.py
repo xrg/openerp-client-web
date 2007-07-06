@@ -100,3 +100,4 @@ class O2M(TinyCompoundWidget):
         
         if view_mode[0] == 'tree':
             self.screen.widget.pageable=False
+            self.id = None

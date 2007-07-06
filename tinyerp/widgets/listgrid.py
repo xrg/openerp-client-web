@@ -36,6 +36,7 @@ from turbogears import widgets
 from tinyerp import rpc
 from tinyerp import tools
 
+import form
 from interface import TinyCompoundWidget
        
 class Pager(TinyCompoundWidget):
@@ -84,10 +85,14 @@ class Pager(TinyCompoundWidget):
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.listgrid"
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links']
-    member_widgets = ['pager']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'edit_inline']
+    member_widgets = ['pager', 'children']
 
     pager = None
+    children = []
+    
+    editors = {}
+    edit_inline = None
 
     data = None
     columns = 0
@@ -109,6 +114,7 @@ class List(TinyCompoundWidget):
         self.name = name
         self.model = model
         self.ids = ids
+        self.context = context
 
         if name.endswith('/'):
             self.name = name[:-1]
@@ -174,7 +180,49 @@ class List(TinyCompoundWidget):
 
         if self.pageable:            
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
+            
+        # make editors
+        if self.editable and attrs.get('editable') in ('top', 'bottom'):
+            
+            ctx = rpc.session.context.copy()
+            ctx.update(context)
+            
+            defaults = proxy.default_get(fields.keys(), ctx)            
+            
+            for f, fa in self.headers:
+                k = fa.get('type', 'char')                
+                if k not in form.widgets_type:
+                    k = 'char'
+                    
+                fa['prefix'] = '_terp_listfields/' + self.name
+                ed = form.widgets_type[k](fa)
 
+                if f in defaults:
+                    ed.set_value(defaults[f])
+                    
+                self.editors[f] = ed
+
+            self.children = self.editors.values()            
+            
+    def display(self, value=None, **params):
+        
+        # set editor values
+        if self.editors and self.edit_inline and self.edit_inline > 0:
+            
+            ctx = rpc.session.context.copy()
+            ctx.update(self.context)
+            
+            fields = [f for f, fa in self.headers]
+                        
+            proxy = rpc.RPCProxy(self.model)
+            defaults = proxy.read([self.edit_inline], fields, ctx)[0]
+            
+            for f in fields:
+                if f in defaults:
+                    self.editors[f].set_value(defaults[f])
+            
+        return super(List, self).display(value, **params)
+                            
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
 
@@ -186,7 +234,7 @@ class List(TinyCompoundWidget):
 
         headers = []
         values  = [row.copy() for row in data]
-
+        
         for node in root.childNodes:
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)

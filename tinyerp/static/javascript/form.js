@@ -243,6 +243,11 @@ function eval_domain_context_request(options){
 	var prefix = options.source.split("/");
     prefix.pop();
     
+    // editable listview fields    
+    if (prefix[0] == '_terp_listfields'){
+    	prefix.shift();
+    }
+
 	var form = $('view_form');
 	var params = {'_terp_domain': options.domain, '_terp_context': options.context, '_terp_prefix': prefix};
 	

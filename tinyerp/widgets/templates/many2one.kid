@@ -2,7 +2,7 @@
     <table py:if="editable" width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td>
-                <input type="hidden" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' kind="${kind}" domain="${ustr(domain)}" context="${ustr(context)}" relation="${relation}" callback="${callback}"/>
+                <input type="hidden" id='${name}' name='${name}' value="${value or None}" class="${field_class}" py:attrs='attrs' kind="${kind}" domain="${ustr(domain)}" context="${ustr(context)}" relation="${relation}" callback="${callback}"/>
                 <input type="text" id='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs'/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>

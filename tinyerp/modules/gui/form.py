@@ -47,6 +47,7 @@ from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules.utils import TinyDict
+from tinyerp.modules.utils import TinyForm
 from tinyerp.modules.utils import TinyParent
 
 import search
@@ -202,7 +203,7 @@ class Form(controllers.Controller, TinyResource):
         form.validator = schema
 
         return form
-
+    
     @expose()
     @validate(form=get_form)
     def save(self, terp_save_only=False, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
@@ -214,9 +215,9 @@ class Form(controllers.Controller, TinyResource):
         @param kw: keyword arguments
 
         @return: form view
-        """
+        """        
         params, data = TinyDict.split(kw)
-
+        
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
 
@@ -674,3 +675,47 @@ class Form(controllers.Controller, TinyResource):
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
 
+    @expose('json')
+    def save_o2m(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        error = None
+        id = params.id or 0
+        
+        if not params.parent.id:
+            error = _("Parent record doesn't exists...")
+        else:            
+            try:               
+                frm = TinyForm('form', 'kind', **kw)
+                
+                fld = frm.keys()[0]                       
+                data = {fld : [(id and 1, id, frm[fld].copy())]}
+                
+                proxy = rpc.RPCProxy(params.parent.model)
+            
+                proxy.write([params.parent.id], data, params.parent.context or {})
+            except Exception, e:
+                error = str(e)
+
+        return dict(error=error)
+
+    @expose('json')
+    def get_o2m_list(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        params.ids = []
+        params.view_mode = ['form', 'tree']
+        params.view_mode2 = ['form', 'tree']
+        params.domain = []
+        
+        frm = self.create_form(params)
+        wid = frm.screen.get_widgets_by_name(params.source)[0]
+        wid = wid.screen.widget
+        
+        if params.edit_inline:
+            wid.edit_inline = params.edit_inline
+        
+        proxy = rpc.RPCProxy(params.model)        
+        ids = proxy.read([params.id], [params.source])[0][params.source]
+                                                
+        return dict(ids=str(ids), view=ustr(wid.render()))
