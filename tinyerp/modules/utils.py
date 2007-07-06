@@ -82,7 +82,7 @@ class TinyDict(dict):
         if not isinstance(value, basestring):
             return value
 
-        pat = re.compile('^(True|False|None|\d+(\.\d+)?|\[.*?\]|\(.*?\)|\{.*?\})$', re.M)
+        pat = re.compile('^(True|False|None|-?\d+(\.\d+)?|\[.*?\]|\(.*?\)|\{.*?\})$', re.M)
         if pat.match(value):
             try:
                 return eval(value)
