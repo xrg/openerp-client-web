@@ -30,7 +30,9 @@
 """
 This module defines validators.
 """
+import re
 import cgi
+
 import turbogears as tg
 
 class String(tg.validators.String):
@@ -85,9 +87,10 @@ class Selection(tg.validators.FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
-        try:
+
+        if isinstance(value, basestring) and re.match('True|False|None|\d+(\.\d+)?', value):
             return eval(value)
-        except:
+        else:
             return value
 
 class Reference(tg.validators.FancyValidator):
