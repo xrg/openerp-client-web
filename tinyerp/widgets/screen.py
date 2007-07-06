@@ -44,16 +44,16 @@ class Screen(TinyCompoundWidget):
 
     template = """
     <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-        <input type="hidden" name="${name}_terp_model" value="${model}"/>
-        <input type="hidden" name="${name}_terp_state" value="${state}"/>
-        <input type="hidden" name="${name}_terp_id" value="${str(id)}"/>
-        <input type="hidden" name="${name}_terp_ids" value="${str(ids)}"/>
-        <input type="hidden" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
-        <input type="hidden" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
-        <input type="hidden" name="${name}_terp_view_mode2" value="${str(view_mode2)}"/>
-        <input type="hidden" name="${name}_terp_domain" value="${str(domain)}"/>
-        <input type="hidden" name="${name}_terp_context" value="${str(context)}"/>
-        <input type="hidden" name="${name}_terp_editable" value="${editable}"/>
+        <input type="hidden" id="${name}_terp_model" name="${name}_terp_model" value="${model}"/>
+        <input type="hidden" id="${name}_terp_state" name="${name}_terp_state" value="${state}"/>
+        <input type="hidden" id="${name}_terp_id" name="${name}_terp_id" value="${str(id)}"/>
+        <input type="hidden" id="${name}_terp_ids" name="${name}_terp_ids" value="${str(ids)}"/>
+        <input type="hidden" id="${name}_terp_view_ids" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
+        <input type="hidden" id="${name}_terp_view_mode" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
+        <input type="hidden" id="${name}_terp_view_mode2" name="${name}_terp_view_mode2" value="${str(view_mode2)}"/>
+        <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
+        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context)}"/>
+        <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
         <span py:if="widget" py:replace="widget.display(value_for(widget), **params_for(widget))"/>
     </span>
     """
