@@ -179,4 +179,5 @@ class Root(controllers.RootController, TinyResource):
     shortcuts = gui.shortcuts.Shortcuts()
     requests = gui.requests.Requests()
     openm2o = gui.openm2o.OpenM2O()
+    listgrid = gui.listgrid.List()
 

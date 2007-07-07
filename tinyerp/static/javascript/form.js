@@ -147,12 +147,54 @@ var buttonClicked = function(name, btype, model, id, sure){
 }
 
 /**
- * This function will be used by widgets that has `onchange` trigger is defined.
- *
- * @param name: name/instance of the widget
+ * get key-pair object of the parent form
  */
-var onChange = function(name) {
+var get_parent_form = function(name) {
+	
+	var frm = {};
+	
+	var thelist = $('_terp_list');
+	var theform = $('view_form');
 
+	if (thelist){
+
+		var inputs = [];
+		
+		inputs = inputs.concat(getElementsByTagAndClassName('input', null, thelist));
+		inputs = inputs.concat(getElementsByTagAndClassName('select', null, thelist));
+		
+		forEach(inputs, function(e){
+    		if (e.name && !hasElementClass(e, 'grid-record-selector')){
+    			// remove '_terp_listfields/' prefix
+	    		var n = e.name.split('/');
+    	        n.shift();
+
+        	    var f = '_terp_parent_form/' + n.join('/');
+            	var k = '_terp_parent_types/' + n.join('/');
+
+    	        frm[f] = e.value;
+        	    frm[k] = e.attributes['kind'].value;
+	        }
+    	});		
+	} else {
+		forEach(theform.elements, function(e){
+			if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button'){
+            	frm['_terp_parent_form/' + e.name] = e.value;
+	            if (e.attributes['kind']){
+    	            frm['_terp_parent_types/' + e.name] = getNodeAttribute(e, 'kind');
+        	    }
+	        }
+    	});	
+	}
+
+	return frm;
+}
+
+/**
+ * This function will be used by widgets that has `onchange` trigger is defined.
+ */
+var onChange = function(name) {	
+	
     var caller = $(name);
     var callback = getNodeAttribute(caller, 'callback');
 
@@ -160,25 +202,14 @@ var onChange = function(name) {
     prefix.pop();
     prefix = prefix.join("/");
     prefix = prefix ? prefix + '/' : '';
+        
+    var vals = get_parent_form(name);
+    var model = $('_terp_list') ? $('_terp_model').value : $(prefix + '_terp_model').value;
 
-    var model = document.getElementsByName(prefix + '_terp_model')[0].value;
-
-    form = $("view_form");
-
-    vals = {};
-    forEach(form.elements, function(e){
-        if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button'){
-            vals['_terp_parent_form/' + e.name] = e.value;
-            if (e.attributes['kind']){
-                vals['_terp_parent_types/' + e.name] = getNodeAttribute(e, 'kind');
-            }
-        }
-    });
-    
     if (!callback)
         return;
 
-    vals['_terp_caller'] = caller.id;
+    vals['_terp_caller'] = $('_terp_list') ? caller.id.split('/').pop() : caller.id;
     vals['_terp_callback'] = callback;
     vals['_terp_model'] = model;
 

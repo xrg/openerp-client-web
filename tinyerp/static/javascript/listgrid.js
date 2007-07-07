@@ -68,7 +68,7 @@ ListView.prototype.save = function(id, model){
     var parent_field = this.id.split('/');
     
     args['_terp_id'] = id;
-    args['_terp_model'] = model;    
+    args['_terp_model'] = model;
     
     if (parent_field.length > 0){
 		parent_field.pop();
@@ -104,7 +104,7 @@ ListView.prototype.save = function(id, model){
         }
     });
     
-    var req= Ajax.JSON.post('/form/save_o2m', args);
+    var req= Ajax.JSON.post('/listgrid/save', args);
 
     req.addCallback(function(obj){
         if (obj.error){
@@ -131,11 +131,13 @@ ListView.prototype.reload = function(edit_inline){
     args['_terp_view_ids'] = $('_terp_view_ids').value;
     args['_terp_context'] = $('_terp_context').value;
 
-    var req = Ajax.JSON.post('/form/get_o2m_list', args);
+    var req = Ajax.JSON.post('/listgrid/get', args);
     
     req.addCallback(function(obj){
     	
-    	$(myself.id + '/_terp_ids').value = obj.ids;
+    	var ids = $(myself.id + '/_terp_ids');
+    	if (ids)
+    		ids.value = obj.ids;
 
         var d = DIV();
         d.innerHTML = obj.view;

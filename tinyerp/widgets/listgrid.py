@@ -194,7 +194,7 @@ class List(TinyCompoundWidget):
                 if k not in form.widgets_type:
                     k = 'char'
                     
-                fa['prefix'] = '_terp_listfields/' + self.name
+                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 ed = form.widgets_type[k](fa)
 
                 if f in defaults:
