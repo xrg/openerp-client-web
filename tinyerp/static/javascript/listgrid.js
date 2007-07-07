@@ -136,8 +136,9 @@ ListView.prototype.reload = function(edit_inline){
     req.addCallback(function(obj){
     	
     	var ids = $(myself.id + '/_terp_ids');
-    	if (ids)
-    		ids.value = obj.ids;
+    	ids = ids ? ids : $('_terp_ids');
+    	
+    	ids.value = obj.ids;
 
         var d = DIV();
         d.innerHTML = obj.view;
