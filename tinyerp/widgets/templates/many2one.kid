@@ -6,14 +6,11 @@
                 <input type="text" id='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs'/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
-            <td width="1px"><div class="spacer"/></td>
-            <td width="45px">
-                <button type="button" id='${name}_create' title="Create a new resource" py:attrs="attrs">New</button>
+            <td width="16">
+                <img id='${name}_create' width="16" height="16" alt="New" title="Create a new resource" src="/static/images/file.gif" style="cursor: pointer;"/>
             </td>
-            <td width="1px"><div class="spacer"/></td>
-    
-            <td width="45px">
-                <button type="button" id='${name}_select' title="Search / Open a resource" disabled="${tg.selector(attrs.get('disabled') and not value)}">Select</button>
+            <td width="16" py:if="not attrs.get('disabled') or value">
+                <img id='${name}_select' width="16" height="16" alt="Search" title="Search / Open a resource" src="/static/images/find.gif"  style="cursor: pointer;"/>
             </td>
         </tr>
     </table>

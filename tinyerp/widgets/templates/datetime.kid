@@ -5,13 +5,8 @@
                 <input type="text" kind="${kind}" id="${field_id}" class="${field_class}" name="${name}" value="${strdate}" py:attrs='attrs' callback="${callback}" onchange="${onchange}"/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
-            <td width="2">
-                <div class="spacer"/>
-            </td>
-            <td width="75px">
-                <button type="button" id="${field_id}_trigger" py:attrs='attrs'>
-                    Select
-                </button>
+            <td width="16">
+                <img id="${field_id}_trigger" py:attrs='attrs' width="16" height="16" alt="Select" src="/static/images/calendar.gif" style="cursor: pointer;"/>                
             </td>
             <script type="text/javascript">
                 Calendar.setup(
