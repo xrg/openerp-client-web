@@ -30,9 +30,6 @@
 import re
 import cherrypy
 
-from turbogears import validators as tg_validators
-from tinyerp.widgets import validators as terp_validators
-
 def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
     dictionary from the given data to be used with TinyERP.
@@ -138,19 +135,11 @@ class TinyForm(TinyDict):
     form values in its python equivalent.
     """
 
-    VALS = {
-        'char' : terp_validators.String,
-        'text': terp_validators.String,
-        'integer' : terp_validators.Int,
-        'float' : terp_validators.Float,
-        'boolean': terp_validators.Bool,
-        'selection' : terp_validators.Selection,
-        'many2many' : terp_validators.many2many,
-        'many2one' : terp_validators.many2one
-        }
-
     def __init__(self, _value_key, _kind_key, **kwargs):
         
+        from tinyerp.widgets.form import widgets_type
+        from turbogears import validators as tg_validators
+       
         kw = kwargs.copy()
         
         vk = '_terp_' + _value_key + '/'
@@ -162,8 +151,9 @@ class TinyForm(TinyDict):
             vals = v.split(' ')
             required = vals[0] != vals[-1]
 
-            if k.startswith(kk) and vals[0] in self.VALS:
-                kw[k] = self.VALS[vals[0]](not_empty=required)
+            if k.startswith(kk) and vals[0] in widgets_type:
+                attrs = {'type' : vals[0], 'required' : required}
+                kw[k] = widgets_type[vals[0]](attrs).validator
 
         # then convert the values into pathon object
         for k, v in kw.items():
