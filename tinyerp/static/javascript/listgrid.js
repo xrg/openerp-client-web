@@ -62,6 +62,64 @@ ListView.prototype.edit = function(id){
 	this.reload(id);
 }
 
+ListView.prototype.getEditors = function(named, dom){
+
+	var editors = [];
+	var dom = dom ? dom : this.id;
+
+	editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
+	editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
+
+	if (named)
+		return filter(function(e){return e.name &&  e.name.indexOf('_terp_listfields') == 0;}, editors);
+	else
+		return filter(function(e){return e.id &&  e.id.indexOf('_terp_listfields') == 0;}, editors);
+}
+
+ListView.prototype.adjustEditors = function(newlist){
+
+	var myself = this;
+    var widths = {};
+
+    if (items(myself.getEditors(true)).length == 0) {
+
+        var header = getElementsByTagAndClassName('tr', 'grid-header', myself.id)[0];
+        var columns = filter(function(c){return c.id;}, getElementsByTagAndClassName('td', 'grid-cell', header));
+                
+        forEach(columns, function(c){
+            var k = c.id.split('/');
+            k.shift(); 
+            k = '_terp_listfields/' + k.join('/');
+            
+            var w = parseInt(c.offsetWidth);
+            
+            if (hasElementClass(c, 'datetime') || hasElementClass(c, 'date') || hasElementClass(c, 'time')) {
+                w -= 18;
+            }
+            
+            if (hasElementClass(c, 'many2one')) {
+                w -= 34;
+                k += '_text';
+            }
+                                            
+            widths[k] = w - 4;
+        });
+    } else {
+        forEach(myself.getEditors(), function(e){            
+            widths[e.id] = parseInt(e.offsetWidth);
+        });
+    }
+
+    forEach(myself.getEditors(false, newlist), function(e){
+        var k = e.id;
+
+        if (k in widths) {
+            e.style.width = widths[k] + 'px';
+            e.style.maxWidth = widths[k] + 'px';
+        }
+    });
+}
+
 ListView.prototype.save = function(id, model){
 
     var args = {};
@@ -81,29 +139,24 @@ ListView.prototype.save = function(id, model){
     args['_terp_parent/model'] = $(parent_field + '_terp_model').value;
     args['_terp_parent/context'] = $(parent_field + '_terp_context').value;
     
-    var inputs = [];
     var myself = this;
-
-	inputs = inputs.concat(getElementsByTagAndClassName('input', null, this.id));
-	inputs = inputs.concat(getElementsByTagAndClassName('select', null, this.id));
-
-    forEach(inputs, function(e){
-    	if (e.name && !hasElementClass(e, 'grid-record-selector')){
-    		// remove '_terp_listfields/' prefix
-    		var n = e.name.split('/');
-            n.shift();
-
-            var f = '_terp_form/' + n.join('/');
-            var k = '_terp_kind/' + n.join('/');
-            var r = '_terp_required/' + n.join('/');
-
-            args[f] = e.value;
-            args[k] = e.attributes['kind'].value;
-            if (hasElementClass(e, 'requiredfield'))
-            	args[k] += ' required';
-        }
-    });
+    var editors = this.getEditors(true);
     
+    forEach(editors, function(e){
+   		// remove '_terp_listfields/' prefix
+   		var n = e.name.split('/');
+        n.shift();
+
+        var f = '_terp_form/' + n.join('/');
+        var k = '_terp_kind/' + n.join('/');
+        var r = '_terp_required/' + n.join('/');
+
+        args[f] = e.value;
+        args[k] = e.attributes['kind'].value;        
+        if (hasElementClass(e, 'requiredfield'))
+        	args[k] += ' required';
+    });
+
     var req= Ajax.JSON.post('/listgrid/save', args);
 
     req.addCallback(function(obj){
@@ -143,9 +196,11 @@ ListView.prototype.reload = function(edit_inline){
         var d = DIV();
         d.innerHTML = obj.view;
 
-        var l = d.getElementsByTagName('table')[0];
-                  
-        swapDOM(myself.id, l);
+        var newlist = d.getElementsByTagName('table')[0];
+        
+		myself.adjustEditors(newlist);		
+
+        swapDOM(myself.id, newlist);
     });
     
     req.addErrback(function(err){
