@@ -69,12 +69,13 @@ class List(controllers.Controller, TinyResource):
             else:
                 data = frm.copy()
                 
-                if params.id:
+                if params.id > 0:
                     proxy.write([params.id], data, params.parent.context or {})
                 else:
                     proxy.create(data, params.parent.context or {})
 
         except Exception, e:
+            raise e
             error = str(e)
 
         return dict(error=error)
