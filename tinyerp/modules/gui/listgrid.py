@@ -79,7 +79,6 @@ class List(controllers.Controller, TinyResource):
                     proxy.create(data, params.parent.context or {})
 
         except Exception, e:
-            raise e
             error = str(e)
 
         return dict(error=error)
