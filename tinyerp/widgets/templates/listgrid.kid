@@ -24,10 +24,10 @@
             ${editors[field].display()}
         </td>
         <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-            <img src="/static/images/save_inline.gif" class="listImage" border="0" title="Update" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'}, '${model}')"/>
+            <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="Update" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
         </td>
         <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Cancel" onclick="new ListView('${name}').reload()"/>
+            <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="Cancel" onclick="new ListView('${name}').reload()"/>
         </td>
     </tr>
     

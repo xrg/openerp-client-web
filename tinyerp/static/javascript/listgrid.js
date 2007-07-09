@@ -30,6 +30,11 @@
 var ListView = function(id, terp){
     this.id = id;
     this.terp = terp;
+    
+    var prefix = id == '_terp_list' ? '' : id + '/';
+    
+    this.model = $(prefix + '_terp_model').value;
+    this.current_record = null;
 }
 
 ListView.prototype.checkAll = function(clear){
@@ -109,24 +114,91 @@ ListView.prototype.adjustEditors = function(newlist){
             widths[e.id] = parseInt(e.offsetWidth);
         });
     }
+    
+    var editors = myself.getEditors(false, newlist);
 
-    forEach(myself.getEditors(false, newlist), function(e){
+    forEach(editors, function(e){
         var k = e.id;
 
         if (k in widths) {
             e.style.width = widths[k] + 'px';
             e.style.maxWidth = widths[k] + 'px';
         }
+        
+        // disable autocomplete (Firefox < 2.0 focus bug)
+        setNodeAttribute(e, 'autocomplete', 'OFF');  
     });
+    
+    return editors;
 }
 
-ListView.prototype.save = function(id, model){
+ListView.prototype.onKeyDown = function(evt){
+
+	var key = evt.key();
+	var src = evt.src();
+	
+	if (!(key.string == "KEY_TAB" || key.string == "KEY_ENTER" || key.string == "KEY_ESCAPE")) {
+		return;
+	}
+	
+	if (key.string == "KEY_ESCAPE"){
+		evt.stop();
+		this.reload();
+		return;
+	}
+	
+	if (key.string == "KEY_ENTER"){
+	
+		if (hasElementClass(src, "m2o")){
+	
+			var k = src.id;
+			k = k.slice(0, k.length - 5);
+		
+			if (src.value && !getElement(k).value){
+				return;
+			}
+		}
+
+		evt.stop();
+					
+		this.save(this.current_record);
+		
+		return;
+	}	
+	
+	var editors = filter(function(e){return e.type != 'hidden' && !e.disabled}, this.getEditors());
+	
+	var first = editors.shift();
+	var last = editors.pop();
+	
+	if (src == last){
+		evt.stop();
+		first.focus();
+		first.select();
+	}
+	
+}
+
+ListView.prototype.bindKeyEventsToEditors = function(editors){
+	var myself = this;
+	var editors = filter(function(e){return e.type != 'hidden' && !e.disabled}, editors);
+
+	forEach(editors, function(e){
+		connect(e, 'onkeydown', myself, myself.onKeyDown);
+	});
+
+	var first = editors.shift();
+	first.focus();
+	first.select();
+}
+
+ListView.prototype.save = function(id){
 
     var args = {};
     var parent_field = this.id.split('/');
     
     args['_terp_id'] = id;
-    args['_terp_model'] = model;
+    args['_terp_model'] = this.model;
     
     if (parent_field.length > 0){
 		parent_field.pop();
@@ -196,13 +268,17 @@ ListView.prototype.reload = function(edit_inline){
         var d = DIV();
         d.innerHTML = obj.view;
 
-        var newlist = d.getElementsByTagName('table')[0];
+        var newlist = d.getElementsByTagName('table')[0];        
+		var editors = myself.adjustEditors(newlist);
+	
+		myself.current_record = edit_inline;
+				
+        swapDOM(myself.id, newlist);        
         
-		myself.adjustEditors(newlist);		
-
-        swapDOM(myself.id, newlist);
+        if (editors.length > 0) 
+        	myself.bindKeyEventsToEditors(editors);
     });
-    
+
     req.addErrback(function(err){
         logError(err);
     });
