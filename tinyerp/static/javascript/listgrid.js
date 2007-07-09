@@ -159,8 +159,7 @@ ListView.prototype.onKeyDown = function(evt){
 			}
 		}
 
-		evt.stop();
-					
+		evt.stop();				
 		this.save(this.current_record);
 		
 		return;
@@ -197,7 +196,7 @@ ListView.prototype.save = function(id){
     var args = {};
     var parent_field = this.id.split('/');
     
-    args['_terp_id'] = id;
+    args['_terp_id'] = id ? id : -1;
     args['_terp_model'] = this.model;
     
     if (parent_field.length > 0){
@@ -229,13 +228,13 @@ ListView.prototype.save = function(id){
         	args[k] += ' required';
     });
 
-    var req= Ajax.JSON.post('/listgrid/save', args);
+    var req= Ajax.JSON.get('/listgrid/save', args);
 
     req.addCallback(function(obj){
         if (obj.error){
            alert(obj.error);
         }else{
-            myself.reload(id ? null : -1);
+            myself.reload(id > 0 ? null : -1);
         }
     });    
 }
