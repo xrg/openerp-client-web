@@ -73,8 +73,8 @@ class List(controllers.Controller, TinyResource):
             else:
                 data = frm.copy()                                
                 
-                if params.id > 0:
-                    proxy.write([params.id], data, params.parent.context or {})
+                if id > 0:
+                    proxy.write([id], data, params.parent.context or {})
                 else:
                     proxy.create(data, params.parent.context or {})
 
