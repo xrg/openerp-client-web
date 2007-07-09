@@ -47,7 +47,10 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         
         error = None
-        id = params.id or 0
+        
+        id = params.id or 0        
+        id = (id > 0) and id or 0
+
         model = params.parent.model
         
         if model != params.model and not params.parent.id:
@@ -65,9 +68,10 @@ class List(controllers.Controller, TinyResource):
                
                 fld = frm.keys()[0]
                 data = {fld : [(id and 1, id, frm[fld].copy())]}
+                
                 proxy.write([params.parent.id], data, params.parent.context or {})
             else:
-                data = frm.copy()
+                data = frm.copy()                                
                 
                 if params.id > 0:
                     proxy.write([params.id], data, params.parent.context or {})
