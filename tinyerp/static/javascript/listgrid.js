@@ -228,7 +228,7 @@ ListView.prototype.save = function(id){
         	args[k] += ' required';
     });
 
-    var req= Ajax.JSON.get('/listgrid/save', args);
+    var req= Ajax.JSON.post('/listgrid/save', args);
 
     req.addCallback(function(obj){
         if (obj.error){
@@ -265,6 +265,7 @@ ListView.prototype.reload = function(edit_inline){
     args['_terp_model'] = $('_terp_model').value;
     args['_terp_id'] = $('_terp_id').value;
     args['_terp_view_ids'] = $('_terp_view_ids').value;
+    args['_terp_domain'] = $('_terp_domain').value;
     args['_terp_context'] = $('_terp_context').value;
 
     var req = Ajax.JSON.post('/listgrid/get', args);

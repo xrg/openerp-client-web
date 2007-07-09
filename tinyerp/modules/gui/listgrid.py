@@ -93,7 +93,6 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         params.ids = None
-        params.domain = []
 
         params.view_mode = ['form', 'tree']
         if params.source == '_terp_list':
