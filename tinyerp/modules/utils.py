@@ -30,6 +30,8 @@
 import re
 import cherrypy
 
+from turbogears import validators as tg_validators
+
 def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
     dictionary from the given data to be used with TinyERP.
@@ -128,8 +130,13 @@ class TinyDict(dict):
             else:
                 data[n] = v
 
-        return _make_dict(params, True), _make_dict(data, False)
-    
+        return _make_dict(params, True), _make_dict(data, False)  
+
+class TinyFormError(tg_validators.Invalid):
+    def __init__(self, field, msg, value):
+        tg_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
+        self.field = field
+        
 class TinyForm(TinyDict):
     """A special helper class for AJAX form actions, will be used to convert each 
     form values in its python equivalent.
@@ -137,8 +144,7 @@ class TinyForm(TinyDict):
 
     def __init__(self, _value_key, _kind_key, **kwargs):
         
-        from tinyerp.widgets.form import widgets_type
-        from turbogears import validators as tg_validators
+        from tinyerp.widgets.form import widgets_type        
        
         kw = kwargs.copy()
         
@@ -160,7 +166,10 @@ class TinyForm(TinyDict):
             if k.startswith(vk):
                 n = kk + k.replace(vk, '')
                 if n in kw and isinstance(kw[n], tg_validators.Validator):
-                    kw[k] = kw[n].to_python(v, None)
+                    try:
+                        kw[k] = kw[n].to_python(v, None)
+                    except tg_validators.Invalid, e:
+                        raise TinyFormError(k.replace(vk, ''), e.msg, e.value)
 
         # now split the kw dict
         params, data = TinyDict.split(kw)

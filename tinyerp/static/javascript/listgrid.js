@@ -233,6 +233,18 @@ ListView.prototype.save = function(id){
     req.addCallback(function(obj){
         if (obj.error){
            alert(obj.error);
+           
+           if (obj.error_field) {
+               var fld = getElement('_terp_listfields/' + obj.error_field);
+              
+               if (fld && fld.attributes['kind'].value == 'many2one')
+               		fld = getElement(fld.id + '_text');
+
+               if (fld) {
+               		fld.focus();
+               		fld.select();
+               }
+           }
         }else{
             myself.reload(id > 0 ? null : -1);
         }

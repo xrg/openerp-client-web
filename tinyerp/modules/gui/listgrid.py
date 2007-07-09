@@ -36,6 +36,7 @@ from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules.utils import TinyDict
 from tinyerp.modules.utils import TinyForm
+from tinyerp.modules.utils import TinyFormError
 
 import form
 import search
@@ -47,6 +48,7 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         
         error = None
+        error_field = None
         
         id = params.id or 0        
         id = (id > 0) and id or 0
@@ -78,10 +80,13 @@ class List(controllers.Controller, TinyResource):
                 else:
                     proxy.create(data, params.parent.context or {})
 
+        except TinyFormError, e:
+            error_field = e.field
+            error = ustr(e)            
         except Exception, e:
-            error = str(e)
+            error = ustr(e)
 
-        return dict(error=error)
+        return dict(error_field=error_field, error=error)
 
     @expose('json')
     def get(self, **kw):
