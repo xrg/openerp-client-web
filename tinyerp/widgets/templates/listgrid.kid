@@ -44,7 +44,7 @@
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
         </td>
         <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="inlineDelete(${data['id']}, '${source}')"/>
+            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="new ListView('${name}').remove(${data['id']})"/>
         </td>
     </tr>
 

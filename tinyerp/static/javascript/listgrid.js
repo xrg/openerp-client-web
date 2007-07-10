@@ -251,7 +251,27 @@ ListView.prototype.save = function(id){
     });    
 }
 
-ListView.prototype.remove = function(record_id){
+ListView.prototype.remove = function(id){
+
+	if (!confirm('Do you realy want to delete this record?')) {
+        return false;
+    }
+
+	var myself = this;
+	var args = {};
+	
+	args['_terp_model'] = this.model;
+	args['_terp_id'] = id;
+	
+	var req = Ajax.JSON.post('/listgrid/remove', args);
+	
+	req.addCallback(function(obj){
+		if (obj.error){
+			alert(obj.error);
+		} else {
+			myself.reload();
+		}
+	});
 }
 
 ListView.prototype.reload = function(edit_inline){

@@ -87,6 +87,21 @@ class List(controllers.Controller, TinyResource):
             error = ustr(e)
 
         return dict(error_field=error_field, error=error)
+    
+    @expose('json')
+    def remove(self, **kw):
+        params, data = TinyDict.split(kw)
+                
+        error = None
+        proxy = rpc.RPCProxy(params.model)
+
+        if params.id:
+            try:
+                res = proxy.unlink([params.id])
+            except Exception, e:
+                error = ustr(e)
+
+        return dict(error=error)
 
     @expose('json')
     def get(self, **kw):
