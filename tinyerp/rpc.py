@@ -352,8 +352,8 @@ class RPCSession(object):
                     common.warning(_('You select a timezone but tinyERP could not find pytz library !\nThe timezone functionality will be disable.'))
                     
 
-        # set language in session
-        #self.language = self.context.get('lang')
+        # set locale in session
+        self.locale = self.context.get('lang')
 
     def __convert(self, result):
 
