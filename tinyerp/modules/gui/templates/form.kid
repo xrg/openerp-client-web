@@ -51,7 +51,7 @@
 
     <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td width="100%">
+            <td width="100%" valign="top">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <tr>
                         <td>
@@ -176,8 +176,8 @@
                             </table>
                         </td>
                     </tr>
-                </table>              
-            </td>               
+                </table>
+            </td>
             
             <td id="sidebar_hide" valign="top" py:if="form.screen.hastoolbar and form.screen.toolbar">
                <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar('sidebar');" style="cursor: pointer;"/>
