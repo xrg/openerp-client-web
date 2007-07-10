@@ -178,10 +178,15 @@ var get_parent_form = function(name) {
     	});		
 	} else {
 		forEach(theform.elements, function(e){
-			if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button'){
-            	frm['_terp_parent_form/' + e.name] = e.value;
+		
+			if (!e.name) return;
+					
+			var n = e.name.indexOf('_terp_listfields') == 0 ? e.name.slice(17) : e.name;
+		
+			if (n.indexOf('_terp_') == -1 && e.type != 'button'){
+            	frm['_terp_parent_form/' + n] = e.value;
 	            if (e.attributes['kind']){
-    	            frm['_terp_parent_types/' + e.name] = getNodeAttribute(e, 'kind');
+    	            frm['_terp_parent_types/' + n] = getNodeAttribute(e, 'kind');
         	    }
 	        }
     	});	
@@ -193,23 +198,25 @@ var get_parent_form = function(name) {
 /**
  * This function will be used by widgets that has `onchange` trigger is defined.
  */
-var onChange = function(name) {	
+var onChange = function(name) {
 	
     var caller = $(name);
     var callback = getNodeAttribute(caller, 'callback');
+    
+   	var is_list = caller.id.indexOf('_terp_listfields') == 0;
 
     var prefix = caller.name.split("/");
     prefix.pop();
     prefix = prefix.join("/");
     prefix = prefix ? prefix + '/' : '';
-        
+       
     var vals = get_parent_form(name);
-    var model = $('_terp_list') ? $('_terp_model').value : $(prefix + '_terp_model').value;
+    var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
 
     if (!callback)
         return;
 
-    vals['_terp_caller'] = $('_terp_list') ? caller.id.split('/').pop() : caller.id;
+    vals['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
     vals['_terp_callback'] = callback;
     vals['_terp_model'] = model;
 
