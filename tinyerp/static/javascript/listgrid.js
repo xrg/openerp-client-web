@@ -32,8 +32,8 @@ var ListView = function(id, terp){
     this.terp = terp;
     
     var prefix = id == '_terp_list' ? '' : id + '/';
-    
-    this.model = $(prefix + '_terp_model').value;
+       
+    this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
     this.current_record = null;
 }
 
