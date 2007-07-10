@@ -83,20 +83,25 @@ class ConfEditor(controllers.Controller):
     @expose(template="tinyerp.modules.gui.templates.confeditor")
     def setconf(self, **kw):
 
-        host=kw.get('host')
-        port=kw.get('port')
-        protocol=kw.get('protocol')
+        host=kw.get('host','')
+        port=kw.get('port','')
+        protocol=kw.get('protocol','')
+        pwd = cherrypy.session.get('terp_passwd')
 
-        conf['tinyerp'] = {}
-        conf['tinyerp']['host'] =  str(host)
-        conf['tinyerp']['port'] = str(port)
-        conf['tinyerp']['protocol'] = str(protocol)
+        if (not host) or (not port) or (not protocol):
+            message = str(_('Invalid Server Information !'))
+            return dict(message=message, passwd=pwd)
+        else:
+            conf['tinyerp'] = {}
+            conf['tinyerp']['host'] =  str(host)
+            conf['tinyerp']['port'] = str(port)
+            conf['tinyerp']['protocol'] = str(protocol)
 
-        conf.write()
-        config.update(conf)
+            conf.write()
+            config.update(conf)
 
-        cherrypy.session['terp_passwd'] = None
+            cherrypy.session['terp_passwd'] = None
 
-        raise redirect("/login")
+            raise redirect("/login")
 
 
