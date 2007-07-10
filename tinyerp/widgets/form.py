@@ -368,6 +368,19 @@ class Url(TinyField):
     def set_value(self, value):
         if value:
             super(Url, self).set_value(value)
+            
+class Hidden(TinyField):
+    template = "tinyerp.widgets.templates.hidden"
+    wid = None
+
+    def __init__(self, attrs={}):
+        super(Hidden, self).__init__(attrs)       
+        self.wid = widgets_type[self.kind](attrs)        
+        self.validator = self.wid.validator
+
+    def set_value(self, value):
+        self.wid.set_value(value)
+        self.default = self.wid.default
 
 class Button(TinyField):
     """Button widget
