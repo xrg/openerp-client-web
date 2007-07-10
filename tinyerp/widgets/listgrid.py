@@ -228,6 +228,7 @@ class List(TinyCompoundWidget):
             ctx.update(self.context)
             
             fields = [f for f, fa in self.headers]
+            fields += [f for f, fa in self.hiddens]
                         
             proxy = rpc.RPCProxy(self.model)
             defaults = proxy.read([self.edit_inline], fields, ctx)[0]
