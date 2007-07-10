@@ -39,14 +39,13 @@ from turbogears import redirect
 from turbogears import config
 
 import cherrypy
-
 import rpc
+import pkg_resources
 
 @expose(template="tinyerp.templates.login")
 def _login(target, dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
     """Login page, exposed without any controller, will be used by _check_method wrapper
     """
-
     url = rpc.session.get_url()
     url = str(url[:-1])
 
@@ -89,9 +88,9 @@ def secured(fn):
         else:
             # User isn't logged in yet.
 
-            host = config.get('tiny.host')
-            port = config.get('tiny.port')
-            protocol = config.get('tiny.protocol')
+            host = config.get('host', path="tinyerp")
+            port = config.get('port', path="tinyerp")
+            protocol = config.get('protocol', path="tinyerp")
 
             db = None
             user = None
@@ -141,26 +140,26 @@ def secured(fn):
     wrapper.__doc__ = fn.__doc__
     wrapper.__dict__ = fn.__dict__.copy()
     wrapper.__module__ = fn.__module__
-    
+
     wrapper.secured = True
 
     return wrapper
 
 def unsecured(fn):
-    """A Decorator to make a TinyResource controller method unsecured.    
+    """A Decorator to make a TinyResource controller method unsecured.
     """
 
     def wrapper(*args, **kw):
         return fn(*args, **kw)
-    
+
     # restore the original values
     wrapper.__name__ = fn.__name__
     wrapper.__doc__ = fn.__doc__
     wrapper.__dict__ = fn.__dict__.copy()
     wrapper.__module__ = fn.__module__
-    
+
     wrapper.secured = False
-    
+
     return wrapper
 
 class TinyResource(object):

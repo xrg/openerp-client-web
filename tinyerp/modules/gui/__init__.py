@@ -8,5 +8,6 @@ import preferences
 import selection
 import shortcuts
 import requests
+import confeditor
 import openm2o
 import listgrid

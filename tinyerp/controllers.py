@@ -82,10 +82,10 @@ class SessionStore(object):
             return cherrypy.session.get(name, default)
         except:
             return default
-        
-    def clear(self):        
+
+    def clear(self):
         cherrypy.session.clear()
-        
+
 # initialize the rpc session
 rpc.session = rpc.RPCSession(store=SessionStore())
 
@@ -95,10 +95,10 @@ class Root(controllers.RootController, TinyResource):
 
     def user_action(self, id='action_id'):
         """Perform default user action.
-                
+
         @param id: `action_id` or `menu_id`
         """
-                                
+
         proxy = rpc.RPCProxy("res.users")
         act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
 
@@ -110,7 +110,7 @@ class Root(controllers.RootController, TinyResource):
         act_id = act_id[0][id][0]
 
         return actions.execute_by_id(act_id)
-    
+
     @expose()
     def index(self):
         """Index page, loads the view defined by `action_id`.
@@ -140,29 +140,29 @@ class Root(controllers.RootController, TinyResource):
     @expose(template="tinyerp.templates.error")
     def error(self, title=None, message=None):
         return dict(title=title, message=message)
-    
+
     @expose(template="tinyerp.templates.login")
     @unsecured
     def login(self, db=None, user=None, passwd=None):
-                
-        host = config.get('tiny.host')
-        port = config.get('tiny.port')
-        protocol = config.get('tiny.protocol')
+
+        host = config.get('host', path="tinyerp")
+        port = config.get('port', path="tinyerp")
+        protocol = config.get('protocol', path="tinyerp")
 
         dblist = rpc.session.listdb(host, port, protocol)
 
         url = "%s://%s:%s"%(protocol, host, port)
 
         return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=None, origArgs={})
-    
+
     @expose()
     @unsecured
     def logout(self):
         """ Logout method, will terminate the current session.
         """
         rpc.session.logout()
-        raise redirect('/')    
-    
+        raise redirect('/')
+
     @expose(template="tinyerp.templates.about")
     @unsecured
     def about(self):
@@ -172,12 +172,13 @@ class Root(controllers.RootController, TinyResource):
     tree = gui.tree.Tree()
     graph = gui.graph.Graph()
     wizard = gui.wizard.Wizard()
-    search = gui.search.Search()    
+    search = gui.search.Search()
     dbadmin = gui.dbadmin.DBAdmin()
     pref = gui.preferences.Preferences()
     selection = gui.selection.Selection()
     shortcuts = gui.shortcuts.Shortcuts()
     requests = gui.requests.Requests()
     openm2o = gui.openm2o.OpenM2O()
+    configure = gui.confeditor.ConfEditor()
     listgrid = gui.listgrid.List()
 
