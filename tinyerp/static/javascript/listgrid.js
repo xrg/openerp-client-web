@@ -301,14 +301,20 @@ ListView.prototype.reload = function(edit_inline){
         d.innerHTML = obj.view;
 
         var newlist = d.getElementsByTagName('table')[0];        
-		var editors = myself.adjustEditors(newlist);
+		var editors = myself.adjustEditors(newlist);				
 	
 		myself.current_record = edit_inline;
-				
-        swapDOM(myself.id, newlist);        
+
+        swapDOM(myself.id, newlist);
         
-        if (editors.length > 0) 
-        	myself.bindKeyEventsToEditors(editors);
+        // execute JavaScript
+        var scripts = getElementsByTagAndClassName('script', null, newlist);
+        forEach(scripts, function(s){
+        	eval(s.innerHTML);
+        });
+        
+		if (editors.length > 0)
+        	myself.bindKeyEventsToEditors(editors);        
     });
 
     req.addErrback(function(err){
