@@ -85,13 +85,14 @@ class Pager(TinyCompoundWidget):
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.listgrid"
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'edit_inline']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'hiddens', 'edit_inline']
     member_widgets = ['pager', 'children']
 
     pager = None
     children = []
     
     editors = {}
+    hiddens = []
     edit_inline = None
 
     data = None
@@ -171,8 +172,8 @@ class List(TinyCompoundWidget):
 
             self.ids = ids
 
-        self.headers, self.data = self.parse(root, fields, data)
-
+        self.headers, self.hiddens, self.data = self.parse(root, fields, data)
+        
         self.columns = len(self.headers)
 
         self.columns += (self.selectable or 0) and 1
@@ -200,6 +201,20 @@ class List(TinyCompoundWidget):
                 if f in defaults:
                     ed.set_value(defaults[f])
                     
+                self.editors[f] = ed
+                
+            # generate hidden fields
+            for f, fa in self.hiddens:
+                k = fa.get('type', 'char')
+                if k not in form.widgets_type:
+                    k = 'char'
+                    
+                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
+                ed =  form.Hidden(fa)
+
+                if f in defaults:
+                    ed.set_value(defaults[f])
+
                 self.editors[f] = ed
 
             self.children = self.editors.values()            
@@ -233,6 +248,7 @@ class List(TinyCompoundWidget):
         """
 
         headers = []
+        hiddens = []
         values  = [row.copy() for row in data]
         
         for node in root.childNodes:
@@ -254,6 +270,7 @@ class List(TinyCompoundWidget):
                         invisible = eval(invisible)
 
                     if invisible:
+                        hiddens += [(name, fields[name])]
                         continue
 
                     for i, row in enumerate(data):
@@ -284,7 +301,7 @@ class List(TinyCompoundWidget):
                     cell.link = "javascript: void(0)"
                     cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
 
-        return headers, data
+        return headers, hiddens, data
 
 from tinyerp.stdvars import tg_query
 
