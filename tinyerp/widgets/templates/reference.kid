@@ -9,17 +9,15 @@
     		    </select>
     		</td>
     		<td width="2px"><div class="spacer"/></td>
-       		<td width="65%">
+       		<td>
                 <input type="hidden" kind="${kind}" id='${name}' name='${name}' value="${value or None}" py:attrs='attrs' callback="${callback}" onchange="${onchange}; getName(this, $('${name}_select').value);"/>
                 <input type="text" value='${text}'  id ='${name}_text' class="${field_class}"  py:attrs='attrs' onchange="if (!this.value){$('${name}').value=''; $('${name}').onchange();} else {getName('${name}', $('${name}_select').value);}"/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
-            <td width="2px"><div class="spacer"/></td>
-            <td width="75px">
-                <button type="button" py:attrs="attrs"
+            <td width="16" style="padding-left: 2px;">
+                <img width="16" height="16" src="/static/images/find.gif" style="cursor: pointer;"
                     domain="${ustr(domain)}" context="${ustr(context)}"
-                    onclick="if($('${name}_select').value) open_search_window($('${name}_select').value, getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 1);">Select</button>
-
+                    onclick="if($('${name}_select').value) open_search_window($('${name}_select').value, getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 1);"/>
             </td>
         </tr>
     </table>
