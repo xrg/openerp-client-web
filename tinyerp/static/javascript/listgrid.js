@@ -103,7 +103,7 @@ ListView.prototype.adjustEditors = function(newlist){
             }
             
             if (hasElementClass(c, 'many2one')) {
-                w -= 34;
+                w -= 18;
                 k += '_text';
             }
                                             

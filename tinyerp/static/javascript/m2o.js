@@ -33,7 +33,6 @@ var ManyToOne = function(name){
 	this.field = $(name);
 	this.text =	$(name + '_text');
 	
-	this.create_button = $(name + '_create');
 	this.select_button = $(name + '_select');
 		
 	this.callback = getNodeAttribute(this.field, 'callback');
@@ -45,8 +44,7 @@ var ManyToOne = function(name){
 	//connect(this.text, 'onchange', this, this.on_change_text);
 	connect(this.text, 'onkeydown', this, this.on_keydown);
 	connect(this.text, 'onkeypress', this, this.on_keypress);
-	
-	connect(this.create_button, 'onclick', this, this.create);
+
 	connect(this.select_button, 'onclick', this, this.select);
 }
 

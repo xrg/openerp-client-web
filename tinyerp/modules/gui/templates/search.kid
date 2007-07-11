@@ -53,6 +53,11 @@
             window.opener.setTimeout("signal($('${params.source}'), 'onchange')", 0);
             window.setTimeout("window.close()", 5);
         }
+        
+        function do_create(){
+            act = getURL('/openm2o/edit', {_terp_model: '${params.model}', _terp_view_mode: '[form,tree]', _terp_m2o: '${params.source}', _terp_id: 'False'});
+            window.location.href = act;
+        }
     </script>
 
     <script type="text/javascript" py:if="params.kind == 2">
@@ -94,7 +99,7 @@
 
                 window.setTimeout('window.close()', 0);
             });
-        }        
+        }       
     </script>
     
     <script type="text/javascript">    
@@ -105,7 +110,7 @@
                 h.parentNode.removeChild(h);
                 f.parentNode.removeChild(f);
             }
-        }        
+        }
         connect(window, "onload", check_for_popup);
    </script>        
 </head>
@@ -141,9 +146,10 @@
                 <td>           
                     <div class="toolbar">
                         <button type="submit">Find</button>
+                        <button type="button" onclick="do_create()" py:if="params.kind == 1">New</button>
                         <button type="button" onclick="do_select()">Select</button>
                     </div>
-                </td>
+                </td>                
             </tr>        
             <tr>
                 <td py:content="screen.display()">Screen View</td>
