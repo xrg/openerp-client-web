@@ -32,6 +32,8 @@ from turbogears import controllers
 
 from tinyerp import rpc
 
+import tinyerp.widgets as tw
+
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.modules.utils import TinyDict
@@ -108,22 +110,16 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         params.ids = None
+        source = (params.source or '') and str(params.source)
 
         params.view_mode = ['form', 'tree']
-        if params.source == '_terp_list':
+        if source == '_terp_list':
             params.view_mode = ['tree', 'form']
         
         frm = form.Form().create_form(params)
-
-        wid = frm.screen.get_widgets_by_name(params.source)[0]
-        ids = []
         
-        if params.source != '_terp_list':
-            wid = wid.screen.widget
-            proxy = rpc.RPCProxy(params.model)
-            ids = proxy.read([params.id], [params.source])[0][params.source]
-        else:
-            ids = wid.ids
+        wid = frm.screen.get_widgets_by_name(source, kind=tw.listgrid.List)[0]
+        ids = wid.ids
 
         if params.edit_inline:
             wid.edit_inline = params.edit_inline

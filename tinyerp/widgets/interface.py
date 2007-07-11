@@ -159,16 +159,17 @@ class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.CompoundWidget.__init__(self, name=self.name or None)
         
-    def get_widgets_by_name(self, name, parent=None):
+    def get_widgets_by_name(self, name, kind=tg.widgets.Widget, parent=None):
         result = []        
         parent = parent or self
 
         for wid in parent.iter_member_widgets():
-            if wid.name == name:
+            
+            if wid.name == name and isinstance(wid, kind):
                 result.append(wid)
                 
             if isinstance(wid, tg.widgets.CompoundWidget):
-                result += self.get_widgets_by_name(name, parent=wid)
+                result += self.get_widgets_by_name(name, kind=kind, parent=wid)
         
         return result
 
