@@ -4,7 +4,7 @@
 			<td>
 			    <input type="text" kind="${kind}" name='${name}' id ='${field_id}' value="${value}" class="${field_class}" py:attrs="attrs" callback="${callback}" onchange="${onchange}"/>
 			</td>
-			<td width="16">
+			<td width="16" style="padding-left: 2px">
                 <img width="16" height="16" alt="Go!" src="/static/images/stock/gtk-jump-to.png" style="cursor: pointer;" onclick="if (echeck($('${field_id}').value)) window.open('mailto:' + $('${field_id}').value).close();"/>
     		</td>
     	</tr>
