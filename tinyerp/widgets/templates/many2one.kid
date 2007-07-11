@@ -7,7 +7,7 @@
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
             <td width="16" style="padding-left: 2px" py:if="not attrs.get('disabled') or value">
-                <img id='${name}_select' width="16" height="16" alt="Search" title="Search / Open a resource" src="/static/images/find.gif"  style="cursor: pointer;"/>
+                <img id='${name}_select' width="16" height="16" alt="Search" title="Search / Open a resource" src="/static/images/find.gif" style="cursor: pointer;"/>
             </td>
         </tr>
     </table>
