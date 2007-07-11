@@ -21,9 +21,9 @@
 			            <span class="fielderror" py:if="error" py:content="error"/>                    
                     </td>
 			        <td width="2px"><div class="spacer"/></td>
-			        <td width="75px" style="padding-left: 2px;">
+			        <td width="24" style="padding-left: 2px;">                        
 			            <button type="button" py:attrs='attrs' domain="${ustr(domain)}" context="${ustr(context)}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2);">
-			                Select
+                            <img width="16" height="16" src="/static/images/find.gif"/>
 			            </button>
 			        </td>
                 </tr>
