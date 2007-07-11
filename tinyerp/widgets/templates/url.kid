@@ -16,7 +16,7 @@
     <table py:if="editable" width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>
-                <input type="text" kind="${kind}" name='${name}' id ='${field_id}' style="width :100%" value="${value}" class="${field_class}" py:attrs="attrs"/>
+                <input type="text" kind="${kind}" name='${name}' id ='${field_id}' value="${value}" class="${field_class}" py:attrs="attrs"/>
             </td>
             <td width="16">
                 <img width="16" height="16" alt="Go!" src="/static/images/stock/gtk-jump-to.png" style="cursor: pointer;" onclick="open_win($('${field_id}').value);"/>
