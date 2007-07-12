@@ -341,6 +341,20 @@ ListView.prototype.reload = function(edit_inline){
     });
 }
 
+function findPosition(elem) {
+	var x = y = 0;
+	if (elem.offsetParent) {
+		x = elem.offsetLeft
+		y = elem.offsetTop
+		while (elem = elem.offsetParent) {
+			x += elem.offsetLeft
+			y += elem.offsetTop
+		}
+	}
+	return {x: x, y: y};
+}
+
+
 ListView.prototype.wait = function(done){
 
 	this.wait_counter += done ? -1 : 1;
@@ -355,21 +369,22 @@ ListView.prototype.wait = function(done){
 	}
 	
 	if (this.wait_counter == 0){
-		block.style.display = 'none';
+		hideElement(block);
 		return;
 	}
 	
 	if (this.wait_counter > 1){
 		return;
-	}	
-	
+	}
+
 	var thelist = $(this.id);
 
-	var p = elementPosition(thelist);
+	//var p = elementPosition(thelist);
+	var p = findPosition(thelist);
 	var d = elementDimensions(thelist);
-	
+
 	setElementPosition(block, p);
 	setElementDimensions(block, d);
 	
-	block.style.display = '';
+	showElement(block);
 }
