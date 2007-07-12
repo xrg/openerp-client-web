@@ -65,10 +65,14 @@ class Attachment(controllers.Controller, TinyResource):
     
     @expose()
     def add(self, model, id, uploadfile):
-        
-        fname = uploadfile.filename
-        data = uploadfile.file.read()
-        
+                
+        data = uploadfile.file.read()                
+        fname = os.path.basename(uploadfile.filename)
+                
+        # XXX: we can't reconise basename of window path on Linux
+        if '\\' in fname: # though `\` is valid in Unix path
+            fname = fname.split('\\')[-1]
+
         if data:
             proxy = rpc.RPCProxy('ir.attachment')
             proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'res_model': model, 'res_id': id})
