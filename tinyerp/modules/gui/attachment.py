@@ -69,7 +69,29 @@ class Attachment(controllers.Controller, TinyResource):
         fname = uploadfile.filename
         data = uploadfile.file.read()
         
-        proxy = rpc.RPCProxy('ir.attachment')
-        proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'res_model': model, 'res_id': id})
+        if data:
+            proxy = rpc.RPCProxy('ir.attachment')
+            proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'res_model': model, 'res_id': id})
         
         return self.index(model, id)
+    
+    @expose()
+    def delete(self, model, id, record, **kw):
+        record = int(record)
+        
+        proxy = rpc.RPCProxy('ir.attachment')
+        proxy.unlink([record])
+        
+        return self.index(model, id)
+
+    @expose(content_type="application/octat-stream")
+    def save(self, fname=None, record=False, **kw):
+        record = int(record)
+
+        proxy = rpc.RPCProxy('ir.attachment')
+        data = proxy.read([record])
+
+        if len(data) and not data[0]['link'] and data[0]['datas']:
+            return base64.decodestring(data[0]['datas'])        
+        else:
+            return ''

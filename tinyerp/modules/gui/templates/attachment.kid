@@ -7,6 +7,47 @@
         function do_select(id, src){
         }
         
+        function do_upload(form){
+            form.action = '/attachment/add';
+            form.submit();
+        }
+        
+        function do_save(form){
+
+            var list = new ListView('_terp_list');
+            var boxes = list.getSelected();
+            
+            if (boxes.length == 0){
+                alert('Please select a resouce...');
+                return;                
+            }
+            
+            var id = boxes[0].value;
+            
+            var p = boxes[0].parentNode.parentNode;
+            var a = getElementsByTagAndClassName('a', null, p)[0];
+            
+            var fname = '/' + a.innerHTML;
+            
+            form.action = getURL('/attachment/save' + fname, {record: id});
+            form.submit();           
+        }
+
+        function do_delete(form){
+            var list = new ListView('_terp_list');
+            var boxes = list.getSelected();
+            
+            if (boxes.length == 0){
+                alert('Please select a resouce...');
+                return;                
+            }
+            
+            var id = boxes[0].value;
+            
+            form.action = getURL('/attachment/delete', {record: id});
+            form.submit();
+        }
+
         function check_for_popup() {
             if(window.opener) {
                 var h = $('header');
@@ -45,10 +86,10 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td class="label">Add Rresource: </td>
-                                <td><input type="file" id="uploadfile" name="uploadfile" onchange="form.submit()"/></td>
+                                <td><input type="file" id="uploadfile" name="uploadfile" onchange="do_upload(form)"/></td>
                                 <td width="100%"></td>
-                                <td><button type="button">Save As</button></td>
-                                <td><button type="button">Delete</button></td>                            
+                                <td><button type="button" onclick="do_save(form)">Save As</button></td>
+                                <td><button type="button" onclick="do_delete(form)">Delete</button></td>                            
                             </tr>
                         </table>
                     </form>
