@@ -31,6 +31,7 @@ import re
 
 from turbogears import expose
 from turbogears import controllers
+from turbogears import validators, validate
 from turbogears import redirect
 from turbogears import config
 
@@ -44,64 +45,101 @@ import xmlrpclib
 fname = pkg_resources.resource_filename('tinyerp.config', "app.cfg")
 conf = config.ConfigObj(fname, unrepr=True, interpolation=True)
 
+class MySchema(validators.Schema):
+    host = validators.String(not_empty=True)
+    port = validators.Int(not_empty=True)
+    protocol = validators.String(not_empty=True)
+    oldpwd = validators.OneOf([conf['etiny']['passwd']])
+    newpwd = validators.String()
+    repwd = validators.String()
+    chained_validators = [validators.FieldsMatch('newpwd', 'repwd')]
+
 class ConfEditor(controllers.Controller):
 
     @expose(template="tinyerp.modules.gui.templates.confeditor")
     def index(self):
-        passwd=None
-        message=None
-
-        return dict(message=message, passwd=passwd)
+        return dict(message=None, passwd=None, tg_errors=None)
 
     @expose(template="tinyerp.modules.gui.templates.confeditor")
     def connect(self, **kw):
 
         passwd = kw.get('passwd')
-        password = conf['etiny']['password']
+        password = conf['etiny']['passwd']
 
         if passwd == password:
             cherrypy.session['terp_passwd'] = passwd
             raise redirect("/configure/change_server")
         else:
             message = str(_('Invalid Password !'))
-            return dict(message=message, passwd=passwd)
+            return dict(message=message, passwd=None, host=None, port=None, protocol=None, tg_errors=None)
 
     @expose(template="tinyerp.modules.gui.templates.confeditor")
     def change_server(self):
-        message=None
-        pwd = cherrypy.session.get('terp_passwd')
+        spwd = cherrypy.session.get('terp_passwd')
 
-        if pwd != conf['etiny']['password']:
+        if spwd != conf['etiny']['passwd']:
             raise redirect("/configure/connect")
         else:
             host = config.get('host', path="tinyerp")
             port = config.get('port', path="tinyerp")
             protocol = config.get('protocol', path="tinyerp")
 
-            return dict(passwd=pwd, message=message, host=host, port=port, protocol=protocol)
+            return dict(passwd=spwd, message=None, host=host, port=port, protocol=protocol, tg_errors=None)
 
+    @validate(validators=MySchema())
     @expose(template="tinyerp.modules.gui.templates.confeditor")
-    def setconf(self, **kw):
+    def setconf(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
 
-        host=kw.get('host','')
-        port=kw.get('port','')
-        protocol=kw.get('protocol','')
-        pwd = cherrypy.session.get('terp_passwd')
+        host = kw.get('host')
+        port = kw.get('port')
+        protocol = kw.get('protocol')
+        newpwd = kw.get('newpwd')
 
-        if (not host) or (not port) or (not protocol):
-            message = str(_('Invalid Server Information !'))
-            return dict(message=message, passwd=pwd)
-        else:
-            conf['tinyerp'] = {}
-            conf['tinyerp']['host'] =  str(host)
-            conf['tinyerp']['port'] = str(port)
-            conf['tinyerp']['protocol'] = str(protocol)
+        if tg_errors:
+            return dict(message=None, passwd=None, host=host, port=port, protocol=protocol, tg_errors=tg_errors)
 
-            conf.write()
-            config.update(conf)
+        oldpwd=kw.get('oldpwd')
+        spwd = cherrypy.session.get('terp_passwd')
 
-            cherrypy.session['terp_passwd'] = None
+        if spwd == oldpwd and newpwd:
+            cherrypy.session['terp_passwd'] = newpwd
+            conf['etiny'] = {}
+            conf['etiny']['passwd'] = str(newpwd)
 
-            raise redirect("/login")
+        conf['tinyerp'] = {}
+        conf['tinyerp']['host'] =  str(host)
+        conf['tinyerp']['port'] = str(port)
+        conf['tinyerp']['protocol'] = str(protocol)
+
+        conf.write()
+        config.update(conf)
+
+        cherrypy.session['terp_passwd'] = None
+
+        raise redirect("/login")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
