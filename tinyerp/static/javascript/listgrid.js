@@ -35,6 +35,8 @@ var ListView = function(id, terp){
        
     this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
     this.current_record = null;
+    
+    this.wait_counter = 0;
 }
 
 ListView.prototype.checkAll = function(clear){
@@ -64,6 +66,9 @@ ListView.prototype.create = function(){
 }
 
 ListView.prototype.edit = function(id){
+	if (this.wait_counter > 0) 
+		return;	
+
 	this.reload(id);
 }
 
@@ -229,6 +234,8 @@ ListView.prototype.save = function(id){
     });
 
     var req= Ajax.JSON.post('/listgrid/save', args);
+    
+    this.wait();
 
     req.addCallback(function(obj){
         if (obj.error){
@@ -248,7 +255,11 @@ ListView.prototype.save = function(id){
         }else{
             myself.reload(id > 0 ? null : -1);
         }
-    });    
+    });
+    
+    req.addBoth(function(xmlHttp){
+        myself.wait(true);
+    });
 }
 
 ListView.prototype.remove = function(id){
@@ -265,6 +276,8 @@ ListView.prototype.remove = function(id){
 	
 	var req = Ajax.JSON.post('/listgrid/remove', args);
 	
+	this.wait();
+	
 	req.addCallback(function(obj){
 		if (obj.error){
 			alert(obj.error);
@@ -272,9 +285,13 @@ ListView.prototype.remove = function(id){
 			myself.reload();
 		}
 	});
+	
+	req.addBoth(function(xmlHttp){
+        myself.wait(true);
+    });
 }
 
-ListView.prototype.reload = function(edit_inline){
+ListView.prototype.reload = function(edit_inline){	
 
 	var myself = this;
     var args = {};
@@ -289,6 +306,8 @@ ListView.prototype.reload = function(edit_inline){
     args['_terp_context'] = $('_terp_context').value;
 
     var req = Ajax.JSON.post('/listgrid/get', args);
+    
+    this.wait();
     
     req.addCallback(function(obj){
     	
@@ -316,8 +335,41 @@ ListView.prototype.reload = function(edit_inline){
 		if (editors.length > 0)
         	myself.bindKeyEventsToEditors(editors);        
     });
-
-    req.addErrback(function(err){
-        logError(err);
+    
+    req.addBoth(function(xmlHttp){
+        myself.wait(true);
     });
+}
+
+ListView.prototype.wait = function(done){
+
+	this.wait_counter += done ? -1 : 1;
+		
+	var block = $('listgrid_ajax_wait');
+	
+	if (!block){
+		block = DIV({id: 'listgrid_ajax_wait', style: "position: absolute; display: none; background-color: gray;"});
+		setOpacity(block, 0.2);	
+
+		appendChildNodes(document.body, block);
+	}
+	
+	if (this.wait_counter == 0){
+		block.style.display = 'none';
+		return;
+	}
+	
+	if (this.wait_counter > 1){
+		return;
+	}	
+	
+	var thelist = $(this.id);
+
+	var p = elementPosition(thelist);
+	var d = elementDimensions(thelist);
+	
+	setElementPosition(block, p);
+	setElementDimensions(block, d);
+	
+	block.style.display = '';
 }

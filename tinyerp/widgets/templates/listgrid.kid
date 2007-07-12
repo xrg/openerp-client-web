@@ -1,4 +1,4 @@
-<table id="${name}" class="grid" width="100%" cellspacing="0" cellpadding="0" xmlns:py="http://purl.org/kid/ns#">
+<table id="${name}" class="grid" width="100%" cellspacing="0" cellpadding="0" xmlns:py="http://purl.org/kid/ns#">    
 	<tr class="pagerbar" py:if="pageable">
 	    <td colspan="${columns}" class="pagerbar-cell">
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
