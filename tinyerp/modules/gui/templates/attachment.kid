@@ -47,19 +47,6 @@
             form.action = getURL('/attachment/delete', {record: id});
             form.submit();
         }
-
-        function check_for_popup() {
-            if(window.opener) {
-                var h = $('header');
-                var f = $('footer');
-                h.parentNode.removeChild(h);
-                f.parentNode.removeChild(f);
-                var s = $('sidebar_hide');
-                if(s)
-                    s.parentNode.removeChild(s);
-            }                        
-        }       
-        connect(window, 'onload', check_for_popup);
     </script>
 </head>
 <body>

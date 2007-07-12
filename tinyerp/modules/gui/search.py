@@ -120,7 +120,7 @@ class Search(controllers.Controller, TinyResource):
         # don't show links in list view, except the do_select link
         screen.widget.show_links = 0
                 
-        return dict(search=search, screen=screen, params=params)
+        return dict(search=search, screen=screen, params=params, show_header_footer=False)
     
     @expose()
     def new(self, model, source=None, kind=0, text=None, domain=[], context={}):

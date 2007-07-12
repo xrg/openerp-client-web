@@ -7,24 +7,8 @@
         var form_controller = '/openm2o';
     </script>
 
-    <script type="text/javascript">
-        
-          function check_for_popup() {
-   	        if(window.opener) {
-                var h = $('header');
-                var f = $('footer');
-                h.parentNode.removeChild(h);
-                f.parentNode.removeChild(f);
-                var s = $('sidebar_hide');
-                if(s)
-                	s.parentNode.removeChild(s);
-    	    }                        
-        }
-        
-        function on_load() {
-
-            check_for_popup();
-        
+    <script type="text/javascript">       
+        function on_load() { 
             if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
                 window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
             window.opener.setTimeout("signal($('${params.m2o}'), 'onchange')", 0);                        

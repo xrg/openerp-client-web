@@ -61,7 +61,7 @@ class Attachment(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
 
-        return dict(screen=screen, model=model, id=id)
+        return dict(screen=screen, model=model, id=id, show_header_footer=False)
     
     @expose()
     def add(self, model, id, uploadfile):

@@ -58,4 +58,4 @@ class OpenM2O(Form):
         
         form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]        
         
-        return dict(form=form, params=params)
+        return dict(form=form, params=params, show_header_footer=False)

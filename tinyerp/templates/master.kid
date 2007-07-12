@@ -45,7 +45,7 @@ requests, requests_message = tg.root.requests.my()
 ?>
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
-	<tr>
+	<tr py:if="value_of('show_header_footer', True)">
 	   	<td>
 	    	<table id="header" class="header" cellpadding="0" cellspacing="0">
 				<tr>
@@ -127,7 +127,7 @@ requests, requests_message = tg.root.requests.my()
 			<div py:replace="[item.text]+item[:]"/>
         </td>
     </tr>
-    <tr>
+    <tr py:if="value_of('show_header_footer', True)">
         <td>
 	        <div id="footer">
 			<br/>
