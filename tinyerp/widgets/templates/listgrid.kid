@@ -12,6 +12,7 @@
     <tr class="grid-header">
         <td width="1%" py:if="selector" class="grid-cell">
             <input type="checkbox" class="checkbox grid-record-selector" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
+            <span py:if="selector!='checkbox'">&nbsp;</span>
         </td>
         <td py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" py:content="field_attrs['string']">Title</td>
         <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
