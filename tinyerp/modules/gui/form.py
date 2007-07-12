@@ -94,6 +94,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.search = 'tree' in params.view_mode and mode != 'tree'
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
+        buttons.attach = (buttons.form or buttons.search or buttons.graph) and id
         
         buttons.action = (buttons.search or buttons.form) and not form.screen.hastoolbar
         buttons.report = buttons.action

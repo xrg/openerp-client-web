@@ -64,7 +64,8 @@
                                     <td nowrap="nowrap">
                                         <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="submit_form('switch')">Search</button>
                                         <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="submit_form('switch')">Form</button>
-                                        <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>                                            
+                                        <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>      
+                                        <button type="button" title="Add an attachment to this resource." disabled="${tg.selector(not buttons.attach)}" onclick="wopen(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), 'Attachments', 800, 600)">Attachments</button>
                                         <button type="button" title="Launch action about this resource" py:if="buttons.action" onclick="submit_form('action')">Action</button>
                                         <button type="button" title="Print documents" py:if="buttons.report" onclick="submit_form('report')">Print</button>
                                     </td>

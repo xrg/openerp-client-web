@@ -181,4 +181,5 @@ class Root(controllers.RootController, TinyResource):
     openm2o = gui.openm2o.OpenM2O()
     configure = gui.confeditor.ConfEditor()
     listgrid = gui.listgrid.List()
+    attachment = gui.attachment.Attachment()
 
