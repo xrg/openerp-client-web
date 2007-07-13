@@ -71,7 +71,7 @@ class ConfEditor(controllers.Controller):
             raise redirect("/configure/change_server")
         else:
             message = str(_('Invalid Password !'))
-            return dict(message=message, passwd=None, host=None, port=None, protocol=None, tg_errors=None)
+            return dict(message=message, passwd=None, host=None, port=None, protocol=None)
 
     @expose(template="tinyerp.modules.gui.templates.confeditor")
     def change_server(self):
@@ -84,7 +84,7 @@ class ConfEditor(controllers.Controller):
             port = config.get('port', path="tinyerp")
             protocol = config.get('protocol', path="tinyerp")
 
-            return dict(passwd=spwd, message=None, host=host, port=port, protocol=protocol, tg_errors=None)
+            return dict(passwd=spwd, message=None, host=host, port=port, protocol=protocol)
 
     @validate(validators=MySchema())
     @expose(template="tinyerp.modules.gui.templates.confeditor")
@@ -96,7 +96,7 @@ class ConfEditor(controllers.Controller):
         newpwd = kw.get('newpwd')
 
         if tg_errors:
-            return dict(message=None, passwd=None, host=host, port=port, protocol=protocol, tg_errors=tg_errors)
+            return dict(message=None, passwd=None, host=host, port=port, protocol=protocol)
 
         oldpwd=kw.get('oldpwd')
         spwd = cherrypy.session.get('terp_passwd')

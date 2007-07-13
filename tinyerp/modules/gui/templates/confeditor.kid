@@ -23,7 +23,7 @@
     <div class="view">
     <br/>
         <div class="box2 welcome">Config Editor</div>
-		    <div py:if="not tg_errors and not passwd or message">
+		    <div py:if="not tg.errors and not passwd or message">
 		        <form name="config" action="/configure/connect" method="post">
 	    		    <div class="box2" id="passwd">    		    
 						<table align="center" border="0" width="100%">
@@ -52,7 +52,7 @@
     			<div class="box message" id="message" py:if="message" py:content="message"/> 
 			</div>
 		  
-		    <div py:if="tg_errors or passwd and not message">	
+		    <div py:if="tg.errors or passwd and not message">	
 		        <form name="config" action="/configure/setconf" method="post">
 			        <div class="box2" id="config">
 						<table align="center" border="0" width="100%">
@@ -62,7 +62,7 @@
 				                </td>
 				                <td>
 				                    <input type="text" name="host" value="${host}" style="width: 99%;"/>
-				                    <span py:if="tg_errors and 'host' in tg_errors">${tg_errors['host']}</span>
+				                    <span py:if="'host' in tg.errors">${tg.errors['host']}</span>
 				                </td>
 				            </tr>
 				            <tr>
@@ -71,7 +71,7 @@
 				                </td>
 				                <td>
 				                    <input type="text" name="port" value="${port}" style="width: 99%;"/>
-				                    <span py:if="tg_errors and 'port' in tg_errors">${tg_errors['port']}</span>
+				                    <span py:if="'port' in tg.errors">${tg.errors['port']}</span>
 				                </td>			                
 			                </tr>
 			                <tr>
@@ -80,13 +80,13 @@
 				                </td>
 				                <td>
 				                    <input type="text" name="protocol" value="${protocol}" style="width: 99%;"/>
-				                    <span py:if="tg_errors and 'protocol' in tg_errors">${tg_errors['protocol']}</span>
+				                    <span py:if="'protocol' in tg.errors">${tg.errors['protocol']}</span>
 				                </td>			                
 			                </tr>
 						</table>
 					</div>
 
-					<div class="box2" id="changepwd" style="display: ${(not (tg_errors and ('oldpwd' in tg_errors or 'newpwd' in tg_errors or 'repwd' in tg_errors)) or None) and 'none'}">					
+					<div class="box2" id="changepwd" style="display: ${(not (tg.errors and ('oldpwd' in tg.errors or 'newpwd' in tg.errors or 'repwd' in tg.errors)) or None) and 'none'}">					
 					    <table align="center" border="0" width="100%">
 							<tr>
 				                <td align="right" class="label">
@@ -94,7 +94,7 @@
 				                </td>
 				                <td>
 				                    <input type="password" name="oldpwd" style="width: 99%;"/>
-				                    <span py:if="tg_errors and 'oldpwd' in tg_errors">Password is Incorrect</span>
+				                    <span py:if="'oldpwd' in tg.errors">Password is Incorrect</span>
 				                </td>
 				            </tr>
 				            <tr>
@@ -103,7 +103,7 @@
 				                </td>
 				                <td>
 				                    <input type="password" name="newpwd" style="width: 99%;"/>
-				                    <span py:if="tg_errors and 'newpwd' in tg_errors">Please Enter New Password</span>
+				                    <span py:if="'newpwd' in tg.errors">Please Enter New Password</span>
 				                </td>			                
 			                </tr>
 			                <tr>
@@ -112,7 +112,7 @@
 				                </td>
 				                <td>
 				                    <input type="password" name="repwd" style="width: 99%;"/>
-				                    <span py:if="tg_errors and 'repwd' in tg_errors">Passwords do not Match</span>
+				                    <span py:if="'repwd' in tg.errors">Passwords do not Match</span>
 				                </td>			                
 			                </tr>
 						</table>
