@@ -23,7 +23,7 @@
 			            <td width="100%" py:content="url"/>
 			            <!-- <td>
 			                <button type="button" onclick="location.href='/configure'">Change</button>
-			            </td> -->
+			            </td> --> 
 			        </tr>
 			        <tr>
 						<td class="label">Database :</td>
