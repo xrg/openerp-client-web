@@ -33,7 +33,8 @@ var TreeGrid = function(id, headers) {
 
     this.headers = eval(headers);
             
-    this.show_icons = 'icon' in this.headers[0];
+    this.show_icons = 'icon' in this.headers[0];    
+    this.show_headers = true;
 
     this.url = null;
     this.params = {};
@@ -321,8 +322,8 @@ TreeGrid.prototype.load = function(url, id, params){
         var res = evalJSONRequest(xmlHttp);
 
         var table = TABLE({id: grid.id, 'class': 'tree-grid', 'cellpadding': 0, 'cellspacing': 0});
-
-        var thd = grid._make_head();
+        
+        var thd = grid.show_headers ? grid._make_head() : null;
         var tbd = grid._make_body(res.records);
 
         appendChildNodes(table, thd, tbd);

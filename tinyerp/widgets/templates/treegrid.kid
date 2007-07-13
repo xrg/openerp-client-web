@@ -3,6 +3,7 @@
     <script type="text/javascript">
         var ${field_id} = new TreeGrid('${field_id}', '${headers}');
 
+        ${field_id}.show_headers = ${(show_headers and 'true') or 'false'};
         ${field_id}.onopen = ${onopen or 'null'};
         ${field_id}.onselection = ${onselection or 'null'};
 

@@ -34,7 +34,7 @@ from interface import TinyField
 class TreeGrid(TinyField):
 
     template = "tinyerp.widgets.templates.treegrid"
-    params = ['ids', 'url', 'model', 'headers', 'field_parent', 'onopen', 'onselection', 'domain']
+    params = ['ids', 'url', 'model', 'headers', 'field_parent', 'onopen', 'onselection', 'domain', 'show_headers']
 
     selectable = False
     show_headers = True
