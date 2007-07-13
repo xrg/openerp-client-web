@@ -52,7 +52,7 @@ class MySchema(validators.Schema):
     oldpwd = validators.OneOf([conf['etiny']['passwd']])
     newpwd = validators.String()
     repwd = validators.String()
-    chained_validators = [validators.FieldsMatch('newpwd', 'repwd')]
+    chained_validators = [validators.RequireIfPresent(present='oldpwd',required='newpwd'), validators.FieldsMatch('newpwd', 'repwd')]
 
 class ConfEditor(controllers.Controller):
 

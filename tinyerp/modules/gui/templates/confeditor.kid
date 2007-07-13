@@ -103,7 +103,7 @@
 				                </td>
 				                <td>
 				                    <input type="password" name="newpwd" style="width: 99%;"/>
-				                    <span py:if="tg_errors and 'newpwd' in tg_errors">${tg_errors['newpwd']}</span>
+				                    <span py:if="tg_errors and 'newpwd' in tg_errors">Please Enter New Password</span>
 				                </td>			                
 			                </tr>
 			                <tr>
