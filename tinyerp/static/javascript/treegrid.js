@@ -125,7 +125,7 @@ TreeGrid.prototype.toggle = function(row, forced) {
 
     var index = findIdentical(table.rows, row);
     var indent = this.row_info[row.id].indent; indent = parseInt(indent) + 1;
-
+    
     for(var i in children) {
 
         var cid = children[i];
@@ -186,7 +186,7 @@ TreeGrid.prototype._make_row = function(record, indent){
     var tr = TR({'id': rid, 'class' : 'row'});
 
     // save children and indent info
-    this.row_info[rid] = {children: record.children, indent: indent ? indent : 0};
+    this.row_info[rid] = {children: record.children, indent: indent ? indent : 0, params: record.params};
 
     for(var i in this.headers) {
 
@@ -252,15 +252,20 @@ TreeGrid.prototype._row_state = function(row, state){
     setNodeAttribute(span, 'class', state);
 }
 
-TreeGrid.prototype._add_rows = function(after, children, indent){
-
-    var args = {ids: children}; update(args, this.params);
+TreeGrid.prototype._add_rows = function(after, children, indent){    
+    
     var index = parseInt(after);
 
     this.isloading = true;
 
     var row = $(this.id).rows[index];
     this._row_state(row, 'loading');
+    
+    var args = {ids: children};       
+    
+    // update args with root params as well as row params
+    update(args, this.params);
+    update(args, this.row_info[row.id].params);
 
     var req = doSimpleXMLHttpRequest(this.url, args);
     var grid = this;
