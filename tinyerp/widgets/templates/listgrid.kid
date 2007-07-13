@@ -71,8 +71,7 @@
 	        <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	            <tr>
 					<td class="pagerbar-links">		 
-						<a href="#">Import</a> |
-						<a href="#">Export</a>
+						<a href="javascript: void(0)" onclick="new ListView('$name').importData()">Import</a> | <a href="javascript: void(0)" onclick="new ListView('$name').exportData()">Export</a>
 					</td>
                     <td align="right" py:content="pager.display(pager_id='pager2')"></td>
                 </tr>
