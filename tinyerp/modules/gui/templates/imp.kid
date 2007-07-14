@@ -73,6 +73,13 @@
         }
         
         function do_import(form){
+            
+            var options = $('fields').options;
+            
+            forEach(options, function(o){
+                o.selected = true;
+            });
+            
             form.action = '/impex/import_data';
             form.submit();
         }
