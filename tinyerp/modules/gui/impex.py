@@ -95,10 +95,15 @@ class ImpEx(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get(False, rpc.session.context)
+        
+        fields_order = fields.keys()        
+        fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
 
         records = []
 
-        for i, (field, value) in enumerate(fields.items()):
+        for i, field in enumerate(fields_order):
+            
+            value = fields[field]
             record = {}
             
             id = prefix + (prefix and '/' or '') + field
@@ -121,10 +126,12 @@ class ImpEx(controllers.Controller, TinyResource):
                 ref = value.pop(field_parent) or None
                 if ref:
                     proxy = rpc.RPCProxy(ref)
-                    fields = proxy.fields_get(False, rpc.session.context)
-
+                    cfields = proxy.fields_get(False, rpc.session.context)                    
+                    cfields_order = cfields.keys()
+                    cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
+                                        
                     children = []
-                    for j, fld in enumerate(fields):
+                    for j, fld in enumerate(cfields_order):
                         cid = id + '/' + fld
                         cid = cid.replace(' ', '_')
                         
@@ -137,6 +144,7 @@ class ImpEx(controllers.Controller, TinyResource):
 
             records += [record]
         
+        records.reverse()            
         return dict(records=records)
     
     @expose(content_type="application/octat-stream")
