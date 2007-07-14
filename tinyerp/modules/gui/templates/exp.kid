@@ -8,7 +8,7 @@
     <style type="text/css">
         .fields-selector {
             width: 100%;
-            height: 450px;
+            height: 400px;
         }
         
         .fields-selector-left {
@@ -23,10 +23,6 @@
             width: 45%;
         }
         
-        .fields-selector td {
-            height: 100%;
-        }
-        
         .fields-selector select {
             width: 100%;
             height: 100%;
@@ -36,7 +32,6 @@
             width: 100%;
             margin: 5px 0px;
         }
-        
     </style>
     
     <script type="text/javascript">
@@ -44,6 +39,8 @@
             
             var prefix = ${tree.field_id}.id + '_row_';
             var fields = ${tree.field_id}.selection;
+            
+            var select = $('fields');
             
             var opts = {};
             forEach($('fields').options, function(o){
@@ -56,9 +53,9 @@
                 
                 if (id in opts) return;
                 
-                var o = OPTION({id: id}, text);
-                
-                appendChildNodes('fields', o);                                
+                var o = OPTION({value: id}, text);
+
+                select.options.add(o);
             });
         } 
         
@@ -75,10 +72,37 @@
             }
         }
         
+        function do_export(form){
+            var options = $('fields').options;
+            
+            forEach(options, function(o){
+                o.selected = true;
+            });
+            
+            var pwin = window.opener;
+            var src = '${source}';
+            
+            var ids = '[]';
+            
+            if (src == '_terp_list'){
+                ids = pwin.document.getElementById('_terp_ids').value;
+            }else{
+                ids = pwin.document.getElementById(src + '/_terp_ids').value;
+            }
+            
+            form['_terp_ids'].value = ids;
+            
+            form.submit();
+        }
     </script>    
 </head>
 <body>
     
+<form action="/impex/export_data" method="post">
+    
+    <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
+    <input type="hidden" id="_terp_ids" name="_terp_ids" value="[]"/>
+        
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
@@ -93,7 +117,7 @@
             </td>
         </tr>
 		<tr>
-            <td>
+            <td>                
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">All fields</th>
@@ -101,15 +125,15 @@
                         <th class="fields-selector-right">Fields to export</th>
                     </tr>
                     <tr>
-                        <td class="fields-selector-left">
-                            <div py:content="tree.display()" style="overflow: auto; width: 100%; height: 100%; border: solid lightgray 1px;"/>
+                        <td class="fields-selector-left" height="400px">
+                            <div py:content="tree.display()" style="overflow: scroll; width: 100%; height: 100%; border: solid lightgray 1px;"/>
                         </td>
                         <td class="fields-selector-center">
                             <button type="button" onclick="add_fields()">Add</button>
                             <button type="button" onclick="del_fields()">Remove</button>
                             <button type="button" onclick="del_fields(true)">Nothing</button>
                         </td>
-                        <td class="fields-selector-right">
+                        <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
                         </td>
                     </tr>
@@ -118,12 +142,32 @@
         </tr>
         <tr>
             <td>
+                <fieldset>
+                    <legend>Options</legend>
+                    <table>
+                        <tr>
+                            <td>
+                                <select id="export_as" name="export_as">
+                                    <option value="csv">Export as CSV</option>
+                                    <option value="excel">Export as Excel</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="add_names" checked="checked"/>
+                            </td>
+                            <td>Add field names</td>
+                        </tr>
+                    </table>                   
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td>
 		        <div class="toolbar">
 		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
 		                <tr>
-		                    <td width="100%">
-		                    </td>
-                            <td><button type="button" onclick="alert('Not implemented yet!')">Export</button></td>
+		                    <td width="100%">&nbsp;</td>
+                            <td><button type="button" onclick="do_export(form)">Export</button></td>
 		                    <td><button type="button" onclick="window.close()">Close</button></td>
 		                </tr>
 		            </table>
@@ -131,6 +175,7 @@
             </td>
         </tr>
     </table>
+</form>
 
 </body>
 </html>

@@ -29,7 +29,11 @@
 
 import os
 import time
+import types
 import base64
+
+import csv
+import StringIO
 
 from turbogears import expose
 from turbogears import controllers
@@ -44,6 +48,32 @@ from tinyerp.tinyres import TinyResource
 from tinyerp.modules.utils import TinyDict
 
 import tinyerp.widgets as tw
+
+def datas_read(ids, model, fields):
+    return rpc.RPCProxy(model).export_data(ids, fields)
+
+def export_csv(fields, result, write_title=False):    
+    try:
+        fp = StringIO.StringIO()
+        writer = csv.writer(fp)
+        if write_title:
+            writer.writerow(fields)
+        for data in result:
+            row = []
+            for d in data:
+                if type(d)==types.StringType:
+                    row.append(d.replace('\n',' ').replace('\t',' '))
+                else:
+                    row.append(d)
+            writer.writerow(row)
+
+        fp.seek(0)
+        data = fp.read()        
+        fp.close()
+        
+        return data
+    except IOError, (errno, strerror):
+        raise common.message(_("Operation failed !\nI/O error")+"(%s)" % (errno,))
 
 class ImpEx(controllers.Controller, TinyResource):
     
@@ -108,7 +138,19 @@ class ImpEx(controllers.Controller, TinyResource):
             records += [record]
         
         return dict(records=records)
+    
+    @expose(content_type="application/octat-stream")
+    def export_data(self, fields, export_as="csv", add_names=False, **kw):
+        params, data = TinyDict.split(kw)
+        
+        result = datas_read(params.ids, params.model, fields)
+        
+        if export_as == 'excel':
+            #add_names = True
+            pass
 
+        return export_csv(fields, result, add_names)        
+    
     @expose(template="tinyerp.modules.gui.templates.imp")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
