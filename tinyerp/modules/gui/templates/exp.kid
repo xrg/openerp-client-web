@@ -73,10 +73,13 @@
         }
         
         function do_export(form){
+        
             var options = $('fields').options;
+            var fields2 = [];
             
             forEach(options, function(o){
                 o.selected = true;
+                fields2 = fields2.concat('"' + o.text + '"');
             });
             
             var pwin = window.opener;
@@ -91,6 +94,7 @@
             }
             
             form['_terp_ids'].value = ids;
+            form['_terp_fields2'].value = '[' + fields2.join(',') + ']';
             
             form.submit();
         }
@@ -102,6 +106,7 @@
     
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="[]"/>
+    <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
         
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>

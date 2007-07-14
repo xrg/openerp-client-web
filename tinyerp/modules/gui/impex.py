@@ -157,7 +157,7 @@ class ImpEx(controllers.Controller, TinyResource):
             #add_names = True
             pass
 
-        return export_csv(fields, result, add_names)        
+        return export_csv(params.fields2, result, add_names)
     
     @expose(template="tinyerp.modules.gui.templates.imp")
     def imp(self, **kw):
