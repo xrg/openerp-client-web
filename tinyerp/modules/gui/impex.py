@@ -89,7 +89,9 @@ class ImpEx(controllers.Controller, TinyResource):
     
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
-               
+
+        is_importing = len(eval(kw.get('domain')))
+                    
         ids = kw.get('ids', '').split(',')               
         ids = [i for i in ids if i]
 
@@ -120,29 +122,31 @@ class ImpEx(controllers.Controller, TinyResource):
             record['icon'] = None
             
             record['children'] = []
-
-            if len(nm.split('/')) < 3 and field_parent and field_parent in value:
-
-                ref = value.pop(field_parent) or None
-                if ref:
-                    proxy = rpc.RPCProxy(ref)
-                    cfields = proxy.fields_get(False, rpc.session.context)                    
-                    cfields_order = cfields.keys()
-                    cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
-                                        
-                    children = []
-                    for j, fld in enumerate(cfields_order):
-                        cid = id + '/' + fld
-                        cid = cid.replace(' ', '_')
-                        
-                        children += [cid]
-
-                    record['children'] = children
-                    record['params'] = {'model': ref, 'prefix': id, 'name': nm}
-
             record['data'] = {'name' : nm}
-
+            
             records += [record]
+
+            if len(nm.split('/')) < 3 and value.get('relation', False):
+                                                
+                if is_importing and not ((value['type'] not in ('reference',)) and (not value.get('readonly', False)) and value['type']=='one2many'):
+                    continue
+                
+                ref = value.pop('relation')
+            
+                proxy = rpc.RPCProxy(ref)
+                cfields = proxy.fields_get(False, rpc.session.context)                    
+                cfields_order = cfields.keys()
+                cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
+                                    
+                children = []
+                for j, fld in enumerate(cfields_order):
+                    cid = id + '/' + fld
+                    cid = cid.replace(' ', '_')
+                    
+                    children += [cid]
+
+                record['children'] = children
+                record['params'] = {'model': ref, 'prefix': id, 'name': nm}            
         
         records.reverse()            
         return dict(records=records)
@@ -162,4 +166,11 @@ class ImpEx(controllers.Controller, TinyResource):
     @expose(template="tinyerp.modules.gui.templates.imp")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
-        return dict(model=params.model, source=params.source, show_header_footer=False)
+        
+        headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]        
+        tree = tw.treegrid.TreeGrid('import_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
+        tree.show_headers = False
+        tree.domain = [()] # will be used in `get_fields` as flag
+
+        return dict(model=params.model, source=params.source, tree=tree, show_header_footer=False)
+    
