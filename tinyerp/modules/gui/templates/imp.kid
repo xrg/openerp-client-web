@@ -73,14 +73,22 @@
         }
         
         function do_import(form){
-            alert('Not implemented yet!');
+            form.action = '/impex/import_data';
+            form.submit();
         }
+        
+        function do_autodetect(form){
+            //form.action = '/impex/detect_data';
+            //form.submit();
+        }
+        
     </script>    
 </head>
 <body>
     
-<form action="/impex/import_data" method="post">
+<form action="/impex/import_data" method="post" enctype="multipart/form-data">
     
+    <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="[]"/>
     <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
@@ -126,7 +134,7 @@
             <td>
                 <fieldset>
                     <legend>File to import</legend>
-                    <input type="file" name="import_file"/>
+                    <input type="file" name="csvfile" onchange="do_autodetect(form)"/>
                 </fieldset>
             </td>
         </tr>
@@ -137,20 +145,20 @@
                     <table>
                         <tr>
                             <td class="label">Separator: </td>
-                            <td><input type="text" name="separator" value=","/></td>                            
+                            <td><input type="text" name="csvsep" value=","/></td>                            
                             <td class="label">Delimiter: </td>
-                            <td><input type="text" name="delimiter" value='"'/></td>
+                            <td><input type="text" name="csvdel" value='"'/></td>
                         </tr>
                         <tr>
                             <td class="label">Encoding: </td>
                             <td>
-                                <select id="export_as" name="export_as">
+                                <select name="csvcode">
                                     <option value="utf-8">UTF-8</option>
                                     <option value="latin1">Latin 1</option>
                                 </select>
                             </td>                            
                             <td class="label">Lines to skip: </td>
-                            <td><input type="text" name="skip" value="0"/></td>
+                            <td><input type="text" name="csvskip" value="0"/></td>
                         </tr>
                     </table>                   
                 </fieldset>

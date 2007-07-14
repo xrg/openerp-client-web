@@ -74,7 +74,7 @@ def export_csv(fields, result, write_title=False):
         return data
     except IOError, (errno, strerror):
         raise common.message(_("Operation failed !\nI/O error")+"(%s)" % (errno,))
-
+    
 class ImpEx(controllers.Controller, TinyResource):
     
     @expose(template="tinyerp.modules.gui.templates.exp")
@@ -174,3 +174,29 @@ class ImpEx(controllers.Controller, TinyResource):
 
         return dict(model=params.model, source=params.source, tree=tree, show_header_footer=False)
     
+    @expose()
+    def import_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, fields=[], **kw):
+        
+        params, data = TinyDict.split(kw)
+
+        content = csvfile.file.read()
+        input=StringIO.StringIO(content)
+        data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
+        datas = []
+        #if csv_data['combo']:
+        for line in data:
+            datas.append(map(lambda x:x.decode(csvcode).encode('utf-8'), line))
+        try:
+            res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas)
+        except Exception, e:
+            raise common.warning(str(e), _('XML-RPC error !'))
+        if res[0]>=0:
+            raise common.message(_('Imported %d objects !') % (res[0],))
+        else:
+            d = ''
+            for key,val in res[1].items():
+                d+= ('\t%s: %s\n' % (str(key),str(val)))
+            error = u'Error trying to import this record:\n%s\nError Message:\n%s\n\n%s' % (d,res[2],res[3])
+            raise common.error('Importation Error !', unicode(error))
+
+        return self.imp(**kw)
