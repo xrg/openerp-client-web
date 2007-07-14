@@ -125,7 +125,7 @@
         <tr>
             <td>
                 <fieldset>
-                    <legend>Files to import</legend>
+                    <legend>File to import</legend>
                     <input type="file" name="import_file"/>
                 </fieldset>
             </td>
