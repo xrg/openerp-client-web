@@ -85,6 +85,9 @@
         }
         
         function do_autodetect(form){
+        
+            alert('TODO: auto detect fields...');
+        
             //form.action = '/impex/detect_data';
             //form.submit();
         }
