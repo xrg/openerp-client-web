@@ -158,7 +158,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input type="checkbox" name="add_names" checked="checked"/>
+                                <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
                             </td>
                             <td>Add field names</td>
                         </tr>
