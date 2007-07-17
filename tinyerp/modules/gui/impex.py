@@ -152,7 +152,7 @@ class ImpEx(controllers.Controller, TinyResource):
         return dict(records=records)
     
     @expose(content_type="application/octat-stream")
-    def export_data(self, fields, export_as="csv", add_names=False, **kw):
+    def export_data(self, fname, fields, export_as="csv", add_names=False, **kw):
         params, data = TinyDict.split(kw)
         
         result = datas_read(params.ids, params.model, fields)

@@ -95,6 +95,7 @@
             form['_terp_ids'].value = ids;
             form['_terp_fields2'].value = '[' + fields2.join(',') + ']';
             
+            form.action = '/impex/export_data/data.' + $('export_as').value;
             form.submit();
         }
     </script>    
@@ -153,7 +154,7 @@
                             <td>
                                 <select id="export_as" name="export_as">
                                     <option value="csv">Export as CSV</option>
-                                    <option value="excel">Export as Excel</option>
+                                    <option value="xls">Export as Excel</option>
                                 </select>
                             </td>
                             <td>
