@@ -44,18 +44,17 @@
             
             var opts = {};
             forEach($('fields').options, function(o){
-                opts[o.id] = o;
+                opts[o.value] = o;
             });
             
             forEach(fields, function(f){
+
                 var text = f.getElementsByTagName('a')[0].innerHTML;
                 var id = f.id.replace(prefix, ''); 
                 
                 if (id in opts) return;
                 
-                var o = OPTION({value: id}, text);
-
-                select.options.add(o);
+                select.options.add(new Option(text, id));
             });
         } 
         

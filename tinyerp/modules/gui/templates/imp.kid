@@ -44,18 +44,16 @@
             
             var opts = {};
             forEach($('fields').options, function(o){
-                opts[o.id] = o;
+                opts[o.value] = o;
             });
             
             forEach(fields, function(f){
                 var text = f.getElementsByTagName('a')[0].innerHTML;
                 var id = f.id.replace(prefix, ''); 
                 
-                if (id in opts) return;
-                
-                var o = OPTION({value: id}, text);
+                if (id in opts) return;                
 
-                select.options.add(o);
+                select.options.add(new Option(text, id));
             });
         } 
         
@@ -88,12 +86,23 @@
         
         function on_detector(src){
             var d = $("detector");
-            var f = d.contentDocument.getElementById('fields');
-            
+                        
+            if (d.contentDocument)
+                d = d.contentDocument;
+            else if (d.contentWindow)
+                d = d.contentWindow.document;
+            else
+                d = d.document;
+                
+            var f = d.getElementById('fields');
+          
             if (f) {
-                $('fields').innerHTML = f.innerHTML;
+                $('fields').innerHTML = '';
+                forEach(f.options, function(o){
+                    $('fields').options.add(new Option(o.text, o.value));
+                });
             } else {
-                f = d.contentDocument.getElementsByTagName('pre');
+                f = d.getElementsByTagName('pre');
                 if (f[0]) alert(f[0].innerHTML);
             }                
         }
