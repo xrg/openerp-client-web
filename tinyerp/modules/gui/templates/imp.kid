@@ -80,18 +80,32 @@
                 o.selected = true;
             });
             
+            form.target = "detector";
+            
             form.action = '/impex/import_data';
             form.submit();
         }
         
-        function do_autodetect(form){
-        
-            alert('TODO: auto detect fields...');
-        
-            //form.action = '/impex/detect_data';
-            //form.submit();
+        function on_detector(src){
+            var d = $("detector");
+            var f = d.contentDocument.getElementById('fields');
+            
+            if (f) {
+                $('fields').innerHTML = f.innerHTML;
+            } else {
+                f = d.contentDocument.getElementsByTagName('pre');
+                if (f[0]) alert(f[0].innerHTML);
+            }                
         }
         
+        function do_autodetect(form){                       
+            
+            form.target = "detector";
+
+            form.action = '/impex/detect_data';
+            form.submit();
+        }
+
     </script>    
 </head>
 <body>
@@ -134,7 +148,9 @@
                             <button type="button" onclick="del_fields(true)">Nothing</button>
                         </td>
                         <td class="fields-selector-right" height="300px">
-                            <select name="fields" id="fields" multiple="multiple"/>
+                            <select name="fields" id="fields" multiple="multiple">
+                                <option py:for="f in value_of('fields', [])" py:content="f[1]" value="${f[0]}"></option>
+                            </select>
                         </td>
                     </tr>
                 </table>
@@ -168,7 +184,7 @@
                                 </select>
                             </td>                            
                             <td class="label">Lines to skip: </td>
-                            <td><input type="text" name="csvskip" value="0"/></td>
+                            <td><input type="text" name="csvskip" value="1"/></td>
                         </tr>
                     </table>                   
                 </fieldset>
@@ -189,6 +205,8 @@
         </tr>
     </table>
 </form>
+
+<iframe name="detector" id="detector" style="display: none;" src="about:blank" onload="on_detector(this)"/>
 
 </body>
 </html>
