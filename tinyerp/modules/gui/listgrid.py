@@ -110,11 +110,14 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         params.ids = None
-        source = (params.source or '') and str(params.source)
+        source = (params.source or '') and str(params.source)        
 
         params.view_mode = ['form', 'tree']
         if source == '_terp_list':
             params.view_mode = ['tree', 'form']
+            
+            if params.search_domain:
+                params.domain += params.search_domain            
         
         frm = form.Form().create_form(params)
         

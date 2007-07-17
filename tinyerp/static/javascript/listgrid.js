@@ -305,6 +305,12 @@ ListView.prototype.reload = function(edit_inline){
     args['_terp_domain'] = $('_terp_domain').value;
     args['_terp_context'] = $('_terp_context').value;
 
+    if (this.id == '_terp_list') {
+    	args['_terp_search_domain'] = $('_terp_search_domain').value;
+    	args['_terp_offset'] = $('_terp_offset').value;
+    	args['_terp_limit'] = $('_terp_limit').value;
+    }
+
     var req = Ajax.JSON.post('/listgrid/get', args);
     
     this.wait();
