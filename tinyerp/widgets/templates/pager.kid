@@ -13,7 +13,7 @@
                 <a href="javascript: void(0)" onclick="$('_${pager_id}_limit_span').style.display='none'; $('_${pager_id}_link_span').style.display=''">Change Limit:</a>&nbsp;
             </td>
             <td>
-                <select id='_${pager_id}_limit' onchange="$('${name and name + '/'}_terp_limit').value=$('_${pager_id}_limit').value; pager_action('filter', '${name}')">
+                <select id='_${pager_id}_limit' onchange="$('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=$('_${pager_id}_limit').value; pager_action('filter', '${name}')">
                     <option value="20" selected="${tg.selector(limit==20)}">20</option>
                     <option value="40" selected="${tg.selector(limit==40)}">40</option>
                     <option value="60" selected="${tg.selector(limit==60)}">60</option>
