@@ -121,7 +121,7 @@ var submit_search_form = function(action) {
 
 var pager_action = function(action, src) {
 
-	if (src && src != '_terp_list')
+	if (src)
 		new ListView(src).go(action);
 	else
 		submit_search_form(action);
