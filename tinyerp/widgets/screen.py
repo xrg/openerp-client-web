@@ -54,11 +54,16 @@ class Screen(TinyCompoundWidget):
         <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
         <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
+        
+        <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
+        <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
+        <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
+        
         <span py:if="widget" py:replace="widget.display(value_for(widget), **params_for(widget))"/>
     </span>
     """
 
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context']
+    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context', 'limit', 'offset', 'count']
     
     member_widgets = ['widget']
     widget = None
