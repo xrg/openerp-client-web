@@ -1,10 +1,10 @@
 <div class="pager" xmlns:py="http://purl.org/kid/ns#">    
     <span id="_${pager_id}_link_span">
-        <a href="javascript: void(0)" py:strip="not prev" onclick="submit_search_form('first'); return false;"><span>&lt;&lt; First</span></a>
-        <a href="javascript: void(0)" py:strip="not prev" onclick="submit_search_form('previous'); return false;"><span>&lt; Previous</span></a>
+        <a href="javascript: void(0)" py:strip="not prev" onclick="pager_action('first', '${name}'); return false;"><span>&lt;&lt; First</span></a>
+        <a href="javascript: void(0)" py:strip="not prev" onclick="pager_action('previous', '${name}'); return false;"><span>&lt; Previous</span></a>
         <a href="javascript: void(0)" onclick="$('_${pager_id}_link_span').style.display='none'; $('_${pager_id}_limit_span').style.display=''">${page_info}</a>
-        <a href="javascript: void(0)" py:strip="not next" onclick="submit_search_form('next'); return false;"><span>Next &gt;</span></a>
-        <a href="javascript: void(0)" py:strip="not next" onclick="submit_search_form('last'); return false;"><span>Last &gt;&gt;</span></a>
+        <a href="javascript: void(0)" py:strip="not next" onclick="pager_action('next', '${name}'); return false;"><span>Next &gt;</span></a>
+        <a href="javascript: void(0)" py:strip="not next" onclick="pager_action('last', '${name}'); return false;"><span>Last &gt;&gt;</span></a>
     </span>
     
     <table id="_${pager_id}_limit_span" style="display: none" border="0" cellpadding="0" cellspacing="0">
@@ -13,7 +13,7 @@
                 <a href="javascript: void(0)" onclick="$('_${pager_id}_limit_span').style.display='none'; $('_${pager_id}_link_span').style.display=''">Change Limit:</a>&nbsp;
             </td>
             <td>
-                <select id='_${pager_id}_limit' onchange="$('_terp_limit').value=$('_${pager_id}_limit').value; submit_search_form('filter')">
+                <select id='_${pager_id}_limit' onchange="$('${name and name + '/'}_terp_limit').value=$('_${pager_id}_limit').value; pager_action('filter', '${name}')">
                     <option value="20" selected="${tg.selector(limit==20)}">20</option>
                     <option value="40" selected="${tg.selector(limit==40)}">40</option>
                     <option value="60" selected="${tg.selector(limit==60)}">60</option>

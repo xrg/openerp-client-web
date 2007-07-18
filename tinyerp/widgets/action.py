@@ -28,6 +28,9 @@
 ###############################################################################
 
 import time
+
+import cherrypy
+
 from tinyerp import icons
 from tinyerp import tools
 from tinyerp import rpc
@@ -104,13 +107,18 @@ class Action(TinyCompoundWidget):
                 params.context = self.context
                 params.domain = self.domain
                 
-                #params.offset = 0
-                #params.limit = 20
+                params.setdefault('offset', 0)
+                params.setdefault('limit', 20)
+
+                # get pager vars if set
+                if hasattr(cherrypy.request, 'terp_params'):
+                    current = cherrypy.request.terp_params
+                    current = current[self.name or ''] or current
+                    
+                    params.offset = current.offset
+                    params.limit = current.limit                    
 
                 self.screen = screen.Screen(params, prefix=self.name, editable=True, selectable=3)
                 
-                if self.screen.view_mode[0] == 'tree':
-                    self.screen.widget.pageable = False
-
             elif self.action['view_type']=='tree':
                 pass #TODO

@@ -291,14 +291,16 @@ ListView.prototype.remove = function(id){
     });
 }
 
-ListView.prototype.reload = function(edit_inline){	
+ListView.prototype.reload = function(edit_inline){
 
 	var myself = this;
     var args = {};
-    
+
+	// add args
     args['_terp_source'] = this.id;
     args['_terp_edit_inline'] = edit_inline;
 
+	// add parent args
     args['_terp_model'] = $('_terp_model').value;
     args['_terp_id'] = $('_terp_id').value;
     args['_terp_view_ids'] = $('_terp_view_ids').value;
@@ -310,9 +312,24 @@ ListView.prototype.reload = function(edit_inline){
     	args['_terp_offset'] = $('_terp_offset').value;
     	args['_terp_limit'] = $('_terp_limit').value;
     }
+    
+    // add my args
+    if (this.id != '_terp_list'){
+    
+    	var prefix = '_terp_' + this.id + '/';
+
+	    args[prefix + '_terp_model'] = $(this.id + '/_terp_model').value;
+    	args[prefix + '_terp_id'] = $(this.id + '/_terp_id').value;
+	    args[prefix + '_terp_view_ids'] = $(this.id + '/_terp_view_ids').value;
+    	args[prefix + '_terp_domain'] = $(this.id + '/_terp_domain').value;
+	    args[prefix + '_terp_context'] = $(this.id + '/_terp_context').value;
+	    
+	    args[prefix + '_terp_offset'] = $(this.id + '/_terp_offset').value;
+    	args[prefix + '_terp_limit'] = $(this.id + '/_terp_limit').value;
+    }
 
     var req = Ajax.JSON.post('/listgrid/get', args);
-    
+
     this.wait();
     
     req.addCallback(function(obj){
@@ -403,4 +420,38 @@ ListView.prototype.exportData = function(){
 ListView.prototype.importData = function(){	
 	var act = getURL('/impex/imp', {_terp_model: this.model, _terp_source: this.id});
 	wopen(act, "ImportData", 800, 600);
+}
+
+ListView.prototype.go = function(action){
+
+	var prefix = '';
+	
+	if (this.id != '_terp_list') {
+		prefix = this.id + '/';
+	}
+	
+	var o = $(prefix + '_terp_offset');
+	var l = $(prefix + '_terp_limit');
+	var c = $(prefix + '_terp_count');
+	
+	var ov = o.value ? parseInt(o.value) : 0;
+	var lv = l.value ? parseInt(l.value) : 0;
+	var cv = c.value ? parseInt(c.value) : 0;
+	
+	switch(action) {
+		case 'next':
+			o.value = ov + lv;
+			break;
+		case 'previous':
+			o.value = ov - lv;
+			break;
+		case 'first':
+			o.value = 0;
+			break;
+		case 'last':
+			o.value = cv - (cv % lv);
+			break;
+	}
+	
+	this.reload();
 }

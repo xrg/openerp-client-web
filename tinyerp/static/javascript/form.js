@@ -119,6 +119,14 @@ var submit_search_form = function(action) {
 	submit_form(action ? action : 'find');
 }
 
+var pager_action = function(action, src) {
+
+	if (src && src != '_terp_list')
+		new ListView(src).go(action);
+	else
+		submit_search_form(action);
+}
+
 var submit_value = function(action, src, data){
 
     form = $("view_form");

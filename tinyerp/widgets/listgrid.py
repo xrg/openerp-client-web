@@ -181,6 +181,7 @@ class List(TinyCompoundWidget):
 
         if self.pageable:            
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
+            self.pager.name = self.name
             
         # make editors
         if self.editable and attrs.get('editable') in ('top', 'bottom'):

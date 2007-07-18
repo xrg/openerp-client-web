@@ -71,8 +71,8 @@ class O2M(TinyCompoundWidget):
         view_mode = mode
         view_mode2 = mode
 
-        if params: view_mode = params.view_mode
-        if params: view_mode2 = params.view_mode2
+        if params and params.view_mode: view_mode = params.view_mode
+        if params and params.view_mode2: view_mode2 = params.view_mode2
 
         ids = attrs['value'] or []
 
