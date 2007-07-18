@@ -46,7 +46,7 @@ class Action(TinyCompoundWidget):
             <tr>
                 <td width="100%" py:content="string"></td>
                 <td>
-                    <button type="button" name="${button_name}" onclick="submit_form('dashlet', this)">Zoom</button>
+                    <button type="button" onclick="submit_form('dashlet', '${button_name}')">Zoom</button>
                 </td>
             </tr>
         </table>
