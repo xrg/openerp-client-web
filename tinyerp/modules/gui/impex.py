@@ -96,11 +96,20 @@ class ImpEx(controllers.Controller, TinyResource):
         ids = [i for i in ids if i]
 
         proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get(False, rpc.session.context)
+        fields = proxy.fields_get(False, rpc.session.context)                
         
-        fields_order = fields.keys()        
-        fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
+        # XXX: in GTK client, top fields comes from Screen
+        if not ids:
+            f1 = proxy.fields_view_get(False, 'tree', rpc.session.context)['fields']
+            f2 = proxy.fields_view_get(False, 'form', rpc.session.context)['fields']
+            
+            fields = {}
+            fields.update(f1)
+            fields.update(f2)
 
+        fields_order = fields.keys()
+        fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))            
+            
         records = []
 
         for i, field in enumerate(fields_order):
