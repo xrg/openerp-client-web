@@ -14,6 +14,13 @@
             form.submit();
         }       
         
+        function pager_action(action, src){	
+            if (src)
+                new ListView(src).go(action);
+           else
+                submit_search_form(action);
+        }
+        
         function disable_hidden_search_fields(){
             // disable fields of hidden tab
             
