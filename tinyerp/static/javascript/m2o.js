@@ -60,20 +60,8 @@ ManyToOne.prototype.create = function(evt){
 }
 
 ManyToOne.prototype.open = function(id){
-
-	act = getURL('/openm2o/edit', {_terp_model: this.relation, _terp_view_mode: '[form,tree]', _terp_m2o: this.name, _terp_id: id});
-	
-	// generate unique popup window name
-    wname = 'select_' + this.relation.replace('.', '_');
-    if (window.opener){
-        if (typeof window.popup_counter == "undefined")
-            window.popup_counter = 0;
-
-        window.popup_counter += 1;
-        wname += window.popup_counter;
-    }
-
-	wopen(act, wname, 800, 600);
+	var act = getURL('/openm2o/edit', {_terp_model: this.relation, _terp_view_mode: '[form,tree]', _terp_m2o: this.name, _terp_id: id});	
+	openWindow(act);
 }
 
 ManyToOne.prototype.get_text = function(evt){

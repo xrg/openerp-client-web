@@ -52,7 +52,7 @@ var editO2M = function(id, src){
 				_terp_o2m_model: model, 
 				_terp_o2m_id: id};
 
-	wopen(getURL('/openo2m/edit', args), null, 800, 600);
+	openWindow(getURL('/openo2m/edit', args));
 }
 
 var inlineEdit = function(id, src){
@@ -349,12 +349,12 @@ function eval_domain_context_request(options){
 function open_search_window(relation, domain, context, source, kind, text) {
 
 	if (text || (domain == '' || domain == '[]') && (context == '' || context == '{}')){
-		return wopen(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind, text: text}), 'search_window', 800, 600);
+		return openWindow(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind, text: text}));
 	}
 	
 	var req = eval_domain_context_request({source: source, domain: domain, context: context});
 	
 	req.addCallback(function(obj){
-		wopen(getURL('/search/new', {model: relation, domain: obj.domain, context: obj.context, source: source, kind: kind, text: text}), 'search_window', 800, 600);
+		openWindow(getURL('/search/new', {model: relation, domain: obj.domain, context: obj.context, source: source, kind: kind, text: text}));
     });
 }

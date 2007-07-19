@@ -413,13 +413,11 @@ ListView.prototype.wait = function(done){
 }
 
 ListView.prototype.exportData = function(){
-	var act = getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id});
-	wopen(act, "ExportData", 800, 600);
+	openWindow(getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id}));
 }
 
 ListView.prototype.importData = function(){	
-	var act = getURL('/impex/imp', {_terp_model: this.model, _terp_source: this.id});
-	wopen(act, "ImportData", 800, 600);
+	openWindow(getURL('/impex/imp', {_terp_model: this.model, _terp_source: this.id}));
 }
 
 ListView.prototype.go = function(action){
