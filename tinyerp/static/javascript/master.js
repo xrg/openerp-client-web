@@ -117,6 +117,7 @@ function openWindow(anchor, options) {
 	options.center = typeof(options.center) == 'undefined' ? true : options.center;
 	options.width = typeof(options.width) == 'undefined' ? 800 : options.width;
 	options.height = typeof(options.height) == 'undefined' ? 600 : options.height;
+	options.scrollbars = typeof(options.scrollbars) == 'undefined' ? 1 : options.scrollbars;
 
 	if (typeof(options.height) != 'undefined' && typeof(options.fullscreen) == 'undefined') {
 		args += "height=" + options.height + ",";
