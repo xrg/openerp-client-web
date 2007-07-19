@@ -74,6 +74,11 @@
         function do_export(form){
         
             var options = $('fields').options;
+            
+            if (options.length == 0){
+                return alert('Please select fields to export...');
+            }
+
             var fields2 = [];
             
             forEach(options, function(o){

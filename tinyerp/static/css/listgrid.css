@@ -37,8 +37,9 @@
 }
 
 .grid .pagerbar {
-	white-space: nowrap;
 	height:22px;
+	vertical-align: middle;
+	white-space: nowrap;
 }
 
 .grid .pagerbar .pagerbar-cell {
@@ -50,6 +51,8 @@
 .grid .pagerbar .pagerbar-links a {
 	color: #333;
 	text-decoration: none;
+	font-size: 12px;
+	font-weight: bold;
 }
 
 .grid .pagerbar .pagerbar-links a:hover {
