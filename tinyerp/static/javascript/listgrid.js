@@ -235,7 +235,7 @@ ListView.prototype.save = function(id){
 
     var req= Ajax.JSON.post('/listgrid/save', args);
     
-    this.wait();
+    this.waitGlass();
 
     req.addCallback(function(obj){
         if (obj.error){
@@ -258,7 +258,7 @@ ListView.prototype.save = function(id){
     });
     
     req.addBoth(function(xmlHttp){
-        myself.wait(true);
+        myself.waitGlass(true);
     });
 }
 
@@ -276,7 +276,7 @@ ListView.prototype.remove = function(id){
 	
 	var req = Ajax.JSON.post('/listgrid/remove', args);
 	
-	this.wait();
+	this.waitGlass();
 	
 	req.addCallback(function(obj){
 		if (obj.error){
@@ -287,7 +287,7 @@ ListView.prototype.remove = function(id){
 	});
 	
 	req.addBoth(function(xmlHttp){
-        myself.wait(true);
+        myself.waitGlass(true);
     });
 }
 
@@ -330,7 +330,7 @@ ListView.prototype.reload = function(edit_inline){
 
     var req = Ajax.JSON.post('/listgrid/get', args);
 
-    this.wait();
+    this.waitGlass();
     
     req.addCallback(function(obj){
     	
@@ -343,12 +343,12 @@ ListView.prototype.reload = function(edit_inline){
         d.innerHTML = obj.view;
 
         var newlist = d.getElementsByTagName('table')[0];        
-		var editors = myself.adjustEditors(newlist);				
+		var editors = myself.adjustEditors(newlist);
 	
 		myself.current_record = edit_inline;
-
+		
         swapDOM(myself.id, newlist);
-        
+                
         // execute JavaScript
         var scripts = getElementsByTagAndClassName('script', null, newlist);
         forEach(scripts, function(s){
@@ -360,7 +360,7 @@ ListView.prototype.reload = function(edit_inline){
     });
     
     req.addBoth(function(xmlHttp){
-        myself.wait(true);
+        myself.waitGlass(true);
     });
 }
 
@@ -378,9 +378,9 @@ function findPosition(elem) {
 }
 
 
-ListView.prototype.wait = function(done){
+ListView.prototype.waitGlass = function(hide){
 
-	this.wait_counter += done ? -1 : 1;
+	this.wait_counter += hide ? -1 : 1;
 		
 	var block = $('listgrid_ajax_wait');
 	
@@ -399,7 +399,7 @@ ListView.prototype.wait = function(done){
 	if (this.wait_counter > 1){
 		return;
 	}
-
+	
 	var thelist = $(this.id);
 
 	//var p = elementPosition(thelist);
@@ -408,7 +408,7 @@ ListView.prototype.wait = function(done){
 
 	setElementPosition(block, p);
 	setElementDimensions(block, d);
-	
+
 	showElement(block);
 }
 
