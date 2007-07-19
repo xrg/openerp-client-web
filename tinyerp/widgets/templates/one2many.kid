@@ -6,8 +6,9 @@
                     <tr>
                         <td><strong>${screen.string}</strong></td>
                         <td align="right">
-                            <button type="button" title="Create new record..." py:if="screen.editable and not (screen.view_mode[0]=='tree' and screen.widget.editors)" onclick="submit_form('save', '${button_name}')">New</button>
-                            <button type="button" title="Create new record..." py:if="screen.editable and screen.view_mode[0]=='tree' and screen.widget.editors" onclick="new ListView('${name}').create()">New</button>
+                            <button type="button" title="Create new record..." py:if="screen.editable and screen.view_mode[0]!='tree'" onclick="submit_form('save', '${button_name}')">New</button>
+                            <button type="button" title="Create new record..." py:if="screen.editable and screen.view_mode[0]=='tree' and not screen.widget.editors" onclick="editO2M(null, '${name}')">New</button>
+                            <button type="button" title="Create new record..." py:if="screen.editable and screen.view_mode[0]=='tree' and screen.widget.editors" onclick="new ListView('${name}').create()">New</button>                            
                             <button type="button" title="Delete current record..." py:if="screen.editable" disabled="${tg.checker(screen.view_mode[0] == 'tree' or not screen.id)}" onclick="submit_form('delete', '${button_name}')">Delete</button>
                             <button type="button" title="Previous record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" onclick="submit_form('previous', '${button_name}')">Prev</button>
                             <button type="button" title="Next record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" onclick="submit_form('next', '${button_name}')">Next</button>

@@ -179,6 +179,7 @@ class Root(controllers.RootController, TinyResource):
     shortcuts = gui.shortcuts.Shortcuts()
     requests = gui.requests.Requests()
     openm2o = gui.openm2o.OpenM2O()
+    openo2m = gui.openo2m.OpenO2M()
     configure = gui.confeditor.ConfEditor()
     listgrid = gui.listgrid.List()
     attachment = gui.attachment.Attachment()

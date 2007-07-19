@@ -10,6 +10,7 @@ import shortcuts
 import requests
 import confeditor
 import openm2o
+import openo2m
 import listgrid
 import attachment
 import impex

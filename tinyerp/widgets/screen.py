@@ -69,10 +69,12 @@ class Screen(TinyCompoundWidget):
     widget = None
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, selectable=0):
-        super(Screen, self).__init__(dict(prefix=prefix, name=name))
         
         # get params dictionary
         params = params or cherrypy.request.terp_params
+        prefix = prefix or (params.prefix or '')
+        
+        super(Screen, self).__init__(dict(prefix=prefix, name=name))                
 
         self.model         = params.model
         self.state         = params.state or None
@@ -94,8 +96,8 @@ class Screen(TinyCompoundWidget):
             self.count = rpc.RPCProxy(self.model).search_count(self.domain)
 
         self.prefix             = prefix
-        self.views_preloaded    = views_preloaded
-                
+        self.views_preloaded    = views_preloaded or (params.views or {})
+                        
         self.hastoolbar         = hastoolbar
         self.toolbar            = None
         
