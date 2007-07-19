@@ -3,7 +3,7 @@
         <tr>
             <td>
                 <input type="hidden" id='${name}' name='${name}' value="${value or None}" class="${field_class}" py:attrs='attrs' kind="${kind}" domain="${ustr(domain)}" context="${ustr(context)}" relation="${relation}" callback="${callback}"/>
-                <input type="text" id='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs'/>
+                <input type="text" id='${name}_text' value="${text}" class="${field_class}"  py:attrs='attrs' kind="${kind}" relation="${relation}"/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
             <td width="16" style="padding-left: 2px">

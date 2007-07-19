@@ -43,7 +43,7 @@
     <script type="text/javascript" py:if="params.kind == 1">
 
         function do_select(id){
-        
+    
             if (!id) {
             
                 list = new ListView('_terp_list');
@@ -51,7 +51,7 @@
                 
                 if (boxes.length &lt; 1) return;
                 
-                id = boxes[0].value;
+                id = boxes[0].value;                
             }
 
             value_field = window.opener.document.getElementById('${params.source}');

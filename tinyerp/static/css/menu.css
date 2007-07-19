@@ -1,19 +1,19 @@
 table.menubar
-{	
+{
 	margin: 0;
 	padding: 0;
 	white-space: nowrap;
 }
 
 table.menubar td
-{	
+{
 	margin: 0;
 	padding: 0;
 	border-right: 1px solid #333;
 }
 
 table.menubar td a
-{	
+{
 	display: block;
 	text-align: center;
 	background: #666;
@@ -30,7 +30,7 @@ table.menubar td a:hover
 }
 
 table.menubar div
-{	
+{
 	background: #666;
 	border: 1px solid #333;
 	visibility: hidden;
@@ -39,7 +39,7 @@ table.menubar div
 }
 
 table.menubar div a
-{	
+{
     display: block;
     text-align: left;
     text-decoration: none;
@@ -48,7 +48,44 @@ table.menubar div a
 }
 
 table.menubar div a:hover
-{	
+{
     background: #505050;
   	text-decoration: none;
 }
+
+div.contextmenu
+{
+	background: #666;
+	white-space: nowrap;
+	border: 1px solid #333;
+	display: block;
+	position: absolute;
+	z-index: 3;
+	width: nowrap;
+	height: nowrap;
+
+}
+
+div.contextmenu a
+{
+    display: block;
+    text-align: left;
+    text-decoration: none;
+    padding: 2px;
+    color: #FFF;
+}
+
+div.contextmenu a:hover
+{
+    background: #505050;
+  	text-decoration: none;
+}
+
+div.contextmenu a.disabled
+{
+   color: #C0C0C0;
+}
+
+
+
+

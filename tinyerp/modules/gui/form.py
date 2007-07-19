@@ -95,14 +95,14 @@ class Form(controllers.Controller, TinyResource):
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
         buttons.attach = (buttons.form or buttons.search or buttons.graph) and id
-        
+
         buttons.action = (buttons.search or buttons.form) and not form.screen.hastoolbar
         buttons.report = buttons.action
 
         pager = None
         if buttons.pager:
             pager = tw.listgrid.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_mode=params.view_mode)
-            
+
         return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
@@ -157,15 +157,15 @@ class Form(controllers.Controller, TinyResource):
 
         current.view_mode = ['form', 'tree']
         current.editable = False
-        
+
         if current.ids == None and current.id:
-            proxy = rpc.RPCProxy(current.model)                                    
+            proxy = rpc.RPCProxy(current.model)
             ids = proxy.search([])
-            
+
             index = 0
             if current.id in ids:
                 index = ids.index(current.id)
-                
+
             current.offset = index
             current.limit = 20
             current.ids = proxy.search([], current.offset, current.limit)
@@ -204,7 +204,7 @@ class Form(controllers.Controller, TinyResource):
         form.validator = schema
 
         return form
-    
+
     @expose()
     @validate(form=get_form)
     def save(self, terp_save_only=False, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
@@ -216,9 +216,9 @@ class Form(controllers.Controller, TinyResource):
         @param kw: keyword arguments
 
         @return: form view
-        """        
+        """
         params, data = TinyDict.split(kw)
-        
+
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
 
@@ -284,14 +284,14 @@ class Form(controllers.Controller, TinyResource):
 
         elif btype == 'action':
             from tinyerp.modules import actions
-            
+
             action_id = int(name)
             action_type = actions.get_action_type(action_id)
-            
+
             if action_type == 'ir.actions.wizard':
                 cherrypy.session['wizard_parent_form'] = params
-                
-            res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)           
+
+            res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
             if res:
                 return res
 
@@ -314,7 +314,7 @@ class Form(controllers.Controller, TinyResource):
         if current.id:
             res = proxy.unlink([current.id])
             idx = current.ids.index(current.id)
-            current.ids.remove(current.id)            
+            current.ids.remove(current.id)
             params.count = 0 # invalidate count
 
             if idx == len(current.ids):
@@ -328,24 +328,24 @@ class Form(controllers.Controller, TinyResource):
     @expose(content_type='application/octet')
     def save_binary(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         if params.datas:
             form = params.datas['form']
             res = form.get(params.field)
             return base64.decodestring(res)
-        
+
         proxy = rpc.RPCProxy(params.model)
         res = proxy.read([params.id],[params.field])
 
         return res[0]['datas']
 
     @expose()
-    def clear_binary(self, **kw):        
+    def clear_binary(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         proxy = rpc.RPCProxy(params.model)
         proxy.write([params.id], {params.field: False})
-                
+
         return self.create(params)
 
     def get_filter_form(self):
@@ -382,30 +382,30 @@ class Form(controllers.Controller, TinyResource):
 
         res = search.search(params.model, o, l, domain=domain, data=data)
         params.update(res)
-        
+
         if params.ids:
-            
+
             if params.filter_action == 'FIRST':
                 params.id = params.ids[0]
-            
+
             if params.filter_action == 'PREV':
                 if params.id in params.ids and params.ids.index(params.id) > 0:
                     params.id = params.ids[params.ids.index(params.id)-1]
                 else:
                     params.id = params.ids[-1]
-                    
+
             if params.filter_action == 'NEXT':
                 if params.id in params.ids and params.ids.index(params.id) < len(params.ids):
                     params.id = params.ids[params.ids.index(params.id)+1]
                 else:
                     params.id = params.ids[0]
-        
+
             if params.filter_action == 'LAST':
                 params.id = params.ids[-1]
-                
+
         if not params.id:
             params.id = (params.ids or False) and params.ids[0]
-            
+
         return self.create(params)
 
     @expose()
@@ -527,7 +527,7 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0
         c = params.get('count') or 0
-        
+
         o = c - (c % l)
 
         kw['_terp_offset'] = o
@@ -669,10 +669,61 @@ class Form(controllers.Controller, TinyResource):
 
         return result
 
+    @expose()
+    def context_menu(self, id=None, model=None, kind=None, relation=None, val=None):
+
+        defaults = []
+        actions = []
+        relates = []
+
+        defaults = [
+                    {'text': 'Set to default value', 'href': "javascript:alert('Not Implemented Yet...')", 'css': ''},
+                    {'text': 'Set as default', 'href': "javascript:alert('Not Implemented Yet...')", 'css': ''}
+                ]
+
+        if kind=='many2one':
+
+            css =  'disabled'
+            if val:
+                css = ''
+
+            actions = [
+                       {'text': 'Action', 'href': "javascript:alert('Not Implemented Yet...')", 'css': css},
+                       {'text': 'Report', 'href': "javascript:alert('Not Implemented Yet...')", 'css': css}
+                   ]
+
+            resrelate = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
+            resrelate = map(lambda x:x[2], resrelate)
+
+            for x in resrelate:
+
+                relates += [
+                           {'text': '... '+x['name'], 'href': "javascript:alert('Not Implemented Yet...')", 'css': css},
+                       ]
+
+        return dict(defaults=defaults, actions=actions, relates=relates)
+
     def del_notebook_cookies(self):
         names = cherrypy.request.simple_cookie.keys()
 
         for n in names:
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

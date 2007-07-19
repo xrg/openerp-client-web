@@ -44,10 +44,11 @@
         }
         
         connect(window, 'onload', loadSidebar);
+        
     </script> 
         
 </head>
-<body>
+<body onload="contextmenu()">
 
     <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
@@ -182,9 +183,11 @@
             
             <td id="sidebar_hide" valign="top" py:if="form.screen.hastoolbar and form.screen.toolbar">
                <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar('sidebar');" style="cursor: pointer;"/>
-            </td>            
-            
-        </tr>
-    </table>
+            </td>
+        </tr>        
+    </table> 
+    
+    <div id="contextmenu" class="contextmenu" onmouseout="hideElement(this);" onmouseover="showElement(this);"/>
+    
 </body>
 </html>

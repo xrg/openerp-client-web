@@ -185,19 +185,19 @@ var buttonClicked = function(name, btype, model, id, sure){
  * get key-pair object of the parent form
  */
 var get_parent_form = function(name) {
-	
+
 	var frm = {};
-	
+
 	var thelist = $('_terp_list');
 	var theform = $('view_form');
 
 	if (thelist){
 
 		var inputs = [];
-		
+
 		inputs = inputs.concat(getElementsByTagAndClassName('input', null, thelist));
 		inputs = inputs.concat(getElementsByTagAndClassName('select', null, thelist));
-		
+
 		forEach(inputs, function(e){
     		if (e.name && !hasElementClass(e, 'grid-record-selector')){
     			// remove '_terp_listfields/' prefix
@@ -210,21 +210,21 @@ var get_parent_form = function(name) {
     	        frm[f] = e.value;
         	    frm[k] = e.attributes['kind'].value;
 	        }
-    	});		
+    	});
 	} else {
 		forEach(theform.elements, function(e){
-		
+
 			if (!e.name) return;
-					
+
 			var n = e.name.indexOf('_terp_listfields') == 0 ? e.name.slice(17) : e.name;
-		
+
 			if (n.indexOf('_terp_') == -1 && e.type != 'button'){
             	frm['_terp_parent_form/' + n] = e.value;
 	            if (e.attributes['kind']){
     	            frm['_terp_parent_types/' + n] = getNodeAttribute(e, 'kind');
         	    }
 	        }
-    	});	
+    	});
 	}
 
 	return frm;
@@ -234,17 +234,17 @@ var get_parent_form = function(name) {
  * This function will be used by widgets that has `onchange` trigger is defined.
  */
 var onChange = function(name) {
-	
+
     var caller = $(name);
     var callback = getNodeAttribute(caller, 'callback');
-    
+
    	var is_list = caller.id.indexOf('_terp_listfields') == 0;
 
     var prefix = caller.name.split("/");
     prefix.pop();
     prefix = prefix.join("/");
     prefix = prefix ? prefix + '/' : '';
-       
+
     var vals = get_parent_form(name);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
 
@@ -260,7 +260,7 @@ var onChange = function(name) {
     req.addCallback(function(obj){
         values = obj['value'];
 
-		for(var k in values){				
+		for(var k in values){
 			flag = false;
             fld = $(prefix + k);
             if (fld) {
@@ -271,10 +271,10 @@ var onChange = function(name) {
                 	fld = $(prefix + k + '_id');
                 	flag = true;
                 }
-                                
+
                 if ((fld.value != value) || flag) {
                 	fld.value = value;
-                	
+
                 	if (!isUndefinedOrNull(fld.onchange)){
                         fld.onchange();
             	    }else{
@@ -315,15 +315,15 @@ function eval_domain_context_request(options){
 
 	var prefix = options.source.split("/");
     prefix.pop();
-    
-    // editable listview fields    
+
+    // editable listview fields
     if (prefix[0] == '_terp_listfields'){
     	prefix.shift();
     }
 
 	var form = $('view_form');
 	var params = {'_terp_domain': options.domain, '_terp_context': options.context, '_terp_prefix': prefix};
-	
+
     forEach(form.elements, function(e){
 
         if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button') {
@@ -342,7 +342,7 @@ function eval_domain_context_request(options){
           	}
     	}
     });
-    
+
     return Ajax.JSON.post('/search/eval_domain_and_context', params);
 }
 
@@ -351,10 +351,106 @@ function open_search_window(relation, domain, context, source, kind, text) {
 	if (text || (domain == '' || domain == '[]') && (context == '' || context == '{}')){
 		return openWindow(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind, text: text}));
 	}
-	
+
 	var req = eval_domain_context_request({source: source, domain: domain, context: context});
-	
+
 	req.addCallback(function(obj){
 		openWindow(getURL('/search/new', {model: relation, domain: obj.domain, context: obj.context, source: source, kind: kind, text: text}));
     });
 }
+
+function getContext(id, kind, relation, val) {
+
+    var s = $('view_form');
+
+    var act = get_form_action('context_menu');
+
+    var prefix = '';
+
+    prefix = id.split('/');
+	prefix.pop();
+	prefix = prefix.join("/");
+	prefix = prefix ? prefix : '';
+	if(prefix) {
+    	var model = $('_terp_model').value + '.' + prefix;
+    }
+    else {
+        var model = $('_terp_model').value;
+    }
+    var params = {'id': id, 'model': model, 'kind': kind, 'relation': relation, 'val': val};
+
+    req = Ajax.JSON.post(act, params);
+
+    req.addCallback(function(obj) {
+
+        var rows = [];
+
+        for(var r in obj.defaults) {
+            var d = obj.defaults[r];
+
+            var a = A({href: d.href, 'class': d.css}, d.text);
+            rows = rows.concat(a);
+        }
+
+        if(obj.actions.length > 0) {
+            rows = rows.concat(HR());
+
+	        for(var r in obj.actions) {
+	            var ac = obj.actions[r];
+	            var a = A({href: ac.href, 'class': ac.css}, ac.text);
+	            rows = rows.concat(a);
+	        }
+	    }
+
+        if(obj.relates.length > 0) {
+            rows = rows.concat(HR())
+
+	        for(var r in obj.relates) {
+                var re = obj.relates[r];
+	            var a = A({href: re.href, 'class': re.css}, re.text);
+	            rows = rows.concat(a);
+	        }
+        }
+        $('contextmenu').innerHTML = '';
+
+        appendChildNodes('contextmenu', rows);
+        showElement('contextmenu');
+
+	});
+}
+
+var contextmenu = function(e){
+
+    var s = $('view_form');
+    var s1 = $('contextmenu');
+
+    forEach(s.elements, function(e1) {
+        if(e1.attributes['kind']) {
+            if(e1.attributes['kind'].value=="many2one" || e1.attributes['kind'].value=="char" || e1.attributes['kind'].value=="selection")
+               connect(e1, "oncontextmenu", onContext);
+        }
+    });
+}
+
+var onContext = function(evt){
+    var s1 = $('contextmenu');
+
+	var src = evt.src();
+	id = src.id;
+    relation = '';
+
+	kind = src.attributes['kind'].value;
+	if(src.attributes['relation'])
+    	relation = src.attributes['relation'].value;
+
+    setElementPosition(s1, evt.mouse().page);
+
+    this.visible = false;
+
+    getContext(id, kind, relation);
+
+    evt.stop();
+}
+
+
+
