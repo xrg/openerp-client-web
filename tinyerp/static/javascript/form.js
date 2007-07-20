@@ -386,7 +386,7 @@ function showContextMenu(id, kind, relation, val) {
 
         for(var r in obj.defaults) {
             var o = obj.defaults[r];
-            var a = A({href: "javascript: void(0)", onclick: o.action}, o.text);
+            var a = A({href: "javascript: void(0)", onclick: o.action + ';hideElement(\'contextmenu\');'}, o.text);
             rows = rows.concat(a);
         }
 
@@ -395,7 +395,7 @@ function showContextMenu(id, kind, relation, val) {
 
 	        for(var r in obj.actions) {
 	            var o = obj.actions[r];
-	            var a = A({href: "javascript: void(0)", onclick: o.action, 'class': o.action ? '' : 'disabled'}, o.text);
+	            var a = A({href: "javascript: void(0)", onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
 	            rows = rows.concat(a);
 	        }
 	    }
@@ -405,7 +405,7 @@ function showContextMenu(id, kind, relation, val) {
 
 	        for(var r in obj.relates) {
                 var o = obj.relates[r];
-	            var a = A({href: "javascript: void(0)", onclick: o.action, 'class': o.action ? '' : 'disabled'}, o.text);
+	            var a = A({href: "javascript: void(0)", onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
 	            rows = rows.concat(a);
 	        }
         }
@@ -449,20 +449,19 @@ var onContext = function(evt){
 
 function get_default_val(id, model){
 
+	var kind = $(id).attributes['kind'].value;
+	if(kind=="many2one"){
+		id = id.slice(0, id.length - 5);
+	}
+
     var act = get_form_action('get_default_values');
     var params = {'model': model, 'id': id};
 
     var req = Ajax.JSON.post(act, params);
-    req.addCallback(function(obj) {
+    req.addCallback(function(obj) {                
 
-        var kind = $(id).attributes['kind'].value;
-
-        if(kind=="many2one"){
-            id = id.slice(0, id.length - 5);
-        }
-
-        $(id).value = obj.id;
-        signal(id, "onchange");
+        $(id).value = obj.value;
+        signal(id, "onchange");        
     });
 }
 

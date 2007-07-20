@@ -704,13 +704,12 @@ class Form(controllers.Controller, TinyResource):
     @expose('json')
     def get_default_values(self, model=None, id=None):
 
-        id = id.rsplit('_', 1)[0]
-        id = id.split('/')[1]
+        id = id.split('/')[-1]
 
         res = rpc.session.execute('object', 'execute', model, 'default_get', [id])
-        id = res.get(id)
+        value = res.get(id)
 
-        return dict(id = id)
+        return dict(value=value)
 
     def del_notebook_cookies(self):
         names = cherrypy.request.simple_cookie.keys()
@@ -718,21 +717,3 @@ class Form(controllers.Controller, TinyResource):
         for n in names:
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
