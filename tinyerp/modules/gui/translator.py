@@ -39,6 +39,8 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 
+from tinyerp.cache import cache
+
 from tinyerp.tinyres import TinyResource
 from tinyerp.modules.utils import TinyDict
 
@@ -67,7 +69,7 @@ class Translator(controllers.Controller, TinyResource):
         data = []
         view = []
          
-        view_view = proxy.fields_view_get(False, 'form', rpc.session.context, True)
+        view_view = cache.fields_view_get(params.model, False, 'form', rpc.session.context, True)
 
         view_fields = view_view['fields']
         view_relates = view_view.get('toolbar')
