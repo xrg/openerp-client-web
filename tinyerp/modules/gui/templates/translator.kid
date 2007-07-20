@@ -34,6 +34,7 @@
                                 <select name="translate" onchange="window.location.href=getURL('/translator', {_terp_model: '$model', _terp_id: '$id', translate: this.value})">
                                     <option value="fields" selected="${tg.selector(translate=='fields')}">Fields</option>
                                     <option value="labels" selected="${tg.selector(translate=='labels')}">Labels</option>
+                                    <option value="relates" selected="${tg.selector(translate=='relates')}">Relates</option>
                                     <option value="view" selected="${tg.selector(translate=='view')}">View</option>
                                 </select>
                             </td>
@@ -51,11 +52,12 @@
                     <tr class="grid-header">
                         <td py:for="lang in langs" class="grid-cell" py:content="lang['name']" width="${100 / len(langs)}%">Language</td>
                     </tr>
-                    <tr class="grid-row" py:for="n, v in data">
+                    <tr class="grid-row" py:for="n, v, x in data">
+                        <input type="hidden" name="_terp_models/${n}" value="${x}" py:if="x"/>
                         <td class="grid-cell" py:for="lang in langs">
                             <input type="text" name="${lang['code']}/${n}" value="${v[lang['code']]}" style="width: 100%;"/>
                         </td>
-                    </tr>                    
+                    </tr>
                 </table>                
             </td>
         </tr>

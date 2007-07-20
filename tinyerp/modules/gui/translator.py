@@ -66,13 +66,15 @@ class Translator(controllers.Controller, TinyResource):
 
         data = []
         view = []
-                
-        #view_fields = proxy.fields_view_get(False, 'form', rpc.session.context)['fields']
-        view_fields = proxy.fields_get(False, rpc.session.context)
+         
+        view_view = proxy.fields_view_get(False, 'form', rpc.session.context, True)
+
+        view_fields = view_view['fields']
+        view_relates = view_view.get('toolbar')
 
         names = view_fields.keys()
         names.sort(lambda x,y: cmp(view_fields[x].get('string', ''), view_fields[y].get('string', '')))
-        
+
         if translate == 'fields' and params.id:                        
             for name in names:
                 attrs = view_fields[name]
@@ -87,7 +89,7 @@ class Translator(controllers.Controller, TinyResource):
 
                         value[lang['code']] = val[name]
 
-                    data += [(name, value)]        
+                    data += [(name, value, None)]        
         
         if translate == 'labels':
             for name in names:
@@ -101,8 +103,21 @@ class Translator(controllers.Controller, TinyResource):
                         if name in val[code]:
                             value[code] = val[code][name]
 
-                    if value: data += [(name, value)]                        
-            
+                    if value: data += [(name, value, None)]
+                    
+        if translate == 'relates' and view_relates:
+            for bar, tools in view_relates.items():
+                for tool in tools:
+
+                    value = {}
+                    for lang in langs:
+                        code = lang['code']                    
+                        val = rpc.session.execute('object', 'execute', tool['type'], 'read', [tool['id']], ['name'], {'lang': code})
+
+                        value[code] = val[0]['name']
+                        
+                    data += [(tool['id'], value, tool['type'])]
+
         if translate == 'view':
             for lang in langs:
                 code=lang['code']
@@ -142,6 +157,11 @@ class Translator(controllers.Controller, TinyResource):
             for lang, value in data.items():
                 for name, val in value.items():
                     rpc.session.execute('object', 'execute', params.model, 'write_string', False, [lang], {name: val})
+                    
+        if translate == 'relates':            
+            for lang, value in data.items():
+                for name, val in value.items():
+                    rpc.session.execute('object', 'execute', params.models[name], 'write', [int(name)], {'name': val}, {'lang': lang})
 
         if translate == 'view':
             for lang, value in data.items():
