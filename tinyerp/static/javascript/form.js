@@ -45,6 +45,9 @@ var editO2M = function(id, src){
 
 	var parent_model = $(parent_prefix + '_terp_model').value;
 	var parent_id = $(parent_prefix + '_terp_id').value;
+	
+	if (parent_id == 'False' || !parent_id)
+		return submit_form('save', src);
 
 	var args = {_terp_parent_model: parent_model,
 				_terp_parent_id: parent_id,

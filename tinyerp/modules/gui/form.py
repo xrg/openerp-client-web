@@ -248,11 +248,11 @@ class Form(controllers.Controller, TinyResource):
             if not params.id:
                 params.id = int(id)
 
-            if current.view_mode[0] == 'tree':
-                current.view_mode.reverse()
+            #if current.view_mode[0] == 'tree':
+            #    current.view_mode.reverse()
 
-            if current.view_mode[0] != 'form':
-                current.view_mode = ['form', 'tree']
+            #if current.view_mode[0] != 'form':
+            #    current.view_mode = ['form', 'tree']
         else:
             params.editable = False
 
