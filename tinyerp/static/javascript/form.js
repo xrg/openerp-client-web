@@ -424,7 +424,7 @@ var registerContextMenu = function(evt){
         if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
 			connect(e, "oncontextmenu", onContext);
         }
-    });
+    });    
 }
 
 var onContext = function(evt){
@@ -443,6 +443,3 @@ var onContext = function(evt){
 
     evt.stop();
 }
-
-
-

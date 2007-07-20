@@ -183,5 +183,6 @@ class Root(controllers.RootController, TinyResource):
     configure = gui.confeditor.ConfEditor()
     listgrid = gui.listgrid.List()
     attachment = gui.attachment.Attachment()
+    translator = gui.translator.Translator()
     impex = gui.impex.ImpEx()
-
+    

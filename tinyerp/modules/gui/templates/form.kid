@@ -71,6 +71,7 @@
                                         <button type="button" title="Add an attachment to this resource." disabled="${tg.selector(not buttons.attach)}" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})">Attachments</button>
                                         <button type="button" title="Launch action about this resource" py:if="buttons.action" onclick="submit_form('action')">Action</button>
                                         <button type="button" title="Print documents" py:if="buttons.report" onclick="submit_form('report')">Print</button>
+                                        <button type="button" title="Translate this resource." py:if="buttons.i18n" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')">i18n</button>
                                     </td>
                                     <td align="center" valign="middle" width="16">
                                         <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/help.png" width="16" height="16"/></a>
