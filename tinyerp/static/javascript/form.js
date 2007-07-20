@@ -359,27 +359,23 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
-function getContext(id, kind, relation, val) {
+function showContextMenu(id, kind, relation, val) {
 
-    var s = $('view_form');
-
+    var form = $('view_form');    
     var act = get_form_action('context_menu');
-
+    
     var prefix = '';
 
     prefix = id.split('/');
 	prefix.pop();
 	prefix = prefix.join("/");
-	prefix = prefix ? prefix : '';
-	if(prefix) {
-    	var model = $('_terp_model').value + '.' + prefix;
-    }
-    else {
-        var model = $('_terp_model').value;
-    }
+	prefix = prefix ? prefix + '/' : '';
+
+	var model = prefix ? $(prefix + '_terp_model').value : $('_terp_model').value;
+
     var params = {'id': id, 'model': model, 'kind': kind, 'relation': relation, 'val': val};
 
-    req = Ajax.JSON.post(act, params);
+    var req = Ajax.JSON.post(act, params);
 
     req.addCallback(function(obj) {
 
@@ -411,46 +407,40 @@ function getContext(id, kind, relation, val) {
 	            rows = rows.concat(a);
 	        }
         }
+        
         $('contextmenu').innerHTML = '';
 
         appendChildNodes('contextmenu', rows);
         showElement('contextmenu');
-
 	});
 }
 
-var contextmenu = function(e){
+var registerContextMenu = function(evt){
 
-    var s = $('view_form');
-    var s1 = $('contextmenu');
-
-    forEach(s.elements, function(e1) {
-        if(e1.attributes['kind']) {
-            if(e1.attributes['kind'].value=="many2one" || e1.attributes['kind'].value=="char" || e1.attributes['kind'].value=="selection")
-               connect(e1, "oncontextmenu", onContext);
+    var form = $('view_form');
+    var menu = $('contextmenu');
+    
+    forEach(form.elements, function(e) {
+    	var kind = e.attributes['kind'];
+        if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
+			connect(e, "oncontextmenu", onContext);
         }
     });
 }
 
 var onContext = function(evt){
-    var s1 = $('contextmenu');
 
+    var menu = $('contextmenu');    
 	var src = evt.src();
-	id = src.id;
-    log(id);
-	relation = '';
 
-    val = $(id).value;
+	var val = $(src.id).value;	
+	var kind = src.attributes['kind'].value;		
+	var relation = src.attributes['relation'] ? src.attributes['relation'].value : null;
 
-	kind = src.attributes['kind'].value;
-	if(src.attributes['relation'])
-    	relation = src.attributes['relation'].value;
+	hideElement(menu);
+    setElementPosition(menu, evt.mouse().page);
 
-    setElementPosition(s1, evt.mouse().page);
-
-    this.visible = false;
-
-    getContext(id, kind, relation, val);
+    showContextMenu(src.id, kind, relation, val);
 
     evt.stop();
 }

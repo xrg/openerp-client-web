@@ -43,12 +43,14 @@
             if (sb) toggle_sidebar('sidebar', get_cookie('terp_sidebar'));
         }
         
-        connect(window, 'onload', loadSidebar);
-        
+        connect(window, 'onload', function(){
+            registerContextMenu();
+            loadSidebar();
+        });
     </script> 
-        
+
 </head>
-<body onload="contextmenu()">
+<body>
 
     <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
