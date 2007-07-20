@@ -13,6 +13,7 @@
                             <button type="button" title="Previous record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" onclick="submit_form('previous', '${button_name}')">Prev</button>
                             <button type="button" title="Next record..." disabled="${tg.checker(screen.view_mode[0] == 'tree')}" onclick="submit_form('next', '${button_name}')">Next</button>
                             <button type="button" title="Switch view..." onclick="submit_form('switch', '${button_name}')">Switch</button>
+                            <button type="button" title="Translate me." py:if="not screen.editable and screen.view_mode[0]=='form'" onclick="openWindow('${tg.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')">i18n</button>
                         </td>
                     </tr>
                 </table>
