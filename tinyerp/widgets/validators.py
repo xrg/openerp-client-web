@@ -121,6 +121,11 @@ class Binary(tg.validators.FancyValidator):
     
 class Url(tg.validators.URL):
     if_empty = False
+    
+    url_re = re.compile(r'^(http|https)://'
+                        r'[a-z0-9][a-z0-9\-\._]*\.[a-z0-9]+'
+                        r'(?:[0-9]+)?'
+                        r'(?:/.*)?$', re.I)
 
     def _from_python(self, value, state):
         return value or ''
