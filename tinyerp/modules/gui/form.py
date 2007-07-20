@@ -669,36 +669,33 @@ class Form(controllers.Controller, TinyResource):
 
         return result
 
-    @expose()
-    def context_menu(self, id=None, model=None, kind=None, relation=None, val=None):
+    @expose('json')
+    def get_context_menu(self, id=None, model=None, kind=None, relation=None, val=None):
 
         defaults = []
         actions = []
         relates = []
 
         defaults = [
-                    {'text': 'Set to default value', 'href': "javascript:alert('Not Implemented Yet...')", 'css': ''},
-                    {'text': 'Set as default', 'href': "javascript:alert('Not Implemented Yet...')", 'css': ''}
+                    {'text': 'Set to default value', 'action': "alert('Not implemented yet...')"},
+                    {'text': 'Set as default', 'action': "alert('Not implemented yet...')"}
                 ]
 
         if kind=='many2one':
-
-            css =  'disabled'
-            if val:
-                css = ''
-
+                        
+            act = (val or None) and "alert('Not implemented yet...')"            
             actions = [
-                       {'text': 'Action', 'href': "javascript:alert('Not Implemented Yet...')", 'css': css},
-                       {'text': 'Report', 'href': "javascript:alert('Not Implemented Yet...')", 'css': css}
+                       {'text': 'Action', 'action': act},
+                       {'text': 'Report', 'action': act}
                    ]
 
-            resrelate = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
+            resrelate = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
             resrelate = map(lambda x:x[2], resrelate)
 
             for x in resrelate:
-
+                act = (val or None) and "alert('Not implemented yet...')"
                 relates += [
-                           {'text': '... '+x['name'], 'href': "javascript:alert('Not Implemented Yet...')", 'css': css},
+                           {'text': '... '+x['name'], 'action': act},
                        ]
 
         return dict(defaults=defaults, actions=actions, relates=relates)

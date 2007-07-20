@@ -362,7 +362,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
 function showContextMenu(id, kind, relation, val) {
 
     var form = $('view_form');    
-    var act = get_form_action('context_menu');
+    var act = get_form_action('get_context_menu');
     
     var prefix = '';
 
@@ -382,9 +382,8 @@ function showContextMenu(id, kind, relation, val) {
         var rows = [];
 
         for(var r in obj.defaults) {
-            var d = obj.defaults[r];
-
-            var a = A({href: d.href, 'class': d.css}, d.text);
+            var o = obj.defaults[r];
+            var a = A({href: "javascript: void(0)", onclick: o.action}, o.text);
             rows = rows.concat(a);
         }
 
@@ -392,8 +391,8 @@ function showContextMenu(id, kind, relation, val) {
             rows = rows.concat(HR());
 
 	        for(var r in obj.actions) {
-	            var ac = obj.actions[r];
-	            var a = A({href: ac.href, 'class': ac.css}, ac.text);
+	            var o = obj.actions[r];
+	            var a = A({href: "javascript: void(0)", onclick: o.action, 'class': o.action ? '' : 'disabled'}, o.text);
 	            rows = rows.concat(a);
 	        }
 	    }
@@ -402,8 +401,8 @@ function showContextMenu(id, kind, relation, val) {
             rows = rows.concat(HR())
 
 	        for(var r in obj.relates) {
-                var re = obj.relates[r];
-	            var a = A({href: re.href, 'class': re.css}, re.text);
+                var o = obj.relates[r];
+	            var a = A({href: "javascript: void(0)", onclick: o.action, 'class': o.action ? '' : 'disabled'}, o.text);
 	            rows = rows.concat(a);
 	        }
         }
