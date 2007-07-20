@@ -678,13 +678,13 @@ class Form(controllers.Controller, TinyResource):
         relates = []
 
         defaults = [
-                    {'text': 'Set to default value', 'action': "alert('Not implemented yet...')"},
-                    {'text': 'Set as default', 'action': "alert('Not implemented yet...')"}
+                    {'text': 'Set to default value', 'action': "get_default_val('%s', '%s')" % (id, model) },
+                    {'text': 'Set as default', 'action': "alert('Not implemented yet...');"}
                 ]
 
         if kind=='many2one':
-                        
-            act = (val or None) and "alert('Not implemented yet...')"            
+
+            act = (val or None) and "alert('Not implemented yet...')"
             actions = [
                        {'text': 'Action', 'action': act},
                        {'text': 'Report', 'action': act}
@@ -700,6 +700,17 @@ class Form(controllers.Controller, TinyResource):
                        ]
 
         return dict(defaults=defaults, actions=actions, relates=relates)
+
+    @expose('json')
+    def get_default_values(self, model=None, id=None):
+
+        id = id.rsplit('_', 1)[0]
+        id = id.split('/')[1]
+
+        res = rpc.session.execute('object', 'execute', model, 'default_get', [id])
+        id = res.get(id)
+
+        return dict(id = id)
 
     def del_notebook_cookies(self):
         names = cherrypy.request.simple_cookie.keys()

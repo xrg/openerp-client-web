@@ -361,9 +361,9 @@ function open_search_window(relation, domain, context, source, kind, text) {
 
 function showContextMenu(id, kind, relation, val) {
 
-    var form = $('view_form');    
+    var form = $('view_form');
     var act = get_form_action('get_context_menu');
-    
+
     var prefix = '';
 
     prefix = id.split('/');
@@ -406,7 +406,7 @@ function showContextMenu(id, kind, relation, val) {
 	            rows = rows.concat(a);
 	        }
         }
-        
+
         $('contextmenu').innerHTML = '';
 
         appendChildNodes('contextmenu', rows);
@@ -418,22 +418,22 @@ var registerContextMenu = function(evt){
 
     var form = $('view_form');
     var menu = $('contextmenu');
-    
+
     forEach(form.elements, function(e) {
     	var kind = e.attributes['kind'];
         if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
 			connect(e, "oncontextmenu", onContext);
         }
-    });    
+    });
 }
 
 var onContext = function(evt){
 
-    var menu = $('contextmenu');    
+    var menu = $('contextmenu');
 	var src = evt.src();
 
-	var val = $(src.id).value;	
-	var kind = src.attributes['kind'].value;		
+	var val = $(src.id).value;
+	var kind = src.attributes['kind'].value;
 	var relation = src.attributes['relation'] ? src.attributes['relation'].value : null;
 
 	hideElement(menu);
@@ -443,3 +443,23 @@ var onContext = function(evt){
 
     evt.stop();
 }
+
+function get_default_val(id, model){
+
+    var act = get_form_action('get_default_values');
+    var params = {'model': model, 'id': id};
+
+    var req = Ajax.JSON.post(act, params);
+    req.addCallback(function(obj) {
+
+        var kind = $(id).attributes['kind'].value;
+
+        if(kind=="many2one"){
+            id = id.slice(0, id.length - 5);
+        }
+
+        $(id).value = obj.id;
+        signal(id, "onchange");
+    });
+}
+
