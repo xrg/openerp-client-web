@@ -36,20 +36,20 @@ var editO2M = function(id, src){
 
 	var prefix = src ? src + '/' : '';
 	var parent_prefix = src ? src.split('/') : [];
-		
+
 	parent_prefix.pop();
 	parent_prefix = parent_prefix.join('/');
 	parent_prefix = parent_prefix ? parent_prefix + '/' : '';
-	
+
 	var model = $(prefix + '_terp_model').value;
-	
+
 	var parent_model = $(parent_prefix + '_terp_model').value;
 	var parent_id = $(parent_prefix + '_terp_id').value;
-	
-	var args = {_terp_parent_model: parent_model, 
-				_terp_parent_id: parent_id, 
+
+	var args = {_terp_parent_model: parent_model,
+				_terp_parent_id: parent_id,
 				_terp_o2m: src,
-				_terp_o2m_model: model, 
+				_terp_o2m_model: model,
 				_terp_o2m_id: id};
 
 	openWindow(getURL('/openo2m/edit', args));
@@ -62,16 +62,16 @@ var inlineEdit = function(id, src){
 	}
 
 	var prefix = src ? src + '/' : '';
-	
+
     var form = $('view_form');
     var act = get_form_action('edit');
 
     if (prefix) {
         var terp_id = $(prefix + '_terp_id');
         terp_id.value = id;
-        
+
         act = get_form_action('edit', {_terp_source: src, _terp_inline: 1});
-        
+
     } else {
         form._terp_id.value = id;
     }
@@ -437,7 +437,10 @@ var onContext = function(evt){
 
 	var src = evt.src();
 	id = src.id;
-    relation = '';
+    log(id);
+	relation = '';
+
+    val = $(id).value;
 
 	kind = src.attributes['kind'].value;
 	if(src.attributes['relation'])
@@ -447,7 +450,7 @@ var onContext = function(evt){
 
     this.visible = false;
 
-    getContext(id, kind, relation);
+    getContext(id, kind, relation, val);
 
     evt.stop();
 }
