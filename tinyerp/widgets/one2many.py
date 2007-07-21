@@ -39,7 +39,7 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id', 'button_name']
+    params = ['string', 'id', 'new_attrs']
 
     member_widgets = ['screen']
     form = None
@@ -50,8 +50,7 @@ class O2M(TinyCompoundWidget):
         
         super(O2M, self).__init__(attrs)                
 
-        self.button_name = self.name.replace('/', '.')
-        self.button_attrs = {}
+        self.new_attrs = { 'text': _("New"), 'help': 'Create new record.'}
 
 #        self.colspan = 4
 #        self.nolabel = True
@@ -59,7 +58,15 @@ class O2M(TinyCompoundWidget):
         # get top params dictionary
         params = cherrypy.request.terp_params
         is_navigating = params.is_navigating
-
+        
+        
+        parent_prefix = ''
+        if '/' in self.name:
+            parent_prefix = self.name[:self.name.rindex('/')]
+        
+        if (parent_prefix and not params[parent_prefix.replace('/', '.')].id) or (not parent_prefix and not params.id):
+            self.new_attrs = { 'text': _("Save/New"), 'help': 'Save parent and create new record.'}
+                                    
         # get params for this field
         params = params[self.name.replace('/', '.')]
 
