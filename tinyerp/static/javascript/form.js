@@ -32,22 +32,32 @@ function get_form_action(action, params){
 	return getURL(act + '/' + action, params);
 }
 
+var newO2M = function(src, mode, editors){
+	var prefix = src + '/';
+	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')) : '';
+
+	var parent_id = $(parent_prefix + '_terp_id').value;
+
+	if (!parent_id || parent_id == 'False' || mode == 'form'){
+		return submit_form('save', src);	
+	}
+	
+	if (mode == 'tree' && editors > 0){
+		return new ListView(src).create();
+	}
+	
+	return editO2M(null, src);	
+}
+
 var editO2M = function(id, src){
 
-	var prefix = src ? src + '/' : '';
-	var parent_prefix = src ? src.split('/') : [];
-
-	parent_prefix.pop();
-	parent_prefix = parent_prefix.join('/');
-	parent_prefix = parent_prefix ? parent_prefix + '/' : '';
+	var prefix = src + '/';
+	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')) : '';
 
 	var model = $(prefix + '_terp_model').value;
 
 	var parent_model = $(parent_prefix + '_terp_model').value;
 	var parent_id = $(parent_prefix + '_terp_id').value;
-	
-	if (parent_id == 'False' || !parent_id)
-		return submit_form('save', src);
 
 	var args = {_terp_parent_model: parent_model,
 				_terp_parent_id: parent_id,
