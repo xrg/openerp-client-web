@@ -568,14 +568,16 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(datas)
 
         model = params.model
-        view_type = params.view_mode[0]
-
+        
         id = params.id or False
         ids = params.ids or []
 
-        if view_type == 'form':
+        if params.view_mode and params.view_mode[0] == 'form':
             #TODO: save current record
             ids = (id or []) and [id]
+            
+        if id and not ids:
+            ids = [id]
 
         if len(ids):
             from tinyerp.modules import actions
@@ -671,88 +673,41 @@ class Form(controllers.Controller, TinyResource):
         return result
 
     @expose('json')
-    def get_context_menu(self, id=None, model=None, kind=None, relation=None, val=None):
+    def get_context_menu(self, model, field, kind="char", relation=None, value=None):
 
         defaults = []
         actions = []
         relates = []
 
-        defaults = [
-                    {'text': 'Set to default value', 'action': "get_default_val('%s', '%s')" % (id, model) },
-                    {'text': 'Set as default', 'action': "alert('Not implemented yet...');"}
-                ]
+        defaults = [{'text': 'Set to default value', 'action': "set_to_default('%s', '%s')" % (field, model)},
+                    {'text': 'Set as default', 'action': "alert('Not implemented yet...');"}]
 
         if kind=='many2one':
 
-            act = (val or None) and "javascript: void(0)"
+            act = (value or None) and "javascript: void(0)"
 
-            type_action =  "client_action_multi"
-            type_print = "client_print_multi"
+            actions = [{'text': 'Action', 'action': act and "do_action('%s', '%s')" %(field, relation)},
+                       {'text': 'Report', 'action': act and "do_print('%s', '%s')" %(field, relation)}]
 
-            actions = [
-                       {'text': 'Action', 'action': act and "get_action('%s', '%s', '%s', '%s')" %(type_action, model, id, relation)},
-                       {'text': 'Report', 'action': act and "get_print('%s', '%s', '%s', '%s')" %(type_print, model, id, relation)}
-                   ]
+            res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
+            res = [x[2] for x in res]
 
-            resrelate = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
-            resrelate = map(lambda x:x[2], resrelate)
-
-            for x in resrelate:
-                act = (val or None) and "javascript: void(0)"
+            for x in res:
+                act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
-                relates += [
-                           {'text': '... '+x['name'], 'action': act and "other_actions(%s, '%s', '%s')" %(x['id'], id, relation)},
-                       ]
+                relates += [{'text': '... '+x['name'], 'action': act and "do_relate(%s, '%s', '%s', this)" %(x['id'], field, relation), 'data': "%s"%str(x)}]
 
         return dict(defaults=defaults, actions=actions, relates=relates)
 
     @expose('json')
-    def get_default_values(self, model=None, id=None):
-        id = id.split('/')[-1]
+    def get_default_value(self, model, field):
 
-        res = rpc.session.execute('object', 'execute', model, 'default_get', [id])
-        value = res.get(id)
-
+        field = field.split('/')[-1]
+        
+        res = rpc.RPCProxy(model).default_get([field])
+        value = res.get(field)
+        
         return dict(value=value)
-
-    @expose('json')
-    def perform_actions(self, type, id=None, model=None, relation=None):
-
-        ids = [id]
-        if isinstance(id, basestring):
-            ids = id.split(',')
-            ids = [int(i) for i in ids]
-
-        id = ids[0]
-
-        from tinyerp.modules import actions
-
-        return actions.execute_by_keyword(type, model= relation, id= id, ids=ids, report_type= 'pdf')
-
-    @expose('json')
-    def perform_other_actions(self, action_id, id, relation):
-
-        from tinyerp.modules import actions
-
-        resrelate = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
-        resrelate = map(lambda x:x[2], resrelate)
-
-        action_id = int(action_id)
-
-        for x in resrelate:
-            x['string'] = x['name']
-            if x['id'] == action_id: break
-
-        data={}
-        act=x.copy()
-
-        context = rpc.session.context.copy()
-        context['active_id'] = int(id)
-
-        act['domain'] = tools.expr_eval(act['domain'], context)
-        act['context'] = str(tools.expr_eval(act['context'], context))
-
-        return actions.execute(act, data=data, context=context)
 
     def del_notebook_cookies(self):
         names = cherrypy.request.simple_cookie.keys()

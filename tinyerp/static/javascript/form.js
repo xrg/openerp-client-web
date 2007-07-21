@@ -376,17 +376,12 @@ function showContextMenu(id, kind, relation, val) {
 
     var form = $('view_form');
     var act = get_form_action('get_context_menu');
-
-    var prefix = '';
-
-    prefix = id.split('/');
-	prefix.pop();
-	prefix = prefix.join("/");
-	prefix = prefix ? prefix + '/' : '';
+    
+    var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';	
 
 	var model = prefix ? $(prefix + '_terp_model').value : $('_terp_model').value;
 
-    var params = {'id': id, 'model': model, 'kind': kind, 'relation': relation, 'val': val};
+    var params = {'model': model, 'field': id, 'kind': kind, 'relation': relation, 'value': val};
 
     var req = Ajax.JSON.post(act, params);
 
@@ -418,7 +413,7 @@ function showContextMenu(id, kind, relation, val) {
 	        for(var r in obj.relates) {
                 var o = obj.relates[r];
 
-	            var a = A({href: "javascript: void(0)", onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
+	            var a = A({href: "javascript: void(0)", data: o.data, onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
 	            rows = rows.concat(a);
 	        }
         }
@@ -434,18 +429,17 @@ function showContextMenu(id, kind, relation, val) {
 
 var registerContextMenu = function(evt){
 
-    var search_menu = $('search_view_notebook');
+	if ($('search_view_notebook')) return;
+
     var form = $('view_form');
     var menu = $('contextmenu');
 
-    if(!search_menu) {
-        forEach(form.elements, function(e) {
-        	var kind = e.attributes['kind'];
-            if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
-    			connect(e, "oncontextmenu", onContext);
-            }
-        });
-    }
+    forEach(form.elements, function(e) {
+    	var kind = e.attributes['kind'];
+        if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
+			connect(e, "oncontextmenu", onContext);
+        }
+    });
 }
 
 var onContext = function(evt){
@@ -465,59 +459,56 @@ var onContext = function(evt){
     evt.stop();
 }
 
-function get_default_val(id, model){
+function set_to_default(field, model){
 
-	var kind = $(id).attributes['kind'].value;
+	var kind = $(field).attributes['kind'].value;
 	if(kind=="many2one"){
-		id = id.slice(0, id.length - 5);
+		field = field.slice(0, field.length - 5);
 	}
 
-    var act = get_form_action('get_default_values');
-    var params = {'model': model, 'id': id};
+    var act = get_form_action('get_default_value');
+    var params = {'model': model, 'field': field};
 
     var req = Ajax.JSON.post(act, params);
     req.addCallback(function(obj) {
 
-        $(id).value = obj.value;
-        signal(id, "onchange");
+        $(field).value = obj.value;
+        signal(field, "onchange");
     });
 }
 
-function get_action(type, model, id, relation) {
-
-    var act = get_form_action('perform_actions');
+function do_action(id, relation) {    
+    
     id = id.slice(0, id.length - 5);
     id = $(id).value;
-    var params = {'type': type, 'model': model, 'id': id, 'relation': relation};
-
-    if(type=="client_action_multi")
-        window.location.href = getURL(act, params);
-}
-
-function get_print(type, model, id, relation) {
-
-    var act = get_form_action('perform_actions');
-    id = id.slice(0, id.length - 5);
-    id = $(id).value;
-    var params = {'type': type, 'model': model, 'id': id, 'relation': relation};
-
-    if(type=="client_print_multi")
-        window.location.href = getURL(act, params);
-}
-
-function other_actions(action_id, id, relation) {
-
-    var act = get_form_action('perform_other_actions');
-    id = id.slice(0, id.length - 5);
-    id = $(id).value;
-
-    var params = {'action_id': action_id, 'id': id, 'relation': relation};
-    	
+    
+    var act = get_form_action('action');
+    var params = {'_terp_model': relation, '_terp_id': id};
+	
 	window.location.href = getURL(act, params);
 }
 
+function do_print(id, relation) {
+        
+    id = id.slice(0, id.length - 5);
+    id = $(id).value;
+    
+    var act = get_form_action('report');
+    var params = {'_terp_model': relation, '_terp_id': id};
+        
+    window.location.href = getURL(act, params);
+}
 
+function do_relate(action_id, field, relation, src) {    
+    
+    field = field.slice(0, field.length - 5);
 
+    var id = $(field).value;    
+    var data = src.attributes['data'].value;
 
-
+    var act = get_form_action('action');
+    var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
+    	
+	window.location.href = getURL(act, params);
+}
 
