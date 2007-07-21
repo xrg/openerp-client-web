@@ -33,7 +33,7 @@ var ManyToOne = function(name){
 	this.field = $(name);
 	this.text =	$(name + '_text');
 	
-	this.select_button = $(name + '_select');
+	this.select_img = $(name + '_select');
 		
 	this.callback = getNodeAttribute(this.field, 'callback');
 	this.relation = getNodeAttribute(this.field, 'relation');
@@ -45,7 +45,9 @@ var ManyToOne = function(name){
 	connect(this.text, 'onkeydown', this, this.on_keydown);
 	connect(this.text, 'onkeypress', this, this.on_keypress);
 
-	connect(this.select_button, 'onclick', this, this.select);
+	connect(this.select_img, 'onclick', this, this.select);
+	
+	this.change_icon();
 }
 
 ManyToOne.prototype.select = function(evt){
@@ -87,6 +89,8 @@ ManyToOne.prototype.on_change = function(evt){
 	if (this.callback) {
 		onChange(this.name);
 	}
+	
+	this.change_icon();
 }
 
 ManyToOne.prototype.on_change_text = function(evt){
@@ -96,6 +100,10 @@ ManyToOne.prototype.on_change_text = function(evt){
 	}else{
 		this.get_text();
 	}
+}
+
+ManyToOne.prototype.change_icon = function(evt){	
+	this.select_img.src = '/static/images/stock/gtk-' + (this.field.value ? 'open' : 'find') + '.png';
 }
 
 ManyToOne.prototype.on_keydown = function(evt){
