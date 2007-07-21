@@ -391,7 +391,7 @@ function showContextMenu(id, kind, relation, val) {
 
         for(var r in obj.defaults) {
             var o = obj.defaults[r];
-            var a = A({href: "javascript: void(0)", onclick: o.action + ';hideElement(\'contextmenu\');'}, o.text);
+            var a = A({href: "javascript: void(0)", onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
             rows = rows.concat(a);
         }
 
@@ -401,7 +401,7 @@ function showContextMenu(id, kind, relation, val) {
 	        for(var r in obj.actions) {
 	            var o = obj.actions[r];
 
-	            var a = A({href: "javascript: void(0)", onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
+	            var a = A({href: "javascript: void(0)", onclick: o.action ? 'hideElement("contextmenu"); return ' + o.action : '', 'class': o.action ? '' : 'disabled'}, o.text);
 
 	            rows = rows.concat(a);
 	        }
@@ -413,7 +413,7 @@ function showContextMenu(id, kind, relation, val) {
 	        for(var r in obj.relates) {
                 var o = obj.relates[r];
 
-	            var a = A({href: "javascript: void(0)", data: o.data, onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
+	            var a = A({href: "javascript: void(0)", data: o.data, onclick: o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '', 'class': o.action ? '' : 'disabled'}, o.text);
 	            rows = rows.concat(a);
 	        }
         }
@@ -484,8 +484,8 @@ function do_action(id, relation) {
     
     var act = get_form_action('action');
     var params = {'_terp_model': relation, '_terp_id': id};
-	
-	window.location.href = getURL(act, params);
+    
+    window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
 }
 
 function do_print(id, relation) {
@@ -496,7 +496,7 @@ function do_print(id, relation) {
     var act = get_form_action('report');
     var params = {'_terp_model': relation, '_terp_id': id};
         
-    window.location.href = getURL(act, params);
+    window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
 }
 
 function do_relate(action_id, field, relation, src) {    
@@ -509,6 +509,6 @@ function do_relate(action_id, field, relation, src) {
     var act = get_form_action('action');
     var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
     	
-	window.location.href = getURL(act, params);
+	window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
 }
 
