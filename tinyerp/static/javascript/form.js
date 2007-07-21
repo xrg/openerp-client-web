@@ -39,14 +39,14 @@ var newO2M = function(src, mode, editors){
 	var parent_id = $(parent_prefix + '_terp_id').value;
 
 	if (!parent_id || parent_id == 'False' || mode == 'form'){
-		return submit_form('save', src);	
+		return submit_form('save', src);
 	}
-	
+
 	if (mode == 'tree' && editors > 0){
 		return new ListView(src).create();
 	}
-	
-	return editO2M(null, src);	
+
+	return editO2M(null, src);
 }
 
 var editO2M = function(id, src){
@@ -405,7 +405,9 @@ function showContextMenu(id, kind, relation, val) {
 
 	        for(var r in obj.actions) {
 	            var o = obj.actions[r];
+
 	            var a = A({href: "javascript: void(0)", onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
+
 	            rows = rows.concat(a);
 	        }
 	    }
@@ -415,6 +417,7 @@ function showContextMenu(id, kind, relation, val) {
 
 	        for(var r in obj.relates) {
                 var o = obj.relates[r];
+
 	            var a = A({href: "javascript: void(0)", onclick: o.action ? o.action + ';hideElement(\'contextmenu\');' : '', 'class': o.action ? '' : 'disabled'}, o.text);
 	            rows = rows.concat(a);
 	        }
@@ -468,10 +471,48 @@ function get_default_val(id, model){
     var params = {'model': model, 'id': id};
 
     var req = Ajax.JSON.post(act, params);
-    req.addCallback(function(obj) {                
+    req.addCallback(function(obj) {
 
         $(id).value = obj.value;
-        signal(id, "onchange");        
+        signal(id, "onchange");
     });
 }
+
+function get_action(type, model, id, relation) {
+
+    var act = get_form_action('perform_actions');
+    id = id.slice(0, id.length - 5);
+    id = $(id).value;
+    var params = {'type': type, 'model': model, 'id': id, 'relation': relation};
+
+    if(type=="client_action_multi")
+        return window.open(getURL(act, params));
+}
+
+function get_print(type, model, id, relation) {
+
+    var act = get_form_action('perform_actions');
+    id = id.slice(0, id.length - 5);
+    id = $(id).value;
+    var params = {'type': type, 'model': model, 'id': id, 'relation': relation};
+
+    if(type=="client_print_multi")
+        return openWindow(getURL(act, params));
+}
+
+function other_actions(action_id, id, relation) {
+
+    var act = get_form_action('perform_other_actions');
+    id = id.slice(0, id.length - 5);
+    id = $(id).value;
+
+    var params = {'action_id': action_id, 'id': id, 'relation': relation};
+
+    return window.open(getURL(act, params));
+}
+
+
+
+
+
 

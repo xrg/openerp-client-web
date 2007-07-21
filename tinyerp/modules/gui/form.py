@@ -684,32 +684,75 @@ class Form(controllers.Controller, TinyResource):
 
         if kind=='many2one':
 
-            act = (val or None) and "alert('Not implemented yet...')"
+            act = (val or None) and "javascript: void(0)"
+
+            type_action =  "client_action_multi"
+            type_print = "client_print_multi"
+
             actions = [
-                       {'text': 'Action', 'action': act},
-                       {'text': 'Report', 'action': act}
+                       {'text': 'Action', 'action': act and "get_action('%s', '%s', '%s', '%s')" %(type_action, model, id, relation)},
+                       {'text': 'Report', 'action': act and "get_print('%s', '%s', '%s', '%s')" %(type_print, model, id, relation)}
                    ]
 
-            resrelate = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
+            resrelate = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
             resrelate = map(lambda x:x[2], resrelate)
 
             for x in resrelate:
-                act = (val or None) and "alert('Not implemented yet...')"
+                act = (val or None) and "javascript: void(0)"
+                x['string'] = x['name']
                 relates += [
-                           {'text': '... '+x['name'], 'action': act},
+                           {'text': '... '+x['name'], 'action': act and "other_actions(%s, '%s', '%s')" %(x['id'], id, relation)},
                        ]
 
         return dict(defaults=defaults, actions=actions, relates=relates)
 
     @expose('json')
     def get_default_values(self, model=None, id=None):
-
         id = id.split('/')[-1]
 
         res = rpc.session.execute('object', 'execute', model, 'default_get', [id])
         value = res.get(id)
 
         return dict(value=value)
+
+    @expose('json')
+    def perform_actions(self, type, id=None, model=None, relation=None):
+
+        ids = [id]
+        if isinstance(id, basestring):
+            ids = id.split(',')
+            ids = [int(i) for i in ids]
+
+        id = ids[0]
+
+        from tinyerp.modules import actions
+
+        return actions.execute_by_keyword(type, model= relation, id= id, ids=ids, report_type= 'pdf')
+
+    @expose('json')
+    def perform_other_actions(self, action_id, id, relation):
+
+        from tinyerp.modules import actions
+
+        resrelate = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
+        resrelate = map(lambda x:x[2], resrelate)
+
+        action_id = int(action_id)
+
+        for x in resrelate:
+            x['string'] = x['name']
+            if x['id'] == action_id: break
+
+        data={}
+        act=x.copy()
+
+        context = rpc.session.context.copy()
+        context['active_id'] = int(id)
+
+        act['domain'] = tools.expr_eval(act['domain'], context)
+        act['context'] = str(tools.expr_eval(act['context'], context))
+
+        return actions.execute(act, data=data, context=context)
 
     def del_notebook_cookies(self):
         names = cherrypy.request.simple_cookie.keys()

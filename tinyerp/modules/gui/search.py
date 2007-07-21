@@ -42,7 +42,6 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 
-from tinyerp import tools
 from tinyerp import widgets as tw
 from tinyerp import widgets_search as tws
 
@@ -52,15 +51,15 @@ from tinyerp.modules.utils import TinyDict
 from tinyerp.modules.utils import TinyParent
 
 def make_domain(name, value):
-    
+
     if not value:
         return []
-    
+
     elif isinstance(value, dict):
-                    
+
         start = value.get('from')
-        end = value.get('to')            
-        
+        end = value.get('to')
+
         if start and end:
             return [(name, '>=', start), (name, '<=', end)]
         elif start:
@@ -68,23 +67,23 @@ def make_domain(name, value):
         elif end:
             return [(name, '<=', end)]
         return None
-    
+
     elif isinstance(value, (int, bool)):
         return [(name, '=', int(value))]
-    
+
     else:
         return [(name, 'ilike', value)]
 
 from turbogears import validate, validators
 
-def search(model, offset=0, limit=20, domain=[], data={}):        
-    
+def search(model, offset=0, limit=20, domain=[], data={}):
+
     domain = domain or []
     data = data or {}
 
     search_domain = domain[:]
     search_data = {}
-    
+
     for k, v in data.items():
         t = make_domain(k, v)
         if t:
@@ -97,35 +96,35 @@ def search(model, offset=0, limit=20, domain=[], data={}):
     if l < 1: l = 20
     if o < 0: o = 0
 
-    proxy = rpc.RPCProxy(model)                            
+    proxy = rpc.RPCProxy(model)
     ids = proxy.search(search_domain, o, l)
     count = proxy.search_count(search_domain)
-            
+
     return dict(model=model, ids=ids, count=count, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
-  
+
 class Search(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.modules.gui.templates.search")
     def create(self, params):
-        
+
         params.view_mode = ['tree', 'form']
-        
+
         params.setdefault('limit', 20)
         params.setdefault('offset', 0)
         params.setdefault('count', 0)
-                        
-        search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})       
+
+        search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
         screen = tw.screen.Screen(params=params, selectable=params.kind or 2)
 
         # don't show links in list view, except the do_select link
         screen.widget.show_links = 0
-                
+
         return dict(search=search, screen=screen, params=params, show_header_footer=False)
-    
+
     @expose()
     def new(self, model, source=None, kind=0, text=None, domain=[], context={}):
         """Create new search view...
-        
+
         @param model: the model
         @param source: the source, in case of m2m, m2o search
         @param kind: 0=normal, 1=m2o, 2=m2m
@@ -139,10 +138,10 @@ class Search(controllers.Controller, TinyResource):
         params.model = model
         params.domain = domain
         params.context = context
-        
+
         params.source = source
         params.kind = kind
-        
+
         if text:
             proxy = rpc.RPCProxy(model)
             ids = proxy.name_search(text, params.domain or [], 'ilike', params.context or {})
@@ -150,11 +149,11 @@ class Search(controllers.Controller, TinyResource):
                 params.ids = [id[0] for id in ids]
 
         return self.create(params)
-    
+
     @expose('json')
     def eval_domain_and_context(self, **kw):
         params, data = TinyDict.split(kw)
-                
+
         domain = params.domain
         context = params.context
 
@@ -164,13 +163,13 @@ class Search(controllers.Controller, TinyResource):
         prefix = params.prefix
         if prefix:
             ctx = ctx[prefix.replace('/', '.')]
-            
+
         if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
             pctx = pctx[prefix.replace('/', '.')]
 
         ctx.parent = pctx
-        ctx.context = rpc.session.context.copy()        
+        ctx.context = rpc.session.context.copy()
 
         if isinstance(domain, basestring):
             domain = eval(domain, ctx)
@@ -183,87 +182,87 @@ class Search(controllers.Controller, TinyResource):
             context = eval(context, ctx)
 
         return dict(domain=ustr(domain), context=ustr(context))
-            
+
     @expose()
     def filter(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         l = params.get('limit') or 20
         o = params.get('offset') or 0
-        
+
         domain = params.domain
-                
+
         if params.search_domain is not None:
             domain = params.search_domain
             data = params.search_data
-            
+
         res = search(params.model, o, l, domain=params.domain, data=data)
         params.update(res)
 
         return self.create(params)
-    
+
     @expose()
     def find(self, **kw):
-        
+
         kw['_terp_offset'] = None
         kw['_terp_limit'] = None
-        
+
         kw['_terp_search_domain'] = None
         kw['_terp_search_data'] = None
-        
+
         return self.filter(**kw)
 
     @expose()
     def first(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         l = params.get('limit') or 20
         o = 0
 
         kw['_terp_offset'] = o
-        
+
         return self.filter(**kw)
-    
+
     @expose()
     def previous(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         l = params.get('limit') or 20
         o = params.get('offset') or 0
-        
+
         o -= l
-        
+
         kw['_terp_offset'] = o
-        
-        return self.filter(**kw)    
-    
+
+        return self.filter(**kw)
+
     @expose()
     def next(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         l = params.get('limit') or 20
-        o = params.get('offset') or 0            
-        
+        o = params.get('offset') or 0
+
         o += l
-        
+
         kw['_terp_offset'] = o
-                
+
         return self.filter(**kw)
-        
+
     @expose()
-    def last(self, **kw):        
+    def last(self, **kw):
         params, data = TinyDict.split(kw)
 
         l = params.get('limit') or 20
         o = params.get('offset') or 0
         c = params.get('count') or 0
-        
+
         o = c - (c % l)
 
         kw['_terp_offset'] = o
 
         return self.filter(**kw)
-        
+
     @expose('json')
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
@@ -277,7 +276,7 @@ class Search(controllers.Controller, TinyResource):
         if not name:
             name=''
         return dict(name=name)
-    
+
     @expose('json')
     def get_matched(self, model, text, **kw):
         params, data = TinyDict.split(kw)
@@ -286,9 +285,9 @@ class Search(controllers.Controller, TinyResource):
         context = params.context or {}
 
         proxy = rpc.RPCProxy(model)
-                
+
         ids = proxy.name_search(text, domain, 'ilike', context)
-        
+
         if ids:
             ids = [id[0] for id in ids]
 
@@ -304,4 +303,3 @@ class Search(controllers.Controller, TinyResource):
 
         m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))
         return m2m.list_view.render()
-    
