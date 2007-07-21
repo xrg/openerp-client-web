@@ -60,13 +60,14 @@ class O2M(TinyCompoundWidget):
         is_navigating = params.is_navigating
         
         
-        parent_prefix = ''
+        pprefix = ''
         if '/' in self.name:
-            parent_prefix = self.name[:self.name.rindex('/')]
-        
-        if (parent_prefix and not params[parent_prefix.replace('/', '.')].id) or (not parent_prefix and not params.id):
+            pprefix = self.name[:self.name.rindex('/')]
+            
+        pparams = params[pprefix]
+        if (pparams and not pparams.id) or (not pparams and not params.id):
             self.new_attrs = { 'text': _("Save/New"), 'help': 'Save parent and create new record.'}
-                                    
+
         # get params for this field
         params = params[self.name.replace('/', '.')]
 
