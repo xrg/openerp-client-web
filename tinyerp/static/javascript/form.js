@@ -432,15 +432,18 @@ function showContextMenu(id, kind, relation, val) {
 
 var registerContextMenu = function(evt){
 
+    var search_menu = $('search_view_notebook');
     var form = $('view_form');
     var menu = $('contextmenu');
 
-    forEach(form.elements, function(e) {
-    	var kind = e.attributes['kind'];
-        if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
-			connect(e, "oncontextmenu", onContext);
-        }
-    });
+    if(!search_menu) {
+        forEach(form.elements, function(e) {
+        	var kind = e.attributes['kind'];
+            if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
+    			connect(e, "oncontextmenu", onContext);
+            }
+        });
+    }
 }
 
 var onContext = function(evt){
