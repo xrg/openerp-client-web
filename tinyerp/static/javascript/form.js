@@ -491,7 +491,7 @@ function get_action(type, model, id, relation) {
     var params = {'type': type, 'model': model, 'id': id, 'relation': relation};
 
     if(type=="client_action_multi")
-        return window.open(getURL(act, params));
+        window.location.href = getURL(act, params);
 }
 
 function get_print(type, model, id, relation) {
@@ -502,7 +502,7 @@ function get_print(type, model, id, relation) {
     var params = {'type': type, 'model': model, 'id': id, 'relation': relation};
 
     if(type=="client_print_multi")
-        return openWindow(getURL(act, params));
+        window.location.href = getURL(act, params);
 }
 
 function other_actions(action_id, id, relation) {
@@ -512,8 +512,8 @@ function other_actions(action_id, id, relation) {
     id = $(id).value;
 
     var params = {'action_id': action_id, 'id': id, 'relation': relation};
-
-    return window.open(getURL(act, params));
+    	
+	window.location.href = getURL(act, params);
 }
 
 
