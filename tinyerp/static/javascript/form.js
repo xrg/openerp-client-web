@@ -424,8 +424,10 @@ function showContextMenu(id, kind, relation, val) {
         }
 
         $('contextmenu').innerHTML = '';
+        
+        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 1}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
 
-        appendChildNodes('contextmenu', rows);
+        appendChildNodes('contextmenu', tbl);
         showElement('contextmenu');
 	});
 }

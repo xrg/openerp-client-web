@@ -60,10 +60,9 @@ div.contextmenu
 	border: 1px solid #333;
 	display: block;
 	position: absolute;
-	z-index: 3;
+	z-index: 100;
 	width: nowrap;
 	height: nowrap;
-
 }
 
 div.contextmenu a
@@ -77,6 +76,7 @@ div.contextmenu a
 
 div.contextmenu a:hover
 {
+	color: #FFF;
     background: #505050;
   	text-decoration: none;
 }
