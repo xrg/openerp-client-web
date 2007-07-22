@@ -348,12 +348,14 @@ ListView.prototype.reload = function(edit_inline){
 		myself.current_record = edit_inline;
 		
         swapDOM(myself.id, newlist);
-                
-        // execute JavaScript
-        var scripts = getElementsByTagAndClassName('script', null, newlist);
-        forEach(scripts, function(s){
-        	eval(s.innerHTML);
-        });
+
+        if (navigator.appName != 'Netscape') {
+	        // execute JavaScript
+    	    var scripts = getElementsByTagAndClassName('script', null, newlist);
+        	forEach(scripts, function(s){
+        		eval(s.innerHTML);
+	        });
+	    }
         
 		if (editors.length > 0)
         	myself.bindKeyEventsToEditors(editors);        
