@@ -190,7 +190,7 @@
         </tr>        
     </table> 
     
-    <div id="contextmenu" class="contextmenu" onmouseout="hideContextMenu()" onmouseover="showContextMenu()"/>
+    <div id="contextmenu" class="contextmenu" onmouseout="hideContextMenu()" onmouseover="showContextMenu()" style="position: absolute; display: none;"/>
     
 </body>
 </html>
