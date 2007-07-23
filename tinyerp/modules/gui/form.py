@@ -680,7 +680,7 @@ class Form(controllers.Controller, TinyResource):
         relates = []
 
         defaults = [{'text': 'Set to default value', 'action': "set_to_default('%s', '%s')" % (field, model)},
-                    {'text': 'Set as default', 'action': "alert('Not implemented yet...');"}]
+                    {'text': 'Set as default', 'action': "set_as_default('%s', '%s')"  % (field, model)}]
 
         if kind=='many2one':
 

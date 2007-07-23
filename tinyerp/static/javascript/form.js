@@ -465,7 +465,7 @@ function set_to_default(field, model){
 	if(kind=="many2one"){
 		field = field.slice(0, field.length - 5);
 	}
-
+	
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
 
@@ -475,6 +475,25 @@ function set_to_default(field, model){
         $(field).value = obj.value;
         signal(field, "onchange");
     });
+}
+
+function set_as_default(field, model){
+	var kind = $(field).attributes['kind'].value;
+	if(kind=="many2one"){
+		field = field.slice(0, field.length - 5);
+	}
+
+	var args = get_parent_form();
+	args['_terp_model'] = model;
+	args['_terp_field'] = field;
+	
+	var req = Ajax.JSON.post('/fieldpref/get', args);
+	
+	req.addCallback(function(obj){
+		var text = obj.text;
+		var params = {'_terp_model': model, '_terp_field/name': field, '_terp_field/string': text, '_terp_field/value': $(field).value, '_terp_deps': obj.deps};
+		openWindow(getURL('/fieldpref', params), {width: 450, height: 300});
+	});
 }
 
 function do_action(id, relation) {    

@@ -193,4 +193,5 @@ class Root(controllers.RootController, TinyResource):
     attachment = gui.attachment.Attachment()
     translator = gui.translator.Translator()
     impex = gui.impex.ImpEx()
+    fieldpref = gui.fieldpref.FieldPref()
     
