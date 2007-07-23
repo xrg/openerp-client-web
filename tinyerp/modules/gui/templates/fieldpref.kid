@@ -49,7 +49,7 @@
                                 <table border="0">
                                     <tr>
                                         <td class="item"><input type="radio" class="radio" name="_terp_you" value="True" checked="checked"/></td><td>only for you</td>
-                                        <td class="item"><input type="radio" class="radio"/></td><td>for all</td>                                            
+                                        <td class="item"><input type="radio" class="radio" name="_terp_you" value="False"/></td><td>for all</td>
                                     </tr>
                                 </table>                                    
                             </fieldset>
