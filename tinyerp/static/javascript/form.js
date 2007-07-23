@@ -372,7 +372,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
-function showContextMenu(id, kind, relation, val) {
+function makeContextMenu(id, kind, relation, val) {
 
     var form = $('view_form');
     var act = get_form_action('get_context_menu');
@@ -423,7 +423,8 @@ function showContextMenu(id, kind, relation, val) {
         var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 1}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
 
         appendChildNodes('contextmenu', tbl);
-        showElement('contextmenu');
+        //showElement('contextmenu');
+        showContextMenu();
 	});
 }
 
@@ -440,6 +441,50 @@ var registerContextMenu = function(evt){
 			connect(e, "oncontextmenu", onContext);
         }
     });
+    
+    // IE FIX
+    if (document.all && !window.opera) {
+    	var ifrm = createDOM("IFRAME", {"id": "contextmenu_frm",
+    									"src": "#",
+    									"scroll": "no",
+    									"frameborder": "0"});
+		
+		ifrm.style.setAttribute("position", "absolute");
+		ifrm.style.setAttribute("visibility", "hidden");
+		ifrm.style.zIndex = 99;
+				
+		appendChildNodes(document.body, ifrm);
+    }
+}
+
+var showContextMenu = function(){
+
+	var menu = $('contextmenu');
+	var ifrm = $('contextmenu_frm');
+	
+	showElement(menu);
+	
+	if (ifrm){
+	
+		ifrm.style.left = menu.offsetLeft + "px";
+		ifrm.style.top = menu.offsetTop + "px";
+		ifrm.style.width = menu.offsetWidth + "px";
+		ifrm.style.height = menu.offsetHeight + "px";
+		ifrm.style.zIndex = 6;
+		
+		ifrm.style.visibility = "visible";
+	}		
+}
+
+var hideContextMenu = function(){
+	var menu = $('contextmenu');
+	var ifrm = $('contextmenu_frm');
+	
+	if (ifrm){
+		ifrm.style.visibility = "hidden";
+	}
+	
+	hideElement(menu);
 }
 
 var onContext = function(evt){
@@ -454,7 +499,7 @@ var onContext = function(evt){
 	hideElement(menu);
     setElementPosition(menu, evt.mouse().page);
 
-    showContextMenu(src.id, kind, relation, val);
+    makeContextMenu(src.id, kind, relation, val);
 
     evt.stop();
 }

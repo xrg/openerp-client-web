@@ -56,19 +56,12 @@ table.menubar div a:hover
 
 div.contextmenu
 {
-	background: #999;
+	background: #444;
+	border: 1px solid #000;
+	padding: 2px;
 	white-space: nowrap;
 	position: absolute;
 	z-index: 100;
-}
-
-div.contextmenu table {
-  background: #444;
-  border: 1px solid #000;
-  padding: 2px;
-  position: relative;
-  top: -2px;
-  left: -2px;
 }
 
 div.contextmenu a
