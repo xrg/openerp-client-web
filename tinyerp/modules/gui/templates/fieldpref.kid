@@ -64,7 +64,7 @@
                                     <tr py:if="deps">
                                         <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
                                         <span py:for="n, n, v, v in deps" py:strip="">
-                                            <td><input type="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
+                                            <td><input type="checkbox" class="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
                                         </span>
                                     </tr>
                                 </table>                                    
