@@ -122,24 +122,32 @@ class Root(controllers.RootController, TinyResource):
         """Main menu page, loads the view defined by `menu_id`.
         """
         return self.user_action('menu_id')
-
+    
     def _cp_on_error(self, *args, **kw):
         etype, value, tb = sys.exc_info()
 
-        if isinstance(value, common.TinyException):
-            raise redirect('/error', message=value.message, title=value.title)
-
-        elif not cherrypy.config.get('server.environment') == 'development':
-            raise redirect('/error', message=value, title="Internal Error")
-
+        if isinstance(value, common.TinyException) or not cherrypy.config.get('server.environment') == 'development':
+            cherrypy.session._last_error = value
+            raise redirect('/error')
         else:
             message = cgitb.html((etype, value, tb))
             cherrypy.response.headers['Content-Type'] = 'text/html'
             cherrypy.response.body = [message]
 
     @expose(template="tinyerp.templates.error")
-    def error(self, title=None, message=None):
-        return dict(title=title, message=message)
+    def error(self):
+
+        title = "Internal error!"
+        error = "Unknown error!"
+        
+        if hasattr(cherrypy.session, '_last_error'):
+            error = cherrypy.session._last_error
+
+        if isinstance(error, common.TinyException):
+            title = error.title
+            error = error.message            
+        
+        return dict(title=title, message=error)
 
     @expose(template="tinyerp.templates.login")
     @unsecured
