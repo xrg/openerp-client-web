@@ -60,7 +60,7 @@ class Shortcuts(controllers.Controller, TinyResource):
 
     @expose()
     def default(self):
-        from tinyerp.modules import actions
+        from tinyerp.subcontrollers import actions
 
         domain = [('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu')]
         return actions.execute_window(False, 'ir.ui.view_sc', res_id=None, domain=domain, view_type='form', mode='tree,form')

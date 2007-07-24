@@ -43,8 +43,8 @@ from tinyerp import common
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
-from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import TinyParent
+from tinyerp.utils import TinyDict
+from tinyerp.utils import TinyParent
 
 from tinyerp.cache import cache
 
@@ -85,7 +85,7 @@ class OpenO2M(Form):
 
         return form
     
-    @expose(template="tinyerp.modules.gui.templates.openo2m")
+    @expose(template="tinyerp.subcontrollers.templates.openo2m")
     def create(self, params, tg_errors=None):
 
         if tg_errors:

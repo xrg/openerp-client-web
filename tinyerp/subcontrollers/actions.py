@@ -44,12 +44,12 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 
-from gui.form import Form
-from gui.tree import Tree
-from gui.wizard import Wizard
-from gui.selection import Selection
+from form import Form
+from tree import Tree
+from wizard import Wizard
+from selection import Selection
 
-from utils import TinyDict
+from tinyerp.utils import TinyDict
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
     """Performs `actions.act_window` action.

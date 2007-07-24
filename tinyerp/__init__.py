@@ -1,9 +1,3 @@
-import cache
-import modules
-import tinygraph
-import widgets
-import widgets_search
-
 def ustr(value):
     """This method is similar to the builtin `str` method, except
     it will return Unicode string.

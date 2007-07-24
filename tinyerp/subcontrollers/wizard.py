@@ -43,7 +43,7 @@ from tinyerp import common
 
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 import form
 import search
@@ -106,7 +106,7 @@ class Wizard(controllers.Controller, TinyResource):
                 return dict(form=form, buttons=buttons)
 
             elif res['type']=='action':
-                from tinyerp.modules import actions
+                from tinyerp.subcontrollers import actions
 
                 act_res = actions.execute(res['action'], **datas)
                 if act_res:
@@ -115,7 +115,7 @@ class Wizard(controllers.Controller, TinyResource):
                 state = res['state']
 
             elif res['type']=='print':
-                from tinyerp.modules import actions
+                from tinyerp.subcontrollers import actions
                 
                 datas['report_id'] = res.get('report_id', False)
                 if res.get('get_id_from_action', False):
@@ -129,7 +129,7 @@ class Wizard(controllers.Controller, TinyResource):
 
         raise redirect('/wizard/end')
 
-    @expose(template="tinyerp.modules.gui.templates.wizard")
+    @expose(template="tinyerp.subcontrollers.templates.wizard")
     def create(self, params, tg_errors=None):
 
         if tg_errors:

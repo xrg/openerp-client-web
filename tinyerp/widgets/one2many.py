@@ -30,7 +30,7 @@
 import turbogears as tg
 import cherrypy
 
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 from interface import TinyCompoundWidget
 from screen import Screen

@@ -41,14 +41,14 @@ from tinyerp import common
 
 from tinyerp.tinyres import TinyResource
 
-from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import TinyParent
+from tinyerp.utils import TinyDict
+from tinyerp.utils import TinyParent
 
 import tinyerp.widgets as tw
 
 class FieldPref(controllers.Controller, TinyResource):
     
-    @expose(template="tinyerp.modules.gui.templates.fieldpref")
+    @expose(template="tinyerp.subcontrollers.templates.fieldpref")
     def index(self, **kw): #_terp_model, _terp_field, _terp_deps
         params, data = TinyDict.split(kw)
         return dict(model=params.model, field=params.field, deps=params.deps, show_header_footer=False)
@@ -79,7 +79,7 @@ class FieldPref(controllers.Controller, TinyResource):
                 
         return dict(text=text, deps=str(deps))
     
-    @expose(template="tinyerp.modules.gui.templates.fieldpref")
+    @expose(template="tinyerp.subcontrollers.templates.fieldpref")
     def save(self, **kw):
         params, data = TinyDict.split(kw)
         

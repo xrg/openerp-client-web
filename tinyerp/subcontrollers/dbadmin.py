@@ -42,16 +42,16 @@ from tinyerp import rpc
 from tinyerp import common
 import xmlrpclib
 import base64
-from tinyerp.modules import actions
+from tinyerp.subcontrollers import actions
 
 
 class DBAdmin(controllers.Controller):
 
-    @expose(template="tinyerp.modules.gui.templates.dbadmin")
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin")
     def index(self):
         return dict()
 
-    @expose(template="tinyerp.modules.gui.templates.dbadmin_create")    
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin_create")    
     def create(self, password=None, db_name=None, language=[], demo_data=False):
                 
         if demo_data:
@@ -84,7 +84,7 @@ class DBAdmin(controllers.Controller):
 
         return dict(url=url, langlist=langlist, message=message)
 
-    @expose(template="tinyerp.modules.gui.templates.dbadmin_drop")
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin_drop")
     def drop(self, db_name=None, passwd=None):
         message=None
 
@@ -111,7 +111,7 @@ class DBAdmin(controllers.Controller):
 
         return dict(url=url, selectedDb=db, message=message, dblist=dblist)
 
-    @expose(template="tinyerp.modules.gui.templates.dbadmin_backup")
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin_backup")
     def backup(self, password=None, dblist=None):
 
         url = rpc.session.get_url()
@@ -138,7 +138,7 @@ class DBAdmin(controllers.Controller):
 
         return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
 
-    @expose(template="tinyerp.modules.gui.templates.dbadmin_restore")
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin_restore")
     def restore(self, passwd=None, new_db=None, path=None):
 
         url = rpc.session.get_url()
@@ -165,7 +165,7 @@ class DBAdmin(controllers.Controller):
 
         return dict(url=url, message=message)
 
-    @expose(template="tinyerp.modules.gui.templates.dbadmin_password")
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin_password")
     def password(self, new_passwd=None, old_passwd=None, new_passwd2=None):
 
         url = rpc.session.get_url()

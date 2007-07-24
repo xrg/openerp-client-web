@@ -30,9 +30,6 @@
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
-from turbogears import validators
-from turbogears import validate
-from turbogears import error_handler
 
 import cherrypy
 
@@ -40,22 +37,19 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 
-from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
+from tinyerp.utils import TinyDict
 
-from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import TinyParent
+class Selection(controllers.Controller, TinyResource):
 
-from form import Form
+    @expose(template="tinyerp.subcontrollers.templates.selection")
+    def create(self, values, **data):
+        return dict(values=values, data=data)
 
-class OpenM2O(Form):
-    
-    @expose(template="tinyerp.modules.gui.templates.openm2o")
-    def create(self, params, tg_errors=None):     
-        
-        params.editable = True
-        form = self.create_form(params, tg_errors)        
-        
-        form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]        
-        
-        return dict(form=form, params=params, show_header_footer=False)
+    @expose()
+    def action(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        from tinyerp.subcontrollers import actions
+        return actions.execute(params.action, **params.data)
+

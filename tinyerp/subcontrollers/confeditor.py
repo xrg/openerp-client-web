@@ -56,11 +56,11 @@ class MySchema(validators.Schema):
 
 class ConfEditor(controllers.Controller):
 
-    @expose(template="tinyerp.modules.gui.templates.confeditor")
+    @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def index(self):
         return dict(message=None, passwd=None, tg_errors=None)
 
-    @expose(template="tinyerp.modules.gui.templates.confeditor")
+    @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def connect(self, **kw):
 
         passwd = kw.get('passwd')
@@ -73,7 +73,7 @@ class ConfEditor(controllers.Controller):
             message = str(_('Invalid Password !'))
             return dict(message=message, passwd=None, host=None, port=None, protocol=None)
 
-    @expose(template="tinyerp.modules.gui.templates.confeditor")
+    @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def change_server(self):
         spwd = cherrypy.session.get('terp_passwd')
 
@@ -87,7 +87,7 @@ class ConfEditor(controllers.Controller):
             return dict(passwd=spwd, message=None, host=host, port=port, protocol=protocol)
 
     @validate(validators=MySchema())
-    @expose(template="tinyerp.modules.gui.templates.confeditor")
+    @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def setconf(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
 
         host = kw.get('host')

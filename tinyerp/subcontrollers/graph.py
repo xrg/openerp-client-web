@@ -45,7 +45,7 @@ from tinyerp import common
 from tinyerp.tinyres import TinyResource
 from tinyerp.tinygraph import tinygraph
 
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 from tinyerp.widgets.graph import GraphData
 
 from matplotlib.figure import Figure

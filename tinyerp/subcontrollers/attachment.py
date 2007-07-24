@@ -41,13 +41,13 @@ from tinyerp import tools
 from tinyerp import common
 
 from tinyerp.tinyres import TinyResource
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 import tinyerp.widgets as tw
 
 class Attachment(controllers.Controller, TinyResource):
     
-    @expose(template="tinyerp.modules.gui.templates.attachment")
+    @expose(template="tinyerp.subcontrollers.templates.attachment")
     def index(self, model, id):
 
         id = int(id)

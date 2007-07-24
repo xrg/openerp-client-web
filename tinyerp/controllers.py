@@ -45,11 +45,10 @@ import cherrypy
 from tinyerp import rpc
 from tinyerp import common
 from tinyerp import stdvars
-from tinyerp import widgets as tw
-from tinyerp.tinyres import TinyResource, unsecured
 
-from tinyerp.modules import *
-from tinyerp.widgets import *
+from tinyerp import subcontrollers
+
+from tinyerp.tinyres import TinyResource, unsecured
 
 import pkg_resources
 from turbogears.widgets import register_static_directory
@@ -109,7 +108,7 @@ class Root(controllers.RootController, TinyResource):
 
         act_id = act_id[0][id][0]
 
-        return actions.execute_by_id(act_id)
+        return subcontrollers.actions.execute_by_id(act_id)
 
     @expose()
     def index(self):
@@ -176,22 +175,22 @@ class Root(controllers.RootController, TinyResource):
     def about(self):
         return dict()
 
-    form = gui.form.Form()
-    tree = gui.tree.Tree()
-    graph = gui.graph.Graph()
-    wizard = gui.wizard.Wizard()
-    search = gui.search.Search()
-    dbadmin = gui.dbadmin.DBAdmin()
-    pref = gui.preferences.Preferences()
-    selection = gui.selection.Selection()
-    shortcuts = gui.shortcuts.Shortcuts()
-    requests = gui.requests.Requests()
-    openm2o = gui.openm2o.OpenM2O()
-    openo2m = gui.openo2m.OpenO2M()
-    configure = gui.confeditor.ConfEditor()
-    listgrid = gui.listgrid.List()
-    attachment = gui.attachment.Attachment()
-    translator = gui.translator.Translator()
-    impex = gui.impex.ImpEx()
-    fieldpref = gui.fieldpref.FieldPref()
+    form = subcontrollers.form.Form()
+    tree = subcontrollers.tree.Tree()
+    graph = subcontrollers.graph.Graph()
+    wizard = subcontrollers.wizard.Wizard()
+    search = subcontrollers.search.Search()
+    dbadmin = subcontrollers.dbadmin.DBAdmin()
+    pref = subcontrollers.preferences.Preferences()
+    selection = subcontrollers.selection.Selection()
+    shortcuts = subcontrollers.shortcuts.Shortcuts()
+    requests = subcontrollers.requests.Requests()
+    openm2o = subcontrollers.openm2o.OpenM2O()
+    openo2m = subcontrollers.openo2m.OpenO2M()
+    configure = subcontrollers.confeditor.ConfEditor()
+    listgrid = subcontrollers.listgrid.List()
+    attachment = subcontrollers.attachment.Attachment()
+    translator = subcontrollers.translator.Translator()
+    impex = subcontrollers.impex.ImpEx()
+    fieldpref = subcontrollers.fieldpref.FieldPref()
     

@@ -47,8 +47,8 @@ from tinyerp import widgets_search as tws
 
 from tinyerp.tinyres import TinyResource
 
-from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import TinyParent
+from tinyerp.utils import TinyDict
+from tinyerp.utils import TinyParent
 
 def make_domain(name, value):
 
@@ -104,7 +104,7 @@ def search(model, offset=0, limit=20, domain=[], data={}):
 
 class Search(controllers.Controller, TinyResource):
 
-    @expose(template="tinyerp.modules.gui.templates.search")
+    @expose(template="tinyerp.subcontrollers.templates.search")
     def create(self, params):
 
         params.view_mode = ['tree', 'form']

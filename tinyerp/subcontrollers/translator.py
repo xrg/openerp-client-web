@@ -42,7 +42,7 @@ from tinyerp import common
 from tinyerp.cache import cache
 
 from tinyerp.tinyres import TinyResource
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 import tinyerp.widgets as tw
 
@@ -55,7 +55,7 @@ def adapt_context(val):
 
 class Translator(controllers.Controller, TinyResource):
 
-    @expose(template="tinyerp.modules.gui.templates.translator")
+    @expose(template="tinyerp.subcontrollers.templates.translator")
     def index(self, translate='fields', **kw):        
         params, data = TinyDict.split(kw)
             

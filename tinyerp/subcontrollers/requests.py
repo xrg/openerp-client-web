@@ -62,7 +62,7 @@ class Requests(controllers.Controller, TinyResource):
     
     @expose()
     def default(self, ids):
-        from tinyerp.modules import actions
+        from tinyerp.subcontrollers import actions
         #ids = eval(ids)
         
         #read requests

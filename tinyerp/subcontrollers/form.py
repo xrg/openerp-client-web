@@ -46,9 +46,9 @@ from tinyerp import common
 from tinyerp import widgets as tw
 from tinyerp.tinyres import TinyResource
 
-from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import TinyForm
-from tinyerp.modules.utils import TinyParent
+from tinyerp.utils import TinyDict
+from tinyerp.utils import TinyForm
+from tinyerp.utils import TinyParent
 
 import search
 
@@ -72,7 +72,7 @@ class Form(controllers.Controller, TinyResource):
 
         return form
 
-    @expose(template="tinyerp.modules.gui.templates.form")
+    @expose(template="tinyerp.subcontrollers.templates.form")
     def create(self, params, tg_errors=None):
 
         form = self.create_form(params, tg_errors)
@@ -284,7 +284,7 @@ class Form(controllers.Controller, TinyResource):
             rpc.session.execute('object', 'execute', model, name, ids, ctx)
 
         elif btype == 'action':
-            from tinyerp.modules import actions
+            from tinyerp.subcontrollers import actions
 
             action_id = int(name)
             action_type = actions.get_action_type(action_id)
@@ -580,7 +580,7 @@ class Form(controllers.Controller, TinyResource):
             ids = [id]
 
         if len(ids):
-            from tinyerp.modules import actions
+            from tinyerp.subcontrollers import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
             raise common.message(_("No record selected !"))
@@ -601,7 +601,7 @@ class Form(controllers.Controller, TinyResource):
         if not params.id:
             raise common.message(_('You must save this record to use the relate button !'))
 
-        from tinyerp.modules import actions
+        from tinyerp.subcontrollers import actions
 
         ids = [params.id]
         if isinstance(params.id, basestring):

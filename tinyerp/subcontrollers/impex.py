@@ -45,7 +45,7 @@ from tinyerp import tools
 from tinyerp import common
 
 from tinyerp.tinyres import TinyResource
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 import tinyerp.widgets as tw
 
@@ -77,7 +77,7 @@ def export_csv(fields, result, write_title=False):
     
 class ImpEx(controllers.Controller, TinyResource):
     
-    @expose(template="tinyerp.modules.gui.templates.exp")
+    @expose(template="tinyerp.subcontrollers.templates.exp")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
         
@@ -172,7 +172,7 @@ class ImpEx(controllers.Controller, TinyResource):
 
         return export_csv(params.fields2, result, add_names)
     
-    @expose(template="tinyerp.modules.gui.templates.imp")
+    @expose(template="tinyerp.subcontrollers.templates.imp")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
         

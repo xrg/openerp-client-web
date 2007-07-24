@@ -38,13 +38,13 @@ import cherrypy
 
 from tinyerp import rpc
 from tinyerp.tinyres import TinyResource
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 from tinyerp.widgets.screen import Screen
 
 class Preferences(controllers.Controller, TinyResource):
 
-    @expose(template="tinyerp.modules.gui.templates.preferences")
+    @expose(template="tinyerp.subcontrollers.templates.preferences")
     def create(self):
         proxy = rpc.RPCProxy('ir.values')
 

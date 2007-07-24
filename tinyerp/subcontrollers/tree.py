@@ -48,14 +48,14 @@ from tinyerp.cache import cache
 from tinyerp.tinyres import TinyResource
 from tinyerp.widgets import tree_view
 
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class Tree(controllers.Controller, TinyResource):
 
-    @expose(template="tinyerp.modules.gui.templates.tree")
+    @expose(template="tinyerp.subcontrollers.templates.tree")
     def create(self, params):
 
         view_id = (params.view_ids or False) and params.view_ids[0]
@@ -197,7 +197,7 @@ class Tree(controllers.Controller, TinyResource):
         id = (ids or False) and ids[0]
 
         if len(ids):
-            from tinyerp.modules import actions
+            from tinyerp.subcontrollers import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
             raise common.message(_("No record selected !"))
@@ -220,7 +220,7 @@ class Tree(controllers.Controller, TinyResource):
             ids = [int(id) for id in ids.split(',')]
 
         if len(ids):
-            from tinyerp.modules import actions
+            from tinyerp.subcontrollers import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
         else:
             raise common.message(_('No resource selected !'))

@@ -36,9 +36,9 @@ import tinyerp.widgets as tw
 
 from tinyerp.tinyres import TinyResource
 
-from tinyerp.modules.utils import TinyDict
-from tinyerp.modules.utils import TinyForm
-from tinyerp.modules.utils import TinyFormError
+from tinyerp.utils import TinyDict
+from tinyerp.utils import TinyForm
+from tinyerp.utils import TinyFormError
 
 import form
 import search

@@ -37,7 +37,7 @@ from tinyerp import rpc
 
 import screen
 from interface import TinyCompoundWidget
-from tinyerp.modules.utils import TinyDict
+from tinyerp.utils import TinyDict
 
 class Action(TinyCompoundWidget):
     template = """<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
