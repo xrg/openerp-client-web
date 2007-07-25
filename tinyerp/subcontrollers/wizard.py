@@ -168,7 +168,7 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_form)
-    def report(self, **kw):
+    def report(self, _terp_report_name='report.pdf', **kw):
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
 
@@ -176,7 +176,7 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_form)
-    def action(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
+    def action(self, _terp_report_name='report.pdf', tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
         

@@ -581,11 +581,11 @@ class Form(controllers.Controller, TinyResource):
             raise common.message(_("No record selected !"))
 
     @expose()
-    def report(self, **kw):
+    def report(self, _terp_report_name='report.pdf', **kw):
         return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 'name': _('Print Screen'), 'type':'ir.actions.report.xml'}}, datas=kw)
 
     @expose()
-    def action(self, **kw):
+    def action(self, _terp_report_name='report.pdf', **kw):
         params, data = TinyDict.split(kw)
 
         action = params.data

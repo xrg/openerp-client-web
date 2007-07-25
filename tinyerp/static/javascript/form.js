@@ -152,6 +152,10 @@ var submit_form = function(action, src, data){
 
     	form._terp_id.value = map(function(b){return b.value}, boxes);
     }
+    
+    if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {
+        action =  action + '/report.pdf'
+    }
 
     form.action = get_form_action(action, {_terp_source: source, _terp_data: data ? data : null});
     form.submit();
