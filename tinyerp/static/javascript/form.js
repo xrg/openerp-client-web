@@ -85,17 +85,22 @@ var editRecord = function(id, src){
 	var limit = $(prefix + '_terp_limit').value;
 	var count = $(prefix + '_terp_count').value;
 	
-	var domain = $('_terp_search_domain');
-	domain = domain ? domain.value : null;
+	var domain = $(prefix + '_terp_domain').value;
+	var context = $(prefix + '_terp_context').value;
+	
+	var search_domain = $('_terp_search_domain');
+	search_domain = search_domain ? search_domain.value : null;
 	
 	var args = {'model': model,
 				'id': id ? id : 'False',
 				'ids': ids,
 				'view_ids': view_ids,
+				'domain': domain,
+				'context': context,
 				'offset': offset,
 				'limit': limit,
 				'count': count,
-				'search_domain': domain};
+				'search_domain': search_domain};
 
 	window.location.href = get_form_action('edit', args);
 }
@@ -112,17 +117,22 @@ var viewRecord = function(id, src){
 	var limit = $(prefix + '_terp_limit').value;
 	var count = $(prefix + '_terp_count').value;
 	
-	var domain = $('_terp_search_domain');
-	domain = domain ? domain.value : null;
+	var domain = $(prefix + '_terp_domain').value;
+	var context = $(prefix + '_terp_context').value;
+	
+	var search_domain = $('_terp_search_domain');
+	search_domain = search_domain ? search_domain.value : null;
 	
 	var args = {'model': model,
 				'id': id ? id : 'False',
 				'ids': ids,
 				'view_ids': view_ids,
+				'domain': domain,
+				'context': context,
 				'offset': offset,
 				'limit': limit,
 				'count': count,
-				'search_domain': domain};
+				'search_domain': search_domain};
 
 	window.location.href = get_form_action('view', args);
 }

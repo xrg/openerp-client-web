@@ -109,13 +109,15 @@ class Form(controllers.Controller, TinyResource):
         return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
-    def edit(self, model, id, ids=None, view_ids=None, source=None, offset=0, limit=20, count=0, search_domain=None):
+    def edit(self, model, id, ids=None, view_ids=None, source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
 
         params, data = TinyDict.split({'_terp_model': model, 
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
                                        '_terp_source' : source,
+                                       '_terp_domain' : domain,
+                                       '_terp_context' : context,
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
@@ -131,11 +133,13 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
         
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, offset=0, limit=20, count=0, search_domain=None):
+    def view(self, model, id, ids=None, view_ids=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
         params, data = TinyDict.split({'_terp_model': model, 
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
+                                       '_terp_domain' : domain,
+                                       '_terp_context' : context,
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
@@ -229,7 +233,9 @@ class Form(controllers.Controller, TinyResource):
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
-                'view_ids': ustr(params.view_ids),                
+                'view_ids': ustr(params.view_ids),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
