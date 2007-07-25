@@ -27,57 +27,61 @@
             </td>
         </tr>
         <tr>
-            <td>
-
-                <table border="0" width="100%">
-                    <tr>
-                        <td class="label">Field Name:</td>
-                        <td class="item" width="100%"><input type="text" disabled="disabled" value="${field['string']}"/></td>
-                    </tr>
-                    <tr>
-                        <td class="label">Domain:</td>
-                        <td class="item"><input type="text" disabled="disabled" value="$model"/></td>
-                    </tr>
-                    <tr>
-                        <td class="label">Default Value:</td>
-                        <td class="item"><input type="text" disabled="disabled" value="${field['value']}"/></td>
-                    </tr>                        
-                    <tr>
-                        <td colspan="2">
-                            <fieldset>
-                                <legend><strong>Value applicable for</strong></legend>
-                                <table border="0">
-                                    <tr>
-                                        <td class="item"><input type="radio" class="radio" name="_terp_you" value="True" checked="checked"/></td><td>only for you</td>
-                                        <td class="item"><input type="radio" class="radio" name="_terp_you" value="False"/></td><td>for all</td>
-                                    </tr>
-                                </table>                                    
-                            </fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <fieldset>
-                                <legend><strong>Value applicable if</strong></legend>
-                                <table border="0">
-                                    <tr py:if="not deps"><td>Always applicable!</td></tr>
-                                    <tr py:if="deps">
-                                        <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
-                                        <span py:for="n, n, v, v in deps" py:strip="">
-                                            <td><input type="checkbox" class="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
-                                        </span>
-                                    </tr>
-                                </table>                                    
-                            </fieldset>
-                        </td>
-                    </tr>                        
-                </table>
-
-            </td>
-        </tr>        
-        <tr>
-            <td>
-		        <div class="toolbar">
+            <td>              
+                <div class="box2">  
+	                <table border="0" width="100%" align="center">
+	                    <tr>
+	                        <td class="label">Field Name:</td>
+	                        <td class="item" width="100%"><input type="text" disabled="disabled" value="${field['string']}"/></td>
+	                    </tr>
+	                    <tr>
+	                        <td class="label">Domain:</td>
+	                        <td class="item"><input type="text" disabled="disabled" value="$model"/></td>
+	                    </tr>
+	                    <tr>
+	                        <td class="label">Default Value:</td>
+	                        <td class="item"><input type="text" disabled="disabled" value="${field['value']}"/></td>
+	                    </tr>       
+	                </table>
+	            </div>
+                <div class="box2">  
+	                <table border="0" width="100%">
+	                    <tr>
+	                        <td colspan="2">
+	                            <fieldset>
+	                                <legend><strong>Value applicable for:</strong></legend>
+	                                <table border="0">
+	                                    <tr>
+	                                        <td class="item"><input type="radio" class="radio" name="_terp_you" value="True" checked="checked"/></td><td>Only for you</td>
+	                                        <td class="item"><input type="radio" class="radio" name="_terp_you" value="False"/></td><td>For all</td>
+	                                    </tr>
+	                                </table>                                    
+	                            </fieldset>
+	                        </td>
+	                    </tr>
+	                </table>
+	            </div>
+	            <div class="box2">  
+	                <table border="0" width="100%">
+	                    <tr>
+	                        <td colspan="2">
+	                            <fieldset>
+	                                <legend><strong>Value applicable if:</strong></legend>
+	                                <table border="0" align="center">
+	                                    <tr py:if="not deps"><td>Always applicable !</td></tr>
+	                                    <tr py:if="deps">
+	                                        <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
+	                                        <span py:for="n, n, v, v in deps" py:strip="">
+	                                            <td><input type="checkbox" class="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
+	                                        </span>
+	                                    </tr>
+	                                </table>                                    
+	                            </fieldset>
+	                        </td>
+	                    </tr>                        
+	                </table>
+                </div>
+                <div class="box2">
 		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
 		                <tr>
 		                    <td width="100%">

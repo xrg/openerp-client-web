@@ -73,17 +73,17 @@ var editRecord = function(id, src){
 	if (src && src != '_terp_list' && $('_terp_count').value != '0') {
 		return editO2M(id, src);
 	}
-	
-	var prefix = src && src != '_terp_list' ? src + '/' : '';	
+
+	var prefix = src && src != '_terp_list' ? src + '/' : '';
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
 
-	window.location.href = get_form_action('edit', {model: model, id: id, view_ids: view_ids});	
+	window.location.href = get_form_action('edit', {model: model, id: id, view_ids: view_ids});
 }
 
 var viewRecord = function(id, src){
 
-	var prefix = src && src != '_terp_list' ? src + '/' : '';	
+	var prefix = src && src != '_terp_list' ? src + '/' : '';
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
 
@@ -348,8 +348,8 @@ function makeContextMenu(id, kind, relation, val) {
 
     var form = $('view_form');
     var act = get_form_action('get_context_menu');
-    
-    var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';	
+
+    var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
 
 	var model = prefix ? $(prefix + '_terp_model').value : $('_terp_model').value;
 
@@ -391,7 +391,7 @@ function makeContextMenu(id, kind, relation, val) {
         }
 
         $('contextmenu').innerHTML = '';
-        
+
         var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 1}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
 
         appendChildNodes('contextmenu', tbl);
@@ -413,18 +413,18 @@ var registerContextMenu = function(evt){
 			connect(e, "oncontextmenu", onContext);
         }
     });
-    
+
     // IE FIX
     if (document.all && !window.opera) {
     	var ifrm = createDOM("IFRAME", {"id": "contextmenu_frm",
     									"src": "#",
     									"scroll": "no",
     									"frameborder": "0"});
-		
+
 		ifrm.style.setAttribute("position", "absolute");
 		ifrm.style.setAttribute("visibility", "hidden");
 		ifrm.style.zIndex = 99;
-				
+
 		appendChildNodes(document.body, ifrm);
     }
 }
@@ -433,29 +433,29 @@ var showContextMenu = function(){
 
 	var menu = $('contextmenu');
 	var ifrm = $('contextmenu_frm');
-	
+
 	showElement(menu);
-	
+
 	if (ifrm){
-	
+
 		ifrm.style.left = menu.offsetLeft + "px";
 		ifrm.style.top = menu.offsetTop + "px";
 		ifrm.style.width = menu.offsetWidth + "px";
 		ifrm.style.height = menu.offsetHeight + "px";
 		ifrm.style.zIndex = 6;
-		
+
 		ifrm.style.visibility = "visible";
-	}		
+	}
 }
 
 var hideContextMenu = function(){
 	var menu = $('contextmenu');
 	var ifrm = $('contextmenu_frm');
-	
+
 	if (ifrm){
 		ifrm.style.visibility = "hidden";
 	}
-	
+
 	hideElement(menu);
 }
 
@@ -482,7 +482,7 @@ function set_to_default(field, model){
 	if(kind=="many2one"){
 		field = field.slice(0, field.length - 5);
 	}
-	
+
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
 
@@ -503,48 +503,48 @@ function set_as_default(field, model){
 	var args = get_parent_form();
 	args['_terp_model'] = model;
 	args['_terp_field'] = field;
-	
+
 	var req = Ajax.JSON.post('/fieldpref/get', args);
-	
+
 	req.addCallback(function(obj){
 		var text = obj.text;
 		var params = {'_terp_model': model, '_terp_field/name': field, '_terp_field/string': text, '_terp_field/value': $(field).value, '_terp_deps': obj.deps};
-		openWindow(getURL('/fieldpref', params), {width: 450, height: 300});
+		openWindow(getURL('/fieldpref', params), {width: 500, height: 400});
 	});
 }
 
-function do_action(id, relation) {    
-    
+function do_action(id, relation) {
+
     id = id.slice(0, id.length - 5);
     id = $(id).value;
-    
+
     var act = get_form_action('action');
     var params = {'_terp_model': relation, '_terp_id': id};
-    
+
     window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
 }
 
 function do_print(id, relation) {
-        
+
     id = id.slice(0, id.length - 5);
     id = $(id).value;
-    
+
     var act = get_form_action('report');
     var params = {'_terp_model': relation, '_terp_id': id};
-        
+
     window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
 }
 
-function do_relate(action_id, field, relation, src) {    
-    
+function do_relate(action_id, field, relation, src) {
+
     field = field.slice(0, field.length - 5);
 
-    var id = $(field).value;    
+    var id = $(field).value;
     var data = src.attributes['data'].value;
 
     var act = get_form_action('action');
     var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
-    	
+
 	window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
 }
 
