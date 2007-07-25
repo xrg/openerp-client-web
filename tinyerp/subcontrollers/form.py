@@ -109,34 +109,33 @@ class Form(controllers.Controller, TinyResource):
         return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
-    def new(self, **kw):
-        params, data = TinyDict.split(kw)
-        params.editable = True
+    def edit(self, model, id, ids=None, view_ids=None, source=None, offset=0, limit=20, count=0, search_domain=None):
 
-        if params.id or params.ids:
-            params.id = None
+        params, data = TinyDict.split({'_terp_model': model, 
+                                       '_terp_id' : id,
+                                       '_terp_ids' : ids,
+                                       '_terp_view_ids' : view_ids,
+                                       '_terp_source' : source,
+                                       '_terp_offset': offset,
+                                       '_terp_limit': limit,
+                                       '_terp_count': count,
+                                       '_terp_search_domain': search_domain})
 
-        if params.view_mode[0] == 'tree':
-            params.view_mode.reverse()
-
-        if params.view_mode[0] != 'form':
-            params.view_mode = ['form', 'tree']
-
-        self.del_notebook_cookies()
-        return self.create(params)
-
-    @expose()
-    def edit(self, model, id, view_ids=None, offset=0, limit=20, source=None):
-        params, data = TinyDict.split(dict(_terp_model=model, _terp_id=id, _terp_view_ids=view_ids, _terp_offset=offset, _terp_limit=limit, _terp_source=source))
-        
         params.view_mode = ['form', 'tree']
-        params.editable = True
-
+        params.editable = True            
+        
         return self.create(params)
         
     @expose()
-    def view(self, model, id, view_ids=None, offset=0, limit=20):        
-        params, data = TinyDict.split(dict(_terp_model=model, _terp_id=id, _terp_view_ids=view_ids, _terp_offset=offset, _terp_limit=limit))
+    def view(self, model, id, ids=None, view_ids=None, offset=0, limit=20, count=0, search_domain=None):
+        params, data = TinyDict.split({'_terp_model': model, 
+                                       '_terp_id' : id,
+                                       '_terp_ids' : ids,
+                                       '_terp_view_ids' : view_ids,
+                                       '_terp_offset': offset,
+                                       '_terp_limit': limit,
+                                       '_terp_count': count,
+                                       '_terp_search_domain': search_domain})
         
         params.view_mode = ['form', 'tree']
         params.editable = False
@@ -223,10 +222,19 @@ class Form(controllers.Controller, TinyResource):
         if terp_save_only:
             return dict(params=params, data=data)
         
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain)}
+
         if params.editable or params.source:
-            raise redirect(self.path + '/edit', model=params.model, id=params.id, view_ids=ustr(params.view_ids), source=params.source)
+            raise redirect(self.path + '/edit', **args)
         
-        raise redirect(self.path + '/view', model=params.model, id=params.id, view_ids=ustr(params.view_ids))
+        raise redirect(self.path + '/view', **args)
 
     def button_action(self, params):
 
@@ -338,7 +346,7 @@ class Form(controllers.Controller, TinyResource):
     @validate(form=get_filter_form)
     def filter(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         params, data = TinyDict.split(kw)
-
+        
         l = params.get('limit') or 20
         o = params.get('offset') or 0
 
@@ -348,9 +356,10 @@ class Form(controllers.Controller, TinyResource):
             domain = params.search_domain
             data = params.search_data
 
-        res = search.search(params.model, o, l, domain=domain, data=data)
-        params.update(res)
-
+        if params.filter_action not in ('FIRST', 'PREV', 'NEXT', 'LAST'):
+            res = search.search(params.model, o, l, domain=domain, data=data)
+            params.update(res)
+        
         if params.ids:
 
             if params.filter_action == 'FIRST':

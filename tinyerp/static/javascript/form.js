@@ -73,12 +73,31 @@ var editRecord = function(id, src){
 	if (src && src != '_terp_list' && $('_terp_count').value != '0') {
 		return editO2M(id, src);
 	}
-
+	
 	var prefix = src && src != '_terp_list' ? src + '/' : '';
+
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
+	
+	var ids = $(prefix + '_terp_ids').value;
+	
+	var offset = $(prefix + '_terp_offset').value;
+	var limit = $(prefix + '_terp_limit').value;
+	var count = $(prefix + '_terp_count').value;
+	
+	var domain = $('_terp_search_domain');
+	domain = domain ? domain.value : null;
+	
+	var args = {'model': model,
+				'id': id ? id : 'False',
+				'ids': ids,
+				'view_ids': view_ids,
+				'offset': offset,
+				'limit': limit,
+				'count': count,
+				'search_domain': domain};
 
-	window.location.href = get_form_action('edit', {model: model, id: id, view_ids: view_ids});
+	window.location.href = get_form_action('edit', args);
 }
 
 var viewRecord = function(id, src){
@@ -86,8 +105,26 @@ var viewRecord = function(id, src){
 	var prefix = src && src != '_terp_list' ? src + '/' : '';
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
+	
+	var ids = $(prefix + '_terp_ids').value;
+	
+	var offset = $(prefix + '_terp_offset').value;
+	var limit = $(prefix + '_terp_limit').value;
+	var count = $(prefix + '_terp_count').value;
+	
+	var domain = $('_terp_search_domain');
+	domain = domain ? domain.value : null;
+	
+	var args = {'model': model,
+				'id': id ? id : 'False',
+				'ids': ids,
+				'view_ids': view_ids,
+				'offset': offset,
+				'limit': limit,
+				'count': count,
+				'search_domain': domain};
 
-	window.location.href = get_form_action('view', {model: model, id: id, view_ids: view_ids});
+	window.location.href = get_form_action('view', args);
 }
 
 var submit_form = function(action, src, data){

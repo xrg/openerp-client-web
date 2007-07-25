@@ -70,7 +70,7 @@
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td>
-                                            <button type="button" title="Create a new resource" py:if="buttons.new" onclick="submit_form('new')">New</button>
+                                            <button type="button" title="Create a new resource" py:if="buttons.new" onclick="editRecord(null)">New</button>
                                             <button type="button" title="Edit this resource" py:if="buttons.edit" onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
                                             <button type="button" title="Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>                                            
                                             <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
