@@ -122,8 +122,12 @@ class Form(controllers.Controller, TinyResource):
                                        '_terp_search_domain': search_domain})
 
         params.view_mode = ['form', 'tree']
-        params.editable = True            
-        
+        params.editable = True
+
+        #XXX: On New O2M?
+        if params.source:
+            params[params.source] = TinyDict(_terp_id=False)
+
         return self.create(params)
         
     @expose()
@@ -225,14 +229,14 @@ class Form(controllers.Controller, TinyResource):
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
-                'view_ids': ustr(params.view_ids),
+                'view_ids': ustr(params.view_ids),                
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
 
         if params.editable or params.source:
-            raise redirect(self.path + '/edit', **args)
+            raise redirect(self.path + '/edit', source=params.source, **args)
         
         raise redirect(self.path + '/view', **args)
 
