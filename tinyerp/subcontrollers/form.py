@@ -370,9 +370,8 @@ class Form(controllers.Controller, TinyResource):
             domain = params.search_domain
             data = params.search_data
 
-        if params.filter_action not in ('FIRST', 'PREV', 'NEXT', 'LAST'):
-            res = search.search(params.model, o, l, domain=domain, data=data)
-            params.update(res)
+        res = search.search(params.model, o, l, domain=domain, data=data)
+        params.update(res)
         
         if params.ids:
 
