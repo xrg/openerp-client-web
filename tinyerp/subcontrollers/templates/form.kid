@@ -5,24 +5,7 @@
     
     <script type="text/javascript">                 
         function do_select(id, src){
-        
-            form = $('view_form');
-          
-            act = get_form_action('view');
-        
-            if (src &amp;&amp; src != '_terp_list') {
-                n = src.replace('.', '/') + '/_terp_id';
-                terp_id = document.getElementsByName(n)[0];
-                terp_id.value = id;
-        
-                act = get_form_action('view', {_terp_source: src});
-        
-            } else {
-                form._terp_id.value = id;
-            }
-        
-            form.action = act;
-            form.submit();            
+            viewRecord(id, src);            
         }
         
         function toggle_sidebar(element_id, forced) {
@@ -88,10 +71,10 @@
                                     <tr>
                                         <td>
                                             <button type="button" title="Create a new resource" py:if="buttons.new" onclick="submit_form('new')">New</button>
-                                            <button type="button" title="Edit this resource" py:if="buttons.edit" onclick="submit_form('edit')">Edit</button>
+                                            <button type="button" title="Edit this resource" py:if="buttons.edit" onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
                                             <button type="button" title="Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>                                            
                                             <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
-                                            <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
+                                            <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="viewRecord(${form.screen.id or 'null'})">Cancel</button>
                                         </td>
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager" py:content="pager.display()"></td>
                                     </tr>

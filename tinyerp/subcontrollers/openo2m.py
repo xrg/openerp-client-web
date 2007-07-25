@@ -51,6 +51,8 @@ from form import Form
 
 class OpenO2M(Form):
     
+    path = '/openo2m'    # mapping from root
+    
     def create_form(self, params, tg_errors=None):        
         
         params.id = params.o2m_id
@@ -133,7 +135,7 @@ class OpenO2M(Form):
            
         return self.create(params)
     
-    @expose()
+    @expose()    
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
         return self.create(params)

@@ -10,8 +10,8 @@
     <script type="text/javascript">       
         function on_load() { 
             if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
-                window.opener.document.getElementById('${params.m2o}').value = document.getElementsByName("_terp_id")[0].value;
-            window.opener.setTimeout("signal($('${params.m2o}'), 'onchange')", 0);                        
+                window.opener.document.getElementById('${params.source}').value = document.getElementsByName("_terp_id")[0].value;
+            window.opener.setTimeout("signal($('${params.source}'), 'onchange')", 0);                        
         }
         connect(window, 'onload', on_load);
     </script>

@@ -52,6 +52,8 @@ from tinyerp.utils import TinyParent
 import search
 
 class Form(controllers.Controller, TinyResource):
+    
+    path = '/form'    # mapping from root
 
     def create_form(self, params, tg_errors=None):
         if tg_errors:
@@ -123,7 +125,7 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def edit(self, **kw):
+    def edit2(self, **kw):
         params, data = TinyDict.split(kw)
 
         current = params[params.source or ''] or params
@@ -144,33 +146,25 @@ class Form(controllers.Controller, TinyResource):
             return self.create(current)
 
         return self.create(params)
-
+    
     @expose()
-    def view(self, **kw):
-        params, data = TinyDict.split(kw)
+    def edit(self, model, id, view_ids=None, offset=0, limit=20, source=None):
+        params = TinyDict(model=model, id=id, view_ids=view_ids, offset=offset, limit=limit, source=source)
+        
+        params.view_mode = ['form', 'tree']
+        params.editable = True
 
-        current = params[params.source or ''] or params
+        return self.create(params)
+        
+    @expose()
+    def view(self, model, id, view_ids=None, offset=0, limit=20):
+        
+        params = TinyDict(model=model, id=id, view_ids=view_ids, offset=offset, limit=limit)
+        
+        params.view_mode = ['form', 'tree']
+        params.editable = False
 
-        if current.model is None:
-            current.model = data.get('model')
-            current.id = data.get('id')
-
-        current.view_mode = ['form', 'tree']
-        current.editable = False
-
-        if current.ids == None and current.id:
-            proxy = rpc.RPCProxy(current.model)
-            ids = proxy.search([])
-
-            index = 0
-            if current.id in ids:
-                index = ids.index(current.id)
-
-            current.offset = index
-            current.limit = 20
-            current.ids = proxy.search([], current.offset, current.limit)
-
-        return self.create(current)
+        return self.create(params)
 
     @expose()
     def cancel(self, **kw):

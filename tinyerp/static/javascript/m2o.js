@@ -62,7 +62,7 @@ ManyToOne.prototype.create = function(evt){
 }
 
 ManyToOne.prototype.open = function(id){
-	var act = getURL('/openm2o/edit', {_terp_model: this.relation, _terp_view_mode: '[form,tree]', _terp_m2o: this.name, _terp_id: id});	
+	var act = getURL('/openm2o/edit', {model: this.relation, id: id, source: this.name});	
 	openWindow(act);
 }
 

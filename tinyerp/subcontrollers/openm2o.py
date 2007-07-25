@@ -49,6 +49,8 @@ from form import Form
 
 class OpenM2O(Form):
     
+    path = '/openm2o'    # mapping from root
+    
     @expose(template="tinyerp.subcontrollers.templates.openm2o")
     def create(self, params, tg_errors=None):     
         

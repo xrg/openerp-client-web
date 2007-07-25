@@ -44,7 +44,7 @@
             <span py:if="data[field].text == ''">&nbsp;</span>
         </td>
         <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="not editors" onclick="inlineEdit(${data['id']}, '${source}')"/>
+            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
             <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
         </td>
         <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">

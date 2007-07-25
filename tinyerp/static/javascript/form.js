@@ -68,54 +68,24 @@ var editO2M = function(id, src){
 	openWindow(getURL('/openo2m/edit', args));
 }
 
-var inlineEdit = function(id, src){
+var editRecord = function(id, src){
 
 	if (src && src != '_terp_list' && $('_terp_count').value != '0') {
 		return editO2M(id, src);
 	}
+	
+	var prefix = src && src != '_terp_list' ? src + '/' : '';	
+	var model = $(prefix + '_terp_model').value;
 
-	var prefix = src ? src + '/' : '';
-
-    var form = $('view_form');
-    var act = get_form_action('edit');
-
-    if (prefix) {
-        var terp_id = $(prefix + '_terp_id');
-        terp_id.value = id;
-
-        act = get_form_action('edit', {_terp_source: src, _terp_inline: 1});
-
-    } else {
-        form._terp_id.value = id;
-    }
-
-    form.action = act;
-    form.submit();
+	window.location.href = get_form_action('edit', {model: model, id: id});	
 }
 
-var inlineDelete = function(id, src){
+var viewRecord = function(id, src){
 
-    if (!confirm('Do you realy want to delete this record?')) {
-        return false;
-    }
+	var prefix = src && src != '_terp_list' ? src + '/' : '';	
+	var model = $(prefix + '_terp_model').value;
 
-    form = $('view_form');
-
-    act = get_form_action('delete');
-
-    if (src) {
-        n = src.replace('.', '/') + '/_terp_id';
-        terp_id = document.getElementsByName(n)[0];
-        terp_id.value = id;
-
-        act = get_form_action('delete', {_terp_source: src});
-
-    } else {
-        form._terp_id.value = id;
-    }
-
-    form.action = act;
-    form.submit();
+	window.location.href = get_form_action('view', {model: model, id: id});	
 }
 
 var submit_form = function(action, src, data){
