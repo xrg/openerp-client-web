@@ -76,16 +76,18 @@ var editRecord = function(id, src){
 	
 	var prefix = src && src != '_terp_list' ? src + '/' : '';	
 	var model = $(prefix + '_terp_model').value;
+	var view_ids = $(prefix + '_terp_view_ids').value;
 
-	window.location.href = get_form_action('edit', {model: model, id: id});	
+	window.location.href = get_form_action('edit', {model: model, id: id, view_ids: view_ids});	
 }
 
 var viewRecord = function(id, src){
 
 	var prefix = src && src != '_terp_list' ? src + '/' : '';	
 	var model = $(prefix + '_terp_model').value;
+	var view_ids = $(prefix + '_terp_view_ids').value;
 
-	window.location.href = get_form_action('view', {model: model, id: id});	
+	window.location.href = get_form_action('view', {model: model, id: id, view_ids: view_ids});
 }
 
 var submit_form = function(action, src, data){

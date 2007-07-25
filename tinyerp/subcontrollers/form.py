@@ -35,6 +35,7 @@ from turbogears import widgets
 from turbogears import controllers
 from turbogears import validators
 from turbogears import validate
+from turbogears import redirect
 
 import cherrypy
 
@@ -125,31 +126,8 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def edit2(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        current = params[params.source or ''] or params
-        current.editable = True
-
-        if params.inline is None and ('model' in data and 'id' in data):
-            current.view_mode = ['form', 'tree']
-            current.model = data.get('model')
-            current.id = data.get('id')
-
-        if current.view_mode[0] == 'tree':
-            current.view_mode.reverse()
-
-        if current.view_mode[0] != 'form':
-            current.view_mode = ['form', 'tree']
-
-        if params.ids is None:
-            return self.create(current)
-
-        return self.create(params)
-    
-    @expose()
     def edit(self, model, id, view_ids=None, offset=0, limit=20, source=None):
-        params = TinyDict(model=model, id=id, view_ids=view_ids, offset=offset, limit=limit, source=source)
+        params, data = TinyDict.split(dict(_terp_model=model, _terp_id=id, _terp_view_ids=view_ids, _terp_offset=offset, _terp_limit=limit, _terp_source=source))
         
         params.view_mode = ['form', 'tree']
         params.editable = True
@@ -157,9 +135,8 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
         
     @expose()
-    def view(self, model, id, view_ids=None, offset=0, limit=20):
-        
-        params = TinyDict(model=model, id=id, view_ids=view_ids, offset=offset, limit=limit)
+    def view(self, model, id, view_ids=None, offset=0, limit=20):        
+        params, data = TinyDict.split(dict(_terp_model=model, _terp_id=id, _terp_view_ids=view_ids, _terp_offset=offset, _terp_limit=limit))
         
         params.view_mode = ['form', 'tree']
         params.editable = False
@@ -251,8 +228,11 @@ class Form(controllers.Controller, TinyResource):
 
         if terp_save_only:
             return dict(params=params, data=data)
-
-        return self.create(params)
+        
+        if params.editable:
+            raise redirect(self.path + '/edit', model=params.model, id=params.id, view_ids=ustr(params.view_ids))
+        
+        raise redirect(self.path + '/view', model=params.model, id=params.id, view_ids=ustr(params.view_ids))
 
     def button_action(self, params):
 
