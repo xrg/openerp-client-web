@@ -46,6 +46,7 @@ class TinyWidget(object):
     readonly = False
     help = None
     editable = True
+    translatable = False
     
     name = None
     model = None
@@ -75,6 +76,7 @@ class TinyWidget(object):
 
         self.help = attrs.get('help')
         self.editable = attrs.get('editable', True)
+        self.translatable = attrs.get('translate', False)
         
         if 'state' in attrs:
             self.set_state(attrs['state'])
@@ -149,6 +151,9 @@ class TinyInputWidget(TinyWidget):
 
         if self.required and 'requiredfield' not in d['field_class'].split(' '):
             d['field_class'] = " ".join([d['field_class'], "requiredfield"])
+            
+        if self.translatable and 'translatable' not in d['field_class'].split(' '):
+            d['field_class'] = " ".join([d['field_class'], "translatable"])
 
         if hasattr(self, 'error') and self.error:
             d['field_class'] = " ".join([d['field_class'], "errorfield"])

@@ -310,6 +310,10 @@ td.item .checkbox,td.item .radio {
 	width: auto;
 }
 
+#view_form .translatable {
+	background: url("/static/images/translate.gif") no-repeat right center;
+}
+
 #view_form .fielderror {
 	color: #FF0000;
 }
