@@ -32,7 +32,6 @@ from turbogears import widgets
 from turbogears import controllers
 from turbogears import validators
 from turbogears import validate
-from turbogears import error_handler
 
 import cherrypy
 
