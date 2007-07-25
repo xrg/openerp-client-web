@@ -57,6 +57,6 @@ class OpenM2O(Form):
         params.editable = True
         form = self.create_form(params, tg_errors)        
         
-        form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]        
+        form.hidden_fields = [widgets.HiddenField(name='_terp_source', default=params.source)]
         
         return dict(form=form, params=params, show_header_footer=False)

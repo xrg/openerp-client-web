@@ -217,20 +217,14 @@ class Form(controllers.Controller, TinyResource):
             current.id = None
             if not params.id:
                 params.id = int(id)
-
-            #if current.view_mode[0] == 'tree':
-            #    current.view_mode.reverse()
-
-            #if current.view_mode[0] != 'form':
-            #    current.view_mode = ['form', 'tree']
         else:
             params.editable = False
 
         if terp_save_only:
             return dict(params=params, data=data)
         
-        if params.editable:
-            raise redirect(self.path + '/edit', model=params.model, id=params.id, view_ids=ustr(params.view_ids))
+        if params.editable or params.source:
+            raise redirect(self.path + '/edit', model=params.model, id=params.id, view_ids=ustr(params.view_ids), source=params.source)
         
         raise redirect(self.path + '/view', model=params.model, id=params.id, view_ids=ustr(params.view_ids))
 
