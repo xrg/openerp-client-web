@@ -163,6 +163,7 @@ class Search(TinyCompoundWidget):
                 # in search view fields should be writable
                 attrs['readonly'] = False
                 attrs['required'] = False
+                attrs['translate'] = False
                 
                 try:
                     fields[name].update(attrs)
