@@ -299,8 +299,18 @@ class Form(controllers.Controller, TinyResource):
         current.id = (current.ids or None) and current.ids[idx]
 
         self.del_notebook_cookies()
-        return self.create(params)
+        
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain)}
 
+        raise redirect(self.path + '/view', **args)
+        
     @expose(content_type='application/octet')
     def save_binary(self, **kw):
         params, data = TinyDict.split(kw)
