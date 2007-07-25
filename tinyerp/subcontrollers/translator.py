@@ -91,7 +91,7 @@ class Translator(controllers.Controller, TinyResource):
 
                         value[lang['code']] = val[name]
 
-                    data += [(name, value, None)]        
+                    data += [(name, value, None, attrs.get('string'))]
         
         if translate == 'labels':
             for name in names:
@@ -105,7 +105,7 @@ class Translator(controllers.Controller, TinyResource):
                         if name in val[code]:
                             value[code] = val[code][name]
 
-                    if value: data += [(name, value, None)]
+                    if value: data += [(name, value, None, None)]
                     
         if translate == 'relates' and view_relates:
             for bar, tools in view_relates.items():
@@ -118,7 +118,7 @@ class Translator(controllers.Controller, TinyResource):
 
                         value[code] = val[0]['name']
                         
-                    data += [(tool['id'], value, tool['type'])]
+                    data += [(tool['id'], value, tool['type'], None)]
 
         if translate == 'view':
             for lang in langs:
