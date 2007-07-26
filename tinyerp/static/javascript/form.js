@@ -580,7 +580,7 @@ function do_print(id, relation) {
     id = id.slice(0, id.length - 5);
     id = $(id).value;
 
-    var act = get_form_action('report');
+    var act = get_form_action('report/report.pdf');
     var params = {'_terp_model': relation, '_terp_id': id};
 
     window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
