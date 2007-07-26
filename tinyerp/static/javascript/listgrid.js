@@ -348,8 +348,9 @@ ListView.prototype.reload = function(edit_inline){
 		myself.current_record = edit_inline;
 		
         swapDOM(myself.id, newlist);
-
-        if (navigator.appName != 'Netscape') {
+        
+        var ua = navigator.userAgent.toLowerCase();
+        if ((ua.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
 	        // execute JavaScript
     	    var scripts = getElementsByTagAndClassName('script', null, newlist);
         	forEach(scripts, function(s){

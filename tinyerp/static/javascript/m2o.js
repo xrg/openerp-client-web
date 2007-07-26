@@ -106,9 +106,11 @@ ManyToOne.prototype.change_icon = function(evt){
 	this.select_img.src = '/static/images/stock/gtk-' + (this.field.value ? 'open' : 'find') + '.png';
 }
 
-ManyToOne.prototype.on_keydown = function(evt){
+ManyToOne.prototype.on_keydown = function(evt){	
 
 	var key = evt.event().keyCode;
+	
+	log("111", evt.key());
 
 	if (key == 8 || key == 46){
 		this.text.value = '';
@@ -134,6 +136,11 @@ ManyToOne.prototype.on_keydown = function(evt){
 }
 
 ManyToOne.prototype.on_keypress = function(evt){
+	
+	if (evt.event().keyCode == 9 ){
+		return;
+	}
+
 	if ((this.field.value && evt.key().string) || evt.event().keyCode == 13){
 		evt.stop();
 	}

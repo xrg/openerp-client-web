@@ -8,10 +8,13 @@
             viewRecord(id, src);            
         }
         
-        function toggle_sidebar(element_id, forced) {
-            var sb = $(element_id);
+        function toggle_sidebar(forced) {
+            var sb = $('sidebar');
+            var sbp = $('sidebar_pane');
+
+            sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
+            sbp.style.display = sb.style.display;
             
-            sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");            
             set_cookie("terp_sidebar", sb.style.display);
 
             var img = getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
@@ -23,7 +26,7 @@
 
         function loadSidebar() {
             var sb = $('sidebar');
-            if (sb) toggle_sidebar('sidebar', get_cookie('terp_sidebar'));
+            if (sb) toggle_sidebar(get_cookie('terp_sidebar'));
         }
         
         connect(window, 'onload', function(){
@@ -88,7 +91,7 @@
                 </table>      
             </td>
                        
-            <td py:if="form.screen.hastoolbar and form.screen.toolbar" width="163" valign="top" style="padding-left: 2px">
+            <td py:if="form.screen.hastoolbar and form.screen.toolbar" id="sidebar_pane" width="163" valign="top" style="padding-left: 2px">
         
                 <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
                     <tr py:if="'print' in form.screen.toolbar">
@@ -168,7 +171,7 @@
             </td>
             
             <td id="sidebar_hide" valign="top" py:if="form.screen.hastoolbar and form.screen.toolbar">
-               <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar('sidebar');" style="cursor: pointer;"/>
+               <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
             </td>
         </tr>        
     </table> 
