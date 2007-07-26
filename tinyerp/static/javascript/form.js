@@ -560,7 +560,7 @@ function set_as_default(field, model){
 	req.addCallback(function(obj){
 		var text = obj.text;
 		var params = {'_terp_model': model, '_terp_field/name': field, '_terp_field/string': text, '_terp_field/value': $(field).value, '_terp_deps': obj.deps};
-		openWindow(getURL('/fieldpref', params), {width: 500, height: 400});
+		openWindow(getURL('/fieldpref', params), {width: 500, height: 350});
 	});
 }
 
