@@ -2,7 +2,7 @@
 import pkg_resources
 pkg_resources.require("TurboGears")
 
-from turbogears import update_config, start_server
+from turbogears import config, update_config, start_server
 import cherrypy
 cherrypy.lowercase_api = True
 from os.path import *
@@ -13,12 +13,13 @@ import sys
 # look for setup.py in this directory. If it's not there, this script is
 # probably installed
 if len(sys.argv) > 1:
-    update_config(configfile=sys.argv[1], 
+    update_config(configfile=sys.argv[1],
         modulename="tinyerp.config")
 elif exists(join(dirname(__file__), "setup.py")):
     update_config(configfile="dev.cfg",modulename="tinyerp.config")
 else:
     update_config(configfile="prod.cfg",modulename="tinyerp.config")
+config.update(dict(package="tinyerp"))
 
 from tinyerp.controllers import Root
 
