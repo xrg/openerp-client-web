@@ -64,7 +64,7 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
 
         self.view = attrs.get('views',{})
         self.domain  = attrs.get('domain',{})
-        self.ids = attrs['value'] or []
+        self.ids = attrs.get('value') or []
 
         if not self.view:
             ctx = rpc.session.context.copy()
