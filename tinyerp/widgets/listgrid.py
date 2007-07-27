@@ -53,7 +53,7 @@ class Pager(TinyCompoundWidget):
     page_info = None
     pager_id = 'pager'
 
-    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_mode=['tree','form']):
+    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
         
         super(Pager, self).__init__()
 
@@ -64,7 +64,7 @@ class Pager(TinyCompoundWidget):
         self.id = id or False
         self.ids = ids or []
         
-        if view_mode[0] == 'form':
+        if view_type == 'form':
             
             index = 0
             if self.id in self.ids:

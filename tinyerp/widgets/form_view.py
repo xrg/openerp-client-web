@@ -53,10 +53,10 @@ class ViewForm(tg.widgets.Form):
         self.screen = Screen(prefix='', hastoolbar=True, editable=params.get('editable', True), selectable=2)
         self.search = None
         
-        if params.view_mode and params.view_mode[0] in ('tree', 'graph'):
+        if params.view_type in ('tree', 'graph'):
             self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
             
-        if params.view_mode and params.view_mode[0] == 'tree':            
+        if params.view_type == 'tree':
             self.screen.id = False
 
         # get the actual pager data

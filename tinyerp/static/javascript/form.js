@@ -78,6 +78,7 @@ var editRecord = function(id, src){
 
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
+	var view_mode = $(prefix + '_terp_view_mode').value;
 	
 	var ids = $(prefix + '_terp_ids').value;
 	
@@ -95,6 +96,7 @@ var editRecord = function(id, src){
 				'id': id ? id : 'False',
 				'ids': ids,
 				'view_ids': view_ids,
+				'view_mode': view_mode,
 				'domain': domain,
 				'context': context,
 				'offset': offset,
@@ -110,6 +112,7 @@ var viewRecord = function(id, src){
 	var prefix = src && src != '_terp_list' ? src + '/' : '';
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
+	var view_mode = $(prefix + '_terp_view_mode').value;
 	
 	var ids = $(prefix + '_terp_ids').value;
 	
@@ -127,6 +130,7 @@ var viewRecord = function(id, src){
 				'id': id ? id : 'False',
 				'ids': ids,
 				'view_ids': view_ids,
+				'view_mode': view_mode,
 				'domain': domain,
 				'context': context,
 				'offset': offset,

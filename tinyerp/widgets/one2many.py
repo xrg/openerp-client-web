@@ -77,11 +77,11 @@ class O2M(TinyCompoundWidget):
         mode = str(attrs.get('mode', 'tree,form')).split(',')
 
         view_mode = mode
-        view_mode2 = mode
-
+        view_type = mode[0]
+                
         if params and params.view_mode: view_mode = params.view_mode
-        if params and params.view_mode2: view_mode2 = params.view_mode2
-
+        if params and params.view_type: view_type = params.view_type
+        
         ids = attrs['value'] or []
 
         id = (ids or None) and ids[0]
@@ -99,13 +99,13 @@ class O2M(TinyCompoundWidget):
         params.id = id
         params.ids = ids
         params.view_mode = view_mode
-        params.view_mode2 = view_mode2
+        params.view_type = view_type
         params.domain = []
         params.context = {}
 
         self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3)
         self.id = id
         
-        if view_mode[0] == 'tree':
+        if view_type == 'tree':
             self.screen.widget.pageable=False
             self.id = None

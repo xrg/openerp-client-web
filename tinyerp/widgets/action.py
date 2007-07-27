@@ -103,7 +103,6 @@ class Action(TinyCompoundWidget):
                 params.ids = None
                 params.view_ids = view_id
                 params.view_mode = mode
-                params.view_mode2 = mode
                 params.context = self.context
                 params.domain = self.domain
                 

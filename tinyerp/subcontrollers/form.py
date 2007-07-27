@@ -63,8 +63,10 @@ class Form(controllers.Controller, TinyResource):
         params.setdefault('offset', 0)
         params.setdefault('limit', 20)
         params.setdefault('count', 0)
+        
+        params.view_type = params.view_type or params.view_mode[0]
 
-        if params.view_mode[0] == 'tree':
+        if params.view_type == 'tree':
             params.editable = True
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
@@ -80,7 +82,7 @@ class Form(controllers.Controller, TinyResource):
         form = self.create_form(params, tg_errors)
 
         editable = form.screen.editable
-        mode = form.screen.view_mode[0]
+        mode = form.screen.view_type
         id = form.screen.id
         ids = form.screen.ids
 
@@ -104,17 +106,18 @@ class Form(controllers.Controller, TinyResource):
 
         pager = None
         if buttons.pager:
-            pager = tw.listgrid.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_mode=params.view_mode)
+            pager = tw.listgrid.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
         return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
-    def edit(self, model, id, ids=None, view_ids=None, source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+    def edit(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
 
         params, data = TinyDict.split({'_terp_model': model, 
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
+                                       '_terp_view_mode' : view_mode,
                                        '_terp_source' : source,
                                        '_terp_domain' : domain,
                                        '_terp_context' : context,
@@ -122,10 +125,9 @@ class Form(controllers.Controller, TinyResource):
                                        '_terp_limit': limit,
                                        '_terp_count': count,
                                        '_terp_search_domain': search_domain})
-
-        params.view_mode = ['form', 'tree']
-        params.view_mode2 = ['form', 'tree']
+        
         params.editable = True
+        params.view_type = 'form'
 
         #XXX: On New O2M?
         if params.source:
@@ -134,11 +136,12 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
         
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
         params, data = TinyDict.split({'_terp_model': model, 
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
+                                       '_terp_view_mode' : view_mode,
                                        '_terp_domain' : domain,
                                        '_terp_context' : context,
                                        '_terp_offset': offset,
@@ -146,9 +149,8 @@ class Form(controllers.Controller, TinyResource):
                                        '_terp_count': count,
                                        '_terp_search_domain': search_domain})
         
-        params.view_mode = ['form', 'tree']
-        params.view_mode2 = ['form', 'tree']
         params.editable = False
+        params.view_type = 'form'
 
         return self.create(params)
 
@@ -236,6 +238,7 @@ class Form(controllers.Controller, TinyResource):
                 'id': params.id,
                 'ids': ustr(params.ids),
                 'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
                 'domain': ustr(params.domain),
                 'context': ustr(params.context),
                 'offset': params.offset,
@@ -316,6 +319,9 @@ class Form(controllers.Controller, TinyResource):
                 'id': params.id,
                 'ids': ustr(params.ids),
                 'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
@@ -349,7 +355,7 @@ class Form(controllers.Controller, TinyResource):
     def get_filter_form(self):
         params, data = TinyDict.split(cherrypy.request.params)
 
-        if params.view_mode[0] == 'form':
+        if params.view_type == 'form':
             return None
 
         cherrypy.request.terp_validators = {}
@@ -438,7 +444,7 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0
 
-        if not (params.view_mode[0] == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)-1 > 0):
+        if not (params.view_type == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)-1 > 0):
             o -= l
 
         kw['_terp_offset'] = o
@@ -482,7 +488,7 @@ class Form(controllers.Controller, TinyResource):
         l = params.get('limit') or 20
         o = params.get('offset') or 0
 
-        if not (params.view_mode[0] == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)+1 < len(params.ids)):
+        if not (params.view_type == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)+1 < len(params.ids)):
             o += l
 
         kw['_terp_offset'] = o
@@ -543,21 +549,18 @@ class Form(controllers.Controller, TinyResource):
         current = params[params.source or ''] or params
 
         # save current record (O2M)
-        if params.source and params.editable and current.view_mode[0] == 'form':
+        if params.source and params.editable and current.view_type == 'form':
             self.save(terp_save_only=True, **kw)
 
-        # switch the view mode
-        current.view_mode.reverse()
-
-        # if view_mode is different then the view_mode2 replace it with view_mode2
-        if set(current.view_mode) - set(current.view_mode2):
-            current.view_mode = current.view_mode2
-
+        #switch the view mode
+        idx = (current.view_type == current.view_mode[0] or 0) and -1
+        current.view_type = current.view_mode[idx]
+        
         # set ids and id
         current.ids = current.ids or []
         if current.ids:
             current.id = current.ids[0]
-        
+            
         # regenerate the view
         return self.create(params)
 
@@ -569,7 +572,7 @@ class Form(controllers.Controller, TinyResource):
         id = params.id or False
         ids = params.ids or []
 
-        if params.view_mode and params.view_mode[0] == 'form':
+        if params.view_type == 'form':
             #TODO: save current record
             ids = (id or []) and [id]
             

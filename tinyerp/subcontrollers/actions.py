@@ -75,7 +75,6 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     if view_type == 'form':
         mode = mode.split(',')
         params.view_mode=mode
-        params.view_mode2=mode
 
         return Form().create(params)
 

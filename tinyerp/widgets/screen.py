@@ -50,7 +50,7 @@ class Screen(TinyCompoundWidget):
         <input type="hidden" id="${name}_terp_ids" name="${name}_terp_ids" value="${str(ids)}"/>
         <input type="hidden" id="${name}_terp_view_ids" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" id="${name}_terp_view_mode" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
-        <input type="hidden" id="${name}_terp_view_mode2" name="${name}_terp_view_mode2" value="${str(view_mode2)}"/>
+        <input type="hidden" id="${name}_terp_view_type" name="${name}_terp_view_type" value="${str(view_type)}"/>
         <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
         <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
@@ -63,7 +63,7 @@ class Screen(TinyCompoundWidget):
     </span>
     """
 
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_mode2', 'domain', 'context', 'limit', 'offset', 'count']
+    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
     
     member_widgets = ['widget']
     widget = None
@@ -82,7 +82,7 @@ class Screen(TinyCompoundWidget):
         self.ids           = params.ids
         self.view_ids      = params.view_ids or []
         self.view_mode     = params.view_mode
-        self.view_mode2    = params.view_mode2 or ['tree', 'form']
+        self.view_type     = params.view_type or params.view_mode[0]
 
         self.domain        = params.domain or []
         self.context       = params.context or {}
@@ -105,17 +105,14 @@ class Screen(TinyCompoundWidget):
         self.editable           = editable
         
         if self.view_mode:
-
-            view_type = self.view_mode[0]            
             
-            view_index = -1
-            if view_type in self.view_mode2:
-                view_index = self.view_mode2.index(view_type)
+            view_type = self.view_type
+            view_index = self.view_mode.index(view_type)
 
             view_id = False
-            if view_index > -1 and self.view_ids and view_index < len(self.view_ids):
+            if self.view_ids and view_index < len(self.view_ids):
                 view_id = self.view_ids[view_index]
-                                
+                
             self.add_view_id(view_id, view_type)
 
     def add_view_id(self, view_id, view_type):            
