@@ -124,6 +124,7 @@ class Form(controllers.Controller, TinyResource):
                                        '_terp_search_domain': search_domain})
 
         params.view_mode = ['form', 'tree']
+        params.view_mode2 = ['form', 'tree']
         params.editable = True
 
         #XXX: On New O2M?
@@ -146,6 +147,7 @@ class Form(controllers.Controller, TinyResource):
                                        '_terp_search_domain': search_domain})
         
         params.view_mode = ['form', 'tree']
+        params.view_mode2 = ['form', 'tree']
         params.editable = False
 
         return self.create(params)
@@ -555,7 +557,7 @@ class Form(controllers.Controller, TinyResource):
         current.ids = current.ids or []
         if current.ids:
             current.id = current.ids[0]
-
+        
         # regenerate the view
         return self.create(params)
 
