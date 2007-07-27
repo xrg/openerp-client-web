@@ -44,7 +44,7 @@ class Action(TinyCompoundWidget):
     <div class="toolbar">
         <table>
             <tr>
-                <td width="100%" py:content="string"></td>
+                <td width="100%"><strong py:content="string"/></td>
                 <td>
                     <button type="button" onclick="submit_form('dashlet', '${button_name}')">Zoom</button>
                 </td>
