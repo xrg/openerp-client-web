@@ -75,6 +75,12 @@ class Graph(TinyCompoundWidget):
         self.width = width
         self.height = height
         
+        view = cache.fields_view_get(model, view_id, 'graph', rpc.session.context)
+        dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
+        root = dom.childNodes[0]
+        attrs = tools.node_attributes(root)
+        self.string = attrs.get('string', '')
+                
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain)
 
