@@ -23,15 +23,15 @@ table.tree-grid .header th {
 }
 
 table.tree-grid .row {
-    background-color: #FBFBFB;
+    background-color: #FFFFFF;
 }
 
 table.tree-grid .row:hover {
-    background-color: #F0F0F0;
+    background-color: #F3F3F3;
 }
 
 table.tree-grid .row.selected{
-    background-color: #E9E9E9;
+    background-color: #E0E0E0;
 }
 
 table.tree-grid .float,
