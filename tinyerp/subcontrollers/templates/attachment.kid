@@ -5,6 +5,10 @@
     <script type="text/javascript">
     
         function do_select(id, src){
+            var radio = $(src + '/' + id);
+            radio.checked = true;
+            
+            do_save(document.forms[0]);
         }
         
         function do_upload(form){
