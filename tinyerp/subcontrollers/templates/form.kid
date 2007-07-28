@@ -30,7 +30,6 @@
         }
         
         connect(window, 'onload', function(){
-            registerContextMenu();
             loadSidebar();
         });
     </script> 
@@ -178,7 +177,10 @@
         </tr>        
     </table> 
     
-    <div id="contextmenu" class="contextmenu" onmouseout="hideContextMenu()" onmouseover="showContextMenu()" style="position: absolute; display: none;"/>
+    <div id="contextmenu" class="contextmenu" onmouseout="hideContextMenu()" onmouseover="showContextMenu()" style="position: absolute; display: none;"/>    
+<!--[if IE]>
+    <iframe id="contextmenu_frm" src="#" frameborder="0" scrolling="no" style="position: absolute; display: none;"/>
+<![endif]-->
     
 </body>
 </html>

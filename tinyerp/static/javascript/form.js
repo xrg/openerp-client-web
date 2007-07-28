@@ -455,35 +455,6 @@ function makeContextMenu(id, kind, relation, val) {
 	});
 }
 
-var registerContextMenu = function(evt){
-
-	if ($('search_view_notebook')) return;
-
-    var form = $('view_form');
-    var menu = $('contextmenu');
-
-    forEach(form.elements, function(e) {
-    	var kind = e.attributes['kind'];
-        if(kind && (kind.value=="many2one" || kind.value=="char" || kind.value=="selection")) {
-			connect(e, "oncontextmenu", onContext);
-        }
-    });
-
-    // IE FIX
-    if (document.all && !window.opera) {
-    	var ifrm = createDOM("IFRAME", {"id": "contextmenu_frm",
-    									"src": "#",
-    									"scroll": "no",
-    									"frameborder": "0"});
-
-		ifrm.style.setAttribute("position", "absolute");
-		ifrm.style.setAttribute("visibility", "hidden");
-		ifrm.style.zIndex = 99;
-
-		appendChildNodes(document.body, ifrm);
-    }
-}
-
 var showContextMenu = function(){
 
 	var menu = $('contextmenu');
@@ -514,21 +485,27 @@ var hideContextMenu = function(){
 	hideElement(menu);
 }
 
-var onContext = function(evt){
+var m2oContextMenu = function(src){
 
+	var btn = $(src);
+	
     var menu = $('contextmenu');
-	var src = evt.src();
+	var src = $(src).id.slice(0, -5);
+	src = $(src);
 
 	var val = $(src.id).value;
 	var kind = src.attributes['kind'].value;
 	var relation = src.attributes['relation'] ? src.attributes['relation'].value : null;
 
 	hideElement(menu);
-    setElementPosition(menu, evt.mouse().page);
+	
+	var p = elementPosition(btn);
+	var d = elementDimensions(btn);
+	
+	p.y += d.h;
+    setElementPosition(menu, p);
 
     makeContextMenu(src.id, kind, relation, val);
-
-    evt.stop();
 }
 
 function set_to_default(field, model){
