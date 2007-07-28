@@ -448,8 +448,19 @@ function makeContextMenu(id, kind, relation, val) {
         $('contextmenu').innerHTML = '';
 
         var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 1}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
-
         appendChildNodes('contextmenu', tbl);
+
+        var vd = getViewportDimensions();
+        var md = elementDimensions('contextmenu');
+        
+        var x = $('contextmenu').style.left.slice(0, -2);
+        x = parseInt(x);
+                
+        if ((x + md.w) > vd.w) {
+        	x -= x + md.w - vd.w;
+        	$('contextmenu').style.left = x + 'px';
+        }
+                
         showContextMenu();
 	});
 }
@@ -499,9 +510,9 @@ var m2oContextMenu = function(src){
 	hideElement(menu);
 	
 	var p = elementPosition(btn);
-	var d = elementDimensions(btn);
-	
-	p.y += d.h;
+	var d = elementDimensions(btn);	
+		
+	p.y += d.h;		
     setElementPosition(menu, p);
 
     makeContextMenu(src.id, kind, relation, val);
