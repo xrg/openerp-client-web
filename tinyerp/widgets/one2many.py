@@ -39,7 +39,7 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id', 'new_attrs']
+    params = ['string', 'id', 'new_attrs', 'pager_info']
 
     member_widgets = ['screen']
     form = None
@@ -109,3 +109,9 @@ class O2M(TinyCompoundWidget):
         if view_type == 'tree':
             self.screen.widget.pageable=False
             self.id = None
+            
+        pager_info = None
+        if view_type == 'form':
+            c = (self.screen.ids or 0) and len(self.screen.ids)
+            i = (c or 0) and (self.screen.ids.index(self.screen.id) + 1)
+            self.pager_info = '[%s/%s]' % (i, c)
