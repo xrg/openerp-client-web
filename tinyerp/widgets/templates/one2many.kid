@@ -6,18 +6,26 @@
                     <tr>
                         <td width="100%"><strong>${screen.string}</strong></td>
                         <td>
-                            <img class="button" src="/static/images/stock/gtk-new.png" width="16" height="16" title="${new_attrs['help']}" py:if="screen.editable" onclick="newO2M('${name}', '${screen.view_type}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)})"/>
-                            <img class="button" src="/static/images/stock/gtk-delete.png" width="16" height="16" title="Delete current record..." py:if="screen.editable and screen.view_type == 'form' and screen.id" onclick="submit_form('delete', '${name}')"/>                            
-                        </td>
-                        <td py:if="pager_info">
-                            <img class="button" title="Previous record..." src="/static/images/stock/gtk-go-back.png" width="16" height="16" onclick="submit_form('previous', '${name}')"/>
+                            <button type="button" py:if="screen.editable"  title="${new_attrs['help']}" onclick="newO2M('${name}', '${screen.view_type}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)})" style="padding: 2px">
+                                <img src="/static/images/stock/gtk-new.png" width="16" height="16"/>
+                            </button>
+                            <button type="button" py:if="screen.editable and screen.view_type == 'form' and screen.id" title="Delete current record..." onclick="submit_form('delete', '${name}')" style="padding: 2px">
+                                <img src="/static/images/stock/gtk-delete.png" width="16" height="16"/>                            
+                            </button>                                
+                            <button type="button" py:if="pager_info" title="Previous record..." onclick="submit_form('previous', '${name}')" style="padding: 2px">
+                                <img class="button" src="/static/images/stock/gtk-go-back.png" width="16" height="16"/>
+                            </button>
                         </td>
                         <td py:if="pager_info" py:content="pager_info" style="padding: 0px 4px"/>
-                        <td py:if="pager_info">                            
-                            <img class="button" title="Next record..." src="/static/images/stock/gtk-go-forward.png" width="16" height="16" onclick="submit_form('next', '${name}')"/>
+                        <td>
+                            <button type="button" py:if="pager_info" title="Next record..." onclick="submit_form('next', '${name}')" style="padding: 2px">
+                                <img src="/static/images/stock/gtk-go-forward.png" width="16" height="16"/>
+                            </button>
+                            <button type="button" title="Switch view..." onclick="submit_form('switch', '${name}')" style="padding: 2px">
+                                <img src="/static/images/stock/gtk-justify-fill.png" width="16" height="16"/>
+                            </button>
                         </td>
-                        <td>                            
-                            <img class="button" src="/static/images/stock/gtk-justify-fill.png" width="16" height="16" title="Switch view..." onclick="submit_form('switch', '${name}')"/>
+                        <td>
                             <img class="button" title="Translate me." src="/static/images/translate.gif" width="16" height="16" py:if="not screen.editable and screen.view_type=='form'" onclick="openWindow('${tg.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
                         </td>
                     </tr>
