@@ -285,6 +285,17 @@ div.welcome {
 	white-space: nowrap;
 }
 
+.view .toolbar img,
+.view .titlebar img {
+	border: none;
+	margin: 0 1px;
+	vertical-align: middle;
+}
+.view .toolbar img.button,
+.view .titlebar img.button {
+	cursor: pointer;
+}
+
 .view .fields {
 }
 

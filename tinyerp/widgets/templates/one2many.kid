@@ -11,7 +11,7 @@
                             <button type="button" title="Previous record..." disabled="${tg.checker(screen.view_type == 'tree')}" onclick="submit_form('previous', '${name}')">Prev</button>
                             <button type="button" title="Next record..." disabled="${tg.checker(screen.view_type == 'tree')}" onclick="submit_form('next', '${name}')">Next</button>
                             <button type="button" title="Switch view..." onclick="submit_form('switch', '${name}')">Switch</button>
-                            <img border="0" title="Translate me." src="/static/images/translate.gif" width="16" height="16" style="cursor: pointer;" py:if="not screen.editable and screen.view_type=='form'" onclick="openWindow('${tg.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
+                            <img class="button" title="Translate me." src="/static/images/translate.gif" width="16" height="16" py:if="not screen.editable and screen.view_type=='form'" onclick="openWindow('${tg.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
                         </td>
                     </tr>
                 </table>

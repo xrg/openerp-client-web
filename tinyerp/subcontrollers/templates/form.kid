@@ -56,13 +56,13 @@
                                         <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>      
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.attach">
-                                        <img border="0" title="Add an attachment to this resource." src="/static/images/stock/gtk-paste.png" width="16" height="16" style="cursor: pointer;" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                        <img class="button" title="Add an attachment to this resource." src="/static/images/stock/gtk-paste.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.i18n">
-                                        <img border="0" title="Translate this resource." src="/static/images/translate.gif" width="16" height="16" style="cursor: pointer;" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                        <img class="button" title="Translate this resource." src="/static/images/translate.gif" width="16" height="16" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     <td align="center" valign="middle" width="16">
-                                        <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/help.png" width="16" height="16"/></a>
+                                        <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img class="button" border="0" src="/static/images/help.png" width="16" height="16"/></a>
                                     </td>
                                 </tr>
                             </table>
