@@ -54,10 +54,12 @@
                                         <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="submit_form('switch')">Search</button>
                                         <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="submit_form('switch')">Form</button>
                                         <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>      
-                                        <button type="button" title="Add an attachment to this resource." disabled="${tg.selector(not buttons.attach)}" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})">Attachments</button>
-                                        <button type="button" title="Launch action about this resource" py:if="buttons.action" onclick="submit_form('action')">Action</button>
-                                        <button type="button" title="Print documents" py:if="buttons.report" onclick="submit_form('report')">Print</button>
-                                        <button type="button" title="Translate this resource." py:if="buttons.i18n" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')">i18n</button>
+                                    </td>
+                                    <td align="center" valign="middle" width="16" py:if="buttons.attach">
+                                        <img border="0" title="Add an attachment to this resource." src="/static/images/stock/gtk-paste.png" width="16" height="16" style="cursor: pointer;" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                    </td>
+                                    <td align="center" valign="middle" width="16" py:if="buttons.i18n">
+                                        <img border="0" title="Translate this resource." src="/static/images/translate.gif" width="16" height="16" style="cursor: pointer;" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     <td align="center" valign="middle" width="16">
                                         <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/help.png" width="16" height="16"/></a>

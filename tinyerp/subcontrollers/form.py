@@ -101,9 +101,6 @@ class Form(controllers.Controller, TinyResource):
         buttons.attach = (buttons.form or buttons.search or buttons.graph) and id
         buttons.i18n = not editable and mode == 'form'
 
-        buttons.action = (buttons.search or buttons.form) and not form.screen.hastoolbar
-        buttons.report = buttons.action
-
         pager = None
         if buttons.pager:
             pager = tw.listgrid.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
