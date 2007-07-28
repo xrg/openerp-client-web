@@ -108,14 +108,14 @@ class Screen(TinyCompoundWidget):
         self.editable           = editable
         
         if self.view_mode:
-            
-            view_type = self.view_type
-            view_index = self.view_mode.index(view_type)
-
+                        
+            view_type = self.view_type                        
             view_id = False
-            if self.view_ids and view_index < len(self.view_ids):
+            
+            if self.view_ids and view_type in self.view_mode:
+                view_index = self.view_mode.index(view_type)               
                 view_id = self.view_ids[view_index]
-                
+
             self.add_view_id(view_id, view_type)
 
     def add_view_id(self, view_id, view_type):            
