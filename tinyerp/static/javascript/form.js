@@ -450,7 +450,6 @@ function makeContextMenu(id, kind, relation, val) {
         var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 1}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
 
         appendChildNodes('contextmenu', tbl);
-        //showElement('contextmenu');
         showContextMenu();
 	});
 }
@@ -511,9 +510,6 @@ var m2oContextMenu = function(src){
 function set_to_default(field, model){
 
 	var kind = $(field).attributes['kind'].value;
-	if(kind=="many2one"){
-		field = field.slice(0, field.length - 5);
-	}
 
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
@@ -528,9 +524,6 @@ function set_to_default(field, model){
 
 function set_as_default(field, model){
 	var kind = $(field).attributes['kind'].value;
-	if(kind=="many2one"){
-		field = field.slice(0, field.length - 5);
-	}
 
 	var args = get_parent_form();
 	args['_terp_model'] = model;
@@ -547,7 +540,6 @@ function set_as_default(field, model){
 
 function do_action(id, relation) {
 
-    id = id.slice(0, id.length - 5);
     id = $(id).value;
 
     var act = get_form_action('action');
@@ -558,7 +550,6 @@ function do_action(id, relation) {
 
 function do_print(id, relation) {
 
-    id = id.slice(0, id.length - 5);
     id = $(id).value;
 
     var act = get_form_action('report/report.pdf');
@@ -568,8 +559,6 @@ function do_print(id, relation) {
 }
 
 function do_relate(action_id, field, relation, src) {
-
-    field = field.slice(0, field.length - 5);
 
     var id = $(field).value;
     var data = src.attributes['data'].value;
