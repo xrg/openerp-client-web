@@ -140,7 +140,7 @@
             <tr>
                 <td>           
                     <div class="toolbar">
-                        <button type="submit">Find</button>
+                        <button type="submit">Filter</button>
                         <button type="button" onclick="do_create()" py:if="params.kind == 1">New</button>
                         <button type="button" onclick="do_select()">Select</button>
                     </div>
