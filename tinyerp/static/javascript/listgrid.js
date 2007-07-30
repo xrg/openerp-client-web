@@ -350,7 +350,8 @@ ListView.prototype.reload = function(edit_inline){
         swapDOM(myself.id, newlist);
         
         var ua = navigator.userAgent.toLowerCase();
-        if ((ua.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
+        
+        if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
 	        // execute JavaScript
     	    var scripts = getElementsByTagAndClassName('script', null, newlist);
         	forEach(scripts, function(s){
