@@ -34,7 +34,9 @@
 	<title py:replace="''">Your title goes here</title>
 	<script type="text/javascript" src="/static/javascript/master.js"></script>    
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
-    <script type="text/javascript" src="/static/javascript/ajax.js"></script>
+    <script type="text/javascript" src="/static/javascript/ajax.js"></script>     
+    <script type="text/javascript" src="/static/javascript/sorting.js"></script> 
+
 </head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
