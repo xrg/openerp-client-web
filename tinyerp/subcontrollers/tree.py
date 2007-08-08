@@ -91,9 +91,16 @@ class Tree(controllers.Controller, TinyResource):
 
         return self.create(params)
 
+    def sort_callback(self, item1, item2, field):
+        a = item1[field]
+        b = item2[field]
+
+        #TODO: compare a b (date, float, int, string etc.)
+        return cmp(a, b) # default is string comparison
+
     @expose('json')
-    def data(self, ids, model, fields, field_parent=None, icon=0, domain=[]):
-        
+    def data(self, ids, model, fields, field_parent=None, icon=0, domain=[], orderby=None):
+
         ids = ids.split(',')
         ids = [int(id) for id in ids if id != '']
 
@@ -119,6 +126,9 @@ class Tree(controllers.Controller, TinyResource):
 
         fields_info = cache.fields_get(model, fields, ctx)
         result = proxy.read(ids, fields, ctx)
+
+        if orderby:
+            result.sort(lambda a,b: self.sort_callback(a, b, orderby))
 
         # formate the data
         for field in fields:
@@ -152,7 +162,7 @@ class Tree(controllers.Controller, TinyResource):
 
         records = []
         for item in result:
-            
+
             # empty string instead of bool and None
             for k, v in item.items():
                 if v==None or (v==False and type(v)==bool):
@@ -163,25 +173,25 @@ class Tree(controllers.Controller, TinyResource):
             record['id'] = item.pop('id')
             record['action'] = '/tree/open?model=%s&id=%s'%(model, record['id'])
             record['target'] = None
-            
+
             record['icon'] = None
-                                    
+
             if 'icon' in item:
                 icon = item.pop('icon')
-                record['icon'] = icons.get_icon(icon)            
-                
+                record['icon'] = icons.get_icon(icon)
+
                 if icon == 'STOCK_OPEN':
                     record['action'] = None
-                    
+
             record['children'] = []
 
             if field_parent and field_parent in item:
-                record['children'] = item.pop(field_parent) or None            
-                
-            record['data'] = item                
-            
+                record['children'] = item.pop(field_parent) or None
+
+            record['data'] = item
+
             records += [record]
-        
+
         return dict(records=records)
 
     def do_action(self, name, adds={}, datas={}):

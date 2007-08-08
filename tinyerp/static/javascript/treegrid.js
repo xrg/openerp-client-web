@@ -32,8 +32,8 @@ var TreeGrid = function(id, headers) {
     this.id = id;
 
     this.headers = eval(headers);
-            
-    this.show_icons = 'icon' in this.headers[0];    
+
+    this.show_icons = 'icon' in this.headers[0];
     this.show_headers = true;
 
     this.url = null;
@@ -126,7 +126,7 @@ TreeGrid.prototype.toggle = function(row, forced) {
 
     var index = findIdentical(table.rows, row);
     var indent = this.row_info[row.id].indent; indent = parseInt(indent) + 1;
-    
+
     for(var i in children) {
 
         var cid = children[i];
@@ -150,6 +150,11 @@ TreeGrid.prototype.toggle = function(row, forced) {
     return true;
 }
 
+TreeGrid.prototype.onsort = function(field, src){
+    this.params.orderby = field;
+    this.reload();
+}
+
 TreeGrid.prototype._make_head = function(){
 
     var thd = THEAD(null);
@@ -161,6 +166,10 @@ TreeGrid.prototype._make_head = function(){
 
         setNodeAttribute(th, 'title', header.help ? header.help : '');
         setNodeAttribute(th, 'class', header.type);
+
+        connect(th, 'onclick', bind(partial(this.onsort, header.name), this));
+
+        th.style.cursor = 'pointer';
 
         appendChildNodes(tr, th);
     }
@@ -195,9 +204,9 @@ TreeGrid.prototype._make_row = function(record, indent){
 
         var td = TD(null);
         var key = header.name;
-                       
+
         var val = record.data[key];
-        
+
         if (i == 0) { // first column
 
             var tds = [];
@@ -218,13 +227,13 @@ TreeGrid.prototype._make_row = function(record, indent){
             }
 
 			val = A({'href': '#'}, val);
-			
+
            	if (record.action){
 				setNodeAttribute(val, 'href', record.action);
            	} else {
            		MochiKit.Signal.connect(val, 'onclick', bind(function(){this.toggle(rid)}, this));
            	}
-           	
+
 			if (record.target) {
 				setNodeAttribute(val, 'target', record.target);
 			}
@@ -244,7 +253,7 @@ TreeGrid.prototype._make_row = function(record, indent){
     // register OnClick, OnDblClick event
     MochiKit.Signal.connect(tr, 'onclick', bind(this._on_select_row, this));
     MochiKit.Signal.connect(tr, 'ondblclick', bind(function(){this.toggle(rid)}, this));
-    
+
     return tr;
 }
 
@@ -253,17 +262,17 @@ TreeGrid.prototype._row_state = function(row, state){
     setNodeAttribute(span, 'class', state);
 }
 
-TreeGrid.prototype._add_rows = function(after, children, indent){    
-    
+TreeGrid.prototype._add_rows = function(after, children, indent){
+
     var index = parseInt(after);
 
     this.isloading = true;
 
     var row = $(this.id).rows[index];
     this._row_state(row, 'loading');
-    
-    var args = {ids: children};       
-    
+
+    var args = {ids: children};
+
     // update args with root params as well as row params
     update(args, this.params);
     update(args, this.row_info[row.id].params);
@@ -301,28 +310,25 @@ TreeGrid.prototype._add_rows = function(after, children, indent){
     });
 }
 
-TreeGrid.prototype.load = function(url, id, params){
-
-    this.url = url;
-    this.params = params ? params : {};
-    
-	this.params['fields'] = map(function(h){return h.name}, this.headers);
-    this.params['icon'] = this.show_icons ? 1 : 0;
-
-    var args = {ids: id}; update(args, this.params);
+TreeGrid.prototype.reload = function(){
 
     this.isloading = true;
 
-    $(this.id).innerHTML = "Loading...";
+    var args = {ids: this.parent_ids}; update(args, this.params);
 
-    var req = doSimpleXMLHttpRequest(url, args);
+    var div = DIV({id: this.id}, "Loading...");
+
+    swapDOM(this.id, div);
+
+    var req = doSimpleXMLHttpRequest(this.url, args);
+
     var grid = this;
 
     req.addCallback(function(xmlHttp){
         var res = evalJSONRequest(xmlHttp);
 
         var table = TABLE({id: grid.id, 'class': 'tree-grid', 'cellpadding': 0, 'cellspacing': 0});
-        
+
         var thd = grid.show_headers ? grid._make_head() : null;
         var tbd = grid._make_body(res.records);
 
@@ -336,7 +342,20 @@ TreeGrid.prototype.load = function(url, id, params){
     });
 }
 
-TreeGrid.prototype.selectAll = function() {	
+TreeGrid.prototype.load = function(url, id, params){
+
+    this.url = url;
+    this.params = params ? params : {};
+
+    this.parent_ids = id;
+
+	this.params['fields'] = map(function(h){return h.name}, this.headers);
+    this.params['icon'] = this.show_icons ? 1 : 0;
+
+    this.reload();
+}
+
+TreeGrid.prototype.selectAll = function() {
 }
 
 TreeGrid.prototype.getSelected = function() {
