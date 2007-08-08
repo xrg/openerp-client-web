@@ -37,9 +37,12 @@ function sortables_init() {
     // Find all tables with class grid and make them sortable
     if (!document.getElementsByTagName) return;
 
+    form = document.getElementById('view_form');
+
+
     tbls = getElementsByTagAndClassName("table","grid");
     rows = getElementsByTagAndClassName("tr","grid-row");
-
+    //log(rows['data']);
     for (ti=0;ti<tbls.length;ti++) {
         thisTbl = tbls[ti];
         if (((' '+thisTbl.className+' ').indexOf("grid") != -1) && (thisTbl.id)) {
@@ -69,7 +72,6 @@ function ts_makeSortable(rows, tableId) {
 
 	        var cell = firstRow[ti].cells[i];
 	        var txt = ts_getInnerText(cell);
-
 	        if(txt.length > 1 && txt.length != 35)
 	            cell.innerHTML = '<div class="sortheader" style="cursor: pointer;" onclick="ts_resortTable(this);return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></div>';
 	    }
@@ -85,6 +87,7 @@ function ts_getInnerText(el) {
 	var cs = el.childNodes;
 
 	var l = cs.length;
+
 	for (var i = 0; i < l; i++) {
 
 		switch (cs[i].nodeType) {
@@ -118,6 +121,25 @@ function ts_resortTable(lnk) {
 
     rows_header = getElementsByTagAndClassName("tr","grid-header", table)[0];
     rows = getElementsByTagAndClassName("tr","grid-row", table);
+
+    var record_ids = new Array();
+
+    forEach(rows, function(e) {
+        if(e.attributes['record']) {
+            record_ids.push(e.attributes['record'].value);
+        }
+    });
+
+    record_ids = '[' + record_ids.join(',') + ']';
+
+    //log(record_ids);
+
+    if(table.id == "_terp_list") {
+        $('_terp_ids').value = record_ids;
+    }
+    else {
+        $(table.id + "/" + '_terp_ids').value = record_ids;
+    }
 
     // Work out a type for the column
     if (rows.length <= 1) return;

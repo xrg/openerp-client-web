@@ -38,7 +38,7 @@
 	        </td>
 	    </tr>
 	    
-	    <tr py:def="make_row(data)" class="grid-row">
+	    <tr py:def="make_row(data)" class="grid-row" record="${data['id']}">
 	        <td py:if="selector" class="grid-cell">
 	            <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${name}" value="${data['id']}"/>
 	        </td>
