@@ -151,20 +151,9 @@ TreeGrid.prototype.toggle = function(row, forced) {
 }
 
 TreeGrid.prototype.onsort = function(field, src){
-    this.params.orderby = field;
-
-    if(this.params.sort_again !=0 )
-        this.params.sort_again = 1;
-    else
-        this.params.sort_again = 0;
-
+    this.params.sort_by = field;
+    this.params.sort_order = this.params.sort_order == "dsc" ? "asc" : "dsc";
     this.reload();
-
-    if(this.params.sort_again !=1 )
-        this.params.sort_again = 1;
-    else
-        this.params.sort_again = 0;
-
 }
 
 TreeGrid.prototype._make_head = function(){
