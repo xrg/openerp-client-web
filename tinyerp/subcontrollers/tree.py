@@ -91,15 +91,18 @@ class Tree(controllers.Controller, TinyResource):
 
         return self.create(params)
 
-    def sort_callback(self, item1, item2, field):
+    def sort_callback(self, item1, item2, field, sort_again=False):
         a = item1[field]
         b = item2[field]
 
-        #TODO: compare a b (date, float, int, string etc.)
-        return cmp(a, b) # default is string comparison
+        if(int(sort_again) == 0):
+            return cmp(a, b)
+        else:
+            return -cmp(a, b)
+
 
     @expose('json')
-    def data(self, ids, model, fields, field_parent=None, icon=0, domain=[], orderby=None):
+    def data(self, ids, model, fields, field_parent=None, icon=0, domain=[], orderby=None, sort_again=False):
 
         ids = ids.split(',')
         ids = [int(id) for id in ids if id != '']
@@ -128,7 +131,7 @@ class Tree(controllers.Controller, TinyResource):
         result = proxy.read(ids, fields, ctx)
 
         if orderby:
-            result.sort(lambda a,b: self.sort_callback(a, b, orderby))
+            result.sort(lambda a,b: self.sort_callback(a, b, orderby, sort_again))
 
         # formate the data
         for field in fields:
