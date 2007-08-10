@@ -38,7 +38,7 @@ from tinyerp import tools
 
 import form
 from interface import TinyCompoundWidget
-       
+
 class Pager(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.pager"
@@ -49,29 +49,29 @@ class Pager(TinyCompoundWidget):
     offset = 0
     limit = 20
     count = 0
-    
+
     page_info = None
     pager_id = 'pager'
 
     def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
-        
+
         super(Pager, self).__init__()
 
         self.limit = limit or 20
         self.offset = offset or 0
         self.count = count
-        
+
         self.id = id or False
         self.ids = ids or []
-        
+
         if view_type == 'form':
-            
+
             index = 0
             if self.id in self.ids:
                 index = self.offset + self.ids.index(self.id) + 1
-                
+
             self.page_info = _("[%s/%s]") % (index or '-', self.count)
-                        
+
             self.prev = index > 1
             self.next = index < self.count
 
@@ -81,18 +81,19 @@ class Pager(TinyCompoundWidget):
             self.page_info = _("[%s - %s of %s]") % (index, self.offset + len(self.ids), self.count)
             self.prev = self.offset > 0
             self.next = self.offset+len(self.ids) < self.count
-                        
+
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.listgrid"
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'hiddens', 'edit_inline']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'hiddens', 'edit_inline', 'field_total']
     member_widgets = ['pager', 'children']
 
     pager = None
     children = []
-    
+    field_total = {}
     editors = {}
     hiddens = []
+
     edit_inline = None
 
     data = None
@@ -154,12 +155,12 @@ class List(TinyCompoundWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if ids == None:            
+        if ids == None:
             if self.limit > 0:
                 ids = proxy.search(domain, self.offset, self.limit)
             else:
                 ids = proxy.search(domain)
-                
+
             self.count = proxy.search_count(domain)
 
         data = []
@@ -172,44 +173,47 @@ class List(TinyCompoundWidget):
 
             self.ids = ids
 
-        self.headers, self.hiddens, self.data = self.parse(root, fields, data)
-        
+        self.headers, self.hiddens, self.data, self.field_total = self.parse(root, fields, data)
+
+        for k, v in self.field_total.items():
+            self.field_total[k][1] = self.do_sum(self.data, k)
+
         self.columns = len(self.headers)
 
         self.columns += (self.selectable or 0) and 1
         self.columns += (self.editable or 0) and 2
 
-        if self.pageable:            
+        if self.pageable:
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
             self.pager.name = self.name
-            
+
         # make editors
         if self.editable and attrs.get('editable') in ('top', 'bottom'):
-            
+
             ctx = rpc.session.context.copy()
             ctx.update(context)
-            
-            defaults = proxy.default_get(fields.keys(), ctx)            
-            
+
+            defaults = proxy.default_get(fields.keys(), ctx)
+
             for f, fa in self.headers:
-                k = fa.get('type', 'char')                
+                k = fa.get('type', 'char')
                 if k not in form.widgets_type:
                     k = 'char'
-                    
+
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 ed = form.widgets_type[k](fa)
 
                 if f in defaults:
                     ed.set_value(defaults[f])
-                    
+
                 self.editors[f] = ed
-                
+
             # generate hidden fields
             for f, fa in self.hiddens:
                 k = fa.get('type', 'char')
                 if k not in form.widgets_type:
                     k = 'char'
-                    
+
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 ed =  form.Hidden(fa)
 
@@ -218,28 +222,37 @@ class List(TinyCompoundWidget):
 
                 self.editors[f] = ed
 
-            self.children = self.editors.values()            
-            
+            self.children = self.editors.values()
+
+    def do_sum(self, data, field):
+        sum = 0.0
+
+        for d in data:
+            value = d[field].value
+            sum += value
+
+        return sum
+
     def display(self, value=None, **params):
-        
+
         # set editor values
         if self.editors and self.edit_inline and self.edit_inline > 0:
-            
+
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
-            
+
             fields = [f for f, fa in self.headers]
             fields += [f for f, fa in self.hiddens]
-                        
+
             proxy = rpc.RPCProxy(self.model)
             defaults = proxy.read([self.edit_inline], fields, ctx)[0]
-            
+
             for f in fields:
                 if f in defaults:
                     self.editors[f].set_value(defaults[f])
-            
+
         return super(List, self).display(value, **params)
-                            
+
     def parse(self, root, fields, data=[]):
         """Parse the given node to generate valid list headers.
 
@@ -251,8 +264,9 @@ class List(TinyCompoundWidget):
 
         headers = []
         hiddens = []
+        field_total = {}
         values  = [row.copy() for row in data]
-        
+
         for node in root.childNodes:
             if node.nodeName=='field':
                 attrs = tools.node_attributes(node)
@@ -261,6 +275,9 @@ class List(TinyCompoundWidget):
 
                     name = attrs['name']
                     kind = fields[name]['type']
+
+                    if 'sum' in attrs:
+                        field_total[name] = [attrs['sum'], 0.0]
 
                     if kind not in CELLTYPES:
                         continue
@@ -303,7 +320,7 @@ class List(TinyCompoundWidget):
                     cell.link = "javascript: void(0)"
                     cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
 
-        return headers, hiddens, data
+        return headers, hiddens, data, field_total
 
 from tinyerp.stdvars import tg_query
 

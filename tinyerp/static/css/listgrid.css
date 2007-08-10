@@ -44,7 +44,7 @@
 
 .grid .pagerbar .pagerbar-cell {
 	background: #f3f3f3;
-	border-bottom: 1px solid #999;	
+	border-bottom: 1px solid #999;
 	padding: 2px 4px;
 }
 
@@ -65,4 +65,9 @@
 
 .listImage {
     cursor: pointer;
+}
+
+.field_sum .grid-cell {
+    border-bottom: 1px solid #999;
+	border-top: 1px solid #999;
 }

@@ -68,7 +68,21 @@
 	        <td py:if="editable" style="text-align: center" class="grid-cell">&nbsp;</td>
 	        <td py:if="editable" style="text-align: center" class="grid-cell">&nbsp;</td>        
 	    </tr>
-	
+	    	    
+	    <tr class="field_sum">
+	        <td width="1%" class="grid-cell">&nbsp;</td>
+	        <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right" nowrap="nowrap">
+                 <span py:if="'sum' in field_attrs">                    
+                     <span py:for="key, val in field_total.items()">
+                         <span py:if="field == key">${val[0]}: ${val[1]}</span>                    
+                     </span>
+                 </span>
+                 <span py:if="'sum' not in field_attrs">&nbsp;</span>
+    	    </td>
+	        <td style="text-align: center" class="grid-cell">&nbsp;</td>
+	        <td style="text-align: center" class="grid-cell">&nbsp;</td>    
+	    </tr>
+	    
 		<tr class="pagerbar" py:if="pageable">
 		    <td colspan="${columns}" class="pagerbar-cell">
 		        <table border="0" cellpadding="0" cellspacing="0" width="100%">
