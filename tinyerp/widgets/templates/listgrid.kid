@@ -2,26 +2,27 @@
 
 	<table id="${name}" class="grid" width="100%" cellspacing="0" cellpadding="0">    
 	    <tbody>
-		<tr class="pagerbar" py:if="pageable">
-		    <td colspan="${columns}" class="pagerbar-cell">	    
-		        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-		            <tr>
-		                <td align="right" py:content="pager.display()"></td>
-		            </tr>
-		        </table>
-		    </td>
-		</tr>
-
-	    <tr class="grid-header">
-	        <td width="1%" py:if="selector" class="grid-cell">           
-	            <input type="checkbox" class="checkbox grid-record-selector" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
-	            <span py:if="selector!='checkbox'">&nbsp;</span>
-	        </td>
-	        <td py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']">Title</td>
-	        <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
-	        <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
-	    </tr>
+			<tr class="pagerbar" py:if="pageable">
+			    <td colspan="${columns}" class="pagerbar-cell">	    
+			        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+			            <tr>
+			                <td align="right" py:content="pager.display()"></td>
+			            </tr>
+			        </table>
+			    </td>
+			</tr>
+	
+		    <tr class="grid-header">
+		        <td width="1%" py:if="selector" class="grid-cell">           
+		            <input type="checkbox" class="checkbox grid-record-selector" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(this.checked)"/>
+		            <span py:if="selector!='checkbox'">&nbsp;</span>
+		        </td>
+		        <td py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']">Title</td>
+		        <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
+		        <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
+		    </tr>
 	    </tbody>
+	    
 	    <tr py:def="make_editors(data=None)" class="grid-row editors" py:if="editable and editors">
 	        <td py:if="selector" class="grid-cell">&nbsp;</td>
 	        <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">
@@ -69,7 +70,7 @@
 	        <td py:if="editable" style="text-align: center" class="grid-cell">&nbsp;</td>        
 	    </tr>
 	    	    
-	    <tr class="field_sum">
+	    <tr class="field_sum" py:if="field_total">
 	        <td width="1%" class="grid-cell">&nbsp;</td>
 	        <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right" nowrap="nowrap">
                  <span py:if="'sum' in field_attrs">                    
