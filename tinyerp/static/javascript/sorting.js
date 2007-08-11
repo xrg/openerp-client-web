@@ -72,7 +72,7 @@ function ts_makeSortable(rows, tableId) {
 
 	        var cell = firstRow[ti].cells[i];
 	        var txt = ts_getInnerText(cell);
-	        if(txt.length > 1 && txt.length != 35)
+	        if(cell.id.length > 0)
 	            cell.innerHTML = '<div class="sortheader" style="cursor: pointer;" onclick="ts_resortTable(this);return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></div>';
 	    }
 	}
