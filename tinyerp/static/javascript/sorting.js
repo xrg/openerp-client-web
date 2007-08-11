@@ -231,8 +231,8 @@ function ts_sort_date(a,b) {
 }
 
 function ts_sort_currency(a,b) {
-    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]);
-    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]);
+    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
+    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
     return parseFloat(aa) - parseFloat(bb);
 }
 
@@ -245,8 +245,8 @@ function ts_sort_numeric(a,b) {
 }
 
 function ts_sort_caseinsensitive(a,b) {
-    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]);
-    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]);
+    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]).toLowerCase();
+    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]).toLowerCase();
     if (aa==bb) return 0;
     if (aa<bb) return -1;
     return 1;
