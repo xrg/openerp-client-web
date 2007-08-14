@@ -48,35 +48,35 @@ class List(controllers.Controller, TinyResource):
     @expose('json')
     def save(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         error = None
         error_field = None
-        
-        id = params.id or 0        
+
+        id = params.id or 0
         id = (id > 0) and id or 0
 
         model = params.parent.model
-        
+
         if model != params.model and not params.parent.id:
             error = _("Parent record doesn't exists...")
 
         if error:
             return dict(error=error)
 
-        try:                           
-            proxy = rpc.RPCProxy(model)            
+        try:
+            proxy = rpc.RPCProxy(model)
             frm = TinyForm('form', 'kind', **kw)
-            
+
             data = {}
             if model != params.model:
-               
+
                 fld = frm.keys()[0]
                 data = {fld : [(id and 1, id, frm[fld].copy())]}
-                
+
                 proxy.write([params.parent.id], data, params.parent.context or {})
             else:
-                data = frm.copy()                                
-                
+                data = frm.copy()
+
                 if id > 0:
                     proxy.write([id], data, params.parent.context or {})
                 else:
@@ -84,16 +84,16 @@ class List(controllers.Controller, TinyResource):
 
         except TinyFormError, e:
             error_field = e.field
-            error = ustr(e)            
+            error = ustr(e)
         except Exception, e:
             error = ustr(e)
 
         return dict(error_field=error_field, error=error)
-    
+
     @expose('json')
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
-                
+
         error = None
         proxy = rpc.RPCProxy(params.model)
 
@@ -110,17 +110,19 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         params.ids = None
-        source = (params.source or '') and str(params.source)        
+        source = (params.source or '') and str(params.source)
 
         params.view_mode = ['form', 'tree']
+        params.view_type = 'form'
+
         if source == '_terp_list':
-            params.view_mode = ['tree', 'form']
-            
+            params.view_type='tree'
+
             if params.search_domain:
-                params.domain += params.search_domain            
-        
+                params.domain += params.search_domain
+
         frm = form.Form().create_form(params)
-        
+
         wid = frm.screen.get_widgets_by_name(source, kind=tw.listgrid.List)[0]
         ids = wid.ids
 
