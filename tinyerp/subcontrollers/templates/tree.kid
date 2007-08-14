@@ -28,9 +28,9 @@
                             <strong>${tree.string}</strong>
                         </td>
                         <td>
-                            <button type="button" title="Switch current view: form/list" onclick="submit_form('switch')">Switch</button>
-                            <button type="button" title="Launch action about this resource" onclick="submit_form('action')">Action</button>
-                            <button type="button" title="Print documents" onclick="submit_form('report')">Print</button>
+                            <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
+                            <button type="button" title="${_('Launch action about this resource')}" onclick="submit_form('action')">Action</button>
+                            <button type="button" title="${_('Print documents')}" onclick="submit_form('report')">Print</button>
                         </td>
                         <td align="center" valign="middle" width="16">
                             <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/help.png" width="16" height="16"/></a>

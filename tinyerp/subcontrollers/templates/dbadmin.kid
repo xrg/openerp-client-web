@@ -13,11 +13,11 @@
 	            <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	                <tr>
 	                    <td width="100%" align="center">
-	                        <button type="button" title="" onclick="location.href='/dbadmin/create'">Create</button>
-	                        <button type="button" title="" onclick="location.href='/dbadmin/drop'">Drop</button>
-	                        <button type="button" title="" onclick="location.href='/dbadmin/backup'">Backup</button>
-	                        <button type="button" title="" onclick="location.href='/dbadmin/restore'">Restore</button>
-	                        <button type="button" title="" onclick="location.href='/dbadmin/password'">Password</button>
+	                        <button type="button" title="${_('')}" onclick="location.href='/dbadmin/create'">Create</button>
+	                        <button type="button" title="${_('')}" onclick="location.href='/dbadmin/drop'">Drop</button>
+	                        <button type="button" title="${_('')}" onclick="location.href='/dbadmin/backup'">Backup</button>
+	                        <button type="button" title="${_('')}" onclick="location.href='/dbadmin/restore'">Restore</button>
+	                        <button type="button" title="${_('')}" onclick="location.href='/dbadmin/password'">Password</button>
 	                    </td>
 	                </tr>
 	            </table>

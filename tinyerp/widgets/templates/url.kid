@@ -19,7 +19,7 @@
                 <input type="text" kind="${kind}" name='${name}' id ='${field_id}' value="${value}" class="${field_class}" py:attrs="attrs"/>
             </td>
             <td width="16" style="padding-left: 2px">
-                <img width="16" height="16" alt="Go!" src="/static/images/stock/gtk-jump-to.png" style="cursor: pointer;" onclick="open_win($('${field_id}').value);"/>
+                <img width="16" height="16" alt="${_('Go!')}" src="/static/images/stock/gtk-jump-to.png" style="cursor: pointer;" onclick="open_win($('${field_id}').value);"/>
             </td>
          </tr>
      </table>

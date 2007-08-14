@@ -32,10 +32,10 @@
 	            <!-- begin hidden fields -->
 	            <span py:for="field, field_attrs in hiddens" py:replace="editors[field].display()"/>
 	            <!-- end of hidden fields -->
-	            <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="Update" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
+	            <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
 	        </td>
 	        <td class="grid-cell" style="text-align: center; padding: 0px;">
-	            <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="Cancel" onclick="new ListView('${name}').reload()"/>
+	            <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
 	        </td>
 	    </tr>
 	    
@@ -48,11 +48,11 @@
 	            <span py:if="data[field].text == ''">&nbsp;</span>
 	        </td>
 	        <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-	            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
-	            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="Edit" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
+	            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
+	            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
 	        </td>
 	        <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
-	            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="Delete" onclick="new ListView('${name}').remove(${data['id']})"/>
+	            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
 	        </td>
 	    </tr>
 	

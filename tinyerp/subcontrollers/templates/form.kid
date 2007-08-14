@@ -50,15 +50,15 @@
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>                                    
                                     <td nowrap="nowrap">
-                                        <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="submit_form('switch')">Search</button>
-                                        <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="submit_form('switch')">Form</button>
-                                        <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>      
+                                        <button type="button" title="${_('Search View...')}" disabled="${tg.selector(not buttons.search)}" onclick="submit_form('switch')">Search</button>
+                                        <button type="button" title="${_('Form View...')}" disabled="${tg.selector(not buttons.form)}" onclick="submit_form('switch')">Form</button>
+                                        <button type="button" title="${_('Graph View...')}" disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>      
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.attach">
-                                        <img class="button" title="Add an attachment to this resource." src="/static/images/stock/gtk-paste.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                        <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/stock/gtk-paste.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.i18n">
-                                        <img class="button" title="Translate this resource." src="/static/images/translate.gif" width="16" height="16" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                        <img class="button" title="${_('Translate this resource.')}" src="/static/images/translate.gif" width="16" height="16" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     <td align="center" valign="middle" width="16">
                                         <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img class="button" border="0" src="/static/images/help.png" width="16" height="16"/></a>
@@ -74,11 +74,11 @@
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td>
-                                            <button type="button" title="Create a new resource" py:if="buttons.new" onclick="editRecord(null)">New</button>
-                                            <button type="button" title="Edit this resource" py:if="buttons.edit" onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
-                                            <button type="button" title="Save this resource" py:if="buttons.save" onclick="submit_form('save')">Save</button>                                            
-                                            <button type="button" title="Delete this resource" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
-                                            <button type="button" title="Cancel editing the current resource" py:if="buttons.cancel" onclick="viewRecord(${form.screen.id or 'null'})">Cancel</button>
+                                            <button type="button" title="${_('Create a new resource')}" py:if="buttons.new" onclick="editRecord(null)">New</button>
+                                            <button type="button" title="${_('Edit this resource')}" py:if="buttons.edit" onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
+                                            <button type="button" title="${_('Save this resource')}" py:if="buttons.save" onclick="submit_form('save')">Save</button>                                            
+                                            <button type="button" title="${_('Delete this resource')}" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
+                                            <button type="button" title="${_('Cancel editing the current resource')}" py:if="buttons.cancel" onclick="viewRecord(${form.screen.id or 'null'})">Cancel</button>
                                         </td>
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager" py:content="pager.display()"></td>
                                     </tr>
