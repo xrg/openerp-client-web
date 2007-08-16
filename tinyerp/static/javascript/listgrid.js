@@ -30,12 +30,12 @@
 var ListView = function(id, terp){
     this.id = id;
     this.terp = terp;
-    
+
     var prefix = id == '_terp_list' ? '' : id + '/';
-       
+
     this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
     this.current_record = null;
-    
+
     this.wait_counter = 0;
 }
 
@@ -66,8 +66,8 @@ ListView.prototype.create = function(){
 }
 
 ListView.prototype.edit = function(id){
-	if (this.wait_counter > 0) 
-		return;	
+	if (this.wait_counter > 0)
+		return;
 
 	this.reload(id);
 }
@@ -95,31 +95,31 @@ ListView.prototype.adjustEditors = function(newlist){
 
         var header = getElementsByTagAndClassName('tr', 'grid-header', myself.id)[0];
         var columns = filter(function(c){return c.id;}, getElementsByTagAndClassName('td', 'grid-cell', header));
-                
+
         forEach(columns, function(c){
             var k = c.id.split('/');
-            k.shift(); 
+            k.shift();
             k = '_terp_listfields/' + k.join('/');
-            
+
             var w = parseInt(c.offsetWidth);
-            
+
             if (hasElementClass(c, 'datetime') || hasElementClass(c, 'date') || hasElementClass(c, 'time')) {
                 w -= 18;
             }
-            
+
             if (hasElementClass(c, 'many2one')) {
                 w -= 18;
                 k += '_text';
             }
-                                            
+
             widths[k] = w - 4;
         });
     } else {
-        forEach(myself.getEditors(), function(e){            
+        forEach(myself.getEditors(), function(e){
             widths[e.id] = parseInt(e.offsetWidth);
         });
     }
-    
+
     var editors = myself.getEditors(false, newlist);
 
     forEach(editors, function(e){
@@ -129,11 +129,11 @@ ListView.prototype.adjustEditors = function(newlist){
             e.style.width = widths[k] + 'px';
             e.style.maxWidth = widths[k] + 'px';
         }
-        
+
         // disable autocomplete (Firefox < 2.0 focus bug)
-        setNodeAttribute(e, 'autocomplete', 'OFF');  
+        setNodeAttribute(e, 'autocomplete', 'OFF');
     });
-    
+
     return editors;
 }
 
@@ -141,46 +141,46 @@ ListView.prototype.onKeyDown = function(evt){
 
 	var key = evt.key();
 	var src = evt.src();
-	
+
 	if (!(key.string == "KEY_TAB" || key.string == "KEY_ENTER" || key.string == "KEY_ESCAPE")) {
 		return;
 	}
-	
+
 	if (key.string == "KEY_ESCAPE"){
 		evt.stop();
 		this.reload();
 		return;
 	}
-	
+
 	if (key.string == "KEY_ENTER"){
-	
+
 		if (hasElementClass(src, "m2o")){
-	
+
 			var k = src.id;
 			k = k.slice(0, k.length - 5);
-		
+
 			if (src.value && !getElement(k).value){
 				return;
 			}
 		}
 
-		evt.stop();				
+		evt.stop();
 		this.save(this.current_record);
-		
+
 		return;
-	}	
-	
+	}
+
 	var editors = filter(function(e){return e.type != 'hidden' && !e.disabled}, this.getEditors());
-	
+
 	var first = editors.shift();
 	var last = editors.pop();
-	
+
 	if (src == last){
 		evt.stop();
 		first.focus();
 		first.select();
 	}
-	
+
 }
 
 ListView.prototype.bindKeyEventsToEditors = function(editors){
@@ -200,24 +200,24 @@ ListView.prototype.save = function(id){
 
     var args = {};
     var parent_field = this.id.split('/');
-    
+
     args['_terp_id'] = id ? id : -1;
     args['_terp_model'] = this.model;
-    
+
     if (parent_field.length > 0){
 		parent_field.pop();
 	}
-	
+
     parent_field = parent_field.join('/');
     parent_field = parent_field ? parent_field + '/' : '';
-    
+
     args['_terp_parent/id'] = $(parent_field + '_terp_id').value;
     args['_terp_parent/model'] = $(parent_field + '_terp_model').value;
     args['_terp_parent/context'] = $(parent_field + '_terp_context').value;
-    
+
     var myself = this;
     var editors = this.getEditors(true);
-    
+
     forEach(editors, function(e){
    		// remove '_terp_listfields/' prefix
    		var n = e.name.split('/');
@@ -228,22 +228,22 @@ ListView.prototype.save = function(id){
         var r = '_terp_required/' + n.join('/');
 
         args[f] = e.value;
-        args[k] = e.attributes['kind'].value;        
+        args[k] = e.attributes['kind'].value;
         if (hasElementClass(e, 'requiredfield'))
         	args[k] += ' required';
     });
 
     var req= Ajax.JSON.post('/listgrid/save', args);
-    
+
     this.waitGlass();
 
     req.addCallback(function(obj){
         if (obj.error){
            alert(obj.error);
-           
+
            if (obj.error_field) {
                var fld = getElement('_terp_listfields/' + obj.error_field);
-              
+
                if (fld && fld.attributes['kind'].value == 'many2one')
                		fld = getElement(fld.id + '_text');
 
@@ -256,7 +256,7 @@ ListView.prototype.save = function(id){
             myself.reload(id > 0 ? null : -1);
         }
     });
-    
+
     req.addBoth(function(xmlHttp){
         myself.waitGlass(true);
     });
@@ -270,14 +270,14 @@ ListView.prototype.remove = function(id){
 
 	var myself = this;
 	var args = {};
-	
+
 	args['_terp_model'] = this.model;
 	args['_terp_id'] = id;
-	
+
 	var req = Ajax.JSON.post('/listgrid/remove', args);
-	
+
 	this.waitGlass();
-	
+
 	req.addCallback(function(obj){
 		if (obj.error){
 			alert(obj.error);
@@ -285,7 +285,7 @@ ListView.prototype.remove = function(id){
 			myself.reload();
 		}
 	});
-	
+
 	req.addBoth(function(xmlHttp){
         myself.waitGlass(true);
     });
@@ -304,6 +304,7 @@ ListView.prototype.reload = function(edit_inline){
     args['_terp_model'] = $('_terp_model').value;
     args['_terp_id'] = $('_terp_id').value;
     args['_terp_view_ids'] = $('_terp_view_ids').value;
+    args['_terp_view_mode'] = $('_terp_view_mode').value;
     args['_terp_domain'] = $('_terp_domain').value;
     args['_terp_context'] = $('_terp_context').value;
 
@@ -312,18 +313,19 @@ ListView.prototype.reload = function(edit_inline){
     	args['_terp_offset'] = $('_terp_offset').value;
     	args['_terp_limit'] = $('_terp_limit').value;
     }
-    
+
     // add my args
     if (this.id != '_terp_list'){
-    
+
     	var prefix = '_terp_' + this.id + '/';
 
 	    args[prefix + '_terp_model'] = $(this.id + '/_terp_model').value;
     	args[prefix + '_terp_id'] = $(this.id + '/_terp_id').value;
 	    args[prefix + '_terp_view_ids'] = $(this.id + '/_terp_view_ids').value;
+	    args[prefix + '_terp_view_mode'] = $(this.id + '/_terp_view_mode').value;
     	args[prefix + '_terp_domain'] = $(this.id + '/_terp_domain').value;
 	    args[prefix + '_terp_context'] = $(this.id + '/_terp_context').value;
-	    
+
 	    args[prefix + '_terp_offset'] = $(this.id + '/_terp_offset').value;
     	args[prefix + '_terp_limit'] = $(this.id + '/_terp_limit').value;
     }
@@ -331,26 +333,26 @@ ListView.prototype.reload = function(edit_inline){
     var req = Ajax.JSON.post('/listgrid/get', args);
 
     this.waitGlass();
-    
+
     req.addCallback(function(obj){
-    	
+
     	var ids = $(myself.id + '/_terp_ids');
     	ids = ids ? ids : $('_terp_ids');
-    	
+
     	ids.value = obj.ids;
 
         var d = DIV();
         d.innerHTML = obj.view;
 
-        var newlist = d.getElementsByTagName('table')[0];        
+        var newlist = d.getElementsByTagName('table')[0];
 		var editors = myself.adjustEditors(newlist);
-	
+
 		myself.current_record = edit_inline;
-		
+
         swapDOM(myself.id, newlist);
-        
+
         var ua = navigator.userAgent.toLowerCase();
-        
+
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
 	        // execute JavaScript
     	    var scripts = getElementsByTagAndClassName('script', null, newlist);
@@ -358,11 +360,11 @@ ListView.prototype.reload = function(edit_inline){
         		eval(s.innerHTML);
 	        });
 	    }
-        
+
 		if (editors.length > 0)
-        	myself.bindKeyEventsToEditors(editors);        
+        	myself.bindKeyEventsToEditors(editors);
     });
-    
+
     req.addBoth(function(xmlHttp){
         myself.waitGlass(true);
     });
@@ -385,25 +387,25 @@ function findPosition(elem) {
 ListView.prototype.waitGlass = function(hide){
 
 	this.wait_counter += hide ? -1 : 1;
-		
+
 	var block = $('listgrid_ajax_wait');
-	
+
 	if (!block){
 		block = DIV({id: 'listgrid_ajax_wait', style: "position: absolute; display: none; background-color: gray;"});
-		setOpacity(block, 0.2);	
+		setOpacity(block, 0.2);
 
 		appendChildNodes(document.body, block);
 	}
-	
+
 	if (this.wait_counter == 0){
 		hideElement(block);
 		return;
 	}
-	
+
 	if (this.wait_counter > 1){
 		return;
 	}
-	
+
 	var thelist = $(this.id);
 
 	//var p = elementPosition(thelist);
@@ -420,26 +422,26 @@ ListView.prototype.exportData = function(){
 	openWindow(getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id}));
 }
 
-ListView.prototype.importData = function(){	
+ListView.prototype.importData = function(){
 	openWindow(getURL('/impex/imp', {_terp_model: this.model, _terp_source: this.id}));
 }
 
 ListView.prototype.go = function(action){
 
 	var prefix = '';
-	
+
 	if (this.id != '_terp_list') {
 		prefix = this.id + '/';
 	}
-	
+
 	var o = $(prefix + '_terp_offset');
 	var l = $(prefix + '_terp_limit');
 	var c = $(prefix + '_terp_count');
-	
+
 	var ov = o.value ? parseInt(o.value) : 0;
 	var lv = l.value ? parseInt(l.value) : 0;
 	var cv = c.value ? parseInt(c.value) : 0;
-	
+
 	switch(action) {
 		case 'next':
 			o.value = ov + lv;
@@ -454,6 +456,6 @@ ListView.prototype.go = function(action){
 			o.value = cv - (cv % lv);
 			break;
 	}
-	
+
 	this.reload();
 }

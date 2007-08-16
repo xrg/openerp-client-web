@@ -112,7 +112,6 @@ class List(controllers.Controller, TinyResource):
         params.ids = None
         source = (params.source or '') and str(params.source)
 
-        params.view_mode = ['form', 'tree']
         params.view_type = 'form'
 
         if source == '_terp_list':
