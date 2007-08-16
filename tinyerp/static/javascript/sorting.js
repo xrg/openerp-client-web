@@ -37,9 +37,6 @@ function sortables_init() {
     // Find all tables with class grid and make them sortable
     if (!document.getElementsByTagName) return;
 
-    form = document.getElementById('view_form');
-
-
     tbls = getElementsByTagAndClassName("table","grid");
     rows = getElementsByTagAndClassName("tr","grid-row");
     //log(rows['data']);
@@ -69,7 +66,6 @@ function ts_makeSortable(rows, tableId) {
     for (ti=0;ti<firstRow.length;ti++) {
 
         for (var i=0;i<firstRow[ti].cells.length;i++) {
-
 	        var cell = firstRow[ti].cells[i];
 	        var txt = ts_getInnerText(cell);
 	        if(cell.id.length > 0)
@@ -115,11 +111,16 @@ function ts_resortTable(lnk) {
     var spantext = ts_getInnerText(span);
     var td = lnk.parentNode;
 
+    if(td.attributes){
+        if(td.attributes['kind']);
+            click_kind = td.attributes['kind'].value;
+    }
+
     var column = td.cellIndex;
 
     var table = getParent(td,'TABLE');
 
-    rows_header = getElementsByTagAndClassName("tr","grid-header", table)[0];
+    //rows_header = getElementsByTagAndClassName("tr","grid-header", table)[0];
     rows = getElementsByTagAndClassName("tr","grid-row", table);
 
     var record_ids = new Array();
@@ -132,8 +133,6 @@ function ts_resortTable(lnk) {
 
     record_ids = '[' + record_ids.join(',') + ']';
 
-    //log(record_ids);
-
     if(table.id == "_terp_list") {
         $('_terp_ids').value = record_ids;
     }
@@ -144,11 +143,18 @@ function ts_resortTable(lnk) {
     // Work out a type for the column
     if (rows.length <= 1) return;
     var itm = ts_getInnerText(rows[1].cells[column]);
-    sortfn = ts_sort_caseinsensitive;
-    if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)) sortfn = ts_sort_date;
-    if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)) sortfn = ts_sort_date;
-    if (itm.match(/^[£$]/)) sortfn = ts_sort_currency;
-    if (itm.match(/^[\d\.]+$/)) sortfn = ts_sort_numeric;
+
+    var sortfn = ts_sort_caseinsensitive;
+
+    if(click_kind == 'float') sortfn = ts_sort_numeric;
+    if(click_kind == 'char')  sortfn = ts_sort_caseinsensitive;
+    if(click_kind == 'date' || click_kind == 'datetime' || click_kind == 'time') sortfn = ts_sort_date;
+
+    //if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)) sortfn = ts_sort_date;
+    //if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)) sortfn = ts_sort_date;
+    //if (itm.match(/^[£$]/)) sortfn = ts_sort_currency;
+    //if (itm.match(/^[\d\.]+$/)) sortfn = ts_sort_numeric;
+
     SORT_COLUMN_INDEX = column;
 
     var firstRow = new Array();
