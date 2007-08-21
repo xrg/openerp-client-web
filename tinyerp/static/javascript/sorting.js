@@ -132,12 +132,13 @@ function ts_resortTable(lnk) {
     });
 
     record_ids = '[' + record_ids.join(',') + ']';
+    //log(table.id);
 
-    if(table.id == "_terp_list") {
-        $('_terp_ids').value = record_ids;
+    if($(table.id + "/" + '_terp_model')) {
+        $(table.id + "/" + '_terp_ids').value = record_ids;
     }
     else {
-        $(table.id + "/" + '_terp_ids').value = record_ids;
+        $('_terp_ids').value = record_ids;
     }
 
     // Work out a type for the column
