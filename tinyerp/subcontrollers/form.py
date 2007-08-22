@@ -108,7 +108,7 @@ class Form(controllers.Controller, TinyResource):
         return dict(form=form, pager=pager, buttons=buttons)
 
     @expose()
-    def edit(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
 
         params, data = TinyDict.split({'_terp_model': model, 
                                        '_terp_id' : id,
@@ -324,6 +324,9 @@ class Form(controllers.Controller, TinyResource):
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
 
+        if not params.id:
+            raise redirect(self.path + '/edit', **args)
+        
         raise redirect(self.path + '/view', **args)
         
     @expose(content_type='application/octet')
