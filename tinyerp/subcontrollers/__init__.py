@@ -18,3 +18,4 @@ import attachment
 import translator
 import impex
 import fieldpref
+import view_log

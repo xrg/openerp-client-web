@@ -121,7 +121,7 @@ class Root(controllers.RootController, TinyResource):
         """Main menu page, loads the view defined by `menu_id`.
         """
         return self.user_action('menu_id')
-    
+
     def _cp_on_error(self, *args, **kw):
         etype, value, tb = sys.exc_info()
 
@@ -138,14 +138,14 @@ class Root(controllers.RootController, TinyResource):
 
         title = "Internal error!"
         error = "Unknown error!"
-        
+
         if hasattr(cherrypy.session, '_last_error'):
             error = cherrypy.session._last_error
 
         if isinstance(error, common.TinyException):
             title = error.title
-            error = error.message            
-        
+            error = error.message
+
         return dict(title=title, message=error)
 
     @expose(template="tinyerp.templates.login")
@@ -193,4 +193,4 @@ class Root(controllers.RootController, TinyResource):
     translator = subcontrollers.translator.Translator()
     impex = subcontrollers.impex.ImpEx()
     fieldpref = subcontrollers.fieldpref.FieldPref()
-    
+    viewlog = subcontrollers.view_log.View_Log()
