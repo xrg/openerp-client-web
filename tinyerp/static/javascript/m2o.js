@@ -109,8 +109,6 @@ ManyToOne.prototype.change_icon = function(evt){
 ManyToOne.prototype.on_keydown = function(evt){	
 
 	var key = evt.event().keyCode;
-	
-	log("111", evt.key());
 
 	if (key == 8 || key == 46){
 		this.text.value = '';
