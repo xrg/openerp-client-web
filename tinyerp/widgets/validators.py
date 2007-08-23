@@ -88,7 +88,7 @@ class Selection(tg.validators.FancyValidator):
 
     def _to_python(self, value, state):
 
-        if isinstance(value, basestring) and re.match('True|False|None|\d+(\.\d+)?', value):
+        if isinstance(value, basestring) and re.match('True|False|None|\-+\d+(\.\d+)?', value):
             return eval(value)
         else:
             return value
@@ -116,12 +116,12 @@ class Binary(tg.validators.FancyValidator):
                 return value.file.read()
             elif self.not_empty:
                 raise tg.validators.Invalid(_('Please select a file.'), value, state)
-                
+
         return self.if_empty
-    
+
 class Url(tg.validators.URL):
     if_empty = False
-    
+
     url_re = re.compile(r'^(http|https)://'
                         r'[a-z0-9][a-z0-9\-\._]*\.[a-z0-9]+'
                         r'(?:[0-9]+)?'
