@@ -2,9 +2,12 @@
     <table py:if="editable" border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
             <td>
-                <input type="file" class="${field_class}" py:attrs="attrs" id="${name}" name="${name}" py:if="text is None"/>${text}
+                <input type="file" class="${field_class}" py:attrs="attrs" id="${name}" name="${name}" py:if="editable"/>
             </td>
-
+            <td py:if="text">
+                ( ${text} )            
+            </td>
+            
             <td py:if="text is not None" width="75px">
                 <button type="submit" onclick="submit_form('save_binary?_terp_field=${name}')">Save As</button>
             </td>
