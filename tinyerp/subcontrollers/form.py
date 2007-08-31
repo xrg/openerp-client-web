@@ -670,10 +670,7 @@ class Form(controllers.Controller, TinyResource):
             if isinstance(v, (list, tuple)):
                 result['value'][k] = (v or '') and v[0]
                 
-        # convert values in string to prevent them being converted in JASON        
-        for k in result['value']:
-            result['value'][k] = ustr(result['value'][k])
-            
+        # convert domains in string to prevent them being converted in JSON            
         for k in result['domain']:
             result['domain'][k] = ustr(result['domain'][k])
 
