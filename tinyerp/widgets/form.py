@@ -32,6 +32,7 @@ This module implementes widget parser for form view, and
 several widget components.
 """
 
+import time
 import xml.dom.minidom
 
 import turbogears as tg
@@ -341,6 +342,14 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
         self.validator = tiny_validators.DateTime(format=self.format)
 
     def set_value(self, value):
+        try:
+            try:
+                value = time.strftime(self.format, time.strptime(value, "%Y-%m-%d %H:%M:%S"))
+            except:
+                value = time.strftime(self.format, time.strptime(value, self.format))
+        except:            
+            value = False
+        
         self._default = value
 
 class Binary(TinyField):
