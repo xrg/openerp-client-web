@@ -107,7 +107,8 @@ class List(TinyCompoundWidget):
     source = None
 
     css = [widgets.CSSLink('tinyerp', 'css/listgrid.css')]
-    javascript = [widgets.JSLink('tinyerp', 'javascript/listgrid.js')]
+    javascript = [widgets.JSLink('tinyerp', 'javascript/listgrid.js'),
+                  widgets.JSLink('tinyerp', 'javascript/sorting.js')]
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 

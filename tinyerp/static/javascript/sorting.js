@@ -28,32 +28,20 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-
-addEvent(window, "load", sortables_init);
+function make_sortable(table) {
+	var table = $(table);
+	var rows = getElementsByTagAndClassName("tr","grid-row", table);	
+	ts_makeSortable(rows, table);	
+}
 
 var SORT_COLUMN_INDEX;
-
-function sortables_init() {
-    // Find all tables with class grid and make them sortable
-    if (!document.getElementsByTagName) return;
-
-    tbls = getElementsByTagAndClassName("table","grid");
-    rows = getElementsByTagAndClassName("tr","grid-row");
-    //log(rows['data']);
-    for (ti=0;ti<tbls.length;ti++) {
-        thisTbl = tbls[ti];
-        if (((' '+thisTbl.className+' ').indexOf("grid") != -1) && (thisTbl.id)) {
-            ts_makeSortable(rows, thisTbl.id);
-        }
-    }
-}
 
 function ts_makeSortable(rows, tableId) {
 
     if (tableId && rows && rows.length > 0) {
 
         var firstRow = new Array();
-        rows_header = getElementsByTagAndClassName("tr","grid-header");
+        rows_header = getElementsByTagAndClassName("tr","grid-header", tableId);
 
         for (i=0; i<rows_header.length; i++){
             firstRow[i] = rows_header[i];
