@@ -31,6 +31,7 @@ import re
 import cherrypy
 
 from turbogears import validators as tg_validators
+from tinyerp.widgets import validators as tw_validators
 
 def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
@@ -136,15 +137,33 @@ class TinyFormError(tg_validators.Invalid):
     def __init__(self, field, msg, value):
         tg_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
         self.field = field
-        
+               
 class TinyForm(TinyDict):
     """A special helper class for AJAX form actions, will be used to convert each 
     form values in its python equivalent.
     """
-
-    def __init__(self, _value_key, _kind_key, **kwargs):
+    
+    def __init__(self, _value_key, _kind_key, **kwargs):          
         
-        from tinyerp.widgets.form import widgets_type        
+        VALIDATORS = {
+            'date': tw_validators.DateTime(format="%Y-%m-%d"),
+            'time': tw_validators.DateTime(format="%H:%M:%S"),        
+            'datetime': tw_validators.DateTime(format="%Y-%m-%d %H:%M:%S"),
+            'float_time': tw_validators.Float(),
+            'float': tw_validators.Float(),
+            'integer': tw_validators.Int(),
+            'selection': tw_validators.Selection(),
+            'char': tw_validators.String(),
+            'boolean': tw_validators.Bool(),
+            'reference': tw_validators.Reference(),
+            'binary': tw_validators.Binary(),
+            'text': tw_validators.String(),
+            'text_tag': tw_validators.String(),
+            'many2many': tw_validators.many2many(),
+            'many2one': tw_validators.many2one(),
+            'email' : tw_validators.Email(),
+            'url' : tw_validators.Url()
+        }                  
        
         kw = kwargs.copy()
         
@@ -157,9 +176,9 @@ class TinyForm(TinyDict):
             vals = v.split(' ')
             required = vals[0] != vals[-1]
 
-            if k.startswith(kk) and vals[0] in widgets_type:
+            if k.startswith(kk) and vals[0] in VALIDATORS:
                 attrs = {'type' : vals[0], 'required' : required}
-                kw[k] = widgets_type[vals[0]](attrs).validator
+                kw[k] = VALIDATORS[vals[0]]
 
         # then convert the values into pathon object
         for k, v in kw.items():
