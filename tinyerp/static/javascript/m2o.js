@@ -36,9 +36,7 @@ var ManyToOne = function(name){
 	this.select_img = $(name + '_select');
 		
 	this.callback = getNodeAttribute(this.field, 'callback');
-	this.relation = getNodeAttribute(this.field, 'relation');
-	this.domain = getNodeAttribute(this.field, 'domain');
-	this.context = getNodeAttribute(this.field, 'context');
+	this.relation = getNodeAttribute(this.field, 'relation');	
 	
 	connect(this.field, 'onchange', this, this.on_change);
 	//connect(this.text, 'onchange', this, this.on_change_text);
@@ -50,11 +48,12 @@ var ManyToOne = function(name){
 	this.change_icon();
 }
 
-ManyToOne.prototype.select = function(evt){
-	if (this.field.value)
+ManyToOne.prototype.select = function(evt){	
+	if (this.field.value) {
 		this.open(this.field.value);
-	else
-		open_search_window(this.relation, this.domain, this.context, this.name, 1, this.text.value);
+	} else {
+		open_search_window(this.relation, getNodeAttribute(this.field, 'domain'), getNodeAttribute(this.field, 'context'), this.name, 1, this.text.value);
+	}	
 }
 
 ManyToOne.prototype.create = function(evt){
@@ -88,7 +87,7 @@ ManyToOne.prototype.on_change = function(evt){
 	
 	if (this.callback) {
 		onChange(this.name);
-	}
+	}		
 	
 	this.change_icon();
 }
@@ -162,7 +161,10 @@ ManyToOne.prototype.get_matched = function(){
 		});
 	}
 
-	var req = eval_domain_context_request({source: this.name, domain: this.domain, context: this.context});
+	var domain = getNodeAttribute(this.field, 'domain');
+	var context = getNodeAttribute(this.field, 'context');
+	
+	var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
 		
 	req.addCallback(function(obj){
 		do_get_matched(m2o.relation, m2o.text.value, obj.domain, obj.context);

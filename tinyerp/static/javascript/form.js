@@ -299,6 +299,16 @@ var onChange = function(name) {
 
     req.addCallback(function(obj){
         values = obj['value'];
+        domains = obj['domain'];
+        
+        domains = domains ? domains : {};
+        
+        for(var k in domains){
+        	fld = $(prefix + k);        	
+        	if (fld){
+        		setNodeAttribute(fld, 'domain', domains[k]);
+        	}
+        }
 
 		for(var k in values){
 			flag = false;
