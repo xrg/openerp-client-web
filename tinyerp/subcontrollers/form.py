@@ -257,7 +257,7 @@ class Form(controllers.Controller, TinyResource):
 
         btype = button.btype
         model = button.model
-        id = button.id
+        id = button.id or params.id
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
@@ -267,7 +267,7 @@ class Form(controllers.Controller, TinyResource):
 
         elif btype == 'object':
             ctx = params.context or {}
-            ctx.update(rpc.session.context.copy())
+            ctx.update(rpc.session.context.copy())            
             rpc.session.execute('object', 'execute', model, name, ids, ctx)
 
         elif btype == 'action':
