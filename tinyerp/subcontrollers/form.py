@@ -341,7 +341,7 @@ class Form(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(params.model)
         res = proxy.read([params.id],[params.field])
 
-        return res[0]['datas']
+        return base64.decodestring(res[0]['datas'])
 
     @expose()
     def clear_binary(self, **kw):
