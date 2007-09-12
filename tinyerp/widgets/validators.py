@@ -87,8 +87,7 @@ class Selection(tg.validators.FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
-
-        if isinstance(value, basestring) and re.match('True|False|None|\-+\d+(\.\d+)?', value):
+        if isinstance(value, basestring) and re.match('True|False|None|\-+|\d+(\.\d+)?', value):
             return eval(value)
         else:
             return value
