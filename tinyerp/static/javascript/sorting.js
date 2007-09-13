@@ -28,44 +28,50 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-function make_sortable(table) {
+function do_sort(table) {
 	var table = $(table);
-	var rows = getElementsByTagAndClassName("tr","grid-row", table);	
-	ts_makeSortable(rows, table);	
+	var rows = getElementsByTagAndClassName("tr","grid-row", table);
+	do_Sortable(rows, table);
 }
 
 var SORT_COLUMN_INDEX;
 
-function ts_makeSortable(rows, tableId) {
+function do_Sortable(rows, tableId) {
 
     if (tableId && rows && rows.length > 0) {
 
-        var firstRow = new Array();
         rows_header = getElementsByTagAndClassName("tr","grid-header", tableId);
 
-        for (i=0; i<rows_header.length; i++){
-            firstRow[i] = rows_header[i];
-        }
+		forEach(rows_header, function(e) {
+		    header_cell = e.getElementsByTagName('td');
+
+		    forEach(header_cell, function(ee) {
+		        if(ee.attributes['id']) {
+
+		            txt = get_innerText(ee);
+
+		            var div = DIV({'class' : 'sortheader'});
+		            div.style.cursor = 'pointer';
+
+                    var span = SPAN({'class' : 'sortarrow'});
+
+                    appendChildNodes(div, txt, span);
+
+                    ee.innerHTML = '';
+                    appendChildNodes(ee, div);
+
+		            connect(div, 'onclick', do_resortTable);
+
+		        }
+		    });
+	    });
     }
-    if (!firstRow) return;
-
-    // We have a first row: assume it's the header, and make its contents clickable links
-
-    for (ti=0;ti<firstRow.length;ti++) {
-
-        for (var i=0;i<firstRow[ti].cells.length;i++) {
-	        var cell = firstRow[ti].cells[i];
-	        var txt = ts_getInnerText(cell);
-	        if(cell.id.length > 0)
-	            cell.innerHTML = '<div class="sortheader" style="cursor: pointer;" onclick="ts_resortTable(this);return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;&nbsp;</span></div>';
-	    }
-	}
 }
 
-function ts_getInnerText(el) {
-	if (typeof el == "string") return el;
-	if (typeof el == "undefined") { return el };
+function get_innerText(el) {
+	if (typeof el == "string" || typeof el == "undefined") return el;
 	if (el.innerText) return el.innerText;	//Not needed but it is faster
+
 	var str = "";
 
 	var cs = el.childNodes;
@@ -76,7 +82,7 @@ function ts_getInnerText(el) {
 
 		switch (cs[i].nodeType) {
 			case 1: //ELEMENT_NODE
-				str += ts_getInnerText(cs[i]);
+				str += get_innerText(cs[i]);
 				break;
 
 			case 3:	//TEXT_NODE
@@ -87,18 +93,22 @@ function ts_getInnerText(el) {
 	return str;
 }
 
-function ts_resortTable(lnk) {
+function do_resortTable(lnk) {
+
+    lnk = lnk.src();
 
     // get the span
     var span;
 
-    for (var ci=0;ci<lnk.childNodes.length;ci++) {
-        if (lnk.childNodes[ci].tagName && lnk.childNodes[ci].tagName.toLowerCase() == 'span')
-            span = lnk.childNodes[ci];
-    }
-    var spantext = ts_getInnerText(span);
-    var td = lnk.parentNode;
+    forEach(lnk.childNodes, function(e) {
+        if(e.tagName && e.tagName.toLowerCase() == 'span') {
+            span = e;
+        }
+    });
 
+    var spantext = get_innerText(span);
+    var td = lnk.parentNode;
+    log("td.."+td);
     if(td.attributes){
         if(td.attributes['kind']);
             click_kind = td.attributes['kind'].value;
@@ -108,7 +118,6 @@ function ts_resortTable(lnk) {
 
     var table = getParent(td,'TABLE');
 
-    //rows_header = getElementsByTagAndClassName("tr","grid-header", table)[0];
     rows = getElementsByTagAndClassName("tr","grid-row", table);
 
     var record_ids = new Array();
@@ -120,7 +129,6 @@ function ts_resortTable(lnk) {
     });
 
     record_ids = '[' + record_ids.join(',') + ']';
-    //log(table.id);
 
     if($(table.id + "/" + '_terp_model')) {
         $(table.id + "/" + '_terp_ids').value = record_ids;
@@ -131,18 +139,13 @@ function ts_resortTable(lnk) {
 
     // Work out a type for the column
     if (rows.length <= 1) return;
-    var itm = ts_getInnerText(rows[1].cells[column]);
+    var itm = get_innerText(rows[1].cells[column]);
 
-    var sortfn = ts_sort_caseinsensitive;
+    var sortfn = sort_caseinsensitive;
 
-    if(click_kind == 'float') sortfn = ts_sort_numeric;
-    if(click_kind == 'char')  sortfn = ts_sort_caseinsensitive;
-    if(click_kind == 'date' || click_kind == 'datetime' || click_kind == 'time') sortfn = ts_sort_date;
-
-    //if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d\d\d$/)) sortfn = ts_sort_date;
-    //if (itm.match(/^\d\d[\/-]\d\d[\/-]\d\d$/)) sortfn = ts_sort_date;
-    //if (itm.match(/^[£$]/)) sortfn = ts_sort_currency;
-    //if (itm.match(/^[\d\.]+$/)) sortfn = ts_sort_numeric;
+    if(click_kind == 'float' || click_kind == 'integer') sortfn = sort_numeric;
+    if(click_kind == 'char')  sortfn = sort_caseinsensitive;
+    if(click_kind == 'date' || click_kind == 'datetime' || click_kind == 'time') sortfn = sort_date;
 
     SORT_COLUMN_INDEX = column;
 
@@ -160,11 +163,11 @@ function ts_resortTable(lnk) {
     newRows.sort(sortfn);
 
     if (span.getAttribute("sortdir") == 'down') {
-        ARROW = '&nbsp;&nbsp;&uarr;';
+        //ARROW = '&nbsp;&nbsp;&uarr;';
         newRows.reverse();
         span.setAttribute('sortdir','up');
     } else {
-        ARROW = '&nbsp;&nbsp;&darr;';
+        //ARROW = '&nbsp;&nbsp;&darr;';
         span.setAttribute('sortdir','down');
     }
 
@@ -192,7 +195,7 @@ function ts_resortTable(lnk) {
         }
     }
 
-    span.innerHTML = ARROW;
+   // span.innerHTML = ARROW;
 }
 
 function getParent(el, pTagName) {
@@ -202,10 +205,10 @@ function getParent(el, pTagName) {
 	else
 		return getParent(el.parentNode, pTagName);
 }
-function ts_sort_date(a,b) {
+function sort_date(a,b) {
     // y2k notes: two digit years less than 50 are treated as 20XX, greater than 50 are treated as 19XX
-    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]);
-    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]);
+    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
+    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]);
     if (aa.length == 10) {
         dt1 = aa.substr(6,4)+aa.substr(3,2)+aa.substr(0,2);
     } else {
@@ -225,31 +228,31 @@ function ts_sort_date(a,b) {
     return 1;
 }
 
-function ts_sort_currency(a,b) {
-    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
-    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
+function sort_currency(a,b) {
+    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
+    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
     return parseFloat(aa) - parseFloat(bb);
 }
 
-function ts_sort_numeric(a,b) {
-    aa = parseFloat(ts_getInnerText(a.cells[SORT_COLUMN_INDEX]));
+function sort_numeric(a,b) {
+    aa = parseFloat(get_innerText(a.cells[SORT_COLUMN_INDEX]));
     if (isNaN(aa)) aa = 0;
-    bb = parseFloat(ts_getInnerText(b.cells[SORT_COLUMN_INDEX]));
+    bb = parseFloat(get_innerText(b.cells[SORT_COLUMN_INDEX]));
     if (isNaN(bb)) bb = 0;
     return aa-bb;
 }
 
-function ts_sort_caseinsensitive(a,b) {
-    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]).toLowerCase();
-    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]).toLowerCase();
+function sort_caseinsensitive(a,b) {
+    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]).toLowerCase();
+    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]).toLowerCase();
     if (aa==bb) return 0;
     if (aa<bb) return -1;
     return 1;
 }
 
-function ts_sort_default(a,b) {
-    aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]);
-    bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]);
+function sort_default(a,b) {
+    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
+    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]);
     if (aa==bb) return 0;
     if (aa<bb) return -1;
     return 1;
@@ -261,14 +264,15 @@ function addEvent(elm, evType, fn, useCapture)
 // cross-browser event handling for IE5+,  NS6 and Mozilla
 // By Scott Andrew
 {
-  if (elm.addEventListener){
-    elm.addEventListener(evType, fn, useCapture);
-    return true;
-  } else if (elm.attachEvent){
-    var r = elm.attachEvent("on"+evType, fn);
-    return r;
-  } else {
-    alert("Handler could not be removed");
-  }
+    if(lm.addEventListener){
+        elm.addEventListener(evType, fn, useCapture);
+        return true;
+    }
+    else if (elm.attachEvent) {
+        var r = elm.attachEvent("on"+evType, fn);
+        return r;
+    }
+    else {
+        alert("Handler could not be removed");
+    }
 }
-

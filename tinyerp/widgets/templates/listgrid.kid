@@ -97,7 +97,7 @@
 	        </td>
 		</tr>
 		<script type="text/javascript">
-			make_sortable('${name}');
+			do_sort('${name}');
 		</script>
 	</table>
 </div>
