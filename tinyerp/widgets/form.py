@@ -73,10 +73,10 @@ class Frame(TinyCompoundWidget):
 
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
-        
+
         self.x = 0
         self.y = 0
-        
+
         self.add_row()
 
         self.children = children
@@ -86,10 +86,10 @@ class Frame(TinyCompoundWidget):
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
-            
+
             if isinstance(child, Button) and not child.visible:
                 continue
-            
+
             if isinstance(child, NewLine):
                 self.add_row()
             else:
@@ -104,24 +104,24 @@ class Frame(TinyCompoundWidget):
             if len(row) > mx:
                 mx = len(row)
 
-        for row in self.table:           
-                       
+        for row in self.table:
+
             sn = len([w for a, w in row if isinstance(w, basestring)])
             pn = len([w for a, w in row if isinstance(w, Image)])
-            
-            sw = 10                                  # label width            
+
+            sw = 10                                  # label width
             ww = (100.00 - sw * sn) / (mx - sn - pn) # widget width
-                        
+
             for a, wid in row:
                 if isinstance(wid, basestring):
                     w = sw
-                elif isinstance(wid, Image):                    
+                elif isinstance(wid, Image):
                     w = 0
                 else:
                     c = a.get('colspan', 1)
                     if c > mx:
                         c = 1
-                        
+
                     w = ww * c
 
                 a['width'] = '%d%%' % (w)
@@ -131,27 +131,27 @@ class Frame(TinyCompoundWidget):
 
         self.x = 0
         self.y += 1
-            
+
     def add(self, widget, label=None, rowspan=1, colspan=1):
 
         if colspan > self.columns:
             colspan = self.columns
-                        
+
         a = label and 1 or 0
-                
+
         if colspan + self.x + a > self.columns:
             self.add_row()
 
         if colspan == 1 and a == 1:
             colspan = 2
-            
+
         tr = self.table[-1]
-        
-        if label: 
-            colspan -= 1            
+
+        if label:
+            colspan -= 1
             attrs = {'class': 'label'}
             td = [attrs, label]
-            tr.append(td)            
+            tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator and not widget.readonly:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
@@ -159,20 +159,20 @@ class Frame(TinyCompoundWidget):
 
         attrs = {'class': 'item'}
         if rowspan > 1: attrs['rowspan'] = rowspan
-        if colspan > 1: attrs['colspan'] = colspan        
+        if colspan > 1: attrs['colspan'] = colspan
 
         td = [attrs, widget]
         tr.append(td)
 
         self.x += colspan + a
-        
+
 class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
     """
 
     template = "tinyerp.widgets.templates.notebook"
-    
+
     member_widgets = ['_notebook_', "children"]
     _notebook_ = tg.widgets.Tabber(use_cookie=True)
     _notebook_.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
@@ -181,7 +181,7 @@ class Notebook(TinyCompoundWidget):
         super(Notebook, self).__init__(attrs)
         self.children = children
         self.nolabel = True
-                
+
         self.colspan = attrs.get('colspan', 3)
 
 class Separator(TinyField):
@@ -194,7 +194,7 @@ class Separator(TinyField):
     def __init__(self, attrs={}):
         super(Separator, self).__init__(attrs)
 
-        self.colspan = 4
+#        self.colspan = 4
         self.rowspan = 1
         self.nolabel = True
 
@@ -226,10 +226,10 @@ class Char(TinyField):
     template = "tinyerp.widgets.templates.char"
     params = ['invisible', 'size']
     invisible = False
-    
+
     def __init__(self, attrs={}):
         super(Char, self).__init__(attrs)
-        self.validator = tiny_validators.String()        
+        self.validator = tiny_validators.String()
         self.invisible = attrs.get('invisible', False)
         self.size = attrs.get('size')
 
@@ -263,7 +263,7 @@ class Integer(TinyField):
     def __init__(self, attrs={}):
         super(Integer, self).__init__(attrs)
         self.validator = tiny_validators.Int()
-        
+
         if not self.default:
             self.default = 0
 
@@ -287,7 +287,7 @@ class Float(TinyField):
     def __init__(self, attrs={}):
         super(Float, self).__init__(attrs)
         self.validator = tiny_validators.Float()
-        
+
         if not self.default:
             self.default = 0.0
 
@@ -306,7 +306,7 @@ class FloatTime(TinyField):
 
 class Selection(TinyField):
     template = "tinyerp.widgets.templates.selection"
-    
+
     params = ['options']
     options = []
 
@@ -314,10 +314,10 @@ class Selection(TinyField):
         super(Selection, self).__init__(attrs)
         self.options = attrs.get('selection', [])
         self.validator = tiny_validators.Selection()
-        
-    def set_value(self, value):       
+
+    def set_value(self, value):
         super(Selection, self).set_value(value)
-        
+
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
     template = "tinyerp.widgets.templates.datetime"
 
@@ -347,15 +347,15 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
                 value = time.strftime(self.format, time.strptime(value, "%Y-%m-%d %H:%M:%S"))
             except:
                 value = time.strftime(self.format, time.strptime(value, self.format))
-        except:            
+        except:
             value = False
-        
+
         self._default = value
 
 class Binary(TinyField):
     template = "tinyerp.widgets.templates.binary"
     params = ["name", "text", "readonly"]
-    
+
     text = None
     file_upload = True
 
@@ -363,11 +363,11 @@ class Binary(TinyField):
         super(Binary, self).__init__(attrs)
         self.validator = tiny_validators.Binary()
 
-    def set_value(self, value):            
+    def set_value(self, value):
         if value:
             #super(Binary, self).set_value("%s bytes" % len(value))
             self.text = "%s bytes" % len(value)
-            
+
 class Url(TinyField):
     template = "tinyerp.widgets.templates.url"
 
@@ -378,14 +378,14 @@ class Url(TinyField):
     def set_value(self, value):
         if value:
             super(Url, self).set_value(value)
-            
+
 class Hidden(TinyField):
     template = "tinyerp.widgets.templates.hidden"
     wid = None
 
     def __init__(self, attrs={}):
-        super(Hidden, self).__init__(attrs)       
-        self.wid = widgets_type[self.kind](attrs)        
+        super(Hidden, self).__init__(attrs)
+        self.wid = widgets_type[self.kind](attrs)
         self.validator = self.wid.validator
 
     def set_value(self, value):
@@ -433,17 +433,17 @@ class Image(TinyField):
     params = ["src", "size"]
     src = ""
     size = None
-    
+
     def __init__(self, attrs={}):
         icon = attrs.get('name')
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
         TinyField.__init__(self, attrs)
-        
-        self.src =  icons.get_icon(icon)        
-        self.size = attrs.get('size')        
+
+        self.src =  icons.get_icon(icon)
+        self.size = attrs.get('size')
         self.size = (self.size or None) and int(self.size)
-                
+
 class Group(TinyCompoundWidget):
     template = """
     <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
@@ -526,7 +526,7 @@ class Form(TinyCompoundWidget):
         self.model = model
         self.id = None
         self.editable = editable
-        
+
         proxy = rpc.RPCProxy(model)
 
         ctx = rpc.session.context.copy()
@@ -567,7 +567,7 @@ class Form(TinyCompoundWidget):
 
             attrs['prefix'] = prefix
             attrs['editable'] = self.editable
-            
+
             if 'state' in values:
                 attrs['state'] = values['state']
 
