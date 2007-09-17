@@ -28,6 +28,7 @@
 ###############################################################################
 
 import time
+import datetime
 
 import cherrypy
 
@@ -88,6 +89,7 @@ class Action(TinyCompoundWidget):
 
             a = self.context.copy()
             a['time'] = time
+            a['datetime'] = datetime
             self.domain = tools.expr_eval(self.action['domain'], a)
 
             view_id = []
