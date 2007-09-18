@@ -53,7 +53,7 @@ from tinyerp.utils import TinyParent
 import search
 
 class Form(controllers.Controller, TinyResource):
-    
+
     path = '/form'    # mapping from root
 
     def create_form(self, params, tg_errors=None):
@@ -63,7 +63,7 @@ class Form(controllers.Controller, TinyResource):
         params.setdefault('offset', 0)
         params.setdefault('limit', 20)
         params.setdefault('count', 0)
-        
+
         params.view_type = params.view_type or params.view_mode[0]
 
         if params.view_type == 'tree':
@@ -110,7 +110,7 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
 
-        params, data = TinyDict.split({'_terp_model': model, 
+        params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
@@ -122,7 +122,7 @@ class Form(controllers.Controller, TinyResource):
                                        '_terp_limit': limit,
                                        '_terp_count': count,
                                        '_terp_search_domain': search_domain})
-        
+
         params.editable = True
         params.view_type = 'form'
 
@@ -131,10 +131,10 @@ class Form(controllers.Controller, TinyResource):
             params[params.source] = TinyDict(_terp_id=False)
 
         return self.create(params)
-        
+
     @expose()
     def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
-        params, data = TinyDict.split({'_terp_model': model, 
+        params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
@@ -145,7 +145,7 @@ class Form(controllers.Controller, TinyResource):
                                        '_terp_limit': limit,
                                        '_terp_count': count,
                                        '_terp_search_domain': search_domain})
-        
+
         params.editable = False
         params.view_type = 'form'
 
@@ -230,7 +230,7 @@ class Form(controllers.Controller, TinyResource):
 
         if terp_save_only:
             return dict(params=params, data=data)
-        
+
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
@@ -245,7 +245,7 @@ class Form(controllers.Controller, TinyResource):
 
         if params.editable or params.source:
             raise redirect(self.path + '/edit', source=params.source, **args)
-        
+
         raise redirect(self.path + '/view', **args)
 
     def button_action(self, params):
@@ -267,7 +267,7 @@ class Form(controllers.Controller, TinyResource):
 
         elif btype == 'object':
             ctx = params.context or {}
-            ctx.update(rpc.session.context.copy())            
+            ctx.update(rpc.session.context.copy())
             rpc.session.execute('object', 'execute', model, name, ids, ctx)
 
         elif btype == 'action':
@@ -311,7 +311,7 @@ class Form(controllers.Controller, TinyResource):
         current.id = (current.ids or None) and current.ids[idx]
 
         self.del_notebook_cookies()
-        
+
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
@@ -326,9 +326,9 @@ class Form(controllers.Controller, TinyResource):
 
         if not params.id:
             raise redirect(self.path + '/edit', **args)
-        
+
         raise redirect(self.path + '/view', **args)
-        
+
     @expose(content_type='application/octet')
     def save_binary(self, **kw):
         params, data = TinyDict.split(kw)
@@ -374,7 +374,7 @@ class Form(controllers.Controller, TinyResource):
     @validate(form=get_filter_form)
     def filter(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
         params, data = TinyDict.split(kw)
-        
+
         l = params.get('limit') or 20
         o = params.get('offset') or 0
 
@@ -386,7 +386,7 @@ class Form(controllers.Controller, TinyResource):
 
         res = search.search(params.model, o, l, domain=domain, data=data)
         params.update(res)
-        
+
         if params.ids:
 
             if params.filter_action == 'FIRST':
@@ -555,12 +555,12 @@ class Form(controllers.Controller, TinyResource):
         #switch the view mode
         idx = (current.view_type == current.view_mode[0] or 0) and -1
         current.view_type = current.view_mode[idx]
-        
+
         # set ids and id
         current.ids = current.ids or []
         if current.ids:
             current.id = current.ids[0]
-            
+
         # regenerate the view
         return self.create(params)
 
@@ -568,14 +568,14 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(datas)
 
         model = params.model
-        
+
         id = params.id or False
         ids = params.ids or []
 
         if params.view_type == 'form':
             #TODO: save current record
             ids = (id or []) and [id]
-            
+
         if id and not ids:
             ids = [id]
 
@@ -647,6 +647,7 @@ class Form(controllers.Controller, TinyResource):
         ctx.context = rpc.session.context.copy()
 
         match = re.match('^(.*?)\((.*)\)$', callback)
+
         if not match:
             raise common.error(_('Error'), _('Wrong on_change trigger: %s') % callback)
 
@@ -659,6 +660,7 @@ class Form(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
 
         ids = ctx.id and [ctx.id] or []
+
         response = getattr(proxy, func_name)(ids, *args)
 
         if 'value' not in response:
@@ -669,10 +671,11 @@ class Form(controllers.Controller, TinyResource):
         for k, v in result['value'].items():
             if isinstance(v, (list, tuple)):
                 result['value'][k] = (v or '') and v[0]
-                
-        # convert domains in string to prevent them being converted in JSON            
-        for k in result['domain']:
-            result['domain'][k] = ustr(result['domain'][k])
+
+        # convert domains in string to prevent them being converted in JSON
+        if 'domain' in result:
+            for k in result['domain']:
+                result['domain'][k] = ustr(result['domain'][k])
 
         return result
 
@@ -707,10 +710,10 @@ class Form(controllers.Controller, TinyResource):
     def get_default_value(self, model, field):
 
         field = field.split('/')[-1]
-        
+
         res = rpc.RPCProxy(model).default_get([field])
         value = res.get(field)
-        
+
         return dict(value=value)
 
     def del_notebook_cookies(self):
