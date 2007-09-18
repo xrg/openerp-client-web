@@ -64,43 +64,43 @@ class RangeWidget(TinyCompoundWidget):
         super(RangeWidget, self).__init__(attrs)
 
         kind = attrs.get('type', 'integer')
-        
+
         fname = attrs['name']
-        
+
         from_attrs = attrs.copy()
         to_attrs = attrs.copy()
-                  
+
         from_attrs['name'] = fname + '/from'
         to_attrs['name'] = fname + '/to'
-                                
+
         self.from_field = range_widgets_type[kind](from_attrs)
-        self.to_field = range_widgets_type[kind](to_attrs)            
-                       
+        self.to_field = range_widgets_type[kind](to_attrs)
+
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
-                        
+
     def set_value(self, value):
         start = value.get('from', '')
         end = value.get('to', '')
-        
+
         self.from_field.set_value(start)
         self.to_field.set_value(end)
-                    
+
 class Search(TinyCompoundWidget):
     template = "tinyerp.widgets_search.templates.search"
     params = ['fields_type']
     member_widgets = ['_notebook', 'basic', 'advance']
-        
+
     _notebook = tg.widgets.Tabber(use_cookie=True, hide_on_load=True)
     _notebook.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
 
     def __init__(self, model, domain=[], context={}, values={}):
 
         super(Search, self).__init__({})
-        
+
         self.model         = model
-        
+
         self.domain        = domain
         self.context       = context
 
@@ -120,7 +120,7 @@ class Search(TinyCompoundWidget):
 
         self.basic = Frame({}, [w for w in self.widgets if not w.adv])
         self.advance = Frame({}, self.widgets)
-        
+
     def parse(self, root=None, fields=None, values={}):
 
         for node in root.childNodes:
@@ -159,12 +159,13 @@ class Search(TinyCompoundWidget):
                     if attrs['widget']=='one2many_list':
                         attrs['widget']='one2many'
                     attrs['type'] = attrs['widget']
-                    
+
                 # in search view fields should be writable
                 attrs['readonly'] = False
                 attrs['required'] = False
                 attrs['translate'] = False
-                
+                attrs['disabled'] = False
+
                 try:
                     fields[name].update(attrs)
                 except:
@@ -178,7 +179,7 @@ class Search(TinyCompoundWidget):
                     continue
 
                 self.fields_type[name] = kind
-                
+
                 field = widgets_type[kind](attrs=fields[name])
                 field.adv = fields[name]['select'] in ('2', 2)
 
