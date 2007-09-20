@@ -108,7 +108,7 @@ function do_resortTable(lnk) {
 
     var spantext = get_innerText(span);
     var td = lnk.parentNode;
-    log("td.."+td);
+
     if(td.attributes){
         if(td.attributes['kind']);
             click_kind = td.attributes['kind'].value;
