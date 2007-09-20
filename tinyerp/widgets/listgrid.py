@@ -194,9 +194,10 @@ class List(TinyCompoundWidget):
             ctx = rpc.session.context.copy()
             ctx.update(context)
 
-            defaults = {}
-            if self.editors and self.edit_inline:
-                defaults = proxy.default_get(fields.keys(), ctx)
+#            For Wrong ID Error .. Remove comments ..
+#            defaults = {}
+#            if self.editors and self.edit_inline:
+            defaults = proxy.default_get(fields.keys(), ctx)
 
             for f, fa in self.headers:
                 k = fa.get('type', 'char')
