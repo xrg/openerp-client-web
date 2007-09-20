@@ -181,6 +181,11 @@ class Search(controllers.Controller, TinyResource):
 
             context = eval(context, ctx)
 
+#           Fixed many2one pop up in listgrid when value is None.
+            for key, val in context.items():
+                if val==None:
+                    context[key] = False
+
         return dict(domain=ustr(domain), context=ustr(context))
 
     @expose()
