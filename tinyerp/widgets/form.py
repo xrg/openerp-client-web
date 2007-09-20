@@ -264,8 +264,8 @@ class Integer(TinyField):
         super(Integer, self).__init__(attrs)
         self.validator = tiny_validators.Int()
 
-        if not self.default:
-            self.default = 0
+#        if not self.default:
+#            self.default = 0
 
     def set_value(self, value):
         if value:
@@ -288,8 +288,8 @@ class Float(TinyField):
         super(Float, self).__init__(attrs)
         self.validator = tiny_validators.Float()
 
-        if not self.default:
-            self.default = 0.0
+#        if not self.default:
+#            self.default = 0.0
 
     def set_value(self, value):
         self.default = value
