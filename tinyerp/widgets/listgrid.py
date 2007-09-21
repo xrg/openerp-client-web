@@ -191,26 +191,13 @@ class List(TinyCompoundWidget):
         # make editors
         if self.editable and attrs.get('editable') in ('top', 'bottom'):
 
-            ctx = rpc.session.context.copy()
-            ctx.update(context)
-
-#            For Wrong ID Error .. Remove comments ..
-#            defaults = {}
-#            if self.editors and self.edit_inline:
-            defaults = proxy.default_get(fields.keys(), ctx)
-
             for f, fa in self.headers:
                 k = fa.get('type', 'char')
                 if k not in form.widgets_type:
                     k = 'char'
 
-                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
-                ed = form.widgets_type[k](fa)
-
-                if f in defaults:
-                    ed.set_value(defaults[f])
-
-                self.editors[f] = ed
+                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)                
+                self.editors[f] = form.widgets_type[k](fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
@@ -218,13 +205,8 @@ class List(TinyCompoundWidget):
                 if k not in form.widgets_type:
                     k = 'char'
 
-                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
-                ed =  form.Hidden(fa)
-
-                if f in defaults:
-                    ed.set_value(defaults[f])
-
-                self.editors[f] = ed
+                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)                
+                self.editors[f] = form.Hidden(fa)
 
             self.children = self.editors.values()
 
@@ -240,7 +222,7 @@ class List(TinyCompoundWidget):
     def display(self, value=None, **params):
 
         # set editor values
-        if self.editors and self.edit_inline and self.edit_inline > 0:
+        if self.editors and self.edit_inline:
 
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
@@ -249,11 +231,17 @@ class List(TinyCompoundWidget):
             fields += [f for f, fa in self.hiddens]
 
             proxy = rpc.RPCProxy(self.model)
-            defaults = proxy.read([self.edit_inline], fields, ctx)[0]
+            
+            values = {}
+                        
+            if self.edit_inline > 0:
+                values = proxy.read([self.edit_inline], fields, ctx)[0]
+            else:
+                values = proxy.default_get(fields, ctx)            
 
             for f in fields:
-                if f in defaults:
-                    self.editors[f].set_value(defaults[f])
+                if f in values:
+                    self.editors[f].set_value(values[f])
 
         return super(List, self).display(value, **params)
 
