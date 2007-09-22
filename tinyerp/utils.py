@@ -96,7 +96,7 @@ class TinyDict(dict):
         super(TinyDict, self).__setitem__(name, value)
 
     def __getitem__(self, name):
-        names = ustr(name).split('.')
+        names = re.split('\.|/', ustr(name))
         value = self.get(names[0], None)
 
         for n in names[1:]:
