@@ -313,7 +313,9 @@ ListView.prototype.makeArgs = function(){
         
         forEach(values, function(val){
         	var key = prefix + '_terp_' + val;
-        	args['_terp_' + key] = getElement(key).value; 
+        	var elem = getElement(key);
+        	
+        	if (elem) args['_terp_' + key] = elem.value; 
         });               
     } 
     
