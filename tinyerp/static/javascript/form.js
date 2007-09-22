@@ -32,9 +32,10 @@ function get_form_action(action, params){
 	return getURL(act + '/' + action, params);
 }
 
-var newO2M = function(src, mode, editors){
+var newO2M = function(src, mode, editors){	
+
 	var prefix = src + '/';
-	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')) : '';
+	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
 
 	var parent_id = $(parent_prefix + '_terp_id').value;
 
@@ -52,7 +53,7 @@ var newO2M = function(src, mode, editors){
 var editO2M = function(id, src){
 
 	var prefix = src + '/';
-	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')) : '';
+	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
 
 	var model = $(prefix + '_terp_model').value;
 

@@ -291,43 +291,46 @@ ListView.prototype.remove = function(id){
     });
 }
 
+ListView.prototype.makeArgs = function(){
+
+	var args = {};
+    var names = this.id.split('/');
+
+    var values = ['id', 'ids', 'model', 'view_mode', 'view_type', 'domain', 'context', 'offset', 'limit'];
+    
+    forEach(values, function(val){
+    	var key = '_terp_' + val;
+    	args[key] = getElement(key).value; 
+	});
+    
+    for(var i=0; i<names.length; i++){
+
+        var name = names[i];
+        var prefix = names.slice(0, i).join('/');
+
+        prefix = prefix ? prefix + '/' + name : name;
+        prefix = prefix + '/';
+        
+        forEach(values, function(val){
+        	var key = prefix + '_terp_' + val;
+        	args['_terp_' + key] = getElement(key).value; 
+        });               
+    } 
+    
+    return args;
+}
+
 ListView.prototype.reload = function(edit_inline){
 
 	var myself = this;
-    var args = {};
-
+    var args = this.makeArgs();
+    
 	// add args
     args['_terp_source'] = this.id;
     args['_terp_edit_inline'] = edit_inline;
-
-	// add parent args
-    args['_terp_model'] = $('_terp_model').value;
-    args['_terp_id'] = $('_terp_id').value;
-    args['_terp_view_ids'] = $('_terp_view_ids').value;
-    args['_terp_view_mode'] = $('_terp_view_mode').value;
-    args['_terp_domain'] = $('_terp_domain').value;
-    args['_terp_context'] = $('_terp_context').value;
-
+    
     if (this.id == '_terp_list') {
     	args['_terp_search_domain'] = $('_terp_search_domain').value;
-    	args['_terp_offset'] = $('_terp_offset').value;
-    	args['_terp_limit'] = $('_terp_limit').value;
-    }
-
-    // add my args
-    if (this.id != '_terp_list'){
-
-    	var prefix = '_terp_' + this.id + '/';
-
-	    args[prefix + '_terp_model'] = $(this.id + '/_terp_model').value;
-    	args[prefix + '_terp_id'] = $(this.id + '/_terp_id').value;
-	    args[prefix + '_terp_view_ids'] = $(this.id + '/_terp_view_ids').value;
-	    args[prefix + '_terp_view_mode'] = $(this.id + '/_terp_view_mode').value;
-    	args[prefix + '_terp_domain'] = $(this.id + '/_terp_domain').value;
-	    args[prefix + '_terp_context'] = $(this.id + '/_terp_context').value;
-
-	    args[prefix + '_terp_offset'] = $(this.id + '/_terp_offset').value;
-    	args[prefix + '_terp_limit'] = $(this.id + '/_terp_limit').value;
     }
 
     var req = Ajax.JSON.post('/listgrid/get', args);
