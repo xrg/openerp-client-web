@@ -159,11 +159,19 @@ class Screen(TinyCompoundWidget):
             self.ids = self.widget.ids
 
         self.string = (self.widget or '') and self.widget.string
-        
 
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
+
+        # get actions if not in view toolbar
+        if self.view_type in ['form', 'tree', 'graph'] and not toolbar.get('action', False):
+            proxy = rpc.RPCProxy('ir.values')
+            res = proxy.get('action', 'client_action_multi', [(self.model, False)], False, self.context)
+            
+            actions = [dict(string=a[1], **a[-1]) for a in res]
+            if actions: 
+                toolbar['action'] = actions           
 
         self.toolbar = toolbar or None
         self.hastoolbar = (toolbar or False) and True        
