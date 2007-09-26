@@ -10,3 +10,8 @@ td.label {
 img.imgSelect {
 	margin-left: 2px;
 }
+
+table.tree-grid th,
+table.tree-grid td {
+    padding: 0px 5px;
+}
