@@ -13,18 +13,18 @@
 	        <div class="box2" align="center">
 				<table align="center" border="0" width="100%">
 					<tr>
-		                <td align="right" width="90" class="label">
+		                <td align="right" class="label" nowrap="nowrap">
 		                    Password :
 		                </td>
-		                <td>
+		                <td class="item" width="100%">
 		                    <input type="password" name="password" style="width: 99%;"/>
 		                </td>
 		            </tr>
 		            <tr>
-			            <td align="right" class="label" width="90">
+			            <td align="right" class="label" nowrap="nowrap">
 	                        Databases :
 		                </td>
-		                <td>
+		                <td class="item" width="100%">
 		                    <select name="dblist" style="width: 100%;">
 		                        <span py:for="db in dblist">
     	                            <option py:content="db" py:if="db == selectedDb" selected="true">Database</option>

@@ -17,7 +17,7 @@
 		        <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
 		        <input type="hidden" name="login_action" value="login"/>
 	                
-	    		<table align="center" width="100%" cellspacing="5px">
+	    		<table align="center" width="100%" cellspacing="2px">
 			        <tr>
 			            <td class="label">Server :</td>
 			            <td width="100%" py:content="url"/>

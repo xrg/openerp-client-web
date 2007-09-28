@@ -202,6 +202,10 @@ div.box2 {
 	margin-bottom: 10px;
 }
 
+div.box2 button {
+	margin: 0px 2px;
+}
+
 td.errorbox {
 	padding: 10px;
 	white-space: nowrap;
