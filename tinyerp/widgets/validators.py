@@ -91,10 +91,10 @@ class Selection(tg.validators.FancyValidator):
         if isinstance(value, basestring):
             if re.match('True|False|None', value):
                 return eval(value)
-#            if re.match('^\-+|\d+$', value):
-#                return int(value)
-#            if re.match('^\-+|\d+(\.\d+)$', value):
-#                return float(value)
+            if re.match('^\-+|\d+$', value):
+                return int(value)
+            if re.match('^\-+|\d+(\.\d+)$', value):
+                return float(value)
 
         return value
 

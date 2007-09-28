@@ -313,7 +313,13 @@ class Selection(TinyField):
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)
         self.options = attrs.get('selection', [])
-        self.validator = tiny_validators.Selection()
+        
+        # determine the actual type
+        if self.options and isinstance(self.options[0][0], basestring):
+            self.kind = 'char'
+            self.validator = tiny_validators.String()
+        else:
+            self.validator = tiny_validators.Selection()
 
     def set_value(self, value):
         super(Selection, self).set_value(value)
