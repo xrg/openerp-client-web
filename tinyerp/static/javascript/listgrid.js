@@ -297,12 +297,12 @@ ListView.prototype.makeArgs = function(){
     var names = this.id.split('/');
 
     var values = ['id', 'ids', 'model', 'view_mode', 'view_type', 'domain', 'context', 'offset', 'limit'];
-    
+
     forEach(values, function(val){
     	var key = '_terp_' + val;
-    	args[key] = getElement(key).value; 
+    	args[key] = getElement(key).value;
 	});
-    
+
     for(var i=0; i<names.length; i++){
 
         var name = names[i];
@@ -310,15 +310,15 @@ ListView.prototype.makeArgs = function(){
 
         prefix = prefix ? prefix + '/' + name : name;
         prefix = prefix + '/';
-        
+
         forEach(values, function(val){
         	var key = prefix + '_terp_' + val;
         	var elem = getElement(key);
-        	
-        	if (elem) args['_terp_' + key] = elem.value; 
-        });               
-    } 
-    
+
+        	if (elem) args['_terp_' + key] = elem.value;
+        });
+    }
+
     return args;
 }
 
@@ -326,11 +326,11 @@ ListView.prototype.reload = function(edit_inline){
 
 	var myself = this;
     var args = this.makeArgs();
-    
+
 	// add args
     args['_terp_source'] = this.id;
     args['_terp_edit_inline'] = edit_inline;
-    
+
     if (this.id == '_terp_list') {
     	args['_terp_search_domain'] = $('_terp_search_domain').value;
     }
@@ -424,7 +424,7 @@ ListView.prototype.waitGlass = function(hide){
 }
 
 ListView.prototype.exportData = function(){
-	openWindow(getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id}));
+	openWindow(getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id, _terp_search_domain: $('_terp_search_domain').value}));
 }
 
 ListView.prototype.importData = function(){

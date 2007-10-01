@@ -1,67 +1,67 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="tinyerp/templates/master.kid">
 <head>
-    <title>Export Data</title>    
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>        
+    <title>Export Data</title>
+    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
-    
+
     <style type="text/css">
         .fields-selector {
             width: 100%;
             height: 400px;
         }
-        
+
         .fields-selector-left {
             width: 45%;
         }
-        
+
         .fields-selector-center {
             width: 10%;
-        }        
-        
+        }
+
         .fields-selector-right {
             width: 45%;
         }
-        
+
         .fields-selector select {
             width: 100%;
             height: 100%;
         }
-        
+
         .fields-selector button {
             width: 100%;
             margin: 5px 0px;
         }
     </style>
-    
+
     <script type="text/javascript">
         function add_fields(){
-            
+
             var prefix = ${tree.field_id}.id + '_row_';
             var fields = ${tree.field_id}.selection;
-            
+
             var select = $('fields');
-            
+
             var opts = {};
             forEach($('fields').options, function(o){
                 opts[o.value] = o;
             });
-            
+
             forEach(fields, function(f){
 
                 var text = f.getElementsByTagName('a')[0].innerHTML;
-                var id = f.id.replace(prefix, ''); 
-                
+                var id = f.id.replace(prefix, '');
+
                 if (id in opts) return;
-                
+
                 select.options.add(new Option(text, id));
             });
-        } 
-        
+        }
+
         function del_fields(all){
-        
+
             var fields = filter(function(o){return o.selected;}, $('fields').options);
-        
+
             if (all){
                 $('fields').innerHTML = '';
             } else {
@@ -70,49 +70,40 @@
                 });
             }
         }
-        
+
         function do_export(form){
-        
+
             var options = $('fields').options;
-            
+
             if (options.length == 0){
                 return alert('Please select fields to export...');
             }
 
             var fields2 = [];
-            
+
             forEach(options, function(o){
                 o.selected = true;
                 fields2 = fields2.concat('"' + o.text + '"');
             });
-            
+
             var pwin = window.opener;
             var src = '${source}';
-            
-            var ids = '[]';
-            
-            if (src == '_terp_list'){
-                ids = pwin.document.getElementById('_terp_ids').value;
-            }else{
-                ids = pwin.document.getElementById(src + '/_terp_ids').value;
-            }
-            
-            form['_terp_ids'].value = ids;
+
             form['_terp_fields2'].value = '[' + fields2.join(',') + ']';
-            
+
             form.action = '/impex/export_data/data.' + $('export_as').value;
             form.submit();
         }
-    </script>    
+    </script>
 </head>
 <body>
-    
+
 <form action="/impex/export_data" method="post">
-    
+
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
-    <input type="hidden" id="_terp_ids" name="_terp_ids" value="[]"/>
+    <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(search_domain)}"/>
     <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
-        
+
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
@@ -127,7 +118,7 @@
             </td>
         </tr>
 		<tr>
-            <td>                
+            <td>
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">All fields</th>
@@ -167,7 +158,7 @@
                             </td>
                             <td>Add field names</td>
                         </tr>
-                    </table>                   
+                    </table>
                 </fieldset>
             </td>
         </tr>

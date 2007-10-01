@@ -52,7 +52,7 @@ import tinyerp.widgets as tw
 def datas_read(ids, model, fields):
     return rpc.RPCProxy(model).export_data(ids, fields)
 
-def export_csv(fields, result, write_title=False):    
+def export_csv(fields, result, write_title=False):
     try:
         fp = StringIO.StringIO()
         writer = csv.writer(fp)
@@ -68,58 +68,58 @@ def export_csv(fields, result, write_title=False):
             writer.writerow(row)
 
         fp.seek(0)
-        data = fp.read()        
+        data = fp.read()
         fp.close()
-        
+
         return data
     except IOError, (errno, strerror):
         raise common.message(_("Operation failed !\nI/O error")+"(%s)" % (errno,))
-    
+
 class ImpEx(controllers.Controller, TinyResource):
-    
+
     @expose(template="tinyerp.subcontrollers.templates.exp")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
-        
-        headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]        
+
+        headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('export_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
         tree.show_headers = False
 
-        return dict(model=params.model, source=params.source, tree=tree, show_header_footer=False)
-    
+        return dict(model=params.model, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
+
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
         is_importing = len(eval(kw.get('domain')))
-                    
-        ids = kw.get('ids', '').split(',')               
+
+        ids = kw.get('ids', '').split(',')
         ids = [i for i in ids if i]
 
         proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get(False, rpc.session.context)                
-        
+        fields = proxy.fields_get(False, rpc.session.context)
+
         # XXX: in GTK client, top fields comes from Screen
         if not ids:
             f1 = proxy.fields_view_get(False, 'tree', rpc.session.context)['fields']
             f2 = proxy.fields_view_get(False, 'form', rpc.session.context)['fields']
-            
+
             fields = {}
             fields.update(f1)
             fields.update(f2)
 
         fields_order = fields.keys()
-        fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))            
-            
+        fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
+
         records = []
 
         for i, field in enumerate(fields_order):
-            
+
             value = fields[field]
             record = {}
-            
+
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
-            
+
             if ids:
                 record['id'] = ids[i]
             else:
@@ -127,69 +127,71 @@ class ImpEx(controllers.Controller, TinyResource):
 
             record['action'] = 'javascript: void(0)'
             record['target'] = None
-            
+
             record['icon'] = None
-            
+
             record['children'] = []
             record['data'] = {'name' : nm}
-            
+
             records += [record]
 
             if len(nm.split('/')) < 3 and value.get('relation', False):
-                                                
+
                 if is_importing and not ((value['type'] not in ('reference',)) and (not value.get('readonly', False)) and value['type']=='one2many'):
                     continue
-                
+
                 ref = value.pop('relation')
-            
+
                 proxy = rpc.RPCProxy(ref)
-                cfields = proxy.fields_get(False, rpc.session.context)                    
+                cfields = proxy.fields_get(False, rpc.session.context)
                 cfields_order = cfields.keys()
                 cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
-                                    
+
                 children = []
                 for j, fld in enumerate(cfields_order):
                     cid = id + '/' + fld
                     cid = cid.replace(' ', '_')
-                    
+
                     children += [cid]
 
                 record['children'] = children
-                record['params'] = {'model': ref, 'prefix': id, 'name': nm}            
-        
-        records.reverse()            
+                record['params'] = {'model': ref, 'prefix': id, 'name': nm}
+
+        records.reverse()
         return dict(records=records)
-    
+
     @expose(content_type="application/octat-stream")
     def export_data(self, fname, fields, export_as="csv", add_names=False, **kw):
         params, data = TinyDict.split(kw)
-        
-        result = datas_read(params.ids, params.model, fields)
-        
+
+        proxy = rpc.RPCProxy(params.model)
+        ids = proxy.search(params.search_domain)
+
+        result = datas_read(ids, params.model, fields)
+
         if export_as == 'excel':
             #add_names = True
             pass
-
         return export_csv(params.fields2, result, add_names)
-    
+
     @expose(template="tinyerp.subcontrollers.templates.imp")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
-        
-        headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]        
+
+        headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('import_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
         tree.show_headers = False
         tree.domain = [()] # will be used in `get_fields` as flag
 
         return dict(model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}), show_header_footer=False)
-    
+
     @expose()
     def detect_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, **kw):
         params, data = TinyDict.split(kw)
-        
+
         _fields = {}
         _fields_invert = {}
-        
+
         def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
             def str_comp(x,y):
                 if x<y: return 1
@@ -200,13 +202,13 @@ class ImpEx(controllers.Controller, TinyResource):
             fields_order.sort(lambda x,y: str_comp(fields[x].get('string', ''), fields[y].get('string', '')))
             for field in fields_order:
                 if (fields[field]['type'] not in ('reference',)) and (not fields[field].get('readonly', False)):
-                    st_name = prefix_value+fields[field]['string'] or field 
+                    st_name = prefix_value+fields[field]['string'] or field
                     _fields[prefix_node+field] = st_name
-                    _fields_invert[st_name] = prefix_node+field                   
+                    _fields_invert[st_name] = prefix_node+field
                     if fields[field]['type']=='one2many' and level>0:
                         fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
                         model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
-        
+
         proxy = rpc.RPCProxy(params.model)
         fields = proxy.fields_get(False, rpc.session.context)
         model_populate(fields)
@@ -229,10 +231,10 @@ class ImpEx(controllers.Controller, TinyResource):
 
         kw['fields'] = fields
         return self.imp(**kw)
-        
+
     @expose()
     def import_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, fields=[], **kw):
-        
+
         params, data = TinyDict.split(kw)
 
         content = csvfile.file.read()
