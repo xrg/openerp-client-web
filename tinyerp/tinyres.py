@@ -127,7 +127,7 @@ def secured(fn):
             # Authorized. Set db, user name in cookies
             expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
             cherrypy.response.simple_cookie['terp_db'] = db
-            cherrypy.response.simple_cookie['terp_user'] = user
+            cherrypy.response.simple_cookie['terp_user'] = user.encode('utf-8')
             cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
             cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
 
