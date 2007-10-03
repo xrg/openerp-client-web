@@ -2,7 +2,7 @@
     <table py:if="editable" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
             <td>
-                <input type="text" kind="${kind}" id="${field_id}" class="${field_class}" name="${name}" value="${strdate}" py:attrs='attrs' callback="${callback}" onchange="${onchange}"/>
+                <input type="text" kind="${kind}" id="${field_id}" class="${field_class}" name="${name}" value="${strdate or None}" py:attrs='attrs' callback="${callback}" onchange="${onchange}"/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
             <td width="16" style="padding-left: 2px">
@@ -19,5 +19,5 @@
                </script>
         </tr>
     </table>
-    <span py:if="not editable" py:content="strdate"/>
+    <span py:if="not editable and strdate" py:content="strdate"/>
 </span>
