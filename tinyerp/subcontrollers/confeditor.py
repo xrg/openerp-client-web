@@ -88,7 +88,7 @@ class ConfEditor(controllers.Controller):
 
     @validate(validators=MySchema())
     @expose(template="tinyerp.subcontrollers.templates.confeditor")
-    def setconf(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
+    def setconf(self, tg_errors=None, **kw):
 
         host = kw.get('host')
         port = kw.get('port')

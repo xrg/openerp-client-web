@@ -186,12 +186,10 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_form)
-    def save(self, terp_save_only=False, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
+    def save(self, terp_save_only=False, tg_errors=None, **kw):
         """Controller method to save/button actions...
 
         @param tg_errors: TG special arg, used durring validation
-        @param tg_source: TG special arg, used durring validation
-        @param tg_exceptions: TG special arg, used durring validation
         @param kw: keyword arguments
 
         @return: form view
@@ -372,7 +370,7 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_filter_form)
-    def filter(self, tg_errors=None, tg_source=None, tg_exceptions=None, **kw):
+    def filter(self, tg_errors=None, **kw):
         params, data = TinyDict.split(kw)
 
         l = params.get('limit') or 20
