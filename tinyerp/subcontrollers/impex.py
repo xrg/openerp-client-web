@@ -85,7 +85,7 @@ class ImpEx(controllers.Controller, TinyResource):
         tree = tw.treegrid.TreeGrid('export_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
         tree.show_headers = False
 
-        return dict(model=params.model, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
+        return dict(model=params.model, ids=params.ids, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
 
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
@@ -162,11 +162,11 @@ class ImpEx(controllers.Controller, TinyResource):
 
     @expose(content_type="application/octat-stream")
     def export_data(self, fname, fields, export_as="csv", add_names=False, **kw):
+
         params, data = TinyDict.split(kw)
-
         proxy = rpc.RPCProxy(params.model)
-        ids = proxy.search(params.search_domain)
 
+        ids = params.ids or proxy.search(params.search_domain)
         result = datas_read(ids, params.model, fields)
 
         if export_as == 'excel':

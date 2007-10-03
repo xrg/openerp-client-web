@@ -50,7 +50,6 @@ ListView.prototype.checkAll = function(clear){
 }
 
 ListView.prototype.getSelected = function() {
-
     boxes = getElementsByTagAndClassName('input', 'grid-record-selector', this.id);
     result = [];
 
@@ -424,7 +423,7 @@ ListView.prototype.waitGlass = function(hide){
 }
 
 ListView.prototype.exportData = function(){
-	openWindow(getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id, _terp_search_domain: $('_terp_search_domain').value}));
+	openWindow(getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id, _terp_search_domain: $('_terp_search_domain').value, _terp_ids: $(this.id)}));
 }
 
 ListView.prototype.importData = function(){
