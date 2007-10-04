@@ -78,22 +78,20 @@ class O2M(TinyCompoundWidget):
 
         view_mode = mode
         view_type = mode[0]
+        
+        if not params:
+            params = TinyDict()
                 
-        if params and params.view_mode: view_mode = params.view_mode
-        if params and params.view_type: view_type = params.view_type
+        if params.view_mode: view_mode = params.view_mode
+        if params.view_type: view_type = params.view_type
         
         ids = attrs['value'] or []
 
         id = (ids or None) and ids[0]
-
-        if params and (params.id in ids or params.id is None):
-            if is_navigating:
-                id = params.id or id
-            else:
-                id = params.id
-
-        if not params:
-            params = TinyDict()
+        id = params.id or id
+        
+        if params and params.id and is_navigating:
+            id = params.id
 
         params.model = self.model
         params.id = id
@@ -102,8 +100,8 @@ class O2M(TinyCompoundWidget):
         params.view_type = view_type
         params.domain = []
         params.context = {}
-
-        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3)
+        
+        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3)        
         self.id = id
         
         if view_type == 'tree':
