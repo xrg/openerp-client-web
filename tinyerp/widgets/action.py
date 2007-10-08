@@ -92,19 +92,22 @@ class Action(TinyCompoundWidget):
             a['datetime'] = datetime
             self.domain = tools.expr_eval(self.action['domain'], a)
 
-            view_id = []
+            view_ids = []
             if self.action['view_id']:
-                view_id = [self.action['view_id'][0]]
+                view_ids = [self.action['view_id'][0]]
 
             if self.action['view_type']=='form':
-                mode = (self.action['view_mode'] or 'form,tree').split(',')
+                view_mode = (self.action['view_mode'] or 'form,tree').split(',')
+                
+                while len(view_ids) < len(view_mode):
+                    view_ids += [False]
 
                 params = TinyDict()
                 params.model = self.action['res_model']
                 params.id = False
                 params.ids = None
-                params.view_ids = view_id
-                params.view_mode = mode
+                params.view_ids = view_ids
+                params.view_mode = view_mode
                 params.context = self.context
                 params.domain = self.domain
                 
