@@ -84,6 +84,7 @@
             ids = [];
 
             boxes = list_view.getSelected();
+
             forEach(boxes, function(b){
                 ids.push(b.value);
             });
@@ -92,6 +93,12 @@
                 if (findValue(ids, id) == -1) ids.push(id);
             } else {
                 boxes = list_new.getSelected();
+
+                if(boxes.length == 0) {
+                	alert("No record selected...");
+                	return;
+                }
+
                 forEach(boxes, function(b){
                     if (findValue(ids, b.value) == -1) ids.push(b.value);
                 });
