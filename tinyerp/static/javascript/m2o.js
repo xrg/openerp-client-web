@@ -29,31 +29,31 @@
 
 var ManyToOne = function(name){
 	this.name = name;
-	
+
 	this.field = $(name);
 	this.text =	$(name + '_text');
-	
+
 	this.select_img = $(name + '_select');
-		
+
 	this.callback = getNodeAttribute(this.field, 'callback');
-	this.relation = getNodeAttribute(this.field, 'relation');	
-	
+	this.relation = getNodeAttribute(this.field, 'relation');
+
 	connect(this.field, 'onchange', this, this.on_change);
 	//connect(this.text, 'onchange', this, this.on_change_text);
 	connect(this.text, 'onkeydown', this, this.on_keydown);
 	connect(this.text, 'onkeypress', this, this.on_keypress);
 
 	connect(this.select_img, 'onclick', this, this.select);
-	
+
 	this.change_icon();
 }
 
-ManyToOne.prototype.select = function(evt){	
+ManyToOne.prototype.select = function(evt){
 	if (this.field.value) {
 		this.open(this.field.value);
 	} else {
 		open_search_window(this.relation, getNodeAttribute(this.field, 'domain'), getNodeAttribute(this.field, 'context'), this.name, 1, this.text.value);
-	}	
+	}
 }
 
 ManyToOne.prototype.create = function(evt){
@@ -61,7 +61,7 @@ ManyToOne.prototype.create = function(evt){
 }
 
 ManyToOne.prototype.open = function(id){
-	var act = getURL('/openm2o/edit', {model: this.relation, id: id, source: this.name});	
+	var act = getURL('/openm2o/edit', {model: this.relation, id: id, source: this.name});
 	openWindow(act);
 }
 
@@ -74,7 +74,7 @@ ManyToOne.prototype.get_text = function(evt){
     if (this.field.value){
         var req = Ajax.JSON.get('/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
-        
+
         req.addCallback(function(obj){
             text_field.value = obj.name;
         });
@@ -84,11 +84,11 @@ ManyToOne.prototype.get_text = function(evt){
 ManyToOne.prototype.on_change = function(evt){
 
 	this.get_text(evt);
-	
+
 	if (this.callback) {
 		onChange(this.name);
-	}		
-	
+	}
+
 	this.change_icon();
 }
 
@@ -101,12 +101,11 @@ ManyToOne.prototype.on_change_text = function(evt){
 	}
 }
 
-ManyToOne.prototype.change_icon = function(evt){	
+ManyToOne.prototype.change_icon = function(evt){
 	this.select_img.src = '/static/images/stock/gtk-' + (this.field.value ? 'open' : 'find') + '.png';
 }
 
-ManyToOne.prototype.on_keydown = function(evt){	
-
+ManyToOne.prototype.on_keydown = function(evt){
 	var key = evt.event().keyCode;
 
 	if (key == 8 || key == 46){
@@ -119,21 +118,21 @@ ManyToOne.prototype.on_keydown = function(evt){
 		this.get_matched();
 	}
 
-	// F1	
+	// F1
 	if (key == 112){
 		this.create(evt);
 		evt.stop();
 	}
-	
+
 	// F2
-	if (key == 113){
+	if (key == 113 || key == 13){
 		this.select(evt);
 		evt.stop();
 	}
 }
 
 ManyToOne.prototype.on_keypress = function(evt){
-	
+
 	if (evt.event().keyCode == 9 ){
 		return;
 	}
@@ -146,12 +145,12 @@ ManyToOne.prototype.on_keypress = function(evt){
 ManyToOne.prototype.get_matched = function(){
 
 	var m2o = this;
-	
+
 	var do_get_matched = function(relation, text, domain, context){
 
 		var req2 = Ajax.JSON.get('/search/get_matched', {model: relation, text: text, _terp_domain: domain, _terp_context: context});
-						
-		req2.addCallback(function(obj){				
+
+		req2.addCallback(function(obj){
 			if (obj.ids.length == 1) {
 				m2o.field.value = obj.ids[0];
 				m2o.on_change();
@@ -163,9 +162,9 @@ ManyToOne.prototype.get_matched = function(){
 
 	var domain = getNodeAttribute(this.field, 'domain');
 	var context = getNodeAttribute(this.field, 'context');
-	
+
 	var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
-		
+
 	req.addCallback(function(obj){
 		do_get_matched(m2o.relation, m2o.text.value, obj.domain, obj.context);
 	});
