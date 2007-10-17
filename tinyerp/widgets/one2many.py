@@ -46,9 +46,10 @@ class O2M(TinyCompoundWidget):
 
     def __init__(self, attrs={}):
         #FIXME: validation error in `Pricelist Version`
+
         attrs['required'] = False
-        
-        super(O2M, self).__init__(attrs)                
+
+        super(O2M, self).__init__(attrs)
 
         self.new_attrs = { 'text': _("New"), 'help': 'Create new record.'}
 
@@ -58,12 +59,12 @@ class O2M(TinyCompoundWidget):
         # get top params dictionary
         params = cherrypy.request.terp_params
         is_navigating = params.is_navigating
-        
-        
+
+
         pprefix = ''
         if '/' in self.name:
             pprefix = self.name[:self.name.rindex('/')]
-            
+
         pparams = params[pprefix]
         if (pparams and not pparams.id) or (not pparams and not params.id):
             self.new_attrs = { 'text': _("Save/New"), 'help': 'Save parent and create new record.'}
@@ -72,24 +73,25 @@ class O2M(TinyCompoundWidget):
         params = params[self.name.replace('/', '.')]
 
         self.model = attrs['relation']
+        self.link = attrs['link']
 
         view = attrs.get('views', {})
         mode = str(attrs.get('mode', 'tree,form')).split(',')
 
         view_mode = mode
         view_type = mode[0]
-        
+
         if not params:
             params = TinyDict()
-                
+
         if params.view_mode: view_mode = params.view_mode
         if params.view_type: view_type = params.view_type
-        
+
         ids = attrs['value'] or []
 
         id = (ids or None) and ids[0]
         id = params.id or id
-        
+
         if params and params.id and is_navigating:
             id = params.id
 
@@ -100,14 +102,14 @@ class O2M(TinyCompoundWidget):
         params.view_type = view_type
         params.domain = []
         params.context = {}
-        
-        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3)        
+
+        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3, nolinks=self.link)
         self.id = id
-        
+
         if view_type == 'tree':
             self.screen.widget.pageable=False
             self.id = None
-            
+
         pager_info = None
         if view_type == 'form':
             c = (self.screen.ids or 0) and len(self.screen.ids)

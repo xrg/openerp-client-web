@@ -85,7 +85,7 @@ class Pager(TinyCompoundWidget):
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.listgrid"
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'hiddens', 'edit_inline', 'field_total']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'hiddens', 'edit_inline', 'field_total', 'link']
     member_widgets = ['pager', 'children']
 
     pager = None
@@ -113,7 +113,6 @@ class List(TinyCompoundWidget):
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         super(List, self).__init__()
-
         self.name = name
         self.model = model
         self.ids = ids
@@ -132,6 +131,7 @@ class List(TinyCompoundWidget):
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
+        self.link = kw.get('nolinks')
 
         self.selector = None
 
@@ -196,7 +196,7 @@ class List(TinyCompoundWidget):
                 if k not in form.widgets_type:
                     k = 'char'
 
-                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)                
+                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 self.editors[f] = form.widgets_type[k](fa)
 
             # generate hidden fields
@@ -205,7 +205,7 @@ class List(TinyCompoundWidget):
                 if k not in form.widgets_type:
                     k = 'char'
 
-                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)                
+                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 self.editors[f] = form.Hidden(fa)
 
             self.children = self.editors.values()
@@ -231,13 +231,13 @@ class List(TinyCompoundWidget):
             fields += [f for f, fa in self.hiddens]
 
             proxy = rpc.RPCProxy(self.model)
-            
+
             values = {}
-                        
+
             if self.edit_inline > 0:
                 values = proxy.read([self.edit_inline], fields, ctx)[0]
             else:
-                values = proxy.default_get(fields, ctx)            
+                values = proxy.default_get(fields, ctx)
 
             for f in fields:
                 if f in values:

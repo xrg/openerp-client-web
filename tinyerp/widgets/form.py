@@ -313,7 +313,7 @@ class Selection(TinyField):
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)
         self.options = attrs.get('selection', [])
-        
+
         # determine the actual type
         if self.options and isinstance(self.options[0][0], basestring):
             self.kind = 'char'
@@ -520,7 +520,7 @@ class Form(TinyCompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, nodefault=False):
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, nodefault=False, nolinks=1):
         super(Form, self).__init__()
 
         fields = view['fields']
@@ -528,6 +528,8 @@ class Form(TinyCompoundWidget):
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
+
+        self.link = attrs.get('link', nolinks)
 
         self.model = model
         self.id = None
@@ -573,6 +575,8 @@ class Form(TinyCompoundWidget):
 
             attrs['prefix'] = prefix
             attrs['editable'] = self.editable
+
+            attrs['link'] = self.link
 
             if 'state' in values:
                 attrs['state'] = values['state']

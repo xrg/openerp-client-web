@@ -48,17 +48,20 @@ def get_name(model, id):
 
 class M2O(TinyField):
     template = "tinyerp.widgets.templates.many2one"
-    params=['relation', 'text', 'domain', 'context']
+    params=['relation', 'text', 'domain', 'context', 'link']
 
     domain = []
     context = {}
+    link = 1
 
     def __init__(self, attrs={}):
+
         super(M2O, self).__init__(attrs)
         self.relation = attrs.get('relation', '')
 
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {})
+        self.link = attrs.get('link')
 
         self.validator = tiny_validators.many2one()
 

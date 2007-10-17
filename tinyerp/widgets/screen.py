@@ -54,27 +54,27 @@ class Screen(TinyCompoundWidget):
         <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
         <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
-        
+
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
-        
+
         <span py:if="widget" py:replace="widget.display(value_for(widget), **params_for(widget))"/>
     </span>
     """
 
     params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
-    
+
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, selectable=0):
-        
+    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, selectable=0, nolinks=1):
+
         # get params dictionary
         params = params or cherrypy.request.terp_params
         prefix = prefix or (params.prefix or '')
-        
-        super(Screen, self).__init__(dict(prefix=prefix, name=name))                
+
+        super(Screen, self).__init__(dict(prefix=prefix, name=name))
 
         self.model         = params.model
         self.state         = params.state or None
@@ -83,43 +83,44 @@ class Screen(TinyCompoundWidget):
         self.view_ids      = params.view_ids or []
         self.view_mode     = params.view_mode
         self.view_type     = params.view_type
-        
+
         if not self.view_type and params.view_mode:
             self.view_type = params.view_mode[0]
 
         self.domain        = params.domain or []
         self.context       = params.context or {}
         self.nodefault     = params.nodefault or False
-        
+
         self.offset        = params.offset
         self.limit         = params.limit
         self.count         = params.count
-        
+
         if (self.ids or self.id) and self.count == 0:
             self.count = rpc.RPCProxy(self.model).search_count(self.domain)
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded or (params.views or {})
-                        
+
         self.hastoolbar         = hastoolbar
         self.toolbar            = None
-        
+
         self.selectable         = selectable
         self.editable           = editable
-        
+        self.link               = nolinks
+
         if self.view_mode:
-                        
-            view_type = self.view_type                        
+
+            view_type = self.view_type
             view_id = False
-            
+
             if self.view_ids and view_type in self.view_mode:
-                view_index = self.view_mode.index(view_type)               
+                view_index = self.view_mode.index(view_type)
                 view_id = self.view_ids[view_index]
 
             self.add_view_id(view_id, view_type)
 
-    def add_view_id(self, view_id, view_type):            
-        
+    def add_view_id(self, view_id, view_type):
+
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:
@@ -132,24 +133,25 @@ class Screen(TinyCompoundWidget):
     def add_view(self, view, view_type='form'):
 
         if view_type == 'form':
-            self.widget = form.Form(prefix=self.prefix, 
-                                    model=self.model, 
-                                    view=view, 
-                                    ids=(self.id or []) and [self.id], 
-                                    domain=self.domain, 
-                                    context=self.context, 
-                                    editable=self.editable, nodefault=self.nodefault)
+            self.widget = form.Form(prefix=self.prefix,
+                                    model=self.model,
+                                    view=view,
+                                    ids=(self.id or []) and [self.id],
+                                    domain=self.domain,
+                                    context=self.context,
+                                    editable=self.editable,
+                                    nodefault=self.nodefault, nolinks=self.link)
 
         elif view_type == 'tree':
-            self.widget = listgrid.List(self.name or '_terp_list', 
-                                        model=self.model, 
-                                        view=view, 
-                                        ids=self.ids, 
-                                        domain=self.domain, 
-                                        context=self.context, 
-                                        editable=self.editable, 
+            self.widget = listgrid.List(self.name or '_terp_list',
+                                        model=self.model,
+                                        view=view,
+                                        ids=self.ids,
+                                        domain=self.domain,
+                                        context=self.context,
+                                        editable=self.editable,
                                         selectable=self.selectable,
-                                        offset=self.offset, limit=self.limit, count=self.count)
+                                        offset=self.offset, limit=self.limit, count=self.count, nolinks=self.link)
 
             self.ids = self.widget.ids
             self.count = self.widget.count
@@ -166,22 +168,22 @@ class Screen(TinyCompoundWidget):
 
         # get actions/reports if not in view toolbar
         if self.view_type in ['form', 'tree', 'graph']:
-            
+
             proxy = rpc.RPCProxy('ir.values')
-            
+
             if not toolbar.get('action', False):
                 res = proxy.get('action', 'client_action_multi', [(self.model, False)], False, self.context)
-            
+
                 actions = [dict(string=a[1], **a[-1]) for a in res]
-                if actions: 
-                    toolbar['action'] = actions      
-                    
+                if actions:
+                    toolbar['action'] = actions
+
             if not toolbar.get('print', False):
                 res = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
-            
+
                 actions = [dict(string=a[1], **a[-1]) for a in res]
-                if actions: 
+                if actions:
                     toolbar['print'] = actions
 
         self.toolbar = toolbar or None
-        self.hastoolbar = (toolbar or False) and True        
+        self.hastoolbar = (toolbar or False) and True

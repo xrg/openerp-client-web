@@ -11,15 +11,25 @@
             </td>
             <td width="16" py:if="'_terp_listfields' not in name">
                 <img id='${name}_menu' class="context_menu_button" width="16" height="16" alt="${_('Context Menu')}" title="${_('Context Menu')}" src="/static/images/stock/gtk-go-down.png" style="cursor: pointer;" onclick="m2oContextMenu(this)"/>
-            </td>            
+            </td>
         </tr>
     </table>
-    
+
     <script type="text/javascript" py:if="editable">
         new ManyToOne('${name}');
     </script>
-    
-    <span py:if="not editable">
-        <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"/>
-    </span>
+
+	<span py:if="not editable and link">
+	    <span py:if="link=='1'">
+    	    <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"/>
+	    </span>
+    	<span py:if="link=='0'">
+        	${text}
+	    </span>
+	</span>
+	<span py:if="not editable and not link == '0'">
+		<span>
+    	    <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"/>
+	    </span>
+	</span>
 </span>
