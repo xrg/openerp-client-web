@@ -49,7 +49,7 @@
  				</span>
 				<span py:if="field_attrs.get('type')=='many2one' and link=='0'" py:strip="">
 		            ${data[field]}
-				</span>
+				</span>o
 	            <span py:if="data[field].text == ''">&nbsp;</span>
 	        </td>
 	        <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
