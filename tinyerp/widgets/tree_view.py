@@ -78,8 +78,11 @@ class ViewTree(tg.widgets.Form):
             ids = proxy.search(self.domain2)
             self.toolbar = proxy.read(ids, ['name', 'icon'], ctx)
 
-            id = res_id or ids[0]
-            ids = proxy.read([id], [self.field_parent])[0][self.field_parent]
+            id = res_id
+            if not id and ids: id = ids[0]
+
+            ids = []
+            if id: ids = proxy.read([id], [self.field_parent])[0][self.field_parent]
 
         self.headers = []
         self.parse(root, fields)
@@ -98,8 +101,8 @@ class ViewTree(tg.widgets.Form):
                 continue
 
             attrs = tools.node_attributes(node)
-            
+
             field = fields.get(attrs['name'])
             field.update(attrs)
-            
+
             self.headers += [field]
