@@ -121,7 +121,6 @@ def secured(fn):
                 if action == 'login':
                     message = _("Bad username or password !")
 
-                cherrypy.response.status = 401
                 return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies
