@@ -213,7 +213,7 @@ TreeGrid.prototype._make_row = function(record, indent){
             var tds = [];
 
             if (indent){
-                for(var i=0; i<indent; i++){
+                for(var i = 0; i < indent; i++){
                     tds.push(SPAN({'class' : 'indent'}));
                 }
             }

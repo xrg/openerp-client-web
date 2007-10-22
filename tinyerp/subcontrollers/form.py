@@ -98,6 +98,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.search = 'tree' in params.view_mode and mode != 'tree'
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
+        buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
         buttons.attach = (buttons.form or buttons.search or buttons.graph) and id
         buttons.i18n = not editable and mode == 'form'
 
@@ -551,8 +552,8 @@ class Form(controllers.Controller, TinyResource):
             self.save(terp_save_only=True, **kw)
 
         #switch the view mode
-        idx = (current.view_type == current.view_mode[0] or 0) and -1
-        current.view_type = current.view_mode[idx]
+        #idx = (current.view_type == current.view_mode[0] or 0) and -1
+        #current.view_type = current.view_mode[idx]
 
         # set ids and id
         current.ids = current.ids or []

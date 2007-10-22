@@ -39,14 +39,13 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id', 'new_attrs', 'pager_info']
+    params = ['string', 'id', 'new_attrs', 'pager_info', 'switch_to']
 
     member_widgets = ['screen']
     form = None
 
     def __init__(self, attrs={}):
         #FIXME: validation error in `Pricelist Version`
-
         attrs['required'] = False
 
         super(O2M, self).__init__(attrs)
@@ -59,7 +58,6 @@ class O2M(TinyCompoundWidget):
         # get top params dictionary
         params = cherrypy.request.terp_params
         is_navigating = params.is_navigating
-
 
         pprefix = ''
         if '/' in self.name:
@@ -87,6 +85,9 @@ class O2M(TinyCompoundWidget):
         if params.view_mode: view_mode = params.view_mode
         if params.view_type: view_type = params.view_type
 
+        self.switch_to = view_mode[-1]                    
+        if view_type == view_mode[-1]: self.switch_to = view_mode[0] 
+        
         ids = attrs['value'] or []
 
         id = (ids or None) and ids[0]

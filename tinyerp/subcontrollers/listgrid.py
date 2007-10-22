@@ -115,8 +115,7 @@ class List(controllers.Controller, TinyResource):
         params.view_type = 'form'
 
         if source == '_terp_list':
-            params.view_type='tree'
-
+            params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
 

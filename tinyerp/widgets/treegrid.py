@@ -43,7 +43,7 @@ class TreeGrid(TinyField):
     onselection = None
 
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
-    javascript = [widgets.mochikit, widgets.JSLink("tinyerp", "javascript/treegrid.js")]
+    javascript = [widgets.JSLink("tinyerp", "javascript/treegrid.js")]
 
     def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[]):
         attrs = dict(name=name, model=model, url=url)

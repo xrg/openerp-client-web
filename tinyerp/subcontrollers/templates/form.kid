@@ -50,9 +50,10 @@
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>                                    
                                     <td nowrap="nowrap">
-                                        <button type="button" title="${_('Search View...')}" disabled="${tg.selector(not buttons.search)}" onclick="submit_form('switch')">Search</button>
-                                        <button type="button" title="${_('Form View...')}" disabled="${tg.selector(not buttons.form)}" onclick="submit_form('switch')">Form</button>
-                                        <button type="button" title="${_('Graph View...')}" disabled="${tg.selector(not buttons.graph)}" onclick="submit_form('switch')">Graph</button>      
+                                        <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="switchView('tree')">Search</button>
+                                        <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="switchView('form')">Form</button>
+                                        <button type="button" title="Calendar View..." disabled="${tg.selector(not buttons.calendar)}" onclick="switchView('calendar')">Calendar</button>
+                                        <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="switchView('graph')">Graph</button>      
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.attach">
                                         <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/stock/gtk-paste.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
@@ -95,7 +96,7 @@
                 </table>      
             </td>
                        
-            <td py:if="form.screen.hastoolbar and form.screen.toolbar" id="sidebar_pane" width="163" valign="top" style="padding-left: 2px">
+            <td py:if="form.screen.hastoolbar and form.screen.toolbar and form.screen.view_type != 'calendar'" id="sidebar_pane" width="163" valign="top" style="padding-left: 2px">
         
                 <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
                     <tr py:if="'print' in form.screen.toolbar">
@@ -174,7 +175,7 @@
                 </table>
             </td>
             
-            <td id="sidebar_hide" valign="top" py:if="form.screen.hastoolbar and form.screen.toolbar">
+            <td id="sidebar_hide" valign="top" py:if="form.screen.hastoolbar and form.screen.toolbar  and form.screen.view_type != 'calendar'">
                <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
             </td>
         </tr>        

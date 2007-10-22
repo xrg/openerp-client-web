@@ -193,4 +193,6 @@ class Root(controllers.RootController, TinyResource):
     translator = subcontrollers.translator.Translator()
     impex = subcontrollers.impex.ImpEx()
     fieldpref = subcontrollers.fieldpref.FieldPref()
+    calendar = subcontrollers.tinycalendar.TinyCalendar()
+    calpopup = subcontrollers.tinycalendar.CalendarPopup()
     viewlog = subcontrollers.view_log.View_Log()

@@ -28,8 +28,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 function get_form_action(action, params){
-	var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
-	return getURL(act + '/' + action, params);
+	var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;	
+	act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
+
+	return getURL(act, params);
 }
 
 var newO2M = function(src, mode, editors){	
@@ -140,6 +142,17 @@ var viewRecord = function(id, src){
 				'search_domain': search_domain};
 
 	window.location.href = get_form_action('view', args);
+}
+
+var switchView = function(view_type, src){
+
+    var prefix = src ? src + '/' : '';
+    var form = $("view_form");
+
+    $(prefix + '_terp_view_type').value  = view_type;
+
+    form.action = get_form_action('switch', {_terp_source: src});
+    form.submit();
 }
 
 var submit_form = function(action, src, data){
