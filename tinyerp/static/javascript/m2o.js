@@ -125,7 +125,7 @@ ManyToOne.prototype.on_keydown = function(evt){
 	}
 
 	// F2
-	if (key == 113 || key == 13){
+	if (key == 113 || (key == 13 && !this.text.value)){
 		this.select(evt);
 		evt.stop();
 	}
