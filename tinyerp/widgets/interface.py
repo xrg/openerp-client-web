@@ -85,11 +85,19 @@ class TinyWidget(object):
         self.kind = attrs.get('type', None)
 
     def set_state(self, state):
+        
         if isinstance(self.states, dict) and state in self.states:
-            attrs = self.states[state]
+            
+            attrs = dict(self.states[state])
+            
+            if 'readonly' in attrs:
+                self.readonly = attrs['readonly']
+        
+            if 'required' in attrs:
+                self.required = attrs['required']
 
-            for n,v in attrs:
-                setattr(self, n, v)
+            if 'value' in attrs:
+                self.default = attrs['value']
 
 class TinyInputWidget(TinyWidget):
     """Interface for Field widgets, every InputField widget should

@@ -560,6 +560,11 @@ class Form(TinyCompoundWidget):
         elif 'state' in fields: # if nodefault and state get state only
             values = proxy.default_get(['state'], ctx)
 
+        # update values according to domain
+        for d in domain:
+            if d[0] in values and d[1] == '=':
+                values[d[0]] = d[2]
+
         self.frame = self.parse(prefix, dom, fields, values)[0]
 
     def parse(self, prefix='', root=None, fields=None, values={}):
