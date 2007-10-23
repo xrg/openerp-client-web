@@ -227,7 +227,7 @@ TreeGrid.prototype._make_row = function(record, indent){
                 tds.push(IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
             }
 
-			val = A({'href': '#'}, val);
+			val = A({'href': 'javascript: void(0)'}, val);
 
            	if (record.action){
 				setNodeAttribute(val, 'href', record.action);
