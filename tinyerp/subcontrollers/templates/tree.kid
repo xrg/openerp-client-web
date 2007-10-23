@@ -13,6 +13,10 @@
 
             form.submit();
         }
+        
+        function button_click(id){
+            location.href = getURL('/tree', {id : id, model : $('_terp_model').value, domain: $('_terp_domain').value});
+        }
 
     </script>
 </head>
@@ -53,7 +57,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr py:for="tool in tree.toolbar" class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="location.href='${tg.query('/tree', id=tool['id'], model=tree.model)}'">
+                                <tr py:for="tool in tree.toolbar" class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="button_click('${tool['id']}')">
                                     <td>
                                         <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
                                             <tr>

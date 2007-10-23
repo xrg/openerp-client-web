@@ -80,13 +80,13 @@ class Tree(controllers.Controller, TinyResource):
         return dict(tree=tree)
 
     @expose()
-    def default(self, id, model):
+    def default(self, id, model, domain):
         params = TinyDict()
 
         params.ids = id
         params.view_ids = [1]
         params.model = model
-        params.domain = [('parent_id', '=', False)]
+        params.domain = domain
         params.context = {}
 
         return self.create(params)
