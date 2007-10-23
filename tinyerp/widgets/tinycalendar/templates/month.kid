@@ -39,13 +39,7 @@
         <div id="calMonth" class="calMonth" dtStart="${month[0].isoformat()}" dtFirst="${month.year}-${month.month}-01"><span></span>
             
             <div id="calHeaderSect">
-                <div class="calDayName">Monday</div>
-                <div class="calDayName">Tuesday</div>
-                <div class="calDayName">Wednesday</div>
-                <div class="calDayName">Thursday</div>
-                <div class="calDayName">Friday</div>
-                <div class="calDayName">Saturday</div>
-                <div class="calDayName">Sunday</div>                
+                <div class="calDayName" py:for="day in month.weeks[0]">${day.name}</div>
             </div>
             
             <div id="calBodySect">
