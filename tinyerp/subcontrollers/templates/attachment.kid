@@ -76,7 +76,7 @@
                         <input type="hidden" name="id" value="${id}"/>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
-                                <td class="label">Add Rresource: </td>
+                                <td class="label">Add Resource: </td>
                                 <td><input type="file" id="uploadfile" name="uploadfile" onchange="do_upload(form)"/></td>
                                 <td width="100%"></td>
                                 <td><button type="button" onclick="do_save(form)">Save As</button></td>

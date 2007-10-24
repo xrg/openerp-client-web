@@ -141,7 +141,7 @@ class Translator(controllers.Controller, TinyResource):
         
         if translate == 'fields':
             if not params.id:
-                raise common.error(_("You need to save ressource before adding translations."))
+                raise common.error(_("You need to save the resource before adding translations."))
             
             for lang, value in data.items():                                
                 
