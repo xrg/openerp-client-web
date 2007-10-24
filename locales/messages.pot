@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-10-24 15:11\n"
+"POT-Creation-Date: 2007-10-24 15:21\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -201,7 +201,7 @@ msgid " - %s pending request(s)"
 msgstr ""
 
 #: tinyerp/subcontrollers/translator.py:144
-msgid "You need to save ressource before adding translations."
+msgid "You need to save the resource before adding translations."
 msgstr ""
 
 #: tinyerp/subcontrollers/tree.py:238
@@ -997,7 +997,7 @@ msgid "Attachments"
 msgstr ""
 
 #: tinyerp/subcontrollers/templates/attachment.kid:td
-msgid "Add Rresource:"
+msgid "Add Resource:"
 msgstr ""
 
 #: tinyerp/subcontrollers/templates/attachment.kid:td
