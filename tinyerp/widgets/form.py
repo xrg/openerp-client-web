@@ -80,25 +80,35 @@ class Frame(TinyCompoundWidget):
         self.add_row()
 
         self.children = children
-
+        
         for child in children:
 
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
 
+            # If this is a hidden button, change the colspan of the last
+            # widget to preserve the layout.
             if isinstance(child, Button) and not child.visible:
+                try:
+                    a, last = self.table[-1][-1]
+                    if 'colspan' in a: a['colspan'] += 1
+                except:
+                    pass
+                
                 continue
 
             if isinstance(child, NewLine):
                 self.add_row()
             else:
                 self.add(child, string, rowspan, colspan)
+            
+            btnColspan = 0
 
         self.fields = []
 
         # properly distribute widths to columns
-
+                
         mx = 1
         for row in self.table:
             if len(row) > mx:
@@ -109,10 +119,14 @@ class Frame(TinyCompoundWidget):
             sn = len([w for a, w in row if isinstance(w, basestring)])
             pn = len([w for a, w in row if isinstance(w, Image)])
 
-            sw = 10                                  # label width
-            ww = (100.00 - sw * sn) / (mx - sn - pn) # widget width
+            sw = 5                                  # label width
+            ww = 100.00 - sw * sn                   # remaining width
+            cn = self.columns - sn - pn             # columns - (lables + image)
+            
+            if cn < 1: cn = 1
 
-            for a, wid in row:
+            for i, (a, wid) in enumerate(row):
+                               
                 if isinstance(wid, basestring):
                     w = sw
                 elif isinstance(wid, Image):
@@ -122,7 +136,7 @@ class Frame(TinyCompoundWidget):
                     if c > mx:
                         c = 1
 
-                    w = ww * c
+                    w = ww * c / cn
 
                 a['width'] = '%d%%' % (w)
 
