@@ -31,7 +31,7 @@ var TreeGrid = function(id, headers) {
 
     this.id = id;
 
-    this.headers = eval(headers);
+    this.headers = headers;
 
     this.show_icons = 'icon' in this.headers[0];
     this.show_headers = true;
