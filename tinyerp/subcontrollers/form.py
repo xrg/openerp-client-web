@@ -213,6 +213,8 @@ class Form(controllers.Controller, TinyResource):
             else:
                 id = proxy.write([params.id], data, params.context)
 
+        button = params.button
+        
         # perform button action
         if params.button:
             res = self.button_action(params)
@@ -224,7 +226,7 @@ class Form(controllers.Controller, TinyResource):
             current.id = None
             if not params.id:
                 params.id = int(id)
-        else:
+        elif not button:
             params.editable = False
 
         if terp_save_only:
