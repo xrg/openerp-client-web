@@ -272,7 +272,7 @@ class List(TinyCompoundWidget):
                         field_total[name] = [attrs['sum'], 0.0]
 
                     if kind not in CELLTYPES:
-                        continue
+                        kind = 'char'
 
                     fields[name].update(attrs)
 
