@@ -388,7 +388,7 @@ class Float(Char):
         if self.value:
             return locale.format('%.' + str(digit) + 'f', self.value or 0.0)
 
-        return self.value
+        return 0.0
 
 class Int(Char):
 
@@ -396,7 +396,7 @@ class Int(Char):
         if self.value:
             return int(self.value)
 
-        return self.value or ''
+        return 0
 
 class DateTime(Char):
     server_format = '%Y-%m-%d %H:%M:%S'
