@@ -151,8 +151,16 @@ class TinyCalendar(interface.TinyCompoundWidget):
 
         self.fields = proxy.fields_get(fields)
         
+        self.colors = {}
+        self.color_values = []
+        
         if self.color_field and options and options.colors:
-            self.color_values = options.colors
+            self.colors = options.colors
+            
+        if self.color_field and options and options.color_values:
+            self.color_values = options.color_values
+            
+        print "XXXXXXXXXXXXXXXXXXX", self.colors
             
         self.calendar_fields['date_start'] = dict(name=self.date_start, 
                                                   kind=self.fields[self.date_start]['type'])

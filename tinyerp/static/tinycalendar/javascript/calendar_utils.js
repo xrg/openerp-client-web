@@ -111,7 +111,8 @@ var getCalendar = function(action) {
         values = values.concat(e.value);
     });
     
-    params['_terp_colors'] = "[" + values.join(",") + "]";
+    params['_terp_colors'] = $('_terp_colors').value;
+    params['_terp_color_values'] = "[" + values.join(",") + "]";
     
     showElement('calLoading');        
 

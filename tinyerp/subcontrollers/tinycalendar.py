@@ -106,8 +106,11 @@ class TinyCalendar(Form):
             else:
                 options.mode = "day"                                    
                 
-        if params.colors:            
+        if params.colors:
             options.colors = params.colors
+            
+        if params.color_values:
+            options.color_values = params.color_values
             
         options.search_domain = params.search_domain or []
         options.use_search = params.use_search
