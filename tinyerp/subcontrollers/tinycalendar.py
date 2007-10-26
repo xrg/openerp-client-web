@@ -202,7 +202,10 @@ class CalendarPopup(Form):
         params, data = TinyDict.split(kw)        
         data = {}
         
-        if 'date_deadline' in params.fields:
+        if 'date_deadline' in params.fields:            
+            if params.fields['date_deadline']['kind'] == 'date' and params.ends:
+                params.ends = params.ends.split(' ')[0]
+                
             data[params.fields['date_deadline']['name']] = params.ends
             
         elif 'date_delay' in params.fields:
