@@ -89,9 +89,7 @@ class O2M(TinyCompoundWidget):
         if view_type == view_mode[-1]: self.switch_to = view_mode[0] 
         
         ids = attrs['value'] or []
-
         id = (ids or None) and ids[0]
-        id = params.id or id
 
         if params and params.id and is_navigating:
             id = params.id
