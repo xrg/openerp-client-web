@@ -217,18 +217,28 @@ def execute(action, **data):
 
     elif action['type']=='ir.actions.report.xml':
         return execute_report(action['report_name'], **data)
-    
+
+    elif action['type']=="url":
+        data['url'] = action['url']
+        data['target'] = action['target']
+        data['type'] = action['type']
+
+        return execute_url(**data)
+
+def execute_url(**data):
+    raise redirect(data.get('url') or '#')
+
 def get_action_type(act_id):
     """Get the action type for the given action id.
-    
+
     @param act_id: the action id
     @return: action type
     """
     res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
-    
+
     if not len(res):
         raise common.error(_('Error'), _('Action not found!!!'))
-    
+
     return res[0]['type']
 
 def execute_by_id(act_id, type=None, **data):
