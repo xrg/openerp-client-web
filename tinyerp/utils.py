@@ -46,9 +46,9 @@ def _make_dict(data, is_params=False):
     res = (is_params or {}) and TinyDict()
 
     for name, value in data.items():
-        names = name.split('/')
-
-        if len(names) > 1:
+        
+        if isinstance(name, basestring) and '/' in name:        
+            names = name.split('/')
             res.setdefault(names[0], (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
         else:
             res[name] = value
