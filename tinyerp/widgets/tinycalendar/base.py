@@ -245,9 +245,14 @@ class TinyCalendar(interface.TinyCompoundWidget):
             events += [self.get_event_widget(evt)]
         
         # filter out the events which are not in the range
-        events = [e for e in events if days[0] - e.dayspan < e.starts]
+        result = []
+        for e in events:
+            if e.dayspan > 0 and days[0] - e.dayspan < e.starts:
+                result += [e]
+            if e.dayspan == 0 and days[0] <= e.starts:
+                result += [e]
         
-        return events
+        return result
     
     def get_event_widget(self, event):
 
@@ -291,13 +296,29 @@ class TinyCalendar(interface.TinyCompoundWidget):
                 if n > 0: span = n + 1
             
             ends = time.localtime(time.mktime(starts) + (h * 60 * 60) + (n * 24 * 60 * 60))
-
-        #TODO: consider deadline
+        
+        if starts and self.date_deadline:
+            
+            ends = event.get(self.date_deadline)
+            if not ends:
+                ends = time.localtime(time.mktime(starts) + 60 * 60)
+                
+            tds = time.mktime(starts)
+            tde = time.mktime(ends)
+            
+            if tds >= tde:
+                tde = tds + 60 * 60
+                ends = time.localtime(tde)
+            
+            n = (tde - tds) / (60 * 60)
+            
+            if n > self.day_length:
+                span = math.floor(n / 24)
         
         color_key = event.get(self.color_field) 
         color = self.colors.get(color_key)
 
-        title = title.strip()        
+        title = title.strip()
         description = ', '.join(description).strip()
         
         return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1])       
