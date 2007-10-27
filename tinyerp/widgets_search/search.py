@@ -105,7 +105,7 @@ class Search(TinyCompoundWidget):
         self.context       = context
 
         ctx = rpc.session.context.copy()
-        self.view = cache.fields_view_get(self.model, {}, 'form', ctx, False)
+        self.view = cache.fields_view_get(self.model, False, 'form', ctx, True)
 
         fields = self.view['fields']
 
@@ -136,10 +136,7 @@ class Search(TinyCompoundWidget):
             if attrs.has_key('nolabel'):
                 attrs['nolabel'] = False
 
-            elif node.localName=='button' and attrs.has_key('select'):
-                self.views += [Button(attrs)]
-
-            elif node.localName == 'form':
+            if node.localName == 'form':
                 self.parse(root=node, fields=fields, values=values)
                 #views += [Frame(attrs, n)]
 
@@ -181,7 +178,9 @@ class Search(TinyCompoundWidget):
                 self.fields_type[name] = kind
 
                 field = widgets_type[kind](attrs=fields[name])
-                field.adv = fields[name]['select'] in ('2', 2)
+                
+                val = fields[name].get('select', False)
+                field.adv = val and int(val) > 1
 
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],[0,'No']]
@@ -201,26 +200,24 @@ range_widgets_type = {
 
 widgets_type = {
     'date': RangeWidget,
-    'time': RangeWidget,
     'datetime': RangeWidget,
     'float': RangeWidget,
     'integer': RangeWidget,
     'selection': Selection,
     'char': Char,
     'boolean': Selection,
-    'button': Button,
     #'reference': Reference,
     #'binary': Binary,
     #'picture': Picture,
     'text': Char,
     #'text_tag': TextTag,
     'one2many': Char,
-    #'one2many_form': O2M,
-    #'one2many_list': O2M,
+    'one2many_form': Char,
+    'one2many_list': Char,
     'many2many': Char,
     'many2one': Char,
-    #'email' : Char,
-    #'url' : Char,
+    'email' : Char,
+    'url' : Char,
     #'image' : Image,
 }
 
