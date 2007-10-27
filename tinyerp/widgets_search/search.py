@@ -40,6 +40,7 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp.cache import cache
 
+from tinyerp.widgets.interface import TinyInputWidget
 from tinyerp.widgets.interface import TinyCompoundWidget
 
 from tinyerp.widgets.form import Char
