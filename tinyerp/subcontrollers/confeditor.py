@@ -27,8 +27,6 @@
 #
 ###############################################################################
 
-import re
-
 from turbogears import expose
 from turbogears import controllers
 from turbogears import validators, validate
@@ -117,29 +115,3 @@ class ConfEditor(controllers.Controller):
         cherrypy.session['terp_passwd'] = None
 
         raise redirect("/login")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

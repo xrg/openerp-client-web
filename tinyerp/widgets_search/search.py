@@ -40,8 +40,6 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp.cache import cache
 
-from tinyerp.widgets.interface import TinyField
-from tinyerp.widgets.interface import TinyInputWidget
 from tinyerp.widgets.interface import TinyCompoundWidget
 
 from tinyerp.widgets.form import Char
@@ -178,7 +176,7 @@ class Search(TinyCompoundWidget):
                 self.fields_type[name] = kind
 
                 field = widgets_type[kind](attrs=fields[name])
-                
+
                 val = fields[name].get('select', False)
                 field.adv = val and int(val) > 1
 

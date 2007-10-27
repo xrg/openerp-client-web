@@ -43,7 +43,6 @@ from tinyerp import tools
 from tinyerp import rpc
 
 from interface import TinyField
-from interface import TinyWidget
 from interface import TinyInputWidget
 from interface import TinyCompoundWidget
 
@@ -80,7 +79,7 @@ class Frame(TinyCompoundWidget):
         self.add_row()
 
         self.children = children
-        
+
         for child in children:
 
             string = not child.nolabel and child.string
@@ -95,20 +94,20 @@ class Frame(TinyCompoundWidget):
                     if 'colspan' in a: a['colspan'] += 1
                 except:
                     pass
-                
+
                 continue
 
             if isinstance(child, NewLine):
                 self.add_row()
             else:
                 self.add(child, string, rowspan, colspan)
-            
+
             btnColspan = 0
 
         self.fields = []
 
         # properly distribute widths to columns
-                
+
         mx = 1
         for row in self.table:
             if len(row) > mx:
@@ -122,11 +121,11 @@ class Frame(TinyCompoundWidget):
             sw = 5                                  # label width
             ww = 100.00 - sw * sn                   # remaining width
             cn = self.columns - sn - pn             # columns - (lables + image)
-            
+
             if cn < 1: cn = 1
 
             for i, (a, wid) in enumerate(row):
-                               
+
                 if isinstance(wid, basestring):
                     w = sw
                 elif isinstance(wid, Image):
