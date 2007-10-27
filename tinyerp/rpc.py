@@ -324,7 +324,7 @@ class RPCSession(object):
         """Reload the context for the current user
         """
 
-        self.context = {}
+        self.context = {'client': 'web'}
         self.timezone = 'utc'
 
         # self.uid
