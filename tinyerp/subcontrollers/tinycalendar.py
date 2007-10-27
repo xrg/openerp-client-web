@@ -156,8 +156,8 @@ class TinyCalendar(Form):
         
         data[params.fields['date_start']['name']] = params.starts
         
-        if 'date_deadline' in params.fields:
-            data[params.fields['date_deadline']['name']] = params.ends
+        if 'date_stop' in params.fields:
+            data[params.fields['date_stop']['name']] = params.ends
         elif 'date_delay' in params.fields:
             # convert the end time in hours
             day_length = params.fields['day_length']
@@ -191,13 +191,9 @@ class CalendarPopup(Form):
     path = '/calpopup'    # mapping from root
     
     @expose(template="tinyerp.subcontrollers.templates.calpopup")
-    def create(self, params, tg_errors=None):     
-        
+    def create(self, params, tg_errors=None):        
         params.editable = True
-        form = self.create_form(params, tg_errors)        
-        
-        #form.hidden_fields = [widgets.HiddenField(name='_terp_source', default=params.source)]
-        
+        form = self.create_form(params, tg_errors)       
         return dict(form=form, params=params, show_header_footer=False)
 
     @expose()
@@ -205,11 +201,11 @@ class CalendarPopup(Form):
         params, data = TinyDict.split(kw)        
         data = {}
         
-        if 'date_deadline' in params.fields:            
-            if params.fields['date_deadline']['kind'] == 'date' and params.ends:
+        if 'date_stop' in params.fields:            
+            if params.fields['date_stop']['kind'] == 'date' and params.ends:
                 params.ends = params.ends.split(' ')[0]
                 
-            data[params.fields['date_deadline']['name']] = params.ends
+            data[params.fields['date_stop']['name']] = params.ends
             
         elif 'date_delay' in params.fields:
             # convert the end time in hours

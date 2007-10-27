@@ -86,7 +86,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
     
     date_start = None
     date_delay = None
-    date_deadline = None
+    date_stop = None
     color_field = None
     day_length = 8
 
@@ -138,14 +138,14 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.string = attrs.get('string', '')
         self.date_start = attrs.get('date_start') 
         self.date_delay = attrs.get('date_delay')
-        self.date_deadline = attrs.get('date_deadline')
+        self.date_stop = attrs.get('date_stop')
         self.color_field = attrs.get('color')
         self.day_length = attrs.get('day_length', 8)
 
         self.info_fields = self.parse(root, view['fields'])
         
         fields = view['fields']
-        fields = fields.keys() + [self.date_start, self.date_deadline, self.date_delay, self.color_field]
+        fields = fields.keys() + [self.date_start, self.date_stop, self.date_delay, self.color_field]
 
         fields = list(set([x for x in fields if x]))
 
@@ -167,9 +167,9 @@ class TinyCalendar(interface.TinyCompoundWidget):
             self.calendar_fields['date_delay'] = dict(name=self.date_delay, 
                                                       kind=self.fields[self.date_delay]['type'])
             
-        if self.date_deadline:
-            self.calendar_fields['date_deadline'] = dict(name=self.date_deadline, 
-                                                         kind=self.fields[self.date_deadline]['type'])
+        if self.date_stop:
+            self.calendar_fields['date_stop'] = dict(name=self.date_stop, 
+                                                         kind=self.fields[self.date_stop]['type'])
             
         self.calendar_fields['day_length'] = self.day_length
 
@@ -191,7 +191,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
                   'date': '%Y-%m-%d',
                   'time': '%H:%M:%S'}
 
-        fields = [x for x in [self.date_start, self.date_deadline] if x]
+        fields = [x for x in [self.date_start, self.date_stop] if x]
         
         for fld in fields:
             typ = self.fields[fld]['type']
@@ -303,9 +303,9 @@ class TinyCalendar(interface.TinyCompoundWidget):
             
             ends = time.localtime(time.mktime(starts) + (h * 60 * 60) + (n * 24 * 60 * 60))
         
-        if starts and self.date_deadline:
+        if starts and self.date_stop:
             
-            ends = event.get(self.date_deadline)
+            ends = event.get(self.date_stop)
             if not ends:
                 ends = time.localtime(time.mktime(starts) + 60 * 60)
                 
