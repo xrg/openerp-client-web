@@ -25,7 +25,7 @@ setup(
     license='GPL',
 
     install_requires=[
-        "TurboGears >= 1.0.3.2",
+        "TurboGears >= 1.0.4b1",
     ],
     scripts=["start-tinyerp.py"],
     zip_safe=False,

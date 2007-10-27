@@ -29,7 +29,7 @@
 
 # Release information about eTiny
 
-version = "0.0.1"
+version = "1.0rc1"
 
 # description = "Your plan to rule the world"
 # long_description = "More description about your plan"
