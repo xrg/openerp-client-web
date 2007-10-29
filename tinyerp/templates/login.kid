@@ -16,27 +16,29 @@
 			<form action="${target}" method="post" name="loginform">
 		        <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
 		        <input type="hidden" name="login_action" value="login"/>
-	                
+
 	    		<table align="center" width="100%" cellspacing="2px">
 			        <tr>
 			            <td class="label">Server :</td>
 			            <td width="100%" py:content="url"/>
 			            <!-- <td>
 			                <button type="button" onclick="location.href='/configure'">Change</button>
-			            </td> --> 
+			            </td> -->
 			        </tr>
 			        <tr>
 						<td class="label">Database :</td>
 						<td width="100%">
 							<select name="db" style="width: 100%;">
-								<option py:for="v in dblist or []" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
+								<span py:if="dblist and (dblist is not -1)">
+									<option py:for="v in dblist or []" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
+								</span>
 	                        </select>
 						</td>
 	                    <td>
 						    <button type="button" onclick="location.href='/dbadmin'">Manage</button>
 						</td>
 					</tr>
-	
+
 					<tr>
 						<td class="label">User :</td>
 						<td colspan="2"><input type="text" id="user" name="user" style="width: 99%;" value="${user}"/></td>
@@ -61,7 +63,7 @@
 		<br/>
 		<center>
     		<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" usemap="#devby_map"/>
-            <map name="devby_map">                
+            <map name="devby_map">
                 <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
                 <area shape="rect" coords="120,20,200,60" href="http://tinyerp.com" target="_blank"/>
             </map>

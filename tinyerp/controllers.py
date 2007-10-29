@@ -152,15 +152,21 @@ class Root(controllers.RootController, TinyResource):
     @unsecured
     def login(self, db=None, user=None, passwd=None):
 
+        message=None
+
         host = config.get('host', path="tinyerp")
         port = config.get('port', path="tinyerp")
         protocol = config.get('protocol', path="tinyerp")
 
         dblist = rpc.session.listdb(host, port, protocol)
 
+        if dblist == -1:
+            dblist = []
+            message = _("Could not connect to server !")
+
         url = "%s://%s:%s"%(protocol, host, port)
 
-        return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=None, origArgs={})
+        return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=message, origArgs={})
 
     @expose()
     @unsecured
