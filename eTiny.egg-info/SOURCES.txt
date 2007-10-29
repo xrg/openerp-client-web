@@ -1,13 +1,7 @@
-.project
-.pydevproject
 README.txt
 TODO.txt
-clean.sh
-dev.cfg
-sample-prod.cfg
 setup.py
 start-tinyerp.py
-test.cfg
 eTiny.egg-info/PKG-INFO
 eTiny.egg-info/SOURCES.txt
 eTiny.egg-info/dependency_links.txt
@@ -35,6 +29,7 @@ tinyerp/utils.py
 tinyerp/config/__init__.py
 tinyerp/config/app.cfg
 tinyerp/config/log.cfg
+tinyerp/config/prod.cfg
 tinyerp/static/css/icons.css
 tinyerp/static/css/iepngfix.css
 tinyerp/static/css/iepngfix.htc
