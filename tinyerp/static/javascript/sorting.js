@@ -206,27 +206,17 @@ function getParent(el, pTagName) {
 		return getParent(el.parentNode, pTagName);
 }
 function sort_date(a,b) {
-    // y2k notes: two digit years less than 50 are treated as 20XX, greater than 50 are treated as 19XX
-    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
+
+	aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
     bb = get_innerText(b.cells[SORT_COLUMN_INDEX]);
-    if (aa.length == 10) {
-        dt1 = aa.substr(6,4)+aa.substr(3,2)+aa.substr(0,2);
-    } else {
-        yr = aa.substr(6,2);
-        if (parseInt(yr) < 50) { yr = '20'+yr; } else { yr = '19'+yr; }
-        dt1 = yr+aa.substr(3,2)+aa.substr(0,2);
-    }
-    if (bb.length == 10) {
-        dt2 = bb.substr(6,4)+bb.substr(3,2)+bb.substr(0,2);
-    } else {
-        yr = bb.substr(6,2);
-        if (parseInt(yr) < 50) { yr = '20'+yr; } else { yr = '19'+yr; }
-        dt2 = yr+bb.substr(3,2)+bb.substr(0,2);
-    }
-    if (dt1==dt2) return 0;
-    if (dt1<dt2) return -1;
-    return 1;
-}
+
+	dt1 = aa.substr(6,4)+aa.substr(0,2)+aa.substr(3,2)+aa.substr(11,2)+aa.substr(14, 2);
+	dt2 = bb.substr(6,4)+bb.substr(0,2)+bb.substr(3,2)+bb.substr(11,2)+bb.substr(14, 2);
+
+	if (dt1==dt2) return 0;
+	if (dt1>dt2) return -1;
+	return 1;
+};
 
 function sort_currency(a,b) {
     aa = get_innerText(a.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
