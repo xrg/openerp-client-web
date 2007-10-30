@@ -176,10 +176,16 @@ var saveCalendarRecord = function(record_id, starts, ends){
 
 var editCalendarRecord = function(record_id){
 
-    var act = getURL('/calpopup/edit', {id: record_id,
-                                        model: $('_terp_model').value,
-                                        view_ids: $('_terp_view_ids').value,
-                                        view_mode: $('_terp_view_mode').value});
+    var params = {
+        'id': record_id,
+        'model': $('_terp_model').value,
+        'view_mode': $('_terp_view_mode').value,
+        'view_ids': $('_terp_view_ids').value,
+        'domain': $('_terp_domain').value,
+        'context': $('_terp_context').value
+    }
+    
+    var act = getURL('/calpopup/edit', params);
     openWindow(act);
 }
 
