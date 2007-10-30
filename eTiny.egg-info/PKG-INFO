@@ -10,7 +10,7 @@ Download-URL: http://tinyerp.com
 Description: UNKNOWN
 Keywords: turbogears.app
 Platform: UNKNOWN
-Classifier: Development Status :: 3 - Alpha
+Classifier: Development Status :: 4 - Beta
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
