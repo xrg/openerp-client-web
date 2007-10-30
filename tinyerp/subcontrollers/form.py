@@ -159,11 +159,20 @@ class Form(controllers.Controller, TinyResource):
         if not params.id and params.ids:
             params.id = params.ids[0]
 
-        if params.editable:
-            params.editable = False
-        else:
-            params.view_mode.reverse()
+        if params.id and params.editable:
+            raise redirect(self.path + "/view", model=params.model,
+                                               id=params.id,
+                                               ids=ustr(params.ids),
+                                               view_ids=ustr(params.view_ids),
+                                               view_mode=ustr(params.view_mode),
+                                               domain=ustr(params.domain),
+                                               context=ustr(params.context),
+                                               offset=params.offset,
+                                               limit=params.limit,
+                                               count=params.count,
+                                               search_domain=ustr(params.search_domain))
 
+        params.view_type = 'tree'
         return self.create(params)
 
     def get_form(self):
@@ -214,7 +223,7 @@ class Form(controllers.Controller, TinyResource):
                 id = proxy.write([params.id], data, params.context)
 
         button = params.button
-        
+
         # perform button action
         if params.button:
             res = self.button_action(params)
