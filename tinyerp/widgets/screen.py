@@ -97,9 +97,6 @@ class Screen(TinyCompoundWidget):
         self.limit         = params.limit
         self.count         = params.count
 
-        if not self.ids and self.count == 0:
-            self.ids = rpc.RPCProxy(self.model).search(self.domain)
-
         if (self.ids or self.id) and self.count == 0:
             self.count = rpc.RPCProxy(self.model).search_count(self.domain)
 
