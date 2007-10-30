@@ -97,6 +97,9 @@ class Screen(TinyCompoundWidget):
         self.limit         = params.limit
         self.count         = params.count
 
+        if not self.ids and self.count == 0:
+            self.ids = rpc.RPCProxy(self.model).search(self.domain)
+
         if (self.ids or self.id) and self.count == 0:
             self.count = rpc.RPCProxy(self.model).search_count(self.domain)
 
@@ -112,7 +115,7 @@ class Screen(TinyCompoundWidget):
 
         # get calendar options
         self.kalendar           = params.kalendar
-                
+
         if self.view_mode:
 
             view_type = self.view_type
@@ -164,15 +167,15 @@ class Screen(TinyCompoundWidget):
         elif view_type == 'graph':
             self.widget = graph.Graph(model=self.model, view_id=view.get('view_id', False), ids=self.ids, domain=self.domain, context=self.context)
             self.ids = self.widget.ids
-            
+
         elif view_type == 'calendar':
             kmode = "month"
             if self.kalendar: kmode = self.kalendar.mode
-            
+
             kwid = {"month": tinycalendar.MonthCalendar,
                     "week": tinycalendar.WeekCalendar,
                     "day": tinycalendar.DayCalendar,}
-                             
+
             self.widget = kwid[kmode](model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, options=self.kalendar)
 
         self.string = (self.widget or '') and self.widget.string
