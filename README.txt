@@ -12,17 +12,26 @@ eTiny! - The official Web Client for Tiny ERP
 1. INTRODUCTION
 -------------------------------------------------------------------------------
 
-This is a TurboGears (http://www.turbogears.org) project. It can be
-started by running the start-tinyerp.py script.
+eTiny! is the official web client for Tiny ERP developed by Tiny and Axelor.
+It's built on TurboGears (http://www.turbogears.org).
 
-TODO: introduction
+Features:
+
+    - High Performance
+    - Light weight
+    - Easy deployment
+    - Clean & Ergonomic
+    - Ajax enabled
+    
+eTiny! is know to work with all major web browsers available today including
+Firefox, IE6, IE7, Safari3 and Opera9.
 
 -------------------------------------------------------------------------------
 2. LINUX INSTALLATION
 -------------------------------------------------------------------------------
 
 Here is the installation instructions for Debain based Linux distributions.
-Tested on Debian Etch and Ubuntu Fiesty. The procedure might work with other 
+Tested on Debian Etch and Ubuntu Feisty. The procedure might work with other 
 Linux or similar distributions. See the docs on how to install the specified 
 Packages on your favourite distro.
 
