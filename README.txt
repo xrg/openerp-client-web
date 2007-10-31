@@ -52,7 +52,7 @@ TurboGears:
 
     > wget http://peak.telecommunity.com/dist/ez_setup.py
     > python2.4 ez_setup.py
-    > easy_install-2.4 TurgoGears==1.0.3.2
+    > easy_install-2.4 TurboGears==1.0.3.2
 
 Matplotlib 0.87:
 
