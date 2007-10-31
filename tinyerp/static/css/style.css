@@ -54,6 +54,7 @@ button {
 	padding: 0px 3px;
 	background: url(/static/images/button_bg.png) repeat-x left top;
 	font-size: 11px;
+	white-space: nowrap;
 }
 
 button:hover {
