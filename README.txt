@@ -88,23 +88,13 @@ If everything is done well you might see some thing similar to:
 
 > start-tinyerp.py
 
-2007-06-11 20:10:34,268 cherrypy.msg INFO CONFIG: Server parameters:
-2007-06-11 20:10:34,268 cherrypy.msg INFO CONFIG: server.environment: development
-2007-06-11 20:10:34,268 cherrypy.msg INFO CONFIG: server.log_to_screen: True
-2007-06-11 20:10:34,269 cherrypy.msg INFO CONFIG: server.log_file:
-2007-06-11 20:10:34,269 cherrypy.msg INFO CONFIG: server.log_tracebacks: True
-2007-06-11 20:10:34,269 cherrypy.msg INFO CONFIG: server.log_request_headers: True
-2007-06-11 20:10:34,270 cherrypy.msg INFO CONFIG: server.protocol_version: HTTP/1.0
-2007-06-11 20:10:34,270 cherrypy.msg INFO CONFIG: server.socket_host:
-2007-06-11 20:10:34,271 cherrypy.msg INFO CONFIG: server.socket_port: 8080
-2007-06-11 20:10:34,271 cherrypy.msg INFO CONFIG: server.socket_file:
-2007-06-11 20:10:34,271 cherrypy.msg INFO CONFIG: server.reverse_dns: False
-2007-06-11 20:10:34,272 cherrypy.msg INFO CONFIG: server.socket_queue_size: 5
-2007-06-11 20:10:34,272 cherrypy.msg INFO CONFIG: server.thread_pool: 10
-2007-06-11 20:10:34,543 cherrypy.msg INFO HTTP: Serving HTTP on http://localhost:8080/
+If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
+sure no other application is running on the specified port (8080 is default).
+You can change port for eTiny! by changing appropriate config value in 
+`prod.cfg`.
 
-Now open your favourite web browser and type http://localhost:8080, and your
-can see welcome page with login screen.
+If everything is fine, open your favourite web browser and type 
+http://localhost:8080, and your can see welcome page with login screen.
 
 Don't forget to enable cookies !
 
@@ -176,23 +166,13 @@ If everything is done well you might see some thing similar to:
 
 > start-tinyerp.py
 
-2007-06-11 20:10:34,268 cherrypy.msg INFO CONFIG: Server parameters:
-2007-06-11 20:10:34,268 cherrypy.msg INFO CONFIG: server.environment: development
-2007-06-11 20:10:34,268 cherrypy.msg INFO CONFIG: server.log_to_screen: True
-2007-06-11 20:10:34,269 cherrypy.msg INFO CONFIG: server.log_file:
-2007-06-11 20:10:34,269 cherrypy.msg INFO CONFIG: server.log_tracebacks: True
-2007-06-11 20:10:34,269 cherrypy.msg INFO CONFIG: server.log_request_headers: True
-2007-06-11 20:10:34,270 cherrypy.msg INFO CONFIG: server.protocol_version: HTTP/1.0
-2007-06-11 20:10:34,270 cherrypy.msg INFO CONFIG: server.socket_host:
-2007-06-11 20:10:34,271 cherrypy.msg INFO CONFIG: server.socket_port: 8080
-2007-06-11 20:10:34,271 cherrypy.msg INFO CONFIG: server.socket_file:
-2007-06-11 20:10:34,271 cherrypy.msg INFO CONFIG: server.reverse_dns: False
-2007-06-11 20:10:34,272 cherrypy.msg INFO CONFIG: server.socket_queue_size: 5
-2007-06-11 20:10:34,272 cherrypy.msg INFO CONFIG: server.thread_pool: 10
-2007-06-11 20:10:34,543 cherrypy.msg INFO HTTP: Serving HTTP on http://localhost:8080/
+If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
+sure no other application is running on the specified port (8080 is default).
+You can change port for eTiny! by changing appropriate config value in 
+`prod.cfg`.
 
-Now open your favourite web browser and type http://localhost:8080, and your can see welcome 
-page with login screen.
+If everything is fine, open your favourite web browser and type 
+http://localhost:8080, and your can see welcome page with login screen.
 
 Don't forget to enable cookies !
 
