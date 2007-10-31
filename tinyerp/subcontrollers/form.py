@@ -218,7 +218,7 @@ class Form(controllers.Controller, TinyResource):
                 id = proxy.create(data, params.context)
                 params.ids = (params.ids or []) + [int(id)]
                 params.id = int(id)
-                params.count = 0 # invalidate count
+                params.count += 1
             else:
                 id = proxy.write([params.id], data, params.context)
 
