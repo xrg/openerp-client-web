@@ -25,9 +25,6 @@ setup(
     license='GPL',
 
     install_requires=[
-        "PIL >= 1.1.5",
-        "numpy >= 1.0.1",
-        "matplotlib >= 0.87",
         "TurboGears >= 1.0.3.2",
     ],
     scripts=["start-tinyerp.py"],
