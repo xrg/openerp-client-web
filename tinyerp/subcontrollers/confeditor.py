@@ -56,6 +56,11 @@ class ConfEditor(controllers.Controller):
 
     @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def index(self):
+        password = conf['etiny']['passwd']
+
+        if password == "":
+            raise redirect("/login")
+
         return dict(message=None, passwd=None, tg_errors=None)
 
     @expose(template="tinyerp.subcontrollers.templates.confeditor")
