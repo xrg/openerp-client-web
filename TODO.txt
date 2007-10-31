@@ -13,13 +13,7 @@ implemented or fixed in very near future...
 TODO:
 -------------------------------------------------------------------------------
 
-   *** - Add pager in dashboard and O2M lists.
-	** - Quick Create
-    ** - Columns Sorting in List View
-    ** - Right click on fields
-    ** - New on O2M        
-   *** - Editable List View
-     * - multi-lingual web client
+    -
      
 -------------------------------------------------------------------------------
 ISSUES:
