@@ -1,9 +1,18 @@
-===============================================================================
-ChangeLog
-===============================================================================
-
 0.0.1 - 1.0rc1
 
-    - Lots of improvements
-    - Lots of new features
-    - Calendar View
+        * New `Calendar View`
+        * Editable ListGrid
+        * Sorting List/Tree Grids
+        * Drop-down menu for many2one
+        * Popup window for one2many
+        * Sum in ListGrids
+        * Sidebar (links, reports, actions)
+        * Record Navigation
+        * Import/Export feature
+        * Attachments, Translator and Log Viewer
+        * Improved layout system
+        * Complete French translation
+        * Upgraded to TurboGears 1.0.3.2
+        * Provides default `prod.cfg`
+        * Improved browser compatibilities
+        * Lots of other improvements
