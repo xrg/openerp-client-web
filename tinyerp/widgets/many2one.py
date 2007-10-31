@@ -65,6 +65,12 @@ class M2O(TinyField):
 
         self.validator = tiny_validators.many2one()
 
+    def set_value(self, value):
+        if isinstance(value, tuple):
+            value = value[0]
+
+        self.default = value
+
     def update_params(self, d):
         super(M2O, self).update_params(d)
         d['text'] = get_name(self.relation, d['value'])
