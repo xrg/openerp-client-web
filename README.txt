@@ -193,7 +193,7 @@ Here is the list of supported browsers.
     2. Internet Explorer 6.0/7.0
     3. Opera 9.0
     4. Safari 3.0
-	
+
 -------------------------------------------------------------------------------
 5. SUPPORT
 -------------------------------------------------------------------------------
@@ -201,4 +201,4 @@ Here is the list of supported browsers.
  TODO: support info
 
 -------------------------------------------------------------------------------
-Copyright (c) 2007 Tiny ERP India Pvt. Ltd.
+Copyright (c) 2007 Tiny ERP Pvt. Ltd.
