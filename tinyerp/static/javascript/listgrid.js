@@ -54,9 +54,8 @@ ListView.prototype.getSelected = function() {
     result = [];
 
     forEach(boxes, function(box){
-        if (box.name && box.checked) result.push(box);
+        if (box.name) result.push(box);
     });
-
     return result;
 }
 
