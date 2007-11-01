@@ -573,12 +573,11 @@ class Form(TinyCompoundWidget):
 
             values.update(view['datas'])
 
-        if not values:
-            if not nodefault: # default
-                defaults = proxy.default_get(fields.keys(), ctx)
+        elif not nodefault: # default
+            defaults = proxy.default_get(fields.keys(), ctx)
 
-            elif 'state' in fields: # if nodefault and state get state only
-                defaults = proxy.default_get(['state'], ctx)
+        elif 'state' in fields: # if nodefault and state get state only
+            defaults = proxy.default_get(['state'], ctx)
 
         values.update(defaults)
 
