@@ -554,12 +554,18 @@ class Form(TinyCompoundWidget):
         ctx.update(context)
 
         values = {}
+        defaults = {}
+
+        # update values according to domain
+        for d in domain:
+            if d[0] in values and d[1] == '=':
+                values[d[0]] = d[2]
+
         if ids:
             values = proxy.read(ids[:1], fields.keys(), ctx)[0]
             self.id = ids[:1]
 
         elif 'datas' in view: # wizard data
-            values = {}
 
             for f in fields:
                 if 'value' in fields[f]:
@@ -567,16 +573,14 @@ class Form(TinyCompoundWidget):
 
             values.update(view['datas'])
 
-        elif not nodefault: # default
-            values = proxy.default_get(fields.keys(), ctx)
+        if not values:
+            if not nodefault: # default
+                defaults = proxy.default_get(fields.keys(), ctx)
 
-        elif 'state' in fields: # if nodefault and state get state only
-            values = proxy.default_get(['state'], ctx)
+            elif 'state' in fields: # if nodefault and state get state only
+                defaults = proxy.default_get(['state'], ctx)
 
-        # update values according to domain
-        for d in domain:
-            if d[0] in values and d[1] == '=':
-                values[d[0]] = d[2]
+        values.update(defaults)
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
 
