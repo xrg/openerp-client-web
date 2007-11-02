@@ -62,9 +62,9 @@ class OpenO2M(Form):
         params.prefix = params.o2m
         params.editable = True        
         
-        params.setdefault('offset', 0)
-        params.setdefault('limit', 20)
-        params.setdefault('count', 0)
+        params.offset = params.offset or 0
+        params.limit = params.limit or 20
+        params.count = params.count or 0
 
         view = cache.fields_view_get(params.parent_model, False, 'form', rpc.session.context)
         parent = TinyDict()

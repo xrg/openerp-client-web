@@ -60,9 +60,9 @@ class Form(controllers.Controller, TinyResource):
         if tg_errors:
             return cherrypy.request.terp_form
 
-        params.setdefault('offset', 0)
-        params.setdefault('limit', 20)
-        params.setdefault('count', 0)
+        params.offset = params.offset or 0
+        params.limit = params.limit or 20
+        params.count = params.count or 0
 
         params.view_type = params.view_type or params.view_mode[0]
 
@@ -232,7 +232,7 @@ class Form(controllers.Controller, TinyResource):
             if res:
                 return res
 
-        current = params[params.source or '']
+        current = params.chain_get(params.source or '')
         if current:
             current.id = None
             if not params.id:
@@ -298,13 +298,13 @@ class Form(controllers.Controller, TinyResource):
         else:
             raise common.warning('Unallowed button type')
 
-        params.pop('button')
+        params.button = None
 
     @expose()
     def delete(self, **kw):
         params, data = TinyDict.split(kw)
 
-        current = params[params.source or ''] or params
+        current = params.chain_get(params.source or '') or params
 
         proxy = rpc.RPCProxy(current.model)
 
@@ -385,8 +385,8 @@ class Form(controllers.Controller, TinyResource):
     def filter(self, tg_errors=None, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
+        l = params.limit or 20
+        o = params.offset or 0
 
         domain = params.domain
 
@@ -436,7 +436,7 @@ class Form(controllers.Controller, TinyResource):
     def first(self, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
+        l = params.limit or 20
         o = 0
 
         kw['_terp_offset'] = o
@@ -451,8 +451,8 @@ class Form(controllers.Controller, TinyResource):
         if params.source:
             return self.previous_o2m(**kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
+        l = params.limit or 20
+        o = params.offset or 0
 
         if not (params.view_type == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)-1 > 0):
             o -= l
@@ -466,7 +466,7 @@ class Form(controllers.Controller, TinyResource):
     def previous_o2m(self, **kw):
         params, data = TinyDict.split(kw)
 
-        current = params[params.source or ''] or params
+        current = params.chain_get(params.source or '') or params
 
         idx = -1
 
@@ -494,8 +494,8 @@ class Form(controllers.Controller, TinyResource):
         if params.source:
             return self.next_o2m(**kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
+        l = params.limit or 20
+        o = params.offset or 0
 
         if not (params.view_type == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)+1 < len(params.ids)):
             o += l
@@ -508,9 +508,9 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def next_o2m(self, **kw):
         params, data = TinyDict.split(kw)
-        c = params.get('count') or 0
+        c = params.count or 0
 
-        current = params[params.source or ''] or params
+        current = params.chain_get(params.source or '') or params
 
         idx = 0
 
@@ -536,9 +536,9 @@ class Form(controllers.Controller, TinyResource):
 
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
-        c = params.get('count') or 0
+        l = params.limit or 20
+        o = params.offset or 0
+        c = params.count or 0
 
         o = c - (c % l)
 
@@ -554,7 +554,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         # select the right params field (if one2many toolbar button)
-        current = params[params.source or ''] or params
+        current = params.chain_get(params.source or '') or params
 
         # save current record (O2M)
         if params.source and params.editable and current.view_type == 'form':
@@ -623,7 +623,7 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def dashlet(self, **kw):
         params, data = TinyDict.split(kw)
-        current = params[str(params.source) or ''] or params
+        current = params.chain_get(str(params.source) or '') or params
 
         return self.create(current)
 
@@ -645,14 +645,14 @@ class Form(controllers.Controller, TinyResource):
         pctx = ctx
 
         if prefix:
-            ctx = ctx[prefix.replace('/', '.')]
+            ctx = ctx.chain_get(prefix)
 
             if '/' in prefix:
                 prefix = prefix.rsplit('/', 1)[0]
-                pctx = pctx[prefix.replace('/', '.')]
+                pctx = pctx.chain_get(prefix)
 
-        ctx.parent = pctx
-        ctx.context = rpc.session.context.copy()
+        ctx['parent'] = pctx
+        ctx['context'] = rpc.session.context.copy()
 
         match = re.match('^(.*?)\((.*)\)$', callback)
 
@@ -668,7 +668,7 @@ class Form(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
 
         ids = ctx.id and [ctx.id] or []
-
+        
         response = getattr(proxy, func_name)(ids, *args)
 
         if 'value' not in response:

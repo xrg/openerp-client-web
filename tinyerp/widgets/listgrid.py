@@ -158,11 +158,11 @@ class List(TinyCompoundWidget):
 
         if ids == None:
             if self.limit > 0:
-                ids = proxy.search(domain, self.offset, self.limit)
+                ids = proxy.search(domain, self.offset, self.limit, 0, context)
             else:
-                ids = proxy.search(domain)
+                ids = proxy.search(domain, 0, 0, 0, context)
 
-            self.count = proxy.search_count(domain)
+            self.count = proxy.search_count(domain, context)
 
         data = []
         if len(ids) > 0:

@@ -76,7 +76,10 @@ class TinyDict(dict):
     """
 
     def __init__(self, **kwargs):
-        super(TinyDict, self).__init__(**kwargs)
+        super(TinyDict, self).__init__()
+        
+        for k, v in kwargs.items():
+            self[k] = v
 
     def _eval(self, value):
         if not isinstance(value, basestring):
@@ -91,25 +94,29 @@ class TinyDict(dict):
 
         return value
 
+    def __setattr__(self, name, value):
+        name = '_terp_%s' % name
+        value = self._eval(value)
+        
+        self[name] = value
+
+    def __getattr__(self, name):
+        nm = '_terp_%s' % name
+        return self.get(nm, self.get(name, None))
+    
     def __setitem__(self, name, value):
         value = self._eval(value)
         super(TinyDict, self).__setitem__(name, value)
-
-    def __getitem__(self, name):
+        
+    def chain_get(self, name, default=None):
         names = re.split('\.|/', ustr(name))
-        value = self.get(names[0], None)
+        value = super(TinyDict, self).get(names[0], default)
 
         for n in names[1:]:
             if isinstance(value, TinyDict):
-                value = value.get(n, None)
+                value = value.get(n, default)
 
         return value
-
-    def __getattr__(self, name):
-        return self[name]
-
-    def __setattr__(self, name, value):
-        self[name] = value
 
     @staticmethod
     def split(kwargs):
@@ -125,13 +132,12 @@ class TinyDict(dict):
         data = {}
 
         for n, v in kwargs.items():
-            if n.find('_terp_') != -1:
-                n = n.replace('_terp_', '')
+            if n.find('_terp_') > -1:
                 params[n] = v
             else:
                 data[n] = v
 
-        return _make_dict(params, True), _make_dict(data, False)  
+        return _make_dict(params, True), _make_dict(data, False)
 
 class TinyFormError(tg_validators.Invalid):
     def __init__(self, field, msg, value):
@@ -192,10 +198,32 @@ class TinyForm(TinyDict):
 
         # now split the kw dict
         params, data = TinyDict.split(kw)
+        params = getattr(params, _value_key)
 
-        super(TinyForm, self).__init__(**params[_value_key])
+        super(TinyForm, self).__init__(**params)
 
 class TinyParent(TinyForm):
 
     def __init__(self, **kwargs):
         super(TinyParent, self).__init__('parent_form', 'parent_types', **kwargs)
+        
+if __name__ == "__main__":
+    
+    kw = {'_terp_view_ids': "[False, 45]",
+          'view_ids/_terp_view_ids': '[False, False]',
+          'view_ids/child/_terp_view_ids': '[112, 111]'
+    }
+    params, data = TinyDict.split(kw)
+    
+    
+    params.domain = "[1]"
+    params.setdefault('domain', 'something...')
+    params.context = "{}"
+    params['context'] = "{'id': False}"
+    
+    print params
+    print params.view_ids
+    print params.chain_get('view_ids')
+    print params.chain_get('view_ids.child')
+    print params.chain_get('view_ids.child').view_ids
+    

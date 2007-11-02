@@ -111,13 +111,13 @@ class Action(TinyCompoundWidget):
                 params.context = self.context
                 params.domain = self.domain
                 
-                params.setdefault('offset', 0)
-                params.setdefault('limit', 20)
+                params.offset = params.offset or 0
+                params.limit = params.limit or 20
 
                 # get pager vars if set
                 if hasattr(cherrypy.request, 'terp_params'):
                     current = cherrypy.request.terp_params
-                    current = current[self.name or ''] or current
+                    current = current.chain_get(self.name or '') or current
                     
                     params.offset = current.offset
                     params.limit = current.limit                    

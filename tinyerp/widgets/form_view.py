@@ -50,7 +50,11 @@ class ViewForm(tg.widgets.Form):
         
         cherrypy.request.terp_fields = []
 
-        self.screen = Screen(prefix='', hastoolbar=True, editable=params.get('editable', True), selectable=2)
+        editable = params.editable
+        if editable is None:
+            editable = True
+            
+        self.screen = Screen(prefix='', hastoolbar=True, editable=editable, selectable=2)
         self.search = None
         
         if params.view_type in ('tree', 'graph'):

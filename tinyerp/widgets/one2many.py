@@ -62,12 +62,12 @@ class O2M(TinyCompoundWidget):
         if '/' in self.name:
             pprefix = self.name[:self.name.rindex('/')]
 
-        pparams = params[pprefix]
+        pparams = params.chain_get(pprefix)
         if (pparams and not pparams.id) or (not pparams and not params.id):
             self.new_attrs = { 'text': _("Save/New"), 'help': 'Save parent and create new record.'}
 
         # get params for this field
-        params = params[self.name.replace('/', '.')]
+        params = params.chain_get(self.name)
 
         self.model = attrs['relation']
         self.link = attrs['link']

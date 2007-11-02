@@ -63,7 +63,7 @@ class FieldPref(controllers.Controller, TinyResource):
         field = field[-1]
 
         pctx = TinyParent(**kw)
-        ctx = pctx[prefix] or pctx
+        ctx = pctx.chain_get(prefix) or pctx
        
         proxy = rpc.RPCProxy(params.model)
         res = proxy.fields_get(False, rpc.session.context)

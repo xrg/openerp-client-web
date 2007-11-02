@@ -137,7 +137,7 @@ class WeekCalendar(TinyCalendar):
 
         y, m, d = time.localtime()[:3]
         if options:
-            y, m, d = options['date1'][:3]
+            y, m, d = options.date1[:3]
                         
         self.week = Week(Day(y,m,d))
         
@@ -162,7 +162,7 @@ class DayCalendar(TinyCalendar):
         
         y, m, d = time.localtime()[:3]
         if options:
-            y, m, d = options['date1'][:3]
+            y, m, d = options.date1[:3]
                      
         self.day = Day(y,m,d)
 

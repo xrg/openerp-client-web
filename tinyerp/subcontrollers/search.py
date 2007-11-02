@@ -109,9 +109,9 @@ class Search(controllers.Controller, TinyResource):
 
         params.view_mode = ['tree', 'form']
 
-        params.setdefault('limit', 20)
-        params.setdefault('offset', 0)
-        params.setdefault('count', 0)
+        params.offset = params.offset or 0
+        params.limit = params.limit or 20
+        params.count = params.count or 0
 
         search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
         screen = tw.screen.Screen(params=params, selectable=params.kind or 2)
@@ -162,14 +162,14 @@ class Search(controllers.Controller, TinyResource):
 
         prefix = params.prefix
         if prefix:
-            ctx = ctx[prefix.replace('/', '.')]
+            ctx = ctx.chain_get(prefix)
 
         if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
-            pctx = pctx[prefix.replace('/', '.')]
+            pctx = pctx.chain_get(prefix)
 
-        ctx.parent = pctx
-        ctx.context = rpc.session.context.copy()
+        ctx['parent'] = pctx
+        ctx['context'] = rpc.session.context.copy()
 
         if isinstance(domain, basestring):
             domain = eval(domain, ctx)
@@ -177,7 +177,7 @@ class Search(controllers.Controller, TinyResource):
         if isinstance(context, basestring):
             if not context.startswith('{'):
                 context = "dict(%s)"%context
-                ctx.dict = dict # required
+                ctx['dict'] = dict # required
 
             context = eval(context, ctx)
 
@@ -192,8 +192,8 @@ class Search(controllers.Controller, TinyResource):
     def filter(self, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
+        l = params.limit or 20
+        o = params.offset or 0
 
         domain = params.domain
 
@@ -221,7 +221,7 @@ class Search(controllers.Controller, TinyResource):
     def first(self, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
+        l = params.limit or 20
         o = 0
 
         kw['_terp_offset'] = o
@@ -232,8 +232,8 @@ class Search(controllers.Controller, TinyResource):
     def previous(self, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
+        l = params.limit or 20
+        o = params.offset or 0
 
         o -= l
 
@@ -245,8 +245,8 @@ class Search(controllers.Controller, TinyResource):
     def next(self, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
+        l = params.limit or 20
+        o = params.offset or 0
 
         o += l
 
@@ -258,9 +258,9 @@ class Search(controllers.Controller, TinyResource):
     def last(self, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
-        c = params.get('count') or 0
+        l = params.limit or 20
+        o = params.offset or 0
+        c = params.count or 0
 
         o = c - (c % l)
 

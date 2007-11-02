@@ -122,7 +122,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.use_search = (options or None) and options.use_search 
         
         try:            
-            dt = parse_datetime(options['selected_day'])
+            dt = parse_datetime(options.selected_day)
             self.selected_day = Day(dt.year, dt.month, dt.day)
         except:
             pass

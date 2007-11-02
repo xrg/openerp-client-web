@@ -65,7 +65,13 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     @return: view (mostly XHTML code)
     """
 
-    params = TinyDict(model=model, ids=res_id, view_ids=view_ids, domain=domain, context=context)
+    params = TinyDict()
+    
+    params.model = model
+    params.ids = res_id
+    params.view_ids = view_ids
+    params.domain = domain
+    params.context = context
 
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
