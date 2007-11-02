@@ -32,6 +32,16 @@ import cherrypy
 
 from tinyerp import tools
 
+def eval_get(attrs, name, default=None):
+    if name not in attrs:
+        return default
+
+    val = attrs[name]
+    if isinstance(val, basestring):
+        val = val.title()
+
+    return tools.expr_eval(val)
+
 class TinyWidget(object):
     """Widget interface, every widget class should implement
     this class.
@@ -47,7 +57,7 @@ class TinyWidget(object):
     help = None
     editable = True
     translatable = False
-    
+
     name = None
     model = None
     states = None
@@ -69,15 +79,15 @@ class TinyWidget(object):
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
 
-        self.select = tools.expr_eval(attrs.get('select', False))
-        self.nolabel = tools.expr_eval(attrs.get('nolabel', False))
-        self.required = tools.expr_eval(attrs.get('required', False))
-        self.readonly = tools.expr_eval(attrs.get('readonly', False))
+        self.select = eval_get(attrs, 'select', False)
+        self.nolabel = eval_get(attrs, 'nolabel', False)
+        self.required = eval_get(attrs, 'required', False)
+        self.readonly = eval_get(attrs, 'readonly', False)
 
         self.help = attrs.get('help')
         self.editable = attrs.get('editable', True)
         self.translatable = attrs.get('translate', False)
-        
+
         if 'state' in attrs:
             self.set_state(attrs['state'])
 
@@ -85,14 +95,14 @@ class TinyWidget(object):
         self.kind = attrs.get('type', None)
 
     def set_state(self, state):
-        
+
         if isinstance(self.states, dict) and state in self.states:
-            
+
             attrs = dict(self.states[state])
-            
+
             if 'readonly' in attrs:
                 self.readonly = attrs['readonly']
-        
+
             if 'required' in attrs:
                 self.required = attrs['required']
 
@@ -149,7 +159,7 @@ class TinyInputWidget(TinyWidget):
 
         d['kind'] = self.kind
         d['editable'] = self.editable
-        
+
         if self.help:
             d['attrs']['title'] = self.help
 
@@ -159,7 +169,7 @@ class TinyInputWidget(TinyWidget):
 
         if self.required and 'requiredfield' not in d['field_class'].split(' '):
             d['field_class'] = " ".join([d['field_class'], "requiredfield"])
-            
+
         if self.translatable and 'translatable' not in d['field_class'].split(' '):
             d['field_class'] = " ".join([d['field_class'], "translatable"])
 
@@ -171,19 +181,19 @@ class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.CompoundWidget.__init__(self, name=self.name or None)
-        
+
     def get_widgets_by_name(self, name, kind=tg.widgets.Widget, parent=None):
-        result = []        
+        result = []
         parent = parent or self
 
         for wid in parent.iter_member_widgets():
-            
+
             if wid.name == name and isinstance(wid, kind):
                 result.append(wid)
-                
+
             if isinstance(wid, tg.widgets.CompoundWidget):
                 result += self.get_widgets_by_name(name, kind=kind, parent=wid)
-        
+
         return result
 
     def update_params(self, d):
