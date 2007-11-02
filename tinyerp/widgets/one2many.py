@@ -105,7 +105,6 @@ class O2M(TinyCompoundWidget):
 
         self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3, nolinks=self.link)
         self.id = id
-        print "==================== ids...", self.id, self.screen.id
 
         if view_type == 'tree':
             self.screen.widget.pageable=False
