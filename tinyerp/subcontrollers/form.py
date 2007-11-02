@@ -126,6 +126,9 @@ class Form(controllers.Controller, TinyResource):
 
         params.editable = True
         params.view_type = 'form'
+        
+        if params.view_mode and 'form' not in params.view_mode:
+            params.view_type = params.view_mode[-1]
 
         # On New O2M
         if params.source:
@@ -151,6 +154,9 @@ class Form(controllers.Controller, TinyResource):
 
         params.editable = False
         params.view_type = 'form'
+        
+        if params.view_mode and 'form' not in params.view_mode:
+            params.view_type = params.view_mode[-1]
 
         return self.create(params)
 
