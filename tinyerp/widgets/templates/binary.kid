@@ -18,7 +18,7 @@
 			<span py:if="editable and error" class="fielderror" py:content="error"/>
 		    <td py:if="not editable">
 			    <span py:content="value or text"/>
-			    <td width="75px">
+			    <td width="75px" py:if="value or text">
         	        <button type="submit" onclick="submit_form('save_binary?_terp_field=${name}')">Save As</button>
             	</td>
            	</td>
