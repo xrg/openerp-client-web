@@ -57,7 +57,6 @@ class O2M(TinyCompoundWidget):
 
         # get top params dictionary
         params = cherrypy.request.terp_params
-        is_navigating = params.is_navigating
 
         pprefix = ''
         if '/' in self.name:
@@ -85,14 +84,16 @@ class O2M(TinyCompoundWidget):
         if params.view_mode: view_mode = params.view_mode
         if params.view_type: view_type = params.view_type
 
-        self.switch_to = view_mode[-1]                    
-        if view_type == view_mode[-1]: self.switch_to = view_mode[0] 
-        
+        self.switch_to = view_mode[-1]
+        if view_type == view_mode[-1]: self.switch_to = view_mode[0]
+
         ids = attrs['value'] or []
         id = (ids or None) and ids[0]
 
-        if params and params.id and is_navigating:
+        if params:
             id = params.id
+
+        id = id or None
 
         params.model = self.model
         params.id = id
@@ -104,6 +105,7 @@ class O2M(TinyCompoundWidget):
 
         self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3, nolinks=self.link)
         self.id = id
+        print "==================== ids...", self.id, self.screen.id
 
         if view_type == 'tree':
             self.screen.widget.pageable=False
@@ -112,5 +114,9 @@ class O2M(TinyCompoundWidget):
         pager_info = None
         if view_type == 'form':
             c = (self.screen.ids or 0) and len(self.screen.ids)
-            i = (c or 0) and (self.screen.ids.index(self.screen.id) + 1)
+            i = 0
+
+            if c and self.screen.id in self.screen.ids:
+                i = self.screen.ids.index(self.screen.id) + 1
+
             self.pager_info = '[%s/%s]' % (i, c)

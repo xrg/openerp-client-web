@@ -127,9 +127,11 @@ class Form(controllers.Controller, TinyResource):
         params.editable = True
         params.view_type = 'form'
 
-        #XXX: On New O2M?
+        # On New O2M
         if params.source:
-            params[params.source] = TinyDict(_terp_id=False)
+            current = TinyDict()
+            current.id = False
+            params[params.source] = current
 
         return self.create(params)
 
@@ -302,8 +304,6 @@ class Form(controllers.Controller, TinyResource):
     def delete(self, **kw):
         params, data = TinyDict.split(kw)
 
-        params.is_navigating = True
-
         current = params[params.source or ''] or params
 
         proxy = rpc.RPCProxy(current.model)
@@ -465,7 +465,6 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def previous_o2m(self, **kw):
         params, data = TinyDict.split(kw)
-        params.is_navigating = True
 
         current = params[params.source or ''] or params
 
@@ -510,7 +509,6 @@ class Form(controllers.Controller, TinyResource):
     def next_o2m(self, **kw):
         params, data = TinyDict.split(kw)
         c = params.get('count') or 0
-        params.is_navigating = True
 
         current = params[params.source or ''] or params
 
