@@ -143,6 +143,7 @@ class Search(controllers.Controller, TinyResource):
         params.kind = kind
 
         if text:
+            params.ids = []
             proxy = rpc.RPCProxy(model)
             ids = proxy.name_search(text, params.domain or [], 'ilike', params.context or {})
             if ids:
