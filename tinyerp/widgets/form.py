@@ -91,7 +91,7 @@ class Frame(TinyCompoundWidget):
             if isinstance(child, Button) and not child.visible:
                 try:
                     a, last = self.table[-1][-1]
-                    if 'colspan' in a: a['colspan'] += 1
+                    a['colspan'] = a.get('colspan', 1) + 1
                 except:
                     pass
 
@@ -101,8 +101,6 @@ class Frame(TinyCompoundWidget):
                 self.add_row()
             else:
                 self.add(child, string, rowspan, colspan)
-
-            btnColspan = 0
 
         self.fields = []
 
@@ -115,6 +113,7 @@ class Frame(TinyCompoundWidget):
 
         for row in self.table:
 
+            # adjust the columns
             if len(row):
                 cs = reduce(lambda x,y: x +y, [a.get('colspan', 1) for a,w in row])
                 a['colspan'] = a.get('colspan', 1) + self.columns - cs
