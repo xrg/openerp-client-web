@@ -169,6 +169,12 @@ ListView.prototype.onKeyDown = function(evt){
 	}
 
 	var editors = filter(function(e){return e.type != 'hidden' && !e.disabled}, this.getEditors());
+	
+	forEach(editors, function(e){
+	   addElementClass(e, 'listfields');
+	});
+	
+	editors = getElementsByTagAndClassName(null, 'listfields', this.id);
 
 	var first = editors.shift();
 	var last = editors.pop();
