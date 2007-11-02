@@ -115,7 +115,11 @@ class Frame(TinyCompoundWidget):
 
         for row in self.table:
 
-            sn = len([w for a, w in row if isinstance(w, basestring)])
+            if len(row):
+                cs = reduce(lambda x,y: x +y, [a.get('colspan', 1) for a,w in row])
+                a['colspan'] = a.get('colspan', 1) + self.columns - cs
+
+            sn = len([w for a, w in row if isinstance(w, (basestring, Label))])
             pn = len([w for a, w in row if isinstance(w, Image)])
 
             sw = 5                                  # label width
@@ -126,7 +130,7 @@ class Frame(TinyCompoundWidget):
 
             for i, (a, wid) in enumerate(row):
 
-                if isinstance(wid, basestring):
+                if isinstance(wid, (basestring, Label)):
                     w = sw
                 elif isinstance(wid, Image):
                     w = 0
