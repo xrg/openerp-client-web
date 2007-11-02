@@ -294,7 +294,7 @@ ListView.prototype.makeArgs = function(){
 	var args = {};
     var names = this.id.split('/');
 
-    var values = ['id', 'ids', 'model', 'view_mode', 'view_type', 'domain', 'context', 'offset', 'limit'];
+    var values = ['id', 'ids', 'model', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'offset', 'limit'];
 
     forEach(values, function(val){
     	var key = '_terp_' + val;
@@ -313,7 +313,7 @@ ListView.prototype.makeArgs = function(){
         	var key = prefix + '_terp_' + val;
         	var elem = getElement(key);
 
-        	if (elem) args['_terp_' + key] = elem.value;
+        	if (elem) args[key] = elem.value;
         });
     }
 
