@@ -32,6 +32,7 @@ This module defines validators.
 """
 import re
 import cgi
+import base64
 
 import turbogears as tg
 
@@ -118,7 +119,7 @@ class Binary(tg.validators.FancyValidator):
     def _to_python(self, value, state):
         if isinstance(value, cgi.FieldStorage):
             if value.filename:
-                return value.file.read()
+                return base64.encodestring(value.file.read())
             elif self.not_empty:
                 raise tg.validators.Invalid(_('Please select a file.'), value, state)
 
