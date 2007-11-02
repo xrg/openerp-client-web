@@ -23,7 +23,7 @@ Features:
     - Clean & Ergonomic
     - Ajax enabled
     
-eTiny! is know to work with all major web browsers available today including
+eTiny! is known to work with all major web browsers available today, including
 Firefox, IE6, IE7, Safari3 and Opera9.
 
 -------------------------------------------------------------------------------
