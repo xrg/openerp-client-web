@@ -99,10 +99,8 @@ class Wizard(controllers.Controller, TinyResource):
                                   ]
 
                 buttons = res.get('state', [])
-                if hasattr(cherrypy.request, 'terp_form'):
-                    cherrypy.request.terp_buttons = buttons
-
                 params.state = state
+                
                 return dict(form=form, buttons=buttons)
 
             elif res['type']=='action':
@@ -156,8 +154,13 @@ class Wizard(controllers.Controller, TinyResource):
 
         cherrypy.request.terp_validators = {}
 
-        form = self.execute(params)['form']
+        res = self.execute(params)
+        
+        form = res['form']
+        buttons = res.get('buttons', [])
+
         cherrypy.request.terp_form = form
+        cherrypy.request.terp_buttons = buttons
 
         vals = cherrypy.request.terp_validators
         schema = validators.Schema(**vals)
