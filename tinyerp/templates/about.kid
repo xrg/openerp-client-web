@@ -70,7 +70,7 @@
         </tr>
         <tr>
             <td>
-			<b>Version 4.5.1g (Build 1003)</b>
+			<b>Version 1.0-rc1</b>
 			<p>
 			Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
 			Tiny ERP is a trademark of the Tiny Company.
