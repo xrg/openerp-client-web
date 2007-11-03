@@ -1,5 +1,5 @@
 ===============================================================================
-eTiny! - The official Web Client for Tiny ERP
+eTiny - Web Client of Tiny ERP, the Enterprise Management Software
 ===============================================================================
 
     1. Introduction

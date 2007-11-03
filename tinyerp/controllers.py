@@ -179,7 +179,8 @@ class Root(controllers.RootController, TinyResource):
     @expose(template="tinyerp.templates.about")
     @unsecured
     def about(self):
-        return dict()
+        from release import version
+        return dict(version=version)
 
     form = subcontrollers.form.Form()
     tree = subcontrollers.tree.Tree()

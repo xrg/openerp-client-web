@@ -31,13 +31,13 @@
 
 version = "1.0rc1"
 
-# description = "Your plan to rule the world"
-# long_description = "More description about your plan"
-# author = "Your Name Here"
-# email = "YourEmail@YourDomain"
-# copyright = "Vintage 2006 - a good year indeed"
+description = "Web Client of Tiny ERP, the Enterprise Management Software"
+long_description = "Tiny ERP is a free enterprise management software: accounting, stock, manufacturing, project mgt, ... eTiny is the web client of the Tiny ERP project"
+author = "Tiny ERP Pvt. Ltd."
+email = "info@tinyerp.com"
+copyright = "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd"
 
 # if it's open source, you might want to specify these
-# url = "http://yourcool.site/"
-# download_url = "http://yourcool.site/download"
-# license = "MIT"
+url = "http://tinyerp.com/"
+download_url = "http://tinyerp.com/download"
+license = "GPL"

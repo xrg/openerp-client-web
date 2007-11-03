@@ -21,7 +21,7 @@ setup(
     author='Tiny ERP Pvt. Ltd.',
     author_email='info@tinyerp.com',
     url='http://www.tinyerp.com/demonstration.html',
-    download_url='http://tinyerp.com',
+    download_url='http://tinyerp.com/download',
     license='GPL',
 
     install_requires=[
