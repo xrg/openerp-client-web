@@ -114,8 +114,9 @@ client.
         <tr>
             <td>
 <ul>
-    <li><a href="http://www.tinyerp.com/">http://www.tinyerp.com</a></li>
-    <li><a href="http://www.axelor.com/">http://www.axelor.com</a></li>
+    <li><a href="http://www.tinyerp.com/">Tiny ERP</a></li>
+    <li><a href="http://www.axelor.com/">The Axelor Company</a></li>
+    <li><a href="http://tiny.be/">The Tiny Company</a></li>
 </ul>
             </td>
         </tr>        
