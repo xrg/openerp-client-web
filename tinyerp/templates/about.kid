@@ -3,36 +3,88 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>About</title>
+    <title>About eTiny - The Tiny ERP Web Client</title>
 </head>
 
 <body>
     <table class="view" width="100%">
         <tr>
-            <td width="100%" class="titlebar">About this web client</td>
+            <td class="titlebar">About eTiny</td>
+<td width="300" rowspan="6" valign="top">
+	<table cellpadding="0" cellspacing="0" border="0" class="sidebox" width="100%">
+	<tr>
+		<td>
+
+			<table cellpadding="0" cellspacing="0" border="0" width="100%">
+			<tr>
+			<td width="8" style="background: #ac0000"></td>
+			<td width="7" style="background-color: #363636"></td>
+			<td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">RESOURCES</td>
+			<td width="25" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666" valign="top"></td>
+			<td width="50" style="background-color: #666666"></td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<a href="http://tinyerp.com">Homepage</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://tinyerp.com/documentations.html">Documentation</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://tinyerp.com/forum">Forum</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://tinyerp.com/component/option,com_mtree/Itemid,111/">Modules</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://tinyerp.com/component/option,com_joomlaxplorer/Itemid,132/">Download</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://tinyerp.com/planet">Planet</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://saas.tinyerp.com">SaaS Offers</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://tinyerp.com/training.html">Trainings</a>
+		</td>
+	</tr><tr>
+		<td>
+			<a href="http://tinyerp.com/services.html">Services</a>
+		</td>
+	</tr>
+	</table>
+</td>
+
+
         </tr>
         <tr>
             <td>
-<p>
-<i>eTiny!</i> is the official web client for Tiny ERP developed by <a href="http://tiny.be">Tiny</a> and <a href="http://www.axelor.com/">Axelor</a>.
-It's built on <a href="http://www.turbogears.org/">TurboGears</a>.
-</p>
+			<b>Version 4.5.1g (Build 1003)</b>
+			<p>
+			Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
+			Tiny ERP is a trademark of the Tiny Company.
+			Licenced under the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
+			</p>
+			<p>
+				<i>eTiny</i> is the official web client of <a href="http://tinyerp.com">Tiny ERP</a> developed by <a href="http://tiny.be">Tiny</a> and <a href="http://www.axelor.com/">Axelor</a>.
+				It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
+			</p>
 
-<p>
-<b>Features:</b>
+			<p>
+				<i>eTiny</i> is know to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>.
+			</p>
 
-    <ul>
-        <li>High Performance</li>
-        <li>Light weight</li>
-        <li>Easy deployment</li>
-        <li>Clean &amp; Ergonomic</li>
-        <li>Ajax enabled</li>
-    </ul>
-</p>
-
-<p>    
-<i>eTiny!</i> is know to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>.
-</p>
             </td>
         </tr>
         <tr>
@@ -41,7 +93,18 @@ It's built on <a href="http://www.turbogears.org/">TurboGears</a>.
         <tr>
             <td>
 <p>
-TODO: about tiny erp
+<a href="http://tinyerp.com">Tiny ERP</a> is a free enterprise-scale software system that is designed to boost
+productivity and profit through data integration. It connects, improves and
+manages business processes in areas such as sales, finance, supply chain,
+project management, production, services, CRM, etc..
+</p><p>
+The system is platform-independent, and can be installed on Windows, Mac OS X,
+and various Linux and other Unix-based distributions. Its architecture enables
+new functionality to be rapidly created, modifications to be made to a
+production system and migration to a new version to be straightforward.
+</p><p>
+Depending on your needs, Tiny ERP is available through a web or application
+client.
 </p>
             </td>
         </tr>
