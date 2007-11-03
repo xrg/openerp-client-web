@@ -28,13 +28,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 function get_form_action(action, params){
-	var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;	
+	var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
 	act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
 
 	return getURL(act, params);
 }
 
-var newO2M = function(src, mode, editors){	
+var newO2M = function(src, mode, editors){
 
 	var prefix = src + '/';
 	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
@@ -76,25 +76,25 @@ var editRecord = function(id, src){
 	if (src && src != '_terp_list' && $('_terp_count').value != '0') {
 		return editO2M(id, src);
 	}
-	
+
 	var prefix = src && src != '_terp_list' ? src + '/' : '';
 
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
 	var view_mode = $(prefix + '_terp_view_mode').value;
-	
+
 	var ids = $(prefix + '_terp_ids').value;
-	
+
 	var offset = $(prefix + '_terp_offset').value;
 	var limit = $(prefix + '_terp_limit').value;
 	var count = $(prefix + '_terp_count').value;
-	
+
 	var domain = $(prefix + '_terp_domain').value;
 	var context = $(prefix + '_terp_context').value;
-	
+
 	var search_domain = $('_terp_search_domain');
 	search_domain = search_domain ? search_domain.value : null;
-	
+
 	var args = {'model': model,
 				'id': id ? id : 'False',
 				'ids': ids,
@@ -116,19 +116,19 @@ var viewRecord = function(id, src){
 	var model = $(prefix + '_terp_model').value;
 	var view_ids = $(prefix + '_terp_view_ids').value;
 	var view_mode = $(prefix + '_terp_view_mode').value;
-	
+
 	var ids = $(prefix + '_terp_ids').value;
-	
+
 	var offset = $(prefix + '_terp_offset').value;
 	var limit = $(prefix + '_terp_limit').value;
 	var count = $(prefix + '_terp_count').value;
-	
+
 	var domain = $(prefix + '_terp_domain').value;
 	var context = $(prefix + '_terp_context').value;
-	
+
 	var search_domain = $('_terp_search_domain');
 	search_domain = search_domain ? search_domain.value : null;
-	
+
 	var args = {'model': model,
 				'id': id ? id : 'False',
 				'ids': ids,
@@ -170,7 +170,7 @@ var submit_form = function(action, src, data){
 
     	form._terp_id.value = map(function(b){return b.value}, boxes);
     }
-    
+
     if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {
         action =  action + '/report.pdf'
     }
@@ -220,11 +220,11 @@ var submit_value = function(action, src, data){
 var save_binary_data = function(src) {
     var name = $(src) ? $(src).name : src;
     var fname = $(name + 'name');
-    
+
     var act = '/form/save_binary_data';
-    
+
     act = fname ? act + '/' + fname.value : act;
-    
+
     act = act + '?_terp_field=' + name;
 
     submit_form(act);
@@ -325,13 +325,18 @@ var onChange = function(name) {
     req = Ajax.JSON.post('/form/on_change', vals);
 
     req.addCallback(function(obj){
+
+    	if (obj.error) {
+    		return alert(obj.error);
+    	}
+
         values = obj['value'];
         domains = obj['domain'];
-        
+
         domains = domains ? domains : {};
-        
+
         for(var k in domains){
-        	fld = $(prefix + k);        	
+        	fld = $(prefix + k);
         	if (fld){
         		setNodeAttribute(fld, 'domain', domains[k]);
         	}
@@ -489,15 +494,15 @@ function makeContextMenu(id, kind, relation, val) {
 
         var vd = getViewportDimensions();
         var md = elementDimensions('contextmenu');
-        
+
         var x = $('contextmenu').style.left.slice(0, -2);
         x = parseInt(x);
-                
+
         if ((x + md.w) > vd.w) {
         	x -= x + md.w - vd.w;
         	$('contextmenu').style.left = x + 'px';
         }
-                
+
         showContextMenu();
 	});
 }
@@ -535,7 +540,7 @@ var hideContextMenu = function(){
 var m2oContextMenu = function(src){
 
 	var btn = $(src);
-	
+
     var menu = $('contextmenu');
 	var src = $(src).id.slice(0, -5);
 	src = $(src);
@@ -545,11 +550,11 @@ var m2oContextMenu = function(src){
 	var relation = src.attributes['relation'] ? src.attributes['relation'].value : null;
 
 	hideElement(menu);
-	
+
 	var p = elementPosition(btn);
-	var d = elementDimensions(btn);	
-		
-	p.y += d.h;		
+	var d = elementDimensions(btn);
+
+	p.y += d.h;
     setElementPosition(menu, p);
 
     makeContextMenu(src.id, kind, relation, val);

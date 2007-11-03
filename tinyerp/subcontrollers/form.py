@@ -673,7 +673,10 @@ class Form(controllers.Controller, TinyResource):
 
         ids = ctx.id and [ctx.id] or []
 
-        response = getattr(proxy, func_name)(ids, *args)
+        try:
+            response = getattr(proxy, func_name)(ids, *args)
+        except Exception, e:
+            return dict(error=ustr(e))
 
         if 'value' not in response:
             response['value'] = {}
