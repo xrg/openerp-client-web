@@ -80,7 +80,7 @@
             
             form.target = "detector";
             
-            form.action = '/impex/import_data';
+            form.attributes['action'].value = '/impex/import_data';
             form.submit();
         }
         
@@ -111,7 +111,7 @@
             
             form.target = "detector";
 
-            form.action = '/impex/detect_data';
+            form.attributes['action'].value = '/impex/detect_data';
             form.submit();
         }
 

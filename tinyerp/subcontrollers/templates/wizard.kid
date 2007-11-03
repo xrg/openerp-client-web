@@ -21,7 +21,7 @@
                 act = '/wizard/report';
             }
             
-            form.action = act;
+            form.attributes['action'].value = act;
             form._terp_state.value = state;
             
             form.submit();

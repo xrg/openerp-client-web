@@ -8,7 +8,7 @@
         function submit_form(action){
             var form = $('tree_view');
 
-            form.action = '/tree/' + action;
+            form.attributes['action'].value = '/tree/' + action;
             form.method = 'post';
 
             form.submit();

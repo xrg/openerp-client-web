@@ -151,7 +151,7 @@ var switchView = function(view_type, src){
 
     $(prefix + '_terp_view_type').value  = view_type;
 
-    form.action = get_form_action('switch', {_terp_source: src});
+    form.attributes['action'].value = get_form_action('switch', {_terp_source: src});
     form.submit();
 }
 
@@ -174,8 +174,10 @@ var submit_form = function(action, src, data){
     if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {
         action =  action + '/report.pdf'
     }
-
-    form.action = get_form_action(action, {_terp_source: source, _terp_data: data ? data : null});
+    
+    var act = get_form_action(action, {_terp_source: source, _terp_data: data ? data : null});
+    
+    form.attributes['action'].value = act;
     form.submit();
 }
 
@@ -213,7 +215,7 @@ var submit_value = function(action, src, data){
     form = $("view_form");
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
 
-    form.action = '/openm2o/save';
+    form.attributes['action'].value = '/openm2o/save';
     form.submit();
 }
 
@@ -244,7 +246,7 @@ var buttonClicked = function(name, btype, model, id, sure){
     params['_terp_button/id'] = id;
 
     form = $("view_form");
-    form.action = get_form_action('save', params);
+    form.attributes['action'].value = get_form_action('save', params);
     form.submit();
 }
 

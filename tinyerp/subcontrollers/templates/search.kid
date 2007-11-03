@@ -7,7 +7,7 @@
 
         function submit_search_form(action){
             form = $('search_form');
-            form.action = action;
+            form.attributes['action'].value = action;
 
             disable_hidden_search_fields();
 

@@ -12,7 +12,7 @@
         }
         
         function do_upload(form){
-            form.action = '/attachment/add';
+            form.attributes['action'].value = '/attachment/add';
             form.submit();
         }
         
@@ -33,7 +33,7 @@
             
             var fname = '/' + a.innerHTML;
             
-            form.action = getURL('/attachment/save' + fname, {record: id});
+            form.attributes['action'].value = getURL('/attachment/save' + fname, {record: id});
             form.submit();           
         }
 
@@ -48,7 +48,7 @@
             
             var id = boxes[0].value;
             
-            form.action = getURL('/attachment/delete', {record: id});
+            form.attributes['action'].value = getURL('/attachment/delete', {record: id});
             form.submit();
         }
     </script>
