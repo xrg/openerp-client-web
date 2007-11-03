@@ -217,6 +217,19 @@ var submit_value = function(action, src, data){
     form.submit();
 }
 
+var save_binary_data = function(src) {
+    var name = $(src).name;
+    var fname = $(name + 'name');
+    
+    var act = '/form/save_binary_data';
+    
+    act = fname ? act + '/' + fname.value : act;
+    
+    act = act + '?_terp_field=' + name;
+
+    submit_form(act);
+}
+
 var buttonClicked = function(name, btype, model, id, sure){
 
     if (sure && !confirm(sure)){

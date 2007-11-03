@@ -346,7 +346,7 @@ class Form(controllers.Controller, TinyResource):
         raise redirect(self.path + '/view', **args)
 
     @expose(content_type='application/octet')
-    def save_binary(self, **kw):
+    def save_binary_data(self, _file_name=None, **kw):
         params, data = TinyDict.split(kw)
 
         if params.datas:
@@ -360,7 +360,7 @@ class Form(controllers.Controller, TinyResource):
         return base64.decodestring(res[0]['datas'])
 
     @expose()
-    def clear_binary(self, **kw):
+    def clear_binary_data(self, **kw):
         params, data = TinyDict.split(kw)
 
         proxy = rpc.RPCProxy(params.model)
