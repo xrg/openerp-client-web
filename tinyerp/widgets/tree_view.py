@@ -75,7 +75,7 @@ class ViewTree(tg.widgets.Form):
         id = res_id
 
         if self.toolbar:
-            ids = proxy.search(self.domain2)
+            ids = proxy.search(self.domain2, 0, 0, 0, ctx)
             self.toolbar = proxy.read(ids, ['name', 'icon'], ctx)
 
             id = res_id

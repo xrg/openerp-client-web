@@ -76,9 +76,10 @@ def make_domain(name, value):
 
 from turbogears import validate, validators
 
-def search(model, offset=0, limit=20, domain=[], data={}):
+def search(model, offset=0, limit=20, domain=[], context={}, data={}):
 
     domain = domain or []
+    context = context or {}
     data = data or {}
 
     search_domain = domain[:]
@@ -97,8 +98,11 @@ def search(model, offset=0, limit=20, domain=[], data={}):
     if o < 0: o = 0
 
     proxy = rpc.RPCProxy(model)
-    ids = proxy.search(search_domain, o, l)
-    count = proxy.search_count(search_domain)
+    ctx = rpc.session.context.copy()
+    ctx.update(context)
+        
+    ids = proxy.search(search_domain, o, l, 0, ctx)
+    count = proxy.search_count(search_domain, ctx)
 
     return dict(model=model, ids=ids, count=count, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
 

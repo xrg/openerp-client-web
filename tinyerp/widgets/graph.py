@@ -104,12 +104,12 @@ class GraphData(object):
         axis, axis_data, axis_group = self.parse(root, fields)                       
 
         proxy = rpc.RPCProxy(model)
-
-        if ids is None:
-            ids = proxy.search(domain)
-
+        
         ctx = rpc.session.context.copy()
         ctx.update(context)
+
+        if ids is None:
+            ids = proxy.search(domain, 0, 0, 0, ctx)
 
         values = proxy.read(ids, fields.keys(), ctx)
         

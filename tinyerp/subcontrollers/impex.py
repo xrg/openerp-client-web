@@ -165,8 +165,11 @@ class ImpEx(controllers.Controller, TinyResource):
 
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
+        
+        ctx = {}
+        ctx.update(rpc.session.context.copy())
 
-        ids = params.ids or proxy.search(params.search_domain)
+        ids = params.ids or proxy.search(params.search_domain, 0, 0, 0, ctx)
         result = datas_read(ids, params.model, fields)
 
         if export_as == 'excel':

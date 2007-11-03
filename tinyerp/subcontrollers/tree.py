@@ -116,15 +116,15 @@ class Tree(controllers.Controller, TinyResource):
             fields.append(field_parent)
 
         proxy = rpc.RPCProxy(model)
+        
+        ctx = {}
+        ctx.update(rpc.session.context.copy())
 
         if not ids:
-            ids = proxy.search(domain)
+            ids = proxy.search(domain, 0, 0, 0, ctx)
 
         if int(icon):
             fields.append('icon')
-
-        ctx = {}
-        ctx.update(rpc.session.context.copy())
 
         fields_info = cache.fields_get(model, fields, ctx)
         result = proxy.read(ids, fields, ctx)

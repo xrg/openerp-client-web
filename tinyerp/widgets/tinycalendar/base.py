@@ -117,6 +117,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.ids = ids
         self.model = model        
         self.domain = domain or []
+        self.context = context or {}
         self.options = options
                 
         self.use_search = (options or None) and options.use_search 
@@ -223,10 +224,12 @@ class TinyCalendar(interface.TinyCompoundWidget):
             
         if self.options and self.options.use_search:
             domain += self.options.search_domain
+            
+        ctx = rpc.session.context.copy()
+        ctx.update(context)
 
-        ids = proxy.search(domain)
-
-        result = proxy.read(ids, self.fields.keys(), rpc.session.context)
+        ids = proxy.search(domain, 0, 0, 0, ctx)
+        result = proxy.read(ids, self.fields.keys(), ctx)
         
         if self.color_field:
             
