@@ -126,7 +126,7 @@ class Form(controllers.Controller, TinyResource):
 
         params.editable = True
         params.view_type = 'form'
-        
+
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
 
@@ -154,7 +154,7 @@ class Form(controllers.Controller, TinyResource):
 
         params.editable = False
         params.view_type = 'form'
-        
+
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
 
@@ -409,19 +409,20 @@ class Form(controllers.Controller, TinyResource):
                 params.id = params.ids[0]
 
             if params.filter_action == 'PREV':
-                if params.id in params.ids and params.ids.index(params.id) > 0:
-                    params.id = params.ids[params.ids.index(params.id)-1]
-                else:
+                if params.id in params.ids and params.ids.index(params.id) == 0:
                     params.id = params.ids[-1]
+                else:
+                    params.id = params.ids[params.ids.index(params.id)-1]
 
             if params.filter_action == 'NEXT':
-                if params.id in params.ids and params.ids.index(params.id) < len(params.ids):
-                    params.id = params.ids[params.ids.index(params.id)+1]
-                else:
+                if params.id in params.ids and params.ids.index(params.id) + 1 == len(params.ids):
                     params.id = params.ids[0]
+                else:
+                    params.id = params.ids[params.ids.index(params.id)+1]
 
             if params.filter_action == 'LAST':
                 params.id = params.ids[-1]
+
 
         if not params.id:
             params.id = (params.ids or False) and params.ids[0]
@@ -442,8 +443,8 @@ class Form(controllers.Controller, TinyResource):
     def first(self, **kw):
         params, data = TinyDict.split(kw)
 
-        l = params.limit or 20
-        o = 0
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
 
         kw['_terp_offset'] = o
         kw['_terp_filter_action'] = 'FIRST'
@@ -457,11 +458,8 @@ class Form(controllers.Controller, TinyResource):
         if params.source:
             return self.previous_o2m(**kw)
 
-        l = params.limit or 20
-        o = params.offset or 0
-
-        if not (params.view_type == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)-1 > 0):
-            o -= l
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
 
         kw['_terp_offset'] = o
         kw['_terp_filter_action'] = 'PREV'
@@ -503,9 +501,6 @@ class Form(controllers.Controller, TinyResource):
         l = params.limit or 20
         o = params.offset or 0
 
-        if not (params.view_type == 'form' and params.ids and params.id in params.ids and params.ids.index(params.id)+1 < len(params.ids)):
-            o += l
-
         kw['_terp_offset'] = o
         kw['_terp_filter_action'] = 'NEXT'
 
@@ -542,11 +537,8 @@ class Form(controllers.Controller, TinyResource):
 
         params, data = TinyDict.split(kw)
 
-        l = params.limit or 20
-        o = params.offset or 0
-        c = params.count or 0
-
-        o = c - (c % l)
+        l = params.get('limit') or 20
+        o = params.get('offset') or 0
 
         kw['_terp_offset'] = o
         kw['_terp_filter_action'] = 'LAST'
@@ -674,7 +666,7 @@ class Form(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
 
         ids = ctx.id and [ctx.id] or []
-        
+
         response = getattr(proxy, func_name)(ids, *args)
 
         if 'value' not in response:

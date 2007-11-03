@@ -70,10 +70,10 @@ class Pager(TinyCompoundWidget):
             if self.id in self.ids:
                 index = self.offset + self.ids.index(self.id) + 1
 
-            self.page_info = _("[%s/%s]") % (index or '-', self.count)
+            self.page_info = _("[%s/%s]") % (index or '-', len(self.ids))
 
             self.prev = index > 1
-            self.next = index < self.count
+            self.next = index < len(self.ids)
 
         else:
             index = (self.count or 0) and self.offset + 1
