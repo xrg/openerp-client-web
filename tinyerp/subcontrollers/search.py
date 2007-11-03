@@ -203,7 +203,13 @@ class Search(controllers.Controller, TinyResource):
             data = params.search_data
 
         res = search(params.model, o, l, domain=params.domain, data=data)
-        params.update(res)
+        
+        params.ids = res['ids']
+        params.offset = res['offset']
+        params.limit = res['limit']
+        params.count = res['count']
+        params.search_domain = res['search_domain']
+        params.search_data = res['search_data']
 
         return self.create(params)
 
