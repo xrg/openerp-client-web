@@ -401,7 +401,7 @@ class Form(controllers.Controller, TinyResource):
             data = params.search_data
 
         res = search.search(params.model, o, l, domain=domain, data=data)
-        
+
         params.ids = res['ids']
         params.offset = res['offset']
         params.limit = res['limit']
@@ -415,16 +415,22 @@ class Form(controllers.Controller, TinyResource):
                 params.id = params.ids[0]
 
             if params.filter_action == 'PREV':
-                if params.id in params.ids and params.ids.index(params.id) == 0:
-                    params.id = params.ids[-1]
+                if params.id in params.ids:
+                    if params.ids.index(params.id) == 0:
+                        params.id = params.ids[-1]
+                    else:
+                        params.id = params.ids[params.ids.index(params.id)-1]
                 else:
-                    params.id = params.ids[params.ids.index(params.id)-1]
+                    params.id = params.ids[-1]
 
             if params.filter_action == 'NEXT':
-                if params.id in params.ids and params.ids.index(params.id) + 1 == len(params.ids):
-                    params.id = params.ids[0]
+                if params.id in params.ids:
+                    if params.ids.index(params.id) + 1 == len(params.ids):
+                        params.id = params.ids[0]
+                    else:
+                        params.id = params.ids[params.ids.index(params.id)+1]
                 else:
-                    params.id = params.ids[params.ids.index(params.id)+1]
+                    params.id = params.ids[0]
 
             if params.filter_action == 'LAST':
                 params.id = params.ids[-1]
