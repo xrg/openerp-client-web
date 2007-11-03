@@ -218,7 +218,7 @@ var submit_value = function(action, src, data){
 }
 
 var save_binary_data = function(src) {
-    var name = $(src).name;
+    var name = $(src) ? $(src).name : src;
     var fname = $(name + 'name');
     
     var act = '/form/save_binary_data';
