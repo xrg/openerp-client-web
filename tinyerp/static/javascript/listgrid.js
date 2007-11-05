@@ -52,11 +52,10 @@ ListView.prototype.checkAll = function(clear){
 ListView.prototype.getSelected = function() {
     boxes = getElementsByTagAndClassName('input', 'grid-record-selector', this.id);
     result = [];
-
-    forEach(boxes, function(box){
-        if (box.name) result.push(box);
-    });
-    return result;
+    
+    return filter(function(box){
+        return box.name && box.checked;
+    }, boxes);
 }
 
 ListView.prototype.create = function(){
