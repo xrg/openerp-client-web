@@ -226,7 +226,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
             domain += self.options.search_domain
             
         ctx = rpc.session.context.copy()
-        ctx.update(context)
+        ctx.update(self.context)
 
         ids = proxy.search(domain, 0, 0, 0, ctx)
         result = proxy.read(ids, self.fields.keys(), ctx)
