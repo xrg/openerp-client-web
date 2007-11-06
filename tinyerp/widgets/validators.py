@@ -73,6 +73,7 @@ class Int(tg.validators.Int):
 
 class Float(tg.validators.Number):
     if_empty = False
+    digit = 2
 
     def _from_python(self, value, state):
         return locale.format('%.' + str(self.digit) + 'f', value or 0.00)
