@@ -107,7 +107,11 @@
             }                
         }
         
-        function do_autodetect(form){                       
+        function do_autodetect(form){
+        
+            if (! $('csvfile').value ){
+                return alert('You must select an import file first !');
+            }                
             
             form.target = "detector";
 
@@ -155,6 +159,8 @@
                             <button type="button" onclick="add_fields()">Add</button>
                             <button type="button" onclick="del_fields()">Remove</button>
                             <button type="button" onclick="del_fields(true)">Nothing</button>
+                            <br/><br/>
+                            <button type="button" onclick="do_autodetect(form)">Auto Detect</button>
                         </td>
                         <td class="fields-selector-right" height="300px">
                             <select name="fields" id="fields" multiple="multiple">
@@ -169,7 +175,7 @@
             <td>
                 <fieldset>
                     <legend>File to import</legend>
-                    <input type="file" name="csvfile" onchange="do_autodetect(form)"/>
+                    <input type="file" id="csvfile" name="csvfile" onchange="do_autodetect(form)"/>
                 </fieldset>
             </td>
         </tr>
