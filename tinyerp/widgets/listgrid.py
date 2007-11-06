@@ -217,7 +217,13 @@ class List(TinyCompoundWidget):
             value = d[field].value
             sum += value
 
-        return sum
+        attrs = {}
+        if data:
+            d = data[0]
+            attrs = d[field].attrs
+
+        interger, digit = attrs.get('digits', (16,2))
+        return locale.format('%.' + str(digit) + 'f', sum or 0.00)
 
     def display(self, value=None, **params):
 
@@ -383,12 +389,12 @@ class Selection(Char):
 class Float(Char):
 
     def get_text(self):
-        _, digit = (16,2)
+        interger, digit = self.attrs.get('digits', (16,2))
 
         if self.value:
-            return locale.format('%.' + str(digit) + 'f', self.value or 0.0)
+            return locale.format('%.' + str(digit) + 'f', self.value or 0.00)
 
-        return 0.0
+        return locale.format('%.' + str(digit) + 'f', 0.00)
 
 class Int(Char):
 
