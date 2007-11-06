@@ -108,7 +108,7 @@ class Reference(tg.validators.FancyValidator):
         if isinstance(value, basestring):
             value = eval(value)
 
-        ref, id = value
+        id, ref = value
         if ref and id:
             return "%s,%d"%(ref, int(id))
 
