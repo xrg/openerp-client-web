@@ -89,8 +89,8 @@
             var pwin = window.opener;
             var src = pwin.document.getElementById('${source}');
 
-			var list = new ListView(src);
-            var ids = map(function(e){return e.value}, list.getSelected());
+			var selection = new ListView(src).getSelected();
+            var ids = map(function(e){return e.value}, selection);
 
 			var id = '[]';
 
