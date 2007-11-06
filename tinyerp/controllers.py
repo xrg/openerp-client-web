@@ -125,13 +125,9 @@ class Root(controllers.RootController, TinyResource):
     def _cp_on_error(self, *args, **kw):
         etype, value, tb = sys.exc_info()
 
-        if isinstance(value, common.TinyException) or not cherrypy.config.get('server.environment') == 'development':
-            cherrypy.session._last_error = value
-            raise redirect('/error')
-        else:
-            message = cgitb.html((etype, value, tb))
-            cherrypy.response.headers['Content-Type'] = 'text/html'
-            cherrypy.response.body = [message]
+        message = cgitb.html((etype, value, tb))
+        cherrypy.response.headers['Content-Type'] = 'text/html'
+        cherrypy.response.body = [message]
 
     @expose(template="tinyerp.templates.error")
     def error(self):

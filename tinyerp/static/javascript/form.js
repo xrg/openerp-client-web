@@ -148,10 +148,15 @@ var switchView = function(view_type, src){
 
     var prefix = src ? src + '/' : '';
     var form = $("view_form");
+    
+    var params = {
+        '_terp_source': src,
+        '_terp_source_view_type': $(prefix + '_terp_view_type').value
+    }
 
     $(prefix + '_terp_view_type').value  = view_type;
 
-    form.attributes['action'].value = get_form_action('switch', {_terp_source: src});
+    form.attributes['action'].value = get_form_action('switch', params);
     form.submit();
 }
 
