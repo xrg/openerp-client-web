@@ -130,7 +130,7 @@ TreeGrid.prototype.toggle = function(row, forced) {
     for(var i in children) {
 
         var cid = children[i];
-        var child = $(this.id + "_row_" + cid);
+        var child = $(row.id + '_' + cid);
 
         if (child) {
 
@@ -185,15 +185,16 @@ TreeGrid.prototype._make_body = function(records){
     var tbd = TBODY(null);
 
     for(var i in records) {
-        appendChildNodes(tbd, this._make_row(records[i]));
+        appendChildNodes(tbd, this._make_row(null, records[i], null));
     }
 
     return tbd;
 }
 
-TreeGrid.prototype._make_row = function(record, indent){
+TreeGrid.prototype._make_row = function(parent_row, record, indent){
 
-    var rid = this.id + "_row_" + record.id;
+    var prefix = parent_row ? parent_row.id + '_' : this.id + '_row_';
+    var rid = prefix + record.id;
     var tr = TR({'id': rid, 'class' : 'row'});
 
     // save children and indent info
@@ -295,7 +296,7 @@ TreeGrid.prototype._add_rows = function(after, children, indent){
 
         idx = index;
         for (var i in res.records){
-            var tr = grid._make_row(res.records[i], indent);
+            var tr = grid._make_row(row, res.records[i], indent);
 
             idx = parseInt(idx) + 1;
             var r = g.rows[idx];
