@@ -567,12 +567,8 @@ class Form(controllers.Controller, TinyResource):
         current = params.chain_get(params.source or '') or params
 
         # save current record (O2M)
-        if params.source and params.editable and current.view_type == 'form':
+        if params.editable and params.source and params.source_view_type == 'form':
             self.save(terp_save_only=True, **kw)
-
-        #switch the view mode
-        #idx = (current.view_type == current.view_mode[0] or 0) and -1
-        #current.view_type = current.view_mode[idx]
 
         # set ids and id
         current.ids = current.ids or []
