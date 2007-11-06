@@ -302,7 +302,12 @@ class Float(TinyField):
 
     def __init__(self, attrs={}):
         super(Float, self).__init__(attrs)
-        interger, digit = attrs.get('digits', (16,2))
+
+        digits = attrs.get('digits', (16,2))
+        if isinstance(digits, basestring):
+            digits = eval(digits)
+
+        interger, digit = digits
 
         self.validator = tiny_validators.Float(digit=digit)
 
