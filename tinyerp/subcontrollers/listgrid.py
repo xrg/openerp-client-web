@@ -56,7 +56,7 @@ class List(controllers.Controller, TinyResource):
         id = (id > 0) and id or 0
 
         model = params.parent.model
-
+        
         if model != params.model and not params.parent.id:
             error = _("Parent record doesn't exists...")
 
@@ -70,8 +70,11 @@ class List(controllers.Controller, TinyResource):
             data = {}
             if model != params.model:
 
-                fld = frm.keys()[0]
-                data = {fld : [(id and 1, id, frm[fld].copy())]}
+                source = params.source
+                data = frm.chain_get(source)
+                
+                fld = source.split('/')[-1]
+                data = {fld : [(id and 1, id, data.copy())]}                
 
                 proxy.write([params.parent.id], data, params.parent.context or {})
             else:

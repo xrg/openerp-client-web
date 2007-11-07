@@ -217,6 +217,7 @@ ListView.prototype.save = function(id){
     args['_terp_parent/id'] = $(parent_field + '_terp_id').value;
     args['_terp_parent/model'] = $(parent_field + '_terp_model').value;
     args['_terp_parent/context'] = $(parent_field + '_terp_context').value;
+    args['_terp_source'] = this.id;
 
     var myself = this;
     var editors = this.getEditors(true);
@@ -235,8 +236,10 @@ ListView.prototype.save = function(id){
         if (hasElementClass(e, 'requiredfield'))
         	args[k] += ' required';
     });
+    
+    
 
-    var req= Ajax.JSON.post('/listgrid/save', args);
+    var req= Ajax.JSON.get('/listgrid/save', args);
 
     this.waitGlass();
 
