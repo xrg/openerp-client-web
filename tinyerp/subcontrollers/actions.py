@@ -173,7 +173,7 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return
-
+    
     if action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
             data[key] = action.get(key, data.get(key, None))
@@ -224,7 +224,7 @@ def execute(action, **data):
     elif action['type']=='ir.actions.report.xml':
         return execute_report(action['report_name'], **data)
 
-    elif action['type']=="url":
+    elif action['type']=="ir.actions.act_url":
         data['url'] = action['url']
         data['target'] = action['target']
         data['type'] = action['type']
