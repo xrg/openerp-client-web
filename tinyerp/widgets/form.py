@@ -122,7 +122,8 @@ class Frame(TinyCompoundWidget):
             pn = len([w for a, w in row if isinstance(w, Image)])
 
             sw = 5                                  # label width
-            ww = 100.00 - sw * sn                   # remaining width
+            pw = 1                                  # image width
+            ww = 100.00 - sw * sn - pw * pn         # remaining width
             cn = self.columns - sn - pn             # columns - (lables + image)
 
             if cn < 1: cn = 1
@@ -132,7 +133,7 @@ class Frame(TinyCompoundWidget):
                 if isinstance(wid, (basestring, Label)):
                     w = sw
                 elif isinstance(wid, Image):
-                    w = 0
+                    w = pw
                 else:
                     c = a.get('colspan', 1)
                     if c > mx:
