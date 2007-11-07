@@ -13,7 +13,7 @@ implemented or fixed in very near future...
 TODO:
 -------------------------------------------------------------------------------
 
-    -
+ *** : Implement `widget=some another widget` feature
      
 -------------------------------------------------------------------------------
 ISSUES:
