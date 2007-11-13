@@ -71,7 +71,7 @@ class Form(controllers.Controller, TinyResource):
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
-        if not (cherrypy.request.path.startswith('/form/switch') or cherrypy.request.path.startswith('/form/view') or cherrypy.request.path.startswith('/form/edit')):
+        if not (cherrypy.request.path.startswith('/form/switch') or cherrypy.request.path.startswith('/form/edit')):
             self.del_notebook_cookies()
 
         return form
