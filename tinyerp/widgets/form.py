@@ -308,7 +308,7 @@ class Float(TinyField):
         if isinstance(digits, basestring):
             digits = eval(digits)
 
-        interger, digit = digits
+        integer, digit = digits
 
         self.validator = tiny_validators.Float(digit=digit)
 

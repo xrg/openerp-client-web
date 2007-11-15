@@ -226,7 +226,7 @@ class List(TinyCompoundWidget):
         if isinstance(digits, basestring):
             digits = eval(digits)
 
-        interger, digit = digits
+        integer, digit = digits
 
         return locale.format('%.' + str(digit) + 'f', sum or 0.00)
 
@@ -398,7 +398,7 @@ class Float(Char):
         if isinstance(digits, basestring):
             digits = eval(digits)
 
-        interger, digit = digits
+        integer, digit = digits
 
         if self.value:
             return locale.format('%.' + str(digit) + 'f', self.value or 0.00)
