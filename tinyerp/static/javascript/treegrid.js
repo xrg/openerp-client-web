@@ -28,7 +28,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var TreeGrid = function(id, headers) {
-
     this.id = id;
 
     this.headers = headers;
@@ -192,7 +191,6 @@ TreeGrid.prototype._make_body = function(records){
 }
 
 TreeGrid.prototype._make_row = function(parent_row, record, indent){
-
     var prefix = parent_row ? parent_row.id + '_' : this.id + '_row_';
     var rid = prefix + record.id;
     var tr = TR({'id': rid, 'class' : 'row'});
@@ -238,6 +236,9 @@ TreeGrid.prototype._make_row = function(parent_row, record, indent){
 
 			if (record.target) {
 				setNodeAttribute(val, 'target', record.target);
+			}
+			if(record.required) {
+				setNodeAttribute(val, 'class', 'requiredfield');
 			}
 
             tds.push(val);
@@ -330,7 +331,7 @@ TreeGrid.prototype.reload = function(){
         var res = evalJSONRequest(xmlHttp);
 
         var table = TABLE({id: grid.id, 'class': 'tree-grid'});
-        
+
         table.cellPadding = 0;
         table.cellSpacing = 0;
 
@@ -348,7 +349,6 @@ TreeGrid.prototype.reload = function(){
 }
 
 TreeGrid.prototype.load = function(url, id, params){
-
     this.url = url;
     this.params = params ? params : {};
 

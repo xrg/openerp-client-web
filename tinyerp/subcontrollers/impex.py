@@ -120,20 +120,32 @@ class ImpEx(controllers.Controller, TinyResource):
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
 
-            if ids:
-                record['id'] = ids[i]
-            else:
+            if is_importing and (value['type'] not in ('reference',)) and (not value.get('readonly', False) \
+                        or not dict(value.get('states', {}).get('draft', [('readonly', True)])).get('readonly', True)):
+
                 record['id'] = id
+                record['data'] = {'name' : nm}
+                record['action'] = 'javascript: void(0)'
+                record['target'] = None
+                record['icon'] = None
+                record['children'] = []
+                record['required'] = value.get('required', False)
 
-            record['action'] = 'javascript: void(0)'
-            record['target'] = None
+                records += [record]
 
-            record['icon'] = None
+            elif not is_importing:
+                if ids:
+                    record['id'] = ids[i]
+                else:
+                    record['id'] = id
 
-            record['children'] = []
-            record['data'] = {'name' : nm}
+                record['data'] = {'name' : nm}
+                record['action'] = 'javascript: void(0)'
+                record['target'] = None
+                record['icon'] = None
+                record['children'] = []
 
-            records += [record]
+                records += [record]
 
             if len(nm.split('/')) < 3 and value.get('relation', False):
 
@@ -165,13 +177,13 @@ class ImpEx(controllers.Controller, TinyResource):
 
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
-        
+
         if isinstance(fields, basestring):
             fields = [fields]
-        
+
         ctx = {}
         ctx.update(rpc.session.context.copy())
-        
+
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
