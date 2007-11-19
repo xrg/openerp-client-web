@@ -215,6 +215,9 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
         params, data = TinyDict.split(kw)
+        
+        # remember the current notebook tab
+        cherrypy.session['remember_notebook'] = True
 
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
@@ -265,8 +268,6 @@ class Form(controllers.Controller, TinyResource):
 
         if params.editable or params.source:
             raise redirect(self.path + '/edit', source=params.source, **args)
-
-        cherrypy.session['remember_notebook'] = True
 
         raise redirect(self.path + '/view', **args)
 
@@ -563,9 +564,12 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def switch(self, **kw):
-
+        
         # get special _terp_ params and data
         params, data = TinyDict.split(kw)
+        
+        # remember the current notebook tab
+        cherrypy.session['remember_notebook'] = True
 
         # select the right params field (if one2many toolbar button)
         current = params.chain_get(params.source or '') or params
