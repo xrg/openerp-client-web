@@ -71,7 +71,9 @@ class Form(controllers.Controller, TinyResource):
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
-        if not (cherrypy.request.path.startswith('/form/switch')):
+        if 'remember_notebook' in cherrypy.session:
+            cherrypy.session.pop('remember_notebook')
+        else:
             self.del_notebook_cookies()
 
         return form
@@ -263,6 +265,8 @@ class Form(controllers.Controller, TinyResource):
 
         if params.editable or params.source:
             raise redirect(self.path + '/edit', source=params.source, **args)
+
+        cherrypy.session['remember_notebook'] = True
 
         raise redirect(self.path + '/view', **args)
 
