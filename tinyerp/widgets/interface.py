@@ -88,8 +88,7 @@ class TinyWidget(object):
         self.editable = attrs.get('editable', True)
         self.translatable = attrs.get('translate', False)
 
-        if 'state' in attrs:
-            self.set_state(attrs['state'])
+        self.set_state(attrs.get('state', 'draft'))
 
         self.callback = attrs.get('on_change', None)
         self.kind = attrs.get('type', None)
