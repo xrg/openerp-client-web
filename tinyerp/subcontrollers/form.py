@@ -567,8 +567,11 @@ class Form(controllers.Controller, TinyResource):
         current = params.chain_get(params.source or '') or params
 
         # save current record (O2M)
-        if params.editable and params.source and params.source_view_type == 'form':
+        if params.editable and params.source and current.view_type == 'form':
             self.save(terp_save_only=True, **kw)
+            
+        if params.source:
+            current.view_type = params.source_view_type
 
         # set ids and id
         current.ids = current.ids or []

@@ -151,10 +151,8 @@ var switchView = function(view_type, src){
     
     var params = {
         '_terp_source': src,
-        '_terp_source_view_type': $(prefix + '_terp_view_type').value
+        '_terp_source_view_type': view_type
     }
-
-    $(prefix + '_terp_view_type').value  = view_type;
 
     form.attributes['action'].value = get_form_action('switch', params);
     form.submit();
