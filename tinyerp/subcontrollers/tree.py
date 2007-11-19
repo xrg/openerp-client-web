@@ -101,7 +101,7 @@ class Tree(controllers.Controller, TinyResource):
         return cmp(a, b)
 
     @expose('json')
-    def data(self, ids, model, fields, field_parent=None, icon=0, domain=[], sort_by=None, sort_order="asc"):
+    def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], sort_by=None, sort_order="asc"):
 
         ids = ids.split(',')
         ids = [int(id) for id in ids if id != '']
@@ -123,8 +123,8 @@ class Tree(controllers.Controller, TinyResource):
         if not ids:
             ids = proxy.search(domain, 0, 0, 0, ctx)
 
-        if int(icon):
-            fields.append('icon')
+        if icon_name:
+            fields.append(icon_name)
 
         fields_info = cache.fields_get(model, fields, ctx)
         result = proxy.read(ids, fields, ctx)
@@ -178,8 +178,8 @@ class Tree(controllers.Controller, TinyResource):
 
             record['icon'] = None
 
-            if 'icon' in item:
-                icon = item.pop('icon')
+            if icon_name and icon_name in item:
+                icon = item.pop(icon_name)
                 record['icon'] = icons.get_icon(icon)
 
                 if icon == 'STOCK_OPEN':

@@ -32,7 +32,7 @@ var TreeGrid = function(id, headers) {
 
     this.headers = headers;
 
-    this.show_icons = 'icon' in this.headers[0];
+    this.icon_name = this.headers[0]['icon'] || '';
     this.show_headers = true;
 
     this.url = null;
@@ -222,7 +222,7 @@ TreeGrid.prototype._make_row = function(parent_row, record, indent){
             else
                 tds.push(SPAN({'class' : 'indent'}));
 
-            if (this.show_icons) {
+            if (this.icon_name) {
                 tds.push(IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
             }
 
@@ -355,7 +355,7 @@ TreeGrid.prototype.load = function(url, id, params){
     this.parent_ids = id;
 
 	this.params['fields'] = map(function(h){return h.name}, this.headers);
-    this.params['icon'] = this.show_icons ? 1 : 0;
+    this.params['icon_name'] = this.icon_name;
 
     this.reload();
 }
