@@ -14,12 +14,14 @@ TODO:
 -------------------------------------------------------------------------------
 
  *** : Implement `widget=some another widget` feature
- *** : Implement `m2m` field for editable list view 
+ *** : Implement `m2m` field for editable list view
        (see `Invoice Lines` in Finance -> Invoices -> Suplier Invoice)
  *** : check forum and bugtracker for potential bugs
+ *** : Implement Duplicate and Mass delete
+
 -------------------------------------------------------------------------------
 ISSUES:
--------------------------------------------------------------------------------     
+-------------------------------------------------------------------------------
 
 	-
 
