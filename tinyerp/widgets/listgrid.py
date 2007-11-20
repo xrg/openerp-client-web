@@ -122,7 +122,7 @@ class List(TinyCompoundWidget):
             self.name = name[:-1]
 
         if name != '_terp_list':
-            self.source = self.name.replace('/', '.') or None
+            self.source = self.name.replace('/', '/') or None
 
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
