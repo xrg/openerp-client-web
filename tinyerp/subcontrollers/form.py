@@ -131,6 +131,9 @@ class Form(controllers.Controller, TinyResource):
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
+            
+        if params.view_type == 'tree':
+            params.view_type = 'form'
 
         # On New O2M
         if params.source:
@@ -159,6 +162,9 @@ class Form(controllers.Controller, TinyResource):
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
+            
+        if params.view_type == 'tree':
+            params.view_type = 'form'
 
         return self.create(params)
 
