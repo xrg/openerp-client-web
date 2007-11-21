@@ -46,7 +46,7 @@ function do_Sortable(rows, tableId) {
 		    header_cell = e.getElementsByTagName('td');
 
 		    forEach(header_cell, function(ee) {
-		        if(ee.attributes['id']) {
+		        if(ee.id) {
 
 		            txt = get_innerText(ee);
 
