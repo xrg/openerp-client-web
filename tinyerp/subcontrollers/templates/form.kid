@@ -118,7 +118,7 @@
 
                                 <tr py:for="item in form.screen.toolbar['print']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                     <td>
-                                        <a href="#">${item['string']}</a>
+                                        <a href="javascript: void(0)">${item['string']}</a>
                                     </td>
                                 </tr>
                             </table>
@@ -142,7 +142,7 @@
                                 </tr>
                                 <tr py:for="item in form.screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                     <td colspan="5">
-                                        <a href="#">${item['string']}</a>
+                                        <a href="javascript: void(0)">${item['string']}</a>
                                     </td>
                                 </tr>
                             </table>
@@ -166,7 +166,7 @@
                                 </tr>
                                 <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                     <td colspan="5">
-                                        <a href="#">${item['string']}</a>
+                                        <a href="javascript: void(0)">${item['string']}</a>
                                     </td>
                                 </tr>
                             </table>
