@@ -86,17 +86,6 @@ class Frame(TinyCompoundWidget):
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
 
-            # If this is a hidden button, change the colspan of the last
-            # widget to preserve the layout.
-            if isinstance(child, Button) and not child.visible:
-                try:
-                    a, last = self.table[-1][-1]
-                    a['colspan'] = a.get('colspan', 1) + 1
-                except:
-                    pass
-
-                continue
-
             if isinstance(child, NewLine):
                 self.add_row()
             else:
@@ -125,6 +114,8 @@ class Frame(TinyCompoundWidget):
             pw = 1                                  # image width
             ww = 100.00 - sw * sn - pw * pn         # remaining width
             cn = self.columns - sn - pn             # columns - (lables + image)
+            
+            cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
 
             if cn < 1: cn = 1
 
@@ -138,9 +129,12 @@ class Frame(TinyCompoundWidget):
                     c = a.get('colspan', 1)
                     if c > mx:
                         c = 1
-
-                    w = ww * c / cn
-
+                        
+                    if wid.visible:
+                        w = ww * c / cn
+                    else:
+                        w = 0
+                    
                 a['width'] = '%d%%' % (w)
 
     def add_row(self):
@@ -177,7 +171,10 @@ class Frame(TinyCompoundWidget):
         attrs = {'class': 'item'}
         if rowspan > 1: attrs['rowspan'] = rowspan
         if colspan > 1: attrs['colspan'] = colspan
-
+        
+        if not hasattr(widget, 'visible'):
+            widget.visible = True
+            
         td = [attrs, widget]
         tr.append(td)
 
