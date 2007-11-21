@@ -137,8 +137,8 @@
                             <div py:content="tree.display()" style="overflow: scroll; width: 100%; height: 100%; border: solid lightgray 1px;"/>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">Add</button>
-                            <button type="button" onclick="del_fields()">Remove</button>
+                            <button type="button" onclick="add_fields()">Add</button><br/>
+                            <button type="button" onclick="del_fields()">Remove</button><br/>
                             <button type="button" onclick="del_fields(true)">Nothing</button>
                         </td>
                         <td class="fields-selector-right" height="400px">
