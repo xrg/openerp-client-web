@@ -315,7 +315,7 @@ class Search(controllers.Controller, TinyResource):
             ids='[]'
         ids = eval(ids)
 
-        if not isinstance(ids, list): ids = [ids]
+        if not isinstance(ids, (list, tuple)): ids = [ids]
 
         m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))
         return m2m.list_view.render()
