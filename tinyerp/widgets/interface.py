@@ -135,7 +135,7 @@ class TinyInputWidget(TinyWidget):
 
         @return: field value
         """
-        return self.value
+        return self.default
 
     def set_value(self, value):
         """Set the value of the field.
