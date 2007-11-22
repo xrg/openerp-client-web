@@ -197,6 +197,7 @@ class List(TinyCompoundWidget):
                     k = 'char'
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
+                fa['inline'] = True
                 self.editors[f] = form.widgets_type[k](fa)
 
             # generate hidden fields

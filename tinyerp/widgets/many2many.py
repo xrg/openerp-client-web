@@ -43,11 +43,12 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
     """
 
     template = "tinyerp.widgets.templates.many2many"
-    params = ['relation', 'domain', 'context']
+    params = ['relation', 'domain', 'context', 'inline']
 
     relation = None
     domain = []
     context = {}
+    inline = False
 
     member_widgets = ['list_view']
 
@@ -57,7 +58,7 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
 
 #        self.colspan = 4
 #        self.nolabel = True
-
+        self.inline = attrs.get('inline')
         self.relation = attrs.get('relation', '')
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {}) or {}
@@ -73,5 +74,17 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
 
         self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, context=self.context, selectable=(self.editable or 0) and 2, pageable=False)
         self.list_view.show_links = -1
-        
+
         self.validator = tiny_validators.many2many()
+
+    def set_value(self, value):
+
+        ids = value
+        if isinstance(ids, basestring):
+            if not ids.startswith('['):
+                ids = '[' + ids + ']'
+
+            ids = eval(ids)
+
+        self.ids = ids
+        self.list_view.ids = ids

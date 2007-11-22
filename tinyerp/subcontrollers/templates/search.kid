@@ -104,20 +104,31 @@
                 });
             }
 
-            list_id = $('_terp_source').value;
+		    list_id = $('_terp_source').value;
 
-            req = doSimpleXMLHttpRequest(getURL('/search/get_list', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
+			if(window.opener &amp;&amp; !window.opener.document.getElementById('${params.source}' + '_container')) {
+				window.opener.document.getElementById('${params.source}' + '_set').value = '(' + ids.length + ')';
+				ids = '[' + ids + ']';
+				window.opener.document.getElementById('${params.source}').value = ids;
 
-            req.addCallback(function(xmlHttp) {
-                res = xmlHttp.responseText;
+				window.setTimeout('window.close()', 0);
+			}
 
-                list_view = window.opener.document.getElementById('${params.source}' + '_container');
-                list_view.innerHTML = res;
-                c = window.opener.document.getElementById('${params.source}'+'_set');
-                c.onchange(null);
+			else {
 
-                window.setTimeout('window.close()', 0);
-            });
+	            req = doSimpleXMLHttpRequest(getURL('/search/get_list', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
+
+	            req.addCallback(function(xmlHttp) {
+	                res = xmlHttp.responseText;
+
+	                list_view = window.opener.document.getElementById('${params.source}' + '_container');
+	                list_view.innerHTML = res;
+	                c = window.opener.document.getElementById('${params.source}'+'_set');
+	                c.onchange(null);
+
+	                window.setTimeout('window.close()', 0);
+	            });
+        	}
         }
     </script>
 </head>
