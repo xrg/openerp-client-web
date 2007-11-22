@@ -72,7 +72,7 @@
                         </td>
                     </tr>
 
-                    <tr py:if="len(form.screen.view_mode) > 1 and form.screen.view_type == 'form'">
+                    <tr py:if="form.screen.view_type == 'form'">
                         <td>
             		        <div class="toolbar">
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
