@@ -361,12 +361,16 @@ var onChange = function(name) {
 
                 if ((fld.value != value) || flag) {
                 	fld.value = value;
-
-                	if (!isUndefinedOrNull(fld.onchange)){
-                        fld.onchange();
-            	    }else{
-            	    	MochiKit.Signal.signal(fld, 'onchange');
-            	    }
+                	
+                	var kind = getNodeAttribute(fld, 'kind');
+                	
+                	if (kind == 'many2one' || kind == 'reference'){
+                	   getName(fld);
+                	}
+                	
+                	if (kind == 'many2many'){
+                	   fld.onchange();
+                	}
                	}
             }
         }
@@ -385,6 +389,8 @@ function getName(name, relation){
 
     var value_field = $(name);
     var text_field = $(value_field.name + '_text');
+    
+    relation = relation ? relation : getNodeAttribute(value_field, 'relation');
 
     if (value_field.value == ''){
         text_field.value = ''

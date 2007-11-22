@@ -703,7 +703,7 @@ class Form(controllers.Controller, TinyResource):
         result.update(response)
 
         for k, v in result['value'].items():
-            if isinstance(v, (list, tuple)):
+            if isinstance(v, tuple):
                 result['value'][k] = (v or '') and v[0]
 
         # convert domains in string to prevent them being converted in JSON
