@@ -170,8 +170,15 @@ var submit_form = function(action, src, data){
     if (action == 'action' && $('_terp_list')){
     	var list = new ListView('_terp_list');
     	var boxes = list.getSelected();
+    	
+    	if (boxes.length == 0) {
+    	   return alert('You must select at least one record.');  
+    	}
 
-    	form._terp_id.value = map(function(b){return b.value}, boxes);
+    	ids = map(function(b){return b.value}, boxes);
+    	
+    	form._terp_ids.value = '[' + ids.join(',') + ']';
+    	form._terp_id.value = ids[0] || 'False';    	
     }
 
     if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {

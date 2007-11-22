@@ -632,14 +632,37 @@ class Form(controllers.Controller, TinyResource):
         if not params.id:
             raise common.message(_('You must save this record to use the relate button !'))
 
-        from tinyerp.subcontrollers import actions
+        from tinyerp.subcontrollers import actions        
+        from tinyerp.subcontrollers import record
 
-        ids = [params.id]
-        if isinstance(params.id, basestring):
-            ids = params.id.split(',')
+        ids = params.ids
+        if isinstance(ids, basestring):
+            ids = ids.split(',')
             ids = [int(i) for i in ids]
+            
+        if not isinstance(ids, list):
+            ids = [ids]
 
         id = ids[0]
+        
+        params.ids = ids
+        params.id = id
+        
+        domain = action.get('domain')
+        context = action.get('context')
+        
+        rec = None
+        if domain:
+            if not rec: rec = record.Record(params)
+            domain = rec.expr_eval(domain, rec)
+            
+            action['domain'] = domain
+            
+        if context:
+            if not rec: rec = record.Record(params)
+            context = rec.expr_eval(context, rec)
+            
+            action['context'] = context
 
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
