@@ -194,7 +194,7 @@ def execute(action, **data):
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
-        context.update(eval(action.get('context', '{}'), context.copy()))
+        context.update(tools.expr_eval(action.get('context', '{}'), context.copy()))
 
         a = context.copy()
         a['time'] = time
