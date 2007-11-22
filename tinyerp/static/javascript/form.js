@@ -212,6 +212,22 @@ var submit_search_form = function(action) {
 	submit_form(action ? action : 'find');
 }
 
+var clear_search_form = function() {
+
+    if ($('search_view_notebook')) {
+
+        var fields = [];
+
+        fields = fields.concat(getElementsByTagAndClassName('input', null, 'search_view_notebook'));
+        fields = fields.concat(getElementsByTagAndClassName('textarea', null, 'search_view_notebook'));
+        fields = fields.concat(getElementsByTagAndClassName('select', null, 'search_view_notebook'));
+
+        forEach(fields, function(fld){
+            fld.value = '';
+        });
+    }
+}
+
 var pager_action = function(action, src) {
 
 	if (src)
