@@ -52,7 +52,7 @@ ListView.prototype.checkAll = function(clear){
 ListView.prototype.getSelected = function() {
     boxes = getElementsByTagAndClassName('input', 'grid-record-selector', this.id);
     result = [];
-    
+
     return filter(function(box){
         return box.name && box.checked;
     }, boxes);
@@ -168,11 +168,11 @@ ListView.prototype.onKeyDown = function(evt){
 	}
 
 	var editors = filter(function(e){return e.type != 'hidden' && !e.disabled}, this.getEditors());
-	
+
 	forEach(editors, function(e){
 	   addElementClass(e, 'listfields');
 	});
-	
+
 	editors = getElementsByTagAndClassName(null, 'listfields', this.id);
 
 	var first = editors.shift();
@@ -183,7 +183,6 @@ ListView.prototype.onKeyDown = function(evt){
 		first.focus();
 		first.select();
 	}
-
 }
 
 ListView.prototype.bindKeyEventsToEditors = function(editors){
@@ -236,8 +235,6 @@ ListView.prototype.save = function(id){
         if (hasElementClass(e, 'requiredfield'))
         	args[k] += ' required';
     });
-    
-    
 
     var req= Ajax.JSON.get('/listgrid/save', args);
 
@@ -393,7 +390,6 @@ function findPosition(elem) {
 	}
 	return {x: x, y: y};
 }
-
 
 ListView.prototype.waitGlass = function(hide){
 
