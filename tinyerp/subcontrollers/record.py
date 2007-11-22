@@ -61,7 +61,7 @@ class Record(dict):
                 self[wid.name] = wid.get_value()
 
             elif isinstance(wid, CompoundWidget):
-                self.make_record(wid)
+                self._make_record(wid)
     
         params, data = TinyDict.split(self)
         return data
