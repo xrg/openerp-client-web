@@ -114,7 +114,7 @@ class Frame(TinyCompoundWidget):
             pw = 1                                  # image width
             ww = 100.00 - sw * sn - pw * pn         # remaining width
             cn = self.columns - sn - pn             # columns - (lables + image)
-            
+
             cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
 
             if cn < 1: cn = 1
@@ -129,12 +129,12 @@ class Frame(TinyCompoundWidget):
                     c = a.get('colspan', 1)
                     if c > mx:
                         c = 1
-                        
+
                     if wid.visible:
                         w = ww * c / cn
                     else:
                         w = 0
-                    
+
                 a['width'] = '%d%%' % (w)
 
     def add_row(self):
@@ -171,10 +171,10 @@ class Frame(TinyCompoundWidget):
         attrs = {'class': 'item'}
         if rowspan > 1: attrs['rowspan'] = rowspan
         if colspan > 1: attrs['colspan'] = colspan
-        
+
         if not hasattr(widget, 'visible'):
             widget.visible = True
-            
+
         td = [attrs, widget]
         tr.append(td)
 
@@ -453,13 +453,17 @@ class Image(TinyField):
 
     template = """
         <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-            <img align="left" src="${src}" width="${size}" height="${size}"/>
+            <img py:if="not editable" align="left" src="${src}" width="${width}" height="${height}"/>
+            <img py:if="editable and id" id="${field}" border='1' alt="Click here to add new image." align="left" src="${src}" width="${width}" height="${height}" onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
         </span>
         """
 
-    params = ["src", "size"]
+    params = ["src", "width", "height", "model", "id", "field"]
     src = ""
-    size = None
+    width = 'auto'
+    height = 'auto'
+    id = None
+    field = ''
 
     def __init__(self, attrs={}):
         icon = attrs.get('name')
@@ -467,9 +471,14 @@ class Image(TinyField):
 
         TinyField.__init__(self, attrs)
 
-        self.src =  icons.get_icon(icon)
-        self.size = attrs.get('size')
-        self.size = (self.size or None) and int(self.size)
+        if 'widget' in attrs:
+            self.src = '/image/get_image?model=%s&id=%s&field=%s' % (attrs['model'], attrs['id'], self.name)
+            self.height = attrs.get('img_height', 160)
+            self.width = attrs.get('img_width', 200)
+            self.id = attrs['id']
+            self.field = self.name
+        else:
+            self.src =  icons.get_icon(icon)
 
 class Group(TinyCompoundWidget):
     template = """
@@ -571,7 +580,7 @@ class Form(TinyCompoundWidget):
 
         if ids:
             values = proxy.read(ids[:1], fields.keys(), ctx)[0]
-            self.id = ids[:1]
+            self.id = ids[0]
 
         elif 'datas' in view: # wizard data
 
@@ -668,6 +677,9 @@ class Form(TinyCompoundWidget):
 
                 if kind not in widgets_type:
                     continue
+
+                if kind == 'image':
+                    fields[name]['id'] = self.id
 
                 field = widgets_type[kind](attrs=fields[name])
 

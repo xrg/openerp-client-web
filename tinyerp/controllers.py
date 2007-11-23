@@ -203,3 +203,4 @@ class Root(controllers.RootController, TinyResource):
     calendar = subcontrollers.tinycalendar.TinyCalendar()
     calpopup = subcontrollers.tinycalendar.CalendarPopup()
     viewlog = subcontrollers.view_log.View_Log()
+    image = subcontrollers.image.Image()
