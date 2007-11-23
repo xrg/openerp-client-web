@@ -69,18 +69,21 @@ class DBAdmin(controllers.Controller):
         res=None
 
         if ((not db_name) or (not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', db_name))):
-            message = str(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + _('Bad database name !'))
+            message = str(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name !'))
         else:
             try:
                 res = rpc.session.execute_db('create', password, db_name, demo_data, language)
                 time.sleep(5) # wait for few seconds
             except Exception, e:
-                message = str(_('Bad database administrator password !') + _("Could not create database."))
+                if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
+                    message = _('Bad database administrator password !') + "\n" + _("Could not create database.")
+                else:
+                    message = _("Could not create database.") + "\n" + _('Error during database creation !')
 
         if res !=-1:
             raise redirect("/")
         else:
-            message = str(_('Bad database administrator password !') + _("Could not create database."))
+            message = _('Bad database administrator password !') + "\n" + _("Could not create database.")
 
         return dict(url=url, langlist=langlist, message=message)
 
@@ -101,14 +104,13 @@ class DBAdmin(controllers.Controller):
 
         try:
             res = rpc.session.execute_db('drop', passwd, db_name)
-        except Exception, e:
-            message = str(_('Bad database administrator password !') + _("Could not drop database."))
-
-        if res != -1:
             raise redirect("/dbadmin")
-        else:
-            message = str(_('Bad database administrator password !') + _("Could not drop database."))
-
+        except Exception, e:
+            if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
+                message = _('Bad database administrator password !') + "\n" + _("Could not drop database.")
+            else:
+                message = _("Couldn't drop database")
+            
         return dict(url=url, selectedDb=db, message=message, dblist=dblist)
 
     @expose(template="tinyerp.subcontrollers.templates.dbadmin_backup")
@@ -153,14 +155,14 @@ class DBAdmin(controllers.Controller):
             res = rpc.session.execute_db('restore', passwd, new_db, data_b64)
         except Exception, e:
             if e.faultString=='AccessDenied:None':
-                message = str(_('Bad database administrator password !'))+ str(_("Could not restore database."))
+                message = _('Bad database administrator password !') + "\n" + _("Could not restore database.")
             else:
-                message = str(_("Couldn't restore database"))
+                message = _("Couldn't restore database")
 
         if res != -1:
             raise redirect("/dbadmin")
         else:
-            message = str(_('Bad database administrator password !'))+ str(_("Could not restore database."))
+            message = _('Bad database administrator password !') + "\n" + _("Could not restore database.")
 
 
         return dict(url=url, message=message)
@@ -176,19 +178,19 @@ class DBAdmin(controllers.Controller):
             return dict(url=url, message=message)
 
         if new_passwd != new_passwd2:
-            message = str(_("Confirmation password do not match new password, operation cancelled!")+ _("Validation Error."))
+            message = _("Confirmation password do not match new password, operation cancelled!") + "\n" + _("Validation Error.")
         else:
             try:
                 res = rpc.session.execute_db('change_admin_password', old_passwd, new_passwd)
             except Exception,e:
                 if e.faultString=='AccessDenied:None':
-                    message = str(_("Could not change password database.")+_('Bas password provided !'))
+                    message = _("Could not change password database.") + "\n" + _('Bas password provided !')
                 else:
-                    message = str(_("Error, password not changed."))
+                    message = _("Error, password not changed.")
 
         if res != -1:
             raise redirect("/dbadmin")
         else:
-            message = str(_("Could not change password database.")+_('Bad password provided !'))
+            message = _("Could not change password database.") + "\n" + _('Bad password provided !')
 
         return dict(url=url, message=message)

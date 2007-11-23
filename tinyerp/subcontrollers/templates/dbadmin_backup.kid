@@ -48,7 +48,9 @@
 		        </table>
 		    </div>
 
-	        <div class="box message" id="message" py:if="message" py:content="message"/>
+	        <div class="box2 message" id="message" py:if="message">
+	            <pre py:content="message"/>
+	        </div>
         </form>
     </div>
 
