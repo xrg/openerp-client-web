@@ -453,17 +453,19 @@ class Image(TinyField):
 
     template = """
         <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-            <img py:if="not editable" align="left" src="${src}" width="${width}" height="${height}"/>
-            <img py:if="editable and id" id="${field}" border='1' alt="Click here to add new image." align="left" src="${src}" width="${width}" height="${height}" onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
+            <img py:if="stock" align="left" src="${src}" width="${width}" height="${height}"/>
+            <img py:if="not stock and id and editable" id="${field}" border='1' alt="Click here to add new image." align="left" src="${src}" width="${width}" height="${height}" onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
+            <img py:if="not stock and id and not editable" id="${field}" border='1' align="left" src="${src}" width="${width}" height="${height}"/>
         </span>
         """
 
-    params = ["src", "width", "height", "model", "id", "field"]
+    params = ["src", "width", "height", "model", "id", "field", "stock"]
     src = ""
     width = 'auto'
     height = 'auto'
     id = None
     field = ''
+    stock = True
 
     def __init__(self, attrs={}):
         icon = attrs.get('name')
@@ -472,6 +474,7 @@ class Image(TinyField):
         TinyField.__init__(self, attrs)
 
         if 'widget' in attrs:
+            self.stock = False
             self.src = '/image/get_image?model=%s&id=%s&field=%s' % (attrs['model'], attrs['id'], self.name)
             self.height = attrs.get('img_height', 160)
             self.width = attrs.get('img_width', 200)
