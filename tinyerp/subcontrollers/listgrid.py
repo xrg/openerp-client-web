@@ -108,6 +108,25 @@ class List(controllers.Controller, TinyResource):
 
         return dict(error=error)
 
+
+    @expose('json')
+    def duplicate(self, **kw):        
+        params, data = TinyDict.split(kw)
+        
+        ids = params.ids or []        
+        ctx = params.context
+        model = params.model
+        
+        proxy = rpc.RPCProxy(model)
+        
+        for id in ids:
+            try:
+                new_id = proxy.copy(id, {}, ctx)
+            except Exception, e:
+                pass
+
+        return dict()
+
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
