@@ -60,57 +60,68 @@ class DBAdmin(controllers.Controller):
         url = rpc.session.get_url()
         url = str(url[:-1])
         
-        langlist = rpc.session.execute_db('list_lang')
+        langlist = []
+        
+        try:
+            langlist = rpc.session.execute_db('list_lang')
+        except Exception, e:
+            pass
+
         langlist.append(('en_EN','English'))
 
         if not db_name:
             return dict(url=url, langlist=langlist, message=None)
 
-        res=None
+        message = None
+        res = None
 
         if ((not db_name) or (not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', db_name))):
-            message = str(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name !'))
+            message = _('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name !')
         else:
             try:
                 res = rpc.session.execute_db('create', password, db_name, demo_data, language)
                 time.sleep(5) # wait for few seconds
             except Exception, e:
                 if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
-                    message = _('Bad database administrator password !') + "\n" + _("Could not create database.")
+                    message = _('Bad database administrator password !') + "\n\n" + _("Could not create database.")
                 else:
-                    message = _("Could not create database.") + "\n" + _('Error during database creation !')
+                    message = _("Could not create database.") + "\n\n" + _('Error during database creation !')
 
-        if res !=-1:
-            raise redirect("/")
-        else:
-            message = _('Bad database administrator password !') + "\n" + _("Could not create database.")
+            if res:
+                raise redirect('/')
 
         return dict(url=url, langlist=langlist, message=message)
 
     @expose(template="tinyerp.subcontrollers.templates.dbadmin_drop")
     def drop(self, db_name=None, passwd=None):
+
         message=None
+        res = None
 
         url = rpc.session.get_url()
         url = str(url[:-1])
         db = cherrypy.request.simple_cookie.get('terp_db')
-        dblist = rpc.session.execute_db('list')
-
-        if dblist == -1:
-            dblist = []
+        dblist = []
+        
+        try:
+            dblist = rpc.session.execute_db('list')
+        except:
+            pass
 
         if not db_name:
             return dict(url=url, selectedDb=db, message=message, dblist=dblist)
 
         try:
             res = rpc.session.execute_db('drop', passwd, db_name)
-            raise redirect("/dbadmin")
         except Exception, e:
             if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
-                message = _('Bad database administrator password !') + "\n" + _("Could not drop database.")
+                message = _('Bad database administrator password !') + "\n\n" + _("Could not drop database.")
             else:
                 message = _("Couldn't drop database")
-            
+        
+        if res:
+            raise redirect("/dbadmin")
+
         return dict(url=url, selectedDb=db, message=message, dblist=dblist)
 
     @expose(template="tinyerp.subcontrollers.templates.dbadmin_backup")
@@ -118,25 +129,28 @@ class DBAdmin(controllers.Controller):
 
         url = rpc.session.get_url()
         url = str(url[:-1])
-        db= cherrypy.request.simple_cookie.get('terp_db')
+        db = cherrypy.request.simple_cookie.get('terp_db')
 
-        dblist_load = rpc.session.execute_db('list')
-        message=None
+        dblist_load = []
+        try:
+            dblist_load = rpc.session.execute_db('list')
+        except:
+            pass
 
         if not dblist:
-            return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
+            return dict(url=url, dblist=dblist_load, selectedDb=db, message=None)
+
+        message=None
+        res = None
 
         try:
             res = rpc.session.execute_db('dump', password, dblist)
-            dump = base64.decodestring(res)
         except Exception, e:
             message = _("Could not create backup.")
 
-        if res != -1:
+        if res:
             cherrypy.response.headers['Content-Type'] = "application/data"
-            return dump
-        else:
-            message = _("Could not create backup.")
+            return base64.decodestring(res)
 
         return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
 
@@ -145,25 +159,24 @@ class DBAdmin(controllers.Controller):
 
         url = rpc.session.get_url()
         url = str(url[:-1])
-        message=None
-
+        
         if path is None:
-            return dict(url=url, message=message)
+            return dict(url=url, message=None)
+
+        message = None
+        res = None
 
         try:
             data_b64 = base64.encodestring(path.file.read())
             res = rpc.session.execute_db('restore', passwd, new_db, data_b64)
         except Exception, e:
             if e.faultString=='AccessDenied:None':
-                message = _('Bad database administrator password !') + "\n" + _("Could not restore database.")
+                message = _('Bad database administrator password !') + "\n\n" + _("Could not restore database.")
             else:
                 message = _("Couldn't restore database")
 
-        if res != -1:
+        if res:
             raise redirect("/dbadmin")
-        else:
-            message = _('Bad database administrator password !') + "\n" + _("Could not restore database.")
-
 
         return dict(url=url, message=message)
 
@@ -172,25 +185,25 @@ class DBAdmin(controllers.Controller):
 
         url = rpc.session.get_url()
         url = str(url[:-1])
-        message=None
+
+        message = None
+        res = None
 
         if not new_passwd:
             return dict(url=url, message=message)
 
         if new_passwd != new_passwd2:
-            message = _("Confirmation password do not match new password, operation cancelled!") + "\n" + _("Validation Error.")
+            message = _("Confirmation password do not match new password, operation cancelled!") + "\n\n" + _("Validation Error.")
         else:
             try:
                 res = rpc.session.execute_db('change_admin_password', old_passwd, new_passwd)
             except Exception,e:
                 if e.faultString=='AccessDenied:None':
-                    message = _("Could not change password database.") + "\n" + _('Bas password provided !')
+                    message = _("Could not change password database.") + "\n\n" + _('Bas password provided !')
                 else:
                     message = _("Error, password not changed.")
 
-        if res != -1:
+        if res:
             raise redirect("/dbadmin")
-        else:
-            message = _("Could not change password database.") + "\n" + _('Bad password provided !')
 
         return dict(url=url, message=message)

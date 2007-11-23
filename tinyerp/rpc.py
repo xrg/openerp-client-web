@@ -178,11 +178,7 @@ class XMLRPCGateway(RPCGateway):
 
     def execute_db(self, method, *args):
         sock = xmlrpclib.ServerProxy(self.url + 'db')
-        try:
-            result = getattr(sock, method)(*args)
-            return result
-        except Exception, e:
-            return -1
+        return getattr(sock, method)(*args)
 
 class NETRPCGateway(RPCGateway):
     """NETRPC Implementation.
@@ -234,14 +230,11 @@ class NETRPCGateway(RPCGateway):
 
     def execute_db(self, method, *args):
         sock = tiny_socket.mysocket()
-        try:
-            sock.connect(self.host, self.port)
-            sock.mysend(('db', method) + args)
-            res = sock.myreceive()
-            sock.disconnect()
-            return res
-        except Exception, e:
-            return -1
+        sock.connect(self.host, self.port)
+        sock.mysend(('db', method) + args)
+        res = sock.myreceive()
+        sock.disconnect()
+        return res
 
 class RPCSession(object):
     """This is a wrapper class that provides Pythonic way to handle RPC (remote procedure call).
