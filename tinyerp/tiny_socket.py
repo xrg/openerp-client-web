@@ -31,10 +31,13 @@ import socket
 import cPickle
 import marshal
 
+DNS_CACHE = {}
+
 class Myexception(Exception):
 	def __init__(self, faultCode, faultString):
 		self.faultCode = faultCode
 		self.faultString = faultString
+		self.args = (faultCode, faultString)
 
 class mysocket:
 	def __init__(self, sock=None):
@@ -43,12 +46,15 @@ class mysocket:
 			socket.AF_INET, socket.SOCK_STREAM)
 		else:
 			self.sock = sock
-		self.sock.settimeout(60)
+		self.sock.settimeout(120)
 	def connect(self, host, port=False):
 		if not port:
 			protocol, buf = host.split('//')
 			host, port = buf.split(':')
+		if host in DNS_CACHE:
+			host = DNS_CACHE[host]
 		self.sock.connect((host, int(port)))
+		DNS_CACHE[host], port = self.sock.getpeername()
 	def disconnect(self):
 		self.sock.shutdown(socket.SHUT_RDWR)
 		self.sock.close()
