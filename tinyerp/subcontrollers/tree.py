@@ -120,9 +120,6 @@ class Tree(controllers.Controller, TinyResource):
         ctx = {}
         ctx.update(rpc.session.context.copy())
 
-        if not ids:
-            ids = proxy.search(domain, 0, 0, 0, ctx)
-
         if icon_name:
             fields.append(icon_name)
 
