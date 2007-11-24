@@ -79,20 +79,16 @@
             list_view = window.opener.document.getElementById('${params.source}');
 
             list_view = new ListView(list_view);
-            list_new = new ListView('_terp_list');
+            list_this = new ListView('_terp_list');
 
-            ids = [];
-
-            boxes = list_view.getSelected();
-
-            forEach(boxes, function(b){
-                ids.push(b.value);
-            });
+            ids = map(function(box){
+                return box.value;
+            }, list_view.getSelected());
 
             if (id){
                 if (findValue(ids, id) == -1) ids.push(id);
             } else {
-                boxes = list_new.getSelected();
+                boxes = list_this.getSelected();
 
                 if(boxes.length == 0) {
                 	alert("No record selected...");
@@ -103,32 +99,10 @@
                     if (findValue(ids, b.value) == -1) ids.push(b.value);
                 });
             }
-
-		    list_id = $('_terp_source').value;
-
-			if(window.opener &amp;&amp; !window.opener.document.getElementById('${params.source}' + '_container')) {
-				window.opener.document.getElementById('${params.source}' + '_set').value = '(' + ids.length + ')';
-				ids = '[' + ids + ']';
-				window.opener.document.getElementById('${params.source}').value = ids;
-
-				window.setTimeout('window.close()', 0);
-			}
-
-			else {
-
-	            req = doSimpleXMLHttpRequest(getURL('/search/get_list', {model: '${params.model}', ids : '[' + ids + ']', list_id: list_id}));
-
-	            req.addCallback(function(xmlHttp) {
-	                res = xmlHttp.responseText;
-
-	                list_view = window.opener.document.getElementById('${params.source}' + '_container');
-	                list_view.innerHTML = res;
-	                c = window.opener.document.getElementById('${params.source}'+'_set');
-	                c.onchange(null);
-
-	                window.setTimeout('window.close()', 0);
-	            });
-        	}
+            
+            expr = "var m2m = getElement('${params.source}' + '_id');" + "m2m.value = '" + ids.join(',') + "'; m2m.onchange();";
+		    window.opener.setTimeout(expr, 1);
+		    window.close();
         }
     </script>
 </head>

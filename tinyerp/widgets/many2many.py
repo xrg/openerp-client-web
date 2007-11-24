@@ -44,6 +44,7 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
 
     template = "tinyerp.widgets.templates.many2many"
     params = ['relation', 'domain', 'context', 'inline']
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/m2m.js", location=tg.widgets.js_location.bodytop)]
 
     relation = None
     domain = []
