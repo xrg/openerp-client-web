@@ -16,9 +16,7 @@
 
 		addLoadEvent(function(evt){
 			img = window.opener.document.getElementById('${field}');
-			img2 = IMG({src: img.src});
-			img.src = "";
-    	    img.src = img2.src;
+			img.src = img.src + '&amp;' + Math.random();
         });
 
     </script>
