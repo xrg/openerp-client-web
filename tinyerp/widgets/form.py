@@ -461,8 +461,8 @@ class Image(TinyField):
 
     params = ["src", "width", "height", "model", "id", "field", "stock"]
     src = ""
-    width = 'auto'
-    height = 'auto'
+    width = 32
+    height = 32
     id = None
     field = ''
     stock = True
