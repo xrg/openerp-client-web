@@ -27,7 +27,7 @@
         </td>
     </tr>
     
-    <script type="text/javascript">
+    <script type="text/javascript" py:if="editable">
         new Many2Many('${list_view.name}');
     </script>
 </table>
