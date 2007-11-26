@@ -24,15 +24,15 @@
 	    left: 10px;
     	top: 1px;
 	}
-	</style>        
+	</style>
 	<![endif]-->
-    
+
     <!--[if IE]>
         <link href="/static/css/style-ie.css" rel="stylesheet" type="text/css"/>
     <![endif]-->
-	
+
 	<title py:replace="''">Your title goes here</title>
-	<script type="text/javascript" src="/static/javascript/master.js"></script>    
+	<script type="text/javascript" src="/static/javascript/master.js"></script>
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
 </head>
@@ -50,7 +50,7 @@ requests, requests_message = tg.root.requests.my()
 	    	<table id="header" class="header" cellpadding="0" cellspacing="0">
 				<tr>
 					<td rowspan="2">
-						<img src="/static/images/tiny_good.png" alt="${_('Tiny ERP logo')}" border="0" width="205px" height="58px" usemap="#logo_map"/>
+						<img src="/static/images/tiny_logo.png" alt="${_('Tiny ERP logo')}" border="0" width="205px" height="58px" usemap="#logo_map"/>
 						<map name="logo_map">
 							<area shape="rect" coords="90,39,124,54" href="http://tinyerp.com" target="_blank"/>
 							<area shape="rect" coords="131,38,172,54" href="http://axelor.com" target="_blank"/>
@@ -72,7 +72,7 @@ requests, requests_message = tg.root.requests.my()
 					</td>
 				</tr>
 				<tr>
-					<td align="right" valign="top">						
+					<td align="right" valign="top">
 	                    <div py:if="rpc.session.is_logged()">
                             Requests: <a href="${tg.query('/requests', ids=requests)}">${requests_message}</a>&nbsp;&nbsp;
                         </div>
@@ -90,7 +90,7 @@ requests, requests_message = tg.root.requests.my()
 									<a href="/shortcuts">SHORTCUTS</a>
 								</td>
 								<td width="35" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
-								<td py:if="rpc.session.is_logged()" nowrap="nowrap">								
+								<td py:if="rpc.session.is_logged()" nowrap="nowrap">
 								    <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6" nowrap="nowrap">
