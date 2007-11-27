@@ -71,15 +71,16 @@ Configuration:
     Locate the `config/app.cfg` in the installed `eTiny! egg`, and make 
     appropriate changes, especially:
 
-    tiny.server = "localhost"
-    tiny.port = 8070
-    tiny.protocol = "socket"
+    [tinyerp]
+    server = "localhost"
+    port = 8070
+    protocol = "socket"
 
     where:
 
-    tiny.server is the Tiny ERP server host...
-    tiny.port is the Tiny ERP server port...
-    tiny.protocol is the protocol to be used (socket, http or https)
+    server is the Tiny ERP server host...
+    port is the Tiny ERP server port...
+    protocol is the protocol to be used (socket, http or https)
 
 If everything is installed properly, start the eTiny! HTTP server running 
 the `start-tinyerp.py` script from the command line. 
@@ -149,15 +150,16 @@ Configuration:
     Locate the `config/app.cfg` in the installed `eTiny! egg`, and make 
     appropriate changes, especially:
 
-    tiny.server = "localhost"
-    tiny.port = 8070
-    tiny.protocol = "socket"
+    [tinyerp]
+    server = "localhost"
+    port = 8070
+    protocol = "socket"
 
     where:
 
-    tiny.server is the Tiny ERP server host...
-    tiny.port is the Tiny ERP server port...
-    tiny.protocol is the protocol to be used (socket, http or https)
+    server is the Tiny ERP server host...
+    port is the Tiny ERP server port...
+    protocol is the protocol to be used (socket, http or https)
 
 If everything is installed properly, start the eTiny! HTTP server running 
 the `start-tinyerp.py` script from the command line. 
