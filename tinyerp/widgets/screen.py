@@ -147,7 +147,8 @@ class Screen(TinyCompoundWidget):
                                     editable=self.editable,
                                     nodefault=self.nodefault, nolinks=self.link)
             
-            self.ids = (self.id or []) and [self.id]
+            if not self.ids:
+                self.ids = (self.id or []) and [self.id]
 
         elif view_type == 'tree':
             self.widget = listgrid.List(self.name or '_terp_list',
