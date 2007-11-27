@@ -52,27 +52,32 @@ from tinyerp.utils import TinyParent
 
 def make_domain(name, value):
 
-    if not value:
-        return []
+    if isinstance(value, int) and not isinstance(value, bool):
+        return [(name, '=', value)]
 
-    elif isinstance(value, dict):
+    if isinstance(value, dict):
 
         start = value.get('from')
         end = value.get('to')
 
         if start and end:
             return [(name, '>=', start), (name, '<=', end)]
+
         elif start:
             return [(name, '>=', start)]
+
         elif end:
             return [(name, '<=', end)]
+
         return None
 
-    elif isinstance(value, (int, bool)):
-        return [(name, '=', int(value))]
-
-    else:
+    if isinstance(value, basestring) and value:
         return [(name, 'ilike', value)]
+
+    if isinstance(value, bool) and value:
+        return [(name, '=', 1)]
+
+    return []
 
 from turbogears import validate, validators
 
@@ -87,6 +92,7 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
 
     for k, v in data.items():
         t = make_domain(k, v)
+
         if t:
             search_domain += t
             search_data[k] = v
@@ -100,7 +106,7 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     proxy = rpc.RPCProxy(model)
     ctx = rpc.session.context.copy()
     ctx.update(context)
-        
+
     ids = proxy.search(search_domain, o, l, 0, ctx)
     count = proxy.search_count(search_domain, ctx)
 
@@ -207,7 +213,7 @@ class Search(controllers.Controller, TinyResource):
             data = params.search_data
 
         res = search(params.model, o, l, domain=params.domain, data=data)
-        
+
         params.ids = res['ids']
         params.offset = res['offset']
         params.limit = res['limit']

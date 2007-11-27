@@ -183,6 +183,7 @@ class Search(TinyCompoundWidget):
 
                 if kind == 'boolean':
                     field.options = [[1,'Yes'],[0,'No']]
+                    field.validator.if_empty = ''
 
                 if values.has_key(name) and isinstance(field, (TinyInputWidget, RangeWidget)):
                     field.set_value(values[name])
