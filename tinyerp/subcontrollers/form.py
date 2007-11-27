@@ -629,22 +629,21 @@ class Form(controllers.Controller, TinyResource):
         if not action:
             return self.do_action('client_action_multi', datas=kw)
 
-        if not params.id:
+        if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the relate button !'))
 
         from tinyerp.subcontrollers import actions        
         from tinyerp.subcontrollers import record
 
-        ids = params.ids
-        if isinstance(ids, basestring):
-            ids = ids.split(',')
-            ids = [int(i) for i in ids]
-            
-        if not isinstance(ids, list):
-            ids = [ids]
-
-        id = ids[0]
+        id = params.id or False
+        ids = params.selection or []
         
+        if not ids and id:
+            ids = [id]
+
+        if not id and ids:
+            id = ids[0]
+
         params.ids = ids
         params.id = id
         

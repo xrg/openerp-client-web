@@ -166,6 +166,11 @@ var submit_form = function(action, src, data){
 
     form = $("view_form");
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
+    
+    args = {
+        _terp_source: source,
+        _terp_data: data ? data : null
+    };
 
     if (action == 'action' && $('_terp_list')){
     	var list = new ListView('_terp_list');
@@ -176,18 +181,14 @@ var submit_form = function(action, src, data){
     	}
 
     	ids = map(function(b){return b.value}, boxes);
-    	
-    	form._terp_ids.value = '[' + ids.join(',') + ']';
-    	form._terp_id.value = ids[0] || 'False';    	
+    	args['_terp_selection'] = '[' + ids.join(',') + ']';
     }
 
     if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {
         action =  action + '/report.pdf'
     }
-    
-    var act = get_form_action(action, {_terp_source: source, _terp_data: data ? data : null});
-    
-    form.attributes['action'].value = act;
+     
+    form.attributes['action'].value = get_form_action(action, args);
     form.submit();
 }
 
