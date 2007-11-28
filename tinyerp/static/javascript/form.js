@@ -165,6 +165,8 @@ var submit_form = function(action, src, data){
     }
 
     form = $("view_form");
+    setNodeAttribute(form, 'target', '');
+
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
     
     args = {
@@ -182,6 +184,10 @@ var submit_form = function(action, src, data){
 
     	ids = map(function(b){return b.value}, boxes);
     	args['_terp_selection'] = '[' + ids.join(',') + ']';
+    }
+
+    if (action == 'report' || (action == 'action' && data)){
+        setNodeAttribute(form, 'target', '_blank');
     }
 
     if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {
