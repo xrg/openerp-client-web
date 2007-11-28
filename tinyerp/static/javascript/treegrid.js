@@ -62,7 +62,7 @@ TreeGrid.prototype._on_select_row = function(evt) {
 
     var trg = evt.target();
 
-    if (findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
+    if (trg.localName == 'A' || findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
         return;
     }
 
