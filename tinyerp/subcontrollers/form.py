@@ -650,15 +650,18 @@ class Form(controllers.Controller, TinyResource):
         domain = action.get('domain')
         context = action.get('context')
         
+        ctx = {'active_id': id, 'active_ids': ids}
         rec = None
         if domain:
             if not rec: rec = record.Record(params)
+            rec.update(ctx)
             domain = rec.expr_eval(domain, rec)
             
             action['domain'] = domain
             
         if context:
             if not rec: rec = record.Record(params)
+            rec.update(ctx)
             context = rec.expr_eval(context, rec)
             
             action['context'] = context
