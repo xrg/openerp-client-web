@@ -148,13 +148,13 @@ var switchView = function(view_type, src){
 
     var prefix = src ? src + '/' : '';
     var form = $("view_form");
-    
+
     var params = {
         '_terp_source': src,
         '_terp_source_view_type': view_type
     }
 
-    form.attributes['action'].value = get_form_action('switch', params);
+    setNodeAttribute(form, 'action', get_form_action('switch', params));
     form.submit();
 }
 
@@ -168,7 +168,7 @@ var submit_form = function(action, src, data){
     setNodeAttribute(form, 'target', '');
 
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
-    
+
     args = {
         _terp_source: source,
         _terp_data: data ? data : null
@@ -177,9 +177,9 @@ var submit_form = function(action, src, data){
     if (action == 'action' && $('_terp_list')){
     	var list = new ListView('_terp_list');
     	var boxes = list.getSelected();
-    	
+
     	if (boxes.length == 0) {
-    	   return alert('You must select at least one record.');  
+    	   return alert('You must select at least one record.');
     	}
 
     	ids = map(function(b){return b.value}, boxes);
@@ -193,8 +193,8 @@ var submit_form = function(action, src, data){
     if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {
         action =  action + '/report.pdf'
     }
-     
-    form.attributes['action'].value = get_form_action(action, args);
+
+    setNodeAttribute(form, 'action', get_form_action(action, args));
     form.submit();
 }
 
@@ -239,13 +239,13 @@ var duplicate_records = function() {
 
 	var list = new ListView('_terp_list');
 	var boxes = list.getSelected();
-	
+
 	if (boxes.length == 0) {
-	   return alert('You must select at least one record.');  
+	   return alert('You must select at least one record.');
 	}
-	
+
 	ids = map(function(b){return b.value}, boxes);
-	
+
     return list.duplicate(ids, getElement('_terp_context').value);
 }
 
@@ -262,7 +262,8 @@ var submit_value = function(action, src, data){
     form = $("view_form");
     source = src ? (typeof(src) == "string" ? src : src.name) : null;
 
-    form.attributes['action'].value = '/openm2o/save';
+    setNodeAttribute(form, 'action', '/openm2o/save');
+
     form.submit();
 }
 
@@ -293,7 +294,8 @@ var buttonClicked = function(name, btype, model, id, sure){
     params['_terp_button/id'] = id;
 
     form = $("view_form");
-    form.attributes['action'].value = get_form_action('save', params);
+    setNodeAttribute(form, 'action', get_form_action('save', params));
+
     form.submit();
 }
 
@@ -405,13 +407,13 @@ var onChange = function(name) {
 
                 if ((fld.value != value) || flag) {
                 	fld.value = value;
-                	
+
                 	var kind = getNodeAttribute(fld, 'kind');
-                	
+
                 	if (kind == 'many2one' || kind == 'reference'){
                 	   getName(fld);
                 	}
-                	
+
                 	if (kind == 'many2many'){
                 	   fld.onchange();
                 	}
@@ -433,7 +435,7 @@ function getName(name, relation){
 
     var value_field = $(name);
     var text_field = $(value_field.name + '_text');
-    
+
     relation = relation ? relation : getNodeAttribute(value_field, 'relation');
 
     if (value_field.value == ''){

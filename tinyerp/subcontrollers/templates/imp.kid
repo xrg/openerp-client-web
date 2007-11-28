@@ -1,66 +1,66 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
-    <title>Import Data</title>    
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>        
+    <title>Import Data</title>
+    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
-    
+
     <style type="text/css">
         .fields-selector {
             width: 100%;
             height: 300px;
         }
-        
+
         .fields-selector-left {
             width: 45%;
         }
-        
+
         .fields-selector-center {
             width: 10%;
-        }        
-        
+        }
+
         .fields-selector-right {
             width: 45%;
         }
-        
+
         .fields-selector select {
             width: 100%;
             height: 100%;
         }
-        
+
         .fields-selector button {
             width: 100%;
             margin: 5px 0px;
         }
     </style>
-    
+
     <script type="text/javascript">
         function add_fields(){
-            
+
             var prefix = ${tree.field_id}.id + '_row_';
             var fields = ${tree.field_id}.selection;
-            
+
             var select = $('fields');
-            
+
             var opts = {};
             forEach($('fields').options, function(o){
                 opts[o.value] = o;
             });
-            
+
             forEach(fields, function(f){
                 var text = f.getElementsByTagName('a')[0].innerHTML;
-                var id = f.id.replace(prefix, ''); 
-                
-                if (id in opts) return;                
+                var id = f.id.replace(prefix, '');
+
+                if (id in opts) return;
 
                 select.options.add(new Option(text, id));
             });
-        } 
-        
+        }
+
         function del_fields(all){
-        
+
             var fields = filter(function(o){return o.selected;}, $('fields').options);
-        
+
             if (all){
                 $('fields').innerHTML = '';
             } else {
@@ -69,33 +69,33 @@
                 });
             }
         }
-        
+
         function do_import(form){
-            
+
             var options = $('fields').options;
-            
+
             forEach(options, function(o){
                 o.selected = true;
             });
-            
+
             form.target = "detector";
-            
-            form.attributes['action'].value = '/impex/import_data';
+
+            setNodeAttribute(form, 'action', '/impex/import_data');
             form.submit();
         }
-        
+
         function on_detector(src){
             var d = $("detector");
-                        
+
             if (d.contentDocument)
                 d = d.contentDocument;
             else if (d.contentWindow)
                 d = d.contentWindow.document;
             else
                 d = d.document;
-                
+
             var f = d.getElementById('fields');
-          
+
             if (f) {
                 $('fields').innerHTML = '';
                 forEach(f.options, function(o){
@@ -104,32 +104,32 @@
             } else {
                 f = d.getElementsByTagName('pre');
                 if (f[0]) alert(f[0].innerHTML);
-            }                
+            }
         }
-        
+
         function do_autodetect(form){
-        
+
             if (! $('csvfile').value ){
                 return alert('You must select an import file first !');
-            }                
-            
+            }
+
             form.target = "detector";
 
-            form.attributes['action'].value = '/impex/detect_data';
+            setNodeAttribute(form, 'action','/impex/detect_data');
             form.submit();
         }
 
-    </script>    
+    </script>
 </head>
 <body>
-    
+
 <form action="/impex/import_data" method="post" enctype="multipart/form-data">
-    
+
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="[]"/>
     <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
-        
+
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
@@ -144,7 +144,7 @@
             </td>
         </tr>
 		<tr>
-            <td>                
+            <td>
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">All fields</th>
@@ -186,7 +186,7 @@
                     <table>
                         <tr>
                             <td class="label">Separator: </td>
-                            <td><input type="text" name="csvsep" value=","/></td>                            
+                            <td><input type="text" name="csvsep" value=","/></td>
                             <td class="label">Delimiter: </td>
                             <td><input type="text" name="csvdel" value='"'/></td>
                         </tr>
@@ -197,11 +197,11 @@
                                     <option value="utf-8">UTF-8</option>
                                     <option value="latin1">Latin 1</option>
                                 </select>
-                            </td>                            
+                            </td>
                             <td class="label">Lines to skip: </td>
                             <td><input type="text" name="csvskip" value="1"/></td>
                         </tr>
-                    </table>                   
+                    </table>
                 </fieldset>
             </td>
         </tr>

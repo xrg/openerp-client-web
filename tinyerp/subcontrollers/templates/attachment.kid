@@ -3,52 +3,52 @@
 <head>
     <title>Attachments</title>
     <script type="text/javascript">
-    
+
         function do_select(id, src){
             var radio = $(src + '/' + id);
             radio.checked = true;
-            
+
             do_save(document.forms[0]);
         }
-        
+
         function do_upload(form){
-            form.attributes['action'].value = '/attachment/add';
+            setNodeAttribute(form, 'action', '/attachment/add');
             form.submit();
         }
-        
+
         function do_save(form){
 
             var list = new ListView('_terp_list');
             var boxes = list.getSelected();
-            
+
             if (boxes.length == 0){
                 alert('Please select a resouce...');
-                return;                
+                return;
             }
-            
+
             var id = boxes[0].value;
-            
+
             var p = boxes[0].parentNode.parentNode;
             var a = getElementsByTagAndClassName('a', null, p)[0];
-            
+
             var fname = '/' + a.innerHTML;
-            
-            form.attributes['action'].value = getURL('/attachment/save' + fname, {record: id});
-            form.submit();           
+
+            setNodeAttribute(form, 'action', getURL('/attachment/save' + fname, {record: id}));
+            form.submit();
         }
 
         function do_delete(form){
             var list = new ListView('_terp_list');
             var boxes = list.getSelected();
-            
+
             if (boxes.length == 0){
                 alert('Please select a resouce...');
-                return;                
+                return;
             }
-            
+
             var id = boxes[0].value;
-            
-            form.attributes['action'].value = getURL('/attachment/delete', {record: id});
+
+            setNodeAttribute(form, 'action', getURL('/attachment/delete', {record: id}));
             form.submit();
         }
     </script>
@@ -80,13 +80,13 @@
                                 <td><input type="file" id="uploadfile" name="uploadfile" onchange="do_upload(form)"/></td>
                                 <td width="100%"></td>
                                 <td><button type="button" onclick="do_save(form)">Save As</button></td>
-                                <td><button type="button" onclick="do_delete(form)">Delete</button></td>                            
+                                <td><button type="button" onclick="do_delete(form)">Delete</button></td>
                             </tr>
                         </table>
                     </form>
                 </div>
             </td>
-        </tr>        
+        </tr>
 		<tr>
             <td py:content="screen.display()">List View</td>
         </tr>

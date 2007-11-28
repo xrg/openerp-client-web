@@ -97,7 +97,7 @@
             $('_terp_ids').value = '[' + ids.join(',') + ']';
             $('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            form.attributes['action'].value = '/impex/export_data/data.' + $('export_as').value;
+            setNodeAttribute(form, 'action', '/impex/export_data/data.' + $('export_as').value);
             form.submit();
         }
     </script>

@@ -8,12 +8,12 @@
         function submit_form(action){
             var form = $('tree_view');
 
-            form.attributes['action'].value = '/tree/' + action;
+			setNodeAttribute(form, 'action', '/tree/' + action);
             form.method = 'post';
 
             form.submit();
         }
-        
+
         function button_click(id){
             location.href = getURL('/tree', {id : id, model : $('_terp_model').value, domain: $('_terp_domain').value});
         }
@@ -38,15 +38,15 @@
                         </td>
                         <td align="center" valign="middle" width="16">
                             <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/help.png" width="16" height="16"/></a>
-                        </td>                    
+                        </td>
                     </tr>
                 </table>
             </div>
-        </td>        
+        </td>
     </tr>
     <tr><td height="4px"></td></tr>
     <tr>
-	   <td>    
+	   <td>
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                     <td py:if="tree.toolbar" class="treebar" valign="top" style="padding-right: 4px">

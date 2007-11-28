@@ -7,7 +7,7 @@
 
         function submit_search_form(action){
             form = $('search_form');
-            form.attributes['action'].value = action;
+            setNodeAttribute(form, 'action', action);
 
             disable_hidden_search_fields();
 
@@ -99,7 +99,7 @@
                     if (findValue(ids, b.value) == -1) ids.push(b.value);
                 });
             }
-            
+
             expr = "var m2m = getElement('${params.source}' + '_id');" + "m2m.value = '" + ids.join(',') + "'; m2m.onchange();";
 		    window.opener.setTimeout(expr, 1);
 		    window.close();

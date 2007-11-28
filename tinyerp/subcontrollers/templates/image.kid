@@ -5,12 +5,12 @@
     <script type="text/javascript">
 
     	function do_delete(form, id, field){
-            form.attributes['action'].value = getURL('/image/delete', {id: id});
+            setNodeAttribute(form, 'action', getURL('/image/delete', {id: id}));
             form.submit();
         }
 
         function do_save(form, id){
-            form.attributes['action'].value = getURL('/image/save_as', {id: id});
+            setNodeAttribute(form, 'action', getURL('/image/save_as', {id: id}));
             form.submit();
         }
 
