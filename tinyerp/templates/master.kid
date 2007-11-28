@@ -56,17 +56,17 @@ requests, requests_message = tg.root.requests.my()
                             <area shape="rect" coords="131,38,172,54" href="http://axelor.com" target="_blank"/>
                         </map>
                     </td>
-                    <td align="right" valign="top" height="24" nowrap="nowrap">
-                        <table class="menu_connection" cellpadding="0" cellspacing="0">
+                    <td align="right" valign="top" nowrap="nowrap">
+                        <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td>
                                     <img src="/static/images/tinyerp_small.png" title="Tiny ERP - Open Source Management Soution" border="0" width="84" height="24"/>
                                 </td>
-                                <td width="26" nowrap="nowrap">
-                                    <img src="/static/images/diagonal_right.gif"/>
+                                <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
+                                    <div style="width: 26px;"/>
                                 </td>
-                                <td class="menu_connection_welcome">Welcome <span>${rpc.session.user_name or 'guest'}</span></td>
-                                <td class="menu_connection_links">
+                                <td class="menu_connection_welcome" nowrap="norwap">Welcome <span>${rpc.session.user_name or 'guest'}</span></td>
+                                <td class="menu_connection_links" nowrap="norwap">
                                     <a href="/">Home</a>
                                     <a href="/pref/create/">Preferences</a>
                                     <a href="/about">About</a>
