@@ -231,7 +231,7 @@ ListView.prototype.save = function(id){
         var r = '_terp_required/' + n.join('/');
 
         args[f] = e.value;
-        args[k] = e.attributes['kind'].value;
+        args[k] = getNodeAttribute(e, 'kind');
         if (hasElementClass(e, 'requiredfield'))
         	args[k] += ' required';
     });
@@ -247,7 +247,7 @@ ListView.prototype.save = function(id){
            if (obj.error_field) {
                var fld = getElement('_terp_listfields/' + obj.error_field);
 
-               if (fld && fld.attributes['kind'].value == 'many2one')
+               if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
                		fld = getElement(fld.id + '_text');
 
                if (fld) {

@@ -109,24 +109,21 @@ function do_resortTable(lnk) {
     var spantext = get_innerText(span);
     var td = lnk.parentNode;
 
-    if(td.attributes){
-        if(td.attributes['kind']);
-            click_kind = td.attributes['kind'].value;
-    }
+    var click_kind = getNodeAttribute(td, 'kind');
 
     var column = td.cellIndex;
 
-    var table = getParent(td,'TABLE');
+    var table = getParent(td, 'TABLE');
 
-    rows = getElementsByTagAndClassName("tr","grid-row", table);
+    var rows = getElementsByTagAndClassName("tr","grid-row", table);
 
-    var record_ids = new Array();
+    var record_ids = map(function(e){
+    	return getNodeAttribute(e, 'record');
+    }, rows);
 
-    forEach(rows, function(e) {
-        if(e.attributes['record']) {
-            record_ids.push(e.attributes['record'].value);
-        }
-    });
+    record_ids = filter(function(e){
+    	return e != null;
+    }, record_ids);
 
     record_ids = '[' + record_ids.join(',') + ']';
 

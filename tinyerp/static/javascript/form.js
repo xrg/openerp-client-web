@@ -312,7 +312,7 @@ var get_parent_form = function(name) {
             	var k = '_terp_parent_types/' + n.join('/');
 
     	        frm[f] = e.value;
-        	    frm[k] = e.attributes['kind'].value;
+        	    frm[k] = getNodeAttribute(e, 'kind');
 	        }
     	});
 	} else {
@@ -324,9 +324,7 @@ var get_parent_form = function(name) {
 
 			if (n.indexOf('_terp_') == -1 && e.type != 'button'){
             	frm['_terp_parent_form/' + n] = e.value;
-	            if (e.attributes['kind']){
-    	            frm['_terp_parent_types/' + n] = getNodeAttribute(e, 'kind');
-        	    }
+    	        frm['_terp_parent_types/' + n] = getNodeAttribute(e, 'kind');
 	        }
     	});
 	}
@@ -452,19 +450,8 @@ function eval_domain_context_request(options){
     forEach(form.elements, function(e){
 
         if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button') {
-
-           	var n = n = '_terp_parent_form/' + e.name;
-           	var v = e.value;
-
-            params[n] = v;
-
-            if (e.attributes['kind']){
-
-                n = '_terp_parent_types/' + e.name;
-                v = e.attributes['kind'].value;
-
-                params[n] = v;
-          	}
+            params['_terp_parent_form/' + e.name] = e.value;
+			params['_terp_parent_types/' + e.name] = getNodeAttribute(e, 'kind');
     	}
     });
 
@@ -589,8 +576,8 @@ var m2oContextMenu = function(src){
 	src = $(src);
 
 	var val = $(src.id).value;
-	var kind = src.attributes['kind'].value;
-	var relation = src.attributes['relation'] ? src.attributes['relation'].value : null;
+	var kind = getNodeAttribute(src, 'kind');
+	var relation = getNodeAttribute(src, 'relation');
 
 	hideElement(menu);
 
@@ -605,7 +592,7 @@ var m2oContextMenu = function(src){
 
 function set_to_default(field, model){
 
-	var kind = $(field).attributes['kind'].value;
+	var kind = getNodeAttribute($(field), 'kind');
 
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
@@ -619,7 +606,8 @@ function set_to_default(field, model){
 }
 
 function set_as_default(field, model){
-	var kind = $(field).attributes['kind'].value;
+
+	var kind = getNodeAttribute($(field), 'kind');
 
 	var args = get_parent_form();
 	args['_terp_model'] = model;
@@ -657,7 +645,7 @@ function do_print(id, relation) {
 function do_relate(action_id, field, relation, src) {
 
     var id = $(field).value;
-    var data = src.attributes['data'].value;
+    var data = getNodeAttribute(src, 'data');
 
     var act = get_form_action('action');
     var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
