@@ -142,7 +142,7 @@
                                     </td>
                                 </tr>
                                 <tr py:for="item in form.screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
-                                    <td colspan="5">
+                                    <td>
                                         <a href="javascript: void(0)">${item['string']}</a>
                                     </td>
                                 </tr>
@@ -166,7 +166,7 @@
                                     </td>
                                 </tr>
                                 <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
-                                    <td colspan="5">
+                                    <td>
                                         <a href="javascript: void(0)">${item['string']}</a>
                                     </td>
                                 </tr>
