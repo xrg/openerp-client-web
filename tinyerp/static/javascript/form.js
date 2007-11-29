@@ -544,7 +544,9 @@ var showContextMenu = function(){
 
 	showElement(menu);
 
-	if (ifrm){
+	var isIE = /msie/.test(navigator.userAgent.toLowerCase());
+
+	if (isIE && ifrm){
 
 		ifrm.style.left = menu.offsetLeft + "px";
 		ifrm.style.top = menu.offsetTop + "px";
@@ -560,7 +562,9 @@ var hideContextMenu = function(){
 	var menu = $('contextmenu');
 	var ifrm = $('contextmenu_frm');
 
-	if (ifrm){
+	var isIE = /msie/.test(navigator.userAgent.toLowerCase());
+
+	if (isIE && ifrm){
 		ifrm.style.visibility = "hidden";
 	}
 
