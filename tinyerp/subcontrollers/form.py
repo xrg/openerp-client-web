@@ -318,6 +318,39 @@ class Form(controllers.Controller, TinyResource):
         params.button = None
 
     @expose()
+    def duplicate(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        id = params.id
+        ctx = params.context
+        model = params.model
+        
+        proxy = rpc.RPCProxy(model)
+        new_id = False
+        try:
+            new_id = proxy.copy(id, {}, ctx)
+        except Exception, e:
+            pass
+
+        if new_id:
+            params.id = new_id
+            params.ids += [new_id]
+
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain)}
+
+        raise redirect(self.path + '/view', **args)
+
+    @expose()
     def delete(self, **kw):
         params, data = TinyDict.split(kw)
 

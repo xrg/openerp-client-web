@@ -81,6 +81,7 @@
                                             <button type="button" title="${_('Create a new resource')}" py:if="buttons.new" onclick="editRecord(null)">New</button>
                                             <button type="button" title="${_('Edit this resource')}" py:if="buttons.edit" onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
                                             <button type="button" title="${_('Save this resource')}" py:if="buttons.save" onclick="submit_form('save')">Save</button>
+                                            <button type="button" title="${_('Duplicate this resource')}" py:if="buttons.edit" onclick="submit_form('duplicate')">Duplicate</button>
                                             <button type="button" title="${_('Delete this resource')}" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
                                             <button type="button" title="${_('Cancel editing the current resource')}" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
                                         </td>

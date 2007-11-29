@@ -235,20 +235,6 @@ var clear_search_form = function() {
     }
 }
 
-var duplicate_records = function() {
-
-	var list = new ListView('_terp_list');
-	var boxes = list.getSelected();
-
-	if (boxes.length == 0) {
-	   return alert('You must select at least one record.');
-	}
-
-	ids = map(function(b){return b.value}, boxes);
-
-    return list.duplicate(ids, getElement('_terp_context').value);
-}
-
 var pager_action = function(action, src) {
 
 	if (src)

@@ -265,34 +265,6 @@ ListView.prototype.save = function(id){
     });
 }
 
-ListView.prototype.duplicate = function(ids, context){
-
-    if (!ids) {
-        return false;
-    }
-    
-    ids = '[' + ids.join(',') + ']';    
-
-    var myself = this;
-    var args = {
-        '_terp_model' : this.model,
-        '_terp_ids' : ids,
-        '_terp_context': context
-    };
-    
-    var req = Ajax.JSON.post('/listgrid/duplicate', args);
-    
-    this.waitGlass();
-
-    req.addCallback(function(obj){
-        myself.reload();
-    });
-
-    req.addBoth(function(xmlHttp){
-        myself.waitGlass(true);
-    });
-}
-
 ListView.prototype.remove = function(id){
 
 	if (!confirm('Do you realy want to delete this record?')) {
