@@ -29,6 +29,7 @@
 
 import cPickle
 import rpc
+import cherrypy
 
 def memoize(function, limit=None):
     if isinstance(function, int):
@@ -39,10 +40,10 @@ def memoize(function, limit=None):
 
     store = {}
     queue = []
-    
+
     def memoize_wrapper(*args, **kwargs):
         key = cPickle.dumps((args, kwargs))
-        try:           
+        try:
             queue.append(queue.pop(queue.index(key)))
         except ValueError:
             store[key] = function(*args, **kwargs)
@@ -59,10 +60,13 @@ def memoize(function, limit=None):
 class CacheManager(object):
 
     @memoize(100)
-    def _fields_view_get(self, model, view_id, view_type, context, hastoolbar=False, host=None, port=None, db=None):               
+    def _fields_view_get(self, model, view_id, view_type, context, hastoolbar=False, host=None, port=None, db=None):
         return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
-    
+
     def fields_view_get(self, model, view_id, view_type, context, hastoolbar=False):
+        if cherrypy.config.get('server.environment') == 'development':
+            return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
+
         return self._fields_view_get(model, view_id, view_type, context, hastoolbar, rpc.session.host, rpc.session.port, rpc.session.db)
 
     @memoize(100)
@@ -70,6 +74,9 @@ class CacheManager(object):
         return rpc.RPCProxy(model).fields_get(fields, context)
 
     def fields_get(self, model, fields, context):
+        if cherrypy.config.get('server.environment') == 'development':
+            return rpc.RPCProxy(model).fields_get(fields, context)
+
         return self._fields_get(model, fields, context, rpc.session.host, rpc.session.port, rpc.session.db)
-       
+
 cache = CacheManager()
