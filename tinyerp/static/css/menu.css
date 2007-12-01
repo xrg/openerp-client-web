@@ -29,16 +29,29 @@ table.menubar td a:hover
 	text-decoration: none;
 }
 
-table.menubar div
+table.menubar div.submenu
 {
-	background: #666;
-	border: 1px solid #333;
+	background-color: #999;
 	visibility: hidden;
 	position: absolute;
+	padding: 2px;
+	margin-top: 2px;
+	margin-left:  1px;
 	z-index: 3
 }
 
-table.menubar div a
+table.menubar div.submenu table {
+    position: relative;
+    margin: -4px 0px 0px -4px;
+    background-color: #666;
+    border: 1px solid #333;
+}
+
+table.menubar div.submenu td {
+	border: none;
+}
+
+table.menubar div.submenu a
 {
     display: block;
     text-align: left;
@@ -47,21 +60,19 @@ table.menubar div a
     color: #FFF;
 }
 
-table.menubar div a:hover
+table.menubar div.submenu a:hover
 {
     background: #505050;
   	text-decoration: none;
 }
 
-
 div.contextmenu
 {
-	background: #444;
-	border: 1px solid #000;
-	padding: 2px;
-	white-space: nowrap;
-	position: absolute;
-	z-index: 100;
+    background: #999;
+    padding: 2px;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 100;
 }
 
 div.contextmenu a
@@ -76,9 +87,9 @@ div.contextmenu a
 
 div.contextmenu a:hover
 {
-	color: #FFF;
+    color: #FFF;
     background: #505050;
-  	text-decoration: none;
+    text-decoration: none;
 }
 
 div.contextmenu a.disabled
@@ -86,6 +97,12 @@ div.contextmenu a.disabled
    color: #C0C0C0;
 }
 
+div.contextmenu table {
+    position: relative;
+    margin: -4px 0px 0px -4px;
+    background: #444;
+    border: 1px solid #000;
+}
 
 
 
