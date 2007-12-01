@@ -344,11 +344,12 @@ ListView.prototype.reload = function(edit_inline){
 
     req.addCallback(function(obj){
 
-    	var ids = $(myself.id + '/_terp_ids');
-    	ids = ids ? ids : $('_terp_ids');
+    	var _terp_ids = $(myself.id + '/_terp_ids') || $('_terp_ids');
+    	var _terp_count = $(myself.id + '/_terp_count') || $('_terp_count');
 
-    	ids.value = obj.ids;
-
+    	_terp_ids.value = obj.ids;
+        _terp_count.value = obj.count;
+        
         var d = DIV();
         d.innerHTML = obj.view;
 
