@@ -437,54 +437,63 @@ class Form(controllers.Controller, TinyResource):
 
         l = params.limit or 20
         o = params.offset or 0
+        c = params.count or 0
+        
+        id = params.id or False
+        ids = params.ids or []
+        
+        filter_action = params.filter_action
+        
+        if ids and filter_action == 'FIRST':
+            o = 0
+            id = ids[0]
+            
+        if ids and filter_action == 'LAST':
+            o = c - c % l
+            id = ids[-1]
 
-        domain = params.domain
+        if ids and filter_action == 'PREV':
+            if id == ids[0]:
+                o -= l
+            elif id in ids:
+                id = ids[ids.index(id)-1]
 
-        if params.search_domain is not None:
-            domain = params.search_domain
-            data = params.search_data
+        if ids and filter_action == 'NEXT':
+            if id == ids[-1]:
+                o += l
+            elif id in ids:
+                id = ids[ids.index(id)+1]
 
-        res = search.search(params.model, o, l, domain=domain, data=data)
+        if params.offset != o:
+    
+            domain = params.domain    
+            if params.search_domain is not None:
+                domain = params.search_domain
+                data = params.search_data
+    
+            res = search.search(params.model, o, l, domain=domain, data=data)
+            
+            o = res['offset']
+            l = res['limit']
+            c = res['count']
+            
+            ids = res['ids']
+            id = False
+            
+            if ids and filter_action in ('FIRST', 'NEXT'):
+                id = ids[0]
+            
+            if ids and filter_action in ('LAST', 'PREV'):
+                id = ids[-1]
 
-        params.ids = res['ids']
-        params.offset = res['offset']
-        params.limit = res['limit']
-        params.count = res['count']
-        params.search_domain = res['search_domain']
-        params.search_data = res['search_data']
-
-        if params.ids:
-
-            if params.filter_action == 'FIRST':
-                params.id = params.ids[0]
-
-            if params.filter_action == 'PREV':
-                if params.id in params.ids:
-                    if params.ids.index(params.id) == 0:
-                        params.id = params.ids[-1]
-                    else:
-                        params.id = params.ids[params.ids.index(params.id)-1]
-                else:
-                    params.id = params.ids[-1]
-
-            if params.filter_action == 'NEXT':
-                if params.id in params.ids:
-                    if params.ids.index(params.id) + 1 == len(params.ids):
-                        params.id = params.ids[0]
-                    else:
-                        params.id = params.ids[params.ids.index(params.id)+1]
-                else:
-                    params.id = params.ids[0]
-
-            if params.filter_action == 'LAST':
-                params.id = params.ids[-1]
-
-
-        if not params.id:
-            params.id = (params.ids or False) and params.ids[0]
-
+        params.id = id
+        params.ids = ids
+        params.offset = o
+        params.limit = l
+        params.count = c
+        
         return self.create(params)
-
+    
     @expose()
     def find(self, **kw):
         kw['_terp_offset'] = None
@@ -497,29 +506,28 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def first(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
-
-        kw['_terp_offset'] = o
         kw['_terp_filter_action'] = 'FIRST'
+        return self.filter(**kw)
 
+    @expose()
+    def last(self, **kw):
+        kw['_terp_filter_action'] = 'LAST'
         return self.filter(**kw)
 
     @expose()
     def previous(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        if params.source:
+        if '_terp_source' in kw:
             return self.previous_o2m(**kw)
 
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
-
-        kw['_terp_offset'] = o
         kw['_terp_filter_action'] = 'PREV'
+        return self.filter(**kw)
 
+    @expose()
+    def next(self, **kw):        
+        if '_terp_source' in kw:
+            return self.next_o2m(**kw)
+
+        kw['_terp_filter_action'] = 'NEXT'
         return self.filter(**kw)
 
     @expose()
@@ -548,21 +556,6 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def next(self, **kw):
-
-        params, data = TinyDict.split(kw)
-        if params.source:
-            return self.next_o2m(**kw)
-
-        l = params.limit or 20
-        o = params.offset or 0
-
-        kw['_terp_offset'] = o
-        kw['_terp_filter_action'] = 'NEXT'
-
-        return self.filter(**kw)
-
-    @expose()
     def next_o2m(self, **kw):
         params, data = TinyDict.split(kw)
         c = params.count or 0
@@ -587,19 +580,6 @@ class Form(controllers.Controller, TinyResource):
             current.id = current.ids[idx]
 
         return self.create(params)
-
-    @expose()
-    def last(self, **kw):
-
-        params, data = TinyDict.split(kw)
-
-        l = params.get('limit') or 20
-        o = params.get('offset') or 0
-
-        kw['_terp_offset'] = o
-        kw['_terp_filter_action'] = 'LAST'
-
-        return self.filter(**kw)
 
     @expose()
     def switch(self, **kw):
