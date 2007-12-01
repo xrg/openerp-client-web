@@ -544,17 +544,15 @@ var showContextMenu = function(){
 
 	showElement(menu);
 
-	var isIE = /msie/.test(navigator.userAgent.toLowerCase());
-
-	if (isIE && ifrm){
-
+	if (ifrm){
+	
 		ifrm.style.left = menu.offsetLeft + "px";
 		ifrm.style.top = menu.offsetTop + "px";
 		ifrm.style.width = menu.offsetWidth + "px";
 		ifrm.style.height = menu.offsetHeight + "px";
 		ifrm.style.zIndex = 6;
 
-		ifrm.style.visibility = "visible";
+        showElement(ifrm);
 	}
 }
 
@@ -562,10 +560,8 @@ var hideContextMenu = function(){
 	var menu = $('contextmenu');
 	var ifrm = $('contextmenu_frm');
 
-	var isIE = /msie/.test(navigator.userAgent.toLowerCase());
-
-	if (isIE && ifrm){
-		ifrm.style.visibility = "hidden";
+	if (ifrm){
+		hideElement(ifrm);
 	}
 
 	hideElement(menu);
@@ -578,8 +574,12 @@ var m2oContextMenu = function(src){
     
     if (!menu) {
         menu = DIV({id:"contextmenu", 'class' : 'contextmenu', 'onmouseout':'hideContextMenu()', 'onmouseover':'showContextMenu()', 'style':'position: absolute; display: none;'});
-        frm = createDOM('IFRAME', {'id':'contextmenu_frm', 'src' : '#', 'frameborder': '0', 'scrolling':'no', 'style':'position: absolute; display: none;'});   
-        appendChildNodes(document.body, menu, frm);
+        appendChildNodes(document.body, menu);       
+
+        if (/msie/.test(navigator.userAgent.toLowerCase())) {
+            var ifrm = createDOM('IFRAME', {'id':'contextmenu_frm', 'src' : '#', 'frameborder': '0', 'scrolling':'no', 'style':'position: absolute; display: none;'});
+            appendChildNodes(document.body, frm);
+        }
     }
     
 	var src = $(src).id.slice(0, -5);
