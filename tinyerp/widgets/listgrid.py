@@ -37,50 +37,9 @@ from tinyerp import rpc
 from tinyerp import tools
 
 import form
+
+from pager import Pager
 from interface import TinyCompoundWidget
-
-class Pager(TinyCompoundWidget):
-
-    template = "tinyerp.widgets.templates.pager"
-    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id']
-
-    css = [widgets.CSSLink('tinyerp', 'css/pager.css')]
-
-    offset = 0
-    limit = 20
-    count = 0
-
-    page_info = None
-    pager_id = 'pager'
-
-    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
-
-        super(Pager, self).__init__()
-
-        self.limit = limit or 20
-        self.offset = offset or 0
-        self.count = count
-
-        self.id = id or False
-        self.ids = ids or []
-
-        if view_type == 'form':
-
-            index = 0
-            if self.id in self.ids:
-                index = self.offset + self.ids.index(self.id) + 1
-
-            self.page_info = _("[%s/%s]") % (index or '-', len(self.ids))
-
-            self.prev = index > 1
-            self.next = index < len(self.ids)
-
-        else:
-            index = (self.count or 0) and self.offset + 1
-
-            self.page_info = _("[%s - %s of %s]") % (index, self.offset + len(self.ids), self.count)
-            self.prev = self.offset > 0
-            self.next = self.offset+len(self.ids) < self.count
 
 class List(TinyCompoundWidget):
 
