@@ -12,20 +12,20 @@ table.menubar td
 	border-right: 1px solid #333;
 }
 
-table.menubar td a
+table.menubar a
 {
 	display: block;
 	text-align: center;
-	background: #666;
+	background-color: #666;
 	padding: 4px 10px;
 	margin: 0 1px 0 0;
 	color: #FFF;
 	text-decoration: none
 }
 
-table.menubar td a:hover
+table.menubar a:hover
 {
-	background: #505050;
+	background-color: #505050;
 	text-decoration: none;
 }
 
@@ -40,15 +40,19 @@ table.menubar div.submenu
 	z-index: 3
 }
 
-table.menubar div.submenu table {
+table.menubar div.submenu table 
+{
     position: relative;
     margin: -4px 0px 0px -4px;
     background-color: #666;
     border: 1px solid #333;
 }
 
-table.menubar div.submenu td {
+table.menubar div.submenu td 
+{
 	border: none;
+	padding: 1px;
+	padding-right: 0px;
 }
 
 table.menubar div.submenu a
@@ -62,13 +66,13 @@ table.menubar div.submenu a
 
 table.menubar div.submenu a:hover
 {
-    background: #505050;
+    background-color: #505050;
   	text-decoration: none;
 }
 
 div.contextmenu
 {
-    background: #999;
+    background-color: #999;
     padding: 2px;
     white-space: nowrap;
     position: absolute;
@@ -88,7 +92,7 @@ div.contextmenu a
 div.contextmenu a:hover
 {
     color: #FFF;
-    background: #505050;
+    background-color: #505050;
     text-decoration: none;
 }
 
@@ -100,7 +104,7 @@ div.contextmenu a.disabled
 div.contextmenu table {
     position: relative;
     margin: -4px 0px 0px -4px;
-    background: #444;
+    background-color: #444;
     border: 1px solid #000;
 }
 
