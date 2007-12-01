@@ -574,8 +574,14 @@ var hideContextMenu = function(){
 var m2oContextMenu = function(src){
 
 	var btn = $(src);
-
     var menu = $('contextmenu');
+    
+    if (!menu) {
+        menu = DIV({id:"contextmenu", 'class' : 'contextmenu', 'onmouseout':'hideContextMenu()', 'onmouseover':'showContextMenu()'});
+        frm = createDOM('IFRAME', {'id':'contextmenu_frm', 'src' : '#', 'frameborder': '0', 'scrolling':'no', 'style':'position: absolute; visibility: hidden;'});   
+        appendChildNodes(document.body, menu, frm);
+    }
+    
 	var src = $(src).id.slice(0, -5);
 	src = $(src);
 
