@@ -455,7 +455,7 @@ ListView.prototype.go = function(action){
 			o.value = ov + lv;
 			break;
 		case 'previous':
-			o.value = ov - lv;
+			o.value = lv > ov ? 0 : ov - lv;
 			break;
 		case 'first':
 			o.value = 0;
