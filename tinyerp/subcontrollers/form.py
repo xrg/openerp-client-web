@@ -335,6 +335,7 @@ class Form(controllers.Controller, TinyResource):
         if new_id:
             params.id = new_id
             params.ids += [new_id]
+            params.count += 1
 
         args = {'model': params.model,
                 'id': params.id,
