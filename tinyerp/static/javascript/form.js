@@ -577,8 +577,8 @@ var m2oContextMenu = function(src){
     var menu = $('contextmenu');
     
     if (!menu) {
-        menu = DIV({id:"contextmenu", 'class' : 'contextmenu', 'onmouseout':'hideContextMenu()', 'onmouseover':'showContextMenu()'});
-        frm = createDOM('IFRAME', {'id':'contextmenu_frm', 'src' : '#', 'frameborder': '0', 'scrolling':'no', 'style':'position: absolute; visibility: hidden;'});   
+        menu = DIV({id:"contextmenu", 'class' : 'contextmenu', 'onmouseout':'hideContextMenu()', 'onmouseover':'showContextMenu()', 'style':'position: absolute; display: none;'});
+        frm = createDOM('IFRAME', {'id':'contextmenu_frm', 'src' : '#', 'frameborder': '0', 'scrolling':'no', 'style':'position: absolute; display: none;'});   
         appendChildNodes(document.body, menu, frm);
     }
     
