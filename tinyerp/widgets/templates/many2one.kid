@@ -10,7 +10,7 @@
                 <img id='${name}_select' width="16" height="16" alt="${_('Search')}" title="${_('Search / Open a resource')}" src="/static/images/stock/gtk-find.png" style="cursor: pointer;" class="imgSelect"/>
             </td>
             <td width="16" py:if="'_terp_listfields' not in name">
-                <img id='${name}_menu' class="context_menu_button" width="16" height="16" alt="${_('Context Menu')}" title="${_('Context Menu')}" src="/static/images/stock/gtk-go-down.png" style="cursor: pointer;" onclick="m2oContextMenu(this)"/>
+                <img id='${name}_menu' class="context_menu_button" width="16" height="16" alt="${_('Context Menu')}" src="/static/images/stock/gtk-go-down.png" style="cursor: pointer;" onclick="m2oContextMenu(this)"/>
             </td>
         </tr>
     </table>
