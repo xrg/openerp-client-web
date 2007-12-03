@@ -89,10 +89,8 @@
             var pwin = window.opener;
             var src = pwin.document.getElementById('${source}');
 
-			var selection = new ListView(src).getSelected();
-            var ids = map(function(e){return e.value}, selection);
-
-			var id = '[]';
+            var ids = new ListView(src).getSelectedRecords();
+            var id = '[]';
 
             $('_terp_ids').value = '[' + ids.join(',') + ']';
             $('_terp_fields2').value = '[' + fields2.join(',') + ']';

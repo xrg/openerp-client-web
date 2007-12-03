@@ -19,7 +19,7 @@
         function do_save(form){
 
             var list = new ListView('_terp_list');
-            var boxes = list.getSelected();
+            var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
                 alert('Please select a resouce...');
@@ -39,7 +39,7 @@
 
         function do_delete(form){
             var list = new ListView('_terp_list');
-            var boxes = list.getSelected();
+            var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
                 alert('Please select a resouce...');

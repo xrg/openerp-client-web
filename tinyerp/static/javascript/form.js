@@ -155,7 +155,7 @@ var switchView = function(view_type, src){
     }
 
     if (getElement('_terp_list')){
-        var ids = map(function(e){return e.value}, new ListView('_terp_list').getSelected());
+        var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             $('_terp_id').value = ids[0];
         }
@@ -182,13 +182,12 @@ var submit_form = function(action, src, data){
 
     if (action == 'action' && $('_terp_list')){
     	var list = new ListView('_terp_list');
-    	var boxes = list.getSelected();
+    	var ids = list.getSelectedRecords();
 
-    	if (boxes.length == 0) {
+    	if (ids.length == 0) {
     	   return alert('You must select at least one record.');
     	}
 
-    	ids = map(function(b){return b.value}, boxes);
     	args['_terp_selection'] = '[' + ids.join(',') + ']';
     }
 

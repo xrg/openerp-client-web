@@ -49,13 +49,16 @@ ListView.prototype.checkAll = function(clear){
     });
 }
 
-ListView.prototype.getSelected = function() {
-    boxes = getElementsByTagAndClassName('input', 'grid-record-selector', this.id);
-    result = [];
+ListView.prototype.getSelectedRecords = function(boxes) {
+    return map(function(box){
+        return box.value;
+    }, this.getSelectedItems());
+}
 
+ListView.prototype.getSelectedItems = function(boxes) {
     return filter(function(box){
         return box.name && box.checked;
-    }, boxes);
+    }, getElementsByTagAndClassName('input', 'grid-record-selector', this.id));
 }
 
 ListView.prototype.create = function(){

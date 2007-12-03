@@ -44,13 +44,12 @@
 
         function do_select(id){
             if (!id) {
+                var ids = new ListView('_terp_list').getSelectedRecords();
 
-                list = new ListView('_terp_list');
-                boxes = list.getSelected();
+                if (ids.length &lt; 1) 
+                    return;
 
-                if (boxes.length &lt; 1) return;
-
-                id = boxes[0].value;
+                id = ids[0];
             }
 
             value_field = window.opener.document.getElementById('${params.source}');
@@ -58,9 +57,9 @@
             value_field.value = id;
 
             if (!isUndefinedOrNull(value_field.onchange)){
-	            window.opener.setTimeout("$('${params.source}').onchange()", 0);
+                window.opener.setTimeout("$('${params.source}').onchange()", 0);
        	    }else{
-	       	    window.opener.setTimeout("MochiKit.Signal.signal('${params.source}', 'onchange')", 0);
+	       	window.opener.setTimeout("MochiKit.Signal.signal('${params.source}', 'onchange')", 0);
        	    }
 
             window.setTimeout("window.close()", 5);
@@ -81,14 +80,12 @@
             list_view = new ListView(list_view);
             list_this = new ListView('_terp_list');
 
-            ids = map(function(box){
-                return box.value;
-            }, list_view.getSelected());
+            ids = list_view.getSelectedRecords();
 
             if (id){
                 if (findValue(ids, id) == -1) ids.push(id);
             } else {
-                boxes = list_this.getSelected();
+                boxes = list_this.getSelectedItems();
 
                 if(boxes.length == 0) {
                 	alert("No record selected...");
