@@ -582,19 +582,23 @@ var m2oContextMenu = function(src){
         }
     }
     
-	var src = $(src).id.slice(0, -5);
-	src = $(src);
+    var src = $(src).id.slice(0, -5);
+    src = $(src);
 
-	var val = $(src.id).value;
-	var kind = getNodeAttribute(src, 'kind');
-	var relation = getNodeAttribute(src, 'relation');
+    var val = $(src.id).value;
+    var kind = getNodeAttribute(src, 'kind');
+    var relation = getNodeAttribute(src, 'relation');
 
-	hideElement(menu);
+    hideElement(menu);
 
-	var p = elementPosition(btn);
-	var d = elementDimensions(btn);
+    var p = elementPosition(btn);
+    var d = elementDimensions(btn);
 
-	p.y += d.h;
+    if (typeof(opera) != 'undefined') {
+        p = findPosition(btn);
+    }
+
+    p.y += d.h;
     setElementPosition(menu, p);
 
     makeContextMenu(src.id, kind, relation, val);
