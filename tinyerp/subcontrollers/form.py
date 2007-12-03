@@ -603,7 +603,7 @@ class Form(controllers.Controller, TinyResource):
 
         # set ids and id
         current.ids = current.ids or []
-        if current.ids:
+        if not current.id and current.ids:
             current.id = current.ids[0]
 
         # regenerate the view

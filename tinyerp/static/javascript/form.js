@@ -154,8 +154,14 @@ var switchView = function(view_type, src){
         '_terp_source_view_type': view_type
     }
 
-    setNodeAttribute(form, 'action', get_form_action('switch', params));
-    form.submit();
+    if (getElement('_terp_list')){
+        var ids = map(function(e){return e.value}, new ListView('_terp_list').getSelected());
+        if (ids.length > 0) {
+            $('_terp_id').value = ids[0];
+        }
+    }
+
+    submit_form(get_form_action('switch', params));
 }
 
 var submit_form = function(action, src, data){
@@ -236,21 +242,10 @@ var clear_search_form = function() {
 }
 
 var pager_action = function(action, src) {
-
-	if (src)
-		new ListView(src).go(action);
-	else
-		submit_search_form(action);
-}
-
-var submit_value = function(action, src, data){
-
-    form = $("view_form");
-    source = src ? (typeof(src) == "string" ? src : src.name) : null;
-
-    setNodeAttribute(form, 'action', '/openm2o/save');
-
-    form.submit();
+    if (src)
+        new ListView(src).go(action);
+    else
+        submit_search_form(action);
 }
 
 var save_binary_data = function(src) {
@@ -279,10 +274,7 @@ var buttonClicked = function(name, btype, model, id, sure){
     params['_terp_button/model'] = model;
     params['_terp_button/id'] = id;
 
-    form = $("view_form");
-    setNodeAttribute(form, 'action', get_form_action('save', params));
-
-    form.submit();
+    submit_form(get_form_action('save', params));
 }
 
 /**
