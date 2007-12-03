@@ -39,7 +39,7 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to']
+    params = ['string', 'id', 'readonly', 'parent_id', 'new_attrs', 'pager_info', 'switch_to']
 
     member_widgets = ['screen']
     form = None
