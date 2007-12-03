@@ -15,3 +15,7 @@ table.tree-grid th,
 table.tree-grid td {
     padding: 0px 5px;
 }
+
+div.box2 button {
+    margin: 0px 2px;
+}

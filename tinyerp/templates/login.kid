@@ -45,7 +45,7 @@
                         <tr>
                             <td></td>
                             <td align="right">
-                                <button type="button" style="width: 80px; white-space: nowrap; margin-right: 4px;" onclick="location.href='/dbadmin'">Manage</button>
+                                <button type="button" style="width: 80px; white-space: nowrap" onclick="location.href='/dbadmin'">Manage</button>
                                 <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
                             </td>
                         </tr>
