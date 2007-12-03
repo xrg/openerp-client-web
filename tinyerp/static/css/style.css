@@ -4,7 +4,8 @@ body {
     background: #ffffff;
 }
 
-body,table {
+body,
+table {
     font-family: Verdana, Arial, sans-serif;
     font-size: 12px;
 }
@@ -33,16 +34,21 @@ hr {
     height: 1px;
 }
 
-input,select,textarea {
+input,
+select,
+textarea {
     background-color: white;
     border: 1px solid #999999;
 }
 
-input:focus,select:focus,textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
     border-color: #990033;
 }
 
-input.checkbox,input.radio {
+input.checkbox,
+input.radio {
     background-color: transparent;
     border: none;
     margin: 0px;
@@ -51,7 +57,7 @@ input.checkbox,input.radio {
 button {
     border: solid 1px #888888;
     background: #999;
-    padding: 0px 3px;
+    padding: 0px 2px;
     background: url(/static/images/button_bg.png) repeat-x left top;
     font-size: 11px;
     white-space: nowrap;
@@ -73,6 +79,7 @@ button.inactive {
 }
 
 /* ---------- Header ----------- */
+
 table.header {
     background: url(/static/images/grdheader.gif) repeat-x left top;
     width: 100%;
@@ -142,8 +149,8 @@ span.disabled_text {
     color: gray;
 }
 
-
 /* ------------------- Footer --------------- */
+
 #footer {
     clear: both;
     padding: 5px;
@@ -171,6 +178,7 @@ div#tab_content {
 }
 
 /*------------------------------------------------------------------*/
+
 div.vline {
     background-color: #C3D9FF;
     width: 1px;
@@ -183,7 +191,8 @@ div.scrollbox {
     overflow: auto;
 }
 
-div.box,div.box2 {
+div.box,
+div.box2 {
     background-color: #F6F6F6;
     border-top: 1px solid #999999;
     border-bottom: 1px solid #999999;
@@ -202,10 +211,6 @@ div.box2 {
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-div.box2 button {
-    margin: 0px 2px;
 }
 
 td.errorbox {
@@ -362,6 +367,7 @@ td.item .checkbox,td.item .radio {
 }
 
 /* ----------------- Side bar ----------------- */
+
 #sidebar {
 }
 
@@ -404,4 +410,5 @@ td.item .checkbox,td.item .radio {
     text-decoration: none;
     color: #902D2D;
 }
+
 /* ------------- End side bar ------- */

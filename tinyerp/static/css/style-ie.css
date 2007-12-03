@@ -1,14 +1,14 @@
 td.label,
 td.item {
-	padding: 0px 2px;
+    padding: 0px 2px;
 }
 
 td.label {
-	padding: 0px 4px;
+    padding: 0px 4px;
 }
 
 img.imgSelect {
-	margin-left: 2px;
+    margin-left: 2px;
 }
 
 table.tree-grid th,
