@@ -56,7 +56,7 @@ requests, requests_message = tg.root.requests.my()
                             <area shape="rect" coords="131,38,172,54" href="http://axelor.com" target="_blank"/>
                         </map>
                     </td>
-                    <td align="right" valign="top" nowrap="nowrap">
+                    <td align="right" valign="top" nowrap="nowrap" height="24">
                         <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td>
@@ -77,10 +77,8 @@ requests, requests_message = tg.root.requests.my()
                     </td>
                 </tr>
                 <tr>
-                    <td align="right" valign="middle">
-                        <div py:if="rpc.session.is_logged()">
-                            Requests: <a href="${tg.query('/requests', ids=requests)}">${requests_message}</a>&nbsp;&nbsp;
-                        </div>
+                    <td align="right" valign="middle" style="padding-right: 4px;" py:if="rpc.session.is_logged()">
+                        Requests: <a href="${tg.query('/requests', ids=requests)}">${requests_message}</a>
                     </td>
                 </tr>
                 <tr>
@@ -141,8 +139,8 @@ requests, requests_message = tg.root.requests.my()
             <div id="footer">
             <br/>
             <hr/>
-            (C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on <a id="footer" href="http://tinyerp.com">http://tinyerp.com</a>.<br/>
-            The web client is developed by Axelor (<a id="footer" href="http://axelor.com">http://axelor.com</a>) and Tiny (<a id="footer" href="http://tiny.be">http://tiny.be</a>)<br/>
+            (C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on <a href="http://tinyerp.com">http://tinyerp.com</a>.<br/>
+            The web client is developed by Axelor (<a href="http://axelor.com">http://axelor.com</a>) and Tiny (<a href="http://tiny.be">http://tiny.be</a>)<br/>
             Running Server: <span>http://${rpc.session.host}:${rpc.session.port} - database:${rpc.session.db}</span><br/>
             </div>
         </td>
