@@ -61,8 +61,18 @@ ManyToOne.prototype.create = function(evt){
 }
 
 ManyToOne.prototype.open = function(id){
-	var act = getURL('/openm2o/edit', {model: this.relation, id: id, source: this.name});
-	openWindow(act);
+
+    var domain = getNodeAttribute(this.field, 'domain');
+    var context = getNodeAttribute(this.field, 'context');
+    
+    var model = this.relation;
+    var source = this.name;
+    
+    var req = eval_domain_context_request({source: source, domain: domain, context: context});
+
+    req.addCallback(function(obj){
+        openWindow(getURL('/openm2o/edit', {model: model, id: id, domain: obj.domain, context: obj.context, source: source}));
+    });
 }
 
 ManyToOne.prototype.get_text = function(evt){

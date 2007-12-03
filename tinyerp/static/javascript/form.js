@@ -279,7 +279,7 @@ var buttonClicked = function(name, btype, model, id, sure){
 /**
  * get key-pair object of the parent form
  */
-var get_parent_form = function(name) {
+var get_parent_form = function() {
 
 	var frm = {};
 
@@ -338,7 +338,7 @@ var onChange = function(name) {
     prefix = prefix.join("/");
     prefix = prefix ? prefix + '/' : '';
 
-    var vals = get_parent_form(name);
+    var vals = get_parent_form();
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
 
     if (!callback)
@@ -434,18 +434,13 @@ function eval_domain_context_request(options){
     if (prefix[0] == '_terp_listfields'){
     	prefix.shift();
     }
-
-	var form = $('view_form');
-	var params = {'_terp_domain': options.domain, '_terp_context': options.context, '_terp_prefix': prefix};
-
-    forEach(form.elements, function(e){
-
-        if (e.name && e.name.indexOf('_terp_') == -1 && e.type != 'button') {
-            params['_terp_parent_form/' + e.name] = e.value;
-			params['_terp_parent_types/' + e.name] = getNodeAttribute(e, 'kind');
-    	}
-    });
-
+	
+	var params = get_parent_form();
+	
+	params['_terp_domain'] = options.domain;
+	params['_terp_context'] = options.context;
+	params['_terp_prefix'] = prefix;
+	
     return Ajax.JSON.post('/search/eval_domain_and_context', params);
 }
 
