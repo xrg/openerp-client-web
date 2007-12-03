@@ -39,7 +39,7 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id', 'new_attrs', 'pager_info', 'switch_to']
+    params = ['string', 'id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to']
 
     member_widgets = ['screen']
     form = None
@@ -65,6 +65,10 @@ class O2M(TinyCompoundWidget):
         pparams = params.chain_get(pprefix)
         if (pparams and not pparams.id) or (not pparams and not params.id):
             self.new_attrs = { 'text': _("Save/New"), 'help': 'Save parent and create new record.'}
+            
+        self.parent_id = params.id
+        if pparams:
+            self.parent_id = pparams.id
 
         # get params for this field
         params = params.chain_get(self.name)
