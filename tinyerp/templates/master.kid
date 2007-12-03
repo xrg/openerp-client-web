@@ -86,7 +86,7 @@ requests, requests_message = tg.root.requests.my()
                 <tr>
                     <td colspan="2" nowrap="nowrap">
 
-                        <table width="100%" cellspacing="0" cellpadding="0" id="menu_header" >
+                        <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                             <tr>
                                 <td width="5%" id="menu_header_menu" nowrap="nowrap">
                                     <a href="/menu">MAIN MENU</a>

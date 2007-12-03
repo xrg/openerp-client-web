@@ -1,137 +1,137 @@
 body {
-	margin: 0;
-	padding: 0;
-	background: #ffffff;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
 }
 
 body,table {
-	font-family: Verdana, Arial, sans-serif;
-	font-size: 12px;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 12px;
 }
 
 a {
-	text-decoration: none;
-	color: #990000;
+    text-decoration: none;
+    color: #990000;
 }
 
 a:hover {
-	text-decoration: underline;
-	color: #690000;
+    text-decoration: underline;
+    color: #690000;
 }
 
 a.imglink {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a:hover .imglink {
-	border: none;
+    border: none;
 }
 
 hr {
-	border: 0px;
-	background-color: #888;
-	height: 1px;
+    border: 0px;
+    background-color: #888;
+    height: 1px;
 }
 
 input,select,textarea {
-	background-color: white;
-	border: 1px solid #999999;
+    background-color: white;
+    border: 1px solid #999999;
 }
 
 input:focus,select:focus,textarea:focus {
-	border-color: #990033;
+    border-color: #990033;
 }
 
 input.checkbox,input.radio {
-	background-color: transparent;
-	border: none;
-	margin: 0px;
+    background-color: transparent;
+    border: none;
+    margin: 0px;
 }
 
 button {
-	border: solid 1px #888888;
-	background: #999;
-	padding: 0px 3px;
-	background: url(/static/images/button_bg.png) repeat-x left top;
-	font-size: 11px;
-	white-space: nowrap;
+    border: solid 1px #888888;
+    background: #999;
+    padding: 0px 3px;
+    background: url(/static/images/button_bg.png) repeat-x left top;
+    font-size: 11px;
+    white-space: nowrap;
 }
 
 button:hover {
-	background: url(/static/images/button_bg2.png) repeat-x left top;
+    background: url(/static/images/button_bg2.png) repeat-x left top;
 }
 
 button.inactive {
-	background: #eeeeee;
-	border: solid 1px #888888;
-	color: #999999;
+    background: #eeeeee;
+    border: solid 1px #888888;
+    color: #999999;
 }
 
 #container {
-	margin: auto;
-	width: 100%;
+    margin: auto;
+    width: 100%;
 }
 
 /* ---------- Header ----------- */
 table.header {
-	background: url(/static/images/grdheader.gif) repeat-x left top;
-	width: 100%;
+    background: url(/static/images/grdheader.gif) repeat-x left top;
+    width: 100%;
 }
 
 table.menu_connection {
-	padding: 0px;
-	border: 0px;
-	height: 25px;
-	white-space: nowrap;
+    padding: 0px;
+    border: 0px;
+    height: 25px;
+    white-space: nowrap;
 }
 
 table.menu_connection td.menu_connection_welcome {
-	background: #363636;
-	padding-left: 10px;
-	padding-right: 18px;
-	color: white;
+    background: #363636;
+    padding-left: 10px;
+    padding-right: 18px;
+    color: white;
 }
 
 table.menu_connection td.menu_connection_links {
-	background: url(/static/images/mainmenu_button.png) repeat-x;
-	padding-left: 10px;
-	padding-right: 10px;
-	color: white;
+    background: url(/static/images/mainmenu_button.png) repeat-x;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
 }
 
 table.menu_connection a {
-	color: white;
-	padding: 0 2px;
+    color: white;
+    padding: 0 2px;
 }
 
 table.menu_connection a:hover {
-	color: white;
+    color: white;
 }
 
 #menu_header {
-	background: #666666;
-	margin-bottom: 4px;
-	height: 25px;
-	white-space: nowrap;
+    background: #666666;
+    margin-bottom: 4px;
+    height: 24px;
+    white-space: nowrap;
 }
 
 #menu_header_menu {
-	background: url(/static/images/mainmenu_button.png) repeat-x;
-	text-align: center;
-	font-weight: bold;
-	padding: 0 10px;
+    background: url(/static/images/mainmenu_button.png) repeat-x;
+    text-align: center;
+    font-weight: bold;
+    padding: 0 10px;
 }
 
 #menu_header_shortcuts {
-	background: #363636;
-	text-align: center;
-	padding-left: 10px;
-	padding-right: 0px;
-	font-weight: bold;
+    background: #363636;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 0px;
+    font-weight: bold;
 }
 
 #menu_header a {
-	color: white;
+    color: white;
 }
 
 /*------------------ Header End ---------------*/
@@ -145,178 +145,178 @@ span.disabled_text {
 
 /* ------------------- Footer --------------- */
 #footer {
-	clear: both;
-	padding: 5px;
-	text-align: center;
-	font-size: 11px;
-	color: #777777;
-	line-height: 20px;
+    clear: both;
+    padding: 5px;
+    text-align: center;
+    font-size: 11px;
+    color: #777777;
+    line-height: 20px;
 }
 
 #footer a {
-	color: #777777;
-	text-decoration: underline;
+    color: #777777;
+    text-decoration: underline;
 }
 
 div.button_right {
-	position: relative;
-	float: right;
+    position: relative;
+    float: right;
 }
 
 div#tab_content {
-	background: #fbfbfb;
-	display: block;
-	border-bottom: 1px solid #bbb8a9;
-	padding: 5px;
+    background: #fbfbfb;
+    display: block;
+    border-bottom: 1px solid #bbb8a9;
+    padding: 5px;
 }
 
 /*------------------------------------------------------------------*/
 div.vline {
-	background-color: #C3D9FF;
-	width: 1px;
-	height: 100%;
+    background-color: #C3D9FF;
+    width: 1px;
+    height: 100%;
 }
 
 div.scrollbox {
-	width: 100%;
-	height: 100%;
-	overflow: auto;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
 }
 
 div.box,div.box2 {
-	background-color: #F6F6F6;
-	border-top: 1px solid #999999;
-	border-bottom: 1px solid #999999;
+    background-color: #F6F6F6;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
 }
 
 div.box {
-	width: 400px;
-	padding: 10px;
-	margin: auto;
+    width: 400px;
+    padding: 10px;
+    margin: auto;
 }
 
 div.box2 {
-	padding: 10px;
-	width: 450px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    padding: 10px;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 div.box2 button {
-	margin: 0px 2px;
+    margin: 0px 2px;
 }
 
 td.errorbox {
-	padding: 10px;
-	white-space: nowrap;
-	margin-left: auto;
-	margin-right: auto;
+    padding: 10px;
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
-	margin-bottom: 10px;
-	background-color: #F6F6F6;
-	border-top: 1px solid #999999;
-	border-bottom: 1px solid #999999;
+    margin-bottom: 10px;
+    background-color: #F6F6F6;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #999999;
 }
 
 td.welcome {
-	text-align: center;
-	color: #990033;
-	font-size: 16px;
-	font-weight: bold;
+    text-align: center;
+    color: #990033;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 div.message {
-	background-color: red;
-	color: white;
-	text-align: center;
-	font-weight: bold;
-	border: none;
+    background-color: red;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    border: none;
 }
 
 div.welcome {
-	text-align: center;
+    text-align: center;
     color: #990033;
-	font-size: 16px;
-	font-weight: bold;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* view style */
 .view {
-	width: 100%;
+    width: 100%;
 }
 
 .view .spacer {
-	width: 4px;
-	height: 4px;
+    width: 4px;
+    height: 4px;
 }
 
 .view .titlebar {
-	font-size: 16px;
-	font-weight: bold;
-	color: #950000;
-	border-bottom: 1px solid #363636;
-	margin-bottom: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #950000;
+    border-bottom: 1px solid #363636;
+    margin-bottom: 4px;
 }
 
 .view .titlebar button {
-	width: auto;
-	margin: 0 1px;
-	cursor: pointer;
-	white-space: nowrap;
+    width: auto;
+    margin: 0 1px;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .view .title {
-	background: url(/static/images/grdline1.gif) repeat-x left top;
-	border-top: 1px solid #E3E3E3;
-	height: 20px;
-	padding: 5px;
-	font-size: 14px;
-	font-weight: bold;
+    background: url(/static/images/grdline1.gif) repeat-x left top;
+    border-top: 1px solid #E3E3E3;
+    height: 20px;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .view .toolbar {
-	background-color: #F6F6F6;
-	border-top: 1px solid #bbb8a9;
-	border-bottom: 1px solid #bbb8a9;
-	padding: 5px;
-	white-space: nowrap;
+    background-color: #F6F6F6;
+    border-top: 1px solid #bbb8a9;
+    border-bottom: 1px solid #bbb8a9;
+    padding: 5px;
+    white-space: nowrap;
 }
 
 .view .toolbar button {
-	width: auto;
-	margin: 0 1px;
-	cursor: pointer;
-	white-space: nowrap;
+    width: auto;
+    margin: 0 1px;
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .view .toolbar img,
 .view .titlebar img {
-	border: none;
-	margin: 0 1px;
-	vertical-align: middle;
+    border: none;
+    margin: 0 1px;
+    vertical-align: middle;
 }
 .view .toolbar img.button,
 .view .titlebar img.button {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .view .fields {
 }
 
 .view table.one2many {
-	border-bottom: 1px solid #bbb8a9;
+    border-bottom: 1px solid #bbb8a9;
 }
 
 td.label {
-	padding: 0 4px;
-	text-align: right;
-	white-space: nowrap;
+    padding: 0 4px;
+    text-align: right;
+    white-space: nowrap;
 }
 
 td.item input,td.item select,td.item textarea,td.item button {
-	width: 99%;
+    width: 99%;
 }
 
 td.item .mceSelectList {
@@ -324,37 +324,37 @@ td.item .mceSelectList {
 }
 
 td.item .checkbox,td.item .radio {
-	width: auto;
+    width: auto;
 }
 
 #view_form .translatable {
-	background: url("/static/images/translate.gif") no-repeat right center;
+    background: url("/static/images/translate.gif") no-repeat right center;
 }
 
 #view_form .fielderror {
-	color: #FF0000;
+    color: #FF0000;
 }
 
 #view_form .requiredfield {
-	background-color: #CCD9FF;
+    background-color: #CCD9FF;
 }
 
 #view_form .errorfield {
-	background-color: #FF6666;
+    background-color: #FF6666;
 }
 
 #view_form .readonlyfield {
-	background-color: #EEEEEE;
+    background-color: #EEEEEE;
 }
 
 /* treebar */
 .treebar {
-	padding-right: 5px;
-	width: 100px;
+    padding-right: 5px;
+    width: 100px;
 }
 
 .treebar .row {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .treesep {
@@ -366,42 +366,42 @@ td.item .checkbox,td.item .radio {
 }
 
 #sidebar .sidebox {
-	margin-bottom: 4px;
+    margin-bottom: 4px;
 }
 
 #sidebar table {
-	padding: 0;
-	white-space: nowrap;
+    padding: 0;
+    white-space: nowrap;
 }
 
 #sidebar td {
-	height: 25px;
+    height: 25px;
 }
 
 #sidebar a {
-	background: url(/static/images/sidebar_button_bg.png) no-repeat;
-	background-color: #dadada;
-	border-top: 1.5px solid white;
+    background: url(/static/images/sidebar_button_bg.png) no-repeat;
+    background-color: #dadada;
+    border-top: 1.5px solid white;
 
-	display: block;
-	vertical-align: middle;
-	font-size: 11px;
-	font-weight: bold;
-	color: #444;
-	text-align: left;
-	padding-top: 5px;
-	padding-left: 12px;
-	padding-right: 4px;
-	height: 20px;
-	text-decoration: none;
-	white-space: nowrap;
+    display: block;
+    vertical-align: middle;
+    font-size: 11px;
+    font-weight: bold;
+    color: #444;
+    text-align: left;
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 4px;
+    height: 20px;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 #sidebar a:hover {
-	background-position: 0px -25px;
-	border-top: 1.5px solid #a6a6a6;
+    background-position: 0px -25px;
+    border-top: 1.5px solid #a6a6a6;
 
-	text-decoration: none;
-	color: #902D2D;
+    text-decoration: none;
+    color: #902D2D;
 }
 /* ------------- End side bar ------- */
