@@ -52,10 +52,18 @@ class OpenM2O(Form):
     path = '/openm2o'    # mapping from root
     
     @expose(template="tinyerp.subcontrollers.templates.openm2o")
-    def create(self, params, tg_errors=None):     
+    def create(self, params, tg_errors=None):
+                
+        ctx = params.context or {}
+        ctx.setdefault('_terp_load_counter', 0)       
         
+        if not tg_errors:
+            ctx['_terp_load_counter'] += 1
+
+        params.context = ctx
+
         params.editable = True
-        form = self.create_form(params, tg_errors)        
+        form = self.create_form(params, tg_errors)
         
         form.hidden_fields = [widgets.HiddenField(name='_terp_source', default=params.source)]
         

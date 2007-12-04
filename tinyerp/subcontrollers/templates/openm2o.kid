@@ -11,7 +11,14 @@
         function on_load() { 
             if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
                 window.opener.document.getElementById('${params.source}').value = $("_terp_id").value;
-            window.opener.setTimeout("signal($('${params.source}'), 'onchange')", 0);                        
+            window.opener.setTimeout("signal($('${params.source}'), 'onchange')", 0);
+            
+            var lc = $('_terp_load_counter').value;
+            lc = parseInt(lc) || 1;
+            
+            if (lc > 1) {
+                window.close();
+            }                        
         }
         connect(window, 'onload', on_load);
     </script>
@@ -22,6 +29,7 @@
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
+                <input type="hidden" id="_terp_load_counter" value="${params.context.get('_terp_load_counter')}"/>
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
