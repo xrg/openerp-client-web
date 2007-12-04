@@ -24,9 +24,20 @@
                 }
             });
                         
-            appendChildNodes('view_form', fields);
+            appendChildNodes('view_form', fields);            
             
-            window.opener.setTimeout("new ListView('${form.screen.prefix}').reload()", 0);
+            var lc = $('_terp_load_counter').value;
+            
+            lc = parseInt(lc) || 0;
+            
+            if (lc > 0) {
+                window.opener.setTimeout("new ListView('${form.screen.prefix}').reload()", 0);
+            }
+            
+            if (lc > 1) {
+                window.close();
+            }
+            
         }
         
         connect(window, "onload", on_load);
@@ -38,6 +49,7 @@
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
+                <input type="hidden" id="_terp_load_counter" value="${params.load_counter}"/>
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">

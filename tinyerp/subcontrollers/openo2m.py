@@ -125,14 +125,20 @@ class OpenO2M(Form):
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
        
-        proxy = rpc.RPCProxy(params.parent_model)
-
+        proxy = rpc.RPCProxy(params.parent_model)        
+       
         if not params.parent_id:
             id = proxy.create(data, rpc.session.context)
             params.parent_id = int(id)
         else:
             id = proxy.write([params.parent_id], data, rpc.session.context)
-           
+        
+        params.load_counter = 1
+        
+        current = params.chain_get(params.o2m or '')        
+        if current.id:
+            params.load_counter = 2
+            
         return self.create(params)
     
     @expose()    
