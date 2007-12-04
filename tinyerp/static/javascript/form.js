@@ -629,7 +629,7 @@ function do_action(id, relation) {
     var act = get_form_action('action');
     var params = {'_terp_model': relation, '_terp_id': id};
 
-    window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
+    window.open(getURL(act, params));
 }
 
 function do_print(id, relation) {
@@ -639,7 +639,7 @@ function do_print(id, relation) {
     var act = get_form_action('report/report.pdf');
     var params = {'_terp_model': relation, '_terp_id': id};
 
-    window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
+    window.open(getURL(act, params));
 }
 
 function do_relate(action_id, field, relation, src) {
@@ -650,6 +650,6 @@ function do_relate(action_id, field, relation, src) {
     var act = get_form_action('action');
     var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
 
-	window.setTimeout("window.location.href='" + getURL(act, params) + "'", 0);
+    window.open(getURL(act, params));
 }
 
