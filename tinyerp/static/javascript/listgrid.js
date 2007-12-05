@@ -205,7 +205,7 @@ ListView.prototype.save = function(id){
 
     var parent_field = this.id.split('/');
     
-    var args = getFormData(1);
+    var args = getFormData(2);
 
     args['_terp_id'] = id ? id : -1;
     args['_terp_model'] = this.model;

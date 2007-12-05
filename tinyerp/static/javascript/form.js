@@ -282,7 +282,11 @@ var buttonClicked = function(name, btype, model, id, sure){
 
 /**
  * get key-pair object of the form data
- *
+ * 
+ * if extended is
+ *    1 then give form data with type info
+ *    2 then give form data with type info + required flag
+ * else gives simple key-value pairs 
  */
 var getFormData = function(extended) {
     
@@ -319,11 +323,8 @@ var getFormData = function(extended) {
             
             if (kind)
                 attrs['type'] = kind;
-            
-            if (hasElementClass(e, 'readonlyfield'))
-                attrs['readonly'] = 1;
-            
-            if (hasElementClass(e, 'requiredfield'))
+                
+            if (extended > 1 && hasElementClass(e, 'requiredfield'))
                 attrs['required'] =  1;
 
             if (value && (kind == "text" || kind == "char"))
