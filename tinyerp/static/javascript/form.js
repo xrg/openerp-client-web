@@ -317,10 +317,10 @@ var getFormData = function(extended) {
                 attrs['type'] = kind;
             
             if (hasElementClass(e, 'readonlyfield'))
-                attrs['required'] = 1;
+                attrs['readonly'] = 1;
             
             if (hasElementClass(e, 'requiredfield'))
-                attrs['readonly'] =  1;
+                attrs['required'] =  1;
 
             if (value && (kind == "text" || kind == "char"))
                 attrs['value'] = '""' + value + '""';
