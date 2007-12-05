@@ -165,6 +165,10 @@ var switchView = function(view_type, src){
 }
 
 var submit_form = function(action, src, data){
+    
+    if (Ajax.COUNT > 0) {
+        return callLater(1, submit_form, action, src, data);
+    }
 
     if (action == 'delete' &&  !confirm('Do you realy want to delete this record?')) {
         return false;
