@@ -30,13 +30,26 @@
 var Ajax = function(){
 }
 
+Ajax.COUNT = 0;
+
 Ajax.prototype = {
 
 	get: function(url, params){
-		return MochiKit.Async.doSimpleXMLHttpRequest(url, params);
+	    
+	    Ajax.COUNT += 1;
+	    
+		var req = MochiKit.Async.doSimpleXMLHttpRequest(url, params);
+		
+		return req.addBoth(function(xmlHttp){
+		    Ajax.COUNT -= 1;
+		    return xmlHttp;
+		});
 	},
 
 	post: function(url, params){
+	    
+	    Ajax.COUNT += 1;
+	    
 		var req = MochiKit.Async.getXMLHttpRequest();
 		req.open("POST", url, true);
 	
@@ -50,7 +63,12 @@ Ajax.prototype = {
 			req.setRequestHeader("Content-length", qs.length);
 		}
 		
-		return MochiKit.Async.sendXMLHttpRequest(req, qs);
+		req = MochiKit.Async.sendXMLHttpRequest(req, qs);
+		
+		return req.addBoth(function(xmlHttp){
+		    Ajax.COUNT -= 1;
+		    return xmlHttp;
+		});
 	}
 }
 
