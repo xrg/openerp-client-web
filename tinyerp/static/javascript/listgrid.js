@@ -203,8 +203,9 @@ ListView.prototype.bindKeyEventsToEditors = function(editors){
 
 ListView.prototype.save = function(id){
 
-    var args = {};
     var parent_field = this.id.split('/');
+    
+    var args = getFormData(1);
 
     args['_terp_id'] = id ? id : -1;
     args['_terp_model'] = this.model;
@@ -221,25 +222,8 @@ ListView.prototype.save = function(id){
     args['_terp_parent/context'] = $(parent_field + '_terp_context').value;
     args['_terp_source'] = this.id;
 
-    var myself = this;
-    var editors = this.getEditors(true);
-
-    forEach(editors, function(e){
-   		// remove '_terp_listfields/' prefix
-   		var n = e.name.split('/');
-        n.shift();
-
-        var f = '_terp_form/' + n.join('/');
-        var k = '_terp_kind/' + n.join('/');
-        var r = '_terp_required/' + n.join('/');
-
-        args[f] = e.value;
-        args[k] = getNodeAttribute(e, 'kind');
-        if (hasElementClass(e, 'requiredfield'))
-        	args[k] += ' required';
-    });
-
-    var req= Ajax.JSON.get('/listgrid/save', args);
+    var myself = this;    
+    var req= Ajax.JSON.post('/listgrid/save', args);
 
     this.waitGlass();
 

@@ -48,7 +48,7 @@ from tinyerp import widgets_search as tws
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.utils import TinyDict
-from tinyerp.utils import TinyParent
+from tinyerp.utils import TinyForm
 
 def make_domain(name, value):
 
@@ -168,7 +168,7 @@ class Search(controllers.Controller, TinyResource):
         domain = params.domain
         context = params.context
 
-        ctx = TinyParent(**kw)
+        ctx = TinyForm(**kw)
         pctx = ctx
 
         prefix = params.prefix

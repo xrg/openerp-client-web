@@ -48,7 +48,6 @@ from tinyerp.tinyres import TinyResource
 
 from tinyerp.utils import TinyDict
 from tinyerp.utils import TinyForm
-from tinyerp.utils import TinyParent
 
 import search
 
@@ -703,7 +702,7 @@ class Form(controllers.Controller, TinyResource):
         if '/' in caller:
             prefix = caller.rsplit('/', 1)[0]
 
-        ctx = TinyParent(**kw)
+        ctx = TinyForm(**kw)
         pctx = ctx
 
         if prefix:

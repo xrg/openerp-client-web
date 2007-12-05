@@ -42,7 +42,7 @@ from tinyerp import common
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.utils import TinyDict
-from tinyerp.utils import TinyParent
+from tinyerp.utils import TinyForm
 
 import tinyerp.widgets as tw
 
@@ -62,7 +62,7 @@ class FieldPref(controllers.Controller, TinyResource):
         prefix = '.'.join(field[:-1])
         field = field[-1]
 
-        pctx = TinyParent(**kw)
+        pctx = TinyForm(**kw)
         ctx = pctx.chain_get(prefix) or pctx
        
         proxy = rpc.RPCProxy(params.model)

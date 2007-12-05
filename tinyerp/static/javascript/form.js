@@ -277,50 +277,88 @@ var buttonClicked = function(name, btype, model, id, sure){
 }
 
 /**
- * get key-pair object of the parent form
+ * get key-pair object of the form data
+ *
  */
-var get_parent_form = function() {
+var getFormData = function(extended) {
+    
+    var parentNode = $('_terp_list') || $('view_form');
 
-	var frm = {};
+    var frm = {};
+    var fields = [];
 
-	var thelist = $('_terp_list');
-	var theform = $('view_form');
+    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
+    fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
+    fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
 
-	if (thelist){
+    forEach(fields, function(e){
 
-		var inputs = [];
+        if (!e.name)
+            return;
 
-		inputs = inputs.concat(getElementsByTagAndClassName('input', null, thelist));
-		inputs = inputs.concat(getElementsByTagAndClassName('select', null, thelist));
+        var n = e.name.replace('_terp_listfields/', '');
 
-		forEach(inputs, function(e){
-    		if (e.name && !hasElementClass(e, 'grid-record-selector')){
-    			// remove '_terp_listfields/' prefix
-	    		var n = e.name.split('/');
-    	        n.shift();
+        if (n.indexOf('_terp_') > -1 || n.indexOf('/__id') > -1)
+            return;
 
-        	    var f = '_terp_parent_form/' + n.join('/');
-            	var k = '_terp_parent_types/' + n.join('/');
+        if (extended) {
+        
+            var attrs = {};
+            
+            var value = e.value;
+            var kind = null;
+            
+            value = e.value;            
+            kind = getNodeAttribute(e, 'kind');
+            
+            attrs['value'] = value;
+            
+            if (kind)
+                attrs['type'] = kind;
+            
+            if (hasElementClass(e, 'readonlyfield'))
+                attrs['required'] = 1;
+            
+            if (hasElementClass(e, 'requiredfield'))
+                attrs['readonly'] =  1;
 
-    	        frm[f] = e.value;
-        	    frm[k] = getNodeAttribute(e, 'kind');
-	        }
-    	});
-	} else {
-		forEach(theform.elements, function(e){
+            if (value && (kind == "text" || kind == "char"))
+                attrs['value'] = '""' + value + '""';
 
-			if (!e.name) return;
+            // pythonize the attr object
+            attrs = map(function(x){return '"' + x[0] + '"' + ':' + '"' + x[1] + '"'}, items(attrs));            
+            frm[n] = "{" + attrs.join(", ") + "}";
+            
+        } else {
+            frm[n] = value;
+        }
+    });
 
-			var n = e.name.indexOf('_terp_listfields') == 0 ? e.name.slice(17) : e.name;
+    return frm;
+}
 
-			if (n.indexOf('_terp_') == -1 && e.type != 'button'){
-            	frm['_terp_parent_form/' + n] = e.value;
-    	        frm['_terp_parent_types/' + n] = getNodeAttribute(e, 'kind');
-	        }
-    	});
-	}
+/*
+ * get key-value pair of form params (_terp_)
+ *
+ */
+var getFormParams = function(){
+        
+    var parentNode = $('view_form');
+        
+    var frm = {};
+    var fields = [];
+        
+    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
 
-	return frm;
+    forEach(fields, function(e){
+
+        if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1)
+            return
+
+        frm[e.name] = e.value;
+    });
+
+    return frm;
 }
 
 /**
@@ -338,7 +376,7 @@ var onChange = function(name) {
     prefix = prefix.join("/");
     prefix = prefix ? prefix + '/' : '';
 
-    var vals = get_parent_form();
+    var vals = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
 
     if (!callback)
@@ -435,7 +473,7 @@ function eval_domain_context_request(options){
     	prefix.shift();
     }
 	
-	var params = get_parent_form();
+	var params = getFormData(1);
 	
 	params['_terp_domain'] = options.domain;
 	params['_terp_context'] = options.context;
@@ -609,7 +647,7 @@ function set_as_default(field, model){
 
 	var kind = getNodeAttribute($(field), 'kind');
 
-	var args = get_parent_form();
+	var args = getFormData(1);
 	args['_terp_model'] = model;
 	args['_terp_field'] = field;
 

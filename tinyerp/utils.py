@@ -145,11 +145,8 @@ class TinyFormError(tg_validators.Invalid):
         self.field = field
                
 class TinyForm(TinyDict):
-    """A special helper class for AJAX form actions, will be used to convert each 
-    form values in its python equivalent.
-    """
-    
-    def __init__(self, _value_key, _kind_key, **kwargs):          
+        
+    def __init__(self, **kwargs):          
         
         VALIDATORS = {
             'date': tw_validators.DateTime(format="%Y-%m-%d"),
@@ -169,44 +166,36 @@ class TinyForm(TinyDict):
             'many2one': tw_validators.many2one(),
             'email' : tw_validators.Email(),
             'url' : tw_validators.Url()
-        }                  
-       
-        kw = kwargs.copy()
+        }
         
-        vk = '_terp_' + _value_key + '/'
-        kk = '_terp_' + _kind_key + '/'
+        kw = {}
+        
+        for k, v in kwargs.items():
+            if '_terp_' not in k:
+                kw['_terp_form/' + k] = eval(v)
 
-        # first generate validator from type info
-        for k, v in kw.items():
+        for name, attrs in kw.items():
             
-            vals = v.split(' ')
-            required = vals[0] != vals[-1]
+            kind = attrs.get('type', 'char')
+            value = attrs.get('value')
+                        
+            required = attrs.get('required', False)
 
-            if k.startswith(kk) and vals[0] in VALIDATORS:
-                attrs = {'type' : vals[0], 'required' : required}
-                kw[k] = VALIDATORS[vals[0]]
-
-        # then convert the values into pathon object
-        for k, v in kw.items():
-            if k.startswith(vk):
-                n = kk + k.replace(vk, '')
-                if n in kw and isinstance(kw[n], tg_validators.Validator):
-                    try:
-                        kw[k] = kw[n].to_python(v, None)
-                    except tg_validators.Invalid, e:
-                        raise TinyFormError(k.replace(vk, ''), e.msg, e.value)
-
-        # now split the kw dict
+            if kind not in VALIDATORS:
+                kind = 'char'
+            
+            try:
+                value = VALIDATORS[kind].to_python(value, None)
+            except tg_validators.Invalid, e:
+                raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
+            
+            kw[name] = value
+            
         params, data = TinyDict.split(kw)
-        params = getattr(params, _value_key)
-
+        params = params.form
+        
         super(TinyForm, self).__init__(**params)
 
-class TinyParent(TinyForm):
-
-    def __init__(self, **kwargs):
-        super(TinyParent, self).__init__('parent_form', 'parent_types', **kwargs)
-        
 if __name__ == "__main__":
     
     kw = {'_terp_view_ids': "[False, 45]",

@@ -29,21 +29,8 @@
 
 from turbogears import expose
 from turbogears import widgets
-from turbogears import controllers
-from turbogears import validators
-from turbogears import validate
 
 import cherrypy
-
-from tinyerp import rpc
-from tinyerp import tools
-from tinyerp import common
-
-from tinyerp import widgets as tw
-from tinyerp.tinyres import TinyResource
-
-from tinyerp.utils import TinyDict
-from tinyerp.utils import TinyParent
 
 from form import Form
 

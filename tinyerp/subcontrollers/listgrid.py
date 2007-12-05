@@ -65,7 +65,7 @@ class List(controllers.Controller, TinyResource):
 
         try:
             proxy = rpc.RPCProxy(model)
-            frm = TinyForm('form', 'kind', **kw)
+            frm = TinyForm(**kw)
 
             data = {}
             if model != params.model:
