@@ -30,6 +30,7 @@
 import base64
 
 from turbogears import expose
+from turbogears import redirect
 from turbogears import controllers
 
 from tinyerp import rpc
@@ -39,12 +40,13 @@ class Image(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.image")
     def index(self, **kw):
-
+       
+        saved = kw.get('saved') or None
         model = kw.get('model')
         id = kw.get('id')
         field = kw.get('field')
 
-        return dict(model=model, id=id, field=field, show_header_footer=False)
+        return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
 
     @expose(content_type='application/octet')
     def get_image(self, **kw):
@@ -62,6 +64,8 @@ class Image(controllers.Controller, TinyResource):
     @expose(template="tinyerp.subcontrollers.templates.image")
     def add(self, upimage,  **kw):
 
+        saved = kw.get('saved') or None
+        
         datas = upimage.file.read()
 
         model = kw.get('model')
@@ -74,12 +78,16 @@ class Image(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
         res = proxy.write([id], data)
-
-        return dict(model=model, id=id, field=field, show_header_footer=False)
+        
+        if res:
+            saved = 1
+        
+        return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
 
     @expose(template="tinyerp.subcontrollers.templates.image")
     def delete(self, **kw):
 
+        saved = None
         model = kw.get('model')
         id = int(kw.get('id'))
         field = kw.get('field')
@@ -87,7 +95,7 @@ class Image(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
         proxy.write([id], {field: False})
 
-        return dict(model=model, id=id, field=field, show_header_footer=False)
+        return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
 
     @expose(content_type='application/octet')
     def save_as(self, **kw):
@@ -100,5 +108,8 @@ class Image(controllers.Controller, TinyResource):
         res = proxy.read([id], [field])[0]
 
         res = res.get(field)
-
+        
+        if not res:
+            raise redirect('/image', **kw)
+        
         return base64.decodestring(res)

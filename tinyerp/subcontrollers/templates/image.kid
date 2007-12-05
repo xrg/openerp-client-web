@@ -17,6 +17,8 @@
 		addLoadEvent(function(evt){
 			img = window.opener.document.getElementById('${field}');
 			img.src = img.src + '&amp;' + Math.random();
+            if($('saved').value)               
+                window.close();
         });
 
     </script>
@@ -41,6 +43,7 @@
 	                    <input type="hidden" name="model" value="${model}"/>
 	                    <input type="hidden" name="id" value="${id}"/>
 	                    <input type="hidden" name="field" value="${field}"/>
+                        <input type="hidden" id="saved" name="saved" value="${saved}"/>
                         <div class="toolbar">
 	                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	                        <tr>
