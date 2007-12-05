@@ -186,7 +186,7 @@ class TinyForm(TinyDict):
             
             try:
                 v = VALIDATORS[kind]
-                v.not_empty = (required or False) and True
+                #v.not_empty = (required or False) and True
                 value = v.to_python(value, None)
             except tg_validators.Invalid, e:
                 raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
