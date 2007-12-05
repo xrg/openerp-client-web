@@ -202,6 +202,10 @@ ListView.prototype.bindKeyEventsToEditors = function(editors){
 }
 
 ListView.prototype.save = function(id){
+    
+    if (Ajax.COUNT > 0) {
+        callLater(3, bind(this.save, this), null);
+    }
 
     var parent_field = this.id.split('/');
     
