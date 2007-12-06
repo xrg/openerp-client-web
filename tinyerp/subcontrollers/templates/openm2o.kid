@@ -2,23 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>${form.screen.string} </title>
-    
+
     <script type="text/javascript">
         var form_controller = '/openm2o';
     </script>
 
-    <script type="text/javascript">       
-        function on_load() { 
+    <script type="text/javascript">
+        function on_load() {
             if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
                 window.opener.document.getElementById('${params.source}').value = $("_terp_id").value;
             window.opener.setTimeout("signal($('${params.source}'), 'onchange')", 0);
-            
+
             var lc = $('_terp_load_counter').value;
             lc = parseInt(lc) || 1;
-            
+
             if (lc > 1) {
                 window.close();
-            }                        
+            }
         }
         connect(window, 'onload', on_load);
     </script>
@@ -41,23 +41,23 @@
                 </table>
             </td>
         </tr>
-		<tr>
+        <tr>
             <td py:content="form.display()">Form View</td>
         </tr>
         <tr>
             <td>
-		        <div class="toolbar">
-		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-		                <tr>
-		                    <td width="100%">
-		                    </td>
-		                    <td>
-		                        <button type="button" onclick="window.close()">Close</button>
-		                        <button type="button" onclick="submit_form('save')">Save</button>
-		                    </td>
-		                </tr>
-		            </table>
-		        </div>
+                <div class="toolbar">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td width="100%">
+                            </td>
+                            <td>
+                                <button type="button" onclick="window.close()">Close</button>
+                                <button type="button" onclick="submit_form('save')">Save</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </td>
         </tr>
     </table>

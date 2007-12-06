@@ -28,6 +28,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var ListView = function(id, terp){
+
     this.id = id;
     this.terp = terp;
 
@@ -62,41 +63,44 @@ ListView.prototype.getSelectedItems = function(boxes) {
 }
 
 ListView.prototype.create = function(){
-	this.edit(-1);
+    this.edit(-1);
 }
 
 ListView.prototype.edit = function(id){
-	if (this.wait_counter > 0)
-		return;
+    if (this.wait_counter > 0)
+        return;
 
-	this.reload(id);
+    this.reload(id);
 }
 
 ListView.prototype.getEditors = function(named, dom){
 
-	var editors = [];
-	var dom = dom ? dom : this.id;
+    var editors = [];
+    var dom = dom ? dom : this.id;
 
-	editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
-	editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
+    editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
+    editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
 
-	if (named)
-		return filter(function(e){return e.name &&  e.name.indexOf('_terp_listfields') == 0;}, editors);
-	else
-		return filter(function(e){return e.id &&  e.id.indexOf('_terp_listfields') == 0;}, editors);
+    return filter(function(e){
+        name = name ? e.name : e.id;
+        return name &&  name.indexOf('_terp_listfields') == 0;
+    }, editors);
 }
 
 ListView.prototype.adjustEditors = function(newlist){
 
-	var myself = this;
+    var self = this;
     var widths = {};
 
-    if (items(myself.getEditors(true)).length == 0) {
+    if (items(self.getEditors(true)).length == 0) {
 
-        var header = getElementsByTagAndClassName('tr', 'grid-header', myself.id)[0];
-        var columns = filter(function(c){return c.id;}, getElementsByTagAndClassName('td', 'grid-cell', header));
+        var header = getElementsByTagAndClassName('tr', 'grid-header', self.id)[0];
+        var columns = filter(function(c){
+                return c.id;
+        }, getElementsByTagAndClassName('td', 'grid-cell', header));
 
         forEach(columns, function(c){
+
             var k = c.id.split('/');
             k.shift();
             k = '_terp_listfields/' + k.join('/');
@@ -115,12 +119,12 @@ ListView.prototype.adjustEditors = function(newlist){
             widths[k] = w - 4;
         });
     } else {
-        forEach(myself.getEditors(), function(e){
+        forEach(self.getEditors(), function(e){
             widths[e.id] = parseInt(e.offsetWidth);
         });
     }
 
-    var editors = myself.getEditors(false, newlist);
+    var editors = self.getEditors(false, newlist);
 
     forEach(editors, function(e){
         var k = e.id;
@@ -139,84 +143,87 @@ ListView.prototype.adjustEditors = function(newlist){
 
 ListView.prototype.onKeyDown = function(evt){
 
-	var key = evt.key();
-	var src = evt.src();
+    var key = evt.key();
+    var src = evt.src();
 
-	if (!(key.string == "KEY_TAB" || key.string == "KEY_ENTER" || key.string == "KEY_ESCAPE")) {
-		return;
-	}
+    if (!(key.string == "KEY_TAB" || key.string == "KEY_ENTER" || key.string == "KEY_ESCAPE")) {
+        return;
+    }
 
-	if (key.string == "KEY_ESCAPE"){
-		evt.stop();
-		this.reload();
-		return;
-	}
+    if (key.string == "KEY_ESCAPE"){
+        evt.stop();
+        this.reload();
+        return;
+    }
 
-	if (key.string == "KEY_ENTER"){
+    if (key.string == "KEY_ENTER"){
 
-		if (hasElementClass(src, "m2o")){
+        if (hasElementClass(src, "m2o")){
 
-			var k = src.id;
-			k = k.slice(0, k.length - 5);
+            var k = src.id;
+            k = k.slice(0, k.length - 5);
 
-			if (src.value && !getElement(k).value){
-				return;
-			}
-		}
+            if (src.value && !getElement(k).value){
+                return;
+            }
+        }
 
-		evt.stop();
-		this.save(this.current_record);
+        evt.stop();
+        this.save(this.current_record);
 
-		return;
-	}
+        return;
+    }
 
-	var editors = filter(function(e){return e.type != 'hidden' && !e.disabled}, this.getEditors());
+    var editors = filter(function(e){
+        return e.type != 'hidden' && !e.disabled
+    }, this.getEditors());
 
-	forEach(editors, function(e){
-	   addElementClass(e, 'listfields');
-	});
+    forEach(editors, function(e){
+       addElementClass(e, 'listfields');
+    });
 
-	editors = getElementsByTagAndClassName(null, 'listfields', this.id);
+    editors = getElementsByTagAndClassName(null, 'listfields', this.id);
 
-	var first = editors.shift();
-	var last = editors.pop();
+    var first = editors.shift();
+    var last = editors.pop();
 
-	if (src == last){
-		evt.stop();
-		first.focus();
-		first.select();
-	}
+    if (src == last){
+        evt.stop();
+        first.focus();
+        first.select();
+    }
 }
 
 ListView.prototype.bindKeyEventsToEditors = function(editors){
-	var myself = this;
-	var editors = filter(function(e){return e.type != 'hidden' && !e.disabled}, editors);
+    var self = this;
+    var editors = filter(function(e){
+        return e.type != 'hidden' && !e.disabled
+    }, editors);
 
-	forEach(editors, function(e){
-		connect(e, 'onkeydown', myself, myself.onKeyDown);
-	});
+    forEach(editors, function(e){
+        connect(e, 'onkeydown', self, self.onKeyDown);
+    });
 
-	var first = editors.shift();
-	first.focus();
-	first.select();
+    var first = editors.shift();
+    first.focus();
+    first.select();
 }
 
 ListView.prototype.save = function(id){
-    
+
     if (Ajax.COUNT > 0) {
         callLater(1, bind(this.save, this), null);
     }
 
     var parent_field = this.id.split('/');
-    
     var args = getFormData(2);
 
     args['_terp_id'] = id ? id : -1;
     args['_terp_model'] = this.model;
 
     if (parent_field.length > 0){
-		parent_field.pop();
-	}
+        parent_field.pop();
+    }
 
     parent_field = parent_field.join('/');
     parent_field = parent_field ? parent_field + '/' : '';
@@ -226,76 +233,77 @@ ListView.prototype.save = function(id){
     args['_terp_parent/context'] = $(parent_field + '_terp_context').value;
     args['_terp_source'] = this.id;
 
-    var myself = this;    
+    var self = this;
     var req= Ajax.JSON.post('/listgrid/save', args);
 
     this.waitGlass();
 
     req.addCallback(function(obj){
         if (obj.error){
-           alert(obj.error);
+            alert(obj.error);
 
-           if (obj.error_field) {
-               var fld = getElement('_terp_listfields/' + obj.error_field);
+            if (obj.error_field) {
+                var fld = getElement('_terp_listfields/' + obj.error_field);
 
-               if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
-               		fld = getElement(fld.id + '_text');
+                if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
+                    fld = getElement(fld.id + '_text');
 
-               if (fld) {
-               		fld.focus();
-               		fld.select();
-               }
-           }
-        }else{
-            myself.reload(id > 0 ? null : -1);
+                if (fld) {
+                    fld.focus();
+                    fld.select();
+                }
+            }
+        } else {
+            self.reload(id > 0 ? null : -1);
         }
     });
 
     req.addBoth(function(xmlHttp){
-        myself.waitGlass(true);
+        self.waitGlass(true);
     });
 }
 
 ListView.prototype.remove = function(id){
 
-	if (!confirm('Do you realy want to delete this record?')) {
+    if (!confirm('Do you realy want to delete this record?')) {
         return false;
     }
 
-	var myself = this;
-	var args = {};
+    var self = this;
+    var args = {};
 
-	args['_terp_model'] = this.model;
-	args['_terp_id'] = id;
+    args['_terp_model'] = this.model;
+    args['_terp_id'] = id;
 
-	var req = Ajax.JSON.post('/listgrid/remove', args);
+    var req = Ajax.JSON.post('/listgrid/remove', args);
 
-	this.waitGlass();
+    this.waitGlass();
 
-	req.addCallback(function(obj){
-		if (obj.error){
-			alert(obj.error);
-		} else {
-			myself.reload();
-		}
-	});
+    req.addCallback(function(obj){
+        if (obj.error){
+            alert(obj.error);
+        } else {
+            self.reload();
+        }
+    });
 
-	req.addBoth(function(xmlHttp){
-        myself.waitGlass(true);
+    req.addBoth(function(xmlHttp){
+        self.waitGlass(true);
     });
 }
 
 ListView.prototype.makeArgs = function(){
 
-	var args = {};
+    var args = {};
     var names = this.id.split('/');
 
-    var values = ['id', 'ids', 'model', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'offset', 'limit'];
+    var values = ['id', 'ids', 'model', 'view_ids', 'view_mode', 
+                  'view_type', 'domain', 'context', 'offset', 'limit'];
 
     forEach(values, function(val){
-    	var key = '_terp_' + val;
-    	args[key] = getElement(key).value;
-	});
+        var key = '_terp_' + val;
+        args[key] = getElement(key).value;
+    });
 
     for(var i=0; i<names.length; i++){
 
@@ -306,10 +314,10 @@ ListView.prototype.makeArgs = function(){
         prefix = prefix + '/';
 
         forEach(values, function(val){
-        	var key = prefix + '_terp_' + val;
-        	var elem = getElement(key);
+            var key = prefix + '_terp_' + val;
+            var elem = getElement(key);
 
-        	if (elem) args[key] = elem.value;
+            if (elem) args[key] = elem.value;
         });
     }
 
@@ -318,15 +326,15 @@ ListView.prototype.makeArgs = function(){
 
 ListView.prototype.reload = function(edit_inline){
 
-	var myself = this;
+    var self = this;
     var args = this.makeArgs();
 
-	// add args
+    // add args
     args['_terp_source'] = this.id;
     args['_terp_edit_inline'] = edit_inline;
 
     if (this.id == '_terp_list') {
-    	args['_terp_search_domain'] = $('_terp_search_domain').value;
+        args['_terp_search_domain'] = $('_terp_search_domain').value;
     }
 
     var req = Ajax.JSON.post('/listgrid/get', args);
@@ -335,126 +343,131 @@ ListView.prototype.reload = function(edit_inline){
 
     req.addCallback(function(obj){
 
-    	var _terp_ids = $(myself.id + '/_terp_ids') || $('_terp_ids');
-    	var _terp_count = $(myself.id + '/_terp_count') || $('_terp_count');
+        var _terp_ids = $(self.id + '/_terp_ids') || $('_terp_ids');
+        var _terp_count = $(self.id + '/_terp_count') || $('_terp_count');
 
-    	_terp_ids.value = obj.ids;
+        _terp_ids.value = obj.ids;
         _terp_count.value = obj.count;
-        
+
         var d = DIV();
         d.innerHTML = obj.view;
 
         var newlist = d.getElementsByTagName('table')[0];
-		var editors = myself.adjustEditors(newlist);
+        var editors = self.adjustEditors(newlist);
 
-		myself.current_record = edit_inline;
+        self.current_record = edit_inline;
 
-        swapDOM(myself.id, newlist);
+        swapDOM(self.id, newlist);
 
         var ua = navigator.userAgent.toLowerCase();
 
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
-	        // execute JavaScript
-    	    var scripts = getElementsByTagAndClassName('script', null, newlist);
-        	forEach(scripts, function(s){
-        		eval(s.innerHTML);
-	        });
-	    }
+            // execute JavaScript
+            var scripts = getElementsByTagAndClassName('script', null, newlist);
+            forEach(scripts, function(s){
+                eval(s.innerHTML);
+            });
+        }
 
-		if (editors.length > 0)
-        	myself.bindKeyEventsToEditors(editors);
+        if (editors.length > 0)
+            self.bindKeyEventsToEditors(editors);
     });
 
     req.addBoth(function(xmlHttp){
-        myself.waitGlass(true);
+        self.waitGlass(true);
     });
 }
 
 function findPosition(elem) {
-	var x = y = 0;
-	if (elem.offsetParent) {
-		x = elem.offsetLeft
-		y = elem.offsetTop
-		while (elem = elem.offsetParent) {
-			x += elem.offsetLeft
-			y += elem.offsetTop
-		}
-	}
-	return {x: x, y: y};
+    var x = y = 0;
+    if (elem.offsetParent) {
+        x = elem.offsetLeft
+        y = elem.offsetTop
+        while (elem = elem.offsetParent) {
+            x += elem.offsetLeft
+            y += elem.offsetTop
+        }
+    }
+    return {x: x, y: y};
 }
 
 ListView.prototype.waitGlass = function(hide){
 
-	this.wait_counter += hide ? -1 : 1;
+    this.wait_counter += hide ? -1 : 1;
 
-	var block = $('listgrid_ajax_wait');
+    var block = $('listgrid_ajax_wait');
 
-	if (!block){
-		block = DIV({id: 'listgrid_ajax_wait', style: "position: absolute; display: none; background-color: gray;"});
-		setOpacity(block, 0.2);
+    if (!block){
+        block = DIV({id: 'listgrid_ajax_wait', style: "position: absolute; display: none; background-color: gray;"});
+        setOpacity(block, 0.2);
 
-		appendChildNodes(document.body, block);
-	}
+        appendChildNodes(document.body, block);
+    }
 
-	if (this.wait_counter == 0){
-		hideElement(block);
-		return;
-	}
+    if (this.wait_counter == 0){
+        hideElement(block);
+        return;
+    }
 
-	if (this.wait_counter > 1){
-		return;
-	}
+    if (this.wait_counter > 1){
+        return;
+    }
 
-	var thelist = $(this.id);
+    var thelist = $(this.id);
 
-	//var p = elementPosition(thelist);
-	var p = findPosition(thelist);
-	var d = elementDimensions(thelist);
+    //var p = elementPosition(thelist);
+    var p = findPosition(thelist);
+    var d = elementDimensions(thelist);
 
-	setElementPosition(block, p);
-	setElementDimensions(block, d);
+    setElementPosition(block, p);
+    setElementDimensions(block, d);
 
-	showElement(block);
+    showElement(block);
 }
 
 ListView.prototype.exportData = function(){
-	openWindow(getURL('/impex/exp', {_terp_model: this.model, _terp_source: this.id, _terp_search_domain: $('_terp_search_domain').value, _terp_ids: $(this.id)}));
+    openWindow(getURL('/impex/exp', {_terp_model: this.model, 
+                                     _terp_source: this.id, 
+                                     _terp_search_domain: $('_terp_search_domain').value, 
+                                     _terp_ids: $(this.id)}));
 }
 
 ListView.prototype.importData = function(){
-	openWindow(getURL('/impex/imp', {_terp_model: this.model, _terp_source: this.id}));
+    openWindow(getURL('/impex/imp', {_terp_model: this.model, _terp_source: this.id}));
 }
 
 ListView.prototype.go = function(action){
 
-	var prefix = '';
+    var prefix = '';
 
-	if (this.id != '_terp_list') {
-		prefix = this.id + '/';
-	}
+    if (this.id != '_terp_list') {
+        prefix = this.id + '/';
+    }
 
-	var o = $(prefix + '_terp_offset');
-	var l = $(prefix + '_terp_limit');
-	var c = $(prefix + '_terp_count');
+    var o = $(prefix + '_terp_offset');
+    var l = $(prefix + '_terp_limit');
+    var c = $(prefix + '_terp_count');
 
-	var ov = o.value ? parseInt(o.value) : 0;
-	var lv = l.value ? parseInt(l.value) : 0;
-	var cv = c.value ? parseInt(c.value) : 0;
+    var ov = o.value ? parseInt(o.value) : 0;
+    var lv = l.value ? parseInt(l.value) : 0;
+    var cv = c.value ? parseInt(c.value) : 0;
 
-	switch(action) {
-		case 'next':
-			o.value = ov + lv;
-			break;
-		case 'previous':
-			o.value = lv > ov ? 0 : ov - lv;
-			break;
-		case 'first':
-			o.value = 0;
-			break;
-		case 'last':
-			o.value = cv - (cv % lv);
-			break;
-	}
+    switch(action) {
+        case 'next':
+            o.value = ov + lv;
+            break;
+        case 'previous':
+            o.value = lv > ov ? 0 : ov - lv;
+            break;
+        case 'first':
+            o.value = 0;
+            break;
+        case 'last':
+            o.value = cv - (cv % lv);
+            break;
+    }
 
-	this.reload();
+    this.reload();
 }
+
+// vim: sts=4 st=4 et

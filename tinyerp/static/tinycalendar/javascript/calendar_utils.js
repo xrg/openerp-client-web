@@ -28,22 +28,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 var Browser = {
-    
+
     // Is Internet Explorer?
     isIE : /msie/.test(navigator.userAgent.toLowerCase()),
-    
+
     // Is Internet Explorer 6?
     isIE6 : /msie 6/.test(navigator.userAgent.toLowerCase()),
-    
+
     // Is Internet Explorer 7?
     isIE7 : /msie 7/.test(navigator.userAgent.toLowerCase()),
 
     // Is Mozilla derived?
     isMozilla : /mozilla/.test(navigator.userAgent.toLowerCase()),
-    
+
     // Is Apple WebKit derived?
     isWebKit : /webkit/.test(navigator.userAgent.toLowerCase()),
-    
+
     // Is opera?
     isOpera : /opera/.test(navigator.userAgent.toLowerCase())
 }
@@ -70,16 +70,16 @@ MochiKit.Base.update(Date.prototype, {
         var self = new Date(this.getFullYear(), this.getMonth(), this.getDate());
         return Math.ceil((((self - first) / 86400000) + first.getDay()) / 7);
     },
-    
+
     // day of the week (Sunday as last day)
     getWeekDay : function(){
-    	return this.getDay() == 0 ? 6 : this.getDay() - 1;
+        return this.getDay() == 0 ? 6 : this.getDay() - 1;
     },
-    
+
     getNext : function() {
         return new Date(this.getTime() + 24 * 60 * 60 * 1000);
     },
-    
+
     getPrevious : function() {
         return new Date(this.getTime() - 24 * 60 * 60 * 1000);
     }
@@ -91,46 +91,46 @@ var CAL_INSTALCE = null;
 
 var getCalendar = function(action) {
     var act = action ? action : '/calendar/get/' + $('_terp_calendar_args').value;
-    
+
     var contents = formContents('view_form');
     var params = {};
-    
+
     for(var i in contents[0]){
         var k = contents[0][i];
         var v = contents[1][i];
-        
+
         params[k] = [v];
     }
-    
+
     // colors
     var colors = getElementsByTagAndClassName('input', null, 'calGroups');
     var values = [];
-    
+
     colors = filter(function(e){return e.checked}, colors);
     forEach(colors, function(e){
         values = values.concat(e.value);
     });
-    
+
     params['_terp_colors'] = $('_terp_colors').value;
     params['_terp_color_values'] = "[" + values.join(",") + "]";
-    
-    showElement('calLoading');        
+
+    showElement('calLoading');
 
     var req = Ajax.post(act, params);
     req.addCallback(function(xmlHttp){
-        
+
         var d = DIV();
         d.innerHTML = xmlHttp.responseText;
 
         var newContainer = d.getElementsByTagName('table')[0];
-        
+
         // release resources
         CAL_INSTALCE.__delete__();
-        
+
         swapDOM('calContainer', newContainer);
 
         var ua = navigator.userAgent.toLowerCase();
-        
+
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
             // execute JavaScript
             var scripts = getElementsByTagAndClassName('script', null, newContainer);
@@ -138,7 +138,7 @@ var getCalendar = function(action) {
                 eval(s.innerHTML);
             });
         }
-        
+
         CAL_INSTALCE.onResize();
 
     });
@@ -146,14 +146,14 @@ var getCalendar = function(action) {
 
 var getMiniCalendar = function(action) {
     var req = Ajax.post(action);
-    
+
     req.addCallback(function(xmlHttp){
-        
+
         var d = DIV();
         d.innerHTML = xmlHttp.responseText;
 
-        var newMiniCalendar = d.getElementsByTagName('div')[0];                               
-        
+        var newMiniCalendar = d.getElementsByTagName('div')[0];
+
         swapDOM('MiniCalendar', newMiniCalendar);
     });
 }
@@ -168,7 +168,7 @@ var saveCalendarRecord = function(record_id, starts, ends){
         '_terp_ends' : ends,
         '_terp_context': $('_terp_context').value
     }
-    
+
     var req = Ajax.post('/calendar/save', params);
     req.addCallback(function(xmlHttp){
     });
@@ -184,8 +184,9 @@ var editCalendarRecord = function(record_id){
         'domain': $('_terp_domain').value,
         'context': $('_terp_context').value
     }
-    
+
     var act = getURL('/calpopup/edit', params);
     openWindow(act);
 }
 
+// vim: sts=4 st=4 et

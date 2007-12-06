@@ -11,8 +11,8 @@
                                 <img py:if="not parent_id" src="/static/images/stock/gtk-save.png" width="16" height="16"/>
                             </button>
                             <button type="button" py:if="screen.editable and screen.view_type == 'form' and screen.id" title="${_('Delete current record...')}" onclick="submit_form('delete', '${name}')" style="padding: 2px">
-                                <img src="/static/images/stock/gtk-delete.png" width="16" height="16"/>                            
-                            </button>                                
+                                <img src="/static/images/stock/gtk-delete.png" width="16" height="16"/>
+                            </button>
                             <button type="button" py:if="pager_info" title="${_('Previous record...')}" onclick="submit_form('previous', '${name}')" style="padding: 2px">
                                 <img class="button" src="/static/images/stock/gtk-go-back.png" width="16" height="16"/>
                             </button>

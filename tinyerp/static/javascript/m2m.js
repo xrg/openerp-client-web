@@ -34,70 +34,72 @@ var Many2Many = function(name) {
 Many2Many.prototype = {
 
     __init__ : function(name) {
-    
+
         this.name = name;
-    
+
         this.id = getElement(name + '_id');
-        this.text = getElement(name + '_set');        
+        this.text = getElement(name + '_set');
         this.element = getElement(name);
-        
+
         this.model = getNodeAttribute(this.id, 'relation');
-        
+
         this.hasList = getElement(name + '_container') ? true : false;
-        
+
         this.id.onchange = bind(this.onChange, this);
         this.text.onchange = bind(this.selectAll, this);
-        
+
         this.selectAll();
     },
-    
+
     onChange : function() {
-    
+
         var self = this;
         var ids = this.id.value;
-        
-		if(this.hasList) {
-		
-            req = Ajax.get('/search/get_list', {model: this.model, ids : ids, list_id : this.name});        
+
+        if(this.hasList) {
+
+            req = Ajax.get('/search/get_list', {model: this.model, ids : ids, list_id : this.name});
             req.addCallback(function(xmlHttp){
                 var listview = getElement(self.name + '_container');
                 listview.innerHTML = xmlHttp.responseText;
                 self.selectAll();
             });
-            
-		} else {
+
+        } else {
             ids = ids == '[]' ? '' : ids;
             ids = ids ? ids.split(',') : [];
-            
+
             this.text.value = '(' + ids.length + ')';
             ids = '[' + ids + ']';
             this.element.value = ids;
-		}    
+        }
     },
-    
+
     selectAll : function(){
         if (this.hasList) {
             new ListView(this.name).checkAll();
         }
     },
-    
+
     setValue : function(ids){
-    
+
         var self = this;
 
         if (this.hasList) {
-                
+
             req = Ajax.get('/search/get_list', {model: this.model, ids : ids, list_id: this.name});
-    
-            req.addCallback(function(xmlHttp) {         
+
+            req.addCallback(function(xmlHttp) {
                 var listview = getElement(self.name + '_container');
                 listview.innerHTML = xmlHttp.responseText;
                 self.selectAll();
             });
-            
-	    } else {	       
+
+        } else {
             this.text.value = '(' + ids.length + ')';
             this.element.value = '[' + ids + ']';
-	    }    
+        }
     }
 }
+
+// vim: sts=4 st=4 et

@@ -1,15 +1,20 @@
 .pager {
-	font-size: 11px;
-	font-weight: bold;
-	color: #999;
-	vertical-align: middle;
-	white-space: nowrap;
+    font-size: 11px;
+    font-weight: bold;
+    color: #999;
+    vertical-align: middle;
+    white-space: nowrap;
 }
 
 .pager a {
-	color: #333;
+    color: #333;
 }
 
 .pager a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
+
+/**
+ * vim: sts=4 st=4 et 
+ *
+ **/

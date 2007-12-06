@@ -55,3 +55,4 @@ Menu.prototype.hide = function(){
     }
 }
 
+// vim: sts=4 st=4 et

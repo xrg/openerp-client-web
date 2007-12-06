@@ -9,39 +9,39 @@
         <tr>
             <td>
                 <table width="100%" class="titlebar">
-                    <tr>                        
+                    <tr>
                         <td width="100%">Information</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td>              
+            <td>
                 <div class="box2">
                     <table border="0" width="100%" align="center">
-	                    <tr py:for="key, val in todo">	                    
-	                        <td class="label" py:if="key in tmp">
-	                            ${val} :	                               	                        
+                        <tr py:for="key, val in todo">
+                            <td class="label" py:if="key in tmp">
+                                ${val} :
                             </td>
                             <td>
-                                ${tmp[key]}                  
+                                ${tmp[key]}
                             </td>
                         </tr>
-	                </table>                
-	            </div>
+                    </table>
+                </div>
                 <div class="toolbar">
-		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-		                <tr>
-		                    <td width="100%">
-		                    </td>
-		                    <td>
-		                        <button type="button" onclick="window.close()">Ok</button>
-		                    </td>
-		                </tr>
-		            </table>
-		        </div>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td width="100%">
+                            </td>
+                            <td>
+                                <button type="button" onclick="window.close()">Ok</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </td>
         </tr>
-    </table>    
+    </table>
 </body>
 </html>

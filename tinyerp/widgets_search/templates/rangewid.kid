@@ -4,7 +4,7 @@
             ${from_field.display(value_for(from_field), **params_for(from_field))}
         </td>
         <td><div class="spacer"></div></td>
-        <td align="center" width="10px"><b>-</b></td>        
+        <td align="center" width="10px"><b>-</b></td>
         <td><div class="spacer"></div></td>
         <td width="50%">
             ${to_field.display(value_for(to_field), **params_for(to_field))}

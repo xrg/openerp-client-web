@@ -29,9 +29,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 function do_sort(table) {
-	var table = $(table);
-	var rows = getElementsByTagAndClassName("tr","grid-row", table);
-	do_Sortable(rows, table);
+    var table = $(table);
+    var rows = getElementsByTagAndClassName("tr","grid-row", table);
+    do_Sortable(rows, table);
 }
 
 var SORT_COLUMN_INDEX;
@@ -42,16 +42,16 @@ function do_Sortable(rows, tableId) {
 
         rows_header = getElementsByTagAndClassName("tr","grid-header", tableId);
 
-		forEach(rows_header, function(e) {
-		    header_cell = e.getElementsByTagName('td');
+        forEach(rows_header, function(e) {
+            header_cell = e.getElementsByTagName('td');
 
-		    forEach(header_cell, function(ee) {
-		        if(ee.id) {
+            forEach(header_cell, function(ee) {
+                if(ee.id) {
 
-		            txt = get_innerText(ee);
+                    txt = get_innerText(ee);
 
-		            var div = DIV({'class' : 'sortheader'});
-		            div.style.cursor = 'pointer';
+                    var div = DIV({'class' : 'sortheader'});
+                    div.style.cursor = 'pointer';
 
                     var span = SPAN({'class' : 'sortarrow'});
 
@@ -60,37 +60,37 @@ function do_Sortable(rows, tableId) {
                     ee.innerHTML = '';
                     appendChildNodes(ee, div);
 
-		            connect(div, 'onclick', do_resortTable);
+                    connect(div, 'onclick', do_resortTable);
 
-		        }
-		    });
-	    });
+                }
+            });
+        });
     }
 }
 
 function get_innerText(el) {
-	if (typeof el == "string" || typeof el == "undefined") return el;
-	if (el.innerText) return el.innerText;	//Not needed but it is faster
+    if (typeof el == "string" || typeof el == "undefined") return el;
+    if (el.innerText) return el.innerText;    //Not needed but it is faster
 
-	var str = "";
+    var str = "";
 
-	var cs = el.childNodes;
+    var cs = el.childNodes;
 
-	var l = cs.length;
+    var l = cs.length;
 
-	for (var i = 0; i < l; i++) {
+    for (var i = 0; i < l; i++) {
 
-		switch (cs[i].nodeType) {
-			case 1: //ELEMENT_NODE
-				str += get_innerText(cs[i]);
-				break;
+        switch (cs[i].nodeType) {
+            case 1: //ELEMENT_NODE
+                str += get_innerText(cs[i]);
+                break;
 
-			case 3:	//TEXT_NODE
-				str += cs[i].nodeValue;
-    			break;
-		}
-	}
-	return str;
+            case 3:    //TEXT_NODE
+                str += cs[i].nodeValue;
+                break;
+        }
+    }
+    return str;
 }
 
 function do_resortTable(lnk) {
@@ -118,11 +118,11 @@ function do_resortTable(lnk) {
     var rows = getElementsByTagAndClassName("tr","grid-row", table);
 
     var record_ids = map(function(e){
-    	return getNodeAttribute(e, 'record');
+        return getNodeAttribute(e, 'record');
     }, rows);
 
     record_ids = filter(function(e){
-    	return e != null;
+        return e != null;
     }, record_ids);
 
     record_ids = '[' + record_ids.join(',') + ']';
@@ -196,23 +196,23 @@ function do_resortTable(lnk) {
 }
 
 function getParent(el, pTagName) {
-	if (el == null) return null;
-	else if (el.nodeType == 1 && el.tagName.toLowerCase() == pTagName.toLowerCase())	// Gecko bug, supposed to be uppercase
-		return el;
-	else
-		return getParent(el.parentNode, pTagName);
+    if (el == null) return null;
+    else if (el.nodeType == 1 && el.tagName.toLowerCase() == pTagName.toLowerCase())    // Gecko bug, supposed to be uppercase
+        return el;
+    else
+        return getParent(el.parentNode, pTagName);
 }
 function sort_date(a,b) {
 
-	aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
+    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
     bb = get_innerText(b.cells[SORT_COLUMN_INDEX]);
 
-	dt1 = aa.substr(6,4)+aa.substr(0,2)+aa.substr(3,2)+aa.substr(11,2)+aa.substr(14, 2);
-	dt2 = bb.substr(6,4)+bb.substr(0,2)+bb.substr(3,2)+bb.substr(11,2)+bb.substr(14, 2);
+    dt1 = aa.substr(6,4)+aa.substr(0,2)+aa.substr(3,2)+aa.substr(11,2)+aa.substr(14, 2);
+    dt2 = bb.substr(6,4)+bb.substr(0,2)+bb.substr(3,2)+bb.substr(11,2)+bb.substr(14, 2);
 
-	if (dt1==dt2) return 0;
-	if (dt1>dt2) return -1;
-	return 1;
+    if (dt1==dt2) return 0;
+    if (dt1>dt2) return -1;
+    return 1;
 };
 
 function sort_currency(a,b) {
@@ -263,3 +263,5 @@ function addEvent(elm, evType, fn, useCapture)
         alert("Handler could not be removed");
     }
 }
+
+// vim: sts=4 st=4 et

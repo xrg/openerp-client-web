@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>Add Translations</title>
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>   
+    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
 </head>
 <body>
@@ -10,7 +10,7 @@
 <form action="/translator/save" method="post" enctype="multipart/form-data">
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_id" name="_terp_id" value="${id}"/>
-    
+
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
@@ -23,7 +23,7 @@
                     </tr>
                 </table>
             </td>
-        </tr>    
+        </tr>
         <tr>
             <td>
                 <div class="toolbar">
@@ -60,12 +60,12 @@
                             <input type="text" name="${lang['code']}/${n}" value="${v[lang['code']]}" style="width: 100%;"/>
                         </td>
                     </tr>
-                </table>                
+                </table>
             </td>
         </tr>
-        
+
         <tr py:if="translate == 'view'" py:for="n, data in view">
-            <td>                
+            <td>
                 <table width="100%">
                     <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
                     <tr><th colspan="2" align="center">${[l for l in langs if l['code'] == n][0]['name']} (${n})</th></tr>
@@ -79,7 +79,7 @@
                 </table>
             </td>
         </tr>
-        
+
         <tr>
             <td>
                 <div class="toolbar">
@@ -92,9 +92,9 @@
                     </table>
                 </div>
             </td>
-        </tr>        
+        </tr>
     </table>
-</form>   
+</form>
 
 </body>
 </html>

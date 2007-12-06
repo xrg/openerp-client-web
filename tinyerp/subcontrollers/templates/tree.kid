@@ -8,7 +8,7 @@
         function submit_form(action){
             var form = $('tree_view');
 
-			setNodeAttribute(form, 'action', '/tree/' + action);
+            setNodeAttribute(form, 'action', '/tree/' + action);
             form.method = 'post';
 
             form.submit();
@@ -46,7 +46,7 @@
     </tr>
     <tr><td height="4px"></td></tr>
     <tr>
-	   <td>
+       <td>
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                     <td py:if="tree.toolbar" class="treebar" valign="top" style="padding-right: 4px">

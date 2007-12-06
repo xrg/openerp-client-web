@@ -1,18 +1,18 @@
-<span xmlns:py="http://purl.org/kid/ns#" py:strip="">    
+<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <script py:if="editable" type="text/javascript">
     function open_win(site){
         var web_site;
-        
+
         if(site.indexOf("://")== -1)
             web_site='http://'+site;
-    
+
         if(site.length > 0) {
-            window.open(web_site); 
+            window.open(web_site);
         }
     }
-      
+
     </script>
-    
+
     <table py:if="editable" width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>

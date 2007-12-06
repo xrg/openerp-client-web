@@ -12,7 +12,7 @@ table.tree-grid td {
 }
 
 table.tree-grid td {
-	border-top: none;
+    border-top: none;
 }
 
 table.tree-grid .tree-field td {
@@ -47,8 +47,8 @@ table.tree-grid .expand,
 table.tree-grid .collapse,
 table.tree-grid .loading {
     float: left;
-	width: 1.5em;
-	min-height: 18px;
+    width: 1.5em;
+    min-height: 18px;
 
     background-repeat: no-repeat;
     background-position: center;
@@ -74,15 +74,22 @@ table.tree-grid .loading {
     background-image: url("/static/images/treegrid/loading.gif");
 }
 
-table.tree-grid a, table.tree-grid a:active, table.tree-grid a:hover {
-	text-decoration: none;
+table.tree-grid a,
+table.tree-grid a:active,
+table.tree-grid a:hover {
+    text-decoration: none;
 }
 
 table.tree-grid .requiredfield {
-	 background-color: #CCD9FF;
+     background-color: #CCD9FF;
 }
 
 table.tree-grid a:hover {
-	color: blue;
-	border: none;
+    color: blue;
+    border: none;
 }
+
+/**
+ * vim: sts=4 st=4 et 
+ *
+ **/

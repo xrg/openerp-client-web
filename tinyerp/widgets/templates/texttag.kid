@@ -1,6 +1,6 @@
 <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-	<textarea
-    	name="${name}"
+    <textarea
+        name="${name}"
         class="${field_class}"
         id="${field_id}"
         rows="700"
@@ -8,16 +8,16 @@
         style="display: none; width: 100%;"
         py:attrs="attrs"
         py:content="value"
-	/>
-	<span class="fielderror" py:if="error" py:content="error"/>
-	<script type="text/javascript">
-	 tinyMCE.init({
+    />
+    <span class="fielderror" py:if="error" py:content="error"/>
+    <script type="text/javascript">
+     tinyMCE.init({
         mode: "exact",
         theme: "advanced",
-        elements: "${name}",        
+        elements: "${name}",
         plugins : "fullscreen, print",
-		fullscreen_new_window : false,
-		fullscreen_settings : {theme_advanced_path_location : "top"},
+        fullscreen_new_window : false,
+        fullscreen_settings : {theme_advanced_path_location : "top"},
         theme_advanced_disable : "styleselect",
         theme_advanced_toolbar_location : "top",
         theme_advanced_toolbar_align : "left",
@@ -30,5 +30,5 @@
         paste_strip_class_attributes : "all"
     });
 
-	</script>
+    </script>
 </span>

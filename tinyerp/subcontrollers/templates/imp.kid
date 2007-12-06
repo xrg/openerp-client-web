@@ -143,7 +143,7 @@
                 </table>
             </td>
         </tr>
-		<tr>
+        <tr>
             <td>
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
@@ -207,15 +207,15 @@
         </tr>
         <tr>
             <td>
-		        <div class="toolbar">
-		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-		                <tr>
-		                    <td width="100%">&nbsp;</td>
+                <div class="toolbar">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td width="100%">&nbsp;</td>
                             <td><button type="button" onclick="do_import(form)">Import</button></td>
-		                    <td><button type="button" onclick="window.close()">Close</button></td>
-		                </tr>
-		            </table>
-		        </div>
+                            <td><button type="button" onclick="window.close()">Close</button></td>
+                        </tr>
+                    </table>
+                </div>
             </td>
         </tr>
     </table>

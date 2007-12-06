@@ -7,37 +7,37 @@
  </head>
 
 <body>
-	<div class="view">
-    	<div class="box2 welcome">Drop Database</div>
-		<form action="/dbadmin/drop" method="post">
+    <div class="view">
+        <div class="box2 welcome">Drop Database</div>
+        <form action="/dbadmin/drop" method="post">
             <div align="center" class="box2">
-				<table align="center" width="100%">
-					<tr>
-						<td align="right" class="label" nowrap="nowrap">Database :</td>
-						<td class="item" width="100%">
-							<select name="db_name" style="width: 100%;">
-								<span py:for="db in dblist">
-									<option py:content="db" py:if="db == selectedDb" selected="true">dbname</option>
-									<option py:content="db" py:if="db != selectedDb">dbname</option>
-								</span>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td align="right" class="label" nowrap="nowrap">Password :</td>
-						<td class="item" width="100%"><input type="password" name="passwd" id="user" style="width: 99%;" /></td>
-					</tr>
-				</table>
-            </div>					
-				
-			<div align="right" class="box2">
+                <table align="center" width="100%">
+                    <tr>
+                        <td align="right" class="label" nowrap="nowrap">Database :</td>
+                        <td class="item" width="100%">
+                            <select name="db_name" style="width: 100%;">
+                                <span py:for="db in dblist">
+                                    <option py:content="db" py:if="db == selectedDb" selected="true">dbname</option>
+                                    <option py:content="db" py:if="db != selectedDb">dbname</option>
+                                </span>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" class="label" nowrap="nowrap">Password :</td>
+                        <td class="item" width="100%"><input type="password" name="passwd" id="user" style="width: 99%;" /></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div align="right" class="box2">
                 <button type="button" onclick="window.location.href='/dbadmin'">Cancel</button>
                 <button type="submit">OK</button>
             </div>
-		</form>		
-		<div class="box2 message" id="message" py:if="message">
-		    <pre py:content="message"/>
-		</div>
-	</div>
+        </form>
+        <div class="box2 message" id="message" py:if="message">
+            <pre py:content="message"/>
+        </div>
+    </div>
 </body>
 </html>

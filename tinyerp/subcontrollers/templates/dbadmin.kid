@@ -6,17 +6,17 @@
     <title>Database Admin</title>
  </head>
 <body>
-	<div class="view">
-		<div class="box2 welcome">Database Administration</div>
-		<div class="box2">
-	        <div class="toolbar" align="center">
-	            <button type="button" onclick="location.href='/dbadmin/create'">Create</button>
-	            <button type="button" onclick="location.href='/dbadmin/drop'">Drop</button>
-	            <button type="button" onclick="location.href='/dbadmin/backup'">Backup</button>
-	            <button type="button" onclick="location.href='/dbadmin/restore'">Restore</button>
-	            <button type="button" onclick="location.href='/dbadmin/password'">Password</button>
-	        </div>
+    <div class="view">
+        <div class="box2 welcome">Database Administration</div>
+        <div class="box2">
+            <div class="toolbar" align="center">
+                <button type="button" onclick="location.href='/dbadmin/create'">Create</button>
+                <button type="button" onclick="location.href='/dbadmin/drop'">Drop</button>
+                <button type="button" onclick="location.href='/dbadmin/backup'">Backup</button>
+                <button type="button" onclick="location.href='/dbadmin/restore'">Restore</button>
+                <button type="button" onclick="location.href='/dbadmin/password'">Password</button>
+            </div>
         </div>
-	</div>
+    </div>
 </body>
 </html>

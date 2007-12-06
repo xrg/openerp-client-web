@@ -7,12 +7,12 @@
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('/calendar/get/${month.prev().year}/${month.prev().month}')"/></td>
                 <td nowrap="nowrap"><button type="button" title="Today..." onclick="getCalendar('/calendar/get/${selected_day.today().isoformat()}')">Today</button></td>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('/calendar/get/${month.next().year}/${month.next().month}')"/></td>
-                <td nowrap="nowrap" width="100%"><strong>${ustr(month)}</strong></td>              
-                <td nowrap="nowrap">                    
+                <td nowrap="nowrap" width="100%"><strong>${ustr(month)}</strong></td>
+                <td nowrap="nowrap">
                     <button type="button" title="Day Calendar..." onclick="getCalendar('/calendar/get/${selected_day.isoformat()}')">Day</button>
                     <button type="button" title="Week Calendar..." onclick="getCalendar('/calendar/get/${selected_day.week[0].isoformat()}/${selected_day.week[-1].isoformat()}')">Week</button>
                     <button type="button" title="Month Calendar..." disabled="disabled">Month</button>
-                </td>                              
+                </td>
             </tr>
         </table>
         <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${selected_day.isoformat()}"/>
@@ -31,37 +31,37 @@
                     <td>Apply search filter</td>
                 </tr>
             </table>
-        </div>        
+        </div>
     </td>
-    
+
     <td id="calMainArea" valign="top">
 
         <div id="calMonth" class="calMonth" dtStart="${month[0].isoformat()}" dtFirst="${month.year}-${month.month}-01"><span></span>
-            
+
             <div id="calHeaderSect">
                 <div class="calDayName" py:for="day in month.weeks[0]">${day.name}</div>
             </div>
-            
+
             <div id="calBodySect">
                 <div py:for="evt in events" py:strip="">
-	                <div class="calEvent" py:if="evt.dayspan > 0" 
-	                     nRecordID="${evt.record_id}"
-	                     nDaySpan="${evt.dayspan}" 
-	                     dtStart="${str(evt.starts)}" 
-	                     dtEnd="${str(evt.ends)}" 
-	                     title="${evt.description}" 
-	                     style="background-color: ${evt.color}">${evt.title}</div>
-                    <div class="calEvent calEventInfo" py:if="evt.dayspan == 0" 
+                    <div class="calEvent" py:if="evt.dayspan > 0"
                          nRecordID="${evt.record_id}"
-                         nDaySpan="${evt.dayspan}" 
-                         dtStart="${str(evt.starts)}" 
-                         dtEnd="${str(evt.ends)}" 
+                         nDaySpan="${evt.dayspan}"
+                         dtStart="${str(evt.starts)}"
+                         dtEnd="${str(evt.ends)}"
+                         title="${evt.description}"
+                         style="background-color: ${evt.color}">${evt.title}</div>
+                    <div class="calEvent calEventInfo" py:if="evt.dayspan == 0"
+                         nRecordID="${evt.record_id}"
+                         nDaySpan="${evt.dayspan}"
+                         dtStart="${str(evt.starts)}"
+                         dtEnd="${str(evt.ends)}"
                          title="${evt.description}"
                          style="color: ${evt.color}">${evt.starts.strftime('%H:%M')} - ${evt.title}</div>
-                </div>                                
+                </div>
             </div>
         </div>
-        
+
         <script type="text/javascript">
             CAL_INSTALCE = new MonthCalendar();
         </script>

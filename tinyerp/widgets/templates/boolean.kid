@@ -4,7 +4,7 @@
             var getter = $('${name}');
 
             getter.value = sender.checked ? 1 : '';
-            
+
             if (typeof getter.onchange != 'undefined'){
                 getter.onchange();
             }
@@ -13,5 +13,5 @@
     <input py:if="editable" type="hidden" kind="${kind}" name="${name}" id="${name}" value="${value}" py:attrs="attrs" callback="${callback}" onchange="${onchange}"/>
     <input py:if="editable" type="checkbox" class="checkbox" checked="${(value or None) and 1}" py:attrs="attrs" onclick="${name.replace('/', '_')}_clicked(this)"/>
     <span py:if="editable and error" class="fielderror" py:content="error"/>
-    <input py:if="not editable" type="checkbox" class="checkbox" checked="${(value or None) and 1}" disabled="disabled"/>    
+    <input py:if="not editable" type="checkbox" class="checkbox" checked="${(value or None) and 1}" disabled="disabled"/>
 </span>

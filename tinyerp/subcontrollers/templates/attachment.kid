@@ -87,22 +87,22 @@
                 </div>
             </td>
         </tr>
-		<tr>
+        <tr>
             <td py:content="screen.display()">List View</td>
         </tr>
         <tr>
             <td>
-		        <div class="toolbar">
-		            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-		                <tr>
-		                    <td width="100%">
-		                    </td>
-		                    <td>
-		                        <button type="button" onclick="window.close()">Close</button>
-		                    </td>
-		                </tr>
-		            </table>
-		        </div>
+                <div class="toolbar">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td width="100%">
+                            </td>
+                            <td>
+                                <button type="button" onclick="window.close()">Close</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </td>
         </tr>
     </table>

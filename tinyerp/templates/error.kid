@@ -9,12 +9,12 @@
 
 <body>
 
-    <div class="view">                  
+    <div class="view">
         <table border="0" cellpadding="0" cellspacing="0" align="center">
             <tr>
                 <td height="15px"/>
             </tr>
-            <tr>                
+            <tr>
                 <td class="errorbox welcome">
                     ${title}
                 </td>
@@ -24,13 +24,13 @@
             </tr>
             <tr>
                 <td class="errorbox" style="padding: 30px;">
-                    <pre py:content="message"/>                    
+                    <pre py:content="message"/>
                 </td>
             </tr>
             <tr>
                 <td height="5px"/>
             </tr>
-            <tr>                
+            <tr>
                 <td class="errorbox" align="right">
                     <button type="button" onclick="history.length > 1 ? history.back() : window.close()">OK</button>
                 </td>

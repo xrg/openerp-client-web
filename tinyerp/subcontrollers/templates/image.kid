@@ -4,7 +4,7 @@
     <title>Image</title>
     <script type="text/javascript">
 
-    	function do_delete(form, id, field){
+        function do_delete(form, id, field){
             setNodeAttribute(form, 'action', getURL('/image/delete', {id: id}));
             form.submit();
         }
@@ -14,17 +14,17 @@
             form.submit();
         }
 
-		addLoadEvent(function(evt){
-			img = window.opener.document.getElementById('${field}');
-			img.src = img.src + '&amp;' + Math.random();
-            if($('saved').value)               
+        addLoadEvent(function(evt){
+            img = window.opener.document.getElementById('${field}');
+            img.src = img.src + '&amp;' + Math.random();
+            if($('saved').value)
                 window.close();
         });
 
     </script>
 </head>
 <body>
-	<table class="view" cellspacing="5" border="0" width="100%">
+    <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
                 <table width="100%" class="titlebar">
@@ -40,35 +40,35 @@
         <tr>
             <td>
                 <form action="/image/add" method="post" enctype="multipart/form-data">
-	                    <input type="hidden" name="model" value="${model}"/>
-	                    <input type="hidden" name="id" value="${id}"/>
-	                    <input type="hidden" name="field" value="${field}"/>
+                        <input type="hidden" name="model" value="${model}"/>
+                        <input type="hidden" name="id" value="${id}"/>
+                        <input type="hidden" name="field" value="${field}"/>
                         <input type="hidden" id="saved" name="saved" value="${saved}"/>
                         <div class="toolbar">
-	                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-	                        <tr>
-	                            <td class="label">Add Resource: </td>
-	                            <td width="100%"><input type="file" id="upimage" name="upimage"/></td>
-	                        </tr>
-	                    </table>
-					</div>
-					<div class="spacer"></div>
-	                <div class="toolbar">
-	                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-	    					<tr>
-	    						<td width="100%">
-	    						<button type="submit">Save</button>
-	    						<button type="button" onclick="do_save(form, id)">Save As</button>
-								<button type="button" onclick="do_delete(form, id, field)">Delete</button>
-		                    	</td>
-			        	        <td>
-	                	    	    <button type="button" onclick="window.close()">Close</button>
-	                    	    </td>
-			                </tr>
-		    	        </table>
-					</div>
-				</form>
-			</td>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td class="label">Add Resource: </td>
+                                <td width="100%"><input type="file" id="upimage" name="upimage"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="toolbar">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td width="100%">
+                                <button type="submit">Save</button>
+                                <button type="button" onclick="do_save(form, id)">Save As</button>
+                                <button type="button" onclick="do_delete(form, id, field)">Delete</button>
+                                </td>
+                                <td>
+                                    <button type="button" onclick="window.close()">Close</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+            </td>
         </tr>
     </table>
 </body>

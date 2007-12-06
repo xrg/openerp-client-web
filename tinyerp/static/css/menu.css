@@ -1,19 +1,16 @@
-table.menubar
-{
+table.menubar {
     margin: 0;
     padding: 0;
     white-space: nowrap;
 }
 
-table.menubar td
-{
+table.menubar td {
     margin: 0;
     padding: 0;
     border-right: 1px solid #333;
 }
 
-table.menubar a
-{
+table.menubar a {
     display: block;
     text-align: center;
     background-color: #666;
@@ -23,14 +20,12 @@ table.menubar a
     text-decoration: none
 }
 
-table.menubar a:hover
-{
+table.menubar a:hover {
     background-color: #505050;
     text-decoration: none;
 }
 
-table.menubar div.submenu
-{
+table.menubar div.submenu {
     background-color: #666;
     border: 1px solid #333;
     position: absolute;
@@ -39,8 +34,7 @@ table.menubar div.submenu
     z-index: 3
 }
 
-table.menubar div.submenu a
-{
+table.menubar div.submenu a {
     display: block;
     text-align: left;
     text-decoration: none;
@@ -48,14 +42,12 @@ table.menubar div.submenu a
     margin: 0px;
 }
 
-table.menubar div.submenu a:hover
-{
+table.menubar div.submenu a:hover {
     background-color: #505050;
     text-decoration: none;
 }
 
-div.contextmenu
-{
+div.contextmenu {
     background-color: #444;
     border: 1px solid #000;
     white-space: nowrap;
@@ -63,8 +55,7 @@ div.contextmenu
     z-index: 100;
 }
 
-div.contextmenu a
-{
+div.contextmenu a {
     display: block;
     text-align: left;
     text-decoration: none;
@@ -73,15 +64,17 @@ div.contextmenu a
     color: #FFF;
 }
 
-div.contextmenu a:hover
-{
+div.contextmenu a:hover {
     color: #FFF;
     background-color: #505050;
     text-decoration: none;
 }
 
-div.contextmenu a.disabled
-{
+div.contextmenu a.disabled {
     color: #C0C0C0;
 }
 
+/**
+ * vim: sts=4 st=4 et 
+ *
+ **/

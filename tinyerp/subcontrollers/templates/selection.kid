@@ -9,9 +9,9 @@
 
 <script type="text/javascript">
     function onSubmit() {
-        var form = $('selection');        
+        var form = $('selection');
         var result = false;
-        
+
         forEach(form._terp_action, function(e){
             result = result ? result : e.checked;
         });
@@ -23,22 +23,22 @@
 <form id="selection" action="/selection/action" onsubmit="return onSubmit()">
 
     <input type="hidden" name="_terp_data" value="${ustr(data)}" />
-    
+
     <div class="header">
 
         <div class="title">
             Select your action
         </div>
-        
+
         <div class="spacer"></div>
-            
+
             <table width="100%" border="0" class="fields">
                 <tr py:for="key, value in values.items()">
                     <td width="25px"><input type="radio" id="_terp_action" name="_terp_action" value="${ustr(value)}"/></td>
                     <td py:content="key"></td>
                 </tr>
             </table>
-           
+
         <div class="spacer"></div>
 
         <div class="toolbar">
@@ -55,7 +55,7 @@
         </div>
 
     </div>
-</form>    
+</form>
 
 </div>
 

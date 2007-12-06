@@ -8,11 +8,11 @@
                     <td nowrap="nowrap"><button type="button" title="Today..." disabled="${tg.selector(day == day.today())}" onclick="getCalendar('/calendar/get/${day.today().isoformat()}')">Today</button></td>
                     <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('/calendar/get/${day.next().isoformat()}')"/></td>
                     <td nowrap="nowrap" width="100%"><strong>${ustr(day)}</strong></td>
-                    <td nowrap="nowrap">                        
+                    <td nowrap="nowrap">
                         <button type="button" title="Day Calendar..." disabled="disabled">Day</button>
                         <button type="button" title="Week Calendar..." onclick="getCalendar('/calendar/get/${day.week[0].isoformat()}/${day.week[-1].isoformat()}')">Week</button>
                         <button type="button" title="Month Calendar..." onclick="getCalendar('/calendar/get/${day.year}/${day.month}')">Month</button>
-                    </td>                              
+                    </td>
                 </tr>
          </table>
          <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${day.isoformat()}"/>
@@ -31,20 +31,20 @@
                     <td>Apply search filter</td>
                 </tr>
             </table>
-        </div>        
+        </div>
     </td>
     <td id="calMainArea" valign="top">
 
         <div id="calWeek" class="calWeek"><span></span>
-            
+
             <div id="calHeaderSect">
                 <div dtDay="${day.isoformat()}">${day.name} ${day.day}</div>
             </div>
-            
+
             <div id="calAllDaySect">
                 <div py:for="evt in events" py:if="evt.dayspan > 0" nRecordID="${evt.record_id}" nDaySpan="${evt.dayspan}" dtStart="${str(evt.starts)}" dtEnd="${str(evt.ends)}" title="${evt.description}" style="background-color: ${evt.color}" class="calEvent allDay">${evt.title}</div>
             </div>
-            
+
             <div id="calBodySect">
                 <div py:for="evt in events" py:if="evt.dayspan == 0" nRecordID="${evt.record_id}" dtStart="${str(evt.starts)}" dtEnd="${str(evt.ends)}" style="background-color: ${evt.color}" class="calEvent noAllDay">
                    <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%I:%M %P')} - ${evt.title}</div>
@@ -54,7 +54,7 @@
             </div>
 
         </div>
-        
+
         <script type="text/javascript">
             CAL_INSTALCE = new WeekCalendar();
         </script>

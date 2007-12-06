@@ -34,50 +34,50 @@ Ajax.COUNT = 0;
 
 Ajax.prototype = {
 
-	get: function(url, params){
-	    
-	    Ajax.COUNT += 1;
-	    
-		var req = MochiKit.Async.doSimpleXMLHttpRequest(url, params);
-		
-		return req.addBoth(function(xmlHttp){
-		    Ajax.COUNT -= 1;
-		    return xmlHttp;
-		});
-	},
+    get: function(url, params){
 
-	post: function(url, params){
-	    
-	    Ajax.COUNT += 1;
-	    
-		var req = MochiKit.Async.getXMLHttpRequest();
-		req.open("POST", url, true);
-	
-		req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		req.setRequestHeader("Connection", "close");
+        Ajax.COUNT += 1;
 
-		var qs = null;
-					
-		if (params) {
-			qs = MochiKit.Base.queryString(params);
-			req.setRequestHeader("Content-length", qs.length);
-		}
-		
-		req = MochiKit.Async.sendXMLHttpRequest(req, qs);
-		
-		return req.addBoth(function(xmlHttp){
-		    Ajax.COUNT -= 1;
-		    return xmlHttp;
-		});
-	}
+        var req = MochiKit.Async.doSimpleXMLHttpRequest(url, params);
+
+        return req.addBoth(function(xmlHttp){
+            Ajax.COUNT -= 1;
+            return xmlHttp;
+        });
+    },
+
+    post: function(url, params){
+
+        Ajax.COUNT += 1;
+
+        var req = MochiKit.Async.getXMLHttpRequest();
+        req.open("POST", url, true);
+
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        req.setRequestHeader("Connection", "close");
+
+        var qs = null;
+
+        if (params) {
+            qs = MochiKit.Base.queryString(params);
+            req.setRequestHeader("Content-length", qs.length);
+        }
+
+        req = MochiKit.Async.sendXMLHttpRequest(req, qs);
+
+        return req.addBoth(function(xmlHttp){
+            Ajax.COUNT -= 1;
+            return xmlHttp;
+        });
+    }
 }
 
 Ajax.get = function(url, params){
-	return new Ajax().get(url, params);
+    return new Ajax().get(url, params);
 }
 
 Ajax.post = function(url, params){
-	return new Ajax().post(url, params);
+    return new Ajax().post(url, params);
 }
 
 var JSON = function(){
@@ -85,23 +85,25 @@ var JSON = function(){
 
 JSON.prototype = {
 
-	get: function(url, params){
-		var req = Ajax.get(url, params);
-		return req.addCallback(MochiKit.Async.evalJSONRequest);
-	},
+    get: function(url, params){
+        var req = Ajax.get(url, params);
+        return req.addCallback(MochiKit.Async.evalJSONRequest);
+    },
 
-	post: function(url, params){
-		var req = Ajax.post(url, params);
-		return req.addCallback(MochiKit.Async.evalJSONRequest);
-	}
+    post: function(url, params){
+        var req = Ajax.post(url, params);
+        return req.addCallback(MochiKit.Async.evalJSONRequest);
+    }
 }
 
 JSON.get = function(url, params){
-	return new JSON().get(url, params);
+    return new JSON().get(url, params);
 }
 
 JSON.post = function(url, params){
-	return new JSON().post(url, params);
+    return new JSON().post(url, params);
 }
 
 Ajax.JSON = new JSON();
+
+// vim: sts=4 st=4 et

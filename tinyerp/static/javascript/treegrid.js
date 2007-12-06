@@ -49,15 +49,6 @@ var TreeGrid = function(id, headers) {
     this.onselection = function(rows){};
 }
 
-TreeGrid.prototype._onopen = function(id) {
-
-    var func = function() {
-        if (this.onopen) this.onopen(id, this.params);
-    }
-
-    return bind(func, this);
-}
-
 TreeGrid.prototype._on_select_row = function(evt) {
 
     var trg = evt.target();
@@ -196,7 +187,9 @@ TreeGrid.prototype._make_row = function(parent_row, record, indent){
     var tr = TR({'id': rid, 'class' : 'row'});
 
     // save children and indent info
-    this.row_info[rid] = {children: record.children, indent: indent ? indent : 0, params: record.params};
+    this.row_info[rid] = {children: record.children, 
+                          indent: indent ? indent : 0, 
+                          params: record.params};
 
     for(var i in this.headers) {
 
@@ -226,25 +219,26 @@ TreeGrid.prototype._make_row = function(parent_row, record, indent){
                 tds.push(IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
             }
 
-			val = A({'href': 'javascript: void(0)'}, val);
+            val = A({'href': 'javascript: void(0)'}, val);
 
-           	if (record.action){
-				setNodeAttribute(val, 'href', record.action);
-           	} else {
-           		MochiKit.Signal.connect(val, 'onclick', bind(function(){this.toggle(rid)}, this));
-           	}
+               if (record.action){
+                setNodeAttribute(val, 'href', record.action);
+               } else {
+                   MochiKit.Signal.connect(val, 'onclick', bind(function(){this.toggle(rid)}, this));
+               }
 
-			if (record.target) {
-				setNodeAttribute(val, 'target', record.target);
-			}
-			if(record.required) {
-				setNodeAttribute(val, 'class', 'requiredfield');
-			}
+            if (record.target) {
+                setNodeAttribute(val, 'target', record.target);
+            }
+            if(record.required) {
+                setNodeAttribute(val, 'class', 'requiredfield');
+            }
 
             tds.push(val);
             tds = map(function(x){return TD(null, x)}, tds);
 
-            val = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, TBODY(null, TR(null, tds)));
+            val = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, 
+                    TBODY(null, TR(null, tds)));
         }
 
         setNodeAttribute(td, 'class', header.type);
@@ -354,7 +348,7 @@ TreeGrid.prototype.load = function(url, id, params){
 
     this.parent_ids = id;
 
-	this.params['fields'] = map(function(h){return h.name}, this.headers);
+    this.params['fields'] = map(function(h){return h.name}, this.headers);
     this.params['icon_name'] = this.icon_name;
 
     this.reload();
@@ -366,3 +360,5 @@ TreeGrid.prototype.selectAll = function() {
 TreeGrid.prototype.getSelected = function() {
     return this.selected ? this.selected : [];
 }
+
+// vim: sts=4 st=4 et

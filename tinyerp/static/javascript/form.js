@@ -28,120 +28,121 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 function get_form_action(action, params){
-	var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
-	act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
 
-	return getURL(act, params);
+    var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
+    act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
+
+    return getURL(act, params);
 }
 
 var newO2M = function(src, mode, editors){
 
-	var prefix = src + '/';
-	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
+    var prefix = src + '/';
+    var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
 
-	var parent_id = $(parent_prefix + '_terp_id').value;
+    var parent_id = $(parent_prefix + '_terp_id').value;
 
-	if (!parent_id || parent_id == 'False' || mode == 'form'){
-		return submit_form('save', src);
-	}
+    if (!parent_id || parent_id == 'False' || mode == 'form'){
+        return submit_form('save', src);
+    }
 
-	if (mode == 'tree' && editors > 0){
-		return new ListView(src).create();
-	}
+    if (mode == 'tree' && editors > 0){
+        return new ListView(src).create();
+    }
 
-	return editO2M(null, src);
+    return editO2M(null, src);
 }
 
 var editO2M = function(id, src){
 
-	var prefix = src + '/';
-	var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
+    var prefix = src + '/';
+    var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
 
-	var model = $(prefix + '_terp_model').value;
+    var model = $(prefix + '_terp_model').value;
 
-	var parent_model = $(parent_prefix + '_terp_model').value;
-	var parent_id = $(parent_prefix + '_terp_id').value;
+    var parent_model = $(parent_prefix + '_terp_model').value;
+    var parent_id = $(parent_prefix + '_terp_id').value;
 
-	var args = {_terp_parent_model: parent_model,
-				_terp_parent_id: parent_id,
-				_terp_o2m: src,
-				_terp_o2m_model: model,
-				_terp_o2m_id: id};
+    var args = {_terp_parent_model: parent_model,
+                _terp_parent_id: parent_id,
+                _terp_o2m: src,
+                _terp_o2m_model: model,
+                _terp_o2m_id: id};
 
-	openWindow(getURL('/openo2m/edit', args));
+    openWindow(getURL('/openo2m/edit', args));
 }
 
 var editRecord = function(id, src){
 
-	if (src && src != '_terp_list' && $('_terp_count').value != '0') {
-		return editO2M(id, src);
-	}
+    if (src && src != '_terp_list' && $('_terp_count').value != '0') {
+        return editO2M(id, src);
+    }
 
-	var prefix = src && src != '_terp_list' ? src + '/' : '';
+    var prefix = src && src != '_terp_list' ? src + '/' : '';
 
-	var model = $(prefix + '_terp_model').value;
-	var view_ids = $(prefix + '_terp_view_ids').value;
-	var view_mode = $(prefix + '_terp_view_mode').value;
+    var model = $(prefix + '_terp_model').value;
+    var view_ids = $(prefix + '_terp_view_ids').value;
+    var view_mode = $(prefix + '_terp_view_mode').value;
 
-	var ids = $(prefix + '_terp_ids').value;
+    var ids = $(prefix + '_terp_ids').value;
 
-	var offset = $(prefix + '_terp_offset').value;
-	var limit = $(prefix + '_terp_limit').value;
-	var count = $(prefix + '_terp_count').value;
+    var offset = $(prefix + '_terp_offset').value;
+    var limit = $(prefix + '_terp_limit').value;
+    var count = $(prefix + '_terp_count').value;
 
-	var domain = $(prefix + '_terp_domain').value;
-	var context = $(prefix + '_terp_context').value;
+    var domain = $(prefix + '_terp_domain').value;
+    var context = $(prefix + '_terp_context').value;
 
-	var search_domain = $('_terp_search_domain');
-	search_domain = search_domain ? search_domain.value : null;
+    var search_domain = $('_terp_search_domain');
+    search_domain = search_domain ? search_domain.value : null;
 
-	var args = {'model': model,
-				'id': id ? id : 'False',
-				'ids': ids,
-				'view_ids': view_ids,
-				'view_mode': view_mode,
-				'domain': domain,
-				'context': context,
-				'offset': offset,
-				'limit': limit,
-				'count': count,
-				'search_domain': search_domain};
+    var args = {'model': model,
+                'id': id ? id : 'False',
+                'ids': ids,
+                'view_ids': view_ids,
+                'view_mode': view_mode,
+                'domain': domain,
+                'context': context,
+                'offset': offset,
+                'limit': limit,
+                'count': count,
+                'search_domain': search_domain};
 
-	window.location.href = get_form_action('edit', args);
+    window.location.href = get_form_action('edit', args);
 }
 
 var viewRecord = function(id, src){
 
-	var prefix = src && src != '_terp_list' ? src + '/' : '';
-	var model = $(prefix + '_terp_model').value;
-	var view_ids = $(prefix + '_terp_view_ids').value;
-	var view_mode = $(prefix + '_terp_view_mode').value;
+    var prefix = src && src != '_terp_list' ? src + '/' : '';
+    var model = $(prefix + '_terp_model').value;
+    var view_ids = $(prefix + '_terp_view_ids').value;
+    var view_mode = $(prefix + '_terp_view_mode').value;
 
-	var ids = $(prefix + '_terp_ids').value;
+    var ids = $(prefix + '_terp_ids').value;
 
-	var offset = $(prefix + '_terp_offset').value;
-	var limit = $(prefix + '_terp_limit').value;
-	var count = $(prefix + '_terp_count').value;
+    var offset = $(prefix + '_terp_offset').value;
+    var limit = $(prefix + '_terp_limit').value;
+    var count = $(prefix + '_terp_count').value;
 
-	var domain = $(prefix + '_terp_domain').value;
-	var context = $(prefix + '_terp_context').value;
+    var domain = $(prefix + '_terp_domain').value;
+    var context = $(prefix + '_terp_context').value;
 
-	var search_domain = $('_terp_search_domain');
-	search_domain = search_domain ? search_domain.value : null;
+    var search_domain = $('_terp_search_domain');
+    search_domain = search_domain ? search_domain.value : null;
 
-	var args = {'model': model,
-				'id': id ? id : 'False',
-				'ids': ids,
-				'view_ids': view_ids,
-				'view_mode': view_mode,
-				'domain': domain,
-				'context': context,
-				'offset': offset,
-				'limit': limit,
-				'count': count,
-				'search_domain': search_domain};
+    var args = {'model': model,
+                'id': id ? id : 'False',
+                'ids': ids,
+                'view_ids': view_ids,
+                'view_mode': view_mode,
+                'domain': domain,
+                'context': context,
+                'offset': offset,
+                'limit': limit,
+                'count': count,
+                'search_domain': search_domain};
 
-	window.location.href = get_form_action('view', args);
+    window.location.href = get_form_action('view', args);
 }
 
 var switchView = function(view_type, src){
@@ -165,12 +166,12 @@ var switchView = function(view_type, src){
 }
 
 var submit_form = function(action, src, data){
-    
+
     if (Ajax.COUNT > 0) {
         return callLater(1, submit_form, action, src, data);
     }
 
-    if (action == 'delete' &&  !confirm('Do you realy want to delete this record?')) {
+    if (action == 'delete' && !confirm('Do you realy want to delete this record?')) {
         return false;
     }
 
@@ -185,14 +186,14 @@ var submit_form = function(action, src, data){
     };
 
     if (action == 'action' && $('_terp_list')){
-    	var list = new ListView('_terp_list');
-    	var ids = list.getSelectedRecords();
+        var list = new ListView('_terp_list');
+        var ids = list.getSelectedRecords();
 
-    	if (ids.length == 0) {
-    	   return alert('You must select at least one record.');
-    	}
+        if (ids.length == 0) {
+           return alert('You must select at least one record.');
+        }
 
-    	args['_terp_selection'] = '[' + ids.join(',') + ']';
+        args['_terp_selection'] = '[' + ids.join(',') + ']';
     }
 
     if (action == 'report' || (action == 'action' && data)){
@@ -209,23 +210,23 @@ var submit_form = function(action, src, data){
 
 var submit_search_form = function(action) {
 
-	if ($('search_view_notebook')) {
+    if ($('search_view_notebook')) {
 
-	    // disable fields of hidden tab
+        // disable fields of hidden tab
 
-	    var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
-	    var disabled = [];
+        var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
+        var disabled = [];
 
-	    disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
-	    disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
-	    disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
+        disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
+        disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
+        disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
 
-	    forEach(disabled, function(fld){
-	        fld.disabled = true;
-	    });
-	}
+        forEach(disabled, function(fld){
+            fld.disabled = true;
+        });
+    }
 
-	submit_form(action ? action : 'find');
+    submit_form(action ? action : 'find');
 }
 
 var clear_search_form = function() {
@@ -245,20 +246,17 @@ var clear_search_form = function() {
 }
 
 var pager_action = function(action, src) {
-    if (src)
-        new ListView(src).go(action);
-    else
-        submit_search_form(action);
+    return src ? new ListView(src).go(action) : submit_search_form(action);
 }
 
 var save_binary_data = function(src) {
+
     var name = $(src) ? $(src).name : src;
     var fname = $(name + 'name');
 
     var act = '/form/save_binary_data';
 
     act = fname ? act + '/' + fname.value : act;
-
     act = act + '?_terp_field=' + name;
 
     submit_form(act);
@@ -282,14 +280,14 @@ var buttonClicked = function(name, btype, model, id, sure){
 
 /**
  * get key-pair object of the form data
- * 
+ *
  * if extended is
  *    1 then give form data with type info
  *    2 then give form data with type info + required flag
- * else gives simple key-value pairs 
+ * else gives simple key-value pairs
  */
 var getFormData = function(extended) {
-    
+
     var parentNode = $('_terp_list') || $('view_form');
 
     var frm = {};
@@ -310,20 +308,20 @@ var getFormData = function(extended) {
             return;
 
         if (extended) {
-        
+
             var attrs = {};
-            
+
             var value = e.value;
             var kind = null;
-            
-            value = e.value;            
+
+            value = e.value;
             kind = getNodeAttribute(e, 'kind');
-            
+
             attrs['value'] = value;
-            
+
             if (kind)
                 attrs['type'] = kind;
-                
+
             if (extended > 1 && hasElementClass(e, 'requiredfield'))
                 attrs['required'] =  1;
 
@@ -331,9 +329,9 @@ var getFormData = function(extended) {
                 attrs['value'] = '""' + value + '""';
 
             // pythonize the attr object
-            attrs = map(function(x){return '"' + x[0] + '"' + ':' + '"' + x[1] + '"'}, items(attrs));            
+            attrs = map(function(x){return '"' + x[0] + '"' + ':' + '"' + x[1] + '"'}, items(attrs));
             frm[n] = "{" + attrs.join(", ") + "}";
-            
+
         } else {
             frm[n] = value;
         }
@@ -347,12 +345,12 @@ var getFormData = function(extended) {
  *
  */
 var getFormParams = function(){
-        
+
     var parentNode = $('view_form');
-        
+
     var frm = {};
     var fields = [];
-        
+
     fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
 
     forEach(fields, function(e){
@@ -374,7 +372,7 @@ var onChange = function(name) {
     var caller = $(name);
     var callback = getNodeAttribute(caller, 'callback');
 
-   	var is_list = caller.id.indexOf('_terp_listfields') == 0;
+    var is_list = caller.id.indexOf('_terp_listfields') == 0;
 
     var prefix = caller.name.split("/");
     prefix.pop();
@@ -395,9 +393,9 @@ var onChange = function(name) {
 
     req.addCallback(function(obj){
 
-    	if (obj.error) {
-    		return alert(obj.error);
-    	}
+        if (obj.error) {
+            return alert(obj.error);
+        }
 
         values = obj['value'];
         domains = obj['domain'];
@@ -405,37 +403,39 @@ var onChange = function(name) {
         domains = domains ? domains : {};
 
         for(var k in domains){
-        	fld = $(prefix + k);
-        	if (fld){
-        		setNodeAttribute(fld, 'domain', domains[k]);
-        	}
+            fld = $(prefix + k);
+            if (fld){
+                setNodeAttribute(fld, 'domain', domains[k]);
+            }
         }
 
-		for(var k in values){
-			flag = false;
+        for(var k in values){
+            
+            flag = false;
             fld = $(prefix + k);
-            if (fld) {
-                value = values[k];
-                value = value === false || value === null ? '' : value
 
-				if ($(prefix + k + '_id')){
-                	fld = $(prefix + k + '_id');
-                	flag = true;
+            if (!fld) continue;
+
+            value = values[k];
+            value = value === false || value === null ? '' : value
+
+            if ($(prefix + k + '_id')){
+                fld = $(prefix + k + '_id');
+                flag = true;
+            }
+
+            if ((fld.value != value) || flag) {
+                fld.value = value;
+
+                var kind = getNodeAttribute(fld, 'kind');
+
+                if (kind == 'many2one' || kind == 'reference'){
+                    getName(fld);
                 }
 
-                if ((fld.value != value) || flag) {
-                	fld.value = value;
-
-                	var kind = getNodeAttribute(fld, 'kind');
-
-                	if (kind == 'many2one' || kind == 'reference'){
-                	   getName(fld);
-                	}
-
-                	if (kind == 'many2many'){
-                	   fld.onchange();
-                	}
-               	}
+                if (kind == 'many2many'){
+                    fld.onchange();
+                }
             }
         }
     });
@@ -470,33 +470,36 @@ function getName(name, relation){
 
 function eval_domain_context_request(options){
 
-	var prefix = options.source.split("/");
+    var prefix = options.source.split("/");
     prefix.pop();
 
     // editable listview fields
     if (prefix[0] == '_terp_listfields'){
-    	prefix.shift();
+        prefix.shift();
     }
-	
-	var params = getFormData(1);
-	
-	params['_terp_domain'] = options.domain;
-	params['_terp_context'] = options.context;
-	params['_terp_prefix'] = prefix;
-	
+
+    var params = getFormData(1);
+
+    params['_terp_domain'] = options.domain;
+    params['_terp_context'] = options.context;
+    params['_terp_prefix'] = prefix;
+
     return Ajax.JSON.post('/search/eval_domain_and_context', params);
 }
 
 function open_search_window(relation, domain, context, source, kind, text) {
 
-	if (text || (domain == '' || domain == '[]') && (context == '' || context == '{}')){
-		return openWindow(getURL('/search/new', {model: relation, domain: '[]', context: '{}', source: source, kind: kind, text: text}));
-	}
+    var req = eval_domain_context_request({source: source, 
+                                           domain: domain, 
+                                           context: context});
 
-	var req = eval_domain_context_request({source: source, domain: domain, context: context});
-
-	req.addCallback(function(obj){
-		openWindow(getURL('/search/new', {model: relation, domain: obj.domain, context: obj.context, source: source, kind: kind, text: text}));
+    req.addCallback(function(obj){
+        openWindow(getURL('/search/new', {model: relation, 
+                                          domain: obj.domain, 
+                                          context: obj.context, 
+                                          source: source, 
+                                          kind: kind, 
+                                          text: text}));
     });
 }
 
@@ -507,7 +510,7 @@ function makeContextMenu(id, kind, relation, val) {
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
 
-	var model = prefix ? $(prefix + '_terp_model').value : $('_terp_model').value;
+    var model = prefix ? $(prefix + '_terp_model').value : $('_terp_model').value;
 
     var params = {'model': model, 'field': id, 'kind': kind, 'relation': relation, 'value': val};
 
@@ -526,29 +529,36 @@ function makeContextMenu(id, kind, relation, val) {
         if(obj.actions.length > 0) {
             rows = rows.concat(HR());
 
-	        for(var r in obj.actions) {
-	            var o = obj.actions[r];
+            for(var r in obj.actions) {
+                var o = obj.actions[r];
 
-	            var a = A({href: "javascript: void(0)", onclick: o.action ? 'hideElement("contextmenu"); return ' + o.action : '', 'class': o.action ? '' : 'disabled'}, o.text);
+                var a = A({'class': o.action ? '' : 'disabled',
+                           'href': "javascript: void(0)", 
+                           'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''}, o.text);
 
-	            rows = rows.concat(a);
-	        }
-	    }
+                rows = rows.concat(a);
+            }
+        }
 
         if(obj.relates.length > 0) {
             rows = rows.concat(HR())
 
-	        for(var r in obj.relates) {
+            for(var r in obj.relates) {
                 var o = obj.relates[r];
 
-	            var a = A({href: "javascript: void(0)", data: o.data, onclick: o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '', 'class': o.action ? '' : 'disabled'}, o.text);
-	            rows = rows.concat(a);
-	        }
+                var a = A({'class': o.action ? '' : 'disabled',
+                           'href': "javascript: void(0)", data: o.data,
+                           'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : ''}, o.text);
+
+                rows = rows.concat(a);
+            }
         }
 
         $('contextmenu').innerHTML = '';
 
-        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 0}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
+        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 0}, 
+                    TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
+
         appendChildNodes('contextmenu', tbl);
 
         var vd = getViewportDimensions();
@@ -558,59 +568,67 @@ function makeContextMenu(id, kind, relation, val) {
         x = parseInt(x);
 
         if ((x + md.w) > vd.w) {
-        	x -= x + md.w - vd.w;
-        	$('contextmenu').style.left = x + 'px';
+            x -= x + md.w - vd.w;
+            $('contextmenu').style.left = x + 'px';
         }
 
         showContextMenu();
-	});
+    });
 }
 
 var showContextMenu = function(){
 
-	var menu = $('contextmenu');
-	var ifrm = $('contextmenu_frm');
+    var menu = $('contextmenu');
+    var ifrm = $('contextmenu_frm');
 
-	showElement(menu);
+    showElement(menu);
 
-	if (ifrm){
-	
-		ifrm.style.left = menu.offsetLeft + "px";
-		ifrm.style.top = menu.offsetTop + "px";
-		ifrm.style.width = menu.offsetWidth + "px";
-		ifrm.style.height = menu.offsetHeight + "px";
-		ifrm.style.zIndex = 6;
+    if (ifrm){
+
+        ifrm.style.left = menu.offsetLeft + "px";
+        ifrm.style.top = menu.offsetTop + "px";
+        ifrm.style.width = menu.offsetWidth + "px";
+        ifrm.style.height = menu.offsetHeight + "px";
+        ifrm.style.zIndex = 6;
 
         showElement(ifrm);
-	}
+    }
 }
 
 var hideContextMenu = function(){
-	var menu = $('contextmenu');
-	var ifrm = $('contextmenu_frm');
+    var menu = $('contextmenu');
+    var ifrm = $('contextmenu_frm');
 
-	if (ifrm){
-		hideElement(ifrm);
-	}
+    if (ifrm){
+        hideElement(ifrm);
+    }
 
-	hideElement(menu);
+    hideElement(menu);
 }
 
 var m2oContextMenu = function(src){
 
     var btn = $(src);
     var menu = $('contextmenu');
-    
+
     if (!menu) {
-        menu = DIV({id:"contextmenu", 'class' : 'contextmenu', 'onmouseout':'hideContextMenu()', 'onmouseover':'showContextMenu()', 'style':'position: absolute; display: none;'});
-        appendChildNodes(document.body, menu);       
+        menu = DIV({'id': 'contextmenu', 
+                    'class' : 'contextmenu', 
+                    'onmouseout' : 'hideContextMenu()', 
+                    'onmouseover' : 'showContextMenu()',
+                    'style' : 'position: absolute; display: none;'});
+
+        appendChildNodes(document.body, menu);
 
         if (/msie/.test(navigator.userAgent.toLowerCase())) {
-            var ifrm = createDOM('IFRAME', {'id':'contextmenu_frm', 'src' : '#', 'frameborder': '0', 'scrolling':'no', 'style':'position: absolute; display: none;'});
+            var ifrm = createDOM('IFRAME', {'id' : 'contextmenu_frm', 
+                                            'src' : '#', 'frameborder': '0', 'scrolling' :'no', 
+                                            'style':'position: absolute; display: none;'});
+
             appendChildNodes(document.body, ifrm);
         }
     }
-    
+
     var src = $(src).id.slice(0, -5);
     src = $(src);
 
@@ -635,7 +653,7 @@ var m2oContextMenu = function(src){
 
 function set_to_default(field, model){
 
-	var kind = getNodeAttribute($(field), 'kind');
+    var kind = getNodeAttribute($(field), 'kind');
 
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
@@ -650,19 +668,24 @@ function set_to_default(field, model){
 
 function set_as_default(field, model){
 
-	var kind = getNodeAttribute($(field), 'kind');
+    var kind = getNodeAttribute($(field), 'kind');
 
-	var args = getFormData(1);
-	args['_terp_model'] = model;
-	args['_terp_field'] = field;
+    var args = getFormData(1);
+    args['_terp_model'] = model;
+    args['_terp_field'] = field;
 
-	var req = Ajax.JSON.post('/fieldpref/get', args);
+    var req = Ajax.JSON.post('/fieldpref/get', args);
 
-	req.addCallback(function(obj){
-		var text = obj.text;
-		var params = {'_terp_model': model, '_terp_field/name': field, '_terp_field/string': text, '_terp_field/value': $(field).value, '_terp_deps': obj.deps};
-		openWindow(getURL('/fieldpref', params), {width: 500, height: 350});
-	});
+    req.addCallback(function(obj){
+        var text = obj.text;
+        var params = {'_terp_model': model, 
+                      '_terp_field/name': field, 
+                      '_terp_field/string': text, 
+                      '_terp_field/value': $(field).value, 
+                      '_terp_deps': obj.deps};
+
+        openWindow(getURL('/fieldpref', params), {width: 500, height: 350});
+    });
 }
 
 function do_action(id, relation) {
@@ -696,3 +719,4 @@ function do_relate(action_id, field, relation, src) {
     window.open(getURL(act, params));
 }
 
+// vim: sts=4 st=4 et

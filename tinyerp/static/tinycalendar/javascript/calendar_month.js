@@ -67,10 +67,10 @@ MonthCalendar.prototype = {
         });
 
         var tbl = TABLE({'style': 'table-layout: fixed; width: 100%;'},
-            TBODY(null,
-                TR(null,
-                    TD({'id' : 'calTimeCol', 'class': 'calTimeCol', 'valign': 'top', 'width': '35px'}),
-                    TD({'id' : 'calGridCol', 'valign': 'top', 'width' : 'auto'}))));
+                    TBODY(null,
+                        TR(null,
+                            TD({'id' : 'calTimeCol', 'class': 'calTimeCol', 'valign': 'top', 'width': '35px'}),
+                            TD({'id' : 'calGridCol', 'valign': 'top', 'width' : 'auto'}))));
 
         tbl.cellPadding = 0;
         tbl.cellSpacing = 0;
@@ -96,7 +96,7 @@ MonthCalendar.prototype = {
                 dt = dt.getNext();
             }
         }
-        
+
         //calEventNew
         var elem = DIV({'id': 'calEventNew', 'class': 'calEventNew', 'style': 'display: none;'});
         appendChildNodes('calGrid', elem);
@@ -133,43 +133,43 @@ MonthCalendar.prototype = {
             week.adjust();
         });
     },
-    
+
     onMouseDown : function(evt){
-        if (!evt.mouse().button.left) 
+        if (!evt.mouse().button.left)
             return;
 
         var target = evt.target();
-        if (!hasElementClass(target, 'calMonthDay')) 
+        if (!hasElementClass(target, 'calMonthDay'))
             return;
-            
+
         var elem = getElement('calEventNew');
-        
+
         // set datetime info
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(target, 'dtDay'));
         var s = (9 * 40) * (30/20) * (60 * 1000);
         var e = (17 * 40) * (30/20) * (60 * 1000);
-        
+
         s = dt.getTime() + s;
         e = dt.getTime() + e;
-        
+
         s = new Date(s);
         e = new Date(e);
-        
-        setNodeAttribute(elem, 'dtstart', toISOTimestamp(s));                
+
+        setNodeAttribute(elem, 'dtstart', toISOTimestamp(s));
         setNodeAttribute(elem, 'dtend', toISOTimestamp(e));
-        
+
     },
-    
+
     onMouseUp : function(evt){
-        if (!evt.mouse().button.left) 
+        if (!evt.mouse().button.left)
             return;
-            
+
         var target = evt.target();
-        if (!hasElementClass(target, 'calMonthDay')) 
+        if (!hasElementClass(target, 'calMonthDay'))
             return;
-        
+
         editCalendarRecord(null);
-    },    
+    },
 
     splitEvent : function(record, params){
 
@@ -585,3 +585,4 @@ MonthCalendar.Event.prototype = {
     }
 }
 
+// vim: sts=4 st=4 et

@@ -19,17 +19,17 @@
         new ManyToOne('${name}');
     </script>
 
-	<span py:if="not editable and link" py:strip="">
-	    <span py:if="link=='1'">
-    	    <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"/>
-	    </span>
-    	<span py:if="link=='0'">
-        	${text}
-	    </span>
-	</span>
-	<span py:if="not editable and not link == '0'">
-		<span>
-    	    <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"/>
-	    </span>
-	</span>
+    <span py:if="not editable and link" py:strip="">
+        <span py:if="link=='1'">
+            <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"></a>
+        </span>
+        <span py:if="link=='0'">
+            ${text}
+        </span>
+    </span>
+    <span py:if="not editable and not link == '0'">
+        <span>
+            <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"></a>
+        </span>
+    </span>
 </span>

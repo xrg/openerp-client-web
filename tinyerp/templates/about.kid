@@ -11,7 +11,7 @@
 <table class="view" width="100%">
     <tr>
         <td>
-        
+
 <table width="100%">
         <tr>
             <td class="titlebar">About eTiny</td>
@@ -67,14 +67,14 @@ client.
     <li><a href="http://tiny.be/">The Tiny Company</a></li>
 </ul>
             </td>
-        </tr>        
+        </tr>
    </table>
-                   
+
         </td>
         <td width="170" valign="top" id="sidebar">
-		    <table cellpadding="0" cellspacing="0" border="0" class="sidebox" width="100%">
-		        <tr>
-		            <td>		                
+            <table cellpadding="0" cellspacing="0" border="0" class="sidebox" width="100%">
+                <tr>
+                    <td>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td width="8" style="background: #ac0000"/>
@@ -83,47 +83,47 @@ client.
                                 <td width="25" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
                                 <td width="50" style="background-color: #666666"/>
                             </tr>
-                        </table>		                
-		            </td>
-		        </tr>
-		        <tr>
-		            <td>
-		                <a href="http://tinyerp.com">Homepage</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://tinyerp.com/documentations.html">Documentation</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://tinyerp.com/forum">Forum</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://tinyerp.com/component/option,com_mtree/Itemid,111/">Modules</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://tinyerp.com/component/option,com_joomlaxplorer/Itemid,132/">Download</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://tinyerp.com/planet">Planet</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://saas.tinyerp.com">SaaS Offers</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://tinyerp.com/training.html">Trainings</a>
-		            </td>
-		        </tr><tr>
-		            <td>
-		                <a href="http://tinyerp.com/services.html">Services</a>
-		            </td>
-		        </tr>
-		    </table>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://tinyerp.com">Homepage</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://tinyerp.com/documentations.html">Documentation</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://tinyerp.com/forum">Forum</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://tinyerp.com/component/option,com_mtree/Itemid,111/">Modules</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://tinyerp.com/component/option,com_joomlaxplorer/Itemid,132/">Download</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://tinyerp.com/planet">Planet</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://saas.tinyerp.com">SaaS Offers</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://tinyerp.com/training.html">Trainings</a>
+                    </td>
+                </tr><tr>
+                    <td>
+                        <a href="http://tinyerp.com/services.html">Services</a>
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
 </table>

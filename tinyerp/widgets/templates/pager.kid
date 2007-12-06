@@ -1,4 +1,4 @@
-<div class="pager" xmlns:py="http://purl.org/kid/ns#">    
+<div class="pager" xmlns:py="http://purl.org/kid/ns#">
     <span id="_${pager_id}_link_span">
         <a href="javascript: void(0)" py:strip="not prev" onclick="pager_action('first', '${name}'); return false;"><span>&lt;&lt; First</span></a>
         <a href="javascript: void(0)" py:strip="not prev" onclick="pager_action('previous', '${name}'); return false;"><span>&lt; Previous</span></a>
@@ -6,7 +6,7 @@
         <a href="javascript: void(0)" py:strip="not next" onclick="pager_action('next', '${name}'); return false;"><span>Next &gt;</span></a>
         <a href="javascript: void(0)" py:strip="not next" onclick="pager_action('last', '${name}'); return false;"><span>Last &gt;&gt;</span></a>
     </span>
-    
+
     <table id="_${pager_id}_limit_span" style="display: none" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td align="right">

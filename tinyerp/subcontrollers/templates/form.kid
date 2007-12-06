@@ -74,7 +74,7 @@
 
                     <tr py:if="form.screen.view_type == 'form'">
                         <td>
-            		        <div class="toolbar">
+                            <div class="toolbar">
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td>
@@ -88,7 +88,7 @@
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager" py:content="pager.display()"></td>
                                     </tr>
                                 </table>
-            		        </div>
+                            </div>
                         </td>
                     </tr>
                     <tr>

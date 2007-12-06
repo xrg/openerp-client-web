@@ -46,7 +46,7 @@
             if (!id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
 
-                if (ids.length &lt; 1) 
+                if (ids.length &lt; 1)
                     return;
 
                 id = ids[0];
@@ -58,9 +58,9 @@
 
             if (!isUndefinedOrNull(value_field.onchange)){
                 window.opener.setTimeout("$('${params.source}').onchange()", 0);
-       	    }else{
-	       	window.opener.setTimeout("MochiKit.Signal.signal('${params.source}', 'onchange')", 0);
-       	    }
+               }else{
+               window.opener.setTimeout("MochiKit.Signal.signal('${params.source}', 'onchange')", 0);
+               }
 
             window.setTimeout("window.close()", 5);
         }
@@ -88,8 +88,8 @@
                 boxes = list_this.getSelectedItems();
 
                 if(boxes.length == 0) {
-                	alert("No record selected...");
-                	return;
+                    alert("No record selected...");
+                    return;
                 }
 
                 forEach(boxes, function(b){
@@ -98,8 +98,8 @@
             }
 
             expr = "var m2m = getElement('${params.source}' + '_id');" + "m2m.value = '" + ids.join(',') + "'; m2m.onchange();";
-		    window.opener.setTimeout(expr, 1);
-		    window.close();
+            window.opener.setTimeout(expr, 1);
+            window.close();
         }
     </script>
 </head>
