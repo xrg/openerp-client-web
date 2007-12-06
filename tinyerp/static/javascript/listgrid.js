@@ -80,9 +80,10 @@ ListView.prototype.getEditors = function(named, dom){
 
     editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
     editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
+    editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
 
     return filter(function(e){
-        name = name ? e.name : e.id;
+        name = named ? e.name : e.id;
         return name &&  name.indexOf('_terp_listfields') == 0;
     }, editors);
 }
@@ -92,48 +93,51 @@ ListView.prototype.adjustEditors = function(newlist){
     var self = this;
     var widths = {};
 
-    if (items(self.getEditors(true)).length == 0) {
+    var editors = self.getEditors(true);
+
+    if (editors.length == 0) {
 
         var header = getElementsByTagAndClassName('tr', 'grid-header', self.id)[0];
         var columns = filter(function(c){
-                return c.id;
+            return c.id;
         }, getElementsByTagAndClassName('td', 'grid-cell', header));
 
         forEach(columns, function(c){
-
-            var k = c.id.split('/');
-            k.shift();
-            k = '_terp_listfields/' + k.join('/');
-
+            var k = c.id;
             var w = parseInt(c.offsetWidth);
 
-            if (hasElementClass(c, 'datetime') || hasElementClass(c, 'date') || hasElementClass(c, 'time')) {
-                w -= 18;
-            }
-
-            if (hasElementClass(c, 'many2one')) {
-                w -= 18;
-                k += '_text';
-            }
-
-            widths[k] = w - 4;
-        });
-    } else {
-        forEach(self.getEditors(), function(e){
-            widths[e.id] = parseInt(e.offsetWidth);
+            widths[k] = w;
         });
     }
 
-    var editors = self.getEditors(false, newlist);
+    // set the column widths of the newlist 
+    var header = getElementsByTagAndClassName('tr', 'grid-header', newlist)[0];
+    var columns = filter(function(c){
+        return c.id;
+    }, getElementsByTagAndClassName('td', 'grid-cell', header));
+
+    forEach(columns, function(c){
+        var k = c.id;
+        c.style.width = widths[k] + 'px';
+    });
+
+    editors = self.getEditors(false, newlist);
 
     forEach(editors, function(e){
-        var k = e.id;
 
-        if (k in widths) {
-            e.style.width = widths[k] + 'px';
-            e.style.maxWidth = widths[k] + 'px';
-        }
+        if (/MSIE/.test(navigator.userAgent)) {
+            var k = e.id.replace('_terp_listfields', 'grid-data-column');
+            if (k in widths) {
+                var w = widths[k];
+                var t = getNodeAttribute(e, 'kind');
 
+                if (t == 'datetime' || t == 'date' || t == 'time' || t == 'many2one' || t == 'many2many') {
+                    w -= 18;
+                }
+
+                e.style.width = w + 'px';
+            }
+        } 
         // disable autocomplete (Firefox < 2.0 focus bug)
         setNodeAttribute(e, 'autocomplete', 'OFF');
     });
@@ -174,15 +178,7 @@ ListView.prototype.onKeyDown = function(evt){
         return;
     }
 
-    var editors = filter(function(e){
-        return e.type != 'hidden' && !e.disabled
-    }, this.getEditors());
-
-    forEach(editors, function(e){
-       addElementClass(e, 'listfields');
-    });
-
-    editors = getElementsByTagAndClassName(null, 'listfields', this.id);
+    var editors = getElementsByTagAndClassName(null, 'listfields', this.id);
 
     var first = editors.shift();
     var last = editors.pop();
@@ -196,12 +192,14 @@ ListView.prototype.onKeyDown = function(evt){
 
 ListView.prototype.bindKeyEventsToEditors = function(editors){
     var self = this;
+
     var editors = filter(function(e){
         return e.type != 'hidden' && !e.disabled
     }, editors);
 
     forEach(editors, function(e){
         connect(e, 'onkeydown', self, self.onKeyDown);
+        addElementClass(e, 'listfields');
     });
 
     var first = editors.shift();
