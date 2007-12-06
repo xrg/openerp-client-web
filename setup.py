@@ -17,7 +17,7 @@ setup(
     version=version,
 
     # uncomment the following lines if you fill them out in release.py
-    description='Tiny ERP is a free enterprise management software: accounting, stock, manufacturing, project mgt, ... eTiny is the web client of the Tiny ERP project',
+    description='eTiny is the web client of the Tiny ERP, a free enterprise management software: accounting, stock, manufacturing, project mgt...',
     author='Tiny ERP Pvt. Ltd.',
     author_email='info@tinyerp.com',
     url='http://www.tinyerp.com/demonstration.html',
