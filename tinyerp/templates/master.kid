@@ -102,11 +102,7 @@ requests, requests_message = tg.root.requests.my()
                                             <td py:if="len(shortcuts) &gt; 6" id="shortcuts_menu" nowrap="nowrap">
                                                 <a href="javascript: void(0)">>></a>
                                                 <div class="submenu" id="shortcuts_submenu">
-                                                    <table cellpadding="0" cellspacing="0">
-                                                        <tr py:for="sc in shortcuts[6:]">
-                                                            <td><a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a></td>
-                                                        </tr>
-                                                    </table>
+                                                    <a py:for="sc in shortcuts[6:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
                                                 </div>
                                             </td>
                                         </tr>

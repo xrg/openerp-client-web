@@ -548,7 +548,7 @@ function makeContextMenu(id, kind, relation, val) {
 
         $('contextmenu').innerHTML = '';
 
-        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 1}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
+        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 0}, TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
         appendChildNodes('contextmenu', tbl);
 
         var vd = getViewportDimensions();
@@ -598,7 +598,7 @@ var hideContextMenu = function(){
 
 var m2oContextMenu = function(src){
 
-	var btn = $(src);
+    var btn = $(src);
     var menu = $('contextmenu');
     
     if (!menu) {
@@ -607,7 +607,7 @@ var m2oContextMenu = function(src){
 
         if (/msie/.test(navigator.userAgent.toLowerCase())) {
             var ifrm = createDOM('IFRAME', {'id':'contextmenu_frm', 'src' : '#', 'frameborder': '0', 'scrolling':'no', 'style':'position: absolute; display: none;'});
-            appendChildNodes(document.body, frm);
+            appendChildNodes(document.body, ifrm);
         }
     }
     

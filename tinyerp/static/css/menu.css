@@ -31,28 +31,12 @@ table.menubar a:hover
 
 table.menubar div.submenu
 {
-    background-color: #999;
-    visibility: hidden;
-    position: absolute;
-    padding: 2px;
-    margin-top: 2px;
-    margin-left:  1px;
-    z-index: 3
-}
-
-table.menubar div.submenu table 
-{
-    position: relative;
-    margin: -4px 0px 0px -4px;
     background-color: #666;
     border: 1px solid #333;
-}
-
-table.menubar div.submenu td 
-{
-    border: none;
-    padding: 1px;
-    padding-right: 0px;
+    position: absolute;
+    visibility: hidden;
+    margin-left:  -1px;
+    z-index: 3
 }
 
 table.menubar div.submenu a
@@ -60,8 +44,8 @@ table.menubar div.submenu a
     display: block;
     text-align: left;
     text-decoration: none;
-    padding: 5px;
     color: #FFF;
+    margin: 0px;
 }
 
 table.menubar div.submenu a:hover
@@ -72,8 +56,8 @@ table.menubar div.submenu a:hover
 
 div.contextmenu
 {
-    background-color: #999;
-    padding: 2px;
+    background-color: #444;
+    border: 1px solid #000;
     white-space: nowrap;
     position: absolute;
     z-index: 100;
@@ -99,12 +83,5 @@ div.contextmenu a:hover
 div.contextmenu a.disabled
 {
     color: #C0C0C0;
-}
-
-div.contextmenu table {
-    position: relative;
-    margin: -4px 0px 0px -4px;
-    background-color: #444;
-    border: 1px solid #000;
 }
 
