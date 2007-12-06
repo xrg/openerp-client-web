@@ -52,11 +52,11 @@
 				</span>
 	            <span py:if="data[field].text == ''">&nbsp;</span>
 	        </td>
-	        <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
+	        <td py:if="editable" width="22" class="grid-cell" style="text-align: center; padding: 0px;">
 	            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
 	            <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
 	        </td>
-	        <td py:if="editable" class="grid-cell" style="text-align: center; padding: 0px;">
+	        <td py:if="editable" width="22" class="grid-cell" style="text-align: center; padding: 0px;">
 	            <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
 	        </td>
 	    </tr>
