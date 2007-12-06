@@ -26,11 +26,10 @@
             </p>
             <p>
                 <i>eTiny</i> is the official web client of <a href="http://tinyerp.com">Tiny ERP</a> developed by <a href="http://tiny.be">Tiny</a> and <a href="http://www.axelor.com/">Axelor</a>.
-                It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
             </p>
 
             <p>
-                <i>eTiny</i> is know to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>.
+                <i>eTiny</i> is know to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>.  It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
             </p>
 
             </td>
