@@ -52,6 +52,7 @@ div.contextmenu {
     border: 1px solid #000;
     white-space: nowrap;
     position: absolute;
+    padding: 2px;
     z-index: 100;
 }
 
