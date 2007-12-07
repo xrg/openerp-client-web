@@ -1,7 +1,5 @@
-<div class="toolbar" xmlns:py="http://purl.org/kid/ns#">
-    <table width="100%" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td><strong>${string}</strong></td>
-        </tr>
-    </table>
-</div>
+<table class="separator" width="100%" xmlns:py="http://purl.org/kid/ns#">
+    <tr>
+        <td py:content="string">Title</td>
+    </tr>
+</table>

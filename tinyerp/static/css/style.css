@@ -314,6 +314,12 @@ div.welcome {
     border-bottom: 1px solid #bbb8a9;
 }
 
+.view .separator {
+	font-weight: bold;
+	border-bottom: 1px solid #666;
+	margin: 6px 0px;
+}
+
 td.label {
     padding: 0 4px;
     text-align: right;
@@ -328,7 +334,8 @@ td.item .mceSelectList {
     width: auto;
 }
 
-td.item .checkbox,td.item .radio {
+td.item .checkbox,
+td.item .radio {
     width: auto;
 }
 
