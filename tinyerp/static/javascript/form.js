@@ -513,7 +513,7 @@ function makeContextMenu(id, kind, relation, val) {
     var model = prefix ? $(prefix + '_terp_model').value : $('_terp_model').value;
 
     var params = {'model': model, 'field': id, 'kind': kind, 'relation': relation, 'value': val};
-
+    
     var req = Ajax.JSON.post(act, params);
 
     req.addCallback(function(obj) {
@@ -521,7 +521,7 @@ function makeContextMenu(id, kind, relation, val) {
         var rows = [];
 
         for(var r in obj.defaults) {
-            var o = obj.defaults[r];
+            var o = obj.defaults[r];                        
             var a = A({href: "javascript: void(0)", onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
             rows = rows.concat(a);
         }
@@ -606,55 +606,10 @@ var hideContextMenu = function(){
     hideElement(menu);
 }
 
-var m2oContextMenu = function(src){
-
-    var btn = $(src);
-    var menu = $('contextmenu');
-
-    if (!menu) {
-        menu = DIV({'id': 'contextmenu', 
-                    'class' : 'contextmenu', 
-                    'onmouseout' : 'hideContextMenu()', 
-                    'onmouseover' : 'showContextMenu()',
-                    'style' : 'position: absolute; display: none;'});
-
-        appendChildNodes(document.body, menu);
-
-        if (/msie/.test(navigator.userAgent.toLowerCase())) {
-            var ifrm = createDOM('IFRAME', {'id' : 'contextmenu_frm', 
-                                            'src' : '#', 'frameborder': '0', 'scrolling' :'no', 
-                                            'style':'position: absolute; display: none;'});
-
-            appendChildNodes(document.body, ifrm);
-        }
-    }
-
-    var src = $(src).id.slice(0, -5);
-    src = $(src);
-
-    var val = $(src.id).value;
-    var kind = getNodeAttribute(src, 'kind');
-    var relation = getNodeAttribute(src, 'relation');
-
-    hideElement(menu);
-
-    var p = elementPosition(btn);
-    var d = elementDimensions(btn);
-
-    if (typeof(opera) != 'undefined') {
-        p = findPosition(btn);
-    }
-
-    p.y += d.h;
-    setElementPosition(menu, p);
-
-    makeContextMenu(src.id, kind, relation, val);
-}
-
 function set_to_default(field, model){
 
     var kind = getNodeAttribute($(field), 'kind');
-
+    
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
 
@@ -671,6 +626,7 @@ function set_as_default(field, model){
     var kind = getNodeAttribute($(field), 'kind');
 
     var args = getFormData(1);
+    
     args['_terp_model'] = model;
     args['_terp_field'] = field;
 
@@ -683,7 +639,7 @@ function set_as_default(field, model){
                       '_terp_field/string': text, 
                       '_terp_field/value': $(field).value, 
                       '_terp_deps': obj.deps};
-
+        
         openWindow(getURL('/fieldpref', params), {width: 500, height: 350});
     });
 }
@@ -717,6 +673,57 @@ function do_relate(action_id, field, relation, src) {
     var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
 
     window.open(getURL(act, params));
+}
+
+function on_context_menu(evt) {
+    
+    if(! evt.modifier().ctrl)
+        return;
+        
+    var target = evt.target();    
+    var kind = getNodeAttribute(target, 'kind');
+    
+    if(! kind)
+        return;
+       
+    var menu = $('contextmenu');
+
+    if (!menu) {
+        menu = DIV({'id': 'contextmenu', 
+                    'class' : 'contextmenu', 
+                    'onmouseout' : 'hideContextMenu()', 
+                    'onmouseover' : 'showContextMenu()',
+                    'style' : 'position: absolute; display: none;'});
+
+        appendChildNodes(document.body, menu);
+
+        if (/msie/.test(navigator.userAgent.toLowerCase())) {
+            var ifrm = createDOM('IFRAME', {'id' : 'contextmenu_frm', 
+                                            'src' : '#', 'frameborder': '0', 'scrolling' :'no', 
+                                            'style':'position: absolute; display: none;'});
+
+            appendChildNodes(document.body, ifrm);
+        }
+    }
+
+    var src = target.id;
+    
+    if (kind == 'many2one') {
+        src = src.slice(0, -5);
+    }
+
+    var val = $(src).value;
+    var relation = getNodeAttribute(src, 'relation');
+
+    hideElement(menu);
+
+    var p = evt.mouse().page;
+    
+    setElementPosition(menu, p);
+
+    makeContextMenu(src, kind, relation, val);        
+    
+    evt.stop();
 }
 
 // vim: sts=4 st=4 et

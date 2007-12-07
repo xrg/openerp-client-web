@@ -31,6 +31,11 @@
 
         connect(window, 'onload', function(){
             loadSidebar();
+            
+            if (!getElement('_terp_list')) {
+                connect(window.document, 'oncontextmenu', on_context_menu);
+            }
+            
         });
     </script>
 
