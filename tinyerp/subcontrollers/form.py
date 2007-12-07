@@ -348,6 +348,9 @@ class Form(controllers.Controller, TinyResource):
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
 
+        if new_id:
+            raise redirect(self.path + '/edit', **args)
+
         raise redirect(self.path + '/view', **args)
 
     @expose()
