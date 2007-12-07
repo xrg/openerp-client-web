@@ -578,7 +578,7 @@ class Form(TinyCompoundWidget):
 
         # update values according to domain
         for d in domain:
-            if d[0] in values and d[1] == '=':
+            if d[1] == '=':
                 values[d[0]] = d[2]
 
         if ids:
@@ -599,7 +599,8 @@ class Form(TinyCompoundWidget):
         elif 'state' in fields: # if nodefault and state get state only
             defaults = proxy.default_get(['state'], ctx)
 
-        values.update(defaults)
+        for k, v in defaults:
+            values.setdefault(k, v)
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
 
