@@ -56,7 +56,7 @@ class Pager(TinyCompoundWidget):
         self.id = id or False
         self.ids = ids or []
         
-        if len(ids) > self.limit:
+        if len(self.ids) > self.limit:
             self.ids = self.ids[self.offset:]
             self.ids = self.ids[:min(self.limit, len(self.ids))]
 
