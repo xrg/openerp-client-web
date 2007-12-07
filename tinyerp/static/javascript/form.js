@@ -204,6 +204,11 @@ var submit_form = function(action, src, data){
         action =  action + '/report.pdf'
     }
 
+    if (action == 'save_and_edit'){
+        action = 'save';
+        args['_terp_return_edit'] = 1;
+    }
+
     setNodeAttribute(form, 'action', get_form_action(action, args));
     form.submit();
 }
