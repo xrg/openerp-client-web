@@ -675,7 +675,7 @@ function do_relate(action_id, field, relation, src) {
     window.open(getURL(act, params));
 }
 
-function on_context_menu(evt) {
+function on_context_menu(evt) { 
     
     if(! evt.modifier().ctrl)
         return;
@@ -683,7 +683,7 @@ function on_context_menu(evt) {
     var target = evt.target();    
     var kind = getNodeAttribute(target, 'kind');
     
-    if(! kind)
+    if(! kind || target.disabled)
         return;
        
     var menu = $('contextmenu');
