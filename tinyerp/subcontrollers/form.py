@@ -467,6 +467,10 @@ class Form(controllers.Controller, TinyResource):
             elif id in ids:
                 id = ids[ids.index(id)+1]
 
+        if filter_action:
+            # remember the current notebook tab
+            cherrypy.session['remember_notebook'] = True
+
         if params.offset != o:
     
             domain = params.domain    
