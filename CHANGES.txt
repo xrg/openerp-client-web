@@ -7,6 +7,8 @@
     * Improved Form Layout
     * Sidebar Links (Reports/Wizard/Relates) now opens in new window
     * Cache for production environment only
+    * O2M with pagination support (list mode)
+    * ContextMenu (CTRL+MOUSE R) for all fields
 
 1.0RC1
 
