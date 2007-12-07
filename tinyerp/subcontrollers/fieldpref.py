@@ -50,8 +50,11 @@ class FieldPref(controllers.Controller, TinyResource):
     
     @expose(template="tinyerp.subcontrollers.templates.fieldpref")
     def index(self, **kw): #_terp_model, _terp_field, _terp_deps
+        
+        click_ok = None
         params, data = TinyDict.split(kw)
-        return dict(model=params.model, field=params.field, deps=params.deps, show_header_footer=False)
+        
+        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps, show_header_footer=False)
     
     @expose('json')
     def get(self, **kw):
@@ -92,11 +95,12 @@ class FieldPref(controllers.Controller, TinyResource):
         model = params.model        
         field = params.field['name']        
         value = params.field['value']
+        click_ok = 1
         
         field = field.split('/')[-1]
 
         proxy = rpc.RPCProxy('ir.values')
         res = proxy.set('default', deps, field, [(model,False)], value, True, False, False, params.you or False, True)
 
-        return dict(model=params.model, field=params.field, deps=params.deps2, should_close=True, show_header_footer=False)
+        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps2, should_close=True, show_header_footer=False)
     

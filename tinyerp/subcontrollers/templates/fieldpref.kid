@@ -2,6 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>Field Preferences</title>
+    
+    <script type="text/javascript">
+        addLoadEvent(function(evt){            
+            if($('click_ok').value)
+                window.close();
+        });
+    </script>
+    
 </head>
 <body>
 
@@ -12,6 +20,7 @@
     <input id="_terp_model" name="_terp_field/value" value="${field['value']}" type="hidden"/>
     <input id="_terp_model" name="_terp_field/string" value="${field['string']}" type="hidden"/>
     <input id="_terp_model" name="_terp_deps2" value="${str(deps)}" type="hidden"/>
+    <input id="click_ok" name="click_ok" value="${click_ok}" type="hidden"/>
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
