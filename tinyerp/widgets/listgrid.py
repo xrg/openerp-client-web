@@ -169,6 +169,11 @@ class List(TinyCompoundWidget):
                 self.editors[f] = form.Hidden(fa)
 
             self.children = self.editors.values()
+                    
+        # limit the data
+        if self.pageable and len(self.data) > self.limit:
+            self.data = self.data[self.offset:]
+            self.data = self.data[:min(self.limit, len(self.data))]
 
     def do_sum(self, data, field):
         sum = 0.0

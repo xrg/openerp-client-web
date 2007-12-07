@@ -96,7 +96,7 @@
                         <td class="pagerbar-links">         
                             <a href="javascript: void(0)" onclick="new ListView('$name').importData()">Import</a> | <a href="javascript: void(0)" onclick="new ListView('$name').exportData()">Export</a>
                         </td>
-                        <td align="right" py:content="pager.display(pager_id='pager2')"></td>
+                        <td align="right" py:content="pager.display(pager_id=2)"></td>
                     </tr>
                 </table>
             </td>

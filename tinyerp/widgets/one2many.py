@@ -104,8 +104,12 @@ class O2M(TinyCompoundWidget):
         params.ids = ids
         params.view_mode = view_mode
         params.view_type = view_type
-        params.domain = []
-        params.context = {}
+        params.domain = params.domain or []
+        params.context = params.context or {}
+        
+        params.offset = params.offset or 0
+        params.limit = params.limit or 20
+        params.count = len(ids or [])
         
         if params.view_type == 'tree' and self.readonly:
             self.editable = False
@@ -114,7 +118,7 @@ class O2M(TinyCompoundWidget):
         self.id = id
 
         if view_type == 'tree':
-            self.screen.widget.pageable=False
+            #self.screen.widget.pageable=False
             self.id = None
 
         pager_info = None
