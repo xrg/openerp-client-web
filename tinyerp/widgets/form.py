@@ -599,7 +599,7 @@ class Form(TinyCompoundWidget):
         elif 'state' in fields: # if nodefault and state get state only
             defaults = proxy.default_get(['state'], ctx)
 
-        for k, v in defaults:
+        for k, v in defaults.items():
             values.setdefault(k, v)
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
