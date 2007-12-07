@@ -634,7 +634,13 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def report(self, _terp_report_name='report.pdf', **kw):
-        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 'name': _('Print Screen'), 'type':'ir.actions.report.xml'}}, datas=kw)
+        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 
+                                                                           'name': _('Print Screen'), 
+                                                                           'type':'ir.actions.report.xml'}}, datas=kw)
+
+    @expose()
+    def relate(self, **kw):
+        return self.action(**kw)
 
     @expose()
     def action(self, _terp_report_name='report.pdf', **kw):

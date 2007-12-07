@@ -170,7 +170,7 @@
                                         </table>
                                     </td>
                                 </tr>
-                                <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                                <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'))">
                                     <td>
                                         <a href="javascript: void(0)">${item['string']}</a>
                                     </td>

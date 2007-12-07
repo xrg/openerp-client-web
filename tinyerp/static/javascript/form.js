@@ -185,7 +185,7 @@ var submit_form = function(action, src, data){
         _terp_data: data ? data : null
     };
 
-    if (action == 'action' && $('_terp_list')){
+    if ((action == 'action' || action == 'relate') && $('_terp_list')){
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
 
