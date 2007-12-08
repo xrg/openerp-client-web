@@ -161,6 +161,7 @@ class Search(TinyCompoundWidget):
                 attrs['required'] = False
                 attrs['translate'] = False
                 attrs['disabled'] = False
+                attrs['visible'] = True
 
                 try:
                     fields[name].update(attrs)
