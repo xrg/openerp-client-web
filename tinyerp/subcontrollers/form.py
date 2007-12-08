@@ -656,7 +656,7 @@ class Form(controllers.Controller, TinyResource):
             return self.do_action('client_action_multi', datas=kw)
 
         if not params.selection and not params.id:
-            raise common.message(_('You must save this record to use the relate button !'))
+            raise common.message(_('You must save this record to use the sidebar button!'))
 
         from tinyerp.subcontrollers import actions        
         from tinyerp.subcontrollers import record
