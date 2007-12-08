@@ -31,6 +31,12 @@
     padding: 2px;
 }
 
+.grid-row.editors input,
+.grid-row.editors select,
+.grid-row.editors textarea {
+    width: 99%;
+}
+
 .grid .float,
 .grid .integer {
     text-align: right;
