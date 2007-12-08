@@ -75,7 +75,8 @@ class List(TinyCompoundWidget):
         self.name = name
         self.model = model
         self.ids = ids
-        self.context = context
+        self.context = context or {}
+        self.domain = domain or []
 
         if name.endswith('/'):
             self.name = name[:-1]
@@ -209,11 +210,20 @@ class List(TinyCompoundWidget):
             proxy = rpc.RPCProxy(self.model)
 
             values = {}
+            defaults = {}
+
+            # update values according to domain
+            for d in self.domain:
+                if d[1] == '=':
+                    values[d[0]] = d[2]
 
             if self.edit_inline > 0:
                 values = proxy.read([self.edit_inline], fields, ctx)[0]
             else:
-                values = proxy.default_get(fields, ctx)
+                defaults = proxy.default_get(fields, ctx)
+
+            for k, v in defaults.items():
+                values.setdefault(k, v)
 
             for f in fields:
                 if f in values:
