@@ -90,10 +90,12 @@ ListView.prototype.getEditors = function(named, dom){
 
 ListView.prototype.adjustEditors = function(newlist){
 
+    var self = this;
     var widths = {};
-    var editors = self.getEditors(true);
-    var header = getElementsByTagAndClassName('tr', 'grid-header', this.id)[0];
 
+    var editors = self.getEditors(true);
+
+    var header = getElementsByTagAndClassName('tr', 'grid-header', self.id)[0];
     var columns = filter(function(c){
         return c.id;
     }, getElementsByTagAndClassName('td', 'grid-cell', header));
@@ -106,8 +108,8 @@ ListView.prototype.adjustEditors = function(newlist){
     });
 
     // set the column widths of the newlist 
-    header = getElementsByTagAndClassName('tr', 'grid-header', newlist)[0];
-    columns = filter(function(c){
+    var header = getElementsByTagAndClassName('tr', 'grid-header', newlist)[0];
+    var columns = filter(function(c){
         return c.id;
     }, getElementsByTagAndClassName('td', 'grid-cell', header));
 
@@ -116,7 +118,7 @@ ListView.prototype.adjustEditors = function(newlist){
         c.style.width = widths[k] + 'px';
     });
 
-    editors = this.getEditors(false, newlist);
+    editors = self.getEditors(false, newlist);
 
     forEach(editors, function(e){
 
@@ -464,3 +466,4 @@ ListView.prototype.go = function(action){
 }
 
 // vim: sts=4 st=4 et
+
