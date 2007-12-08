@@ -11,7 +11,7 @@ msgstr ""
 "X-Poedit-Language: French\n"
 
 
-#: tinyerp/subcontrollers/actions.py:246 tinyerp/subcontrollers/form.py:721
+#: tinyerp/subcontrollers/actions.py:246 tinyerp/subcontrollers/form.py:734
 msgid "Error"
 msgstr "Erreur"
 
@@ -159,19 +159,19 @@ msgstr "Le mot de passe de base de données n'a pas être modifié  "
 msgid "Error, password not changed."
 msgstr "Erreur, mot de passe n'a pas changé"
 
-#: tinyerp/subcontrollers/form.py:630 tinyerp/subcontrollers/tree.py:212
+#: tinyerp/subcontrollers/form.py:637 tinyerp/subcontrollers/tree.py:212
 msgid "No record selected !"
 msgstr "Aucun entreé sélectionnée"
 
-#: tinyerp/subcontrollers/form.py:634
+#: tinyerp/subcontrollers/form.py:642
 msgid "Print Screen"
 msgstr "Capture d'écran"
 
-#: tinyerp/subcontrollers/form.py:646
-msgid "You must save this record to use the relate button !"
-msgstr "Vous devez garder cette information pour pouvoir utiliser le bouton 'relate' "
+#: tinyerp/subcontrollers/form.py:659
+msgid "You must save this record to use the sidebar button!"
+msgstr ""
 
-#: tinyerp/subcontrollers/form.py:721
+#: tinyerp/subcontrollers/form.py:734
 msgid "Wrong on_change trigger: %s"
 msgstr "Mauvais on_change gâchette: %s "
 
@@ -259,11 +259,11 @@ msgstr "Mot de passe ou compte erroné !"
 msgid "Action not found !"
 msgstr "Action non trouvée !"
 
-#: tinyerp/widgets/listgrid.py:391
+#: tinyerp/widgets/listgrid.py:406
 msgid "Yes"
 msgstr "Oui"
 
-#: tinyerp/widgets/listgrid.py:393
+#: tinyerp/widgets/listgrid.py:408
 msgid "No"
 msgstr "Non"
 
@@ -275,11 +275,11 @@ msgstr "Nouveau"
 msgid "Save/New"
 msgstr "Enregistrez/Nouveau "
 
-#: tinyerp/widgets/pager.py:65
+#: tinyerp/widgets/pager.py:69
 msgid "[%s/%s]"
 msgstr ""
 
-#: tinyerp/widgets/pager.py:73
+#: tinyerp/widgets/pager.py:80
 msgid "[%s - %s of %s]"
 msgstr ""
 
@@ -970,6 +970,14 @@ msgstr "Modifiez cette ressource "
 #: tinyerp/subcontrollers/templates/form.kid:button
 msgid "Save this resource"
 msgstr "Enregistrez cette ressource "
+
+#: tinyerp/subcontrollers/templates/form.kid:button
+msgid "Save & Edit"
+msgstr ""
+
+#: tinyerp/subcontrollers/templates/form.kid:button
+msgid "Save & Edit this resource"
+msgstr ""
 
 #: tinyerp/subcontrollers/templates/form.kid:button
 msgid "Duplicate"
