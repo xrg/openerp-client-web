@@ -90,29 +90,24 @@ ListView.prototype.getEditors = function(named, dom){
 
 ListView.prototype.adjustEditors = function(newlist){
 
-    var self = this;
     var widths = {};
-
     var editors = self.getEditors(true);
+    var header = getElementsByTagAndClassName('tr', 'grid-header', this.id)[0];
 
-    if (editors.length == 0) {
+    var columns = filter(function(c){
+        return c.id;
+    }, getElementsByTagAndClassName('td', 'grid-cell', header));
 
-        var header = getElementsByTagAndClassName('tr', 'grid-header', self.id)[0];
-        var columns = filter(function(c){
-            return c.id;
-        }, getElementsByTagAndClassName('td', 'grid-cell', header));
+    forEach(columns, function(c){
+        var k = c.id;
+        var w = parseInt(c.offsetWidth);
 
-        forEach(columns, function(c){
-            var k = c.id;
-            var w = parseInt(c.offsetWidth);
-
-            widths[k] = w;
-        });
-    }
+        widths[k] = w;
+    });
 
     // set the column widths of the newlist 
-    var header = getElementsByTagAndClassName('tr', 'grid-header', newlist)[0];
-    var columns = filter(function(c){
+    header = getElementsByTagAndClassName('tr', 'grid-header', newlist)[0];
+    columns = filter(function(c){
         return c.id;
     }, getElementsByTagAndClassName('td', 'grid-cell', header));
 
@@ -121,7 +116,7 @@ ListView.prototype.adjustEditors = function(newlist){
         c.style.width = widths[k] + 'px';
     });
 
-    editors = self.getEditors(false, newlist);
+    editors = this.getEditors(false, newlist);
 
     forEach(editors, function(e){
 
