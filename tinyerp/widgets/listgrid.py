@@ -195,7 +195,8 @@ class List(TinyCompoundWidget):
 
         integer, digit = digits
 
-        return locale.format('%.' + str(digit) + 'f', sum or 0.00)
+        #return locale.format('%.' + str(digit) + 'f', sum or 0.00)
+        return i18n.format_decimal(sum or 0.0, digit)
 
     def display(self, value=None, **params):
 
