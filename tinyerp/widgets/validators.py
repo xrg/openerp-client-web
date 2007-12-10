@@ -76,7 +76,8 @@ class Float(tg.validators.Number):
     digit = 2
 
     def _from_python(self, value, state):
-        return locale.format('%.' + str(self.digit) + 'f', value or 0.00)
+        #return locale.format('%.' + str(self.digit) + 'f', value or 0.00)
+        return tg.i18n.format_decimal(value or 0.0, self.digit)
 
 class DateTime(tg.validators.DateTimeConverter):
     if_empty = False
