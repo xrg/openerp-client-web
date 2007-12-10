@@ -103,6 +103,8 @@ class Form(controllers.Controller, TinyResource):
         buttons.attach = (buttons.form or buttons.search or buttons.graph) and id
         buttons.i18n = not editable and mode == 'form'
 
+        buttons.toolbar = not params.model.startswith('board.')
+
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
