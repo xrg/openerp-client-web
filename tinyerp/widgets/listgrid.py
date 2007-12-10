@@ -32,6 +32,7 @@ import time
 import xml.dom.minidom
 
 from turbogears import widgets
+from turbogears import i18n
 
 from tinyerp import rpc
 from tinyerp import tools
@@ -375,10 +376,8 @@ class Float(Char):
 
         integer, digit = digits
 
-        if self.value:
-            return locale.format('%.' + str(digit) + 'f', self.value or 0.00)
-
-        return locale.format('%.' + str(digit) + 'f', 0.00)
+        #return locale.format('%.' + str(digit) + 'f', self.value or 0.00)
+        return i18n.format_decimal(self.value or 0.0, digit)
 
 class Int(Char):
 
