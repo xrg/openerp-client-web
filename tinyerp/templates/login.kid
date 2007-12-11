@@ -45,7 +45,7 @@
                         <tr>
                             <td></td>
                             <td align="right">
-                                <button type="button" style="width: 80px; white-space: nowrap" accesskey="M" tabindex="-1" onclick="location.href='/dbadmin'"><u>M</u>anage</button>
+                                <button type="button" style="width: 80px; white-space: nowrap" tabindex="-1" onclick="location.href='/dbadmin'">Manage</button>
                                 <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
                             </td>
                         </tr>
