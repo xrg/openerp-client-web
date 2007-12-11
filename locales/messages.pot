@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-12-08 17:26\n"
+"POT-Creation-Date: 2007-12-11 12:44\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: tinyerp/common.py:42 tinyerp/common.py:56
 #: tinyerp/subcontrollers/actions.py:91 tinyerp/subcontrollers/actions.py:156
-#: tinyerp/subcontrollers/actions.py:246 tinyerp/subcontrollers/form.py:734
+#: tinyerp/subcontrollers/actions.py:246 tinyerp/subcontrollers/form.py:736
 msgid "Error"
 msgstr ""
 
@@ -161,19 +161,19 @@ msgstr ""
 msgid "Error, password not changed."
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:637 tinyerp/subcontrollers/tree.py:212
+#: tinyerp/subcontrollers/form.py:639 tinyerp/subcontrollers/tree.py:212
 msgid "No record selected !"
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:642
+#: tinyerp/subcontrollers/form.py:644
 msgid "Print Screen"
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:659
+#: tinyerp/subcontrollers/form.py:661
 msgid "You must save this record to use the sidebar button!"
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:734
+#: tinyerp/subcontrollers/form.py:736
 msgid "Wrong on_change trigger: %s"
 msgstr ""
 
@@ -359,7 +359,7 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: tinyerp/widgets/validators.py:126
+#: tinyerp/widgets/validators.py:135
 msgid "Please select a file."
 msgstr ""
 
@@ -570,7 +570,7 @@ msgstr ""
 #: tinyerp/templates/about.kid:br
 msgid ""
 "Tiny ERP is a trademark of the Tiny Company.\n"
-"            Licenced under the"
+"Licenced under the"
 msgstr ""
 
 #: tinyerp/templates/about.kid:a
@@ -638,7 +638,7 @@ msgid "Opera9"
 msgstr ""
 
 #: tinyerp/templates/about.kid:i
-msgid ".  It's built on the"
+msgid ". It's built on the"
 msgstr ""
 
 #: tinyerp/templates/about.kid:a
@@ -839,8 +839,8 @@ msgstr ""
 msgid "Password :"
 msgstr ""
 
-#: tinyerp/templates/login.kid:u
-msgid "anage"
+#: tinyerp/templates/login.kid:button
+msgid "Manage"
 msgstr ""
 
 #: tinyerp/templates/login.kid:img
