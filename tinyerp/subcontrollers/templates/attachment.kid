@@ -70,10 +70,10 @@
         </tr>
         <tr>
             <td>
-                <div class="toolbar">
-                    <form action="/attachment/add" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="model" value="${model}"/>
-                        <input type="hidden" name="id" value="${id}"/>
+                <form action="/attachment/add" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="model" value="${model}"/>
+                    <input type="hidden" name="id" value="${id}"/>
+                    <div class="toolbar">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td class="label">Add Resource: </td>
@@ -82,9 +82,9 @@
                                 <td><button type="button" onclick="do_save(form)">Save As</button></td>
                                 <td><button type="button" onclick="do_delete(form)">Delete</button></td>
                             </tr>
-                        </table>
-                    </form>
-                </div>
+                        </table>                        
+                    </div>
+                </form>
             </td>
         </tr>
         <tr>
