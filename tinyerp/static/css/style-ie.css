@@ -20,6 +20,12 @@ div.box2 button {
     margin: 0px 2px;
 }
 
+#search_view_notebook input.datetime,
+#search_view_notebook input.date,
+#search_view_notebook input.time {
+    width: 98%;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
