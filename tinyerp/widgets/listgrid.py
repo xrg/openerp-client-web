@@ -339,7 +339,7 @@ class M2O(Char):
 class Date(Char):
 
     server_format = '%Y-%m-%d'
-    display_format = '%x'
+    display_format = '%Y-%m-%d'
 
     def get_text(self):
         try:
@@ -390,7 +390,7 @@ class Int(Char):
 
 class DateTime(Char):
     server_format = '%Y-%m-%d %H:%M:%S'
-    display_format = '%x %H:%M:%S'
+    display_format = '%Y-%m-%d %H:%M:%S'
 
     def get_text(self):
         try:
