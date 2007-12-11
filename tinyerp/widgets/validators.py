@@ -79,6 +79,14 @@ class Float(tg.validators.Number):
         #return locale.format('%.' + str(self.digit) + 'f', value or 0.00)
         return tg.i18n.format_decimal(value or 0.0, self.digit)
 
+    def _to_python(self, value, state):
+
+        #deal with ' ' instead of u'\xa0' (SP instead of NBSP as grouping char)
+        if isinstance(value, basestring):
+            value = value.replace(' ', '')
+
+        return super(Float, self)._to_python(value, state)
+
 class DateTime(tg.validators.DateTimeConverter):
     if_empty = False
 
