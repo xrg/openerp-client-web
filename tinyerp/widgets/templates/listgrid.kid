@@ -77,7 +77,7 @@
 
         <tr class="field_sum" py:if="field_total">
             <td width="1%" py:if="selector" class="grid-cell">&nbsp;</td>
-            <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right; padding: 0px 2px;" nowrap="nowrap">
+            <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
                  <span py:if="'sum' in field_attrs" py:strip="">
                      <span py:for="key, val in field_total.items()" py:strip="">
                          <span py:if="field == key" style="border: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
