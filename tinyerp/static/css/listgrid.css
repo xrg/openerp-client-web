@@ -17,9 +17,13 @@
 }
 
 .grid-cell.selector {
-    max-width: 4px;
-    min-width: 4px;
     width: 1%;
+
+    max-width: 8px;
+    min-width: 8px;
+
+    text-align: center;
+    vertical-align: middle;    
 }
 
 .grid-header .grid-cell {
