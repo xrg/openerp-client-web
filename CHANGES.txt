@@ -5,10 +5,11 @@
     * M2M for editable listview
     * Duplicate Record
     * Improved Form Layout
-    * Sidebar Links (Reports/Wizard/Relates) now opens in new window
+    * Sidebar Links (Reports/Wizard) now opens in new window
     * Cache for production environment only
     * O2M with pagination support (list mode)
     * ContextMenu (CTRL+MOUSE R) for all fields
+    * Localized decimal number formating.
 
 1.0RC1
 
