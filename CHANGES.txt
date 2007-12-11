@@ -9,7 +9,6 @@
     * Cache for production environment only
     * O2M with pagination support (list mode)
     * ContextMenu (CTRL+MOUSE R) for all fields
-    * Localized decimal number formating.
 
 1.0RC1
 
