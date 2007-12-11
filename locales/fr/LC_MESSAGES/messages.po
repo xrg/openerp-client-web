@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eTiny! 0.0.1\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-11 15:26+0530\n"
+"PO-Revision-Date: 2007-12-11 20:00+0530\n"
 "Last-Translator: Amit <ame@tinyerp.com>\n"
 "Language-Team: eTiny! Team\n"
 "MIME-Version: 1.0\n"
@@ -573,7 +573,7 @@ msgstr "Au sujet d'eTiny "
 
 #: tinyerp/templates/about.kid:p
 msgid "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr "Droit d'auteur © 2006-AUJOURD'HUI Tiny ERP Pvt. Ltd. Tous Droits Réservés"
+msgstr "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
 
 #: tinyerp/templates/about.kid:br
 msgid ""
@@ -795,7 +795,7 @@ msgstr "[AJOUTER]"
 
 #: tinyerp/templates/master.kid:hr
 msgid "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on"
-msgstr "(c) Droit d'auteur  2006-Today, Tiny ERP Pvt Ltd. Plus d'information sur"
+msgstr "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. Plus d'information sur"
 
 #: tinyerp/templates/master.kid:a
 msgid "http://tinyerp.com"
