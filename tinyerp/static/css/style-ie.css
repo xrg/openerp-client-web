@@ -20,9 +20,12 @@ div.box2 button {
     margin: 0px 2px;
 }
 
+/* range widgets */
 #search_view_notebook input.datetime,
 #search_view_notebook input.date,
-#search_view_notebook input.time {
+#search_view_notebook input.time,
+#search_view_notebook input.integer,
+#search_view_notebook input.float{
     width: 98%;
 }
 
