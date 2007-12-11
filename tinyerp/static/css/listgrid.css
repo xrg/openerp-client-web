@@ -16,6 +16,12 @@
     border: none;
 }
 
+.grid-cell.selector {
+    max-width: 4px;
+    min-width: 4px;
+    width: 1%;
+}
+
 .grid-header .grid-cell {
     background:url(/static/images/gradientlinebg.gif);
     border-bottom: 1px solid #999;
