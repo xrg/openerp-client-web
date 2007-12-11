@@ -19,18 +19,18 @@
         <tr>
             <td>
             <b>Version ${version}</b>
-            <p>
-            Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
-            Tiny ERP is a trademark of the Tiny Company.
-            Licenced under the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
-            </p>
-            <p>
-                <i>eTiny</i> is the official web client of <a href="http://tinyerp.com">Tiny ERP</a> developed by <a href="http://tiny.be">Tiny</a> and <a href="http://www.axelor.com/">Axelor</a>.
-            </p>
+<p>
+Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
+Tiny ERP is a trademark of the Tiny Company.
+Licenced under the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
+</p>
+<p>
+<i>eTiny</i> is the official web client of <a href="http://tinyerp.com">Tiny ERP</a> developed by <a href="http://tiny.be">Tiny</a> and <a href="http://www.axelor.com/">Axelor</a>.
+</p>
 
-            <p>
-                <i>eTiny</i> is know to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>.  It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
-            </p>
+<p>
+<i>eTiny</i> is know to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
+</p>
 
             </td>
         </tr>
