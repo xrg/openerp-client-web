@@ -195,8 +195,8 @@ class List(TinyCompoundWidget):
 
         integer, digit = digits
 
-        #return locale.format('%.' + str(digit) + 'f', sum or 0.00)
-        return i18n.format_decimal(sum or 0.0, digit)
+        return locale.format('%.' + str(digit) + 'f', sum or 0.00)
+        #TODO: return i18n.format_decimal(sum or 0.0, digit)
 
     def display(self, value=None, **params):
 
@@ -377,8 +377,8 @@ class Float(Char):
 
         integer, digit = digits
 
-        #return locale.format('%.' + str(digit) + 'f', self.value or 0.00)
-        return i18n.format_decimal(self.value or 0.0, digit)
+        return locale.format('%.' + str(digit) + 'f', self.value or 0.00)
+        #TODO: return i18n.format_decimal(self.value or 0.0, digit)
 
 class Int(Char):
 
