@@ -148,8 +148,11 @@ class Search(TinyCompoundWidget):
             elif node.localName=='group':
                 self.parse(root=node, fields=fields, values=values)
 
-            elif node.localName == 'field' and attrs.has_key('select'):
+            elif node.localName == 'field':
                 name = attrs['name']
+
+                if not ('select' in attrs or 'select' in fields[name]):
+                    continue
 
                 if attrs.get('widget', False):
                     if attrs['widget']=='one2many_list':
