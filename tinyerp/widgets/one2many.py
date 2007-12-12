@@ -50,7 +50,7 @@ class O2M(TinyCompoundWidget):
 
         super(O2M, self).__init__(attrs)
 
-        self.new_attrs = { 'text': _("New"), 'help': 'Create new record.'}
+        self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
 
 #        self.colspan = 4
 #        self.nolabel = True
@@ -64,7 +64,7 @@ class O2M(TinyCompoundWidget):
 
         pparams = params.chain_get(pprefix)
         if (pparams and not pparams.id) or (not pparams and not params.id):
-            self.new_attrs = { 'text': _("Save/New"), 'help': 'Save parent and create new record.'}
+            self.new_attrs = { 'text': _("Save/New"), 'help': _('Save parent and create new record.')}
             
         self.parent_id = params.id
         if pparams:
