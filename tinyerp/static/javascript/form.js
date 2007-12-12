@@ -731,4 +731,24 @@ function on_context_menu(evt) {
     evt.stop();
 }
 
+function open_url(site){
+    var web_site;
+
+    isIE = /msie/.test(navigator.userAgent.toLowerCase());
+    
+    if(isIE && site.indexOf('@') > -1) {
+        site = site.split('@');
+        site = site[1]
+    }
+    
+    if(site.indexOf("://")== -1)
+        web_site='http://'+site;
+    else
+        web_site = site;
+
+    if(site.length > 0) {        
+        window.open(web_site);
+    }
+}
+
 // vim: sts=4 st=4 et
