@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eTiny! 0.0.1\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2007-12-11 20:00+0530\n"
+"PO-Revision-Date: 2007-12-12 18:22+0530\n"
 "Last-Translator: Amit <ame@tinyerp.com>\n"
 "Language-Team: eTiny! Team\n"
 "MIME-Version: 1.0\n"
@@ -10,13 +10,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: French\n"
 
-#: tinyerp/subcontrollers/actions.py:246
-#: tinyerp/subcontrollers/form.py:736
+
+#: tinyerp/subcontrollers/actions.py:246 tinyerp/subcontrollers/form.py:736
 msgid "Error"
 msgstr "Erreur"
 
-#: tinyerp/common.py:47
-#: tinyerp/common.py:59
+#: tinyerp/common.py:47 tinyerp/common.py:59
 msgid "Warning"
 msgstr "Attention"
 
@@ -35,30 +34,26 @@ msgid ""
 "you have an action defined for your user."
 msgstr ""
 "Vous ne pouvez pas vous connecter!\n"
-"Demandez à l'administrateur de verifier!\n"
+"Demandez l'administrateur de vérifier!\n"
 "Vous avez une action définie pour votre utilisateur "
 
-#: tinyerp/controllers.py:165
-#: tinyerp/tinyres.py:119
+#: tinyerp/controllers.py:165 tinyerp/tinyres.py:119
 msgid "Could not connect to server !"
 msgstr "La connexion avec le serveur n'est pas être faite !"
 
-#: tinyerp/rpc.py:175
-#: tinyerp/rpc.py:223
-#: tinyerp/rpc.py:385
+#: tinyerp/rpc.py:175 tinyerp/rpc.py:223 tinyerp/rpc.py:385
 msgid "Connection refused !"
 msgstr "Connexion refusée !"
 
-#: tinyerp/rpc.py:277
-#: tinyerp/rpc.py:291
+#: tinyerp/rpc.py:277 tinyerp/rpc.py:291
 msgid "Unsupported protocol:"
 msgstr "Protocole non-soutenu: "
 
 #: tinyerp/rpc.py:345
 msgid ""
-"You select a timezone but tinyERP could not find pytz library !\n"
+"You select a timezone but Tiny ERP could not find pytz library !\n"
 "The timezone functionality will be disable."
-msgstr "Vous avez sélectionné un fuseau horaire mais tinyERP n'a pas trouvé la bibliothèque pytz. La fonctionnalité fuseau horaire sera hors service."
+msgstr "Vous avez sélectionné un fuseau horaire mais Tiny ERP n'a pas trouvé la bibliothèque pytz. La fonctionnalité fuseau horaire sera hors service."
 
 #: tinyerp/rpc.py:375
 msgid "Authorization Error !"
@@ -68,8 +63,7 @@ msgstr "Erreur d'autorisation !"
 msgid "Not logged..."
 msgstr "Non connecté... "
 
-#: tinyerp/rpc.py:392
-#: tinyerp/rpc.py:395
+#: tinyerp/rpc.py:392 tinyerp/rpc.py:395
 msgid "Application Error !"
 msgstr "Erreur d'application !"
 
@@ -87,7 +81,7 @@ msgstr "Rien à  imprimer !"
 
 #: tinyerp/subcontrollers/actions.py:156
 msgid "Printing aborted, too long delay !"
-msgstr "Impression abondonée, trop long delai"
+msgstr "Impression abondonée, trop long delai !"
 
 #: tinyerp/subcontrollers/actions.py:246
 msgid "Action not found!!!"
@@ -110,13 +104,12 @@ msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
 msgstr ""
-"Le nom de base de données doit avoir seulement les caractères normaux ou \"_\".\n"
-"Vous devez éviter tous les accents, l'espace ou les caractères speciaux"
+"Le nom de base de donnée doit avoir seulement les caractères normaux ou \"_\".\n"
+"Vous devez éviter tous les accents, l'espace ou les caractères speciaux."
 
-#: tinyerp/subcontrollers/dbadmin.py:86
-#: tinyerp/subcontrollers/dbadmin.py:88
+#: tinyerp/subcontrollers/dbadmin.py:86 tinyerp/subcontrollers/dbadmin.py:88
 msgid "Could not create database."
-msgstr "La base de données n'a pas pu être crée "
+msgstr "La base de donnée n'a pas pu être crée. "
 
 #: tinyerp/subcontrollers/dbadmin.py:174
 msgid "Bad database administrator password !"
@@ -128,7 +121,7 @@ msgstr "Erreur pendant la création de la base de donnée !  "
 
 #: tinyerp/subcontrollers/dbadmin.py:118
 msgid "Could not drop database."
-msgstr "La base de donnée n'a pas être abondonnée"
+msgstr "La base de donnée n'a pas être abondonnée."
 
 #: tinyerp/subcontrollers/dbadmin.py:120
 msgid "Couldn't drop database"
@@ -140,7 +133,7 @@ msgstr "La sauvegarde n'a pas être crée"
 
 #: tinyerp/subcontrollers/dbadmin.py:174
 msgid "Could not restore database."
-msgstr "La base de données n'a pas être restauré "
+msgstr "La base de donnée n'a pas être restauré "
 
 #: tinyerp/subcontrollers/dbadmin.py:176
 msgid "Couldn't restore database"
@@ -152,7 +145,7 @@ msgstr "La confirmation de mot de passe n'accord pas avec le nouveau mot de pass
 
 #: tinyerp/subcontrollers/dbadmin.py:196
 msgid "Validation Error."
-msgstr "Erreur de validation"
+msgstr "Erreur de validation. "
 
 #: tinyerp/subcontrollers/dbadmin.py:202
 msgid "Bas password provided !"
@@ -164,10 +157,9 @@ msgstr "Le mot de passe de la base de donnée n'a pas être changé  "
 
 #: tinyerp/subcontrollers/dbadmin.py:204
 msgid "Error, password not changed."
-msgstr "Erreur, mot de passe n'a pas changé"
+msgstr "Erreur, mot de passe n'a pas changé. "
 
-#: tinyerp/subcontrollers/form.py:639
-#: tinyerp/subcontrollers/tree.py:212
+#: tinyerp/subcontrollers/form.py:639 tinyerp/subcontrollers/tree.py:212
 msgid "No record selected !"
 msgstr "Aucun enregistrement sélectionné !"
 
@@ -276,8 +268,16 @@ msgid "No"
 msgstr "Non"
 
 #: tinyerp/widgets/one2many.py:53
+msgid "Create new record."
+msgstr "Créer un nouveau record."
+
+#: tinyerp/widgets/one2many.py:53
 msgid "New"
 msgstr "Nouveau"
+
+#: tinyerp/widgets/one2many.py:67
+msgid "Save parent and create new record."
+msgstr "Enregistrer parent et créer un nouveau enregistrement."
 
 #: tinyerp/widgets/one2many.py:67
 msgid "Save/New"
@@ -367,9 +367,9 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre "
 
-#: tinyerp/widgets/validators.py:135
+#: tinyerp/widgets/validators.py:137
 msgid "Please select a file."
-msgstr "Choisissez un fichier"
+msgstr "Choisissez un fichier."
 
 #: tinyerp/widgets/tinycalendar/templates/week.kid:div
 msgid "Loading..."
@@ -573,7 +573,7 @@ msgstr "Au sujet d'eTiny "
 
 #: tinyerp/templates/about.kid:p
 msgid "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+msgstr "Copyright © 2006-AUJOURD'HUI Tiny ERP Pvt. Ltd. Tous Droits Réservés"
 
 #: tinyerp/templates/about.kid:br
 msgid ""
@@ -597,7 +597,7 @@ msgstr "eTiny"
 
 #: tinyerp/templates/about.kid:i
 msgid "is the official web client of"
-msgstr "est une interface web officiel de"
+msgstr "est une interface web officielle de"
 
 #: tinyerp/templates/about.kid:a
 msgid "Tiny ERP"
@@ -621,7 +621,7 @@ msgstr "Axelor"
 
 #: tinyerp/templates/about.kid:i
 msgid "is know to work with all major web browsers available today including"
-msgstr "est connu pour travailler avec tous les navigateur web disponible aujourd'hui y inclus "
+msgstr "est connu pour travailler avec tous les navigateurs web disponible aujourd'hui y inclus "
 
 #: tinyerp/templates/about.kid:i
 msgid "Firefox"
@@ -795,7 +795,7 @@ msgstr "[AJOUTER]"
 
 #: tinyerp/templates/master.kid:hr
 msgid "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on"
-msgstr "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. Plus d'information sur"
+msgstr "(c) Copyright  2006-Aujourd'hui, Tiny ERP Pvt Ltd. Plus d'information sur"
 
 #: tinyerp/templates/master.kid:a
 msgid "http://tinyerp.com"
@@ -803,7 +803,7 @@ msgstr "http://tinyerp.com"
 
 #: tinyerp/templates/master.kid:br
 msgid "The web client is developed by Axelor ("
-msgstr "l'interface web est développé par Axelor ("
+msgstr "l'interface web est développée par Axelor ("
 
 #: tinyerp/templates/master.kid:a
 msgid "http://axelor.com"
@@ -863,7 +863,7 @@ msgstr "Gérer"
 
 #: tinyerp/templates/login.kid:img
 msgid "Developped by Axelor and Tiny"
-msgstr "Développé par Axelor et Tiny "
+msgstr "Développée par Axelor et Tiny "
 
 #: tinyerp/subcontrollers/templates/translator.kid:title
 msgid "Add Translations"
@@ -967,7 +967,7 @@ msgstr "Graphe"
 
 #: tinyerp/subcontrollers/templates/form.kid:img
 msgid "Add an attachment to this resource."
-msgstr "Ajouter un fichier à joindre à cette ressource "
+msgstr "Ajouter un fichier joindre à cette ressource "
 
 #: tinyerp/subcontrollers/templates/form.kid:img
 msgid "Translate this resource."
@@ -975,7 +975,7 @@ msgstr "Traduire cette ressource. "
 
 #: tinyerp/subcontrollers/templates/form.kid:img
 msgid "View Log."
-msgstr "Regardez les logs. "
+msgstr "Log Vue."
 
 #: tinyerp/subcontrollers/templates/form.kid:button
 msgid "Create a new resource"
@@ -1031,7 +1031,7 @@ msgstr "Base de donnée admin"
 
 #: tinyerp/subcontrollers/templates/dbadmin.kid:div
 msgid "Database Administration"
-msgstr "Administration de la base de donnée"
+msgstr "Administration de base de données"
 
 #: tinyerp/subcontrollers/templates/dbadmin.kid:button
 msgid "Create"
@@ -1187,7 +1187,7 @@ msgstr "Vue Liste "
 
 #: tinyerp/subcontrollers/templates/imp.kid:title
 msgid "Import Data"
-msgstr "Importer les données"
+msgstr "Import de Données"
 
 #: tinyerp/subcontrollers/templates/imp.kid:th
 msgid "All fields"
@@ -1259,7 +1259,7 @@ msgstr "Nom de la nouvelle base de donnée"
 
 #: tinyerp/subcontrollers/templates/exp.kid:title
 msgid "Export Data"
-msgstr "Données d'Exportation "
+msgstr "Export de données"
 
 #: tinyerp/subcontrollers/templates/exp.kid:th
 msgid "Fields to export"

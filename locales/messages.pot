@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2007-12-11 12:44\n"
+"POT-Creation-Date: 2007-12-13 10:28\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr ""
 
 #: tinyerp/rpc.py:345
 msgid ""
-"You select a timezone but tinyERP could not find pytz library !\n"
+"You select a timezone but Tiny ERP could not find pytz library !\n"
 "The timezone functionality will be disable."
 msgstr ""
 
@@ -268,7 +268,15 @@ msgid "No"
 msgstr ""
 
 #: tinyerp/widgets/one2many.py:53
+msgid "Create new record."
+msgstr ""
+
+#: tinyerp/widgets/one2many.py:53
 msgid "New"
+msgstr ""
+
+#: tinyerp/widgets/one2many.py:67
+msgid "Save parent and create new record."
 msgstr ""
 
 #: tinyerp/widgets/one2many.py:67
@@ -359,7 +367,7 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: tinyerp/widgets/validators.py:135
+#: tinyerp/widgets/validators.py:137
 msgid "Please select a file."
 msgstr ""
 
