@@ -342,7 +342,7 @@ class RPCSession(object):
                 try:
                     import pytz
                 except:
-                    common.warning(_('You select a timezone but tinyERP could not find pytz library !\nThe timezone functionality will be disable.'))
+                    common.warning(_('You select a timezone but Tiny ERP could not find pytz library !\nThe timezone functionality will be disable.'))
                     
 
         # set locale in session
