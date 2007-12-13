@@ -6,7 +6,7 @@
                     <tr>
                         <td width="100%"><strong>${screen.string}</strong></td>
                         <td>
-                            <button type="button" py:if="screen.editable and not readonly"  title="${new_attrs['help']}" onclick="newO2M('${name}', '${screen.view_type}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)})" style="padding: 2px">
+                            <button type="button" py:if="screen.editable and not readonly"  title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="padding: 2px">
                                 <img py:if="parent_id" src="/static/images/stock/gtk-new.png" width="16" height="16"/>
                                 <img py:if="not parent_id" src="/static/images/stock/gtk-save.png" width="16" height="16"/>
                             </button>
@@ -40,6 +40,7 @@
     <tr>
         <td py:if="screen">
             <input type="hidden" name="${name}/__id" value="${id}"/>
+            <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${default_get_ctx}"/>
             ${screen.display()}
         </td>
     </tr>

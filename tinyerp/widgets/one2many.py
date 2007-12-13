@@ -39,9 +39,11 @@ class O2M(TinyCompoundWidget):
     """One2Many widget
     """
     template = "tinyerp.widgets.templates.one2many"
-    params = ['string', 'id', 'readonly', 'parent_id', 'new_attrs', 'pager_info', 'switch_to']
+    params = ['string', 'id', 'readonly', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx']
 
     member_widgets = ['screen']
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/o2m.js", location=tg.widgets.js_location.bodytop)]
+    
     form = None
 
     def __init__(self, attrs={}):
@@ -49,8 +51,9 @@ class O2M(TinyCompoundWidget):
         attrs['required'] = False
 
         super(O2M, self).__init__(attrs)
-
+        
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
+        self.default_get_ctx = attrs.get('context', {})
 
 #        self.colspan = 4
 #        self.nolabel = True

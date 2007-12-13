@@ -67,7 +67,13 @@ class OpenO2M(Form):
 
         views = parent.get(params.o2m)
         if views and 'views' in views:
-            params.views = views['views']        
+            params.views = views['views']
+
+        ctx = params.context or {}
+        ctx.update(params.o2m_context or {})
+        p, ctx = TinyDict.split(ctx)
+        
+        params.context = ctx or {}
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
         form.hidden_fields = [widgets.HiddenField(name='_terp_parent_model', default=params.parent_model),

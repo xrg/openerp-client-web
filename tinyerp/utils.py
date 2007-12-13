@@ -172,13 +172,21 @@ class TinyForm(TinyDict):
         
         for k, v in kwargs.items():
             if '_terp_' not in k:
-                kw['_terp_form/' + k] = eval(v)
+                try:
+                    v = eval(v)
+                except:
+                    pass
+                kw['_terp_form/' + k] = v
 
         for name, attrs in kw.items():
             
+            if not isinstance(attrs, dict):
+                kw[name] = attrs
+                continue
+            
             kind = attrs.get('type', 'char')
             value = attrs.get('value')
-                        
+            
             required = attrs.get('required', False)
 
             if kind not in VALIDATORS:

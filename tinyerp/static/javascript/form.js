@@ -35,43 +35,6 @@ function get_form_action(action, params){
     return getURL(act, params);
 }
 
-var newO2M = function(src, mode, editors){
-
-    var prefix = src + '/';
-    var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
-
-    var parent_id = $(parent_prefix + '_terp_id').value;
-
-    if (!parent_id || parent_id == 'False' || mode == 'form'){
-        return submit_form('save', src);
-    }
-
-    if (mode == 'tree' && editors > 0){
-        return new ListView(src).create();
-    }
-
-    return editO2M(null, src);
-}
-
-var editO2M = function(id, src){
-
-    var prefix = src + '/';
-    var parent_prefix = src.indexOf('/') > -1 ? src.slice(0, src.lastIndexOf('/')+1) : '';
-
-    var model = $(prefix + '_terp_model').value;
-
-    var parent_model = $(parent_prefix + '_terp_model').value;
-    var parent_id = $(parent_prefix + '_terp_id').value;
-
-    var args = {_terp_parent_model: parent_model,
-                _terp_parent_id: parent_id,
-                _terp_o2m: src,
-                _terp_o2m_model: model,
-                _terp_o2m_id: id};
-
-    openWindow(getURL('/openo2m/edit', args));
-}
-
 var editRecord = function(id, src){
 
     if (src && src != '_terp_list' && $('_terp_count').value != '0') {
@@ -309,10 +272,10 @@ var getFormData = function(extended) {
 
         var n = e.name.replace('_terp_listfields/', '');
 
-        if (n.indexOf('_terp_') > -1 || n.indexOf('/__id') > -1)
+        if (n.indexOf('_terp_') > -1)
             return;
 
-        if (extended) {
+        if (extended && n.indexOf('/__id') == -1) {
 
             var attrs = {};
 
@@ -338,7 +301,7 @@ var getFormData = function(extended) {
             frm[n] = "{" + attrs.join(", ") + "}";
 
         } else {
-            frm[n] = value;
+            frm[n] = e.value;
         }
     });
 
