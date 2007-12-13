@@ -38,7 +38,7 @@ function get_form_action(action, params){
 var editRecord = function(id, src){
 
     if (src && src != '_terp_list' && $('_terp_count').value != '0') {
-        return editO2M(id, src);
+        return new One2Many(src).edit(id);
     }
 
     var prefix = src && src != '_terp_list' ? src + '/' : '';
