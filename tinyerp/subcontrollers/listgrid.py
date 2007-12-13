@@ -73,6 +73,8 @@ class List(controllers.Controller, TinyResource):
                 source = params.source
                 data = frm.chain_get(source)
                 
+                if '__id' in data: data.pop('__id')
+                
                 fld = source.split('/')[-1]
                 data = {fld : [(id and 1, id, data.copy())]}                
 
