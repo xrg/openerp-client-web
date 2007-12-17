@@ -134,3 +134,48 @@ class List(controllers.Controller, TinyResource):
             wid.edit_inline = params.edit_inline
 
         return dict(ids=str(ids), count=count, view=ustr(wid.render()))
+    
+    @expose('json')
+    def button_action(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        error = None
+        
+        name = params.button_name
+        btype = params.button_type
+        
+        id = params.id
+        model = params.model
+
+        id = (id or False) and int(id)
+        ids = (id or []) and [id]
+        
+        try:
+    
+            if btype == 'workflow':
+                rpc.session.execute('object', 'exec_workflow', model, name, id)
+    
+            elif btype == 'object':
+                ctx = params.context or {}
+                ctx.update(rpc.session.context.copy())
+                rpc.session.execute('object', 'execute', model, name, ids, ctx)
+    
+            elif btype == 'action':
+                from tinyerp.subcontrollers import actions
+    
+                action_id = int(name)
+                action_type = actions.get_action_type(action_id)
+    
+                if action_type == 'ir.actions.wizard':
+                    cherrypy.session['wizard_parent_form'] = params
+    
+                res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
+                if res:
+                    raise "Button action has returned another view..."
+    
+            else:
+                raise 'Unallowed button type'
+        except Exception, e:
+            error = ustr(e)
+            
+        return dict(error=error)

@@ -36,23 +36,30 @@ from turbogears import i18n
 
 from tinyerp import rpc
 from tinyerp import tools
+from tinyerp import icons
 
 import form
 
 from pager import Pager
+
+from interface import TinyField
 from interface import TinyCompoundWidget
 
 class List(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.listgrid"
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'hiddens', 'edit_inline', 'field_total', 'link']
-    member_widgets = ['pager', 'children']
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
+              'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 
+              'hiddens', 'edit_inline', 'field_total', 'link']
+    
+    member_widgets = ['pager', 'children', 'buttons']
 
     pager = None
     children = []
     field_total = {}
     editors = {}
     hiddens = []
+    buttons = []
 
     edit_inline = None
 
@@ -135,7 +142,7 @@ class List(TinyCompoundWidget):
 
             self.ids = ids
 
-        self.headers, self.hiddens, self.data, self.field_total = self.parse(root, fields, data)
+        self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
         for k, v in self.field_total.items():
             self.field_total[k][1] = self.do_sum(self.data, k)
@@ -144,6 +151,7 @@ class List(TinyCompoundWidget):
 
         self.columns += (self.selectable or 0) and 1
         self.columns += (self.editable or 0) and 2
+        self.columns += (self.buttons or 0) and 1
 
         if self.pageable:
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
@@ -244,11 +252,17 @@ class List(TinyCompoundWidget):
 
         headers = []
         hiddens = []
+        buttons = []
         field_total = {}
         values  = [row.copy() for row in data]
 
         for node in root.childNodes:
-            if node.nodeName=='field':
+            
+            if node.nodeName == 'button':
+                attrs = tools.node_attributes(node)
+                buttons += [Button(attrs)]
+                
+            elif node.nodeName == 'field':
                 attrs = tools.node_attributes(node)
 
                 if 'name' in attrs:
@@ -291,7 +305,7 @@ class List(TinyCompoundWidget):
                     headers += [(name, fields[name])]
 
         # generate do_select links
-        if self.selectable:
+        if self.selectable and headers:
             name, field = headers[0]
             for row in data:
                 cell = row[name]
@@ -300,7 +314,7 @@ class List(TinyCompoundWidget):
                     cell.link = "javascript: void(0)"
                     cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
 
-        return headers, hiddens, data, field_total
+        return headers, hiddens, data, field_total, buttons
 
 from tinyerp.stdvars import tg_query
 
@@ -406,6 +420,54 @@ class Boolean(Char):
             return _('Yes')
         else:
             return _('No')
+        
+class Button(TinyField):
+    
+    icon = None
+    action = None
+    record = None
+    parent = None
+    btype = None
+    
+    params = ['icon', 'action', 'record', 'parent', 'btype']
+    
+    template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
+    <button py:if="action and not icon" type="button" py:content="string" py:attrs="attrs"
+        onclick="new ListView('${parent}').onButtonClick('${action}', ${record}, '${btype}')"/>
+    <img py:if="action and icon" height="16" width="16" class="listImage" src="${icon}" py:attrs="attrs"
+        onclick="new ListView('${parent}').onButtonClick('${action}', ${record}, '${btype}')"/>
+    <span py:if="not action and not icon">&nbsp;</span>     
+</span>"""
+    
+    def __init__(self, attrs={}):
+        super(Button, self).__init__(attrs)
+        
+        self.states = attrs.get('states', "{'draft':'cancel'}")
+        self.states = dict(tools.expr_eval(self.states))
+        
+        self.types = attrs.get('types', "{}")
+        self.types = dict(tools.expr_eval(self.types))
+
+        self.icon = attrs.get('icon')
+        
+        if self.icon:
+            self.icon = icons.get_icon(self.icon)
+            
+        self.help = self.help or self.string
+    
+    def params_from(self, data):
+        
+        record = data.get('id')
+        action = None
+        btype = 'workflow'
+        
+        cell = data.get('state')
+        if cell:
+            action = self.states.get(cell.value)
+            
+        btype = self.types.get(action, btype)
+        
+        return dict(action=action, record=record, btype=btype)
 
 CELLTYPES = {
         'char':Char,

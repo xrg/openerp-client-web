@@ -373,6 +373,28 @@ ListView.prototype.reload = function(edit_inline){
     });
 }
 
+ListView.prototype.onButtonClick = function(action, id, type){
+    
+    var self = this;
+    var prefix = this.id == '_terp_list' ? '' : this.id + '/';
+    
+    var params = {
+        _terp_model : this.model,
+        _terp_id : id,
+        _terp_button_name : action,
+        _terp_button_type : type,
+        _terp_context : $(prefix + '_terp_context').value
+    }
+    
+    var req = Ajax.JSON.post('/listgrid/button_action', params);
+    req.addCallback(function(obj){
+        if (obj.error){
+            return alert(obj.error);
+        }
+        self.reload();
+    });
+}
+
 function findPosition(elem) {
     var x = y = 0;
     if (elem.offsetParent) {
