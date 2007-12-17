@@ -479,12 +479,15 @@ class Form(controllers.Controller, TinyResource):
             if params.search_domain is not None:
                 domain = params.search_domain
                 data = params.search_data
-    
+                
             res = search.search(params.model, o, l, domain=domain, data=data)
             
             o = res['offset']
             l = res['limit']
             c = res['count']
+            
+            params.search_domain = res['search_domain']
+            params.search_data = res['search_data']
             
             ids = res['ids']
             id = False
