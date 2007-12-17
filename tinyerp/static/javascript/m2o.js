@@ -75,9 +75,9 @@ ManyToOne.prototype.open = function(id){
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
     req.addCallback(function(obj){
-        openWindow(getURL('/openm2o/edit', {model: model, id: id, 
-                                            domain: obj.domain, context: obj.context, 
-                                            source: source}));
+        openWindow(getURL('/openm2o/edit', {_terp_model: model, _terp_id: id, 
+                                            _terp_domain: obj.domain, _terp_context: obj.context,
+                                            _terp_m2o: source}));
     });
 }
 

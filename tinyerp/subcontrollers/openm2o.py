@@ -29,8 +29,16 @@
 
 from turbogears import expose
 from turbogears import widgets
+from turbogears import validators
+from turbogears import validate
 
 import cherrypy
+
+from tinyerp import rpc
+from tinyerp import widgets as tw
+
+from tinyerp.utils import TinyDict
+from tinyerp.cache import cache
 
 from form import Form
 
@@ -40,18 +48,85 @@ class OpenM2O(Form):
     
     @expose(template="tinyerp.subcontrollers.templates.openm2o")
     def create(self, params, tg_errors=None):
-                
-        ctx = params.context or {}
-        ctx.setdefault('_terp_load_counter', 0)       
-        
-        if not tg_errors:
-            ctx['_terp_load_counter'] += 1
-
-        params.context = ctx
 
         params.editable = True
         form = self.create_form(params, tg_errors)
         
-        form.hidden_fields = [widgets.HiddenField(name='_terp_source', default=params.source)]
-        
+        form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]
+
         return dict(form=form, params=params, show_header_footer=False)
+
+    def get_form(self):
+        params, data = TinyDict.split(cherrypy.request.params)
+
+        # bypass validations, if saving from button in non-editable view
+        if params.button and not params.editable and params.id:
+            return None
+
+        cherrypy.request.terp_validators = {}
+
+        params.nodefault = True
+
+        form = self.create_form(params)
+        cherrypy.request.terp_form = form
+
+        vals = cherrypy.request.terp_validators
+        schema = validators.Schema(**vals)
+
+        form.validator = schema
+
+        return form
+    
+    @expose()
+    @validate(form=get_form)
+    def save(self, terp_save_only=False, tg_errors=None, **kw):        
+        params, data = TinyDict.split(kw)
+        
+        # remember the current notebook tab
+        cherrypy.session['remember_notebook'] = True
+
+        if tg_errors:
+            return self.create(params, tg_errors=tg_errors)
+
+        # bypass save, for button action in non-editable view
+        if not (params.button and not params.editable and params.id):
+
+            proxy = rpc.RPCProxy(params.model)
+
+            if not params.id:
+                id = proxy.create(data, params.context)
+                params.ids = (params.ids or []) + [int(id)]
+                params.id = int(id)
+                params.count += 1
+            else:
+                id = proxy.write([params.id], data, params.context)
+
+        button = params.button
+
+        # perform button action
+        if params.button:
+            res = self.button_action(params)
+            if res:
+                return res
+
+        current = params.chain_get(params.source or '')
+        if current:
+            current.id = None
+            if not params.id:
+                params.id = int(id)
+        elif not button:
+            params.editable = False
+
+        if not current:
+            params.load_counter = 2
+            
+        return self.create(params)
+    
+    @expose()    
+    def edit(self, **kw):
+        params, data = TinyDict.split(kw)
+        params.view_mode = ['form', 'tree']
+        params.view_type = 'form'
+        params.editable = True
+        return self.create(params)
+    
