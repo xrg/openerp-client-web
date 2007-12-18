@@ -77,6 +77,8 @@ class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
             self.ends = (ends or None) and datetime.datetime(*ends[:6])
 
         self.dayspan = dayspan
+        
+        print "XXXXXXXXXXX", self.starts, self.ends, self.dayspan
                     
         self.title = title
         self.description = description
@@ -141,8 +143,8 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.date_delay = attrs.get('date_delay')
         self.date_stop = attrs.get('date_stop')
         self.color_field = attrs.get('color')
-        self.day_length = attrs.get('day_length', 8)
-
+        self.day_length = int(attrs.get('day_length', 8))
+        
         self.info_fields = self.parse(root, view['fields'])
         
         fields = view['fields']
