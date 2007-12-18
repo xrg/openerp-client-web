@@ -77,8 +77,6 @@ class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
             self.ends = (ends or None) and datetime.datetime(*ends[:6])
 
         self.dayspan = dayspan
-        
-        print "XXXXXXXXXXX", self.starts, self.ends, self.dayspan
                     
         self.title = title
         self.description = description
