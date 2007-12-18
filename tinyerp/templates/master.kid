@@ -60,9 +60,8 @@ requests, requests_message = tg.root.requests.my()
                         <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td>
-                                    <a href="http://tinyerp.com" target="_blank" title="Tiny ERP - Open Source Management Soution">
-                                        <img src="/static/images/tinyerp_small.png" border="0" width="84" height="24"/>
-                                    </a>
+                                    <a href="http://tinyerp.com" target="_blank" title="Tiny ERP - Open Source Management Soution" style="padding: 0px;">
+                                        <img src="/static/images/tinyerp_small.png" border="0" width="84" height="24"/></a>
                                 </td>
                                 <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
                                     <div style="width: 26px;"/>

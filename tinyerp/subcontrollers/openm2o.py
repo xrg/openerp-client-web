@@ -79,7 +79,7 @@ class OpenM2O(Form):
     
     @expose()
     @validate(form=get_form)
-    def save(self, terp_save_only=False, tg_errors=None, **kw):        
+    def save(self, terp_save_only=False, tg_errors=None, **kw):
         params, data = TinyDict.split(kw)
         
         # remember the current notebook tab
@@ -101,7 +101,7 @@ class OpenM2O(Form):
             else:
                 id = proxy.write([params.id], data, params.context)
 
-        button = params.button
+        button = (params.button or False) and True
 
         # perform button action
         if params.button:
@@ -117,7 +117,7 @@ class OpenM2O(Form):
         elif not button:
             params.editable = False
 
-        if not current:
+        if not current and not button:
             params.load_counter = 2
             
         return self.create(params)

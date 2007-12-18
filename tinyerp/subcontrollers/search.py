@@ -167,6 +167,9 @@ class Search(controllers.Controller, TinyResource):
 
         domain = params.domain
         context = params.context
+        parent_context = params.parent_context or {}
+        
+        parent_context.update(rpc.session.context.copy())
 
         ctx = TinyForm(**kw)
         pctx = ctx
@@ -180,7 +183,7 @@ class Search(controllers.Controller, TinyResource):
             pctx = pctx.chain_get(prefix)
 
         ctx['parent'] = pctx
-        ctx['context'] = rpc.session.context.copy()
+        ctx['context'] = parent_context
 
         if isinstance(domain, basestring):
             domain = eval(domain, ctx)
@@ -202,7 +205,7 @@ class Search(controllers.Controller, TinyResource):
     @expose()
     def filter(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
         l = params.limit or 20
         o = params.offset or 0
 
