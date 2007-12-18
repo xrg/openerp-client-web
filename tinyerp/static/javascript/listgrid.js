@@ -207,7 +207,7 @@ ListView.prototype.bindKeyEventsToEditors = function(editors){
 ListView.prototype.save = function(id){
 
     if (Ajax.COUNT > 0) {
-        callLater(1, bind(this.save, this), null);
+        return callLater(1, bind(this.save, this), id);
     }
 
     var parent_field = this.id.split('/');
@@ -349,7 +349,10 @@ ListView.prototype.reload = function(edit_inline){
 
         var newlist = d.getElementsByTagName('table')[0];
         var editors = self.adjustEditors(newlist);
-
+        
+        if (editors.length > 0)
+            self.bindKeyEventsToEditors(editors);
+            
         self.current_record = edit_inline;
 
         swapDOM(self.id, newlist);
@@ -364,8 +367,6 @@ ListView.prototype.reload = function(edit_inline){
             });
         }
 
-        if (editors.length > 0)
-            self.bindKeyEventsToEditors(editors);
     });
 
     req.addBoth(function(xmlHttp){

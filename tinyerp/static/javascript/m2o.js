@@ -141,7 +141,7 @@ ManyToOne.prototype.on_keydown = function(evt){
     }
 
     // F2
-    if (key == 113 || (key == 13 && !this.text.value)){
+    if (key == 113 || (key == 13 && !this.text.value && !hasElementClass(this.text, 'listfields'))){
         this.select(evt);
         evt.stop();
     }
@@ -159,6 +159,10 @@ ManyToOne.prototype.on_keypress = function(evt){
 }
 
 ManyToOne.prototype.get_matched = function(){
+    
+    if (Ajax.COUNT > 0) {
+        return callLater(1, this.get_matched);
+    }
 
     var m2o = this;
 
