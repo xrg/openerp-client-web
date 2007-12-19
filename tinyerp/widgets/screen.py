@@ -165,7 +165,7 @@ class Screen(TinyCompoundWidget):
             self.count = self.widget.count
             
             # prevent links if resource doesn't support form|graph mode
-            if self.view_mode and ('form' and 'graph') not in self.view_mode:
+            if self.view_mode and ('form' or 'graph') not in self.view_mode:
                 self.widget.show_links = -1
 
         elif view_type == 'graph':
