@@ -47,7 +47,7 @@
             </td>
             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" >
                 <span py:if="not (field_attrs.get('type')=='many2one' and link=='0')" py:strip="">
-                    <a py:strip="(show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not data[field].link" href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
+                    <a py:strip="(link=='0' or show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not data[field].link" href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
                  </span>
                 <span py:if="field_attrs.get('type')=='many2one' and link=='0'" py:strip="">
                     ${data[field]}
