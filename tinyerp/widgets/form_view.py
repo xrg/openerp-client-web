@@ -62,6 +62,9 @@ class ViewForm(tg.widgets.Form):
             
         if params.view_type == 'tree':
             self.screen.id = False
+            
+        if params.context and '_view_name' in params.context:
+            self.screen.string = params.context.get('_view_name')
 
         # get the actual pager data
         self.limit = self.screen.limit

@@ -51,7 +51,7 @@ from selection import Selection
 
 from tinyerp.utils import TinyDict
 
-def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree'):
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree', name=None):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -70,8 +70,11 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.model = model
     params.ids = res_id
     params.view_ids = view_ids
-    params.domain = domain
-    params.context = context
+    params.domain = domain or []
+    params.context = context or {}
+    
+    if name:
+        params.context['_view_name'] = name
 
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
@@ -209,7 +212,8 @@ def execute(action, **data):
                              data['res_id'],
                              domain,
                              action['view_type'],
-                             context,data['view_mode'])
+                             context,data['view_mode'],
+                             name=action.get('name'))
         return res
 
     elif action['type']=='ir.actions.wizard':
