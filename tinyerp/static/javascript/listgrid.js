@@ -198,10 +198,6 @@ ListView.prototype.bindKeyEventsToEditors = function(editors){
         connect(e, 'onkeydown', self, self.onKeyDown);
         addElementClass(e, 'listfields');
     });
-
-    var first = editors.shift();
-    first.focus();
-    first.select();
 }
 
 ListView.prototype.save = function(id){
@@ -365,6 +361,13 @@ ListView.prototype.reload = function(edit_inline){
             forEach(scripts, function(s){
                 eval(s.innerHTML);
             });
+        }
+
+        // set focus on the first field
+        var first = getElementsByTagAndClassName(null, 'listfields', this.id)[0] || null;
+        if (first) {
+            first.focus();
+            first.select();
         }
 
     });

@@ -39,6 +39,7 @@ Many2Many.prototype = {
 
         this.id = getElement(name + '_id');
         this.text = getElement(name + '_set');
+        this.btn = getElement(name + '_button');
         this.element = getElement(name);
 
         this.model = getNodeAttribute(this.id, 'relation');
@@ -47,6 +48,20 @@ Many2Many.prototype = {
 
         this.id.onchange = bind(this.onChange, this);
         this.text.onchange = bind(this.selectAll, this);
+
+        if (!this.hasList) {
+            MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt){
+                var key = evt.event().keyCode;
+
+                if (key == 8 || key == 46){
+                    this.id.value = '';
+                    this.onChange();
+                } else if (key == 113) {
+                    this.btn.onclick();
+                }
+
+            }, this));
+        }
 
         this.selectAll();
     },

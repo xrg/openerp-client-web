@@ -12,7 +12,7 @@
                     </td>
                     <td width="2px"><div class="spacer"/></td>
                     <td width="24" style="padding-left: 2px;">
-                        <button type="button" py:attrs='attrs' domain="${ustr(domain)}" context="${ustr(context)}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2);">
+                        <button type="button" id='${list_view.name}_button' py:attrs='attrs' domain="${ustr(domain)}" context="${ustr(context)}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2);">
                             <img width="16" height="16" src="/static/images/find.gif"/>
                         </button>
                     </td>
