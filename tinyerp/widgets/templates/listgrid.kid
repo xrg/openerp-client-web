@@ -55,11 +55,7 @@
                 <span py:if="data[field].text == ''">&nbsp;</span>
             </td>
             <td py:if="buttons" class="grid-cell buttons" nowrap="nowrap">
-                <table cellpadding="0" border="0" width="100%">
-                    <tr>
-                        <td py:for="button in buttons" width="${100/len(buttons)}%" py:content="button.display(parent=name, **button.params_from(data))"></td>
-                    </tr>
-                </table>                
+                <span py:for="button in buttons" py:if="button.has_state(data)" py:replace="button.display(parent=name, **button.params_from(data))"/>        
             </td>
             <td py:if="editable" class="grid-cell selector">
                 <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
@@ -80,6 +76,7 @@
         <tr py:for="i in range(0, 4 - len(data))" class="grid-row">
             <td width="1%" py:if="selector" class="grid-cell selector">&nbsp;</td>
             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">&nbsp;</td>
+            <td py:if="buttons" class="grid-cell selector">&nbsp;</td>
             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
         </tr>

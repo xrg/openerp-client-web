@@ -429,7 +429,7 @@ class Button(TinyField):
     parent = None
     btype = None
     
-    params = ['icon', 'action', 'record', 'parent', 'btype']
+    params = ['string', 'icon', 'action', 'record', 'parent', 'btype']
     
     template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <button py:if="action and not icon" type="button" py:content="string" py:attrs="attrs"
@@ -442,32 +442,29 @@ class Button(TinyField):
     def __init__(self, attrs={}):
         super(Button, self).__init__(attrs)
         
-        self.states = attrs.get('states', "{'draft':'cancel'}")
-        self.states = dict(tools.expr_eval(self.states))
-        
-        self.types = attrs.get('types', "{}")
-        self.types = dict(tools.expr_eval(self.types))
-
+        self.states = attrs.get('states', "draft").split(',')
+        self.btype = attrs.get('type', "workflow")
         self.icon = attrs.get('icon')
         
         if self.icon:
             self.icon = icons.get_icon(self.icon)
-            
+
         self.help = self.help or self.string
+        
+    def has_state(self, data):
+        cell = data.get('state')
+        return cell and cell.value in self.states
     
     def params_from(self, data):
         
         record = data.get('id')
         action = None
-        btype = 'workflow'
-        
+
         cell = data.get('state')
-        if cell:
-            action = self.states.get(cell.value)
-            
-        btype = self.types.get(action, btype)
+        if cell and cell.value in self.states:
+            action = self.name
         
-        return dict(action=action, record=record, btype=btype)
+        return dict(action=action, record=record)
 
 CELLTYPES = {
         'char':Char,
