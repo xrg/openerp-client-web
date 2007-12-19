@@ -190,14 +190,22 @@ class Screen(TinyCompoundWidget):
             proxy = rpc.RPCProxy('ir.values')
 
             if not toolbar.get('action', False):
-                res = proxy.get('action', 'client_action_multi', [(self.model, False)], False, self.context)
+                res = []
+                try: # Deal with `You try to bypass an access rule`
+                    res = proxy.get('action', 'client_action_multi', [(self.model, False)], False, self.context)
+                except:
+                    pass
 
                 actions = [dict(string=a[1], **a[-1]) for a in res]
                 if actions:
                     toolbar['action'] = actions
 
             if not toolbar.get('print', False):
-                res = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
+                res = []
+                try:
+                    res = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
+                except:
+                    pass
 
                 actions = [dict(string=a[1], **a[-1]) for a in res]
                 if actions:
