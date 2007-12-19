@@ -9,6 +9,7 @@
     * Cache for production environment only
     * O2M with pagination support (list mode)
     * ContextMenu (CTRL+MOUSE R) for all fields
+    * FloatTime widget support
 
 1.0RC1
 

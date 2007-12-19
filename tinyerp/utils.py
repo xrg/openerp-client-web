@@ -152,7 +152,7 @@ class TinyForm(TinyDict):
             'date': tw_validators.DateTime(format="%Y-%m-%d"),
             'time': tw_validators.DateTime(format="%H:%M:%S"),        
             'datetime': tw_validators.DateTime(format="%Y-%m-%d %H:%M:%S"),
-            'float_time': tw_validators.Float(),
+            'float_time': tw_validators.FloatTime(),
             'float': tw_validators.Float(),
             'integer': tw_validators.Int(),
             'selection': tw_validators.Selection(),

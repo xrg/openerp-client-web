@@ -27,8 +27,9 @@
 #
 ###############################################################################
 
-import locale
 import time
+import math
+import locale
 import xml.dom.minidom
 
 from turbogears import widgets
@@ -269,6 +270,19 @@ class List(TinyCompoundWidget):
                 if 'name' in attrs:
 
                     name = attrs['name']
+                    
+                    if attrs.get('widget', False):
+                        if attrs['widget']=='one2many_list':
+                            attrs['widget']='one2many'
+                        attrs['type'] = attrs['widget']
+                    
+                    try:
+                        fields[name].update(attrs)
+                    except:
+                        print "-"*30,"\n malformed tag for :", attrs
+                        print "-"*30
+                        raise
+                
                     kind = fields[name]['type']
 
                     if 'sum' in attrs:
@@ -394,6 +408,16 @@ class Float(Char):
 
         return locale.format('%.' + str(digit) + 'f', self.value or 0.00)
         #TODO: return i18n.format_decimal(self.value or 0.0, digit)
+        
+class FloatTime(Char):
+
+    def get_text(self):
+        val = self.value or 0.0
+        t = '%02d:%02d' % (math.floor(abs(val)),round(abs(val)%1+0.01,2) * 60)
+        if val < 0:
+            t = '-' + t
+            
+        return t
 
 class Int(Char):
 
@@ -475,6 +499,7 @@ CELLTYPES = {
         'many2many':M2M,
         'selection':Selection,
         'float':Float,
+        'float_time':FloatTime,
         'integer':Int,
         'datetime':DateTime,
         'boolean' : Boolean

@@ -32,6 +32,7 @@ This module defines validators.
 """
 import re
 import cgi
+import math
 import base64
 import locale
 
@@ -84,6 +85,28 @@ class Float(tg.validators.Number):
         #return super(Float, self)._to_python(value, state)
 
         return tg.validators.validators.Number.to_python(value, state)
+    
+class FloatTime(Float):
+    
+    if_empty = False
+    
+    def _from_python(self, value, state):
+        val = value or 0.0
+        t = '%02d:%02d' % (math.floor(abs(val)),round(abs(val)%1+0.01,2) * 60)
+        if val < 0:
+            t = '-' + t
+        return t
+    
+    def _to_python(self, value, state):
+        try:
+            if value and ':' in value:
+                return round(int(value.split(':')[0]) + int(value.split(':')[1]) / 60.0, 2)
+            else:
+                return locale.atof(value)
+        except:
+            pass
+        
+        return 0.0
 
 class DateTime(tg.validators.DateTimeConverter):
     if_empty = False

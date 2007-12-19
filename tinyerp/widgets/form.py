@@ -320,7 +320,7 @@ class FloatTime(TinyField):
 
     def __init__(self, attrs={}):
         super(FloatTime, self).__init__(attrs)
-        self.validator = tiny_validators.Float()
+        self.validator = tiny_validators.FloatTime()
 
     def set_value(self, value):
         self.default = value
