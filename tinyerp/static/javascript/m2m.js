@@ -53,10 +53,14 @@ Many2Many.prototype = {
             MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt){
                 var key = evt.event().keyCode;
 
-                if (key == 8 || key == 46){
+                if (key == 8 || key == 46) {
+                    evt.stop();
                     this.id.value = '';
                     this.onChange();
-                } else if (key == 113) {
+                }
+                
+                if (key == 113) {
+                    evt.stop();
                     this.btn.onclick();
                 }
 
