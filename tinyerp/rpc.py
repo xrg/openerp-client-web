@@ -305,10 +305,12 @@ class RPCSession(object):
 
     def logout(self):
         self.gateway = None
+        self.open = False
+        self.uid = False
         try:
             self.store.clear()
         except Exception, e:
-            raise e
+            pass
 
     def is_logged(self):
         return self.uid and self.open
