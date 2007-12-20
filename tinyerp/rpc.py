@@ -308,7 +308,7 @@ class RPCSession(object):
         try:
             self.store.clear()
         except Exception, e:
-            pass
+            raise e
 
     def is_logged(self):
         return self.uid and self.open
