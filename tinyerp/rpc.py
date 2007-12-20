@@ -307,6 +307,7 @@ class RPCSession(object):
         self.gateway = None
         self.open = False
         self.uid = False
+        self.passwd = ""
         try:
             self.store.clear()
         except Exception, e:
