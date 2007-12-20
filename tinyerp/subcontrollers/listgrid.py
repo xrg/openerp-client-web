@@ -27,18 +27,19 @@
 #
 ###############################################################################
 
+import cherrypy
+
 from turbogears import expose
 from turbogears import controllers
 
 from tinyerp import rpc
-
-import tinyerp.widgets as tw
-
 from tinyerp.tinyres import TinyResource
 
 from tinyerp.utils import TinyDict
 from tinyerp.utils import TinyForm
 from tinyerp.utils import TinyFormError
+
+import tinyerp.widgets as tw
 
 import form
 import search
