@@ -30,6 +30,7 @@
 import turbogears as tg
 import cherrypy
 
+from tinyerp import tools
 from tinyerp.utils import TinyDict
 
 from interface import TinyCompoundWidget
@@ -108,7 +109,11 @@ class O2M(TinyCompoundWidget):
         params.view_mode = view_mode
         params.view_type = view_type
         params.domain = params.domain or []
-        params.context = params.context or {}
+        
+        ctx = cherrypy.request.terp_record
+        ctx = tools.expr_eval("dict(%s)" % self.default_get_ctx, ctx)
+        
+        params.context = ctx
         
         params.offset = params.offset or 0
         params.limit = params.limit or 20

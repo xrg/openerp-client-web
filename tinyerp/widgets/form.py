@@ -693,6 +693,9 @@ class Form(TinyCompoundWidget):
 
                 if values.has_key(name) and isinstance(field, TinyInputWidget):
                     field.set_value(values[name])
+                
+                # update the record data
+                cherrypy.request.terp_record[field.name] =  field.get_value()
 
                 views += [field]
 

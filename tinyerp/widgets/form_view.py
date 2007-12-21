@@ -30,6 +30,8 @@
 import cherrypy
 import turbogears as tg
 
+from tinyerp.utils import TinyDict
+
 from tinyerp.widgets_search.search import Search
 from screen import Screen
 
@@ -47,7 +49,7 @@ class ViewForm(tg.widgets.Form):
         
         # save reference of params dictionary in requeste
         cherrypy.request.terp_params = params
-        
+        cherrypy.request.terp_record = TinyDict()
         cherrypy.request.terp_fields = []
 
         editable = params.editable
