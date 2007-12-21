@@ -88,58 +88,44 @@ ListView.prototype.getEditors = function(named, dom){
     }, editors);
 }
 
+ListView.prototype.getColumns = function(dom){
+    dom = dom || this.id;
+    var header = getElementsByTagAndClassName('tr', 'grid-header', dom)[0];
+    return filter(function(c){
+        return c.id ? true : false;
+    }, getElementsByTagAndClassName('td', 'grid-cell', header));
+}
+
 ListView.prototype.adjustEditors = function(newlist){
+    
+    var editors = this.getEditors(false, newlist);
 
-    var self = this;
-    var widths = {};
-
-    var editors = self.getEditors(true);
-
-    var header = getElementsByTagAndClassName('tr', 'grid-header', self.id)[0];
-    var columns = filter(function(c){
-        return c.id;
-    }, getElementsByTagAndClassName('td', 'grid-cell', header));
-
-    forEach(columns, function(c){
-        var k = c.id;
-        var w = parseInt(c.offsetWidth);
-
-        widths[k] = w;
-    });
-
-    // set the column widths of the newlist 
-    var header = getElementsByTagAndClassName('tr', 'grid-header', newlist)[0];
-    var columns = filter(function(c){
-        return c.id;
-    }, getElementsByTagAndClassName('td', 'grid-cell', header));
-
-    forEach(columns, function(c){
-        var k = c.id;
-        c.style.width = widths[k] + 'px';
-    });
-
-    editors = self.getEditors(false, newlist);
-
-    forEach(editors, function(e){
-
-        if (/MSIE/.test(navigator.userAgent)) {
-            var k = e.id.replace('_terp_listfields', 'grid-data-column');
-            if (k in widths) {
-                var w = widths[k];
-                var t = getNodeAttribute(e, 'kind');
-
-                if (t == 'datetime' || t == 'date' || t == 'time' || t == 'many2one' || t == 'many2many') {
-                    w -= 18;
-                }
-
-                e.style.width = w + 'px';
-            }
-        } 
+    forEach(editors, function(e) {
         // disable autocomplete (Firefox < 2.0 focus bug)
         setNodeAttribute(e, 'autocomplete', 'OFF');
     });
 
-    return editors;
+    if (/MSIE/.test(navigator.userAgent)){
+        return editors;
+    }
+
+    var widths = {};
+    
+    // set the column widths of the newlist
+    forEach(this.getColumns(), function(c){
+        widths[c.id] = parseInt(c.offsetWidth) - 8;
+    });
+ 
+    forEach(this.getColumns(newlist), function(c){
+        c.style.width = widths[c.id] + 'px';
+    });
+
+    var widths = {};
+    forEach(this.getEditors(), function(e){
+        widths[e.id] = parseInt(e.offsetWidth);
+    });
+
+    return editors;    
 }
 
 ListView.prototype.onKeyDown = function(evt){

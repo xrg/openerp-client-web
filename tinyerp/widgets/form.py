@@ -263,9 +263,13 @@ class Email(TinyField):
 
 class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
+    params = ['inline']
+
+    inline = False
 
     def __init__(self, attrs={}):
         super(Text, self).__init__(attrs)
+        self.inline = attrs.get('inline', 0)
         self.validator = tiny_validators.String()
 
     def set_value(self, value):

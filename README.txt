@@ -30,7 +30,7 @@ Firefox, IE6, IE7, Safari3 and Opera9.
 2. LINUX INSTALLATION
 -------------------------------------------------------------------------------
 
-Here is the installation instructions for Debain based Linux distributions.
+Here is the installation instructions for Debian based Linux distributions.
 Tested on Debian Etch and Ubuntu Feisty. The procedure might work with other 
 Linux or similar distributions. See the docs on how to install the specified 
 Packages on your favourite distro.
@@ -38,7 +38,7 @@ Packages on your favourite distro.
 Prerequisites:
 
    1. Python >= 2.4
-   2. Tiny ERP Server 4.2.x
+   2. Tiny ERP Server >= 4.2.1
    3. TurboGears >= 1.0.3.2
    4. matplotlib >= 0.87
    5. Python Imaging Library (PIL) 
@@ -50,21 +50,31 @@ Tiny ERP Server:
 
 TurboGears:
 
-    > wget http://peak.telecommunity.com/dist/ez_setup.py
-    > python2.4 ez_setup.py
-    > easy_install-2.4 TurboGears==1.0.3.2
+	$ wget http://www.turbogears.org/download/tgsetup.py
+	$ python2.4 tgsetup.py 
+	
+or
+
+    $ wget http://peak.telecommunity.com/dist/ez_setup.py
+    $ python2.4 ez_setup.py
+    $ easy_install-2.4 TurboGears==1.0.3.2
 
 Matplotlib 0.87:
 
-    > apt-get install python-matplotlib
+    $ apt-get install python-matplotlib
 
 Python Imaging Library (PIL):
 
-    > apt-get install python-imaging
+    $ apt-get install python-imaging
 
 eTiny! (latest):
 
-    > easy_install-2.4 eTiny
+    $ easy_install-2.4 eTiny
+    
+or 
+	
+	$ easy_install-2.4 easy_install-2.4 \
+	  http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
 
 Configuration:
 
@@ -76,7 +86,7 @@ Configuration:
     port = 8070
     protocol = "socket"
 
-    where:
+	where:
 
     server is the Tiny ERP server host...
     port is the Tiny ERP server port...
@@ -87,7 +97,7 @@ the `start-tinyerp.py` script from the command line.
 
 If everything is done well you might see some thing similar to:
 
-> start-tinyerp.py
+	$ start-tinyerp.py
 
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
@@ -144,6 +154,10 @@ Python Imaging Library (PIL):
 eTiny!:
 
     > easy_install-2.4 eTiny
+    
+or
+
+	> easy_install-2.4 http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
 
 Configuration:
 

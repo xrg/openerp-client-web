@@ -29,6 +29,10 @@ div.box2 button {
     width: 98%;
 }
 
+.grid-row.editors .grid-cell {
+    padding: 4px;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
