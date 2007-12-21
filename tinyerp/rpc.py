@@ -280,6 +280,8 @@ class RPCSession(object):
         return gw.listdb()
 
     def login(self, host, port, db, user, passwd, protocol='http'):
+    	if passwd is None:
+	    return -1
 
         protocol = protocol or 'http'
 
@@ -305,9 +307,6 @@ class RPCSession(object):
 
     def logout(self):
         self.gateway = None
-        self.open = False
-        self.uid = False
-        self.passwd = ""
         try:
             self.store.clear()
         except Exception, e:
