@@ -9,53 +9,54 @@
 <body>
     <div class="view">
         <br/>
-        <div class="box2 welcome">
-            Welcome to Tiny ERP
-        </div>
 
-            <form action="${target}" method="post" name="loginform">
-                <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
-                <input type="hidden" name="login_action" value="login"/>
+        <form action="${target}" method="post" name="loginform">
+            <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
+            <input type="hidden" name="login_action" value="login"/>
+        
+            <div class="box2 welcome">Welcome to Tiny ERP</div>
 
-                <div class="box2">
-                    <table align="center" cellspacing="2px" border="0">
-                        <tr>
-                            <td class="label">Server :</td>
-                            <td py:content="url"/>
-                        </tr>
-                        <tr>
-                            <td class="label">Database :</td>
-                            <td>
-                                <select name="db" style="width: 302px;">
-                                    <span py:if="dblist and (dblist is not -1)">
-                                        <option py:for="v in dblist or []" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
-                                    </span>
-                                </select>
-                            </td>
-                        </tr>
+            <div class="box2">
+                <table align="center" cellspacing="2px" border="0">
+                    <tr>
+                        <td class="label">Server :</td>
+                        <td py:content="url"/>
+                    </tr>
+                    <tr>
+                        <td class="label">Database :</td>
+                        <td>
+                            <select name="db" style="width: 302px;">
+                                <span py:if="dblist and (dblist is not -1)" py:strip="">
+                                    <option py:for="v in dblist or []" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
+                                </span>
+                            </select>
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td class="label">User :</td>
-                            <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
-                        </tr>
-                        <tr>
-                            <td class="label">Password :</td>
-                            <td><input type="password" value="${passwd}" id="passwd" name="passwd" style="width: 300px;"/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td align="right">
-                                <button type="button" style="width: 80px; white-space: nowrap" tabindex="-1" onclick="location.href='/dbadmin'">Manage</button>
-                                <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </form>
+                    <tr>
+                        <td class="label">User :</td>
+                        <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="label">Password :</td>
+                        <td><input type="password" value="${passwd}" id="passwd" name="passwd" style="width: 300px;"/></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="right">
+                            <button type="button" style="width: 80px; white-space: nowrap" tabindex="-1" onclick="location.href='/dbadmin'">Manage</button>
+                            <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
 
         <div class="box2 message" id="message" py:if="message" py:content="message"/>
 
         <br/>
+
         <center>
             <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" usemap="#devby_map"/>
             <map name="devby_map">

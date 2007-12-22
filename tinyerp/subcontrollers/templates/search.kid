@@ -66,7 +66,7 @@
         }
 
         function do_create(){
-            act = getURL('/openm2o/edit', {model: '${params.model}', source: '${params.source}', id: 'False'});
+            act = getURL('/openm2o/edit', {model: '${params.model}', source: '${params.source}'});
             window.location.href = act;
         }
     </script>

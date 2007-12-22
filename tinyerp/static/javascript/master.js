@@ -67,54 +67,65 @@ function get_cookie(name) {
 
 function openWindow(anchor, options) {
 
+    var opts = MochiKit.Base.update({
+        name : 'win' + Math.round(Math.random()*100000),
+        center: true,
+        x: null,
+        y: null,
+        width: 800, //screen.availWidth - 200,
+        height: 600, //screen.availHeight - 200,
+        scrollbars: 1,
+        fullscreen: false,
+        menubar: false,
+        locationbar: false,
+        resizable: true
+    }, options || {});
+
+    //opts.width = opts.width > 0 ? opts.width : 800;
+    //opts.height = opts.height > 0 ? opts.height : 600;
+
     var args = '';
 
-    if (typeof(options) == 'undefined') { var options = new Object(); }
-    if (typeof(options.name) == 'undefined') { options.name = 'win' + Math.round(Math.random()*100000); }
-
-    // default options
-    options.center = typeof(options.center) == 'undefined' ? true : options.center;
-    options.width = typeof(options.width) == 'undefined' ? 800 : options.width;
-    options.height = typeof(options.height) == 'undefined' ? 600 : options.height;
-    options.scrollbars = typeof(options.scrollbars) == 'undefined' ? 1 : options.scrollbars;
-
-    if (typeof(options.height) != 'undefined' && typeof(options.fullscreen) == 'undefined') {
-        args += "height=" + options.height + ",";
+    if (!opts.fullscreen) {
+        args += "height=" + opts.height + ",";
     }
 
-    if (typeof(options.width) != 'undefined' && typeof(options.fullscreen) == 'undefined') {
-        args += "width=" + options.width + ",";
+    if (!opts.fullscreen) {
+        args += "width=" + opts.width + ",";
     }
 
-    if (typeof(options.fullscreen) != 'undefined') {
+    if (opts.fullscreen) {
         args += "width=" + screen.availWidth + ",";
         args += "height=" + screen.availHeight + ",";
     }
 
-    if (typeof(options.center) == 'undefined') {
-        options.x = 0;
-        options.y = 0;
-        args += "screenx=" + options.x + ",";
-        args += "screeny=" + options.y + ",";
-        args += "left=" + options.x + ",";
-        args += "top=" + options.y + ",";
+    if (!opts.center) {
+        opts.x = 0;
+        opts.y = 0;
+        args += "screenx=" + opts.x + ",";
+        args += "screeny=" + opts.y + ",";
+        args += "left=" + opts.x + ",";
+        args += "top=" + opts.y + ",";
     }
 
-    if (typeof(options.center) != 'undefined' && typeof(options.fullscreen) == 'undefined') {
-        options.y=Math.floor((screen.availHeight-(options.height || screen.height))/2)-(screen.height-screen.availHeight);
-        options.x=Math.floor((screen.availWidth-(options.width || screen.width))/2)-(screen.width-screen.availWidth);
-        args += "screenx=" + options.x + ",";
-        args += "screeny=" + options.y + ",";
-        args += "left=" + options.x + ",";
-        args += "top=" + options.y + ",";
+    if (opts.center && !opts.fullscreen) {
+        opts.y=Math.floor((screen.availHeight-(opts.height || screen.height))/2)-(screen.height-screen.availHeight);
+        //opts.y=Math.floor((screen.availHeight-(opts.height || screen.height))/2-(screen.height-screen.availHeight)/2);
+        opts.x=Math.floor((screen.availWidth-(opts.width || screen.width))/2)-(screen.width-screen.availWidth);
+        args += "screenx=" + opts.x + ",";
+        args += "screeny=" + opts.y + ",";
+        args += "left=" + opts.x + ",";
+        args += "top=" + opts.y + ",";
     }
 
-    if (typeof(options.scrollbars) != 'undefined') { args += "scrollbars=1,"; }
-    if (typeof(options.menubar) != 'undefined') { args += "menubar=1,"; }
-    if (typeof(options.locationbar) != 'undefined') { args += "location=1,"; }
-    if (typeof(options.resizable) != 'undefined') { args += "resizable=1,"; }
+    if (opts.scrollbars) { args += "scrollbars=1,"; }
+    if (opts.menubar) { args += "menubar=1,"; }
+    if (opts.locationbar) { args += "location=1,"; }
+    if (opts.resizable) { args += "resizable=1,"; }
 
-    var win = window.open(anchor, options.name, args);
+    log(args);
+
+    var win = window.open(anchor, opts.name, args);
     return false;
 
 }

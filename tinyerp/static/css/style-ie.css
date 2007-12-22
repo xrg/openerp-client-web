@@ -33,6 +33,10 @@ div.box2 button {
     padding: 4px;
 }
 
+.grid-cell.selector {
+    padding: 0px 4px;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *

@@ -125,8 +125,11 @@ class OpenM2O(Form):
     @expose()    
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
+        if not params.model:
+            params.update(kw)
+
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
         params.editable = True
         return self.create(params)
-    
+
