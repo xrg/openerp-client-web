@@ -123,11 +123,8 @@ function openWindow(anchor, options) {
     if (opts.locationbar) { args += "location=1,"; }
     if (opts.resizable) { args += "resizable=1,"; }
 
-    log(args);
-
     var win = window.open(anchor, opts.name, args);
     return false;
-
 }
 
 // vim: sts=4 st=4 et
