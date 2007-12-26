@@ -68,17 +68,17 @@ function get_cookie(name) {
 function openWindow(anchor, options) {
 
     var opts = MochiKit.Base.update({
-        name : 'win' + Math.round(Math.random()*100000),
-        center: true,
-        x: null,
-        y: null,
-        width: 800, //screen.availWidth - 200,
-        height: 600, //screen.availHeight - 200,
-        scrollbars: 1,
-        fullscreen: false,
-        menubar: false,
-        locationbar: false,
-        resizable: true
+        name        : 'win' + Math.round(Math.random()*100000),
+        center      : true,
+        x           : null,
+        y           : null,
+        width       : 800, //screen.availWidth - 200,
+        height      : 600, //screen.availHeight - 200,
+        scrollbars  : true,
+        fullscreen  : false,
+        menubar     : false,
+        locationbar : false,
+        resizable   : true
     }, options || {});
 
     //opts.width = opts.width > 0 ? opts.width : 800;
@@ -86,19 +86,9 @@ function openWindow(anchor, options) {
 
     var args = '';
 
-    if (!opts.fullscreen) {
-        args += "height=" + opts.height + ",";
-    }
-
-    if (!opts.fullscreen) {
-        args += "width=" + opts.width + ",";
-    }
-
-    if (opts.fullscreen) {
-        args += "width=" + screen.availWidth + ",";
-        args += "height=" + screen.availHeight + ",";
-    }
-
+    args += "height=" + (opts.fullscreen ? screen.availHeight : opts.height) + ",";
+    args += "width=" + (opts.fullscreen ? screen.availWidth : opts.width) + ",";
+    
     if (!opts.center) {
         opts.x = 0;
         opts.y = 0;
@@ -109,9 +99,8 @@ function openWindow(anchor, options) {
     }
 
     if (opts.center && !opts.fullscreen) {
-        opts.y=Math.floor((screen.availHeight-(opts.height || screen.height))/2)-(screen.height-screen.availHeight);
-        //opts.y=Math.floor((screen.availHeight-(opts.height || screen.height))/2-(screen.height-screen.availHeight)/2);
-        opts.x=Math.floor((screen.availWidth-(opts.width || screen.width))/2)-(screen.width-screen.availWidth);
+        opts.y = Math.floor((screen.availHeight - opts.height - (screen.height - screen.availHeight)) / 2);
+        opts.x = Math.floor((screen.availWidth - opts.width - (screen.width - screen.availWidth)) / 2);
         args += "screenx=" + opts.x + ",";
         args += "screeny=" + opts.y + ",";
         args += "left=" + opts.x + ",";
@@ -125,6 +114,7 @@ function openWindow(anchor, options) {
 
     var win = window.open(anchor, opts.name, args);
     return false;
+
 }
 
 // vim: sts=4 st=4 et

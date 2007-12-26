@@ -30,8 +30,6 @@
 import cherrypy
 import turbogears as tg
 
-from tinyerp.utils import TinyDict
-
 from tinyerp.widgets_search.search import Search
 from screen import Screen
 
@@ -49,7 +47,6 @@ class ViewForm(tg.widgets.Form):
         
         # save reference of params dictionary in requeste
         cherrypy.request.terp_params = params
-        cherrypy.request.terp_record = TinyDict()
         cherrypy.request.terp_fields = []
 
         editable = params.editable
@@ -64,9 +61,6 @@ class ViewForm(tg.widgets.Form):
             
         if params.view_type == 'tree':
             self.screen.id = False
-            
-        if params.context and '_view_name' in params.context:
-            self.screen.string = params.context.get('_view_name')
 
         # get the actual pager data
         self.limit = self.screen.limit

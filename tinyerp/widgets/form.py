@@ -42,6 +42,8 @@ from tinyerp import icons
 from tinyerp import tools
 from tinyerp import rpc
 
+from tinyerp.utils import TinyDict
+
 from interface import TinyField
 from interface import TinyInputWidget
 from interface import TinyCompoundWidget
@@ -605,6 +607,9 @@ class Form(TinyCompoundWidget):
 
         for k, v in defaults.items():
             values.setdefault(k, v)
+
+        # store current record values in request object (see, self.parse & O2M default_get_ctx) 
+        cherrypy.request.terp_record = TinyDict()
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
 
