@@ -1,6 +1,10 @@
-.grid {
+.gridview {
     border: none;
     border-top: 1px solid #999;
+}
+
+.grid {
+    border: none;
 }
 
 .grid-row {
@@ -39,6 +43,19 @@
     background:url(/static/images/gradientlinebg.gif);
     border-bottom: 1px solid #999;
     font-weight: bold;
+    text-align: left;
+}
+
+.grid-header .grid-cell .sortup {
+    background: url(/static/images/arrow_up.gif) no-repeat center;
+}
+
+.grid-header .grid-cell .sortdown {
+    background: url(/static/images/arrow_down.gif) no-repeat center;
+}
+
+.grid-header .grid-cell.sortable {
+	cursor: pointer;
 }
 
 .grid-row .grid-cell {
@@ -57,29 +74,35 @@
 }
 
 .grid .float,
+.grid .float_time,
 .grid .integer {
     text-align: right;
 }
 
-.grid .pagerbar {
+.grid-cell.many2many,
+.grid-cell.one2many {
+	text-align: center;
+}
+
+.gridview .pagerbar {
     height:22px;
     vertical-align: middle;
     white-space: nowrap;
 }
 
-.grid .pagerbar .pagerbar-cell {
+.gridview .pagerbar .pagerbar-cell {
     background: #f3f3f3;
     border-bottom: 1px solid #999;
     padding: 2px 4px;
 }
 
-.grid .pagerbar .pagerbar-links a {
+.gridview .pagerbar .pagerbar-links a {
     color: #333;
     text-decoration: none;
     font-size: 12px;
 }
 
-.grid .pagerbar .pagerbar-links a:hover {
+.gridview .pagerbar .pagerbar-links a:hover {
     text-decoration: none;
 }
 

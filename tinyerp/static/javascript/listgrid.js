@@ -42,7 +42,7 @@ var ListView = function(id, terp){
 
 ListView.prototype.checkAll = function(clear){
 
-    clear = clear == null ? true: clear;
+    clear = clear ? false : true;
 
     boxes = $(this.id).getElementsByTagName('input');
     forEach(boxes, function(box){
@@ -91,9 +91,10 @@ ListView.prototype.getEditors = function(named, dom){
 ListView.prototype.getColumns = function(dom){
     dom = dom || this.id;
     var header = getElementsByTagAndClassName('tr', 'grid-header', dom)[0];
+    
     return filter(function(c){
         return c.id ? true : false;
-    }, getElementsByTagAndClassName('td', 'grid-cell', header));
+    }, getElementsByTagAndClassName('th', 'grid-cell', header));
 }
 
 ListView.prototype.adjustEditors = function(newlist){

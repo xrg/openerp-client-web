@@ -1,4 +1,3 @@
-
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Copyright (c) 2007 TinyERP Pvt Ltd. (http://tinyerp.com) All Rights Reserved.
@@ -28,239 +27,172 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-function do_sort(table) {
-    var table = $(table);
-    var rows = getElementsByTagAndClassName("tr","grid-row", table);
-    do_Sortable(rows, table);
-}
+// Based on MochiKit `sortable_table` demo
 
-var SORT_COLUMN_INDEX;
-
-function do_Sortable(rows, tableId) {
-
-    if (tableId && rows && rows.length > 0) {
-
-        rows_header = getElementsByTagAndClassName("tr","grid-header", tableId);
-
-        forEach(rows_header, function(e) {
-            header_cell = e.getElementsByTagName('td');
-
-            forEach(header_cell, function(ee) {
-                if(ee.id) {
-
-                    txt = get_innerText(ee);
-
-                    var div = DIV({'class' : 'sortheader'});
-                    div.style.cursor = 'pointer';
-
-                    var span = SPAN({'class' : 'sortarrow'});
-
-                    appendChildNodes(div, txt, span);
-
-                    ee.innerHTML = '';
-                    appendChildNodes(ee, div);
-
-                    connect(div, 'onclick', do_resortTable);
-
-                }
-            });
-        });
-    }
-}
-
-function get_innerText(el) {
-    if (typeof el == "string" || typeof el == "undefined") return el;
-    if (el.innerText) return el.innerText;    //Not needed but it is faster
-
-    var str = "";
-
-    var cs = el.childNodes;
-
-    var l = cs.length;
-
-    for (var i = 0; i < l; i++) {
-
-        switch (cs[i].nodeType) {
-            case 1: //ELEMENT_NODE
-                str += get_innerText(cs[i]);
-                break;
-
-            case 3:    //TEXT_NODE
-                str += cs[i].nodeValue;
-                break;
-        }
-    }
-    return str;
-}
-
-function do_resortTable(lnk) {
-
-    lnk = lnk.src();
-
-    // get the span
-    var span;
-
-    forEach(lnk.childNodes, function(e) {
-        if(e.tagName && e.tagName.toLowerCase() == 'span') {
-            span = e;
-        }
-    });
-
-    var spantext = get_innerText(span);
-    var td = lnk.parentNode;
-
-    var click_kind = getNodeAttribute(td, 'kind');
-
-    var column = td.cellIndex;
-
-    var table = getParent(td, 'TABLE');
-
-    var rows = getElementsByTagAndClassName("tr","grid-row", table);
-
-    var record_ids = map(function(e){
-        return getNodeAttribute(e, 'record');
-    }, rows);
-
-    record_ids = filter(function(e){
-        return e != null;
-    }, record_ids);
-
-    record_ids = '[' + record_ids.join(',') + ']';
-
-    if($(table.id + "/" + '_terp_model')) {
-        $(table.id + "/" + '_terp_ids').value = record_ids;
-    }
-    else {
-        $('_terp_ids').value = record_ids;
-    }
-
-    // Work out a type for the column
-    if (rows.length <= 1) return;
-    var itm = get_innerText(rows[1].cells[column]);
-
-    var sortfn = sort_caseinsensitive;
-
-    if(click_kind == 'float' || click_kind == 'integer') sortfn = sort_numeric;
-    if(click_kind == 'char')  sortfn = sort_caseinsensitive;
-    if(click_kind == 'date' || click_kind == 'datetime' || click_kind == 'time') sortfn = sort_date;
-
-    SORT_COLUMN_INDEX = column;
-
-    var firstRow = new Array();
-    var newRows = new Array();
-
-    for (i=0;i<rows_header.length;i++) {
-        firstRow[i] = rows_header[i];
-    }
-
-    for (j=0;j<rows.length;j++) {
-        newRows[j] = rows[j];
-    }
-
-    newRows.sort(sortfn);
-
-    if (span.getAttribute("sortdir") == 'down') {
-        //ARROW = '&nbsp;&nbsp;&uarr;';
-        newRows.reverse();
-        span.setAttribute('sortdir','up');
-    } else {
-        //ARROW = '&nbsp;&nbsp;&darr;';
-        span.setAttribute('sortdir','down');
-    }
-
-    // We appendChild rows that already exist to the tbody, so it moves them rather than creating new ones
-    // don't do sortbottom rows
-
-    for (i=0;i<newRows.length;i++) {
-        if (!newRows[i].className || (newRows[i].className && (newRows[i].className.indexOf('sortbottom') == -1)))
-            table.tBodies[0].appendChild(newRows[i]);
-    }
-
-    // do sortbottom rows only
-    for (i=0;i<newRows.length;i++) {
-        if (newRows[i].className && (newRows[i].className.indexOf('sortbottom') != -1))
-            table.tBodies[0].appendChild(newRows[i]);
-    }
-
-    // Delete any other arrows there may be showing
-    var allspans = document.getElementsByTagName("span");
-    for (var ci=0;ci<allspans.length;ci++) {
-        if (allspans[ci].className == 'sortarrow') {
-            if (getParent(allspans[ci],"table") == getParent(lnk,"table")) { // in the same table as us?
-                allspans[ci].innerHTML = '&nbsp;&nbsp;&nbsp;';
-            }
-        }
-    }
-
-   // span.innerHTML = ARROW;
-}
-
-function getParent(el, pTagName) {
-    if (el == null) return null;
-    else if (el.nodeType == 1 && el.tagName.toLowerCase() == pTagName.toLowerCase())    // Gecko bug, supposed to be uppercase
-        return el;
-    else
-        return getParent(el.parentNode, pTagName);
-}
-function sort_date(a,b) {
-
-    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
-    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]);
-
-    dt1 = aa.substr(6,4)+aa.substr(0,2)+aa.substr(3,2)+aa.substr(11,2)+aa.substr(14, 2);
-    dt2 = bb.substr(6,4)+bb.substr(0,2)+bb.substr(3,2)+bb.substr(11,2)+bb.substr(14, 2);
-
-    if (dt1==dt2) return 0;
-    if (dt1>dt2) return -1;
-    return 1;
+mouseOverFunc = function () {
+    addElementClass(this, "over");
 };
 
-function sort_currency(a,b) {
-    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
-    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]).replace(/[^0-9.]/g,'');
-    return parseFloat(aa) - parseFloat(bb);
-}
+mouseOutFunc = function () {
+    removeElementClass(this, "over");
+};
 
-function sort_numeric(a,b) {
-    aa = parseFloat(get_innerText(a.cells[SORT_COLUMN_INDEX]));
-    if (isNaN(aa)) aa = 0;
-    bb = parseFloat(get_innerText(b.cells[SORT_COLUMN_INDEX]));
-    if (isNaN(bb)) bb = 0;
-    return aa-bb;
-}
-
-function sort_caseinsensitive(a,b) {
-    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]).toLowerCase();
-    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]).toLowerCase();
-    if (aa==bb) return 0;
-    if (aa<bb) return -1;
-    return 1;
-}
-
-function sort_default(a,b) {
-    aa = get_innerText(a.cells[SORT_COLUMN_INDEX]);
-    bb = get_innerText(b.cells[SORT_COLUMN_INDEX]);
-    if (aa==bb) return 0;
-    if (aa<bb) return -1;
-    return 1;
-}
-
-
-function addEvent(elm, evType, fn, useCapture)
-// addEvent and removeEvent
-// cross-browser event handling for IE5+,  NS6 and Mozilla
-// By Scott Andrew
-{
-    if(lm.addEventListener){
-        elm.addEventListener(evType, fn, useCapture);
-        return true;
+ignoreEvent = function (ev) {
+    if (ev && ev.preventDefault) {
+        ev.preventDefault();
+        ev.stopPropagation();
+    } else if (typeof(event) != 'undefined') {
+        event.cancelBubble = false;
+        event.returnValue = false;
     }
-    else if (elm.attachEvent) {
-        var r = elm.attachEvent("on"+evType, fn);
-        return r;
-    }
-    else {
-        alert("Handler could not be removed");
+};
+
+SortableGrid = function (table, options) {
+    this.__init__(table, options);
+}
+
+SortableGrid.prototype = {
+    
+    __init__ : function(table, options) {
+        
+        this.thead = null;
+        this.tbody = null;
+        this.columns = [];
+        this.rows = [];
+        this.sortState = {};
+        this.sortkey = 0;
+
+        table = getElement(table);
+        
+        // Find the thead
+        this.thead = table.getElementsByTagName('thead')[0];
+        
+        // get the kind key and contents for each column header
+        var cols = this.thead.getElementsByTagName('th');
+        for (var i = 0; i < cols.length; i++) {
+            var node = cols[i];
+            var attr = null;
+            try {
+                attr = node.getAttribute("kind");
+            } catch (err) {
+                // pass
+            }
+            
+            if (attr) {
+                addElementClass(node, 'sortable');
+            }
+            
+            var o = node.childNodes;
+            this.columns.push({
+                "format": attr,
+                "element": node,
+                "proto": attr ? node.cloneNode(true) : node
+            });
+        }
+        
+        // scrape the tbody for data
+        this.tbody = table.getElementsByTagName('tbody')[0];
+        // every row
+        var rows = this.tbody.getElementsByTagName('tr');
+        for (var i = 0; i < rows.length; i++) {
+            // every cell
+            var row = rows[i];
+            var cols = row.getElementsByTagName('td');
+            var rowData = [];
+            for (var j = 0; j < cols.length; j++) {
+                // scrape the text and build the appropriate object out of it
+                var cell = cols[j];
+                var obj = strip(scrapeText(cell));
+                switch (this.columns[j].format) {
+                    case 'date':
+                    case 'datetime':
+                        obj = isoTimestamp(obj) || obj;
+                        break;
+                    case 'float':
+                        obj = parseFloat(obj) || 0;
+                        break;
+                    case 'integer':
+                        obj = parseInt(obj) || 0;
+                        break;
+                    default:
+                        break;
+                }
+                rowData.push(obj);
+            }
+            // stow away a reference to the TR and save it
+            rowData.row = row.cloneNode(true);
+            this.rows.push(rowData);
+
+        }
+
+        // do initial sort on first column
+        //this.drawSortedRows(this.sortkey, true, false);
+        this.drawColumnHeaders(-1, true, false);
+    },
+
+    onSortClick : function (name) {
+        return method(this, function () {
+            var order = this.sortState[name];
+            if (order == null) {
+                order = true;
+            } else if (name == this.sortkey) {
+                order = !order;
+            }
+            this.drawSortedRows(name, order, true);
+            this.drawColumnHeaders(name, order, true);
+        });
+    },
+    
+    drawColumnHeaders : function (key, forward, clicked){
+        
+        for (var i = 0; i < this.columns.length; i++) {
+            var col = this.columns[i];
+            var node = col.proto.cloneNode(true);
+            
+            if (col.format) {
+                // remove the existing events to minimize IE leaks
+                col.element.onclick = null;
+                col.element.onmousedown = null;
+                col.element.onmouseover = null;
+                col.element.onmouseout = null;
+                
+                // set new events for the new node                
+                node.onclick = this.onSortClick(i);
+                node.onmousedown = ignoreEvent;
+                node.onmouseover = mouseOverFunc;
+                node.onmouseout = mouseOutFunc;
+            }
+            
+            // if this is the sorted column
+            if (key == i && col.format) {
+                
+                var span = SPAN({'class': forward ? "sortup" : "sortdown"}, null);
+                span.innerHTML = '&nbsp;&nbsp;&nbsp;';
+                
+                // add the character to the column header
+                node.appendChild(span);
+                
+                if (clicked) {
+                    node.onmouseover();
+                }
+            }
+ 
+            // swap in the new th
+            col.element = swapDOM(col.element, node);
+        }
+    },
+
+    drawSortedRows : function (key, forward, clicked) {
+        this.sortkey = key;
+        // sort based on the state given (forward or reverse)
+        var cmp = (forward ? keyComparator : reverseKeyComparator);
+        this.rows.sort(cmp(key));
+        // save it so we can flip next time
+        this.sortState[key] = forward;
+        // get every "row" element from this.rows and make a new tbody
+        var newBody = TBODY(null, map(itemgetter("row"), this.rows));
+        // swap in the new tbody
+        this.tbody = swapDOM(this.tbody, newBody);
     }
 }
 

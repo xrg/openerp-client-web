@@ -77,11 +77,18 @@ Many2Many.prototype = {
 
         if(this.hasList) {
 
-            req = Ajax.get('/search/get_list', {model: this.model, ids : ids, list_id : this.name});
+            req = Ajax.post('/search/get_list', {model: this.model, ids : ids, list_id : this.name});
             req.addCallback(function(xmlHttp){
                 var listview = getElement(self.name + '_container');
                 listview.innerHTML = xmlHttp.responseText;
                 self.selectAll();
+                
+                // execute JavaScript
+                var scripts = getElementsByTagAndClassName('script', null, listview);
+                forEach(scripts, function(s){
+                   eval(s.innerHTML);
+                });
+
             });
 
         } else {
@@ -106,12 +113,18 @@ Many2Many.prototype = {
 
         if (this.hasList) {
 
-            req = Ajax.get('/search/get_list', {model: this.model, ids : ids, list_id: this.name});
+            req = Ajax.post('/search/get_list', {model: this.model, ids : ids, list_id: this.name});
 
             req.addCallback(function(xmlHttp) {
                 var listview = getElement(self.name + '_container');
                 listview.innerHTML = xmlHttp.responseText;
                 self.selectAll();
+                
+                // execute JavaScript
+                var scripts = getElementsByTagAndClassName('script', null, listview);
+                forEach(scripts, function(s){
+                   eval(s.innerHTML);
+                });
             });
 
         } else {
