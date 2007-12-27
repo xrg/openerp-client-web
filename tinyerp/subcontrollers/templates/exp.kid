@@ -132,7 +132,7 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
-                            <div py:content="tree.display()" style="overflow: scroll; width: 100%; height: 100%; border: solid lightgray 1px;"/>
+                            <div py:content="tree.display()" style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;"/>
                         </td>
                         <td class="fields-selector-center">
                             <button type="button" onclick="add_fields()">Add</button><br/>
