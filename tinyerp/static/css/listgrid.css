@@ -75,6 +75,7 @@
 
 .grid .float,
 .grid .float_time,
+.grid .floattime,
 .grid .integer {
     text-align: right;
 }
