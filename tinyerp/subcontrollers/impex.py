@@ -80,24 +80,94 @@ class ImpEx(controllers.Controller, TinyResource):
     @expose(template="tinyerp.subcontrollers.templates.exp")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('export_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
         tree.show_headers = False
+        
+        res = []        
+        predef_list = []
+        
+        res = self.get_data(params.model)
+        
+        ir_export = rpc.RPCProxy('ir.exports')
+        ir_export_line = rpc.RPCProxy('ir.exports.line')
+        export_ids = ir_export.search([('resource', '=', params.model)])
+        
+        for export in ir_export.read(export_ids):
+            fields = ir_export_line.read(export['export_fields'])
+            test = []
+            test.append(self.get_name([f['name'] for f in fields], res))                   
+            predef_list.append(([f['name'] for f in fields], export['name'], test))
+        
+        return dict(predef_list=predef_list, model=params.model, ids=params.ids, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
 
-        return dict(model=params.model, ids=params.ids, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
+    def get_name(self, list1=[], res={}):
+        temp = []
+        tmp = []
+                
+        for val in list1:            
+            for i, v in res.items():               
+                for k in v:                    
+                    if k['id']==val:
+                        temp.append(k['data']['name'])
+        
+        tmp = ', '.join(temp)
+        return tmp
+
+    def get_data(self, model):
+        
+        name = ''
+        prefix = ''
+        ids = []
+        
+        proxy = rpc.RPCProxy(model)
+        fields = proxy.fields_get(False, rpc.session.context)
+                
+        # XXX: in GTK client, top fields comes from Screen
+        if not ids:
+            f1 = proxy.fields_view_get(False, 'tree', rpc.session.context)['fields']
+            f2 = proxy.fields_view_get(False, 'form', rpc.session.context)['fields']
+
+            fields = {}
+            fields.update(f1)
+            fields.update(f2)
+
+        fields_order = fields.keys()
+        fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
+
+        records = []
+
+        for i, field in enumerate(fields_order):
+
+            value = fields[field]
+            record = {}
+
+            id = prefix + (prefix and '/' or '') + field
+            nm = name + (name and '/' or '') + value['string']
+            
+            if ids:
+                record['id'] = ids[i]
+            else:
+                record['id'] = id
+    
+            record['data'] = {'name' : nm}
+    
+            records += [record]       
+        
+        return dict(records=records)
 
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
-
+                
         is_importing = len(eval(kw.get('domain')))
 
         ids = kw.get('ids', '').split(',')
         ids = [i for i in ids if i]
-
+        
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get(False, rpc.session.context)
-
+                
         # XXX: in GTK client, top fields comes from Screen
         if not ids:
             f1 = proxy.fields_view_get(False, 'tree', rpc.session.context)['fields']
@@ -170,6 +240,7 @@ class ImpEx(controllers.Controller, TinyResource):
                 record['params'] = {'model': ref, 'prefix': id, 'name': nm}
 
         records.reverse()
+        
         return dict(records=records)
 
     @expose(content_type="application/octat-stream")
@@ -205,6 +276,44 @@ class ImpEx(controllers.Controller, TinyResource):
 
         return dict(model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}), show_header_footer=False)
 
+    @expose()
+    def save_list(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+        
+        predef_list = []        
+        fields = params.ids        
+        ir_export = rpc.RPCProxy('ir.exports')
+        
+        ir_export.create({'name' : params.name, 'resource' : params.model, 'export_fields' : [(0, 0, {'name' : f}) for f in fields]})
+        
+        predef_list.append((fields, params.name, params.val)) 
+
+        return dict(predef_list=predef_list)
+    
+    @expose()
+    def reload_predef_list(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+        
+        res = []        
+        predef_list = []
+        
+        res = self.get_data(params.model)
+        
+        ir_export = rpc.RPCProxy('ir.exports')
+        ir_export_line = rpc.RPCProxy('ir.exports.line')
+        export_ids = ir_export.search([('resource', '=', params.model)])
+        
+        for export in ir_export.read(export_ids):
+            fields = ir_export_line.read(export['export_fields'])            
+            
+            test = []            
+            test.append(self.get_name([f['name'] for f in fields], res))                   
+            predef_list.append(([f['name'] for f in fields], export['name'], test))
+                     
+        return dict(predef_list=predef_list)    
+    
     @expose()
     def detect_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, **kw):
         params, data = TinyDict.split(kw)
