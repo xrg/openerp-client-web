@@ -38,7 +38,8 @@ hr {
 input,
 select,
 textarea {
-    background-color: white;
+    background-color: #fff;
+    color: #000;
     border: 1px solid #999999;
 }
 
@@ -56,10 +57,10 @@ input.radio {
 }
 
 button {
-    border: solid 1px #888888;
-    background: #999;
+    border: solid 1px #888888;    
+    background: #999 url(/static/images/button_bg.png) repeat-x left top;
+    color: #000;
     padding: 0px 2px;
-    background: url(/static/images/button_bg.png) repeat-x left top;
     font-size: 11px;
     white-space: nowrap;
 }
@@ -72,6 +73,10 @@ button.inactive {
     background: #eeeeee;
     border: solid 1px #888888;
     color: #999999;
+}
+
+*[disabled] {
+    color: #999;
 }
 
 #container {
