@@ -43,7 +43,7 @@
             var select = $('fields');
 
             var opts = {};
-            forEach($('fields').options, function(o){                
+            forEach($('fields').options, function(o){
                 opts[o.value] = o;
             });
 
@@ -53,83 +53,11 @@
                 var id = f.id.replace(prefix, '');
 
                 if (id in opts) return;
-                               
+
                 select.options.add(new Option(text, id));
             });
         }
 
-        function open_savelist(id) {
-            if($(id).style.display == 'none') {
-                $(id).style.display = '';
-            }
-            else {
-                $(id).style.display = 'none';
-            }
-        }
-        
-        function save_name(textbox_id) {
-        
-            name = document.getElementById(textbox_id).value;
-            model = $('_terp_model').value;
-            fields = $('fields');
-            var ids = [];
-            var val = [];
-        
-            if(!document.getElementById(textbox_id).value)
-                return;
-            else {
-                forEach(fields, function(e){
-                    val = val.concat("'"+ e.innerHTML + "'");                    
-                    ids = ids.concat("'"+ e.value + "'");
-                });
-            }
-            
-            val = '[' + val.join(',') + ']';
-            
-            if(ids.length &lt; 1)
-                return;
-
-            ids = '[' + ids.join(',') + ']';
-
-            var params = {'_terp_model': model, '_terp_ids': ids, '_terp_name': name, '_terp_val': val};
-            var req = Ajax.JSON.post('/impex/save_list', params);
-            
-            req.addCallback(function(obj){
-                if (obj.error){
-                    alert(obj.error);
-                } else {
-                    self.reload();
-                }
-            });
-        }
-        
-        function reload() {
-        
-            id = $('exported_list');
-            model = $('_terp_model').value;
-            
-            var params = {'_terp_model': model};
-            var req = Ajax.JSON.post('/impex/reload_predef_list', params);
-            
-            req.addCallback(function(obj){               
-                                               
-                var th1 = TH({style: "text-align: left;"}, 'Export Name');
-                var th2 = TH({style: "text-align: left;"}, 'Exported Fields');
-                
-                var tr = TR(null, th1);
-                appendChildNodes(tr, th2);
-                
-                var trs = map(function(x){return TR(null, TD(null, x[1]), TD(null, x[2]))}, obj.predef_list);
-                
-              
-                var table = TABLE({'width': '100%', 'border' : '1'}, TBODY(null, tr, trs));
-                
-                var div = DIV({id: 'exported_list', style: "height: 150px; overflow: auto;"}, table);
-                
-                swapDOM(id, div);                
-            });                       
-        }
-        
         function del_fields(all){
 
             var fields = filter(function(o){return o.selected;}, $('fields').options);
@@ -196,30 +124,6 @@
         </tr>
         <tr>
             <td>
-                <div id='exported_list' style="height: 150px; overflow: auto;">
-                    <table border='1' width="100%">
-                        <tr>
-                            <th class="label" style="text-align: left;">
-                                Export Name
-                            </th>
-                            <th class="label" style="text-align: left;">
-                                Exported Fields
-                            </th>
-                        </tr>
-                        <tr py:for="nm in predef_list">                        
-                            <td>                      
-                               ${nm[1]}
-                            </td>
-                            <td>
-                                ${nm[2]}
-                            </td>                                                               
-                        </tr>                                         
-                    </table>
-                </div>           
-            </td>        
-        </tr>
-        <tr>
-            <td>
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">All fields</th>
@@ -233,8 +137,7 @@
                         <td class="fields-selector-center">
                             <button type="button" onclick="add_fields()">Add</button><br/>
                             <button type="button" onclick="del_fields()">Remove</button><br/>
-                            <button type="button" onclick="del_fields(true)">Nothing</button><br/><br/>
-                            <button type="button" onclick="open_savelist('savelist')">Save List</button>
+                            <button type="button" onclick="del_fields(true)">Nothing</button>
                         </td>
                         <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
@@ -243,28 +146,6 @@
                 </table>
             </td>
         </tr>
-        <tr>
-            <td>            
-                <div id="savelist" style="display: none">
-                <fieldset>
-                    <legend>Save List</legend>
-                    <table>
-                        <tr>                           
-                            <td class="label">
-                                Name of This Export :    
-                            </td>                            
-                            <td>
-                                <input type="text" id="savelist_name" name="savelist_name"/>
-                            </td>
-                            <td>
-                                <button type="button" onclick="save_name('savelist_name')">Ok</button>
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>         
-                </div>   
-            </td>
-        </tr>        
         <tr>
             <td>
                 <fieldset>
@@ -282,10 +163,10 @@
                             </td>
                             <td>Add field names</td>
                         </tr>
-                    </table>                  
-                </fieldset>                
+                    </table>
+                </fieldset>
             </td>
-        </tr>                
+        </tr>
         <tr>
             <td>
                 <div class="toolbar">
