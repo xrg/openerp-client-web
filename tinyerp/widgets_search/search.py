@@ -165,6 +165,7 @@ class Search(TinyCompoundWidget):
                 attrs['translate'] = False
                 attrs['disabled'] = False
                 attrs['visible'] = True
+                attrs['editable'] = True
 
                 try:
                     fields[name].update(attrs)
@@ -172,7 +173,7 @@ class Search(TinyCompoundWidget):
                     print "-"*30,"\n malformed tag for :", attrs
                     print "-"*30
                     raise
-
+                
                 kind = fields[name]['type']
 
                 if kind not in widgets_type:
