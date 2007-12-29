@@ -40,6 +40,7 @@ MonthCalendar.prototype = {
 
         this.starts = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtStart'));
         this.first = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtFirst'));
+        this.firstWeek = this.first.getWeek();
 
         this.month = this.first.getMonth();
 
@@ -88,7 +89,7 @@ MonthCalendar.prototype = {
             this.weeks = this.weeks.concat(week);
 
             var a = A({href: 'javascript: void(0)',
-                       onclick : "getCalendar('/calendar/get/" + week.days[0] + "/" + week.days[6] + "')"}, dt.getWeek());
+                       onclick : "getCalendar('/calendar/get/" + week.days[0] + "/" + week.days[6] + "')"}, this.firstWeek + i);
 
             appendChildNodes('calTimeCol', DIV({'style': 'height: 120px'}, a));
 
@@ -209,7 +210,15 @@ MonthCalendar.prototype = {
     },
 
     makeEvents : function(){
-
+        
+        var getWeekIndex = function(dt){
+            // get the first day of the week and return the week number
+            while(dt.getWeekDay() > 0){
+             dt = dt.getPrevious();
+            }
+          return dt.getWeek();
+        }
+        
         var self = this;
         var events = getElementsByTagAndClassName('div', 'calEvent', 'calBodySect');
 
@@ -226,18 +235,18 @@ MonthCalendar.prototype = {
 
         var weeks = {};
         forEach(this.weeks, function(w){
-            weeks[w.starts.getWeek()] = [];
+            weeks[getWeekIndex(w.starts)] = [];
         });
 
         forEach(events, function(e){
             var starts = isoTimestamp(getNodeAttribute(e, 'dtStart'));
-            if (starts.getWeek() in weeks) {
-                weeks[starts.getWeek()] = weeks[starts.getWeek()].concat(e);
+            if (getWeekIndex(starts) in weeks) {
+                weeks[getWeekIndex(starts)] = weeks[getWeekIndex(starts)].concat(e);
             }
         });
 
         forEach(this.weeks, function(w){
-            w.events = weeks[w.starts.getWeek()];
+            w.events = weeks[getWeekIndex(w.starts)];
             w.makeEventContainers();
         });
     }
