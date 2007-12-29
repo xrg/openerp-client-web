@@ -105,9 +105,13 @@ class TinyCalendar(Form):
                 options.mode = "week"
             else:
                 options.mode = "day"                                    
-                
+
         if params.colors:
-            options.colors = params.colors
+            #options.colors = params.colors
+            try:
+                options.colors = eval(kw['_terp_colors'])
+            except:
+                pass
             
         if params.color_values:
             options.color_values = params.color_values
