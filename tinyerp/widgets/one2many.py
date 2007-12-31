@@ -75,7 +75,7 @@ class O2M(TinyCompoundWidget):
             self.parent_id = pparams.id
 
         # get params for this field
-        params = params.chain_get(self.name)
+        current = params.chain_get(self.name)
 
         self.model = attrs['relation']
         self.link = attrs['link']
@@ -86,11 +86,11 @@ class O2M(TinyCompoundWidget):
         view_mode = mode
         view_type = mode[0]
 
-        if not params:
-            params = TinyDict()
+        if not current:
+            current = TinyDict()
 
-        if params.view_mode: view_mode = params.view_mode
-        if params.view_type: view_type = params.view_type
+        if current.view_mode: view_mode = current.view_mode
+        if current.view_type: view_type = current.view_type
 
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
@@ -98,31 +98,31 @@ class O2M(TinyCompoundWidget):
         ids = attrs['value'] or []
         id = (ids or None) and ids[0]
 
-        if params:
-            id = params.id
+        if current and params.source == self.name:
+            id = current.id
 
         id = id or None
-
-        params.model = self.model
-        params.id = id
-        params.ids = ids
-        params.view_mode = view_mode
-        params.view_type = view_type
-        params.domain = params.domain or []
+        
+        current.model = self.model
+        current.id = id
+        current.ids = ids
+        current.view_mode = view_mode
+        current.view_type = view_type
+        current.domain = current.domain or []
         
         ctx = cherrypy.request.terp_record
         ctx = tools.expr_eval("dict(%s)" % self.default_get_ctx, ctx)
         
-        params.context = ctx
+        current.context = ctx
         
-        params.offset = params.offset or 0
-        params.limit = params.limit or 20
-        params.count = len(ids or [])
+        current.offset = current.offset or 0
+        current.limit = current.limit or 20
+        current.count = len(ids or [])
         
-        if params.view_type == 'tree' and self.readonly:
+        if current.view_type == 'tree' and self.readonly:
             self.editable = False
             
-        self.screen = Screen(params, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3, nolinks=self.link)
+        self.screen = Screen(current, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3, nolinks=self.link)
         self.id = id
 
         if view_type == 'tree':
