@@ -53,18 +53,11 @@ InfoBox.prototype = {
         MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit');
         MochiKit.Signal.connect(btnDelete, 'onclick', this, 'onDelete');
 
-        var title = this.params.title;
+        var title = this.params.title;                         
+        var desc = '(' + this.params.dtStart.strftime('%Y-%m-%d %I:%M %P') + ' - ' + this.params.dtEnd.strftime('%Y-%m-%d %I:%M %P') + ')';
 
-        var desc = '(' + toISODate(this.params.dtStart) + ' ' +
-                         toISOTime(this.params.dtStart) + ' - ' +
-                         toISODate(this.params.dtEnd) + ' ' +
-                         toISOTime(this.params.dtEnd) + ')';
-
-        if (this.params.dtStart.getWeek() == this.params.dtEnd.getWeek() &&
-            this.params.dtStart.getDay() == this.params.dtEnd.getDay()){
-            desc = '(' + toISODate(this.params.dtStart) + ' ' +
-                         toISOTime(this.params.dtStart) + ' - ' +
-                         toISOTime(this.params.dtEnd) + ')';
+        if (this.params.dtStart.strftime('%Y-%m-%d') == this.params.dtEnd.strftime('%Y-%m-%d')){
+            var desc = '(' + this.params.dtStart.strftime('%Y-%m-%d %I:%M %P') + ' - ' + this.params.dtEnd.strftime('%I:%M %P') + ')';
         }
 
         var desc = SPAN(null, this.params.description, BR(), desc);

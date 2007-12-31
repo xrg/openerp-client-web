@@ -63,30 +63,6 @@ function elementPosition2(elem) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MochiKit.Base.update(Date.prototype, {
-
-    getWeek : function() {
-        var first = new Date(this.getFullYear(), 0, 1);
-        var self = new Date(this.getFullYear(), this.getMonth(), this.getDate());
-        return Math.ceil((((self - first) / 86400000) + first.getDay()) / 7);
-    },
-
-    // day of the week (Sunday as last day)
-    getWeekDay : function(){
-        return this.getDay() == 0 ? 6 : this.getDay() - 1;
-    },
-
-    getNext : function() {
-        return new Date(this.getTime() + 24 * 60 * 60 * 1000);
-    },
-
-    getPrevious : function() {
-        return new Date(this.getTime() - 24 * 60 * 60 * 1000);
-    }
-});
-
-///////////////////////////////////////////////////////////////////////////////
-
 var CAL_INSTALCE = null;
 
 var getCalendar = function(action) {

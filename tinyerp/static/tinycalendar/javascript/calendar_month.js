@@ -40,7 +40,7 @@ MonthCalendar.prototype = {
 
         this.starts = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtStart'));
         this.first = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtFirst'));
-        this.firstWeek = this.first.getWeek();
+        this.firstWeek = this.first.getWeek(1);
 
         this.month = this.first.getMonth();
 
@@ -216,7 +216,7 @@ MonthCalendar.prototype = {
             while(dt.getWeekDay() > 0){
              dt = dt.getPrevious();
             }
-          return dt.getWeek();
+          return dt.getWeek(1);
         }
         
         var self = this;

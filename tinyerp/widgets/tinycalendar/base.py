@@ -107,6 +107,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/Visual.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/DragAndDrop.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/Resizable.js'),
+                  tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_date.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_utils.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_box.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_month.js'),

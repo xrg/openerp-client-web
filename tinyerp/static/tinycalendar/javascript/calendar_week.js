@@ -609,10 +609,20 @@ WeekCalendar.DayGrid.prototype = {
 
         setNodeAttribute(draggable, 'dtstart', toISOTimestamp(s));
         setNodeAttribute(draggable, 'dtend', toISOTimestamp(e));
-
+        
         this.makeEventContainers();
         this.adjust();
 
+        // update the event title        
+        var title = getElementsByTagAndClassName('div', 'calEventTitle', draggable)[0];
+        var t = strip(title.innerHTML);
+        
+        t = t.split(' - '); t.shift();
+        t = t.join(' - ');
+        
+        title.innerHTML = s.strftime('%I:%M %P') + ' - ' + t;
+        
+        // save the event
         saveCalendarRecord(id, toISOTimestamp(s), toISOTimestamp(e));
     },
 
