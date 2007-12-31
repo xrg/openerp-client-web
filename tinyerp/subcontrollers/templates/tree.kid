@@ -53,7 +53,7 @@
                         <table width="100%" cellpadding="0" cellspacing="0" class="tree-grid">
                             <thead>
                                 <tr class="header">
-                                    <th colspan="2">Toolbar</th>
+                                    <th>Toolbar</th>
                                 </tr>
                             </thead>
                             <tbody>
