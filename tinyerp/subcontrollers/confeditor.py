@@ -38,16 +38,17 @@ import pkg_resources
 
 from tinyerp import rpc
 from tinyerp import common
+from tinyerp import CONFIG_FILE
+
 import xmlrpclib
 
-fname = pkg_resources.resource_filename('tinyerp.config', "app.cfg")
-conf = config.ConfigObj(fname, unrepr=True, interpolation=True)
+conf = config.ConfigObj(CONFIG_FILE, unrepr=True, interpolation=True)
 
 class MySchema(validators.Schema):
     host = validators.String(not_empty=True)
     port = validators.Int(not_empty=True)
     protocol = validators.String(not_empty=True)
-    oldpwd = validators.OneOf([conf['etiny']['passwd']])
+    oldpwd = validators.OneOf([conf.get('etiny', {}).get('passwd', '')])
     newpwd = validators.String()
     repwd = validators.String()
     chained_validators = [validators.RequireIfPresent(present='oldpwd',required='newpwd'), validators.FieldsMatch('newpwd', 'repwd')]
@@ -56,7 +57,7 @@ class ConfEditor(controllers.Controller):
 
     @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def index(self):
-        password = conf['etiny']['passwd']
+        password = conf.get('etiny', {}).get('passwd', '')
 
         if password == "":
             raise redirect("/login")

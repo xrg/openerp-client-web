@@ -46,7 +46,11 @@ def start():
 
     turbogears.update_config(configfile=configfile,
         modulename="tinyerp.config")
-
+    
+    # save the name of the configfile (TODO: config editor)
+    import tinyerp
+    tinyerp.CONFIG_FILE = configfile
+    
     from tinyerp.controllers import Root
 
     turbogears.start_server(Root())
