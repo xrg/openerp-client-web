@@ -114,7 +114,14 @@ SortableGrid.prototype = {
                     case 'integer':
                         obj = parseInt(obj) || 0;
                         break;
+                    case 'many2many':
+                    case 'one2many':
+                        obj = obj.replace(/\((\d+)\)/g, '$1');
+                        obj = parseInt(obj) || 0;
+                        break;
                     default:
+                        // default is case insensitive string comparison
+                        obj = obj.toLowerCase();
                         break;
                 }
                 rowData.push(obj);
