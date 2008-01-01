@@ -50,9 +50,9 @@ Tiny ERP Server:
 
 TurboGears:
 
-	$ wget http://www.turbogears.org/download/tgsetup.py
-	$ python2.4 tgsetup.py 
-	
+    $ wget http://www.turbogears.org/download/tgsetup.py
+    $ python2.4 tgsetup.py
+    
 or
 
     $ wget http://peak.telecommunity.com/dist/ez_setup.py
@@ -72,9 +72,9 @@ eTiny! (latest):
     $ easy_install-2.4 eTiny
     
 or 
-	
-	$ easy_install-2.4 easy_install-2.4 \
-	  http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
+    
+    $ easy_install-2.4 easy_install-2.4 \
+      http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
 
 Configuration:
 
@@ -86,23 +86,20 @@ Configuration:
     port = 8070
     protocol = "socket"
 
-	where:
+    where:
 
     server is the Tiny ERP server host...
     port is the Tiny ERP server port...
     protocol is the protocol to be used (socket, http or https)
 
-If everything is installed properly, start the eTiny! HTTP server running 
-the `start-tinyerp.py` script from the command line. 
+Now start the eTiny server with `start-tinyerp` command, liks:
 
-If everything is done well you might see some thing similar to:
-
-	$ start-tinyerp.py
+    $ start-tinyerp
 
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
 You can change port for eTiny! by changing appropriate config value in 
-`prod.cfg`.
+`default.cfg/dev.cfg`.
 
 If everything is fine, open your favourite web browser and type 
 http://localhost:8080, and your can see welcome page with login screen.
@@ -157,7 +154,7 @@ eTiny!:
     
 or
 
-	> easy_install-2.4 http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
+    > easy_install-2.4 http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
 
 Configuration:
 
@@ -175,17 +172,14 @@ Configuration:
     port is the Tiny ERP server port...
     protocol is the protocol to be used (socket, http or https)
 
-If everything is installed properly, start the eTiny! HTTP server running 
-the `start-tinyerp.py` script from the command line. 
+Now start the eTiny server with `start-tinyerp` command, liks:
 
-If everything is done well you might see some thing similar to:
-
-> start-tinyerp.py
+    > start-tinyerp
 
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
 You can change port for eTiny! by changing appropriate config value in 
-`prod.cfg`.
+`default.cfg/dev.cfg`.
 
 If everything is fine, open your favourite web browser and type 
 http://localhost:8080, and your can see welcome page with login screen.
@@ -217,4 +211,4 @@ Here is the list of supported browsers.
  TODO: support info
 
 -------------------------------------------------------------------------------
-Copyright (c) 2007 Tiny ERP Pvt. Ltd.
+Copyright (c) 2007-TODAY Tiny ERP Pvt. Ltd.
