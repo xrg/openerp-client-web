@@ -189,6 +189,28 @@ class TinyCalendar(Form):
         
         #TODO: return error message if any        
         return dict()
+    
+    @expose()
+    def duplicate(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        id = params.id
+        ctx = params.context
+        model = params.model
+        
+        proxy = rpc.RPCProxy(model)
+        new_id = False
+        try:
+            new_id = proxy.copy(id, {}, ctx)
+        except Exception, e:
+            pass
+
+        if new_id:
+            params.id = new_id
+            params.ids += [int(new_id)]
+            params.count += 1
+            
+        return dict(id=new_id)
 
 class CalendarPopup(Form):
     

@@ -165,4 +165,15 @@ var editCalendarRecord = function(record_id){
     openWindow(act);
 }
 
+var copyCalendarRecord = function(record_id){
+
+    var params = {
+        '_terp_id': record_id,
+        '_terp_model': $('_terp_model').value,
+        '_terp_context': $('_terp_context').value
+    }
+
+    return Ajax.post('/calpopup/duplicate', params);
+}
+
 // vim: sts=4 st=4 et

@@ -47,10 +47,12 @@ InfoBox.prototype = {
 
         var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
         var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, 'Edit');
+        var btnCopy = BUTTON({'class': 'button', 'type': 'button'}, 'Duplicate');
         var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, 'Delete');
 
         MochiKit.Signal.connect(btnCancel, 'onclick', this, 'hide');
         MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit');
+        MochiKit.Signal.connect(btnCopy, 'onclick', this, 'onCopy');
         MochiKit.Signal.connect(btnDelete, 'onclick', this, 'onDelete');
 
         var title = this.params.title;                         
@@ -68,7 +70,8 @@ InfoBox.prototype = {
                         TABLE({'class': 'calInfoButtons', 'cellpadding': 2}, 
                             TBODY(null, 
                                 TR(null,
-                                    TD(null, btnEdit), 
+                                    TD(null, btnEdit),
+                                    TD(null, btnCopy),
                                     TD(null, btnDelete),
                                     TD({'align': 'right', 'width': '100%'}, btnCancel)))));
 
@@ -129,6 +132,14 @@ InfoBox.prototype = {
     onEdit : function(){
         this.hide();
         editCalendarRecord(this.params.nRecordID);
+    },
+    
+    onCopy : function(){
+        this.hide();
+        var req = copyCalendarRecord(this.params.nRecordID);
+        req.addCallback(function(res){
+            getCalendar('/calendar/get/' + $('_terp_calendar_args').value);
+        });
     },
 
     onDelete : function(){
