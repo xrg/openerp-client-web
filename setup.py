@@ -27,7 +27,6 @@ setup(
     install_requires=[
         "TurboGears >= 1.0.3.2",
     ],
-    scripts=["start-tinyerp.py"],
     zip_safe=False,
     packages=packages,
     package_data=package_data,
@@ -65,4 +64,13 @@ setup(
         # 'Framework :: TurboGears :: Widgets',
     ],
     test_suite='nose.collector',
+    entry_points = {
+        'console_scripts': [
+            'start-tinyerp = tinyerp.commands:start',
+        ],
+    },
+    # Uncomment next line and create a default.cfg file in your project dir
+    # if you want to package a default configuration in your egg.
+    data_files = [('config', ['default.cfg'])],
     )
+
