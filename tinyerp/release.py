@@ -29,7 +29,7 @@
 
 # Release information about eTiny
 
-version = "1.0rc2"
+version = "1.1b1"
 
 description = "Web Client of Tiny ERP, the Enterprise Management Software"
 long_description = "eTiny is the web client of the Tiny ERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
