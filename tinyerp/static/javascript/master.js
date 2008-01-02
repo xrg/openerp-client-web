@@ -58,13 +58,6 @@ function get_cookie(name) {
     return unescape(dc.substring(begin + prefix.length, end));
 }
 
-/**
-*
-*  Javascript open window
-*  http://www.webtoolkit.info/
-*
-**/
-
 function openWindow(anchor, options) {
 
     var opts = MochiKit.Base.update({
