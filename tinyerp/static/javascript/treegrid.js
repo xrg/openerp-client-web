@@ -43,7 +43,7 @@ var TreeGrid = function(id, headers) {
     this.selection = new Array();
     this.selection_last = null;
 
-    this.row_info = {0: {children: null, indent: 0}};
+    this.row_info = {0: {children: null, indent: 0, record: null}};
 
     this.onopen = function(id, args){};
     this.onselection = function(rows){};
@@ -189,7 +189,7 @@ TreeGrid.prototype._make_row = function(parent_row, record, indent){
     // save children and indent info
     this.row_info[rid] = {children: record.children, 
                           indent: indent ? indent : 0, 
-                          params: record.params};
+                          record: record};
 
     for(var i in this.headers) {
 
@@ -272,7 +272,7 @@ TreeGrid.prototype._add_rows = function(after, children, indent){
 
     // update args with root params as well as row params
     update(args, this.params);
-    update(args, this.row_info[row.id].params);
+    update(args, this.row_info[row.id].record.params || {});
 
     var req = doSimpleXMLHttpRequest(this.url, args);
     var grid = this;

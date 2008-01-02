@@ -36,10 +36,10 @@
 
     <script type="text/javascript">
         function add_fields(){
-
-            var prefix = ${tree.field_id}.id + '_row_';
-            var fields = ${tree.field_id}.selection;
-
+        
+            var tree = ${tree.field_id};
+            
+            var fields = tree.selection;
             var select = $('fields');
 
             var opts = {};
@@ -48,8 +48,9 @@
             });
 
             forEach(fields, function(f){
+
                 var text = f.getElementsByTagName('a')[0].innerHTML;
-                var id = f.id.replace(prefix, '');
+                var id = tree.row_info[f.id].record.id;
 
                 if (id in opts) return;
 
