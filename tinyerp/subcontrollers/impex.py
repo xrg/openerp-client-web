@@ -37,6 +37,7 @@ import StringIO
 
 from turbogears import expose
 from turbogears import controllers
+from turbogears import redirect
 
 import cherrypy
 
@@ -81,12 +82,40 @@ class ImpEx(controllers.Controller, TinyResource):
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
 
+        
+        proxy = rpc.RPCProxy('ir.exports')
+        new_list = []
+        
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('export_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
         tree.show_headers = False
 
-        return dict(model=params.model, ids=params.ids, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
-
+                           
+        view = proxy.fields_view_get(False, 'tree', rpc.session.context)
+        
+        new_list = tw.listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None, 
+                                       domain=[('resource', '=', params.model)], 
+                                       context=rpc.session.context, selectable=1, editable=False, pageable=False)
+                
+        
+        return dict(new_list=new_list, model=params.model, ids=params.ids, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
+ 
+    @expose()
+    def save_exp(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        selected_list = data.get('fields')             
+        name = data.get('savelist_name')
+                
+        proxy = rpc.RPCProxy('ir.exports')
+        
+        if selected_list and name:
+            if isinstance(selected_list, basestring):
+                selected_list = [selected_list]
+            proxy.create({'name' : name, 'resource' : params.model, 'export_fields' : [(0, 0, {'name' : f}) for f in selected_list]})
+        
+        raise redirect('/impex/exp', **kw)
+ 
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
@@ -172,6 +201,75 @@ class ImpEx(controllers.Controller, TinyResource):
         records.reverse()
         return dict(records=records)
 
+    
+    @expose()
+    def get_namelist(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+        
+        res = []      
+        ids = []  
+        id = params.id
+        
+        res = self.get_data(params.model)
+                
+        ir_export = rpc.RPCProxy('ir.exports')
+        ir_export_line = rpc.RPCProxy('ir.exports.line')
+        
+        field = ir_export.read(id)  
+        fields = ir_export_line.read(field['export_fields'])
+
+        name_list = []
+        ids = [f['name'] for f in fields]
+
+        for name in ids:
+            name_list += [(name, res.get(name))]  
+
+        return dict(name_list=name_list)
+    
+    def get_data(self, model):
+        
+        name = ''
+        prefix = ''
+        ids = []
+        
+        fields_data = {}
+        proxy = rpc.RPCProxy(model)
+        fields = proxy.fields_get(False, rpc.session.context)
+                
+        # XXX: in GTK client, top fields comes from Screen
+        if not ids:
+            f1 = proxy.fields_view_get(False, 'tree', rpc.session.context)['fields']
+            f2 = proxy.fields_view_get(False, 'form', rpc.session.context)['fields']
+
+            fields = {}
+            fields.update(f1)
+            fields.update(f2)
+        
+        def rec(fields):
+        
+            _fields = {}
+                    
+            def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
+                fields_order = fields.keys()
+                fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
+            
+                for field in fields_order:
+                    fields_data[prefix_node+field] = fields[field]                
+                    if prefix_node:
+                        fields_data[prefix_node + field]['string'] = '%s%s' % (prefix_value, fields_data[prefix_node + field]['string'])
+                    st_name = fields[field]['string'] or field 
+                    _fields[prefix_node+field] = st_name                    
+                    if fields[field].get('relation', False) and level>0:
+                        fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
+                        model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
+                    
+            model_populate(fields)
+            
+            return _fields
+
+        return rec(fields)
+        
     @expose(content_type="application/octat-stream")
     def export_data(self, fname, fields, export_as="csv", add_names=False, **kw):
 

@@ -58,6 +58,29 @@
             });
         }
 
+		
+        function open_savelist(id) {
+            if($(id).style.display == 'none') {
+                $(id).style.display = '';
+            }
+            else {
+                $(id).style.display = 'none';
+            }
+        }
+        
+        function save_export() {
+            form = $('view_form');
+            
+            form.action = '/impex/save_exp';
+            
+            var options = $('fields').options;            
+            forEach(options, function(o){
+                o.selected = true;
+            });
+            
+            form.submit();        
+        }
+        
         function del_fields(all){
 
             var fields = filter(function(o){return o.selected;}, $('fields').options);
@@ -69,6 +92,32 @@
                     removeElement(f);
                 });
             }
+        }
+        
+        function do_select(id, src) {
+            $('fields').innerHTML = '';
+            model = $('_terp_model').value;
+            params = {'_terp_id': id, '_terp_model': model}
+            
+            req = Ajax.JSON.post('/impex/get_namelist', params);
+            
+            req.addCallback(function(obj){
+                if (obj.error){
+                    alert(obj.error);
+                } else {
+                    self.reload(obj.name_list);
+                }
+            });
+        }
+        
+        function reload(name_list) {           
+            var select = $('fields');
+
+            forEach(name_list, function(f){                
+                var text = f[1];
+                var id = f[0]                
+                select.options.add(new Option(text, id));
+            });
         }
 
         function do_export(form){
@@ -102,7 +151,7 @@
 </head>
 <body>
 
-<form action="/impex/export_data" method="post">
+<form id='view_form' action="/impex/export_data" method="post">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="[]"/>
@@ -121,7 +170,13 @@
                     </tr>
                 </table>
             </td>
-        </tr>
+        </tr>        
+        <tr>
+            <td>
+                <div id='exported_list' py:content="new_list.display()" style="height: 150px; overflow: auto;">                    
+                </div>           
+            </td>        
+        </tr>        
         <tr>
             <td>
                 <table class="fields-selector" cellspacing="5" border="0">
@@ -137,7 +192,8 @@
                         <td class="fields-selector-center">
                             <button type="button" onclick="add_fields()">Add</button><br/>
                             <button type="button" onclick="del_fields()">Remove</button><br/>
-                            <button type="button" onclick="del_fields(true)">Nothing</button>
+                            <button type="button" onclick="del_fields(true)">Nothing</button><br/><br/>
+                            <button type="button" onclick="open_savelist('savelist')">Save List</button>
                         </td>
                         <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
@@ -146,6 +202,28 @@
                 </table>
             </td>
         </tr>
+        <tr>
+            <td>            
+                <div id="savelist" style="display: none">
+                    <fieldset>
+                        <legend>Save List</legend>
+                        <table>
+                            <tr>                           
+                                <td class="label">
+                                    Name of This Export :    
+                                </td>                            
+                                <td>
+                                    <input type="text" id="savelist_name" name="savelist_name"/>
+                                </td>
+                                <td>
+                                    <button type="button" onclick="save_export()">Ok</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>         
+                </div>   
+            </td>
+        </tr>        
         <tr>
             <td>
                 <fieldset>
