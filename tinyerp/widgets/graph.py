@@ -120,7 +120,7 @@ class GraphData(object):
                     res[x] = value[x]
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
-                    res[x] = str(res[x])
+                    res[x] = ustr(res[x])
                 elif fields[x]['type'] == 'date':
                     date = time.strptime(value[x], DT_FORMAT)
                     res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
@@ -161,8 +161,8 @@ class GraphData(object):
                 name = attrs['name']
                 attrs['string'] = fields[name]['string']
 
-                axis.append(str(name))
-                axis_data[str(name)] =  attrs
+                axis.append(ustr(name))
+                axis_data[ustr(name)] =  attrs
 
         for i in axis_data:
             axis_data[i]['string'] = fields[i]['string']

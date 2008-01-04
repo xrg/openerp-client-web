@@ -66,7 +66,11 @@
         }
 
         function do_create(){
-            act = getURL('/openm2o/edit', {model: '${params.model}', source: '${params.source}'});
+            act = getURL('/openm2o/edit', {_terp_model: '${params.model}', 
+                                           _terp_source: '${params.source}',
+                                           _terp_m2o: '${params.source}',
+                                           _terp_domain: $('_terp_domain').value,
+                                           _terp_context: $('_terp_context').value});
             window.location.href = act;
         }
     </script>

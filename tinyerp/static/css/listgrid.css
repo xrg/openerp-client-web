@@ -88,7 +88,6 @@
 .gridview .pagerbar {
     height:22px;
     vertical-align: middle;
-    white-space: nowrap;
 }
 
 .gridview .pagerbar .pagerbar-cell {

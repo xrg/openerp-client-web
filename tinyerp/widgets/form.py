@@ -95,19 +95,19 @@ class Frame(TinyCompoundWidget):
 
         self.fields = []
 
-        # properly distribute widths to columns
+        # properly distribute widths among columns
 
-        mx = 1
+        if len(self.table) == 1:
+            self.table[0] = [(a, w) for a, w in self.table[0] if getattr(w, 'visible', 1)]
+
+        max_length = max([len(row) for row in self.table])
+
         for row in self.table:
-            if len(row) > mx:
-                mx = len(row)
 
-        for row in self.table:
-
-            # adjust the columns
-            if len(row):
-                cs = reduce(lambda x,y: x +y, [a.get('colspan', 1) for a,w in row])
-                a['colspan'] = a.get('colspan', 1) + self.columns - cs
+            ## adjust the columns
+            #if len(row):
+            #    cs = reduce(lambda x,y: x +y, [a.get('colspan', 1) for a,w in row])
+            #    a['colspan'] = a.get('colspan', 1) + self.columns - cs
 
             sn = len([w for a, w in row if isinstance(w, (basestring, Label))])
             pn = len([w for a, w in row if isinstance(w, Image)])
@@ -129,7 +129,7 @@ class Frame(TinyCompoundWidget):
                     w = pw
                 else:
                     c = a.get('colspan', 1)
-                    if c > mx:
+                    if c > max_length:
                         c = 1
 
                     if wid.visible:
