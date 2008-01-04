@@ -437,7 +437,7 @@ ListView.prototype.exportData = function(){
     openWindow(getURL('/impex/exp', {_terp_model: this.model, 
                                      _terp_source: this.id, 
                                      _terp_search_domain: $('_terp_search_domain').value, 
-                                     _terp_ids: $(this.id)}), {height: '830'});
+                                     _terp_ids: $(this.id)}), {height: '840'});
 }
 
 ListView.prototype.importData = function(){

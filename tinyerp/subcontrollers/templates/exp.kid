@@ -110,12 +110,31 @@
             });
         }
         
-        function reload(name_list) {           
+        function delete_listname(form) {
+        
+            var list = new ListView('_terp_list');
+            var boxes = list.getSelectedItems();
+                        
+            if (boxes.length == 0){
+                alert('Please select a List name...');
+                return;
+            }
+            
+            var id = boxes[0].value;
+    
+            params = {'_terp_id' : id};
+
+            setNodeAttribute(form, 'action', getURL('/impex/delete_listname', params));
+            form.submit();
+        
+        }
+        
+        function reload(name_list) {
             var select = $('fields');
 
             forEach(name_list, function(f){                
                 var text = f[1];
-                var id = f[0]                
+                var id = f[0]
                 select.options.add(new Option(text, id));
             });
         }
@@ -173,10 +192,15 @@
         </tr>        
         <tr>
             <td>
-                <div id='exported_list' py:content="new_list.display()" style="height: 150px; overflow: auto;">                    
-                </div>           
-            </td>        
-        </tr>        
+                <div id='exported_list' py:content="new_list.display()" style="height: 142px; overflow: auto;">                    
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="toolbar">
+                <button type="button" onclick="delete_listname(form);">Delete</button>
+            </td>
+        </tr>
         <tr>
             <td>
                 <table class="fields-selector" cellspacing="5" border="0">

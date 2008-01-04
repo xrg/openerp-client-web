@@ -116,6 +116,16 @@ class ImpEx(controllers.Controller, TinyResource):
         
         raise redirect('/impex/exp', **kw)
  
+    @expose()
+    def delete_listname(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+        proxy = rpc.RPCProxy('ir.exports')
+        
+        proxy.unlink(params.id)
+        
+        raise redirect('/impex/exp', **kw)
+    
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
