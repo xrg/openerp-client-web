@@ -5,18 +5,6 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Config Editor</title>
 
-    <script type="text/javascript">
-        function changepwd(id) {
-            if($(id).style.display == 'none') {
-                $(id).style.display = '';
-            }
-            else {
-                $(id).style.display = 'none';
-            }
-        }
-
-    </script>
-
 </head>
 
 <body>
@@ -52,9 +40,15 @@
         </div>
 
         <div py:if="tg.errors or passwd and not message">
-            <form name="config" action="/configure/setconf" method="post">
+            <form name="config" action="/configure/setconf" method="post" enctype="multipart/form-data">
                 <div class="box2" id="config">
                     <table align="center" border="0" width="100%">
+                        <tr>
+                            <td colspan='2' class="label_header">
+                                <hr/> Tiny ERP Server<hr/>
+                            </td>
+                        </tr>
+                    
                         <tr>
                             <td align="right" class="label">
                                 Host :
@@ -82,11 +76,36 @@
                                 <span py:if="'protocol' in tg.errors">${tg.errors['protocol']}</span>
                             </td>
                         </tr>
-                    </table>
-                </div>
-
-                <div class="box2" id="changepwd" style="display: ${(not (tg.errors and ('oldpwd' in tg.errors or 'newpwd' in tg.errors or 'repwd' in tg.errors)) or None) and 'none'}">
-                    <table align="center" border="0" width="100%">
+                    
+                        <tr>
+                            <td colspan='2' class="label_header"> <br/>
+                                <hr/> Company Logo <hr/>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td align="right" class="label">
+                                Logo Image :
+                            </td>
+                            <td>
+                                <input type="file" id="new_logo" name="new_logo" style="width: 99%;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" class="label">
+                                Company URL :
+                            </td>
+                            <td>
+                                <input type="text" id="comp_url" name="comp_url" value='${comp_url}' style="width: 99%;"/>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td colspan='2' class="label_header"> <br/>
+                                <hr/> eTiny Admin Password <hr/>
+                            </td>
+                        </tr>    
+                    
                         <tr>
                             <td align="right" class="label">
                                 Old Password :
@@ -119,10 +138,7 @@
 
                 <div class="box2">
                     <table align="center" border="0" width="100%">
-                        <tr>
-                            <td>
-                                <button type="button" onclick="changepwd('changepwd');">Change Password</button>
-                            </td>
+                        <tr>                            
                             <td align="right">
                                 <button type="button" onclick="window.location.href='/login'">Cancel</button>
                                 <button type="submit">OK</button>

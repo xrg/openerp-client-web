@@ -17,6 +17,15 @@
                 <button type="button" onclick="location.href='/dbadmin/password'">Password</button>
             </div>
         </div>
+        <div class="box2">
+            <table align="center" border="0" width="100%">
+                <tr>                            
+                    <td align="right">
+                        <button type="button" onclick="window.location.href='/login'">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </body>
 </html>

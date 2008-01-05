@@ -33,6 +33,7 @@ For more information on TG controllers, please see the TG docs.
 """
 
 import sys
+import os.path
 import cgitb
 
 from turbogears import controllers
@@ -134,6 +135,7 @@ class Root(controllers.RootController, TinyResource):
             cherrypy.response.body = [message]
 
     @expose(template="tinyerp.templates.error")
+    @unsecured
     def error(self):
 
         title = "Internal error!"
@@ -167,6 +169,33 @@ class Root(controllers.RootController, TinyResource):
         url = "%s://%s:%s"%(protocol, host, port)
 
         return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=message, origArgs={})
+
+    @expose()
+    @unsecured
+    def get_logo(self):          
+        
+        comp_url = config.get('company_url', path='etiny') or None
+        
+        res="""<img src="/static/images/tinyerp_big.png" alt="${_('Tiny ERP Logo')}" border="0" width="205px" height="58px" usemap="#logo_map"/>
+                    <map name="logo_map">
+                        <area shape="rect" coords="90,39,124,54" href="http://tinyerp.com" target="_blank"/>
+                        <area shape="rect" coords="131,38,172,54" href="http://axelor.com" target="_blank"/>
+                    </map>"""
+                    
+        if os.path.exists(pkg_resources.resource_filename("tinyerp", "static/images/company_logo.png")):
+            if comp_url:
+                res = """   <a href='"""+comp_url+"""' target='_blank'>
+                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/> 
+                            </a> """
+            else:
+                 res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
+        return res
+    
+    @expose()
+    @unsecured
+    def set_companyurl(self):
+                  
+        return
 
     @expose()
     @unsecured

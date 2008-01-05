@@ -87,20 +87,33 @@ class ConfEditor(controllers.Controller):
             host = config.get('host', path="tinyerp")
             port = config.get('port', path="tinyerp")
             protocol = config.get('protocol', path="tinyerp")
+            comp_url = config.get('company_url', path='etiny')
 
-            return dict(passwd=spwd, message=None, host=host, port=port, protocol=protocol)
+            return dict(passwd=spwd, message=None, host=host, port=port, protocol=protocol, comp_url=comp_url)
 
     @validate(validators=MySchema())
     @expose(template="tinyerp.subcontrollers.templates.confeditor")
-    def setconf(self, tg_errors=None, **kw):
+    def setconf(self, new_logo, tg_errors=None, **kw):
 
+        datas = new_logo.file.read()
+        
+        if datas:
+            try:
+                logo_path = pkg_resources.resource_filename("tinyerp", "static/images/company_logo.png")
+                logo_file = open(logo_path, 'wb')
+                logo_file.write(datas)
+                logo_file.close()
+            except Exception, e:
+                raise common.error(_('Error'), _('File reading or writing failed... !'))
+        
         host = kw.get('host')
         port = kw.get('port')
         protocol = kw.get('protocol')
         newpwd = kw.get('newpwd')
-
+        comp_url = kw.get('comp_url')
+        
         if tg_errors:
-            return dict(message=None, passwd=None, host=host, port=port, protocol=protocol)
+            return dict(message=None, passwd=None, host=host, port=port, protocol=protocol, comp_url=comp_url)
 
         oldpwd=kw.get('oldpwd')
         spwd = cherrypy.session.get('terp_passwd')
@@ -115,6 +128,8 @@ class ConfEditor(controllers.Controller):
         conf['tinyerp']['port'] = str(port)
         conf['tinyerp']['protocol'] = str(protocol)
 
+        conf['etiny']['company_url'] = str(comp_url)
+        
         conf.write()
         config.update(conf)
 

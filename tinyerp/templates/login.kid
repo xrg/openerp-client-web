@@ -4,6 +4,18 @@
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>Login</title>
+    
+    <script type="text/javascript">
+        function toggle_config(id) {
+            if($(id).style.display == 'none') {
+                $(id).style.display = '';
+            }
+            else {
+                $(id).style.display = 'none';
+            }
+        }
+    </script>
+    
 </head>
 
 <body>
@@ -45,8 +57,20 @@
                     <tr>
                         <td></td>
                         <td align="right">
-                            <button type="button" style="width: 80px; white-space: nowrap" tabindex="-1" onclick="location.href='/dbadmin'">Manage</button>
+                            <button type="button" style="width: 80px; white-space: nowrap" tabindex="-1" onclick="toggle_config('showconfig');">Manage</button>
                             <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
+                        </td>
+                    </tr>                    
+                </table>                
+            </div>
+            <div id="showconfig" class="box2" style="display: None">
+                <table align="center" cellspacing="2px" border="0">
+                    <tr>
+                        <td>
+                            <button type="button" onclick="location.href='/dbadmin'">Database Management</button>
+                        </td>
+                        <td>
+                            <button type="button" onclick="location.href='/configure'">Configuration Editor</button>
                         </td>
                     </tr>
                 </table>

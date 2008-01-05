@@ -238,6 +238,13 @@ td.welcome {
     font-weight: bold;
 }
 
+td.label_header {
+    text-align: center;
+    color: #990033;
+    font-size: 12px;
+    font-weight: bold;    
+}
+
 div.message {
     background-color: red;
     color: white;

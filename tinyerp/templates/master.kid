@@ -50,11 +50,7 @@ requests, requests_message = tg.root.requests.my()
             <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td rowspan="2">
-                        <img src="/static/images/tinyerp_big.png" alt="${_('Tiny ERP Logo')}" border="0" width="205px" height="58px" usemap="#logo_map"/>
-                        <map name="logo_map">
-                            <area shape="rect" coords="90,39,124,54" href="http://tinyerp.com" target="_blank"/>
-                            <area shape="rect" coords="131,38,172,54" href="http://axelor.com" target="_blank"/>
-                        </map>
+                        <img src="/static/images/tinyerp_big.png" alt="${_('Tiny ERP Logo')}" border="0" width="205px" height="58px" py:replace="XML(tg.root.get_logo())"/>
                     </td>
                     <td align="right" valign="top" nowrap="nowrap" height="24">
                         <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
