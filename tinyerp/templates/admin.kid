@@ -12,18 +12,11 @@
 
         <div class="box2 welcome">Administration</div>    
         <div class="box2">
-            <table align="center" cellspacing="2px" border="0">
-                <tr>
-                    <td>
-                        <button type="button" onclick="location.href='/dbadmin'">Database Management</button>
-                    </td>
-                    <td>
-                        <button type="button" onclick="location.href='/configure'">Configuration Editor</button>
-                    </td>
-                </tr>
-            </table>
+            <div class="toolbar" align="center">
+                <button type="button" onclick="location.href='/dbadmin'">Database Management</button>
+                <button type="button" onclick="location.href='/configure'">Configuration Editor</button>
+            </div>
         </div>
-    
         <div class="box2">
             <table align="center" border="0" width="100%">
                 <tr>                            

@@ -60,7 +60,7 @@ class ConfEditor(controllers.Controller):
         password = conf.get('etiny', {}).get('passwd', '')
 
         if password == "":
-            raise common.error(_("Error"), _("Administration passwork is empty..!"))
+            raise common.error(_("Error"), _("Administration password is empty..!"))
 
         return dict(message=message, passwd=None, tg_errors=None)
 
