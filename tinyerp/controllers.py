@@ -191,12 +191,11 @@ class Root(controllers.RootController, TinyResource):
                  res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
         return res
     
-    @expose()
+    @expose(template="tinyerp.templates.admin")
     @unsecured
-    def set_companyurl(self):
-                  
-        return
-
+    def admin(self):
+        return dict()
+    
     @expose()
     @unsecured
     def logout(self):

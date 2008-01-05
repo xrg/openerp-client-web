@@ -60,9 +60,9 @@ class ConfEditor(controllers.Controller):
         password = conf.get('etiny', {}).get('passwd', '')
 
         if password == "":
-            raise redirect("/login")
+            raise common.error(_("Error"), _("Administration passwork is empty..!"))
 
-        return dict(message=None, passwd=None, tg_errors=None)
+        return dict(message=message, passwd=None, tg_errors=None)
 
     @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def connect(self, **kw):

@@ -7,6 +7,7 @@
  </head>
 <body>
     <div class="view">
+    <br/>
         <div class="box2 welcome">Database Administration</div>
         <div class="box2">
             <div class="toolbar" align="center">
@@ -21,7 +22,7 @@
             <table align="center" border="0" width="100%">
                 <tr>                            
                     <td align="right">
-                        <button type="button" onclick="window.location.href='/login'">Cancel</button>
+                        <button type="button" onclick="window.location.href='/admin'">Cancel</button>
                     </td>
                 </tr>
             </table>
