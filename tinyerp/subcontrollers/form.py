@@ -100,7 +100,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
         buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
-        buttons.attach = 'form' in params.view_mode and id
+        buttons.attach = id and mode == 'form'
         buttons.i18n = not editable and mode == 'form'
 
         buttons.toolbar = not params.model.startswith('board.')

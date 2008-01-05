@@ -63,7 +63,7 @@ function elementPosition2(elem) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-var CAL_INSTALCE = null;
+var CAL_INSTANCE = null;
 
 var getCalendar = function(action) {
     var act = action ? action : '/calendar/get/' + $('_terp_calendar_args').value;
@@ -101,7 +101,7 @@ var getCalendar = function(action) {
         var newContainer = d.getElementsByTagName('table')[0];
 
         // release resources
-        CAL_INSTALCE.__delete__();
+        CAL_INSTANCE.__delete__();
 
         swapDOM('calContainer', newContainer);
 
@@ -115,8 +115,7 @@ var getCalendar = function(action) {
             });
         }
 
-        CAL_INSTALCE.onResize();
-
+        callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
     });
 }
 
@@ -145,9 +144,7 @@ var saveCalendarRecord = function(record_id, starts, ends){
         '_terp_context': $('_terp_context').value
     }
 
-    var req = Ajax.post('/calendar/save', params);
-    req.addCallback(function(xmlHttp){
-    });
+    return Ajax.post('/calendar/save', params);
 }
 
 var editCalendarRecord = function(record_id){

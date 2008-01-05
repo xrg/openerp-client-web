@@ -56,7 +56,7 @@
         </div>
 
         <script type="text/javascript">
-            CAL_INSTALCE = new WeekCalendar();
+            CAL_INSTANCE = new WeekCalendar();
         </script>
     </td>
 </tr>

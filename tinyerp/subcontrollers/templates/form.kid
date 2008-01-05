@@ -54,7 +54,7 @@
                                         <img src="/static/images/icon.gif"/>
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>
-                                    <td nowrap="nowrap">
+                                    <td nowrap="nowrap" py:if="buttons.search or buttons.form or buttons.calendar or buttons.graph">
                                         <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="switchView('tree')">Search</button>
                                         <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="switchView('form')">Form</button>
                                         <button type="button" title="Calendar View..." disabled="${tg.selector(not buttons.calendar)}" onclick="switchView('calendar')">Calendar</button>

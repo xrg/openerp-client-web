@@ -576,7 +576,7 @@ MonthCalendar.Event.prototype = {
         w = Math.round(w);
         w = w * this.dayspan - 5;
 
-        x += 1;
+        x += Browser.isIE ? 2 : 1;
         y += 2;
 
         this.element.style.top = y + 'px';

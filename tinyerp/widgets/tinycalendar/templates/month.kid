@@ -63,7 +63,7 @@
         </div>
 
         <script type="text/javascript">
-            CAL_INSTALCE = new MonthCalendar();
+            CAL_INSTANCE = new MonthCalendar();
         </script>
 
     </td>
