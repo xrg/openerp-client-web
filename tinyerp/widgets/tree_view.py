@@ -46,8 +46,8 @@ class ViewTree(tg.widgets.Form):
         super(ViewTree, self).__init__(name='tree_view', action=action)
 
         self.model = view['model']
-        self.domain2 = domain
-        self.context = context
+        self.domain2 = domain or []
+        self.context = context or {}
 
         self.domain = []
 
@@ -60,7 +60,7 @@ class ViewTree(tg.widgets.Form):
 
         proxy = rpc.RPCProxy(self.model)
 
-        ctx = context;
+        ctx = self.context.copy();
         ctx.update(rpc.session.context)
 
         fields = cache.fields_get(self.model, False, ctx)
@@ -89,7 +89,14 @@ class ViewTree(tg.widgets.Form):
         self.headers = []
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree", model=self.model, headers=self.headers, url="/tree/data", ids=ids, domain=self.domain, field_parent=self.field_parent)
+        self.tree = treegrid.TreeGrid(name="tree", 
+                                      model=self.model, 
+                                      headers=self.headers, 
+                                      url="/tree/data", 
+                                      ids=ids, 
+                                      domain=self.domain, 
+                                      context=self.context, 
+                                      field_parent=self.field_parent)
         self.id = id
 
         #register onselection callback

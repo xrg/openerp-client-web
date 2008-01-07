@@ -101,7 +101,7 @@ class Tree(controllers.Controller, TinyResource):
         return cmp(a, b)
 
     @expose('json')
-    def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], sort_by=None, sort_order="asc"):
+    def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], context={}, sort_by=None, sort_order="asc"):
 
         ids = ids.split(',')
         ids = [int(id) for id in ids if id != '']
@@ -111,13 +111,16 @@ class Tree(controllers.Controller, TinyResource):
 
         if isinstance(domain, basestring):
             domain = eval(domain)
+            
+        if isinstance(context, basestring):
+            context = eval(context)
 
         if field_parent and field_parent not in fields:
             fields.append(field_parent)
 
         proxy = rpc.RPCProxy(model)
         
-        ctx = {}
+        ctx = context or {}
         ctx.update(rpc.session.context.copy())
 
         if icon_name:

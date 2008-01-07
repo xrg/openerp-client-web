@@ -274,12 +274,11 @@ TreeGrid.prototype._add_rows = function(after, children, indent){
     update(args, this.params);
     update(args, this.row_info[row.id].record.params || {});
 
-    var req = doSimpleXMLHttpRequest(this.url, args);
+    var req = Ajax.JSON.post(this.url, args);
     var grid = this;
 
-    req.addCallback(function(xmlHttp){
-        var res = evalJSONRequest(xmlHttp);
-
+    req.addCallback(function(res){
+    
         var g = $(grid.id);
 
         /* ie hack */
@@ -317,12 +316,11 @@ TreeGrid.prototype.reload = function(){
 
     swapDOM(this.id, div);
 
-    var req = doSimpleXMLHttpRequest(this.url, args);
+    var req = Ajax.JSON.post(this.url, args);
 
     var grid = this;
 
-    req.addCallback(function(xmlHttp){
-        var res = evalJSONRequest(xmlHttp);
+    req.addCallback(function(res){
 
         var table = TABLE({id: grid.id, 'class': 'tree-grid'});
 
