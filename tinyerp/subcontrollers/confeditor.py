@@ -62,7 +62,7 @@ class ConfEditor(controllers.Controller):
         if password == "":
             raise common.error(_("Error"), _("Administration password is empty..!"))
 
-        return dict(message=message, passwd=None, tg_errors=None)
+        return dict(message=None, passwd=None, tg_errors=None)
 
     @expose(template="tinyerp.subcontrollers.templates.confeditor")
     def connect(self, **kw):
@@ -111,7 +111,10 @@ class ConfEditor(controllers.Controller):
         protocol = kw.get('protocol')
         newpwd = kw.get('newpwd')
         comp_url = kw.get('comp_url')
-        
+       
+        if not comp_url.startswith('http'):
+            comp_url = 'http://'+comp_url
+
         if tg_errors:
             return dict(message=None, passwd=None, host=host, port=port, protocol=protocol, comp_url=comp_url)
 
