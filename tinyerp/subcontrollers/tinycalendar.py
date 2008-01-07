@@ -137,13 +137,13 @@ class TinyCalendar(Form):
         if params.id:
             res = proxy.unlink([params.id])
             
-            if params.id in params.ids:
+            if params.ids and params.id in params.ids:
                 idx = params.ids.index(params.id)
                 params.ids.remove(params.id)
                 params.count = 0 # invalidate count
 
-            if idx == len(params.ids):
-                idx = -1
+                if idx == len(params.ids):
+                    idx = -1
 
         params.id = (params.ids or None) and params.ids[idx]
         
