@@ -44,16 +44,14 @@ import xmlrpclib
 import base64
 from tinyerp.subcontrollers import actions
 
-
 class DBAdmin(controllers.Controller):
 
     @expose(template="tinyerp.subcontrollers.templates.dbadmin")
-    def index(self):
-        return dict()
-
-    @expose(template="tinyerp.subcontrollers.templates.dbadmin_create")    
-    def create(self, password=None, db_name=None, language=[], demo_data=False):
-                
+    def index(self, message='', langlist=[], dblist=[], db='', url='', selectedDb='', password=None, db_name=None, language=[], demo_data=False):
+        
+        db_name = None
+        selectedDb = ''
+        
         if demo_data:
             demo_data = eval(demo_data)
                                             
@@ -61,55 +59,61 @@ class DBAdmin(controllers.Controller):
         url = str(url[:-1])
         
         langlist = []
+        dblist = []
         
         try:
             langlist = rpc.session.execute_db('list_lang')
         except Exception, e:
             pass
-
+        
+        db = cherrypy.request.simple_cookie.get('terp_db')
+            
+        try:
+            dblist = rpc.session.execute_db('list')
+        except:
+            pass
+        
         langlist.append(('en_EN','English'))
-
+        
+        return dict(langlist=langlist, dblist=dblist, selectedDb=selectedDb, 
+                    db=db, url=url, db_name=db_name, demo_data=demo_data, 
+                    password=password, message=message)
+   
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin")
+    def createdb(self, langlist=[], password=None, db_name=None, language=[], demo_data=False):
+                
         if not db_name:
-            return dict(url=url, langlist=langlist, message=None)
+            return
 
         message = None
         res = None
-
+    
         if ((not db_name) or (not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', db_name))):
             message = _('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name !')
         else:
             try:
                 res = rpc.session.execute_db('create', password, db_name, demo_data, language)
+        
                 time.sleep(5) # wait for few seconds
             except Exception, e:
                 if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
                     message = _('Bad database administrator password !') + "\n\n" + _("Could not create database.")
                 else:
                     message = _("Could not create database.") + "\n\n" + _('Error during database creation !')
-
-            if res:
-                raise redirect('/')
-
-        return dict(url=url, langlist=langlist, message=message)
-
-    @expose(template="tinyerp.subcontrollers.templates.dbadmin_drop")
-    def drop(self, db_name=None, passwd=None):
-
+            
+            if res:        
+                raise redirect("/dbadmin")
+            else:
+                raise common.error(_('Error'), _(message))
+            
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin")
+    def dropdb(self, db='', dblist=None, db_name=None, passwd=None):
+        
         message=None
         res = None
 
-        url = rpc.session.get_url()
-        url = str(url[:-1])
-        db = cherrypy.request.simple_cookie.get('terp_db')
-        dblist = []
-        
-        try:
-            dblist = rpc.session.execute_db('list')
-        except:
-            pass
-
         if not db_name:
-            return dict(url=url, selectedDb=db, message=message, dblist=dblist)
+            return
 
         try:
             res = rpc.session.execute_db('drop', passwd, db_name)
@@ -118,27 +122,17 @@ class DBAdmin(controllers.Controller):
                 message = _('Bad database administrator password !') + "\n\n" + _("Could not drop database.")
             else:
                 message = _("Couldn't drop database")
-        
-        if res:
+
+        if res:        
             raise redirect("/dbadmin")
-
-        return dict(url=url, selectedDb=db, message=message, dblist=dblist)
-
-    @expose(template="tinyerp.subcontrollers.templates.dbadmin_backup")
+        else:
+            raise common.error(_('Error'), _(message))
+    
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin")
     def backup(self, password=None, dblist=None):
 
-        url = rpc.session.get_url()
-        url = str(url[:-1])
-        db = cherrypy.request.simple_cookie.get('terp_db')
-
-        dblist_load = []
-        try:
-            dblist_load = rpc.session.execute_db('list')
-        except:
-            pass
-
         if not dblist:
-            return dict(url=url, dblist=dblist_load, selectedDb=db, message=None)
+            return
 
         message=None
         res = None
@@ -151,17 +145,16 @@ class DBAdmin(controllers.Controller):
         if res:
             cherrypy.response.headers['Content-Type'] = "application/data"
             return base64.decodestring(res)
-
-        return dict(url=url, dblist=dblist_load, selectedDb=db, message=message)
-
-    @expose(template="tinyerp.subcontrollers.templates.dbadmin_restore")
+        else:
+            raise common.error(_('Error'), _(message))
+        
+        raise redirect("/dbadmin")
+    
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin")
     def restore(self, passwd=None, new_db=None, path=None):
 
-        url = rpc.session.get_url()
-        url = str(url[:-1])
-        
         if path is None:
-            return dict(url=url, message=None)
+            return
 
         message = None
         res = None
@@ -175,22 +168,19 @@ class DBAdmin(controllers.Controller):
             else:
                 message = _("Couldn't restore database")
 
-        if res:
+        if res:        
             raise redirect("/dbadmin")
-
-        return dict(url=url, message=message)
-
-    @expose(template="tinyerp.subcontrollers.templates.dbadmin_password")
+        else:
+            raise common.error(_('Error'), _(message))
+    
+    @expose(template="tinyerp.subcontrollers.templates.dbadmin")
     def password(self, new_passwd=None, old_passwd=None, new_passwd2=None):
-
-        url = rpc.session.get_url()
-        url = str(url[:-1])
 
         message = None
         res = None
 
         if not new_passwd:
-            return dict(url=url, message=message)
+            return
 
         if new_passwd != new_passwd2:
             message = _("Confirmation password do not match new password, operation cancelled!") + "\n\n" + _("Validation Error.")
@@ -203,7 +193,7 @@ class DBAdmin(controllers.Controller):
                 else:
                     message = _("Error, password not changed.")
 
-        if res:
+        if res:        
             raise redirect("/dbadmin")
-
-        return dict(url=url, message=message)
+        else:
+            raise common.error(_('Error'), _(message))
