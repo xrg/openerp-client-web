@@ -38,18 +38,22 @@
         }
 
         function on_load() {
-            var id = $('_terp_id').value || false;
+            var id = parseInt($('_terp_id').value) || 0;
+            
+            var lc = $('_terp_load_counter').value;
+            lc = parseInt(lc) || 1;
 
-            if (!id || id == 'False') {
-                load_defaults();
+            if (lc > 1) {    
+    
+                if (id != 0) {
+                    window.opener.setTimeout('getCalendar()', 0.5);
+                }
+                
+                return window.close();
             }
-        }
 
-        window.onbeforeunload = function(){
-            var id = $('_terp_id').value || false;
-
-            if (id &amp;&amp; id != 'False') {
-                window.opener.setTimeout('getCalendar()', 0);
+            if (id == 0) {
+                load_defaults();
             }
         }
 
@@ -62,6 +66,7 @@
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
+                <input type="hidden" id="_terp_load_counter" value="${params.load_counter or 0}"/>
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">

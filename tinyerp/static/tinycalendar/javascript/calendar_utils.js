@@ -99,6 +99,10 @@ var getCalendar = function(action) {
         d.innerHTML = xmlHttp.responseText;
 
         var newContainer = d.getElementsByTagName('table')[0];
+        
+        if (newContainer.id != 'calContainer'){
+            return window.location.href = '/';   
+        }
 
         // release resources
         CAL_INSTANCE.__delete__();

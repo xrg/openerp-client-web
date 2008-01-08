@@ -219,6 +219,10 @@ class CalendarPopup(Form):
     @expose(template="tinyerp.subcontrollers.templates.calpopup")
     def create(self, params, tg_errors=None):        
         params.editable = True
+        
+        if params.id and cherrypy.request.path == '/calpopup/view':
+            params.load_counter = 2
+
         form = self.create_form(params, tg_errors)       
         return dict(form=form, params=params, show_header_footer=False)
 
