@@ -23,7 +23,7 @@
     <br/>
         <div class="box2 welcome">Database Administration</div>
         <div class="box2">
-            <div class="toolbar" align="center">
+            <div align="center">
                 <button type="button" onclick="toggle_up('dbcreate'); toggle_up('dbadmin');">Create</button>
                 <button type="button" onclick="toggle_up('dbdrop'); toggle_up('dbadmin');">Drop</button>
                 <button type="button" onclick="toggle_up('dbbackup'); toggle_up('dbadmin');">Backup</button>
@@ -96,8 +96,9 @@
     </div>
  
     <div class="view" id="dbdrop" style="display: None">
-        <div class="box2 welcome">Drop Database</div>
+    <br/>
         <form action="/dbadmin/dropdb" method="post">
+            <div class="box2 welcome">Drop Database</div>
             <div align="center" class="box2">
                 <table align="center" width="100%">
                     <tr>
@@ -125,13 +126,14 @@
         
             <div class="box2 message" id="message" py:if="message">
                 <pre py:content="message"/>
-            </div>
+            </div>            
         </form>
     </div>
-    
+        
     <div class="view" id="dbbackup" style="display:None">
-        <div class="box2 welcome">Backup Database</div>
+    <br/>
         <form name="backup" action="/dbadmin/backup" method="post">
+            <div class="box2 welcome">Backup Database</div>
             <div class="box2" align="center">
                 <table align="center" border="0" width="100%">
                     <tr>
@@ -177,8 +179,9 @@
     </div>
 
     <div class="view" id="dbrestore" style="display:None">
-        <div class="box2 welcome">Restore Database</div>
+    <br/>
         <form action="/dbadmin/restore" method="post" enctype="multipart/form-data">
+            <div class="box2 welcome">Restore Database</div>
             <div align="center" class="box2">
                 <table align="center" width="100%">
                     <tr>
@@ -207,8 +210,9 @@
     </div>
 
     <div class="view" id="dbpassword" style="display: None">
-        <div class="box2 welcome">Change Password</div>
+    <br/>
         <form action="/dbadmin/password" method="post">
+            <div class="box2 welcome">Change Password</div>
             <div align="center" class="box2">
                 <table align="center" width="100%" border="0">
                     <tr>

@@ -12,7 +12,7 @@
 
         <div class="box2 welcome">Administration</div>    
         <div class="box2">
-            <div class="toolbar" align="center">
+            <div align="center">
                 <button type="button" onclick="location.href='/dbadmin'">Database Management</button>
                 <button type="button" onclick="location.href='/configure'">Configuration Editor</button>
             </div>
