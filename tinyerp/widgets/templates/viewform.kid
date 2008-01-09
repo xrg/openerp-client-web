@@ -12,7 +12,7 @@
             <tr py:if="search">
                 <td style="padding: 3px; padding-top: 0px">
                     <div class="toolbar">
-                        <button type="submit" onclick="submit_search_form('find')">Filter</button>
+                        <button type="submit" onclick="setNodeAttribute(form, 'action', ''); submit_search_form('find')">Filter</button>
                         <!-- button type="button" onclick="clear_search_form()">Clear</button -->
                         <button type="button" py:if="screen.editable and not (screen.view_type=='tree' and screen.widget.editors)" onclick="editRecord(null)">New</button>
                         <button type="button" py:if="screen.editable and (screen.view_type=='tree' and screen.widget.editors)" onclick="new ListView('_terp_list').create()">New</button>

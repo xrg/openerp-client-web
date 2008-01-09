@@ -182,6 +182,8 @@ class Search(TinyCompoundWidget):
                 self.fields_type[name] = kind
 
                 field = widgets_type[kind](attrs=fields[name])
+                field.onchange = None
+                field.callback = None
 
                 val = fields[name].get('select', False)
                 field.adv = val and int(val) > 1

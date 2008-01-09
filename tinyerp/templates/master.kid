@@ -134,7 +134,7 @@ requests, requests_message = tg.root.requests.my()
             <hr/>
             (C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on <a href="http://tinyerp.com">http://tinyerp.com</a>.<br/>
             The web client is developed by Axelor (<a href="http://axelor.com">http://axelor.com</a>) and Tiny (<a href="http://tiny.be">http://tiny.be</a>)<br/>
-            Running Server: <span>http://${rpc.session.host}:${rpc.session.port} - database:${rpc.session.db}</span><br/>
+            Running Server: <span>${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} - database: ${rpc.session.db or 'N/A'}</span><br/>
             </div>
         </td>
     </tr>
