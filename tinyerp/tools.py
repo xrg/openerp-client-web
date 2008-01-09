@@ -28,9 +28,6 @@
 ###############################################################################
 
 import os
-import time
-import datetime as DT
-
 from tinyerp import rpc
 
 def expr_eval(string, context={}):
@@ -48,55 +45,3 @@ def node_attributes(node):
    for i in range(attrs.length):
            result[attrs.item(i).localName] = attrs.item(i).nodeValue
    return result
-
-def to_local_datetime(text, server_format, local_format=None):
-    
-    local_format = local_format or server_format
-    
-    if not text:
-        return ''
-    
-    date = time.strptime(text, server_format)
-    if 'tz' in rpc.session.context:
-        try:
-            import pytz
-            lzone = pytz.timezone(str(rpc.session.context['tz']))
-            szone = pytz.timezone(str(rpc.session.timezone))
-            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
-            sdt = szone.localize(dt, is_dst=True)
-            ldt = sdt.astimezone(lzone)
-            date = ldt.timetuple()
-        except:
-            pass
-
-    return time.strftime(local_format, date)
-
-def to_server_datetime(text, server_format, local_format=None):
-    local_format = local_format or server_format
-    
-    if not text:
-        return False
-    
-    try:
-        date = time.strptime(text, local_format)
-    except:
-        try:
-            dt = list(time.localtime())
-            dt[2] = int(text)
-            date = tuple(dt)
-        except:
-            return False
-
-    if 'tz' in rpc.session.context:
-        try:
-            import pytz
-            lzone = pytz.timezone(rpc.session.context['tz'])
-            szone = pytz.timezone(rpc.session.timezone)
-            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
-            ldt = lzone.localize(dt, is_dst=True)
-            sdt = ldt.astimezone(szone)
-            date = sdt.timetuple()
-        except:
-            pass
-
-    return time.strftime(server_format, date)

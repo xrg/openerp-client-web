@@ -149,8 +149,8 @@ class TinyForm(TinyDict):
     def __init__(self, **kwargs):          
         
         VALIDATORS = {
-            'date': tw_validators.Date(format="%Y-%m-%d"),
-            'time': tw_validators.Time(format="%H:%M:%S"),        
+            'date': tw_validators.DateTime(format="%Y-%m-%d"),
+            'time': tw_validators.DateTime(format="%H:%M:%S"),        
             'datetime': tw_validators.DateTime(format="%Y-%m-%d %H:%M:%S"),
             'float_time': tw_validators.FloatTime(),
             'float': tw_validators.Float(),
