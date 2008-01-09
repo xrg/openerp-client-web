@@ -420,7 +420,7 @@ class DateTime(Char):
     display_format = '%Y-%m-%d %H:%M:%S'
 
     def get_text(self):
-        return tools.to_local_datetime(self.value, self.server_format)
+        return tools.to_local_datetime(self.value, self.server_format, self.display_format)
     
 class Date(DateTime):
     server_format = '%Y-%m-%d'
