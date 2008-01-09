@@ -365,18 +365,6 @@ class M2O(Char):
     def get_link(self):
         return tg_query('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
 
-class Date(Char):
-
-    server_format = '%Y-%m-%d'
-    display_format = '%Y-%m-%d'
-
-    def get_text(self):
-        try:
-            date = time.strptime(self.value, self.server_format)
-            return time.strftime(self.display_format, date)
-        except:
-            return ''
-
 class O2M(Char):
 
     def get_text(self):
@@ -432,11 +420,11 @@ class DateTime(Char):
     display_format = '%Y-%m-%d %H:%M:%S'
 
     def get_text(self):
-        try:
-            date = time.strptime(self.value, self.server_format)
-            return time.strftime(self.display_format, date)
-        except:
-            return ''
+        return tools.to_local_datetime(self.value, self.server_format)
+    
+class Date(DateTime):
+    server_format = '%Y-%m-%d'
+    display_format = '%Y-%m-%d'
 
 class Boolean(Char):
 

@@ -121,26 +121,16 @@ class GraphData(object):
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
                     res[x] = ustr(res[x])
+                    
                 elif fields[x]['type'] == 'date':
-                    date = time.strptime(value[x], DT_FORMAT)
-                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
+                    res[x] = tools.to_local_datetime(res[x], DT_FORMAT)
+                    
                 elif fields[x]['type'] == 'datetime':
-                    date = time.strptime(value[x], DHM_FORMAT)
-                    if 'tz' in rpc.session.context:
-                        try:
-                            import pytz
-                            lzone = pytz.timezone(rpc.session.context['tz'])
-                            szone = pytz.timezone(rpc.session.timezone)
-                            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
-                            sdt = szone.localize(dt, is_dst=True)
-                            ldt = sdt.astimezone(lzone)
-                            date = ldt.timetuple()
-                        except:
-                            pass
-                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
+                    res[x] = tools.to_local_datetime(res[x], DHM_FORMAT)
+                    
                 else:
                     res[x] = float(value[x])
-                    
+
             self.values.append(res)
 
         self.axis = axis
