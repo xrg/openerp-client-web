@@ -339,8 +339,23 @@ td.label {
     white-space: nowrap;
 }
 
-td.item input,td.item select,td.item textarea,td.item button {
+td.item {
+	vertical-align: top;
+}
+
+td.item input,
+td.item select,
+td.item textarea,
+td.item button {
     width: 99%;
+}
+
+td.item .resizable-textarea .grip {
+	height: 6px; 
+	width: 99%; 
+	margin-left: 1px; 
+	background: repeat-x url(/static/images/textarea-grip.png); 
+	cursor: s-resize;
 }
 
 td.item .mceSelectList {

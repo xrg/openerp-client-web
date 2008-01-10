@@ -266,7 +266,8 @@ class Email(TinyField):
 class Text(TinyField):
     template = "tinyerp.widgets.templates.text"
     params = ['inline']
-
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/textarea.js")]
+    
     inline = False
 
     def __init__(self, attrs={}):
