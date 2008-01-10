@@ -88,10 +88,6 @@ def secured(fn):
         else:
             # User isn't logged in yet.
 
-            host = config.get('host', path="tinyerp")
-            port = config.get('port', path="tinyerp")
-            protocol = config.get('protocol', path="tinyerp")
-
             db = None
             user = None
             passwd = None
@@ -111,9 +107,9 @@ def secured(fn):
             passwd = kw.get('passwd', passwd)
 
             # See if the user just tried to log in
-            if rpc.session.login(host, port, db, user, passwd, protocol=protocol) != 1:
+            if rpc.session.login(db, user, passwd) <= 0:
                 # Bad login attempt
-                dblist = rpc.session.listdb(host, port, protocol)
+                dblist = rpc.session.listdb()
                 if dblist == -1:
                     dblist = []
                     message = _("Could not connect to server !")

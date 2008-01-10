@@ -63,18 +63,24 @@ class RPCGateway(object):
     All RPC gateway should extends this class.
     """
 
-    def __init__(self, protocol, host, port):
+    def __init__(self, host, port, protocol):
 
         self.protocol = protocol
         self.host = host
         self.port = port
 
-        self.uid = None
-        self.user = None
-        self.passwd = None
+    def _get_db(self):
+        return session.db
 
-        self.open = None
-        self.db = None
+    def _get_uid(self):
+        return session.uid
+
+    def _get_passwd(self):
+        return session.passwd
+
+    db = property(_get_db)
+    uid = property(_get_uid)
+    passwd = property(_get_passwd)
 
     def get_url(self):
         """Get the url
@@ -98,22 +104,6 @@ class RPCGateway(object):
         """
         pass
 
-    def _login_result(self, db, user, passwd, result):
-
-        if not result:
-            self.open = False
-            self.uid = None
-            return -2
-
-        self.uid = result
-        self.user = user
-        self.passwd = passwd
-
-        self.db = db
-        self.open = True
-
-        return 1
-
     def execute(self, obj, method, *args):
         """Excecute the method of the obj with the given arguments.
 
@@ -130,12 +120,6 @@ class RPCGateway(object):
         """
         pass
 
-    def __setattr__(self, name, value):
-        setattr(session, name, value)
-
-    def __getattr__(self, name):
-        return getattr(session, name)
-
 class XMLRPCGateway(RPCGateway):
     """XMLRPC implementation.
     """
@@ -147,7 +131,7 @@ class XMLRPCGateway(RPCGateway):
         @param port: the port
         @param protocol: either http or https
         """
-        super(XMLRPCGateway, self).__init__(protocol, host, port)
+        super(XMLRPCGateway, self).__init__(host, port, protocol)
         self.url =  self.get_url() + 'xmlrpc/'
 
     def listdb(self):
@@ -164,7 +148,7 @@ class XMLRPCGateway(RPCGateway):
         except Exception, e:
             return -1
 
-        return self._login_result(db, user, passwd, res)
+        return res
 
     def execute(self, obj, method, *args):
         sock = xmlrpclib.ServerProxy(self.url + str(obj))
@@ -185,7 +169,7 @@ class NETRPCGateway(RPCGateway):
     """
 
     def __init__(self, host, port):
-        super(NETRPCGateway, self).__init__('socket', host, port)
+        super(NETRPCGateway, self).__init__(host, port, 'socket')
 
     def listdb(self):
         sock = tiny_socket.mysocket()
@@ -208,7 +192,7 @@ class NETRPCGateway(RPCGateway):
         except Exception, e:
             return -1
 
-        return self._login_result(db, user, passwd, res)
+        return res
 
     def execute(self, obj, method, *args):
         sock = tiny_socket.mysocket()
@@ -238,16 +222,35 @@ class NETRPCGateway(RPCGateway):
 
 class RPCSession(object):
     """This is a wrapper class that provides Pythonic way to handle RPC (remote procedure call).
-    It also provides a way to store session data into different kind of store.
+    It also provides a way to store session data into different kind of storage.
     """
 
-    def __init__(self, store={}):
+    __slots__ = ['host', 'port', 'protocol', 'storage', 'gateway']
+
+    def __init__(self, host, port, protocol='socket', storage={}):
         """Create new instance of RPCSession.
 
-        @param store: the storage that will be used to store session data
+        @param host: the tinyerp-server host
+        @params port: the tinyerp-server port
+        @params protocol: the tinyerp-server protocol
+        @param storage: a dict like storage that will be used to store session data
         """
-        self.store = store
-        self.gateway = None
+        self.host = host
+        self.port = port
+        self.protocol = protocol
+        self.storage = storage
+
+        if protocol == 'http':
+            self.gateway = XMLRPCGateway(host, port, 'http')
+        
+        elif protocol == 'https':
+            self.gateway = XMLRPCGateway(host, port, 'https')
+
+        elif protocol == 'socket':
+            self.gateway = NETRPCGateway(host, port)
+
+        else:
+            raise common.error(_("Connection refused !"), _("Unsupported protocol: %s" % protocol))
 
     def __getattr__(self, name):
         try:
@@ -255,60 +258,61 @@ class RPCSession(object):
         except:
             pass
 
-        return self.store.get(name)
+        return self.storage.get(name)
 
     def __setattr__(self, name, value):
-        if name in ('store'):
+        if name in self.__slots__:
             super(RPCSession, self).__setattr__(name, value)
         else:
-            self.store[name] = value
+            self.storage[name] = value
+
+    def __getitem__(self, name):
+        return self.storage.get(name)
+
+    def __setitem__(self, name, value):
+        self.storage[name] = value
+
+    def __delitem__(self, name):
+        try:
+            del self.storage[name]
+        except:
+            pass
+
+    def get(self, name, default=None):
+        return self.storage.get(name, default)
 
     def get_url(self):
-        return (self.gateway or None) and self.gateway.get_url()
+        return self.gateway.get_url()
 
-    def listdb(self, host, port, protocol='http'):
-        protocol = protocol or 'http'
+    def listdb(self):
+        return self.gateway.listdb()
 
-        if protocol in ('http', 'https'):
-            gw = XMLRPCGateway(host, port, protocol)
-        elif protocol == 'socket':
-            gw = NETRPCGateway(host, port)
-        else:
-            raise _("Unsupported protocol:"), protocol
+    def login(self, db, user, passwd):
 
-        self.gateway = gw
-        return gw.listdb()
+        if passwd is None:
+            return -1
 
-    def login(self, host, port, db, user, passwd, protocol='http'):
-    	if passwd is None:
-	    return -1
+        uid = self.gateway.login(db, user or '', passwd or '')
 
-        protocol = protocol or 'http'
+        if uid <= 0:
+            return -1
 
-        if protocol in ('http', 'https'):
-            gw = XMLRPCGateway(host, port, protocol)
-        elif protocol == 'socket':
-            gw = NETRPCGateway(host, port)
-        else:
-            raise _("Unsupported protocol:"), protocol
+        self.uid = uid
+        self.db = db
+        self.passwd = passwd
+        self.open = True
 
-        res = gw.login(db, user or '', passwd or '')
-
-        if res != 1: return res
-
-        self.gateway = gw
         # read the full name of the user
-        self.user_name = self.execute('object', 'execute', 'res.users', 'read', [session.uid], ['name'])[0]['name']
+        self.user_name = self.execute('object', 'execute', 'res.users', 'read', [uid], ['name'])[0]['name']
 
         # set the context
         self.context_reload()
 
-        return res
+        return uid
 
     def logout(self):
-        self.gateway = None
         try:
-            self.store.clear()
+            self.storage.clear()
         except Exception, e:
             pass
 
@@ -399,7 +403,8 @@ class RPCSession(object):
     def execute_db(self, method, *args):
         return self.gateway.execute_db(method, *args)
 
-# client must initialise session with store, e.g. session = RPCSession(store=dict())
+# Client must initialise session with storage.
+# for example: session = RPCSession('localhost', 8070, 'socket', storage=dict())
 session = None
 
 class RPCProxy(object):
@@ -442,16 +447,16 @@ class RPCFunction(object):
 
 if __name__=="__main__":
 
-    session = RPCSession(store=dict())
-
     host = 'localhost'
     port = '8070'
     protocol = 'socket'
 
-    res = session.listdb(host, port, protocol)
+    session = RPCSession(host, port, protocol, storage=dict())
+
+    res = session.listdb()
     print res
 
-    res = session.login(host, port, 'demo', 'admin', 'admin', protocol)
+    res = session.login('test421', 'admin', 'admin')
     print res
 
     res = RPCProxy('res.users').read([session.uid], ['name'])
@@ -459,3 +464,4 @@ if __name__=="__main__":
 
     res = RPCProxy('ir.values').get('action', 'tree_but_open', [('ir.ui.menu', 73)], False, {})
     print res
+

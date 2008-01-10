@@ -57,37 +57,11 @@ from turbogears.widgets import register_static_directory
 treegrid_static_dir = pkg_resources.resource_filename("tinyerp",  "static")
 register_static_directory("tinyerp", treegrid_static_dir)
 
-class SessionStore(object):
-
-    def __getitem__(self, name):
-        try:
-            return cherrypy.session[name]
-        except:
-            return None
-
-    def __setitem__(self, name, value):
-        try:
-            cherrypy.session[name] = value
-        except:
-            pass
-
-    def __delitem__(self, name):
-        try:
-            del cherrypy.session[name]
-        except:
-            pass
-
-    def get(self, name, default=None):
-        try:
-            return cherrypy.session.get(name, default)
-        except:
-            return default
-
-    def clear(self):
-        cherrypy.session.clear()
-
 # initialize the rpc session
-rpc.session = rpc.RPCSession(store=SessionStore())
+host = config.get('host', path="tinyerp")
+port = config.get('port', path="tinyerp")
+protocol = config.get('protocol', path="tinyerp")
+rpc.session = rpc.RPCSession(host, port, protocol, storage=cherrypy.session)
 
 class Root(controllers.RootController, TinyResource):
     """Turbogears root controller, see TG docs for more info.
@@ -154,19 +128,14 @@ class Root(controllers.RootController, TinyResource):
     @unsecured
     def login(self, db=None, user=None, passwd=None):
 
-        message=None
+        message = None
 
-        host = config.get('host', path="tinyerp")
-        port = config.get('port', path="tinyerp")
-        protocol = config.get('protocol', path="tinyerp")
-
-        dblist = rpc.session.listdb(host, port, protocol)
+        url = rpc.session.get_url()
+        dblist = rpc.session.listdb()
 
         if dblist == -1:
             dblist = []
             message = _("Could not connect to server !")
-
-        url = "%s://%s:%s"%(protocol, host, port)
 
         return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=message, origArgs={})
 
