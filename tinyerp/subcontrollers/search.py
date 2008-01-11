@@ -310,13 +310,9 @@ class Search(controllers.Controller, TinyResource):
         context = params.context or {}
 
         proxy = rpc.RPCProxy(model)
-
-        ids = proxy.name_search(text, domain, 'ilike', context)
-
-        if ids:
-            ids = [id[0] for id in ids]
-
-        return dict(ids=ids)
+        values = proxy.name_search(text, domain, 'ilike', context)
+        
+        return dict(values=values)
 
     @expose()
     def get_list(self, model, ids, list_id):

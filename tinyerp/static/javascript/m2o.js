@@ -53,10 +53,7 @@ ManyToOne.prototype.select = function(evt){
     if (this.field.value) {
         this.open(this.field.value);
     } else {
-        open_search_window(this.relation, 
-                           getNodeAttribute(this.field, 'domain'), 
-                           getNodeAttribute(this.field, 'context'), 
-                           this.name, 1, this.text.value);
+        this.get_matched();
     }
 }
 
@@ -87,7 +84,7 @@ ManyToOne.prototype.get_text = function(evt){
         this.text.value = '';
     }
 
-    if (this.field.value){
+    if (this.field.value && ! this.text.value){
         var req = Ajax.JSON.get('/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
 
@@ -172,8 +169,10 @@ ManyToOne.prototype.get_matched = function(){
                                                          _terp_domain: domain, 
                                                          _terp_context: context});
         req2.addCallback(function(obj){
-            if (obj.ids.length == 1) {
-                m2o.field.value = obj.ids[0];
+            if (obj.values.length == 1) {
+                val = obj.values[0];
+                m2o.field.value = val[0];
+                m2o.text.value = val[1];
                 m2o.on_change();
             }else{
                 open_search_window(relation, domain, context, m2o.name, 1, text);
