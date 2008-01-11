@@ -190,4 +190,11 @@ ManyToOne.prototype.get_matched = function(){
     });
 }
 
+ManyToOne.change_icon = function(field) {
+    var field = $(field);
+    var img = $(field.id + '_select');
+    
+    img.src = '/static/images/stock/gtk-' + (field.value ? 'open' : 'find') + '.png';
+}
+
 // vim: sts=4 st=4 et

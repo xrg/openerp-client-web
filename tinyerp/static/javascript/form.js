@@ -398,6 +398,7 @@ var onChange = function(name) {
                     //getName(fld);
                     fld.value = value[0] || '';
                     $(prefix + k + '_text').value = value[1] || '';
+                    ManyToOne.change_icon(fld);
                 }
 
                 if (kind == 'many2many'){
