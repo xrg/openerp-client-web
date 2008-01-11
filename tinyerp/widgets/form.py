@@ -92,7 +92,7 @@ class Frame(TinyCompoundWidget):
 
             if isinstance(child, NewLine):
                 self.add_row()
-            elif getattr(child, 'visible', True):
+            elif getattr(child, 'visible', True) or isinstance(child, Button):
                 self.add(child, string, rowspan, colspan)
             elif isinstance(child, TinyInputWidget):
                 self.hiddens += [child]
