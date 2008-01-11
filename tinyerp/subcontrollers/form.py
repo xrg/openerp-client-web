@@ -705,14 +705,26 @@ class Form(controllers.Controller, TinyResource):
         current = params.chain_get(str(params.source) or '') or params
 
         return self.create(current)
-
+    
     @expose('json')
     def on_change(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        caller = params.caller
-        callback = params.callback
-        model = params.model
+        
+        data = kw.copy()
+        
+        callback = data.pop('_terp_callback')
+        caller = data.pop('_terp_caller')
+        model = data.pop('_terp_model')
+        
+        match = re.match('^(.*?)\((.*)\)$', callback)
+        
+        if not match:
+            raise common.error(_('Error'), _('Wrong on_change trigger: %s') % callback)
+        
+        for k, v in data.items():
+            try:
+                data[k] = eval(v)
+            except:
+                pass
 
         result = {}
 
@@ -727,16 +739,11 @@ class Form(controllers.Controller, TinyResource):
             ctx = ctx.chain_get(prefix)
 
             if '/' in prefix:
-                prefix = prefix.rsplit('/', 1)[0]
-                pctx = pctx.chain_get(prefix)
+                pprefix = prefix.rsplit('/', 1)[0]
+                pctx = pctx.chain_get(pprefix)
 
         ctx['parent'] = pctx
         ctx['context'] = rpc.session.context.copy()
-
-        match = re.match('^(.*?)\((.*)\)$', callback)
-
-        if not match:
-            raise common.error(_('Error'), _('Wrong on_change trigger: %s') % callback)
 
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]
@@ -757,10 +764,30 @@ class Form(controllers.Controller, TinyResource):
             response['value'] = {}
 
         result.update(response)
+        
+        # apply validators (transform values from python)
+        values = result['value']
+        values2 = {}
+        for k, v in values.items():
+            key = ((prefix or '') and prefix + '/') + k
 
-        for k, v in result['value'].items():
-            if isinstance(v, tuple):
-                result['value'][k] = (v or '') and v[0]
+            if key in data:
+                values2[k] = data[key]
+                values2[k]['value'] = v
+            else:
+                values2[k] = {'value': v}
+
+        values = TinyForm(**values2).make_plain()
+
+        # get name of m2o and reference fields
+        for k, v in values2.items():
+            kind = v.get('type')
+            relation = v.get('relation')
+            
+            if relation and kind in ('many2one', 'reference') and values.get(k):
+                values[k] = [values[k], tw.many2one.get_name(relation, values[k])]
+
+        result['value'] = values
 
         # convert domains in string to prevent them being converted in JSON
         if 'domain' in result:

@@ -171,7 +171,6 @@ ManyToOne.prototype.get_matched = function(){
         var req2 = Ajax.JSON.get('/search/get_matched', {model: relation, text: text, 
                                                          _terp_domain: domain, 
                                                          _terp_context: context});
-
         req2.addCallback(function(obj){
             if (obj.ids.length == 1) {
                 m2o.field.value = obj.ids[0];

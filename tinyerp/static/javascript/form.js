@@ -289,6 +289,10 @@ var getFormData = function(extended) {
 
             if (kind)
                 attrs['type'] = kind;
+                
+            if (extended && kind == 'many2one'){
+                attrs['relation'] = getNodeAttribute(e, 'relation');
+            }
 
             if (extended > 1 && hasElementClass(e, 'requiredfield'))
                 attrs['required'] =  1;
@@ -332,26 +336,19 @@ var getFormParams = function(){
     return frm;
 }
 
-/**
- * This function will be used by widgets that has `onchange` trigger is defined.
- */
 var onChange = function(name) {
 
     var caller = $(name);
     var callback = getNodeAttribute(caller, 'callback');
+    
+    if (!callback)
+        return;
 
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
-
-    var prefix = caller.name.split("/");
-    prefix.pop();
-    prefix = prefix.join("/");
-    prefix = prefix ? prefix + '/' : '';
+    var prefix =  caller.name.slice(0, caller.name.lastIndexOf('/')+1);
 
     var vals = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
-
-    if (!callback)
-        return;
 
     vals['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
     vals['_terp_callback'] = callback;
@@ -364,7 +361,7 @@ var onChange = function(name) {
         if (obj.error) {
             return alert(obj.error);
         }
-
+        
         values = obj['value'];
         domains = obj['domain'];
 
@@ -392,13 +389,15 @@ var onChange = function(name) {
                 flag = true;
             }
 
-            if ((fld.value != value) || flag) {
+            if ((fld.value !== value) || flag) {
                 fld.value = value;
 
                 var kind = getNodeAttribute(fld, 'kind');
 
-                if (kind == 'many2one' || kind == 'reference'){
-                    getName(fld);
+                if (kind == 'many2one'){
+                    //getName(fld);
+                    fld.value = value[0] || '';
+                    $(prefix + k + '_text').value = value[1] || '';
                 }
 
                 if (kind == 'many2many'){
@@ -406,6 +405,7 @@ var onChange = function(name) {
                 }
             }
         }
+
     });
 }
 

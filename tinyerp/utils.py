@@ -202,9 +202,20 @@ class TinyForm(TinyDict):
             kw[name] = value
             
         params, data = TinyDict.split(kw)
-        params = params.form
+        params = params.form or {}
         
         super(TinyForm, self).__init__(**params)
+        
+    def make_plain(self, prefix=''):
+        res = {}
+    
+        for k, v in self.items():
+            if isinstance(v, dict):
+                res.update(make_plain(v, prefix + k +'/'))
+            else:
+                res[prefix + k] = v
+
+        return res
 
 if __name__ == "__main__":
     
