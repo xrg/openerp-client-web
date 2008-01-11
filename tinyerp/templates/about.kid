@@ -29,7 +29,7 @@ Licenced under the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.htm
 </p>
 
 <p>
-<i>eTiny</i> is know to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
+<i>eTiny</i> is known to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
 </p>
 
             </td>
