@@ -85,7 +85,7 @@ ManyToOne.prototype.get_text = function(evt){
     }
 
     if (this.field.value && ! this.text.value){
-        var req = Ajax.JSON.get('/search/get_name', {model: this.relation, id : this.field.value});
+        var req = Ajax.JSON.post('/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
 
         req.addCallback(function(obj){
@@ -165,7 +165,7 @@ ManyToOne.prototype.get_matched = function(){
 
     var do_get_matched = function(relation, text, domain, context){
 
-        var req2 = Ajax.JSON.get('/search/get_matched', {model: relation, text: text, 
+        var req2 = Ajax.JSON.post('/search/get_matched', {model: relation, text: text, 
                                                          _terp_domain: domain, 
                                                          _terp_context: context});
         req2.addCallback(function(obj){
