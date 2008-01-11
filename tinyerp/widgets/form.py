@@ -94,8 +94,10 @@ class Frame(TinyCompoundWidget):
                 self.add_row()
             elif getattr(child, 'visible', True):
                 self.add(child, string, rowspan, colspan)
-            else:
+            elif isinstance(child, TinyInputWidget):
                 self.hiddens += [child]
+            else:
+                pass
 
         self.fields = []
 
