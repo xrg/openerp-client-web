@@ -57,8 +57,9 @@ class Frame(TinyCompoundWidget):
     template = "tinyerp.widgets.templates.frame"
 
     params = ['table']
-    member_widgets = ['children']
+    member_widgets = ['children', 'hiddens']
 
+    hiddens = None
     table = []
 
     def __init__(self, attrs, children):
@@ -81,6 +82,7 @@ class Frame(TinyCompoundWidget):
         self.add_row()
 
         self.children = children
+        self.hiddens = []
 
         for child in children:
 
@@ -90,8 +92,10 @@ class Frame(TinyCompoundWidget):
 
             if isinstance(child, NewLine):
                 self.add_row()
-            else:
+            elif getattr(child, 'visible', True):
                 self.add(child, string, rowspan, colspan)
+            else:
+                self.hiddens += [child]
 
         self.fields = []
 
@@ -240,13 +244,13 @@ class Label(TinyField):
 
 class Char(TinyField):
     template = "tinyerp.widgets.templates.char"
-    params = ['invisible', 'size']
+    params = ['password', 'size']
     invisible = False
 
     def __init__(self, attrs={}):
         super(Char, self).__init__(attrs)
         self.validator = tiny_validators.String()
-        self.invisible = attrs.get('invisible', False)
+        self.password = attrs.get('password', False)
         self.size = attrs.get('size')
 
     def set_value(self, value):
@@ -680,13 +684,17 @@ class Form(TinyCompoundWidget):
                 # XXX: update widgets also
                 attrs['value'] = values.get(name, None)
 
+                # password field? then let XML attrs overrides invisible property.
+                if fields[name].get('type') == 'char' and 'invisible' in fields[name]:
+                    attrs['password'] = fields[name].pop('invisible')
+
                 try:
                     fields[name].update(attrs)
                 except:
                     print "-"*30,"\n malformed tag for :", attrs
                     print "-"*30
                     raise
-
+                
                 kind = fields[name]['type']
 
                 if kind not in widgets_type:

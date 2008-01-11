@@ -57,6 +57,7 @@ class TinyWidget(object):
     help = None
     editable = True
     translatable = False
+    visible = True
 
     name = None
     model = None
@@ -83,6 +84,7 @@ class TinyWidget(object):
         self.nolabel = eval_get(attrs, 'nolabel', False)
         self.required = eval_get(attrs, 'required', False)
         self.readonly = eval_get(attrs, 'readonly', False)
+        self.visible = not eval_get(attrs, 'invisible', False)
 
         self.help = attrs.get('help')
         self.editable = attrs.get('editable', True)
