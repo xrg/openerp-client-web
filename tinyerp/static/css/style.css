@@ -245,6 +245,12 @@ td.label_header {
     font-weight: bold;    
 }
 
+div.label_header {
+    text-align: center;
+    color: #990033;
+    font-size: 12px;        
+}
+
 div.message {
     background-color: red;
     color: white;
