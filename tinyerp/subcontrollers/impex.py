@@ -344,18 +344,18 @@ class ImpEx(controllers.Controller, TinyResource):
         try:
             data = csv.reader(csvfile.file, quotechar=str(csvdel), delimiter=str(csvsep))
         except:
-            raise common.warning('Error opening .CSV file', 'Input Error.')
+            raise common.warning(_('Error opening .CSV file'), _('Input Error.'))
 
         fields = []
         word=''
         try:
             for line in data:
                 for word in line:
-                    word=word.decode(csvcode).encode('utf-8')
+                    word = ustr(word.decode(csvcode))
                     fields += [(_fields_invert[word], word)]
                 break
         except:
-            raise common.warning('Error processing your first line of the file.\nField %s is unknown !' % (word,), 'Import Error.')
+            raise common.warning(_('Error processing your first line of the file.\nField %s is unknown !') % (word,), _('Import Error.'))
 
         kw['fields'] = fields
         return self.imp(**kw)
@@ -375,14 +375,14 @@ class ImpEx(controllers.Controller, TinyResource):
         try:
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas)
         except Exception, e:
-            raise common.warning(str(e), _('XML-RPC error !'))
+            raise common.warning(ustr(e), _('XML-RPC error !'))
         if res[0]>=0:
             raise common.message(_('Imported %d objects !') % (res[0],))
         else:
             d = ''
             for key,val in res[1].items():
-                d+= ('\t%s: %s\n' % (str(key),str(val)))
-            error = u'Error trying to import this record:\n%s\nError Message:\n%s\n\n%s' % (d,res[2],res[3])
-            raise common.error('Importation Error !', unicode(error))
+                d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
+            error = _('Error trying to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
+            raise common.error(_('Importation Error !'), unicode(error))
 
         return self.imp(**kw)
