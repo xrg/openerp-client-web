@@ -9,9 +9,26 @@
 
     <script type="text/javascript">
 
-        MochiKit.DOM.addLoadEvent(function on_load(){
+        function on_load(){
+            var pwin = window.opener;
 
-            var lc = parseInt($('_terp_load_counter').value) || 0;
+            var pform = pwin.document.getElementById('view_form');
+            var fields = [];
+
+            forEach(pform.elements, function(e){
+                if (e.name &amp;&amp; e.type != 'button' &amp;&amp; e.name.indexOf('${params.o2m}') != 0){
+                    var fld = INPUT({'type':'hidden', 'name': e.name, 'id' : e.id, 'onchange' : e.onchange, 'value': e.value});
+                    fld.disabled = true;
+
+                    fields = fields.concat(fld);
+                }
+            });
+
+            appendChildNodes('view_form', fields);
+
+            var lc = $('_terp_load_counter').value;
+
+            lc = parseInt(lc) || 0;
 
             if (lc > 0) {
                 window.opener.setTimeout("new ListView('${params.o2m}').reload()", 0);
@@ -21,7 +38,9 @@
                 window.close();
             }
 
-        });
+        }
+
+        connect(window, "onload", on_load);
     </script>
 
 </head>

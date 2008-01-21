@@ -63,9 +63,9 @@ One2Many.prototype = {
         var args = {_terp_parent_model: this.parent_model,
                     _terp_parent_id: this.parent_id,
                     _terp_o2m: this.name,
-                    _terp_model: this.model,
-                    _terp_id: id};
-
+                    _terp_o2m_model: this.model,
+                    _terp_o2m_id: id};
+                    
         if (id && id != 'False' && !this.default_get_ctx){
             return openWindow(getURL('/openo2m/edit', args));
         }
@@ -73,7 +73,7 @@ One2Many.prototype = {
         var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
         
         req.addCallback(function(res){
-            args['_terp_context'] = res.context;
+            args['_terp_o2m_context'] = res.context;
             return openWindow(getURL('/openo2m/edit', args));
         });
     

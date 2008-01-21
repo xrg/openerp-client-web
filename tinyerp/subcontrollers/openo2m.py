@@ -46,11 +46,15 @@ class OpenO2M(Form):
     
     path = '/openo2m'    # mapping from root
     
-    def create_form(self, params, tg_errors=None):
-             
-        params.view_mode = ['form']
+    def create_form(self, params, tg_errors=None):        
+        
+        params.id = params.o2m_id
+        params.model = params.o2m_model        
+        params.view_mode = ['form', 'tree']
         params.view_type = 'form'
         
+        params.prefix = params.o2m.split('/').pop()
+
         view = cache.fields_view_get(params.parent_model, False, 'form', rpc.session.context)
         parent = TinyDict()
 
@@ -60,13 +64,20 @@ class OpenO2M(Form):
         views = parent.get(params.o2m)
         if views and 'views' in views:
             params.views = views['views']
-        
-        form = super(OpenO2M, self).create_form(params, tg_errors=tg_errors)
-        form.action = "/openo2m/save"
 
+        ctx = params.context or {}
+        ctx.update(params.o2m_context or {})
+        p, ctx = TinyDict.split(ctx)
+        
+        params.context = ctx or {}
+
+        form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
         form.hidden_fields = [widgets.HiddenField(name='_terp_parent_model', default=params.parent_model),
                               widgets.HiddenField(name='_terp_parent_id', default=params.parent_id),
-                              widgets.HiddenField(name='_terp_o2m', default=params.o2m)]
+                              widgets.HiddenField(name='_terp_o2m', default=params.o2m),                              
+                              widgets.HiddenField(name='_terp_o2m_id', default=params.id or None),
+                              widgets.HiddenField(name='_terp_o2m_model', default=params.o2m_model),
+                              widgets.HiddenField(name=params.prefix + '/__id', default=params.id or None)]
 
         return form
     
@@ -110,16 +121,15 @@ class OpenO2M(Form):
             return self.create(params, tg_errors=tg_errors)
        
         proxy = rpc.RPCProxy(params.parent_model)
-        
-        id = params.id or 0      
-        data = {params.o2m : [(id and 1, id, data)]}
-
         id = proxy.write([params.parent_id], data, rpc.session.context)
         
         params.load_counter = 1
-        if params.id:
+
+        prefix = params.o2m.split('/').pop()
+        current = params.chain_get(prefix)        
+        if current and current.id:
             params.load_counter = 2
-            
+
         return self.create(params)
     
     @expose()    
