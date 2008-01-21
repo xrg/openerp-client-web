@@ -46,42 +46,17 @@ class OpenO2M(Form):
     
     path = '/openo2m'    # mapping from root
     
-    def create_form(self, params, tg_errors=None):        
+    def create_form(self, params, tg_errors=None):
+             
+        params.view_mode = ['form']
+        params.view_type = 'form'
         
-        params.id = params.o2m_id
-        params.model = params.o2m_model        
-        params.view_mode = ['form', 'tree']
-        
-        params.prefix = params.o2m
-        params.editable = True        
-        
-        params.offset = params.offset or 0
-        params.limit = params.limit or 20
-        params.count = params.count or 0
+        form = super(OpenO2M, self).create_form(params, tg_errors=tg_errors)
+        form.action = "/openo2m/save"
 
-        view = cache.fields_view_get(params.parent_model, False, 'form', rpc.session.context)
-        parent = TinyDict()
-
-        for k, v in view['fields'].items():
-            parent[k] = v
-
-        views = parent.get(params.o2m)
-        if views and 'views' in views:
-            params.views = views['views']
-
-        ctx = params.context or {}
-        ctx.update(params.o2m_context or {})
-        p, ctx = TinyDict.split(ctx)
-        
-        params.context = ctx or {}
-
-        form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
         form.hidden_fields = [widgets.HiddenField(name='_terp_parent_model', default=params.parent_model),
                               widgets.HiddenField(name='_terp_parent_id', default=params.parent_id),
-                              widgets.HiddenField(name='_terp_o2m', default=params.o2m),                              
-                              widgets.HiddenField(name='_terp_o2m_id', default=params.id or None),
-                              widgets.HiddenField(name='_terp_o2m_model', default=params.o2m_model),
-                              widgets.HiddenField(name=params.o2m + '/__id', default=params.id or None)]
+                              widgets.HiddenField(name='_terp_o2m', default=params.o2m)]
 
         return form
     
@@ -124,18 +99,15 @@ class OpenO2M(Form):
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
        
-        proxy = rpc.RPCProxy(params.parent_model)        
-       
-        if not params.parent_id:
-            id = proxy.create(data, rpc.session.context)
-            params.parent_id = int(id)
-        else:
-            id = proxy.write([params.parent_id], data, rpc.session.context)
+        proxy = rpc.RPCProxy(params.parent_model)
+        
+        id = params.id or 0      
+        data = {params.o2m : [(id and 1, id, data)]}
+
+        id = proxy.write([params.parent_id], data, rpc.session.context)
         
         params.load_counter = 1
-        
-        current = params.chain_get(params.o2m or '')        
-        if current.id:
+        if params.id:
             params.load_counter = 2
             
         return self.create(params)
