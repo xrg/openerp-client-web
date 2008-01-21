@@ -30,11 +30,15 @@
 // Based on MochiKit `sortable_table` demo
 
 mouseOverFunc = function () {
-    addElementClass(this, "over");
+    try{
+        addElementClass(this, "over");
+    } catch(e){}
 };
 
 mouseOutFunc = function () {
-    removeElementClass(this, "over");
+    try{
+        removeElementClass(this, "over");
+    } catch(e){}
 };
 
 ignoreEvent = function (ev) {
