@@ -53,7 +53,7 @@ class OpenO2M(Form):
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
         
-        params.prefix = params.o2m.split('/').pop()
+        params.prefix = params.o2m
 
         view = cache.fields_view_get(params.parent_model, False, 'form', rpc.session.context)
         parent = TinyDict()
@@ -121,18 +121,23 @@ class OpenO2M(Form):
             return self.create(params, tg_errors=tg_errors)
        
         proxy = rpc.RPCProxy(params.parent_model)
+
+        pprefix = '.'.join(params.o2m.split('/')[:-1])        
+        if pprefix:
+            data = eval(pprefix, data)
+
         id = proxy.write([params.parent_id], data, rpc.session.context)
         
         params.load_counter = 1
 
-        prefix = params.o2m.split('/').pop()
-        current = params.chain_get(prefix)        
+        prefix = params.o2m
+        current = params.chain_get(prefix)
         if current and current.id:
             params.load_counter = 2
 
         return self.create(params)
     
-    @expose()    
+    @expose()
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
         return self.create(params)
