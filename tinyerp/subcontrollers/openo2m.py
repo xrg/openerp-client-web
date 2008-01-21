@@ -51,6 +51,16 @@ class OpenO2M(Form):
         params.view_mode = ['form']
         params.view_type = 'form'
         
+        view = cache.fields_view_get(params.parent_model, False, 'form', rpc.session.context)
+        parent = TinyDict()
+
+        for k, v in view['fields'].items():
+            parent[k] = v
+
+        views = parent.get(params.o2m)
+        if views and 'views' in views:
+            params.views = views['views']
+        
         form = super(OpenO2M, self).create_form(params, tg_errors=tg_errors)
         form.action = "/openo2m/save"
 
