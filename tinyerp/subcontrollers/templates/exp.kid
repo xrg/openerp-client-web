@@ -57,7 +57,6 @@
                 select.options.add(new Option(text, id));
             });
         }
-
 		
         function open_savelist(id) {
             if($(id).style.display == 'none') {
@@ -126,7 +125,6 @@
 
             setNodeAttribute(form, 'action', getURL('/impex/delete_listname', params));
             form.submit();
-        
         }
         
         function reload(name_list) {
@@ -192,12 +190,12 @@
         </tr>        
         <tr>
             <td>
-                <div id='exported_list' py:content="new_list.display()" style="height: 142px; overflow: auto;">                    
+                <div py:if="new_list.ids" id='exported_list' py:content="new_list.display()" style="height: 142px; overflow: auto;">                    
                 </div>
             </td>
         </tr>
         <tr>
-            <td class="toolbar">
+            <td py:if="new_list.ids" class="toolbar">
                 <button type="button" onclick="delete_listname(form);">Delete</button>
             </td>
         </tr>
