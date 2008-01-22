@@ -75,6 +75,10 @@ var editRecord = function(id, src){
 }
 
 var viewRecord = function(id, src){
+	
+	if (src && src != '_terp_list') {
+        return new One2Many(src).edit(id, true);
+    }
 
     var prefix = src && src != '_terp_list' ? src + '/' : '';
     var model = $(prefix + '_terp_model').value;

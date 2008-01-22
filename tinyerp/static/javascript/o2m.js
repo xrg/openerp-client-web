@@ -58,13 +58,14 @@ One2Many.prototype = {
         this.edit(null);    
     },
     
-    edit : function(id){
+    edit : function(id, readonly){
 
         var args = {_terp_parent_model: this.parent_model,
                     _terp_parent_id: this.parent_id,
                     _terp_o2m: this.name,
                     _terp_o2m_model: this.model,
-                    _terp_o2m_id: id};
+                    _terp_o2m_id: id,
+                    _terp_editable: readonly ? 0 : 1};
                     
         if (id && id != 'False' && !this.default_get_ctx){
             return openWindow(getURL('/openo2m/edit', args));
