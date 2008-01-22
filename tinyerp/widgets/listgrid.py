@@ -116,7 +116,6 @@ class List(TinyCompoundWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
-        self.link = attrs.get('link', 1)
 
         self.colors = {}
         for color_spec in attrs.get('colors', '').split(';'):
