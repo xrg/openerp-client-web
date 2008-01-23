@@ -315,7 +315,7 @@ class Form(controllers.Controller, TinyResource):
                 return res
 
         else:
-            raise common.warning('Unallowed button type')
+            raise common.warning(_('Unallowed button type'))
 
         params.button = None
 

@@ -42,7 +42,7 @@ def start():
               pkg_resources.Requirement.parse("eTiny"), 
                 "config/default.cfg")
         except pkg_resources.DistributionNotFound:
-            raise ConfigurationError("Could not find default configuration.")
+            raise ConfigurationError(_("Could not find default configuration."))
 
     turbogears.update_config(configfile=configfile,
         modulename="tinyerp.config")
