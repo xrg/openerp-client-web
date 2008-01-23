@@ -211,4 +211,4 @@ Here is the list of supported browsers.
  TODO: support info
 
 -------------------------------------------------------------------------------
-Copyright (c) 2007-TODAY Tiny ERP Pvt. Ltd.
+Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd.
