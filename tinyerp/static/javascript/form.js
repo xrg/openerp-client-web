@@ -443,6 +443,10 @@ function getName(name, relation){
 }
 
 function eval_domain_context_request(options){
+    
+    if ((!options.domain || options.domain == '[]') && (!options.context || options.context == '{}')) {
+        return new MochiKit.Async.succeed(-1);
+    }
 
     var prefix = options.source.split("/");
     prefix.pop();
