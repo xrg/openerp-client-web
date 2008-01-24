@@ -53,14 +53,19 @@
             }
 
             value_field = window.opener.document.getElementById('${params.source}');
+            text_field = window.opener.document.getElementById('${params.source}_text');
 
             value_field.value = id;
+            
+            if (text_field){
+                text_field.value = '';
+            }
 
             if (!isUndefinedOrNull(value_field.onchange)){
                 window.opener.setTimeout("$('${params.source}').onchange()", 0);
-               }else{
-               window.opener.setTimeout("MochiKit.Signal.signal('${params.source}', 'onchange')", 0);
-               }
+            }else{
+                window.opener.setTimeout("MochiKit.Signal.signal('${params.source}', 'onchange')", 0);
+            }
 
             window.setTimeout("window.close()", 5);
         }

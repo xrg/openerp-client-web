@@ -8,19 +8,21 @@
     </script>
 
     <script type="text/javascript">
-        function on_load() {
-            if (document.getElementsByName("_terp_id")[0] &amp;&amp; document.getElementsByName("_terp_id")[0].value != 'False')
-                window.opener.document.getElementById('${params.m2o}').value = $("_terp_id").value;
-            window.opener.setTimeout("signal($('${params.m2o}'), 'onchange')", 0);
+        MochiKit.DOM.addLoadEvent(function(evt) {
+        
+            var id = parseInt(MochiKit.DOM.getElement('_terp_id').value) || null;
+            var lc = parseInt(MochiKit.DOM.getElement('_terp_load_counter').value) || 1;
 
-            var lc = $('_terp_load_counter').value;
-            lc = parseInt(lc) || 1;
+            if (lc &gt; 1 &amp;&amp; id) {
+                window.opener.document.getElementById('${params.m2o}').value = id;
+                window.opener.document.getElementById('${params.m2o}_text').value = '';
+                window.opener.setTimeout("signal($('${params.m2o}'), 'onchange')", 0);
+            }
 
             if (lc > 1) {
                 window.close();
             }
-        }
-        connect(window, 'onload', on_load);
+        });
     </script>
 
 </head>
