@@ -119,7 +119,7 @@
                     </div>
                 
                     <div class="view" py:if="mode=='db_config'">
-                        <div class="box2 welcome">Config Editor</div>
+                        <div class="box2 welcome">Configuration</div>
                         <div>
                             <form id="view_form" action="/admin/setconf" method="post" enctype="multipart/form-data">
                                 <div class="box2" id="config">
@@ -147,7 +147,13 @@
                                         <tr>
                                             <td align='right' class="label">Protocol :</td>
                                             <td>
-                                                <input type="text" name="protocol" value="${protocol}" style="width: 99%;"/>
+                                                <select name="protocol" style="width: 100%;">
+	                                                <span>
+	                                                	<option selected="${tg.selector(protocol=='socket')}" value='socket'>NET-RPC (faster)</option>
+	                                                    <option selected="${tg.selector(protocol=='http')}" value='http'>XML-RPC</option>
+	                                                    <option selected="${tg.selector(protocol=='https')}" value='https'>XML-RPC secure</option>
+	                                                </span>
+	                                            </select>
                                                 <span py:if="'protocol' in tg.errors" class="fielderror">${tg.errors['protocol']}</span>
                                             </td>
                                         </tr>
@@ -211,7 +217,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="label_header"><u>Note</u> : Any changes in Config Editor required to restart eTiny server.</div>
+                                <div class="label_header"><u>Note</u> : Any changes in configuration needs to restart eTiny.</div>
                             </form>
                         </div>
                     </div>
