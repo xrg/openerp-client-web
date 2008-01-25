@@ -90,7 +90,7 @@
                 <td>                
                     <div class="view" py:if="mode=='authorize'">
                         <div class="box2 welcome">Administration</div>
-                        <div py:if="not tg.errors and not passwd or message">
+                        <div>
                             <form name="config" action="/admin/login" method="post">
                                 <div class="box2" id="passwd">
                                     <table align="center" border="0" width="100%">
