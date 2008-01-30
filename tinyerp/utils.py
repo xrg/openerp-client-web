@@ -150,9 +150,9 @@ class TinyForm(TinyDict):
     def __init__(self, **kwargs):          
         
         VALIDATORS = {
-            'date': tw_validators.DateTime(format="%Y-%m-%d"),
-            'time': tw_validators.DateTime(format="%H:%M:%S"),        
-            'datetime': tw_validators.DateTime(format="%Y-%m-%d %H:%M:%S"),
+            'date': tw_validators.DateTime(kind="date"),
+            'time': tw_validators.DateTime(kind="time"),  
+            'datetime': tw_validators.DateTime(kind="datetime"),
             'float_time': tw_validators.FloatTime(),
             'float': tw_validators.Float(),
             'integer': tw_validators.Int(),
@@ -224,8 +224,8 @@ if __name__ == "__main__":
           'view_ids/_terp_view_ids': '[False, False]',
           'view_ids/child/_terp_view_ids': '[112, 111]'
     }
-    params, data = TinyDict.split(kw)
     
+    params, data = TinyDict.split(kw)
     
     params.domain = "[1]"
     params.setdefault('domain', 'something...')

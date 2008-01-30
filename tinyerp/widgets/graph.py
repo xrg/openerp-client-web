@@ -30,7 +30,6 @@
 
 import os
 import time
-import locale
 import xml.dom.minidom
 
 from tinyerp import rpc
@@ -40,16 +39,6 @@ from tinyerp import common
 from tinyerp.cache import cache
 
 from interface import TinyCompoundWidget
-
-DT_FORMAT = '%Y-%m-%d'
-DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
-HM_FORMAT = '%H:%M:%S'
-
-if not hasattr(locale, 'nl_langinfo'):
-    locale.nl_langinfo = lambda *a: '%x'
-
-if not hasattr(locale, 'D_FMT'):
-    locale.D_FMT = None
 
 class Graph(TinyCompoundWidget):
 
@@ -122,26 +111,16 @@ class GraphData(object):
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
                     res[x] = ustr(res[x])
+                    
                 elif fields[x]['type'] == 'date':
-                    date = time.strptime(value[x], DT_FORMAT)
-                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
+                    res[x] = tools.server_to_local_datetime(res[x], "date")
+                    
                 elif fields[x]['type'] == 'datetime':
-                    date = time.strptime(value[x], DHM_FORMAT)
-                    if 'tz' in rpc.session.context:
-                        try:
-                            import pytz
-                            lzone = pytz.timezone(rpc.session.context['tz'])
-                            szone = pytz.timezone(rpc.session.timezone)
-                            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
-                            sdt = szone.localize(dt, is_dst=True)
-                            ldt = sdt.astimezone(lzone)
-                            date = ldt.timetuple()
-                        except:
-                            pass
-                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
+                    res[x] = tools.server_to_local_datetime(res[x], "datetime")
+                    
                 else:
                     res[x] = float(value[x])
-                    
+
             self.values.append(res)
 
         self.axis = axis

@@ -364,23 +364,22 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 
     params = ["format"]
 
-    format = "%Y-%m-%d %H:%M:%S"
+    format = tools.DT_LOCAL_FORMATS['datetime']
     picker_shows_time = True
     button_text = 'Select'
-
+    
     css = [tg.widgets.CSSLink(tg.widgets.base.static, "calendar/skins/aqua/theme.css")]
 
     def __init__(self, attrs={}):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.CalendarDatePicker.__init__(self, name=self.name, not_empty=False)
+        
+        self.format = tools.DT_LOCAL_FORMATS[attrs['type']]
 
         if attrs['type'] == 'date':
-            self.format = "%Y-%m-%d"
             self.picker_shows_time = False
-        elif attrs['type'] == 'time':
-            self.format = "%H:%M:%S"
 
-        self.validator = tiny_validators.DateTime(format=self.format)
+        self.validator = tiny_validators.DateTime(kind=attrs['type'])
 
     def set_value(self, value):
         try:

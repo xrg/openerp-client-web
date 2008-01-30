@@ -39,6 +39,8 @@ import locale
 
 import turbogears as tg
 
+from tinyerp import tools
+
 class String(tg.validators.String):
     if_empty = False
 
@@ -108,14 +110,19 @@ class FloatTime(Float):
             pass
         
         return 0.0
-
+    
 class DateTime(tg.validators.DateTimeConverter):
     if_empty = False
-
+    kind = "datetime"
+    
     def _to_python(self, value, state):
+        # do validation
         res = super(DateTime, self)._to_python(value, state)
         # return str instead of real datetime object
-        return value
+        return tools.local_to_server_datetime(value, kind=self.kind)
+
+    def _from_python(self, value, state):
+        return tools.server_to_local_datetime(value, kind=self.kind)
 
 class Selection(tg.validators.FancyValidator):
     if_empty = False

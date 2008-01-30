@@ -325,6 +325,9 @@ class TinyCalendar(interface.TinyCompoundWidget):
             
             if n > self.day_length:
                 span = math.floor(n / 24)
+
+        starts = tools.server_to_local_datetime(starts, "datetime", True)
+        ends = tools.server_to_local_datetime(ends, "datetime", True)
         
         color_key = event.get(self.color_field) 
         color = self.colors.get(color_key)

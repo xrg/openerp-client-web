@@ -221,6 +221,11 @@ class NETRPCGateway(RPCGateway):
         sock.disconnect()
         return res
 
+# XXX: Fix tinyerp server to return PyTZ compatible timezone name
+_TZ_ALIASES = {
+    'IST' : 'Asia/Calcutta'
+}
+
 class RPCSession(object):
     """This is a wrapper class that provides Pythonic way to handle RPC (remote procedure call).
     It also provides a way to store session data into different kind of storage.
@@ -346,6 +351,7 @@ class RPCSession(object):
 #                            gtk.widget_set_default_direction(gtk.TEXT_DIR_LTR)
             elif c[1] == 'tz':
                 self.timezone = self.execute('common', 'timezone_get')
+                self.timezone = _TZ_ALIASES.get(self.timezone, self.timezone)
                 try:
                     import pytz
                 except:
