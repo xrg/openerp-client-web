@@ -382,15 +382,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
         self.validator = tiny_validators.DateTime(kind=attrs['type'])
 
     def set_value(self, value):
-        try:
-            try:
-                value = time.strftime(self.format, time.strptime(value, "%Y-%m-%d %H:%M:%S"))
-            except:
-                value = time.strftime(self.format, time.strptime(value, self.format))
-        except:
-            value = False
-
-        self._default = value
+        self._default = value or False
 
 class Binary(TinyField):
     template = "tinyerp.widgets.templates.binary"
