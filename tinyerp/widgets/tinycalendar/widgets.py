@@ -87,7 +87,7 @@ class GroupBox(tg.widgets.CompoundWidget, interface.TinyWidget):
 class MonthCalendar(TinyCalendar):
 
     template = 'tinyerp.widgets.tinycalendar.templates.month'
-    params = ['month', 'events', 'selected_day', 'calendar_fields']
+    params = ['month', 'events', 'selected_day', 'calendar_fields', 'date_format']
     member_widgets = ['minical', 'groupbox', 'use_search']    
 
     month = None
@@ -125,7 +125,7 @@ class MonthCalendar(TinyCalendar):
             
 class WeekCalendar(TinyCalendar):
     template = 'tinyerp.widgets.tinycalendar.templates.week'
-    params = ['week', 'events', 'selected_day', 'calendar_fields']
+    params = ['week', 'events', 'selected_day', 'calendar_fields', 'date_format']
     member_widgets = ['minical', 'groupbox', 'use_search']
     
     week = None
@@ -150,7 +150,7 @@ class WeekCalendar(TinyCalendar):
 
 class DayCalendar(TinyCalendar):
     template = 'tinyerp.widgets.tinycalendar.templates.day'
-    params = ['day', 'events', 'calendar_fields']
+    params = ['day', 'events', 'calendar_fields', 'date_format']
     member_widgets = ['minical', 'groupbox', 'use_search']
     
     day = None

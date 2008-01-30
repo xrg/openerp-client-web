@@ -32,6 +32,8 @@ import os
 import time
 import datetime as DT
 
+import turbogears as tg
+
 from tinyerp import rpc
 
 def expr_eval(string, context={}):
@@ -50,17 +52,31 @@ def node_attributes(node):
            result[attrs.item(i).localName] = attrs.item(i).nodeValue
    return result
 
-DT_SERVER_FORMATS = {
+_DT_SERVER_FORMATS = {
   'datetime' : '%Y-%m-%d %H:%M:%S',
   'date' : '%Y-%m-%d',
   'time' : '%H:%M:%S'
 }
 
-DT_LOCAL_FORMATS = {
-  'datetime' : '%Y-%m-%d %H:%M:%S',
-  'date' : '%Y-%m-%d',
-  'time' : '%H:%M:%S'
-}
+def get_local_datetime_format(kind="datetime"):
+    """Get local datetime format.
+    
+    @param kind: type (date, time or datetime)
+    @return: string
+    
+    @todo: cache formats to improve performance.
+    @todo: extend user preferences to allow customisable date format (tiny server).
+    """
+
+    fmt = "%H:%M:%S"
+    
+    if kind != "time":
+        fmt = tg.i18n.format.get_date_format("short", rpc.session.locale).replace("%y", "%Y")
+    
+    if kind == "datetime":
+        fmt += " %H:%M:%S"
+    
+    return fmt
 
 def server_to_local_datetime(date, kind="datetime", as_timetuple=False):
     """Convert date value to the local datetime considering timezone info.
@@ -74,8 +90,8 @@ def server_to_local_datetime(date, kind="datetime", as_timetuple=False):
     @return: string or timetuple
     """
 
-    server_format = DT_SERVER_FORMATS[kind]
-    local_format = DT_LOCAL_FORMATS[kind]
+    server_format = _DT_SERVER_FORMATS[kind]
+    local_format = get_local_datetime_format(kind)
     
     if not date:
         return ''
@@ -114,8 +130,8 @@ def local_to_server_datetime(date, kind="datetime", as_timetuple=False):
     @return: string or timetuple
     """
     
-    server_format = DT_SERVER_FORMATS[kind]
-    local_format = DT_LOCAL_FORMATS[kind]
+    server_format = _DT_SERVER_FORMATS[kind]
+    local_format = get_local_datetime_format(kind)
 
     if not date:
         return False

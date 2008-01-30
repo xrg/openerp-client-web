@@ -103,6 +103,8 @@ class TinyCalendar(interface.TinyCompoundWidget):
     selected_day = None
     calendar_fields = {}
     
+    date_format = '%Y-%m-%d'
+    
     css = [tg.widgets.CSSLink('tinyerp', 'tinycalendar/css/calendar.css')]
     javascript = [tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/New.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/Visual.js'),
@@ -121,6 +123,8 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.domain = domain or []
         self.context = context or {}
         self.options = options
+                
+        self.date_format = tools.get_local_datetime_format('date')
                 
         self.use_search = (options or None) and options.use_search 
         

@@ -35,7 +35,7 @@
     </td>
     <td id="calMainArea" valign="top">
 
-        <div id="calWeek" class="calWeek"><span></span>
+        <div id="calWeek" class="calWeek" dtFormat="${date_format}"><span></span>
 
             <div id="calHeaderSect">
                 <div py:for="day in week" dtDay="${day.isoformat()}">${day.name} ${day.day}</div>

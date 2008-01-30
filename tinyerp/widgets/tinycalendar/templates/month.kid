@@ -36,7 +36,7 @@
 
     <td id="calMainArea" valign="top">
 
-        <div id="calMonth" class="calMonth" dtStart="${month[0].isoformat()}" dtFirst="${month.year}-${month.month}-01"><span></span>
+        <div id="calMonth" class="calMonth" dtFormat="${date_format}" dtStart="${month[0].isoformat()}" dtFirst="${month.year}-${month.month}-01"><span></span>
 
             <div id="calHeaderSect">
                 <div class="calDayName" py:for="day in month.weeks[0]">${day.name}</div>

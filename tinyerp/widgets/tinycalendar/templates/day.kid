@@ -35,7 +35,7 @@
     </td>
     <td id="calMainArea" valign="top">
 
-        <div id="calWeek" class="calWeek"><span></span>
+        <div id="calWeek" class="calWeek" dtFormat="${date_format}"><span></span>
 
             <div id="calHeaderSect">
                 <div dtDay="${day.isoformat()}">${day.name} ${day.day}</div>

@@ -364,7 +364,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 
     params = ["format"]
 
-    format = tools.DT_LOCAL_FORMATS['datetime']
+    format = '%Y-%m-%d %H:%M:%S'
     picker_shows_time = True
     button_text = 'Select'
     
@@ -374,7 +374,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.CalendarDatePicker.__init__(self, name=self.name, not_empty=False)
         
-        self.format = tools.DT_LOCAL_FORMATS[attrs['type']]
+        self.format = tools.get_local_datetime_format(attrs['type'])
 
         if attrs['type'] == 'date':
             self.picker_shows_time = False

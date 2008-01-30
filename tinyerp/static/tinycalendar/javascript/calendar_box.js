@@ -54,12 +54,16 @@ InfoBox.prototype = {
         MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit');
         MochiKit.Signal.connect(btnCopy, 'onclick', this, 'onCopy');
         MochiKit.Signal.connect(btnDelete, 'onclick', this, 'onDelete');
+        
+        var DT_FORMAT = getNodeAttribute('calMonth', 'dtFormat') || getNodeAttribute('calWeek', 'dtFormat');
+        var H_FORMAT = '%I:%M %P';
+        var DTH_FORMAT = DT_FORMAT + ' ' + H_FORMAT;
 
         var title = this.params.title;                         
-        var desc = '(' + this.params.dtStart.strftime('%Y-%m-%d %I:%M %P') + ' - ' + this.params.dtEnd.strftime('%Y-%m-%d %I:%M %P') + ')';
+        var desc = '(' + this.params.dtStart.strftime(DTH_FORMAT) + ' - ' + this.params.dtEnd.strftime(DTH_FORMAT) + ')';
 
-        if (this.params.dtStart.strftime('%Y-%m-%d') == this.params.dtEnd.strftime('%Y-%m-%d')){
-            var desc = '(' + this.params.dtStart.strftime('%Y-%m-%d %I:%M %P') + ' - ' + this.params.dtEnd.strftime('%I:%M %P') + ')';
+        if (this.params.dtStart.strftime(DT_FORMAT) == this.params.dtEnd.strftime(DT_FORMAT)){
+            var desc = '(' + this.params.dtStart.strftime(DTH_FORMAT) + ' - ' + this.params.dtEnd.strftime(H_FORMAT) + ')';
         }
 
         var desc = SPAN(null, this.params.description, BR(), desc);

@@ -117,7 +117,7 @@ class DateTime(tg.validators.DateTimeConverter):
     
     def __init__(self, kind="datetime", allow_empty = None, *args, **kwargs):
         super(DateTime, self).__init__(allow_empty=allow_empty, *args, **kwargs)       
-        self.format = tools.DT_LOCAL_FORMATS[kind]
+        self.format = tools.get_local_datetime_format(kind)
         self.kind = kind
     
     def _to_python(self, value, state):
