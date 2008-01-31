@@ -1,7 +1,7 @@
 <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <textarea
-        id="${field_id}" name="${name}" 
-        class="${field_class}" style="width: 100%;" 
+        id="${field_id}" name="${name}" kind="${kind}"
+        class="${field_class}" style="width: 100%;"
         py:attrs="attrs" py:content="value"></textarea>
     <span class="fielderror" py:if="editable and error" py:content="error"/>
     

@@ -35,7 +35,7 @@ import validators as tiny_validators
 
 class TinyMCE(TinyField):
 
-    template = "tinyerp.widgets.templates.texttag"
+    template = "tinyerp.widgets.templates.tiny_mce"
     javascript = [JSLink("tinyerp", "tiny_mce/tiny_mce.js")]
     params = ["buttons"]
 

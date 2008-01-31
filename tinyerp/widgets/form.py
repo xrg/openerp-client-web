@@ -693,6 +693,12 @@ class Form(TinyCompoundWidget):
 
                 if kind not in widgets_type:
                     continue
+                
+                if kind in ('text', 'text_tag') and attrs.get('html'):
+                    try:
+                        cherrypy.request.headers["User-Agent"].index('Safari')
+                    except:
+                        kind = 'html_tag'
 
                 if kind == 'image':
                     fields[name]['id'] = self.id
@@ -729,7 +735,7 @@ from many2one import M2O
 from one2many import O2M
 from many2many import M2M
 from reference import Reference
-from texttag import TinyMCE
+from tiny_mce import TinyMCE
 
 widgets_type = {
     'date': DateTime,
@@ -746,7 +752,8 @@ widgets_type = {
     'binary': Binary,
     #'picture': Picture,
     'text': Text,
-    'text_tag': TinyMCE,
+    'text_tag': Text,
+    'html_tag': TinyMCE,
     'one2many': O2M,
     'one2many_form': O2M,
     'one2many_list': O2M,

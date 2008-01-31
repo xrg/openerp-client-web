@@ -44,13 +44,13 @@ def expr_eval(string, context={}):
         return string
 
 def node_attributes(node):
-   result = {}
-   attrs = node.attributes
-   if attrs is None:
-       return {}
-   for i in range(attrs.length):
-           result[attrs.item(i).localName] = attrs.item(i).nodeValue
-   return result
+    result = {}
+    attrs = node.attributes
+    if attrs is None:
+        return {}
+    for i in range(attrs.length):
+        result[attrs.item(i).localName] = attrs.item(i).nodeValue
+    return result
 
 _DT_SERVER_FORMATS = {
   'datetime' : '%Y-%m-%d %H:%M:%S',
