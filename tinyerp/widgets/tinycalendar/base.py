@@ -124,8 +124,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.context = context or {}
         self.options = options
                 
-        self.date_format = tools.get_local_datetime_format('date')
-                
+        self.date_format = format.get_datetime_format('date')                
         self.use_search = (options or None) and options.use_search 
         
         try:            
@@ -330,8 +329,8 @@ class TinyCalendar(interface.TinyCompoundWidget):
             if n > self.day_length:
                 span = math.floor(n / 24)
 
-        starts = tools.server_to_local_datetime(starts, "datetime", True)
-        ends = tools.server_to_local_datetime(ends, "datetime", True)
+        starts = format.format_datetime(starts, "datetime", True)
+        ends = format.format_datetime(ends, "datetime", True)
         
         color_key = event.get(self.color_field) 
         color = self.colors.get(color_key)

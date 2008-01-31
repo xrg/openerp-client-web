@@ -39,6 +39,7 @@ from turbogears import i18n
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import icons
+from tinyerp import format
 
 import form
 
@@ -418,7 +419,7 @@ class Int(Char):
 class DateTime(Char):
     
     def get_text(self):
-        return tools.server_to_local_datetime(self.value, kind=self.attrs.get('type', 'datetime'))
+        return format.format_datetime(self.value, kind=self.attrs.get('type', 'datetime'))
 
 class Boolean(Char):
 

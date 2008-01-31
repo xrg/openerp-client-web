@@ -35,6 +35,7 @@ import xml.dom.minidom
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
+from tinyerp import format
 
 from tinyerp.cache import cache
 
@@ -113,10 +114,10 @@ class GraphData(object):
                     res[x] = ustr(res[x])
                     
                 elif fields[x]['type'] == 'date':
-                    res[x] = tools.server_to_local_datetime(res[x], "date")
+                    res[x] = format.format_datetime(res[x], "date")
                     
                 elif fields[x]['type'] == 'datetime':
-                    res[x] = tools.server_to_local_datetime(res[x], "datetime")
+                    res[x] = format.format_datetime(res[x], "datetime")
                     
                 else:
                     res[x] = float(value[x])

@@ -41,6 +41,7 @@ import cherrypy
 
 from tinyerp import icons
 from tinyerp import tools
+from tinyerp import format
 from tinyerp import rpc
 
 from tinyerp.utils import TinyDict
@@ -374,7 +375,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.CalendarDatePicker.__init__(self, name=self.name, not_empty=False)
         
-        self.format = tools.get_local_datetime_format(attrs['type'])
+        self.format = format.get_datetime_format(attrs['type'])
 
         if attrs['type'] == 'date':
             self.picker_shows_time = False

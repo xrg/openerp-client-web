@@ -39,6 +39,7 @@ import cherrypy
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
+from tinyerp import format
 
 from tinyerp.tinyres import TinyResource
 from tinyerp.utils import TinyDict
@@ -159,10 +160,10 @@ class TinyCalendar(Form):
         proxy = rpc.RPCProxy(params.model)
         data = {}
         
-        data[params.fields['date_start']['name']] = tools.local_to_server_datetime(params.starts)
+        data[params.fields['date_start']['name']] = format.parse_datetime(params.starts)
         
         if 'date_stop' in params.fields:
-            data[params.fields['date_stop']['name']] = tools.local_to_server_datetime(params.ends)
+            data[params.fields['date_stop']['name']] = format.parse_datetime(params.ends)
         elif 'date_delay' in params.fields:
             # convert the end time in hours
             day_length = params.fields['day_length']

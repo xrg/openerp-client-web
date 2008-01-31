@@ -28,7 +28,6 @@
 #
 ###############################################################################
 
-import os
 import time
 import datetime as DT
 
@@ -36,29 +35,13 @@ import turbogears as tg
 
 from tinyerp import rpc
 
-def expr_eval(string, context={}):
-    context['uid'] = rpc.session.uid
-    if isinstance(string, basestring):
-        return eval(string, context)
-    else:
-        return string
-
-def node_attributes(node):
-    result = {}
-    attrs = node.attributes
-    if attrs is None:
-        return {}
-    for i in range(attrs.length):
-        result[attrs.item(i).localName] = attrs.item(i).nodeValue
-    return result
-
 _DT_SERVER_FORMATS = {
   'datetime' : '%Y-%m-%d %H:%M:%S',
   'date' : '%Y-%m-%d',
   'time' : '%H:%M:%S'
 }
 
-def get_local_datetime_format(kind="datetime"):
+def get_datetime_format(kind="datetime"):
     """Get local datetime format.
     
     @param kind: type (date, time or datetime)
@@ -78,54 +61,54 @@ def get_local_datetime_format(kind="datetime"):
     
     return fmt
 
-def server_to_local_datetime(date, kind="datetime", as_timetuple=False):
+def format_datetime(value, kind="datetime", as_timetuple=False):
     """Convert date value to the local datetime considering timezone info.
 
-    @param date: the date value
+    @param value: the date value
     @param kind: type of the date value (date, time or datetime)
     @param as_timetuple: return timetuple
     
-    @type date: basestring or time.time_tuple)
+    @type value: basestring or time.time_tuple)
     
     @return: string or timetuple
     """
 
     server_format = _DT_SERVER_FORMATS[kind]
-    local_format = get_local_datetime_format(kind)
+    local_format = get_datetime_format(kind)
     
-    if not date:
+    if not value:
         return ''
     
-    if isinstance(date, time.struct_time):
-        date = time.strftime(server_format, date)
+    if isinstance(value, time.struct_time):
+        value = time.strftime(server_format, value)
         
-    date = time.strptime(date, server_format)
+    value = time.strptime(value, server_format)
 
     if kind == "datetime" and 'tz' in rpc.session.context:
         try:
             import pytz
             lzone = pytz.timezone(str(rpc.session.context['tz']))
             szone = pytz.timezone(str(rpc.session.timezone))
-            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
+            dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
             sdt = szone.localize(dt, is_dst=True)
             ldt = sdt.astimezone(lzone)
-            date = ldt.timetuple()
+            value = ldt.timetuple()
         except:
             pass
 
     if as_timetuple:
-        return date
+        return value
     
-    return time.strftime(local_format, date)
+    return time.strftime(local_format, value)
 
-def local_to_server_datetime(date, kind="datetime", as_timetuple=False):
+def parse_datetime(value, kind="datetime", as_timetuple=False):
     """Convert date value to the server datetime considering timezone info.
 
-    @param date: the date value
+    @param value: the date value
     @param kind: type of the date value (date, time or datetime)
     @param as_timetuple: return timetuple
     
-    @type date: basestring or time.time_tuple)
+    @type value: basestring or time.time_tuple)
     
     @return: string or timetuple
     """
@@ -133,19 +116,19 @@ def local_to_server_datetime(date, kind="datetime", as_timetuple=False):
     server_format = _DT_SERVER_FORMATS[kind]
     local_format = get_local_datetime_format(kind)
 
-    if not date:
+    if not value:
         return False
 
-    if isinstance(date, time.struct_time):
-        date = time.strftime(local_format, date)
+    if isinstance(value, time.struct_time):
+        value = time.strftime(local_format, value)
 
     try:
-        date = time.strptime(date, local_format)
+        value = time.strptime(value, local_format)
     except:
         try:
             dt = list(time.localtime())
-            dt[2] = int(date)
-            date = tuple(dt)
+            dt[2] = int(value)
+            value = tuple(dt)
         except:
             return False
 
@@ -154,23 +137,23 @@ def local_to_server_datetime(date, kind="datetime", as_timetuple=False):
             import pytz
             lzone = pytz.timezone(rpc.session.context['tz'])
             szone = pytz.timezone(rpc.session.timezone)
-            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
+            dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
             ldt = lzone.localize(dt, is_dst=True)
             sdt = ldt.astimezone(szone)
-            date = sdt.timetuple()
+            value = sdt.timetuple()
         except:
             pass
 
     if as_timetuple:
-        return date
+        return value
     
-    return time.strftime(server_format, date)
+    return time.strftime(server_format, value)
 
-def server_to_local_number(value, digits=2):
+def format_decimal(value, digits=2):
     return tg.i18n.format_decimal(value or 0.0, digits)
 
-def local_to_server_number(value):
-    
+def parse_decimal(value):
+
     if isinstance(value, basestring):
         #deal with ' ' instead of u'\xa0' (SP instead of NBSP as grouping char)
         value = value.replace(' ', '')
