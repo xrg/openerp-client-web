@@ -17,7 +17,14 @@
 
             forEach(pform.elements, function(e){
                 if (e.name &amp;&amp; e.type != 'button' &amp;&amp; e.name.indexOf('${params.o2m}') != 0){
-                    var fld = INPUT({'type':'hidden', 'name': e.name, 'id' : e.id, 'onchange' : e.onchange, 'value': e.value});
+                
+                    var fld = INPUT({'type':'hidden',
+                                     'id' : e.id, 
+                                     'name': e.name,
+                                     'kind': getNodeAttribute(e, 'kind'),
+                                     'onchange' : e.onchange, 
+                                     'value': e.value});
+                                     
                     fld.disabled = true;
 
                     fields = fields.concat(fld);
