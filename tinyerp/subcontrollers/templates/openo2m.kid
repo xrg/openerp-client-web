@@ -9,29 +9,32 @@
 
     <script type="text/javascript">
 
-        function on_load(){
+        MochiKit.DOM.addLoadEvent(function (evt){
+        
             var pwin = window.opener;
 
             var pform = pwin.document.getElementById('view_form');
             var fields = [];
 
-            forEach(pform.elements, function(e){
+            MochiKit.Iter.forEach(pform.elements, function(e){
+            
                 if (e.name &amp;&amp; e.type != 'button' &amp;&amp; e.name.indexOf('${params.o2m}') != 0){
                 
-                    var fld = INPUT({'type':'hidden',
-                                     'id' : e.id, 
-                                     'name': e.name,
-                                     'kind': getNodeAttribute(e, 'kind'),
-                                     'onchange' : e.onchange, 
-                                     'value': e.value});
-                                     
+                    var attrs = {};
+                    MochiKit.Iter.forEach(e.attributes, function(a){
+                        attrs[a.name] = a.value;
+                    });
+                    
+                    attrs['type'] = 'hidden';
+                    
+                    var fld = MochiKit.DOM.INPUT(attrs);
                     fld.disabled = true;
-
+                    
                     fields = fields.concat(fld);
                 }
             });
 
-            appendChildNodes('view_form', fields);
+            MochiKit.DOM.appendChildNodes('view_form', fields);
 
             var lc = $('_terp_load_counter').value;
 
@@ -45,9 +48,8 @@
                 window.close();
             }
 
-        }
-
-        connect(window, "onload", on_load);
+        });
+        
     </script>
 
 </head>
