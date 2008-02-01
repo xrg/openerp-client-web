@@ -22,14 +22,14 @@
 <p>
 Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
 Tiny ERP is a trademark of the Tiny Company.
-Licenced under the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
+Licenced under the <a target="_blank" href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
 </p>
 <p>
-<i>eTiny</i> is the official web client of <a href="http://tinyerp.com">Tiny ERP</a> developed by <a href="http://tiny.be">Tiny</a> and <a href="http://www.axelor.com/">Axelor</a>.
+<i>eTiny</i> is the official web client of <a target="_blank" href="http://tinyerp.com">Tiny ERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
 </p>
 
 <p>
-<i>eTiny</i> is known to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a href="http://www.turbogears.org/">TurboGears</a> framework.
+<i>eTiny</i> is known to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a target="_blank" href="http://www.turbogears.org/">TurboGears</a> framework.
 </p>
 
             </td>
@@ -40,7 +40,7 @@ Licenced under the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.htm
         <tr>
             <td>
 <p>
-<a href="http://tinyerp.com">Tiny ERP</a> is a free enterprise-scale software system that is designed to boost
+<a target="_blank" href="http://tinyerp.com">Tiny ERP</a> is a free enterprise-scale software system that is designed to boost
 productivity and profit through data integration. It connects, improves and
 manages business processes in areas such as sales, finance, supply chain,
 project management, production, services, CRM, etc..
@@ -61,9 +61,9 @@ client.
         <tr>
             <td>
 <ul>
-    <li><a href="http://www.tinyerp.com/">Tiny ERP</a></li>
-    <li><a href="http://www.axelor.com/">The Axelor Company</a></li>
-    <li><a href="http://tiny.be/">The Tiny Company</a></li>
+    <li><a target="_blank" href="http://www.tinyerp.com/">Tiny ERP</a></li>
+    <li><a target="_blank" href="http://www.axelor.com/">The Axelor Company</a></li>
+    <li><a target="_blank" href="http://tiny.be/">The Tiny Company</a></li>
 </ul>
             </td>
         </tr>
@@ -87,39 +87,39 @@ client.
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://tinyerp.com">Homepage</a>
+                        <a target="_blank" href="http://tinyerp.com">Homepage</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://tinyerp.com/documentations.html">Documentation</a>
+                        <a target="_blank" href="http://tinyerp.com/documentations.html">Documentation</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://tinyerp.com/forum">Forum</a>
+                        <a target="_blank" href="http://tinyerp.com/forum">Forum</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://tinyerp.com/component/option,com_mtree/Itemid,111/">Modules</a>
+                        <a target="_blank" href="http://tinyerp.com/component/option,com_mtree/Itemid,111/">Modules</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://tinyerp.com/component/option,com_joomlaxplorer/Itemid,132/">Download</a>
+                        <a target="_blank" href="http://tinyerp.com/component/option,com_joomlaxplorer/Itemid,132/">Download</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://tinyerp.com/planet">Planet</a>
+                        <a target="_blank" href="http://tinyerp.com/planet">Planet</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://saas.tinyerp.com">SaaS Offers</a>
+                        <a target="_blank" href="http://saas.tinyerp.com">SaaS Offers</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://tinyerp.com/training.html">Trainings</a>
+                        <a target="_blank" href="http://tinyerp.com/training.html">Trainings</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a href="http://tinyerp.com/services.html">Services</a>
+                        <a target="_blank" href="http://tinyerp.com/services.html">Services</a>
                     </td>
                 </tr>
             </table>
