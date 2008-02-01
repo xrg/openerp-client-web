@@ -40,6 +40,7 @@ import locale
 import turbogears as tg
 
 from tinyerp import tools
+from tinyerp import format
 
 class String(tg.validators.String):
     if_empty = False
@@ -117,17 +118,17 @@ class DateTime(tg.validators.DateTimeConverter):
     
     def __init__(self, kind="datetime", allow_empty = None, *args, **kwargs):
         super(DateTime, self).__init__(allow_empty=allow_empty, *args, **kwargs)       
-        self.format = tools.get_local_datetime_format(kind)
+        self.format = format.get_datetime_format(kind)
         self.kind = kind
     
     def _to_python(self, value, state):
         # do validation
         res = super(DateTime, self)._to_python(value, state)
         # return str instead of real datetime object
-        return tools.local_to_server_datetime(value, kind=self.kind)
+        return format.parse_datetime(value, kind=self.kind)
 
     def _from_python(self, value, state):
-        return tools.server_to_local_datetime(value, kind=self.kind)
+        return format.format_datetime(value, kind=self.kind)
 
 class Selection(tg.validators.FancyValidator):
     if_empty = False

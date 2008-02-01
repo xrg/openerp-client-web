@@ -38,6 +38,7 @@ import turbogears as tg
 
 from tinyerp import rpc
 from tinyerp import tools
+from tinyerp import format
 from tinyerp.utils import TinyDict
 
 from tinyerp.widgets import interface
@@ -193,15 +194,12 @@ class TinyCalendar(interface.TinyCompoundWidget):
         return info_fields
    
     def convert(self, event):
-        format = {'datetime' : '%Y-%m-%d %H:%M:%S',
-                  'date': '%Y-%m-%d',
-                  'time': '%H:%M:%S'}
-
+        
         fields = [x for x in [self.date_start, self.date_stop] if x]
         
         for fld in fields:
             typ = self.fields[fld]['type']
-            fmt = format.get(typ)
+            fmt = format.DT_SERVER_FORMATS[typ]
 
             if event[fld] and fmt:
                 event[fld] = time.strptime(event[fld], fmt)

@@ -35,7 +35,7 @@ import turbogears as tg
 
 from tinyerp import rpc
 
-_DT_SERVER_FORMATS = {
+DT_SERVER_FORMATS = {
   'datetime' : '%Y-%m-%d %H:%M:%S',
   'date' : '%Y-%m-%d',
   'time' : '%H:%M:%S'
@@ -73,7 +73,7 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
     @return: string or timetuple
     """
 
-    server_format = _DT_SERVER_FORMATS[kind]
+    server_format = DT_SERVER_FORMATS[kind]
     local_format = get_datetime_format(kind)
     
     if not value:
@@ -113,8 +113,8 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
     @return: string or timetuple
     """
     
-    server_format = _DT_SERVER_FORMATS[kind]
-    local_format = get_local_datetime_format(kind)
+    server_format = DT_SERVER_FORMATS[kind]
+    local_format = get_datetime_format(kind)
 
     if not value:
         return False
