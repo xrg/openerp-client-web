@@ -157,6 +157,10 @@ ListView.prototype.onKeyDown = function(evt){
             }
         }
 
+        if (src.onchange) {
+            src.onchange();
+        }
+
         evt.stop();
         this.save(this.current_record);
 
