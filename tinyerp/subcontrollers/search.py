@@ -172,7 +172,7 @@ class Search(controllers.Controller, TinyResource):
         
         parent_context.update(rpc.session.context.copy())
 
-        ctx = TinyForm(**kw)
+        ctx = TinyForm(**kw).to_python()
         pctx = ctx
 
         prefix = params.prefix

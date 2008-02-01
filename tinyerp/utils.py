@@ -139,74 +139,7 @@ class TinyDict(dict):
                 data[n] = v
 
         return _make_dict(params, True), _make_dict(data, False)
-
-class TinyFormError(tg_validators.Invalid):
-    def __init__(self, field, msg, value):
-        tg_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
-        self.field = field
-               
-class TinyForm(TinyDict):
-        
-    def __init__(self, **kwargs):          
-        
-        VALIDATORS = {
-            'date': tw_validators.DateTime(kind="date"),
-            'time': tw_validators.DateTime(kind="time"),  
-            'datetime': tw_validators.DateTime(kind="datetime"),
-            'float_time': tw_validators.FloatTime(),
-            'float': tw_validators.Float(),
-            'integer': tw_validators.Int(),
-            'selection': tw_validators.Selection(),
-            'char': tw_validators.String(),
-            'boolean': tw_validators.Bool(),
-            'reference': tw_validators.Reference(),
-            'binary': tw_validators.Binary(),
-            'text': tw_validators.String(),
-            'text_tag': tw_validators.String(),
-            'many2many': tw_validators.many2many(),
-            'many2one': tw_validators.many2one(),
-            'email' : tw_validators.Email(),
-            'url' : tw_validators.Url()
-        }
-        
-        kw = {}
-        
-        for k, v in kwargs.items():
-            if '_terp_' not in k:
-                try:
-                    v = eval(v)
-                except:
-                    pass
-                kw['_terp_form/' + k] = v
-
-        for name, attrs in kw.items():
-            
-            if not isinstance(attrs, dict):
-                kw[name] = attrs
-                continue
-            
-            kind = attrs.get('type', 'char')
-            value = attrs.get('value')
-            
-            required = attrs.get('required', False)
-
-            if kind not in VALIDATORS:
-                kind = 'char'
-            
-            try:
-                v = VALIDATORS[kind]
-                v.not_empty = (required or False) and True
-                value = v.to_python(value, None)
-            except tg_validators.Invalid, e:
-                raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
-            
-            kw[name] = value
-            
-        params, data = TinyDict.split(kw)
-        params = params.form or {}
-        
-        super(TinyForm, self).__init__(**params)
-        
+    
     def make_plain(self, prefix=''):
         res = {}
     
@@ -217,6 +150,94 @@ class TinyForm(TinyDict):
                 res[prefix + k] = v
 
         return res
+
+_VALIDATORS = {
+    'date': lambda *a: tw_validators.DateTime(kind="date"),
+    'time': lambda *a: tw_validators.DateTime(kind="time"),  
+    'datetime': lambda *a: tw_validators.DateTime(kind="datetime"),
+    'float_time': lambda *a: tw_validators.FloatTime(),
+    'float': lambda *a: tw_validators.Float(),
+    'integer': lambda *a: tw_validators.Int(),
+    'selection': lambda *a: tw_validators.Selection(),
+    'char': lambda *a: tw_validators.String(),
+    'boolean': lambda *a: tw_validators.Bool(),
+    'reference': lambda *a: tw_validators.Reference(),
+    'binary': lambda *a: tw_validators.Binary(),
+    'text': lambda *a: tw_validators.String(),
+    'text_tag': lambda *a: tw_validators.String(),
+    'many2many': lambda *a: tw_validators.many2many(),
+    'many2one': lambda *a: tw_validators.many2one(),
+    'email' : lambda *a: tw_validators.Email(),
+    'url' : lambda *a: tw_validators.Url()
+}
+
+class TinyFormError(tg_validators.Invalid):
+    def __init__(self, field, msg, value):
+        tg_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
+        self.field = field
+               
+class TinyForm(object):
+    """An utility class to convert:
+    
+        1. local form data to the server data (throws exception if any)
+        2. server data to the local data
+    
+    Using validators.
+    """
+
+    def __init__(self, **kwargs):
+        
+        self.data = {}
+        for k, v in kwargs.items():
+            if '_terp_' not in k:
+                try:
+                    v = eval(v)
+                except:
+                    pass
+                self.data['_terp_form/' + k] = v
+                
+    def _convert(self, form=True):
+        
+        kw = {}
+        for name, attrs in self.data.items():
+            
+            if not isinstance(attrs, dict):
+                kw[name] = attrs
+                continue
+            
+            kind = attrs.get('type', 'char')
+            value = attrs.get('value')
+            
+            required = attrs.get('required', False)
+
+            if kind not in _VALIDATORS:
+                kind = 'char'
+                
+            v = _VALIDATORS[kind]()
+            v.not_empty = (required or False) and True
+            
+            try:
+                if form:
+                    value = v.to_python(value, None)
+                else:
+                    value = v.from_python(value, None)
+
+            except tg_validators.Invalid, e:
+                if form:
+                    raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
+            
+            kw[name] = value
+            
+        params, data = TinyDict.split(kw)
+        params = params.form or {}
+        
+        return TinyDict(**params)
+    
+    def from_python(self):
+        return self._convert(False)
+    
+    def to_python(self):
+        return self._convert(True)
 
 if __name__ == "__main__":
     

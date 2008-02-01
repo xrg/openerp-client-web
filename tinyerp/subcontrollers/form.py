@@ -733,7 +733,7 @@ class Form(controllers.Controller, TinyResource):
         if '/' in caller:
             prefix = caller.rsplit('/', 1)[0]
 
-        ctx = TinyForm(**kw)
+        ctx = TinyForm(**kw).to_python()
         pctx = ctx
 
         if prefix:
@@ -778,7 +778,7 @@ class Form(controllers.Controller, TinyResource):
             else:
                 values2[k] = {'value': v}
 
-        values = TinyForm(**values2).make_plain()
+        values = TinyForm(**values2).from_python().make_plain()
 
         # get name of m2o and reference fields
         for k, v in values2.items():
