@@ -233,18 +233,16 @@ class CalendarPopup(Form):
         params, data = TinyDict.split(kw)        
         data = {}
         
+        ds = tc.utils.parse_datetime(params.starts)
+        de = tc.utils.parse_datetime(params.ends)
+        
         if 'date_stop' in params.fields:            
-            if params.fields['date_stop']['kind'] == 'date' and params.ends:
-                params.ends = params.ends.split(' ')[0]
-                
-            data[params.fields['date_stop']['name']] = params.ends
+            kind = params.fields['date_stop']['kind']                
+            data[params.fields['date_stop']['name']] = format.format_datetime(de.timetuple(), kind)
             
         elif 'date_delay' in params.fields:
             # convert the end time in hours
             day_length = params.fields['day_length']
-            
-            ds = tc.utils.parse_datetime(params.starts)
-            de = tc.utils.parse_datetime(params.ends)
             
             tds = time.mktime(ds.timetuple())
             tde = time.mktime(de.timetuple())
@@ -259,11 +257,9 @@ class CalendarPopup(Form):
             
             data[params.fields['date_delay']['name']] = n
         
-        if params.fields['date_start']['kind'] == 'date' and params.starts:
-            params.starts = params.starts.split(' ')[0]
-            
-        data[params.fields['date_start']['name']] = params.starts
-            
+        kind = params.fields['date_start']['kind']            
+        data[params.fields['date_start']['name']] = format.format_datetime(ds.timetuple(), kind)
+
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         
