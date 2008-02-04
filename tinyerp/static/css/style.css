@@ -345,10 +345,6 @@ td.label {
     white-space: nowrap;
 }
 
-td.item {
-	vertical-align: top;
-}
-
 td.item input,
 td.item select,
 td.item textarea,

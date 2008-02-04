@@ -184,6 +184,9 @@ class Frame(TinyCompoundWidget):
 
         if not hasattr(widget, 'visible'):
             widget.visible = True
+            
+        if isinstance(widget, (Group, Notebook, O2M, M2M)):
+            attrs['valign'] = 'top'
 
         td = [attrs, widget]
         tr.append(td)
