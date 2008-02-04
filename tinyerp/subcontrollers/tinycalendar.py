@@ -160,16 +160,16 @@ class TinyCalendar(Form):
         proxy = rpc.RPCProxy(params.model)
         data = {}
         
-        data[params.fields['date_start']['name']] = format.parse_datetime(params.starts)
+        ds = tc.utils.parse_datetime(params.starts)
+        de = tc.utils.parse_datetime(params.ends)
+        
+        data[params.fields['date_start']['name']] = format.parse_datetime(ds.timetuple())
         
         if 'date_stop' in params.fields:
-            data[params.fields['date_stop']['name']] = format.parse_datetime(params.ends)
+            data[params.fields['date_stop']['name']] = format.parse_datetime(de.timetuple())
         elif 'date_delay' in params.fields:
             # convert the end time in hours
             day_length = params.fields['day_length']
-            
-            ds = tc.utils.parse_datetime(params.starts)
-            de = tc.utils.parse_datetime(params.ends)
             
             tds = time.mktime(ds.timetuple())
             tde = time.mktime(de.timetuple())
