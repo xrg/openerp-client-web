@@ -89,7 +89,7 @@ class OpenO2M(Form):
             form = cherrypy.request.terp_form
         else:
             form = self.create_form(params, tg_errors)        
-        
+                
         return dict(form=form, params=params, show_header_footer=False)
     
     def get_form(self):
@@ -135,7 +135,8 @@ class OpenO2M(Form):
         current = params.chain_get(prefix)
         if current and current.id:
             params.load_counter = 2
-
+                
+        params.editable = True
         return self.create(params)
     
     @expose()
