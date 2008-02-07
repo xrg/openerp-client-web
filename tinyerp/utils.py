@@ -227,11 +227,19 @@ class TinyForm(object):
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
             
             kw[name] = value
-            
-        params, data = TinyDict.split(kw)
-        params = params.form or {}
         
-        return TinyDict(**params)
+        # Prevent auto conversion from TinyDict
+        _eval = TinyDict._eval
+        TinyDict._eval = lambda self, v: v
+        
+        try:
+            params, data = TinyDict.split(kw)
+            params = params.form or {}
+            
+            return TinyDict(**params)
+        
+        finally:
+            TinyDict._eval = _eval
     
     def from_python(self):
         return self._convert(False)

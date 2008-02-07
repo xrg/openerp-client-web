@@ -51,13 +51,23 @@ ListView.prototype.checkAll = function(clear){
     });
 }
 
-ListView.prototype.getSelectedRecords = function(boxes) {
+ListView.prototype.getRecords = function() {
+    var records = map(function(row){
+        return parseInt(getNodeAttribute(row, 'record')) || 0;
+    }, getElementsByTagAndClassName('tr', 'grid-row', this.id));
+    
+    return filter(function(rec){
+        return rec;
+    }, records);
+}
+
+ListView.prototype.getSelectedRecords = function() {
     return map(function(box){
         return box.value;
     }, this.getSelectedItems());
 }
 
-ListView.prototype.getSelectedItems = function(boxes) {
+ListView.prototype.getSelectedItems = function() {
     return filter(function(box){
         return box.name && box.checked;
     }, getElementsByTagAndClassName('input', 'grid-record-selector', this.id));
@@ -439,10 +449,19 @@ ListView.prototype.waitGlass = function(hide){
 }
 
 ListView.prototype.exportData = function(){
+    
+    var ids = this.getSelectedRecords();
+    
+    if (ids.length == 0) {
+        ids = this.getRecords();
+    }
+    
+    ids = '[' + ids.join(',') + ']';
+    
     openWindow(getURL('/impex/exp', {_terp_model: this.model, 
                                      _terp_source: this.id, 
                                      _terp_search_domain: $('_terp_search_domain').value, 
-                                     _terp_ids: $(this.id)}), {height: '840'});
+                                     _terp_ids: ids}), {height: '840'});
 }
 
 ListView.prototype.importData = function(){

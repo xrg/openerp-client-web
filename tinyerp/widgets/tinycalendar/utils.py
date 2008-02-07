@@ -107,6 +107,9 @@ class Day(datetime.date):
 
     def __sub__(self, value):
         return self.fromordinal(self.toordinal() - value)
+    
+    def __unicode__(self):
+        return '%s %d, %s' % (unicode(MONTH_NAMES[self.month]), self.day, self.year)
 
     def __str__(self):
         return '%s %d, %s' % (MONTH_NAMES[self.month], self.day, self.year)
@@ -164,6 +167,9 @@ class Week(object):
 
     def __hash__(self):
         return hash((self.days[0], self.days[-1]))
+    
+    def __unicode__(self):
+        return '%s - %s' % (unicode(self.days[0]), unicode(self.days[-1]))
 
     def __str__(self):
         return '%s - %s' % (self.days[0], self.days[-1])
@@ -251,6 +257,9 @@ class Month(object):
 
     def __hash__(self):
         return hash((self.year, self.month))
+    
+    def __unicode__(self):
+        return '%s %d' % (unicode(self.name), self.year)
 
     def __str__(self):
         return '%s %d' % (self.name, self.year)

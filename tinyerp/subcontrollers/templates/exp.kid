@@ -152,13 +152,6 @@
                 fields2 = fields2.concat('"' + o.text + '"');
             });
 
-            var pwin = window.opener;
-            var src = pwin.document.getElementById('${source}');
-
-            var ids = new ListView(src).getSelectedRecords();
-            var id = '[]';
-
-            $('_terp_ids').value = '[' + ids.join(',') + ']';
             $('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
             setNodeAttribute(form, 'action', '/impex/export_data/data.' + $('export_as').value);
@@ -171,7 +164,7 @@
 <form id='view_form' action="/impex/export_data" method="post">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
-    <input type="hidden" id="_terp_ids" name="_terp_ids" value="[]"/>
+    <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ustr(ids)}"/>
     <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(search_domain)}"/>
     <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
 
