@@ -31,9 +31,11 @@
 import turbogears as tg
 
 from tinyerp import rpc
+from tinyerp import common
 
 from interface import TinyField
 from form import Form
+
 import validators as tiny_validators
 
 def get_name(model, id):
@@ -42,8 +44,14 @@ def get_name(model, id):
 
     if model and id:
         proxy = rpc.RPCProxy(model)
-        name = proxy.name_get([id], rpc.session.context.copy())
-        name = name[0][1]
+        
+        try:
+            name = proxy.name_get([id], rpc.session.context.copy())
+            name = name[0][1]
+        except common.TinyWarning, e:
+            name = _("== Access Denied ==")
+        except Exception, e:
+            raise e
 
     return name
 
@@ -67,11 +75,9 @@ class M2O(TinyField):
         self.validator = tiny_validators.many2one()
 
     def set_value(self, value):
+        
         if isinstance(value, tuple):
-            value = value[0]
-
-        self.default = value
-
-    def update_params(self, d):
-        super(M2O, self).update_params(d)
-        d['text'] = get_name(self.relation, d['value'])
+            self.default, self.text = value
+        else:
+            self.default = value
+            self.text = get_name(self.relation, self.default)
