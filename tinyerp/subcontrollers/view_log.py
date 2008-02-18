@@ -78,7 +78,7 @@ class View_Log(controllers.Controller, TinyResource):
                 if line[key] and key in ('create_uid','write_uid','uid'):
                     line[key] = line[key][1]
 
-                tmp[key] = str(line[key] or '/')
+                tmp[key] = ustr(line[key] or '/')
 
         return dict(tmp=tmp, todo=todo, show_header_footer=False)
 
