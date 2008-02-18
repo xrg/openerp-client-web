@@ -308,7 +308,13 @@ class List(TinyCompoundWidget):
 
                         for color, expr in self.colors.items():
                             try:
-                                if tools.expr_eval(expr, row_value):
+
+                                d = row_value.copy()
+                                d['current_date'] = time.strftime('%Y-%m-%d')
+                                d['time'] = time
+                                d['active_id'] = rpc.session.active_id or False
+
+                                if tools.expr_eval(expr, d):
                                     cell.color = color
                                     break
                             except:
