@@ -35,6 +35,9 @@ class TinyException(Exception):
         self.title = title
         self.message = message
 
+    def __unicode__(self):
+        return ustr(self.message)
+    
     def __str__(self):
         return self.message
 

@@ -71,6 +71,7 @@ setup(
     },
     # Uncomment next line and create a default.cfg file in your project dir
     # if you want to package a default configuration in your egg.
-    data_files = [('config', ['default.cfg'])],
+    data_files = [('config', ['default.cfg']), 
+                  ('scripts', ['etiny-server'])],
     )
 

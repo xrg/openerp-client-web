@@ -205,7 +205,7 @@ class NETRPCGateway(RPCGateway):
             return res
         
         except socket.error, (e1, e2):
-            raise common.error(_('Connection refused !'), e1, e2)
+            raise common.error(_('Connection refused !'), e2, e1)
         
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
