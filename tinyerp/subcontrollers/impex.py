@@ -62,11 +62,15 @@ def export_csv(fields, result, write_title=False):
             writer.writerow(fields)
         for data in result:
             row = []
-            for d in data:
+            for d in data:                
                 if isinstance(d, basestring):
-                    row.append(d.replace('\n',' ').replace('\t',' '))
-                else:
-                    row.append(d)
+                    d = d.replace('\n',' ').replace('\t',' ')
+                    try:
+                        d = d.encode('utf-8')
+                    except:
+                        pass
+                row.append(d)
+
             writer.writerow(row)
 
         fp.seek(0)
@@ -296,13 +300,7 @@ class ImpEx(controllers.Controller, TinyResource):
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
-        data = datas_read(ids, params.model, fields)
-        
-        result = []
-        for line in data:
-            if isinstance(line, basestring):
-                line = line.encode('utf-8')            
-            result.append(line)
+        result = datas_read(ids, params.model, fields)
 
         if export_as == 'excel':
             #add_names = True
