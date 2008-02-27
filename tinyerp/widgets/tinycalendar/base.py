@@ -241,7 +241,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
                 name = key
                 value = key
                 
-                if isinstance(key, tuple): #M2O 
+                if isinstance(key, (tuple, list)): #M2O 
                     value, name = key
 
                 self.colors[key] = (name, value, None)

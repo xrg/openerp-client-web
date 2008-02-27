@@ -76,7 +76,7 @@ class M2O(TinyField):
 
     def set_value(self, value):
         
-        if isinstance(value, tuple):
+        if isinstance(value, (tuple, list)):
             self.default, self.text = value
         else:
             self.default = value
