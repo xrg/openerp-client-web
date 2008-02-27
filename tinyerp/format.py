@@ -153,8 +153,11 @@ def format_decimal(value, digits=2):
     return tg.i18n.format_decimal(value or 0.0, digits)
 
 def parse_decimal(value):
-
+    
     if isinstance(value, basestring):
+        
+        value = ustr(value)
+        
         #deal with ' ' instead of u'\xa0' (SP instead of NBSP as grouping char)
         value = value.replace(' ', '')
         try:
