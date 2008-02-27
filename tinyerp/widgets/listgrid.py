@@ -361,12 +361,12 @@ class Char(object):
         used to sort the listgrid. Useful for localized data.
         """
         return None
-
+    
     def __unicode__(self):
         return ustr(self.text)
-    
+
     def __str__(self):
-        return self.text
+        return ustr(self.text)
 
 class M2O(Char):
 

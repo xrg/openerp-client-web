@@ -17,7 +17,7 @@
                                 <span py:if="selector!='checkbox'">&nbsp;</span>
                             </th>
                             <th py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']">Title</th>
-                            <td py:if="buttons" class="grid-cell selector"><div style="width: 0px;"></div></td>
+                            <th py:if="buttons" class="grid-cell selector"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                         </tr>
