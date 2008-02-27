@@ -355,9 +355,18 @@ class Char(object):
 
     def get_link(self):
         return None
+    
+    def get_sortable_text(self):
+        """ If returns anything other then None, the return value will be 
+        used to sort the listgrid. Useful for localized data.
+        """
+        return None
 
-    def __str__(self):
+    def __unicode__(self):
         return ustr(self.text)
+    
+    def __str__(self):
+        return self.text
 
 class M2O(Char):
 
@@ -399,6 +408,9 @@ class Float(Char):
 
         integer, digit = digits
         return format.format_decimal(self.value or 0.0, digit)
+    
+    def get_sortable_text(self):
+        return ustr(self.value)
         
 class FloatTime(Char):
 
@@ -422,6 +434,9 @@ class DateTime(Char):
     
     def get_text(self):
         return format.format_datetime(self.value, kind=self.attrs.get('type', 'datetime'))
+    
+    def get_sortable_text(self):
+        return ustr(self.value)
 
 class Boolean(Char):
 

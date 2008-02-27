@@ -111,11 +111,11 @@ SortableGrid.prototype = {
                 switch (this.columns[j].format) {
                     case 'date':
                     case 'datetime':
-                        //TODO: localized date/datetime support
+                        obj = MochiKit.DOM.getNodeAttribute(cell, 'sortable_value');
                         obj = isoTimestamp(obj) || obj;
                         break;
                     case 'float':
-                        //TODO: localized float support
+                        obj = MochiKit.DOM.getNodeAttribute(cell, 'sortable_value');
                         obj = parseFloat(obj) || 0;
                         break;
                     case 'integer':
