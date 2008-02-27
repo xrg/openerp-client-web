@@ -62,7 +62,7 @@ class Wizard(controllers.Controller, TinyResource):
         buttons = []
 
         if model:
-            action = model.replace('wizard.', '')
+            action = model.replace('wizard.', '', 1)
         else:
             model = 'wizard.' + action
 
@@ -73,7 +73,7 @@ class Wizard(controllers.Controller, TinyResource):
         if 'form' not in datas:
             datas['form'] = {}
 
-        wiz_id = rpc.session.execute('wizard', 'create', action)
+        wiz_id = params.wiz_id or rpc.session.execute('wizard', 'create', action)
 
         while state != 'end':
 
@@ -89,14 +89,26 @@ class Wizard(controllers.Controller, TinyResource):
 
             if res['type']=='form':
                 form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+                
+                fields = res['fields']
+                form_values = {}
+                
+                for f in fields:
+                    if 'value' in fields[f]:
+                        form_values[f] = fields[f]['value']
+
+                form_values.update(datas['form'])
+                
+                datas['form'] = form_values
 
                 res['datas'].update(datas['form'])
                 form.screen.add_view(res)
 
                 # store datas in _terp_datas
                 form.hidden_fields = [
-                                      widgets.HiddenField(name='_terp_datas', default=str(datas)),
-                                      widgets.HiddenField(name='_terp_state2', default=state)
+                                      widgets.HiddenField(name='_terp_datas', default=ustr(datas)),
+                                      widgets.HiddenField(name='_terp_state2', default=state),
+                                      widgets.HiddenField(name='_terp_wiz_id', default=wiz_id)
                                   ]
 
                 buttons = res.get('state', [])

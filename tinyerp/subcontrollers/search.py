@@ -309,9 +309,12 @@ class Search(controllers.Controller, TinyResource):
 
         domain = params.domain or []
         context = params.context or {}
+        
+        ctx = rpc.session.context.copy()
+        ctx.update(context)
 
         proxy = rpc.RPCProxy(model)
-        values = proxy.name_search(text, domain, 'ilike', context)
+        values = proxy.name_search(text, domain, 'ilike', ctx)
         
         return dict(values=values)
 

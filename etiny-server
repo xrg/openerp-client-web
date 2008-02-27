@@ -19,9 +19,16 @@ DESC=etiny-server
 
 test -x $DAEMON || exit 0
 
-DAEMON_OPTS=
-
 set -e
+
+# Specify the user name (Default: terp).
+USER="terp"
+
+# Specify an alternate config file (Default: /etc/etiny-server.cfg).
+CONFIGFILE="/etc/etiny-server.cfg"
+
+# Additional options that are passed to the Daemon.
+DAEMON_OPTS="$CONFIGFILE"
 
 case "$1" in
     start)

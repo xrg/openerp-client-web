@@ -81,3 +81,9 @@ class M2O(TinyField):
         else:
             self.default = value
             self.text = get_name(self.relation, self.default)
+            
+    def update_params(self, d):
+        super(M2O, self).update_params(d)
+        
+        if d['value'] and not d['text']:
+            d['text'] = get_name(self.relation, d['value'])

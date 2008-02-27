@@ -1,35 +1,75 @@
+1.0
+
+	* Fixed `Form Widget` (fields should be readonly if container is readonly).
+	* Fixed `M2O widget` (don't select if readonly).
+	* Fixed `wizard` controller (missing field values).
+	* Added deamon startup script for Linux.
+	* Fixed `M2O widget` (access problem).
+	* Fixed `action widget` for dashboard (improper view_id).
+	* Fixed `editable listgrid` (onchange problem on ENTER without changing the focus).
+	* Fixed `onchange` (improper conversion of some data).
+	* Fixed `calendar view` (encoding problem).
+	* Fixed `export popup` (now exports only current records).
+
+1.0RC4
+
+	* Improved TinyMCE (WYSWYG html editor) support
+		- any text field with `html="1"` attribute
+		- removed `widget="text_tag"` support to maintain compatibility with GTK+ client
+	* Improved `onchange` (reduced Ajax calls)
+	* Improved view cache manager
+	* Fixed translation (i18n) problem
+	* Fixed import/export bug (encoding problem)
+	* Fixed O2M popup (nested O2M)
+
+1.0RC3
+
+	* Adopted TG 1.4 style default config + startup script
+	* Improved Calendar View
+		- Updates event title on move (week/day mode)
+		- Duplicate button
+		- Close popup after save
+	* Improved Form Layout
+	* Improved sortable ListGrid
+	* Fixed `Import/Export` bugs
+	* Resizable `textarea`
+	* Properly handles `invisible` attributes
+	* Fixed TreeGrid (missing context)
+	* Fixed M2O, O2M popup (missing context)
+	* Improved `RPC & Session` implementation
+
 1.0RC2
 
-    * Lots of bug fixings
-    * Image Widget (type=binary widget=image)
-    * M2M for editable listview
-    * Duplicate Record
-    * Improved Form Layout
-    * Sidebar Links (Reports/Wizard) now opens in new window
-    * Cache for production environment only
-    * O2M with pagination support (list mode)
-    * ContextMenu (CTRL+MOUSE R) for all fields
-    * FloatTime widget support
+	* Lots of bug fixings
+	* Image Widget (type=binary widget=image)
+	* M2M for editable listview
+	* Duplicate Record
+	* Improved Form Layout
+	* Sidebar Links (Reports/Wizard) now opens in new window
+	* Cache for production environment only
+	* O2M with pagination support (list mode)
+	* ContextMenu (CTRL+MOUSE R) for all fields
+	* FloatTime widget support
 
 1.0RC1
 
-    * New `Calendar View`
-    * Editable ListGrid
-    * Sorting List/Tree Grids
-    * Drop-down menu for many2one
-    * Popup window for one2many
-    * Sum in ListGrids
-    * Sidebar (links, reports, actions)
-    * Record Navigation
-    * Import/Export feature
-    * Attachments, Translator and Log Viewer
-    * Improved layout system
-    * Complete French translation
-    * Upgraded to TurboGears 1.0.3.2
-    * Provides default `prod.cfg`
-    * Improved browser compatibilities
-    * Lots of other improvements
-    
+	* New `Calendar View`
+	* Editable ListGrid
+	* Sorting List/Tree Grids
+	* Drop-down menu for many2one
+	* Popup window for one2many
+	* Sum in ListGrids
+	* Sidebar (links, reports, actions)
+	* Record Navigation
+	* Import/Export feature
+	* Attachments, Translator and Log Viewer
+	* Improved layout system
+	* Complete French translation
+	* Upgraded to TurboGears 1.0.3.2
+	* Provides default `prod.cfg`
+	* Improved browser compatibilities
+	* Lots of other improvements
+
 0.0.1
 
-    * First Preview Release
+	* First Preview Release

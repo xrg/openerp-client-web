@@ -4,33 +4,35 @@ from turbogears.finddata import find_package_data
 import os
 execfile(os.path.join("tinyerp", "release.py"))
 
-packages=find_packages()
-package_data = find_package_data(where='tinyerp',
-    package='tinyerp')
+packages = find_packages()
+package_data = find_package_data(where='tinyerp', package='tinyerp')
+
 if os.path.isdir('locales'):
     packages.append('locales')
-    package_data.update(find_package_data(where='locales',
-        exclude=('*.po',), only_in_packages=False))
+    package_data.update(find_package_data(where='locales', exclude=('*.po',), only_in_packages=False))
 
 setup(
-    name="eTiny",
-    version=version,
+    name = "eTiny",
+    version = version,
 
     # uncomment the following lines if you fill them out in release.py
-    description='eTiny is the web client of the Tiny ERP, a free enterprise management software: accounting, stock, manufacturing, project mgt...',
-    author='Tiny ERP Pvt. Ltd.',
-    author_email='info@tinyerp.com',
-    url='http://www.tinyerp.com/demonstration.html',
-    download_url='http://tinyerp.com/download',
-    license='GPL',
+    description = description,
+    long_description = long_description,
+    author = author,
+    author_email = email,
+    url = url,
+    download_url = download_url,
+    copyright = copyright,
+    license = license,
 
     install_requires=[
         "TurboGears >= 1.0.3.2",
     ],
-    zip_safe=False,
-    packages=packages,
-    package_data=package_data,
-    keywords=[
+
+    zip_safe = False,
+    packages = packages,
+    package_data = package_data,
+    keywords = [
         # Use keywords if you'll be adding your package to the
         # Python Cheeseshop
 
@@ -49,7 +51,7 @@ setup(
         # If this is a full application, uncomment the next line
         'turbogears.app',
     ],
-    classifiers=[
+    classifiers = [
         'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
@@ -63,7 +65,7 @@ setup(
         # through the Cheeseshop, uncomment the next line
         # 'Framework :: TurboGears :: Widgets',
     ],
-    test_suite='nose.collector',
+    test_suite = 'nose.collector',
     entry_points = {
         'console_scripts': [
             'start-tinyerp = tinyerp.commands:start',

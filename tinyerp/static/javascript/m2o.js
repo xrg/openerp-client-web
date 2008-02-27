@@ -53,7 +53,7 @@ var ManyToOne = function(name){
 ManyToOne.prototype.select = function(evt){
     if (this.field.value) {
         this.open(this.field.value);
-    } else {
+    } else if (!this.field.disabled){
         this.get_matched();
     }
 }

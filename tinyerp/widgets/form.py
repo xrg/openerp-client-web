@@ -562,7 +562,7 @@ class Form(TinyCompoundWidget):
     member_widgets = ['frame']
     frame = None
 
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, nodefault=False, nolinks=1):
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
         super(Form, self).__init__()
 
         fields = view['fields']
@@ -576,6 +576,7 @@ class Form(TinyCompoundWidget):
         self.model = model
         self.id = None
         self.editable = editable
+        self.readonly = readonly
 
         proxy = rpc.RPCProxy(model)
 
@@ -629,7 +630,7 @@ class Form(TinyCompoundWidget):
 
             attrs['prefix'] = prefix
             attrs['editable'] = self.editable
-
+            
             attrs['link'] = self.link
 
             if 'state' in values:
@@ -692,6 +693,10 @@ class Form(TinyCompoundWidget):
                     print "-"*30,"\n malformed tag for :", attrs
                     print "-"*30
                     raise
+                
+                # suppress by container's readonly property 
+                if self.readonly:
+                    attrs['readonly'] = True
                 
                 kind = fields[name]['type']
 

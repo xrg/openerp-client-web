@@ -71,7 +71,7 @@ class Screen(TinyCompoundWidget):
     member_widgets = ['widget']
     widget = None
 
-    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, selectable=0, nolinks=1):
+    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
 
         # get params dictionary
         params = params or cherrypy.request.terp_params
@@ -109,6 +109,7 @@ class Screen(TinyCompoundWidget):
 
         self.selectable         = selectable
         self.editable           = editable
+        self.readonly           = readonly
         self.link               = nolinks
 
         # get calendar options
@@ -146,6 +147,7 @@ class Screen(TinyCompoundWidget):
                                     domain=self.domain,
                                     context=self.context,
                                     editable=self.editable,
+                                    readonly=self.readonly,
                                     nodefault=self.nodefault, nolinks=self.link)
             
             if not self.ids:

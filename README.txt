@@ -4,15 +4,17 @@ eTiny - Web Client of Tiny ERP, the Enterprise Management Software
 
     1. Introduction
     2. Linux Installation
-    3. Windows Installation
-    4. Web browser compatibilities
-    5. Support
+    3. eTiny as service (Linux)
+    4. Windows Installation
+    5. eTiny + HTTPS
+    6. Web browser compatibilities
+    7. Support
 
 -------------------------------------------------------------------------------
 1. INTRODUCTION
 -------------------------------------------------------------------------------
 
-eTiny! is the official web client for Tiny ERP developed by Tiny and Axelor.
+eTiny is the official web client of Tiny ERP developed by Tiny and Axelor.
 It's built on TurboGears (http://www.turbogears.org).
 
 Features:
@@ -23,7 +25,7 @@ Features:
     - Clean & Ergonomic
     - Ajax enabled
     
-eTiny! is known to work with all major web browsers available today, including
+eTiny is known to work with all major web browsers available today, including
 Firefox, IE6, IE7, Safari3 and Opera9.
 
 -------------------------------------------------------------------------------
@@ -31,9 +33,9 @@ Firefox, IE6, IE7, Safari3 and Opera9.
 -------------------------------------------------------------------------------
 
 Here is the installation instructions for Debian based Linux distributions.
-Tested on Debian Etch and Ubuntu Feisty. The procedure might work with other 
-Linux or similar distributions. See the docs on how to install the specified 
-Packages on your favourite distro.
+Tested on Debian Etch and Ubuntu Feisty/Gutsy. The procedure might work with 
+other Linux or similar distributions. See the docs on how to install the 
+specified Packages on your favourite distro.
 
 Prerequisites:
 
@@ -67,18 +69,17 @@ Python Imaging Library (PIL):
 
     $ apt-get install python-imaging
 
-eTiny! (latest):
+eTiny 1.0:
 
     $ easy_install-2.4 eTiny
     
 or 
     
-    $ easy_install-2.4 easy_install-2.4 \
-      http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
+    $ easy_install-2.4 http://tinyerp.com/download/stable/source/eTiny-1.0.tar.gz
 
 Configuration:
 
-    Locate the `config/app.cfg` in the installed `eTiny! egg`, and make 
+    Locate the `config/default.cfg` in the installed `eTiny EGG`, and make 
     appropriate changes, especially:
 
     [tinyerp]
@@ -92,14 +93,15 @@ Configuration:
     port is the Tiny ERP server port...
     protocol is the protocol to be used (socket, http or https)
 
-Now start the eTiny server with `start-tinyerp` command, liks:
+Now start the eTiny server with `start-tinyerp` command, like:
 
     $ start-tinyerp
 
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
-You can change port for eTiny! by changing appropriate config value in 
-`default.cfg/dev.cfg`.
+
+You can change port for `eTiny` by changing `server.socket_port` value in
+`config/default.cfg`.
 
 If everything is fine, open your favourite web browser and type 
 http://localhost:8080, and your can see welcome page with login screen.
@@ -109,19 +111,45 @@ Don't forget to enable cookies !
 Of course, Tiny ERP Server must be running at that time. You should create a
 database from the DBAdmin interface by clicking on Manage button that you can
 see besides the Database selection box. After creating a new database login
-with the admin/admin or demo/demo to see the eTiny! in action...
+with the admin/admin or demo/demo to see the eTiny in action...
+
 
 -------------------------------------------------------------------------------
-3. WINDOWS INSTALLATION
+3. Run eTiny as service (Linux):
+-------------------------------------------------------------------------------
+
+This has been tested on `ubuntu gutsy` only.
+
+    $ cp /path/to/eTiny-1.0-py2.4.egg/scripts/etiny-server /etc/init.d
+    $ cp /path/to/eTiny-1.0-py2.4.egg/config/default.cfg /etc/etiny-server.cfg
+
+edit `/etc/init.d/etiny-server`:
+
+    USER="terp"
+
+and `/etc/etiny-server.cfg`:
+
+    args="('server.log',)" ==> args="('/var/log/etiny-server.log',)"
+
+Now run following command to start eTiny automatically on system startup.
+
+    $ sudo update-rc.d etiny-server
+
+Start eTiny deamon:
+
+    $ sudo /etc/init.d/etiny-server start
+
+-------------------------------------------------------------------------------
+4. WINDOWS INSTALLATION
 -------------------------------------------------------------------------------
 
 Prerequisites
 
-   1. Python >= 2.4
-   2. Tiny ERP Server 4.2.x
-   3. TurboGears >= 1.0.3.2
-   4. matplotlib >= 0.87
-   5. Python Imaging Library (PIL)
+    1. Python >= 2.4
+    2. Tiny ERP Server 4.2.x
+    3. TurboGears >= 1.0.3.2
+    4. matplotlib >= 0.87
+    5. Python Imaging Library (PIL)
 
 Python:
 
@@ -135,7 +163,7 @@ Tiny ERP Server:
 
 TurboGears:
 
-    Install setuptools package from http://cheeseshop.python.org/packages/2.4/s/setuptools/setuptools-0.6c6.win32-py2.4.exe
+    Install setuptools package from http://cheeseshop.python.org/packages/2.4/s/setuptools/setuptools-0.6c7.win32-py2.4.exe
 
     > easy_install TurboGears==1.0.3.2
 
@@ -148,17 +176,17 @@ Python Imaging Library (PIL):
     If you have installed TinyERP server on the same machine you already have
     installed Python Imaging Library (PIL). If not do install it from: http://effbot.org/downloads/PIL-1.1.6.win32-py2.4.exe
 
-eTiny!:
+eTiny:
 
     > easy_install-2.4 eTiny
     
 or
 
-    > easy_install-2.4 http://tinyerp.com/download/development/win32/eTiny-1.0rc2-py2.4.egg
+    > easy_install-2.4 http://tinyerp.com/download/stable/source/eTiny-1.0.tar.gz
 
 Configuration:
 
-    Locate the `config/app.cfg` in the installed `eTiny! egg`, and make 
+    Locate the `config/default.cfg` in the installed `eTiny egg`, and make 
     appropriate changes, especially:
 
     [tinyerp]
@@ -172,14 +200,15 @@ Configuration:
     port is the Tiny ERP server port...
     protocol is the protocol to be used (socket, http or https)
 
-Now start the eTiny server with `start-tinyerp` command, liks:
+Now start the eTiny server with `start-tinyerp` command, like:
 
     > start-tinyerp
 
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
-You can change port for eTiny! by changing appropriate config value in 
-`default.cfg/dev.cfg`.
+
+You can change port for `eTiny` by changing `server.socket_port` value in
+`config/default.cfg`.
 
 If everything is fine, open your favourite web browser and type 
 http://localhost:8080, and your can see welcome page with login screen.
@@ -189,13 +218,70 @@ Don't forget to enable cookies !
 Of course, Tiny ERP Server must be running at that time. You should create a
 database from the DBAdmin interface by clicking on Manage button that you can
 see besides the Database selection box. After creating a new database login
-with the admin/admin or demo/demo to see the eTiny! in action...
+with the admin/admin or demo/demo to see the eTiny in action...
 
 -------------------------------------------------------------------------------
-4. WEB BROWSER COMPATIBILITIES
+5. eTiny + HTTPS (Linux)
 -------------------------------------------------------------------------------
 
-eTiny! is known to work best with `Mozilla` based web browsers.
+The following text describes how to configure eTiny for production environment
+over HTTPS with Apache2.
+
+mod_proxy + mod_ssl (Apache2)
+
+    See Apache manual for more information.
+
+Apache configuration:
+
+    <VirtualHost *:443>
+
+        SSLEngine on
+        SSLCertificateFile /etc/apache2/ssl/apache.pem
+
+        <Proxy *>
+            Order deny,allow
+            Allow from all
+        </Proxy>
+
+        ProxyRequests Off
+
+        ProxyPass        /   http://127.0.0.1:8080
+        ProxyPassReverse /   http://127.0.0.1:8080
+
+    </VirtualHost>
+
+eTiny configuration:
+
+    base_url_filter.on = True
+    base_url_filter.use_x_forwarded_host = False
+    base_url_filter.base_url = "https://www.example.com"
+
+Block the eTiny server port (firewall):
+
+On Linux do this:
+
+    $ iptables -A INPUT -i lo -j ACCEPT
+    $ iptables -A INPUT -p tcp --dport 8080 -j REJECT
+
+    IMP: Don't block the localhost/121.0.0.1 (the first rule)
+
+Notes:
+
+    This method only works if you want your eTiny application at the root of 
+    your server (https://www.example.com). eTiny currently can't be deployed 
+    under a subdirectory, e.g. http://www.example.com/tinyerp.
+
+    To overcome with the issue you can go with `subdomain`, like:
+
+        https://tinyerp.example.com
+
+    See: http://tinyerp.org/wiki/index.php/InstallationManual/WebClientHTTPS
+
+-------------------------------------------------------------------------------
+6. WEB BROWSER COMPATIBILITIES
+-------------------------------------------------------------------------------
+
+`eTiny` is known to work best with `Mozilla` based web browsers.
 
 Here is the list of supported browsers.
 
@@ -205,10 +291,11 @@ Here is the list of supported browsers.
     4. Safari 3.0
 
 -------------------------------------------------------------------------------
-5. SUPPORT
+7. SUPPORT
 -------------------------------------------------------------------------------
 
- TODO: support info
+    1. http://tinyerp.com
+    2. http://axelor.com
 
 -------------------------------------------------------------------------------
-Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd.
+Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.

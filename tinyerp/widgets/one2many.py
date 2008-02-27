@@ -123,7 +123,9 @@ class O2M(TinyCompoundWidget):
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
             
-        self.screen = Screen(current, prefix=self.name, views_preloaded=view, editable=self.editable, selectable=3, nolinks=self.link)
+        self.screen = Screen(current, prefix=self.name, views_preloaded=view, 
+                             editable=self.editable, readonly=self.editable, 
+                             selectable=3, nolinks=self.link)
         self.id = id
 
         if view_type == 'tree':
