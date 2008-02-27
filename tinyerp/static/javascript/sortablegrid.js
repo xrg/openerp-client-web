@@ -109,10 +109,10 @@ SortableGrid.prototype = {
                 var cell = cols[j];
                 var obj = strip(scrapeText(cell));
                 switch (this.columns[j].format) {
-                    case 'date':
-                    case 'datetime':
-                        obj = isoTimestamp(obj) || obj;
-                        break;
+                    //case 'date':
+                    //case 'datetime':
+                    //    obj = isoTimestamp(obj) || obj;
+                    //    break;
                     case 'float':
                         obj = parseFloat(obj) || 0;
                         break;
