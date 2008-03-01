@@ -79,7 +79,7 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
     if not value:
         return ''
     
-    if isinstance(value, time.struct_time):
+    if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(server_format, value)
         
     value = time.strptime(value, server_format)
@@ -119,7 +119,7 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
     if not value:
         return False
 
-    if isinstance(value, time.struct_time):
+    if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(local_format, value)
 
     try:
