@@ -91,19 +91,8 @@ class TinyCalendar(interface.TinyCompoundWidget):
     date_stop = None
     color_field = None
     day_length = 8
-
-    info_fields = []    
-    fields = []
-    
-    colors = {}
-    color_values = []
     use_search = False
-
-    events = {}
-    
-    selected_day = None
-    calendar_fields = {}
-    
+    selected_day = None    
     date_format = '%Y-%m-%d'
     
     css = [tg.widgets.CSSLink('tinyerp', 'tinycalendar/css/calendar.css')]
@@ -118,6 +107,16 @@ class TinyCalendar(interface.TinyCompoundWidget):
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_week.js')]
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
+        
+        self.info_fields = []
+        self.fields = []
+        
+        self.events = {}
+    
+        self.colors = {}
+        self.color_values = []
+        
+        self.calendar_fields = {}
 
         self.ids = ids
         self.model = model        
@@ -157,9 +156,6 @@ class TinyCalendar(interface.TinyCompoundWidget):
         fields = list(set([x for x in fields if x]))
 
         self.fields = proxy.fields_get(fields)
-        
-        self.colors = {}
-        self.color_values = []
         
         if self.color_field and options and options.colors:
             self.colors = options.colors
