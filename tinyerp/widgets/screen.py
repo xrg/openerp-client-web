@@ -86,9 +86,15 @@ class Screen(TinyCompoundWidget):
         self.view_ids      = params.view_ids or []
         self.view_mode     = params.view_mode
         self.view_type     = params.view_type
+        
+        self.view_id       = False
 
         if not self.view_type and params.view_mode:
             self.view_type = params.view_mode[0]
+            
+        if self.view_ids and self.view_type in self.view_mode:
+            idx = self.view_mode.index(self.view_type)
+            self.view_id = self.view_ids[idx]
 
         self.domain        = params.domain or []
         self.context       = params.context or {}
@@ -116,18 +122,12 @@ class Screen(TinyCompoundWidget):
         self.kalendar           = params.kalendar
 
         if self.view_mode:
-
-            view_type = self.view_type
-            view_id = False
-
-            if self.view_ids and view_type in self.view_mode:
-                view_index = self.view_mode.index(view_type)
-                view_id = self.view_ids[view_index]
-
-            self.add_view_id(view_id, view_type)
+            self.add_view_id(self.view_id, self.view_type)
 
     def add_view_id(self, view_id, view_type):
 
+        self.view_id = view_id
+        
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:
