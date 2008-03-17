@@ -20,3 +20,4 @@ import tinycalendar
 import view_log
 import image
 import admin
+import viewed
