@@ -172,14 +172,27 @@ TreeGrid.prototype._make_head = function(){
 }
 
 TreeGrid.prototype._make_body = function(records){
+    return TBODY(null, this._make_rows(null, records, null));
+}
 
-    var tbd = TBODY(null);
-
-    for(var i in records) {
-        appendChildNodes(tbd, this._make_row(null, records[i], null));
-    }
-
-    return tbd;
+TreeGrid.prototype._make_rows = function(parent_row, records, indent){
+    
+    var self = this;
+    var result = [];
+    var indent = parseInt(indent) || 0;
+    
+    forEach(records, function(record){
+        var tr = self._make_row(parent_row, record, indent);
+        result = result.concat(tr);
+        
+        if (record.child_records) {
+            self._row_state(tr, 'collapse');
+            result2 = self._make_rows(tr, record.child_records, indent + 1);            
+            result = result.concat(result2);
+        }
+    });
+   
+    return result;
 }
 
 TreeGrid.prototype._make_row = function(parent_row, record, indent){
