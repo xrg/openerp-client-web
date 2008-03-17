@@ -139,6 +139,8 @@ class Screen(TinyCompoundWidget):
 
     def add_view(self, view, view_type='form'):
 
+        self.view_id = view.get('view_id', self.view_id)
+
         if view_type == 'form':
             self.widget = form.Form(prefix=self.prefix,
                                     model=self.model,
