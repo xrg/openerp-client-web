@@ -147,13 +147,12 @@ class ViewEd(controllers.Controller, TinyResource):
             pn = node.parentNode
             xp = '/' + node.localName
     
-            while pn and pn.localName and pn.localName != 'view':
-                xp = '/' + pn.localName + xp
-                pn = pn.parentNode
+            if pn and pn.localName and pn.localName != 'view':
+                xp = _get_xpath(pn) + xp
     
             nodes = xpath.Evaluate(node.localName, node.parentNode)
             xp += '[%s]' % (nodes.index(node) + 1)
-                
+
             return xp
 
         result = []
