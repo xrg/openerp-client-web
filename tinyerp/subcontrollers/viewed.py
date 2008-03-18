@@ -49,8 +49,14 @@ class ViewEd(controllers.Controller, TinyResource):
     
     @expose(template="tinyerp.subcontrollers.templates.viewed")
     def default(self, view_id):
+
+        try:
+            view_id = eval(view_id)
+        except:
+            pass
         
-        view_id = int(view_id)
+        if isinstance(view_id, basestring) or not view_id:
+            raise common.error(_("Error!"), _("Invalid view id."))
         
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model'])
@@ -58,10 +64,11 @@ class ViewEd(controllers.Controller, TinyResource):
         model = res['model']
         
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
-        tree = tw.treegrid.TreeGrid('view', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
+        tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
         tree.show_headers = False
+        tree.onselection = 'do_select'
 
-        return dict(model=model, tree=tree, show_header_footer=False)
+        return dict(view_id=view_id, model=model, tree=tree, show_header_footer=False)
     
     def view_get(self, view_id=None):
         
@@ -129,10 +136,24 @@ class ViewEd(controllers.Controller, TinyResource):
         new_doc = dom.getDOMImplementation().createDocument(None, 'view', None)
         new_doc.documentElement.setAttribute('view_id', str(view_id))
         new_doc.documentElement.appendChild(doc_arch.documentElement)
-        
+
         return res['model'], new_doc.toxml(encoding="utf-8").replace('\t', '')
     
     def parse(self, root=None, view_id=False):
+        
+        def _get_xpath(node):
+    
+            pn = node.parentNode
+            xp = '/' + node.localName
+    
+            while pn and pn.localName and pn.localName != 'view':
+                xp = '/' + pn.localName + xp
+                pn = pn.parentNode
+    
+            nodes = xpath.Evaluate(node.localName, node.parentNode)
+            xp += '[%s]' % (nodes.index(node) + 1)
+                
+            return xp
 
         result = []
     
@@ -140,17 +161,22 @@ class ViewEd(controllers.Controller, TinyResource):
             
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
-                        
+
             attrs = tools.node_attributes(node)
-            attrs['view_id'] = attrs.get('view_id', view_id)
+            view_id = attrs.get('view_id', view_id)
+            
+            attrs['view_id'] = view_id
         
-            attrs['__random_id__'] = random.randrange(1, 1000)
+            attrs['__random_id__'] = random.randrange(1, 10000)
             attrs.setdefault('name', node.localName)
+            
+            # xpath relative to <view>
+            attrs['__xpath__'] = _get_xpath(node)
             
             children = []
             
             if node.childNodes:
-                children = self.parse(node)
+                children = self.parse(node, view_id)
             
             result += [_NODES.get(node.localName, Node)(attrs, children)]
             
@@ -163,11 +189,27 @@ class ViewEd(controllers.Controller, TinyResource):
         model, view = self.view_get(view_id)
         
         doc = dom.minidom.parseString(view.encode('utf-8'))
-        result = self.parse(root=doc)
+        result = self.parse(root=doc, view_id=view_id)
         
         records = [rec.get_record() for rec in result]
         
         return dict(records=records)
+    
+    @expose(template="tinyerp.subcontrollers.templates.viewed_edit")
+    def edit(self, view_id, xpath):
+        return dict()
+    
+    @expose()
+    def add(self, view_id, xpath):
+        pass
+    
+    @expose()
+    def delete(self, view_id, xpath):
+        pass
+    
+    @expose()
+    def save(self, view_id, xpath, **kw):
+        pass
     
 class Node(object):
     
@@ -175,7 +217,10 @@ class Node(object):
         self.attrs = attrs or {}
         self.children = children
         
+        self.view_id = self.attrs['view_id']
         self.id = self.attrs['__random_id__']
+        self.xpath = self.attrs['__xpath__']
+        
         self.name = self.get_name()
         
     def get_name(self):
@@ -184,7 +229,9 @@ class Node(object):
     def get_record(self):
         record = {
             'id' : self.id,
-            'data' : {'name' : self.name}}
+            'data' : {'name' : self.name,
+                      'view_id' : self.view_id,
+                      'xpath' : self.xpath}}
         
         if self.children:
             record['children'] = [c.id for c in self.children]
@@ -195,7 +242,7 @@ class Node(object):
 class ViewNode(Node):
     
     def get_name(self):
-        return '<view view_id="%s">' % self.attrs.get('view_id', False)
+        return '<view view_id="%s">' % self.view_id
     
 class FieldNode(Node):
     
