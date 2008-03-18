@@ -212,6 +212,7 @@ class ViewEd(controllers.Controller, TinyResource):
         editors = []
         
         properties = _PROPERTIES.get(field.localName, [])
+        properties = properties[:]
         properties += list(set(attrs.keys()) - set(properties))
         
         for prop in properties:
@@ -281,7 +282,8 @@ class Node(object):
             'id' : self.id,
             'data' : {'name' : self.name,
                       'view_id' : self.view_id,
-                      'xpath' : self.xpath}}
+                      'xpath' : self.xpath,
+                      'editable' : 1}}
         
         if self.children:
             record['children'] = [c.id for c in self.children]
@@ -293,6 +295,12 @@ class ViewNode(Node):
     
     def get_name(self):
         return '<view view_id="%s">' % self.view_id
+    
+    def get_record(self):
+        res = super(ViewNode, self).get_record()
+        res['data']['editable'] = 0
+        
+        return res
     
 class FieldNode(Node):
     

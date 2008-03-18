@@ -22,6 +22,8 @@
             record = rinfo.record;
             data = record.data;
             
+            if (!data.editable) return;
+            
             var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath_expr: data.xpath});
             req.addCallback(function(xmlHttp){
                 var el = getElement('view_ed');
