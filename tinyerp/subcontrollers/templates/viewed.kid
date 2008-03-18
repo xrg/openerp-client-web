@@ -22,11 +22,32 @@
             record = rinfo.record;
             data = record.data;
             
-            var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath: data.xpath});
+            var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath_expr: data.xpath});
             req.addCallback(function(xmlHttp){
                 var el = getElement('view_ed');
                 el.innerHTML = xmlHttp.responseText;
             });
+        }
+        
+        var do_update = function() {
+        
+            var form = getElement('view_form');
+            var params = {};
+            
+            forEach(form.elements, function(el){
+                params[el.name] = el.value;
+            });
+            
+            var req = Ajax.JSON.post('/viewed/save', params);
+            req.addCallback(function(obj){
+                if (obj.error){
+                    alert(obj.error);
+                } else {
+                    getElement('view_ed').innerHTML = '';
+                }
+            });
+            
+            return false;
         }
     
     </script>

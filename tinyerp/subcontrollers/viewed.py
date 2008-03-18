@@ -34,6 +34,7 @@ from xml import dom, xpath
 from turbogears import expose
 from turbogears import controllers
 from turbogears import validators
+from turbogears import widgets as tg_widgets
 
 import cherrypy
 
@@ -196,20 +197,69 @@ class ViewEd(controllers.Controller, TinyResource):
         return dict(records=records)
     
     @expose(template="tinyerp.subcontrollers.templates.viewed_edit")
-    def edit(self, view_id, xpath):
-        return dict()
+    def edit(self, view_id, xpath_expr):
+        
+        view_id = int(view_id)
+        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'arch'])
+        
+        doc = dom.minidom.parseString(res['arch'])        
+        field = xpath.Evaluate(xpath_expr, doc)[0]
+        
+        attrs = tools.node_attributes(field)
+        
+        editors = []
+        
+        properties = _PROPERTIES.get(field.localName, [])
+        properties += list(set(attrs.keys()) - set(properties))
+        
+        for prop in properties:
+            ed = get_property_widget(prop, attrs.get(prop))
+            ed.label = prop
+            
+            editors += [ed]
+            
+        return dict(view_id=view_id, xpath_expr=xpath_expr, editors=editors)
     
     @expose()
-    def add(self, view_id, xpath):
+    def add(self, view_id, xpath_expr):
         pass
     
     @expose()
-    def delete(self, view_id, xpath):
+    def delete(self, view_id, xpath_expr):
         pass
     
-    @expose()
-    def save(self, view_id, xpath, **kw):
-        pass
+    @expose('json')
+    def save(self, view_id, xpath_expr, **kw):
+        
+        view_id = int(view_id)
+        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'arch'])
+        
+        doc = dom.minidom.parseString(res['arch'])        
+        field = xpath.Evaluate(xpath_expr, doc)[0]
+        
+        attrs = tools.node_attributes(field)        
+        for attr in attrs:
+            field.removeAttribute(attr)
+            
+        attrs.update(kw)
+        
+        for attr, val in attrs.items():
+            if val:
+                field.setAttribute(attr, val)
+        
+        error = None
+        
+        data = dict(arch=doc.toxml(encoding="utf-8"))
+        try:
+            res = proxy.write(view_id, data)
+        except:
+            error = _("Unable to update the view.")
+        
+        return dict(error=error)
     
 class Node(object):
     
@@ -253,3 +303,27 @@ _NODES = {
     'view' : ViewNode,
     'field': FieldNode
 }
+
+_PROPERTIES = {
+    'field' : ['name', 'string', 'readonly', 'select', 'completion', 'domain', 'context', 'nolabel', 'colspan', 'widget', 'eval', 'ref'],
+    'form' : ['string', 'col', 'link'],
+    'notebook' : ['colspan', 'position'],
+    'page' : ['string'],
+    'group' : ['string', 'col', 'colspan'],
+    'image' : ['filename', 'width', 'height'],
+    'separator' : ['string', 'colspan'],
+    'label': ['string', 'align', 'colspan'],
+    'newline' : [],
+    'hpaned': ['position'],
+    'vpaned': ['position'],
+    'child1' : [],
+    'child2' : [],
+    'action' : ['string'],
+    'tree' : ['string', 'colors', 'editable', 'link'],
+    'graph' : ['string', 'type'],
+    'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
+    'view' : [],
+}
+
+def get_property_widget(name, value=None):
+    return tg_widgets.TextField(name=name, default=value)
