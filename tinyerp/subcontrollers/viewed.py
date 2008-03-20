@@ -339,10 +339,16 @@ class FieldNode(Node):
     
     def get_name(self):
         return '[%s]' % self.attrs['name']
+    
+class ButtonNode(Node):
+    
+    def get_name(self):
+        return '<button>'
 
 _NODES = {
     'view' : ViewNode,
-    'field': FieldNode
+    'field': FieldNode,
+    'button' : ButtonNode
 }
 
 _PROPERTIES = {
@@ -354,6 +360,7 @@ _PROPERTIES = {
     'image' : ['filename', 'width', 'height'],
     'separator' : ['string', 'colspan'],
     'label': ['string', 'align', 'colspan'],
+    'button': ['name', 'string', 'type', 'states', 'readonly'],
     'newline' : [],
     'hpaned': ['position'],
     'vpaned': ['position'],
