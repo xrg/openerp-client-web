@@ -371,6 +371,7 @@ _PROPERTIES = {
     'graph' : ['string', 'type'],
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
     'view' : [],
+    'properties' : [],
 }
 
 def get_property_widget(name, value=None):
