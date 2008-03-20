@@ -96,8 +96,8 @@ class ViewEd(controllers.Controller, TinyResource):
                         if res: return res
                 return None
 
-            doc_src = dom.minidom.parseString(src)
-            doc_dest = dom.minidom.parseString(inherit)
+            doc_src = dom.minidom.parseString(src.encode('utf-8'))
+            doc_dest = dom.minidom.parseString(inherit.encode('utf-8'))
             for node2 in doc_dest.childNodes:
                 if not node2.nodeType==node2.ELEMENT_NODE:
                     continue
@@ -115,7 +115,7 @@ class ViewEd(controllers.Controller, TinyResource):
                     ])
                     tag = "<%s%s>" % (node2.localName, attrs)
                     raise AttributeError, "Couldn't find tag '%s' in parent view !" % tag
-            return doc_src.toxml(encoding="utf-8").replace('\t', '')
+            return doc_src.toxml().replace('\t', '')
         
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id)
@@ -132,13 +132,13 @@ class ViewEd(controllers.Controller, TinyResource):
             return result
         
         doc_arch = _inherit_apply_rec(res['arch'], view_id)
-        doc_arch = dom.minidom.parseString(doc_arch)
+        doc_arch = dom.minidom.parseString(doc_arch.encode('utf-8'))
         
         new_doc = dom.getDOMImplementation().createDocument(None, 'view', None)
         new_doc.documentElement.setAttribute('view_id', str(view_id))
         new_doc.documentElement.appendChild(doc_arch.documentElement)
 
-        return res['model'], new_doc.toxml(encoding="utf-8").replace('\t', '')
+        return res['model'], new_doc.toxml().replace('\t', '')
     
     def parse(self, root=None, view_id=False):
         
@@ -203,7 +203,7 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model', 'arch'])
         
-        doc = dom.minidom.parseString(res['arch'])        
+        doc = dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
         
         attrs = tools.node_attributes(field)
@@ -238,7 +238,7 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model', 'arch'])
         
-        doc = dom.minidom.parseString(res['arch'])        
+        doc = dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
         
         attrs = tools.node_attributes(field)        
