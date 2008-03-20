@@ -46,6 +46,19 @@ from tinyerp.tinyres import TinyResource
 
 import tinyerp.widgets as tw
 
+def _get_xpath(node):
+
+    pn = node.parentNode
+    xp = '/' + node.localName
+
+    if pn and pn.localName and pn.localName != 'view':
+        xp = _get_xpath(pn) + xp
+
+    nodes = xpath.Evaluate(node.localName, node.parentNode)
+    xp += '[%s]' % (nodes.index(node) + 1)
+
+    return xp
+
 class ViewEd(controllers.Controller, TinyResource):
     
     @expose(template="tinyerp.subcontrollers.templates.viewed")
@@ -67,7 +80,7 @@ class ViewEd(controllers.Controller, TinyResource):
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
         tree.show_headers = False
-        tree.onselection = 'do_select'
+        tree.onselection = 'onSelect'
 
         return dict(view_id=view_id, model=model, tree=tree, show_header_footer=False)
     
@@ -141,19 +154,6 @@ class ViewEd(controllers.Controller, TinyResource):
         return res['model'], new_doc.toxml().replace('\t', '')
     
     def parse(self, root=None, view_id=False):
-        
-        def _get_xpath(node):
-    
-            pn = node.parentNode
-            xp = '/' + node.localName
-    
-            if pn and pn.localName and pn.localName != 'view':
-                xp = _get_xpath(pn) + xp
-    
-            nodes = xpath.Evaluate(node.localName, node.parentNode)
-            xp += '[%s]' % (nodes.index(node) + 1)
-
-            return xp
 
         result = []
     
@@ -222,16 +222,26 @@ class ViewEd(controllers.Controller, TinyResource):
             
         return dict(view_id=view_id, xpath_expr=xpath_expr, editors=editors)
     
-    @expose()
+    @expose(template="tinyerp.subcontrollers.templates.viewed_add")
     def add(self, view_id, xpath_expr):
-        pass
+        view_id = int(view_id)
+        
+        #proxy = rpc.RPCProxy('ir.ui.view')
+        #res = proxy.read(view_id, ['model', 'arch'])
+        
+        #TODO: list of fields that can be added
+        
+        fields = _PROPERTIES.keys()
+        fields.sort()
+
+        return dict(view_id=view_id, xpath_expr=xpath_expr, fields=fields)
     
     @expose()
     def delete(self, view_id, xpath_expr):
         pass
     
     @expose('json')
-    def save(self, view_id, xpath_expr, **kw):
+    def save(self, _terp_what, view_id, xpath_expr, **kw):
         
         view_id = int(view_id)
         
@@ -241,17 +251,36 @@ class ViewEd(controllers.Controller, TinyResource):
         doc = dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
         
-        attrs = tools.node_attributes(field)        
-        for attr in attrs:
-            field.removeAttribute(attr)
-            
-        attrs.update(kw)
-        
-        for attr, val in attrs.items():
-            if val:
-                field.setAttribute(attr, val)
-        
         error = None
+        
+        if _terp_what == "properties":
+            
+            attrs = tools.node_attributes(field)        
+            for attr in attrs:
+                field.removeAttribute(attr)
+            
+            attrs.update(kw)
+        
+            for attr, val in attrs.items():
+                if val:
+                    field.setAttribute(attr, val)
+                    
+        if _terp_what == "node" and field.parentNode and field.parentNode.localName:
+            
+            node = doc.createElement(kw['node'])
+            pos = kw['position']
+            
+            pnode = field.parentNode
+            
+            if pos == "after":
+                pnode.insertBefore(node, field.nextSibling)
+            else:
+                pnode.insertBefore(node, field)
+
+        if _terp_what == "remove":
+            
+            pnode = field.parentNode
+            pnode.removeChild(field)
         
         data = dict(arch=doc.toxml(encoding="utf-8"))
         try:

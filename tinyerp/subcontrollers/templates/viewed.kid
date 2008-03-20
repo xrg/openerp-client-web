@@ -4,12 +4,85 @@
     <title>View Editor</title>
     <script type="text/javascript">
     
-        var do_select = function(){
+        var onSelect = function(){
             var el = getElement('view_ed');
             el.innerHTML = '';
         }
+        
+        var onDelete = function(){
+        
+            if (!confirm('Do you really want to remove this node?')) {
+                return;
+            }
+            
+            var tree = view_tree;
+            
+            if (!tree.selection) {
+                return;
+            }
+            
+            selected = tree.selection[0];
+            
+            rinfo = tree.row_info[selected.id];
+            record = rinfo.record;
+            data = record.data;
+            
+            var req = Ajax.JSON.post('/viewed/save/remove', {view_id: data.view_id, xpath_expr: data.xpath});
+            req.addCallback(function(obj){
+                
+                if (obj.error){
+                    return alert(obj.error);
+                }
+                
+                tree.reload();
+            });
+        }
+        
+        var onAdd = function(){
+            var tree = view_tree;
+            
+            if (!tree.selection) {
+                return;
+            }
+            
+            selected = tree.selection[0];
+            
+            rinfo = tree.row_info[selected.id];
+            record = rinfo.record;
+            data = record.data;
+            
+            var req = Ajax.post('/viewed/add', {view_id: data.view_id, xpath_expr: data.xpath});
+            req.addCallback(function(xmlHttp){
+                var el = getElement('view_ed');
+                el.innerHTML = xmlHttp.responseText;
+            });
+        }
+        
+        var doAdd = function() {
+        
+            var form = getElement('view_form');
+            var params = {};
+            
+            forEach(form.elements, function(el){
+                params[el.name] = el.value;
+            });
+            
+            var req = Ajax.JSON.post('/viewed/save/node', params);
+            req.addCallback(function(obj){
+                if (obj.error){
+                    return alert(obj.error);
+                }
+
+                getElement('view_ed').innerHTML = '';
+                view_tree.reload();
+
+            });
+            
+            return false;        
+        }
     
-        var do_edit = function(){
+        var onEdit = function() {
+        
             var tree = view_tree;
             
             if (!tree.selection) {
@@ -31,7 +104,7 @@
             });
         }
         
-        var do_update = function() {
+        var doEdit = function() {
         
             var form = getElement('view_form');
             var params = {};
@@ -40,7 +113,7 @@
                 params[el.name] = el.value;
             });
             
-            var req = Ajax.JSON.post('/viewed/save', params);
+            var req = Ajax.JSON.post('/viewed/save/properties', params);
             req.addCallback(function(obj){
                 if (obj.error){
                     alert(obj.error);
@@ -79,9 +152,9 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td><button type="button" onclick="">Add</button></td>
-                            <td><button type="button" onclick="">Delete</button></td>
-                            <td><button type="button" onclick="do_edit()">Edit</button></td>
+                            <td><button type="button" onclick="onAdd()">Add</button></td>
+                            <td><button type="button" onclick="onDelete()">Delete</button></td>
+                            <td><button type="button" onclick="onEdit()">Edit</button></td>
                             <td width="100%">&nbsp;</td>
                             <td><button type="button" onclick="window.close()">Close</button></td>
                         </tr>

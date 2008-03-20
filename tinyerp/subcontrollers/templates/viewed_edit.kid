@@ -1,6 +1,6 @@
 <table xmlns:py="http://purl.org/kid/ns#" width="100%" height="100%">
     <tr>
-        <td class="toolbar">Edit Properties</td>
+        <td class="toolbar">Properties</td>
     </tr>
     <tr>
         <td height="100%" valign="top">
@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td>
-            <div class="toolbar"><button class="button" onclick="do_update()">Update</button></div>
+            <div class="toolbar"><button class="button" onclick="doEdit()">Update</button></div>
         </td>
     </tr>
 </table>
