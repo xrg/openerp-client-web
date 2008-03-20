@@ -10,9 +10,15 @@
                 <table>
                     <tr>
                         <td class="label">Node Type:</td>
+                        <td class="item" width="100">
+                            <select id="node" name="node" onchange="getElement('name').style.display = this.value == 'field' ? '' : 'none'">
+                                <option py:for="node in nodes" value="${node}" selected="${tg.selector(node=='field')}">${node}</option>
+                            </select>
+                        </td>
                         <td class="item">
-                            <select id="node" name="node">
-                                <option py:for="field in fields" value="${field}" selected="${tg.selector(field=='field')}">${field}</option>
+                            <select id="name" name="name">
+                                <option value=""></option>
+                                <option py:for="field in fields" value="${field}">${field}</option>
                             </select>
                         </td>
                     </tr>
@@ -23,6 +29,8 @@
                                 <option value="after">after</option>
                                 <option value="before">before</option>
                             </select>
+                        </td>
+                        <td class="item">
                         </td>
                     </tr>
                 </table>

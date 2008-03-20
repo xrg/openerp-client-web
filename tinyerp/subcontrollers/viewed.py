@@ -226,19 +226,16 @@ class ViewEd(controllers.Controller, TinyResource):
     def add(self, view_id, xpath_expr):
         view_id = int(view_id)
         
-        #proxy = rpc.RPCProxy('ir.ui.view')
-        #res = proxy.read(view_id, ['model', 'arch'])
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'arch'])
         
-        #TODO: list of fields that can be added
+        proxy = rpc.RPCProxy(res['model'])
+        fields = proxy.fields_get().keys()
         
-        fields = _PROPERTIES.keys()
-        fields.sort()
+        nodes = _PROPERTIES.keys()
+        nodes.sort()
 
-        return dict(view_id=view_id, xpath_expr=xpath_expr, fields=fields)
-    
-    @expose()
-    def delete(self, view_id, xpath_expr):
-        pass
+        return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields)
     
     @expose('json')
     def save(self, _terp_what, view_id, xpath_expr, **kw):
@@ -268,6 +265,10 @@ class ViewEd(controllers.Controller, TinyResource):
         if _terp_what == "node" and field.parentNode and field.parentNode.localName:
             
             node = doc.createElement(kw['node'])
+            
+            if node.localName == "field":
+                node.setAttribute('name', kw.get('name', node.localName))
+
             pos = kw['position']
             
             pnode = field.parentNode
