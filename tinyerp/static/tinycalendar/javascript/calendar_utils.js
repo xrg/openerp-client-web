@@ -148,7 +148,7 @@ var saveCalendarRecord = function(record_id, starts, ends){
         '_terp_context': $('_terp_context').value
     }
 
-    return Ajax.post('/calendar/save', params);
+    return Ajax.JSON.post('/calendar/save', params);
 }
 
 var editCalendarRecord = function(record_id){

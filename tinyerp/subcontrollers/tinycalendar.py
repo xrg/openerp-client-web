@@ -157,9 +157,7 @@ class TinyCalendar(Form):
     def save(self, **kw):
         params, data = TinyDict.split(kw)
         
-        proxy = rpc.RPCProxy(params.model)
-        data = {}
-        
+        data = {}        
         ds = tc.utils.parse_datetime(params.starts)
         de = tc.utils.parse_datetime(params.ends)
         
@@ -187,10 +185,15 @@ class TinyCalendar(Form):
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         
-        res = proxy.write(params.id, data, ctx)
+        error = None
+        proxy = rpc.RPCProxy(params.model)
         
-        #TODO: return error message if any        
-        return dict()
+        try:
+            res = proxy.write(params.id, data, ctx)
+        except Exception, e:
+            error = ustr(e)
+        
+        return dict(error=error)
     
     @expose()
     def duplicate(self, **kw):

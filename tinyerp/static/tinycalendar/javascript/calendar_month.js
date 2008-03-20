@@ -378,16 +378,27 @@ MonthCalendar.Week.prototype = {
         s = s.getTime() + (dt.getTime() - t);
         e = e.getTime() + (dt.getTime() - t);
 
-        s = new Date(s);
-        e = new Date(e);
+        s = toISOTimestamp(new Date(s));
+        e = toISOTimestamp(new Date(e))
 
-        record.starts = toISOTimestamp(s);
-        record.ends = toISOTimestamp(e);
+        var self = this;
+        var req = saveCalendarRecord(id, s, e);
+        
+        req.addCallback(function(obj) {
+            
+            if (obj.error) {
+                return alert(obj.error);
+            }
+            
+            record.starts = s;
+            record.ends = e;
 
-        this.calendar.makeEvents();
-        this.calendar.onResize();
-
-        saveCalendarRecord(id, record.starts, record.ends);
+            self.calendar.makeEvents();            
+        });
+        
+        req.addBoth(function(obj){
+            self.calendar.onResize();
+        });
     },
 
     makeEventContainers : function(){

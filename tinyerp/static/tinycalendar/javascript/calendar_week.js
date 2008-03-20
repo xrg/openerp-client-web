@@ -97,12 +97,22 @@ WeekCalendar.prototype = {
         e = dt.getTime() + h * (30/20) * (60 * 1000);
         e = new Date(e);
 
-        setNodeAttribute(element, 'dtend', toISOTimestamp(e));
-
-        this.dayGrid.makeEventContainers();
-        this.dayGrid.adjust();
-
-        saveCalendarRecord(id, toISOTimestamp(dt), toISOTimestamp(e));
+        var self = this;
+        var req = saveCalendarRecord(id, toISOTimestamp(dt), toISOTimestamp(e));
+        
+        req.addCallback(function(obj){
+            
+            if (obj.error) {
+                return alert(obj.error);
+            }
+            
+            setNodeAttribute(element, 'dtend', toISOTimestamp(e));
+            self.dayGrid.makeEventContainers();
+        });
+        
+        req.addBoth(function(obj){
+            self.dayGrid.adjust();
+        });
     }
 }
 
@@ -244,17 +254,28 @@ WeekCalendar.AllDayGrid.prototype = {
 
         s = s.getTime() + (dt.getTime() - t);
         e = e.getTime() + (dt.getTime() - t);
+        
+        s = toISOTimestamp(new Date(s));
+        e = toISOTimestamp(new Date(e))
 
-        s = new Date(s);
-        e = new Date(e);
+        var self = this;
+        var req = saveCalendarRecord(id, s, e);
+        
+        req.addCallback(function(obj) {
+            
+            if (obj.error) {
+                return alert(obj.error);
+            }
+            
+            record.starts = s;
+            record.ends = e;
 
-        record.starts = toISOTimestamp(s);
-        record.ends = toISOTimestamp(e);
-
-        this.makeEvents();
-        this.adjust();
-
-        saveCalendarRecord(id, record.starts, record.ends);
+            self.makeEvents();            
+        });
+        
+        req.addBoth(function(obj){
+            self.adjust();
+        });
     },
 
     onMouseDown : function(evt){
@@ -606,24 +627,35 @@ WeekCalendar.DayGrid.prototype = {
 
         s = new Date(s);
         e = new Date(e);
-
-        setNodeAttribute(draggable, 'dtstart', toISOTimestamp(s));
-        setNodeAttribute(draggable, 'dtend', toISOTimestamp(e));
         
-        this.makeEventContainers();
-        this.adjust();
-
-        // update the event title        
-        var title = getElementsByTagAndClassName('div', 'calEventTitle', draggable)[0];
-        var t = strip(title.innerHTML);
+        var self = this;
+        var req = saveCalendarRecord(id, toISOTimestamp(s), toISOTimestamp(e));
         
-        t = t.split(' - '); t.shift();
-        t = t.join(' - ');
+        req.addCallback(function(obj){
+            
+            if (obj.error) {
+                return alert(obj.error);
+            }
+            
+            setNodeAttribute(draggable, 'dtstart', toISOTimestamp(s));
+            setNodeAttribute(draggable, 'dtend', toISOTimestamp(e));
+            
+            self.makeEventContainers();
+    
+            // update the event title        
+            var title = getElementsByTagAndClassName('div', 'calEventTitle', draggable)[0];
+            var t = strip(title.innerHTML);
+            
+            t = t.split(' - '); t.shift();
+            t = t.join(' - ');
+            
+            title.innerHTML = s.strftime('%I:%M %P') + ' - ' + t;         
+        });
         
-        title.innerHTML = s.strftime('%I:%M %P') + ' - ' + t;
+        req.addBoth(function(obj){
+            self.adjust();
+        });
         
-        // save the event
-        saveCalendarRecord(id, toISOTimestamp(s), toISOTimestamp(e));
     },
 
     onMouseDown : function(evt){
