@@ -18,7 +18,10 @@
     </tr>
     <tr>
         <td>
-            <div class="toolbar"><button class="button" onclick="doEdit()">Update</button></div>
+            <div class="toolbar">
+                <button class="button" onclick="doEdit()">Update</button>
+                <button class="button" onclick="getElement('view_ed').innerHTML=''">Cancel</button>
+            </div>
         </td>
     </tr>
 </table>

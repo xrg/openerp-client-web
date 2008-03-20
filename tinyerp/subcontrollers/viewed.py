@@ -275,8 +275,12 @@ class ViewEd(controllers.Controller, TinyResource):
             
             if pos == "after":
                 pnode.insertBefore(node, field.nextSibling)
-            else:
+                
+            elif pos == "before":
                 pnode.insertBefore(node, field)
+                
+            elif pos == "inside":
+                field.appendChild(node)
 
         if _terp_what == "remove":
             

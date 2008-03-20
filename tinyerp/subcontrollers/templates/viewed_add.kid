@@ -7,9 +7,9 @@
             <form id="view_form" name="view_form" onsubmit="return false" action="">
                 <input type="hidden" name="view_id" id="view_id" value="${view_id}"/>
                 <input type="hidden" name="xpath_expr" id="xpath_expr" value="${xpath_expr}"/>
-                <table>
+                <table width="100%">
                     <tr>
-                        <td class="label">Node Type:</td>
+                        <td class="label" width="5">Node Type:</td>
                         <td class="item" width="100">
                             <select id="node" name="node" onchange="getElement('name').style.display = this.value == 'field' ? '' : 'none'">
                                 <option py:for="node in nodes" value="${node}" selected="${tg.selector(node=='field')}">${node}</option>
@@ -28,6 +28,7 @@
                             <select id="type" name="position">
                                 <option value="after">after</option>
                                 <option value="before">before</option>
+                                <option value="inside">inside</option>
                             </select>
                         </td>
                         <td class="item">
@@ -39,7 +40,10 @@
     </tr>
     <tr>
         <td>
-            <div class="toolbar"><button class="button" onclick="doAdd()">Update</button></div>
+            <div class="toolbar">
+                <button class="button" onclick="doAdd()">Update</button>
+                <button class="button" onclick="getElement('view_ed').innerHTML=''">Cancel</button>
+            </div>
         </td>
     </tr>
 </table>
