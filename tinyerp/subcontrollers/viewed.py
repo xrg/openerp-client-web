@@ -33,7 +33,7 @@ from xml import dom, xpath
 
 from turbogears import expose
 from turbogears import controllers
-from turbogears import validators
+from turbogears import validators as tg_validators
 from turbogears import widgets as tg_widgets
 
 import cherrypy
@@ -255,10 +255,8 @@ class ViewEd(controllers.Controller, TinyResource):
             attrs = tools.node_attributes(field)        
             for attr in attrs:
                 field.removeAttribute(attr)
-            
-            attrs.update(kw)
         
-            for attr, val in attrs.items():
+            for attr, val in kw.items():
                 if val:
                     field.setAttribute(attr, val)
                     
@@ -380,5 +378,24 @@ _PROPERTIES = {
     'properties' : [],
 }
 
+_PROPERTY_WIDGETS = {
+    'select' : lambda **kw: tg_widgets.SingleSelectField(name='select', 
+                                                         options=[('', 'Not Searchable'),
+                                                                  ('1', 'Always Searchable'),
+                                                                  ('2', 'Advanced Search')], default=kw['value']),
+                                                                  
+    'readonly' : lambda **kw: tg_widgets.CheckBox(name='readonly', attrs=dict(value=1, checked=kw['value'])),
+    'nolabel' : lambda **kw: tg_widgets.CheckBox(name='nolabel', attrs=dict(value=1, checked=kw['value'])),
+    'completion' : lambda **kw: tg_widgets.CheckBox(name='completion', attrs=dict(value=1, checked=kw['value'])),
+    
+    'widget' : lambda **kw: tg_widgets.SingleSelectField(name='widget', 
+                                                         options=[''] + tw.form.widgets_type.keys(), default=kw['value']),
+}
+
 def get_property_widget(name, value=None):
-    return tg_widgets.TextField(name=name, default=value)
+
+    wid = _PROPERTY_WIDGETS.get(name)
+    if not wid:
+        return tg_widgets.TextField(name=name, default=value)
+    
+    return wid(value=value)
