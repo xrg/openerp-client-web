@@ -10,21 +10,20 @@
         
         var onDelete = function(){
         
+            var tree = view_tree;
+            var selected = tree.selection[0] || null;
+            
+            if (!selected) {
+                return;
+            }
+            
             if (!confirm('Do you really want to remove this node?')) {
                 return;
-            }
+            }            
             
-            var tree = view_tree;
-            
-            if (!tree.selection) {
-                return;
-            }
-            
-            selected = tree.selection[0];
-            
-            rinfo = tree.row_info[selected.id];
-            record = rinfo.record;
-            data = record.data;
+            var rinfo = tree.row_info[selected.id];
+            var record = rinfo.record;
+            var data = record.data;
             
             var req = Ajax.JSON.post('/viewed/save/remove', {view_id: data.view_id, xpath_expr: data.xpath});
             req.addCallback(function(obj){
@@ -38,17 +37,17 @@
         }
         
         var onAdd = function(){
+        
             var tree = view_tree;
+            var selected = tree.selection[0] || null;
             
-            if (!tree.selection) {
+            if (!selected) {
                 return;
             }
             
-            selected = tree.selection[0];
-            
-            rinfo = tree.row_info[selected.id];
-            record = rinfo.record;
-            data = record.data;
+            var rinfo = tree.row_info[selected.id];
+            var record = rinfo.record;
+            var data = record.data;
             
             var req = Ajax.post('/viewed/add', {view_id: data.view_id, xpath_expr: data.xpath});
             req.addCallback(function(xmlHttp){
@@ -83,12 +82,11 @@
         var onEdit = function() {
         
             var tree = view_tree;
+            var selected = tree.selection[0] || null;
             
-            if (!tree.selection) {
+            if (!selected) {
                 return;
             }
-            
-            var selected = tree.selection[0];
             
             var rinfo = tree.row_info[selected.id];
             var record = rinfo.record;
@@ -128,6 +126,10 @@
             return false;
         }
         
+        var onNew = function(){
+            alert("Not implemented yet!");
+        }
+        
         var onClose = function(){
             window.opener.setTimeout("window.location.reload()", 1);
             window.close();
@@ -160,9 +162,10 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td><button type="button" onclick="onAdd()">Add</button></td>
-                            <td><button type="button" onclick="onDelete()">Delete</button></td>
-                            <td><button type="button" onclick="onEdit()">Edit</button></td>
+                            <td><button type="button" title="${_('Add a new field')}" onclick="onNew()">New</button></td>
+                            <td><button type="button" title="${_('Add a field')}" onclick="onAdd()">Add</button></td>
+                            <td><button type="button" title="${_('Delete current field')}" onclick="onDelete()">Delete</button></td>
+                            <td><button type="button" title="${_('Edit current field')}" onclick="onEdit()">Edit</button></td>
                             <td width="100%">&nbsp;</td>
                             <td><button type="button" onclick="onClose()">Close</button></td>
                         </tr>
