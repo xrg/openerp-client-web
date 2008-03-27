@@ -388,6 +388,14 @@ class SelectProperty(tg_widgets.SingleSelectField):
         
         super(SelectProperty, self).__init__(name=name, options=options, default=default)
         
+class WidgetProperty(tg_widgets.SingleSelectField):
+    
+    def __init__(self, name, default=None):
+        
+        options = [''] + tw.form.widgets_type.keys()
+                
+        super(WidgetProperty, self).__init__(name=name, options=options, default=default)        
+        
 class BooleanProperty(tg_widgets.CheckBox):
     
     def __init__(self, name, default=None):
@@ -414,6 +422,7 @@ _PROPERTY_WIDGETS = {
     'readonly' : BooleanProperty,
     'nolabel' : BooleanProperty,
     'completion' : BooleanProperty,
+    'widget' : WidgetProperty,
     'groups' : GroupsProperty,                                                 
 }
 
