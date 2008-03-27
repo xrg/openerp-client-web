@@ -130,8 +130,6 @@ requests, requests_message = tg.root.requests.my()
     <tr py:if="value_of('show_header_footer', True)">
         <td>
             <div id="footer">
-            <br/>
-            <hr/>
             Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More Information on <a href="http://tinyerp.com">http://tinyerp.com</a>.<br/>
             The web client is developed by Axelor (<a href="http://axelor.com">http://axelor.com</a>) and Tiny (<a href="http://tiny.be">http://tiny.be</a>)<br/>
             Running Server: <span>${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} - database: ${rpc.session.db or 'N/A'}</span><br/>

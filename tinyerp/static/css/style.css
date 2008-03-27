@@ -30,7 +30,10 @@ a:hover .imglink {
 }
 
 a.dimmed {
-	margin-top: 5px;
+	font-size: 10px;
+	text-transform: uppercase;
+	margin-right: 5px;
+	
 	color: #bbb;
 }
 
@@ -169,11 +172,12 @@ span.disabled_text {
 
 #footer {
     clear: both;
-    padding: 5px;
     text-align: center;
     font-size: 11px;
     color: #777777;
     line-height: 20px;
+    border-top: 1px solid #888;
+    margin-top: 25px;
 }
 
 #footer a {

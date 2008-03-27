@@ -101,7 +101,7 @@
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
                     <tr>
-                        <td align="center">
+                        <td align="right">
                             <a class="dimmed" 
                                title="${_('Edit current view')}" 
                                onclick="openWindow('/viewed?view_id=${form.screen.view_id}')" 
