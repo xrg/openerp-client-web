@@ -344,11 +344,17 @@ class ButtonNode(Node):
     
     def get_name(self):
         return '<button>'
+    
+class ActionNode(Node):
+    
+    def get_name(self):
+        return '<action>'
 
 _NODES = {
     'view' : ViewNode,
     'field': FieldNode,
-    'button' : ButtonNode
+    'button' : ButtonNode,
+    'action' : ActionNode
 }
 
 _PROPERTIES = {
