@@ -110,8 +110,13 @@
             var form = getElement('view_form');
             var params = {};
             
+            
+            
             forEach(form.elements, function(el){
-                params[el.name] = el.value;
+                var val = el.type == 'checkbox' ? el.checked ? 1 : null : el.value;
+                if (val) {           
+                    params[el.name] = val;
+                }
             });
             
             var req = Ajax.JSON.post('/viewed/save/properties', params);
