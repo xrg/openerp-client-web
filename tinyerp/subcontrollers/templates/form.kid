@@ -103,9 +103,9 @@
                     <tr>
                         <td align="right">
                             <a class="dimmed" 
-                               title="${_('Edit current view')}" 
+                               title="${_('Customise current view')}" 
                                onclick="openWindow('/viewed?view_id=${form.screen.view_id}')" 
-                               href="javascript: void(0)">Design View</a>
+                               href="javascript: void(0)">Customise View</a>
                         </td>
                     </tr>
                 </table>
