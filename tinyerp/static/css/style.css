@@ -29,6 +29,16 @@ a:hover .imglink {
     border: none;
 }
 
+a.dimmed {
+	margin-top: 5px;
+	color: #bbb;
+}
+
+a.dimmed:hover {
+	color: #333;
+	text-decoration: none;
+}
+
 hr {
     border: 0px;
     background-color: #888;

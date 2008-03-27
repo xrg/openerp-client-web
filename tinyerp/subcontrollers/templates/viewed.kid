@@ -5,8 +5,7 @@
     <script type="text/javascript">
     
         var onSelect = function(){
-            var el = getElement('view_ed');
-            el.innerHTML = '';
+            onEdit();
         }
         
         var onDelete = function(){
@@ -89,17 +88,21 @@
                 return;
             }
             
-            selected = tree.selection[0];
+            var selected = tree.selection[0];
             
-            rinfo = tree.row_info[selected.id];
-            record = rinfo.record;
-            data = record.data;
+            var rinfo = tree.row_info[selected.id];
+            var record = rinfo.record;
+            var data = record.data;
             
-            if (!data.editable) return;
+            var el = getElement('view_ed');
+            
+            if (!data.editable) {
+                el.innerHTML = '';
+                return;
+            };
             
             var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath_expr: data.xpath});
             req.addCallback(function(xmlHttp){
-                var el = getElement('view_ed');
                 el.innerHTML = xmlHttp.responseText;
             });
         }
@@ -123,6 +126,11 @@
             });
             
             return false;
+        }
+        
+        var onClose = function(){
+            window.opener.setTimeout("window.location.reload()", 1);
+            window.close();
         }
     
     </script>
@@ -156,7 +164,7 @@
                             <td><button type="button" onclick="onDelete()">Delete</button></td>
                             <td><button type="button" onclick="onEdit()">Edit</button></td>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="window.close()">Close</button></td>
+                            <td><button type="button" onclick="onClose()">Close</button></td>
                         </tr>
                     </table>
                 </div>
