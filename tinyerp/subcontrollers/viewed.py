@@ -356,46 +356,67 @@ _NODES = {
 }
 
 _PROPERTIES = {
-    'field' : ['name', 'string', 'readonly', 'select', 'completion', 'domain', 'context', 'nolabel', 'colspan', 'widget', 'eval', 'ref'],
+    'field' : ['name', 'string', 'readonly', 'select', 'completion', 'domain', 'context', 'nolabel', 'colspan', 'widget', 'eval', 'ref', 'groups'],
     'form' : ['string', 'col', 'link'],
-    'notebook' : ['colspan', 'position'],
-    'page' : ['string'],
-    'group' : ['string', 'col', 'colspan'],
-    'image' : ['filename', 'width', 'height'],
-    'separator' : ['string', 'colspan'],
-    'label': ['string', 'align', 'colspan'],
-    'button': ['name', 'string', 'type', 'states', 'readonly'],
+    'notebook' : ['colspan', 'position', 'groups'],
+    'page' : ['string', 'groups'],
+    'group' : ['string', 'col', 'colspan', 'groups'],
+    'image' : ['filename', 'width', 'height', 'groups'],
+    'separator' : ['string', 'colspan', 'groups'],
+    'label': ['string', 'align', 'colspan', 'groups'],
+    'button': ['name', 'string', 'type', 'states', 'readonly', 'groups'],
     'newline' : [],
-    'hpaned': ['position'],
-    'vpaned': ['position'],
-    'child1' : [],
-    'child2' : [],
-    'action' : ['string'],
+    'hpaned': ['position', 'groups'],
+    'vpaned': ['position', 'groups'],
+    'child1' : ['groups'],
+    'child2' : ['groups'],
+    'action' : ['string', 'groups'],
     'tree' : ['string', 'colors', 'editable', 'link'],
     'graph' : ['string', 'type'],
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
     'view' : [],
-    'properties' : [],
+    'properties' : ['groups'],
 }
 
-_PROPERTY_WIDGETS = {
-    'select' : lambda **kw: tg_widgets.SingleSelectField(name='select', 
-                                                         options=[('', 'Not Searchable'),
-                                                                  ('1', 'Always Searchable'),
-                                                                  ('2', 'Advanced Search')], default=kw['value']),
-                                                                  
-    'readonly' : lambda **kw: tg_widgets.CheckBox(name='readonly', attrs=dict(value=1, checked=kw['value'])),
-    'nolabel' : lambda **kw: tg_widgets.CheckBox(name='nolabel', attrs=dict(value=1, checked=kw['value'])),
-    'completion' : lambda **kw: tg_widgets.CheckBox(name='completion', attrs=dict(value=1, checked=kw['value'])),
+class SelectProperty(tg_widgets.SingleSelectField):
     
-    'widget' : lambda **kw: tg_widgets.SingleSelectField(name='widget', 
-                                                         options=[''] + tw.form.widgets_type.keys(), default=kw['value']),
+    def __init__(self, name, default=None):
+        
+        options = [('', 'Not Searchable'),
+                   ('1', 'Always Searchable'),
+                   ('2', 'Advanced Search')]
+        
+        super(SelectProperty, self).__init__(name=name, options=options, default=default)
+        
+class BooleanProperty(tg_widgets.CheckBox):
+    
+    def __init__(self, name, default=None):
+        super(BooleanProperty, self).__init__(name=name, attrs=dict(value=1, checked=default))
+        self.field_class = "checkbox"
+        
+class GroupsProperty(tg_widgets.MultipleSelectField):
+    
+    def __init__(self, name, default=None):
+                
+        default = default or ''
+        default = default.split(',')
+        
+        group_ids = rpc.RPCProxy('res.groups').search([])
+        groups = rpc.RPCProxy('ir.model.data').search([('res_id', 'in', group_ids ), ('model', '=', 'res.groups')])
+        groups = rpc.RPCProxy('ir.model.data').read(groups, ['module', 'name'])
+        
+        options = ['%s.%s' % (g['module'], g['name']) for g in groups]
+        
+        super(GroupsProperty, self).__init__(name=name, options=options, default=default)
+
+_PROPERTY_WIDGETS = {
+    'select' : SelectProperty,                                                                  
+    'readonly' : BooleanProperty,
+    'nolabel' : BooleanProperty,
+    'completion' : BooleanProperty,
+    'groups' : GroupsProperty,                                                 
 }
 
 def get_property_widget(name, value=None):
-
-    wid = _PROPERTY_WIDGETS.get(name)
-    if not wid:
-        return tg_widgets.TextField(name=name, default=value)
-    
-    return wid(value=value)
+    wid = _PROPERTY_WIDGETS.get(name, tg_widgets.TextField)
+    return wid(name=name, default=value)

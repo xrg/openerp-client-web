@@ -110,11 +110,24 @@
             var form = getElement('view_form');
             var params = {};
             
-            
-            
             forEach(form.elements, function(el){
+                
                 var val = el.type == 'checkbox' ? el.checked ? 1 : null : el.value;
-                if (val) {           
+                                
+                if (el.type == 'select-multiple') {
+                
+                    val = MochiKit.Base.filter(function(o){
+                        return o.selected;
+                    }, el.options); 
+                    
+                    val = MochiKit.Base.map(function(o){
+                        return o.value;
+                    }, val);
+                    
+                    val = val.join(',');
+                }
+                
+                if (val) {
                     params[el.name] = val;
                 }
             });
