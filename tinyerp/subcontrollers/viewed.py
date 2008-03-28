@@ -229,9 +229,33 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model', 'arch'])
         
-        proxy = rpc.RPCProxy(res['model'])
-        fields = proxy.fields_get().keys()
+        doc = dom.minidom.parseString(res['arch'].encode('utf-8'))        
+        field_node = xpath.Evaluate(xpath_expr, doc)[0]
         
+        model = res['model']
+        
+        # get the correct model
+        
+        parents = []
+        parent_node = field_node.parentNode
+        
+        while parent_node:
+            if parent_node.localName == 'field':
+                parents += [parent_node.getAttribute('name')]
+            parent_node = parent_node.parentNode
+        
+        parents.reverse()
+        
+        for parent in parents:
+            proxy = rpc.RPCProxy(model)
+            field = proxy.fields_get([parent])[parent]
+            
+            model = field['relation']
+        
+        # get the fields
+        proxy = rpc.RPCProxy(model)
+        fields = proxy.fields_get().keys()
+
         nodes = _PROPERTIES.keys()
         nodes.sort()
 
