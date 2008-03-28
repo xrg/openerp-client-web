@@ -15,16 +15,20 @@
             
             if (!selected) {
                 return;
-            }
-            
-            if (!confirm('Do you really want to remove this node?')) {
-                return;
-            }            
+            }        
             
             var rinfo = tree.row_info[selected.id];
             var record = rinfo.record;
             var data = record.data;
             
+            if (!data.editable) {
+                return;
+            }
+            
+            if (!confirm('Do you really want to remove this node?')) {
+                return;
+            }   
+                                    
             var req = Ajax.JSON.post('/viewed/save/remove', {view_id: data.view_id, xpath_expr: data.xpath});
             req.addCallback(function(obj){
                 
