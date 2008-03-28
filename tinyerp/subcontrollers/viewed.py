@@ -283,8 +283,8 @@ class ViewEd(controllers.Controller, TinyResource):
             for attr, val in kw.items():
                 if val:
                     field.setAttribute(attr, val)
-                    
-        if _terp_what == "node" and field.parentNode and field.parentNode.localName:
+        
+        if _terp_what == "node" and field.parentNode:
             
             node = doc.createElement(kw['node'])
             
@@ -295,7 +295,32 @@ class ViewEd(controllers.Controller, TinyResource):
             
             pnode = field.parentNode
             
-            if pos == "after":
+            if node.localName == 'view':
+                
+                if field.localName == 'field':
+
+                    data = {'name' : res['model'] + '.' + str(random.randint(0, 100000)) + '.inherit',
+                            'model' : res['model'],
+                            'priority' : 16,
+                            'type' : 'form',
+                            'inherit_id' : view_id}
+                
+                    arch = """<?xml version="1.0"?>
+                    <field name="%s" position="after">
+                    </field>""" % (field.getAttribute('name'))
+                    
+                    data['arch'] = arch
+                
+                    try:
+                        rpc.RPCProxy('ir.ui.view').create(data)
+                    except:
+                        error = _("Unable to create inherited view.")
+                else:
+                    error = _("Unable to create inherited view.")
+
+                return dict(error=error)
+            
+            elif pos == "after":
                 pnode.insertBefore(node, field.nextSibling)
                 
             elif pos == "before":
