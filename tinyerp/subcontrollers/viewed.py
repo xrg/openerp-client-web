@@ -52,6 +52,41 @@ from tinyerp.tinyres import TinyResource
 
 import tinyerp.widgets as tw
 
+from form import Form
+
+class NewField(Form):
+    
+    path = '/viewed/new_field'    # mapping from root
+    
+    def create_form(self, params, tg_errors=None):
+        form = super(NewField, self).create_form(params, tg_errors)
+        
+        field = form.screen.widget.get_widgets_by_name('model_id')[0]
+        field.set_value(params.model_id or False)
+        
+        # generate model_id field
+        form.hidden_fields = [tg_widgets.HiddenField(name='model_id', default=params.model_id)]
+        vals = getattr(cherrypy.request, 'terp_validators', {})
+        vals['model_id'] = tw.validators.Int()
+                
+        return form
+
+    @expose(template="tinyerp.subcontrollers.templates.viewed_new")
+    def create(self, params, tg_errors=None):
+        
+        params.model_id = False
+        for_model = params.context.get('model')
+        
+        if for_model:
+            params.model_id = rpc.RPCProxy('ir.model').search([('model', '=', for_model)])[0]
+        
+        if not params.id:
+            params.context = {'manual' : True}
+
+        form = self.create_form(params, tg_errors)
+        
+        return dict(form=form, params=params, show_header_footer=False)
+
 def _get_xpath(node):
 
     pn = node.parentNode
@@ -64,8 +99,10 @@ def _get_xpath(node):
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
-
+    
 class ViewEd(controllers.Controller, TinyResource):
+    
+    new_field = NewField()
     
     @expose(template="tinyerp.subcontrollers.templates.viewed")
     def default(self, view_id):

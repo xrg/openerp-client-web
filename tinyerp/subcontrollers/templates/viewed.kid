@@ -148,8 +148,9 @@
             return false;
         }
         
-        var onNew = function(){
-            alert("Not implemented yet!");
+        var onNew = function(){                          
+            var act = getURL('/viewed/new_field/edit', {'model' : 'ir.model.fields', 'context' : "{'model' : '${model}'}"});
+            openWindow(act);
         }
         
         var onClose = function(){
