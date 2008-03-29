@@ -150,7 +150,7 @@
         
         var onNew = function(){                          
             var act = getURL('/viewed/new_field/edit', {'model' : 'ir.model.fields', 'context' : "{'model' : '${model}'}"});
-            openWindow(act);
+            openWindow(act, {width: 650, height: 300});
         }
         
         var onClose = function(){
