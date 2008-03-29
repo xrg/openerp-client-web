@@ -28,8 +28,14 @@
 #
 ###############################################################################
 
+import xml
 import random
-from xml import dom, xpath
+
+from xml import xpath
+
+# xpath module replaces __builtins__['_'], which breaks TG i18n
+import turbogears
+turbogears.i18n.tg_gettext.install()
 
 from turbogears import expose
 from turbogears import controllers
@@ -109,8 +115,8 @@ class ViewEd(controllers.Controller, TinyResource):
                         if res: return res
                 return None
 
-            doc_src = dom.minidom.parseString(src.encode('utf-8'))
-            doc_dest = dom.minidom.parseString(inherit.encode('utf-8'))
+            doc_src = xml.dom.minidom.parseString(src.encode('utf-8'))
+            doc_dest = xml.dom.minidom.parseString(inherit.encode('utf-8'))
             for node2 in doc_dest.childNodes:
                 if not node2.nodeType==node2.ELEMENT_NODE:
                     continue
@@ -145,9 +151,9 @@ class ViewEd(controllers.Controller, TinyResource):
             return result
         
         doc_arch = _inherit_apply_rec(res['arch'], view_id)
-        doc_arch = dom.minidom.parseString(doc_arch.encode('utf-8'))
+        doc_arch = xml.dom.minidom.parseString(doc_arch.encode('utf-8'))
         
-        new_doc = dom.getDOMImplementation().createDocument(None, 'view', None)
+        new_doc = xml.dom.getDOMImplementation().createDocument(None, 'view', None)
         new_doc.documentElement.setAttribute('view_id', str(view_id))
         new_doc.documentElement.appendChild(doc_arch.documentElement)
 
@@ -188,7 +194,7 @@ class ViewEd(controllers.Controller, TinyResource):
         
         model, view = self.view_get(view_id)
         
-        doc = dom.minidom.parseString(view.encode('utf-8'))
+        doc = xml.dom.minidom.parseString(view.encode('utf-8'))
         result = self.parse(root=doc, view_id=view_id)
         
         records = [rec.get_record() for rec in result]
@@ -203,7 +209,7 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model', 'arch'])
         
-        doc = dom.minidom.parseString(res['arch'].encode('utf-8'))        
+        doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
         
         attrs = tools.node_attributes(field)
@@ -229,7 +235,7 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model', 'arch'])
         
-        doc = dom.minidom.parseString(res['arch'].encode('utf-8'))        
+        doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field_node = xpath.Evaluate(xpath_expr, doc)[0]
         
         model = res['model']
@@ -269,7 +275,7 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model', 'arch'])
         
-        doc = dom.minidom.parseString(res['arch'].encode('utf-8'))        
+        doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
         
         error = None
