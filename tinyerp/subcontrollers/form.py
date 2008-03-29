@@ -202,7 +202,8 @@ class Form(controllers.Controller, TinyResource):
 
         cherrypy.request.terp_validators = {}
         params.nodefault = True
-        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+        
+        form = self.create_form(params)
         cherrypy.request.terp_form = form
 
         vals = cherrypy.request.terp_validators
