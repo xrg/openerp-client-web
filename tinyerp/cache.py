@@ -28,43 +28,48 @@
 #
 ###############################################################################
 
+import os
+import re
 import cPickle
-import rpc
+
 import cherrypy
+from turbogears.i18n import tg_gettext
 
-def memoize(function, limit=None):
+import rpc
 
-    if isinstance(function, int):
-        def memoize_wrapper(f):
-            return memoize(f, function)
+def memoize(limit=100, force=False):
 
-        return memoize_wrapper
-    
-    # Don't use cache for development environment
-    if cherrypy.config.get('server.environment') == 'development':
-        return function
+    def memoize_wrapper(func):
 
-    store = {}
-    queue = []
+        # Don't use cache for development environment
+        if not force and cherrypy.config.get('server.environment') == 'development':
+            return func
 
-    def memoize_wrapper(*args, **kwargs):
-        key = cPickle.dumps((args, kwargs))
-        try:
-            queue.append(queue.pop(queue.index(key)))
-        except ValueError:
-            store[key] = function(*args, **kwargs)
-            queue.append(key)
-            if limit is not None and len(queue) > limit:
-                del store[queue.pop(0)]
+        queue = []
+        store = {}
 
-        return store[key]
+        def func_wrapper(*args, **kwargs):
+            key = cPickle.dumps((args, kwargs))
+            try:
+                queue.append(queue.pop(queue.index(key)))
+            except ValueError:
+                store[key] = func(*args, **kwargs)
+                queue.append(key)
+                if limit is not None and len(queue) > limit:
+                    del store[queue.pop(0)]
 
-    memoize_wrapper.func_name = function.func_name
+            return store[key]
+
+        func_wrapper.func_name = func.func_name
+        return func_wrapper
 
     return memoize_wrapper
 
 class CacheManager(object):
     
+    def __init__(self):
+        pass
+
     @memoize(100)
     def fields_view_get(self, model, view_id, view_type, context, hastoolbar=False):
         return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
@@ -74,3 +79,40 @@ class CacheManager(object):
         return rpc.RPCProxy(model).fields_get(fields, context)
 
 cache = CacheManager()
+
+@memoize(10000, True)
+def _gettext(key, locale, domain):
+    return tg_gettext.tg_gettext(key, locale, domain)
+
+def gettext(key, locale=None, domain=None):
+
+    if key in _MESSAGES:
+        locale = locale or tg_gettext.get_locale()
+        return _gettext(key, locale, domain)
+
+    return key
+
+def _load_translatables():
+
+    result = []
+
+    localedir = tg_gettext.get_locale_dir()
+    po = os.path.join(localedir, 'fr', 'LC_MESSAGES', 'messages.po')
+
+    pat = re.compile("""^msgid (.*?)^msgstr""", re.M+re.S)
+    text = open(po).read()
+
+    res = pat.search(text)
+    while res:
+        lines = res.group(1).split('\n')
+        lines = [line.strip('"').replace('\\n', '') for line in lines if line]
+        key = "\n".join(lines).strip()
+
+        result.append(ustr(key))
+
+        res = pat.search(text, res.end())
+
+    return result
+
+_MESSAGES = _load_translatables()
+

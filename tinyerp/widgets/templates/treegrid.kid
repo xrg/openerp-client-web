@@ -7,6 +7,6 @@
         ${field_id}.onopen = ${onopen or 'null'};
         ${field_id}.onselection = ${onselection or 'null'};
 
-        ${field_id}.load('${url}', ${str(ids)}, {model: '${model}', domain: "${ustr(domain)}", context: "${ustr(context)}", field_parent: '${field_parent}'});
+        ${field_id}.load('${url}', ${str(ids)}, ${str(url_params)});
     </script>
 </span>

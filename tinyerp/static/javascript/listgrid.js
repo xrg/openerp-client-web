@@ -37,6 +37,12 @@ var ListView = function(id, terp){
 
     this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
     this.current_record = null;
+    
+    var view_ids = getElement(prefix + '_terp_view_ids');
+    var view_mode = getElement(prefix + '_terp_view_mode');
+    
+    this.view_ids = view_ids ? view_ids.value : null;
+    this.view_mode = view_mode ? view_mode.value : null;
 
     this.wait_counter = 0;
 }
@@ -449,7 +455,7 @@ ListView.prototype.waitGlass = function(hide){
 }
 
 ListView.prototype.exportData = function(){
-    
+	
     var ids = this.getSelectedRecords();
     
     if (ids.length == 0) {
@@ -461,11 +467,16 @@ ListView.prototype.exportData = function(){
     openWindow(getURL('/impex/exp', {_terp_model: this.model, 
                                      _terp_source: this.id, 
                                      _terp_search_domain: $('_terp_search_domain').value, 
-                                     _terp_ids: ids}), {height: '840'});
+                                     _terp_ids: ids,
+                                     _terp_view_ids : this.view_ids,
+                                     _terp_view_mode : this.view_mode}));
 }
 
 ListView.prototype.importData = function(){
-    openWindow(getURL('/impex/imp', {_terp_model: this.model, _terp_source: this.id}));
+    openWindow(getURL('/impex/imp', {_terp_model: this.model,
+    								 _terp_source: this.id,
+    								 _terp_view_ids : this.view_ids,
+                                     _terp_view_mode : this.view_mode}));
 }
 
 ListView.prototype.go = function(action){

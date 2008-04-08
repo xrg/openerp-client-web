@@ -49,6 +49,7 @@ from tinyerp import common
 from tinyerp import stdvars
 
 from tinyerp import subcontrollers
+from tinyerp import cache
 
 from tinyerp.tinyres import TinyResource, unsecured
 
@@ -57,6 +58,8 @@ from turbogears.widgets import register_static_directory
 
 treegrid_static_dir = pkg_resources.resource_filename("tinyerp",  "static")
 register_static_directory("tinyerp", treegrid_static_dir)
+
+config.update({'i18n.gettext' : cache.gettext})
 
 # initialize the rpc session
 host = config.get('host', path="tinyerp")

@@ -32,6 +32,7 @@ import os
 import time
 import types
 import base64
+import xml.dom.minidom
 
 import csv
 import StringIO
@@ -81,29 +82,78 @@ def export_csv(fields, result, write_title=False):
     except IOError, (errno, strerror):
         raise common.message(_("Operation failed !\nI/O error")+"(%s)" % (errno,))
 
+def _fields_get_all(model, views):
+    
+    def parse(root, fields):       
+        
+        for node in root.childNodes:
+            
+            if node.nodeName in ('form', 'notebook', 'page', 'group', 'tree', 'hpaned', 'vpaned'):
+                parse(node, fields)
+                            
+            elif node.nodeName=='field':
+                attrs = tools.node_attributes(node)
+                name = attrs['name']
+                                
+                fields[name].update(attrs)
+
+        return fields
+    
+    proxy = rpc.RPCProxy(model)
+    
+    v1 = proxy.fields_view_get(views.get('tree', False), 'tree', rpc.session.context)
+    v2 = proxy.fields_view_get(views.get('form', False), 'form', rpc.session.context)
+    
+    dom = xml.dom.minidom.parseString(v1['arch'].encode('utf-8'))
+    root = dom.childNodes[0]
+    
+    f1 = parse(root, v1['fields'])
+    
+    dom = xml.dom.minidom.parseString(v2['arch'].encode('utf-8'))
+    root = dom.childNodes[0]
+    
+    f2 = parse(root, v2['fields'])
+
+    fields = {}
+    fields.update(f1)
+    fields.update(f2)
+
+    return fields
+    
 class ImpEx(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.exp")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
+        views = {}
+        if params.view_mode and params.view_ids:
+            for i, view in enumerate(params.view_mode):
+                views[view] = params.view_ids[i]
+        
         
         proxy = rpc.RPCProxy('ir.exports')
         new_list = []
         
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
-        tree = tw.treegrid.TreeGrid('export_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
-        tree.show_headers = False
-
-                           
-        view = proxy.fields_view_get(False, 'tree', rpc.session.context)
+        tree = tw.treegrid.TreeGrid('export_fields', 
+                                    model=params.model, 
+                                    headers=headers, 
+                                    url='/impex/get_fields', 
+                                    field_parent='relation',
+                                    views=views)
         
+        tree.show_headers = False
+                           
+        view = proxy.fields_view_get(False, 'tree', rpc.session.context)        
         new_list = tw.listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None, 
                                        domain=[('resource', '=', params.model)], 
                                        context=rpc.session.context, selectable=1, editable=False, pageable=False)
                 
         
-        return dict(new_list=new_list, model=params.model, ids=params.ids, search_domain=params.search_domain, source=params.source, tree=tree, show_header_footer=False)
+        return dict(new_list=new_list, model=params.model, ids=params.ids, 
+                    search_domain=params.search_domain, source=params.source, 
+                    tree=tree, show_header_footer=False)
  
     @expose()
     def save_exp(self, **kw):
@@ -130,27 +180,23 @@ class ImpEx(controllers.Controller, TinyResource):
         proxy.unlink(params.id)
         
         raise redirect('/impex/exp', **kw)
-    
+
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
-        is_importing = len(eval(kw.get('domain')))
+        is_importing = kw.get('is_importing', False)
 
         ids = kw.get('ids', '').split(',')
         ids = [i for i in ids if i]
+        
+        views = {}
+        try:
+            views = eval(kw['views'])
+        except:
+            pass
 
-        proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get(False, rpc.session.context)
-
-        # XXX: in GTK client, top fields comes from Screen
-        if not ids:
-            f1 = proxy.fields_view_get(False, 'tree', rpc.session.context)['fields']
-            f2 = proxy.fields_view_get(False, 'form', rpc.session.context)['fields']
-
-            fields = {}
-            fields.update(f1)
-            fields.update(f2)
-
+        fields = _fields_get_all(model, views)
+        
         fields_order = fields.keys()
         fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
 
@@ -174,7 +220,7 @@ class ImpEx(controllers.Controller, TinyResource):
                 record['icon'] = None
                 record['children'] = []
                 record['required'] = value.get('required', False)
-
+                
                 records += [record]
 
             elif not is_importing:
@@ -212,7 +258,7 @@ class ImpEx(controllers.Controller, TinyResource):
 
                 record['children'] = children
                 record['params'] = {'model': ref, 'prefix': id, 'name': nm}
-
+        
         records.reverse()
         return dict(records=records)
 
@@ -310,11 +356,22 @@ class ImpEx(controllers.Controller, TinyResource):
     @expose(template="tinyerp.subcontrollers.templates.imp")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
+        
+        views = {}
+        if params.view_mode and params.view_ids:
+            for i, view in enumerate(params.view_mode):
+                views[view] = params.view_ids[i]
 
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
-        tree = tw.treegrid.TreeGrid('import_fields', model=params.model, headers=headers, url='/impex/get_fields', field_parent='relation')
+        tree = tw.treegrid.TreeGrid('import_fields', 
+                                    model=params.model, 
+                                    headers=headers, 
+                                    url='/impex/get_fields', 
+                                    field_parent='relation',
+                                    views=views,
+                                    is_importing=1)
+        
         tree.show_headers = False
-        tree.domain = [()] # will be used in `get_fields` as flag
 
         return dict(model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}), show_header_footer=False)
 
@@ -369,12 +426,16 @@ class ImpEx(controllers.Controller, TinyResource):
     def import_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, fields=[], **kw):
 
         params, data = TinyDict.split(kw)
-
+        
         content = csvfile.file.read()
         input=StringIO.StringIO(content)
         data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
         datas = []
         #if csv_data['combo']:
+        
+        if not isinstance(fields, list):
+            fields = [fields]
+        
         for line in data:
             datas.append(map(lambda x:x.decode(csvcode).encode('utf-8'), line))
         try:

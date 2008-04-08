@@ -190,7 +190,7 @@ class Screen(TinyCompoundWidget):
             if value: toolbar[item] = value
 
         # get actions/reports if not in view toolbar
-        if self.view_type in ['form', 'tree', 'graph']:
+        if not self.prefix and self.view_type in ['form', 'tree', 'graph']:
 
             proxy = rpc.RPCProxy('ir.values')
 
