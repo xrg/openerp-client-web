@@ -65,20 +65,13 @@ def memoize(limit=100, force=False):
 
     return memoize_wrapper
 
-class CacheManager(object):
-    
-    def __init__(self):
-        pass
+@memoize(100)
+def fields_view_get(model, view_id, view_type, context, hastoolbar=False):
+    return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
 
-    @memoize(100)
-    def fields_view_get(self, model, view_id, view_type, context, hastoolbar=False):
-        return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
-
-    @memoize(100)
-    def fields_get(self, model, fields, context):
-        return rpc.RPCProxy(model).fields_get(fields, context)
-
-cache = CacheManager()
+@memoize(100)
+def fields_get(model, fields, context):
+    return rpc.RPCProxy(model).fields_get(fields, context)
 
 @memoize(10000, True)
 def _gettext(key, locale, domain):

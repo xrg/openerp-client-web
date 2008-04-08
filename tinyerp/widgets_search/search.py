@@ -39,7 +39,7 @@ import turbogears as tg
 
 from tinyerp import rpc
 from tinyerp import tools
-from tinyerp.cache import cache
+from tinyerp import cache
 
 from tinyerp.widgets.interface import TinyInputWidget
 from tinyerp.widgets.interface import TinyCompoundWidget

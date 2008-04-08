@@ -35,7 +35,7 @@ import cherrypy
 
 from tinyerp import rpc
 from tinyerp import tools
-from tinyerp.cache import cache
+from tinyerp import cache
 
 import treegrid
 

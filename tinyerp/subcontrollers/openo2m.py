@@ -36,10 +36,10 @@ from turbogears import validate
 import cherrypy
 
 from tinyerp import rpc
+from tinyerp import cache
 from tinyerp import widgets as tw
 
 from tinyerp.utils import TinyDict
-from tinyerp.cache import cache
 
 from form import Form
 

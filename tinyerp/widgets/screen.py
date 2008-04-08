@@ -33,7 +33,7 @@ import cherrypy
 
 from tinyerp import tools
 from tinyerp import rpc
-from tinyerp.cache import cache
+from tinyerp import cache
 
 from interface import TinyCompoundWidget
 

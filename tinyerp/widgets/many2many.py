@@ -35,7 +35,7 @@ from form import Form
 from listgrid import List
 
 from tinyerp import rpc
-from tinyerp.cache import cache
+from tinyerp import cache
 
 import validators as tiny_validators
 

@@ -36,8 +36,7 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 from tinyerp import format
-
-from tinyerp.cache import cache
+from tinyerp import cache
 
 from interface import TinyCompoundWidget
 
