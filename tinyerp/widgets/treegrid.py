@@ -30,19 +30,19 @@
 
 from turbojson import jsonify
 
+import turbogears
+
 from turbogears import widgets
 from interface import TinyField
 
 class TreeGrid(TinyField):
 
     template = "tinyerp.widgets.templates.treegrid"
-    params = ['ids', 'url', 'model', 'headers', 'field_parent', 'onopen', 
-              'onselection', 'domain', 'context', 'show_headers', 'url_params']
+    params = ['headers', 'showheaders', 'onselection', 'url', 'url_params']
 
     selectable = False
-    show_headers = True
+    showheaders = True
 
-    onopen = None
     onselection = None
 
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
@@ -55,15 +55,21 @@ class TreeGrid(TinyField):
         
         self.ids = ids
         self.model = model
+        
+        self.headers = jsonify.encode(headers)
+        
+        fields = [field['name'] for field in headers]
+        icon_name = headers[0].get('icon')
+        
         self.url = url
+        self.url_params = jsonify.encode(dict(model=model, 
+                                              ids=ids, 
+                                              fields=ustr(fields), 
+                                              domain=ustr(domain), 
+                                              context=ustr(context), 
+                                              field_parent=field_parent,
+                                              icon_name=icon_name))
 
         self.domain = domain
         self.context = context
         
-        self.headers = jsonify.encode(headers)
-        self.field_parent = field_parent
-        
-        self.url_params = dict(model=str(model), domain=str(domain), context=str(context), field_parent=str(field_parent))
-        for k, v in kw.items():
-            self.url_params[k] = str(v)
-            

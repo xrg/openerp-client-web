@@ -49,8 +49,8 @@
 
             forEach(fields, function(f){
 
-                var text = f.getElementsByTagName('a')[0].innerHTML;
-                var id = tree.row_info[f.id].record.id;
+                var text = f.record.items.name;
+                var id = f.record.id;
 
                 if (id in opts) return;
 
@@ -59,14 +59,10 @@
         }
 		
         function open_savelist(id) {
-            if($(id).style.display == 'none') {
-                $(id).style.display = '';
-            }
-            else {
-                $(id).style.display = 'none';
-            }
+            var elem = $(id);
+            elem.style.display = elem.style.display == 'none' ? '' : 'none';
         }
-        
+
         function save_export() {
             form = $('view_form');
             

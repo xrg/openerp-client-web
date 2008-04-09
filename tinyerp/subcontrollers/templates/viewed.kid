@@ -17,9 +17,8 @@
                 return;
             }        
             
-            var rinfo = tree.row_info[selected.id];
-            var record = rinfo.record;
-            var data = record.data;
+            var record = selected.record;
+            var data = record.items;
             
             if (!data.editable) {
                 return;
@@ -49,9 +48,8 @@
                 return;
             }
             
-            var rinfo = tree.row_info[selected.id];
-            var record = rinfo.record;
-            var data = record.data;
+            var record = selected.record;
+            var data = record.items;
             
             var req = Ajax.post('/viewed/add', {view_id: data.view_id, xpath_expr: data.xpath});
             req.addCallback(function(xmlHttp){
@@ -92,9 +90,8 @@
                 return;
             }
             
-            var rinfo = tree.row_info[selected.id];
-            var record = rinfo.record;
-            var data = record.data;
+            var record = selected.record;
+            var data = record.items;
             
             var el = getElement('view_ed');
             

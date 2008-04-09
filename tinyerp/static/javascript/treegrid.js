@@ -28,349 +28,751 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var TreeGrid = function(id, headers) {
-    this.id = id;
-
-    this.headers = headers;
-
-    this.icon_name = this.headers[0]['icon'] || '';
-    this.show_headers = true;
-
-    this.url = null;
-    this.params = {};
-
-    this.isloading = false;
-
-    this.selection = new Array();
-    this.selection_last = null;
-
-    this.row_info = {0: {children: null, indent: 0, record: null}};
-
-    this.onopen = function(id, args){};
-    this.onselection = function(rows){};
+var TreeGrid = function(elem, options){
+    this.__init__(elem, options);
 }
 
-TreeGrid.prototype._on_select_row = function(evt) {
-
-    var trg = evt.target();
-
-    if (trg.localName == 'A' || findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
-        return;
-    }
-
-    var src = evt.src();
-    var ctr = evt.modifier().ctrl;
-    var sft = evt.modifier().shift;
-
-    forEach(this.selection, function(row){
-        removeElementClass(row, "selected");
-    });
-
-    if (ctr) {
-        if (findIdentical(this.selection, src) == -1){
-            this.selection.push(src);
-        } else {
-            this.selection.splice(findIdentical(this.selection, src), 1);
-        }
-    } else if (sft) {
-
-        var rows = getElementsByTagAndClassName('tr', 'row', $(this.id));
-
-        var last = this.selection_last;
-        last = last ? last : src;
-
-        var begin = findIdentical(rows, src);
-        var end = findIdentical(rows, last);
-
-        this.selection = begin > end ? rows.slice(end, begin+1) : this.selection = rows.slice(begin, end+1);
-        this.selection = filter(function(x){return x.style.display != 'none';}, this.selection);
-
-    } else {
-        this.selection = [src];
-    }
-
-    if (!sft){
-        this.selection_last = this.selection[this.selection.length-1];
-    }
-
-    forEach(this.selection, function(row){
-        addElementClass(row, "selected");
-    });
-
-    if (this.onselection){
-        this.onselection(this.selection);
-    }
-}
-
-TreeGrid.prototype.toggle = function(row, forced) {
-
-    if (this.isloading)
-        return false;
-
-    var table = $(this.id);
-    var row = $(row);
-
-    var children = this.row_info[row.id].children;
-
-    if (!children)
-        return false;
-
-    var index = findIdentical(table.rows, row);
-    var indent = this.row_info[row.id].indent; indent = parseInt(indent) + 1;
-
-    for(var i in children) {
-
-        var cid = children[i];
-        var child = $(row.id + '_' + cid);
-
-        if (child) {
-
-            child.style.display = forced ? forced : (child.style.display == "none" ? "" : "none");
-            // force children of child row to be hidden
-            this.toggle(child, "none");
-
-            var state = child ? (child.style.display == "none" ? 'expand' : 'collapse') : (forced ? 'expand' : 'collapse');
-            this._row_state(row, state);
-
-        } else if (!forced) {
-            this._add_rows(index, children, indent);
-            break;
-        }
-    }
-
-    return true;
-}
-
-TreeGrid.prototype.onsort = function(field, src){
-    this.params.sort_by = field;
-    this.params.sort_order = this.params.sort_order == "dsc" ? "asc" : "dsc";
-    this.reload();
-}
-
-TreeGrid.prototype._make_head = function(){
-
-    var thd = THEAD(null);
-    var tr = TR({'class':'header'});
-
-    for(var i in this.headers){
-        var header = this.headers[i];
-        var th = TH(null, header.string);
-
-        setNodeAttribute(th, 'title', header.help ? header.help : '');
-        setNodeAttribute(th, 'class', header.type);
-
-        connect(th, 'onclick', bind(partial(this.onsort, header.name), this));
-
-        th.style.cursor = 'pointer';
-
-        appendChildNodes(tr, th);
-    }
-
-    appendChildNodes(thd, tr);
-
-    return thd;
-}
-
-TreeGrid.prototype._make_body = function(records){
-    return TBODY(null, this._make_rows(null, records, null));
-}
-
-TreeGrid.prototype._make_rows = function(parent_row, records, indent){
+TreeGrid.prototype = {
     
-    var self = this;
-    var result = [];
-    var indent = parseInt(indent) || 0;
-    
-    forEach(records, function(record){
-        var tr = self._make_row(parent_row, record, indent);
-        result = result.concat(tr);
+    __init__ : function(elem, options) {
         
-        if (record.child_records) {
-            self._row_state(tr, 'collapse');
-            result2 = self._make_rows(tr, record.child_records, indent + 1);            
-            result = result.concat(result2);
+        this.id = MochiKit.DOM.getElement(elem).id;
+        
+        this.options = MochiKit.Base.update({
+            'showheaders': true,
+            'expandall' : false,
+            'onselect' : function(){},
+            'onbuttonclick' : function(){}
+        }, options || {});
+        
+        // a dummy root node
+        this.rootNode = null;
+        
+        // selection info
+        this.selection = [];
+        this.selection_last = null;
+        
+        // ajax call counter
+        this._ajax_counter = 0;
+        
+        // references to ajax url and params
+        this.ajax_url = null;
+        this.ajax_params = {};
+    },
+    
+    setHeaders : function(headers/*, params */) {
+        
+        this.headers = headers;
+        
+        if (typeof(headers) == 'string'){
+            
+           var self = this;
+           var req = Ajax.JSON.post(headers, arguments[1]);
+           
+           self._ajax_counter += 1;
+           
+           req.addCallback(function(obj){
+               self.headers = obj.headers;
+           });
+           
+           req.addBoth(function(obj){
+               self._ajax_counter -= 1;
+           });
+           
+        };
+    },
+    
+    setRecords : function(records/*, params */) {
+        
+        if (!this.headers) {
+            return;
         }
-    });
-   
-    return result;
+        
+        this.records = records;
+        
+        if (typeof(records) == 'string'){
+            
+            this.ajax_url = records;
+            this.ajax_params = arguments[1] || {};
+            
+            var self = this;
+            var req = Ajax.JSON.post(this.ajax_url, this.ajax_params);
+            
+            var div = DIV({id: this.id}, "Loading...");
+            MochiKit.DOM.swapDOM(this.id, div);
+           
+            self._ajax_counter += 1;
+           
+            req.addCallback(function(obj){
+                self.records = obj.records;
+            });
+           
+            req.addBoth(function(obj){
+                self._ajax_counter -= 1;
+            });
+           
+        };
+        
+    },
+    
+    render : function(){
+        
+        // wait till ajax calls finish
+        if (this._ajax_counter > 0) {
+            return MochiKit.Async.callLater(0.01, MochiKit.Base.bind(this.render, this));
+        }
+        
+        this.thead = MochiKit.DOM.THEAD({'class': 'tree-head'});
+        this.tbody = MochiKit.DOM.TBODY({'class': 'tree-body'});
+        this.table = MochiKit.DOM.TABLE({id: this.id, 'class': 'tree-grid'}, this.thead, this.tbody);
+        
+        if (this.options.showheaders) {
+            this._makeHeader();
+        }
+        
+        this._makeBody();
+        
+        MochiKit.DOM.swapDOM(this.id, this.table);
+    },
+    
+    reload : function() {
+        this.rootNode.__delete__();
+        this.setRecords(this.ajax_url || this.records, this.ajax_params);
+        this.render();
+    },
+    
+    createNode : function(record) {
+        return new TreeNode(this, record);  
+    },
+    
+    _makeHeader : function(){
+        
+        var tr = MochiKit.DOM.TR({'class':'header'});
+    
+        for(var i in this.headers){
+            
+            var header = this.headers[i];
+            var th = MochiKit.DOM.TH(null, header.string);
+    
+            MochiKit.DOM.setNodeAttribute(th, 'title', header.help ? header.help : '');
+            MochiKit.DOM.setNodeAttribute(th, 'class', header.type);
+            MochiKit.DOM.setNodeAttribute(th, 'width', header.width);
+            MochiKit.DOM.setNodeAttribute(th, 'align', header.align);
+    
+            //TODO: th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this.onsort, header.name), this);    
+            th.style.cursor = 'pointer';
+    
+            MochiKit.DOM.appendChildNodes(tr, th);
+        }
+    
+        MochiKit.DOM.appendChildNodes(this.thead, tr);
+    },
+    
+    _makeBody : function() {
+        this.rootNode = this.createNode({children: this.records});
+        this.rootNode.expand(this.options.expandall ? true : false);
+    }
 }
 
-TreeGrid.prototype._make_row = function(parent_row, record, indent){
-    var prefix = parent_row ? parent_row.id + '_' : this.id + '_row_';
-    var rid = prefix + record.id;
-    var tr = TR({'id': rid, 'class' : 'row'});
+var TreeNode = function(tree, record) {
+    this.__init__(tree, record);
+}
 
-    // save children and indent info
-    this.row_info[rid] = {children: record.children, 
-                          indent: indent ? indent : 0, 
-                          record: record};
+TreeNode.prototype = {
 
-    for(var i in this.headers) {
+    __init__ : function(tree, record) {
+        
+        this.tree = tree;
+        this.record = record; 
+        
+        this.name = record['id'] || null;
+        
+        this.element = null;   // the row (tr) element
+        this.element_a = null; // the link element
+        this.element_b = null; // the expand/collapse element
+        this.element_i = null; // the image
+        
+        this.childNodes = [];
+        
+        this.parentNode = null;
+        
+        this.firstChild = null;
+        this.lastChild = null;
+        this.previousSibling = null;
+        this.nextSibling = null;
+        
+        this.hasChildren = record.children ? record.children.length > 0 : false;
+                
+        this.expanded = false;
+    },
+    
+    __delete__ : function() {
+        
 
-        var header = this.headers[i];
+        while(this.childNodes.length > 0) {
+            this.childNodes[0].__delete__();
+        }
+        
+        if (!this.element) {
+            return;
+        }
+        
+        var pn = this.parentNode;
+        var idx = MochiKit.Base.findIdentical(pn.childNodes, this);
+        
+        pn.childNodes.splice(idx,1);
+        
+        if (pn.firsChild == this) {
+            pn.firstChild = pn.childNodes[0] || null;
+        }
+        
+        if (pn.lastChild == this) {
+            pn.lastChild = pn.childNodes[pn.childNodes.length-1] || null;
+        }
+        
+        if (this.previousSibling) {
+            this.previousSibling = this.nextSibling;
+        }
+        
+        this.tree.selection.splice(MochiKit.Base.findIdentical(this.tree.selection, this),1);
+        this.tree.selection_last = this.selection_last == this ? null : this.selection_last;
+        
+        var table = this.tree.table;
+        table.deleteRow(MochiKit.Base.findIdentical(table.rows, this.element));
 
-        var td = TD(null);
-        var key = header.name;
+        //TODO: disconnect events
+    },
+    
+    __repr__ : function(){
+        return '<TreeNode ' + this.name + '>';
+    },
+    
+    createDOM : function() {
 
-        var val = record.data[key];
+        this.element = MochiKit.DOM.TR({'class' : 'row'});
+        
+        var record = this.record;
+        var indent = this.getPath().length - 1;
 
-        if (i == 0) { // first column
-
-            var tds = [];
-
-            if (indent){
+        for (var i in this.tree.headers){
+            
+            var header = this.tree.headers[i];
+            
+            var key = header.name;
+            var value = this.record.items[key];
+            
+            var td = MochiKit.DOM.TD({'class': header.type});
+            
+            if (i == 0) { // first column
+    
+                var tds = [];
+    
                 for(var i = 0; i < indent; i++){
                     tds.push(SPAN({'class' : 'indent'}));
                 }
-            }
+                
+                var arrow = SPAN({'class': this.hasChildren ? 'expand' : 'indent'});
+                this.element_b = arrow;
 
-            if (record.children && record.children.length > 0)
-                tds.push(SPAN({'class': 'expand', 'onclick': this.id + '.toggle("' + rid + '")' }));
-            else
-                tds.push(SPAN({'class' : 'indent'}));
-
-            if (this.icon_name) {
-                tds.push(IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16}));
-            }
-
-            val = A({'href': 'javascript: void(0)'}, val);
-
-               if (record.action){
-                setNodeAttribute(val, 'href', record.action);
-               } else {
-                   MochiKit.Signal.connect(val, 'onclick', bind(function(){this.toggle(rid)}, this));
-               }
-
-            if (record.target) {
-                setNodeAttribute(val, 'target', record.target);
-            }
-            if(record.required) {
-                setNodeAttribute(val, 'class', 'requiredfield');
-            }
-
-            tds.push(val);
-            tds = map(function(x){return TD(null, x)}, tds);
-
-            val = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, 
-                    TBODY(null, TR(null, tds)));
-        }
-
-        setNodeAttribute(td, 'class', header.type);
-
-        appendChildNodes(td, val);
-        appendChildNodes(tr, td);
-    }
-
-    // register OnClick, OnDblClick event
-    MochiKit.Signal.connect(tr, 'onclick', bind(this._on_select_row, this));
-    MochiKit.Signal.connect(tr, 'ondblclick', bind(function(){this.toggle(rid)}, this));
-
-    return tr;
-}
-
-TreeGrid.prototype._row_state = function(row, state){
-    var span = row.getElementsByTagName('span'); span = span[span.length-1];
-    setNodeAttribute(span, 'class', state);
-}
-
-TreeGrid.prototype._add_rows = function(after, children, indent){
-
-    var index = parseInt(after);
-
-    this.isloading = true;
-
-    var row = $(this.id).rows[index];
-    this._row_state(row, 'loading');
-
-    var args = {ids: children};
-
-    // update args with root params as well as row params
-    update(args, this.params);
-    update(args, this.row_info[row.id].record.params || {});
-
-    var req = Ajax.JSON.post(this.url, args);
-    var grid = this;
-
-    req.addCallback(function(res){
+                arrow.onclick = MochiKit.Base.bind(function(){
+                    this.toggle();
+                }, this);
+                    
+                tds.push(arrow);
+                
+                if (record.icon) {
+                    this.element_i = IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16});
+                    tds.push(this.element_i);
+                }
     
-        var g = $(grid.id);
+                value = A({'href': 'javascript: void(0)'}, value);
+                this.element_a = value;
+                
+                this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
+    
+                if (record.action) {
+                    MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
+                } else {
+                    
+                    value.onclick = MochiKit.Base.bind(function(){
+                        this.toggle();
+                    }, this);
+                }
+    
+                if (record.target) {
+                    MochiKit.DOM.setNodeAttribute(value, 'target', record.target);
+                }
+                
+                if(record.required) {
+                    MochiKit.DOM.setNodeAttribute(value, 'class', 'requiredfield');
+                }
+    
+                tds.push(value);
+                tds = map(function(x){return TD(null, x)}, tds);
+    
+                value = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, 
+                           TBODY(null, TR(null, tds)));
+            }
+            
+            if (i > 0) {
+                
+                if (header.type == 'url') {
+                    value = MochiKit.DOM.A({href: record.action || value, target: record.target || '_blank'}, value);    
+                }
+                
+                if (header.type == 'email') {
+                    value = MochiKit.DOM.A({href: 'mailto:' + (record.action || value), target: record.target || '_blank'}, value);    
+                }
+                
+                if (header.type == 'image') {
+                    value = MochiKit.DOM.IMG({src: value, style: 'cursor: pointer'});
+                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                }
+                
+                if (header.type == 'button') {
+                    value = MochiKit.DOM.BUTTON({}, value);
+                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                }
+                
+            }
 
-        /* ie hack */
-        idx = index;
-        for (var i in res.records){
-            idx = parseInt(idx) + 1;
-            g.insertRow(idx);
+            MochiKit.DOM.appendChildNodes(td, value);
+            MochiKit.DOM.appendChildNodes(this.element, td);
+        }
+        
+        // register OnClick, OnDblClick event
+        this.eventOnClick = MochiKit.Signal.connect(this.element, 'onclick', this, this.onSelect);
+        this.eventOnDblClick = MochiKit.Signal.connect(this.element, 'ondblclick', this, this.toggle);
+        
+        return this.element;
+    },
+    
+    updateDOM : function(record) {
+        
+        MochiKit.Base.update(this.record, record || {});
+        
+        var record = this.record;
+
+        for (var i in this.tree.headers){
+            
+            var header = this.tree.headers[i];
+            
+            var key = header.name;
+            var value = record.items[key];
+            
+            var td = this.element.cells[i];
+            
+            if (i == 0) { // first column                
+                
+                if (record.icon && this.element_i) {
+                    this.element_i.src = record.icon;
+                }
+                
+                this.element_a.innerHTML = value;
+                
+                if (record.action) {
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'href', record.action);
+                }
+                
+                if (record.target) {
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'target', record.target);
+                }
+                
+                if(record.required) {
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'class', 'requiredfield');
+                }
+
+            }
+            
+            if (i > 0) {
+                
+                if (header.type == 'url') {
+
+                    var a = MochiKit.DOM.getElementsByTagAndClassName('a', null, td)[0];
+                    
+                    MochiKit.DOM.setNodeAttribute(a, 'href', value);
+                    MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
+                    
+                    a.innerHTML = value;    
+                }
+                
+                if (header.type == 'email') {
+                    
+                    var a = MochiKit.DOM.getElementsByTagAndClassName('a', null, td)[0];
+                    
+                    MochiKit.DOM.setNodeAttribute(a, 'href', 'mailto:' + value);
+                    MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
+                    
+                    a.innerHTML = value;    
+                }
+                
+                if (header.type == 'image') {
+                    var i = MochiKit.DOM.getElementsByTagAndClassName('img', null, td)[0];
+                    MochiKit.DOM.setNodeAttribute(a, 'src', value);
+                }
+                
+                if (header.type == 'button') {
+                    var b = MochiKit.DOM.getElementsByTagAndClassName('button', null, td)[0];
+                    a.innerHTML = value;
+                }
+            }
+        }
+        
+        return this.element;
+    },    
+    
+    onKeyDown : function(evt) {
+        
+        var key = evt.event().keyCode;
+        
+        switch (key) {
+            
+            case 37: //"KEY_ARROW_LEFT":
+            
+                if (this.expanded) {
+                    this.collapse();
+                } else if (this.parentNode.element){
+                    this.parentNode.onSelect(evt);
+                }
+                return evt.stop();
+                
+            case 39: //"KEY_ARROW_RIGHT":
+            
+                if (!this.expanded) {
+                    this.expand();
+                } else if (this.firstChild) {
+                    this.firstChild.onSelect(evt);
+                }
+                return evt.stop();
+                
+            case 38: //"KEY_ARROW_UP":
+                
+                var visible_nodes = this.tree.rootNode.getAllChildren();
+                
+                visible_nodes = MochiKit.Base.filter(function(node){
+                    return node.element && node.element.style.display != "none";
+                }, visible_nodes);
+                
+                visible_nodes = visible_nodes.slice(0, MochiKit.Base.findIdentical(visible_nodes, this));
+                
+                if (visible_nodes.length > 0){
+                    visible_nodes[visible_nodes.length-1].onSelect(evt);
+                }
+
+                return evt.stop();
+            
+            case 40: //"KEY_ARROW_DOWN":
+                
+                var visible_nodes = this.tree.rootNode.getAllChildren();
+                
+                visible_nodes = MochiKit.Base.filter(function(node){
+                    return node.element && node.element.style.display != "none";
+                }, visible_nodes);
+                
+                visible_nodes = visible_nodes.slice(MochiKit.Base.findIdentical(visible_nodes, this)+1);
+                
+                if (visible_nodes.length > 0){
+                    visible_nodes[0].onSelect(evt);
+                }
+            
+                return evt.stop();
+                
+            default:
+                return;
+        }
+        
+    },
+    
+    onSelect : function(evt) {
+        
+        if (this.tree._ajax_counter > 0) {
+            return;
+        }
+        
+        var trg = evt.target();
+    
+        if (MochiKit.Base.findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
+            return;
+        }
+        
+        var tree = this.tree;
+        var src = this.element;
+        
+        var ctr = evt.modifier().ctrl;
+        var sft = evt.modifier().shift;
+        
+        if (this.element_a) {
+            this.element_a.focus();
+        }
+        
+        forEach(tree.selection, function(node){
+            MochiKit.DOM.removeElementClass(node.element, "selected");
+        });
+    
+        if (ctr) {
+            if (MochiKit.Base.findIdentical(tree.selection, this) == -1){
+                tree.selection.push(this);
+            } else {
+                tree.selection.splice(MochiKit.Base.findIdentical(tree.selection, this), 1);
+            }
+        } else if (sft) {
+    
+            var nodes = tree.rootNode.getAllChildren();
+            nodes = MochiKit.Base.filter(function(node){
+                return node.element.style.display != 'none';
+            }, nodes);
+    
+            var last = tree.selection_last;
+            last = last ? last : this;
+    
+            var begin = MochiKit.Base.findIdentical(nodes, this);
+            var end = MochiKit.Base.findIdentical(nodes, last);
+    
+            tree.selection = begin > end ? nodes.slice(end, begin+1) : nodes.slice(begin, end+1);
+    
+        } else {
+            tree.selection = [this];
+        }
+    
+        if (!sft){
+            tree.selection_last = tree.selection[tree.selection.length-1];
+        }
+    
+        forEach(tree.selection, function(node){
+            MochiKit.DOM.addElementClass(node.element, "selected");
+        });
+            
+        tree.options.onselect(evt, this);
+    },
+        
+    onButtonClick : function() {
+        this.tree.options.onbuttonclick(this);  
+    },
+    
+    getAllChildren : function() {
+        
+        var result = [];
+        
+        forEach(this.childNodes, function(n){
+            result = result.concat(n);
+            result = result.concat(n.getAllChildren());
+        });
+        
+        return result;
+    },
+    
+    toggle : function() {
+        
+        if (this._ajax_counter)
+            return false;
+
+        if (this.expanded) {
+            
+            this.collapse();
+        } else {
+            
+            this.expand();
         }
 
-        idx = index;
-        for (var i in res.records){
-            var tr = grid._make_row(row, res.records[i], indent);
+        return true;
+    },
+    
+    _loadChildNodes : function(/* optional */expandall) {
+        
+        if (this._ajax_counter > 0) 
+          return;
+        
+        var self = this;
+        
+        function _makeChildNodes(records) {
+            
+            MochiKit.Iter.forEach(records, function(record){
+                self.appendChild(self.tree.createNode(record));
+            });
+            
+            if (!expandall) return;
+            
+            forEach(self.childNodes, function(child){
+                child.expand(expandall);
+            });
+        }
+        
+        if (!this.record.children) {
+            return;
+        }
+        
+        if (this.record.children.length > 0 && !this.record.children[0].id) {
+            
+            var params = {};
+            MochiKit.Base.update(params, this.tree.ajax_params || {});
+            MochiKit.Base.update(params, this.record.params || {});
+            
+            params['ids'] = this.record.children.join(',')
 
-            idx = parseInt(idx) + 1;
-            var r = g.rows[idx];
+            var req = Ajax.JSON.post(this.tree.ajax_url, params);
+            self.tree._ajax_counter += 1;
+           
+            this.setState('loading');
+           
+            req.addCallback(function(obj){
+                _makeChildNodes(obj.records);
+            });
+           
+            req.addBoth(function(obj){
+                self.tree._ajax_counter -= 1;
+                self.setState('collapse');
+            });
+           
+        } else {
+            _makeChildNodes(this.record.children)
+        }
+        
+    },
+    
+    expand : function(/* optional */all) {
+        
+        if (!this.hasChildren) {
+            return;
+        }
+        
+        all = all || false;
+        
+        this.setState('collapse');
+        this.expanded = true;
+        
+        if (this.childNodes.length == 0) {
+            return this._loadChildNodes(all);    
+        }
+        
+        forEach(this.childNodes, function(node) {
+            
+            node.element.style.display = "";
+            
+            if (all) {
+                node.expand(all);
+            }
+        });
 
-            swapDOM(r, tr);
+    },
+    
+    collapse : function() {
+        
+        if (!this.hasChildren) {
+            return;
         }
 
-    });
+        forEach(this.childNodes, function(node) {
+            node.element.style.display = "none";
+            node.collapse();
+        });
+        
+        this.setState('expand');
+        this.expanded = false;
+    },
+    
+    setState : function(state/* can be 'expand', 'collapse', 'loading' */) {
+        
+        if (!(this.hasChildren && this.element)) {
+            return;
+        }
 
-    req.addBoth(function(xmlHttp){
-        grid.isloading = false;
-        grid._row_state(row, 'collapse');
-    });
-}
+        var span = this.element.getElementsByTagName('span'); span = span[span.length-1];
+        MochiKit.DOM.setNodeAttribute(span, 'class', state);
+    },
+    
+    getPath : function() {
+        
+        // check for dummyNode
+        if (!this.record.items) {
+            return [];
+        }
+        
+        var path = this.parentNode ? this.parentNode.getPath() : [];
+        path.push(this);
+        
+        return path;
+    },
+    
+    appendChild : function(newChild) {
+        
+        var child = this.insertBefore(newChild);
+        
+        if (this.hasChildren) {
+            return child;
+        }
+        
+        this.hasChildren = true;
+        this.element_b.className = 'expand';
+        
+        return child;
+    },
+    
+    insertBefore : function(newChild, refChild) {
+        
+        if (!this.expanded && this.hasChildren && this.childNodes.length == 0) {
+            throw ('Child Nodes are loaded yet.');
+        }
 
-TreeGrid.prototype.reload = function(){
+        // calculate the row index
+        var table = this.tree.table;
+        var index = -1;
+        
+        var n = refChild || this.nextSibling;
+        var p = this.parentNode;
+        
+        while(!n && p) {
+            n = p.nextSibling;
+            p = p.parentNode;
+        }
+        
+        index = n ? MochiKit.Base.findIdentical(table.rows, n.element) : -1;
 
-    this.isloading = true;
-
-    var args = {ids: this.parent_ids}; update(args, this.params);
-
-    var div = DIV({id: this.id}, "Loading...");
-
-    swapDOM(this.id, div);
-
-    var req = Ajax.JSON.post(this.url, args);
-
-    var grid = this;
-
-    req.addCallback(function(res){
-
-        var table = TABLE({id: grid.id, 'class': 'tree-grid'});
-
-        table.cellPadding = 0;
-        table.cellSpacing = 0;
-
-        var thd = grid.show_headers ? grid._make_head() : null;
-        var tbd = grid._make_body(res.records);
-
-        appendChildNodes(table, thd, tbd);
-
-        swapDOM(grid.id, table);
-    });
-
-    req.addBoth(function(xmlHttp){
-        grid.isloading = false;
-    });
-}
-
-TreeGrid.prototype.load = function(url, id, params){
-    this.url = url;
-    this.params = params ? params : {};
-
-    this.parent_ids = id;
-
-    this.params['fields'] = map(function(h){return h.name}, this.headers);
-    this.params['icon_name'] = this.icon_name;
-
-    this.reload();
-}
-
-TreeGrid.prototype.selectAll = function() {
-}
-
-TreeGrid.prototype.getSelected = function() {
-    return this.selected ? this.selected : [];
+        var prev = refChild ? refChild.previousSibling : this.lastChild;
+        var next = refChild;
+        
+        if (prev) { 
+            prev.nextSibling = newChild;
+        }
+        
+        if (next) {
+            next.previousSibling = newChild;
+        }
+        
+        newChild.parentNode = this;
+        newChild.nextSibling = next;
+        newChild.previousSibling = prev;
+        
+        if (next) {
+           this.childNodes.splice(MochiKit.Base.findIdentical(this.childNodes, next), 0, newChild);
+        } else {
+           this.childNodes = this.childNodes.concat(newChild);
+        }
+        
+        this.firstChild = this.childNodes[0];
+        this.lastChild = this.childNodes[this.childNodes.length-1];
+        
+        var row = table.insertRow(index);
+        
+        var idx = index == -1 ? -1 : index + 1;
+        
+        // ie6 hack
+        table.insertRow(idx);
+        
+        row = MochiKit.DOM.swapDOM(row, newChild.createDOM());
+        
+        // ie6 hack
+        table.deleteRow(idx);
+        
+        if (!this.expanded) {
+            row.style.display = "none";
+        }
+        
+        return newChild;
+    },
+    
+    removeChild : function(refChild) {
+        refChild.__delete__();
+    }
 }
 
 // vim: sts=4 st=4 et

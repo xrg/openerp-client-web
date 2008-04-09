@@ -104,11 +104,13 @@ class Tree(controllers.Controller, TinyResource):
     @expose('json')
     def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], context={}, sort_by=None, sort_order="asc"):
 
-        ids = ids.split(',')
-        ids = [int(id) for id in ids if id != '']
+        ids = ids or []
+        
+        if isinstance(ids, basestring):
+            ids = [int(id) for id in ids.split(',')]
 
         if isinstance(fields, basestring):
-            fields = fields.split(',')
+            fields = eval(fields)
 
         if isinstance(domain, basestring):
             domain = eval(domain)
@@ -191,7 +193,7 @@ class Tree(controllers.Controller, TinyResource):
             if field_parent and field_parent in item:
                 record['children'] = item.pop(field_parent) or None
 
-            record['data'] = item
+            record['items'] = item
 
             records += [record]
 

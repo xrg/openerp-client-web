@@ -122,7 +122,7 @@ class ViewEd(controllers.Controller, TinyResource):
         
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
-        tree.show_headers = False
+        tree.showheaders = False
         tree.onselection = 'onSelect'
 
         return dict(view_id=view_id, model=model, tree=tree, show_header_footer=False)
@@ -403,14 +403,13 @@ class Node(object):
     def get_record(self):
         record = {
             'id' : self.id,
-            'data' : {'name' : self.name,
-                      'view_id' : self.view_id,
-                      'xpath' : self.xpath,
-                      'editable' : 1}}
+            'items' : {'name' : self.name,
+                       'view_id' : self.view_id,
+                       'xpath' : self.xpath,
+                       'editable' : 1}}
         
         if self.children:
-            record['children'] = [c.id for c in self.children]
-            record['child_records'] = [c.get_record() for c in self.children]
+            record['children'] = [c.get_record() for c in self.children]
 
         return record
 
@@ -421,7 +420,7 @@ class ViewNode(Node):
     
     def get_record(self):
         res = super(ViewNode, self).get_record()
-        res['data']['editable'] = 0
+        res['items']['editable'] = 0
         
         return res
     

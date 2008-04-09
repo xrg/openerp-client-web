@@ -5,12 +5,15 @@
 
     <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
     <script type="text/javascript">
-        function onselection(rows){
-            var values = map(function(row){
-                return row.id.split('_').pop();
-            }, rows);
+        function onselection(evt, node){
+        
+            var selection = node.tree.selection;
+            
+            var values = MochiKit.Base.map(function(n){
+                return n.record.id;
+            }, selection);
 
-            $('tree_ids').value = values;
+            MochiKit.DOM.getElement('tree_ids').value = values;
         }
     </script>
 

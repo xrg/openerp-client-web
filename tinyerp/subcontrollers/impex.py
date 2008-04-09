@@ -214,7 +214,7 @@ class ImpEx(controllers.Controller, TinyResource):
                         or not dict(value.get('states', {}).get('draft', [('readonly', True)])).get('readonly', True)):
 
                 record['id'] = id
-                record['data'] = {'name' : nm}
+                record['items'] = {'name' : nm}
                 record['action'] = 'javascript: void(0)'
                 record['target'] = None
                 record['icon'] = None
@@ -229,7 +229,7 @@ class ImpEx(controllers.Controller, TinyResource):
                 else:
                     record['id'] = id
 
-                record['data'] = {'name' : nm}
+                record['items'] = {'name' : nm}
                 record['action'] = 'javascript: void(0)'
                 record['target'] = None
                 record['icon'] = None
@@ -256,7 +256,7 @@ class ImpEx(controllers.Controller, TinyResource):
 
                     children += [cid]
 
-                record['children'] = children
+                record['children'] = children or None
                 record['params'] = {'model': ref, 'prefix': id, 'name': nm}
         
         records.reverse()

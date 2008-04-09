@@ -49,8 +49,8 @@
 
             forEach(fields, function(f){
 
-                var text = f.getElementsByTagName('a')[0].innerHTML;
-                var id = tree.row_info[f.id].record.id;
+                var text = f.record.items.name;
+                var id = f.record.id;
 
                 if (id in opts) return;
 
