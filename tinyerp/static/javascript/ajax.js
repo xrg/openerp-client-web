@@ -39,7 +39,7 @@ Ajax.prototype = {
 
         Ajax.COUNT += 1;
 
-        var req = MochiKit.Async.doSimpleXMLHttpRequest(url, params);
+        var req = MochiKit.Async.doSimpleXMLHttpRequest(url, params || {});
 
         return req.addBoth(function(xmlHttp){
             Ajax.COUNT -= 1;
@@ -51,21 +51,26 @@ Ajax.prototype = {
 
         Ajax.COUNT += 1;
 
+        // prepare queryString for url and/or params
+        var qs = url.slice(url.indexOf('?')).slice(1);
+        var url = url.split('?')[0];
+
+        if (params) {
+            qs = (qs ? qs + '&' : '') + MochiKit.Base.queryString(params);
+        }
+
         var req = MochiKit.Async.getXMLHttpRequest();
         req.open("POST", url, true);
 
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         req.setRequestHeader("Connection", "close");
 
-        var qs = null;
-
-        if (params) {
-            qs = MochiKit.Base.queryString(params);
-            req.setRequestHeader("Content-length", qs.length);
+        if (qs) {
+           req.setRequestHeader("Content-length", qs.length);
         }
-
+        
         req = MochiKit.Async.sendXMLHttpRequest(req, qs);
-
+        
         return req.addBoth(function(xmlHttp){
             Ajax.COUNT -= 1;
             return xmlHttp;
