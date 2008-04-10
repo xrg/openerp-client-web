@@ -430,7 +430,7 @@ class ViewEd(controllers.Controller, TinyResource):
                 elif pos == "before":
                     pnode.insertBefore(new_node, node)
                     
-                elif pos == "inside" and new_node.localName != "field":
+                elif pos == "inside" and node.localName != "field":
                     node.appendChild(new_node)
                 
                 else:
