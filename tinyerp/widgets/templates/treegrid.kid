@@ -5,6 +5,7 @@
         
         ${field_id}.options.showheaders = ${(showheaders and 'true') or 'false'};
         ${field_id}.options.onselect = ${onselection or 'null'};
+        ${field_id}.options.expandall = ${(expandall and 'true') or 'false'};
 
         ${field_id}.setHeaders(${ustr(headers)});
         ${field_id}.setRecords('${url}', ${ustr(url_params)});
