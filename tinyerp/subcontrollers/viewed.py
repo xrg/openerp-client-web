@@ -107,6 +107,19 @@ class Preview(Form):
                                        '_terp_view_mode' : [view_type]})
         return self.create(params)
 
+def _get_xpath(node):
+
+    pn = node.parentNode
+    xp = '/' + node.localName
+
+    if pn and pn.localName and pn.localName != 'view':
+        xp = _get_xpath(pn) + xp
+
+    nodes = xpath.Evaluate(node.localName, node.parentNode)
+    xp += '[%s]' % (nodes.index(node) + 1)
+
+    return xp
+
 class ViewEd(controllers.Controller, TinyResource):
     
     new_field = NewField()
@@ -303,12 +316,21 @@ class ViewEd(controllers.Controller, TinyResource):
         
         # get the correct model
         
+        used = xpath.Evaluate('.//field', field_node)
+        
         parents = []
+        used = []
         parent_node = field_node.parentNode
         
         while parent_node:
             if parent_node.localName == 'field':
                 parents += [parent_node.getAttribute('name')]
+                
+            if not used and parent_node.localName in ('form', 'tree', 'graph', 'calendar'):
+                n = _get_xpath(parent_node).count('field')
+                used = xpath.Evaluate('.//field', parent_node)
+                used = [f.getAttribute('name') for f in used if _get_xpath(f).count('field') == n + 1]
+                
             parent_node = parent_node.parentNode
         
         parents.reverse()
@@ -322,7 +344,9 @@ class ViewEd(controllers.Controller, TinyResource):
         # get the fields
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get().keys()
-
+        
+        fields = [f for f in fields if f not in used]
+        
         nodes = _PROPERTIES.keys()
         nodes.sort()
 
