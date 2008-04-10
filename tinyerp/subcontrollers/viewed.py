@@ -86,20 +86,7 @@ class NewField(Form):
         form = self.create_form(params, tg_errors)
         
         return dict(form=form, params=params, show_header_footer=False)
-
-def _get_xpath(node):
-
-    pn = node.parentNode
-    xp = '/' + node.localName
-
-    if pn and pn.localName and pn.localName != 'view':
-        xp = _get_xpath(pn) + xp
-
-    nodes = xpath.Evaluate(node.localName, node.parentNode)
-    xp += '[%s]' % (nodes.index(node) + 1)
-
-    return xp
-    
+   
 class ViewEd(controllers.Controller, TinyResource):
     
     new_field = NewField()
@@ -120,10 +107,11 @@ class ViewEd(controllers.Controller, TinyResource):
         
         model = res['model']
         
-        headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
+        headers = [{'string' : 'Name', 'name' : 'string', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
         tree.showheaders = False
         tree.onselection = 'onSelect'
+        tree.expandall = True
 
         return dict(view_id=view_id, model=model, tree=tree, show_header_footer=False)
     
@@ -196,6 +184,19 @@ class ViewEd(controllers.Controller, TinyResource):
 
         return res['model'], new_doc.toxml().replace('\t', '')
     
+    def get_node_instance(self, node=None, view_id=False):
+        
+        attrs = tools.node_attributes(node)
+        view_id = attrs.get('view_id', view_id)
+        
+        attrs['view_id'] = view_id
+        attrs['__local_name__'] = node.localName
+    
+        attrs['__random_id__'] = random.randrange(1, 10000)
+        attrs.setdefault('name', node.localName)
+        
+        return _NODES.get(node.localName, Node)(attrs)
+
     def parse(self, root=None, view_id=False):
 
         result = []
@@ -209,20 +210,21 @@ class ViewEd(controllers.Controller, TinyResource):
             view_id = attrs.get('view_id', view_id)
             
             attrs['view_id'] = view_id
+            attrs['__local_name__'] = node.localName
         
             attrs['__random_id__'] = random.randrange(1, 10000)
             attrs.setdefault('name', node.localName)
-            
-            # xpath relative to <view>
-            attrs['__xpath__'] = _get_xpath(node)
             
             children = []
             
             if node.childNodes:
                 children = self.parse(node, view_id)
+                
+            node_instance = self.get_node_instance(node, view_id)
+            node_instance.children = children
             
-            result += [_NODES.get(node.localName, Node)(attrs, children)]
-            
+            result += [node_instance]
+
         return result
     
     @expose('json')
@@ -305,6 +307,65 @@ class ViewEd(controllers.Controller, TinyResource):
         return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields)
     
     @expose('json')
+    def create_view(self, view_id=False, xpath_expr=None, model=None, **kw):
+        
+        view_id = int(view_id)
+        proxy = rpc.RPCProxy('ir.ui.view')
+        
+        error = None
+        record = None
+        
+        if view_id:
+            
+            res = proxy.read(view_id, ['model', 'arch'])
+            doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
+            node = xpath.Evaluate(xpath_expr, doc)[0]
+            new_node = doc.createElement('view')
+            
+            if node.localName == 'field':
+
+                data = {'name' : res['model'] + '.' + str(random.randint(0, 100000)) + '.inherit',
+                        'model' : res['model'],
+                        'priority' : 16,
+                        'type' : 'form',
+                        'inherit_id' : view_id}
+            
+                arch = """<?xml version="1.0"?>
+                <field name="%s" position="after">
+                </field>""" % (node.getAttribute('name'))
+                
+                data['arch'] = arch
+            
+                try:
+                    view_id = rpc.RPCProxy('ir.ui.view').create(data)
+                    
+                    node.setAttribute('position', 'after')
+                    
+                    record = self.get_node_instance(new_node, view_id).get_record()
+                    record['children'] = [self.get_node_instance(node, view_id).get_record()]
+                    
+                except:
+                    error = _("Unable to create inherited view.")
+            else:
+                error = _("Unable to create inherited view.")
+                
+        else:
+            error = _("Not implemented yet!")
+            
+        return dict(record=record, error=error)
+    
+    @expose('json')
+    def remove_view(self, view_id, **kw):
+        
+        view_id = int(view_id)
+        
+        if view_id:
+            proxy = rpc.RPCProxy('ir.ui.view')
+            proxy.unlink(view_id)
+            
+        return dict()
+    
+    @expose('json')
     def save(self, _terp_what, view_id, xpath_expr, **kw):
         
         view_id = int(view_id)
@@ -312,70 +373,56 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read(view_id, ['model', 'arch'])
         
-        doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
-        field = xpath.Evaluate(xpath_expr, doc)[0]
+        doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
+        node = xpath.Evaluate(xpath_expr, doc)[0]
+        
+        new_node = None
         
         error = None
-        
+        record = None
+            
         if _terp_what == "properties":
             
-            attrs = tools.node_attributes(field)        
+            attrs = tools.node_attributes(node)        
             for attr in attrs:
-                field.removeAttribute(attr)
+                node.removeAttribute(attr)
         
             for attr, val in kw.items():
                 if val:
-                    field.setAttribute(attr, val)
+                    node.setAttribute(attr, val)
         
-        if _terp_what == "node" and field.parentNode:
+        if _terp_what == "node" and node.parentNode:
             
-            node = doc.createElement(kw['node'])
+            new_node = doc.createElement(kw['node'])
             
-            if node.localName == "field":
-                node.setAttribute('name', kw.get('name', node.localName))
-
+            if new_node.localName == "field":
+                new_node.setAttribute('name', kw.get('name', new_node.localName))
+            
+            pnode = node.parentNode
             pos = kw['position']
             
-            pnode = field.parentNode
-            
-            if node.localName == 'view':
-                
-                if field.localName == 'field':
-
-                    data = {'name' : res['model'] + '.' + str(random.randint(0, 100000)) + '.inherit',
-                            'model' : res['model'],
-                            'priority' : 16,
-                            'type' : 'form',
-                            'inherit_id' : view_id}
-                
-                    arch = """<?xml version="1.0"?>
-                    <field name="%s" position="after">
-                    </field>""" % (field.getAttribute('name'))
+            try:
+                if pos == "after":
+                    pnode.insertBefore(new_node, node.nextSibling)
                     
-                    data['arch'] = arch
+                elif pos == "before":
+                    pnode.insertBefore(new_node, node)
+                    
+                elif pos == "inside" and new_node.localName != "field":
+                    node.appendChild(new_node)
                 
-                    try:
-                        rpc.RPCProxy('ir.ui.view').create(data)
-                    except:
-                        error = _("Unable to create inherited view.")
                 else:
-                    error = _("Unable to create inherited view.")
-
-                return dict(error=error)
-            
-            elif pos == "after":
-                pnode.insertBefore(node, field.nextSibling)
-                
-            elif pos == "before":
-                pnode.insertBefore(node, field)
-                
-            elif pos == "inside":
-                field.appendChild(node)
+                    error = _("Invalid position.")
+            except Exception, e:
+                error = ustr(e)
 
         if _terp_what == "remove":
-            
-            pnode = field.parentNode
-            pnode.removeChild(field)
+            pnode = node.parentNode
+            pnode.removeChild(node)
+        else:
+            node_instance = self.get_node_instance(new_node or node, view_id)
+            node_instance.children = self.parse(new_node or node, view_id)
+            record = node_instance.get_record()
         
         data = dict(arch=doc.toxml(encoding="utf-8"))
         try:
@@ -383,7 +430,7 @@ class ViewEd(controllers.Controller, TinyResource):
         except:
             error = _("Unable to update the view.")
         
-        return dict(error=error)
+        return dict(record=record, error=error)
     
 class Node(object):
     
@@ -393,20 +440,21 @@ class Node(object):
         
         self.view_id = self.attrs['view_id']
         self.id = self.attrs['__random_id__']
-        self.xpath = self.attrs['__xpath__']
         
-        self.name = self.get_name()
+        self.name = self.attrs['name']
+        self.localName = self.attrs['__local_name__']
+        self.string = self.get_text()
         
-    def get_name(self):
-        return "<%s>" % self.attrs['name']
+    def get_text(self):
+        return "<%s>" % self.name
     
     def get_record(self):
         record = {
             'id' : self.id,
-            'items' : {'name' : self.name,
-                       'view_id' : self.view_id,
-                       'xpath' : self.xpath,
-                       'editable' : 1}}
+            'items' : {'string' : self.string,
+                       'name' : self.name,
+                       'localName' : self.localName,
+                       'view_id' : self.view_id}}
         
         if self.children:
             record['children'] = [c.get_record() for c in self.children]
@@ -415,28 +463,22 @@ class Node(object):
 
 class ViewNode(Node):
     
-    def get_name(self):
+    def get_text(self):
         return '<view view_id="%s">' % self.view_id
-    
-    def get_record(self):
-        res = super(ViewNode, self).get_record()
-        res['items']['editable'] = 0
-        
-        return res
     
 class FieldNode(Node):
     
-    def get_name(self):
-        return '[%s]' % self.attrs['name']
+    def get_text(self):
+        return '[%s]' % self.name
     
 class ButtonNode(Node):
     
-    def get_name(self):
+    def get_text(self):
         return '<button>'
     
 class ActionNode(Node):
     
-    def get_name(self):
+    def get_text(self):
         return '<action>'
 
 _NODES = {

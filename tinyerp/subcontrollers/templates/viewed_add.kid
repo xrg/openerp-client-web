@@ -25,7 +25,7 @@
                     <tr>
                         <td class="label">Position:</td>
                         <td class="item">
-                            <select id="type" name="position">
+                            <select id="position" name="position">
                                 <option value="after">after</option>
                                 <option value="before">before</option>
                                 <option value="inside">inside</option>
