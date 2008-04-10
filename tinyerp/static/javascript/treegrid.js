@@ -231,7 +231,7 @@ TreeNode.prototype = {
         }
         
         if (this.previousSibling) {
-            this.previousSibling = this.nextSibling;
+            this.previousSibling.nextSibling = this.nextSibling;
         }
         
         this.tree.selection.splice(MochiKit.Base.findIdentical(this.tree.selection, this),1);
@@ -244,7 +244,7 @@ TreeNode.prototype = {
     },
     
     __repr__ : function(){
-        return '<TreeNode ' + this.name + '>';
+        return '<TreeNode ' + this.record.items.name + '>';
     },
     
     createDOM : function() {
