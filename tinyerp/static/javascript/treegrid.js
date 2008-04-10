@@ -372,7 +372,7 @@ TreeNode.prototype = {
                     this.element_i.src = record.icon;
                 }
                 
-                this.element_a.innerHTML = value;
+                this.element_a.innerHTML = MochiKit.DOM.escapeHTML(value);
                 
                 if (record.action) {
                     MochiKit.DOM.setNodeAttribute(this.element_a, 'href', record.action);
@@ -397,7 +397,7 @@ TreeNode.prototype = {
                     MochiKit.DOM.setNodeAttribute(a, 'href', value);
                     MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
                     
-                    a.innerHTML = value;    
+                    a.innerHTML = MochiKit.DOM.escapeHTML(value);    
                 }
                 
                 if (header.type == 'email') {
@@ -407,7 +407,7 @@ TreeNode.prototype = {
                     MochiKit.DOM.setNodeAttribute(a, 'href', 'mailto:' + value);
                     MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
                     
-                    a.innerHTML = value;    
+                    a.innerHTML = MochiKit.DOM.escapeHTML(value);    
                 }
                 
                 if (header.type == 'image') {
@@ -417,7 +417,7 @@ TreeNode.prototype = {
                 
                 if (header.type == 'button') {
                     var b = MochiKit.DOM.getElementsByTagAndClassName('button', null, td)[0];
-                    a.innerHTML = value;
+                    a.innerHTML = MochiKit.DOM.escapeHTML(value);
                 }
             }
         }
