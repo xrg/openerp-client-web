@@ -240,11 +240,15 @@ TreeNode.prototype = {
         var table = this.tree.table;
         table.deleteRow(MochiKit.Base.findIdentical(table.rows, this.element));
 
-        //TODO: disconnect events
+        if (this.element) {
+            MochiKit.Signal.disconnect(this.eventOnKeyDown);
+            MochiKit.Signal.disconnect(this.eventOnClick);
+            MochiKit.Signal.disconnect(this.eventOnDblClick);
+        }
     },
     
     __repr__ : function(){
-        return '<TreeNode ' + this.record.items.name + '>';
+        return '<TreeNode ' + this.name + '>';
     },
     
     createDOM : function() {
