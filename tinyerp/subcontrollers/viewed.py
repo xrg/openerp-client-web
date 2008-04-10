@@ -48,6 +48,8 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
 
+from tinyerp.utils import TinyDict
+
 from tinyerp.tinyres import TinyResource
 
 import tinyerp.widgets as tw
@@ -95,6 +97,15 @@ class Preview(Form):
     def create(self, params, tg_errors=None):
         form = self.create_form(params, tg_errors)
         return dict(form=form, show_header_footer=False)
+    
+    @expose()
+    def show(self, model, view_id, view_type):
+        view_id = int(view_id)
+        params, data = TinyDict.split({'_terp_model': model,
+                                       '_terp_ids' : [], 
+                                       '_terp_view_ids' : [view_id],
+                                       '_terp_view_mode' : [view_type]})
+        return self.create(params)
 
 class ViewEd(controllers.Controller, TinyResource):
     
@@ -113,9 +124,10 @@ class ViewEd(controllers.Controller, TinyResource):
             raise common.error(_("Error!"), _("Invalid view id."))
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id, ['model'])
+        res = proxy.read(view_id, ['model', 'type'])
         
         model = res['model']
+        view_type = res['type']
         
         headers = [{'string' : 'Name', 'name' : 'string', 'type' : 'char'}]
         tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
@@ -123,7 +135,7 @@ class ViewEd(controllers.Controller, TinyResource):
         tree.onselection = 'onSelect'
         tree.expandall = True
 
-        return dict(view_id=view_id, model=model, tree=tree, show_header_footer=False)
+        return dict(view_id=view_id, view_type=view_type, model=model, tree=tree, show_header_footer=False)
     
     def view_get(self, view_id=None):
         

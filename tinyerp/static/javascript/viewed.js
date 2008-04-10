@@ -233,7 +233,9 @@ var doEdit = function() {
 }
 
 var onPreview = function() {
-   var act = getURL('/viewed/preview/edit', {'model' : getElement('view_model').value, 'view_ids' : '['+ getElement('view_id').value +']'});
+   var act = getURL('/viewed/preview/show', {'model' : getElement('view_model').value, 
+                                             'view_id' : getElement('view_id').value,
+                                             'view_type' : getElement('view_type').value});
    window.open(act);
 }
 

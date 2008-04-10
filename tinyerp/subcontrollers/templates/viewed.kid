@@ -18,6 +18,7 @@
                 </table>
                 <input type="hidden" id="view_model" value="$model"/>
                 <input type="hidden" id="view_id" value="$view_id"/>
+                <input type="hidden" id="view_type" value="$view_type"/>
             </td>
         </tr>
         <tr>
