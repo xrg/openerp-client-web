@@ -87,9 +87,19 @@ class NewField(Form):
         
         return dict(form=form, params=params, show_header_footer=False)
    
+class Preview(Form):
+    
+    path = '/viewed/preview'    # mapping from root
+    
+    @expose(template="tinyerp.subcontrollers.templates.viewed_preview")
+    def create(self, params, tg_errors=None):
+        form = self.create_form(params, tg_errors)
+        return dict(form=form, show_header_footer=False)
+
 class ViewEd(controllers.Controller, TinyResource):
     
     new_field = NewField()
+    preview = Preview()
     
     @expose(template="tinyerp.subcontrollers.templates.viewed")
     def default(self, view_id):

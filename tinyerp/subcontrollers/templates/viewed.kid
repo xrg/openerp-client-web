@@ -16,6 +16,8 @@
                         <td width="100%">View Editor ($view_id - $model)</td>
                     </tr>
                 </table>
+                <input type="hidden" id="view_model" value="$model"/>
+                <input type="hidden" id="view_id" value="$view_id"/>
             </td>
         </tr>
         <tr>
@@ -34,6 +36,7 @@
                             <td><button type="button" title="${_('Delete current field')}" onclick="onDelete()">Delete</button></td>
                             <td><button type="button" title="${_('Edit current field')}" onclick="onEdit()">Edit</button></td>
                             <td width="100%">&nbsp;</td>
+                            <td><button type="button" onclick="onPreview()">Preview</button></td>
                             <td><button type="button" onclick="onClose()">Close</button></td>
                         </tr>
                     </table>

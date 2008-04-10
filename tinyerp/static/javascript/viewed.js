@@ -232,6 +232,11 @@ var doEdit = function() {
     return false;
 }
 
+var onPreview = function() {
+   var act = getURL('/viewed/preview/edit', {'model' : getElement('view_model').value, 'view_ids' : '['+ getElement('view_id').value +']'});
+   window.open(act);
+}
+
 var onNew = function(){                          
     var act = getURL('/viewed/new_field/edit', {'model' : 'ir.model.fields', 'context' : "{'model' : '${model}'}"});
     openWindow(act, {width: 650, height: 300});
