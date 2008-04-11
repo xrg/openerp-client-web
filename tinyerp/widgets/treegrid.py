@@ -68,7 +68,7 @@ class TreeGrid(TinyField):
         self.domain = domain
         self.context = context
         
-        self.showheaders = kw.get('showheaders', 0)
+        self.showheaders = kw.get('showheaders', 1)
         self.onselection = kw.get('onselection')
         self.expandall = kw.get('expandall', 0)
         
