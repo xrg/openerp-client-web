@@ -34,6 +34,7 @@ This modules implements custom authorization logic for the eTiny!.
 
 import time
 import types
+import re
 
 from turbogears import expose
 from turbogears import redirect
@@ -117,6 +118,15 @@ def secured(fn):
 
                 if action == 'login':
                     message = _("Bad username or password !")
+                
+                if config.get('dblist.filter', path='tinyerp'):
+                    
+                    headers = cherrypy.request.headers
+                    host = headers.get('X-Forwarded-Host', headers.get('Host'))
+
+                    base = re.split('\.|:|/', host)[0]                
+                    base = base + '_'                
+                    dblist = [d for d in dblist if d.startswith(base)]
 
                 return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
 

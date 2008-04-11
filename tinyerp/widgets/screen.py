@@ -86,8 +86,11 @@ class Screen(TinyCompoundWidget):
         self.view_ids      = params.view_ids or []
         self.view_mode     = params.view_mode
         self.view_type     = params.view_type
-        
+
         self.view_id       = False
+     
+        while len(self.view_ids) < len(self.view_mode):
+            self.view_ids += [False]
 
         if not self.view_type and params.view_mode:
             self.view_type = params.view_mode[0]
@@ -102,7 +105,7 @@ class Screen(TinyCompoundWidget):
 
         self.offset        = params.offset
         self.limit         = params.limit
-        self.count         = params.count
+        self.count         = params.count       
 
         if (self.ids or self.id) and self.count == 0:
             self.count = rpc.RPCProxy(self.model).search_count(self.domain)
