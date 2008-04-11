@@ -41,8 +41,8 @@ TreeGrid.prototype = {
         this.options = MochiKit.Base.update({
             'showheaders': true,
             'expandall' : false,
-            'onselect' : function(){},
-            'onbuttonclick' : function(){}
+            'onselect' : function(evt, node){},
+            'onbuttonclick' : function(evt, node){}
         }, options || {});
         
         // a dummy root node
@@ -329,13 +329,25 @@ TreeNode.prototype = {
                 }
                 
                 if (header.type == 'image') {
-                    value = MochiKit.DOM.IMG({src: value, style: 'cursor: pointer'});
-                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                    self = this;
+                    value = MochiKit.DOM.IMG({name: header.name, src: value, style: 'cursor: pointer'});
+                    value.onclick = function() {
+                        if (self.tree.options.onbuttonclick) {
+                            var evt = arguments[0] || window.event;
+                            self.tree.options.onbuttonclick(new MochiKit.Signal.Event(value, evt), self);
+                        }
+                    }
                 }
                 
                 if (header.type == 'button') {
-                    value = MochiKit.DOM.BUTTON({}, value);
-                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                    self = this;
+                    value = MochiKit.DOM.BUTTON({name: header.name, style: 'cursor: pointer'}, value);
+                    value.onclick = function() {
+                        if (self.tree.options.onbuttonclick) {
+                            var evt = arguments[0] || window.event;
+                            self.tree.options.onbuttonclick(new MochiKit.Signal.Event(value, evt), self);
+                        }
+                    }
                 }
                 
             }
@@ -545,14 +557,12 @@ TreeNode.prototype = {
         forEach(tree.selection, function(node){
             MochiKit.DOM.addElementClass(node.element, "selected");
         });
-            
-        tree.options.onselect(evt, this);
-    },
         
-    onButtonClick : function() {
-        this.tree.options.onbuttonclick(this);  
+        if (tree.options.onselect) {
+            tree.options.onselect(evt, this);
+        }
     },
-    
+
     getAllChildren : function() {
         
         var result = [];
