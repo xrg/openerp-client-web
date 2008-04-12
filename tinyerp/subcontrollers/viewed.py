@@ -342,8 +342,6 @@ class ViewEd(controllers.Controller, TinyResource):
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
         
-        _is_o2m(field, res['model'])
-        
         attrs = tools.node_attributes(field)
         
         editors = []
