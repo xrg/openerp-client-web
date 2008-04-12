@@ -161,7 +161,7 @@ def _get_field_attrs(node, parent_model):
     if node.localName != 'field':
         return {}
     
-    model = _get_model(parent_model)
+    model = _get_model(node, parent_model)
     
     name = node.getAttribute('name')
     proxy = rpc.RPCProxy(model)
