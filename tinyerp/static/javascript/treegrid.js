@@ -265,7 +265,7 @@ TreeNode.prototype = {
             var key = header.name;
             var value = this.record.items[key];
             
-            var td = MochiKit.DOM.TD({'class': header.type});
+            var td = MochiKit.DOM.TD({'class': header.type || null, 'width' : header.width || null});
             
             if (i == 0) { // first column
     
@@ -320,34 +320,22 @@ TreeNode.prototype = {
             
             if (i > 0) {
                 
-                if (header.type == 'url') {
+                if (header.type == 'url' && value) {
                     value = MochiKit.DOM.A({href: record.action || value, target: record.target || '_blank'}, value);    
                 }
                 
-                if (header.type == 'email') {
+                if (header.type == 'email' && value) {
                     value = MochiKit.DOM.A({href: 'mailto:' + (record.action || value), target: record.target || '_blank'}, value);    
                 }
                 
-                if (header.type == 'image') {
-                    self = this;
+                if (header.type == 'image' && value) {
                     value = MochiKit.DOM.IMG({name: header.name, src: value, style: 'cursor: pointer'});
-                    value.onclick = function() {
-                        if (self.tree.options.onbuttonclick) {
-                            var evt = arguments[0] || window.event;
-                            self.tree.options.onbuttonclick(new MochiKit.Signal.Event(value, evt), self);
-                        }
-                    }
+                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
                 }
                 
-                if (header.type == 'button') {
-                    self = this;
+                if (header.type == 'button' && value) {
                     value = MochiKit.DOM.BUTTON({name: header.name, style: 'cursor: pointer'}, value);
-                    value.onclick = function() {
-                        if (self.tree.options.onbuttonclick) {
-                            var evt = arguments[0] || window.event;
-                            self.tree.options.onbuttonclick(new MochiKit.Signal.Event(value, evt), self);
-                        }
-                    }
+                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
                 }
                 
             }
@@ -561,6 +549,13 @@ TreeNode.prototype = {
         if (tree.options.onselect) {
             tree.options.onselect(evt, this);
         }
+    },
+    
+    onButtonClick : function() {
+        if (this.tree.options.onbuttonclick) {
+            var evt = arguments[0] || window.event;
+            this.tree.options.onbuttonclick(new MochiKit.Signal.Event(evt.target || evt.srcElement, evt), this);
+        }      
     },
 
     getAllChildren : function() {
