@@ -37,6 +37,13 @@ from turbogears.i18n import tg_gettext
 
 import rpc
 
+__cache_references = []
+
+def clear():
+    for queue, store in __cache_references:
+        while queue:
+            del store[queue.pop()]
+
 def memoize(limit=100, force=False):
 
     def memoize_wrapper(func):
@@ -47,6 +54,8 @@ def memoize(limit=100, force=False):
 
         queue = []
         store = {}
+        
+        __cache_references.append((queue, store))
 
         def func_wrapper(*args, **kwargs):
             key = cPickle.dumps((args, kwargs))
@@ -65,11 +74,11 @@ def memoize(limit=100, force=False):
 
     return memoize_wrapper
 
-@memoize(100)
+@memoize(1000)
 def fields_view_get(model, view_id, view_type, context, hastoolbar=False):
     return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
 
-@memoize(100)
+@memoize(1000)
 def fields_get(model, fields, context):
     return rpc.RPCProxy(model).fields_get(fields, context)
 
