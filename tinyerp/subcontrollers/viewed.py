@@ -671,9 +671,12 @@ class GroupsProperty(tg_widgets.MultipleSelectField):
         
         group_ids = rpc.RPCProxy('res.groups').search([])
         groups = rpc.RPCProxy('ir.model.data').search([('res_id', 'in', group_ids ), ('model', '=', 'res.groups')])
-        groups = rpc.RPCProxy('ir.model.data').read(groups, ['module', 'name'])
+        groups = rpc.RPCProxy('ir.model.data').read(groups, ['module', 'res_id', 'name'])
         
-        options = ['%s.%s' % (g['module'], g['name']) for g in groups]
+        groups_names = rpc.RPCProxy('res.groups').read(group_ids, ['name'])
+        names = dict([(n['id'], n['name']) for n in groups_names])
+        
+        options = [('%s.%s' % (g['module'], g['name']), names[g['res_id']]) for g in groups]
         
         super(GroupsProperty, self).__init__(name=name, options=options, default=default)
 
