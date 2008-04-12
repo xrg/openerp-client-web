@@ -648,6 +648,18 @@ class SelectProperty(tg_widgets.SingleSelectField):
         
         super(SelectProperty, self).__init__(name=name, options=options, default=default)
         
+class PositionProperty(tg_widgets.SingleSelectField):
+    
+    def __init__(self, name, default=None):
+        
+        options = [('', ''),
+                   ('after', 'After'),
+                   ('before', 'Before'),
+                   ('inside', 'Inside'),
+                   ('replace', 'Replace')]
+        
+        super(PositionProperty, self).__init__(name=name, options=options, default=default)        
+        
 class WidgetProperty(tg_widgets.SingleSelectField):
     
     def __init__(self, name, default=None):
@@ -686,7 +698,8 @@ _PROPERTY_WIDGETS = {
     'nolabel' : BooleanProperty,
     'completion' : BooleanProperty,
     'widget' : WidgetProperty,
-    'groups' : GroupsProperty,                                                 
+    'groups' : GroupsProperty,
+    'position': PositionProperty                                             
 }
 
 def get_property_widget(name, value=None):
