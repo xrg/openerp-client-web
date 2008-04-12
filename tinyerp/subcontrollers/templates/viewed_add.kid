@@ -16,22 +16,10 @@
                             </select>
                         </td>
                         <td class="item">
-                            <select id="name" name="name">
+                            <select id="name" name="name" style="display: ${('field' in nodes or 'none') or None}">
                                 <option value=""></option>
                                 <option py:for="field in fields" value="${field}">${field}</option>
                             </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="label">Position:</td>
-                        <td class="item">
-                            <select id="position" name="position">
-                                <option value="after">after</option>
-                                <option value="before">before</option>
-                                <option value="inside">inside</option>
-                            </select>
-                        </td>
-                        <td class="item">
                         </td>
                     </tr>
                 </table>

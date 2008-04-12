@@ -77,7 +77,7 @@ class NewField(Form):
     def create(self, params, tg_errors=None):
         
         params.model_id = False
-        for_model = params.context.get('model')
+        for_model = params.context.get('for_model')
         
         if for_model:
             params.model_id = rpc.RPCProxy('ir.model').search([('model', '=', for_model)])[0]
@@ -88,6 +88,11 @@ class NewField(Form):
         form = self.create_form(params, tg_errors)
         
         return dict(form=form, params=params, show_header_footer=False)
+    
+    @expose()
+    def edit(self, for_model, id=False):
+        ctx = {'for_model' : for_model}
+        return super(NewField, self).edit(model='ir.model.fields', id=id, context=ctx)
    
 class Preview(Form):
     
@@ -120,6 +125,44 @@ def _get_xpath(node):
 
     return xp
 
+def _get_field_attrs(node, parent_model):
+    
+    if node.localName != 'field':
+        return {}
+    
+    parents = []
+    pnode = node.parentNode
+    
+    while pnode:
+        
+        if pnode.localName == 'field':
+        
+            ch = []
+            ch += xpath.Evaluate('./form', pnode)
+            ch += xpath.Evaluate('./tree', pnode)
+            ch += xpath.Evaluate('./graph', pnode)
+            ch += xpath.Evaluate('./calendar', pnode)
+        
+            if ch:
+                parents += [pnode.getAttribute('name')]
+                
+        pnode = pnode.parentNode
+    
+    parents.reverse()
+    
+    for parent in parents:
+        
+        proxy = rpc.RPCProxy(parent_model)
+        field = proxy.fields_get([parent])[parent]
+        
+        parent_model = field['relation']
+    
+    name = node.getAttribute('name')
+    proxy = rpc.RPCProxy(parent_model)
+    field = proxy.fields_get([name])[name]
+    
+    return field
+
 class ViewEd(controllers.Controller, TinyResource):
     
     new_field = NewField()
@@ -142,10 +185,15 @@ class ViewEd(controllers.Controller, TinyResource):
         model = res['model']
         view_type = res['type']
         
-        headers = [{'string' : 'Name', 'name' : 'string', 'type' : 'char'}]
+        headers = [{'string' : 'Name', 'name' : 'string', 'type' : 'char'},
+                   {'string' : '', 'name': 'add', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'delete', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'edit', 'type' : 'image', 'width': 2}]
+        
         tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
         tree.showheaders = False
         tree.onselection = 'onSelect'
+        tree.onbuttonclick = 'onButtonClick'
         tree.expandall = True
 
         return dict(view_id=view_id, view_type=view_type, model=model, tree=tree, show_header_footer=False)
@@ -216,23 +264,36 @@ class ViewEd(controllers.Controller, TinyResource):
         new_doc = xml.dom.getDOMImplementation().createDocument(None, 'view', None)
         new_doc.documentElement.setAttribute('view_id', str(view_id))
         new_doc.documentElement.appendChild(doc_arch.documentElement)
+        
+        res = {'model': res['model'],
+               'view_id' : view_id,
+               'view_type': res['type'],
+               'arch' : new_doc.toxml().replace('\t', '')}
 
-        return res['model'], new_doc.toxml().replace('\t', '')
+        return res
     
-    def get_node_instance(self, node=None, view_id=False):
+    def get_node_instance(self, node, model, view_id=False, view_type='form'):
+        
+        field_attrs = _get_field_attrs(node, parent_model=model)
         
         attrs = tools.node_attributes(node)
+        
         view_id = attrs.get('view_id', view_id)
+        view_type = attrs.get('view_type', view_type)
         
         attrs['view_id'] = view_id
-        attrs['__local_name__'] = node.localName
-    
-        attrs['__random_id__'] = random.randrange(1, 10000)
+        attrs['view_type'] = view_type
+        
+        attrs['__localName__'] = node.localName
+        attrs['__id__'] = random.randrange(1, 10000)
+        
         attrs.setdefault('name', node.localName)
         
-        return _NODES.get(node.localName, Node)(attrs)
+        field_attrs.update(attrs)
+        
+        return _NODES.get(node.localName, Node)(field_attrs)
 
-    def parse(self, root=None, view_id=False):
+    def parse(self, root=None, model=None, view_id=False, view_type='form'):
 
         result = []
     
@@ -240,22 +301,13 @@ class ViewEd(controllers.Controller, TinyResource):
             
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
-
-            attrs = tools.node_attributes(node)
-            view_id = attrs.get('view_id', view_id)
-            
-            attrs['view_id'] = view_id
-            attrs['__local_name__'] = node.localName
-        
-            attrs['__random_id__'] = random.randrange(1, 10000)
-            attrs.setdefault('name', node.localName)
             
             children = []
             
             if node.childNodes:
-                children = self.parse(node, view_id)
-                
-            node_instance = self.get_node_instance(node, view_id)
+                children = self.parse(node, model=model, view_id=view_id, view_type=view_type)
+
+            node_instance = self.get_node_instance(node, model=model, view_id=view_id, view_type=view_type)
             node_instance.children = children
             
             result += [node_instance]
@@ -266,10 +318,14 @@ class ViewEd(controllers.Controller, TinyResource):
     def data(self, view_id, **kw):
         view_id = int(view_id)
         
-        model, view = self.view_get(view_id)
+        res = self.view_get(view_id)
         
-        doc = xml.dom.minidom.parseString(view.encode('utf-8'))
-        result = self.parse(root=doc, view_id=view_id)
+        model = res['model']
+        view_type = res['view_type']
+        arch = res['arch']
+        
+        doc = xml.dom.minidom.parseString(arch.encode('utf-8'))
+        result = self.parse(root=doc, model=model, view_id=view_id, view_type=view_type)
         
         records = [rec.get_record() for rec in result]
         
@@ -285,6 +341,8 @@ class ViewEd(controllers.Controller, TinyResource):
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
+        
+        _is_o2m(field, res['model'])
         
         attrs = tools.node_attributes(field)
         
@@ -347,7 +405,7 @@ class ViewEd(controllers.Controller, TinyResource):
         
         fields = [f for f in fields if f not in used]
         
-        nodes = _PROPERTIES.keys()
+        nodes = _CHILDREN.get(field_node.localName, [])
         nodes.sort()
 
         return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields)
@@ -445,7 +503,7 @@ class ViewEd(controllers.Controller, TinyResource):
                 new_node.setAttribute('name', kw.get('name', new_node.localName))
             
             pnode = node.parentNode
-            pos = kw['position']
+            pos = kw.get('position', 'inside')
             
             try:
                 if pos == "after":
@@ -467,7 +525,7 @@ class ViewEd(controllers.Controller, TinyResource):
             pnode.removeChild(node)
         else:
             node_instance = self.get_node_instance(new_node or node, view_id)
-            node_instance.children = self.parse(new_node or node, view_id)
+            node_instance.children = self.parse(new_node or node, view_id, res['model'])
             record = node_instance.get_record()
         
         data = dict(arch=doc.toxml(encoding="utf-8"))
@@ -485,22 +543,30 @@ class Node(object):
         self.children = children
         
         self.view_id = self.attrs['view_id']
-        self.id = self.attrs['__random_id__']
+        self.id = self.attrs['__id__']
         
         self.name = self.attrs['name']
-        self.localName = self.attrs['__local_name__']
+        self.localName = self.attrs['__localName__']
         self.string = self.get_text()
         
     def get_text(self):
         return "<%s>" % self.name
     
     def get_record(self):
-        record = {
-            'id' : self.id,
-            'items' : {'string' : self.string,
-                       'name' : self.name,
-                       'localName' : self.localName,
-                       'view_id' : self.view_id}}
+        items = {'string' : self.string,
+                 'name' : self.name,
+                 'localName' : self.localName,
+                 'view_id' : self.view_id,
+                 'delete': '/static/images/stock/gtk-remove.png',
+                 'edit': '/static/images/stock/gtk-edit.png'}
+        
+        if self.localName in ('form', 'tree', 'graph', 'calendar', 'notebook', 'page', 'group', 'hpaned', 'vpaned', 'child1', 'child2'):
+            items['add'] = '/static/images/stock/gtk-add.png'
+            
+        if self.attrs.get('type') == 'one2many' and self.attrs.get('view_type') == 'form':
+            items['add'] = '/static/images/stock/gtk-add.png'
+        
+        record = { 'id' : self.id, 'items' : items}
         
         if self.children:
             record['children'] = [c.get_record() for c in self.children]
@@ -515,6 +581,10 @@ class ViewNode(Node):
 class FieldNode(Node):
     
     def get_text(self):
+        
+        if self.attrs.get('type') == 'one2many':
+            return '[{%s}]' % self.name
+        
         return '[%s]' % self.name
     
 class ButtonNode(Node):
@@ -555,6 +625,29 @@ _PROPERTIES = {
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
     'view' : [],
     'properties' : ['groups'],
+}
+
+_CHILDREN = {
+    'view': ['form', 'tree', 'graph', 'calendar', 'field'],
+    'form': ['notebook', 'group', 'field', 'label', 'button', 'image', 'newline', 'separator', 'properties'],
+    'tree': ['field'],
+    'graph': ['field'],
+    'calendar': ['field'],
+    'notebook': ['page'],
+    'page': ['notebook', 'group', 'field', 'label', 'button', 'image', 'newline', 'separator', 'properties'],
+    'group': ['field', 'label', 'button', 'separator', 'newline'],
+    'hpaned': ['child1', 'child2'],
+    'vpaned': ['child1', 'child2'],
+    'child1': ['action'],
+    'child2': ['action'],
+    'action': [],
+    'field': ['form', 'tree', 'graph'],
+    'label': [],
+    'button' : [],
+    'image': [],
+    'newline': [],
+    'separator': [],
+    'properties': [],
 }
 
 class SelectProperty(tg_widgets.SingleSelectField):

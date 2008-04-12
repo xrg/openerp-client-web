@@ -28,8 +28,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var onSelect = function(){
-    onEdit();
+var onSelect = function(evt, node){
+    MochiKit.DOM.getElement('view_ed').innerHTML = '';
 }
 
 var getXPath = function(node) {
@@ -54,10 +54,12 @@ var getXPath = function(node) {
     return xp;
 }
 
-var onDelete = function(){
+var onDelete = function(node){
+    
+    getElement('view_ed').innerHTML = '';
 
     var tree = view_tree;
-    var selected = tree.selection[0] || null;
+    var selected = node || tree.selection[0] || null;
     
     if (!selected) {
         return;
@@ -88,10 +90,10 @@ var onDelete = function(){
     });
 }
 
-var onAdd = function(){
+var onAdd = function(node){
 
     var tree = view_tree;
-    var selected = tree.selection[0] || null;
+    var selected = node || tree.selection[0] || null;
     
     if (!selected) {
         return;
@@ -137,31 +139,22 @@ var doAdd = function() {
         }
         
         var node = tree.createNode(obj.record);
-        var pos = MochiKit.DOM.getElement('position').value;
+        var index = typeof(obj.index) == 'undefined' ? -1 : obj.index;
         
-        if (node.record.items.localName == 'view') {
-            pos = 'inside';
-        }
-        
-        if (pos == 'after') {
-            selected.parentNode.insertBefore(node, selected.nextSibling);
-        } else if (pos == 'before') {
-            selected.parentNode.insertBefore(node, selected);
-        } else if (pos == 'inside') {
-            selected.appendChild(node);
-        }
-        
+        var refNode = selected.childNodes[index] || null;
+
+        selected.insertBefore(node, refNode);
         getElement('view_ed').innerHTML = '';
 
     });
     
-    return false;        
+    return false;
 }
 
-var onEdit = function() {
+var onEdit = function(node) {
 
     var tree = view_tree;
-    var selected = tree.selection[0] || null;
+    var selected = node || tree.selection[0] || null;
     
     if (!selected) {
         return;
@@ -232,6 +225,27 @@ var doEdit = function() {
     return false;
 }
 
+var onButtonClick = function(evt, node) {
+    
+    var src = evt.src();
+    
+    if (src.name == 'edit') {
+        return onEdit(node);   
+    }
+    
+    if (src.name == 'delete') {
+        return onDelete(node);   
+    }
+    
+    if (src.name == 'add') {
+        return onAdd(node);   
+    }
+}
+
+var onInherit = function() {
+    alert('Not implemented yet!');   
+}
+
 var onPreview = function() {
    var act = getURL('/viewed/preview/show', {'model' : getElement('view_model').value, 
                                              'view_id' : getElement('view_id').value,
@@ -239,8 +253,8 @@ var onPreview = function() {
    window.open(act);
 }
 
-var onNew = function(){                          
-    var act = getURL('/viewed/new_field/edit', {'model' : 'ir.model.fields', 'context' : "{'model' : '${model}'}"});
+var onNew = function(model){                          
+    var act = getURL('/viewed/new_field/edit', {'for_model' : model});
     openWindow(act, {width: 650, height: 300});
 }
 

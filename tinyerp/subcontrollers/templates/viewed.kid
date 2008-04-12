@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>View Editor</title>
-    <script type="text/javascript" src="/static/javascript/viewed.js"></script>
+    <script type="text/javascript" src="/static/javascript/viewed.js"></script>    
 </head>
 <body>
     <table class="view" border="0">
@@ -22,8 +22,8 @@
             </td>
         </tr>
         <tr>
-            <td id="view_tr" height="500" width="350">
-                <div py:content="tree.display()" style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;"/>
+            <td id="view_tr" height="500" width="400">
+                <div py:content="tree.display()" style="overflow-x: auto; overflow-y: scroll; width: 100%; height: 100%; border: solid #999999 1px;"/>
             </td>
             <td id="view_ed" valign="top" height="500"></td>
         </tr>
@@ -32,10 +32,8 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td><button type="button" title="${_('Add a new field')}" onclick="onNew()">New</button></td>
-                            <td><button type="button" title="${_('Add a field')}" onclick="onAdd()">Add</button></td>
-                            <td><button type="button" title="${_('Delete current field')}" onclick="onDelete()">Delete</button></td>
-                            <td><button type="button" title="${_('Edit current field')}" onclick="onEdit()">Edit</button></td>
+                            <td><button type="button" title="${_('Add a new field')}" onclick="onNew('${model}')">New Field</button></td>
+                            <td><button type="button" title="${_('Create a new inherited view')}" onclick="onInherit('${model}')">Inherited View</button></td>
                             <td width="100%">&nbsp;</td>
                             <td><button type="button" onclick="onPreview()">Preview</button></td>
                             <td><button type="button" onclick="onClose()">Close</button></td>
