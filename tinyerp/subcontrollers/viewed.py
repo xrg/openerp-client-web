@@ -302,6 +302,11 @@ class ViewEd(controllers.Controller, TinyResource):
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
             
+            attrs = tools.node_attributes(node)
+        
+            view_id = attrs.get('view_id', view_id)
+            view_type = attrs.get('view_type', view_type)
+            
             children = []
             
             if node.childNodes:
@@ -404,22 +409,29 @@ class ViewEd(controllers.Controller, TinyResource):
         fields = [f for f in fields if f not in used]
         
         nodes = _CHILDREN.get(field_node.localName, [])
-        nodes.sort()
-
+        
+        # if first field of inherited view
+        if field_node.localName == 'field' and field_node.getAttribute('position'):
+            nodes = _CHILDREN.get('group', [])
+            
         return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields)
     
     @expose('json')
-    def create_view(self, view_id=False, xpath_expr=None, model=None, **kw):
+    def create_view(self, view_id=False, xpath_expr=None, **kw):
         
         view_id = int(view_id)
+        
         proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'type', 'arch'])
+        
+        model = res['model']
+        view_type = res['type']
         
         error = None
         record = None
         
         if view_id:
             
-            res = proxy.read(view_id, ['model', 'arch'])
             doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
             node = xpath.Evaluate(xpath_expr, doc)[0]
             new_node = doc.createElement('view')
@@ -429,7 +441,7 @@ class ViewEd(controllers.Controller, TinyResource):
                 data = {'name' : res['model'] + '.' + str(random.randint(0, 100000)) + '.inherit',
                         'model' : res['model'],
                         'priority' : 16,
-                        'type' : 'form',
+                        'type' : view_type,
                         'inherit_id' : view_id}
             
                 arch = """<?xml version="1.0"?>
@@ -439,17 +451,15 @@ class ViewEd(controllers.Controller, TinyResource):
                 data['arch'] = arch
             
                 try:
-                    view_id = rpc.RPCProxy('ir.ui.view').create(data)
-                    
+                    view_id = proxy.create(data)
+                    record = self.get_node_instance(new_node, model, view_id, view_type).get_record()
                     node.setAttribute('position', 'after')
-                    
-                    record = self.get_node_instance(new_node, view_id).get_record()
-                    record['children'] = [self.get_node_instance(node, view_id).get_record()]
-                    
+                    record['children'] = [self.get_node_instance(node, model, view_id, view_type).get_record()]
+
                 except:
                     error = _("Unable to create inherited view.")
             else:
-                error = _("Unable to create inherited view.")
+                error = _("Can't create inherited view here.")
                 
         else:
             error = _("Not implemented yet!")
@@ -559,10 +569,13 @@ class Node(object):
         
         if self.localName in ('form', 'tree', 'graph', 'calendar', 'notebook', 'page', 'group', 'hpaned', 'vpaned', 'child1', 'child2'):
             items['add'] = '/static/images/stock/gtk-add.png'
-            
-        if self.attrs.get('type') == 'one2many' and self.attrs.get('view_type') == 'form':
-            items['add'] = '/static/images/stock/gtk-add.png'
         
+        elif self.attrs.get('type') == 'one2many' and self.attrs.get('view_type') == 'form':
+            items['add'] = '/static/images/stock/gtk-add.png'
+            
+        elif self.attrs.get('position'): # first field of inherited view
+            items['add'] = '/static/images/stock/gtk-add.png'
+
         record = { 'id' : self.id, 'items' : items}
         
         if self.children:

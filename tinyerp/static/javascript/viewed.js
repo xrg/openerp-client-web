@@ -249,7 +249,35 @@ var onButtonClick = function(evt, node) {
 }
 
 var onInherit = function() {
-    alert('Not implemented yet!');   
+    
+    if (!confirm('Do you really wants to create an inherited view here?')) {
+        return;
+    }
+    
+    var tree = view_tree;
+    var selected = tree.selection[0] || null;
+    
+    if (!selected) {
+        return;
+    }
+    
+    params = {
+        view_id: getElement('view_id').value,
+        xpath_expr: getXPath(selected)
+    };
+    
+    var req = Ajax.JSON.post('/viewed/create_view', params);
+    req.addCallback(function(obj) {
+        
+        if (obj.error){
+            return alert(obj.error);
+        }
+        
+        var node = tree.createNode(obj.record);
+        selected.appendChild(node);
+    });
+    
+    return false;
 }
 
 var onPreview = function() {
