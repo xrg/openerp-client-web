@@ -139,7 +139,13 @@ var doAdd = function() {
         }
         
         var node = tree.createNode(obj.record);
-        var index = typeof(obj.index) == 'undefined' ? -1 : obj.index;
+        var index = MochiKit.DOM.getElement('position').value;
+        
+        try {
+            index = parseInt(index);
+        } catch(e) {
+            index = -1;
+        }
         
         var refNode = selected.childNodes[index] || null;
 

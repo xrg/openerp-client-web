@@ -473,7 +473,10 @@ class ViewEd(controllers.Controller, TinyResource):
         view_id = int(view_id)
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id, ['model', 'arch'])
+        res = proxy.read(view_id, ['model', 'type', 'arch'])
+        
+        model = res['model']
+        view_type = res['type']
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
         node = xpath.Evaluate(xpath_expr, doc)[0]
@@ -500,21 +503,17 @@ class ViewEd(controllers.Controller, TinyResource):
             if new_node.localName == "field":
                 new_node.setAttribute('name', kw.get('name', new_node.localName))
             
-            pnode = node.parentNode
-            pos = kw.get('position', 'inside')
+            refNode = None
             
+            childNodes = [ch for ch in node.childNodes if ch.nodeType == node.ELEMENT_NODE]
             try:
-                if pos == "after":
-                    pnode.insertBefore(new_node, node.nextSibling)
-                    
-                elif pos == "before":
-                    pnode.insertBefore(new_node, node)
-                    
-                elif pos == "inside" and node.localName != "field":
-                    node.appendChild(new_node)
-                
-                else:
-                    error = _("Invalid position.")
+                pos = int(kw['position'])
+                if pos > -1: refNode = childNodes[pos]
+            except:
+                pass
+                        
+            try:
+                node.insertBefore(new_node, refNode)
             except Exception, e:
                 error = ustr(e)
 
@@ -522,8 +521,8 @@ class ViewEd(controllers.Controller, TinyResource):
             pnode = node.parentNode
             pnode.removeChild(node)
         else:
-            node_instance = self.get_node_instance(new_node or node, view_id)
-            node_instance.children = self.parse(new_node or node, view_id, res['model'])
+            node_instance = self.get_node_instance(new_node or node, model=model, view_id=view_id, view_type=view_type)
+            node_instance.children = self.parse(new_node or node, model, view_id, view_type)
             record = node_instance.get_record()
         
         data = dict(arch=doc.toxml(encoding="utf-8"))

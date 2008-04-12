@@ -22,6 +22,13 @@
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="label" width="5">Position:</td>
+                        <td class="item" width="100">
+                            <input type="text" id="position" name="position" value="-1"/>
+                        </td>
+                        <td>(0 based index)</td>
+                    </tr>
                 </table>
             </form>
         </td>
