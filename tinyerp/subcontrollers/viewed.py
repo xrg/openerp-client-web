@@ -47,6 +47,7 @@ import cherrypy
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
+from tinyerp import cache
 
 from tinyerp.utils import TinyDict
 
@@ -441,7 +442,12 @@ class ViewEd(controllers.Controller, TinyResource):
                 
         else:
             error = _("Not implemented yet!")
-            
+        
+        try:
+            cache.clear()
+        except:
+            pass
+        
         return dict(record=record, error=error)
     
     @expose('json')
@@ -452,7 +458,12 @@ class ViewEd(controllers.Controller, TinyResource):
         if view_id:
             proxy = rpc.RPCProxy('ir.ui.view')
             proxy.unlink(view_id)
-            
+        
+        try:
+            cache.clear()
+        except:
+            pass
+        
         return dict()
     
     @expose('json')
@@ -518,6 +529,11 @@ class ViewEd(controllers.Controller, TinyResource):
             res = proxy.write(view_id, data)
         except:
             error = _("Unable to update the view.")
+        
+        try:
+            cache.clear()
+        except:
+            pass
         
         return dict(record=record, error=error)
     
