@@ -260,6 +260,7 @@ TreeNode.prototype = {
     createDOM : function() {
 
         this.element = MochiKit.DOM.TR({'class' : 'row'});
+        this.element.style.display = this.parentNode ? (this.parentNode.expanded ? "" : "none") : "";
         
         var record = this.record;
         var indent = this.getPath().length - 1;
@@ -767,10 +768,6 @@ TreeNode.prototype = {
         
         // ie6 hack
         table.deleteRow(idx);
-        
-        if (!this.expanded) {
-            row.style.display = "none";
-        }
         
         if (!this.hasChildren) {
             this.hasChildren = true;
