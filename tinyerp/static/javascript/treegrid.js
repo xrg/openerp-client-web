@@ -245,6 +245,12 @@ TreeNode.prototype = {
             MochiKit.Signal.disconnect(this.eventOnClick);
             MochiKit.Signal.disconnect(this.eventOnDblClick);
         }
+        
+        if (pn.childNodes.length == 0 && pn.element_b) {
+            pn.collapse();
+            pn.hasChildren = false;
+            pn.element_b.className = 'indent';
+        }
     },
     
     __repr__ : function(){
@@ -703,17 +709,7 @@ TreeNode.prototype = {
     },
     
     appendChild : function(newChild) {
-        
-        var child = this.insertBefore(newChild);
-        
-        if (this.hasChildren) {
-            return child;
-        }
-        
-        this.hasChildren = true;
-        this.element_b.className = 'expand';
-        
-        return child;
+        return this.insertBefore(newChild);
     },
     
     insertBefore : function(newChild, refChild) {
@@ -774,6 +770,11 @@ TreeNode.prototype = {
         
         if (!this.expanded) {
             row.style.display = "none";
+        }
+        
+        if (!this.hasChildren) {
+            this.hasChildren = true;
+            this.element_b.className = 'expand';
         }
         
         return newChild;
