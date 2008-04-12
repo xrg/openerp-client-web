@@ -607,7 +607,7 @@ _PROPERTIES = {
     'vpaned': ['position', 'groups'],
     'child1' : ['groups'],
     'child2' : ['groups'],
-    'action' : ['string', 'groups'],
+    'action' : ['name', 'string', 'colspan', 'groups'],
     'tree' : ['string', 'colors', 'editable', 'link'],
     'graph' : ['string', 'type'],
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
