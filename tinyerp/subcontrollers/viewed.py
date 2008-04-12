@@ -125,10 +125,7 @@ def _get_xpath(node):
 
     return xp
 
-def _get_field_attrs(node, parent_model):
-    
-    if node.localName != 'field':
-        return {}
+def _get_model(node, parent_model):
     
     parents = []
     pnode = node.parentNode
@@ -156,9 +153,18 @@ def _get_field_attrs(node, parent_model):
         field = proxy.fields_get([parent])[parent]
         
         parent_model = field['relation']
+        
+    return parent_model
+
+def _get_field_attrs(node, parent_model):
+    
+    if node.localName != 'field':
+        return {}
+    
+    model = _get_model(parent_model)
     
     name = node.getAttribute('name')
-    proxy = rpc.RPCProxy(parent_model)
+    proxy = rpc.RPCProxy(model)
     field = proxy.fields_get([name])[name]
     
     return field
@@ -371,42 +377,14 @@ class ViewEd(controllers.Controller, TinyResource):
         res = proxy.read(view_id, ['model', 'arch'])
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
-        field_node = xpath.Evaluate(xpath_expr, doc)[0]
-        
         model = res['model']
         
-        # get the correct model
-        
-        used = xpath.Evaluate('.//field', field_node)
-        
-        parents = []
-        used = []
-        parent_node = field_node.parentNode
-        
-        while parent_node:
-            if parent_node.localName == 'field':
-                parents += [parent_node.getAttribute('name')]
-                
-            if not used and parent_node.localName in ('form', 'tree', 'graph', 'calendar'):
-                n = _get_xpath(parent_node).count('field')
-                used = xpath.Evaluate('.//field', parent_node)
-                used = [f.getAttribute('name') for f in used if _get_xpath(f).count('field') == n + 1]
-                
-            parent_node = parent_node.parentNode
-        
-        parents.reverse()
-        
-        for parent in parents:
-            proxy = rpc.RPCProxy(model)
-            field = proxy.fields_get([parent])[parent]
-            
-            model = field['relation']
+        field_node = xpath.Evaluate(xpath_expr, doc)[0]
+        model = _get_model(field_node, parent_model=model)
         
         # get the fields
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get().keys()
-        
-        fields = [f for f in fields if f not in used]
         
         nodes = _CHILDREN.get(field_node.localName, [])
         
