@@ -11,6 +11,7 @@
     <script type="text/javascript">
     
         var WAITBOX = null;
+        var WAITBOX_SHOW = false;
     
         MochiKit.DOM.addLoadEvent(function(evt){
             WAITBOX = new WaitBox();
@@ -33,9 +34,16 @@
             setNodeAttribute(form, 'action', act);
             form._terp_state.value = state;
 
-            WAITBOX.show();
+            WAITBOX_SHOW = true;
+            MochiKit.Async.callLater(2, showWaitBox);
             
             form.submit();
+        }
+        
+        function showWaitBox() {
+            if (WAITBOX_SHOW) {
+                WAITBOX.show();
+            }
         }
 
     </script>

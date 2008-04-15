@@ -86,8 +86,6 @@ WaitBox.prototype = {
         x = Math.max(0, x);
         y = Math.max(0, y);
         
-        log(x, y);
-
         setElementPosition(this.box, {x: x, y: y});
 
         showElement(this.layer);
