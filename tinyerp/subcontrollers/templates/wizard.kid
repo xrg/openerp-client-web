@@ -24,7 +24,26 @@
             setNodeAttribute(form, 'action', act);
             form._terp_state.value = state;
 
+            showWait();
             form.submit();
+        }
+        
+        function showWait() {
+        
+            var elem = MochiKit.DOM.getElement('wait_layer');
+            var view = MochiKit.DOM.getElementsByTagAndClassName('div', 'view')[0];
+            
+            view.style.zIndex = 99;
+            elem.style.zIndex = 100;
+            
+            var p = elementPosition(view);
+            //var p = findPosition(view);
+            var d = elementDimensions(view);
+
+            setElementPosition(elem, p);
+            setElementDimensions(elem, d);
+
+            showElement(elem);
         }
     </script>
 
@@ -50,6 +69,11 @@
     <div class="spacer"></div>
 
     <span py:if="form" py:replace="form.display()"/>
+    
+    <div id="wait_layer" style="display: none; position: absolute;">
+        <div class="wait-box"/>
+    </div>
+    
 </div>
 
 </body>
