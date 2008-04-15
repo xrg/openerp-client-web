@@ -22,7 +22,7 @@
                             </select>
                         </td>
                         <td width="5" nowrap="nowrap">
-                            <button class="button" onclick="onNew('$model')">New Field</button>
+                            <button id="new_field" name="new_field" class="button" onclick="onNew('$model')">New Field</button>
                         </td>
                     </tr>
                     <tr>
