@@ -101,10 +101,12 @@
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
                     <tr>
-                        <td align="right">
-                            <a class="dimmed" 
-                               title="${_('Customise current view')}" 
-                               onclick="openWindow('/viewed?view_id=${form.screen.view_id}')" 
+                        <td align="right" class="dimmed-text">
+                            <a title="${_('Manage views of the current object')}" 
+                               onclick="alert('Not implemented yet!')" 
+                               href="javascript: void(0)">Manage Views</a>|
+                            <a title="${_('Customise current view')}" 
+                               onclick="openWindow('/viewed?view_id=${form.screen.view_id}')"
                                href="javascript: void(0)">Customise View</a>
                         </td>
                     </tr>

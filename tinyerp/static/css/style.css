@@ -29,12 +29,15 @@ a:hover .imglink {
     border: none;
 }
 
-a.dimmed {
+.dimmed-text {
+	color: #bbb;
+}
+
+.dimmed-text a {
 	font-size: 10px;
+	color: #bbb;
 	text-transform: uppercase;
 	margin-right: 5px;
-	
-	color: #bbb;
 }
 
 a.dimmed:hover {
