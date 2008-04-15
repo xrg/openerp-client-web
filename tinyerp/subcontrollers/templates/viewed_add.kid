@@ -28,9 +28,12 @@
                     <tr>
                         <td class="label" width="5">Position:</td>
                         <td class="item" width="100">
-                            <input type="text" id="position" name="position" value="-1"/>
+                            <select id="position" name="position">
+                                <option py:for="v,p in positions" value="$v">$p</option>
+                            </select>
                         </td>
-                        <td>(0 based index)</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </table>
             </form>

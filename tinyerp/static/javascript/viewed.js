@@ -139,17 +139,22 @@ var doAdd = function() {
         }
         
         var node = tree.createNode(obj.record);
-        var index = MochiKit.DOM.getElement('position').value;
+        var pnode = selected.parentNode;
         
-        try {
-            index = parseInt(index);
-        } catch(e) {
-            index = -1;
+        var pos = MochiKit.DOM.getElement('position').value;
+        
+        if (pos == 'after') {
+            pnode.insertBefore(node, selected.nextSibling);    
         }
         
-        var refNode = selected.childNodes[index] || null;
-
-        selected.insertBefore(node, refNode);
+        if (pos == 'before') {
+            pnode.insertBefore(node, selected);
+        }
+        
+        if (pos == 'inside') {
+            selected.appendChild(node);
+        }
+        
         getElement('view_ed').innerHTML = '';
 
     });

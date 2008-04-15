@@ -388,13 +388,17 @@ class ViewEd(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get().keys()
         
-        nodes = _CHILDREN.get(field_node.localName, [])
+        nodes = _CHILDREN.keys()
+        nodes.remove('view')
         
-        # if first field of inherited view
-        if field_node.localName == 'field' and field_node.getAttribute('position'):
-            nodes = _CHILDREN.get('group', [])
-            
-        return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields, model=model)
+        nodes.sort()
+        fields.sort()
+        
+        positions = [('inside', 'Inside'), ('after', 'After'), ('before', 'Before')]
+        if field_node.localName in [k for k,v in _CHILDREN.items() if not v] + ['field']:
+            positions = [('after', 'After'), ('before', 'Before'), ('inside', 'Inside')]
+        
+        return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields, model=model, positions=positions)
     
     @expose('json')
     def create_view(self, view_id=False, xpath_expr=None, **kw):
@@ -482,10 +486,8 @@ class ViewEd(controllers.Controller, TinyResource):
         node = xpath.Evaluate(xpath_expr, doc)[0]
         
         new_node = None
-        
-        error = None
         record = None
-            
+
         if _terp_what == "properties":
             
             attrs = tools.node_attributes(node)        
@@ -502,21 +504,24 @@ class ViewEd(controllers.Controller, TinyResource):
             
             if new_node.localName == "field":
                 new_node.setAttribute('name', kw.get('name', new_node.localName))
+                
+            pnode = node.parentNode
+            position = kw['position']
             
-            refNode = None
-            
-            childNodes = [ch for ch in node.childNodes if ch.nodeType == node.ELEMENT_NODE]
             try:
-                pos = int(kw['position'])
-                if pos > -1: refNode = childNodes[pos]
-            except:
-                pass
-                        
-            try:
-                node.insertBefore(new_node, refNode)
+                
+                if position == 'after':
+                    pnode.insertBefore(new_node, node.nextSibling)
+                    
+                if position == 'before':
+                    pnode.insertBefore(new_node, node)
+                    
+                if position == 'inside':
+                    node.appendChild(new_node)
+                
             except Exception, e:
-                error = ustr(e)
-
+                return dict(error=ustr(e))
+            
         if _terp_what == "remove":
             pnode = node.parentNode
             pnode.removeChild(node)
@@ -529,15 +534,15 @@ class ViewEd(controllers.Controller, TinyResource):
         try:
             res = proxy.write(view_id, data)
         except:
-            error = _("Unable to update the view.")
+            return dict(error=_("Unable to update the view."))
         
         try:
             cache.clear()
         except:
             pass
         
-        return dict(record=record, error=error)
-    
+        return dict(record=record)
+
 class Node(object):
     
     def __init__(self, attrs, children=None):
@@ -562,15 +567,9 @@ class Node(object):
                  'delete': '/static/images/stock/gtk-remove.png',
                  'edit': '/static/images/stock/gtk-edit.png'}
         
-        if self.localName in ('form', 'tree', 'graph', 'calendar', 'notebook', 'page', 'group', 'hpaned', 'vpaned', 'child1', 'child2'):
-            items['add'] = '/static/images/stock/gtk-add.png'
-        
-        elif self.attrs.get('type') == 'one2many' and self.attrs.get('view_type') == 'form':
+        if self.localName not in ('view'):
             items['add'] = '/static/images/stock/gtk-add.png'
             
-        elif self.attrs.get('position'): # first field of inherited view
-            items['add'] = '/static/images/stock/gtk-add.png'
-
         record = { 'id' : self.id, 'items' : items}
         
         if self.children:
