@@ -83,7 +83,7 @@ class Attachment(controllers.Controller, TinyResource):
 
         return self.index(model, id)
 
-    @expose(content_type="application/octat-stream")
+    @expose(content_type="application/octet-stream")
     def save(self, fname=None, record=False, **kw):
         record = int(record)
 

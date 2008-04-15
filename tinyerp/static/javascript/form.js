@@ -168,10 +168,6 @@ var submit_form = function(action, src, data){
         setNodeAttribute(form, 'target', '_blank');
     }
 
-    if ((action == 'report') || (data && action == 'action' && data.indexOf('ir.actions.report') > -1)) {
-        action =  action + '/report.pdf'
-    }
-
     if (action == 'save_and_edit'){
         action = 'save';
         args['_terp_return_edit'] = 1;
@@ -642,7 +638,7 @@ function do_print(id, relation) {
 
     id = $(id).value;
 
-    var act = get_form_action('report/report.pdf');
+    var act = get_form_action('report');
     var params = {'_terp_model': relation, '_terp_id': id};
 
     window.open(getURL(act, params));

@@ -116,6 +116,7 @@ PRINT_FORMATS = {
 }
 
 def _print_data(data):
+    
     if 'result' not in data:
         common.message(_('Error no report'))
     if data.get('code','normal')=='zlib':
@@ -158,7 +159,20 @@ def execute_report(name, **data):
                 attempt += 1
             if attempt>200:
                 raise common.error(_('Error'), _('Printing aborted, too long delay !'))
+        
+        # report name
+        report_name = 'report'
+        report_type = val['format']
+        
+        if name != 'custom':
+            proxy = rpc.RPCProxy('ir.actions.report.xml')
+            res = proxy.search([('report_name','=', name),('report_type','=', report_type)])
+            if res:
+                report_name = proxy.read(res[0], ['name'])['name']
 
+        report_name = report_name.replace('Print ', '')
+        cherrypy.response.headers['Content-Disposition'] = 'filename="' + report_name + '.' + report_type + '"';
+        
         return _print_data(val)
 
     except rpc.RPCException, e:

@@ -331,7 +331,7 @@ class ImpEx(controllers.Controller, TinyResource):
 
         return rec(fields)
         
-    @expose(content_type="application/octat-stream")
+    @expose(content_type="application/octet-stream")
     def export_data(self, fname, fields, export_as="csv", add_names=False, **kw):
 
         params, data = TinyDict.split(kw)

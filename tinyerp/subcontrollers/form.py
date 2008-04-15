@@ -396,9 +396,11 @@ class Form(controllers.Controller, TinyResource):
 
         raise redirect(self.path + '/view', **args)
 
-    @expose(content_type='application/octet')
-    def save_binary_data(self, _file_name=None, **kw):
+    @expose(content_type='application/octet-stream')
+    def save_binary_data(self, **kw):
         params, data = TinyDict.split(kw)
+        
+        cherrypy.response.headers['Content-Disposition'] = 'filename="file.dat"';
 
         if params.datas:
             form = params.datas['form']
@@ -644,7 +646,7 @@ class Form(controllers.Controller, TinyResource):
             raise common.message(_("No record selected !"))
 
     @expose()
-    def report(self, _terp_report_name='report.pdf', **kw):
+    def report(self, **kw):
         return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 
                                                                            'name': _('Print Screen'), 
                                                                            'type':'ir.actions.report.xml'}}, datas=kw)
@@ -654,7 +656,7 @@ class Form(controllers.Controller, TinyResource):
         return self.action(**kw)
 
     @expose()
-    def action(self, _terp_report_name='report.pdf', **kw):
+    def action(self, **kw):
         params, data = TinyDict.split(kw)
 
         action = params.data
