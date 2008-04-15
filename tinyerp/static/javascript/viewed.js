@@ -297,4 +297,9 @@ var onClose = function(){
     window.close();
 }
 
+var toggleFields = function(selector) {
+    MochiKit.DOM.getElement('name').style.display = selector.value == 'field' ? '' : 'none';
+    MochiKit.DOM.getElement('new_field').style.display = selector.value == 'field' ? '' : 'none';
+}
+
 // vim: sts=4 st=4 et

@@ -11,7 +11,7 @@
                     <tr>
                         <td class="label" width="5">Node Type:</td>
                         <td class="item" width="100">
-                            <select id="node" name="node" onchange="getElement('name').style.display = this.value == 'field' ? '' : 'none'">
+                            <select id="node" name="node" onchange="toggleFields(this)">
                                 <option py:for="node in nodes" value="${node}" selected="${tg.selector(node=='field')}">${node}</option>
                             </select>
                         </td>
@@ -20,6 +20,9 @@
                                 <option value=""></option>
                                 <option py:for="field in fields" value="${field}">${field}</option>
                             </select>
+                        </td>
+                        <td width="5" nowrap="nowrap">
+                            <button class="button" onclick="onNew('$model')">New Field</button>
                         </td>
                     </tr>
                     <tr>

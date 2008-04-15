@@ -77,6 +77,7 @@ class NewField(Form):
     @expose(template="tinyerp.subcontrollers.templates.viewed_new")
     def create(self, params, tg_errors=None):
         
+        params.editable = True
         params.model_id = False
         for_model = params.context.get('for_model')
         
@@ -393,7 +394,7 @@ class ViewEd(controllers.Controller, TinyResource):
         if field_node.localName == 'field' and field_node.getAttribute('position'):
             nodes = _CHILDREN.get('group', [])
             
-        return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields)
+        return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields, model=model)
     
     @expose('json')
     def create_view(self, view_id=False, xpath_expr=None, **kw):
