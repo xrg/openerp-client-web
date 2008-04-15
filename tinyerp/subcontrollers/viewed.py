@@ -564,12 +564,14 @@ class Node(object):
                  'name' : self.name,
                  'localName' : self.localName,
                  'view_id' : self.view_id,
-                 'delete': '/static/images/stock/gtk-remove.png',
-                 'edit': '/static/images/stock/gtk-edit.png'}
+                 'delete': '/static/images/stock/gtk-remove.png'}
         
         if self.localName not in ('view'):
             items['add'] = '/static/images/stock/gtk-add.png'
             
+        if self.localName not in ('view', 'newline'):
+            items['edit'] = '/static/images/stock/gtk-edit.png'
+
         record = { 'id' : self.id, 'items' : items}
         
         if self.children:
