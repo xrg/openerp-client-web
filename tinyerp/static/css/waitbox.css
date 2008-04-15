@@ -1,0 +1,55 @@
+#WaitBoxLayer {
+    display: none;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 199;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: gray;
+    opacity: 0.3;
+}
+
+#WaitBox {
+	display: none;
+    position: absolute;
+    z-index: 200;
+    
+    margin: auto;
+    width: 350px;
+    height: 100px;
+
+    background-color: white;
+    border: 2px solid #696969;
+}
+
+#WaitBox .WaitTitle {
+    padding: 2px;
+    background-color: #696969;
+    color: white;
+    font-weight: bold;
+}
+
+#WaitBox .WaitImage {
+    padding: 2px;
+    height: 70px;
+    
+    background-image: url("/static/images/progress.gif");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#WaitBox .WaitButtons {
+    position: absolute;
+    bottom: 0pt;
+    padding: 2px;
+    border-top: 2px solid #696969;
+}
+
+/**
+ * vim: sts=4 st=4 et
+ *
+ */

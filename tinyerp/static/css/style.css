@@ -283,18 +283,6 @@ div.welcome {
     font-weight: bold;
 }
 
-div.wait-box {
-	width: 200px;
-	height: 100%;
-	
-	margin: auto;
-	border: solid 2px black;
-	background-color: #666;
-	background-image: url("/static/images/progress.gif");
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
 /* view style */
 .view {
     width: 100%;
