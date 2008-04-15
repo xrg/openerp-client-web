@@ -47,10 +47,11 @@ WaitBox.prototype = {
             MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
             
             var title = this.options.title || "Please wait...";
+            var desc = this.options.description || "This may take some minutes.";
             
             var info = DIV(null,
                         DIV({'class': 'WaitTitle'}, title),
-                        DIV({'class': 'WaitImage'}, null),
+                        DIV({'class': 'WaitImage'}, desc),
                             TABLE({'class': 'WaitButtons', 'cellpadding': 2, 'width': '100%'}, 
                                 TBODY(null, 
                                     TR(null,
