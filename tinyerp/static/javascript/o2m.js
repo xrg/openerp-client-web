@@ -42,6 +42,7 @@ var One2Many = function(name, inline){
     
     this.parent_model = $(parent_prefix + '_terp_model').value;
     this.parent_id = $(parent_prefix + '_terp_id').value;
+    this.parent_view_id = $(parent_prefix + '_terp_view_id').value;
 }
 
 One2Many.prototype = {
@@ -62,7 +63,8 @@ One2Many.prototype = {
     edit : function(id, readonly){
 
         var args = {_terp_parent_model: this.parent_model,
-                    _terp_parent_id: this.parent_id,
+        			_terp_parent_id: this.parent_id,
+                    _terp_parent_view_id: this.parent_view_id,
                     _terp_o2m: this.name,
                     _terp_o2m_model: this.model,
                     _terp_o2m_id: id,

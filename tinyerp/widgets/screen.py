@@ -54,6 +54,7 @@ class Screen(TinyCompoundWidget):
         <input type="hidden" id="${name}_terp_view_ids" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" id="${name}_terp_view_mode" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
         <input type="hidden" id="${name}_terp_view_type" name="${name}_terp_view_type" value="${str(view_type)}"/>
+        <input type="hidden" id="${name}_terp_view_id" name="${name}_terp_view_id" value="${str(view_id)}"/>
         <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
         <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
@@ -66,7 +67,7 @@ class Screen(TinyCompoundWidget):
     </span>
     """
 
-    params = ['model', 'state', 'id', 'ids', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
+    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
 
     member_widgets = ['widget']
     widget = None
@@ -86,9 +87,8 @@ class Screen(TinyCompoundWidget):
         self.view_ids      = params.view_ids or []
         self.view_mode     = params.view_mode
         self.view_type     = params.view_type
-
         self.view_id       = False
-     
+ 
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 
@@ -128,6 +128,7 @@ class Screen(TinyCompoundWidget):
             self.add_view_id(self.view_id, self.view_type)
 
     def add_view_id(self, view_id, view_type):
+        self.view_id = view_id
 
         self.view_id = view_id
         
