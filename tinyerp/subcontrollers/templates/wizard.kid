@@ -34,13 +34,15 @@
             setNodeAttribute(form, 'action', act);
             form._terp_state.value = state;
 
-            WAITBOX_SHOW = true;
+            WAITBOX_SHOW = state != 'report';
+            
             MochiKit.Async.callLater(2, showWaitBox);
             
             form.submit();
         }
         
         function showWaitBox() {
+        
             if (WAITBOX_SHOW) {
                 WAITBOX.show();
             }
