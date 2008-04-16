@@ -500,7 +500,7 @@ TreeNode.prototype = {
             return;
         }
         
-        var trg = evt.target();
+        var trg = evt ? evt.target() : this.element;
     
         if (MochiKit.Base.findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
             return;
@@ -509,8 +509,8 @@ TreeNode.prototype = {
         var tree = this.tree;
         var src = this.element;
         
-        var ctr = evt.modifier().ctrl;
-        var sft = evt.modifier().shift;
+        var ctr = evt ? evt.modifier().ctrl : null;
+        var sft = evt ? evt.modifier().shift : null;
         
         if (this.element_a) {
             this.element_a.focus();
@@ -553,7 +553,7 @@ TreeNode.prototype = {
             MochiKit.DOM.addElementClass(node.element, "selected");
         });
         
-        if (tree.options.onselect) {
+        if (evt && tree.options.onselect) {
             tree.options.onselect(evt, this);
         }
     },

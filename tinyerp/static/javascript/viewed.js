@@ -155,8 +155,8 @@ var doAdd = function() {
             selected.appendChild(node);
         }
         
-        getElement('view_ed').innerHTML = '';
-
+        node.onSelect();
+        onEdit(node);
     });
     
     return false;
