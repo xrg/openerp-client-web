@@ -22,10 +22,10 @@
             </td>
         </tr>
         <tr>
-            <td id="view_tr" height="500" width="400">
+            <td id="view_tr" height="500" width="auto">
                 <div py:content="tree.display()" style="overflow-x: auto; overflow-y: scroll; width: 100%; height: 100%; border: solid #999999 1px;"/>
             </td>
-            <td id="view_ed" valign="top" height="500"></td>
+            <td id="view_ed" valign="top"  height="500" width="350"></td>
         </tr>
         <tr class="toolbar">
             <td align="right" colspan="2">
