@@ -629,7 +629,8 @@ _NODES = {
 }
 
 _PROPERTIES = {
-    'field' : ['name', 'string', 'readonly', 'select', 'completion', 'domain', 'context', 'nolabel', 'colspan', 'widget', 'eval', 'ref', 'groups'],
+    'field' : ['name', 'string', 'required', 'readonly', 'select', 'domain', 'context', 'nolabel', 'completion', 
+               'colspan', 'widget', 'eval', 'ref', 'on_change', 'groups'],
     'form' : ['string', 'col', 'link'],
     'notebook' : ['colspan', 'position', 'groups'],
     'page' : ['string', 'groups'],
@@ -729,7 +730,8 @@ class GroupsProperty(tg_widgets.MultipleSelectField):
         super(GroupsProperty, self).__init__(name=name, options=options, default=default)
 
 _PROPERTY_WIDGETS = {
-    'select' : SelectProperty,                                                                  
+    'select' : SelectProperty,
+    'required' : BooleanProperty,                                                               
     'readonly' : BooleanProperty,
     'nolabel' : BooleanProperty,
     'completion' : BooleanProperty,
