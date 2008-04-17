@@ -234,6 +234,10 @@ TreeNode.prototype = {
             this.previousSibling.nextSibling = this.nextSibling;
         }
         
+        if (this.nextSibling) {
+            this.nextSibling.previousSibling = this.previousSibling;
+        }
+        
         this.tree.selection.splice(MochiKit.Base.findIdentical(this.tree.selection, this),1);
         this.tree.selection_last = this.selection_last == this ? null : this.selection_last;
         
@@ -716,7 +720,7 @@ TreeNode.prototype = {
     insertBefore : function(newChild, refChild) {
         
         if (!this.expanded && this.hasChildren && this.childNodes.length == 0) {
-            throw ('Child Nodes are loaded yet.');
+            throw ('Child Nodes are not loaded yet.');
         }
 
         // calculate the row index
