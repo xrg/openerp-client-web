@@ -27,7 +27,7 @@
                             </button>
                         </td>
                         <td>
-                            <img class="button" title="${_('Translate me.')}" src="/static/images/translate.gif" width="16" height="16" py:if="not screen.editable and screen.view_type=='form'" onclick="openWindow('${tg.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
+                            <img class="button" title="${_('Translate me.')}" src="/static/images/translate.png" width="16" height="16" py:if="not screen.editable and screen.view_type=='form'" onclick="openWindow('${tg.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
                         </td>
                     </tr>
                 </table>

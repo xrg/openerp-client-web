@@ -390,7 +390,7 @@ td.item .radio {
 }
 
 #view_form .translatable {
-    background: url("/static/images/translate.gif") no-repeat right center;
+    background: url("/static/images/translate.png") no-repeat right center;
 }
 
 #view_form .fielderror {
