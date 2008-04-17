@@ -22,6 +22,11 @@
             lst.style.display = "";
         }
         
+        function doClose() {
+            window.opener.setTimeout("window.location.reload()", 0);
+            window.close();
+        }
+        
         function onNew() {
             var edt = getElement('view_editor');
             var lst = getElement('view_list');
@@ -95,7 +100,7 @@
                             </td>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="window.close()">Close</button>
+                                <button type="button" onclick="doClose()">Close</button>
                             </td>
                         </tr>
                     </table>
