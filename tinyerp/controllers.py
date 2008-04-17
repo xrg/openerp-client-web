@@ -205,3 +205,4 @@ class Root(controllers.RootController, TinyResource):
     image = subcontrollers.image.Image()    
     admin = subcontrollers.admin.Admin()
     viewed = subcontrollers.viewed.ViewEd()
+    viewlist = subcontrollers.viewlist.ViewList()

@@ -103,7 +103,7 @@
                     <tr>
                         <td align="right" class="dimmed-text">
                             <a title="${_('Manage views of the current object')}" 
-                               onclick="alert('Not implemented yet!')" 
+                               onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                href="javascript: void(0)">Manage Views</a>|
                             <a title="${_('Customise current view')}" 
                                onclick="openWindow('/viewed?view_id=${form.screen.view_id}')"
