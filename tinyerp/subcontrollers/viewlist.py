@@ -68,7 +68,7 @@ class ViewList(controllers.Controller, TinyResource):
             raise redirect('/viewlist', model=model)
         
         arch = """<?xml version="1.0"?>
-        <%s title="Unknwown">
+        <%s string="Unknwown">
             <field name="name"/>
         </%s>
         """ % (view_type, view_type)
