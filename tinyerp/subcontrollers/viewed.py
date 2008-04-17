@@ -196,7 +196,9 @@ class ViewEd(controllers.Controller, TinyResource):
         headers = [{'string' : 'Name', 'name' : 'string', 'type' : 'char'},
                    {'string' : '', 'name': 'add', 'type' : 'image', 'width': 2},
                    {'string' : '', 'name': 'delete', 'type' : 'image', 'width': 2},
-                   {'string' : '', 'name': 'edit', 'type' : 'image', 'width': 2}]
+                   {'string' : '', 'name': 'edit', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
         
         tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
         tree.showheaders = False
@@ -484,7 +486,7 @@ class ViewEd(controllers.Controller, TinyResource):
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
         node = xpath.Evaluate(xpath_expr, doc)[0]
-        
+
         new_node = None
         record = None
 
@@ -498,7 +500,7 @@ class ViewEd(controllers.Controller, TinyResource):
                 if val:
                     node.setAttribute(attr, val)
         
-        if _terp_what == "node" and node.parentNode:
+        elif _terp_what == "node" and node.parentNode:
             
             new_node = doc.createElement(kw['node'])
             
@@ -522,14 +524,28 @@ class ViewEd(controllers.Controller, TinyResource):
             except Exception, e:
                 return dict(error=ustr(e))
             
-        if _terp_what == "remove":
+        elif _terp_what == "move":
+            
+            refNode = None
+            try:
+                refNode = xpath.Evaluate(kw['xpath_ref'], doc)[0]
+            except:
+                pass
+                            
+            pnode = node.parentNode
+            newNode = pnode.removeChild(node)
+
+            pnode.insertBefore(newNode, refNode)
+
+        elif _terp_what == "remove":
             pnode = node.parentNode
             pnode.removeChild(node)
-        else:
+        
+        if _terp_what != 'remove':
             node_instance = self.get_node_instance(new_node or node, model=model, view_id=view_id, view_type=view_type)
             node_instance.children = self.parse(new_node or node, model, view_id, view_type)
             record = node_instance.get_record()
-        
+            
         data = dict(arch=doc.toxml(encoding="utf-8"))
         try:
             res = proxy.write(view_id, data)
@@ -568,6 +584,8 @@ class Node(object):
         
         if self.localName not in ('view'):
             items['add'] = '/static/images/stock/gtk-add.png'
+            items['up'] = '/static/images/stock/gtk-go-up.png'
+            items['down'] = '/static/images/stock/gtk-go-down.png'
             
         if self.localName not in ('view', 'newline'):
             items['edit'] = '/static/images/stock/gtk-edit.png'

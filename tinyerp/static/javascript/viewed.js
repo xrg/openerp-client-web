@@ -236,20 +236,69 @@ var doEdit = function() {
     return false;
 }
 
+var onMove = function(direction, node) {
+    
+    var tree = view_tree;
+    var selected = node || tree.selection[0] || null;
+    
+    if (!selected) {
+        return;
+    }
+    
+    var refNode = direction == 'up' ? selected.previousSibling : selected;
+    var node = direction == 'up' ? selected : selected.nextSibling;
+    
+    if (!node || (direction == 'up' && !refNode)) {
+        return;
+    }
+    
+    var record = node.record;
+    var data = record.items;
+    
+    var params = {
+        view_id: data.view_id, 
+        xpath_expr: getXPath(node),
+        xpath_ref: getXPath(refNode)
+    }
+    
+    var req = Ajax.JSON.post('/viewed/save/move', params);
+    
+    req.addCallback(function(obj) {
+        
+        if (obj.error){
+            return alert(obj.error);
+        }
+        
+        var pnode = node.parentNode;
+        var nnode = tree.createNode(record);
+        
+        pnode.removeChild(node)
+        pnode.insertBefore(nnode, refNode);
+        
+        if (direction == 'up') {
+            nnode.onSelect();
+        } else {
+            refNode.onSelect();
+        }
+    });
+    
+    return true;
+}
+
 var onButtonClick = function(evt, node) {
     
     var src = evt.src();
     
-    if (src.name == 'edit') {
-        return onEdit(node);   
-    }
-    
-    if (src.name == 'delete') {
-        return onDelete(node);   
-    }
-    
-    if (src.name == 'add') {
-        return onAdd(node);   
+    switch (src.name) {
+        case 'edit': 
+            return onEdit(node);
+        case 'delete': 
+            return onDelete(node);
+        case 'add':
+            return onAdd(node);
+        case 'up':
+        case 'down': 
+            return onMove(src.name, node);
     }
 }
 
