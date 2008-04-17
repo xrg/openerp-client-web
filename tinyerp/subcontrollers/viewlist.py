@@ -33,6 +33,7 @@ import base64
 
 from turbogears import expose
 from turbogears import controllers
+from turbogears import redirect
 
 from tinyerp import rpc
 from tinyerp.tinyres import TinyResource
@@ -55,3 +56,34 @@ class ViewList(controllers.Controller, TinyResource):
         screen.widget.pageable = False
         
         return dict(screen=screen, model=model, show_header_footer=False)
+    
+    @expose()
+    def create(self, model, **kw):
+        
+        view_name = kw.get('name')
+        view_type = kw.get('type')
+        priority = kw.get('priority', 16)
+        
+        if not view_name:
+            raise redirect('/viewlist', model=model)
+        
+        arch = """<?xml version="1.0"?>
+        <%s title="Unknwown">
+            <field name="name"/>
+        </%s>
+        """ % (view_type, view_type)
+        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
+        
+        raise redirect('/viewlist', model=model)
+    
+    @expose()
+    def delete(self, model, id):
+        
+        id = int(id)
+        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        proxy.unlink(id)
+        
+        raise redirect('/viewlist', model=model)
