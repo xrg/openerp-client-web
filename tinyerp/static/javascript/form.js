@@ -456,7 +456,8 @@ function eval_domain_context_request(options){
 
     params['_terp_domain'] = options.domain;
     params['_terp_context'] = options.context;
-    params['_terp_prefix'] = prefix;
+    params['_terp_prefix'] = prefix;    
+   	params['_terp_parent_id'] = prefix.length > 0 ? $(prefix + '/_terp_id').value : $('_terp_id').value;
     
     var parent_context = prefix.length > 0 ? $(prefix + '/_terp_context') : $('_terp_context');
     
