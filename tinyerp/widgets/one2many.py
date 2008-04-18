@@ -28,10 +28,13 @@
 #
 ###############################################################################
 
+import time
+
 import turbogears as tg
 import cherrypy
 
 from tinyerp import tools
+from tinyerp import rpc
 from tinyerp.utils import TinyDict
 
 from interface import TinyCompoundWidget
@@ -110,12 +113,22 @@ class O2M(TinyCompoundWidget):
         current.view_mode = view_mode
         current.view_type = view_type
         current.domain = current.domain or []
+        current.context = current.context or {}
         
-        ctx = cherrypy.request.terp_record
-        ctx = tools.expr_eval("dict(%s)" % self.default_get_ctx, ctx)
+        if self.default_get_ctx:         
+            ctx = cherrypy.request.terp_record
+            ctx['current_date'] = time.strftime('%Y-%m-%d')
+            ctx['time'] = time
+            ctx['context'] = current.context
+            ctx['active_id'] = current.id or False
         
-        current.context = ctx
-        
+            # XXX: parent record for O2M
+            #if self.parent:
+            #    ctx['parent'] = EvalEnvironment(self.parent)
+
+            ctx = tools.expr_eval("dict(%s)" % self.default_get_ctx, ctx)
+            current.context.update(ctx)
+            
         current.offset = current.offset or 0
         current.limit = current.limit or 20
         current.count = len(ids or [])
