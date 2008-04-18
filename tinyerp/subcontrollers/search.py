@@ -166,8 +166,6 @@ class Search(controllers.Controller, TinyResource):
     def eval_domain_and_context(self, **kw):
         params, data = TinyDict.split(kw)
         
-        print "======================= params..", params, data
-
         domain = params.domain
         context = params.context
         parent_context = params.parent_context or {}
