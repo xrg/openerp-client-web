@@ -32,6 +32,8 @@ import os
 import time
 import xml.dom.minidom
 
+from turbogears import flash, expose
+
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
@@ -42,15 +44,7 @@ from interface import TinyCompoundWidget
 
 class Graph(TinyCompoundWidget):
 
-    template = """
-    <table width="100%">
-        <tr>
-            <td align="center">
-                <img class="graph" src="${tg.query('/graph', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context), width=width, height=height)}"/>
-            </td>
-        </tr>
-    </table>
-    """
+    template = "tinyerp.widgets.templates.graph"
 
     params = ['model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
     
@@ -151,4 +145,3 @@ class GraphData(object):
                 axis.remove(i)
                 
         return axis, axis_data, axis_group
-            

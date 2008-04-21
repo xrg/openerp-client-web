@@ -32,6 +32,8 @@ import os
 import time
 import pkg_resources
 
+from tinyerp import OpenFlashChart as OFC
+
 from StringIO import StringIO
 
 from turbogears import expose
@@ -59,9 +61,8 @@ class Graph(controllers.Controller, TinyResource):
     @expose(content_type="image/png")
     def default(self, width=400, height=400, **kw):                        
         params, data = TinyDict.split(kw)
-
+        
         graph = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
-
         dpi = 72
         w = int(width) / dpi
         h = int(height) / dpi
@@ -75,8 +76,8 @@ class Graph(controllers.Controller, TinyResource):
             else:
                 figure.subplots_adjust(left=0.20, right=0.97, bottom=0.07, top=0.98)
         else:
-            figure.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97)
-
+            figure.subplots_adjust(left=0.03, right=0.97, bottom=0.03, top=0.97)        
+        
         if not (graph.values and tinygraph(subplot, graph.kind, graph.axis, graph.axis_data, graph.values, graph.axis_group_field, graph.orientation)):
             cherrypy.response.headers['Content-Type'] = "image/gif"
             return cherrypy.lib.cptools.serveFile(pkg_resources.resource_filename("tinyerp", "static/images/blank.gif"))
@@ -96,3 +97,42 @@ class Graph(controllers.Controller, TinyResource):
         im.save(imgdata, 'PNG')
 
         return imgdata.getvalue()
+    
+    @expose()
+    def bar_chart(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+                
+        graph = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
+     
+        g = OFC.graph()
+       
+        x = []
+        y = {}
+        
+        for key in graph.values:
+            for k, v in key.items():
+                if k in graph.axis[0]:
+                    x+=([v])
+                if k in graph.axis and v not in x:
+                    y[k] = ([v])
+                    
+        g.set_x_labels(x)
+        
+#       g.set_data(y1)
+            
+        g.bar_outline( 50, '#0066CC', '#0c0c0c', 20 )
+        g.bar( 50, '#9933CC',  20 )
+        g.bar( 50, '#639F45',  20 )
+
+#        g.set_data([4,3,5,5,4,4,4,4,3])
+#        g.set_data([7,9,6,7,7,8,8,5,8])
+#        g.set_data([9,2,4,9,4,6,3,4,2])
+        
+        g.set_x_label_style( 10, '#9933CC', 0, 1 )
+        g.set_x_axis_steps( 1 )
+
+        g.set_y_max( 10 )
+        g.y_label_steps( 1 )
+        
+        return g.render();
