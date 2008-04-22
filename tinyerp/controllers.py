@@ -136,12 +136,13 @@ class Root(controllers.RootController, TinyResource):
 
         url = rpc.session.get_url()
         dblist = rpc.session.listdb()
-
+        manage_visible = config.get('manage.visible', path='tinyerp')
+        
         if dblist == -1:
             dblist = []
             message = _("Could not connect to server !")
 
-        return dict(target='/', url=url, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=message, origArgs={})
+        return dict(target='/', url=url, manage_visible=manage_visible, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=message, origArgs={})
 
     @expose()
     @unsecured

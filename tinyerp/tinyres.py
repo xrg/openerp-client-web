@@ -130,7 +130,6 @@ def secured(fn):
                     dblist = [d for d in dblist if d.startswith(base)]
                     
                 manage_visible = config.get('manage.visible', path='tinyerp')
-                print "===========", manage_visible
 
                 return _login(cherrypy.request.path, manage_visible=manage_visible, message=message, dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
