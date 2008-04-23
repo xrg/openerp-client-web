@@ -38,7 +38,7 @@ from interface import TinyField
 class TreeGrid(TinyField):
 
     template = "tinyerp.widgets.templates.treegrid"
-    params = ['headers', 'showheaders', 'expandall', 'onselection', 'onbuttonclick', 'url', 'url_params']
+    params = ['headers', 'showheaders', 'expandall', 'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
 
     css = [widgets.CSSLink("tinyerp", "css/treegrid.css")]
     javascript = [widgets.JSLink("tinyerp", "javascript/treegrid.js")]
@@ -71,6 +71,7 @@ class TreeGrid(TinyField):
         self.showheaders = kw.get('showheaders', 1)
         self.onselection = kw.get('onselection')
         self.onbuttonclick = kw.get('onbuttonclick')
+        self.onheaderclick = kw.get('onheaderclick')
         self.expandall = kw.get('expandall', 0)
         
         

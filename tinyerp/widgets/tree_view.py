@@ -101,8 +101,9 @@ class ViewTree(tg.widgets.Form):
                                       field_parent=self.field_parent)
         self.id = id
 
-        #register onselection callback
-        self.tree.onselection = "onselection"
+        #register callbacks
+        self.tree.onselection = "onSelection"
+        self.tree.onheaderclick = "onHeaderClick"
 
     def parse(self, root, fields=None):
 

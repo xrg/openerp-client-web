@@ -5,7 +5,8 @@
 
     <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
     <script type="text/javascript">
-        function onselection(evt, node){
+    
+        function onSelection(evt, node) {
         
             var selection = node.tree.selection;
             
@@ -15,6 +16,13 @@
 
             MochiKit.DOM.getElement('tree_ids').value = values;
         }
+        
+        function onHeaderClick(evt, header) {
+            tree.ajax_params.sort_by = header.name;
+            tree.ajax_params.sort_order = tree.ajax_params.sort_order == "dsc" ? "asc" : "dsc";
+            tree.reload();
+        }
+        
     </script>
 
     <input type="hidden" id="tree_ids" name="ids"/>

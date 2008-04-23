@@ -6,6 +6,7 @@
         ${field_id}.options.showheaders = ${(showheaders and 'true') or 'false'};
         ${field_id}.options.onselect = ${onselection or 'null'};
         ${field_id}.options.onbuttonclick = ${onbuttonclick or 'null'};
+        ${field_id}.options.onheaderclick = ${onheaderclick or 'null'};
         
         ${field_id}.options.expandall = ${(expandall and 'true') or 'false'};
 
