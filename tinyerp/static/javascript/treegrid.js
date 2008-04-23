@@ -42,7 +42,8 @@ TreeGrid.prototype = {
             'showheaders': true,
             'expandall' : false,
             'onselect' : function(evt, node){},
-            'onbuttonclick' : function(evt, node){}
+            'onbuttonclick' : function(evt, node){},
+            'onheaderclick' : function(evt, header){}
         }, options || {});
         
         // a dummy root node
@@ -158,8 +159,11 @@ TreeGrid.prototype = {
             MochiKit.DOM.setNodeAttribute(th, 'class', header.type);
             MochiKit.DOM.setNodeAttribute(th, 'width', header.width);
             MochiKit.DOM.setNodeAttribute(th, 'align', header.align);
-    
-            //TODO: th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this.onsort, header.name), this);    
+            
+            if (this.options.onheaderclick){
+               th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this._onHeaderClick, header), this);
+            }
+                
             th.style.cursor = 'pointer';
     
             MochiKit.DOM.appendChildNodes(tr, th);
@@ -171,6 +175,11 @@ TreeGrid.prototype = {
     _makeBody : function() {
         this.rootNode = this.createNode({children: this.records});
         this.rootNode.expand(this.options.expandall ? true : false);
+    },
+    
+    _onHeaderClick : function(header) {
+        var evt = arguments[1] || window.event;
+        this.options.onheaderclick(new MochiKit.Signal.Event(evt.target || evt.srcElement, evt), header);
     }
 }
 
