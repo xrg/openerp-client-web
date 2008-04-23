@@ -101,9 +101,7 @@
                     </tbody>
                 </table>
                 <script type="text/javascript">
-                    MochiKit.DOM.addLoadEvent(function(){
-                        new SortableGrid('${name}_grid');
-                    });
+                    new SortableGrid('${name}_grid');
                 </script>
             </td>
         </tr>
