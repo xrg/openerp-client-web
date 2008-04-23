@@ -162,9 +162,8 @@ TreeGrid.prototype = {
             
             if (this.options.onheaderclick){
                th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this._onHeaderClick, header), this);
+               th.style.cursor = 'pointer';
             }
-                
-            th.style.cursor = 'pointer';
     
             MochiKit.DOM.appendChildNodes(tr, th);
         }
