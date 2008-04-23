@@ -410,7 +410,7 @@ class Float(Char):
         return format.format_decimal(self.value or 0.0, digit)
     
     def get_sortable_text(self):
-        return ustr(self.value)
+        return ustr(self.value or '0.0')
         
 class FloatTime(Char):
 
@@ -436,7 +436,7 @@ class DateTime(Char):
         return format.format_datetime(self.value, kind=self.attrs.get('type', 'datetime'))
     
     def get_sortable_text(self):
-        return ustr(self.value)
+        return ustr(self.value or '')
 
 class Boolean(Char):
 
