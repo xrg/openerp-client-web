@@ -1,7 +1,6 @@
 
 class graph_object:
     def render( self, width, height, data_url, swf_url_root=''):
-        
         width = str(width)
         height = str(height)
         return """<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="400" height="300" id="graph-2" align="middle">
@@ -123,6 +122,8 @@ class graph:
 
     def set_is_thousand_separator_disabled( self, val ):
         self.is_thousand_separator_disabled = str(bool(val)).lower()
+
+
 
     #============ Look ===============
     def set_data( self, a ):
@@ -281,71 +282,71 @@ class graph:
 
     
     #========== Chart types ==============
-#    def line( self, width, colour='', text='', size=-1, circles=-1 ):
-#        tmp = '&line'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#                
-#        tmp += '='
-#        
-#        if( width > 0 ):
-#            tmp += "%s,%s" % (width, colour)
-#                            
-#        if( len( text ) > 0 ):
-#            tmp += ',%s,%s' % (text,size)
-#            
-#        if( circles > 0 ):
-#            tmp += ',%s' % circles
-#            
-#        tmp += "&\r\n"
-#        self.lines.append( tmp )
-#
-#    def line_dot( self, width, dot_size, colour, text='', font_size=0 ):
-#        tmp = '&line_dot'
-#        
-#        if( len( self.lines ) > 0 ):
-#                tmp += '_%s' % (len( self.lines )+1)
-#                
-#        tmp += "=%s,%s,%s" % (width,colour,text)
-#
-#        if( font_size > 0 ):
-#            tmp += ",%s,%s" % (font_size,dot_size)
-#            
-#        tmp += "&\r\n"
-#            
-#        self.lines.append( tmp )
-#
-#    def line_hollow( self, width, dot_size, colour, text='', font_size=0 ):
-#        tmp = '&line_hollow'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#                
-#        tmp += "=%s,%s,%s" % (width,colour,text)
-#
-#        if( font_size > 0 ):
-#            tmp += ",%s,%s" % (font_size,dot_size)
-#            
-#        tmp += "&\r\n"
-#        self.lines.append( tmp )
-#
-#    def area_hollow( self, width, dot_size, colour, alpha, text='', font_size=0, fill_color='' ):
-#        tmp = '&area_hollow'
-#        
-#        if( len( self.lines ) > 0 ):
-#                tmp += '_%s' % (len( self.lines )+1)
-#                
-#        tmp += "=%s,%s,%s,%s" % (width,dot_size,colour,alpha)
-#
-#        if( len( text ) > 0 ):
-#            tmp += ",%s,%s" % (text,font_size)
-#
-#        if( len( fill_color ) > 0 ):
-#            tmp += ",%s" % (fill_color)
-#                
-#        tmp += "&\r\n"
-#        self.lines.append( tmp )
+    def line( self, width, colour='', text='', size=-1, circles=-1 ):
+        tmp = '&line'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+                
+        tmp += '='
+        
+        if( width > 0 ):
+            tmp += "%s,%s" % (width, colour)
+                            
+        if( len( text ) > 0 ):
+            tmp += ',%s,%s' % (text,size)
+            
+        if( circles > 0 ):
+            tmp += ',%s' % circles
+            
+        tmp += "&\r\n"
+        self.lines.append( tmp )
+
+    def line_dot( self, width, dot_size, colour, text='', font_size=0 ):
+        tmp = '&line_dot'
+        
+        if( len( self.lines ) > 0 ):
+                tmp += '_%s' % (len( self.lines )+1)
+                
+        tmp += "=%s,%s,%s" % (width,colour,text)
+
+        if( font_size > 0 ):
+            tmp += ",%s,%s" % (font_size,dot_size)
+            
+        tmp += "&\r\n"
+            
+        self.lines.append( tmp )
+
+    def line_hollow( self, width, dot_size, colour, text='', font_size=0 ):
+        tmp = '&line_hollow'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+                
+        tmp += "=%s,%s,%s" % (width,colour,text)
+
+        if( font_size > 0 ):
+            tmp += ",%s,%s" % (font_size,dot_size)
+            
+        tmp += "&\r\n"
+        self.lines.append( tmp )
+
+    def area_hollow( self, width, dot_size, colour, alpha, text='', font_size=0, fill_color='' ):
+        tmp = '&area_hollow'
+        
+        if( len( self.lines ) > 0 ):
+                tmp += '_%s' % (len( self.lines )+1)
+                
+        tmp += "=%s,%s,%s,%s" % (width,dot_size,colour,alpha)
+
+        if( len( text ) > 0 ):
+            tmp += ",%s,%s" % (text,font_size)
+
+        if( len( fill_color ) > 0 ):
+            tmp += ",%s" % (fill_color)
+                
+        tmp += "&\r\n"
+        self.lines.append( tmp )
 
     def bar( self, alpha, colour='', text='', size=-1 ):
         tmp = '&bar'
@@ -366,95 +367,95 @@ class graph:
             tmp += '_%s' % (len( self.lines )+1)
                 
         tmp += '='
-        tmp += "%s,%s,%s,%s,%s" % (alpha,colour,colour_outline,text,size)
+        tmp += "%s,%s,%s,%s,%s" % (alpha,colour,outline_colour,text,size)
         tmp += "&"
-        
+            
         self.lines.append( tmp )
 
-#    def bar_3d( self, alpha, colour='', text='', size=-1 ):
-#        tmp = '&bar_3d'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#            
-#        tmp += "=%s,%s,%s,%s&\r\n" % (alpha,colour,text,size)
-#        
-#        self.lines.append( tmp )
-#        
-#    def bar_glass( self, alpha, colour, colour_outline, text='', size=-1 ):
-#        tmp = '&bar_glass'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#
-#        tmp += "=%s,%s,%s,%s,%s&\r\n" % (alpha,colour,colour_outline,text,size)
-#
-#        self.lines.append( tmp )
-#
-#    def bar_fade( self, alpha, colour, text='', size=-1 ):
-#        tmp = '&bar_fade'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#            
-#        tmp += "=%s,%s,%s,%s&\r\n" % (alpha,colour,text,size)
-#
-#        self.lines.append( tmp )
-#
-#    def bar_sketch( self, alpha, offset, colour, colour_outline, text='', size=-1 ):
-#        tmp = '&bar_sketch'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#            
-#        tmp += "=%s,%s,%s,%s,%s,%s&\r\n" % (alpha,offset,colour,colour_outline,text,size)
-#
-#        self.lines.append( tmp )
-#
-#    def pie_chart( self, alpha, line_colour, label_colour, gradient=True, border_size=-1 ):
-#        
-#        self.pie = "%s,%s,%s" % (alpha,line_colour,label_colour)
-#        
-#        if( gradient ):
-#            self.pie += ",%s" %("true")
-#
-#        if ( border_size > 0 ):
-#            if ( gradient ):
-#                self.pie += ","
-#            self.pie += ",%s" %(border_size)
-#
-#    def scatter( self, data, line_width, colour, text='', size=-1 ):
-#        tmp = '&scatter'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#
-#        tmp += "=%s,%s,%s,%s&\r\n" % (line_width,colour,text,size)
-#
-#        self.lines.append( tmp )
-#        self.scatter_data( data )
-#
-#    def hlc( self, data, alpha, line_width, colour, text='', size=-1 ):
-#        tmp = '&hlc'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#
-#        tmp += "=%s,%s,%s,%s,%s&\r\n" % (alpha,line_width,colour,text,size)
-#
-#        self.lines.append( tmp )
-#        self.hlc_data( data )
-#
-#    def candle( self, data, alpha, line_width, colour, text='', size=-1 ):
-#        tmp = '&candle'
-#        
-#        if( len( self.lines ) > 0 ):
-#            tmp += '_%s' % (len( self.lines )+1)
-#
-#        tmp += "=%s,%s,%s,%s,%s&\r\n" % (alpha,line_width,colour,text,size)
-#
-#        self.lines.append( tmp )
-#        self.candle_data( data )
+    def bar_3d( self, alpha, colour='', text='', size=-1 ):
+        tmp = '&bar_3d'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+            
+        tmp += "=%s,%s,%s,%s&\r\n" % (alpha,colour,text,size)
+            
+        self.lines.append( tmp )
+        
+    def bar_glass( self, alpha, colour, colour_outline, text='', size=-1 ):
+        tmp = '&bar_glass'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+
+        tmp += "=%s,%s,%s,%s,%s&\r\n" % (alpha,colour,colour_outline,text,size)
+
+        self.lines.append( tmp )
+
+    def bar_fade( self, alpha, colour, text='', size=-1 ):
+        tmp = '&bar_fade'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+            
+        tmp += "=%s,%s,%s,%s&\r\n" % (alpha,colour,text,size)
+
+        self.lines.append( tmp )
+
+    def bar_sketch( self, alpha, offset, colour, colour_outline, text='', size=-1 ):
+        tmp = '&bar_sketch'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+            
+        tmp += "=%s,%s,%s,%s,%s,%s&\r\n" % (alpha,offset,colour,colour_outline,text,size)
+
+        self.lines.append( tmp )
+
+    def pie_chart( self, alpha, line_colour, label_colour, gradient=True, border_size=-1 ):
+        
+        self.pie = "%s,%s,%s" % (alpha,line_colour,label_colour)
+        
+        if( gradient ):
+            self.pie += ",%s" %("true")
+
+        if ( border_size > 0 ):
+            if ( gradient ):
+                self.pie += ","
+            self.pie += ",%s" %(border_size)
+
+    def scatter( self, data, line_width, colour, text='', size=-1 ):
+        tmp = '&scatter'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+
+        tmp += "=%s,%s,%s,%s&\r\n" % (line_width,colour,text,size)
+
+        self.lines.append( tmp )
+        self.scatter_data( data )
+
+    def hlc( self, data, alpha, line_width, colour, text='', size=-1 ):
+        tmp = '&hlc'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+
+        tmp += "=%s,%s,%s,%s,%s&\r\n" % (alpha,line_width,colour,text,size)
+
+        self.lines.append( tmp )
+        self.hlc_data( data )
+
+    def candle( self, data, alpha, line_width, colour, text='', size=-1 ):
+        tmp = '&candle'
+        
+        if( len( self.lines ) > 0 ):
+            tmp += '_%s' % (len( self.lines )+1)
+
+        tmp += "=%s,%s,%s,%s,%s&\r\n" % (alpha,line_width,colour,text,size)
+
+        self.lines.append( tmp )
+        self.candle_data( data )
 
 
     #============ Axis colour ============
@@ -483,6 +484,7 @@ class graph:
     def render( self,):
         #tmp = "&padding=70,5,50,40&\r\n"
         tmp = ''
+        
         if( len( self.title_text ) > 0 ):
             tmp += '&title=%s,%s,%s&\r\n' % (self.title_text,self.title_size,self.title_colour)
         
@@ -595,6 +597,7 @@ class graph:
         if( len( self.is_thousand_separator_disabled) > 0 ):
             tmp += '&is_thousand_separator_disabled=%s&\r\n' % self.is_thousand_separator_disabled
             
+
         return tmp
 
 

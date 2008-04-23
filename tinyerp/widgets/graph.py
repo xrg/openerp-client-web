@@ -1,8 +1,10 @@
 ###############################################################################
 #
-# Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd. (http://tinyerp.com) All Rights Reserved.
+# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
 #
 # $Id$
+#
+# Developed by Tiny (http://tinyerp.com) and Axelor (http://axelor.com).
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsibility of assessing all potential
@@ -30,22 +32,50 @@
 
 import os
 import time
+import locale
 import xml.dom.minidom
+import urllib
 
-from turbogears import flash, expose
+import turbogears as tg
 
 from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import common
-from tinyerp import format
 from tinyerp import cache
+
+from tinyerp.OpenFlashChart import graph as OFChart
 
 from interface import TinyCompoundWidget
 
+DT_FORMAT = '%Y-%m-%d'
+DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
+HM_FORMAT = '%H:%M:%S'
+
+if not hasattr(locale, 'nl_langinfo'):
+    locale.nl_langinfo = lambda *a: '%x'
+
+if not hasattr(locale, 'D_FMT'):
+    locale.D_FMT = None
+
 class Graph(TinyCompoundWidget):
 
-    template = "tinyerp.widgets.templates.graph"
+    template = """
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <div id="test"></div>
+                <script type="text/javascript">
+                    var so = new SWFObject("/static/open-flash-chart.swf", "ofc", "450", "300", "9", "#FFFFFF");
+                    so.addVariable("data", "${tg.quote_plus(tg.url('/graph', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context)))}");
+                    so.addParam("allowScriptAccess", "sameDomain");
+                    so.write("test");
+                </script>
+            </td>
+        </tr>
+    </table>
+    """
 
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/swfobject.js")]
     params = ['model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
     
     def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=400, height=400):
@@ -67,7 +97,13 @@ class Graph(TinyCompoundWidget):
                 
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain)
-
+            
+colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
+def choice_colors(n):
+    if n:
+        return colorline[0:-1:len(colorline)/(n+1)]
+    return []
+    
 class GraphData(object):
     
     def __init__(self, model, view_id=False, ids=[], domain=[], context={}):
@@ -105,16 +141,26 @@ class GraphData(object):
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
                     res[x] = ustr(res[x])
-                    
                 elif fields[x]['type'] == 'date':
-                    res[x] = format.format_datetime(res[x], "date")
-                    
+                    date = time.strptime(value[x], DT_FORMAT)
+                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
                 elif fields[x]['type'] == 'datetime':
-                    res[x] = format.format_datetime(res[x], "datetime")
-                    
+                    date = time.strptime(value[x], DHM_FORMAT)
+                    if 'tz' in rpc.session.context:
+                        try:
+                            import pytz
+                            lzone = pytz.timezone(rpc.session.context['tz'])
+                            szone = pytz.timezone(rpc.session.timezone)
+                            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
+                            sdt = szone.localize(dt, is_dst=True)
+                            ldt = sdt.astimezone(lzone)
+                            date = ldt.timetuple()
+                        except:
+                            pass
+                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
                 else:
                     res[x] = float(value[x])
-
+                    
             self.values.append(res)
 
         self.axis = axis
@@ -145,3 +191,74 @@ class GraphData(object):
                 axis.remove(i)
                 
         return axis, axis_data, axis_group
+    
+    def __str__(self):
+        
+        axis = self.axis
+        axis_data = self.axis_data
+        datas = self.values
+        kind = self.kind
+        
+        operators = {
+            '+': lambda x,y: x+y,
+            '*': lambda x,y: x*y,
+            'min': lambda x,y: min(x,y),
+            'max': lambda x,y: max(x,y),
+            '**': lambda x,y: x**y
+        }
+        
+        keys = {}
+        data_axis = {}
+        
+        for field in axis[1:]:
+            
+            for val in datas:
+                
+                key = urllib.quote_plus(val[axis[0]])
+    
+                info = data_axis.setdefault(key, {})
+                keys[key] = 1
+                
+                if field in info:
+                    oper = operators[axis_data[field].get('operator', '+')]
+                    info[field] = oper(info[field], val[field])
+                else:
+                    info[field] = val[field]
+                    
+        keys = keys.keys()
+        keys.sort()
+        
+        values = {}
+        for field in axis[1:]:
+            values[field] = map(lambda x: data_axis[x][field], keys)
+    
+        chart = OFChart()
+        colors = choice_colors(len(axis)-1)
+        
+        if kind == 'pie':
+            
+             data = values.values()[0]
+    
+             chart.pie_chart(70, 'red', 'blue')
+             chart.pie_data(data, keys)
+             chart.pie_slice_colours(colors)
+    
+        elif kind == 'bar':
+            
+            chart.set_x_labels(keys)
+            chart.set_x_label_style(10, orientation=1)
+            
+            mx = 10
+            for i, x in enumerate(axis[1:]):
+                title = x
+                data = values[x]
+                chart.bar(80, colors[i], colors[i], title)
+                chart.set_data(data)
+                
+                mx = max(mx, *data)
+            
+            #mx = math.floor(math.log10(mx)) * 100
+            #chart.set_y_max(mx)
+            #chart.y_label_steps(mx / 10)
+
+        return chart.render()

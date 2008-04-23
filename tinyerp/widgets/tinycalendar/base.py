@@ -46,7 +46,11 @@ from tinyerp.widgets import interface
 from utils import Day
 from utils import parse_datetime
 
-from tinyerp.tinygraph import choice_colors
+_colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
+def choice_colors(n):
+    if n:
+        return _colorline[0:-1:len(_colorline)/(n+1)]
+    return []
 
 class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
     
