@@ -63,9 +63,9 @@ class Graph(TinyCompoundWidget):
     <table width="100%">
         <tr>
             <td align="center">
-                <div id="test"></div>
+                <div id="test" style="overflow:auto; width: 100%; height: 300px;"></div>
                 <script type="text/javascript">
-                    var so = new SWFObject("/static/open-flash-chart.swf", "ofc", "450", "300", "9", "#FFFFFF");
+                    var so = new SWFObject("/static/open-flash-chart.swf", "ofc", "450", "400", "9", "#FFFFFF");
                     so.addVariable("data", "${tg.quote_plus(tg.url('/graph', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context)))}");
                     so.addParam("allowScriptAccess", "sameDomain");
                     so.write("test");
@@ -162,7 +162,7 @@ class GraphData(object):
                     res[x] = float(value[x])
                     
             self.values.append(res)
-
+               
         self.axis = axis
         self.axis_data = axis_data
         self.axis_group_field = axis_group
@@ -234,19 +234,19 @@ class GraphData(object):
     
         chart = OFChart()
         colors = choice_colors(len(axis)-1)
-        
         if kind == 'pie':
             
              data = values.values()[0]
-    
+             colours = colors
+             label_size = [10, 10, 10]
              chart.pie_chart(70, 'red', 'blue')
-             chart.pie_data(data, keys)
-             chart.pie_slice_colours(colors)
+             chart.pie_data(data, keys, colours, label_size)
+             chart.set_x_label_style(10, orientation=2)
     
         elif kind == 'bar':
             
             chart.set_x_labels(keys)
-            chart.set_x_label_style(10, orientation=1)
+            chart.set_x_label_style(10, orientation=2)
             
             mx = 10
             for i, x in enumerate(axis[1:]):

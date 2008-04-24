@@ -89,6 +89,7 @@ class graph:
         self.pie_colours = ''
         self.pie_labels = ''
         self.pie_links = ''
+        self.pie_label_size = ''
 
 
         # Which data lines are attached to the right Y axis?
@@ -132,10 +133,13 @@ class graph:
         else:
             self.data.append( '&values_%s=%s&\r\n' % (len(self.data)+1, ','.join([str(v) for v in a])) )
 
-    def pie_data( self, values, labels, links="" ):
+    def pie_data( self, values, labels, colours, label_size, links="" ): 
         self.pie_values = '&values=%s&\r\n' % ','.join([str(value) for value in values])
         self.pie_labels = '&pie_labels=%s&\r\n' % ','.join(labels)
         self.pie_links  = '&links=%s&\r\n' % ','.join(links)
+        self.pie_colours = '&colours=%s&\r\n' % ','.join(colours)
+        
+        self.pie_label_size = '&amp;label_size=%s&amp;\r\n' % ','.join([str(value) for value in label_size])
 
     def scatter_data( self, values):
         tmp = ','.join([str(point) for point in values])
@@ -174,7 +178,7 @@ class graph:
 
     def set_x_labels( self, a ):
         self.x_labels = a
-    
+        
     def set_x_label_style( self, size, colour='', orientation=0, step=-1 ):
         self.x_label_style_size = size
 
@@ -277,8 +281,8 @@ class graph:
         if( len( colour ) > 0 ):
             self.y_legend_right_colour = colour
     
-    def pie_slice_colours( self, colours ):
-        self.pie_colours = '&colours=%s&\r\n' % ','.join(colours)
+#    def pie_slice_colours( self, colours ):
+#        self.pie_colours = '&colours=%s&\r\n' % ','.join(colours)
 
     
     #========== Chart types ==============
@@ -578,6 +582,7 @@ class graph:
             tmp += self.pie_labels
             tmp += self.pie_colours
             tmp += self.pie_links
+            tmp += self.pie_label_size
 
         if( len( self.tool_tip) > 0 ):
             tmp += '&tool_tip=%s&\r\n' % self.tool_tip
