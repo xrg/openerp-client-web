@@ -4,6 +4,12 @@
 import os
 import sys
 
+# ubuntu 8.04 has obsoleted `pyxml` package and installs here.
+# the path needs to be updated before any `import xml`
+_oldxml = '/usr/lib/python%s/site-packages/oldxml' % sys.version[:3]
+if os.path.exists(_oldxml):
+    sys.path.append(_oldxml)
+
 from os.path import dirname, exists, join
 
 import pkg_resources
