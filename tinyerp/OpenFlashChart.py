@@ -89,8 +89,7 @@ class graph:
         self.pie_colours = ''
         self.pie_labels = ''
         self.pie_links = ''
-        self.pie_label_size = ''
-
+        self.pie_label_size = 10
 
         # Which data lines are attached to the right Y axis?
         self.y2_lines = []
@@ -124,8 +123,6 @@ class graph:
     def set_is_thousand_separator_disabled( self, val ):
         self.is_thousand_separator_disabled = str(bool(val)).lower()
 
-
-
     #============ Look ===============
     def set_data( self, a ):
         if( len( self.data ) == 0 ):
@@ -133,14 +130,13 @@ class graph:
         else:
             self.data.append( '&values_%s=%s&\r\n' % (len(self.data)+1, ','.join([str(v) for v in a])) )
 
-    def pie_data( self, values, labels, colours, label_size, links="" ): 
-        self.pie_values = '&values=%s&\r\n' % ','.join([str(value) for value in values])
-        self.pie_labels = '&pie_labels=%s&\r\n' % ','.join(labels)
-        self.pie_links  = '&links=%s&\r\n' % ','.join(links)
-        self.pie_colours = '&colours=%s&\r\n' % ','.join(colours)
+    def pie_data( self, keys, values, colours, label_size, links="" ): 
+        self.pie_values = '&values=%s&\r\n' % ','.join([str(val) for val in keys])
+        self.pie_labels = '&pie_labels=%s&\r\n' % ','.join([str(val) for val in values])
+        self.pie_links  = '&links=%s&\r\n' % ','.join([str(value) for value in links])
+        self.pie_colours = '&colours=%s&\r\n' % ','.join(colours)        
+        self.pie_label_size = label_size
         
-        self.pie_label_size = '&amp;label_size=%s&amp;\r\n' % ','.join([str(value) for value in label_size])
-
     def scatter_data( self, values):
         tmp = ','.join([str(point) for point in values])
         self.data.append( '&values=%s&\r\n' % (tmp) )
@@ -163,6 +159,7 @@ class graph:
         self.pie_values = ""
         self.pie_labels = ""
         self.pie_links = ""
+        self.pie_label_size = ""
         
     def clear_scatter_data( self ):
         self.scatter_values = ""
@@ -280,11 +277,7 @@ class graph:
 
         if( len( colour ) > 0 ):
             self.y_legend_right_colour = colour
-    
-#    def pie_slice_colours( self, colours ):
-#        self.pie_colours = '&colours=%s&\r\n' % ','.join(colours)
-
-    
+        
     #========== Chart types ==============
     def line( self, width, colour='', text='', size=-1, circles=-1 ):
         tmp = '&line'
@@ -474,10 +467,10 @@ class graph:
     def pie(self, alpha, line_colour, label_colour ):
         self.pie = str(alpha) + ',' + line_colour + ',' + label_colour
 
-    def pie_values(self, values, labels):
-        self.pie_values = ','.join([str(v) for v in values]) 
-        self.pie_labels = ','.join([str(v) for v in labels])        
-
+    def pie_values(self, values, pie_labels):
+        self.pie_values = '&values=%s&\r\n' % ','.join([str(val) for val in values])
+        self.pie_labels = '&pie_labels=%s&\r\n' % ','.join(pie_labels)
+        
     def pie_slice_colours(self, colours):
         self.pie_colours = ','.join([str(v) for v in colours])
 
@@ -582,8 +575,8 @@ class graph:
             tmp += self.pie_labels
             tmp += self.pie_colours
             tmp += self.pie_links
-            tmp += self.pie_label_size
-
+            tmp += "&pie=%s%s, {font-size:%s;}" % (self.pie_label_size, ', #000000', '12px')
+            
         if( len( self.tool_tip) > 0 ):
             tmp += '&tool_tip=%s&\r\n' % self.tool_tip
 
@@ -601,7 +594,6 @@ class graph:
             
         if( len( self.is_thousand_separator_disabled) > 0 ):
             tmp += '&is_thousand_separator_disabled=%s&\r\n' % self.is_thousand_separator_disabled
-            
 
         return tmp
 

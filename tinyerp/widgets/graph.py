@@ -233,20 +233,29 @@ class GraphData(object):
             values[field] = map(lambda x: data_axis[x][field], keys)
     
         chart = OFChart()
-        colors = choice_colors(len(axis)-1)
+        colors = choice_colors(len(axis))
         if kind == 'pie':
+            value = []
+            total = 0
+            value = values.values()[0]
             
-             data = values.values()[0]
-             colours = colors
-             label_size = [10, 10, 10]
-             chart.pie_chart(70, 'red', 'blue')
-             chart.pie_data(data, keys, colours, label_size)
-             chart.set_x_label_style(10, orientation=2)
-    
+            for i in value:
+                total = total+i
+            
+            val = []
+            
+            for j in value:
+                val.append(round((j*100)/total))
+                
+            colours = colors
+            chart.pie_chart(70, 'red', 'blue')
+            chart.pie_data(val, val, colours, 60)
+            chart.set_tool_tip('#val#%')
+            
         elif kind == 'bar':
             
             chart.set_x_labels(keys)
-            chart.set_x_label_style(10, orientation=2)
+            chart.set_x_label_style(10, orientation=1)
             
             mx = 10
             for i, x in enumerate(axis[1:]):
