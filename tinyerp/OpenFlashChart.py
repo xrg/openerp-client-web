@@ -90,6 +90,7 @@ class graph:
         self.pie_labels = ''
         self.pie_links = ''
         self.pie_label_size = 10
+        self.pie_tool_tip = ''
 
         # Which data lines are attached to the right Y axis?
         self.y2_lines = []

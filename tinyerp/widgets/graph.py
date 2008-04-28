@@ -63,9 +63,9 @@ class Graph(TinyCompoundWidget):
     <table width="100%">
         <tr>
             <td align="center">
-                <div id="test" style="overflow:auto; width: 100%; height: 300px;"></div>
+                <div id="test" style="width: 500; height: 400"></div>
                 <script type="text/javascript">
-                    var so = new SWFObject("/static/open-flash-chart.swf", "ofc", "450", "400", "9", "#FFFFFF");
+                    var so = new SWFObject("/static/open-flash-chart.swf", "ofc", "500", "400", "9", "#FFFFFF");
                     so.addVariable("data", "${tg.quote_plus(tg.url('/graph', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context)))}");
                     so.addParam("allowScriptAccess", "sameDomain");
                     so.write("test");
@@ -209,15 +209,19 @@ class GraphData(object):
         
         keys = {}
         data_axis = {}
+        label = {}
+        lbl = []
+        label_x = []
         
         for field in axis[1:]:
             
             for val in datas:
+                lbl = val[axis[0]]
                 
                 key = urllib.quote_plus(val[axis[0]])
-    
                 info = data_axis.setdefault(key, {})
                 keys[key] = 1
+                label[lbl] = 1
                 
                 if field in info:
                     oper = operators[axis_data[field].get('operator', '+')]
@@ -228,6 +232,12 @@ class GraphData(object):
         keys = keys.keys()
         keys.sort()
         
+        label = label.keys()
+        label.sort()
+        
+        for l in label:
+            label_x.append(l.split('/')[-1])
+            
         values = {}
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
@@ -246,11 +256,10 @@ class GraphData(object):
             
             for j in value:
                 val.append(round((j*100)/total))
-                
+                    
             colours = colors
             chart.pie_chart(70, 'red', 'blue')
-            chart.pie_data(val, val, colours, 60)
-            chart.set_tool_tip('#val#%')
+            chart.pie_data(val, label_x, colours, 60)
             
         elif kind == 'bar':
             
