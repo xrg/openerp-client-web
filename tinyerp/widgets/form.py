@@ -42,6 +42,7 @@ import cherrypy
 from tinyerp import icons
 from tinyerp import tools
 from tinyerp import format
+from tinyerp import common
 from tinyerp import rpc
 
 from tinyerp.utils import TinyDict
@@ -620,6 +621,7 @@ class Form(TinyCompoundWidget):
     def parse(self, prefix='', root=None, fields=None, values={}):
 
         views = []
+        check_fields = [] # check for duplicate
 
         for node in root.childNodes:
 
@@ -711,6 +713,15 @@ class Form(TinyCompoundWidget):
 
                 if kind == 'image':
                     fields[name]['id'] = self.id
+
+                if name in check_fields:
+                    print "-"*30
+                    print " malformed view for :", self.model
+                    print " duplicate field :", name
+                    print "-"*30
+                    raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
+
+                check_fields.append(name)
 
                 field = widgets_type[kind](attrs=fields[name])
 
