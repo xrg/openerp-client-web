@@ -217,7 +217,6 @@ class GraphData(object):
             
             for val in datas:
                 lbl = val[axis[0]]
-                
                 key = urllib.quote_plus(val[axis[0]])
                 info = data_axis.setdefault(key, {})
                 keys[key] = 1
@@ -236,8 +235,11 @@ class GraphData(object):
         label.sort()
         
         for l in label:
-            label_x.append(l.split('/')[-1])
-            
+            if(len(l) > 10):
+                label_x.append(l.split('/')[-1])
+            else:
+                label_x.append(l)
+                
         values = {}
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
@@ -262,21 +264,26 @@ class GraphData(object):
             chart.pie_data(val, label_x, colours, 60)
             
         elif kind == 'bar':
-            
-            chart.set_x_labels(keys)
-            chart.set_x_label_style(10, orientation=1)
+            temp_lbl = []
+            for i in label_x:
+                temp_lbl.append(urllib.quote_plus(i))
+                
+            chart.set_x_labels(temp_lbl)
+            chart.set_x_label_style(10, orientation=2)
             
             mx = 10
             for i, x in enumerate(axis[1:]):
                 title = x
                 data = values[x]
+                
                 chart.bar(80, colors[i], colors[i], title)
                 chart.set_data(data)
                 
                 mx = max(mx, *data)
+                chart.set_y_max(mx)
             
-            #mx = math.floor(math.log10(mx)) * 100
-            #chart.set_y_max(mx)
-            #chart.y_label_steps(mx / 10)
+                #mx = math.floor(math.log10(mx)) * 100
+                #chart.set_y_max(mx)
+                #chart.y_label_steps(mx / 10)
 
         return chart.render()
