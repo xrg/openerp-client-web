@@ -77,7 +77,7 @@ var editRecord = function(id, src){
 
 var viewRecord = function(id, src){
 	
-	if (src && src != '_terp_list') {
+    if (src && src != '_terp_list' && $('_terp_count').value != '0') {
         return new One2Many(src).edit(id, true);
     }
 
