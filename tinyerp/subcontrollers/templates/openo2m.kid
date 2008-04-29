@@ -29,7 +29,8 @@
                     
                     var fld = MochiKit.DOM.INPUT(attrs);
                     fld.disabled = true;
-                    
+                    fld.value = e.value;
+
                     fields = fields.concat(fld);
                 }
             });
