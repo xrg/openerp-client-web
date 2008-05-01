@@ -91,7 +91,11 @@ class Graph(TinyCompoundWidget):
         self.width = width
         self.height = height
         
-        view = cache.fields_view_get(model, view_id, 'graph', rpc.session.context)
+        cxt =  rpc.session.context.copy()
+        cxt.update(context or {})
+        
+        view = cache.fields_view_get(model, view_id, 'graph', cxt)
+        
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
@@ -220,19 +224,13 @@ class GraphData(object):
         keys = {}
         data_axis = {}
         label = {}
-        key_ids = {}
-        dm = {}
         lbl = []
         label_x = []
-        domain = []
         links = []
-        total_ids = []
         
         for field in axis[1:]:
             
             for val in datas:
-                
-                domain += [(axis[0], '=', val.get('id')), ('id', 'in', val.get('rec_id'))]
                 
                 lbl = val[axis[0]]
                 key = urllib.quote_plus(val[axis[0]])
@@ -266,24 +264,7 @@ class GraphData(object):
         chart = OFChart()
         colors = choice_colors(len(axis))
         if kind == 'pie':
-            proxy = rpc.RPCProxy(self.model)
-            res = proxy.search(domain)
-            
-            for val in datas:
-                
-                view_mode=['tree', 'form']
-                id = val.get('temp_id')
-                model=self.model
-                name = 'ofc'
-                
-#                link = "/search/get_matched?model=%s&id=%s&view_mode=%s&domain=%s" % (model, id, view_mode, domain)
-#                link = "/form/view?model=%s&id=%s&view_mode=%s&domain=%s" % (model, id, view_mode, domain)
-#            print "===============", domain
-#            links = ["javascript: test_link('%s', '%s');" % (model,name)]
-#            'new ManyToOne(%s); return false;'" % (model)
-#            links = urllib.quote_plus(link)
-            
-            
+                            
             value = []
             total = 0
             value = values.values()[0]
@@ -299,6 +280,7 @@ class GraphData(object):
             colours = colors
             chart.pie_chart(70, 'red', 'blue')
             chart.pie_data(val, label_x, colours, 60)
+            chart.bg_colour ='#FFFFFF'
             chart.set_tool_tip( 'Label: #x_label#<br>Value: #val#' )
             
         elif kind == 'bar':
@@ -316,6 +298,7 @@ class GraphData(object):
                 
                 chart.bar(80, colors[i], colors[i], title)
                 chart.set_data(data)
+                chart.bg_colour ='#FFFFFF'
                 
                 mx = max(mx, *data)
                 chart.set_y_max(mx)
