@@ -60,6 +60,7 @@ if not hasattr(locale, 'D_FMT'):
 class Graph(TinyCompoundWidget):
 
     template = """
+    
     <table width="100%">
         <tr>
             <td align="center">
@@ -73,6 +74,7 @@ class Graph(TinyCompoundWidget):
             </td>
         </tr>
     </table>
+    
     """
 
     javascript = [tg.widgets.JSLink("tinyerp", "javascript/swfobject.js")]
@@ -116,6 +118,7 @@ class GraphData(object):
                 
         attrs = tools.node_attributes(root)
         
+        self.model = model
         self.string = attrs.get('string', 'Unknown')
         self.kind = attrs.get('type', 'pie')
         self.orientation = attrs.get('orientation', 'vertical')
@@ -131,10 +134,14 @@ class GraphData(object):
         if ids is None:
             ids = proxy.search(domain, 0, 0, 0, ctx)
 
+        rec_ids = []
         values = proxy.read(ids, fields.keys(), ctx)
         
         for value in values:
             res = {}
+            rec_ids.append(value.get('id'))
+            res['temp_id'] = value.get('id')
+            
             for x in axis_data.keys():
                 if fields[x]['type'] in ('many2one', 'char','time','text','selection'):
                     res[x] = value[x]
@@ -160,6 +167,9 @@ class GraphData(object):
                     res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
                 else:
                     res[x] = float(value[x])
+            
+            res['id'] = value[axis[0]][0]
+            res['rec_id'] = rec_ids
                     
             self.values.append(res)
                
@@ -210,15 +220,24 @@ class GraphData(object):
         keys = {}
         data_axis = {}
         label = {}
+        key_ids = {}
+        dm = {}
         lbl = []
         label_x = []
+        domain = []
+        links = []
+        total_ids = []
         
         for field in axis[1:]:
             
             for val in datas:
+                
+                domain += [(axis[0], '=', val.get('id')), ('id', 'in', val.get('rec_id'))]
+                
                 lbl = val[axis[0]]
                 key = urllib.quote_plus(val[axis[0]])
                 info = data_axis.setdefault(key, {})
+                
                 keys[key] = 1
                 label[lbl] = 1
                 
@@ -247,6 +266,24 @@ class GraphData(object):
         chart = OFChart()
         colors = choice_colors(len(axis))
         if kind == 'pie':
+            proxy = rpc.RPCProxy(self.model)
+            res = proxy.search(domain)
+            
+            for val in datas:
+                
+                view_mode=['tree', 'form']
+                id = val.get('temp_id')
+                model=self.model
+                name = 'ofc'
+                
+#                link = "/search/get_matched?model=%s&id=%s&view_mode=%s&domain=%s" % (model, id, view_mode, domain)
+#                link = "/form/view?model=%s&id=%s&view_mode=%s&domain=%s" % (model, id, view_mode, domain)
+#            print "===============", domain
+#            links = ["javascript: test_link('%s', '%s');" % (model,name)]
+#            'new ManyToOne(%s); return false;'" % (model)
+#            links = urllib.quote_plus(link)
+            
+            
             value = []
             total = 0
             value = values.values()[0]
@@ -262,6 +299,7 @@ class GraphData(object):
             colours = colors
             chart.pie_chart(70, 'red', 'blue')
             chart.pie_data(val, label_x, colours, 60)
+            chart.set_tool_tip( 'Label: #x_label#<br>Value: #val#' )
             
         elif kind == 'bar':
             temp_lbl = []
