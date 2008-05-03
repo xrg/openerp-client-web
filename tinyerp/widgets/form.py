@@ -618,10 +618,10 @@ class Form(TinyCompoundWidget):
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
 
-    def parse(self, prefix='', root=None, fields=None, values={}):
+    def parse(self, prefix='', root=None, fields=None, values={}, myfields=None):
 
         views = []
-        check_fields = [] # check for duplicate
+        myfields = myfields or [] # check for duplicate fields
 
         for node in root.childNodes:
 
@@ -661,17 +661,17 @@ class Form(TinyCompoundWidget):
                 views += [Frame(attrs, n)]
 
             elif node.localName == 'notebook':
-                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
                 nb = Notebook(attrs, n)
                 nb.name = prefix.replace('/', '_') + '_notebook'
                 views += [nb]
 
             elif node.localName == 'page':
-                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
                 views += [Frame(attrs, n)]
 
             elif node.localName=='group':
-                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
                 views += [Group(attrs, n)]
 
             elif node.localName == 'field':
@@ -714,14 +714,14 @@ class Form(TinyCompoundWidget):
                 if kind == 'image':
                     fields[name]['id'] = self.id
 
-                if name in check_fields:
+                if name in myfields:
                     print "-"*30
                     print " malformed view for :", self.model
                     print " duplicate field :", name
                     print "-"*30
                     raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
-                check_fields.append(name)
+                myfields.append(name)
 
                 field = widgets_type[kind](attrs=fields[name])
 
