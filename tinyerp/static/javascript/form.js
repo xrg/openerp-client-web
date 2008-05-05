@@ -406,7 +406,7 @@ var onChange = function(name) {
                     fld.onchange();
                 }
                 
-                if (MochiKid.DOM.hasElementClass(fld, 'selection')){
+                if (MochiKit.DOM.hasElementClass(fld, 'selection')){
                     SelectionBox.setValue(fld, value);
                 }
             }
