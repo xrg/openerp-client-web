@@ -406,7 +406,8 @@ td.item .radio {
 }
 
 #view_form .readonlyfield {
-    background-color: #EEEEEE;
+    background-color: #DDDDDD;
+    color: #666666;
 }
 
 /* treebar */

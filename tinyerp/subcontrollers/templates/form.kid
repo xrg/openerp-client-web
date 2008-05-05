@@ -4,36 +4,36 @@
     <title py:content="form.screen.string">Form Title</title>
 
     <script type="text/javascript">
+        
         function do_select(id, src){
             viewRecord(id, src);
         }
 
         function toggle_sidebar(forced) {
-            var sb = $('sidebar');
-            var sbp = $('sidebar_pane');
+        
+            var sb = MochiKit.DOM.getElement('sidebar');
+            var sbp = MochiKit.DOM.getElement('sidebar_pane');
 
             sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
             sbp.style.display = sb.style.display;
 
             set_cookie("terp_sidebar", sb.style.display);
 
-            var img = getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
+            var img = MochiKit.DOM.getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
             if (sb.style.display == "none")
                 img.src = '/static/images/sidebar_show.gif';
             else
                 img.src = '/static/images/sidebar_hide.gif';
         }
 
-        function loadSidebar() {
-            var sb = $('sidebar');
-            if (sb) toggle_sidebar(get_cookie('terp_sidebar'));
-        }
-
-        connect(window, 'onload', function(){
-            loadSidebar();
+        MochiKit.DOM.addLoadEvent(function(){
+        
+            if (MochiKit.DOM.getElement('sidebar')) {
+                toggle_sidebar(get_cookie('terp_sidebar'));
+            }
             
-            if (!getElement('_terp_list')) {
-                connect(window.document, 'oncontextmenu', on_context_menu);
+            if (!MochiKit.DOM.getElement('_terp_list')) {
+                MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
             }
             
         });
