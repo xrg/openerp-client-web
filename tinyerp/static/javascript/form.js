@@ -731,4 +731,8 @@ function open_url(site){
     }
 }
 
+function test_link(model) {
+	new ManyToOne(model);
+}
+
 // vim: sts=4 st=4 et

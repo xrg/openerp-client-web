@@ -43,8 +43,6 @@ from tinyerp import tools
 from tinyerp import common
 from tinyerp import cache
 
-from tinyerp.OpenFlashChart import graph as OFChart
-
 from interface import TinyCompoundWidget
 
 DT_FORMAT = '%Y-%m-%d'
@@ -224,13 +222,23 @@ class GraphData(object):
         keys = {}
         data_axis = {}
         label = {}
+        temp = {}
+        
         lbl = []
-        label_x = []
+        label_x = []        
         links = []
+        total_ids = []
+        dm = []
+        domain = []
+        lines = []
         
         for field in axis[1:]:
             
             for val in datas:
+                key_ids = {}
+                  
+                key_ids['id'] = val.get('id')
+                key_ids['rec_id'] = val.get('rec_id')
                 
                 lbl = val[axis[0]]
                 key = urllib.quote_plus(val[axis[0]])
@@ -245,12 +253,33 @@ class GraphData(object):
                 else:
                     info[field] = val[field]
                     
+                total_ids += [key_ids]
+            
+            for i in total_ids:
+                dm = i.get('id')                
+                temp[dm] = 1
+                
         keys = keys.keys()
         keys.sort()
         
         label = label.keys()
         label.sort()
         
+        temp = temp.keys()
+        temp.sort()
+        
+        for field in axis[1:]:
+            for d in temp:
+                for val in datas:
+                    rec = val.get('rec_id')
+                
+                domain += [(axis[0], '=', d), ('id', 'in', rec)]
+                
+        dom = []
+        
+        for d in domain:
+            dom.append(urllib.quote_plus(str(d)))
+            
         for l in label:
             if(len(l) > 10):
                 label_x.append(l.split('/')[-1])
@@ -261,10 +290,35 @@ class GraphData(object):
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
     
-        chart = OFChart()
         colors = choice_colors(len(axis))
-        if kind == 'pie':
-                            
+        if kind == 'pie':            
+            
+            tmp = ''
+            
+            pie = ''
+            pie_values = ''
+            pie_colours = ''
+            pie_labels = ''
+            pie_links = ''
+            pie_label_size = 10
+            pie_tool_tip = ''
+            gradient = True
+            border_size = -1
+            
+            proxy = rpc.RPCProxy(self.model)
+            res = proxy.search(domain)
+            
+            for val in datas:
+                
+                view_mode=['tree', 'form']
+                id = val.get('temp_id')
+                model=self.model
+                name = 'ofc'
+                
+#            links = ["javascript: test_link('%s');" % (model)]
+#            'new ManyToOne(%s); return false;'" % (model)
+#            links = urllib.quote_plus(link)
+            
             value = []
             total = 0
             value = values.values()[0]
@@ -278,33 +332,76 @@ class GraphData(object):
                 val.append(round((j*100)/total))
                     
             colours = colors
-            chart.pie_chart(70, 'red', 'blue')
-            chart.pie_data(val, label_x, colours, 60)
-            chart.bg_colour ='#FFFFFF'
-            chart.set_tool_tip( 'Label: #x_label#<br>Value: #val#' )
+            bg_colour ='#FFFFFF'            
+            line_size = 60
+            
+            pie = "%s,%s,%s" % (70, 'red', 'blue')
+        
+            if( gradient ):
+                pie += ",%s" %("true")
+        
+            if ( border_size > 0 ):
+                if ( gradient ):
+                    pie += ","
+                pie += ",%s" %(border_size)
+            
+            tmp += '&pie=%s&\r\n' % pie
+            
+            tmp += '&values=%s&\r\n' % ','.join([str(v) for v in val])
+            tmp += '&pie_labels=%s&\r\n' % ','.join([str(val) for val in label_x])
+            tmp += '&links=%s&\r\n' % ','.join(links)
+            tmp += '&colours=%s&\r\n' % ','.join(colours)        
+            tmp += "&pie=%s%s, {font-size:%s;}" % (pie_label_size, ', #000000', '12px')
+            tmp += '&bg_colour=%s&\r\n' % bg_colour
+            
+            tmp += '&tool_tip=%s&\r\n' % ( 'Label: #x_label#<br>Value: #val#' )
             
         elif kind == 'bar':
+            
+            tmp = ''
             temp_lbl = []
+            set_data = []
+            
             for i in label_x:
                 temp_lbl.append(urllib.quote_plus(i))
-                
-            chart.set_x_labels(temp_lbl)
-            chart.set_x_label_style(10, orientation=2)
+            
+            tmp += '&x_label_style=%s,%s,%s,%s&\r\n' % (10, '#000000', 2, 1)
+            tmp += '&x_axis_steps%s&\r\n' % (1)
+            tmp += '&x_labels=%s&\r\n' % ",".join(str(label) for label in temp_lbl)         
             
             mx = 10
             for i, x in enumerate(axis[1:]):
                 title = x
                 data = values[x]
-                
-                chart.bar(80, colors[i], colors[i], title)
-                chart.set_data(data)
-                chart.bg_colour ='#FFFFFF'
-                
+#                link = dom
+#                chart.set_data(data)
+                bg_colour ='#FFFFFF'
+#                chart.set_links(link)
                 mx = max(mx, *data)
-                chart.set_y_max(mx)
+                
+                if ( len( lines ) == 0):
+                    tmp += "&bar="
+                    
+                if( len( lines ) > 0 ):
+                    tmp += '&bar_%s=' % (len( lines )+1)
+                        
+                tmp += "%s,%s,%s,%s" % (80, colors[i], colors[i], title)
+                tmp += "&\r\n"
+                    
+                lines.append( tmp )
             
+                if( len( set_data ) == 0 ):
+                    set_data.append( '&values=%s&\r\n' % ','.join([str(v) for v in data]) )
+                else:
+                    set_data.append( '&values_%s=%s&\r\n' % (len(set_data)+1, ','.join([str(v) for v in data])) )
+                
+                tmp += "".join(set_data)
+            
+                tmp += '&y_max=%s&\r\n' % mx
+                tmp += '&bg_colour=%s&\r\n' % bg_colour
+                
                 #mx = math.floor(math.log10(mx)) * 100
                 #chart.set_y_max(mx)
                 #chart.y_label_steps(mx / 10)
-
-        return chart.render()
+                
+        return tmp              
