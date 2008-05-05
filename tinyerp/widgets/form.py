@@ -349,8 +349,6 @@ class Selection(TinyField):
 
     params = ['options']
     options = []
-    css = [tg.widgets.CSSLink('tinyerp', 'css/selection.css')]
-    javascript = [tg.widgets.JSLink('tinyerp', 'javascript/selection.js')]
 
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)

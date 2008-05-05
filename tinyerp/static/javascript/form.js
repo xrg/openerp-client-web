@@ -405,10 +405,6 @@ var onChange = function(name) {
                 if (kind == 'many2many'){
                     fld.onchange();
                 }
-                
-                if (MochiKit.DOM.hasElementClass(fld, 'selection')){
-                    SelectionBox.setValue(fld, value);
-                }
             }
         }
 

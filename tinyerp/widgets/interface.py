@@ -152,38 +152,31 @@ class TinyInputWidget(TinyWidget):
 
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
-        
-        attrs = d.setdefault('attrs', {})
-        klass = d['field_class'].split(' ')
-        
+        d['attrs'] = {}
         # name as field_id
         d['field_id'] = self.name
-        d['kind'] = self.kind
-        d['editable'] = self.editable
-        d['readonly'] = self.readonly
 
         d['callback'] = self.callback
         d['onchange'] = (self.callback or None) and 'onChange(this)'
-        
+
+        d['kind'] = self.kind
+        d['editable'] = self.editable
+
         if self.help:
-            attrs['title'] = self.help
+            d['attrs']['title'] = self.help
 
         if self.readonly:
-            attrs['readonly'] = 'readonly'
+            d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
+            d['attrs']['disabled'] = True
 
-        if self.readonly:
-            klass += ['readonlyfield']
+        if self.required and 'requiredfield' not in d['field_class'].split(' '):
+            d['field_class'] = " ".join([d['field_class'], "requiredfield"])
 
-        if self.required:
-            klass += ['requiredfield']
-
-        if self.translatable:
-            klass += ['translatable']
+        if self.translatable and 'translatable' not in d['field_class'].split(' '):
+            d['field_class'] = " ".join([d['field_class'], "translatable"])
 
         if hasattr(self, 'error') and self.error:
-            klass += ['errorfield']
-
-        d['field_class'] = " ".join(klass)
+            d['field_class'] = " ".join([d['field_class'], "errorfield"])
 
 class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
 
