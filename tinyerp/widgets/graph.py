@@ -102,10 +102,27 @@ class Graph(TinyCompoundWidget):
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain)
             
-colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
-def choice_colors(n):
+#colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
+def choice_colors(n, dark=0):
+    
+    color_list = []
+    
+    colors = [
+              ['#729fcf', '#3465a4', '#204a87'],
+              ['#ad7fa8', '#75507b', '#5c3566'],
+              ['#e9b96e', '#c17d11', '#8f5902'],
+              ['#8ae234', '#73d216', '#4e9a06'],
+              ['#888a8f', '#555753', '#2e3436'],
+              ['#ef2929', '#cc0000', '#a40000'],
+              ['#fce94f', '#edd400', '#c4a000'],
+              ['#fcaf3e', '#f57900', '#ce5c00'],              
+              ['#eeeeec', '#d3d7cf', '#babdb6']              
+            ]    
     if n:
-        return colorline[0:-1:len(colorline)/(n+1)]
+        for i in range(n+2):
+            color_list.append(colors[i][dark])
+            
+        return color_list    #colorline[0:-1:len(colorline)/(n+1)]
     return []
     
 class GraphData(object):
@@ -290,14 +307,17 @@ class GraphData(object):
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
     
-        colors = choice_colors(len(axis))
+        # Set the darkness of graph.
+        darkness = 2   # 0-2
+    
+        colors = choice_colors(len(axis), darkness)
+        
         if kind == 'pie':            
             
             tmp = ''
             
             pie = ''
             pie_values = ''
-            pie_colours = ''
             pie_labels = ''
             pie_links = ''
             pie_label_size = 10
@@ -333,7 +353,7 @@ class GraphData(object):
                     
             colours = colors
             bg_colour ='#FFFFFF'            
-            line_size = 60
+            pie_label_size = 65
             
             pie = "%s,%s,%s" % (70, 'red', 'blue')
         
@@ -350,7 +370,7 @@ class GraphData(object):
             tmp += '&values=%s&\r\n' % ','.join([str(v) for v in val])
             tmp += '&pie_labels=%s&\r\n' % ','.join([str(val) for val in label_x])
             tmp += '&links=%s&\r\n' % ','.join(links)
-            tmp += '&colours=%s&\r\n' % ','.join(colours)        
+            tmp += '&colours=%s&\r\n' % ','.join(colours)
             tmp += "&pie=%s%s, {font-size:%s;}" % (pie_label_size, ', #000000', '12px')
             tmp += '&bg_colour=%s&\r\n' % bg_colour
             
