@@ -313,20 +313,16 @@ class GraphData(object):
         colors = choice_colors(len(axis), darkness)
         
         if kind == 'pie':            
-            
             tmp = ''
             
             pie = ''
             pie_values = ''
             pie_labels = ''
-            pie_links = ''
+            links = ''
             pie_label_size = 10
             pie_tool_tip = ''
             gradient = True
             border_size = -1
-            
-            proxy = rpc.RPCProxy(self.model)
-            res = proxy.search(domain)
             
             for val in datas:
                 
@@ -355,6 +351,8 @@ class GraphData(object):
             bg_colour ='#FFFFFF'            
             pie_label_size = 65
             
+#            links = ["javascript: new ManyToOne('ofc');"]
+            
             pie = "%s,%s,%s" % (70, 'red', 'blue')
         
             if( gradient ):
@@ -373,6 +371,7 @@ class GraphData(object):
             tmp += '&colours=%s&\r\n' % ','.join(colours)
             tmp += "&pie=%s%s, {font-size:%s;}" % (pie_label_size, ', #000000', '12px')
             tmp += '&bg_colour=%s&\r\n' % bg_colour
+#            tmp += '&links=%s&\r\n' % ','.join(links)
             
             tmp += '&tool_tip=%s&\r\n' % ( 'Label: #x_label#<br>Value: #val#' )
             
@@ -398,7 +397,6 @@ class GraphData(object):
                 bg_colour ='#FFFFFF'
 #                chart.set_links(link)
                 mx = max(mx, *data)
-                
                 if ( len( lines ) == 0):
                     tmp += "&bar="
                     
@@ -416,8 +414,12 @@ class GraphData(object):
                     set_data.append( '&values_%s=%s&\r\n' % (len(set_data)+1, ','.join([str(v) for v in data])) )
                 
                 tmp += "".join(set_data)
-            
-                tmp += '&y_max=%s&\r\n' % mx
+                
+                if (min(data) < 0):
+                    tmp += '&y_min=%s&\r\n' % min(data)
+                    tmp += '&y_ticks=%s,%s,%s&\r\n' % (min(data), 0, mx)
+                else:
+                    tmp += '&y_max=%s&\r\n' % mx
                 tmp += '&bg_colour=%s&\r\n' % bg_colour
                 
                 #mx = math.floor(math.log10(mx)) * 100
