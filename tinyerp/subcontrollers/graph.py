@@ -50,13 +50,6 @@ from tinyerp.widgets.graph import GraphData
 
 class Graph(controllers.Controller, TinyResource):
 
-    @expose(content_type="text/plain")
-    def default(self, width=400, height=400, **kw):                        
-        params, data = TinyDict.split(kw)
-        data = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
-        
-        return str(data)
-        
     @expose('json')
     def pie(self, **kw):
                                 
