@@ -65,7 +65,7 @@ class Graph(TinyCompoundWidget):
     
     params = ['chart_type', 'chart_name', 'model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
     
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=400, height=350):
+    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width='100%', height='350px'):
 
         self.model = model
         self.view_id = view_id

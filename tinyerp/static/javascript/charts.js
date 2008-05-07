@@ -105,7 +105,7 @@ BarChart.prototype = {
             
             var d = data.dataset[i];
             
-            so.addVariable(i == 0 ? 'bar' : 'bar_' + (i+1), '80,' + colors[i] + ',' + d.legend + ',' + 12);
+            so.addVariable(i == 0 ? 'bar_3d' : 'bar_3d_' + (i+1), '80,' + colors[i] + ',' + d.legend + ',' + 12);
             so.addVariable(i == 0 ? 'values' : 'values_' + (i+1), d.values.join(','));
             
             allvalues = allvalues.concat(d.values);
@@ -120,7 +120,10 @@ BarChart.prototype = {
         so.addVariable("x_labels", data.x_labels.join(','));
         so.addVariable("x_axis_steps", data.x_steps || 1);
         so.addVariable("x_label_style", "10,,2");
+        so.addVariable("x_axis_3d", 12);
         
+        //so.addVariable("x_axis_colour", "#909090");
+        //so.addVariable("y_axis_colour", "#909090");
         
         so.addParam("allowScriptAccess", "always" )
         
