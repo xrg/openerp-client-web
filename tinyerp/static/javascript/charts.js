@@ -76,8 +76,6 @@ BarChart.prototype = {
             tk = Math.round(tk/2);
         }
         
-        log (mn, mx, tk);
-        
         yopts.y_max = mx;
         yopts.y_min = mn;
         yopts.y_steps = tk;
@@ -85,7 +83,16 @@ BarChart.prototype = {
         return yopts;
     },
     
-    _render : function(data) {
+    _render : function(chart_data) {
+        
+        var data = MochiKit.Base.update({
+            dataset : [],
+            x_labels : [],
+            y_legend : ''
+        }, chart_data || {});
+        
+        data.dataset = data.dataset || [];
+        data.x_labels = data.x_labels || [];
         
         var colors = ChartColors.slice(0, data.dataset.length);
         var dim = MochiKit.DOM.elementDimensions(this.element);
@@ -98,7 +105,7 @@ BarChart.prototype = {
         so.addVariable('y_legend', data.y_legend +',12,#000000');
         
         so.addVariable("y_label_size","15");
-        
+                
         var allvalues = [];
         
         for(var i=0; i<data.dataset.length; i++) {
@@ -124,10 +131,12 @@ BarChart.prototype = {
         
         //so.addVariable("x_axis_colour", "#909090");
         //so.addVariable("y_axis_colour", "#909090");
+        //so.addVariable("bg_colour", "#FFFFFF");
         
         so.addParam("allowScriptAccess", "always" )
         
         so.write(this.element.id);
+        log(11111);
     }
 }
 

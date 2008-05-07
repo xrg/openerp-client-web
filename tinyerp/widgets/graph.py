@@ -165,17 +165,17 @@ class GraphData(object):
         
     def get_pie_data(self):
         
-        kind = 'pie'
-        result = self.get_graph_data(kind)
+        if self.values:
+            return self.get_graph_data('pie')
         
-        return result
+        return dict(title=self.string)
         
     def get_bar_data(self):
         
-        kind = 'bar'
-        result = self.get_graph_data(kind)
+        if self.values:
+            return self.get_graph_data('bar')
         
-        return result
+        return dict(title=self.string)
 
     def parse(self, root, fields):
         
