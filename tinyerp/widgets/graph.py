@@ -303,7 +303,7 @@ class GraphData(object):
             legend = [axis_data[x]['string'] for x in axis[1:]]
             
             for i, x in enumerate(label_x):
-                dataset.append({'legend': [x], 'value': val[i], 'link': 'javascript: alert(1);'})
+                dataset.append({'legend': [x], 'value': val[i]})
             
         elif kind == 'bar':
             
