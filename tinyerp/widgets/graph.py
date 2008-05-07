@@ -92,29 +92,6 @@ class Graph(TinyCompoundWidget):
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain)
             
-#colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
-def choice_colors(n, dark=0):
-    
-    color_list = []
-    
-    colors = [
-              ['#729fcf', '#3465a4', '#204a87'],
-              ['#ad7fa8', '#75507b', '#5c3566'],
-              ['#e9b96e', '#c17d11', '#8f5902'],
-              ['#8ae234', '#73d216', '#4e9a06'],
-              ['#888a8f', '#555753', '#2e3436'],
-              ['#ef2929', '#cc0000', '#a40000'],
-              ['#fce94f', '#edd400', '#c4a000'],
-              ['#fcaf3e', '#f57900', '#ce5c00'],              
-              ['#eeeeec', '#d3d7cf', '#babdb6']              
-            ]    
-    if n:
-        for i in range(n+2):
-            color_list.append(colors[i][dark])
-            
-        return color_list    #colorline[0:-1:len(colorline)/(n+1)]
-    return []
-    
 class GraphData(object):
     
     def __init__(self, model, view_id=False, ids=[], domain=[], context={}):
@@ -189,15 +166,7 @@ class GraphData(object):
     def get_pie_data(self):
         
         kind = 'pie'
-        
-        result = {};
-        result['title'] = 'Pie Chart'
-        
-        dataset = result.setdefault('dataset', [])
-        
-        dataset.append({'legend': 'Hi!', 'value': 34, 'link': 'javascript: alert(1);'})
-        dataset.append({'legend': 'Hello!', 'value': 24, 'link': 'javascript: alert(1);'})
-        dataset.append({'legend': 'World!', 'value': 14, 'link': 'javascript: alert(1);'})
+        result = self.get_graph_data(kind)
         
         return result
         
@@ -251,15 +220,11 @@ class GraphData(object):
         keys = {}
         data_axis = {}
         label = {}
-        temp = {}
+        temp_dom = {}
         
-        lbl = []
-        label_x = []        
-        links = []
+        label_x = []
         total_ids = []
-        dm = []
         domain = []
-        lines = []
         
         for field in axis[1:]:
             
@@ -286,7 +251,7 @@ class GraphData(object):
             
             for i in total_ids:
                 dm = i.get('id')                
-                temp[dm] = 1
+                temp_dom[dm] = 1
                 
         keys = keys.keys()
         keys.sort()
@@ -294,11 +259,11 @@ class GraphData(object):
         label = label.keys()
         label.sort()
         
-        temp = temp.keys()
-        temp.sort()
+        temp_dom = temp_dom.keys()
+        temp_dom.sort()
         
         for field in axis[1:]:
-            for d in temp:
+            for d in temp_dom:
                 for val in datas:
                     rec = val.get('rec_id')
                 
@@ -319,90 +284,45 @@ class GraphData(object):
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
     
-        # Set the darkness of graph.
-        darkness = 2   # 0-2
-    
-        colors = choice_colors(len(axis), darkness)
+        result = {}
         
-        if kind == 'pie':            
-            tmp = ''
-            
-            pie = ''
-            pie_values = ''
-            pie_labels = ''
-            links = ''
-            pie_label_size = 10
-            pie_tool_tip = ''
-            gradient = True
-            border_size = -1
-            
-            for val in datas:
-                
-                view_mode=['tree', 'form']
-                id = val.get('temp_id')
-                model=self.model
-                name = 'ofc'
-                            
-            value = []
+        if kind == 'pie':     
             total = 0
-            value = values.values()[0]
+            result['title'] = self.string
+            dataset = result.setdefault('dataset', [])
             
-            for i in value:
-                total = total+i
+            value = values.values()[0]
+            for v in value:
+                total = total+v
             
             val = []
             
             for j in value:
                 val.append(round((j*100)/total))
-                    
-            colours = colors
-            bg_colour ='#FFFFFF'            
-            pie_label_size = 65
-                        
-            pie = "%s,%s,%s" % (70, 'red', 'blue')
-        
-            if( gradient ):
-                pie += ",%s" %("true")
-        
-            if ( border_size > 0 ):
-                if ( gradient ):
-                    pie += ","
-                pie += ",%s" %(border_size)
             
-            tmp += '&pie=%s&\r\n' % pie
+            legend = [axis_data[x]['string'] for x in axis[1:]]
             
-            tmp += '&values=%s&\r\n' % ','.join([str(v) for v in val])
-            tmp += '&pie_labels=%s&\r\n' % ','.join([str(val) for val in label_x])
-            tmp += '&links=%s&\r\n' % ','.join(links)
-            tmp += '&colours=%s&\r\n' % ','.join(colours)
-            tmp += "&pie=%s%s, {font-size:%s;}" % (pie_label_size, ', #000000', '12px')
-            tmp += '&bg_colour=%s&\r\n' % bg_colour
-#            tmp += '&links=%s&\r\n' % ','.join(links)
-            
-            tmp += '&tool_tip=%s&\r\n' % ( 'Label: #x_label#<br>Value: #val#' )
+            for i, x in enumerate(label_x):
+                dataset.append({'legend': [x], 'value': val[i], 'link': 'javascript: alert(1);'})
             
         elif kind == 'bar':
             
-            result = {}
             result['title'] = self.string
             dataset = result.setdefault('dataset', [])
                         
-            tmp = ''
             temp_lbl = []
-            set_data = []
             
-            legend = [ axis_data[x]['string'] for x in axis[1:]]
+            legend = [axis_data[x]['string'] for x in axis[1:]]
             
             for i in label_x:
                 temp_lbl.append(urllib.quote_plus(i))
                             
             result['x_labels'] = temp_lbl
+            result['y_legend'] = ''
             
-            mx = 10
             for i, x in enumerate(axis[1:]):
-                title = x
                 data = values[x]
                 
                 dataset.append({'legend': legend[i], 'values': data})
-                
+        
         return result  
