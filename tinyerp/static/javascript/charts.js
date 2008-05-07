@@ -61,9 +61,14 @@ BarChart.prototype = {
             mn = Math.min(mn, values[i]);
         }
         
-        mx = mx < 0 ? mx - (10 + mx % 10) : mx + (10 - (mx % 10));
-        mn = mn < 0 ? mn - (10 + mn % 10) : mn + (10 - (mn % 10));
-
+        if (mx != 0) {
+            mx = mx < 0 ? mx - (10 + mx % 10) : mx + (10 - (mx % 10));    
+        }
+        
+        if (mn != 0) {
+            mn = mn < 0 ? mn - (10 + mn % 10) : mn + (10 - (mn % 10));
+        }
+        
         var total = Math.abs(mx) + Math.abs(mn);
         tk = total / 5;
         
@@ -112,6 +117,8 @@ BarChart.prototype = {
         
         so.addVariable("x_labels", data.x_labels.join(','));
         so.addVariable("x_axis_steps", data.x_steps || 1);
+        so.addVariable("x_label_style", "10,,2");
+        
         
         so.addParam("allowScriptAccess", "always" )
         
