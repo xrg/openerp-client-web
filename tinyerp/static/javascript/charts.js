@@ -49,6 +49,35 @@ BarChart.prototype = {
         });
     },
     
+    _minmx_ticks : function(values) {
+        
+        var yopts = {};
+        var mx = 0;
+        var mn = 0;
+        var tk = 2;
+        
+        for (var i=0; i<values.length; i++) {
+            mx = Math.max(mx, values[i]);
+            mn = Math.min(mn, values[i]);
+        }
+        
+        mx = mx < 0 ? mx - (10 + mx % 10) : mx + (10 - (mx % 10));
+        mn = mn < 0 ? mn - (10 + mn % 10) : mn + (10 - (mn % 10));
+
+        var total = Math.abs(mx) + Math.abs(mn);
+        tk = total / 5;
+        
+        while (tk > 10) {
+            tk /= 2;
+        }
+        
+        yopts.y_max = mx;
+        yopts.y_min = mn;
+        yopts.y_steps = tk;
+        
+        return yopts;
+    },
+    
     _render : function(data) {
         
         var colors = ChartColors.slice(0, data.dataset.length);
@@ -63,10 +92,7 @@ BarChart.prototype = {
         
         so.addVariable("y_label_size","15");
         
-        //TODO: auto detact min/max and steps
-        so.addVariable("y_max", data.y_max || 20);
-        so.addVariable("y_min", data.y_min || 0);
-        so.addVariable("y_ticks", '5,20,' + (data.y_steps||2));
+        var allvalues = [];
         
         for(var i=0; i<data.dataset.length; i++) {
             
@@ -74,7 +100,15 @@ BarChart.prototype = {
             
             so.addVariable(i == 0 ? 'bar' : 'bar_' + (i+1), '80,' + colors[i] + ',' + d.legend + ',' + 12);
             so.addVariable(i == 0 ? 'values' : 'values_' + (i+1), d.values.join(','));
+            
+            allvalues = allvalues.concat(d.values);
         }
+        
+        var yopts = this._minmx_ticks(allvalues)
+        
+        so.addVariable("y_max", yopts.y_max);
+        so.addVariable("y_min", yopts.y_min);
+        so.addVariable("y_ticks", '5,20,' + yopts.y_steps);
         
         so.addVariable("x_labels", data.x_labels.join(','));
         so.addVariable("x_axis_steps", data.x_steps || 1);
