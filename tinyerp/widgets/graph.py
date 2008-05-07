@@ -32,6 +32,7 @@
 
 import os
 import time
+import random
 import locale
 import xml.dom.minidom
 import urllib
@@ -58,25 +59,25 @@ if not hasattr(locale, 'D_FMT'):
 class Graph(TinyCompoundWidget):
 
     template = """
-    
-    <table width="100%">
+    <table width="100%" xmlns:py="http://purl.org/kid/ns#">
         <tr>
             <td align="center">
-                <div id="test" style="width: 500; height: 400"></div>
-                <script type="text/javascript">
-                    var so = new SWFObject("/static/open-flash-chart.swf", "ofc", "500", "400", "9", "#FFFFFF");
-                    so.addVariable("data", "${tg.quote_plus(tg.url('/graph', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context)))}");
-                    so.addParam("allowScriptAccess", "sameDomain");
-                    so.write("test");
+                <div id="${chart_name}" style="width: 500; height: 400"></div>
+                <script py:if="chart_type=='bar'" type="text/javascript">
+                    new BarChart('${chart_name}', "${tg.url('/graph/bar', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context))}");
+                </script>
+                <script py:if="chart_type=='pie'" type="text/javascript">
+                    new PieChart('${chart_name}', "${tg.url('/graph/pie', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context))}");
                 </script>
             </td>
         </tr>
     </table>
-    
     """
 
-    javascript = [tg.widgets.JSLink("tinyerp", "javascript/swfobject.js")]
-    params = ['model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/swfobject.js"),
+                  tg.widgets.JSLink("tinyerp", "javascript/charts.js")]
+    
+    params = ['chart_type', 'chart_name', 'model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
     
     def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=400, height=400):
 
@@ -97,8 +98,11 @@ class Graph(TinyCompoundWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
+        
         self.string = attrs.get('string', '')
-                
+        self.chart_type = attrs.get('type', 'pie')
+        self.chart_name = 'graph_%s' % (random.randint(0,10000)) 
+
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain)
             
@@ -195,6 +199,42 @@ class GraphData(object):
         self.axis = axis
         self.axis_data = axis_data
         self.axis_group_field = axis_group
+        
+    def get_pie_data(self):
+        
+        result = {};
+        result['title'] = 'Pie Chart'
+        
+        dataset = result.setdefault('dataset', [])
+        
+        dataset.append({'legend': 'Hi!', 'value': 34, 'link': 'javascript: alert(1);'})
+        dataset.append({'legend': 'Hello!', 'value': 24, 'link': 'javascript: alert(1);'})
+        dataset.append({'legend': 'World!', 'value': 14, 'link': 'javascript: alert(1);'})
+        
+        return result
+        
+    def get_bar_data(self):
+        
+        result = {};
+        
+        result['title'] = 'Sales Graph'
+        
+        result['y_legend'] = 'Sales'
+        result['y_max'] = 20
+        result['y_min'] = -10
+        result['y_steps'] = 6
+        
+        result['x_labels'] = ['x1', 'x2', 'x3']
+        result['x_steps'] = 1
+        
+        dataset = result.setdefault('dataset', [])
+        
+        dataset.append({'legend': 'Hi!', 'values': [3, 5, 7]})
+        dataset.append({'legend': 'Hello!', 'values': [10, 9, 17]})
+        dataset.append({'legend': 'World!', 'values': [-7, -5, -1]})        
+        dataset.append({'legend': 'World!', 'values': [7, 15, 11]})
+        
+        return result
 
     def parse(self, root, fields):
         

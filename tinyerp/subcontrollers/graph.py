@@ -56,3 +56,19 @@ class Graph(controllers.Controller, TinyResource):
         data = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
         
         return str(data)
+        
+    @expose('json')
+    def pie(self, **kw):
+                                
+        params, data = TinyDict.split(kw)
+        data = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
+        
+        return dict(data=data.get_pie_data())
+        
+    @expose('json')
+    def bar(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+        data = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
+        
+        return dict(data=data.get_bar_data())
