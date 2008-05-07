@@ -70,11 +70,13 @@ BarChart.prototype = {
         }
         
         var total = Math.abs(mx) + Math.abs(mn);
-        tk = total / 5;
+        tk = Math.round(total/5);
         
         while (tk > 10) {
-            tk /= 2;
+            tk = Math.round(tk/2);
         }
+        
+        log (mn, mx, tk);
         
         yopts.y_max = mx;
         yopts.y_min = mn;
