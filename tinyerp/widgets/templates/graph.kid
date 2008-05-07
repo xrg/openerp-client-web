@@ -1,25 +1,13 @@
-<span xmlns:py="http://purl.org/kid/ns#">
-	<table width="100%">
-	    <tr>
-	        <td align="center">
-	        	<div id="my_chart"/>
-	        	<img class="graph" src="${tg.query('/graph', 
-	        							_terp_model=model, 
-	        							_terp_view_id=view_id, 
-	        							_terp_ids=ustr(ids), 
-	        							_terp_domain=ustr(domain), 
-	        							_terp_context=ustr(context),
-	        							 width=width, 
-	        							 height=height)}"> </img>
-	        </td>
-	    </tr>
-	</table>
-	<script type="text/javascript">
-			
-			var so = new SWFObject("/static/open-flash-chart.swf", "ofc", "450", "300", "9", "#FFFFFF");
-	    	so.addVariable("data", "${tg.quote_plus(tg.query('/graph/bar_chart', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context), width=width, height=height))}");		
-	    	
-	    	so.write("my_chart");
-	 	
-	</script>
-</span>
+<table width="100%" xmlns:py="http://purl.org/kid/ns#">
+    <tr>
+        <td align="center">
+            <div id="${chart_name}" style="width: 500; height: 400"></div>
+            <script py:if="chart_type=='bar'" type="text/javascript">
+                new BarChart('${chart_name}', "${tg.url('/graph/bar', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context))}");
+            </script>
+            <script py:if="chart_type=='pie'" type="text/javascript">
+                new PieChart('${chart_name}', "${tg.url('/graph/pie', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context))}");
+            </script>
+        </td>
+    </tr>
+</table>
