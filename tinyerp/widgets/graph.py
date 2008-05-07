@@ -84,7 +84,7 @@ class Graph(TinyCompoundWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
-        
+
         self.string = attrs.get('string', '')
         self.chart_type = attrs.get('type', 'pie')
         self.chart_name = 'graph_%s' % (random.randint(0,10000)) 
@@ -179,7 +179,7 @@ class GraphData(object):
             
             res['id'] = value[axis[0]][0]
             res['rec_id'] = rec_ids
-                    
+            
             self.values.append(res)
                
         self.axis = axis
@@ -187,6 +187,8 @@ class GraphData(object):
         self.axis_group_field = axis_group
         
     def get_pie_data(self):
+        
+        kind = 'pie'
         
         result = {};
         result['title'] = 'Pie Chart'
@@ -201,24 +203,8 @@ class GraphData(object):
         
     def get_bar_data(self):
         
-        result = {};
-        
-        result['title'] = 'Sales Graph'
-        
-        result['y_legend'] = 'Sales'
-        result['y_max'] = 20
-        result['y_min'] = -10
-        result['y_steps'] = 6
-        
-        result['x_labels'] = ['x1', 'x2', 'x3']
-        result['x_steps'] = 1
-        
-        dataset = result.setdefault('dataset', [])
-        
-        dataset.append({'legend': 'Hi!', 'values': [3, 5, 7]})
-        dataset.append({'legend': 'Hello!', 'values': [10, 9, 17]})
-        dataset.append({'legend': 'World!', 'values': [-7, -5, -1]})        
-        dataset.append({'legend': 'World!', 'values': [7, 15, 11]})
+        kind = 'bar'
+        result = self.get_graph_data(kind)
         
         return result
 
@@ -244,10 +230,10 @@ class GraphData(object):
             if axis_data[i].get('group', False):
                 axis_group[i]=1
                 axis.remove(i)
-                
+        
         return axis, axis_data, axis_group
     
-    def __str__(self):
+    def get_graph_data(self, kind):
         
         axis = self.axis
         axis_data = self.axis_data
@@ -356,11 +342,7 @@ class GraphData(object):
                 id = val.get('temp_id')
                 model=self.model
                 name = 'ofc'
-                
-#            links = ["javascript: test_link('%s');" % (model)]
-#            'new ManyToOne(%s); return false;'" % (model)
-#            links = urllib.quote_plus(link)
-            
+                            
             value = []
             total = 0
             value = values.values()[0]
@@ -376,9 +358,7 @@ class GraphData(object):
             colours = colors
             bg_colour ='#FFFFFF'            
             pie_label_size = 65
-            
-#            links = ["javascript: new ManyToOne('ofc');"]
-            
+                        
             pie = "%s,%s,%s" % (70, 'red', 'blue')
         
             if( gradient ):
@@ -403,53 +383,26 @@ class GraphData(object):
             
         elif kind == 'bar':
             
+            result = {}
+            result['title'] = self.string
+            dataset = result.setdefault('dataset', [])
+                        
             tmp = ''
             temp_lbl = []
             set_data = []
             
+            legend = [ axis_data[x]['string'] for x in axis[1:]]
+            
             for i in label_x:
                 temp_lbl.append(urllib.quote_plus(i))
-            
-            tmp += '&x_label_style=%s,%s,%s,%s&\r\n' % (10, '#000000', 2, 1)
-            tmp += '&x_axis_steps%s&\r\n' % (1)
-            tmp += '&x_labels=%s&\r\n' % ",".join(str(label) for label in temp_lbl)         
+                            
+            result['x_labels'] = temp_lbl
             
             mx = 10
             for i, x in enumerate(axis[1:]):
                 title = x
                 data = values[x]
-#                link = dom
-#                chart.set_data(data)
-                bg_colour ='#FFFFFF'
-#                chart.set_links(link)
-                mx = max(mx, *data)
-                if ( len( lines ) == 0):
-                    tmp += "&bar="
-                    
-                if( len( lines ) > 0 ):
-                    tmp += '&bar_%s=' % (len( lines )+1)
-                        
-                tmp += "%s,%s,%s,%s" % (80, colors[i], colors[i], title)
-                tmp += "&\r\n"
-                    
-                lines.append( tmp )
-            
-                if( len( set_data ) == 0 ):
-                    set_data.append( '&values=%s&\r\n' % ','.join([str(v) for v in data]) )
-                else:
-                    set_data.append( '&values_%s=%s&\r\n' % (len(set_data)+1, ','.join([str(v) for v in data])) )
                 
-                tmp += "".join(set_data)
+                dataset.append({'legend': legend[i], 'values': data})
                 
-                if (min(data) < 0):
-                    tmp += '&y_min=%s&\r\n' % min(data)
-                    tmp += '&y_ticks=%s,%s,%s&\r\n' % (min(data), 0, mx)
-                else:
-                    tmp += '&y_max=%s&\r\n' % mx
-                tmp += '&bg_colour=%s&\r\n' % bg_colour
-                
-                #mx = math.floor(math.log10(mx)) * 100
-                #chart.set_y_max(mx)
-                #chart.y_label_steps(mx / 10)
-                
-        return tmp              
+        return result  
