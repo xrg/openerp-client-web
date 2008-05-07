@@ -1,7 +1,7 @@
-<table width="100%" xmlns:py="http://purl.org/kid/ns#">
+<table width="100%" xmlns:py="http://purl.org/kid/ns#" class="graph-table">
     <tr>
         <td align="center">
-            <div id="${chart_name}" style="width: 500; height: 400"></div>
+            <div class="graph" id="${chart_name}" style="width: ${width}px; height: ${height}px"></div>
             <script py:if="chart_type=='bar'" type="text/javascript">
                 new BarChart('${chart_name}', "${tg.url('/graph/bar', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context))}");
             </script>

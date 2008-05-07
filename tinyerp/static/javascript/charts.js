@@ -53,15 +53,17 @@ BarChart.prototype = {
         
         var colors = ChartColors.slice(0, data.dataset.length);
         var dim = MochiKit.DOM.elementDimensions(this.element);
-        
-        var so = new SWFObject("/static/open-flash-chart.swf", "ofc", dim.w, dim.h, "9", "#FFFFFF");
-        
+
+        var so = new SWFObject("/static/open-flash-chart.swf", 'swf_' + this.element.id, dim.w, dim.h, "9", "#FFFFFF");
+
         so.addVariable("variables","true");
         
         so.addVariable('title', data.title + ',{font-size: 20}');
         so.addVariable('y_legend', data.y_legend +',12,#000000');
         
         so.addVariable("y_label_size","15");
+        
+        //TODO: auto detact min/max and steps
         so.addVariable("y_max", data.y_max || 20);
         so.addVariable("y_min", data.y_min || 0);
         so.addVariable("y_ticks", '5,20,' + (data.y_steps||2));
@@ -111,9 +113,8 @@ PieChart.prototype = {
         var so = new SWFObject("/static/open-flash-chart.swf", this.element.id + '_chart', dim.w, dim.h, "9", "#FFFFFF");
         
         so.addVariable("variables","true");
-        
         so.addVariable('title', data.title + ',{font-size: 20}');
-        
+
         var values = [];
         var labels = [];
         var links = [];
