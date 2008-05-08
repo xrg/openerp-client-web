@@ -283,7 +283,7 @@ class GraphData(object):
         ctx =  rpc.session.context.copy()
         if kind == 'pie':
             total = 0
-            result['title'] = ''
+            
             dataset = result.setdefault('dataset', [])
             
             value = values.values()[0]
@@ -309,8 +309,7 @@ class GraphData(object):
                 dataset.append({'legend': [x], 'value': val[i], 'link': url[i]})
             
         elif kind == 'bar':
-            
-            result['title'] = ''
+
             dataset = result.setdefault('dataset', [])
                         
             temp_lbl = []

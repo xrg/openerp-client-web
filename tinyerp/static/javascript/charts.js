@@ -101,7 +101,7 @@ BarChart.prototype = {
 
         so.addVariable("variables","true");
         
-        so.addVariable('title', data.title + ',{font-size: 18}');
+        //so.addVariable('title', data.title + ',{font-size: 18}');
         so.addVariable('y_legend', data.y_legend +',12,#000000');
         
         so.addVariable("y_label_size","15");
@@ -173,7 +173,7 @@ PieChart.prototype = {
         var so = new SWFObject("/static/open-flash-chart.swf", this.element.id + '_chart', dim.w, dim.h, "9", "#FFFFFF");
         
         so.addVariable("variables","true");
-        so.addVariable('title', data.title + ',{font-size: 18}');
+        //so.addVariable('title', data.title + ',{font-size: 18}');
 
         var values = [];
         var labels = [];
