@@ -292,10 +292,13 @@ class GraphData(object):
             
             val = []
             url = []
+
+            
             for dom in domain:
-                dom = urllib.quote_plus(str(dom))
-                url1 = "/search/new?domain=%s&model=%s&context=%s" % (dom, self.model, ctx)
-                url.append(urllib.quote_plus(url1))
+                u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
+                           _terp_domain=dom, _terp_model=self.model, _terp_context=ustr(ctx))
+                
+                url.append(urllib.quote_plus(u))
                 
             for j in value:
                 val.append(round((j*100)/total))
@@ -325,10 +328,11 @@ class GraphData(object):
             
             for i, x in enumerate(axis[1:]):
                 for dom in domain:          
-                    dom = urllib.quote_plus(str(dom))
                     
-                    url1 = "/search/new?domain=%s&model=%s&context=%s" % (dom, self.model, ctx)
-                    url.append(urllib.quote_plus(url1))
+                    u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
+                           _terp_domain=dom, _terp_model=self.model, _terp_context=ustr(ctx))
+                
+                    url.append(urllib.quote_plus(u))
                 urls += [[url]]
                 
             for i, x in enumerate(axis[1:]):
