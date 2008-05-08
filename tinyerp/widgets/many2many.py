@@ -65,16 +65,18 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {}) or {}
 
-        self.views = attrs.get('views', {})
+        self.view = attrs.get('views', {})
         self.domain  = attrs.get('domain',{})
         self.ids = attrs.get('value') or []
-
-        if not self.views:
+        
+        if not self.view:
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
-            self.views = cache.fields_view_get(self.relation, {}, 'tree', ctx, False)
+            self.view = cache.fields_view_get(self.relation, {}, 'tree', ctx, False)
+        else:
+            self.view = self.view['tree']
 
-        self.list_view = List(self.name, self.relation, self.views.get('tree', {}), ids=self.ids, domain=self.domain, context=self.context, selectable=(self.editable or 0) and 2, pageable=False)
+        self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, context=self.context, selectable=(self.editable or 0) and 2, pageable=False)
         self.list_view.show_links = -1
 
         self.validator = tiny_validators.many2many()
