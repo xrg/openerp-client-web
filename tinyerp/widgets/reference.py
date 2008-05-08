@@ -42,7 +42,7 @@ import many2one
 class Reference(TinyField):
 
     template = "tinyerp.widgets.templates.reference"
-    params = ['options','domain','context', "text", "ref"]
+    params = ['options','domain','context', "text", "relation"]
 
     options = []
 
@@ -55,9 +55,9 @@ class Reference(TinyField):
 
     def set_value(self, value):
         if value:
-            self.ref, self.default = value.split(",")
-            self.text = many2one.get_name(self.ref, self.default)
+            self.relation, self.default = value.split(",")
+            self.text = many2one.get_name(self.relation, self.default)
         else:
-            self.ref = ''
+            self.relation = ''
             self.default = ''
             self.text = ''

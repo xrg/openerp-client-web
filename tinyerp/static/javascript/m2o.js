@@ -36,6 +36,7 @@ var ManyToOne = function(name){
     this.text =    $(name + '_text');
 
     this.select_img = $(name + '_select');
+    this.reference = $(name + '_reference'); // reference widget
 
     this.callback = getNodeAttribute(this.field, 'callback');
     this.relation = getNodeAttribute(this.field, 'relation');
@@ -46,6 +47,10 @@ var ManyToOne = function(name){
     connect(this.text, 'onkeypress', this, this.on_keypress);
 
     connect(this.select_img, 'onclick', this, this.select);
+    
+    if (this.reference) {
+        connect(this.reference, 'onchange', this, this.on_reference_changed);
+    }
 
     this.change_icon();
 }
@@ -115,6 +120,19 @@ ManyToOne.prototype.on_change_text = function(evt){
     }
 }
 
+ManyToOne.prototype.on_reference_changed = function(evt) {
+    
+    this.text.value = '';
+    this.field.value = '';
+    
+    this.relation = this.reference.value;
+    
+    MochiKit.DOM.setNodeAttribute(this.field, 'relation', this.relation);
+    MochiKit.DOM.setNodeAttribute(this.text, 'relation', this.relation);
+    
+    this.change_icon();
+}
+
 ManyToOne.prototype.change_icon = function(evt){
     this.select_img.src = '/static/images/stock/gtk-' + (this.field.value ? 'open' : 'find') + '.png';
 }
@@ -160,6 +178,10 @@ ManyToOne.prototype.get_matched = function(){
     
     if (Ajax.COUNT > 0) {
         return callLater(1, this.get_matched);
+    }
+    
+    if (!this.relation) {
+        return;
     }
 
     var m2o = this;
