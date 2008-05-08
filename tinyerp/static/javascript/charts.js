@@ -134,6 +134,9 @@ BarChart.prototype = {
         
         //so.addVariable("x_axis_colour", "#909090");
         //so.addVariable("y_axis_colour", "#909090");
+        
+        so.addVariable("x_grid_colour", "#E0E0E0")
+        so.addVariable("y_grid_colour", "#E0E0E0")
         so.addVariable("bg_colour", "#FFFFFF");
         
         so.addParam("allowScriptAccess", "always" )
