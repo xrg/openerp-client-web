@@ -296,7 +296,7 @@ class GraphData(object):
             
             for dom in domain:
                 u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
-                           _terp_domain=dom, _terp_model=self.model, _terp_context=ustr(ctx))
+                           _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
                 
                 url.append(urllib.quote_plus(u))
                 
@@ -330,7 +330,7 @@ class GraphData(object):
                 for dom in domain:          
                     
                     u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
-                           _terp_domain=dom, _terp_model=self.model, _terp_context=ustr(ctx))
+                           _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
                 
                     url.append(urllib.quote_plus(u))
                 urls += [[url]]
