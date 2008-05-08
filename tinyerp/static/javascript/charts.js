@@ -114,7 +114,10 @@ BarChart.prototype = {
             
             so.addVariable(i == 0 ? 'bar_3d' : 'bar_3d_' + (i+1), '80,' + colors[i] + ',' + d.legend + ',' + 12);
             so.addVariable(i == 0 ? 'values' : 'values_' + (i+1), d.values.join(','));
-            
+            try {
+            so.addVariable(i == 0 ? 'links' : 'links_' + (i+1), d.links.join(','));
+            } catch(e) {}
+
             allvalues = allvalues.concat(d.values);
         }
         
@@ -131,12 +134,11 @@ BarChart.prototype = {
         
         //so.addVariable("x_axis_colour", "#909090");
         //so.addVariable("y_axis_colour", "#909090");
-        //so.addVariable("bg_colour", "#FFFFFF");
+        so.addVariable("bg_colour", "#FFFFFF");
         
         so.addParam("allowScriptAccess", "always" )
         
         so.write(this.element.id);
-        log(11111);
     }
 }
 
@@ -187,6 +189,7 @@ PieChart.prototype = {
         so.addVariable("values", values.join(','));
         so.addVariable("colours", colors.join(','));
         so.addVariable("links", links.join(','));
+        so.addVariable("bg_colour", "#FFFFFF");
         
         so.addParam("allowScriptAccess", "always" )
         so.write(this.element.id);        

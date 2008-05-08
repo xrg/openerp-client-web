@@ -220,8 +220,8 @@ class GraphData(object):
         keys = {}
         data_axis = {}
         label = {}
-        temp_dom = {}
         
+        temp_dom = []        
         label_x = []
         total_ids = []
         domain = []
@@ -230,9 +230,9 @@ class GraphData(object):
             
             for val in datas:
                 key_ids = {}
-                  
                 key_ids['id'] = val.get('id')
                 key_ids['rec_id'] = val.get('rec_id')
+                key_ids['prod_id'] = val[axis[0]]
                 
                 lbl = val[axis[0]]
                 key = urllib.quote_plus(val[axis[0]])
@@ -248,47 +248,42 @@ class GraphData(object):
                     info[field] = val[field]
                     
                 total_ids += [key_ids]
-            
-            for i in total_ids:
-                dm = i.get('id')                
-                temp_dom[dm] = 1
                 
         keys = keys.keys()
         keys.sort()
-        
+
         label = label.keys()
         label.sort()
         
-        temp_dom = temp_dom.keys()
-        temp_dom.sort()
-        
-        for field in axis[1:]:
-            for d in temp_dom:
-                for val in datas:
-                    rec = val.get('rec_id')
-                
-                domain += [(axis[0], '=', d), ('id', 'in', rec)]
-                
-        dom = []
-        
-        for d in domain:
-            dom.append(urllib.quote_plus(str(d)))
-            
         for l in label:
+            x = 0
+            for i in total_ids:
+                if i.get('prod_id') == l and x == 0:
+                    dd = i.get('id')
+                    x += 1            
+                    temp_dom.append(dd)
+                    
             if(len(l) > 10):
                 label_x.append(l.split('/')[-1])
             else:
                 label_x.append(l)
-                
+        main_domain = []
+        
+        for d in temp_dom:
+            for val in datas:
+                rec = val.get('rec_id')
+            
+            domain += [[(axis[0], '=', d), ('id', 'in', rec)]]
+            
         values = {}
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
     
         result = {}
-        
-        if kind == 'pie':     
+        ctx =  rpc.session.context.copy()
+        if kind == 'pie':
             total = 0
-            result['title'] = self.string
+            result['title'] = ''
             dataset = result.setdefault('dataset', [])
             
             value = values.values()[0]
@@ -296,18 +291,23 @@ class GraphData(object):
                 total = total+v
             
             val = []
-            
+            url = []
+            for dom in domain:
+                dom = urllib.quote_plus(str(dom))
+                url1 = "/search/new?domain=%s&model=%s&context=%s" % (dom, self.model, ctx)
+                url.append(urllib.quote_plus(url1))
+                
             for j in value:
                 val.append(round((j*100)/total))
             
             legend = [axis_data[x]['string'] for x in axis[1:]]
             
             for i, x in enumerate(label_x):
-                dataset.append({'legend': [x], 'value': val[i]})
+                dataset.append({'legend': [x], 'value': val[i], 'link': url[i]})
             
         elif kind == 'bar':
             
-            result['title'] = self.string
+            result['title'] = ''
             dataset = result.setdefault('dataset', [])
                         
             temp_lbl = []
@@ -319,10 +319,20 @@ class GraphData(object):
                             
             result['x_labels'] = temp_lbl
             result['y_legend'] = ''
+                        
+            urls = []
+            url = []            
             
             for i, x in enumerate(axis[1:]):
-                data = values[x]
+                for dom in domain:          
+                    dom = urllib.quote_plus(str(dom))
+                    
+                    url1 = "/search/new?domain=%s&model=%s&context=%s" % (dom, self.model, ctx)
+                    url.append(urllib.quote_plus(url1))
+                urls += [[url]]
                 
-                dataset.append({'legend': legend[i], 'values': data})
+            for i, x in enumerate(axis[1:]):
+                data = values[x]
+                dataset.append({'legend': legend[i], 'values': data, 'links': urls[i]})
         
         return result  
