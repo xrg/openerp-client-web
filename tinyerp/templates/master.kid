@@ -35,7 +35,6 @@
     <script type="text/javascript" src="/static/javascript/master.js"></script>
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
-    <script type="text/javascript" src="/static/javascript/swfobject.js"></script>
 </head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
@@ -51,14 +50,14 @@ requests, requests_message = tg.root.requests.my()
             <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td rowspan="2">
-                        <img src="/static/images/tinyerp_big.png" alt="${_('Tiny ERP Logo')}" border="0" width="205px" height="58px" py:replace="XML(tg.root.get_logo())"/>
+                        <img src="/static/images/openerp_big.png" alt="${_('Open ERP')}" border="0" width="250px" height="60px" py:replace="XML(tg.root.get_logo())"/>
                     </td>
                     <td align="right" valign="top" nowrap="nowrap" height="24">
                         <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td>
-                                    <a href="http://tinyerp.com" target="_blank" title="Tiny ERP - Open Source Management Solution" style="padding: 0px;">
-                                        <img src="/static/images/tinyerp_small.png" border="0" width="84" height="24"/></a>
+                                    <a href="http://openerp.com" target="_blank" title="Open ERP - Open Source Management Solution" style="padding: 0px;">
+                                        <img src="/static/images/openerp_small.png" border="0" width="96" height="24"/></a>
                                 </td>
                                 <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
                                     <div style="width: 26px;"/>

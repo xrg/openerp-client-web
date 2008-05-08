@@ -150,11 +150,7 @@ class Root(controllers.RootController, TinyResource):
         
         comp_url = config.get('company_url', path='etiny') or None
         
-        res="""<img src="/static/images/tinyerp_big.png" alt="${_('Tiny ERP Logo')}" border="0" width="205px" height="58px" usemap="#logo_map"/>
-                    <map name="logo_map">
-                        <area shape="rect" coords="90,39,124,54" href="http://tinyerp.com" target="_blank"/>
-                        <area shape="rect" coords="131,38,172,54" href="http://axelor.com" target="_blank"/>
-                    </map>"""
+        res="""<img src="/static/images/openerp_big.png" alt="${_('Open ERP')}" border="0" width="250px" height="60px"/>"""
                     
         if os.path.exists(pkg_resources.resource_filename("tinyerp", "static/images/company_logo.png")):
             if comp_url:
