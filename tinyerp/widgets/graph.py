@@ -267,12 +267,10 @@ class GraphData(object):
                 label_x.append(l.split('/')[-1])
             else:
                 label_x.append(l)
-        main_domain = []
         
         for d in temp_dom:
             for val in datas:
-                rec = val.get('rec_id')
-            
+                rec = val.get('rec_id')            
             domain += [[(axis[0], '=', d), ('id', 'in', rec)]]
             
         values = {}
@@ -281,18 +279,18 @@ class GraphData(object):
     
         result = {}
         ctx =  rpc.session.context.copy()
+        
         if kind == 'pie':
             total = 0
             
-            dataset = result.setdefault('dataset', [])
-            
+            dataset = result.setdefault('dataset', [])            
             value = values.values()[0]
+            
             for v in value:
                 total = total+v
             
             val = []
             url = []
-
             
             for dom in domain:
                 u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
@@ -308,12 +306,10 @@ class GraphData(object):
             for i, x in enumerate(label_x):
                 dataset.append({'legend': [x], 'value': val[i], 'link': url[i]})
             
-        elif kind == 'bar':
-
-            dataset = result.setdefault('dataset', [])
+        elif kind == 'bar':           
                         
             temp_lbl = []
-            
+            dataset = result.setdefault('dataset', [])
             legend = [axis_data[x]['string'] for x in axis[1:]]
             
             for i in label_x:
@@ -326,8 +322,7 @@ class GraphData(object):
             url = []            
             
             for i, x in enumerate(axis[1:]):
-                for dom in domain:          
-                    
+                for dom in domain:                    
                     u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
                            _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
                 
