@@ -205,7 +205,7 @@ class Screen(TinyCompoundWidget):
                 except:
                     pass
 
-                actions = [dict(string=a[1], **a[-1]) for a in res]
+                actions = [a[-1] for a in res]
                 actions = [a for a in actions if self.view_type == 'tree' or not a.get('multi')]
                 if actions:
                     toolbar['action'] = actions
@@ -217,7 +217,7 @@ class Screen(TinyCompoundWidget):
                 except:
                     pass
 
-                actions = [dict(string=a[1], **a[-1]) for a in res]
+                actions = [a[-1] for a in res]
                 actions = [a for a in actions if self.view_type == 'tree' or not a.get('multi')]
                 if actions:
                     toolbar['print'] = actions
