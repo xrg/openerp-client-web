@@ -80,7 +80,10 @@ class Float(tg.validators.Number):
         return format.format_decimal(value or 0.0, self.digit)
 
     def _to_python(self, value, state):
-        value = format.parse_decimal(value)
+        try:
+            value = format.parse_decimal(value)
+        except ValueError:
+            pass
         return tg.validators.validators.Number.to_python(value, state)
 
 class FloatTime(Float):
