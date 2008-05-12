@@ -154,6 +154,19 @@ class Frame(TinyCompoundWidget):
         self.x = 0
         self.y += 1
 
+    def _add_validator(self, widget):
+
+        if not isinstance(widget, TinyInputWidget) or not widget.name or widget.readonly:
+            return
+
+        if isinstance(widget, TinyCompoundWidget) and not widget.validator:
+            for w in widget.iter_member_widgets():
+                self._add_validator(w)
+
+        elif widget.validator:
+            cherrypy.request.terp_validators[str(widget.name)] = widget.validator
+            cherrypy.request.terp_fields += [widget]
+
     def add(self, widget, label=None, rowspan=1, colspan=1):
 
         if colspan > self.columns:
@@ -175,9 +188,8 @@ class Frame(TinyCompoundWidget):
             td = [attrs, label]
             tr.append(td)
 
-        if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators') and widget.name and widget.validator and not widget.readonly:
-            cherrypy.request.terp_validators[str(widget.name)] = widget.validator
-            cherrypy.request.terp_fields += [widget]
+        if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
+            self._add_validator(widget)
 
         attrs = {'class': 'item'}
         if rowspan > 1: attrs['rowspan'] = rowspan
