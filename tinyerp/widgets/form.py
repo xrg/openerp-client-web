@@ -364,7 +364,17 @@ class Selection(TinyField):
 
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)
-        self.options = attrs.get('selection', [])
+        
+        # o2m as selection
+        if attrs.get('relation') and attrs.get('widget') == 'selection':
+            proxy = rpc.RPCProxy(attrs['relation'])
+            try:
+                ids = proxy.search(attrs.get('domain') or [])
+                self.options = proxy.name_get(ids)
+            except:
+                self.options = []
+        else:
+            self.options = attrs.get('selection', [])
 
         # determine the actual type
         if self.options and isinstance(self.options[0][0], basestring):
@@ -374,6 +384,8 @@ class Selection(TinyField):
             self.validator = tiny_validators.Selection()
 
     def set_value(self, value):
+        if isinstance(value, (tuple, list)):
+            value = value[0]
         super(Selection, self).set_value(value)
 
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
