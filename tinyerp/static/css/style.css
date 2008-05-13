@@ -468,6 +468,17 @@ td.item .radio {
     color: #902D2D;
 }
 
+div .chart_resize {
+	background:#EEEEEE url(/static/images/textarea-grip.png) no-repeat scroll center 2px;
+	border-color:#DDDDDD;
+	border-style:solid;
+	border-width:0pt 1px 1px;
+	cursor:s-resize;
+	width: 99%; 
+	height:9px;
+	overflow:hidden;	
+}
+
 /* ------------- End side bar ------- */
 
 /**

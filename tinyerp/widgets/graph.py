@@ -60,12 +60,16 @@ class Graph(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.graph"
 
-    javascript = [tg.widgets.JSLink("tinyerp", "javascript/swfobject.js"),
+    javascript = [tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/New.js'),
+                  tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/Visual.js'),
+                  tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/DragAndDrop.js'),
+                  tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/Resizable.js'),
+                  tg.widgets.JSLink("tinyerp", "javascript/swfobject.js"),
                   tg.widgets.JSLink("tinyerp", "javascript/charts.js")]
     
     params = ['chart_type', 'chart_name', 'model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
     
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width='100%', height='350px'):
+    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width='350px', height='350px'):
 
         self.model = model
         self.view_id = view_id

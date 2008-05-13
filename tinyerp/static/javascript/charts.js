@@ -97,7 +97,7 @@ BarChart.prototype = {
         var colors = ChartColors.slice(0, data.dataset.length);
         var dim = MochiKit.DOM.elementDimensions(this.element);
 
-        var so = new SWFObject("/static/open-flash-chart.swf", 'swf_' + this.element.id, dim.w, dim.h, "9", "#FFFFFF");
+        var so = new SWFObject("/static/open-flash-chart.swf", 'swf_' + this.element.id, '100%', '100%', "9", "#FFFFFF");
 
         so.addVariable("variables","true");
         
