@@ -538,6 +538,17 @@ class Group(TinyCompoundWidget):
         self.frame = Frame(attrs, children)
         self.nolabel = True
 
+class Dashbar(TinyCompoundWidget):
+    template = "tinyerp.widgets.templates.dashbar"
+    
+    member_widgets = ["children"]
+    frame = None
+    
+    def __init__(self, attrs, children):
+        TinyCompoundWidget.__init__(self, attrs)
+        
+        self.children = children
+
 class HPaned(TinyCompoundWidget):
 
     template = """
@@ -767,7 +778,7 @@ class Form(TinyCompoundWidget):
 
             elif node.localName in ('child1', 'child2'):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Frame(attrs, n)]
+                views += [Dashbar(attrs, n)]
 
             elif node.localName=='action':
                 views += [Action(attrs)]

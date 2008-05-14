@@ -325,6 +325,10 @@ div.welcome {
     white-space: nowrap;
 }
 
+div .dashlet {
+	margin: 4px;	
+}
+
 .view .toolbar button {
     width: auto;
     margin: 0 1px;
