@@ -93,6 +93,9 @@ class Graph(TinyCompoundWidget):
         self.chart_type = attrs.get('type', 'pie')
         self.chart_name = 'graph_%s' % (random.randint(0,10000)) 
 
+        if self.chart_type == 'pie':
+            self.width="100%"
+            
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain)
             

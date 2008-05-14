@@ -6,7 +6,7 @@
 			            
             <script type="text/javascript">
             
-            	if (getElement('_terp_model').value == '${model}') {
+            	if (getElement('_terp_model').value == '${model}' &amp;&amp; '${chart_type}'=='bar') {
             	 
             	 	var make_div = DIV({'id': 'make_resize', 'style': 'width: 100%; height: ${height};'});
             	    var graph_div = DIV({'class': 'graph', 'style': 'width: 100%; height: 99%;'});
