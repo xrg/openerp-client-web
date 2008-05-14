@@ -22,5 +22,5 @@
     <script type="text/javascript" py:if="editable">
         new ManyToOne('${name}');
     </script>    
-    <span py:if="not editable" py:content="'(%s) %s'%(dict(options).get(ref), text)"/>
+    <span py:if="not editable" py:content="'(%s) %s'%(dict(options).get(relation), text)"/>
 </span>
