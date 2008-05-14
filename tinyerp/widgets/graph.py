@@ -292,11 +292,7 @@ class GraphData(object):
             
             dataset = result.setdefault('dataset', [])            
             value = values.values()[0]
-            
-            for v in value:
-                total = total+v
-            
-            val = []
+           
             url = []
             
             for dom in domain:
@@ -304,14 +300,11 @@ class GraphData(object):
                            _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
                 
                 url.append(urllib.quote_plus(u))
-                
-            for j in value:
-                val.append(round((j*100)/total))
             
             legend = [axis_data[x]['string'] for x in axis[1:]]
             
             for i, x in enumerate(label_x):
-                dataset.append({'legend': [x], 'value': val[i], 'link': url[i]})
+                dataset.append({'legend': [x], 'value': value[i], 'link': url[i]})
             
         elif kind == 'bar':           
                         
