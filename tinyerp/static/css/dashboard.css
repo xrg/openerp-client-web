@@ -1,0 +1,13 @@
+div .dashlet {
+	margin: 4px;	
+}
+
+.dashlet .toolbar {
+	cursor: move;
+}
+
+.dashbar span.dashbar_spacer {
+	height: 1px;
+	display: block;
+	min-width: 250px;
+}

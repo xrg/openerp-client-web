@@ -539,11 +539,17 @@ class Group(TinyCompoundWidget):
         self.nolabel = True
 
 class Dashbar(TinyCompoundWidget):
-    template = "tinyerp.widgets.templates.dashbar"
+    
+    template = """
+        <div xmlns:py="http://purl.org/kid/ns#" class="dashlet" py:for="child in children" 
+            py:content="child.display(value_for(child), **params_for(child))"/>
+        """
     
     member_widgets = ["children"]
-    frame = None
     
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/dashboard.js")]
+    css = [tg.widgets.CSSLink('tinyerp', 'css/dashboard.css')]
+        
     def __init__(self, attrs, children):
         TinyCompoundWidget.__init__(self, attrs)
         
@@ -553,9 +559,9 @@ class HPaned(TinyCompoundWidget):
 
     template = """
         <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-            <table width="100%" class="hpaned">
+            <table width="100%" class="hpaned dashboard">
                 <tr>
-                    <td valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
+                    <td class="dashbar" valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
                 </tr>
             </table>
         </span>
