@@ -283,7 +283,7 @@ class GraphData(object):
             
             for val in datas:
                 rec = val.get('rec_id')            
-            domain += [[(axis[0], '=', str(d)), ('id', 'in', rec)]]
+            domain += [[(axis[0], '=', d), ('id', 'in', rec)]]
             
         values = {}
         for field in axis[1:]:
