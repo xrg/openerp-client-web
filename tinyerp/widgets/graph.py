@@ -161,7 +161,11 @@ class GraphData(object):
                 else:
                     res[x] = float(value[x])
             
-            res['id'] = value[axis[0]][0]
+            if isinstance(value[axis[0]], (tuple, list)):
+                res['id'] = value[axis[0]][0]
+            else:
+                res['id'] = value[axis[0]]
+                
             res['rec_id'] = rec_ids
             
             self.values.append(res)
@@ -276,9 +280,10 @@ class GraphData(object):
                 label_x.append(l)
         
         for d in temp_dom:
+            
             for val in datas:
                 rec = val.get('rec_id')            
-            domain += [[(axis[0], '=', d), ('id', 'in', rec)]]
+            domain += [[(axis[0], '=', str(d)), ('id', 'in', rec)]]
             
         values = {}
         for field in axis[1:]:
