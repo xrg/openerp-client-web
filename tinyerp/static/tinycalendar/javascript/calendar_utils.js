@@ -38,8 +38,9 @@ var Browser = {
     // Is Internet Explorer 7?
     isIE7 : /msie 7/.test(navigator.userAgent.toLowerCase()),
 
-    // Is Mozilla derived?
-    isMozilla : /mozilla/.test(navigator.userAgent.toLowerCase()),
+    // Is Gecko(Mozilla) derived?
+    isGecko : /gecko/.test(navigator.userAgent.toLowerCase()),
+    isGecko19 : /rv:1.9.*gecko/.test(navigator.userAgent.toLowerCase()),
 
     // Is Apple WebKit derived?
     isWebKit : /webkit/.test(navigator.userAgent.toLowerCase()),

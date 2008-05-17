@@ -673,7 +673,7 @@ WeekCalendar.DayGrid.prototype = {
         x = this.containers[x].index * this.calendar.colWidth + 2;
         var y = evt.mouse().page.y - elementPosition(target).y;
 
-        if (Browser.isIE){
+        if (Browser.isIE || Browser.isGecko19){
             y -= $('calBodySect').scrollTop;
         }
 
