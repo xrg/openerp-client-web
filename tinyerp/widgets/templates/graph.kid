@@ -25,10 +25,10 @@
 	        		});
 	        		
 	        		connect(MochiKit.DragAndDrop.Resizables, 'onStart', function(evt) {
-	        				hideElement('swf_'+'${chart_name}');
+	        				MochiKit.DOM.hideElement('swf_'+'${chart_name}');
 	        		});
 	        		connect(MochiKit.DragAndDrop.Resizables, 'onEnd', function(evt){
-	        				showElement('swf_'+'${chart_name}');
+	        				MochiKit.DOM.showElement('swf_'+'${chart_name}');
 	        		});
 				}
         		

@@ -34,7 +34,7 @@ function dashboard() {
 	var dbar = getElementsByTagAndClassName('table', 'dashboard')[0];
 	
 	forEach(getElementsByTagAndClassName('div', 'dashlet', dbar), function(div){
-		new Draggable(div, {handle: 'toolbar', starteffect: null, endeffect: null});
+		new Draggable(div, {handle: 'toolbar', starteffect: null, endeffect: null, revert: true});
 		
 		if (MochiKit.Base.findIdentical(tds, div.parentNode) == -1) {
 			tds.push(div.parentNode);
@@ -69,6 +69,19 @@ function dashboard() {
 		src.style.left = 'auto';
 		src.style.width = '100%';
 	}
+	
+	connect(MochiKit.DragAndDrop.Draggables, 'onStart', function(evt) {
+	        var embed = getElementsByTagAndClassName('embed');
+	        MochiKit.Iter.forEach(embed, function(e){
+	        	MochiKit.DOM.hideElement(e);
+	        });
+	});
+	connect(MochiKit.DragAndDrop.Draggables, 'onEnd', function(evt){
+			var embed = getElementsByTagAndClassName('embed');
+	        MochiKit.Iter.forEach(embed, function(e){
+	        	MochiKit.DOM.showElement(e);
+	        });
+	});
 }
 
 MochiKit.DOM.addLoadEvent(dashboard);
