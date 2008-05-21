@@ -61,7 +61,7 @@ MonthCalendar.prototype = {
                 className: e.className,
                 bg : e.style.backgroundColor,
                 clr: e.style.color,
-                text: e.innerHTML
+                text: MochiKit.DOM.scrapeText(e)
             };
 
             MochiKit.DOM.removeElement(e);
@@ -266,7 +266,7 @@ MonthCalendar.Header.prototype = {
         var self = this;
         var days = getElementsByTagAndClassName('div', null, 'calHeaderSect');
         forEach(days, function(day){
-            var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, day.innerHTML);
+            var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, MochiKit.DOM.scrapeText(day));
             self.elements = self.elements.concat(div);
             MochiKit.DOM.swapDOM(day, div);
         });
@@ -558,7 +558,7 @@ MonthCalendar.Event.prototype = {
                 dtStart : this.starts2,
                 dtEnd : this.ends,
                 nRecordID: this.record_id,
-                title: this.element.innerHTML,
+                title: MochiKit.DOM.scrapeText(this.element),
                 description: this.description
             }).show(evt);
         }

@@ -133,7 +133,7 @@ WeekCalendar.Header.prototype = {
 
             var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'},
                             A({'href': 'javascript: void(0)',
-                               'onclick': "getCalendar('/calendar/get/" + getNodeAttribute(day, 'dtDay') + "'); return false;"}, day.innerHTML));
+                               'onclick': "getCalendar('/calendar/get/" + getNodeAttribute(day, 'dtDay') + "'); return false;"}, MochiKit.DOM.scrapeText(day)));
 
             self.elements = self.elements.concat(div);
             self.calendar.colDays = self.calendar.colDays.concat(getNodeAttribute(day, 'dtDay'));
@@ -197,7 +197,7 @@ WeekCalendar.AllDayGrid.prototype = {
                 className: e.className,
                 bg : e.style.backgroundColor,
                 clr: e.style.color,
-                text: e.innerHTML
+                text: MochiKit.DOM.scrapeText(e)
             };
 
             MochiKit.DOM.removeElement(e);
@@ -644,7 +644,7 @@ WeekCalendar.DayGrid.prototype = {
     
             // update the event title        
             var title = getElementsByTagAndClassName('div', 'calEventTitle', draggable)[0];
-            var t = strip(title.innerHTML);
+            var t = strip(MochiKit.DOM.scrapeText(title));
             
             t = t.split(' - '); t.shift();
             t = t.join(' - ');
@@ -850,7 +850,7 @@ WeekCalendar.AllDayEvent.prototype = {
                 dtStart : this.starts2,
                 dtEnd : this.ends,
                 nRecordID: this.record_id,
-                title: this.element.innerHTML,
+                title: MochiKit.DOM.scrapeText(this.element),
                 description: this.description
             }).show(evt);
         }
@@ -905,7 +905,7 @@ WeekCalendar.DayEvent.prototype = {
         this.ends =  element.ends; //isoTimestamp(getNodeAttribute(element, 'dtEnd'));
 
         this.record_id = getNodeAttribute(element, 'nRecordID');
-        this.description = (getElementsByTagAndClassName('div', 'calEventDesc', element)[0]).innerHTML;
+        this.description = MochiKit.DOM.scrapeText(getElementsByTagAndClassName('div', 'calEventDesc', element)[0]);
 
         // set colors
         var color = Color.fromString(element.style.backgroundColor);
@@ -914,7 +914,7 @@ WeekCalendar.DayEvent.prototype = {
         element.style.borderColor = color.darkerColorWithLevel(0.2).toHexString();
         tl.style.backgroundColor = color.darkerColorWithLevel(0.2).toHexString();
 
-        this.title = tl.innerHTML;
+        this.title = MochiKit.DOM.scrapeText(tl);
 
         this.column = 0;        // in which column I'm placed
         this.expand = true;     // expand to entire container
