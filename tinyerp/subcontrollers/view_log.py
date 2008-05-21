@@ -61,6 +61,8 @@ class View_Log(controllers.Controller, TinyResource):
 
         res = rpc.session.execute('object', 'execute', model, 'perm_read', [id])
         tmp = {}
+        
+        print "XXXXXX", res
 
         for line in res:
             todo = [
@@ -74,10 +76,10 @@ class View_Log(controllers.Controller, TinyResource):
                 ('level', _('Access Level'))
             ]
             for (key,val) in todo:
-                if line[key] and key in ('create_uid','write_uid','uid'):
+                if line.get(key) and key in ('create_uid','write_uid','uid'):
                     line[key] = line[key][1]
 
-                tmp[key] = ustr(line[key] or '/')
+                tmp[key] = ustr(line.get(key) or '/')
 
         return dict(tmp=tmp, todo=todo, show_header_footer=False)
 

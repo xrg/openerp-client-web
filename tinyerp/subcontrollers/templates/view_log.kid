@@ -20,10 +20,10 @@
                 <div class="box2">
                     <table border="0" width="100%" align="center">
                         <tr py:for="key, val in todo">
-                            <td class="label" py:if="key in tmp">
+                            <td class="label" width="50%">
                                 ${val} :
                             </td>
-                            <td>
+                            <td width="50%">
                                 ${tmp[key]}
                             </td>
                         </tr>
