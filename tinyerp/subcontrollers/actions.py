@@ -166,7 +166,7 @@ def execute_report(name, **data):
         
         if name != 'custom':
             proxy = rpc.RPCProxy('ir.actions.report.xml')
-            res = proxy.search([('report_name','=', name),('report_type','=', report_type)])
+            res = proxy.search([('report_name','=', name)])
             if res:
                 report_name = proxy.read(res[0], ['name'])['name']
 
