@@ -45,7 +45,6 @@ class TreeGrid(TinyField):
 
     def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
         attrs = dict(name=name, model=model, url=url)
-
         super(TreeGrid, self).__init__(attrs)
         
         self.ids = ids
@@ -57,14 +56,26 @@ class TreeGrid(TinyField):
         icon_name = headers[0].get('icon')
         
         self.url = url
-        self.url_params = jsonify.encode(dict(model=model, 
-                                              ids=ids, 
-                                              fields=ustr(fields), 
-                                              domain=ustr(domain), 
-                                              context=ustr(context), 
-                                              field_parent=field_parent,
-                                              icon_name=icon_name))
-
+        self.url_params = dict(model=model, 
+                                ids=ids,
+                                fields=ustr(fields), 
+                                domain=ustr(domain), 
+                                context=ustr(context), 
+                                field_parent=field_parent,
+                                icon_name=icon_name)
+        
+        self.url_params.update(kw)
+        
+        def _jsonify(obj):
+            
+            for k, v in obj.items():
+                if isinstance(v, dict):
+                    obj[k] = _jsonify(v)
+            
+            return jsonify.encode(obj)
+                
+        self.url_params = _jsonify(self.url_params)
+        
         self.domain = domain
         self.context = context
         
