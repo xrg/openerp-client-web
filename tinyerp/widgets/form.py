@@ -234,7 +234,7 @@ class Separator(TinyField):
     def __init__(self, attrs={}):
         super(Separator, self).__init__(attrs)
 
-#        self.colspan = 4
+        self.colspan = int(attrs.get('colspan', 4))
         self.rowspan = 1
         self.nolabel = True
 
