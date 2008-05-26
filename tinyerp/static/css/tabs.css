@@ -9,10 +9,7 @@
     padding: 4px;
 }
 
-.tabberlive .tabbertab h2 {
-    display:none;
-}
-.tabberlive .tabbertab h3 {
+.tabberlive .tabbertab h3.tabbertabtitle {
     display:none;
 }
 
