@@ -111,4 +111,26 @@ function openWindow(anchor, options) {
 
 }
 
+// browser information
+window.browser = new Object;
+
+// Internet Explorer
+window.browser.isIE = /msie/.test(navigator.userAgent.toLowerCase());
+
+// Internet Explorer 6
+window.browser.isIE6 = /msie 6/.test(navigator.userAgent.toLowerCase());
+
+// Internet Explorer 7
+window.browser.isIE7 = /msie 7/.test(navigator.userAgent.toLowerCase());
+
+// Gecko(Mozilla) derived
+window.browser.isGecko = /gecko/.test(navigator.userAgent.toLowerCase());
+window.browser.isGecko19 = /rv:1.9.*gecko/.test(navigator.userAgent.toLowerCase());
+
+// Apple WebKit derived
+window.browser.isWebKit = /webkit/.test(navigator.userAgent.toLowerCase());
+
+// Opera
+window.browser.isOpera = /opera/.test(navigator.userAgent.toLowerCase());
+
 // vim: sts=4 st=4 et

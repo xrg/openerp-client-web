@@ -338,7 +338,12 @@ var onPreview = function() {
    var act = getURL('/viewed/preview/show', {'model' : getElement('view_model').value, 
                                              'view_id' : getElement('view_id').value,
                                              'view_type' : getElement('view_type').value});
-   window.open(act);
+   
+    if (window.browser.isGecko19) {
+        return openWindow(act);
+    } 
+    
+    window.open(act);
 }
 
 var onNew = function(model){                          
