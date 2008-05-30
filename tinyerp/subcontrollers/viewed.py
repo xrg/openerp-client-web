@@ -548,7 +548,7 @@ class ViewEd(controllers.Controller, TinyResource):
             
         data = dict(arch=doc.toxml(encoding="utf-8"))
         try:
-            res = proxy.write(view_id, data)
+            res = proxy.write([view_id], data)
         except:
             return dict(error=_("Unable to update the view."))
         
