@@ -397,10 +397,10 @@ class Form(controllers.Controller, TinyResource):
         raise redirect(self.path + '/view', **args)
 
     @expose(content_type='application/octet-stream')
-    def save_binary_data(self, **kw):
+    def save_binary_data(self, _fname='file.dat', **kw):
         params, data = TinyDict.split(kw)
         
-        cherrypy.response.headers['Content-Disposition'] = 'filename="file.dat"';
+        cherrypy.response.headers['Content-Disposition'] = 'filename="%s"' % _fname;
 
         if params.datas:
             form = params.datas['form']
