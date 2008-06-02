@@ -49,14 +49,14 @@ requests, requests_message = tg.root.requests.my()
             <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td rowspan="2">
-                        <img src="/static/images/openerp_big.png" alt="${_('Open ERP')}" border="0" width="250px" height="60px" py:replace="XML(tg.root.get_logo())"/>
+                        <img src="/static/images/openerp_big.png" alt="${_('Open ERP')}" border="0" width="200px" height="60px" py:replace="XML(tg.root.get_logo())"/>
                     </td>
                     <td align="right" valign="top" nowrap="nowrap" height="24">
                         <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                                 <td>
                                     <a href="http://openerp.com" target="_blank" title="Open ERP - Open Source Management Solution" style="padding: 0px;">
-                                        <img src="/static/images/openerp_small.png" border="0" width="96" height="24"/></a>
+                                        <img src="/static/images/openerp_small.png" border="0" width="86" height="24"/></a>
                                 </td>
                                 <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
                                     <div style="width: 26px;"/>
