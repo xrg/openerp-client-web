@@ -72,4 +72,4 @@
 
 0.0.1
 
-	* First Preview Release
+	* First Preview Release.
