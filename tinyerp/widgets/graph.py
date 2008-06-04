@@ -4,7 +4,7 @@
 #
 # $Id$
 #
-# Developed by Tiny (http://tinyerp.com) and Axelor (http://axelor.com).
+# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # WARNING: This program as such is intended to be used by professional
 # programmers who take the whole responsibility of assessing all potential

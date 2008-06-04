@@ -25,7 +25,7 @@ Tiny ERP is a trademark of the Tiny Company.
 Licenced under the <a target="_blank" href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
 </p>
 <p>
-<i>eTiny</i> is the official web client of <a target="_blank" href="http://tinyerp.com">Tiny ERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
+<i>eTiny</i> is the official web client of <a target="_blank" href="http://openerp.com">Tiny ERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
 </p>
 
 <p>
@@ -40,7 +40,7 @@ Licenced under the <a target="_blank" href="http://www.gnu.org/licenses/old-lice
         <tr>
             <td>
 <p>
-<a target="_blank" href="http://tinyerp.com">Tiny ERP</a> is a free enterprise-scale software system that is designed to boost
+<a target="_blank" href="http://openerp.com">Tiny ERP</a> is a free enterprise-scale software system that is designed to boost
 productivity and profit through data integration. It connects, improves and
 manages business processes in areas such as sales, finance, supply chain,
 project management, production, services, CRM, etc..
@@ -61,7 +61,7 @@ client.
         <tr>
             <td>
 <ul>
-    <li><a target="_blank" href="http://www.tinyerp.com/">Tiny ERP</a></li>
+    <li><a target="_blank" href="http://www.openerp.com/">Tiny ERP</a></li>
     <li><a target="_blank" href="http://www.axelor.com/">The Axelor Company</a></li>
     <li><a target="_blank" href="http://tiny.be/">The Tiny Company</a></li>
 </ul>
@@ -87,39 +87,39 @@ client.
                 </tr>
                 <tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com">Homepage</a>
+                        <a target="_blank" href="http://openerp.com">Homepage</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com/documentations.html">Documentation</a>
+                        <a target="_blank" href="http://openerp.com/documentations.html">Documentation</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com/forum">Forum</a>
+                        <a target="_blank" href="http://openerp.com/forum">Forum</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com/component/option,com_mtree/Itemid,111/">Modules</a>
+                        <a target="_blank" href="http://openerp.com/component/option,com_mtree/Itemid,111/">Modules</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com/component/option,com_joomlaxplorer/Itemid,132/">Download</a>
+                        <a target="_blank" href="http://openerp.com/component/option,com_joomlaxplorer/Itemid,132/">Download</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com/planet">Planet</a>
+                        <a target="_blank" href="http://openerp.com/planet">Planet</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://saas.tinyerp.com">SaaS Offers</a>
+                        <a target="_blank" href="http://saas.openerp.com">SaaS Offers</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com/training.html">Trainings</a>
+                        <a target="_blank" href="http://openerp.com/training.html">Trainings</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://tinyerp.com/services.html">Services</a>
+                        <a target="_blank" href="http://openerp.com/services.html">Services</a>
                     </td>
                 </tr>
             </table>

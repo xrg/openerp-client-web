@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd. (http://tinyerp.com) All Rights Reserved.
+# Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd. (http://openerp.com) All Rights Reserved.
 #
 # $Id$
 #
@@ -35,10 +35,10 @@ version = "1.1b1"
 description = "Web Client of Tiny ERP, the Enterprise Management Software"
 long_description = "eTiny is the web client of the Tiny ERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
 author = "Tiny ERP Pvt. Ltd."
-email = "info@tinyerp.com"
+email = "info@openerp.com"
 copyright = "Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd."
 
 # if it's open source, you might want to specify these
-url = "http://tinyerp.com/"
-download_url = "http://tinyerp.com/download"
+url = "http://openerp.com/"
+download_url = "http://openerp.com/download"
 license = "GPL"

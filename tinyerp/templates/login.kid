@@ -61,7 +61,7 @@
             <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" usemap="#devby_map"/>
             <map name="devby_map">
                 <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
-                <area shape="rect" coords="120,20,200,60" href="http://tinyerp.com" target="_blank"/>
+                <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
             </map>
         </center>
     </div>

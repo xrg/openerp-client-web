@@ -75,7 +75,7 @@ eTiny 1.0:
     
 or 
     
-    $ easy_install-2.4 http://tinyerp.com/download/stable/source/eTiny-1.0.tar.gz
+    $ easy_install-2.4 http://openerp.com/download/stable/source/eTiny-1.0.tar.gz
 
 Configuration:
 
@@ -182,7 +182,7 @@ eTiny:
     
 or
 
-    > easy_install-2.4 http://tinyerp.com/download/stable/source/eTiny-1.0.tar.gz
+    > easy_install-2.4 http://openerp.com/download/stable/source/eTiny-1.0.tar.gz
 
 Configuration:
 
@@ -273,9 +273,9 @@ Notes:
 
     To overcome with the issue you can go with `subdomain`, like:
 
-        https://tinyerp.example.com
+        https://openerp.example.com
 
-    See: http://tinyerp.org/wiki/index.php/InstallationManual/WebClientHTTPS
+    See: http://openerp.org/wiki/index.php/InstallationManual/WebClientHTTPS
 
 -------------------------------------------------------------------------------
 6. WEB BROWSER COMPATIBILITIES
@@ -294,7 +294,7 @@ Here is the list of supported browsers.
 7. SUPPORT
 -------------------------------------------------------------------------------
 
-    1. http://tinyerp.com
+    1. http://openerp.com
     2. http://axelor.com
 
 -------------------------------------------------------------------------------

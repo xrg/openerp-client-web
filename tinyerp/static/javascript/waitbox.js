@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (c) 2007 TinyERP Pvt Ltd. (http://tinyerp.com) All Rights Reserved.
+// Copyright (c) 2007 TinyERP Pvt Ltd. (http://openerp.com) All Rights Reserved.
 //
 // $Id: calendar_box.js 1598 2008-01-31 05:02:08Z ame $
 //

@@ -70,7 +70,7 @@
                                         <img class="button" title="${_('View Log.')}" src="/static/images/log.png" width="16" height="16" onclick="openWindow('${tg.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16">
-                                        <a target="new" href="${tg.query('http://tinyerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
+                                        <a target="new" href="${tg.query('http://openerp.org/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
                                     </td>
                                 </tr>
                             </table>
