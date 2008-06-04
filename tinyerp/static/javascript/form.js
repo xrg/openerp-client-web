@@ -137,6 +137,10 @@ var switchView = function(view_type, src){
     submit_form(get_form_action('switch', params));
 }
 
+var switchO2M = function(view_type, src){
+	
+}
+
 var submit_form = function(action, src, data){
 
     if (Ajax.COUNT > 0) {
@@ -729,10 +733,6 @@ function open_url(site){
     if(site.length > 0) {        
         window.open(web_site);
     }
-}
-
-function test_link(model) {
-	new ManyToOne(model);
 }
 
 // vim: sts=4 st=4 et
