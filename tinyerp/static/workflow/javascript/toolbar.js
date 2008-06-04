@@ -21,15 +21,12 @@ openerp.workflow.Toolbar.implement({
 
         this.tool1 = new openerp.workflow.ToolShowGrid(this);
         this.tool2 = new openerp.workflow.ToolCreateState(this);
-		this.tool3 = new openerp.workflow.ToolCreateSubwkf(this);
 			
         this.tool1.setPosition(13, 10);
         this.tool2.setPosition(13, 40);
-        this.tool3.setPosition(13, 70);
         
         this.addChild(this.tool1);
         this.addChild(this.tool2);
-        this.addChild(this.tool3);
 
         this.setDimension(30, 300);
     },

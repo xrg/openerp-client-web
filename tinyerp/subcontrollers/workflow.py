@@ -57,7 +57,7 @@ rpc.session = rpc.RPCSession('localhost', '8070', 'socket', storage=cherrypy.ses
 
 class State(Form):
     
-    path = 'workflow/state'    # mapping from root
+    path = '/workflow/state'    # mapping from root
     
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")
     def create(self, params, tg_errors=None):  
@@ -65,7 +65,7 @@ class State(Form):
         params.path = self.path
         params.function = 'create_activity'
         
-        if params.id and cherrypy.request.path == '/state/view':
+        if params.id and cherrypy.request.path == self.path + '/view':
             params.load_counter = 2
         
         form = self.create_form(params, tg_errors)  
@@ -79,7 +79,6 @@ class State(Form):
                 
         return dict(form=form, params=params, show_header_footer=False)
 
-    
     @expose()    
     def edit(self, **kw):
         
@@ -138,7 +137,7 @@ class State(Form):
 
 class Connector(Form):
     
-    path = 'workflow/connector'    # mapping from root
+    path = '/workflow/connector'    # mapping from root
     
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")
     def create(self, params, tg_errors=None):
@@ -146,7 +145,7 @@ class Connector(Form):
         params.path = self.path
         params.function = 'create_transition'
         
-        if params.id and cherrypy.request.path == '/connector/view':
+        if params.id and cherrypy.request.path == self.path + '/view':
             params.load_counter = 2
             
         form = self.create_form(params, tg_errors)
