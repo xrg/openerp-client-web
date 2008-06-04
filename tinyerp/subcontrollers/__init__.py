@@ -22,3 +22,4 @@ import image
 import admin
 import viewed
 import viewlist
+import workflow

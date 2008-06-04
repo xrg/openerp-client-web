@@ -207,3 +207,4 @@ class Root(controllers.RootController, TinyResource):
     admin = subcontrollers.admin.Admin()
     viewed = subcontrollers.viewed.ViewEd()
     viewlist = subcontrollers.viewlist.ViewList()
+    workflow = subcontrollers.workflow.Workflow()
