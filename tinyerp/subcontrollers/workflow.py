@@ -237,11 +237,6 @@ class Connector(Form):
         proxy_tr = rpc.RPCProxy('workflow.transition')
         id = proxy_tr.write([int(kw['id'])], {kw['field']:int(kw['value'])}, rpc.session.context)
         return dict()
-        
-        
-    
-
-        
 
 
 class Workflow(Form):
@@ -249,16 +244,16 @@ class Workflow(Form):
     path = '/workflow'
     
     @expose(template="tinyerp.subcontrollers.templates.workflow")
-    def index(self):
+    def index(self, model):
         
-        res= rpc.session.login('wkf', 'admin', 'admin')
-   
         proxy = rpc.RPCProxy("workflow")
-        search_ids = proxy.search([],0,0,0,rpc.session.context)       
-        data = proxy.read(search_ids,['name'],rpc.session.context)
+        ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
+        if not ids:
+            raise common.message(_('No workflow associated!'))
         
-        return dict(data=data)
-   
+        wkf = proxy.read(ids, [], rpc.session.context)[0]
+        return dict(wkf=wkf, show_header_footer=False)
+    
     @expose()
     def get_wkfl_info(self, **kw):
         

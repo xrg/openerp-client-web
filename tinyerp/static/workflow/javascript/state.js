@@ -123,7 +123,7 @@ openerp.workflow.State.implement({
 		
 		if(this.act_id)
 			params['_terp_id'] = this.act_id;
-		var act = getURL('/state/edit', params);
+		var act = getURL('/workflow/state/edit', params);
 		openWindow(act);
 		
 	},

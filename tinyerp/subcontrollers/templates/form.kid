@@ -107,7 +107,10 @@
                                href="javascript: void(0)">Manage Views</a>|
                             <a title="${_('Customise current view')}" 
                                onclick="openWindow('/viewed?view_id=${form.screen.view_id}')"
-                               href="javascript: void(0)">Customise View</a>
+                               href="javascript: void(0)">Customise View</a>|
+                            <a title="${_('Customise workflow')}" 
+                               onclick="openWindow('/workflow?model=${form.screen.model}')" 
+                               href="javascript: void(0)">Customise Workflow</a>
                         </td>
                     </tr>
                 </table>

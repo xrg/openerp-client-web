@@ -41,14 +41,12 @@ openerp.workflow.Connector.prototype.ondblClick = function(event) {
 }
 
 openerp.workflow.Connector.prototype.onmouseOver = function(event){
-	tr_info.style.visibility = 'visible';		
-	tr_info.innerHTML = "<span></span>"+"Condition:"+this.condition+"<span></span>"+" | Signal:"+this.signal;
+    getElement('status').innerHTML = "Condition: " + this.condition + " | Signal: "+ this.signal;
 }
 
 
 openerp.workflow.Connector.prototype.onmouseOut = function(event){
-	tr_info.style.visibility = 'hidden';		
-	
+    getElement('status').innerHTML = '';
 }
 
 openerp.workflow.Connector.prototype.edit = function() {
@@ -62,7 +60,7 @@ openerp.workflow.Connector.prototype.edit = function() {
 		if(!isUndefinedOrNull(this.tr_id))
 			params['_terp_id'] = this.tr_id	;	
 			
-		var act = getURL('/connector/edit', params);
+		var act = getURL('/workflow/connector/edit', params);
 		openWindow(act);
 }
 
@@ -82,7 +80,7 @@ openerp.workflow.Connector.prototype.setSource = function(port) {
 	else if(this.sourceId != port.getParent().get_act_id())
 	{
 		this.sourceId = port.getParent().get_act_id();
-		req = Ajax.JSON.post('/connector/change_ends',{id:this.tr_id, field:'act_from', value:this.sourceId});
+		req = Ajax.JSON.post('/workflow/connector/change_ends',{id:this.tr_id, field:'act_from', value:this.sourceId});
 	}
 }
 
@@ -94,7 +92,7 @@ openerp.workflow.Connector.prototype.setTarget = function(port) {
 	else if(this.destId != port.getParent().get_act_id())
 	{
 		this.destId = port.getParent().get_act_id();
-		req = Ajax.JSON.post('/connector/change_ends',{id:this.tr_id, field:'act_to', value:this.destId});
+		req = Ajax.JSON.post('/workflow/connector/change_ends',{id:this.tr_id, field:'act_to', value:this.destId});
 	}
 }
 

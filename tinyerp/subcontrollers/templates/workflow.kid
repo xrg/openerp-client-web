@@ -32,7 +32,6 @@
     	var state;
     	var conn;
     	
-    	var tr_info;
     	var loading;
     	
     	function initLoad()
@@ -58,19 +57,17 @@
 			var html_conn = conn.getHTMLElement();
 			html_conn.style.display = 'none';
 			
-			tr_info = document.getElementById('tr_info');
-			draw(document.getElementById('wkf_combo'));
+			draw(document.getElementById('wkf_id').value);
 			
     	}
     	
 	    function draw(val)
 	    {
 	    	loading.style.display = '';
-	    	workflow.draw_graph(val.value);
+	    	workflow.draw_graph(val);
 	    }	    
 	    
 		function create_activity(id) {
-			//log(id);
 			workflow.create_state(id);
 		}	
 			
@@ -80,65 +77,44 @@
     </script>
 </head>
 
-
-
 <body onload="javascript: initLoad();">
-	<table class="view" style="height: 100%;">
-		<tr>
-			<td width='100%' valign="top">
-				<table width="100%" cellspacing="0" cellpadding="0" border="0">
-					<tr>
-						<td>								
-							<table class="titlebar" width="100%">									
-									<tr>
-										<td width="32" align="center">
-											<img src="/static/images/icon.gif"/>
-										</td>
-										<td width="100%">Workflow Editor</td>											
-										<td width="16" valign="middle" align="center">
-											<img class="button" width="16" height="16" border="0" src="/static/images/stock/gtk-help.png"/>
-										</td>
-									</tr>
-							</table>								
-						</td>
-					</tr>
-					<tr>
-						 <td>
-			                <div class="toolbar">
-			                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-			                        <tr>
-			                        	<td align="left" width='100%'>
-			                        		<span>Workflow  :</span>
-									 		<select id="wkf_combo" onchange = "javascript:draw(this);">
-									 			<option py:for = "item in data" value="${item['id']}">${item['name']}</option>						 			
-									 		</select>
-									 	</td>	
-									 	<td align="right" id="tr_info" style="visibility:hidden;"></td>					 
-					 				</tr>	
-			                    </table>
-			                </div>
-			            </td>
-					</tr>
-							
-					<tr>
-						<td>
-							<table border="0" cellpadding="0" cellspacing="0" width="100%">
-								<tr>
-									<td>
-									    <div id="viewport" style="position: relative; width: 100%; height: 380px; border: 1px solid; overflow: auto;">
-									        <div id="canvas" style="position: absolute;  width: 3000px; height: 3000px;">
-									        <span id="loading" style="color: red; width:100%;" align="right">Loading...</span>
-									        </div>
-									    </div>
-									</td>
-								</tr>
-							</table>
-					    </td>
-					 </tr>
-				</table>
-			</td>
-		</tr>
-	</table>
+
+    <table class="view" border="0">
+        <tr>
+            <td colspan="2">
+                <table width="100%" class="titlebar">
+                    <tr>
+                        <td width="32px" align="center">
+                            <img src="/static/images/icon.gif"/>
+                        </td>
+                        <td width="100%" py:content="_('Workflow (%s)' % wkf['name'])">Workflow</td>
+                    </tr>
+                </table>
+                <input type="hidden" id="wkf_id" value="${wkf['id']}"/>
+            </td>
+        </tr>
+        <tr>
+            <td height="500" width="auto" valign="top">
+                <div id="viewport" style="position: relative; width: 100%; height: 500px; border: 1px solid; overflow: auto;">
+                    <div id="canvas" style="position: absolute;  width: 3000px; height: 3000px;">
+                        <span id="loading" style="color: red; width:100%;" align="right">Loading...</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr class="toolbar">
+            <td align="right" colspan="2">
+                <div class="toolbar">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td id="status" width="100%">&nbsp;</td>
+                            <td><button type="button" onclick="window.close()">Close</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
     <script type="text/javascript">
 
         workflow = new openerp.workflow.Workflow('canvas');

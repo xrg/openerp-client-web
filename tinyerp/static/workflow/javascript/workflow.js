@@ -158,7 +158,7 @@ openerp.workflow.Workflow.implement({
 			var position = state.getPosition();	
 			self = this;
 			w = workflow;
-			req = Ajax.JSON.post('/state/get_info',{id:id});
+			req = Ajax.JSON.post('/workflow/state/get_info',{id:id});
 			req.addCallback(function(obj) {
 				log('id:'+id);
 				var flag = false;
@@ -213,7 +213,7 @@ openerp.workflow.Workflow.implement({
 		
 		var self = this;
 		var html = conn.getHTMLElement();
-		req = Ajax.JSON.post('/connector/save_tr',{act_from:act_from, act_to:act_to});		
+		req = Ajax.JSON.post('/workflow/connector/save_tr',{act_from:act_from, act_to:act_to});		
 		
 		req.addCallback(function(obj) {	
 			html.style.display = 'none';
@@ -250,7 +250,7 @@ openerp.workflow.Workflow.implement({
 		log('in update_conn :'+id);
 		var self = this;
 		
-		req = Ajax.JSON.post('/connector/get_info',{id:id});
+		req = Ajax.JSON.post('/workflow/connector/get_info',{id:id});
 		req.addCallback(function(obj) {
 			log(obj.data['act_from'][0],obj.data['act_to'][0]);
 			});
@@ -273,7 +273,7 @@ openerp.workflow.Workflow.implement({
 		}
 		
 		var self = this;
-		req = Ajax.JSON.post('/state/delete',params);
+		req = Ajax.JSON.post('/workflow/state/delete',params);
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {
@@ -301,7 +301,7 @@ openerp.workflow.Workflow.implement({
 		'id' : conn.get_tr_id()		
 		}
 		
-		req = Ajax.JSON.post('/connector/delete',params);
+		req = Ajax.JSON.post('/workflow/connector/delete',params);
 		req.addCallback(function(obj) {
 			if(!obj.error)		
 			{				
