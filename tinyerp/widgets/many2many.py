@@ -29,6 +29,7 @@
 ###############################################################################
 
 import turbogears as tg
+import cherrypy
 
 from interface import TinyField
 from form import Form
@@ -36,6 +37,9 @@ from listgrid import List
 
 from tinyerp import rpc
 from tinyerp import cache
+
+from screen import Screen
+from tinyerp.utils import TinyDict
 
 import validators as tiny_validators
 
@@ -52,32 +56,93 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
     context = {}
     inline = False
 
-    member_widgets = ['list_view']
+    member_widgets = ['screen']
 
     def __init__(self, attrs={}):
         super(M2M, self).__init__(attrs)
         tg.widgets.CompoundWidget.__init__(self)
 
-#        self.colspan = 4
-#        self.nolabel = True
+        ids = []
+        if hasattr(cherrypy.request, 'terp_params'):
+            params = cherrypy.request.terp_params
+            self.terp_ids = params.chain_get(params.source)
+            
+            if self.terp_ids is not None:
+                ids = self.terp_ids.ids
+
+        else:
+            params = TinyDict()
+            params.model = attrs.get('relation', 'model')
+            params.ids = attrs.get('value', [])
+            params.name = attrs.get('name', '')
+
+        self.model = attrs.get('relation', 'model')
+        self.link = attrs.get('link', None)
+        
         self.inline = attrs.get('inline')
         self.relation = attrs.get('relation', '')
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {}) or {}
 
-        self.view = attrs.get('views', {})
         self.domain  = attrs.get('domain',{})
-        self.ids = attrs.get('value') or []
         
-        if not self.view:
-            ctx = rpc.session.context.copy()
-            ctx.update(self.context)
-            self.view = cache.fields_view_get(self.relation, {}, 'tree', ctx, False)
-        else:
-            self.view = self.view['tree']
+        view = attrs.get('views', {})
+        mode = str(attrs.get('mode', 'tree,form')).split(',')
 
-        self.list_view = List(self.name, self.relation, self.view, ids=self.ids, domain=self.domain, context=self.context, selectable=(self.editable or 0) and 2, pageable=False)
-        self.list_view.show_links = -1
+        view_mode = mode
+        view_type = mode[0]
+
+        self.switch_to = view_mode[-1]
+        if view_type == view_mode[-1]: self.switch_to = view_mode[0]
+
+        if not ids:
+            ids = attrs.get('value', [])
+        
+        id = (ids or None) and ids[0]
+        
+        pprefix = ''
+        if '/' in self.name:
+            pprefix = self.name[:self.name.rindex('/')]
+       
+        current = params.chain_get(self.name)
+         
+        if not current:
+            current = TinyDict()
+    
+        current.offset = current.offset or 0
+        current.limit = current.limit or 20
+        current.count = len(ids or [])
+
+        if current.view_mode: view_mode = current.view_mode
+        if current.view_type: view_type = current.view_type
+        
+        if current and params.source == self.name:
+            id = current.id
+
+        id = id or None
+        
+        current.model = self.model
+        current.id = id
+        
+        if isinstance(ids, tuple):
+            ids = list(ids)
+            
+        current.ids = ids
+        current.view_mode = view_mode
+        current.view_type = view_type
+        current.domain = current.domain or []
+        current.context = current.context or {}
+    
+        if current.view_type == 'tree' and self.readonly:
+            self.editable = False
+        
+        self.screen = Screen(current, prefix=self.name, views_preloaded=view, 
+                             editable=False, readonly=self.editable, 
+                             selectable=2, nolinks=self.link)
+        
+        self.screen.widget.checkbox_name = False            
+#        self.colspan = 4
+#        self.nolabel = True
 
         self.validator = tiny_validators.many2many()
 
@@ -87,8 +152,7 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         if isinstance(ids, basestring):
             if not ids.startswith('['):
                 ids = '[' + ids + ']'
-
             ids = eval(ids)
-
+            
         self.ids = ids
-        self.list_view.ids = ids
+        

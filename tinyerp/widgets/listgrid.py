@@ -53,7 +53,7 @@ class List(TinyCompoundWidget):
     template = "tinyerp.widgets.templates.listgrid"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 
-              'hiddens', 'edit_inline', 'field_total', 'link']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name']
     
     member_widgets = ['pager', 'children', 'buttons']
 
@@ -75,6 +75,7 @@ class List(TinyCompoundWidget):
     pageable = False
     show_links = 1
     source = None
+    checkbox_name = True
 
     css = [widgets.CSSLink('tinyerp', 'css/listgrid.css')]
     javascript = [widgets.JSLink('tinyerp', 'javascript/listgrid.js'),

@@ -7,7 +7,6 @@
         
         <tr>
             <td colspan="2">
-            
                 <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0">
                     
                     <thead>
@@ -60,7 +59,7 @@
                 
                         <tr py:def="make_row(data)" class="grid-row" record="${data['id']}">
                             <td py:if="selector" class="grid-cell selector">
-                                <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${name}" value="${data['id']}"/>
+                                <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}"/>
                             </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" sortable_value="${data[field].get_sortable_text()}">
                                 <span py:if="not (field_attrs.get('type')=='many2one' and link=='0')" py:strip="">

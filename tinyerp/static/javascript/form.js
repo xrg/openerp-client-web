@@ -78,7 +78,11 @@ var editRecord = function(id, src){
 var viewRecord = function(id, src){
 	
     if (src && src != '_terp_list' && $('_terp_count').value != '0') {
-        return new One2Many(src).edit(id, true);
+    	if (getElement(src + '_set')) {
+    		return editRecord(id, src);
+    	} else {
+        	return new One2Many(src).edit(id, true);
+    	}
     }
 
     var prefix = src && src != '_terp_list' ? src + '/' : '';

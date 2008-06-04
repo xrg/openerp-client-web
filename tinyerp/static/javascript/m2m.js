@@ -41,6 +41,7 @@ Many2Many.prototype = {
         this.id = getElement(name + '_id');
         this.text = getElement(name + '_set');
         this.btn = getElement(name + '_button');
+        this.terp_ids = getElement(name + '/_terp_ids');
         this.element = getElement(name);
 
         this.model = getNodeAttribute(this.id, 'relation');
@@ -67,8 +68,6 @@ Many2Many.prototype = {
 
             }, this));
         }
-
-        this.selectAll();
     },
 
     onChange : function() {
@@ -78,19 +77,20 @@ Many2Many.prototype = {
 
         if(this.hasList) {
 
-            req = Ajax.post('/search/get_list', {model: this.model, ids : ids, list_id : this.name});
+            req = Ajax.post('/search/get_m2m', {model: this.model, ids : ids, list_id : this.name});
             req.addCallback(function(xmlHttp){
                 var listview = getElement(self.name + '_container');
                 listview.innerHTML = xmlHttp.responseText;
-                self.selectAll();
                 
                 // execute JavaScript
                 var scripts = getElementsByTagAndClassName('script', null, listview);
                 forEach(scripts, function(s){
                    eval(s.innerHTML);
                 });
-
             });
+            
+            this.terp_ids = '[' + ids + ']';
+            this.element.value = '[' + ids + ']';
 
         } else {
             ids = ids == '[]' ? '' : ids;
@@ -114,12 +114,11 @@ Many2Many.prototype = {
 
         if (this.hasList) {
 
-            req = Ajax.post('/search/get_list', {model: this.model, ids : ids, list_id: this.name});
+            req = Ajax.post('/search/get_m2m', {model: this.model, ids : ids, list_id: this.name});
 
             req.addCallback(function(xmlHttp) {
                 var listview = getElement(self.name + '_container');
                 listview.innerHTML = xmlHttp.responseText;
-                self.selectAll();
                 
                 // execute JavaScript
                 var scripts = getElementsByTagAndClassName('script', null, listview);
@@ -127,12 +126,42 @@ Many2Many.prototype = {
                    eval(s.innerHTML);
                 });
             });
+            
+            this.terp_ids = '[' + ids + ']';
+            this.element.value = '[' + ids + ']';
 
         } else {
             this.text.value = '(' + ids.length + ')';
             this.element.value = '[' + ids + ']';
         }
     }
+}
+
+function remove_m2m_rec(name) {
+	
+	var elem = MochiKit.DOM.getElement(name + '_id');
+	var terp_ids =  MochiKit.DOM.getElement(name + '/_terp_ids');
+	
+	var ids = eval(terp_ids.value);
+	var boxes = getElementsByTagAndClassName('input', 'grid-record-selector', name + '_grid');
+	
+	boxes = MochiKit.Base.filter(function(box) {
+        return box && (box.checked);
+    }, boxes);
+    
+    boxes = MochiKit.Base.map(function(box) {
+    	return parseInt(box.value);
+    }, boxes);
+    
+    ids = MochiKit.Base.filter(function(id) {
+    	return MochiKit.Base.findIdentical(boxes, id) == -1;
+    }, ids);
+    
+    terp_ids.value = '[' + ids.join(',') + ']';
+    elem.value = '[' + ids.join(',') + ']';
+	elem.onchange();
+	
+	return;
 }
 
 // vim: sts=4 st=4 et

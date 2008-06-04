@@ -36,7 +36,8 @@ var One2Many = function(name, inline){
     this.model = $(name + '/_terp_model').value;
     this.mode = $(name + '/_terp_view_type').value;
     
-    this.default_get_ctx = $(name + '/_terp_default_get_ctx').value; 
+    if ($(name + '/_terp_default_get_ctx'))
+    	this.default_get_ctx = $(name + '/_terp_default_get_ctx').value; 
     
     var parent_prefix = name.indexOf('/') > -1 ? name.slice(0, name.lastIndexOf('/')+1) : '';
     

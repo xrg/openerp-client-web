@@ -40,7 +40,7 @@
 
     </script>
 
-    <script type="text/javascript" py:if="params.kind == 1">
+    <script type="text/javascript" py:if="params.kind &gt; 0">
 
         function do_select(id){
             if (!id) {
@@ -84,13 +84,11 @@
 
         function do_select(id) {
 
-            list_view = window.opener.document.getElementById('${params.source}');
-
-            list_view = new ListView(list_view);
+            ids = window.opener.document.getElementById('${params.source}/_terp_ids').value;
+            
             list_this = new ListView('_terp_list');
-
-            ids = list_view.getSelectedRecords();
-
+            ids = eval(ids);
+            
             if (id){
                 if (findValue(ids, id) == -1) ids.push(id);
             } else {
@@ -144,7 +142,7 @@
                 <td>
                     <div class="toolbar">
                         <button type="submit">Filter</button>
-                        <button type="button" onclick="do_create()" py:if="params.kind == 1">New</button>
+                        <button type="button" onclick="do_create()" py:if="params.kind &gt; 0">New</button>
                         <button type="button" onclick="do_select()">Select</button>
                     </div>
                 </td>

@@ -43,6 +43,8 @@ var ListView = function(id, terp){
     
     this.view_ids = view_ids ? view_ids.value : null;
     this.view_mode = view_mode ? view_mode.value : null;
+    
+    this.m2m = getElement(id + '_set');
 
     this.wait_counter = 0;
 }
@@ -75,7 +77,7 @@ ListView.prototype.getSelectedRecords = function() {
 
 ListView.prototype.getSelectedItems = function() {
     return filter(function(box){
-        return box.name && box.checked;
+        return box.id && box.checked;
     }, getElementsByTagAndClassName('input', 'grid-record-selector', this.id));
 }
 

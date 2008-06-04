@@ -320,7 +320,7 @@ class Search(controllers.Controller, TinyResource):
         return dict(values=values)
 
     @expose()
-    def get_list(self, model, ids, list_id):
+    def get_m2m(self, model, ids, list_id):
         if not ids:
             ids='[]'
         ids = eval(ids)
@@ -328,4 +328,4 @@ class Search(controllers.Controller, TinyResource):
         if not isinstance(ids, (list, tuple)): ids = [ids]
 
         m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))
-        return m2m.list_view.render()
+        return m2m.screen.render()
