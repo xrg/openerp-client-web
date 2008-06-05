@@ -38,25 +38,18 @@ openerp.workflow.State.implement({
 		span.style.top = '20px';
 		span.style.left = '20px';
 		span.style.zIndex = '1000';
-//		span.style.marginLeft = 'auto';
-//		span.style.marginRight = 'auto';
-//		span.style.verticalAlign = 'middle';
 		span.style.textAlign = 'center';
-//				
-		if(!isUndefinedOrNull(act_name))
-		{
+		
+		if(!isUndefinedOrNull(act_name)) {
 			var n = act_name.length;
+			
 			if(n>10)
 			{
 				var width = 100+Math.round((n-10)/2*10);
 				this.setDimension(width,60);
 			}
-//			span.style.width = ((n/2)*10);
 		}			
 		html.appendChild(span);
-		
-		
-		
 	},
 	
 	initPort : function(){
@@ -64,6 +57,7 @@ openerp.workflow.State.implement({
 		var workflow = this.getWorkflow();
 		var width = this.getWidth();
 		var height = this.getHeight();
+		
 		this.attachPort(workflow, width, height/2);
 		this.attachPort(workflow, width/4*3, 0+3);
 		this.attachPort(workflow, width/4*3, height-3);	
@@ -76,12 +70,9 @@ openerp.workflow.State.implement({
 	
 	attachPort: function(workflow,left,top)
 	{		
-		if(workflow!=null)
-	  {
-	    this.port = new openerp.workflow.Port();
-		
-	    this.port.setWorkflow(this.getWorkflow());	 
-	    
+		if(workflow!=null) {
+	    this.port = new openerp.workflow.Port();		
+	    this.port.setWorkflow(this.getWorkflow());
 		this.port.setDimension(3,3);
 	    this.port.setHideIfConnected(true);
 	    this.addPort(this.port,left,top);
@@ -92,17 +83,17 @@ openerp.workflow.State.implement({
 		new InfoBox(this).show(event);
 	},
 	
-	get_act_id : function(){
+	get_act_id : function() {
 		return this.act_id;
 	},
 		
 	
-	setDimension : function(/*:int*/ w, /*:int*/ h )
-	{
+	setDimension : function(/*:int*/ w, /*:int*/ h ) {
+		
 		draw2d.Oval.prototype.setDimension.call(this,w, h);	
 		var ports = this.getPorts();
-		if(this.port!=null)
-	  	{
+		
+		if(this.port!=null)	{
 	  		ports.get(0).setPosition(w,h/2);	  		
 	  		ports.get(4).setPosition(w/4*3,3);	  		
 	  		ports.get(7).setPosition(w/4*3,h-3);	  		
@@ -114,15 +105,16 @@ openerp.workflow.State.implement({
 	  	}
 	},
 	
-	edit : function()
-	{
+	edit : function() {
+		
 		params = {
 		'_terp_model' : 'workflow.activity',
-		'_terp_wkf_id' : workflow.id 
+		'_terp_wkf_id' : WORKFLOW.id 
 		}
 		
 		if(this.act_id)
 			params['_terp_id'] = this.act_id;
+			
 		var act = getURL('/workflow/state/edit', params);
 		openWindow(act);
 		
@@ -131,10 +123,5 @@ openerp.workflow.State.implement({
 	__delete__ : function() {
 		MochiKit.Signal.disconnect(this.signal);
 	},
-	
-	update : function(kw) {
-		
-
-	}
 	
 });

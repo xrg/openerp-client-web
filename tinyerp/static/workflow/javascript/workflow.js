@@ -17,11 +17,37 @@ openerp.workflow.Workflow.prototype = $merge(openerp.workflow.Workflow.prototype
 openerp.workflow.Workflow.implement({
 	
 	initialize : function(canvas) {
+		
 		draw2d.Workflow.call(this,canvas);
+		this.getCommandStack().setUndoLimit(0);
+		
 		this.states = new draw2d.ArrayList();
 		this.conn = new draw2d.ArrayList();
 		this.id = null;
-		this.getCommandStack().setUndoLimit(0);
+		
+		var toolbar = new openerp.workflow.Toolbar();
+        this.setToolWindow(toolbar, 30, 30);
+		
+//		dummy state
+		this.state = new openerp.workflow.State();
+        this.state.setDimension(100, 60);
+		this.state.setBackgroundColor(new draw2d.Color(255, 255, 255));
+        this.addFigure(this.state, 100, 20);
+		this.state.initPort();
+		var html_state = this.state.getHTMLElement();	
+		html_state.style.display = 'none';
+		
+		var state_ports = this.state.getPorts();
+		
+		//dummy connector
+		this.connector = new openerp.workflow.Connector(999);
+		this.connector.setSource(state_ports.get(0));
+		this.connector.setTarget(state_ports.get(3));			
+		this.addFigure(this.connector);
+		var html_conn = this.connector.getHTMLElement();
+		html_conn.style.display = 'none';
+		
+		this.draw_graph(getElement('wkf_id').value);
 	},
 	
 	draw_graph : function(wkf_id) {
@@ -29,9 +55,9 @@ openerp.workflow.Workflow.implement({
 		this.id = wkf_id;
 		self = this;
 		
-		for(i=0; i<this.conn.getSize(); i++)
-		{
+		for(i=0; i<this.conn.getSize(); i++) {
 			this.conn.get(i).dispose();
+			MochiKit.DOM.removeElement(this.conn.get(i).getHTMLElement());
 		}
 		
 		var figures = this.getFigures();
@@ -54,41 +80,44 @@ openerp.workflow.Workflow.implement({
 		this.conn.removeAllElements();
 		
 		req = Ajax.JSON.post('/workflow/get_wkfl_info',{id:wkf_id});
-		
 		req.addCallback(function(obj) {	
 			
-			for (i in obj.list)	
-			{
-				var s = new openerp.workflow.State(obj.list[i]['id'],obj.list[i]['name'],obj.list[i]['flow_start'],obj.list[i]['flow_stop']);	
-		        workflow.addFigure(s, obj.list[i]['y']+100, obj.list[i]['x']);
+			for(i in obj.list) {
+				
+				var node = obj.list[i];
+				var s = new openerp.workflow.State(node['id'], node['name'], node['flow_start'], node['flow_stop']);	
+		        self.addFigure(s, node['y']+100, node['x']);
 		        s.initPort();
 		        self.states.add(s);
 			}
-			
-			var start = 0;
-			var end = 0;
+			 
 			var n = self.states.getSize();
-			for(i in obj.conn)
-			{
-				start = 0;
-				end = 0;
-				for(j=0; j<n; j++)
-				{	
+			
+			for(i in obj.conn) {
+				
+				var conn = obj.conn[i];
+				var start = 0;
+				var end = 0;
+				
+				for(j=0; j<n; j++) {
+						
 					var node = self.states.get(j);
 					var id = node.act_id;
-					if(id==obj.conn[i]['c'][0])
+					
+					if(id==conn['c'][0])
 						start = j;							
-					else if(id==obj.conn[i]['c'][1])
+					else if(id==conn['c'][1])
 						end =j;
 				}
-				self.add_conn(obj.conn[i]['id'],start,end,obj.conn[i]['signal'],obj.conn[i]['condition']);
+				self.add_conn(conn['id'], start, end, conn['signal'],conn['condition']);
 			}
-	    	loading.style.display = 'none';
+			
+	    	getElement('loading').style.display = 'none';
 		});	
 		
 	},
 	
-	add_conn : function(id,start,end,signal,condition) {
+	add_conn : function(id, start, end, signal, condition) {
 		
 		var source = this.states.get(start);
 		var destination = this.states.get(end);		
@@ -96,14 +125,13 @@ openerp.workflow.Workflow.implement({
 		var source_ports = source.getPorts();
 		var dest_ports = destination.getPorts();
 		
-		var c = new openerp.workflow.Connector(id,signal,condition);	
+		var c = new openerp.workflow.Connector(id, signal, condition);	
 		var n1 = source_ports.getSize();
 		var n2 = dest_ports.getSize();
 		
-		if(source.getPosition().x < destination.getPosition().x)
-		{
-			for(i=0; i<n1; i++)
-			{
+		if(source.getPosition().x<destination.getPosition().x) {
+			
+			for(i=0; i<n1; i++) {
 				if(source_ports.get(i).getFanOut()>0)
 					continue;
 				else
@@ -112,8 +140,8 @@ openerp.workflow.Workflow.implement({
 					break;
 				}	
 			}
-			for(i=n2-1; i>=0; i--)
-			{
+			
+			for(i=n2-1; i>=0; i--) {
 				if(dest_ports.get(i).getFanOut()>0)
 					continue;
 				else
@@ -122,11 +150,9 @@ openerp.workflow.Workflow.implement({
 					break;
 				}	
 			}				
-		}
-		else
-		{
-			for(i=n1-1; i>=0; i--)
-			{
+		} else {	
+					
+			for(i=n1-1; i>=0; i--) {
 				if(source_ports.get(i).getFanOut()>0)
 					continue;
 				else
@@ -135,8 +161,8 @@ openerp.workflow.Workflow.implement({
 					break;
 				}	
 			}
-			for(i=0; i<n2; i++)
-			{
+			
+			for(i=0; i<n2; i++)	{
 				if(dest_ports.get(i).getFanOut()>0)
 					continue;
 				else
@@ -147,26 +173,24 @@ openerp.workflow.Workflow.implement({
 			}
 		}
 		
-		workflow.addFigure(c);
+		self.addFigure(c);
 		this.conn.add(c);
 	},
 	
 	create_state : function(id) {
-		
-		if(id != 0)
-		{		
-			var position = state.getPosition();	
+		log('id:'+id);
+		if(id != 0) {	
+				
+			var position = this.state.getPosition();	
 			self = this;
-			w = workflow;
+			
 			req = Ajax.JSON.post('/workflow/state/get_info',{id:id});
 			req.addCallback(function(obj) {
-				log('id:'+id);
 				var flag = false;
 				var index = null;
 				var n = self.states.getSize(); 
 				
-				for(i=0; i<n; i++)
-				{
+				for(i=0; i<n; i++) {
 					if(self.states.get(i).get_act_id()==id)
 					{
 						flag=true;
@@ -175,15 +199,12 @@ openerp.workflow.Workflow.implement({
 					}
 				}				
 				
-				if(!flag)
-				{	
+				if(!flag) {	
 					var s = new openerp.workflow.State(obj.data['id'],obj.data['name'],obj.data['flow_start'],obj.data['flow_stop']);
-			        w.addFigure(s, position.x, position.y);
+			        self.addFigure(s, position.x, position.y);
 			        self.states.add(s);
 			        s.initPort();
-				}
-				else
-				{
+				} else {
 					var state = self.states.get(index);
 					var span = MochiKit.DOM.getElementsByTagAndClassName('span',null,state.getHTMLElement());
 					log(span[0],obj.data['name']);
@@ -202,9 +223,7 @@ openerp.workflow.Workflow.implement({
 //					}
 				}	
 			});
-		}
-		else
-		{
+		} else {
 			alert('state could not be created');
 		}
 	},
@@ -212,19 +231,19 @@ openerp.workflow.Workflow.implement({
 	create_conn : function(act_from, act_to){
 		
 		var self = this;
-		var html = conn.getHTMLElement();
-		req = Ajax.JSON.post('/workflow/connector/save_tr',{act_from:act_from, act_to:act_to});		
+		var html = this.connector.getHTMLElement();
 		
+		req = Ajax.JSON.post('/workflow/connector/save_tr', {act_from:act_from, act_to:act_to});
 		req.addCallback(function(obj) {	
+			
 			html.style.display = 'none';
 			
-			if(obj.flag)
-			{
+			if(obj.flag) {
 				var n = self.states.getSize();
 				var start = 0;
 				var end = 0;
-				for(j=0; j<n; j++)
-				{	
+				
+				for(j=0; j<n; j++) {	
 					var node = self.states.get(j);
 					var id = node.get_act_id();
 					if(id==act_from)
@@ -232,28 +251,35 @@ openerp.workflow.Workflow.implement({
 					else if(id==act_to)
 						end =j;
 				}
-				log(obj.data['signal'],obj.data['condition']);
+				
 				self.add_conn(obj.data['id'],start,end,obj.data['signal'],obj.data['condition']);
 				self.conn.getLastElement().edit();
-			}
-			else
-			{
+			} else {
 				alert('could not create transaction at server');
 			}
-		});
-		
+		});		
 	},
 	
 	
-	update_conn : function(id)
-	{		
+	update_conn : function(id) {		
 		log('in update_conn :'+id);
 		var self = this;
 		
 		req = Ajax.JSON.post('/workflow/connector/get_info',{id:id});
 		req.addCallback(function(obj) {
 			log(obj.data['act_from'][0],obj.data['act_to'][0]);
-			});
+			var n = self.conn.getSize();
+			
+			for(i=0; i<n; i++) {
+				var c = self.conn.get(i);
+				log(c.get_tr_id());
+				if(id==c.get_tr_id()) {
+					c.signal = obj.data['signal'];
+					c.condition = obj.data['condition'];
+					break;		
+				}
+			}			
+		});
 	},
 	
 	remove_elem : function(elem) {
@@ -265,7 +291,7 @@ openerp.workflow.Workflow.implement({
 		
 	},
 	
-	unlink_state : function(state){
+	unlink_state : function(state) {
 		
 		params = {
 		'model' : 'workflow.activity',
@@ -273,6 +299,7 @@ openerp.workflow.Workflow.implement({
 		}
 		
 		var self = this;
+		
 		req = Ajax.JSON.post('/workflow/state/delete',params);
 		req.addCallback(function(obj) {
 			
@@ -303,15 +330,13 @@ openerp.workflow.Workflow.implement({
 		
 		req = Ajax.JSON.post('/workflow/connector/delete',params);
 		req.addCallback(function(obj) {
-			if(!obj.error)		
-			{				
+			
+			if(!obj.error) {				
 				conn.__delete__();
 				self.remove_conn(conn);
-			}					
-			else
-			{
+			} else
 				alert(obj.error);
-			}
+			
 		});
 	},
 	

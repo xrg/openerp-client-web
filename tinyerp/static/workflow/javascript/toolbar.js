@@ -40,7 +40,6 @@ openerp.workflow.Toolbar.implement({
         }
 
         item.style.backgroundImage = "url(/static/workflow/images/window_bg.png)";
-        
         return item;
     },
 
@@ -108,11 +107,11 @@ openerp.workflow.ToolCreateState = openerp.workflow.ToolGeneric.extend({
 
 	execute : function(x, y) {
 		
-		state.setPosition(x,y);
+		WORKFLOW.state.setPosition(x,y);
 		
-		var html = state.getHTMLElement();
+		var html = WORKFLOW.state.getHTMLElement();
 		html.style.display = '';
-		state.edit();
+		WORKFLOW.state.edit();
 		html.style.display = 'none';
 
         // call the parent method
@@ -126,7 +125,7 @@ openerp.workflow.ToolCreateSubwkf = openerp.workflow.ToolGeneric.extend({
 		this.parent(palette, '/static/workflow/images/ToolRectangle.png');
 	},
 	
-	execute : function(x,y){
+	execute : function(x,y) {
 		
 		var figure= new draw2d.Rectangle();
         figure.setDimension(60, 60);

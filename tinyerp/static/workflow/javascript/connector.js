@@ -8,8 +8,8 @@ if (typeof(openerp.workflow) == "undefined") {
 }
 
 
-openerp.workflow.Connector=function(id, signal, condition)
-{
+openerp.workflow.Connector=function(id, signal, condition) {
+	
 	draw2d.Connection.call(this);
 	this.setTargetDecorator(new draw2d.ArrowConnectionDecorator());
 	this.setRouter(new draw2d.BezierConnectionRouter());
@@ -25,8 +25,7 @@ openerp.workflow.Connector=function(id, signal, condition)
 	this.destId = null;
 	this.setDeleteable(false);
 	
-	if(id)
-	{
+	if(id) {
 		this.tr_id = id;
 		this.signal = signal;
 		this.condition = condition;
@@ -40,7 +39,7 @@ openerp.workflow.Connector.prototype.ondblClick = function(event) {
 		new InfoBox(this).show(event);
 }
 
-openerp.workflow.Connector.prototype.onmouseOver = function(event){
+openerp.workflow.Connector.prototype.onmouseOver = function(event) {
     getElement('status').innerHTML = "Condition: " + this.condition + " | Signal: "+ this.signal;
 }
 
@@ -73,14 +72,14 @@ openerp.workflow.Connector.prototype.__delete__ = function() {
 }
 
 openerp.workflow.Connector.prototype.setSource = function(port) {
+	
 	draw2d.Connection.prototype.setSource.call(this,port);
 	
 	if(this.sourceId==null)
 		this.sourceId = port.getParent().get_act_id();
-	else if(this.sourceId != port.getParent().get_act_id())
-	{
+	else if(this.sourceId != port.getParent().get_act_id())	{
 		this.sourceId = port.getParent().get_act_id();
-		req = Ajax.JSON.post('/workflow/connector/change_ends',{id:this.tr_id, field:'act_from', value:this.sourceId});
+		req = Ajax.JSON.post('/workflow/connector/change_ends', {id:this.tr_id, field:'act_from', value:this.sourceId});
 	}
 }
 
@@ -89,10 +88,9 @@ openerp.workflow.Connector.prototype.setTarget = function(port) {
 	
 	if(this.destId==null)
 		this.destId = port.getParent().get_act_id();
-	else if(this.destId != port.getParent().get_act_id())
-	{
+	else if(this.destId != port.getParent().get_act_id()) {
 		this.destId = port.getParent().get_act_id();
-		req = Ajax.JSON.post('/workflow/connector/change_ends',{id:this.tr_id, field:'act_to', value:this.destId});
+		req = Ajax.JSON.post('/workflow/connector/change_ends', {id:this.tr_id, field:'act_to', value:this.destId});
 	}
 }
 

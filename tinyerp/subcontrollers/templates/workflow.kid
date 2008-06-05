@@ -28,56 +28,20 @@
     <script type="text/javascript">
     	
     	
-    	var workflow;
-    	var state;
-    	var conn;
+    	var WORKFLOW;    	
     	
-    	var loading;
-    	
-    	function initLoad()
+    	function on_load()
     	{
-    		loading = document.getElementById('loading');
-    		
-    		
-    		state = new openerp.workflow.State();
-	        state.setDimension(100, 60);
-			state.setBackgroundColor(new draw2d.Color(255, 255, 255));
-	        workflow.addFigure(state, 100, 20);
-			state.initPort();
-			var html_state = state.getHTMLElement();	
-			html_state.style.display = 'none';
-			
-			var state_ports = state.getPorts();
-			
-			conn = new openerp.workflow.Connector(999);
-			conn.setSource(state_ports.get(0));
-			conn.setTarget(state_ports.get(3));			
-			workflow.addFigure(conn);
-			
-			var html_conn = conn.getHTMLElement();
-			html_conn.style.display = 'none';
-			
-			draw(document.getElementById('wkf_id').value);
-			
+    		WORKFLOW = new openerp.workflow.Workflow('canvas');
+	        WORKFLOW.setViewPort("viewport");
+	        WORKFLOW.setBackgroundImage(null, false);
     	}
     	
-	    function draw(val)
-	    {
-	    	loading.style.display = '';
-	    	workflow.draw_graph(val);
-	    }	    
-	    
-		function create_activity(id) {
-			workflow.create_state(id);
-		}	
-			
-		function create_transition(id) {
-			workflow.update_conn(id);	
-		}
+		addLoadEvent(on_load);
     </script>
 </head>
 
-<body onload="javascript: initLoad();">
+<body>
 
     <table class="view" border="0">
         <tr>
@@ -115,15 +79,5 @@
             </td>
         </tr>
     </table>
-    <script type="text/javascript">
-
-        workflow = new openerp.workflow.Workflow('canvas');
-        workflow.setViewPort("viewport");
-        workflow.setBackgroundImage(null, false);
-
-        var toolbar = new openerp.workflow.Toolbar();
-        workflow.setToolWindow(toolbar, 30, 30);
-    </script>
-
 </body>
 </html>

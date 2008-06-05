@@ -59,11 +59,15 @@ class State(Form):
     
     path = '/workflow/state'    # mapping from root
     
+#    @expose()
+#    def index(self):
+#        return dict()
+    
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")
     def create(self, params, tg_errors=None):  
               
         params.path = self.path
-        params.function = 'create_activity'
+        params.function = 'create_state'
         
         if params.id and cherrypy.request.path == self.path + '/view':
             params.load_counter = 2
@@ -143,7 +147,7 @@ class Connector(Form):
     def create(self, params, tg_errors=None):
         
         params.path = self.path
-        params.function = 'create_transition'
+        params.function = 'update_conn'
         
         if params.id and cherrypy.request.path == self.path + '/view':
             params.load_counter = 2

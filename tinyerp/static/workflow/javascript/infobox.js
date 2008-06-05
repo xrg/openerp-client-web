@@ -100,7 +100,7 @@ InfoBox.prototype = {
         if (!confirm('Do you realy want to delete this record?')) {
             return false;
         }
-		workflow.remove_elem(this.source);
+		WORKFLOW.remove_elem(this.source);
     }
 }
 
