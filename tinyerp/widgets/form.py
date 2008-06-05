@@ -654,8 +654,9 @@ class Form(TinyCompoundWidget):
         for k, v in defaults.items():
             values.setdefault(k, v)
 
-        # store current record values in request object (see, self.parse & O2M default_get_ctx) 
-        cherrypy.request.terp_record = TinyDict()
+        # store current record values in request object (see, self.parse & O2M default_get_ctx)
+        if not hasattr(cherrypy.request, 'terp_record'): 
+        	cherrypy.request.terp_record = TinyDict()
 
         self.frame = self.parse(prefix, dom, fields, values)[0]
 

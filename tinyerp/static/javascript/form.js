@@ -138,7 +138,26 @@ var switchView = function(view_type, src){
 }
 
 var switchO2M = function(view_type, src){
+	var prefix = src ? src + '/' : '';
+    var form = $("view_form");
 	
+	var params = getFormParams();
+	
+	params['_terp_source'] = src;
+    params['_terp_source_view_type'] = view_type;
+
+    if (getElement('_terp_list')){
+        var ids = new ListView('_terp_list').getSelectedRecords();
+        if (ids.length > 0) {
+            $('_terp_id').value = ids[0];
+        }
+    }
+    
+    req = Ajax.post('/form/switcho2m', params);
+    req.addCallback(function(xmlHttp){
+        var frm = getElement('_o2m_'+src);
+        frm.innerHTML = xmlHttp.responseText;
+    });
 }
 
 var submit_form = function(action, src, data){

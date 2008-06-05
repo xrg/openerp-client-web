@@ -624,6 +624,26 @@ class Form(controllers.Controller, TinyResource):
         # regenerate the view
         return self.create(params)
 
+    @expose()
+    def switcho2m(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+        current = params.chain_get(params.source or '') or params
+        
+        if params.editable and params.source and current.view_type == 'form':
+            self.save(terp_save_only=True, **kw)
+        
+        current.view_type = params.source_view_type
+
+        current.ids = current.ids or []
+        if not current.id and current.ids:
+            current.id = current.ids[0]
+
+        frm = self.create_form(params)
+        wid = frm.screen.get_widgets_by_name(params.source)[0]
+        
+        return wid.render()
+        
     def do_action(self, name, adds={}, datas={}):
         params, data = TinyDict.split(datas)
 

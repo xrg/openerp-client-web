@@ -1,4 +1,4 @@
-<table border="0" cellpadding="0" cellspacing="0" class="one2many" width="100%" xmlns:py="http://purl.org/kid/ns#">
+<table border="0" cellpadding="0" id="_o2m_$name" cellspacing="0" class="one2many" width="100%" xmlns:py="http://purl.org/kid/ns#">
     <tr>
         <td style="padding: 2px">
             <div class="toolbar">
@@ -22,7 +22,7 @@
                             <button type="button" py:if="pager_info" title="${_('Next record...')}" onclick="submit_form('next', '${name}')" style="padding: 2px">
                                 <img src="/static/images/stock/gtk-go-forward.png" width="16" height="16"/>
                             </button>
-                            <button type="button" title="${_('Switch view...')}" onclick="switchView('${switch_to}', '${name}')" style="padding: 2px">
+                            <button type="button" title="${_('Switch view...')}" onclick="switchO2M('${switch_to}', '${name}')" style="padding: 2px">
                                 <img src="/static/images/stock/gtk-justify-fill.png" width="16" height="16"/>
                             </button>
                         </td>
