@@ -156,7 +156,7 @@ var switchO2M = function(view_type, src){
     req = Ajax.post('/form/switcho2m', params);
     req.addCallback(function(xmlHttp){
         var frm = getElement('_o2m_'+src);
-        frm.innerHTML = xmlHttp.responseText;
+        frm.parentNode.innerHTML = xmlHttp.responseText;
     });
 }
 
