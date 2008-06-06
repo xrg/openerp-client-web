@@ -57,10 +57,6 @@ class State(Form):
     
     path = '/workflow/state'    # mapping from root
     
-#    @expose()
-#    def index(self):
-#        return dict()
-    
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")
     def create(self, params, tg_errors=None):  
               
@@ -107,19 +103,20 @@ class State(Form):
     
     @expose()
     def delete(self,**kw):
+        
         error_msg = None 
+        
         proxy_act = rpc.RPCProxy(kw['model'])
         search_ids = proxy_act.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context)
-        datas = proxy_act.read(search_ids,['out_transitions','in_transitions','flow_start'],rpc.session.context)
-
-       
-        if datas[0]['flow_start']:
-            error_msg = "the activity which start the flow can not be deleted."
+        data = proxy_act.read(search_ids[0], ['out_transitions', 'in_transitions', 'flow_start'], rpc.session.context)
+        
+        
+        if data['flow_start']:
+            error_msg = _("The activity which start the flow can not be deleted.")
         else:
-            trs = []
-            trs = datas[0]['out_transitions']
+            trs = data['out_transitions']
             
-            for tr in datas[0]['in_transitions']:
+            for tr in data['in_transitions']:
                 if not trs.__contains__(tr):
                     trs.append(tr)
             
@@ -130,7 +127,7 @@ class State(Form):
                 res_act = proxy_act.unlink(int(kw['id']))                
 
             if not res_act:
-                error_msg = 'could not delete'
+                error_msg = _('Could not delete state')
                 
         return dict(error = error_msg)
     
@@ -178,8 +175,10 @@ class Connector(Form):
     def edit(self, **kw):
         
         params, data = TinyDict.split(kw)
+        
         if not params.model:
             params.update(kw)
+            
         params.view_mode = ['form']
         params.view_type = 'form'
         params.editable = True
@@ -192,26 +191,29 @@ class Connector(Form):
         error_msg = None
         proxy_tr = rpc.RPCProxy(kw['model'])
         search_tr = proxy_tr.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context)
-        datas = proxy_tr.read(search_tr,['act_from','act_to'],rpc.session.context)        
+        transition = proxy_tr.read(search_tr[0],['act_from','act_to'],rpc.session.context)        
         
         act_list = []
-        act_list.append(datas[0]['act_from'][0])
-        if not act_list.__contains__(datas[0]['act_to'][0]):
-            act_list.append(datas[0]['act_to'][0]);
+        act_list.append(transition['act_from'][0])
+        
+        #check for loop transaction 
+        if not act_list.__contains__(transition['act_to'][0]):
+            act_list.append(transition['act_to'][0]);
         
         
         proxy_act = rpc.RPCProxy('workflow.activity')
         search_act = proxy_act.search([('id','in',act_list)],0,0,0,rpc.session.context)
         data_act = proxy_act.read(search_act,['out_transitions','in_transitions'],rpc.session.context)       
        
-        for item in data_act:
+        for act in data_act:
             d = []
-            d+=item['out_transitions']
-            d+=item['in_transitions']
+            d+=act['out_transitions']
+            d+=act['in_transitions']
             d.remove(int(kw['id']))  
+            
             if not d:
-                error_msg = 'activity can not be made isolated'
-                break;
+                error_msg = _('Activity can not be made isolated')
+                break
             
         if not error_msg:    
             res_tr = proxy_tr.unlink(search_tr)
@@ -219,7 +221,7 @@ class Connector(Form):
         return dict(error=error_msg)
     
     @expose('json')
-    def save_tr(self,**kw):
+    def auto_create(self,**kw):
         
         proxy_tr = rpc.RPCProxy('workflow.transition')
         id = proxy_tr.create({'act_from':kw['act_from'], 'act_to':kw['act_to']})
@@ -256,6 +258,7 @@ class Workflow(Form):
         
         proxy = rpc.RPCProxy("workflow")
         ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
+        
         if not ids:
             raise common.message(_('No workflow associated!'))
         
@@ -263,11 +266,11 @@ class Workflow(Form):
         return dict(wkf=wkf, show_header_footer=False)
     
     @expose()
-    def get_wkfl_info(self, **kw):
+    def get_info(self, **kw):
         
         proxy = rpc.RPCProxy("workflow")
         search_ids = proxy.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context) 
-        graph_search = proxy.graph_get(search_ids[0],(200,200,20,20),rpc.session.context) 
+        graph_search = proxy.graph_get(search_ids[0], (200, 200, 20, 20), rpc.session.context) 
          
         nodes = graph_search['node']
         transition = graph_search['transition']

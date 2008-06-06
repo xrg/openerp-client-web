@@ -90,7 +90,7 @@ openerp.workflow.Workflow.implement({
 		this.states.removeAllElements();
 		this.conn.removeAllElements();
 		
-		req = Ajax.JSON.post('/workflow/get_wkfl_info',{id:wkf_id});
+		req = Ajax.JSON.post('/workflow/get_info',{id:wkf_id});
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.list) {
@@ -244,7 +244,7 @@ openerp.workflow.Workflow.implement({
 		var self = this;
 		var html = this.connector.getHTMLElement();
 		
-		req = Ajax.JSON.post('/workflow/connector/save_tr', {act_from:act_from, act_to:act_to});
+		req = Ajax.JSON.post('/workflow/connector/auto_create', {act_from:act_from, act_to:act_to});
 		req.addCallback(function(obj) {	
 			
 			html.style.display = 'none';
