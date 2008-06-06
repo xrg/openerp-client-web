@@ -158,10 +158,17 @@ var switch_O2M = function(view_type, src){
     
     req = Ajax.post('/form/switch_o2m', params);
     req.addCallback(function(xmlHttp){
+    	
+    	var text = xmlHttp.responseText;
+    	if (text.indexOf('ERROR: ') == 0) {
+    		text = text.replace('ERROR: ', '');
+    		return alert(text);
+    	}
+    	
         var frm = getElement('_o2m_'+src);
         
         var d = DIV();
-        d.innerHTML = xmlHttp.responseText;
+        d.innerHTML = text;
         
         var newo2m = d.getElementsByTagName('table')[0];
         
