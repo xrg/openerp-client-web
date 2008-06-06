@@ -102,13 +102,16 @@
                     </tr>
                     <tr>
                         <td align="right" class="dimmed-text">
-                            <a title="${_('Manage views of the current object')}" 
+                            <a py:if="links.view_manager"
+                               title="${_('Manage views of the current object')}" 
                                onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
-                               href="javascript: void(0)">Manage Views</a>|
-                            <a title="${_('Customise current view')}" 
+                               href="javascript: void(0)">Manage Views</a><span py:if="links.view_editor">|</span>
+                            <a py:if="links.view_editor"
+                               title="${_('Customise current view')}" 
                                onclick="openWindow('/viewed?view_id=${form.screen.view_id}')"
-                               href="javascript: void(0)">Customise View</a>|
-                            <a title="${_('Customise workflow')}" 
+                               href="javascript: void(0)">Customise View</a><span py:if="links.workflow">|</span>
+                            <a py:if="links.workflow"
+                               title="${_('Customise workflow')}" 
                                onclick="openWindow('/workflow?model=${form.screen.model}')" 
                                href="javascript: void(0)">Customise Workflow</a>
                         </td>

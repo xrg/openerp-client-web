@@ -88,8 +88,9 @@ class Form(controllers.Controller, TinyResource):
         id = form.screen.id
         ids = form.screen.ids
 
-        buttons = TinyDict()
-
+        buttons = TinyDict()    # toolbar
+        links = TinyDict()      # bottom links (customise view, ...)
+        
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
@@ -105,12 +106,20 @@ class Form(controllers.Controller, TinyResource):
         buttons.i18n = not editable and mode == 'form'
 
         buttons.toolbar = not params.model.startswith('board.')
+        
+        links.view_editor = True
+        links.view_manager = True
+        links.workflow = False
+        
+        proxy = rpc.RPCProxy('workflow')
+        wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
+        links.workflow = len(wkf_ids) > 0
 
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons)
+        return dict(form=form, pager=pager, buttons=buttons, links=links)
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
