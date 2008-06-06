@@ -48,8 +48,8 @@ Many2Many.prototype = {
 
         this.hasList = getElement(name + '_container') ? true : false;
 
-        this.id.onchange = bind(this.onChange, this);
-        this.text.onchange = bind(this.selectAll, this);
+        this.id.onchange = bind(this.onChange, this);       
+        this.text.onchange = bind(this.btn.onclick, this);
 
         if (!this.hasList) {
             MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt){
