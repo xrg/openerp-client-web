@@ -78,13 +78,3 @@ ResizableTextarea.prototype = {
     }
 }
 
-if (! /webkit/.test(navigator.userAgent.toLowerCase())){
-    MochiKit.DOM.addLoadEvent(function(evt){
-        var tas = getElementsByTagAndClassName('textarea', null, 'view_form');
-        forEach(tas, function(ta){
-            if (!hasElementClass(ta, 'tinymce')){
-                new ResizableTextarea(ta);
-            }
-        });
-    })
-}

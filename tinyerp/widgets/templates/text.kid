@@ -5,7 +5,12 @@
         class="${field_class}" kind="${kind}"
         callback="${callback}" onchange="${onchange}"
         py:attrs='attrs' py:content="value or None">
-     </textarea>
+    </textarea>
+    <script type="text/javascript" py:if="editable and not inline">
+        if (!window.browser.isWebkit) {
+            new ResizableTextarea('$field_id');
+        }
+    </script>
 
     <input py:if="editable and inline"
         id ="${field_id}" name="${name}"
