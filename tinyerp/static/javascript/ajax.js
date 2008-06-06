@@ -36,27 +36,23 @@ Ajax.STATUS_TEXT = 'Loading...';
 Ajax._status = null;
 
 MochiKit.DOM.addLoadEvent(function(){
-    var s = "position: absolute; width: 99%; height: 24px; top: 5px; left: 0px; text-align: center; color: red;";
+    var s = "display: none; position: absolute; width: 99%; height: 24px; top: 5px; left: 0px; text-align: center; color: red;";
     Ajax._status = MochiKit.DOM.DIV({id: 'ajax_status', style: s}, Ajax.STATUS_TEXT);
     MochiKit.DOM.appendChildNodes(document.body, Ajax._status);    
 });
 
-Ajax.showStatus = function(text) {
+Ajax.showStatus = function() {
     
-    if (typeof(text) == 'undefined') {
-        text = Ajax.STATUS_TEXT;
-    }
-    
-    if (text) {    
-        Ajax._status.innetHTML = text;
-        Ajax._status.style.top = (window.browser.isIE ? document.body.scrollTop || document.documentElement.scrollTop : window.scrollY) + 5 + 'px';
+    if (Ajax.STATUS_TEXT && Ajax._status) {    
+        Ajax._status.innetHTML = Ajax.STATUS_TEXT;
+        Ajax._status.style.top = (window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop) + 5 + 'px';
         MochiKit.DOM.showElement(Ajax._status);
     }
 }
 
 Ajax.hideStatus = function() {
     try {
-      MochiKit.DOM.hideElement('ajax_status');
+      MochiKit.DOM.hideElement(Ajax._status);
     } catch(e){}
 }
 
