@@ -251,7 +251,12 @@ def execute(action, **data):
         return execute_url(**data)
 
 def execute_url(**data):
-    raise redirect(data.get('url') or '#')
+    url = data.get('url') or ''
+        
+    if not ('://' in url or url.startswith('/')):
+        raise common.error(_('Error'), _('Relative URLs are not supported!'))
+    
+    raise redirect(url)
 
 def get_action_type(act_id):
     """Get the action type for the given action id.
