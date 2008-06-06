@@ -156,7 +156,23 @@ var switchO2M = function(view_type, src){
     req = Ajax.post('/form/switcho2m', params);
     req.addCallback(function(xmlHttp){
         var frm = getElement('_o2m_'+src);
-        frm.parentNode.innerHTML = xmlHttp.responseText;
+        
+        var d = DIV();
+        d.innerHTML = xmlHttp.responseText;
+        
+        var newo2m = d.getElementsByTagName('table')[0];
+        
+        swapDOM(frm, newo2m);
+
+        var ua = navigator.userAgent.toLowerCase();
+
+        if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
+            // execute JavaScript
+            var scripts = getElementsByTagAndClassName('script', null, newo2m);
+            forEach(scripts, function(s){
+                eval(s.innerHTML);
+            });
+        }
     });
 }
 
