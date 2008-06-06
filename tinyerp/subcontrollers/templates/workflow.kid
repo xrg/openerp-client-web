@@ -26,18 +26,15 @@
     </style>
     
     <script type="text/javascript">
+
+    	var WORKFLOW;
     	
-    	
-    	var WORKFLOW;    	
-    	
-    	function on_load()
-    	{
+        MochiKit.DOM.addLoadEvent(function(evt){
     		WORKFLOW = new openerp.workflow.Workflow('canvas');
 	        WORKFLOW.setViewPort("viewport");
 	        WORKFLOW.setBackgroundImage(null, false);
-    	}
-    	
-		addLoadEvent(on_load);
+    	});
+        
     </script>
 </head>
 
