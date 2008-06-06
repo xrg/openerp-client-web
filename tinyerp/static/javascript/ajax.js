@@ -33,30 +33,31 @@ var Ajax = function(){
 
 Ajax.COUNT = 0;
 Ajax.STATUS_TEXT = 'Loading...';
-
 Ajax._status = null;
+
+MochiKit.DOM.addLoadEvent(function(){
+    var s = "position: absolute; width: 99%; height: 24px; top: 5px; left: 0px; text-align: center; color: red;";
+    Ajax._status = MochiKit.DOM.DIV({id: 'ajax_status', style: s}, Ajax.STATUS_TEXT);
+    MochiKit.DOM.appendChildNodes(document.body, Ajax._status);    
+});
 
 Ajax.showStatus = function(text) {
     
-    var text = text || Ajax.STATUS_TEXT;
-    
-    if (!text) 
-      return;
-    
-    if (!Ajax._status) {
-        var s = "position: absolute; width: 99%; text-align: center; color: red; font-weight: bold;";
-        Ajax._status = MochiKit.DOM.DIV({id: 'ajax_status', style: s}, text);
-        MochiKit.DOM.appendChildNodes(document.body, Ajax._status);
+    if (typeof(text) == 'undefined') {
+        text = Ajax.STATUS_TEXT;
     }
     
-    Ajax._status.style.top = window.scrollY + 5 + 'px';
-    
-    MochiKit.DOM.showElement(Ajax._status);
+    if (text) {    
+        Ajax._status.innetHTML = text;
+        Ajax._status.style.top = (window.browser.isIE ? document.body.scrollTop || document.documentElement.scrollTop : window.scrollY) + 5 + 'px';
+        MochiKit.DOM.showElement(Ajax._status);
+    }
 }
 
 Ajax.hideStatus = function() {
-   if (Ajax._status)
-      MochiKit.DOM.hideElement(Ajax._status);
+    try {
+      MochiKit.DOM.hideElement('ajax_status');
+    } catch(e){}
 }
 
 Ajax.prototype = {
