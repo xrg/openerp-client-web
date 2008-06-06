@@ -159,6 +159,7 @@ class Search(controllers.Controller, TinyResource):
             ids = proxy.name_search(text, params.domain or [], 'ilike', params.context or {})
             if ids:
                 params.ids = [id[0] for id in ids]
+                params.count = len(ids)
 
         return self.create(params)
 
