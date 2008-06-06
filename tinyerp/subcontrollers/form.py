@@ -611,9 +611,6 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         current = params.chain_get(params.source or '') or params
         
-        if params.editable and params.source and current.view_type == 'form':
-            self.save(terp_save_only=True, **kw)
-        
         current.view_type = params.source_view_type
 
         current.ids = current.ids or []
