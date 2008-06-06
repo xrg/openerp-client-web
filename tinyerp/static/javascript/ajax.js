@@ -32,17 +32,45 @@ var Ajax = function(){
 }
 
 Ajax.COUNT = 0;
+Ajax.STATUS_TEXT = 'Loading...';
+
+Ajax._status = null;
+
+Ajax.showStatus = function(text) {
+    
+    var text = text || Ajax.STATUS_TEXT;
+    
+    if (!text) 
+      return;
+    
+    if (!Ajax._status) {
+        var s = "position: absolute; width: 99%; text-align: center; color: red; font-weight: bold;";
+        Ajax._status = MochiKit.DOM.DIV({id: 'ajax_status', style: s}, text);
+        MochiKit.DOM.appendChildNodes(document.body, Ajax._status);
+    }
+    
+    Ajax._status.style.top = window.scrollY + 5 + 'px';
+    
+    MochiKit.DOM.showElement(Ajax._status);
+}
+
+Ajax.hideStatus = function() {
+   if (Ajax._status)
+      MochiKit.DOM.hideElement(Ajax._status);
+}
 
 Ajax.prototype = {
 
     get: function(url, params){
 
         Ajax.COUNT += 1;
+        Ajax.showStatus();
 
         var req = MochiKit.Async.doSimpleXMLHttpRequest(url, params || {});
 
         return req.addBoth(function(xmlHttp){
             Ajax.COUNT -= 1;
+            Ajax.hideStatus();
             return xmlHttp;
         });
     },
@@ -50,8 +78,9 @@ Ajax.prototype = {
     post: function(url, params){
 
         Ajax.COUNT += 1;
+        Ajax.showStatus();
 
-        // prepare queryString for url and/or params
+       // prepare queryString for url and/or params
         var qs = url.slice(url.indexOf('?')).slice(1);
         var url = url.split('?')[0];
 
@@ -73,6 +102,7 @@ Ajax.prototype = {
         
         return req.addBoth(function(xmlHttp){
             Ajax.COUNT -= 1;
+            Ajax.hideStatus();
             return xmlHttp;
         });
     }
