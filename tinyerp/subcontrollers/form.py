@@ -599,29 +599,10 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def switch(self, **kw):
-        
-        # get special _terp_ params and data
-        params, data = TinyDict.split(kw)
-        
-        # remember the current notebook tab
-        cherrypy.session['remember_notebook'] = True
-
-        # select the right params field (if one2many toolbar button)
-        current = params.chain_get(params.source or '') or params
-
-        # save current record (O2M)
-        if params.editable and params.source and current.view_type == 'form':
-            self.save(terp_save_only=True, **kw)            
+        params, data = TinyDict.split(kw)  
         
         # switch the view
-        current.view_type = params.source_view_type
-
-        # set ids and id
-        current.ids = current.ids or []
-        if not current.id and current.ids:
-            current.id = current.ids[0]
-
-        # regenerate the view
+        params.view_type = params.source_view_type
         return self.create(params)
 
     @expose()
