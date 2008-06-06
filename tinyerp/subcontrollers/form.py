@@ -606,7 +606,7 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def switcho2m(self, **kw):
+    def switch_o2m(self, **kw):
         
         params, data = TinyDict.split(kw)
         current = params.chain_get(params.source or '') or params

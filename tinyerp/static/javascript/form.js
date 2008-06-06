@@ -137,7 +137,7 @@ var switchView = function(view_type, src){
     submit_form(get_form_action('switch', params));
 }
 
-var switchO2M = function(view_type, src){
+var switch_O2M = function(view_type, src){
 	var prefix = src ? src + '/' : '';
     var form = $("view_form");
 	
@@ -153,7 +153,7 @@ var switchO2M = function(view_type, src){
         }
     }
     
-    req = Ajax.post('/form/switcho2m', params);
+    req = Ajax.post('/form/switch_o2m', params);
     req.addCallback(function(xmlHttp){
         var frm = getElement('_o2m_'+src);
         
