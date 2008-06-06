@@ -55,8 +55,9 @@
             </td>
         </tr>
         <tr>
+            <td width="36px" valign="top" id="toolbox"></td>
             <td height="500" width="auto" valign="top">
-                <div id="viewport" style="position: relative; width: 100%; height: 500px; border: 1px solid; overflow: auto;">
+                <div id="viewport" style="position: relative; width: 100%; height: 500px; border: 1px solid gray; overflow: auto;">
                     <div id="canvas" style="position: absolute;  width: 3000px; height: 3000px;">
                         <span id="loading" style="color: red; width:100%;" align="right">Loading...</span>
                     </div>

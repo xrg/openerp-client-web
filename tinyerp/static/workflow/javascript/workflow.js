@@ -25,8 +25,18 @@ openerp.workflow.Workflow.implement({
 		this.conn = new draw2d.ArrayList();
 		this.id = null;
 		
-		var toolbar = new openerp.workflow.Toolbar();
-        this.setToolWindow(toolbar, 30, 30);
+		//this.setToolWindow(toolbar, 30, 30);
+		var tbar = new openerp.workflow.Toolbar();
+		this.toolPalette = tbar;
+		tbar.setWorkflow(this);
+		tbar.canDrag = false;
+		
+		tbar = tbar.getHTMLElement();
+		tbar.style.position = 'relative';
+		tbar.style.top = '0px';
+		tbar.style.left = '0px';
+		
+        MochiKit.DOM.appendChildNodes('toolbox', tbar);
 		
 //		dummy state
 		this.state = new openerp.workflow.State();

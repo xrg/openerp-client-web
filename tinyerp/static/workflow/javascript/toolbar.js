@@ -106,7 +106,7 @@ openerp.workflow.ToolCreateState = openerp.workflow.ToolGeneric.extend({
     },
 
 	execute : function(x, y) {
-		
+	    
 		WORKFLOW.state.setPosition(x,y);
 		
 		var html = WORKFLOW.state.getHTMLElement();
