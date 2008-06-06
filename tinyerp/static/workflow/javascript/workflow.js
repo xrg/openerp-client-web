@@ -35,6 +35,7 @@ openerp.workflow.Workflow.implement({
 		tbar.style.position = 'relative';
 		tbar.style.top = '0px';
 		tbar.style.left = '0px';
+		tbar.style.zIndex = 0;
 		
         MochiKit.DOM.appendChildNodes('toolbox', tbar);
 		
