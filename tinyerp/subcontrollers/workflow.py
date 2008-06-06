@@ -74,6 +74,7 @@ class State(Form):
         
         field = form.screen.widget.get_widgets_by_name('wkf_id')[0]     
         field.set_value(params.wkf_id or False)
+        field.readonly = True
          
         form.hidden_fields = [tg_widgets.HiddenField(name='wkf_id', default=params.wkf_id)]
         vals = getattr(cherrypy.request, 'terp_validators', {})
@@ -159,9 +160,11 @@ class Connector(Form):
         
         field_act_from = form.screen.widget.get_widgets_by_name('act_from')[0]
         field_act_from.set_value(params.start or False)
+        field_act_from.readonly = True
         
         field_act_to = form.screen.widget.get_widgets_by_name('act_to')[0]
         field_act_to.set_value(params.end or False)
+        field_act_to.readonly = True
         
         form.hidden_fields = [tg_widgets.HiddenField(name='act_from', default=params.start)]
         form.hidden_fields = [tg_widgets.HiddenField(name='act_to', default=params.end)]
