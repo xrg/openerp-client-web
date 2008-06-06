@@ -53,8 +53,6 @@ from tinyerp.utils import TinyDict
 
 rpc.session = rpc.RPCSession('localhost', '8070', 'socket', storage=cherrypy.session)
 
-
-
 class State(Form):
     
     path = '/workflow/state'    # mapping from root
@@ -80,7 +78,16 @@ class State(Form):
         form.hidden_fields = [tg_widgets.HiddenField(name='wkf_id', default=params.wkf_id)]
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['wkf_id'] = tw.validators.Int()
-                
+        
+        hide = []
+        
+        hide += form.screen.widget.get_widgets_by_name('out_transitions')
+        hide += form.screen.widget.get_widgets_by_name('in_transitions')
+        hide += form.screen.widget.get_widgets_by_name('', kind=tw.form.Separator)
+        
+        for w in hide:
+            w.visible = False
+
         return dict(form=form, params=params, show_header_footer=False)
 
     @expose()    
@@ -134,10 +141,6 @@ class State(Form):
         data = proxy_act.read(search_act,[],rpc.session.context)
     
         return dict(data=data[0])
-    
-        
-
-
 
 class Connector(Form):
     
@@ -167,8 +170,7 @@ class Connector(Form):
         vals['act_to'] = tw.validators.Int()
         
         return dict(form=form, params=params, show_header_footer=False)
-    
-            
+                
     @expose()    
     def edit(self, **kw):
         
