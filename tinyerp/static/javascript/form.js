@@ -138,6 +138,9 @@ var switchView = function(view_type, src){
 }
 
 var switch_O2M = function(view_type, src){
+	if (Ajax.COUNT > 0){
+		return;
+	}
 	var prefix = src ? src + '/' : '';
     var form = $("view_form");
 	
