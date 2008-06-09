@@ -107,7 +107,7 @@ class State(Form):
         error_msg = None 
         
         proxy_act = rpc.RPCProxy(kw['model'])
-        search_ids = proxy_act.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context)
+        search_ids = proxy_act.search([('id','=', int(kw['id']))], 0, 0, 0, rpc.session.context)
         data = proxy_act.read(search_ids[0], ['out_transitions', 'in_transitions', 'flow_start'], rpc.session.context)
         
         
@@ -135,8 +135,8 @@ class State(Form):
     def get_info(self,**kw):
                 
         proxy_act = rpc.RPCProxy('workflow.activity')
-        search_act = proxy_act.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context)
-        data = proxy_act.read(search_act,[],rpc.session.context)
+        search_act = proxy_act.search([('id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context)
+        data = proxy_act.read(search_act, [], rpc.session.context)
     
         return dict(data=data[0])
 
@@ -190,8 +190,8 @@ class Connector(Form):
         
         error_msg = None
         proxy_tr = rpc.RPCProxy(kw['model'])
-        search_tr = proxy_tr.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context)
-        transition = proxy_tr.read(search_tr[0],['act_from','act_to'],rpc.session.context)        
+        search_tr = proxy_tr.search([('id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context)
+        transition = proxy_tr.read(search_tr[0], ['act_from', 'act_to'], rpc.session.context)        
         
         act_list = []
         act_list.append(transition['act_from'][0])
@@ -202,8 +202,8 @@ class Connector(Form):
         
         
         proxy_act = rpc.RPCProxy('workflow.activity')
-        search_act = proxy_act.search([('id','in',act_list)],0,0,0,rpc.session.context)
-        data_act = proxy_act.read(search_act,['out_transitions','in_transitions'],rpc.session.context)       
+        search_act = proxy_act.search([('id', 'in', act_list)], 0, 0, 0, rpc.session.context)
+        data_act = proxy_act.read(search_act, ['out_transitions', 'in_transitions'], rpc.session.context)       
        
         for act in data_act:
             d = []
@@ -224,7 +224,7 @@ class Connector(Form):
     def auto_create(self,**kw):
         
         proxy_tr = rpc.RPCProxy('workflow.transition')
-        id = proxy_tr.create({'act_from':kw['act_from'], 'act_to':kw['act_to']})
+        id = proxy_tr.create({'act_from': kw['act_from'], 'act_to': kw['act_to']})
         data = proxy_tr.read(id, [], rpc.session.context);
         
         if id>0:
@@ -236,8 +236,8 @@ class Connector(Form):
     def get_info(self,**kw):
                 
         proxy_tr = rpc.RPCProxy('workflow.transition')
-        search_tr = proxy_tr.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context)
-        data = proxy_tr.read(search_tr,[],rpc.session.context)
+        search_tr = proxy_tr.search([('id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context)
+        data = proxy_tr.read(search_tr, [], rpc.session.context)
         
         return dict(data=data[0])
     
@@ -269,45 +269,41 @@ class Workflow(Form):
     def get_info(self, **kw):
         
         proxy = rpc.RPCProxy("workflow")
-        search_ids = proxy.search([('id','=',int(kw['id']))],0,0,0,rpc.session.context) 
+        search_ids = proxy.search([('id', '=' , int(kw['id']))], 0, 0, 0, rpc.session.context) 
         graph_search = proxy.graph_get(search_ids[0], (200, 200, 20, 20), rpc.session.context) 
          
         nodes = graph_search['node']
-        transition = graph_search['transition']
+        transitions = graph_search['transition']
         
-        connector = {}
+        connectors = {}
         list_tr = [];
-        for item in transition:
-            list_tr.append(item)
-            connector[item] = {}
-            connector[item]['id'] = item
-            connector[item]['c'] = transition[item]
+            
+        for tr in transitions:
+            list_tr.append(tr)
+            t = connectors.setdefault(tr,{})
+            t['id'] = tr
+            t['c'] = transitions[tr]
             
         proxy_tr = rpc.RPCProxy("workflow.transition")
-        search_trs = proxy_tr.search([('id','in',list_tr)],0,0,0,rpc.session.context)
-        data_trs = proxy_tr.read(search_trs,['signal','condition'],rpc.session.context)
-
-        for item in data_trs:
-            connector[item['id']]['signal'] = item['signal']
-            connector[item['id']]['condition'] = item['condition']
+        search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)
+        data_trs = proxy_tr.read(search_trs, ['signal','condition'], rpc.session.context)
+            
+        for tr in data_trs:
+            t = connectors.get(tr['id'])
+            t['signal'] = tr['signal']
+            t['condition'] = tr['condition']
         
         proxy_act = rpc.RPCProxy("workflow.activity")
-        search_acts = proxy_act.search([('wkf_id','=',int(kw['id']))],0,0,0,rpc.session.context) 
-        data_acts = proxy_act.read(search_acts,['flow_start','flow_stop'],rpc.session.context)
+        search_acts = proxy_act.search([('wkf_id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context) 
+        data_acts = proxy_act.read(search_acts, ['flow_start', 'flow_stop'], rpc.session.context)
+        
+        for act in data_acts:
+            n = nodes.get(str(act['id'])) 
+            n['id'] = act['id']
+            n['flow_start'] = act['flow_start']
+            n['flow_stop'] = act['flow_stop']
 
-        
-        dict_acts = {}
-        for item in data_acts:
-            dict_acts[item['id']] = {}
-            dict_acts[item['id']]['flow_start'] = item['flow_start']
-            dict_acts[item['id']]['flow_stop'] = item['flow_stop']
-        
-        for item in nodes:
-            nodes[item]['id'] = item
-            nodes[item]['flow_start'] = dict_acts[int(item)]['flow_start']
-            nodes[item]['flow_stop'] = dict_acts[int(item)]['flow_stop']
-        
-        return dict(list=nodes,conn=connector)
+        return dict(list=nodes,conn=connectors)
     
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")
     def create(self, params, tg_errors=None):
