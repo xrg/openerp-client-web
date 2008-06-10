@@ -19,6 +19,7 @@ openerp.workflow.Workflow.implement({
 	initialize : function(canvas) {
 		
 		draw2d.Workflow.call(this,canvas);
+		this.setBackgroundImage(null, false);
 		this.getCommandStack().setUndoLimit(0);
 		
 		this.states = new draw2d.ArrayList();
@@ -218,6 +219,8 @@ openerp.workflow.Workflow.implement({
 					var state = self.states.get(index);
 					var span = MochiKit.DOM.getElementsByTagAndClassName('span', null, state.getHTMLElement());
 					span[0].innerHTML = data['name'];
+					state.action = data['action'];
+					state.kind = data['kind'];
 //					div.style.width = Math.max(50,(obj.data['name'].length/2*10))+'px'							
 					
 //					if(obj.data['flow_start'] || obj.data['flow_stop'] )

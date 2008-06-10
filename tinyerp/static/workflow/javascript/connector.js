@@ -15,6 +15,7 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 	this.setRouter(new draw2d.BezierConnectionRouter());
 	  
 	var html = this.getHTMLElement();
+	html.style.cursor = 'pointer';
 	
 	MochiKit.Signal.connect(html, 'ondblclick', this, this.ondblClick);
 	MochiKit.Signal.connect(html, 'onmouseover', this, this.onmouseOver);

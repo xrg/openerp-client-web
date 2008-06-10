@@ -32,7 +32,6 @@
         MochiKit.DOM.addLoadEvent(function(evt){
     		WORKFLOW = new openerp.workflow.Workflow('canvas');
 	        WORKFLOW.setViewPort("viewport");
-	        WORKFLOW.setBackgroundImage(null, false);
     	});
         
     </script>
