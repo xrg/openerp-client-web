@@ -21,12 +21,15 @@ InfoBox.prototype = {
         
         var title = 'Information Box';
         
-        if(source instanceof openerp.workflow.State) {
-       		 var desc = 'Id: '+source.get_act_id();
-       		 var dtl1 = 'Action: '+source.action;
-       		 var dtl2 = 'Kind: '+source.kind;
-        } else
-        	var desc = 'Connector id:'+source.get_tr_id();
+        if(this.source instanceof openerp.workflow.State) {
+       		 var desc = 'Id: ' + this.source.get_act_id();
+       		 var dtl1 = 'Action: ' + this.source.action;
+       		 var dtl2 = 'Kind: ' + this.source.kind;
+        } else {
+        	var desc = this.source.from+ ' ---> ' + this.source.to;
+        	var dtl1 = 'Signal: ' + this.source.signal;
+        	var dtl2 = 'Condition: ' + this.source.condition;
+        }
         
         var info = DIV(null,
                     DIV({'class': 'calInfoTitle'}, title),

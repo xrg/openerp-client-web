@@ -119,7 +119,7 @@ openerp.workflow.Workflow.implement({
 					else if(id==conn['c'][1])
 						end =j;
 				}
-				self.add_conn(conn['id'], start, end, conn['signal'],conn['condition'], conn['source'], conn['destination']);
+				self.add_conn(conn['id'], start, end, conn['signal'], conn['condition'], conn['source'], conn['destination']);
 			}
 			
 	    	getElement('loading').style.display = 'none';
@@ -127,7 +127,7 @@ openerp.workflow.Workflow.implement({
 		
 	},
 	
-	add_conn : function(id, start, end, signal, condition, source, destination) {
+	add_conn : function(id, start, end, signal, condition, from, to) {
 		
 		var source = this.states.get(start);
 		var destination = this.states.get(end);		
@@ -135,7 +135,7 @@ openerp.workflow.Workflow.implement({
 		var source_ports = source.getPorts();
 		var dest_ports = destination.getPorts();
 		
-		var c = new openerp.workflow.Connector(id, signal, condition, source, destination);	
+		var c = new openerp.workflow.Connector(id, signal, condition, from, to);	
 		var n1 = source_ports.getSize();
 		var n2 = dest_ports.getSize();
 		
@@ -207,9 +207,7 @@ openerp.workflow.Workflow.implement({
 						index = i;
 						break;
 					}
-				}				
-				
-				
+				}			
 				
 				if(!flag) {	
 					var s = new openerp.workflow.State(data['id'], data['name'], data['flow_start'], data['flow_stop'], data['action'], data['kind']);
@@ -264,7 +262,7 @@ openerp.workflow.Workflow.implement({
 						end =j;
 				}
 				
-				self.add_conn(obj.data['id'], start, end, obj.data['signal'], obj.data['condition'], obj.data['act_from'][1], obj.data['act_to'][1]);
+				self.add_conn(data['id'], start, end, data['signal'], data['condition'], data['act_from'][1], data['act_to'][1]);
 				self.conn.getLastElement().edit();
 			} else {
 				alert('could not create transaction at server');

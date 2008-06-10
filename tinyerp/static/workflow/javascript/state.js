@@ -25,7 +25,7 @@ openerp.workflow.State.implement({
 			this.setBackgroundColor(new draw2d.Color(255, 255, 255));	
 				
 		this.act_id = id || null;
-		this.action = action || '';
+		this.action = action;
 		this.kind = kind || '';	
 		this.port = null;
 		

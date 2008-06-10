@@ -8,7 +8,7 @@ if (typeof(openerp.workflow) == "undefined") {
 }
 
 
-openerp.workflow.Connector=function(id, signal, condition, source, destination) {
+openerp.workflow.Connector=function(id, signal, condition, from, to) {
 	
 	draw2d.Connection.call(this);
 	this.setTargetDecorator(new draw2d.ArrowConnectionDecorator());
@@ -29,8 +29,8 @@ openerp.workflow.Connector=function(id, signal, condition, source, destination) 
 		this.tr_id = id;
 		this.signal = signal;
 		this.condition = condition;
-		this.source = source;
-		this.destination = destination;
+		this.from = from;
+		this.to = to;
 	}
 	
 }
@@ -53,16 +53,16 @@ openerp.workflow.Connector.prototype.onmouseOut = function(event){
 openerp.workflow.Connector.prototype.edit = function() {
 	
 	params = {
-		'_terp_model' : 'workflow.transition',
-		'_terp_start' : this.getSource().getParent().get_act_id(),
-		'_terp_end' : this.getTarget().getParent().get_act_id()
-		}
+	'_terp_model' : 'workflow.transition',
+	'_terp_start' : this.getSource().getParent().get_act_id(),
+	'_terp_end' : this.getTarget().getParent().get_act_id()
+	}
+	
+	if(!isUndefinedOrNull(this.tr_id))
+		params['_terp_id'] = this.tr_id	;	
 		
-		if(!isUndefinedOrNull(this.tr_id))
-			params['_terp_id'] = this.tr_id	;	
-			
-		var act = getURL('/workflow/connector/edit', params);
-		openWindow(act);
+	var act = getURL('/workflow/connector/edit', params);
+	openWindow(act);
 }
 
 openerp.workflow.Connector.prototype.get_tr_id = function() {
