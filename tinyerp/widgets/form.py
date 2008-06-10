@@ -611,14 +611,15 @@ class Form(TinyCompoundWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
+        
         self.string = attrs.get('string', '')
-
         self.link = attrs.get('link', nolinks)
 
-        self.model = model
         self.id = None
+        self.model = model
         self.editable = editable
         self.readonly = readonly
+        self.context = context or {}
 
         proxy = rpc.RPCProxy(model)
 
@@ -674,8 +675,9 @@ class Form(TinyCompoundWidget):
 
             attrs['prefix'] = prefix
             attrs['editable'] = self.editable
-            
             attrs['link'] = self.link
+                        
+            attrs.setdefault('context', self.context)
 
             if 'state' in values:
                 attrs['state'] = values['state']

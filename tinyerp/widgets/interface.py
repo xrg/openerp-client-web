@@ -85,8 +85,15 @@ class TinyWidget(object):
         self.nolabel = eval_get(attrs, 'nolabel', False)
         self.required = eval_get(attrs, 'required', False)
         self.readonly = eval_get(attrs, 'readonly', False)
-        self.visible = not eval_get(attrs, 'invisible', False)
-
+        self.visible = True
+        
+        try:
+            visval = attrs.get('invisible', False)
+            ctx = attrs.get('context', {})
+            self.visible = not eval(visval, {'context': ctx})
+        except:
+            pass
+        
         self.help = attrs.get('help')
         self.editable = attrs.get('editable', True)
         self.translatable = attrs.get('translate', False)
