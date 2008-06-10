@@ -13,7 +13,7 @@ openerp.workflow.State = new Class;
 openerp.workflow.State.prototype = $merge(openerp.workflow.State.prototype, draw2d.Oval.prototype)
 openerp.workflow.State.implement({
 
-	initialize : function(id, act_name, flags, flage) {
+	initialize : function(id, act_name, flags, flage, action, kind) {
 		
 		draw2d.Oval.call(this);
 		this.setDimension(100, 60);
@@ -23,8 +23,10 @@ openerp.workflow.State.implement({
 			this.setBackgroundColor(new draw2d.Color(155, 155, 155));
 		else		
 			this.setBackgroundColor(new draw2d.Color(255, 255, 255));	
-			
-		this.act_id = id || null;	
+				
+		this.act_id = id || null;
+		this.action = action || '';
+		this.kind = kind || '';	
 		this.port = null;
 		
 		var html = this.getHTMLElement();		
@@ -45,7 +47,7 @@ openerp.workflow.State.implement({
 			
 			if(n>10)
 			{
-				var width = 100+Math.round((n-10)/2*10);
+				var width = 100 + Math.round((n-10)/2 * 10);
 				this.setDimension(width,60);
 			}
 		}			

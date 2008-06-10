@@ -20,14 +20,19 @@ InfoBox.prototype = {
         MochiKit.Signal.connect(btnDelete, 'onclick', this, 'onDelete');
         
         var title = 'Information Box';
-        if(source instanceof openerp.workflow.State)
-       		 var desc = 'state id:'+source.get_act_id();
-       	else
+        
+        if(source instanceof openerp.workflow.State) {
+       		 var desc = 'Id: '+source.get_act_id();
+       		 var dtl1 = 'Action: '+source.action;
+       		 var dtl2 = 'Kind: '+source.kind;
+        } else
         	var desc = 'Connector id:'+source.get_tr_id();
         
         var info = DIV(null,
                     DIV({'class': 'calInfoTitle'}, title),
                     DIV({'class': 'calInfoDesc'}, desc),
+                    DIV({'class': 'calInfoDesc'}, dtl1),
+                    DIV({'class': 'calInfoDesc'}, dtl2),
                         TABLE({'class': 'calInfoButtons', 'cellpadding': 2}, 
                             TBODY(null, 
                                 TR(null,

@@ -163,8 +163,9 @@ class Connector(Form):
         field_act_to.set_value(params.end or False)
         field_act_to.readonly = True
         
-        form.hidden_fields = [tg_widgets.HiddenField(name='act_from', default=params.start)]
-        form.hidden_fields = [tg_widgets.HiddenField(name='act_to', default=params.end)]
+        form.hidden_fields = [tg_widgets.HiddenField(name='act_from', default=params.start),
+                            tg_widgets.HiddenField(name='act_to', default=params.end)]
+        
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['act_from'] = tw.validators.Int()
         vals['act_to'] = tw.validators.Int()
@@ -286,23 +287,27 @@ class Workflow(Form):
             
         proxy_tr = rpc.RPCProxy("workflow.transition")
         search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)
-        data_trs = proxy_tr.read(search_trs, ['signal','condition'], rpc.session.context)
-            
+        data_trs = proxy_tr.read(search_trs, ['signal', 'condition', 'act_from', 'act_to'], rpc.session.context)
+
         for tr in data_trs:
             t = connectors.get(tr['id'])
             t['signal'] = tr['signal']
             t['condition'] = tr['condition']
+            t['source'] = tr['act_from'][1]
+            t['destination'] = tr['act_to'][1]
         
         proxy_act = rpc.RPCProxy("workflow.activity")
         search_acts = proxy_act.search([('wkf_id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context) 
-        data_acts = proxy_act.read(search_acts, ['flow_start', 'flow_stop'], rpc.session.context)
+        data_acts = proxy_act.read(search_acts, ['action', 'kind', 'flow_start', 'flow_stop'], rpc.session.context)
         
         for act in data_acts:
             n = nodes.get(str(act['id'])) 
             n['id'] = act['id']
             n['flow_start'] = act['flow_start']
             n['flow_stop'] = act['flow_stop']
-
+            n['action'] = act['action']
+            n['kind'] = act['kind']
+            
         return dict(list=nodes,conn=connectors)
     
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")

@@ -8,7 +8,7 @@ if (typeof(openerp.workflow) == "undefined") {
 }
 
 
-openerp.workflow.Connector=function(id, signal, condition) {
+openerp.workflow.Connector=function(id, signal, condition, source, destination) {
 	
 	draw2d.Connection.call(this);
 	this.setTargetDecorator(new draw2d.ArrowConnectionDecorator());
@@ -29,6 +29,8 @@ openerp.workflow.Connector=function(id, signal, condition) {
 		this.tr_id = id;
 		this.signal = signal;
 		this.condition = condition;
+		this.source = source;
+		this.destination = destination;
 	}
 	
 }

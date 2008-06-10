@@ -94,9 +94,8 @@ openerp.workflow.Workflow.implement({
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.list) {
-				
 				var node = obj.list[i];
-				var s = new openerp.workflow.State(node['id'], node['name'], node['flow_start'], node['flow_stop']);	
+				var s = new openerp.workflow.State(node['id'], node['name'], node['flow_start'], node['flow_stop'], node['action'], node['kind']);	
 		        self.addFigure(s, node['y']+100, node['x']);
 		        s.initPort();
 		        self.states.add(s);
@@ -120,7 +119,7 @@ openerp.workflow.Workflow.implement({
 					else if(id==conn['c'][1])
 						end =j;
 				}
-				self.add_conn(conn['id'], start, end, conn['signal'],conn['condition']);
+				self.add_conn(conn['id'], start, end, conn['signal'],conn['condition'], conn['source'], conn['destination']);
 			}
 			
 	    	getElement('loading').style.display = 'none';
@@ -128,7 +127,7 @@ openerp.workflow.Workflow.implement({
 		
 	},
 	
-	add_conn : function(id, start, end, signal, condition) {
+	add_conn : function(id, start, end, signal, condition, source, destination) {
 		
 		var source = this.states.get(start);
 		var destination = this.states.get(end);		
@@ -136,7 +135,7 @@ openerp.workflow.Workflow.implement({
 		var source_ports = source.getPorts();
 		var dest_ports = destination.getPorts();
 		
-		var c = new openerp.workflow.Connector(id, signal, condition);	
+		var c = new openerp.workflow.Connector(id, signal, condition, source, destination);	
 		var n1 = source_ports.getSize();
 		var n2 = dest_ports.getSize();
 		
@@ -189,7 +188,6 @@ openerp.workflow.Workflow.implement({
 	},
 	
 	create_state : function(id) {
-		log('id:'+id);
 		if(id != 0) {	
 				
 			var position = this.state.getPosition();	
@@ -200,9 +198,10 @@ openerp.workflow.Workflow.implement({
 				var flag = false;
 				var index = null;
 				var n = self.states.getSize(); 
+				var data = obj.data;
 				
 				for(i=0; i<n; i++) {
-					if(self.states.get(i).get_act_id()==id)
+					if(self.states.get(i).get_act_id() == id)
 					{
 						flag=true;
 						index = i;
@@ -210,16 +209,17 @@ openerp.workflow.Workflow.implement({
 					}
 				}				
 				
+				
+				
 				if(!flag) {	
-					var s = new openerp.workflow.State(obj.data['id'],obj.data['name'],obj.data['flow_start'],obj.data['flow_stop']);
+					var s = new openerp.workflow.State(data['id'], data['name'], data['flow_start'], data['flow_stop'], data['action'], data['kind']);
 			        self.addFigure(s, position.x, position.y);
 			        self.states.add(s);
 			        s.initPort();
 				} else {
 					var state = self.states.get(index);
-					var span = MochiKit.DOM.getElementsByTagAndClassName('span',null,state.getHTMLElement());
-					log(span[0],obj.data['name']);
-					span[0].innerHTML = obj.data['name'];
+					var span = MochiKit.DOM.getElementsByTagAndClassName('span', null, state.getHTMLElement());
+					span[0].innerHTML = data['name'];
 //					div.style.width = Math.max(50,(obj.data['name'].length/2*10))+'px'							
 					
 //					if(obj.data['flow_start'] || obj.data['flow_stop'] )
@@ -248,6 +248,7 @@ openerp.workflow.Workflow.implement({
 		req.addCallback(function(obj) {	
 			
 			html.style.display = 'none';
+			var data = obj.data;
 			
 			if(obj.flag) {
 				var n = self.states.getSize();
@@ -263,7 +264,7 @@ openerp.workflow.Workflow.implement({
 						end =j;
 				}
 				
-				self.add_conn(obj.data['id'],start,end,obj.data['signal'],obj.data['condition']);
+				self.add_conn(obj.data['id'], start, end, obj.data['signal'], obj.data['condition'], obj.data['act_from'][1], obj.data['act_to'][1]);
 				self.conn.getLastElement().edit();
 			} else {
 				alert('could not create transaction at server');
