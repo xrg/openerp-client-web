@@ -45,8 +45,6 @@ var ListView = function(id, terp){
     this.view_mode = view_mode ? view_mode.value : null;
     
     this.m2m = getElement(id + '_set');
-
-    this.wait_counter = 0;
 }
 
 ListView.prototype.checkAll = function(clear){
@@ -86,9 +84,6 @@ ListView.prototype.create = function(){
 }
 
 ListView.prototype.edit = function(id){
-    if (this.wait_counter > 0)
-        return;
-
     this.reload(id);
 }
 
