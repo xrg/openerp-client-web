@@ -70,8 +70,8 @@ WaitBox.prototype = {
 
     show : function() {
 
-        setElementDimensions(this.layer, elementDimensions(document.body));
-        //setElementDimensions(this.layer, getViewportDimensions());
+        //setElementDimensions(this.layer, elementDimensions(document.body));
+        setElementDimensions(this.layer, getViewportDimensions());
 
         var w = 350;
         var h = 125;
