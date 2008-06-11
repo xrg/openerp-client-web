@@ -40,7 +40,7 @@
     <tr>
         <td py:if="screen">
             <input type="hidden" name="${name}/__id" value="${id}"/>
-            <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${default_get_ctx}"/>
+            <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${ustr(default_get_ctx)}"/>
             ${screen.display()}
         </td>
     </tr>
