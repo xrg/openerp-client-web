@@ -12,7 +12,12 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 	
 	draw2d.Connection.call(this);
 	this.setTargetDecorator(new draw2d.ArrowConnectionDecorator());
-	this.setRouter(new draw2d.BezierConnectionRouter());
+	
+	
+//	this.setRouter(new draw2d.BezierConnectionRouter());
+	this.setSourceAnchor(new openerp.workflow.ConnectionAnchor);
+    this.setTargetAnchor(new openerp.workflow.ConnectionAnchor);
+    this.setRouter(new draw2d.NullConnectionRouter());
 	  
 	var html = this.getHTMLElement();
 	html.style.cursor = 'pointer';
@@ -32,8 +37,9 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 		this.condition = condition;
 		this.from = from;
 		this.to = to;
+		this.isOverlaping = false;
+		this.OverlapingSeq = 0;
 	}
-	
 }
 
 openerp.workflow.Connector.prototype = new draw2d.Connection();

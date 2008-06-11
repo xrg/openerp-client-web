@@ -136,10 +136,27 @@ openerp.workflow.Workflow.implement({
 		var source_ports = source.getPorts();
 		var dest_ports = destination.getPorts();
 		
-		var c = new openerp.workflow.Connector(id, signal, condition, from, to);	
 		var n1 = source_ports.getSize();
 		var n2 = dest_ports.getSize();
 		
+		var c = new openerp.workflow.Connector(id, signal, condition, from, to);	
+		var n = this.conn.getSize();
+		var counter = 0;
+		for(i=0; i<n; i++) {
+			var t = this.conn.get(i);
+			var s = this.states.indexOf(t.getSource().getParent());
+			var e = this.states.indexOf(t.getTarget().getParent());
+			
+			if(s==start && e==end) {
+				c.isOverlaping = true;
+				counter++;
+			} else if(e==start && s==end) {
+				c.isOverlaping = true;
+				counter++;
+			}
+		}
+		
+		c.OverlapingSeq = counter;
 		if(source.getPosition().x<destination.getPosition().x) {
 			
 			for(i=0; i<n1; i++) {
@@ -183,6 +200,8 @@ openerp.workflow.Workflow.implement({
 				}	
 			}
 		}
+		
+		
 		
 		self.addFigure(c);
 		this.conn.add(c);
