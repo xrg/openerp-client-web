@@ -237,8 +237,6 @@ ListView.prototype.save = function(id){
     var self = this;
     var req= Ajax.JSON.post('/listgrid/save', args);
 
-    this.waitGlass();
-
     req.addCallback(function(obj){
         if (obj.error){
             alert(obj.error);
@@ -259,9 +257,6 @@ ListView.prototype.save = function(id){
         }
     });
 
-    req.addBoth(function(xmlHttp){
-        self.waitGlass(true);
-    });
 }
 
 ListView.prototype.remove = function(id){
@@ -278,8 +273,6 @@ ListView.prototype.remove = function(id){
 
     var req = Ajax.JSON.post('/listgrid/remove', args);
 
-    this.waitGlass();
-
     req.addCallback(function(obj){
         if (obj.error){
             alert(obj.error);
@@ -288,9 +281,6 @@ ListView.prototype.remove = function(id){
         }
     });
 
-    req.addBoth(function(xmlHttp){
-        self.waitGlass(true);
-    });
 }
 
 ListView.prototype.makeArgs = function(){
@@ -340,8 +330,6 @@ ListView.prototype.reload = function(edit_inline){
 
     var req = Ajax.JSON.post('/listgrid/get', args);
 
-    this.waitGlass();
-
     req.addCallback(function(obj){
 
         var _terp_ids = $(self.id + '/_terp_ids') || $('_terp_ids');
@@ -382,9 +370,6 @@ ListView.prototype.reload = function(edit_inline){
 
     });
 
-    req.addBoth(function(xmlHttp){
-        self.waitGlass(true);
-    });
 }
 
 ListView.prototype.onButtonClick = function(action, id, type){
@@ -422,40 +407,6 @@ function findPosition(elem) {
     return {x: x, y: y};
 }
 
-ListView.prototype.waitGlass = function(hide){
-
-    this.wait_counter += hide ? -1 : 1;
-
-    var block = $('listgrid_ajax_wait');
-
-    if (!block){
-        block = DIV({id: 'listgrid_ajax_wait', style: "position: absolute; display: none; background-color: gray;"});
-        setOpacity(block, 0.2);
-
-        appendChildNodes(document.body, block);
-    }
-
-    if (this.wait_counter == 0){
-        hideElement(block);
-        return;
-    }
-
-    if (this.wait_counter > 1){
-        return;
-    }
-
-    var thelist = $(this.id);
-
-    //var p = elementPosition(thelist);
-    var p = findPosition(thelist);
-    var d = elementDimensions(thelist);
-
-    setElementPosition(block, p);
-    setElementDimensions(block, d);
-
-    showElement(block);
-}
-
 ListView.prototype.exportData = function(){
 	
     var ids = this.getSelectedRecords();
@@ -483,11 +434,11 @@ ListView.prototype.importData = function(){
 
 ListView.prototype.go = function(action){
 
-    var prefix = '';
-
-    if (this.id != '_terp_list') {
-        prefix = this.id + '/';
+    if (Ajax.COUNT > 0){
+        return;
     }
+
+    var prefix = this.id == '_terp_list' ? '' : this.id + '/';
 
     var o = $(prefix + '_terp_offset');
     var l = $(prefix + '_terp_limit');
