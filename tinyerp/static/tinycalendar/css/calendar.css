@@ -104,7 +104,7 @@
 
     padding-left: 2px;
 
-    font-size: 11px;
+    font-size: 10px;
     white-space: nowrap;
     overflow: hidden;
 
@@ -134,7 +134,7 @@
     color: black;
     padding: 2px;
     vertical-align: top;
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .calEventGrip {
@@ -191,7 +191,7 @@
     background-color: white;
     border-left: 1px solid #C0C0C0;
 
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .calMonthDay.dayOff {
