@@ -127,7 +127,7 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         if isinstance(ids, tuple):
             ids = list(ids)
             
-        current.ids = ids
+        current.ids = ids or []
         current.view_mode = view_mode
         current.view_type = view_type
         current.domain = current.domain or []
