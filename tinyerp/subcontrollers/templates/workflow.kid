@@ -14,6 +14,7 @@
     
 	<script src='/static/workflow/javascript/connector.js'></script>
 	<script src='/static/workflow/javascript/conn_anchor.js'></script>
+	<script src='/static/workflow/javascript/conn_decorator.js'></script>
     <script src='/static/workflow/javascript/workflow.js'></script>
     <script src='/static/workflow/javascript/toolbar.js'></script>
     <script src='/static/workflow/javascript/ports.js'></script>
