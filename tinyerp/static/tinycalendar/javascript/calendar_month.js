@@ -432,16 +432,29 @@ MonthCalendar.Week.prototype = {
             e.dayspan = parseInt(getNodeAttribute(e, 'nDaySpan')) || 1;
         });
 
-        events.sort(function(a, b){
+        // sort events, allDay events should always be first
+        e1 = filter(function(e){
+            return !hasElementClass(e, 'calEventInfo');
+        }, events);
 
-            if (hasElementClass(a, 'calEventInfo')) return 1;
-            if (hasElementClass(b, 'calEventInfo')) return -1;
+        e2 = filter(function(e){
+            return hasElementClass(e, 'calEventInfo');
+        }, events);
 
+        e1.sort(function(a, b){
             if (a.dayspan > b.dayspan) return -1;
             if (a.starts == b.starts) return 0;
             if (a.starts < b.starts) return -1;
             return 1;
         });
+
+        e2.sort(function(a, b){
+            if (a.starts == b.starts) return 0;
+            if (a.starts < b.starts) return -1;
+            return 1;
+        });
+
+        events = e1.concat(e2);
 
         forEach(events, function(e){
             var dt = toISODate(e.starts);
