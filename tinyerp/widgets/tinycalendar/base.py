@@ -46,10 +46,17 @@ from tinyerp.widgets import interface
 from utils import Day
 from utils import parse_datetime
 
+COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
+                 '#fcaf3e', '#ef2929', '#ff00c9', '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f',
+                 '#ff8e00', '#ff0000', '#b0008c', '#9000ff', '#0078ff', '#00ff00', '#e6ff00', '#ffff00',
+                 '#905000', '#9b0000', '#840067', '#510090', '#0000c9', '#009b00', '#9abe00', '#ffc900',]
+
 _colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
 def choice_colors(n):
-    if n:
+    if n > len(COLOR_PALETTE):
         return _colorline[0:-1:len(_colorline)/(n+1)]
+    elif n:
+        return COLOR_PALETTE[:n]
     return []
 
 class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
