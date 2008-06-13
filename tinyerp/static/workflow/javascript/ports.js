@@ -17,7 +17,12 @@ openerp.workflow.Port.implement({
 	
 	initialize : function() {
 		draw2d.Port.call(this, new draw2d.ImageFigure('/static/workflow/images/port.gif'));
-		this.MaxFanOut = 1;
+		this.setDimension(1,1)
+//		draw2d.Port.call(this);
+		var html = this.getHTMLElement();
+		html.style.zIndex = '1000';
+//		html.style.backgroundColor = 'red';
+		
 	},	
 	
 	onDrop : function(port) {
@@ -32,7 +37,6 @@ openerp.workflow.Port.implement({
 			WORKFLOW.connector.getHTMLElement().style.display = '';
 			WORKFLOW.create_conn(source,destination); 
 		}
-		
 	},		
 	
 	

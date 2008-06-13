@@ -27,7 +27,10 @@ openerp.workflow.State.implement({
 		this.act_id = id || null;
 		this.action = action;
 		this.kind = kind || '';	
-		this.port = null;
+		this.portR = null;
+		this.portU = null;
+		this.portL = null;
+		this.portD = null;
 		
 		var html = this.getHTMLElement();		
 		this.signal = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);	
@@ -54,31 +57,27 @@ openerp.workflow.State.implement({
 		html.appendChild(span);
 	},
 	
-	initPort : function(){
+	initPort : function() {
 		
 		var workflow = this.getWorkflow();
 		var width = this.getWidth();
 		var height = this.getHeight();
 		
-		this.attachPort(workflow, width, height/2);
-		this.attachPort(workflow, width/4*3, 0+3);
-		this.attachPort(workflow, width/4*3, height-3);	
-		this.attachPort(workflow, width/2, 0);
-		this.attachPort(workflow, width/2, height);
-		this.attachPort(workflow, width/4, 0+3);		
-		this.attachPort(workflow, width/4, height-3);				
-		this.attachPort(workflow, 0, height/2);
-	},
-	
-	attachPort: function(workflow,left,top)
-	{		
-		if(workflow!=null) {
-	    this.port = new openerp.workflow.Port();		
-	    this.port.setWorkflow(this.getWorkflow());
-		this.port.setDimension(3,3);
-	    this.port.setHideIfConnected(true);
-	    this.addPort(this.port,left,top);
-	  }
+		this.portR = new openerp.workflow.Port();		
+	    this.portR.setWorkflow(workflow);
+	    this.addPort(this.portR, width, height/2);
+	    
+	    this.portU = new openerp.workflow.Port();		
+	    this.portU.setWorkflow(workflow);
+	    this.addPort(this.portU, width/2, 0);
+	    
+	    this.portL = new openerp.workflow.Port();		
+	    this.portL.setWorkflow(workflow);
+	    this.addPort(this.portL, 0, height/2);
+	    
+	    this.portD = new openerp.workflow.Port();		
+	    this.portD.setWorkflow(workflow);
+	    this.addPort(this.portD, width/2, height);
 	},
 	
 	ondblClick : function(event) {
@@ -92,18 +91,13 @@ openerp.workflow.State.implement({
 	
 	setDimension : function(/*:int*/ w, /*:int*/ h ) {
 		
-		draw2d.Oval.prototype.setDimension.call(this,w, h);	
-		var ports = this.getPorts();
-		
-		if(this.port!=null)	{
-	  		ports.get(0).setPosition(w,h/2);	  		
-	  		ports.get(4).setPosition(w/4*3,3);	  		
-	  		ports.get(7).setPosition(w/4*3,h-3);	  		
-	  		ports.get(3).setPosition(w/2,0);			
-	  		ports.get(6).setPosition(w/2,h);		  		
-	  		ports.get(2).setPosition(w/4,3);	   		  		
-	  		ports.get(5).setPosition(w/4,h-3); 		
-	  		ports.get(1).setPosition(0,h/2);
+		draw2d.Oval.prototype.setDimension.call(this, w, h);	
+	
+		if(this.portR!=null)	{
+			this.portR.setPosition(w, h/2);
+			this.portU.setPosition(w/2, 0);
+			this.portL.setPosition(0, h/2);
+			this.portD.setPosition(w/2, h);
 	  	}
 	},
 	

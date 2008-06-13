@@ -46,6 +46,7 @@ openerp.workflow.Workflow.implement({
 		this.state.setBackgroundColor(new draw2d.Color(255, 255, 255));
         this.addFigure(this.state, 100, 20);
 		this.state.initPort();
+		this.state.initPort();
 		var html_state = this.state.getHTMLElement();	
 		html_state.style.display = 'none';
 		
@@ -54,7 +55,7 @@ openerp.workflow.Workflow.implement({
 		//dummy connector
 		this.connector = new openerp.workflow.Connector(999);
 		this.connector.setSource(state_ports.get(0));
-		this.connector.setTarget(state_ports.get(3));			
+		this.connector.setTarget(state_ports.get(1));			
 		this.addFigure(this.connector);
 		var html_conn = this.connector.getHTMLElement();
 		html_conn.style.display = 'none';
@@ -132,16 +133,11 @@ openerp.workflow.Workflow.implement({
 		
 		var source = this.states.get(start);
 		var destination = this.states.get(end);		
-		
-		var source_ports = source.getPorts();
-		var dest_ports = destination.getPorts();
-		
-		var n1 = source_ports.getSize();
-		var n2 = dest_ports.getSize();
-		
+				
 		var c = new openerp.workflow.Connector(id, signal, condition, from, to);	
 		var n = this.conn.getSize();
 		var counter = 0;
+		
 		for(i=0; i<n; i++) {
 			var t = this.conn.get(i);
 			var s = this.states.indexOf(t.getSource().getParent());
@@ -150,58 +146,40 @@ openerp.workflow.Workflow.implement({
 			if(s==start && e==end) {
 				c.isOverlaping = true;
 				counter++;
+				log('if yes');
 			} else if(e==start && s==end) {
 				c.isOverlaping = true;
 				counter++;
-			}
+				log('else yes');
+			} 
 		}
 		
 		c.OverlapingSeq = counter;
-		if(source.getPosition().x<destination.getPosition().x) {
+		
+		var spos = source.getBounds();
+		var dpos = destination.getBounds();
+		
+		//fix source an destination ports 
+		if(spos.x<dpos.x) {
+			c.setTarget(destination.portL);
 			
-			for(i=0; i<n1; i++) {
-				if(source_ports.get(i).getFanOut()>0)
-					continue;
-				else
-				{
-					c.setSource(source_ports.get(i));
-					break;
-				}	
-			}
-			
-			for(i=n2-1; i>=0; i--) {
-				if(dest_ports.get(i).getFanOut()>0)
-					continue;
-				else
-				{
-					c.setTarget(dest_ports.get(i));
-					break;
-				}	
-			}				
-		} else {	
-					
-			for(i=n1-1; i>=0; i--) {
-				if(source_ports.get(i).getFanOut()>0)
-					continue;
-				else
-				{
-					c.setSource(source_ports.get(i));
-					break;
-				}	
-			}
-			
-			for(i=0; i<n2; i++)	{
-				if(dest_ports.get(i).getFanOut()>0)
-					continue;
-				else
-				{
-					c.setTarget(dest_ports.get(i));
-					break;
-				}	
-			}
+			if((spos.y + spos.h - dpos.y)>50) 
+				c.setSource(source.portD);
+			else if((dpos.y + dpos.h - spos.y)>50)
+				c.setSource(source.portU);
+			else
+				c.setSource(source.portR);
 		}
-		
-		
+		else {
+			c.setTarget(destination.portR);
+			
+			if((spos.y + spos.h - dpos.y)>50) 
+				c.setSource(source.portD);
+			else if((dpos.y + dpos.h - spos.y)>50)
+				c.setSource(source.portU);
+			else
+				c.setSource(source.portL);
+		}
 		
 		self.addFigure(c);
 		this.conn.add(c);
@@ -293,18 +271,15 @@ openerp.workflow.Workflow.implement({
 	},
 	
 	
-	update_conn : function(id) {		
-		log('in update_conn :'+id);
+	update_conn : function(id) {	
 		var self = this;
 		
 		req = Ajax.JSON.post('/workflow/connector/get_info',{id:id});
 		req.addCallback(function(obj) {
-			log(obj.data['act_from'][0],obj.data['act_to'][0]);
 			var n = self.conn.getSize();
 			
 			for(i=0; i<n; i++) {
 				var c = self.conn.get(i);
-				log(c.get_tr_id());
 				if(id==c.get_tr_id()) {
 					c.signal = obj.data['signal'];
 					c.condition = obj.data['condition'];

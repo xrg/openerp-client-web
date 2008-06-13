@@ -31,17 +31,18 @@ openerp.workflow.ConnectionAnchor.implement({
 		
 		var dx = reference.x - centerX;
 		var dy = reference.y - centerY;
-		
 		//r.width, r.height, dx, and dy are guaranteed to be non-zero. 
 		var scale = 0.5 / Math.max(Math.abs(dx) / r.w, Math.abs(dy) / r.h);
 		
 		dx *= scale;
 		dy *= scale;
+		
 		centerX += dx;
 		centerY += dy;
 
 		var conn = this.owner.getConnections().get(0);
+		
 		return new draw2d.Point(Math.round(centerX)+(conn.OverlapingSeq*10), Math.round(centerY)+(conn.OverlapingSeq*10));
-	}
-	
+	},
+
 });
