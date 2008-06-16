@@ -124,8 +124,9 @@ window.browser.isIE6 = /msie 6/.test(navigator.userAgent.toLowerCase());
 window.browser.isIE7 = /msie 7/.test(navigator.userAgent.toLowerCase());
 
 // Gecko(Mozilla) derived
-window.browser.isGecko = /gecko/.test(navigator.userAgent.toLowerCase());
-window.browser.isGecko19 = /rv:1.9.*gecko/.test(navigator.userAgent.toLowerCase());
+window.browser.isGecko = /gecko\//.test(navigator.userAgent.toLowerCase());
+window.browser.isGecko18 = /rv:1.9.*gecko\//.test(navigator.userAgent.toLowerCase());
+window.browser.isGecko19 = /rv:1.9.*gecko\//.test(navigator.userAgent.toLowerCase());
 
 // Apple WebKit derived
 window.browser.isWebKit = /webkit/.test(navigator.userAgent.toLowerCase());
