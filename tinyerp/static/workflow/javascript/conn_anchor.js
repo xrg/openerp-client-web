@@ -41,8 +41,21 @@ openerp.workflow.ConnectionAnchor.implement({
 		centerY += dy;
 
 		var conn = this.owner.getConnections().get(0);
-		
+		this.find_angle(conn);
 		return new draw2d.Point(Math.round(centerX)+(conn.OverlapingSeq*10), Math.round(centerY)+(conn.OverlapingSeq*10));
 	},
+	
+	find_angle : function(c) {
+		var center1 = c.sourceAnchor.getReferencePoint();
+		var center2 = c.targetAnchor.getReferencePoint();
+		
+//		log('x1:'+center1.x+'y1:'+center1.y);
+//		log('x2:'+center2.x+'y2:'+center2.y);
+		
+		if(center1.x!=center2.x){
+			a = 180/3.14 * Math.atan((center2.y-center1.y)/(center2.x-center1.x));
+//			log(a);
+		}
+	}
 
 });

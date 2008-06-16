@@ -271,7 +271,7 @@ class Workflow(Form):
         
         proxy = rpc.RPCProxy("workflow")
         search_ids = proxy.search([('id', '=' , int(kw['id']))], 0, 0, 0, rpc.session.context) 
-        graph_search = proxy.graph_get(search_ids[0], (200, 200, 20, 20), rpc.session.context) 
+        graph_search = proxy.graph_get(search_ids[0], (100, 200, 20, 20), rpc.session.context) 
          
         nodes = graph_search['node']
         transitions = graph_search['transition']
@@ -307,7 +307,7 @@ class Workflow(Form):
             n['flow_stop'] = act['flow_stop']
             n['action'] = act['action']
             n['kind'] = act['kind']
-        print nodes
+        
         return dict(list=nodes,conn=connectors)
     
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")

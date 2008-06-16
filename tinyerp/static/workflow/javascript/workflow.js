@@ -138,6 +138,13 @@ openerp.workflow.Workflow.implement({
 		var n = this.conn.getSize();
 		var counter = 0;
 		
+		//self connection
+		if(start==end) {
+			c.setSourceAnchor(new draw2d.ConnectionAnchor);
+		    c.setTargetAnchor(new draw2d.ConnectionAnchor);
+		    c.setRouter(new draw2d.BezierConnectionRouter());		
+		}
+		
 		for(i=0; i<n; i++) {
 			var t = this.conn.get(i);
 			var s = this.states.indexOf(t.getSource().getParent());
@@ -146,11 +153,11 @@ openerp.workflow.Workflow.implement({
 			if(s==start && e==end) {
 				c.isOverlaping = true;
 				counter++;
-				log('if yes');
+//				log('if yes');
 			} else if(e==start && s==end) {
 				c.isOverlaping = true;
 				counter++;
-				log('else yes');
+//				log('else yes');
 			} 
 		}
 		
@@ -258,10 +265,9 @@ openerp.workflow.Workflow.implement({
 					var id = node.get_act_id();
 					if(id==act_from)
 						start = j;							
-					else if(id==act_to)
+					if(id==act_to)
 						end =j;
-				}
-				
+				}				
 				self.add_conn(data['id'], start, end, data['signal'], data['condition'], data['act_from'][1], data['act_to'][1]);
 				self.conn.getLastElement().edit();
 			} else {
