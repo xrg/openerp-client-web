@@ -476,6 +476,8 @@ class Button(TinyField):
         self.id = id
 
         self.nolabel = True
+        self.readonly = False
+        
         if 'icon' in attrs:
             self.icon = icons.get_icon(attrs['icon'])
 
