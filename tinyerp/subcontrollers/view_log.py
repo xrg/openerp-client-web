@@ -59,10 +59,8 @@ class View_Log(controllers.Controller, TinyResource):
             self.message_state(_('You have to select one resource!'))
             return False
 
-        res = rpc.session.execute('object', 'execute', model, 'perm_read', [id])
+        res = rpc.session.execute('object', 'execute', model, 'perm_read', [id], rpc.session.context)
         tmp = {}
-        
-        print "XXXXXX", res
 
         for line in res:
             todo = [
