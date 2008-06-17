@@ -6,13 +6,18 @@
 <body>
     <div class="view">
         <form action="/pref/ok" method="post">
-            <input type="hidden" id="_terp_default" name="_terp_default" value="${ustr(defaults)}"/>
-            <div class="box2 welcome">${screen.string}</div>
-            <div class="box2" py:content="screen.display()">Screen View</div>
-            <div class="box2" align="right">
-                <button type='button' style="width: 80px" onclick="history.back()">Cancel</button>
-                <button type='submit' style="width: 80px">OK</button>
-            </div>
+            <table align="center">
+                <tr>
+                    <td class="toolbar welcome">${screen.string}</td>
+                </tr>
+                <tr>
+                    <td py:content="screen.display()"></td>
+                </tr>
+                <td class="toolbar" align="right">
+                    <button type='button' style="width: 80px" onclick="history.back()">Cancel</button>
+                    <button type='submit' style="width: 80px">OK</button>
+                </td>
+            </table>
         </form>
     </div>
 </body>

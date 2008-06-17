@@ -47,48 +47,35 @@ class Preferences(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.preferences")
     def create(self):
-        proxy = rpc.RPCProxy('ir.values')
+        proxy = rpc.RPCProxy('res.users')
+        action_id = proxy.action_get({})
+        
+        action = rpc.RPCProxy('ir.actions.act_window').read([action_id], False, {})[0]
+        print action
 
-        res = proxy.get('meta', False, [('res.users', rpc.session.uid)], False, rpc.session.context, True, True, False)
-
-        values = {}
-        defaults = {}
-        for (n, k, v) in res:
-            values[k] = v
-            defaults[k] = n
-
-        id = rpc.session.uid
-        model = 'res.users'
-        preferences = proxy.get('meta', False, [('res.users', False)], True, rpc.session.context, True)
-
-        fields = {}
-        arch = '<?xml version="1.0"?><form string="%s">\n' % ('Preferences')
-        for p in preferences:
-            arch+='<field name="%s" colspan="4"/>' % (p[1],)
-            fields[p[1]] = p[3]
-        arch+= '</form>'
-
+        view_ids=[]
+        if action.get('views', []):
+            view_ids=[x[0] for x in action['views']]
+        elif action.get('view_id', False):
+            view_ids=[action['view_id'][0]]
+            
         params = TinyDict()
+        params.id = rpc.session.uid
+        params.ids = [params.id]
+        params.model = 'res.users'
+        params.view_type = 'form'
+        params.view_mode = ['form']
+        params.view_ids = view_ids
 
-        params.model = model
-        params.context = {}
-        params.domain = []
-
-        view = dict(arch=arch, fields=fields, datas=values)
-
-        screen = Screen(params, editable=True)
-        screen.add_view(view)
-
-        return dict(screen=screen, defaults=defaults)
+        screen = Screen(params, views_preloaded=action.get('views'), editable=True)
+        screen.string = _('Preferences')
+        
+        return dict(screen=screen)
 
     @expose()
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
-        for key in data:
-            if data[key]:
-                rpc.session.execute('object', 'execute', 'ir.values', 'set', 'meta', key, key, [(params.model, rpc.session.uid)], data[key])
-            elif params.default.get(key, False):
-                res = rpc.session.execute('common', 'ir_del', params.default[key])
-
+        proxy = rpc.RPCProxy('res.users')
+        proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
         raise redirect('/')
