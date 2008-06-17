@@ -183,6 +183,10 @@ class Frame(TinyCompoundWidget):
         if not hasattr(widget, 'visible'):
             widget.visible = True
             
+        states = None
+        if getattr(widget, 'states', False) and not isinstance(widget.states, dict):
+            states = ','.join(widget.states)
+
         tr = self.table[-1]
 
         if label:
@@ -192,8 +196,8 @@ class Frame(TinyCompoundWidget):
             if not widget.visible:
                 attrs['style'] = 'display: none'
             
-            if getattr(widget, 'states', False):
-                attrs['states'] = ','.join(widget.states)
+            if states:
+                attrs['states'] = states
             
             td = [attrs, label]
             tr.append(td)
@@ -208,8 +212,8 @@ class Frame(TinyCompoundWidget):
         if not widget.visible:
             attrs['style'] = 'display: none'
         
-        if getattr(widget, 'states', False):
-            attrs['states'] = ','.join(widget.states)
+        if states:
+            attrs['states'] = states
         
         if isinstance(widget, (Group, Notebook, O2M, M2M)):
             attrs['valign'] = 'top'
