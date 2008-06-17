@@ -23,19 +23,44 @@
             else
                 img.src = '/static/images/sidebar_hide.gif';
         }
-
-        function loadSidebar() {
+        
+        window.visible_state = [];
+        
+        onStateChange = function(evt){
+            var val = evt.src().value;
+            
+            forEach(window.visible_state, function(item){
+                var states = getNodeAttribute(item, 'states');
+                states = states.split(',');
+                
+                item.style.display = findIdentical(states, val) == -1 ? 'none' : '';
+            }, window.visible_state);
+        }
+        
+        hookStateChange = function() {
+        
+            var items = [];
+            
+            items = items.concat(getElementsByTagAndClassName('td', 'item'));
+            items = items.concat(getElementsByTagAndClassName('td', 'label'));
+            
+            items = MochiKit.Base.filter(function(e){
+                return getNodeAttribute(e, 'states');
+            }, items);
+            
+            window.visible_state = items;
+            MochiKit.Signal.connect('state', 'onchange', onStateChange);
+        }
+        
+        MochiKit.DOM.addLoadEvent(function(evt){
             var sb = $('sidebar');
             if (sb) toggle_sidebar(get_cookie('terp_sidebar'));
-        }
-
-        connect(window, 'onload', function(){
-            loadSidebar();
-            
+                        
             if (!getElement('_terp_list')) {
-                connect(window.document, 'oncontextmenu', on_context_menu);
+                MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
             }
             
+            if ($('state')) hookStateChange();
         });
     </script>
 
