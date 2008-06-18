@@ -315,7 +315,7 @@ class Form(controllers.Controller, TinyResource):
             raise redirect('/')
         
         elif btype == 'save':
-            pass
+            params.id = False
 
         elif btype == 'workflow':
             res = rpc.session.execute('object', 'exec_workflow', model, name, id)
