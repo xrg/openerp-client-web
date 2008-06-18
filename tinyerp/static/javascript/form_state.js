@@ -47,7 +47,7 @@ var form_hookStateChange = function() {
 
 var form_onStateChange = function(evt) {
     
-    var val = evt.src().value;
+    var val = MochiKit.DOM.getElement('state').value;
     
     for(var i=0; i<FORM_STATE_INFO.length; i++) {
             
@@ -74,6 +74,7 @@ var form_setRequired = function(elem, required) {
 MochiKit.DOM.addLoadEvent(function(evt){
     if (MochiKit.DOM.getElement('state')) {
         form_hookStateChange();
+        form_onStateChange();
     }
 });
 
