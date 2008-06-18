@@ -231,6 +231,15 @@ def execute(action, **data):
                              name=action.get('name'))
         return res
 
+    elif action['type']=='ir.actions.server':
+        
+        ctx = data.get('context', {}).copy()
+        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
+        
+        res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
+        if res:
+            return execute(res, **data)
+            
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
             del data['window']

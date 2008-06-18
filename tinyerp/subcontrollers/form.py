@@ -328,7 +328,9 @@ class Form(controllers.Controller, TinyResource):
             if action_type == 'ir.actions.wizard':
                 cherrypy.session['wizard_parent_form'] = params
 
-            res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
+            res = actions.execute_by_id(action_id, type=action_type, 
+                                        model=model, id=id, ids=ids, 
+                                        context=params.context or {})
             if res:
                 return res
 
