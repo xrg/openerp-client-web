@@ -186,7 +186,7 @@ var switch_O2M = function(view_type, src){
     });
 }
 
-var submit_form = function(action, src, data){
+var submit_form = function(action, src, data, target){
 
     if (Ajax.COUNT > 0) {
         return callLater(1, submit_form, action, src, data);
@@ -216,8 +216,8 @@ var submit_form = function(action, src, data){
 
         args['_terp_selection'] = '[' + ids.join(',') + ']';
     }
-
-    if (action == 'report' || (action == 'action' && data)){
+    
+    if (target == "new" || action == 'report' || (action == 'action' && data)){
         setNodeAttribute(form, 'target', '_blank');
     }
 

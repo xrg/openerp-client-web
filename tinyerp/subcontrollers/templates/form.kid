@@ -188,7 +188,7 @@
                                         </table>
                                     </td>
                                 </tr>
-                                <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'))">
+                                <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'), '${item.get('target', '')}')">
                                     <td>
                                         <a href="javascript: void(0)">${item['name']}</a>
                                     </td>
