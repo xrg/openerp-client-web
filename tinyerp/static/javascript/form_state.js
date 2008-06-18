@@ -36,6 +36,7 @@ var form_hookStateChange = function() {
     
     items = items.concat(getElementsByTagAndClassName('td', 'item'));
     items = items.concat(getElementsByTagAndClassName('td', 'label'));
+    items = items.concat(getElementsByTagAndClassName('div', 'tabbertab'));
     
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'states');
@@ -53,9 +54,51 @@ var form_onStateChange = function(evt) {
             
         var item = FORM_STATE_INFO[i];
         var states = getNodeAttribute(item, 'states');
-        
         states = states.split(',');
-        item.style.display = findIdentical(states, val) == -1 ? 'none' : '';
+        
+        // notebook page?
+        if (item.tagName == 'DIV') {
+            
+            var tabber = item.parentNode.tabber;
+            
+            if (!tabber)  {
+               return MochiKit.Async.callLater(0, form_onStateChange, evt);
+            }
+            
+            if (tabber) {
+                var tabs = getElementsByTagAndClassName('div', 'tabbertab', item.parentNode);
+                var idx = findIdentical(tabs, item);
+                var idx2 = -1;
+                
+                var tab = tabber.tabs[idx];
+                
+                if (hasElementClass(tab.li, 'tabberactive') && tab.li.style.display != 'none' && tabs.length > 1) {
+                    
+                    for (var j=idx-1; j>-1;j--){                        
+                        if (idx2 > -1) 
+                            break;
+                        if (tabs[j].style.display != 'none')
+                            idx2 = j;
+                    }
+                    
+                    for (var j=idx+1; j<tabs.length; j++){                        
+                        if (idx2 > -1) 
+                            break;
+                        if (tabs[j].style.display != 'none')
+                            idx2 = j;
+                    }
+                    
+                    if (idx2 > -1) {
+                        tabber.tabShow(idx2);
+                    }
+                }
+                
+                tab.li.style.display = findIdentical(states, val) == -1 ? 'none' : '';
+                tab.div.style.display = findIdentical(states, val) == -1 ? 'none' : '';
+            }
+        } else {
+            item.style.display = findIdentical(states, val) == -1 ? 'none' : '';
+        }
     }
 }
 

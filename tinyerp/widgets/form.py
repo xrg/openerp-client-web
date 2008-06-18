@@ -95,7 +95,7 @@ class Frame(TinyCompoundWidget):
 
             if isinstance(child, NewLine):
                 self.add_row()
-            elif getattr(child, 'visible', True) or isinstance(child, (Button, Group)):
+            elif getattr(child, 'visible', True) or isinstance(child, (Button, Group, Page)):
                 self.add(child, string, rowspan, colspan)
             elif isinstance(child, TinyInputWidget):
                 self.hiddens += [child]
@@ -199,7 +199,7 @@ class Frame(TinyCompoundWidget):
             widget.visible = True
         
         # Visibility based on current state
-        if isinstance(widget, (Button, Group)) and getattr(widget, 'states'):
+        if isinstance(widget, (Button, Group, Page)) and getattr(widget, 'states'):
             attrs['states'] = ','.join(widget.states)
             if not widget.visible:
                 attrs['style'] = 'display: none'
@@ -230,6 +230,11 @@ class Notebook(TinyCompoundWidget):
         self.nolabel = True
 
         self.colspan = attrs.get('colspan', 3)
+
+class Page(Frame):
+    def __init__(self, attrs, children):
+        super(Page, self).__init__(attrs, children)
+        self.states = (self.states or None) and ','.join(self.states)
 
 class Separator(TinyField):
     """Separator widget.
@@ -721,7 +726,7 @@ class Form(TinyCompoundWidget):
 
             elif node.localName == 'page':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
-                views += [Frame(attrs, n)]
+                views += [Page(attrs, n)]
 
             elif node.localName=='group':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
