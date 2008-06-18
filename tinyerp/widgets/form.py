@@ -178,11 +178,21 @@ class Frame(TinyCompoundWidget):
 
         if not hasattr(widget, 'visible'):
             widget.visible = True
-            
-        states = None
-        if getattr(widget, 'states', False) and not isinstance(widget.states, dict):
-            states = ','.join(widget.states)
+        
+        # convert python statement into equivalent JavaScript statement
+        states = getattr(widget, 'states') or ''
+        if isinstance(states, dict):
+            for k, v in states.items():
+                v2 = []
+                b = {True: 1, False: 0} 
+                for i,j in v:
+                    v2 += [[str(i), b.get(j, 0)]]
+                states[str(k)] = v2
+        elif isinstance(states, list):
+            states = ','.join(states)
 
+        states = str(states)
+        
         tr = self.table[-1]
 
         if label:

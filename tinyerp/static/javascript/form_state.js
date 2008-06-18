@@ -53,22 +53,90 @@ var form_onStateChange = function(evt) {
             
         var item = FORM_STATE_INFO[i];
         var states = getNodeAttribute(item, 'states');
-        states = states.split(',');
         
-        item.style.display = findIdentical(states, val) == -1 ? 'none' : '';
+        if (states.indexOf('{') == 0) {
+            try {
+                eval("states="+states);
+            } catch(e) {
+                states = null;
+            }
+                
+            var attrs = states[val] || [];
+            
+            forEach(attrs, function(attr){
+                
+                switch (attr[0]) {
+                    case 'readonly':
+                        form_setReadonly(item, attr[1]);
+                        break;
+                    case 'required':
+                        form_setRequired(item, attr[1]);
+                        break;
+                    case 'invisible':
+                        form_setVisible(item, !attr[1]);
+                        break;
+                }
+            });
+            
+        } else {
+            states = states.split(',');
+            item.style.display = findIdentical(states, val) == -1 ? 'none' : '';
+        }
     }
 }
 
 var form_setVisible = function(elem, visible) {
-    
+    elem.style.display = visible ? '' : 'none';
 }
 
 var form_setReadonly = function(elem, readonly) {
     
+    //TODO: handle o2m, m2m, m2o and other complex widget 
+    
+    var inputs = [];
+    
+    inputs = inputs.concat(getElementsByTagAndClassName('input', null, elem));
+    inputs = inputs.concat(getElementsByTagAndClassName('select', null, elem));
+    inputs = inputs.concat(getElementsByTagAndClassName('textarea', null, elem));
+    inputs = inputs.concat(getElementsByTagAndClassName('button', null, elem));
+    
+    forEach(inputs, function(input){
+       
+       if (input.name && input.name.indexOf('__terp__') == -1) {
+           input.readOnly = readonly;
+           input.disabled = readonly;
+           
+           if (readonly) {
+               addElementClass(input, 'readonlyfield');
+           } else {
+               removeElementClass(input, 'readonlyfield');
+           }
+       }
+    });
 }
 
 var form_setRequired = function(elem, required) {
     
+    //TODO: handle o2m, m2m, m2o and other complex widget 
+    
+    var inputs = [];
+    
+    inputs = inputs.concat(getElementsByTagAndClassName('input', null, elem));
+    inputs = inputs.concat(getElementsByTagAndClassName('select', null, elem));
+    inputs = inputs.concat(getElementsByTagAndClassName('textarea', null, elem));
+    inputs = inputs.concat(getElementsByTagAndClassName('button', null, elem));
+    
+    forEach(inputs, function(input){
+       
+       if (input.name && input.name.indexOf('__terp__') == -1) {
+           
+           if (required) {
+               addElementClass(input, 'requiredfield');
+           } else {
+               removeElementClass(input, 'requiredfield');
+           }
+       }
+    });
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
