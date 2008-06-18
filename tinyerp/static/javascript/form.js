@@ -218,7 +218,7 @@ var submit_form = function(action, src, data, target){
     }
     
     if (target == "new" || action == 'report' || (action == 'action' && data)){
-        setNodeAttribute(form, 'target', '_new');
+        setNodeAttribute(form, 'target', '_blank');
     }
     
     if (target == 'new' && action == 'relate') {
