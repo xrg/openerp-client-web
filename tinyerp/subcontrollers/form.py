@@ -319,6 +319,7 @@ class Form(controllers.Controller, TinyResource):
 
         elif btype == 'workflow':
             res = rpc.session.execute('object', 'exec_workflow', model, name, id)
+            print "XXXXXXXXXXXXXXXXXXXXXXX", res
             if isinstance(res, dict):
                 from tinyerp.subcontrollers import actions
                 return actions.execute(res)

@@ -192,7 +192,14 @@ def execute(action, **data):
         #raise common.error('Error', 'Invalid action...')
         return
     
-    if action['type']=='ir.actions.act_window':
+    if action['type'] == 'ir.actions.act_window_close':
+        return """<html>
+        <head></head>
+        <body onload="window.close()"></body>
+        </html>
+        """
+    
+    elif action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
             data[key] = action.get(key, data.get(key, None))
 
