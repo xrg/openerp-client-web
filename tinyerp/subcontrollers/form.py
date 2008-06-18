@@ -102,7 +102,8 @@ class Form(controllers.Controller, TinyResource):
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
         buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
-        buttons.attach = id and mode == 'form'
+        buttons.can_attach = id and mode == 'form'
+        buttons.has_attach = buttons.can_attach and self._has_attachments(params.model, id, mode)
         buttons.i18n = not editable and mode == 'form'
 
         buttons.toolbar = not params.model.startswith('board.')
@@ -120,6 +121,13 @@ class Form(controllers.Controller, TinyResource):
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
         return dict(form=form, pager=pager, buttons=buttons, links=links)
+
+    def _has_attachments(self, model, id, mode):
+        if mode <> 'form':
+            return False
+        proxy = rpc.RPCProxy('ir.attachment')
+        cpt = proxy.search_count([('res_model', '=', model), ('res_id', '=', id)])
+        return cpt > 0
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):

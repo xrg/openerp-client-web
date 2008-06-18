@@ -58,8 +58,11 @@
                                         <button type="button" title="Calendar View..." disabled="${tg.selector(not buttons.calendar)}" onclick="switchView('calendar')">Calendar</button>
                                         <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="switchView('graph')">Graph</button>
                                     </td>
-                                    <td align="center" valign="middle" width="16" py:if="buttons.attach">
+                                    <td align="center" valign="middle" width="16" py:if="buttons.can_attach and not buttons.has_attach">
                                         <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/stock/gtk-paste.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                    </td>
+                                    <td align="center" valign="middle" width="16" py:if="buttons.can_attach and buttons.has_attach">
+                                        <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/gtk-paste-v.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.i18n">
                                         <img class="button" title="${_('Translate this resource.')}" src="/static/images/translate.png" width="16" height="16" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
