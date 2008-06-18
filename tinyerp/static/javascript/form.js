@@ -221,10 +221,6 @@ var submit_form = function(action, src, data, target){
         setNodeAttribute(form, 'target', '_blank');
     }
     
-    if (target == 'new' && action == 'relate') {
-        args['_terp_show_header_footer'] = 0;
-    }
-
     if (action == 'save_and_edit'){
         action = 'save';
         args['_terp_return_edit'] = 1;
