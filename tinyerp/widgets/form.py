@@ -95,54 +95,58 @@ class Frame(TinyCompoundWidget):
 
             if isinstance(child, NewLine):
                 self.add_row()
-            elif hasattr(child, 'visible') or isinstance(child, Button):
+            elif getattr(child, 'visible', True) or isinstance(child, (Button, Group)):
                 self.add(child, string, rowspan, colspan)
             elif isinstance(child, TinyInputWidget):
                 self.hiddens += [child]
+            else:
+                pass
 
-#        # properly distribute widths among columns
-#
-#        if len(self.table) == 1:
-#            self.table[0] = [(a, w) for a, w in self.table[0] if getattr(w, 'visible', 1)]
-#
-#        max_length = max([len(row) for row in self.table])
-#
-#        for row in self.table:
-#
-#            ## adjust the columns
-#            #if len(row):
-#            #    cs = reduce(lambda x,y: x +y, [a.get('colspan', 1) for a,w in row])
-#            #    a['colspan'] = a.get('colspan', 1) + self.columns - cs
-#
-#            sn = len([w for a, w in row if isinstance(w, (basestring, Label))])
-#            pn = len([w for a, w in row if isinstance(w, Image)])
-#
-#            sw = 5                                  # label width
-#            pw = 1                                  # image width
-#            ww = 100.00 - sw * sn - pw * pn         # remaining width
-#            cn = self.columns - sn - pn             # columns - (lables + image)
-#
-#            cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
-#
-#            if cn < 1: cn = 1
-#
-#            for i, (a, wid) in enumerate(row):
-#
-#                if isinstance(wid, (basestring, Label)):
-#                    w = sw
-#                elif isinstance(wid, Image):
-#                    w = pw
-#                else:
-#                    c = a.get('colspan', 1)
-#                    if c > max_length:
-#                        c = 1
-#
-#                    if wid.visible:
-#                        w = ww * c / cn
-#                    else:
-#                        w = 0
-#
-#                a['width'] = '%d%%' % (w)
+        self.fields = []
+
+        # properly distribute widths among columns
+
+        if len(self.table) == 1:
+            self.table[0] = [(a, w) for a, w in self.table[0] if getattr(w, 'visible', 1)]
+
+        max_length = max([len(row) for row in self.table])
+
+        for row in self.table:
+
+            ## adjust the columns
+            #if len(row):
+            #    cs = reduce(lambda x,y: x +y, [a.get('colspan', 1) for a,w in row])
+            #    a['colspan'] = a.get('colspan', 1) + self.columns - cs
+
+            sn = len([w for a, w in row if isinstance(w, (basestring, Label))])
+            pn = len([w for a, w in row if isinstance(w, Image)])
+
+            sw = 5                                  # label width
+            pw = 1                                  # image width
+            ww = 100.00 - sw * sn - pw * pn         # remaining width
+            cn = self.columns - sn - pn             # columns - (lables + image)
+
+            cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
+
+            if cn < 1: cn = 1
+
+            for i, (a, wid) in enumerate(row):
+
+                if isinstance(wid, (basestring, Label)):
+                    w = sw
+                elif isinstance(wid, Image):
+                    w = pw
+                else:
+                    c = a.get('colspan', 1)
+                    if c > max_length:
+                        c = 1
+
+                    if wid.visible:
+                        w = ww * c / cn
+                    else:
+                        w = 0
+
+                a['width'] = '%d%%' % (w)
 
     def add_row(self):
         self.table.append([])
@@ -176,35 +180,11 @@ class Frame(TinyCompoundWidget):
         if colspan == 1 and a == 1:
             colspan = 2
 
-        if not hasattr(widget, 'visible'):
-            widget.visible = True
-        
-        # convert python statement into equivalent JavaScript statement
-        states = getattr(widget, 'states') or ''
-        if isinstance(states, dict):
-            for k, v in states.items():
-                v2 = []
-                b = {True: 1, False: 0} 
-                for i,j in v:
-                    v2 += [[str(i), b.get(j, 0)]]
-                states[str(k)] = v2
-        elif isinstance(states, list):
-            states = ','.join(states)
-
-        states = str(states)
-        
         tr = self.table[-1]
 
         if label:
             colspan -= 1
             attrs = {'class': 'label'}
-            
-            if not widget.visible:
-                attrs['style'] = 'display: none'
-            
-            if states:
-                attrs['states'] = states
-            
             td = [attrs, label]
             tr.append(td)
 
@@ -214,13 +194,17 @@ class Frame(TinyCompoundWidget):
         attrs = {'class': 'item'}
         if rowspan > 1: attrs['rowspan'] = rowspan
         if colspan > 1: attrs['colspan'] = colspan
-            
-        if not widget.visible:
-            attrs['style'] = 'display: none'
+
+        if not hasattr(widget, 'visible'):
+            widget.visible = True
         
-        if states:
-            attrs['states'] = states
-        
+        # Visibility based on current state
+        if isinstance(widget, (Button, Group)) and getattr(widget, 'states'):
+            attrs['states'] = ','.join(widget.states)
+            if not widget.visible:
+                attrs['style'] = 'display: none'
+            widget.visible = True
+
         if isinstance(widget, (Group, Notebook, O2M, M2M)):
             attrs['valign'] = 'top'
 
