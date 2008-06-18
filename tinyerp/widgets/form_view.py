@@ -42,7 +42,9 @@ class ViewForm(tg.widgets.Form):
     member_widgets = ['screen', 'search']    
     javascript = [tg.widgets.JSLink("tinyerp", "javascript/form.js", location=tg.widgets.js_location.bodytop),
                   tg.widgets.JSLink("tinyerp", "javascript/form_state.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("tinyerp", "javascript/m2o.js", location=tg.widgets.js_location.bodytop)]
+                  tg.widgets.JSLink("tinyerp", "javascript/m2o.js", location=tg.widgets.js_location.bodytop),
+                  tg.widgets.JSLink("tinyerp", "javascript/charts.js", location=tg.widgets.js_location.bodytop),
+                  tg.widgets.JSLink("tinyerp", "javascript/swfobject.js", location=tg.widgets.js_location.bodytop)]
 
     def __init__(self, params, **kw):
         super(ViewForm, self).__init__(**kw)
