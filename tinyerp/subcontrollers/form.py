@@ -310,8 +310,14 @@ class Form(controllers.Controller, TinyResource):
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
+        
+        if btype == 'cancel':
+            raise redirect('/')
+        
+        elif btype == 'save':
+            pass
 
-        if btype == 'workflow':
+        elif btype == 'workflow':
             res = rpc.session.execute('object', 'exec_workflow', model, name, id)
             if isinstance(res, dict):
                 from tinyerp.subcontrollers import actions

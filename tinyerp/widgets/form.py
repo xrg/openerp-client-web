@@ -476,7 +476,7 @@ class Button(TinyField):
 
         TinyField.__init__(self, attrs)
 
-        self.btype = attrs.get('type', 'workflow')
+        self.btype = attrs.get('type', attrs.get('special', 'workflow'))
         self.confirm = attrs.get('confirm', None)
 
         self.model = current_model

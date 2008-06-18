@@ -289,6 +289,14 @@ var buttonClicked = function(name, btype, model, id, sure){
     if (sure && !confirm(sure)){
         return;
     }
+    
+        
+    if (btype == 'cancel') {
+        if (window.opener)
+          return window.close();
+        else
+          return window.location.href = '/';
+    }
 
     params = {};
 
