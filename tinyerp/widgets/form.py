@@ -259,18 +259,33 @@ class NewLine(TinyField):
 class Label(TinyField):
 
     template = """
-        <div xmlns:py="http://purl.org/kid/ns#" style="text-align: center; width: 100%; white-space: nowrap;">
+        <div xmlns:py="http://purl.org/kid/ns#" style="text-align: $align; width: 100%; white-space: nowrap;">
             ${field_value}
         </div>"""
 
-    params = ["field_value"]
+    params = ["field_value", "align"]
 
     def __init__(self, attrs={}):
         super(Label, self).__init__(attrs)
 
         self.nolabel = True
         self.field_value = self.string
-
+        self.align = 'center'
+        
+        align = attrs.get('align', 0.5)
+        if isinstance(align, basestring):
+            try:
+                align = eval(align)
+            except:
+                align = 0.5
+        
+        if align == 0.0:
+            self.align = 'left'
+        if align == 0.5:
+            self.align = 'center'
+        if align == 1.0:
+            self.align = 'right'
+        
     def set_value(self, value):
         self.field_value = unicode(value or '', 'utf-8')
 
