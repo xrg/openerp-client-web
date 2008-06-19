@@ -18,7 +18,7 @@
                     </td>
                     <td width="4px"><div class="spacer"/></td>
                     <td width="32" style="padding-left: 2px;">
-                    	<button type="button" name="${name}" kind="${kind}" py:attrs='attrs' onclick="remove_m2m_rec('${name}')">
+                    	<button type="button" kind="${kind}" py:attrs='attrs' onclick="remove_m2m_rec('${name}')">
                     		<img src="/static/images/stock/gtk-remove.png" width="16" height="16"/>
                     	</button>
                     </td>
