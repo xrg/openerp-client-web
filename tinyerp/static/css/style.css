@@ -37,12 +37,15 @@ a:hover .imglink {
 	font-size: 10px;
 	color: #bbb;
 	text-transform: uppercase;
-	margin-right: 5px;
 }
 
-a.dimmed:hover {
+.dimmed-text a:hover {
 	color: #333;
 	text-decoration: none;
+}
+
+td.dimmed-text {	
+	padding-left: 5px;
 }
 
 hr {
