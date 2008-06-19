@@ -149,6 +149,9 @@ function remove_m2m_rec(name) {
         return box && (box.checked);
     }, boxes);
     
+    if(boxes.length <= 0)
+    	return;
+    
     boxes = MochiKit.Base.map(function(box) {
     	return parseInt(box.value);
     }, boxes);
