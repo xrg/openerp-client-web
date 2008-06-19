@@ -217,6 +217,17 @@ var submit_form = function(action, src, data, target){
         args['_terp_selection'] = '[' + ids.join(',') + ']';
     }
     
+    if (action == 'relate' && target == 'new') {
+        
+        args['_terp_model'] = getElement('_terp_model').value;
+        args['_terp_id'] = getElement('_terp_id').value;
+        args['_terp_domain'] = getElement('_terp_domain').value;
+        args['_terp_context'] = getElement('_terp_context').value;
+        
+        var act = get_form_action('relate', args);
+        return openWindow(act);
+    }
+   
     if (target == "new" || action == 'report' || (action == 'action' && data)){
         setNodeAttribute(form, 'target', '_blank');
     }

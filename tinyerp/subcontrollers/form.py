@@ -106,7 +106,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.has_attach = buttons.can_attach and self._has_attachments(params.model, id, mode)
         buttons.i18n = not editable and mode == 'form'
 
-        buttons.toolbar = not params.model.startswith('board.')
+        buttons.toolbar = params.target != 'new' and not params.model.startswith('board.')
 
         links.view_editor = True
         links.view_manager = True
@@ -121,7 +121,7 @@ class Form(controllers.Controller, TinyResource):
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, 
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links)
+        return dict(form=form, pager=pager, buttons=buttons, links=links, show_header_footer=params.target!='new')
 
     def _has_attachments(self, model, id, mode):
         if mode <> 'form':
