@@ -303,10 +303,12 @@ var buttonClicked = function(name, btype, model, id, sure){
     
         
     if (btype == 'cancel') {
-        if (window.opener)
+        if (window.opener) {
+          window.opener.setTimeout("window.location.reload()", 1);
           return window.close();
-        else
+        } else {
           return window.location.href = '/';
+        }
     }
 
     params = {};

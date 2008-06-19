@@ -198,8 +198,17 @@ def execute(action, **data):
     
     if action['type'] == 'ir.actions.act_window_close':
         return """<html>
-        <head></head>
-        <body onload="window.close()"></body>
+        <head>
+            <script type="text/javascript">
+                window.onload = function(evt){
+                    if (window.opener) {
+                        window.opener.setTimeout("window.location.reload()", 1);
+                    }
+                    window.close();
+                }
+            </script>
+        </head>
+        <body></body>
         </html>
         """
     
