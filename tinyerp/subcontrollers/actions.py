@@ -52,7 +52,8 @@ from selection import Selection
 
 from tinyerp.utils import TinyDict
 
-def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, mode='form,tree', name=None):
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, 
+                   mode='form,tree', name=None, target=None):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -73,6 +74,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.view_ids = view_ids
     params.domain = domain or []
     params.context = context or {}
+    params.target = target
     
     if name:
         params.context['_view_name'] = name
@@ -202,6 +204,9 @@ def execute(action, **data):
     elif action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode'):
             data[key] = action.get(key, data.get(key, None))
+            
+        if not data.get('limit'):
+            data['limit'] = 80
 
         view_ids=False
         if action.get('views', []):
@@ -215,6 +220,7 @@ def execute(action, **data):
 
         context = {'active_id': data.get('id', False), 'active_ids': data.get('ids', [])}
         context.update(rpc.session.context.copy())
+        context.update(data.get('context', {}).copy())
 
         # save active_id in session
         rpc.session.active_id = data.get('id')
@@ -235,7 +241,8 @@ def execute(action, **data):
                              domain,
                              action['view_type'],
                              context,data['view_mode'],
-                             name=action.get('name'))
+                             name=action.get('name'),
+                             target=action.get('target'))
         return res
 
     elif action['type']=='ir.actions.server':
