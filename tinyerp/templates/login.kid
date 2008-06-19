@@ -27,7 +27,7 @@
                         <td>
                             <select name="db" style="width: 302px;">
                                 <span py:if="dblist and (dblist is not -1)" py:strip="">
-                                    <option py:for="v in dblist or []" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
+                                    <option py:for="v in dblist or []" value="$v" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
                                 </span>
                             </select>
                         </td>
