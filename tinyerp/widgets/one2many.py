@@ -140,6 +140,7 @@ class O2M(TinyCompoundWidget):
                              editable=self.editable, readonly=self.editable, 
                              selectable=3, nolinks=self.link)
         self.id = id
+        self.ids = ids
 
         if view_type == 'tree':
             #self.screen.widget.pageable=False
@@ -154,3 +155,14 @@ class O2M(TinyCompoundWidget):
                 i = self.screen.ids.index(self.screen.id) + 1
 
             self.pager_info = '[%s/%s]' % (i, c)
+            
+    def get_value(self):
+        
+        if not self.ids:
+            return []
+        
+        proxy = rpc.RPCProxy(self.model)
+        values = proxy.read(self.ids)
+        
+        return [(1, val['id'], val) for val in values]
+        
