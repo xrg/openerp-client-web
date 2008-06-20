@@ -488,14 +488,14 @@ class Button(TinyField):
     """
 
     template = "tinyerp.widgets.templates.button"
-    params = ["name", "string", "model", "btype", "id", "confirm", "icon"]
+    params = ["name", "string", "model", "btype", "id", "confirm", "icon", "target"]
 
     visible = True
 
     def __init__(self, current_model, id=None, attrs={}):
 
         TinyField.__init__(self, attrs)
-
+        
         self.btype = attrs.get('type', attrs.get('special', 'workflow'))
         self.confirm = attrs.get('confirm', None)
 
@@ -504,6 +504,7 @@ class Button(TinyField):
 
         self.nolabel = True
         self.readonly = False
+        self.target = attrs.get('target', 'current')
         
         if 'icon' in attrs:
             self.icon = icons.get_icon(attrs['icon'])

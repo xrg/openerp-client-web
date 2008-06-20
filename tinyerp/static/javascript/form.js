@@ -295,7 +295,7 @@ var save_binary_data = function(src) {
     submit_form(act);
 }
 
-var buttonClicked = function(name, btype, model, id, sure){
+var buttonClicked = function(name, btype, model, id, sure, target){
 
     if (sure && !confirm(sure)){
         return;
@@ -318,7 +318,7 @@ var buttonClicked = function(name, btype, model, id, sure){
     params['_terp_button/model'] = model;
     params['_terp_button/id'] = id;
 
-    submit_form(get_form_action('save', params));
+    submit_form(get_form_action('save', params), null, null, target);
 }
 
 /**
