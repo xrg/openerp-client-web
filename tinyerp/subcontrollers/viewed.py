@@ -96,6 +96,30 @@ class NewField(Form):
         ctx = {'for_model' : for_model}
         return super(NewField, self).edit(model='ir.model.fields', id=id, context=ctx)
    
+class NewModel(Form):
+    
+    path = '/viewed/new_model'    # mapping from root
+    
+    @expose(template="tinyerp.subcontrollers.templates.viewed_new_model")
+    def create(self, params, tg_errors=None):
+        
+        params.editable = True
+        if not params.id:
+            params.context = {'manual' : True}
+
+        form = self.create_form(params, tg_errors)
+        
+        return dict(form=form, params=params, show_header_footer=False)
+    
+    @expose()
+    def edit(self, model=None):
+        
+        proxy = rpc.RPCProxy('ir.model')
+        res = proxy.search([('model', '=', model)])
+        
+        id = (res or False) and res[0]
+        return super(NewModel, self).edit(model='ir.model', id=id)
+
 class Preview(Form):
     
     path = '/viewed/preview'    # mapping from root
@@ -174,6 +198,7 @@ def _get_field_attrs(node, parent_model):
 class ViewEd(controllers.Controller, TinyResource):
     
     new_field = NewField()
+    new_model = NewModel()
     preview = Preview()
     
     @expose(template="tinyerp.subcontrollers.templates.viewed")
