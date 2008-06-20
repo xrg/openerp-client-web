@@ -40,6 +40,7 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 		this.to = to;
 		this.isOverlaping = false;
 		this.OverlapingSeq = 0;
+		this.totalOverlaped = 0;
 	}
 }
 
@@ -89,7 +90,7 @@ openerp.workflow.Connector.prototype.setSource = function(port) {
 		this.sourceId = port.getParent().get_act_id();
 	else if(this.sourceId != port.getParent().get_act_id())	{
 		this.sourceId = port.getParent().get_act_id();
-		req = Ajax.JSON.post('/workflow/connector/change_ends', {id:this.tr_id, field:'act_from', value:this.sourceId});
+		req = Ajax.JSON.post('/workflow/connector/change_ends', {id: this.tr_id, field: 'act_from', value: this.sourceId});
 	}
 }
 
@@ -100,7 +101,7 @@ openerp.workflow.Connector.prototype.setTarget = function(port) {
 		this.destId = port.getParent().get_act_id();
 	else if(this.destId != port.getParent().get_act_id()) {
 		this.destId = port.getParent().get_act_id();
-		req = Ajax.JSON.post('/workflow/connector/change_ends', {id:this.tr_id, field:'act_to', value:this.destId});
+		req = Ajax.JSON.post('/workflow/connector/change_ends', {id: this.tr_id, field: 'act_to', value: this.destId});
 	}
 }
 

@@ -18,7 +18,7 @@ openerp.workflow.Workflow.implement({
 	
 	initialize : function(canvas) {
 		
-		draw2d.Workflow.call(this,canvas);
+		draw2d.Workflow.call(this, canvas);
 		this.setBackgroundImage(null, false);
 		this.getCommandStack().setUndoLimit(0);
 		
@@ -98,7 +98,7 @@ openerp.workflow.Workflow.implement({
 			for(i in obj.list) {
 				var node = obj.list[i];
 				var s = new openerp.workflow.State(node['id'], node['name'], node['flow_start'], node['flow_stop'], node['action'], node['kind']);	
-		        self.addFigure(s, node['y']+100, node['x']);
+		        self.addFigure(s, node['y'], node['x']);
 		        s.initPort();
 		        self.states.add(s);
 			}
@@ -136,7 +136,7 @@ openerp.workflow.Workflow.implement({
 				
 		var c = new openerp.workflow.Connector(id, signal, condition, from, to);	
 		var n = this.conn.getSize();
-		var counter = 0;
+		var counter = 1;
 		
 		//self connection
 		if(start==end) {
@@ -145,23 +145,37 @@ openerp.workflow.Workflow.implement({
 		    c.setRouter(new draw2d.BezierConnectionRouter());		
 		}
 		
+		var overlaped_conn = new Array();
+		
+		//check if any connector already exist between source and destination
 		for(i=0; i<n; i++) {
 			var t = this.conn.get(i);
 			var s = this.states.indexOf(t.getSource().getParent());
 			var e = this.states.indexOf(t.getTarget().getParent());
 			
 			if(s==start && e==end) {
+				log('if')
+				overlaped_conn.push(i);
 				c.isOverlaping = true;
-				counter++;
-//				log('if yes');
-			} else if(e==start && s==end) {
+				t.isOverlaping = true;
+				t.OverlapingSeq = counter++;
+			} //else 
+			if(e==start && s==end) {
+				log('else');
+				overlaped_conn.push(i);
 				c.isOverlaping = true;
-				counter++;
-//				log('else yes');
+				t.isOverlaping = true;
+				t.OverlapingSeq = counter++;
 			} 
 		}
 		
 		c.OverlapingSeq = counter;
+		c.totalOverlaped = counter;
+		
+		for(i=0; i<overlaped_conn.length; i++) {
+			this.conn.get(overlaped_conn[i]).totalOverlaped = counter;
+		}
+		
 		
 		var spos = source.getBounds();
 		var dpos = destination.getBounds();
@@ -198,7 +212,7 @@ openerp.workflow.Workflow.implement({
 			var position = this.state.getPosition();	
 			self = this;
 			
-			req = Ajax.JSON.post('/workflow/state/get_info',{id:id});
+			req = Ajax.JSON.post('/workflow/state/get_info',{id: id});
 			req.addCallback(function(obj) {
 				var flag = false;
 				var index = null;
@@ -249,7 +263,7 @@ openerp.workflow.Workflow.implement({
 		var self = this;
 		var html = this.connector.getHTMLElement();
 		
-		req = Ajax.JSON.post('/workflow/connector/auto_create', {act_from:act_from, act_to:act_to});
+		req = Ajax.JSON.post('/workflow/connector/auto_create', {act_from: act_from, act_to: act_to});
 		req.addCallback(function(obj) {	
 			
 			html.style.display = 'none';
@@ -280,7 +294,7 @@ openerp.workflow.Workflow.implement({
 	update_conn : function(id) {	
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/connector/get_info',{id:id});
+		req = Ajax.JSON.post('/workflow/connector/get_info',{id: id});
 		req.addCallback(function(obj) {
 			var n = self.conn.getSize();
 			
@@ -313,7 +327,7 @@ openerp.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/state/delete',params);
+		req = Ajax.JSON.post('/workflow/state/delete', params);
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {
@@ -341,7 +355,7 @@ openerp.workflow.Workflow.implement({
 		'id' : conn.get_tr_id()		
 		}
 		
-		req = Ajax.JSON.post('/workflow/connector/delete',params);
+		req = Ajax.JSON.post('/workflow/connector/delete', params);
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {				
