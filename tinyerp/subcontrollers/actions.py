@@ -230,13 +230,12 @@ def execute(action, **data):
             action['domain']='[]'
 
         context = {'active_id': data.get('id', False), 'active_ids': data.get('ids', [])}
+        context.update(tools.expr_eval(action.get('context', '{}'), context.copy()))
         context.update(rpc.session.context.copy())
         context.update(data.get('context', {}).copy())
-
+        
         # save active_id in session
         rpc.session.active_id = data.get('id')
-
-        context.update(tools.expr_eval(action.get('context', '{}'), context.copy()))
 
         a = context.copy()
         a['time'] = time
