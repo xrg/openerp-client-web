@@ -30,22 +30,38 @@ openerp.workflow.ConnectionAnchor.implement({
 		
 		var conn = this.owner.getConnections().get(0);
 		if(conn.isOverlaping) {
-//			log(conn.tr_id,':',conn.totalOverlaped);
+			
 			var center = this.getReferencePoint();
-			var slope = (reference.y - center.y)/(reference.x - center.x);
-			var m = -1/slope; //slope of perpendicular line  is negative of resiprocal of slope
-			var bounds = this.getBox();			
-			var h2 = bounds.h*bounds.h;
-			var w2 = bounds.w*bounds.w;
 			
-			var x = Math.sqrt((w2*h2)/(h2+(m*m*w2)));
-			var y = m*x;			
-			var factor = 2*conn.totalOverlaped;
-			
-			if(conn.OverlapingSeq%2==0)
-				return new draw2d.Point(Math.round(center.x + x/factor), Math.round(center.y + y/factor))
-			else
-				return new draw2d.Point(Math.round(center.x - x/factor), Math.round(center.y - y/factor))
+			//horizontal parallel lines
+			if(reference.y-center.y==0) {				
+				if(conn.OverlapingSeq%2==0)
+					return new draw2d.Point(Math.round(center.x), Math.round(center.y + (10*conn.OverlapingSeq)));
+				else
+					return new draw2d.Point(Math.round(center.x), Math.round(center.y - (10*conn.OverlapingSeq)));
+			}
+			else if(reference.x-center.x==0) {
+				if(conn.OverlapingSeq%2==0)
+					return new draw2d.Point(Math.round(center.x + (15*conn.OverlapingSeq)), Math.round(center.y));
+				else
+					return new draw2d.Point(Math.round(center.x - (15*conn.OverlapingSeq)), Math.round(center.y));
+			} 
+			else {
+				var slope = (reference.y - center.y)/(reference.x - center.x);
+				var m = -1/slope; //slope of perpendicular line  is negative of resiprocal of slope
+				var bounds = this.getBox();			
+				var h2 = bounds.h*bounds.h;
+				var w2 = bounds.w*bounds.w;
+				
+				var x = Math.sqrt((w2*h2)/(h2+(m*m*w2)));
+				var y = m*x;			
+				var factor = 2*conn.totalOverlaped;
+				
+				if(conn.OverlapingSeq%2==0)
+					return new draw2d.Point(Math.round(center.x + x/factor), Math.round(center.y + y/factor))
+				else
+					return new draw2d.Point(Math.round(center.x - x/factor), Math.round(center.y - y/factor))
+			}
 		}
 //		log(conn.tr_id);
 		if (r.isEmpty() || (reference.x == centerX && reference.y == centerY))
