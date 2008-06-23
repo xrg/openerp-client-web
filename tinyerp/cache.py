@@ -33,6 +33,8 @@ import re
 import cPickle
 
 import cherrypy
+
+from gettext import translation
 from turbogears.i18n import tg_gettext
 
 import rpc
@@ -96,23 +98,17 @@ def gettext(key, locale=None, domain=None):
 
 def _load_translatables():
 
-    result = []
-
     localedir = tg_gettext.get_locale_dir()
-    po = os.path.join(localedir, 'fr', 'LC_MESSAGES', 'messages.po')
 
-    pat = re.compile("""^msgid (.*?)^msgstr""", re.M+re.S)
-    text = open(po).read()
+    #XXX: TG bug #1631
+    if not localedir:
+        from turbogears import config
+        config.update({'package': 'tinyerp'})
+        localedir = tg_gettext.get_locale_dir()
 
-    res = pat.search(text)
-    while res:
-        lines = res.group(1).split('\n')
-        lines = [line.strip('"').replace('\\n', '') for line in lines if line]
-        key = "\n".join(lines).strip()
+    t = translation(domain='messages', localedir=localedir, languages=['fr'])
 
-        result.append(ustr(key))
-
-        res = pat.search(text, res.end())
+    result = [x for x in t._catalog.keys() if x]
 
     return result
 
