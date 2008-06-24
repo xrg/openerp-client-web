@@ -32,8 +32,8 @@
 
 version = "1.1b1"
 
-description = "Web Client of Tiny ERP, the Enterprise Management Software"
-long_description = "eTiny is the web client of the Tiny ERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
+description = "Web Client of OpenERP, the Enterprise Management Software"
+long_description = "eTiny is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
 author = "Tiny ERP Pvt. Ltd."
 email = "info@openerp.com"
 copyright = "Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd."

@@ -3,7 +3,7 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>About eTiny - The Tiny ERP Web Client</title>
+    <title>About eTiny - The OpenERP Web Client</title>
 </head>
 
 <body>
@@ -21,11 +21,11 @@
             <b>Version ${version}</b>
 <p>
 Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
-Tiny ERP is a trademark of the Tiny Company.
+OpenERP is a trademark of the Tiny Company.
 Licenced under the <a target="_blank" href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
 </p>
 <p>
-<i>eTiny</i> is the official web client of <a target="_blank" href="http://openerp.com">Tiny ERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
+<i>eTiny</i> is the official web client of <a target="_blank" href="http://openerp.com">OpenERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
 </p>
 
 <p>
@@ -35,12 +35,12 @@ Licenced under the <a target="_blank" href="http://www.gnu.org/licenses/old-lice
             </td>
         </tr>
         <tr>
-            <td width="100%" class="titlebar">About Tiny ERP</td>
+            <td width="100%" class="titlebar">About OpenERP</td>
         </tr>
         <tr>
             <td>
 <p>
-<a target="_blank" href="http://openerp.com">Tiny ERP</a> is a free enterprise-scale software system that is designed to boost
+<a target="_blank" href="http://openerp.com">OpenERP</a> is a free enterprise-scale software system that is designed to boost
 productivity and profit through data integration. It connects, improves and
 manages business processes in areas such as sales, finance, supply chain,
 project management, production, services, CRM, etc..
@@ -50,7 +50,7 @@ and various Linux and other Unix-based distributions. Its architecture enables
 new functionality to be rapidly created, modifications to be made to a
 production system and migration to a new version to be straightforward.
 </p><p>
-Depending on your needs, Tiny ERP is available through a web or application
+Depending on your needs, OpenERP is available through a web or application
 client.
 </p>
             </td>
@@ -61,7 +61,7 @@ client.
         <tr>
             <td>
 <ul>
-    <li><a target="_blank" href="http://www.openerp.com/">Tiny ERP</a></li>
+    <li><a target="_blank" href="http://www.openerp.com/">OpenERP</a></li>
     <li><a target="_blank" href="http://www.axelor.com/">The Axelor Company</a></li>
     <li><a target="_blank" href="http://tiny.be/">The Tiny Company</a></li>
 </ul>

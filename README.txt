@@ -1,5 +1,5 @@
 ===============================================================================
-eTiny - Web Client of Tiny ERP, the Enterprise Management Software
+eTiny - Web Client of OpenERP, the Enterprise Management Software
 ===============================================================================
 
     1. Introduction
@@ -14,7 +14,7 @@ eTiny - Web Client of Tiny ERP, the Enterprise Management Software
 1. INTRODUCTION
 -------------------------------------------------------------------------------
 
-eTiny is the official web client of Tiny ERP developed by Tiny and Axelor.
+eTiny is the official web client of OpenERP developed by Tiny and Axelor.
 It's built on TurboGears (http://www.turbogears.org).
 
 Features:
@@ -40,15 +40,15 @@ specified Packages on your favourite distro.
 Prerequisites:
 
    1. Python >= 2.4
-   2. Tiny ERP Server >= 4.2.1
+   2. OpenERP Server >= 4.2.1
    3. TurboGears >= 1.0.3.2
    4. matplotlib >= 0.87
    5. Python Imaging Library (PIL) 
 
-Tiny ERP Server:
+OpenERP Server:
 
-    To install Tiny ERP Server, please follow the instructions provided in 
-    the official Tiny ERP Installation guide.
+    To install OpenERP Server, please follow the instructions provided in 
+    the official OpenERP Installation guide.
 
 TurboGears:
 
@@ -89,8 +89,8 @@ Configuration:
 
     where:
 
-    server is the Tiny ERP server host...
-    port is the Tiny ERP server port...
+    server is the OpenERP server host...
+    port is the OpenERP server port...
     protocol is the protocol to be used (socket, http or https)
 
 Now start the eTiny server with `start-tinyerp` command, like:
@@ -108,7 +108,7 @@ http://localhost:8080, and your can see welcome page with login screen.
 
 Don't forget to enable cookies !
 
-Of course, Tiny ERP Server must be running at that time. You should create a
+Of course, OpenERP Server must be running at that time. You should create a
 database from the DBAdmin interface by clicking on Manage button that you can
 see besides the Database selection box. After creating a new database login
 with the admin/admin or demo/demo to see the eTiny in action...
@@ -146,7 +146,7 @@ Start eTiny deamon:
 Prerequisites
 
     1. Python >= 2.4
-    2. Tiny ERP Server 4.2.x
+    2. OpenERP Server 4.2.x
     3. TurboGears >= 1.0.3.2
     4. matplotlib >= 0.87
     5. Python Imaging Library (PIL)
@@ -156,10 +156,10 @@ Python:
     Download and Install Python 2.4 and make sure that the dirs 
     `C:\Python24;C:\Python24\Script` are in PATH environment.
 
-Tiny ERP Server:
+OpenERP Server:
 
-    To install Tiny ERP Server, please follow the instructions provided in 
-    the official Tiny ERP Installation guide.
+    To install OpenERP Server, please follow the instructions provided in 
+    the official OpenERP Installation guide.
 
 TurboGears:
 
@@ -196,8 +196,8 @@ Configuration:
 
     where:
 
-    server is the Tiny ERP server host...
-    port is the Tiny ERP server port...
+    server is the OpenERP server host...
+    port is the OpenERP server port...
     protocol is the protocol to be used (socket, http or https)
 
 Now start the eTiny server with `start-tinyerp` command, like:
@@ -215,7 +215,7 @@ http://localhost:8080, and your can see welcome page with login screen.
 
 Don't forget to enable cookies !
 
-Of course, Tiny ERP Server must be running at that time. You should create a
+Of course, OpenERP Server must be running at that time. You should create a
 database from the DBAdmin interface by clicking on Manage button that you can
 see besides the Database selection box. After creating a new database login
 with the admin/admin or demo/demo to see the eTiny in action...
@@ -298,4 +298,4 @@ Here is the list of supported browsers.
     2. http://axelor.com
 
 -------------------------------------------------------------------------------
-Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.
+Copyright (C) 2007-TODAY TIny ERP Pvt. Ltd. All Rights Reserved.

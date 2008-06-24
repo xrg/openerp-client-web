@@ -36,7 +36,7 @@ from tinyerp.widgets import validators as tw_validators
 
 def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
-    dictionary from the given data to be used with TinyERP.
+    dictionary from the given data to be used with OpenERP.
 
     @param data: data in the form of {'a': 1, 'b/x': 1, 'b/y': 2}
     @param is_params: if True generate TinyDict instead of standard dict

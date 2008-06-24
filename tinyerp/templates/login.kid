@@ -14,7 +14,7 @@
             <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
             <input type="hidden" name="login_action" value="login"/>
         
-            <div class="box2 welcome">Welcome to Tiny ERP</div>
+            <div class="box2 welcome">Welcome to OpenERP</div>
 
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
