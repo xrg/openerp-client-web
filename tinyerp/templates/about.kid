@@ -111,7 +111,7 @@ client.
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://saas.openerp.com">SaaS Offers</a>
+                        <a target="_blank" href="http://ondemand.openerp.com">SaaS Offers</a>
                     </td>
                 </tr><tr>
                     <td>
