@@ -192,6 +192,10 @@ var onEdit = function(node) {
             eval('x=' + s.innerHTML);
         });
     });
+    
+    req.addErrback(function(xmlHttp){
+       log('errrr', xmlHttp); 
+    });
 
 }
 
@@ -209,6 +213,8 @@ var doEdit = function() {
     
     forEach(form.elements, function(el){
         
+        if (!el.name) return;
+        
         var val = el.type == 'checkbox' ? el.checked ? 1 : null : el.value;
                         
         if (el.type == 'select-multiple') {
@@ -225,7 +231,7 @@ var doEdit = function() {
         }
         
         if (val) {
-            params[el.name] = val;
+           params[el.name] = val;
         }
     });
     

@@ -765,6 +765,7 @@ class ActionProperty(tw.many2one.M2O):
     def __init__(self, name, default=None):
         attrs = dict(name=name, relation='ir.actions.actions')
         super(ActionProperty, self).__init__(attrs)
+        self.set_value(default or False)
     
 _PROPERTY_WIDGETS = {
     'select' : SelectProperty,
