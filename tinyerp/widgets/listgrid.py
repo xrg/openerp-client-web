@@ -461,14 +461,14 @@ class Button(TinyField):
     parent = None
     btype = None
     
-    params = ['string', 'icon', 'action', 'record', 'parent', 'btype']
+    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm']
     
     template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <button py:if="action and not icon" type="button" py:content="string" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${action}', ${record}, '${btype}')"/>
-    <img py:if="action and icon" height="16" width="16" class="listImage" src="${icon}" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${action}', ${record}, '${btype}')"/>
-    <span py:if="not action and not icon">&nbsp;</span>     
+    <button py:if="visible and not icon" type="button" py:content="string" py:attrs="attrs"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
+    <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" py:attrs="attrs"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
+    <span py:if="not visible and not icon">&nbsp;</span>
 </span>"""
     
     def __init__(self, attrs={}):
@@ -482,21 +482,20 @@ class Button(TinyField):
             self.icon = icons.get_icon(self.icon)
 
         self.help = self.help or self.string
+        self.confirm = attrs.get('confirm') or ''
+        self.readonly = False
         
-    def has_state(self, data):
-        cell = data.get('state')
-        return cell and cell.value in self.states
-    
     def params_from(self, data):
         
-        record = data.get('id')
-        action = None
+        record_id = data.get('id')
+        visible = True
 
-        cell = data.get('state')
-        if cell and cell.value in self.states:
-            action = self.name
-        
-        return dict(action=action, record=record)
+        if self.states:
+            state = data.get('state')
+            state = ((state or False) and state.value) or 'draft'
+            visible = state in self.states
+
+        return dict(record_id=record_id, visible=visible)
 
 CELLTYPES = {
         'char':Char,

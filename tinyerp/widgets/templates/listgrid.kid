@@ -70,9 +70,9 @@
                                 </span>
                                 <span py:if="data[field].text == ''">&nbsp;</span>
                             </td>
-							<td py:if="buttons" class="grid-cell buttons" nowrap="nowrap">
-                				<span py:for="button in buttons" py:if="button.has_state(data)" py:replace="button.display(parent=name, **button.params_from(data))"/>        
-            				</td>
+                                <td py:if="buttons" class="grid-cell buttons" nowrap="nowrap">
+                                <span py:for="button in buttons" py:replace="button.display(parent=name, **button.params_from(data))"/>        
+                            </td>
                             <td py:if="editable" class="grid-cell selector">
                                 <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
                                 <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
