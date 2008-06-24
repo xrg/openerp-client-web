@@ -106,7 +106,7 @@ openerp.workflow.Workflow.implement({
 			var n = self.states.getSize();
 			
 			for(i in obj.conn) {
-				
+//				log(i);
 				var conn = obj.conn[i];
 				var start = 0;
 				var end = 0;
@@ -126,6 +126,7 @@ openerp.workflow.Workflow.implement({
 			
 	    	getElement('loading').style.display = 'none';
 		});	
+	
 		
 	},
 	
@@ -172,14 +173,15 @@ openerp.workflow.Workflow.implement({
 		c.OverlapingSeq = counter;
 		c.totalOverlaped = counter;
 		
-		for(i=0; i<overlaped_conn.length; i++) {
+		for(i=0; i<overlaped_conn.length; i++) 
 			this.conn.get(overlaped_conn[i]).totalOverlaped = counter;
-		}
+		
 		
 		
 		var spos = source.getBounds();
 		var dpos = destination.getBounds();
-		
+		if(counter>1)
+			log(c.tr_id,c.id);
 		//fix source an destination ports 
 		if(spos.x<dpos.x) {
 			c.setTarget(destination.portL);
@@ -188,7 +190,7 @@ openerp.workflow.Workflow.implement({
 				c.setSource(source.portD);
 			else if((dpos.y + dpos.h - spos.y)>50)
 				c.setSource(source.portU);
-			else
+			else 
 				c.setSource(source.portR);
 		}
 		else {
@@ -202,7 +204,7 @@ openerp.workflow.Workflow.implement({
 				c.setSource(source.portL);
 		}
 		
-		self.addFigure(c);
+		this.addFigure(c);
 		this.conn.add(c);
 	},
 	

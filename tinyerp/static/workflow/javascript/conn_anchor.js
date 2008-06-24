@@ -14,6 +14,8 @@ openerp.workflow.ConnectionAnchor.implement({
 
 	initialize : function(owner) {
 		draw2d.ChopboxConnectionAnchor.call(this,owner);
+		this.conn_id = 0;
+		
 	},
 	
 	
@@ -28,9 +30,13 @@ openerp.workflow.ConnectionAnchor.implement({
 		var centerY = r.y + r.h/2;
 		
 		
-		var conn = this.owner.getConnections().get(0);
+		var connectors = this.owner.getConnections();
+		var n = connectors.getSize();
+		for(i=0; i<n; i++)
+			if(connectors.get(i).tr_id==this.conn_id)
+				var conn = connectors.get(i);
+				
 		if(conn.isOverlaping) {
-			
 			var center = this.getReferencePoint();
 			
 			//horizontal parallel lines
@@ -40,7 +46,7 @@ openerp.workflow.ConnectionAnchor.implement({
 				else
 					return new draw2d.Point(Math.round(center.x), Math.round(center.y - (10*conn.OverlapingSeq)));
 			}
-			else if(reference.x-center.x==0) {
+			else if(reference.x-center.x==0) {//vertical parallel lines
 				if(conn.OverlapingSeq%2==0)
 					return new draw2d.Point(Math.round(center.x + (15*conn.OverlapingSeq)), Math.round(center.y));
 				else
@@ -57,13 +63,26 @@ openerp.workflow.ConnectionAnchor.implement({
 				var y = m*x;			
 				var factor = 2*conn.totalOverlaped;
 				
-				if(conn.OverlapingSeq%2==0)
-					return new draw2d.Point(Math.round(center.x + x/factor), Math.round(center.y + y/factor))
-				else
-					return new draw2d.Point(Math.round(center.x - x/factor), Math.round(center.y - y/factor))
+				if(conn.OverlapingSeq%2==0) {
+					var xnew = center.x + x/factor;
+					var ynew = center.y + y/factor;
+//					return new draw2d.Point(Math.round(center.x + x/factor), Math.round(center.y + y/factor))
+				}
+				else {
+					var xnew = center.x - x/factor;
+					var ynew = center.y - y/factor;
+//					return new draw2d.Point(Math.round(center.x - x/factor), Math.round(center.y - y/factor))
+				}
+				var denominator = Math.sqrt(((bounds.h*xnew) * (bounds.h*xnew)) + ((bounds.w*ynew) * (bounds.w*ynew)))
+				var pointx = (bounds.w * bounds.h * xnew)/denominator + center.x;
+				var pointy = (bounds.w * bounds.h * ynew)/denominator + center.y;
+				var distance = Math.sqrt(((pointx-xnew) * (pointx-xnew)) + ((pointy-ynew) * (pointy-ynew)))
+//				log(',spointx:'+pointx+',pointy:'+pointy+',distance:'+distance);
+//				return new draw2d.Point(Math.round(center.x+pointx), Math.round(center.y+pointy))
+				return new draw2d.Point(Math.round(xnew), Math.round(ynew));
 			}
 		}
-//		log(conn.tr_id);
+		
 		if (r.isEmpty() || (reference.x == centerX && reference.y == centerY))
 			return new /*NAMESPACE*/Point(centerX, centerY);  //This avoids divide-by-zero
 		

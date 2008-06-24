@@ -16,8 +16,8 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 //	this.targetDecorator.setBackgroundColor(new draw2d.Color(0,0,0))	
 //	this.setRouter(new draw2d.BezierConnectionRouter());
 
-	this.setSourceAnchor(new openerp.workflow.ConnectionAnchor);
-    this.setTargetAnchor(new openerp.workflow.ConnectionAnchor);
+	this.setSourceAnchor(new openerp.workflow.ConnectionAnchor());
+    this.setTargetAnchor(new openerp.workflow.ConnectionAnchor());
     this.setRouter(new draw2d.NullConnectionRouter());
 	  
 	var html = this.getHTMLElement();
@@ -41,6 +41,9 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 		this.isOverlaping = false;
 		this.OverlapingSeq = 0;
 		this.totalOverlaped = 0;
+		
+		this.sourceAnchor.conn_id = id;
+		this.targetAnchor.conn_id = id;
 	}
 }
 
