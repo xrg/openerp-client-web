@@ -1,14 +1,16 @@
 ###############################################################################
 #
-# Copyright (c) 2007 TinyERP Pvt Ltd. (http://openerp.com) All Rights Reserved.
+# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
 #
 # $Id$
 #
+# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
+#
 # WARNING: This program as such is intended to be used by professional
-# programmers who take the whole responsability of assessing all potential
+# programmers who take the whole responsibility of assessing all potential
 # consequences resulting from its eventual inadequacies and bugs
 # End users who are looking for a ready-to-use solution with commercial
-# garantees and support are strongly adviced to contract a Free Software
+# guarantees and support are strongly advised to contract a Free Software
 # Service Company
 #
 # This program is Free Software; you can redistribute it and/or
@@ -22,11 +24,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+# along with this program; if not, write to the 
+# Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
+# Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-
 
 import re
 

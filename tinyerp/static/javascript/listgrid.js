@@ -1,8 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd. (http://openerp.com) All Rights Reserved.
+// Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
 //
 // $Id$
+//
+// Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // WARNING: This program as such is intended to be used by professional
 // programmers who take the whole responsibility of assessing all potential
