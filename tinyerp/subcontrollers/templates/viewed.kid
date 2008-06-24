@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>View Editor</title>
+    <script type="text/javascript" src="/static/javascript/form.js"></script>
+    <script type="text/javascript" src="/static/javascript/m2o.js"></script>
     <script type="text/javascript" src="/static/javascript/viewed.js"></script>    
 </head>
 <body>

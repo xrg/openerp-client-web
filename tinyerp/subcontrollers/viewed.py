@@ -393,7 +393,11 @@ class ViewEd(controllers.Controller, TinyResource):
         properties += list(set(attrs.keys()) - set(properties))
         
         for prop in properties:
-            ed = get_property_widget(prop, attrs.get(prop))
+            if field.localName == 'action' and prop == 'name':
+                ed = ActionProperty(prop, attrs.get(prop))
+            else:
+                ed = get_property_widget(prop, attrs.get(prop))
+                
             ed.label = prop
             
             editors += [ed]
@@ -756,6 +760,12 @@ class GroupsProperty(tg_widgets.MultipleSelectField):
         
         super(GroupsProperty, self).__init__(name=name, options=options, default=default)
 
+class ActionProperty(tw.many2one.M2O):
+    
+    def __init__(self, name, default=None):
+        attrs = dict(name=name, relation='ir.actions.actions')
+        super(ActionProperty, self).__init__(attrs)
+    
 _PROPERTY_WIDGETS = {
     'select' : SelectProperty,
     'required' : BooleanProperty,                                                               

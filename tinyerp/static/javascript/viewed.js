@@ -186,7 +186,13 @@ var onEdit = function(node) {
     var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         el.innerHTML = xmlHttp.responseText;
+        
+        var scripts = getElementsByTagAndClassName('script', null, el);
+        forEach(scripts, function(s){
+            eval('x=' + s.innerHTML);
+        });
     });
+
 }
 
 var doEdit = function() {
