@@ -42,6 +42,7 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import icons
 from tinyerp import format
+from tinyerp import common
 
 import form
 
@@ -261,6 +262,8 @@ class List(TinyCompoundWidget):
         field_total = {}
         values  = [row.copy() for row in data]
 
+        myfields = [] # check for duplicate fields
+
         for node in root.childNodes:
             
             if node.nodeName == 'button':
@@ -273,6 +276,15 @@ class List(TinyCompoundWidget):
                 if 'name' in attrs:
 
                     name = attrs['name']
+
+                    if name in myfields:
+                        print "-"*30
+                        print " malformed view for :", self.model
+                        print " duplicate field :", name
+                        print "-"*30
+                        raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
+
+                    myfields.append(name)
                     
                     if attrs.get('widget', False):
                         if attrs['widget']=='one2many_list':
