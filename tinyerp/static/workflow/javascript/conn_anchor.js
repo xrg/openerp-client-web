@@ -60,23 +60,15 @@ getLocation : function(/*:draw2d.Point*/ reference)
 				var m = -1/slope; //slope of perpendicular line  is negative of resiprocal of slope				
 				
 				//solving equation of ellipse and line which is prependicular to the line passing through two center 
-				var x = Math.sqrt((a2*a2)/(b2+(m*m*a2)));
-				var y = m*x;			
-//				var factor = conn.totalOverlaped;
-//				log('factor:',factor,x,y);
-				//even number of connector
-				if(conn.totalOverlaped%2==0) {
-					
-					if(conn.OverlapingSeq%2==0) {					
-						var xnew = (x/this.factor);
-						var ynew = y/this.factor;
-					} else {
-						var xnew = -x/this.factor;
-						var ynew = -y/this.factor;
-					}	
-				}
+				var x = Math.sqrt((a2*b2)/(b2+(m*m*a2)));
+				var y = m*x;	
+				var k = 1/(conn.totalOverlaped+1);
 				
+				var xd = -2*x;
+				var yd = -2*y;					
 				
+				var xnew = x + (k*xd*conn.OverlapingSeq);
+				var ynew = y + (k*yd*conn.OverlapingSeq);
 				
 			}
 		}else {
