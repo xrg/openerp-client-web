@@ -474,8 +474,10 @@ var onChange = function(name) {
                 if (kind == 'many2one'){
                     //getName(fld);
                     fld.value = value[0] || '';
-                    $(prefix + k + '_text').value = value[1] || '';
-                    ManyToOne.change_icon(fld);
+                    try {
+                    	$(prefix + k + '_text').value = value[1] || '';
+                    	ManyToOne.change_icon(fld);
+                    }catch(e){}
                 }
 
                 if (kind == 'many2many'){
