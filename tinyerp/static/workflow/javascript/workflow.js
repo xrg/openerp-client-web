@@ -155,14 +155,14 @@ openerp.workflow.Workflow.implement({
 			var e = this.states.indexOf(t.getTarget().getParent());
 			
 			if(s==start && e==end) {
-				log('if')
+//				log('if')
 				overlaped_conn.push(i);
 				c.isOverlaping = true;
 				t.isOverlaping = true;
 				t.OverlapingSeq = counter++;
 			} //else 
 			if(e==start && s==end) {
-				log('else');
+//				log('else');
 				overlaped_conn.push(i);
 				c.isOverlaping = true;
 				t.isOverlaping = true;
@@ -180,8 +180,7 @@ openerp.workflow.Workflow.implement({
 		
 		var spos = source.getBounds();
 		var dpos = destination.getBounds();
-		if(counter>1)
-			log(c.tr_id,c.id);
+	
 		//fix source an destination ports 
 		if(spos.x<dpos.x) {
 			c.setTarget(destination.portL);
