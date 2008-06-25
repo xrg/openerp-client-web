@@ -49,6 +49,10 @@ def _make_dict(data, is_params=False):
     res = (is_params or {}) and TinyDict()
 
     for name, value in data.items():
+
+        #XXX: safari 3.0 submits selection field even if no `name` attribute
+        if not name:
+            continue
         
         if isinstance(name, basestring) and '/' in name:        
             names = name.split('/')
