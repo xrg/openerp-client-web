@@ -55,7 +55,10 @@ openerp.workflow.Workflow.implement({
 		//dummy connector
 		this.connector = new openerp.workflow.Connector(999);
 		this.connector.setSource(state_ports.get(0));
-		this.connector.setTarget(state_ports.get(1));			
+		this.connector.setTarget(state_ports.get(1));		
+		this.connector.setSourceAnchor(new draw2d.ConnectionAnchor);
+		this.connector.setTargetAnchor(new draw2d.ConnectionAnchor);
+		this.connector.setRouter(new draw2d.BezierConnectionRouter());	
 		this.addFigure(this.connector);
 		var html_conn = this.connector.getHTMLElement();
 		html_conn.style.display = 'none';
@@ -102,11 +105,35 @@ openerp.workflow.Workflow.implement({
 		        s.initPort();
 		        self.states.add(s);
 			}
+			
+			for(i in obj.conn) {
+				var counter = 1;
+				var check_for = obj.conn[i];
+				check_for['isOverlaping'] = false;
+				
+				for(k in obj.conn) {
+					if(i!=k) {
+						check_to = obj.conn[k];
+						
+						if(check_for['c'][0]==check_to['c'][0] && check_for['c'][1]==check_to['c'][1]) {
+							check_for['isOverlaping'] = true;
+							counter++;
+						}
+						if(check_for['c'][1]==check_to['c'][0] && check_for['c'][0]==check_to['c'][1]) {
+							check_for['isOverlaping'] = true;
+							counter++;
+						}						
+					}
+					else {
+						check_for['OverlapingSeq'] = counter;
+					}
+				}
+				check_for['totalOverlaped'] = counter;
+			}			
 			 
 			var n = self.states.getSize();
 			
-			for(i in obj.conn) {
-//				log(i);
+			for(i in obj.conn) {				
 				var conn = obj.conn[i];
 				var start = 0;
 				var end = 0;
@@ -121,7 +148,8 @@ openerp.workflow.Workflow.implement({
 					else if(id==conn['c'][1])
 						end =j;
 				}
-				self.add_conn(conn['id'], start, end, conn['signal'], conn['condition'], conn['source'], conn['destination']);
+							
+				self.add_conn(conn['id'], start, end, conn['signal'], conn['condition'], conn['source'], conn['destination'], conn['isOverlaping'], conn['OverlapingSeq'], conn['totalOverlaped']);
 			}
 			
 	    	getElement('loading').style.display = 'none';
@@ -130,14 +158,14 @@ openerp.workflow.Workflow.implement({
 		
 	},
 	
-	add_conn : function(id, start, end, signal, condition, from, to) {
+	add_conn : function(id, start, end, signal, condition, from, to, isOverlaping, OverlapingSeq, totalOverlaped) {
 		
 		var source = this.states.get(start);
 		var destination = this.states.get(end);		
 				
 		var c = new openerp.workflow.Connector(id, signal, condition, from, to);	
 		var n = this.conn.getSize();
-		var counter = 1;
+		
 		
 		//self connection
 		if(start==end) {
@@ -146,37 +174,9 @@ openerp.workflow.Workflow.implement({
 		    c.setRouter(new draw2d.BezierConnectionRouter());		
 		}
 		
-		var overlaped_conn = new Array();
-		
-		//check if any connector already exist between source and destination
-		for(i=0; i<n; i++) {
-			var t = this.conn.get(i);
-			var s = this.states.indexOf(t.getSource().getParent());
-			var e = this.states.indexOf(t.getTarget().getParent());
-			
-			if(s==start && e==end) {
-//				log('if')
-				overlaped_conn.push(i);
-				c.isOverlaping = true;
-				t.isOverlaping = true;
-				t.OverlapingSeq = counter++;
-			} //else 
-			if(e==start && s==end) {
-//				log('else');
-				overlaped_conn.push(i);
-				c.isOverlaping = true;
-				t.isOverlaping = true;
-				t.OverlapingSeq = counter++;
-			} 
-		}
-		
-		c.OverlapingSeq = counter;
-		c.totalOverlaped = counter;
-		
-		for(i=0; i<overlaped_conn.length; i++) 
-			this.conn.get(overlaped_conn[i]).totalOverlaped = counter;
-		
-		
+		c.isOverlaping = isOverlaping;		
+		c.OverlapingSeq = OverlapingSeq;
+		c.totalOverlaped = totalOverlaped;
 		
 		var spos = source.getBounds();
 		var dpos = destination.getBounds();
