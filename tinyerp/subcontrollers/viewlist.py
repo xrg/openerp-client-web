@@ -46,7 +46,7 @@ import tinyerp.widgets as tw
 class ViewList(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.viewlist")
-    def index(self, model):
+    def index(self, model, view_id=False):
         
         params = TinyDict()
         params.model = 'ir.ui.view'
@@ -57,7 +57,7 @@ class ViewList(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
-        return dict(screen=screen, model=model, show_header_footer=False)
+        return dict(screen=screen, model=model, view_id=view_id, show_header_footer=False)
     
     @expose()
     def create(self, model, **kw):
