@@ -73,7 +73,9 @@
             var view_id = parseInt('${view_id}') || 0;
             if (!view_id) return;
             
-            do_select(view_id, '_terp_list');
+            try {
+                do_select(view_id, '_terp_list');
+            }catch(e){}
         });
         
     </script>
