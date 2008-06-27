@@ -539,11 +539,11 @@ class Image(TinyField):
 
         if 'widget' in attrs:
             self.stock = False
-            self.src = '/image/get_image?model=%s&id=%s&field=%s' % (attrs['model'], attrs['id'], self.name)
+            self.field = self.name.split('/')[-1]
+            self.src = '/image/get_image?model=%s&id=%s&field=%s' % (attrs['model'], attrs['id'], self.field)
             self.height = attrs.get('img_height', 160)
             self.width = attrs.get('img_width', 200)
             self.id = attrs['id']
-            self.field = self.name
         else:
             self.src =  icons.get_icon(icon)
 
