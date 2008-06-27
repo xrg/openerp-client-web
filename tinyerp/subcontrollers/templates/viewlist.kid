@@ -68,6 +68,14 @@
             window.location.href = '/viewlist/delete?model=${model}&amp;id=' + boxes[0].value;
         }
         
+        MochiKit.DOM.addLoadEvent(function(evt){
+            
+            var view_id = parseInt('${view_id}') || 0;
+            if (!view_id) return;
+            
+            do_select(view_id, '_terp_list');
+        });
+        
     </script>
 </head>
 <body>

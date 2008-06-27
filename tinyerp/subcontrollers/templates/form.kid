@@ -107,7 +107,7 @@
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" onmouseover="showElement(this)" onmouseout="hideElement(this)">
                                 <a py:if="links.view_manager"
                                    title="${_('Manage views of the current object')}" 
-                                   onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
+                                   onclick="openWindow('${tg.url('/viewlist', model=form.screen.model, view_id=form.screen.view_id)}', {height: 400})" 
                                    href="javascript: void(0)">Manage Views</a>
                                 <a py:if="links.view_editor"
                                    title="${_('Customise current view')}" 
