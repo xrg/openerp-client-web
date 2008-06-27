@@ -32,8 +32,9 @@
 
 from turbogears import controllers
 from turbogears import expose
-from turbogears import widgets
-from turbogears import validators
+from turbogears import redirect
+#from turbogears import widgets
+#from turbogears import validators
 from turbogears import validate
 from turbogears import flash
 
@@ -44,15 +45,16 @@ import pkg_resources
 import cherrypy
 
 from tinyerp import rpc
-from tinyerp import cache
+#from tinyerp import cache
 from tinyerp import common
+from tinyerp.utils import TinyDict
+from tinyerp.tinyres import TinyResource
 from tinyerp import widgets as tw
 
 from form import Form
-from tinyerp.utils import TinyDict
 
 
-rpc.session = rpc.RPCSession('localhost', '8070', 'socket', storage=cherrypy.session)
+#rpc.session = rpc.RPCSession('localhost', '8070', 'socket', storage=cherrypy.session)
 
 class State(Form):
     
@@ -256,10 +258,13 @@ class Workflow(Form):
     path = '/workflow'
     
     @expose(template="tinyerp.subcontrollers.templates.workflow")
-    def index(self, model):
+    def index(self, model, id=None):
         
         proxy = rpc.RPCProxy("workflow")
-        ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
+        if id:
+            ids = proxy.search([('id', '=', id)], 0, 0, 0, rpc.session.context)
+        else:
+            ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
         
         if not ids:
             raise common.message(_('No workflow associated!'))
@@ -340,5 +345,53 @@ class Workflow(Form):
     
     state = State()
     connector = Connector()
+    
 
+class WorkflowList(controllers.Controller, TinyResource):
+
+    @expose(template="tinyerp.subcontrollers.templates.wkf_list")
+    def index(self, model):
+        
+        params = TinyDict()
+        params.model = 'workflow'
+        params.view_mode = ['tree']
+        
+        params.domain = [('osv', '=', model)]
+        
+        screen = tw.screen.Screen(params, selectable=1)
+        screen.widget.pageable = False
+        
+        return dict(screen=screen, model=model, show_header_footer=False)
+    
+    @expose()
+    def create(self, model, **kw):
+        
+        wkf_name = kw.get('name')
+        on_create = kw.get('on_create')
+#        view_type = kw.get('type')
+#        priority = kw.get('priority', 16)
+        
+        if not wkf_name:
+            raise redirect('/workflowlist', model=model)
+        
+#        arch = """<?xml version="1.0"?>
+#        <%s string="Unknwown">
+#            <field name="name"/>
+#        </%s>
+#        """ % (view_type, view_type)
+        
+        proxy = rpc.RPCProxy('workflow')
+        proxy.create(dict(osv=model, name=wkf_name, on_create=on_create))
+        
+        raise redirect('/workflowlist', model=model)
+    
+    @expose()
+    def delete(self, model, id):
+        
+        id = int(id)
+        
+        proxy = rpc.RPCProxy('workflow')
+        proxy.unlink(id)
+        
+        raise redirect('/workflowlist', model=model)
 

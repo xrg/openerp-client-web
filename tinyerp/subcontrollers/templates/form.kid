@@ -117,6 +117,9 @@
                                    title="${_('Customise current object or create a new object')}" 
                                    onclick="openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
                                    href="javascript: void(0)">Customise Object</a>
+                                <a title="${_('Manage workflows of the current object')}" 
+                                   onclick="openWindow('/workflowlist?model=${form.screen.model}')" 
+                                   href="javascript: void(0)">Manage Workflows</a>
                                 <a py:if="links.workflow"
                                    title="${_('Customise workflow')}" 
                                    onclick="openWindow('/workflow?model=${form.screen.model}')" 

@@ -210,3 +210,4 @@ class Root(controllers.RootController, TinyResource):
     viewed = subcontrollers.viewed.ViewEd()
     viewlist = subcontrollers.viewlist.ViewList()
     workflow = subcontrollers.workflow.Workflow()
+    workflowlist = subcontrollers.workflow.WorkflowList()
