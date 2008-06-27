@@ -34,7 +34,7 @@ var ListView = function(id, terp){
 
     this.id = id;
     this.terp = terp;
-
+    
     var prefix = id == '_terp_list' ? '' : id + '/';
 
     this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
@@ -42,9 +42,13 @@ var ListView = function(id, terp){
     
     var view_ids = getElement(prefix + '_terp_view_ids');
     var view_mode = getElement(prefix + '_terp_view_mode');
+    var def_ctx = getElement(prefix + '_terp_default_get_ctx');
     
     this.view_ids = view_ids ? view_ids.value : null;
     this.view_mode = view_mode ? view_mode.value : null;
+    
+    // if o2m
+    this.default_get_ctx = def_ctx ? def_ctx.value : null;
     
     this.m2m = getElement(id + '_set');
 }
@@ -85,8 +89,126 @@ ListView.prototype.create = function(){
     this.edit(-1);
 }
 
-ListView.prototype.edit = function(id){
-    this.reload(id);
+ListView.prototype.loadEditors = function(edit_inline, args){
+    
+    var self = this;
+    var req = Ajax.JSON.post('/listgrid/get_editor', args);
+	
+    req.addCallback(function(obj){
+		
+		prefix = '_terp_listfields' + '/' + obj.source;
+		
+		var tbl = $(obj.source + '_grid');
+		var tr = null;
+		var idx = 1;
+		
+		var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+		var editors = self.adjustEditors(editor_row);
+        
+        if (editors.length > 0)
+            self.bindKeyEventsToEditors(editors);
+		
+		record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
+		
+		if(edit_inline != -1) {
+			
+			for (var i=0; i<tbl.rows.length; i++){   
+			    var e = tbl.rows[i];
+			    tr = MochiKit.DOM.getNodeAttribute(e, 'record') == edit_inline ? e : null;
+			    if (tr) break;
+			}
+			
+			if (tbl.last) {
+				tbl.last.style.display = '';
+			}
+			
+			idx = findIdentical(tbl.rows, tr);
+		}
+		
+		var tr_tmp = tbl.insertRow(idx);
+		swapDOM(tr_tmp, editor_row);
+		
+		if(edit_inline == -1 && record_id == null){
+			editor_row.style.display = '';
+		} else if(edit_inline == -1 && record_id > 0){
+			if (tbl.last) {
+				tbl.last.style.display = '';
+			}
+			editor_row.style.display = '';
+		} else {
+			tr.style.display = 'none';
+			editor_row.style.display = '';
+
+			MochiKit.DOM.setNodeAttribute(editor_row, 'record', edit_inline);
+		}
+		
+		elements = [];
+		
+		elements = elements.concat(getElementsByTagAndClassName('input', null, editor_row));
+		elements = elements.concat(getElementsByTagAndClassName('select', null, editor_row));
+		
+		forEach(elements, function(f){
+			getElement(f).value = "";
+		});
+		
+		for(var r in obj.res){
+			
+			var id = prefix + '/' + r;
+			var kind = 'char';
+			var elem = getElement(id);
+			
+			if (elem) {
+				kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
+				
+				if (kind ==  'many2one') {
+				    val = obj.res[r] || ['', '']
+					elem.value = val[0];
+					try {
+						getElement(id + '_text').value = val[1];
+					} catch(e) {}
+				} else {
+					elem.value = obj.res[r];
+				}
+			}
+		}
+		tbl.last = tr;
+	});
+}
+
+ListView.prototype.edit = function(edit_inline){
+    		
+    var self = this;
+    var args = this.makeArgs();
+    
+    // add args
+    args['_terp_source'] = this.id;
+    args['_terp_edit_inline'] = edit_inline;
+    
+    if (this.id == '_terp_list') {
+        args['_terp_search_domain'] = $('_terp_search_domain').value;
+    }
+    
+    if (!this.default_get_ctx) {
+    	return self.loadEditors(edit_inline, args)	
+    }
+    	
+    var req = eval_domain_context_request({source: this.id, context : this.default_get_ctx});
+    
+    req.addCallback(function(res){
+        args['_terp_context'] = res.context;        
+		self.loadEditors(edit_inline, args);        
+    });
+}
+
+ListView.prototype.cancel_editor = function(row){
+	row.style.display = 'none';
+	var tbl = row.parentNode.parentNode;
+	if(tbl.last)
+		tbl.last.style.display = '';
+}
+
+ListView.prototype.save_editor = function(row){
+	this.save(MochiKit.DOM.getNodeAttribute(row, 'record'));
 }
 
 ListView.prototype.getEditors = function(named, dom){
@@ -253,7 +375,6 @@ ListView.prototype.save = function(id){
             self.reload(id > 0 ? null : -1);
         }
     });
-
 }
 
 ListView.prototype.remove = function(id){
@@ -277,7 +398,6 @@ ListView.prototype.remove = function(id){
             self.reload();
         }
     });
-
 }
 
 ListView.prototype.makeArgs = function(){
@@ -339,10 +459,6 @@ ListView.prototype.reload = function(edit_inline){
         d.innerHTML = obj.view;
 
         var newlist = d.getElementsByTagName('table')[0];
-        var editors = self.adjustEditors(newlist);
-        
-        if (editors.length > 0)
-            self.bindKeyEventsToEditors(editors);
             
         self.current_record = edit_inline;
 
@@ -364,9 +480,7 @@ ListView.prototype.reload = function(edit_inline){
             first.focus();
             first.select();
         }
-
     });
-
 }
 
 ListView.prototype.onButtonClick = function(name, btype, id, sure){
