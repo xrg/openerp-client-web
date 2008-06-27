@@ -49,7 +49,7 @@ _VIEW_MODELS = {'global': 'ir.ui.view',
 class ViewList(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.viewlist")
-    def default(self, model, view_id=False, mode='global'):
+    def default(self, model, mode='global'):
         
         params = TinyDict()
         params.model = _VIEW_MODELS[mode]
@@ -60,7 +60,7 @@ class ViewList(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
-        return dict(screen=screen, model=model, view_id=view_id, mode=mode, show_header_footer=False)
+        return dict(screen=screen, model=model, mode=mode, show_header_footer=False)
     
     @expose()
     def create(self, model, **kw):
@@ -79,12 +79,12 @@ class ViewList(controllers.Controller, TinyResource):
         """ % (view_type, view_type)
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        view_id = proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
+        proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
         
-        raise redirect('/viewlist', model=model, view_id=view_id)
+        raise redirect('/viewlist', model=model)
     
     @expose()
-    def copy(self, model, id, view_id=False):
+    def copy(self, model, id):
         
         id = int(id)
         
@@ -98,7 +98,7 @@ class ViewList(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
         proxy.create(data)        
 
-        raise redirect('/viewlist', model=model, view_id=view_id, mode='user')
+        raise redirect('/viewlist', model=model, mode='user')
         
     @expose()
     def delete(self, model, id, mode='global'):

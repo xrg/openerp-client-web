@@ -84,21 +84,19 @@
                 return;
             }
             
-            window.location.href = getURL('/viewlist/copy', {model: '${model}', view_id: '${view_id}', id: boxes[0].value});
+            window.location.href = getURL('/viewlist/copy', {model: '${model}', id: boxes[0].value});
         }
         
         var changeMode = function(mode) {
-        
-            var model = getElement('model').value;
-            var view_id = getElement('view_id').value;
-            
-            var args = {model: model, view_id: parseInt(view_id) || null, mode: mode};
-
-            window.location.href = getURL('/viewlist', args);
+            window.location.href = getURL('/viewlist', {model: '${model}', mode: mode});
         }
         
         MochiKit.DOM.addLoadEvent(function(evt){
-            do_select(parseInt('${view_id}'), '_terp_list');
+            if (!window.opener) 
+                return;
+                
+            var view_id = window.opener.document.getElementById('_terp_view_id').value;
+            do_select(parseInt(view_id), '_terp_list');
         });
         
     </script>
@@ -166,7 +164,6 @@
             <td>
                 <form id="view_form" action="/viewlist/create">
                     <input type="hidden" id="model" name="model" value="$model"/>
-                    <input type="hidden" id="view_id" name="view_id" value="$view_id"/>
                     <table width="400" align="center" class="fields">
                         <tr>
                             <td class="label">View Name:</td>
