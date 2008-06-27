@@ -6,7 +6,9 @@
     
         function do_select(id, src){
             var radio = MochiKit.DOM.getElement(src + '/' + id);
-            radio.checked = true;
+            if (radio) {
+                radio.checked = true;
+            }
         }
         
         function doCreate() {
@@ -65,17 +67,34 @@
                 return;
             }
             
-            window.location.href = '/viewlist/delete?model=${model}&amp;id=' + boxes[0].value;
+            window.location.href = getURL('/viewlist/delete', {model: '${model}', mode: '${mode}', id: boxes[0].value});
+        }
+        
+        var onCopy = function() {
+            
+            var list = new ListView('_terp_list');
+            var boxes = list.getSelectedItems();
+
+            if (boxes.length == 0){
+                alert('Please select a view...');
+                return;
+            }
+            
+            window.location.href = getURL('/viewlist/copy', {model: '${model}', view_id: '${view_id}', id: boxes[0].value});
+        }
+        
+        var changeMode = function(mode) {
+        
+            var model = getElement('model').value;
+            var view_id = getElement('view_id').value;
+            
+            var args = {model: model, view_id: parseInt(view_id) || null, mode: mode};
+
+            window.location.href = getURL('/viewlist', args);
         }
         
         MochiKit.DOM.addLoadEvent(function(evt){
-            
-            var view_id = parseInt('${view_id}') || 0;
-            if (!view_id) return;
-            
-            try {
-                do_select(view_id, '_terp_list');
-            }catch(e){}
+            do_select(parseInt('${view_id}'), '_terp_list');
         });
         
     </script>
@@ -90,7 +109,11 @@
                         <td width="32px" align="center">
                             <img src="/static/images/icon.gif"/>
                         </td>
-                        <td width="100%">Manage Views ($model)</td>
+                        <td nowrap="nowrap">Manage Views ($model)</td>
+                        <td width="100%" align="right">
+                            <button onclick="changeMode('global')" title="${_('Changes for all users.')}" disabled="${tg.selector(mode == 'global')}">Global Mode</button>
+                            <button onclick="changeMode('user')" title="${_('Changes for current user only.')}" disabled="${tg.selector(mode == 'user')}">User Mode</button>
+                        </td>
                     </tr>
                 </table>
             </td>
@@ -104,9 +127,12 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="onNew()">New</button>
+                                <button type="button" onclick="onNew()" py:if="mode == 'global'">New</button>
                                 <button type="button" onclick="onEdit()">Edit</button>
                                 <button type="button" onclick="onRemove()">Remove</button>
+                            </td>
+                            <td style="padding-left: 25px;">
+                                <button title="${_('Copy to User Mode.')}" type="button" onclick="onCopy()" py:if="mode == 'global'">Copy</button>
                             </td>
                             <td width="100%"></td>
                             <td>
@@ -136,6 +162,7 @@
             <td>
                 <form id="view_form" action="/viewlist/create">
                     <input type="hidden" id="model" name="model" value="$model"/>
+                    <input type="hidden" id="view_id" name="view_id" value="$view_id"/>
                     <table width="400" align="center" class="fields">
                         <tr>
                             <td class="label">View Name:</td>

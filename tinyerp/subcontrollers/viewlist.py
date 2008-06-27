@@ -43,13 +43,16 @@ from tinyerp.utils import TinyDict
 
 import tinyerp.widgets as tw
 
+_VIEW_MODELS = {'global': 'ir.ui.view',
+                'user': 'ir.ui.view.user'}
+
 class ViewList(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.viewlist")
-    def index(self, model, view_id=False):
+    def default(self, model, view_id=False, mode='global'):
         
         params = TinyDict()
-        params.model = 'ir.ui.view'
+        params.model = _VIEW_MODELS[mode]
         params.view_mode = ['tree']
         
         params.domain = [('model', '=', model)]
@@ -57,7 +60,7 @@ class ViewList(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
-        return dict(screen=screen, model=model, view_id=view_id, show_header_footer=False)
+        return dict(screen=screen, model=model, view_id=view_id, mode=mode, show_header_footer=False)
     
     @expose()
     def create(self, model, **kw):
@@ -76,16 +79,33 @@ class ViewList(controllers.Controller, TinyResource):
         """ % (view_type, view_type)
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
+        view_id = proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
         
-        raise redirect('/viewlist', model=model)
+        raise redirect('/viewlist', model=model, view_id=view_id)
     
     @expose()
-    def delete(self, model, id):
+    def copy(self, model, id, view_id=False):
         
         id = int(id)
         
-        proxy = rpc.RPCProxy('ir.ui.view')
+        proxy = rpc.RPCProxy(_VIEW_MODELS['global'])
+        data = proxy.read([id])[0]
+        
+        data.pop('id')
+        data['ref_id'] = id
+        data['user_id'] = rpc.session.uid
+        
+        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
+        proxy.create(data)        
+
+        raise redirect('/viewlist', model=model, view_id=view_id, mode='user')
+        
+    @expose()
+    def delete(self, model, id, mode='global'):
+        
+        id = int(id)
+        
+        proxy = rpc.RPCProxy(_VIEW_MODELS[mode])
         proxy.unlink(id)
         
-        raise redirect('/viewlist', model=model)
+        raise redirect('/viewlist', model=model, mode=mode)
