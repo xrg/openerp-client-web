@@ -172,11 +172,16 @@ ListView.prototype.loadEditors = function(edit_inline, args){
 			}
 		}
 		tbl.last = tr;
+		var first = getElementsByTagAndClassName(null, 'listfields', this.id)[0] || null;
+        if (first) {
+            first.focus();
+            first.select();
+        }
 	});
 }
 
 ListView.prototype.edit = function(edit_inline){
-    		
+	
     var self = this;
     var args = this.makeArgs();
     
@@ -201,10 +206,19 @@ ListView.prototype.edit = function(edit_inline){
 }
 
 ListView.prototype.cancel_editor = function(row){
+	
+	var editor_cancel = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+	
+	if(!row) {
+		row = editor_cancel;
+	}
+	
+	MochiKit.DOM.setNodeAttribute(editor_cancel, 'record', 0);
+	
 	row.style.display = 'none';
 	var tbl = row.parentNode.parentNode;
 	if(tbl.last)
-		tbl.last.style.display = '';
+		tbl.last.style.display = '';	
 }
 
 ListView.prototype.save_editor = function(row){
@@ -278,7 +292,7 @@ ListView.prototype.onKeyDown = function(evt){
 
     if (key.string == "KEY_ESCAPE"){
         evt.stop();
-        this.reload();
+        this.cancel_editor();
         return;
     }
 
@@ -297,9 +311,13 @@ ListView.prototype.onKeyDown = function(evt){
         if (src.onchange) {
             src.onchange();
         }
-
+        
+        var tbl = $(this.id + '_grid');
+        
+        var editor_save = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+        
         evt.stop();
-        this.save(this.current_record);
+        this.save(MochiKit.DOM.getNodeAttribute(editor_save, 'record'));
 
         return;
     }
