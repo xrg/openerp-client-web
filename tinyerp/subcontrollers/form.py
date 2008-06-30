@@ -114,11 +114,18 @@ class Form(controllers.Controller, TinyResource):
         links.view_editor = True
         links.view_manager = True
         links.workflow = False
+        links.workflow_manager = False
         
         proxy = rpc.RPCProxy('workflow')
         wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
         links.workflow = len(wkf_ids) > 0
 
+        proxy_mdl = rpc.RPCProxy(params.model)
+        model_fields = proxy_mdl.fields_get(False, rpc.session.context)
+        
+        if model_fields.__contains__('states'):
+            links.workflow_manager = True
+        
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, 

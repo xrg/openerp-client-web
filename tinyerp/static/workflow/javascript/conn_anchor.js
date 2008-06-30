@@ -62,7 +62,7 @@ getLocation : function(/*:draw2d.Point*/ reference)
 			
 			var xd = -2 * x;
 			var yd = -2 * y;	
-			var k = 1/(conn.totalOverlaped + 1);				
+			var k = 1/(conn.totalOverlaped + 1);
 			
 			var xnew = x + (k * xd * conn.OverlapingSeq); 
 			var ynew = y + (k * yd * conn.OverlapingSeq);

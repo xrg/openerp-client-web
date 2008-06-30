@@ -71,7 +71,7 @@ openerp.workflow.Connector.prototype.edit = function() {
 	}
 	
 	if(!isUndefinedOrNull(this.tr_id))
-		params['_terp_id'] = this.tr_id	;	
+		params['_terp_id'] = this.tr_id;	
 		
 	var act = getURL('/workflow/connector/edit', params);
 	openWindow(act);

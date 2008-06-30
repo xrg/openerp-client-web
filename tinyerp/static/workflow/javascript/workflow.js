@@ -119,7 +119,7 @@ openerp.workflow.Workflow.implement({
 							check_for['isOverlaping'] = true;
 							counter++;
 						}
-						if(check_for['c'][1]==check_to['c'][0] && check_for['c'][0]==check_to['c'][1]) {
+						else if(check_for['c'][1]==check_to['c'][0] && check_for['c'][0]==check_to['c'][1]) {
 							check_for['isOverlaping'] = true;
 							counter++;
 						}						
@@ -157,6 +157,33 @@ openerp.workflow.Workflow.implement({
 	
 		
 	},
+	
+	get_overlaing_conn : function(s, e, flag) {
+		
+		var n = this.conn.getSize();
+		var conn_overlapped = new Array();
+		var counter = 1;
+		
+		for(i=0; i<n; i++) {
+			var c = this.conn.get(i)
+			var start = c.getSource().getParent().get_act_id();
+			var end = c.getTarget().getParent().get_act_id();
+			
+			if((start==s && end==e) || (end==s && start==e)) {
+				c.OverlapingSeq = counter ++;
+				conn_overlapped.push(i)
+			}
+		}
+		
+		for(i=0; i<conn_overlapped.length; i++) {
+			if(flag)
+				this.conn.get(conn_overlapped[i]).totalOverlaped = counter;
+			else
+				this.conn.get(conn_overlapped[i]).totalOverlaped = counter-1;
+		}
+		
+		return counter;
+	},	
 	
 	add_conn : function(id, start, end, signal, condition, from, to, isOverlaping, OverlapingSeq, totalOverlaped) {
 		
@@ -282,8 +309,17 @@ openerp.workflow.Workflow.implement({
 						start = j;							
 					if(id==act_to)
 						end =j;
-				}				
-				self.add_conn(data['id'], start, end, data['signal'], data['condition'], data['act_from'][1], data['act_to'][1]);
+				}
+				
+				var counter = self.get_overlaing_conn(data['act_from'][0], data['act_to'][0], 1)
+				
+				if(counter>1) {
+					data['isOverlaping'] = true;
+					data['OverlapingSeq'] = counter;
+					data['totalOverlaped'] = counter;
+				}		
+					
+				self.add_conn(data['id'], start, end, data['signal'], data['condition'], data['act_from'][1], data['act_to'][1], data['isOverlaping'], data['OverlapingSeq'], data['totalOverlaped']);
 				self.conn.getLastElement().edit();
 			} else {
 				alert('could not create transaction at server');
@@ -316,7 +352,6 @@ openerp.workflow.Workflow.implement({
 		this.unlink_state(elem);
 	else if(elem instanceof openerp.workflow.Connector)
 		this.unlink_connector(elem);
-		
 	},
 	
 	unlink_state : function(state) {
@@ -369,7 +404,12 @@ openerp.workflow.Workflow.implement({
 	},
 	
 	remove_conn : function(conn) {
+		var start = conn.getSource().getParent().get_act_id();
+		var end = conn.getTarget().getParent().get_act_id();
 		conn.dispose();
 		this.conn.remove(conn);
+		this.getLines().remove(conn);		
+		counter = this.get_overlaing_conn(start, end, 0);
+
 	}
 });
