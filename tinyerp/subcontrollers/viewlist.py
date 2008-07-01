@@ -91,12 +91,21 @@ class ViewList(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(_VIEW_MODELS['global'])
         data = proxy.read([id])[0]
         
+        if data.get('inherit_id'):
+            raise redirect('/viewlist', model=model, mode='global')
+        
         data.pop('id')
         data['ref_id'] = id
         data['user_id'] = rpc.session.uid
         
+        # save the final view (apply all inherited views as well)
+        proxy = rpc.RPCProxy(model)
+        view_type = data['type']
+        res = proxy.fields_view_get(id, view_type)
+        data['arch'] = res['arch']
+        
         proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
-        proxy.create(data)        
+        proxy.create(data)
 
         raise redirect('/viewlist', model=model, mode='user')
         
