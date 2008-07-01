@@ -374,12 +374,6 @@ class WorkflowList(controllers.Controller, TinyResource):
         if not wkf_name:
             raise redirect('/workflowlist', model=model)
         
-#        arch = """<?xml version="1.0"?>
-#        <%s string="Unknwown">
-#            <field name="name"/>
-#        </%s>
-#        """ % (view_type, view_type)
-        
         proxy = rpc.RPCProxy('workflow')
         proxy.create(dict(osv=model, name=wkf_name, on_create=on_create))
         

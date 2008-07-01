@@ -169,17 +169,27 @@ openerp.workflow.Workflow.implement({
 			var start = c.getSource().getParent().get_act_id();
 			var end = c.getTarget().getParent().get_act_id();
 			
-			if((start==s && end==e) || (end==s && start==e)) {
+			if((start==s && end==e)) {
+				c.isOverlaping = true;
 				c.OverlapingSeq = counter ++;
-				conn_overlapped.push(i)
+				conn_overlapped.push(i);
+			}else if(end==s && start==e) {
+				c.isOverlaping = true;
+				c.OverlapingSeq = counter ++;
+				conn_overlapped.push(i);	
 			}
 		}
 		
 		for(i=0; i<conn_overlapped.length; i++) {
-			if(flag)
-				this.conn.get(conn_overlapped[i]).totalOverlaped = counter;
-			else
-				this.conn.get(conn_overlapped[i]).totalOverlaped = counter-1;
+			var c = this.conn.get(conn_overlapped[i]) 
+			
+			if(flag) {
+				c.totalOverlaped = counter;
+			} else {
+				c.totalOverlaped = counter - 1;
+				if(counter-1==1)
+					c.isOverlaping = false;
+			}
 		}
 		
 		return counter;
@@ -192,7 +202,6 @@ openerp.workflow.Workflow.implement({
 				
 		var c = new openerp.workflow.Connector(id, signal, condition, from, to);	
 		var n = this.conn.getSize();
-		
 		
 		//self connection
 		if(start==end) {
@@ -289,12 +298,12 @@ openerp.workflow.Workflow.implement({
 	create_conn : function(act_from, act_to){
 		
 		var self = this;
-		var html = this.connector.getHTMLElement();
+//		var html = this.connector.getHTMLElement();
 		
 		req = Ajax.JSON.post('/workflow/connector/auto_create', {act_from: act_from, act_to: act_to});
 		req.addCallback(function(obj) {	
 			
-			html.style.display = 'none';
+//			html.style.display = 'none';
 			var data = obj.data;
 			
 			if(obj.flag) {
@@ -377,9 +386,10 @@ openerp.workflow.Workflow.implement({
 	
 	remove_state : function(state) {
 		
-		var command = new draw2d.CommandDelete(self.getFigure(state.getId()));
-		self.getCommandStack().execute(command);
+//		var command = new draw2d.CommandDelete(self.getFigure(state.getId()));
+//		self.getCommandStack().execute(command);
 		self.states.remove(state);
+		this.removeFigure(state);
 	},
 	
 	
@@ -406,10 +416,14 @@ openerp.workflow.Workflow.implement({
 	remove_conn : function(conn) {
 		var start = conn.getSource().getParent().get_act_id();
 		var end = conn.getTarget().getParent().get_act_id();
-		conn.dispose();
-		this.conn.remove(conn);
-		this.getLines().remove(conn);		
-		counter = this.get_overlaing_conn(start, end, 0);
+		
+		this.conn.remove(conn);		
+		if(conn.isOverlaping)	
+			this.get_overlaing_conn(start, end, 0);
+			
+		this.removeFigure(conn);
+
+		
 
 	}
 });
