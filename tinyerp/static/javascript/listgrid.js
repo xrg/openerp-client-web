@@ -86,11 +86,16 @@ ListView.prototype.getSelectedItems = function() {
 }
 
 ListView.prototype.create = function(){
+	
+	var tbl = $(this.id + '_grid');
+	var editor = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+	MochiKit.DOM.setNodeAttribute(editor, 'record', 0);
+	
     this.edit(-1);
 }
 
 ListView.prototype.loadEditors = function(edit_inline, args){
-    
+	
     var self = this;
     var req = Ajax.JSON.post('/listgrid/get_editor', args);
 	
@@ -105,8 +110,9 @@ ListView.prototype.loadEditors = function(edit_inline, args){
 		var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
 		var editors = self.adjustEditors(editor_row);
         
-        if (editors.length > 0)
+        if (editors.length > 0){
             self.bindKeyEventsToEditors(editors);
+        }
 		
 		record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
 		
@@ -130,7 +136,7 @@ ListView.prototype.loadEditors = function(edit_inline, args){
 		
 		if(edit_inline == -1 && record_id == null){
 			editor_row.style.display = '';
-		} else if(edit_inline == -1 && record_id > 0){
+		} else if(edit_inline == -1 && record_id >= 0){
 			if (tbl.last) {
 				tbl.last.style.display = '';
 			}
@@ -193,6 +199,8 @@ ListView.prototype.edit = function(edit_inline){
         args['_terp_search_domain'] = $('_terp_search_domain').value;
     }
     
+    var tbl = $(this.id + '_grid');
+    
     if (!this.default_get_ctx) {
     	return self.loadEditors(edit_inline, args)	
     }
@@ -213,12 +221,13 @@ ListView.prototype.cancel_editor = function(row){
 		row = editor_cancel;
 	}
 	
-	MochiKit.DOM.setNodeAttribute(editor_cancel, 'record', 0);
-	
-	row.style.display = 'none';
+	editor_cancel.style.display = 'none';
 	var tbl = row.parentNode.parentNode;
-	if(tbl.last)
-		tbl.last.style.display = '';	
+	
+	if(tbl.last) {
+		MochiKit.DOM.setNodeAttribute(editor_cancel, 'record', 0);		
+		tbl.last.style.display = '';
+	}
 }
 
 ListView.prototype.save_editor = function(row){
@@ -477,6 +486,10 @@ ListView.prototype.reload = function(edit_inline){
         d.innerHTML = obj.view;
 
         var newlist = d.getElementsByTagName('table')[0];
+        var editors = self.adjustEditors(newlist);
+        
+        if (editors.length > 0)
+            self.bindKeyEventsToEditors(editors);
             
         self.current_record = edit_inline;
 
