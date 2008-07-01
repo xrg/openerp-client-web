@@ -110,9 +110,8 @@ ListView.prototype.loadEditors = function(edit_inline, args){
 		var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
 		var editors = self.adjustEditors(editor_row);
         
-        if (editors.length > 0){
+        if (editors.length > 0)
             self.bindKeyEventsToEditors(editors);
-        }
 		
 		record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
 		
@@ -198,8 +197,6 @@ ListView.prototype.edit = function(edit_inline){
     if (this.id == '_terp_list') {
         args['_terp_search_domain'] = $('_terp_search_domain').value;
     }
-    
-    var tbl = $(this.id + '_grid');
     
     if (!this.default_get_ctx) {
     	return self.loadEditors(edit_inline, args)	
