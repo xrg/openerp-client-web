@@ -110,27 +110,62 @@ class State(Form):
         error_msg = None 
         
         proxy_act = rpc.RPCProxy(kw['model'])
+        proxy_tr =  rpc.RPCProxy('workflow.transition')
+        
         search_ids = proxy_act.search([('id','=', int(kw['id']))], 0, 0, 0, rpc.session.context)
         data = proxy_act.read(search_ids[0], ['out_transitions', 'in_transitions', 'flow_start'], rpc.session.context)
         
-        
+            
         if data['flow_start']:
             error_msg = _("The activity which start the flow can not be deleted.")
         else:
+            #all transitions which are connected to the activity
             trs = data['out_transitions']
             
             for tr in data['in_transitions']:
                 if not trs.__contains__(tr):
                     trs.append(tr)
             
-            proxy_tr =  rpc.RPCProxy('workflow.transition')
-            res_tr = proxy_tr.unlink(trs)
+            data_trs = proxy_tr.read(trs, ['act_from', 'act_to'], rpc.session.context)
+                        
+            opp_side_act = []
+            for tr in data_trs:
+                act_from = tr['act_from'][0]
+                act_to = tr['act_to'][0]
+              
+                if not opp_side_act.__contains__(act_from): 
+                    opp_side_act.append(act_from)              
+                
+                if not opp_side_act.__contains__(act_to):
+                    opp_side_act.append(act_to)
+                        
+            opp_side_act.remove(int(kw['id']))
             
-            if res_tr:
-                res_act = proxy_act.unlink(int(kw['id']))                
+            data_opp_acts = proxy_act.read(opp_side_act, ['out_transitions', 'in_transitions'], rpc.session.context)
 
-            if not res_act:
-                error_msg = _('Could not delete state')
+            
+            error_msg = None
+            
+            for act in data_opp_acts:
+                act_tr = act['out_transitions'] + act['in_transitions']
+                diff_list = []
+                                
+                for tr in act_tr:
+                    if tr not in trs:
+                        diff_list.append(tr)
+                
+                if not diff_list:
+                    error_msg = _('Graph can not be made disconnected')                   
+                    break;
+                
+            if not error_msg:
+                res_tr = proxy_tr.unlink(trs)
+            
+                if res_tr:
+                    res_act = proxy_act.unlink(int(kw['id']))                
+
+                if not res_act:
+                    error_msg = _('Could not delete state')
                 
         return dict(error = error_msg)
     

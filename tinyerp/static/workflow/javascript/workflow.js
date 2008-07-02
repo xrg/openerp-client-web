@@ -53,15 +53,15 @@ openerp.workflow.Workflow.implement({
 		var state_ports = this.state.getPorts();
 		
 		//dummy connector
-		this.connector = new openerp.workflow.Connector(999);
-		this.connector.setSource(state_ports.get(0));
-		this.connector.setTarget(state_ports.get(1));		
-		this.connector.setSourceAnchor(new draw2d.ConnectionAnchor);
-		this.connector.setTargetAnchor(new draw2d.ConnectionAnchor);
-		this.connector.setRouter(new draw2d.BezierConnectionRouter());	
-		this.addFigure(this.connector);
-		var html_conn = this.connector.getHTMLElement();
-		html_conn.style.display = 'none';
+//		this.connector = new openerp.workflow.Connector(999);
+//		this.connector.setSource(state_ports.get(0));
+//		this.connector.setTarget(state_ports.get(1));		
+//		this.connector.setSourceAnchor(new draw2d.ConnectionAnchor);
+//		this.connector.setTargetAnchor(new draw2d.ConnectionAnchor);
+//		this.connector.setRouter(new draw2d.BezierConnectionRouter());	
+//		this.addFigure(this.connector);
+//		var html_conn = this.connector.getHTMLElement();
+//		html_conn.style.display = 'none';
 		
 		this.draw_graph(getElement('wkf_id').value);
 	},
@@ -386,10 +386,10 @@ openerp.workflow.Workflow.implement({
 	
 	remove_state : function(state) {
 		
-//		var command = new draw2d.CommandDelete(self.getFigure(state.getId()));
-//		self.getCommandStack().execute(command);
+		var command = new draw2d.CommandDelete(self.getFigure(state.getId()));
+		self.getCommandStack().execute(command);
 		self.states.remove(state);
-		this.removeFigure(state);
+//		this.removeFigure(state);
 	},
 	
 	
