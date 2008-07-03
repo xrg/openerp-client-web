@@ -301,6 +301,8 @@ class ViewProxy(object):
                 elif node and inheritance_tree:
                     vnode = doc_dest.createElement('view')
                     vnode.setAttribute('view_id', str(inherited_id))
+                    vnode.setAttribute('rec_id', str(inherited_id))
+                    vnode.setAttribute('rec_model', _VIEW_MODELS['global'])
                     vnode.appendChild(node2)
                     node.appendChild(vnode)
                 else:
