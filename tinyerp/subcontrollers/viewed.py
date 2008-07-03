@@ -689,6 +689,51 @@ class ViewEd(controllers.Controller, TinyResource):
             pass
         
         return dict(record=record)
+    
+    @expose()
+    def update_dashboard(self, view_id, src, dst):
+        
+        error = None
+        reload = False
+        
+        view_id = int(view_id)
+        rec_id = view_id
+        
+        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
+        exist = proxy.search([('ref_id', '=', view_id), ('user_id', '=', rpc.session.uid)])
+        if exist:
+            rec_id = exist[0]
+            data = proxy.read(rec_id)
+            doc_arch = data['arch'] 
+        else:
+            proxy = rpc.RPCProxy(_VIEW_MODELS['global'])
+            data = proxy.read(rec_id)
+            doc_arch = data['arch']
+            
+        doc = xml.dom.minidom.parseString(doc_arch.encode('utf-8'))
+        src = xpath.Evaluate(".//*[@name='%s']"%src, doc)[0]
+        dst = xpath.Evaluate(".//*[@name='%s']"%dst, doc)[0]
+        
+        pnode = dst.parentNode
+        pnode.insertBefore(src, dst)
+        
+        del data['id']
+        
+        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
+        try:
+            if exist:
+                proxy.write(rec_id, dict(arch= doc.toxml(encoding="utf-8")))
+            else:
+                data['ref_id'] = view_id
+                data['user_id'] = rpc.session.uid
+                data['arch'] = doc.toxml(encoding="utf-8")
+
+                proxy.create(data)
+                reload = True
+        except Exception, e:
+            error = str(e)
+            
+        return dict(error=error, reload=reload)
 
 class Node(object):
     
