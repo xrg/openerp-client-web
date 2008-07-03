@@ -354,8 +354,19 @@ class ViewEd(controllers.Controller, TinyResource):
     preview = Preview()
     
     @expose(template="tinyerp.subcontrollers.templates.viewed")
-    def default(self, view_id, edit_mode='global'):
-
+    def default(self, view_id, **kw):
+        
+        edit_mode = kw.get('edit_mode')
+        
+        if not edit_mode:
+            proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
+            res = proxy.search([('ref_id', '=', int(view_id)), ('user_id', '=', rpc.session.uid)])
+            if res: 
+                edit_mode = 'user'
+                view_id = res[0]
+            else:
+                edit_mode = 'global'
+                
         vp = ViewProxy(view_id, _VIEW_MODELS[edit_mode])
         
         rec_id = vp.rec_id
