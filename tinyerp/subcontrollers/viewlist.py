@@ -99,9 +99,10 @@ class ViewList(controllers.Controller, TinyResource):
         data['user_id'] = rpc.session.uid
         
         # save the final view (apply all inherited views as well)
-        proxy = rpc.RPCProxy(model)
-        view_type = data['type']
-        res = proxy.fields_view_get(id, view_type)
+        from viewed import ViewProxy
+        vp = ViewProxy(id, 'ir.ui.view')
+        res = vp.view_get()
+        
         data['arch'] = res['arch']
         
         proxy = rpc.RPCProxy(_VIEW_MODELS['user'])

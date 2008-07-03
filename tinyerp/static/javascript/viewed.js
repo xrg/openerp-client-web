@@ -80,7 +80,7 @@ var onDelete = function(node){
     
     var act = data.localName == 'view' ? '/viewed/remove_view' : '/viewed/save/remove';
     
-    var req = Ajax.JSON.post(act, {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = Ajax.JSON.post(act, {rec_id: data.rec_id, rec_model: data.rec_model, xpath_expr: getXPath(selected)});
     req.addCallback(function(obj){
         
         if (obj.error){
@@ -108,7 +108,7 @@ var onAdd = function(node){
         return;
     }
     
-    var req = Ajax.post('/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = Ajax.post('/viewed/add', {rec_id: data.rec_id, rec_model: data.rec_model, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         var el = getElement('view_ed');
         el.innerHTML = xmlHttp.responseText;
@@ -183,7 +183,7 @@ var onEdit = function(node) {
         return;
     };
     
-    var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = Ajax.post('/viewed/edit', {rec_id: data.rec_id, rec_model: data.rec_model, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         el.innerHTML = xmlHttp.responseText;
         
@@ -270,7 +270,8 @@ var onMove = function(direction, node) {
     var data = record.items;
     
     var params = {
-        view_id: data.view_id, 
+        rec_id: data.rec_id,
+        rec_model: data.rec_model, 
         xpath_expr: getXPath(node),
         xpath_ref: getXPath(refNode)
     }

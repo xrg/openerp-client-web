@@ -41,10 +41,6 @@
         }
         
         function onEdit() {
-        
-            if ('${mode}' == 'user') {
-                return alert('User level modifications are not implemented yet!');
-            }
             
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
@@ -54,7 +50,8 @@
                 return;
             }
             
-            openWindow(getURL('/viewed', {view_id: boxes[0].value}));
+            var args = {view_id: boxes[0].value, edit_mode: "$mode"};            
+            openWindow(getURL('/viewed', args));
         }
         
         function onRemove() {

@@ -21,6 +21,8 @@
                 <input type="hidden" id="view_model" value="$model"/>
                 <input type="hidden" id="view_id" value="$view_id"/>
                 <input type="hidden" id="view_type" value="$view_type"/>
+                <input type="hidden" id="rec_id" value="$rec_id"/>
+                <input type="hidden" id="rec_model" value="$rec_model"/>
             </td>
         </tr>
         <tr>
@@ -34,7 +36,7 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td><button type="button" title="${_('Create a new inherited view')}" onclick="onInherit('${model}')">Inherited View</button></td>
+                            <td py:if="rec_model == 'ir.ui.view'"><button type="button" title="${_('Create a new inherited view')}" onclick="onInherit('${model}')">Inherited View</button></td>
                             <td width="100%">&nbsp;</td>
                             <td><button type="button" onclick="onPreview()">Preview</button></td>
                             <td><button type="button" onclick="onClose()">Close</button></td>
