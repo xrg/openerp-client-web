@@ -56,7 +56,9 @@ class ViewList(controllers.Controller, TinyResource):
         params.view_mode = ['tree']
         
         params.domain = [('model', '=', model)]
-        
+        if mode == 'user':
+            params.domain = [('model', '=', model), ('user_id', '=', rpc.session.uid)]
+            
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
@@ -91,9 +93,17 @@ class ViewList(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(_VIEW_MODELS['global'])
         data = proxy.read([id])[0]
         
+        # don't allow inherited views
         if data.get('inherit_id'):
             raise redirect('/viewlist', model=model, mode='global')
         
+        # don't allow duplicates
+        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
+        res = proxy.search([('ref_id', '=', id), ('user_id', '=', rpc.session.uid)])
+        
+        if res:
+             raise redirect('/viewlist', model=model, mode='global')
+         
         data.pop('id')
         data['ref_id'] = id
         data['user_id'] = rpc.session.uid
