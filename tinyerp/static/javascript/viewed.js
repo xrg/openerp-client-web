@@ -350,9 +350,11 @@ var onInherit = function() {
 }
 
 var onPreview = function() {
+    
    var act = getURL('/viewed/preview/show', {'model' : getElement('view_model').value, 
                                              'view_id' : getElement('view_id').value,
-                                             'view_type' : getElement('view_type').value});
+                                             'view_type' : getElement('view_type').value,
+                                             'rec_model': getElement('rec_model').value});
    
     if (window.browser.isGecko19) {
         return openWindow(act);

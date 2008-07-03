@@ -132,12 +132,17 @@ class Preview(Form):
         return dict(form=form, show_header_footer=False)
     
     @expose()
-    def show(self, model, view_id, view_type):
+    def show(self, model, view_id, view_type, rec_model):
         view_id = int(view_id)
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_ids' : [], 
                                        '_terp_view_ids' : [view_id],
                                        '_terp_view_mode' : [view_type]})
+        
+        params.context = rpc.session.context.copy()
+        if rec_model == 'ir.ui.view':
+            params.context['global_view'] = 1
+            
         return self.create(params)
 
 def _get_xpath(node):
