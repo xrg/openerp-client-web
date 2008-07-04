@@ -335,31 +335,16 @@ class RPCSession(object):
         self.timezone = 'utc'
 
         # self.uid
-        context = self.execute('object', 'execute', 'ir.values', 'get', 'meta', False, [('res.users', self.uid or False)], False, {}, True, True, False)
-        for c in context:
-            if c[2]:
-                self.context[c[1]] = c[2]
-            if c[1] == 'lang':
-                pass
-#                ids = self.execute('object', 'execute', 'res.lang', 'search', [('code', '=', c[2])])
-#                if ids:
-#                    l = self.execute('object', 'execute', 'res.lang', 'read', ids, ['direction'])
-#                    if l and 'direction' in l[0]:
-#                        common.DIRECTION = l[0]['direction']
-#                        import gtk
-#                        if common.DIRECTION == 'rtl':
-#                            gtk.widget_set_default_direction(gtk.TEXT_DIR_RTL)
-#                        else:
-#                            gtk.widget_set_default_direction(gtk.TEXT_DIR_LTR)
-            elif c[1] == 'tz':
-                self.timezone = self.execute('common', 'timezone_get')
-                self.timezone = _TZ_ALIASES.get(self.timezone, self.timezone)
-                try:
-                    import pytz
-                except:
-                    common.warning(_('You select a timezone but OpenERP could not find pytz library !\nThe timezone functionality will be disable.'))
-                    
-
+        context = self.execute('object', 'execute', 'res.users', 'context_get')
+        self.context.update(context or {})
+        
+        if self.context.get('tz', False):
+            self.timezone = self.execute('common', 'timezone_get')
+            try:
+                import pytz
+            except:
+                raise common.warning(_('You select a timezone but OpenERP could not find pytz library !\nThe timezone functionality will be disable.'))
+                
         # set locale in session
         self.locale = self.context.get('lang')
 
