@@ -109,22 +109,14 @@
                                    title="${_('Manage views of the current object')}" 
                                    onclick="openWindow('${tg.url('/viewlist', model=form.screen.model)}', {height: 400})" 
                                    href="javascript: void(0)">Manage Views</a>
-                                <a py:if="links.view_editor"
-                                   title="${_('Customise current view')}" 
-                                   onclick="openWindow('/viewed?view_id=${form.screen.view_id}')"
-                                   href="javascript: void(0)">Customise View</a>
+                                <a py:if="links.workflow_manager"
+                                   title="${_('Manage workflows of the current object')}" 
+                                   onclick="openWindow('${tg.url('/workflowlist', model=form.screen.model, active=links.workflow_manager)}', {height: 400})" 
+                                   href="javascript: void(0)">Manage Workflows</a>
                                 <a py:if="form.screen.model"
                                    title="${_('Customise current object or create a new object')}" 
                                    onclick="openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
-                                   href="javascript: void(0)">Customise Object</a>
-                                <a py:if="links.workflow_manager"
-                                   title="${_('Manage workflows of the current object')}" 
-                                   onclick="openWindow('/workflowlist?model=${form.screen.model}')" 
-                                   href="javascript: void(0)">Manage Workflows</a>
-                                <a py:if="links.workflow"
-                                   title="${_('Customise workflow')}" 
-                                   onclick="openWindow('/workflow?model=${form.screen.model}')" 
-                                   href="javascript: void(0)">Customise Workflow</a>
+                                   href="javascript: void(0)">Customise Object</a>								   
                             </div>
                         </td>
                     </tr>

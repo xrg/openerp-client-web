@@ -49,7 +49,17 @@ _VIEW_MODELS = {'global': 'ir.ui.view',
 class ViewList(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.viewlist")
-    def default(self, model, mode='global'):
+    def default(self, model, **kw):
+        
+        mode = kw.get('mode')
+        
+        if not mode:
+            proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
+            res = proxy.search([('model', '=', model), ('user_id', '=', rpc.session.uid)])
+            if res:
+                mode = 'user'
+            else:
+                mode = 'global'
         
         params = TinyDict()
         params.model = _VIEW_MODELS[mode]
