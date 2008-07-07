@@ -385,7 +385,7 @@ class Workflow(Form):
 class WorkflowList(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.wkf_list")
-    def index(self, model, active=False):
+    def index(self, model):
         
         params = TinyDict()
         params.model = 'workflow'
@@ -396,7 +396,7 @@ class WorkflowList(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
-        return dict(screen=screen, model=model, active=active, show_header_footer=False)
+        return dict(screen=screen, model=model, show_header_footer=False)
     
     @expose()
     def create(self, model, **kw):

@@ -132,17 +132,12 @@ class Preview(Form):
         return dict(form=form, show_header_footer=False)
     
     @expose()
-    def show(self, model, view_id, view_type, rec_model):
+    def show(self, model, view_id, view_type):
         view_id = int(view_id)
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_ids' : [], 
                                        '_terp_view_ids' : [view_id],
                                        '_terp_view_mode' : [view_type]})
-        
-        params.context = rpc.session.context.copy()
-        if rec_model == 'ir.ui.view':
-            params.context['global_view'] = 1
-            
         return self.create(params)
 
 def _get_xpath(node):
@@ -202,50 +197,45 @@ def _get_field_attrs(node, parent_model):
     
     return field
 
-class ViewProxy(object):
+class ViewEd(controllers.Controller, TinyResource):
     
-    def __init__(self, rec_id, rec_model):
-        
-        rec_id = int(rec_id)
-        
-        if not rec_id or isinstance(rec_id, basestring):
-            raise common.error(_("Error!"), _("Can't edit auto generated views."))
-        
-        self.rec_id = rec_id
-        
-        self.proxy_u = rpc.RPCProxy('ir.ui.view.user')
-        self.proxy_g = rpc.RPCProxy('ir.ui.view')
-        
-        self.is_global = rec_model == 'ir.ui.view'
-        
-        if not self.is_global:
-            res = self.proxy_u.read(self.rec_id, ['model', 'type', 'ref_id'])
-            self.view_id = res['ref_id'][0]
-            self.view_type =  res['type']
-            self.view_model = res['model']
-        else:
-            res = self.proxy_g.read(self.rec_id, ['model', 'type'])
-            self.view_id = self.rec_id
-            self.view_type =  res['type']
-            self.view_model = res['model']
-            
-    def _get_proxy(self):
-        if self.is_global:
-            return self.proxy_g
-        return self.proxy_u
+    new_field = NewField()
+    new_model = NewModel()
+    preview = Preview()
     
-    proxy = property(fget=_get_proxy)
+    @expose(template="tinyerp.subcontrollers.templates.viewed")
+    def default(self, view_id):
+
+        try:
+            view_id = eval(view_id)
+        except:
+            pass
+        
+        if isinstance(view_id, basestring) or not view_id:
+            raise common.error(_("Error!"), _("Invalid view id."))
+        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'type'])
+        
+        model = res['model']
+        view_type = res['type']
+        
+        headers = [{'string' : 'Name', 'name' : 'string', 'type' : 'char'},
+                   {'string' : '', 'name': 'add', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'delete', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'edit', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
+                   {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
+        
+        tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
+        tree.showheaders = False
+        tree.onselection = 'onSelect'
+        tree.onbuttonclick = 'onButtonClick'
+        tree.expandall = True
+
+        return dict(view_id=view_id, view_type=view_type, model=model, tree=tree, show_header_footer=False)
     
-    def read(self, fields):
-        return self.proxy.read(self.rec_id, fields)
-    
-    def save(self, data):
-        return self.proxy.write(self.rec_id, data)
-    
-    def remove(self):
-        return self.proxy.unlink(self.rec_id)
-    
-    def view_get(self, inheritance_tree=False):
+    def view_get(self, view_id=None):
         
         def _inherit_apply(src, inherit, inherited_id):
             def _find(node, node2):
@@ -276,38 +266,9 @@ class ViewProxy(object):
                 if not node2.nodeType==node2.ELEMENT_NODE:
                     continue
                 node = _find(doc_src, node2)
-
-                if node and not inheritance_tree:
-                    pos = 'inside'
-                    if node2.hasAttribute('position'):
-                        pos = node2.getAttribute('position')
-                    if pos=='replace':
-                        parent = node.parentNode
-                        for child in node2.childNodes:
-                            if child.nodeType==child.ELEMENT_NODE:
-                                parent.insertBefore(child, node)
-                        parent.removeChild(node)
-                    else:
-                        for child in node2.childNodes:
-                            if child.nodeType==child.ELEMENT_NODE:
-                                if pos=='inside':
-                                    node.appendChild(child)
-                                elif pos=='after':
-                                    sib = node.nextSibling
-                                    if sib:
-                                        node.parentNode.insertBefore(child, sib)
-                                    else:
-                                        node.parentNode.appendChild(child)
-                                elif pos=='before':
-                                    node.parentNode.insertBefore(child, node)
-                                else:
-                                    raise AttributeError, 'Unknown position in inherited view %s !' % pos
-
-                elif node and inheritance_tree:
+                if node:
                     vnode = doc_dest.createElement('view')
                     vnode.setAttribute('view_id', str(inherited_id))
-                    vnode.setAttribute('rec_id', str(inherited_id))
-                    vnode.setAttribute('rec_model', _VIEW_MODELS['global'])
                     vnode.appendChild(node2)
                     node.appendChild(vnode)
                 else:
@@ -320,9 +281,9 @@ class ViewProxy(object):
                     raise AttributeError, "Couldn't find tag '%s' in parent view !" % tag
             return doc_src.toxml().replace('\t', '')
         
-        proxy = self.proxy
-        res = proxy.read(self.rec_id)
-        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id)
+
         def _inherit_apply_rec(result, inherit_id):
             # get all views which inherit from (ie modify) this view
             inherit_ids = proxy.search([('inherit_id', '=', inherit_id)], 0, 0, 'priority')
@@ -334,73 +295,21 @@ class ViewProxy(object):
             
             return result
         
-        doc_arch = res['arch']
-        if self.is_global: 
-            doc_arch = _inherit_apply_rec(doc_arch, self.view_id)
-            
-        res = {'model': self.view_model, 'view_id' : self.view_id, 
-               'view_type': self.view_type, 'arch' : doc_arch}
+        doc_arch = _inherit_apply_rec(res['arch'], view_id)
+        doc_arch = xml.dom.minidom.parseString(doc_arch.encode('utf-8'))
         
-        if inheritance_tree:
-            doc_arch = xml.dom.minidom.parseString(doc_arch.encode('utf-8'))
-            new_doc = xml.dom.getDOMImplementation().createDocument(None, 'view', None)
-            new_doc.documentElement.setAttribute('view_id', str(self.view_id))
-            new_doc.documentElement.appendChild(doc_arch.documentElement)
+        new_doc = xml.dom.getDOMImplementation().createDocument(None, 'view', None)
+        new_doc.documentElement.setAttribute('view_id', str(view_id))
+        new_doc.documentElement.appendChild(doc_arch.documentElement)
         
-            res['arch'] = new_doc.toxml().replace('\t', '')
-            
+        res = {'model': res['model'],
+               'view_id' : view_id,
+               'view_type': res['type'],
+               'arch' : new_doc.toxml().replace('\t', '')}
+
         return res
-
-_VIEW_MODELS = {'global': 'ir.ui.view',
-                'user': 'ir.ui.view.user'}
-
-class ViewEd(controllers.Controller, TinyResource):
     
-    new_field = NewField()
-    new_model = NewModel()
-    preview = Preview()
-    
-    @expose(template="tinyerp.subcontrollers.templates.viewed")
-    def default(self, view_id, **kw):
-        
-        edit_mode = kw.get('edit_mode')
-        
-        if not edit_mode:
-            proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
-            res = proxy.search([('ref_id', '=', int(view_id)), ('user_id', '=', rpc.session.uid)])
-            if res: 
-                edit_mode = 'user'
-                view_id = res[0]
-            else:
-                edit_mode = 'global'
-                
-        vp = ViewProxy(view_id, _VIEW_MODELS[edit_mode])
-        
-        rec_id = vp.rec_id
-        rec_model = _VIEW_MODELS[edit_mode]
-        
-        view_id = vp.view_id
-        view_type = vp.view_type
-        view_model = vp.view_model
-        
-        headers = [{'string' : 'Name', 'name' : 'string', 'type' : 'char'},
-                   {'string' : '', 'name': 'add', 'type' : 'image', 'width': 2},
-                   {'string' : '', 'name': 'delete', 'type' : 'image', 'width': 2},
-                   {'string' : '', 'name': 'edit', 'type' : 'image', 'width': 2},
-                   {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
-                   {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
-        
-        tree = tw.treegrid.TreeGrid('view_tree', model=view_model, headers=headers, 
-                                    url='/viewed/data?rec_id=%s&rec_model=%s'%(rec_id, rec_model))
-        tree.showheaders = False
-        tree.onselection = 'onSelect'
-        tree.onbuttonclick = 'onButtonClick'
-        tree.expandall = True
-
-        return dict(view_id=view_id, view_type=view_type, rec_id=rec_id, 
-                    rec_model=rec_model, model=view_model, tree=tree, show_header_footer=False)
-
-    def get_node_instance(self, node, model, view_id=False, view_type='form', rec_id=False, rec_model='ir.ui.view'):
+    def get_node_instance(self, node, model, view_id=False, view_type='form'):
         
         field_attrs = _get_field_attrs(node, parent_model=model)
         
@@ -408,13 +317,9 @@ class ViewEd(controllers.Controller, TinyResource):
         
         view_id = attrs.get('view_id', view_id)
         view_type = attrs.get('view_type', view_type)
-        rec_id = attrs.get('rec_id', rec_id)
-        rec_model = attrs.get('rec_model', rec_model)
         
         attrs['view_id'] = view_id
         attrs['view_type'] = view_type
-        attrs['rec_id'] = rec_id
-        attrs['rec_model'] = rec_model
         
         attrs['__localName__'] = node.localName
         attrs['__id__'] = random.randrange(1, 10000)
@@ -425,7 +330,7 @@ class ViewEd(controllers.Controller, TinyResource):
         
         return _NODES.get(node.localName, Node)(field_attrs)
 
-    def parse(self, root=None, model=None, view_id=False, view_type='form', rec_id=False, rec_model='ir.ui.view'):
+    def parse(self, root=None, model=None, view_id=False, view_type='form'):
 
         result = []
     
@@ -438,15 +343,13 @@ class ViewEd(controllers.Controller, TinyResource):
         
             view_id = attrs.get('view_id', view_id)
             view_type = attrs.get('view_type', view_type)
-            rec_id = attrs.get('rec_id', rec_id)
-            rec_model = attrs.get('rec_model', rec_model)
             
             children = []
             
             if node.childNodes:
-                children = self.parse(node, model=model, view_id=view_id, view_type=view_type, rec_id=rec_id, rec_model=rec_model)
+                children = self.parse(node, model=model, view_id=view_id, view_type=view_type)
 
-            node_instance = self.get_node_instance(node, model=model, view_id=view_id, view_type=view_type, rec_id=rec_id, rec_model=rec_model)
+            node_instance = self.get_node_instance(node, model=model, view_id=view_id, view_type=view_type)
             node_instance.children = children
             
             result += [node_instance]
@@ -454,30 +357,29 @@ class ViewEd(controllers.Controller, TinyResource):
         return result
     
     @expose('json')
-    def data(self, rec_id, rec_model, **kw):
+    def data(self, view_id, **kw):
+        view_id = int(view_id)
         
-        vp = ViewProxy(rec_id, rec_model)
-        res = vp.view_get(True)
+        res = self.view_get(view_id)
         
-        rec_id = vp.rec_id
-        view_id = vp.view_id
-        model = vp.view_model
-        view_type = vp.view_type
-        
+        model = res['model']
+        view_type = res['view_type']
         arch = res['arch']
         
         doc = xml.dom.minidom.parseString(arch.encode('utf-8'))
-        result = self.parse(root=doc, model=model, view_id=view_id, view_type=view_type, rec_id=rec_id, rec_model=rec_model)
+        result = self.parse(root=doc, model=model, view_id=view_id, view_type=view_type)
         
         records = [rec.get_record() for rec in result]
         
         return dict(records=records)
     
     @expose(template="tinyerp.subcontrollers.templates.viewed_edit")
-    def edit(self, rec_id, rec_model, xpath_expr):
+    def edit(self, view_id, xpath_expr):
         
-        vp = ViewProxy(rec_id, rec_model)
-        res = vp.read(['arch'])
+        view_id = int(view_id)
+        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'arch'])
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
@@ -500,18 +402,17 @@ class ViewEd(controllers.Controller, TinyResource):
             
             editors += [ed]
             
-        return dict(rec_id=rec_id, rec_model=rec_model, xpath_expr=xpath_expr, editors=editors)
+        return dict(view_id=view_id, xpath_expr=xpath_expr, editors=editors)
     
     @expose(template="tinyerp.subcontrollers.templates.viewed_add")
-    def add(self, rec_id, rec_model, xpath_expr):
+    def add(self, view_id, xpath_expr):
+        view_id = int(view_id)
         
-        vp = ViewProxy(rec_id, rec_model)
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'arch'])
         
-        view_id = vp.view_id
-        model = vp.view_model
-        
-        res = vp.read(['arch'])
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
+        model = res['model']
         
         field_node = xpath.Evaluate(xpath_expr, doc)[0]
         model = _get_model(field_node, parent_model=model)
@@ -530,8 +431,7 @@ class ViewEd(controllers.Controller, TinyResource):
         if field_node.localName in [k for k,v in _CHILDREN.items() if not v] + ['field']:
             positions = [('after', 'After'), ('before', 'Before'), ('inside', 'Inside')]
         
-        return dict(view_id=view_id, rec_id=rec_id, rec_model=rec_model, xpath_expr=xpath_expr, 
-                    nodes=nodes, fields=fields, model=model, positions=positions)
+        return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields, model=model, positions=positions)
     
     @expose('json')
     def create_view(self, view_id=False, xpath_expr=None, **kw):
@@ -605,15 +505,15 @@ class ViewEd(controllers.Controller, TinyResource):
         return dict()
     
     @expose('json')
-    def save(self, _terp_what, rec_id, rec_model, xpath_expr, **kw):
+    def save(self, _terp_what, view_id, xpath_expr, **kw):
         
-        vp = ViewProxy(rec_id, rec_model)
+        view_id = int(view_id)
         
-        model = vp.view_model
-        view_id = vp.view_id
-        view_type = vp.view_type
+        proxy = rpc.RPCProxy('ir.ui.view')
+        res = proxy.read(view_id, ['model', 'type', 'arch'])
         
-        res = vp.read(['arch'])
+        model = res['model']
+        view_type = res['type']
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
         node = xpath.Evaluate(xpath_expr, doc)[0]
@@ -673,13 +573,13 @@ class ViewEd(controllers.Controller, TinyResource):
             pnode.removeChild(node)
         
         if _terp_what != 'remove':
-            node_instance = self.get_node_instance(new_node or node, model=model, view_id=view_id, view_type=view_type, rec_id=rec_id, rec_model=rec_model)
-            node_instance.children = self.parse(new_node or node, model, view_id, view_type, rec_id, rec_model)
+            node_instance = self.get_node_instance(new_node or node, model=model, view_id=view_id, view_type=view_type)
+            node_instance.children = self.parse(new_node or node, model, view_id, view_type)
             record = node_instance.get_record()
             
         data = dict(arch=doc.toxml(encoding="utf-8"))
         try:
-            res = vp.save(data)
+            res = proxy.write([view_id], data)
         except:
             return dict(error=_("Unable to update the view."))
         
@@ -689,51 +589,6 @@ class ViewEd(controllers.Controller, TinyResource):
             pass
         
         return dict(record=record)
-    
-    @expose()
-    def update_dashboard(self, view_id, src, dst):
-        
-        error = None
-        reload = False
-        
-        view_id = int(view_id)
-        rec_id = view_id
-        
-        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
-        exist = proxy.search([('ref_id', '=', view_id), ('user_id', '=', rpc.session.uid)])
-        if exist:
-            rec_id = exist[0]
-            data = proxy.read(rec_id)
-            doc_arch = data['arch'] 
-        else:
-            proxy = rpc.RPCProxy(_VIEW_MODELS['global'])
-            data = proxy.read(rec_id)
-            doc_arch = data['arch']
-            
-        doc = xml.dom.minidom.parseString(doc_arch.encode('utf-8'))
-        src = xpath.Evaluate(".//*[@name='%s']"%src, doc)[0]
-        dst = xpath.Evaluate(".//*[@name='%s']"%dst, doc)[0]
-        
-        pnode = dst.parentNode
-        pnode.insertBefore(src, dst)
-        
-        del data['id']
-        
-        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
-        try:
-            if exist:
-                proxy.write(rec_id, dict(arch= doc.toxml(encoding="utf-8")))
-            else:
-                data['ref_id'] = view_id
-                data['user_id'] = rpc.session.uid
-                data['arch'] = doc.toxml(encoding="utf-8")
-
-                proxy.create(data)
-                reload = True
-        except Exception, e:
-            error = str(e)
-            
-        return dict(error=error, reload=reload)
 
 class Node(object):
     
@@ -741,8 +596,6 @@ class Node(object):
         self.attrs = attrs or {}
         self.children = children
         
-        self.rec_id = self.attrs['rec_id']
-        self.rec_model = self.attrs['rec_model']
         self.view_id = self.attrs['view_id']
         self.id = self.attrs['__id__']
         
@@ -758,8 +611,6 @@ class Node(object):
                  'name' : self.name,
                  'localName' : self.localName,
                  'view_id' : self.view_id,
-                 'rec_id' : self.rec_id,
-                 'rec_model': self.rec_model,
                  'delete': '/static/images/stock/gtk-remove.png'}
         
         if self.localName not in ('view'):

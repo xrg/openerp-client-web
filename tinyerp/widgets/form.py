@@ -581,7 +581,7 @@ class Group(TinyCompoundWidget):
 class Dashbar(TinyCompoundWidget):
     
     template = """
-        <div xmlns:py="http://purl.org/kid/ns#" class="dashlet" id="dashlet_${child.name}" py:for="child in children" 
+        <div xmlns:py="http://purl.org/kid/ns#" class="dashlet" py:for="child in children" 
             py:content="child.display(value_for(child), **params_for(child))"/>
         """
     
@@ -598,13 +598,15 @@ class Dashbar(TinyCompoundWidget):
 class HPaned(TinyCompoundWidget):
 
     template = """
-    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="hpaned dashboard">
-        <tr>
-            <td class="dashbar" valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
-        </tr>
-    </table>
-    """
-    
+        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
+            <table width="100%" class="hpaned dashboard">
+                <tr>
+                    <td class="dashbar" valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
+                </tr>
+            </table>
+        </span>
+        """
+
     member_widgets = ["children"]
 
     def __init__(self, attrs, children):
@@ -615,12 +617,14 @@ class HPaned(TinyCompoundWidget):
 class VPaned(TinyCompoundWidget):
 
     template = """
-    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="hpaned dashboard">
-        <tr py:for="child in children">
-            <td class="dashbar" valign="top" py:content="child.display(value_for(child), **params_for(child))"></td>
-        </tr>
-    </table>
-    """
+        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
+            <table width="100%" class="hpaned">
+                <tr py:for="child in children">
+                    <td valign="top" py:content="child.display(value_for(child), **params_for(child))"></td>
+                </tr>
+            </table>
+        </span>
+        """
 
     member_widgets = ["children"]
 

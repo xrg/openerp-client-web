@@ -43,36 +43,21 @@ from tinyerp.utils import TinyDict
 
 import tinyerp.widgets as tw
 
-_VIEW_MODELS = {'global': 'ir.ui.view',
-                'user': 'ir.ui.view.user'}
-
 class ViewList(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.viewlist")
-    def default(self, model, **kw):
-        
-        mode = kw.get('mode')
-        
-        if not mode:
-            proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
-            res = proxy.search([('model', '=', model), ('user_id', '=', rpc.session.uid)])
-            if res:
-                mode = 'user'
-            else:
-                mode = 'global'
+    def index(self, model):
         
         params = TinyDict()
-        params.model = _VIEW_MODELS[mode]
+        params.model = 'ir.ui.view'
         params.view_mode = ['tree']
         
         params.domain = [('model', '=', model)]
-        if mode == 'user':
-            params.domain = [('model', '=', model), ('user_id', '=', rpc.session.uid)]
-            
+        
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
-        return dict(screen=screen, model=model, mode=mode, show_header_footer=False)
+        return dict(screen=screen, model=model, show_header_footer=False)
     
     @expose()
     def create(self, model, **kw):
@@ -96,46 +81,11 @@ class ViewList(controllers.Controller, TinyResource):
         raise redirect('/viewlist', model=model)
     
     @expose()
-    def copy(self, model, id):
+    def delete(self, model, id):
         
         id = int(id)
         
-        proxy = rpc.RPCProxy(_VIEW_MODELS['global'])
-        data = proxy.read([id])[0]
-        
-        # don't allow inherited views
-        if data.get('inherit_id'):
-            raise redirect('/viewlist', model=model, mode='global')
-        
-        # don't allow duplicates
-        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
-        res = proxy.search([('ref_id', '=', id), ('user_id', '=', rpc.session.uid)])
-        
-        if res:
-             raise redirect('/viewlist', model=model, mode='global')
-         
-        data.pop('id')
-        data['ref_id'] = id
-        data['user_id'] = rpc.session.uid
-        
-        # save the final view (apply all inherited views as well)
-        from viewed import ViewProxy
-        vp = ViewProxy(id, 'ir.ui.view')
-        res = vp.view_get()
-        
-        data['arch'] = res['arch']
-        
-        proxy = rpc.RPCProxy(_VIEW_MODELS['user'])
-        proxy.create(data)
-
-        raise redirect('/viewlist', model=model, mode='user')
-        
-    @expose()
-    def delete(self, model, id, mode='global'):
-        
-        id = int(id)
-        
-        proxy = rpc.RPCProxy(_VIEW_MODELS[mode])
+        proxy = rpc.RPCProxy('ir.ui.view')
         proxy.unlink(id)
         
-        raise redirect('/viewlist', model=model, mode=mode)
+        raise redirect('/viewlist', model=model)

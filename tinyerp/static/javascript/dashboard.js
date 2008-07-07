@@ -65,33 +65,11 @@ function dashboard() {
 		}
 						
 		dst.insertBefore(src, ref);
-				
-		src.style.osition = 'relative';
+		
+		src.style.position = 'relative';
 		src.style.top = 'auto';
 		src.style.left = 'auto';
 		src.style.width = '100%';
-		
-		if (src && ref) {
-		    var sid = src.id.replace('dashlet_', '');
-		    var rid = ref.id.replace('dashlet_', '');
-		    
-		    var args = {src: sid, dst: rid};
-		    args['view_id'] = getElement('_terp_view_id').value;
-		    
-		    var req = Ajax.JSON.post('/viewed/update_dashboard', args);
-		    req.addCallback(function(obj) {
-		        
-		        if (obj.error) {
-		            return alert(obj.error);
-		        }
-		        
-		        if (obj.reload) {
-		           window.location.reload();    
-		        }
-		        
-		    });
-		}
-
 	}
 	
 	connect(MochiKit.DragAndDrop.Draggables, 'onStart', function(evt) {

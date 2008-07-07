@@ -111,12 +111,18 @@ class Form(controllers.Controller, TinyResource):
         target = params.context.get('_terp_target')
         buttons.toolbar = target != 'new' and not params.model.startswith('board.')
 
+        links.view_editor = True
         links.view_manager = True
+        links.workflow = False
         links.workflow_manager = False
         
         proxy = rpc.RPCProxy('workflow')
-        wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, {})
-        links.workflow_manager = (wkf_ids or False) and wkf_ids[0]
+        wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
+        links.workflow = len(wkf_ids) > 0
+        
+        proxy = rpc.RPCProxy(params.model)
+        res = proxy.fields_get(['state'])
+        links.workflow_manager = len(res) > 0
         
         pager = None
         if buttons.pager:

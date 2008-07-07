@@ -5,8 +5,7 @@
     <tr>
         <td height="100%" valign="top">
             <form id="view_form" name="view_form" onsubmit="return false" action="">
-                <input type="hidden" name="rec_id" id="rec_id" value="${rec_id}"/>
-                <input type="hidden" name="rec_model" id="rec_model" value="${rec_model}"/>
+                <input type="hidden" name="view_id" id="view_id" value="${view_id}"/>
                 <input type="hidden" name="xpath_expr" id="xpath_expr" value="${xpath_expr}"/>
                 <table>
                     <tr py:for="ed in editors">

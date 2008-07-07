@@ -6,9 +6,7 @@
     
         function do_select(id, src){
             var radio = MochiKit.DOM.getElement(src + '/' + id);
-            if (radio) {
-                radio.checked = true;
-            }
+            radio.checked = true;
         }
         
         function doCreate() {
@@ -50,8 +48,7 @@
                 return;
             }
             
-            var args = {view_id: boxes[0].value, edit_mode: "$mode"};            
-            openWindow(getURL('/viewed', args));
+            openWindow(getURL('/viewed', {view_id: boxes[0].value}));
         }
         
         function onRemove() {
@@ -68,45 +65,8 @@
                 return;
             }
             
-            window.location.href = getURL('/viewlist/delete', {model: '${model}', mode: '${mode}', id: boxes[0].value});
+            window.location.href = '/viewlist/delete?model=${model}&amp;id=' + boxes[0].value;
         }
-        
-        var onCopy = function() {
-            
-            var list = new ListView('_terp_list');
-            var boxes = list.getSelectedItems();
-
-            if (boxes.length == 0){
-                alert('Please select a view...');
-                return;
-            }
-            
-            window.location.href = getURL('/viewlist/copy', {model: '${model}', id: boxes[0].value});
-        }
-        
-        var changeMode = function(mode) {
-            window.location.href = getURL('/viewlist', {model: '${model}', mode: mode});
-        }
-        
-        MochiKit.DOM.addLoadEvent(function(evt){
-            
-            if (!window.opener) 
-                return;
-
-            var id = window.opener.document.getElementById('_terp_view_id').value;
-            
-            if (!MochiKit.DOM.getElement('_terp_list/' + id)) {
-                
-                var list = new ListView('_terp_list');
-                var ids = list.getRecords();
-
-                if (ids.length) {
-                    id = ids[0];
-                }
-            }
-            
-            do_select(parseInt(id), '_terp_list');
-        });
         
     </script>
 </head>
@@ -120,11 +80,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/icon.gif"/>
                         </td>
-                        <td nowrap="nowrap">Manage Views ($model)</td>
-                        <td width="100%" align="right">
-                            <button onclick="changeMode('global')" title="${_('Changes for all users.')}" disabled="${tg.selector(mode == 'global')}">Global Mode</button>
-                            <button onclick="changeMode('user')" title="${_('Changes for current user only.')}" disabled="${tg.selector(mode == 'user')}">User Mode</button>
-                        </td>
+                        <td width="100%">Manage Views ($model)</td>
                     </tr>
                 </table>
             </td>
@@ -138,12 +94,9 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="onNew()" py:if="mode == 'global'">New</button>
+                                <button type="button" onclick="onNew()">New</button>
                                 <button type="button" onclick="onEdit()">Edit</button>
                                 <button type="button" onclick="onRemove()">Remove</button>
-                            </td>
-                            <td style="padding-left: 25px;">
-                                <button title="${_('Copy to User Mode.')}" type="button" onclick="onCopy()" py:if="mode == 'global'">Copy</button>
                             </td>
                             <td width="100%"></td>
                             <td>
