@@ -218,10 +218,6 @@ var submit_form = function(action, src, data, target){
 
     var form = $("view_form");
 	
-	if (!validate_required(form)){
-        return false;
-    }
-	
     setNodeAttribute(form, 'target', '');
 
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
@@ -240,6 +236,16 @@ var submit_form = function(action, src, data, target){
         }
 
         args['_terp_selection'] = '[' + ids.join(',') + ']';
+    }
+	
+	if ((action == 'action' || action == 'relate') && !getElement('_terp_list')){
+		
+        var cur_id = getElement('_terp_id').value;
+		cur_id = parseInt(cur_id) || 0;
+		
+        if (!cur_id) {
+           return alert('You must save this record to use the relate button !');
+        }
     }
     
     if (action == 'relate' && target == 'new') {
@@ -260,6 +266,10 @@ var submit_form = function(action, src, data, target){
     if (action == 'save_and_edit'){
         action = 'save';
         args['_terp_return_edit'] = 1;
+    }
+	
+	if (action == 'save' && !validate_required(form)){
+        return false;
     }
 
     setNodeAttribute(form, 'action', get_form_action(action, args));
