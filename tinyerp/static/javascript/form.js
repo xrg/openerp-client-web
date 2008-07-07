@@ -268,7 +268,7 @@ var submit_form = function(action, src, data, target){
         args['_terp_return_edit'] = 1;
     }
 	
-	if (action == 'save' && !validate_required(form)){
+	if (!validate_required(form)){
         return false;
     }
 
