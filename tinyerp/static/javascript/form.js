@@ -402,7 +402,7 @@ var getFormData = function(extended) {
             if (kind)
                 attrs['type'] = kind;
                 
-            if (extended && kind == 'many2one'){
+            if (extended && (kind == 'many2one' || kind == 'many2many')){
                 attrs['relation'] = getNodeAttribute(e, 'relation');
             }
 
