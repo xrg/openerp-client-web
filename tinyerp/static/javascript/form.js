@@ -188,6 +188,24 @@ var switch_O2M = function(view_type, src){
     });
 }
 
+var validate_required = function(form) {
+	
+	var form = getElement(form);
+	if (!form) return true;
+	
+	var result = true;
+	
+	for (var i=0; i<form.elements.length; i++){
+		var elem = form.elements[i];
+		if (hasElementClass(elem, 'requiredfield') && !elem.value) {
+			addElementClass(elem, 'errorfield');
+			result = false;
+		}
+	}
+	
+	return result;
+}
+
 var submit_form = function(action, src, data, target){
 
     if (Ajax.COUNT > 0) {
@@ -198,12 +216,17 @@ var submit_form = function(action, src, data, target){
         return false;
     }
 
-    form = $("view_form");
+    var form = $("view_form");
+	
+	if (!validate_required(form)){
+        return false;
+    }
+	
     setNodeAttribute(form, 'target', '');
 
-    source = src ? (typeof(src) == "string" ? src : src.name) : null;
+    var source = src ? (typeof(src) == "string" ? src : src.name) : null;
 
-    args = {
+    var args = {
         _terp_source: source,
         _terp_data: data ? data : null
     };
