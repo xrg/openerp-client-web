@@ -268,11 +268,13 @@ var submit_form = function(action, src, data, target){
         args['_terp_return_edit'] = 1;
     }
 	
-	if (!validate_required(form)){
+	action = get_form_action(action, args);
+	
+	if (/\/save(\?|\/)?/.test(action) && !validate_required(form)){
         return false;
     }
 
-    setNodeAttribute(form, 'action', get_form_action(action, args));
+    setNodeAttribute(form, 'action', action);
     form.submit();
 }
 
