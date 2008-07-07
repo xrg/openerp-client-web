@@ -123,6 +123,10 @@ var getCalendar = function(action) {
                 eval(s.innerHTML);
             });
         }
+		
+		if (act.indexOf('/calendar/delete') == 0) {
+			getElement('_terp_id').value = 'False';
+		}
 
         callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
     });
