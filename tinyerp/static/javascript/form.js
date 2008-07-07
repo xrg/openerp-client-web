@@ -518,6 +518,9 @@ var onChange = function(name) {
                 if (kind == 'many2many'){
                     fld.onchange();
                 }
+				
+				// should be saved
+				field.disabled = False;
             }
         }
 

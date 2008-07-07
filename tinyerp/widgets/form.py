@@ -100,7 +100,7 @@ class Frame(TinyCompoundWidget):
             elif getattr(child, 'visible', True) or isinstance(child, (Button, Group, Page)):
                 self.add(child, string, rowspan, colspan)
             elif isinstance(child, TinyInputWidget):
-                self.hiddens += [child]
+                self.add_hidden(child)
             else:
                 pass
 
@@ -214,7 +214,12 @@ class Frame(TinyCompoundWidget):
         tr.append(td)
 
         self.x += colspan + a
-
+        
+    def add_hidden(self, widget):
+        if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
+            self._add_validator(widget)
+        self.hiddens += [widget]
+        
 class Notebook(TinyCompoundWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
@@ -413,8 +418,13 @@ class Selection(TinyField):
             self.validator = tiny_validators.Selection()
 
     def set_value(self, value):
-        if isinstance(value, (tuple, list)):
+        
+        if self.options and value not in dict(self.options):
+            value = None
+               
+        elif isinstance(value, (tuple, list)):
             value = value[0]
+            
         super(Selection, self).set_value(value)
 
 class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
@@ -680,12 +690,31 @@ class Form(TinyCompoundWidget):
 
         for k, v in defaults.items():
             values.setdefault(k, v)
+            
+        self.state = values.get('state')
 
         # store current record values in request object (see, self.parse & O2M default_get_ctx)
         if not hasattr(cherrypy.request, 'terp_record'): 
         	cherrypy.request.terp_record = TinyDict()
 
+        self.view_fields = []
         self.frame = self.parse(prefix, dom, fields, values)[0]
+        
+        # We should generate hidden fields for fields which are not in view, as
+        # the values of such fields might be used during `onchange` 
+        for name, attrs in fields.items():
+            if name not in self.view_fields:
+                
+                kind = attrs.get('type', 'char')
+                if kind not in widgets_type:
+                    continue
+                
+                attrs['prefix'] = prefix
+                attrs['name'] = name
+                attrs['readonly'] = True # always make them readonly
+                
+                field = self._make_field_widget(attrs, values.get(name))
+                self.frame.add_hidden(field)
 
     def parse(self, prefix='', root=None, fields=None, values={}, myfields=None):
 
@@ -698,19 +727,9 @@ class Form(TinyCompoundWidget):
                 continue
 
             attrs = tools.node_attributes(node)
-
             attrs['prefix'] = prefix
-            attrs['editable'] = self.editable
-            attrs['link'] = self.link
-                        
-            attrs.setdefault('context', self.context)
-
-            if 'state' in values:
-                attrs['state'] = values['state']
-
-            attrs['model'] = attrs.get('model', self.model)
-            #attrs['readonly'] = attrs.get('readonly', self.readonly)   #(For testing Binary widget remove coment...)
-
+            attrs['state'] = self.state
+            
             if node.localName=='image':
                 views += [Image(attrs)]
 
@@ -746,15 +765,7 @@ class Form(TinyCompoundWidget):
 
             elif node.localName == 'field':
                 name = attrs['name']
-
-                if attrs.get('widget', False):
-                    if attrs['widget']=='one2many_list':
-                        attrs['widget']='one2many'
-                    attrs['type'] = attrs['widget']
-
-                # XXX: update widgets also
-                attrs['value'] = values.get(name, None)
-
+                
                 # password field? then let XML attrs overrides invisible property.
                 if fields[name].get('type') == 'char' and 'invisible' in fields[name]:
                     attrs['password'] = fields[name].pop('invisible')
@@ -765,10 +776,6 @@ class Form(TinyCompoundWidget):
                     print "-"*30,"\n malformed tag for :", attrs
                     print "-"*30
                     raise
-                
-                # suppress by container's readonly property 
-                if self.readonly:
-                    attrs['readonly'] = True
                 
                 kind = fields[name]['type']
 
@@ -792,15 +799,9 @@ class Form(TinyCompoundWidget):
                     raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
                 myfields.append(name)
-
-                field = widgets_type[kind](attrs=fields[name])
-
-                if values.has_key(name) and isinstance(field, TinyInputWidget):
-                    field.set_value(values[name])
+                self.view_fields.append(name)
                 
-                # update the record data
-                cherrypy.request.terp_record[field.name] =  field.get_value()
-
+                field = self._make_field_widget(fields[name], values.get(name))
                 views += [field]
 
             elif node.localName=='hpaned':
@@ -819,6 +820,40 @@ class Form(TinyCompoundWidget):
                 views += [Action(attrs)]
 
         return views
+    
+    def _make_field_widget(self, attrs, value=False):
+        
+        name = attrs['name']
+        kind = attrs.get('type', 'char')
+
+        attrs['editable'] = self.editable
+        attrs['link'] = self.link
+
+        attrs.setdefault('context', self.context)
+        attrs.setdefault('model', self.model)
+        attrs.setdefault('state', self.state)
+        
+        if attrs.get('widget', False):
+            if attrs['widget']=='one2many_list':
+                attrs['widget']='one2many'
+            attrs['type'] = attrs['widget']
+
+        attrs['value'] = value
+        
+        # suppress by container's readonly property 
+        if self.readonly:
+            attrs['readonly'] = True
+            
+        field = widgets_type[kind](attrs)
+        
+        if isinstance(field, TinyInputWidget):
+            field.set_value(value)        
+        
+        # update the record data
+        cherrypy.request.terp_record[name] =  field.get_value()
+        
+        return field
+
 
 from action import Action
 from many2one import M2O

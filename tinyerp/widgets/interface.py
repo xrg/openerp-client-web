@@ -67,6 +67,8 @@ class TinyWidget(object):
     states = None
     callback = None
     kind=None
+    
+    field_class = None
 
     def __init__(self, attrs={}):
 
