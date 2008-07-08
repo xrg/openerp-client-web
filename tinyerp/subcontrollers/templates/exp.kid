@@ -64,8 +64,7 @@
         }
 
         function save_export() {
-            form = $('view_form');
-            
+            var form = document.forms['view_form'];
             form.action = '/impex/save_exp';
             
             var options = $('fields').options;            

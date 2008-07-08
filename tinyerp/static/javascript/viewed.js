@@ -124,7 +124,7 @@ var doAdd = function() {
         return;
     }
 
-    var form = getElement('view_form');
+    var form = document.forms['view_form'];
     var params = {};
     
     forEach(form.elements, function(el){
@@ -208,7 +208,7 @@ var doEdit = function() {
         return;
     }
 
-    var form = getElement('view_form');
+    var form = document.forms['view_form'];
     var params = {};
     
     forEach(form.elements, function(el){

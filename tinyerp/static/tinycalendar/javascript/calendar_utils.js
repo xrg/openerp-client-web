@@ -73,7 +73,8 @@ var CAL_INSTANCE = null;
 var getCalendar = function(action) {
     var act = action ? action : '/calendar/get/' + $('_terp_calendar_args').value;
 
-    var contents = formContents('view_form');
+    var form = document.forms['view_form'];
+    var contents = formContents(form);
     var params = {};
 
     for(var i in contents[0]){

@@ -12,8 +12,9 @@
         MochiKit.DOM.addLoadEvent(function (evt){
         
             var pwin = window.opener;
+            var pform = pwin.document.forms['view_form'];
 
-            var pform = pwin.document.getElementById('view_form');
+            var form = document.forms['view_form'];
             var fields = [];
 
             MochiKit.Iter.forEach(pform.elements, function(e){
@@ -35,7 +36,7 @@
                 }
             });
 
-            MochiKit.DOM.appendChildNodes('view_form', fields);
+            MochiKit.DOM.appendChildNodes(form, fields);
 
             var lc = $('_terp_load_counter').value;
 

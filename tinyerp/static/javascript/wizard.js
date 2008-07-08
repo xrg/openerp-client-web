@@ -46,7 +46,7 @@ function showWaitBox() {
 
 function wizardAction(state) {
 
-    var form = MochiKit.DOM.getElement('view_form');
+    var form = document.forms['view_form'];
     var act = '/wizard/action';
 
     if (state == 'end'){

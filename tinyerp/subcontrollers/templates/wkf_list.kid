@@ -12,7 +12,7 @@
         }
         
         function doCreate() {
-            var vf = getElement('view_form');
+            var vf = document.forms['view_form'];
             vf.submit();
         }
         

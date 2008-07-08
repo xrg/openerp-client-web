@@ -122,7 +122,7 @@ var viewRecord = function(id, src){
 var switchView = function(view_type, src){
 
     var prefix = src ? src + '/' : '';
-    var form = $("view_form");
+    var form = document.forms['view_form'];
 
     var params = {
         '_terp_source': src,
@@ -144,7 +144,7 @@ var switch_O2M = function(view_type, src){
 		return;
 	}
 	var prefix = src ? src + '/' : '';
-    var form = $("view_form");
+    var form = document.forms['view_form'];
 	
 	var params = getFormParams();
 	
@@ -190,7 +190,10 @@ var switch_O2M = function(view_type, src){
 
 var validate_required = function(form) {
 	
-	var form = getElement(form);
+	if (typeof form == 'string') {
+	   form = document.forms[form];	
+	}
+	
 	if (!form) return true;
 	
 	var result = true;
@@ -222,7 +225,7 @@ var submit_form = function(action, src, data, target){
         return false;
     }
 
-    var form = $("view_form");
+    var form = document.forms['view_form'];
 	
     setNodeAttribute(form, 'target', '');
 
@@ -374,7 +377,7 @@ var buttonClicked = function(name, btype, model, id, sure, target){
  */
 var getFormData = function(extended) {
 
-    var parentNode = $('_terp_list') || $('view_form');
+    var parentNode = $('_terp_list') || document.forms['view_form'];
 
     var frm = {};
     var fields = [];
@@ -436,7 +439,7 @@ var getFormData = function(extended) {
  */
 var getFormParams = function(){
 
-    var parentNode = $('view_form');
+    var parentNode = document.forms['view_form'];
 
     var frm = {};
     var fields = [];
@@ -608,7 +611,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
 
 function makeContextMenu(id, kind, relation, val) {
 
-    var form = $('view_form');
+    var form = document.forms['view_form'];
     var act = get_form_action('get_context_menu');
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
