@@ -526,7 +526,7 @@ var onChange = function(name) {
                 }
 				
 				// should be saved
-				field.disabled = False;
+				fld.disabled = false;
             }
         }
 
