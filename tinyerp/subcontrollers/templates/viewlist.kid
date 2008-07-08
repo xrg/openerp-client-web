@@ -6,7 +6,9 @@
     
         function do_select(id, src){
             var radio = MochiKit.DOM.getElement(src + '/' + id);
-            radio.checked = true;
+			if (radio) {
+				radio.checked = true;
+			}
         }
         
         function doCreate() {
@@ -67,6 +69,26 @@
             
             window.location.href = '/viewlist/delete?model=${model}&amp;id=' + boxes[0].value;
         }
+		
+        MochiKit.DOM.addLoadEvent(function(evt){
+            
+            if (!window.opener) 
+                return;
+
+            var id = window.opener.document.getElementById('_terp_view_id').value;
+            
+            if (!MochiKit.DOM.getElement('_terp_list/' + id)) {
+                
+                var list = new ListView('_terp_list');
+                var ids = list.getRecords();
+
+                if (ids.length) {
+                    id = ids[0];
+                }
+            }
+            
+            do_select(parseInt(id), '_terp_list');
+        });		
         
     </script>
 </head>

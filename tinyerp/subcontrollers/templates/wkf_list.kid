@@ -6,7 +6,9 @@
     
         function do_select(id, src){
             var radio = MochiKit.DOM.getElement(src + '/' + id);
-            radio.checked = true;
+			if (radio) {
+				radio.checked = true;
+			}
         }
         
         function doCreate() {
@@ -70,6 +72,16 @@
             
             window.location.href = '/workflowlist/delete?model=${model}&amp;id=' + boxes[0].value;
         }
+		
+		MochiKit.DOM.addLoadEvent(function(evt){
+            
+            if (!window.opener) 
+                return;
+            
+            try {
+                do_select(parseInt('$active'), '_terp_list');
+            } catch(e){}
+        });
         
     </script>
 </head>
