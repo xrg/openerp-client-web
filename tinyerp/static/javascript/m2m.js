@@ -140,33 +140,33 @@ Many2Many.prototype = {
 }
 
 function remove_m2m_rec(name) {
-	
-	var elem = MochiKit.DOM.getElement(name + '_id');
-	var terp_ids =  MochiKit.DOM.getElement(name + '/_terp_ids');
-	
-	var ids = eval(terp_ids.value);
-	var boxes = getElementsByTagAndClassName('input', 'grid-record-selector', name + '_grid');
-	
-	boxes = MochiKit.Base.filter(function(box) {
+
+    var elem = MochiKit.DOM.getElement(name + '_id');
+    var terp_ids =  MochiKit.DOM.getElement(name + '/_terp_ids');
+    
+    var ids = eval(terp_ids.value);
+    var boxes = getElementsByTagAndClassName('input', 'grid-record-selector', name + '_grid');
+    
+    boxes = MochiKit.Base.filter(function(box) {
         return box && (box.checked);
     }, boxes);
     
     if(boxes.length <= 0)
-    	return;
+        return;
     
     boxes = MochiKit.Base.map(function(box) {
-    	return parseInt(box.value);
+        return parseInt(box.value);
     }, boxes);
     
     ids = MochiKit.Base.filter(function(id) {
-    	return MochiKit.Base.findIdentical(boxes, id) == -1;
+        return MochiKit.Base.findIdentical(boxes, id) == -1;
     }, ids);
     
     terp_ids.value = '[' + ids.join(',') + ']';
     elem.value = '[' + ids.join(',') + ']';
-	elem.onchange();
-	
-	return;
+    elem.onchange();
+
+    return;
 }
 
 // vim: sts=4 st=4 et

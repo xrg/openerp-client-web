@@ -78,13 +78,13 @@ var editRecord = function(id, src){
 }
 
 var viewRecord = function(id, src){
-	
+
     if (src && src != '_terp_list' && $('_terp_count').value != '0') {
-    	if (getElement(src + '_set')) {
-    		return editRecord(id, src);
-    	} else {
-        	return new One2Many(src).edit(id, true);
-    	}
+        if (getElement(src + '_set')) {
+            return editRecord(id, src);
+        } else {
+            return new One2Many(src).edit(id, true);
+        }
     }
 
     var prefix = src && src != '_terp_list' ? src + '/' : '';
@@ -140,15 +140,17 @@ var switchView = function(view_type, src){
 }
 
 var switch_O2M = function(view_type, src){
-	if (Ajax.COUNT > 0){
-		return;
-	}
-	var prefix = src ? src + '/' : '';
+    
+    if (Ajax.COUNT > 0){
+        return;
+    }
+    
+    var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];
-	
-	var params = getFormParams();
-	
-	params['_terp_source'] = src;
+
+    var params = getFormParams();
+    
+    params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
 
     if (getElement('_terp_list')){
@@ -160,13 +162,13 @@ var switch_O2M = function(view_type, src){
     
     req = Ajax.post('/form/switch_o2m', params);
     req.addCallback(function(xmlHttp){
-    	
-    	var text = xmlHttp.responseText;
-    	if (text.indexOf('ERROR: ') == 0) {
-    		text = text.replace('ERROR: ', '');
-    		return alert(text);
-    	}
-    	
+    
+        var text = xmlHttp.responseText;
+        if (text.indexOf('ERROR: ') == 0) {
+            text = text.replace('ERROR: ', '');
+            return alert(text);
+        }
+
         var frm = getElement('_o2m_'+src);
         
         var d = DIV();
@@ -189,30 +191,30 @@ var switch_O2M = function(view_type, src){
 }
 
 var validate_required = function(form) {
-	
-	if (typeof form == 'string') {
-	   form = document.forms[form];	
-	}
-	
-	if (!form) return true;
-	
-	var result = true;
-	
-	for (var i=0; i<form.elements.length; i++){
-		
-		var elem = form.elements[i];
-		
-		if (!elem.value && hasElementClass(elem, 'requiredfield')) {
-			addElementClass(elem, 'errorfield');
-			result = false;
-		}
-		
-		if (elem.value && hasElementClass(elem, 'errorfield')) {
+
+    if (typeof form == 'string') {
+       form = document.forms[form];
+    }
+
+    if (!form) return true;
+
+    var result = true;
+
+    for (var i=0; i<form.elements.length; i++){
+
+        var elem = form.elements[i];
+
+        if (!elem.value && hasElementClass(elem, 'requiredfield')) {
+            addElementClass(elem, 'errorfield');
+            result = false;
+        }
+
+        if (elem.value && hasElementClass(elem, 'errorfield')) {
             removeElementClass(elem, 'errorfield');
         }
-	}
-	
-	return result;
+    }
+    
+    return result;
 }
 
 var submit_form = function(action, src, data, target){
@@ -226,7 +228,7 @@ var submit_form = function(action, src, data, target){
     }
 
     var form = document.forms['view_form'];
-	
+
     setNodeAttribute(form, 'target', '');
 
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
@@ -246,12 +248,12 @@ var submit_form = function(action, src, data, target){
 
         args['_terp_selection'] = '[' + ids.join(',') + ']';
     }
-	
-	if ((action == 'action' || action == 'relate') && !getElement('_terp_list')){
-		
+
+    if ((action == 'action' || action == 'relate') && !getElement('_terp_list')){
+
         var cur_id = getElement('_terp_id').value;
-		cur_id = parseInt(cur_id) || 0;
-		
+        cur_id = parseInt(cur_id) || 0;
+
         if (!cur_id) {
            return alert('You must save this record to use the relate button !');
         }
@@ -276,10 +278,10 @@ var submit_form = function(action, src, data, target){
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
-	
-	action = get_form_action(action, args);
-	
-	if (/\/save(\?|\/)?/.test(action) && !validate_required(form)){
+
+    action = get_form_action(action, args);
+
+    if (/\/save(\?|\/)?/.test(action) && !validate_required(form)){
         return false;
     }
 
@@ -519,17 +521,17 @@ var onChange = function(name) {
                     //getName(fld);
                     fld.value = value[0] || '';
                     try {
-                    	$(prefix + k + '_text').value = value[1] || '';
-                    	ManyToOne.change_icon(fld);
+                        $(prefix + k + '_text').value = value[1] || '';
+                        ManyToOne.change_icon(fld);
                     }catch(e){}
                 }
 
                 if (kind == 'many2many'){
                     fld.onchange();
                 }
-				
-				// should be saved
-				fld.disabled = false;
+                
+                // should be saved
+                fld.disabled = false;
             }
         }
 
@@ -582,7 +584,7 @@ function eval_domain_context_request(options){
     params['_terp_domain'] = options.domain;
     params['_terp_context'] = options.context;
     params['_terp_prefix'] = prefix;    
-   	params['_terp_parent_id'] = prefix.length > 0 ? $(prefix + '/_terp_id').value : $('_terp_id').value;
+    params['_terp_parent_id'] = prefix.length > 0 ? $(prefix + '/_terp_id').value : $('_terp_id').value;
     
     var parent_context = prefix.length > 0 ? $(prefix + '/_terp_context') : $('_terp_context');
     

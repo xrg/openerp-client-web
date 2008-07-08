@@ -86,107 +86,109 @@ ListView.prototype.getSelectedItems = function() {
 }
 
 ListView.prototype.create = function(){
-	
-	var tbl = $(this.id + '_grid');
-	var editor = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-	MochiKit.DOM.setNodeAttribute(editor, 'record', 0);
-	
+    
+    var tbl = $(this.id + '_grid');
+    var editor = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+    MochiKit.DOM.setNodeAttribute(editor, 'record', 0);
+    
     this.edit(-1);
 }
 
 ListView.prototype.loadEditors = function(edit_inline, args){
-	
+    
     var self = this;
     var req = Ajax.JSON.post('/listgrid/get_editor', args);
-	
+
     req.addCallback(function(obj){
-		
-		prefix = '_terp_listfields' + '/' + obj.source;
-		
-		var tbl = $(obj.source + '_grid');
-		var tr = null;
-		var idx = 1;
-		
-		var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-		var editors = self.adjustEditors(editor_row);
+
+        prefix = '_terp_listfields' + '/' + obj.source;
+
+        var tbl = $(obj.source + '_grid');
+        var tr = null;
+        var idx = 1;
+        
+        var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+        var editors = self.adjustEditors(editor_row);
         
         if (editors.length > 0)
             self.bindKeyEventsToEditors(editors);
-		
-		record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
-		
-		if(edit_inline != -1) {
-			
-			for (var i=0; i<tbl.rows.length; i++){   
-			    var e = tbl.rows[i];
-			    tr = MochiKit.DOM.getNodeAttribute(e, 'record') == edit_inline ? e : null;
-			    if (tr) break;
-			}
-			
-			if (tbl.last) {
-				tbl.last.style.display = '';
-			}
-			
-			idx = findIdentical(tbl.rows, tr);
-		}
-		
-		var tr_tmp = tbl.insertRow(idx);
-		swapDOM(tr_tmp, editor_row);
-		
-		if(edit_inline == -1 && record_id == null){
-			editor_row.style.display = '';
-		} else if(edit_inline == -1 && record_id >= 0){
-			if (tbl.last) {
-				tbl.last.style.display = '';
-			}
-			editor_row.style.display = '';
-		} else {
-			tr.style.display = 'none';
-			editor_row.style.display = '';
 
-			MochiKit.DOM.setNodeAttribute(editor_row, 'record', edit_inline);
-		}
-		
-		elements = [];
-		
-		elements = elements.concat(getElementsByTagAndClassName('input', null, editor_row));
-		elements = elements.concat(getElementsByTagAndClassName('select', null, editor_row));
-		
-		forEach(elements, function(f){
-			getElement(f).value = "";
-		});
-		
-		for(var r in obj.res){
-			
-			var id = prefix + '/' + r;
-			var kind = 'char';
-			var elem = getElement(id);
-			
-			if (elem) {
-				kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
-				
-				if (kind ==  'many2one') {
-				    val = obj.res[r] || ['', '']
-					elem.value = val[0];
-					try {
-						getElement(id + '_text').value = val[1];
-					} catch(e) {}
-				} else {
-					elem.value = obj.res[r];
-				}
-			}
-		}
-		tbl.last = tr;
-		var first = getElementsByTagAndClassName(null, 'listfields', this.id)[0] || null;
-        if (first) {
-            first.focus();
-            first.select();
-        }
-	});
+            record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
+
+            if(edit_inline != -1) {
+
+                for (var i=0; i<tbl.rows.length; i++){
+                    
+                    var e = tbl.rows[i];
+                    tr = MochiKit.DOM.getNodeAttribute(e, 'record') == edit_inline ? e : null;
+                    if (tr) break;
+                }
+
+                if (tbl.last) {
+                    tbl.last.style.display = '';
+                }
+
+                idx = findIdentical(tbl.rows, tr);
+            }
+
+            var tr_tmp = tbl.insertRow(idx);
+            swapDOM(tr_tmp, editor_row);
+
+            if(edit_inline == -1 && record_id == null){
+                editor_row.style.display = '';
+            } else if(edit_inline == -1 && record_id >= 0){
+                if (tbl.last) {
+                    tbl.last.style.display = '';
+                }
+                editor_row.style.display = '';
+            } else {
+                tr.style.display = 'none';
+                editor_row.style.display = '';
+
+                MochiKit.DOM.setNodeAttribute(editor_row, 'record', edit_inline);
+            }
+
+            elements = [];
+
+            elements = elements.concat(getElementsByTagAndClassName('input', null, editor_row));
+            elements = elements.concat(getElementsByTagAndClassName('select', null, editor_row));
+
+            forEach(elements, function(f) {
+                getElement(f).value = "";
+            });
+
+            for(var r in obj.res) {
+
+                var id = prefix + '/' + r;
+                var kind = 'char';
+                var elem = getElement(id);
+
+                if (elem) {
+                    kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
+
+                    if (kind ==  'many2one') {
+                        val = obj.res[r] || ['', '']
+                            elem.value = val[0];
+                        try {
+                            getElement(id + '_text').value = val[1];
+                        } catch(e) {}
+                    } else {
+                        elem.value = obj.res[r];
+                    }
+                }
+            }
+
+            tbl.last = tr;
+            var first = getElementsByTagAndClassName(null, 'listfields', this.id)[0] || null;
+            if (first) {
+                first.focus();
+                first.select();
+            }
+    });
 }
 
 ListView.prototype.edit = function(edit_inline){
-	
+
     var self = this;
     var args = this.makeArgs();
     
@@ -199,36 +201,36 @@ ListView.prototype.edit = function(edit_inline){
     }
     
     if (!this.default_get_ctx) {
-    	return self.loadEditors(edit_inline, args)	
+        return self.loadEditors(edit_inline, args)  
     }
-    	
+
     var req = eval_domain_context_request({source: this.id, context : this.default_get_ctx});
     
     req.addCallback(function(res){
         args['_terp_context'] = res.context;        
-		self.loadEditors(edit_inline, args);        
+        self.loadEditors(edit_inline, args);        
     });
 }
 
 ListView.prototype.cancel_editor = function(row){
-	
-	var editor_cancel = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-	
-	if(!row) {
-		row = editor_cancel;
-	}
-	
-	editor_cancel.style.display = 'none';
-	var tbl = row.parentNode.parentNode;
-	
-	if(tbl.last) {
-		MochiKit.DOM.setNodeAttribute(editor_cancel, 'record', 0);		
-		tbl.last.style.display = '';
-	}
+    
+    var editor_cancel = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+
+    if(!row) {
+        row = editor_cancel;
+    }
+
+    editor_cancel.style.display = 'none';
+    var tbl = row.parentNode.parentNode;
+
+    if(tbl.last) {
+        MochiKit.DOM.setNodeAttribute(editor_cancel, 'record', 0);
+        tbl.last.style.display = '';
+    }
 }
 
 ListView.prototype.save_editor = function(row){
-	this.save(MochiKit.DOM.getNodeAttribute(row, 'record'));
+    this.save(MochiKit.DOM.getNodeAttribute(row, 'record'));
 }
 
 ListView.prototype.getEditors = function(named, dom){
@@ -551,7 +553,7 @@ function findPosition(elem) {
 }
 
 ListView.prototype.exportData = function(){
-	
+    
     var ids = this.getSelectedRecords();
     
     if (ids.length == 0) {
@@ -570,8 +572,8 @@ ListView.prototype.exportData = function(){
 
 ListView.prototype.importData = function(){
     openWindow(getURL('/impex/imp', {_terp_model: this.model,
-    								 _terp_source: this.id,
-    								 _terp_view_ids : this.view_ids,
+                                     _terp_source: this.id,
+                                     _terp_view_ids : this.view_ids,
                                      _terp_view_mode : this.view_mode}));
 }
 
