@@ -160,7 +160,18 @@ class TinyInputWidget(TinyWidget):
             value = ustr(value)
 
         self.default = value
-
+        
+    def get_display_value(self):
+        """Get the display value of the field.
+        """
+        
+        try:
+            return self.validator.from_python(self.default)
+        except:
+            pass
+        
+        return self.get_value()
+    
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
         d['attrs'] = {}
