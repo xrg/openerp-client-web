@@ -196,11 +196,17 @@ var validate_required = function(form) {
 	var result = true;
 	
 	for (var i=0; i<form.elements.length; i++){
+		
 		var elem = form.elements[i];
-		if (hasElementClass(elem, 'requiredfield') && !elem.value) {
+		
+		if (!elem.value && hasElementClass(elem, 'requiredfield')) {
 			addElementClass(elem, 'errorfield');
 			result = false;
 		}
+		
+		if (elem.value && hasElementClass(elem, 'errorfield')) {
+            removeElementClass(elem, 'errorfield');
+        }
 	}
 	
 	return result;
