@@ -186,9 +186,13 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_form)
-    def report(self, **kw):
+    def report(self, tg_errors=None, **kw):
+        
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
+        
+        if tg_errors:
+            return self.create(params, tg_errors=tg_errors)
 
         return self.execute(params)
 

@@ -6,50 +6,9 @@
     </title>
     
     <script type="text/javascript" src="/static/javascript/waitbox.js"></script>
+	<script type="text/javascript" src="/static/javascript/wizard.js"></script>
+	
     <link rel="stylesheet" type="text/css" href="/static/css/waitbox.css"/>
-
-    <script type="text/javascript">
-    
-        var WAITBOX = null;
-        var WAITBOX_SHOW = false;
-    
-        MochiKit.DOM.addLoadEvent(function(evt){
-            WAITBOX = new WaitBox();
-        });
-
-        function wizardAction(state) {
-
-            form = $('view_form');
-
-            act = '/wizard/action';
-
-            if (state == 'end'){
-                act = '/wizard/end';
-            }
-
-            if (state == 'report'){
-                act = '/wizard/report';
-            }
-
-            setNodeAttribute(form, 'action', act);
-            form._terp_state.value = state;
-
-            WAITBOX_SHOW = state != 'report';
-            
-            MochiKit.Async.callLater(2, showWaitBox);
-            
-            form.submit();
-        }
-        
-        function showWaitBox() {
-        
-            if (WAITBOX_SHOW) {
-                WAITBOX.show();
-            }
-        }
-
-    </script>
-
 </head>
 <body>
 
