@@ -52,9 +52,13 @@ class Shortcuts(controllers.Controller, TinyResource):
         sc = cherrypy.session.get('terp_shortcuts', False)
         if not sc:
             proxy = rpc.RPCProxy('ir.ui.view_sc')
-            sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context)
+            sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context) or []
             
             cherrypy.session['terp_shortcuts'] = sc
+            
+        for x in sc:
+            if isinstance(x['res_id'], (list, tuple)):
+                x['res_id'] = x['res_id'][0]
 
         return sc
     
