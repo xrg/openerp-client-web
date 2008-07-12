@@ -158,7 +158,7 @@ class Frame(TinyCompoundWidget):
 
     def _add_validator(self, widget):
 
-        if not isinstance(widget, TinyInputWidget) or not widget.name or widget.readonly:
+        if not isinstance(widget, TinyInputWidget) or not widget.name or widget.readonly or widget.name.startswith('_terp_listfields'):
             return
 
         if isinstance(widget, TinyCompoundWidget) and not widget.validator:
@@ -699,7 +699,7 @@ class Form(TinyCompoundWidget):
 
         # store current record values in request object (see, self.parse & O2M default_get_ctx)
         if not hasattr(cherrypy.request, 'terp_record'): 
-        	cherrypy.request.terp_record = TinyDict()
+            cherrypy.request.terp_record = TinyDict()
 
         self.view_fields = []
         self.frame = self.parse(prefix, dom, fields, values)[0]
