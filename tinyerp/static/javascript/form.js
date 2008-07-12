@@ -198,18 +198,20 @@ var validate_required = function(form) {
 
     if (!form) return true;
 
+    var elements = MochiKit.Base.filter(function(el) {
+       return el.id && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
+    }, form.elements);
+
     var result = true;
 
-    for (var i=0; i<form.elements.length; i++){
+    for (var i=0; i<elements.length; i++){
 
-        var elem = form.elements[i];
+        var elem = elements[i];
 
-        if (!elem.value && hasElementClass(elem, 'requiredfield')) {
+        if (!elem.value) {
             addElementClass(elem, 'errorfield');
             result = false;
-        }
-
-        if (elem.value && hasElementClass(elem, 'errorfield')) {
+        } else if (hasElementClass(elem, 'errorfield')) {
             removeElementClass(elem, 'errorfield');
         }
     }
