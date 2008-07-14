@@ -423,4 +423,20 @@ class WorkflowList(controllers.Controller, TinyResource):
         proxy.unlink(id)
         
         raise redirect('/workflowlist', model=model)
-
+    
+    @expose()
+    def activate(self, model, id):
+        
+        activate_id = int(id)
+        
+        proxy = rpc.RPCProxy('workflow')
+        search_ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
+        
+        for id in search_ids:
+            if id==activate_id:                
+                proxy.write([id], {'on_create': True})
+            else:
+                proxy.write([id], {'on_create': False})
+                
+        raise redirect('/workflowlist', model=model)
+        
