@@ -187,13 +187,17 @@ class List(controllers.Controller, TinyResource):
     @expose('json')
     def get_editor(self, **kw):
         params, data = TinyDict.split(kw)
-        source = params.source
+        source = (params.source or '') and str(params.source)
         
         current = params.chain_get(source)
-        
-        model = current.model
-        context = current.context or {}
-        
+       
+        if current:
+            model = current.model
+            context = current.context or {}
+        else:
+            model = params.model
+            context = params.context or {}
+      
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get()
         

@@ -100,8 +100,11 @@ ListView.prototype.loadEditors = function(edit_inline, args){
     var req = Ajax.JSON.post('/listgrid/get_editor', args);
 
     req.addCallback(function(obj){
-
-        prefix = '_terp_listfields' + '/' + obj.source;
+		
+		if(obj.source == '_terp_list')
+			prefix = '_terp_listfields';
+		else
+        	prefix = '_terp_listfields' + '/' + obj.source;
 
         var tbl = $(obj.source + '_grid');
         var tr = null;
@@ -158,11 +161,10 @@ ListView.prototype.loadEditors = function(edit_inline, args){
             });
 
             for(var r in obj.res) {
-
                 var id = prefix + '/' + r;
                 var kind = 'char';
                 var elem = getElement(id);
-
+	
                 if (elem) {
                     kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
 
