@@ -80,9 +80,13 @@ class List(controllers.Controller, TinyResource):
                 if '__id' in data: data.pop('__id')
                 
                 fld = source.split('/')[-1]
-                data = {fld : [(id and 1, id, data.copy())]}                
+                data = {fld : [(id and 1, id, data.copy())]} 
+                myids = proxy.read([params.parent.id], [fld]);               
 
                 proxy.write([params.parent.id], data, params.parent.context or {})
+                
+                myids2 = proxy.read([params.parent.id], [fld]);
+                rec_id = [i for i in myids2[0][source] if i not in myids[0][source]]
             else:
                 data = frm.copy()
 
@@ -90,6 +94,7 @@ class List(controllers.Controller, TinyResource):
                     proxy.write([id], data, params.parent.context or {})
                 else:
                     proxy.create(data, params.parent.context or {})
+                    id = proxy.create(data, params.parent.context or {})
 
         except TinyFormError, e:
             error_field = e.field
@@ -97,7 +102,7 @@ class List(controllers.Controller, TinyResource):
         except Exception, e:
             error = ustr(e)
 
-        return dict(error_field=error_field, error=error)
+        return dict(error_field=error_field, error=error, rec_id=rec_id)
 
     @expose('json')
     def remove(self, **kw):

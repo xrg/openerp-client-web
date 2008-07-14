@@ -400,9 +400,125 @@ ListView.prototype.save = function(id){
                 }
             }
         } else {
-            self.reload(id > 0 ? null : -1);
-        }
-    });
+            self.makeRow(obj.rec_id);
+         }
+     });
+ }
+ 
+ListView.prototype.getParentTag = function(element, tagName, className) {
+	var pNode = element.parentNode;
+	
+	while (pNode) {
+		
+		if(tagName == null && hasElementClass(pNode, className)){
+			break;
+		}
+		else if ((tagName) && pNode.tagName == tagName.toUpperCase() && className == null) {
+			break;
+		}
+		else if ((tagName) && pNode.tagName == tagName.toUpperCase() && hasElementClass(pNode, className)) {
+			break;
+		}
+		
+		pNode = pNode.parentNode;	
+	}
+	return pNode;
+}
+
+ListView.prototype.makeRow = function(rec_id) {
+	var self = this;
+	var tbl = $(this.id + '_grid');
+	
+	var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
+	
+	var col = getElementsByTagAndClassName('td', 'grid-cell', editor_row);
+	
+	record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
+	
+	if(record_id > 0) {
+	    rec_id = record_id;
+	}
+	
+	var elem = [];
+	var elements = [];
+	var tds = [];
+	var parent_tag = [];
+	
+	elem = self.getColumns();
+	
+	elements = elements.concat(getElementsByTagAndClassName('input', null, editor_row));
+	elements = elements.concat(getElementsByTagAndClassName('select', null, editor_row));
+	
+	forEach(elem, function(e){
+		elem_id = getElement(e).id.replace('grid-data-column', '_terp_listfields');
+		temp_id = elem_id;
+		for(var i=0; i<elements.length; i++) {
+			if(getElement(elements[i]).type != 'hidden') {
+				if(elem_id == getElement(elements[i]).id || (elem_id + '_text') == getElement(elements[i]).id){
+					parent_tag = self.getParentTag(getElement(elements[i]), 'td', 'grid-cell');
+					
+					value = getElement(elements[i]).value;
+					
+					if(parent_tag.className.indexOf('many2one') != -1 || i == 0){
+					    var col_anch = MochiKit.DOM.TD({'class': parent_tag.className});
+					    
+					    if(i==0) {
+					       var anch = MochiKit.DOM.A({'onclick': 'do_select(\'' + rec_id + '\', \'' + self.id + '\'); return false;', 'href': 'javascript: void(0)'}, value);
+					    }
+					    else if(parent_tag.className.indexOf('many2one') != -1){
+					        
+					        var m2o_id = getElement(temp_id).value;
+					        var relation = getNodeAttribute(getElement(elements[i]), 'relation');
+					        
+					        var action = '/form/view?model=' + relation + '&id= ' + m2o_id;
+					        
+					        var anch = MochiKit.DOM.A({'href': 'javascript: void(0)'}, value);
+					        
+					        MochiKit.DOM.setNodeAttribute(anch, 'href', action);
+					    }
+					    MochiKit.DOM.appendChildNodes(col_anch, anch);
+					    tds.push(col_anch);
+					}
+					else {
+					    var col = MochiKit.DOM.TD({'class': parent_tag.className}, value);
+					    tds.push(col);
+					}
+				}
+			}
+		}
+	});
+	
+	var td_edit = MochiKit.DOM.TD({'class': 'grid-cell selector', 'style': 'text-align: center; padding: 0px;'});	
+	var edit = MochiKit.DOM.IMG({'class': 'listImage', 'border': '0', 'src': '/static/images/edit_inline.gif', 'onclick': 'new ListView(\''+ this.id +'\').edit('+ rec_id +')'});
+	
+	MochiKit.DOM.appendChildNodes(td_edit, edit);
+	tds.push(td_edit);
+	
+	var td_del = MochiKit.DOM.TD({'class': 'grid-cell selector', 'style': 'text-align: center; padding: 0px;'});
+	var del = MochiKit.DOM.IMG({'class': 'listImage', 'border': '0', 'src': '/static/images/delete_inline.gif', 'onclick': 'new ListView(\''+ this.id +'\').remove('+ rec_id +')'});
+	
+	MochiKit.DOM.appendChildNodes(td_del, del);	
+	tds.push(td_del);
+    
+	if(record_id > 0) {
+		var tr = MochiKit.DOM.TR({'class': 'grid-row', 'record': record_id}, tds);
+		
+		idx = findIdentical(tbl.rows, editor_row);
+        swapDOM(tbl.last, tr);
+    	
+		tr.style.display = '';
+		editor_row.style.display = 'none';
+        MochiKit.DOM.setNodeAttribute(editor_row, 'record', 0);
+	}
+	else {
+	    var idx = 1;
+		var tr = MochiKit.DOM.TR({'class': 'grid-row', 'record': rec_id}, tds);
+        
+        var tr_tmp = tbl.insertRow(idx + 1);
+        swapDOM(tr_tmp, tr);
+		
+		self.create();
+	}
 }
 
 ListView.prototype.remove = function(id){
