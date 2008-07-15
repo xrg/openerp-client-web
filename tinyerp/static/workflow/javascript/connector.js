@@ -13,8 +13,6 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 	draw2d.Connection.call(this);
 	
 	this.setTargetDecorator(new openerp.workflow.ConnDecorator());
-//	this.targetDecorator.setBackgroundColor(new draw2d.Color(0,0,0))	
-//	this.setRouter(new draw2d.BezierConnectionRouter());
 
 	this.setSourceAnchor(new openerp.workflow.ConnectionAnchor());
     this.setTargetAnchor(new openerp.workflow.ConnectionAnchor());

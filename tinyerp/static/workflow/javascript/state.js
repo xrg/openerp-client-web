@@ -12,50 +12,50 @@ if (typeof(openerp.workflow) == "undefined") {
 openerp.workflow.State = new Class;
 openerp.workflow.State.prototype = $merge(openerp.workflow.State.prototype, draw2d.Oval.prototype)
 openerp.workflow.State.implement({
-
-	initialize : function(id, act_name, flags, flage, action, kind) {
-		
-		draw2d.Oval.call(this);
-		this.setDimension(100, 60);
-		this.setDeleteable(false);
-		
-		if(flags || flage)
-			this.setBackgroundColor(new draw2d.Color(155, 155, 155));
-		else		
-			this.setBackgroundColor(new draw2d.Color(255, 255, 255));	
-				
-		this.act_id = id || null;
-		this.action = action;
-		this.kind = kind || '';	
-		this.portR = null;
-		this.portU = null;
-		this.portL = null;
-		this.portD = null;
-		
-		var html = this.getHTMLElement();		
-		this.signal = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);	
-		
-		var span = document.createElement('span');
-		span.id = act_name;
-		span.style.position = 'absolute';
-		span.style.fontSize = '12px';
-		span.innerHTML = act_name;
-		span.style.top = '20px';
-		span.style.left = '20px';
-		span.style.zIndex = '1000';
-		span.style.textAlign = 'center';
-		
-		if(!isUndefinedOrNull(act_name)) {
-			var n = act_name.length;
-			
-			if(n>10)
-			{
-				var width = 100 + Math.round((n-10)/2 * 10);
-				this.setDimension(width,60);
-			}
-		}			
-		html.appendChild(span);
-	},
+	
+	initialize : function(params) {
+        
+        draw2d.Oval.call(this);
+        this.setDimension(100, 60);
+        this.setDeleteable(false);
+        
+        if(params.flow_start || params.flow_stop)
+            this.setBackgroundColor(new draw2d.Color(155, 155, 155));
+        else        
+            this.setBackgroundColor(new draw2d.Color(255, 255, 255));   
+                
+        this.act_id = params.id || null;
+        this.action = params.action;
+        this.kind = params.kind || ''; 
+        this.portR = null;
+        this.portU = null;
+        this.portL = null;
+        this.portD = null;
+        
+        var html = this.getHTMLElement();       
+        this.signal = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);  
+        
+        var span = document.createElement('span');
+        span.id = params.name;
+        span.style.position = 'absolute';
+        span.style.fontSize = '12px';
+        span.innerHTML = params.name;
+        span.style.top = '20px';
+        span.style.left = '20px';
+        span.style.zIndex = '1000';
+        span.style.textAlign = 'center';
+        
+        if(!isUndefinedOrNull(params.name)) {
+            var n = params.name.length;
+            
+            if(n>10)
+            {
+                var width = 100 + Math.round((n-10)/2 * 10);
+                this.setDimension(width,60);
+            }
+        }           
+        html.appendChild(span);
+    },
 	
 	initPort : function() {
 		

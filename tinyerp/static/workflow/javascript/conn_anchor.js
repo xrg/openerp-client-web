@@ -35,10 +35,12 @@ getLocation : function(/*:draw2d.Point*/ reference)
 		
 		var connectors = this.owner.getConnections();
 		var n = connectors.getSize();
+		
 		for(i=0; i<n; i++)
-			if(connectors.get(i).tr_id==this.conn_id)
+			if(connectors.get(i).tr_id==this.conn_id) {
 				var conn = connectors.get(i);
-				
+				break;
+			}	
 		//multiple connectors		
 		if(conn.isOverlaping) {	
 			

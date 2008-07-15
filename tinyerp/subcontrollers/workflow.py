@@ -324,7 +324,8 @@ class Workflow(Form):
             list_tr.append(tr)
             t = connectors.setdefault(tr,{})
             t['id'] = tr
-            t['c'] = transitions[tr]
+            t['s_id'] = transitions[tr][0]
+            t['d_id'] = transitions[tr][1]
             
         proxy_tr = rpc.RPCProxy("workflow.transition")
         search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)
@@ -348,8 +349,8 @@ class Workflow(Form):
             n['flow_stop'] = act['flow_stop']
             n['action'] = act['action']
             n['kind'] = act['kind']
-        
-        return dict(list=nodes,conn=connectors)
+            
+        return dict(nodes=nodes,conn=connectors)
     
     @expose(template="tinyerp.subcontrollers.templates.wkf_popup")
     def create(self, params, tg_errors=None):
