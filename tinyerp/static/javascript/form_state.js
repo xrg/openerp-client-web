@@ -186,6 +186,15 @@ var form_setReadonly = function(container, field, readonly) {
     if (field.type == 'hidden' && kind == 'many2one') {
         form_setReadonly(container, getElement(field.name + '_text'), readonly);
     }
+    
+    if (kind == 'date' || kind == 'datetime' || kind == 'time') {
+        
+        var img = getElement(field.name + '_trigger');
+        if (readonly)
+            img.parentNode.style.display = 'none';
+        else
+            img.parentNode.style.display = '';
+    }
 }
 
 var form_setRequired = function(container, field, required) {
