@@ -62,7 +62,6 @@ class Attachment(controllers.Controller, TinyResource):
 
     @expose()
     def add(self, model, id, uploadfile):
-
         data = uploadfile.file.read()
         fname = os.path.basename(uploadfile.filename)
 
@@ -72,8 +71,8 @@ class Attachment(controllers.Controller, TinyResource):
 
         if data:
             proxy = rpc.RPCProxy('ir.attachment')
-            proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'res_model': model, 'res_id': id})
-
+            proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'res_model': model, 'res_id': int(id)})
+        
         return self.index(model, id)
 
     @expose()
