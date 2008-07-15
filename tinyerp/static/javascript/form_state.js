@@ -83,7 +83,7 @@ var form_hookAttrChange = function() {
         var container = e;
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
         
-        // convert into Python statement into it's equivalent in JS
+        // Convert Python statement into it's equivalent in JavaScript.
         attrs = attrs.replace(/\(/g, '[');
         attrs = attrs.replace(/\)/g, ']');
         attrs = attrs.replace(/True/g, '1');
@@ -113,7 +113,9 @@ var form_hookAttrChange = function() {
 
 var form_onAttrChange = function(container, widget, attr, expr, evt) {
     
-    var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
+    var widget = MochiKit.DOM.getElement(widget);
+    var prefix = widget ? widget.name.slice(0, widget.name.lastIndexOf('/')+1) : '';
+    
     var result = form_evalExpr(prefix, expr);
     
     if (attr == 'readonly')
@@ -131,9 +133,12 @@ var form_evalExpr = function(prefix, expr) {
     var result = false;
     
     for(var i=0; i<expr.length; i++) {
+        
         var ex = expr[i];
         var elem = MochiKit.DOM.getElement(prefix ? prefix + '/' + ex[0] : ex[0]);
-        if (!elem) continue;
+        
+        if (!elem) 
+            continue;
         
         var op = ex[1];
         var val = ex[2];
@@ -167,7 +172,9 @@ var form_evalExpr = function(prefix, expr) {
 }
 
 var form_setReadonly = function(container, field, readonly) {
+    
     field.disabled = readonly;
+    
     if (readonly) {
         MochiKit.DOM.addElementClass(field, 'readonlyfield');
     } else {
@@ -187,10 +194,7 @@ var form_setRequired = function(container, field, required) {
 
 var form_setVisible = function(container, field, visible) {
     
-    if (field && field.tagName == 'BUTTON') {
-       field.style.display = visible ? '' : 'none';
-       
-    } else if (container && MochiKit.DOM.hasElementClass(container, 'tabbertab')) { // notebook page?
+    if (MochiKit.DOM.hasElementClass(container, 'tabbertab')) { // notebook page?
     
         var tabber = container.parentNode.tabber;
         
