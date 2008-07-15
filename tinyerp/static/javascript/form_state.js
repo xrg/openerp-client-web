@@ -73,125 +73,125 @@ var form_hookAttrChange = function() {
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'attrs');
     }, items);
-	
-	var fields = {};
-	
-	forEach(items, function(e){
-		
-		var attrs = getNodeAttribute(e, 'attrs') || '{}';
-		var widget = getNodeAttribute(e, 'widget') || '';
-		var container = e;
-		var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
-		
-		// convert into Python statement into it's equivalent in JS
-		attrs = attrs.replace(/\(/g, '[');
-		attrs = attrs.replace(/\)/g, ']');
-		attrs = attrs.replace(/True/g, '1');
-		attrs = attrs.replace(/False/g, '0');
-		
-		try {
-		    eval('attrs='+attrs);
-		} catch(e){
-			return;
-		}
-		
-		for (var attr in attrs) {
-			forEach(attrs[attr], function(n){
-				var field = MochiKit.DOM.getElement(prefix ? prefix + '/' + n[0] : n[0]);
-				if (field) {
-					fields[field.id] = 1;
-					MochiKit.Signal.connect(field, 'onchange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
-				}
-			});
-		}
-	});
-	
-	for(var field in fields) {
-		MochiKit.Signal.signal(field, 'onchange');
-	}
+
+    var fields = {};
+
+    forEach(items, function(e){
+
+        var attrs = getNodeAttribute(e, 'attrs') || '{}';
+        var widget = getNodeAttribute(e, 'widget') || '';
+        var container = e;
+        var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
+        
+        // convert into Python statement into it's equivalent in JS
+        attrs = attrs.replace(/\(/g, '[');
+        attrs = attrs.replace(/\)/g, ']');
+        attrs = attrs.replace(/True/g, '1');
+        attrs = attrs.replace(/False/g, '0');
+        
+        try {
+            eval('attrs='+attrs);
+        } catch(e){
+            return;
+        }
+        
+        for (var attr in attrs) {
+            forEach(attrs[attr], function(n){
+                var field = MochiKit.DOM.getElement(prefix ? prefix + '/' + n[0] : n[0]);
+                if (field) {
+                    fields[field.id] = 1;
+                    MochiKit.Signal.connect(field, 'onchange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
+                }
+            });
+        }
+    });
+    
+    for(var field in fields) {
+        MochiKit.Signal.signal(field, 'onchange');
+    }
 }
 
 var form_onAttrChange = function(container, widget, attr, expr, evt) {
-	
-	var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
-	var result = form_evalExpr(prefix, expr);
-	
-	if (attr == 'readonly')
-	   form_setReadonly(container, widget, result)
-	
-	if (attr == 'required')
-	   form_setRequired(container, widget, result)
-	
-	if (attr == 'invisible')
-	   form_setVisible(container, widget, !result)
+    
+    var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
+    var result = form_evalExpr(prefix, expr);
+    
+    if (attr == 'readonly')
+       form_setReadonly(container, widget, result)
+    
+    if (attr == 'required')
+       form_setRequired(container, widget, result)
+    
+    if (attr == 'invisible')
+       form_setVisible(container, widget, !result)
 }
 
 var form_evalExpr = function(prefix, expr) {
-	
-	var result = false;
-	
-	for(var i=0; i<expr.length; i++) {
-		var ex = expr[i];
-		var elem = MochiKit.DOM.getElement(prefix ? prefix + '/' + ex[0] : ex[0]);
-		if (!elem) continue;
-		
-		var op = ex[1];
-		var val = ex[2];
-		
-		switch (op) {
-			
-			case '=':
-			case '==':
-			    result = result || (elem.value == val);
-			    break;
-		    case '!=':
-			case '<>':
-			    result = result || (elem.value != val);
-				break;
-			case '<':
+    
+    var result = false;
+    
+    for(var i=0; i<expr.length; i++) {
+        var ex = expr[i];
+        var elem = MochiKit.DOM.getElement(prefix ? prefix + '/' + ex[0] : ex[0]);
+        if (!elem) continue;
+        
+        var op = ex[1];
+        var val = ex[2];
+        
+        switch (op) {
+            
+            case '=':
+            case '==':
+                result = result || (elem.value == val);
+                break;
+            case '!=':
+            case '<>':
+                result = result || (elem.value != val);
+                break;
+            case '<':
                 result = result || (elem.value < val);
                 break;
-			case '>':
+            case '>':
                 result = result || (elem.value > val);
                 break;
-			case '<=':
+            case '<=':
                 result = result || (elem.value <= val);
                 break;
-			case '>=':
+            case '>=':
                 result = result || (elem.value >= val);
                 break;
-		}
-	}
-	
-	return result;
+        }
+    }
+    
+    return result;
 }
 
 var form_setReadonly = function(container, field, readonly) {
-	field.disabled = readonly;
-	if (readonly) {
-		MochiKit.DOM.addElementClass(field, 'readonlyfield');
-	} else {
-		MochiKit.DOM.removeElementClass(field, 'readonlyfield');
-	}
+    field.disabled = readonly;
+    if (readonly) {
+        MochiKit.DOM.addElementClass(field, 'readonlyfield');
+    } else {
+        MochiKit.DOM.removeElementClass(field, 'readonlyfield');
+    }
 }
 
 var form_setRequired = function(container, field, required) {
     
-	if (required) {
-	   MochiKit.DOM.addElementClass(field, 'requiredfield');	
-	} else {
-	   MochiKit.DOM.removeElementClass(field, 'requiredfield');	
-	   MochiKit.DOM.removeElementClass(field, 'errorfield');
-	}
+    if (required) {
+       MochiKit.DOM.addElementClass(field, 'requiredfield');    
+    } else {
+       MochiKit.DOM.removeElementClass(field, 'requiredfield');    
+       MochiKit.DOM.removeElementClass(field, 'errorfield');
+    }
 }
 
 var form_setVisible = function(container, field, visible) {
-	
-	if (field && field.tagName == 'BUTTON') {
-	   field.style.display = visible ? '' : 'none';
-	   
-	} else if (container && MochiKit.DOM.hasElementClass(container, 'tabbertab')) { // notebook page?
-	
+    
+    if (field && field.tagName == 'BUTTON') {
+       field.style.display = visible ? '' : 'none';
+       
+    } else if (container && MochiKit.DOM.hasElementClass(container, 'tabbertab')) { // notebook page?
+    
         var tabber = container.parentNode.tabber;
         
         if (!tabber)  {
@@ -227,20 +227,20 @@ var form_setVisible = function(container, field, visible) {
         
         tab.li.style.display = visible ? '' : 'none';
         tab.div.style.display = visible ? '' : 'none';
-		
-	} else {
-	   container.style.display = visible ? '' : 'none';	
-	}
+        
+    } else {
+       container.style.display = visible ? '' : 'none';    
+    }
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
-	
+    
     if (MochiKit.DOM.getElement('state')) {
         form_hookStateChange();
         form_onStateChange();
     }
-	
-	form_hookAttrChange();
+    
+    form_hookAttrChange();
 });
 
 // vim: sts=4 st=4 et
