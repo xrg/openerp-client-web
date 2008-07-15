@@ -180,6 +180,12 @@ var form_setReadonly = function(container, field, readonly) {
     } else {
         MochiKit.DOM.removeElementClass(field, 'readonlyfield');
     }
+    
+    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
+    
+    if (field.type == 'hidden' && kind == 'many2one') {
+        form_setReadonly(container, getElement(field.name + '_text'), readonly);
+    }
 }
 
 var form_setRequired = function(container, field, required) {
@@ -189,6 +195,12 @@ var form_setRequired = function(container, field, required) {
     } else {
        MochiKit.DOM.removeElementClass(field, 'requiredfield');    
        MochiKit.DOM.removeElementClass(field, 'errorfield');
+    }
+    
+    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
+    
+    if (field.type == 'hidden' && kind == 'many2one') {
+        form_setRequired(container, getElement(field.name + '_text'), required);
     }
 }
 
