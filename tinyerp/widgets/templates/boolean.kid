@@ -2,12 +2,8 @@
     <script py:if="editable" type="text/javascript">
         function ${name.replace('/', '_')}_clicked(sender){
             var getter = $('${name}');
-
             getter.value = sender.checked ? 1 : '';
-
-            if (typeof getter.onchange != 'undefined'){
-                getter.onchange();
-            }
+			MochiKit.Signal.signal(getter, 'onchange');
         }
     </script>
     <input py:if="editable" type="hidden" kind="${kind}" name="${name}" id="${name}" value="${value}" py:attrs="attrs" callback="${callback}" onchange="${onchange}"/>
