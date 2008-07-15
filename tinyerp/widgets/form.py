@@ -209,7 +209,11 @@ class Frame(TinyCompoundWidget):
 
         if isinstance(widget, (Group, Notebook, O2M, M2M)):
             attrs['valign'] = 'top'
-
+            
+        if getattr(widget, 'attributes', False):
+            attrs['attrs'] = str(widget.attributes)
+            attrs['widget'] = widget.name
+            
         td = [attrs, widget]
         tr.append(td)
 
@@ -241,7 +245,6 @@ class Notebook(TinyCompoundWidget):
 class Page(Frame):
     def __init__(self, attrs, children):
         super(Page, self).__init__(attrs, children)
-        self.states = (self.states or None) and ','.join(self.states)
 
 class Separator(TinyField):
     """Separator widget.

@@ -107,6 +107,8 @@ class TinyWidget(object):
         self.callback = attrs.get('on_change', None)
         self.kind = attrs.get('type', None)
 
+        self.attributes = attrs.get('attrs', {})
+
     def set_state(self, state):
 
         if isinstance(self.states, dict) and state in self.states:
