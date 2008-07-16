@@ -8,6 +8,10 @@
     </script>
 
     <script type="text/javascript">
+        
+        function do_select(id, src) {
+            viewRecord(id, src);
+        }
 
         MochiKit.DOM.addLoadEvent(function (evt){
         
