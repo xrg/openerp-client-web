@@ -34,7 +34,9 @@ import cherrypy
 import turbogears as tg
 
 from tinyerp.widgets_search.search import Search
+
 from screen import Screen
+from sidebar import Sidebar
 
 class ViewForm(tg.widgets.Form):
 
@@ -65,6 +67,8 @@ class ViewForm(tg.widgets.Form):
             readonly = False
             
         self.screen = Screen(prefix='', hastoolbar=True, editable=editable, readonly=readonly, selectable=2)
+        self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.view_type != 'form', self.screen.context)
+        
         self.search = None
         
         if params.view_type in ('tree', 'graph'):
@@ -85,3 +89,4 @@ class ViewForm(tg.widgets.Form):
         self.search_data = params.search_data
         
         self.fields = cherrypy.request.terp_fields
+

@@ -195,34 +195,5 @@ class Screen(TinyCompoundWidget):
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
 
-        # get actions/reports if not in view toolbar
-        if not self.prefix and self.view_type in ['form', 'tree', 'graph']:
-
-            proxy = rpc.RPCProxy('ir.values')
-
-            if not toolbar.get('action', False):
-                res = []
-                try: # Deal with `You try to bypass an access rule`
-                    res = proxy.get('action', 'client_action_multi', [(self.model, False)], False, self.context)
-                except:
-                    pass
-
-                actions = [a[-1] for a in res]
-                actions = [a for a in actions if self.view_type == 'tree' or not a.get('multi')]
-                if actions:
-                    toolbar['action'] = actions
-
-            if not toolbar.get('print', False):
-                res = []
-                try:
-                    res = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
-                except:
-                    pass
-
-                actions = [a[-1] for a in res]
-                actions = [a for a in actions if self.view_type == 'tree' or not a.get('multi')]
-                if actions:
-                    toolbar['print'] = actions
-
         self.toolbar = toolbar or None
         self.hastoolbar = (toolbar or False) and True

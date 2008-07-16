@@ -120,87 +120,8 @@
                 </table>
             </td>
 
-            <td py:if="form.screen.hastoolbar and form.screen.toolbar and form.screen.view_type != 'calendar'" id="sidebar_pane" width="163" valign="top" style="padding-left: 2px">
-
-                <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
-                    <tr py:if="'print' in form.screen.toolbar">
-                        <td>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
-                                <tr>
-                                    <td>
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                            <tr>
-                                                <td width="8" style="background: #ac0000"/>
-                                                <td width="7" style="background-color: #363636"/>
-                                                <td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">REPORTS</td>
-                                                <td width="25" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
-                                                <td width="50" style="background-color: #666666"/>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                <tr py:for="item in form.screen.toolbar['print']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
-                                    <td>
-                                        <a href="javascript: void(0)">${item['name']}</a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr py:if="'action' in form.screen.toolbar">
-                        <td>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
-                                <tr>
-                                    <td>
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                            <tr>
-                                                <td width="8" style="background: #ac0000"/>
-                                                <td width="7" style="background-color: #363636"/>
-                                                <td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">ACTIONS</td>
-                                                <td width="25" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
-                                                <td width="50" style="background-color: #666666"/>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr py:for="item in form.screen.toolbar['action']" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
-                                    <td>
-                                        <a href="javascript: void(0)">${item['name']}</a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr py:if="'relate' in form.screen.toolbar">
-                        <td>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
-                                <tr>
-                                    <td>
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                            <tr>
-                                                <td width="8" style="background: #ac0000"/>
-                                                <td width="7" style="background-color: #363636"/>
-                                                <td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">LINKS</td>
-                                                <td width="25" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
-                                                <td width="50" style="background-color: #666666"/>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr py:for="item in form.screen.toolbar['relate']" data="${str(item)}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'), '${item.get('target', '')}')">
-                                    <td>
-                                        <a href="javascript: void(0)">${item['name']}</a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-
-            <td id="sidebar_hide" valign="top" py:if="form.screen.hastoolbar and form.screen.toolbar  and form.screen.view_type != 'calendar'">
-               <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
+            <td py:if="form.sidebar and form.screen.view_type != 'calendar'" width="163" valign="top">
+                ${form.sidebar.display()}
             </td>
         </tr>
     </table>
