@@ -5,12 +5,24 @@
     <title>${tree.string}</title>
     <script type="text/javascript">
 
-        function submit_form(action){
-            var form = $('tree_view');
+        function submit_form(action, src, data, target){
+            
+            var selection = MochiKit.DOM.getElement('tree_ids').value;
+            
+            if (!selection) {
+                return alert('You must select at least one record.');
+            }
+            
+            var form = document.forms['view_tree'];
+            
+            var args = {
+                _terp_data: data ? data : null
+            };
+            
+            args['_terp_selection'] = '[' + selection + ']';
 
-            setNodeAttribute(form, 'action', '/tree/' + action);
+            setNodeAttribute(form, 'action', getURL('/tree/' + action, args));
             form.method = 'post';
-
             form.submit();
         }
 
@@ -24,31 +36,27 @@
 
 <table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td>
-            <div class="toolbar">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td width="100%">
-                            <strong>${tree.string}</strong>
-                        </td>
-                        <td>
-                            <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
-                            <button type="button" title="${_('Launch action about this resource')}" onclick="submit_form('action')">Action</button>
-                            <button type="button" title="${_('Print documents')}" onclick="submit_form('report')">Print</button>
-                        </td>
-                        <td align="center" valign="middle" width="16">
-                            <a target="new" href="${tg.query('http://openerp.org/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </td>
-    </tr>
-    <tr><td height="4px"></td></tr>
-    <tr>
-       <td>
-            <table width="100%" cellpadding="0" cellspacing="0">
+        <td width="100%" valign="top">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
+                    <td colspan="2">
+                        <table width="100%" class="titlebar">
+                            <tr>
+                                <td width="32px" align="center">
+                                    <img src="/static/images/icon.gif"/>
+                                </td>
+                                <td width="100%" py:content="tree.string">Tree Title</td>
+                                <td nowrap="nowrap">
+                                    <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
+                                </td>
+                                <td align="center" valign="middle" width="16">
+                                    <a target="new" href="${tg.query('http://openerp.org/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
+                                </td>
+                            </tr>
+                         </table>
+                     </td>
+                 </tr>
+                 <tr>
                     <td py:if="tree.toolbar" class="treebar" valign="top" style="padding-right: 4px">
                         <table width="100%" cellpadding="0" cellspacing="0" class="tree-grid">
                             <thead>
@@ -69,11 +77,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </td>
-                    <td valign="top" py:content="tree.display()">Tree View</td>
-                </tr>
+                    </td>     
+                    <td width="100%" valign="top" py:content="tree.display()">Tree View</td>          
+                 </tr>
             </table>
         </td>
+        <td py:if="tree.sidebar" width="163" valign="top">${tree.sidebar.display()}</td>      
     </tr>
 </table>
 

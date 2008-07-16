@@ -39,15 +39,17 @@ from tinyerp import rpc
 from tinyerp import tools
 from tinyerp import cache
 
+from sidebar import Sidebar
+
 import treegrid
 
 class ViewTree(tg.widgets.Form):
     template = "tinyerp.widgets.templates.viewtree"
-    params = ['model', 'domain', 'context', 'toolbar']
-    member_widgets = ['tree']
+    params = ['model', 'id', 'ids', 'domain', 'context', 'toolbar']
+    member_widgets = ['tree', 'sidebar']
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
-        super(ViewTree, self).__init__(name='tree_view', action=action)
+        super(ViewTree, self).__init__(name='view_tree', action=action)
 
         self.model = view['model']
         self.domain2 = domain or []
@@ -102,10 +104,17 @@ class ViewTree(tg.widgets.Form):
                                       context=self.context, 
                                       field_parent=self.field_parent)
         self.id = id
+        self.ids = ids
 
         #register callbacks
         self.tree.onselection = "onSelection"
         self.tree.onheaderclick = "onHeaderClick"
+        
+        toolbar = {}
+        for item, value in view.get('toolbar', {}).items():
+            if value: toolbar[item] = value
+            
+        self.sidebar = Sidebar(self.model, toolbar, True, True, context=self.context)
 
     def parse(self, root, fields=None):
 

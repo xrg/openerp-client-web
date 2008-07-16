@@ -2,7 +2,7 @@
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_domain" name="_terp_domain" value="${str(domain)}"/>
     <input type="hidden" id="_terp_context" name="_terp_context" value="${str(context)}"/>
-
+    
     <span py:for="field in hidden_fields" py:replace="field.display(value_for(field), **params_for(field))"/>
     <script type="text/javascript">
     
@@ -13,7 +13,7 @@
             var values = MochiKit.Base.map(function(n){
                 return n.record.id;
             }, selection);
-
+            
             MochiKit.DOM.getElement('tree_ids').value = values;
         }
         
@@ -24,7 +24,6 @@
         }
         
     </script>
-
     <input type="hidden" id="tree_ids" name="ids"/>
     <span py:if="tree" py:replace="tree.display(value_for(tree), **params_for(tree))"/>
 </form>

@@ -225,7 +225,19 @@ class Tree(controllers.Controller, TinyResource):
 
     @expose()
     def action(self, **kw):
-        return self.do_action('tree_but_action', datas=kw)
+        params, data = TinyDict.split(kw)
+        
+        action = params.data
+
+        if not action:
+            return self.do_action('tree_but_action', datas=kw)
+
+        from tinyerp.subcontrollers import actions
+
+        ids = params.selection or []
+        id = (ids or False) and ids[0]
+        
+        return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
     @expose()
     def switch(self, **kw):
