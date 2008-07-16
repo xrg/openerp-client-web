@@ -75,37 +75,56 @@ getLocation : function(/*:draw2d.Point*/ reference)
 		}
 		
 		//find point on ellipse
-		if(rx!=0) {
-			
-			var c = ynew - (slope * xnew);
-					
-			var A = (b2) + ((a2) * (slope*slope));
-			var B = 2 * c * slope * (a2);
-			var C = (a2) * ((c*c) - (b2));
-			
-			var discriminator = Math.sqrt((B*B) - (4 * A *C));
-			
-			var root1x = (-B + discriminator)/(2 * A);
-			var root2x = (-B - discriminator)/(2 * A);
-			
-			//substituting x in y=mx+c
-			var root1y = slope*root1x + c;
-			var root2y = slope*root2x + c;
+		if(this.owner.getParent() instanceof openerp.workflow.StateOval) {
+    	
+    		if(rx!=0) {
+    			
+    			var c = ynew - (slope * xnew);
+    					
+    			var A = (b2) + ((a2) * (slope*slope));
+    			var B = 2 * c * slope * (a2);
+    			var C = (a2) * ((c*c) - (b2));
+    			
+    			var discriminator = Math.sqrt((B*B) - (4 * A *C));
+    			
+    			var root1x = (-B + discriminator)/(2 * A);
+    			var root2x = (-B - discriminator)/(2 * A);
+    			
+    			//substituting x in y=mx+c
+    			var root1y = slope*root1x + c;
+    			var root2y = slope*root2x + c;
+    		}
+    		else {			
+    			var root1x = xnew;
+    			var root2x = xnew;
+    			
+    			var root1y = Math.sqrt((b2 * (a2 - (root1x*root1x)))/(a2))
+    			var root2y = -root1y;
+    		}
+    		
+    		var dist1 = Math.sqrt(((rx-root1x)*(rx-root1x)) + ((ry-root1y)*(ry-root1y)));
+    		var dist2 = Math.sqrt(((rx-root2x)*(rx-root2x)) + ((ry-root2y)*(ry-root2y)));
+    
+    		if(dist2>dist1)
+    			return new draw2d.Point(Math.round(center.x + root1x), Math.round(center.y + root1y));
+    		else
+    			return new draw2d.Point(Math.round(center.x + root2x), Math.round(center.y + root2y));
 		}
-		else {			
-			var root1x = xnew;
-			var root2x = xnew;
-			
-			var root1y = Math.sqrt((b2 * (a2 - (root1x*root1x)))/(a2))
-			var root2y = -root1y;
-		}
-		
-		var dist1 = Math.sqrt(((rx-root1x)*(rx-root1x)) + ((ry-root1y)*(ry-root1y)));
-		var dist2 = Math.sqrt(((rx-root2x)*(rx-root2x)) + ((ry-root2y)*(ry-root2y)));
+		else {//when node is StateRectangle
+            xnew += center.x;
+            ynew += center.y;
+		    
+            var dx = reference.x - center.x;
+            var dy = reference.y - center.y;
+		    
+		    var scale = 0.5 / Math.max(Math.abs(dx) / bounds.w, Math.abs(dy) / bounds.h);
 
-		if(dist2>dist1)
-			return new draw2d.Point(Math.round(center.x + root1x), Math.round(center.y + root1y));
-		else
-			return new draw2d.Point(Math.round(center.x + root2x), Math.round(center.y + root2y));
+            dx *= scale;
+            dy *= scale;
+            xnew += dx;
+            ynew += dy;
+            
+            return new draw2d.Point(Math.round(xnew), Math.round(ynew));
+		}
 	},
 });

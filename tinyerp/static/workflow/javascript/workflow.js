@@ -41,7 +41,7 @@ openerp.workflow.Workflow.implement({
         MochiKit.DOM.appendChildNodes('toolbox', tbar);
 		
 //		dummy state
-		this.state = new openerp.workflow.State({});
+		this.state = new openerp.workflow.StateOval({});
         this.state.setDimension(100, 60);
 		this.state.setBackgroundColor(new draw2d.Color(255, 255, 255));
         this.addFigure(this.state, 100, 20);
@@ -74,7 +74,7 @@ openerp.workflow.Workflow.implement({
 		for(var i=0; i<n; i++) {
 						
 			var fig = figures.get(i);
-			if (fig instanceof openerp.workflow.State) {
+			if (fig instanceof openerp.workflow.StateOval || fig instanceof openerp.workflow.StateRectangle) {
 				arr.push(fig);
 			}
 		}
@@ -90,9 +90,13 @@ openerp.workflow.Workflow.implement({
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.nodes) {
-				var node = obj.nodes[i];
+			    var node = obj.nodes[i];
 //				var state = new openerp.workflow.State(node['id'], node['name'], node['flow_start'], node['flow_stop'], node['action'], node['kind']);	
-		        var state = new openerp.workflow.State(node);
+		        if(!node['subflow_id'])
+		          var state = new openerp.workflow.StateOval(node);
+		        else
+		          var state = new openerp.workflow.StateRectangle(node);
+		          
 		        self.addFigure(state, node['y'], node['x']);
 		        state.initPort();
 		        self.states.add(state);
@@ -192,7 +196,7 @@ openerp.workflow.Workflow.implement({
         
         var source = this.states.get(start);
         var destination = this.states.get(end);     
-                
+               
         var conn = new openerp.workflow.Connector(params.id, params.signal, params.condition, params.source, params.destination); 
         var n = this.connectors.getSize();
         
@@ -260,7 +264,11 @@ openerp.workflow.Workflow.implement({
 				
 				if(!flag) {	
 //					var state = new openerp.workflow.State(data['id'], data['name'], data['flow_start'], data['flow_stop'], data['action'], data['kind']);
-			        var state = new openerp.workflow.State(data);
+			        if(!data['subflow_id'])
+			             var state = new openerp.workflow.StateOval(data);
+			        else
+			             var state = new openerp.workflow.StateRectangle(data);
+			             
 			        self.addFigure(state, position.x, position.y);
 			        self.states.add(state);
 			        state.initPort();
@@ -359,7 +367,7 @@ openerp.workflow.Workflow.implement({
 	
 	remove_elem : function(elem) {
 
-	if(elem instanceof openerp.workflow.State)
+	if(elem instanceof openerp.workflow.StateOval || elem instanceof openerp.workflow.StateRectangle)
 		this.unlink_state(elem);
 	else if(elem instanceof openerp.workflow.Connector)
 		this.unlink_connector(elem);

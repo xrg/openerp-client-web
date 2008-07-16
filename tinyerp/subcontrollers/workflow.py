@@ -122,28 +122,30 @@ class State(Form):
             #all transitions which are connected to the activity
             trs = data['out_transitions']
             
+
             for tr in data['in_transitions']:
                 if not trs.__contains__(tr):
                     trs.append(tr)
+
             
             data_trs = proxy_tr.read(trs, ['act_from', 'act_to'], rpc.session.context)
-                        
+
             opp_side_act = []
             for tr in data_trs:
                 act_from = tr['act_from'][0]
                 act_to = tr['act_to'][0]
-              
+                
                 if not opp_side_act.__contains__(act_from): 
                     opp_side_act.append(act_from)              
                 
                 if not opp_side_act.__contains__(act_to):
                     opp_side_act.append(act_to)
-                        
-            opp_side_act.remove(int(kw['id']))
+                    
+            if opp_side_act:
+                opp_side_act.remove(int(kw['id']))
             
             data_opp_acts = proxy_act.read(opp_side_act, ['out_transitions', 'in_transitions'], rpc.session.context)
-
-            
+      
             error_msg = None
             
             for act in data_opp_acts:
@@ -160,13 +162,13 @@ class State(Form):
                 
             if not error_msg:
                 res_tr = proxy_tr.unlink(trs)
-            
+                
                 if res_tr:
                     res_act = proxy_act.unlink(int(kw['id']))                
 
                 if not res_act:
                     error_msg = _('Could not delete state')
-                
+                    
         return dict(error = error_msg)
     
     @expose('json')
@@ -340,7 +342,7 @@ class Workflow(Form):
         
         proxy_act = rpc.RPCProxy("workflow.activity")
         search_acts = proxy_act.search([('wkf_id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context) 
-        data_acts = proxy_act.read(search_acts, ['action', 'kind', 'flow_start', 'flow_stop'], rpc.session.context)
+        data_acts = proxy_act.read(search_acts, ['action', 'kind', 'flow_start', 'flow_stop', 'subflow_id'], rpc.session.context)
         
         for act in data_acts:
             n = nodes.get(str(act['id'])) 
@@ -349,6 +351,7 @@ class Workflow(Form):
             n['flow_stop'] = act['flow_stop']
             n['action'] = act['action']
             n['kind'] = act['kind']
+            n['subflow_id'] = act['subflow_id']
             
         return dict(nodes=nodes,conn=connectors)
     
