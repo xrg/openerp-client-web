@@ -39,12 +39,13 @@ from turbogears import controllers
 from tinyerp import rpc
 from tinyerp.tinyres import TinyResource
 from tinyerp.utils import TinyDict
+from tinyerp import common
 
 import tinyerp.widgets as tw
 
 class Attachment(controllers.Controller, TinyResource):
 
-    @expose(template="tinyerp.subcontrollers.templates.attachment")
+    @expose(template="tinyerp.subcontrollers.templates.attachment_list")
     def index(self, model, id):
 
         id = int(id)
@@ -60,32 +61,59 @@ class Attachment(controllers.Controller, TinyResource):
 
         return dict(screen=screen, model=model, id=id, show_header_footer=False)
 
+    @expose(template="tinyerp.subcontrollers.templates.attachment_form")
+    def edit(self, fname=None, id=None, **kw):
+        
+        model = kw.get('model')
+        record = kw.get('record', None)
+        
+        ext = fname.split('.')[-1].lower()
+        
+        return dict(model=model, fname=fname, id=id, record=record, ext=ext, show_header_footer=False)
+    
     @expose()
-    def add(self, model, id, uploadfile):
+    def get_image(self, **kw):
+        record = kw.get('record')
+        datas = rpc.session.execute('object', 'execute', 'ir.attachment', 'read', [record])
+        datas = datas[0]
+            
+        try:
+            if not datas['link']:
+                return base64.decodestring(datas['datas'])
+        except Exception, e:
+            return common.message(_('Unable to preview image file !\nVerify the format.'))
+
+    @expose()
+    def save(self, model, id, uploadfile, **kw):
         data = uploadfile.file.read()
         fname = os.path.basename(uploadfile.filename)
+        
+        record = kw.get('record', None)
 
         # XXX: we can't reconise basename of window path on Linux
         if '\\' in fname: # though `\` is valid in Unix path
             fname = fname.split('\\')[-1]
 
-        if data:
-            proxy = rpc.RPCProxy('ir.attachment')
+        proxy = rpc.RPCProxy('ir.attachment')
+
+        if data and not record:
             proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'res_model': model, 'res_id': int(id)})
-        
+        if data and record:
+            proxy.write()
+            
         return self.index(model, id)
 
     @expose()
     def delete(self, model, id, record, **kw):
         record = int(record)
-
+        
         proxy = rpc.RPCProxy('ir.attachment')
         proxy.unlink([record])
 
         return self.index(model, id)
 
     @expose(content_type="application/octet-stream")
-    def save(self, fname=None, record=False, **kw):
+    def save_as(self, fname=None, record=False, **kw):
         record = int(record)
 
         proxy = rpc.RPCProxy('ir.attachment')
