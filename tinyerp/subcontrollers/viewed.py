@@ -383,12 +383,28 @@ class ViewEd(controllers.Controller, TinyResource):
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
-        
+
         attrs = tools.node_attributes(field)
-        
         editors = []
         
         properties = _PROPERTIES.get(field.localName, [])
+        if field.localName == 'field':
+
+            try:
+                model = _get_model(field, parent_model=res['model'])
+                proxy = rpc.RPCProxy(model)
+                attrs2 = proxy.fields_get([attrs['name']])[attrs['name']]
+
+                attrs2.update(attrs)
+                attrs = attrs2
+
+                if attrs.get('widget', False):
+                    if attrs['widget']=='one2many_list':
+                        attrs['widget']='one2many'
+                    attrs['type'] = attrs['widget']
+            except:
+                pass
+            properties = _PROPERTIES_FIELDS.get(attrs.get('type', 'char')) or properties
         properties = properties[:]
         properties += list(set(attrs.keys()) - set(properties))
         
@@ -681,6 +697,36 @@ _PROPERTIES = {
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
     'view' : [],
     'properties' : ['groups'],
+}
+
+# TODO: valid attributes for each field type
+_PROPERTIES_FIELDS = {
+    'date': [],
+    'time': [],
+    'float_time': [],
+    'datetime': [],
+    'float': [],
+    'integer': [],
+    'selection': [],
+    'char': [],
+    'boolean': [],
+    'button': [],
+    'reference': [],
+    'binary': [],
+    #'picture': Picture,
+    'text': [],
+    'text_tag': [],
+    'html_tag': [],
+    'one2many': [],
+    'one2many_form': [],
+    'one2many_list': [],
+    'many2many': [],
+    'many2one': [],
+    'email' : [],
+    'url' : [],
+    'image' : ['name', 'string', 'width', 'height', 'required', 'readonly', 
+               'domain', 'context', 'nolabel', 'colspan', 'widget', 'eval',
+               'attrs', 'groups']
 }
 
 _CHILDREN = {
