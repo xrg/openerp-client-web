@@ -795,9 +795,6 @@ class Form(TinyCompoundWidget):
                     except:
                         kind = 'html_tag'
 
-                if kind == 'image':
-                    fields[name]['id'] = self.id
-
                 if name in myfields:
                     print "-"*30
                     print " malformed view for :", self.model
@@ -829,9 +826,6 @@ class Form(TinyCompoundWidget):
         return views
     
     def _make_field_widget(self, attrs, value=False):
-        
-        name = attrs['name']
-        kind = attrs.get('type', 'char')
 
         attrs['editable'] = self.editable
         attrs['link'] = self.link
@@ -846,6 +840,12 @@ class Form(TinyCompoundWidget):
             attrs['type'] = attrs['widget']
 
         attrs['value'] = value
+
+        name = attrs['name']
+        kind = attrs.get('type', 'char')
+
+        if kind == 'image':
+            attrs['id'] = self.id
         
         # suppress by container's readonly property 
         if self.readonly:
