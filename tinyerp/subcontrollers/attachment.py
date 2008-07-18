@@ -46,9 +46,10 @@ import tinyerp.widgets as tw
 class Attachment(controllers.Controller, TinyResource):
 
     @expose(template="tinyerp.subcontrollers.templates.attachment_list")
-    def index(self, model, id):
+    def index(self, model, id, comment='', record=None):
 
         id = int(id)
+        desc = ''
 
         params = TinyDict()
         params.model = 'ir.attachment'
@@ -58,18 +59,28 @@ class Attachment(controllers.Controller, TinyResource):
 
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
+        
+        if comment:
+            desc = rpc.session.execute('object', 'execute', 'ir.attachment', 'write', [int(record)], {'description': comment}, rpc.session.context)
 
-        return dict(screen=screen, model=model, id=id, show_header_footer=False)
+        return dict(screen=screen, model=model, desc=desc, id=id, show_header_footer=False)
 
     @expose(template="tinyerp.subcontrollers.templates.attachment_form")
     def edit(self, fname=None, id=None, **kw):
-        
+        description = ''
         model = kw.get('model')
         record = kw.get('record', None)
+        ext = None
         
-        ext = fname.split('.')[-1].lower()
+        datas = rpc.session.execute('object', 'execute', 'ir.attachment', 'read', [record])
+        desc = datas[0].get('description') or ''
         
-        return dict(model=model, fname=fname, id=id, record=record, ext=ext, show_header_footer=False)
+        if(fname):
+            exten = fname.split('.')[-1].lower()
+            if exten in ('jpg', 'jpeg', 'png', 'gif', 'bmp'):
+                ext = exten
+                
+        return dict(model=model, fname=fname, id=id, desc=desc, record=record, ext=ext, show_header_footer=False)
     
     @expose()
     def get_image(self, **kw):
@@ -86,8 +97,8 @@ class Attachment(controllers.Controller, TinyResource):
     @expose()
     def save(self, model, id, uploadfile, **kw):
         data = uploadfile.file.read()
-        fname = os.path.basename(uploadfile.filename)
-        
+        fname = os.path.basename(uploadfile.filename)        
+        comment = kw.get('description', '')
         record = kw.get('record', None)
 
         # XXX: we can't reconise basename of window path on Linux
@@ -101,7 +112,7 @@ class Attachment(controllers.Controller, TinyResource):
         if data and record:
             proxy.write()
             
-        return self.index(model, id)
+        return self.index(model, id, comment, record=record)
 
     @expose()
     def delete(self, model, id, record, **kw):

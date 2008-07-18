@@ -53,7 +53,7 @@
                     	<tr>
                     		<td class="item" align="left">
                     			Description :
-                    			<textarea name="description" rows="6"> gsgd df</textarea>
+                    			<textarea name="description" rows="6">${desc}</textarea>
                     		</td>           		
 	                   	</tr>
 	                </table>
@@ -61,10 +61,13 @@
 					<table width="100%">
                     	<tr>
                     		<td class="item" align="center" width="70%" height="250px">
-                    			<table border='1' width="100%" height="100%">
+                    			<table border='0' width="100%" height="100%">
                     				<tr>
                     					<td width="100%" height="100%" align="center" py:if="ext">
                     					 	<img src="/attachment/get_image?record=${record}"/>
+                    					</td>
+                    					<td width="100%" height="100%" align="center" py:if="not ext">
+                    					 	<img src="/static/images/cancel-icon.png"/>
                     					</td>
                     				</tr>
                     			</table>
@@ -78,7 +81,10 @@
 	    						<td width="100%" align="right">
 	                                <button type="button" onclick="save_file(form)">Save</button>
 	                            </td>
-	                            <td align="right">
+	                            <td>
+	                                <button type="button" onclick="history.back()">Cancel</button>
+	                            </td>
+	                            <td>
 	                                <button type="button" onclick="window.close()">Close</button>
 	                            </td>
 	    					</tr>

@@ -11,11 +11,16 @@
             do_save(document.forms[0]);
         }
 
-		function do_edit(form) {
+		function do_edit(form, action) {
 			var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
 			
-			if (boxes.length > 0){
+			if (boxes.length == 0 &amp;&amp; action == 'edit') {
+				alert('Please select a resouce...');
+				return;
+			}
+			
+			if (boxes.length > 0 &amp;&amp; action == 'edit'){
             	var id = boxes[0].value;
             	
             	var p = boxes[0].parentNode.parentNode;
@@ -98,10 +103,10 @@
 	                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	                        <tr>
 	                            <td align="left">
-	                                <button type="button" onclick="do_edit(form)">Add</button>
+	                                <button type="button" onclick="do_edit(form, 'add')">Add</button>
 	                            </td>
 	                            <td align="left">
-	                                <button type="button" onclick="do_edit(form)">Edit</button>
+	                                <button type="button" onclick="do_edit(form, 'edit')">Edit</button>
 	                            </td>
 	                            <td align="left">
 	                                <button type="button" onclick="do_delete(form)">Delete</button>
