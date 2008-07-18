@@ -114,12 +114,19 @@ class NewModel(Form):
         return dict(form=form, params=params, show_header_footer=False)
     
     @expose()
-    def edit(self, model=None):
+    def edit(self, model=None, id=False, **kw):
         
-        proxy = rpc.RPCProxy('ir.model')
-        res = proxy.search([('model', '=', model)])
+        params = TinyDict()
+        params.model = model
+        params.id = id
+
+        id = params.id
+        if not id:
+            proxy = rpc.RPCProxy('ir.model')
+            res = proxy.search([('model', '=', params.model)])
         
-        id = (res or False) and res[0]
+            id = (res or False) and res[0]
+
         return super(NewModel, self).edit(model='ir.model', id=id)
 
 class Preview(Form):
