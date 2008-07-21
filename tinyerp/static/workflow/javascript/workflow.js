@@ -91,7 +91,7 @@ openerp.workflow.Workflow.implement({
 			
 			for(i in obj.nodes) {
 			    var node = obj.nodes[i];
-//				var state = new openerp.workflow.State(node['id'], node['name'], node['flow_start'], node['flow_stop'], node['action'], node['kind']);	
+	
 		        if(!node['subflow_id'])
 		          var state = new openerp.workflow.StateOval(node);
 		        else
@@ -145,8 +145,8 @@ openerp.workflow.Workflow.implement({
 						end =j;
 				}
 							
-//				self.add_conn(conn['id'], start, end, conn['signal'], conn['condition'], conn['source'], conn['destination'], conn['isOverlaping'], conn['OverlapingSeq'], conn['totalOverlaped']);
-                self.add_conn(start, end, conn)
+
+                self.add_connection(start, end, conn)
 			}
 			
 	    	getElement('loading').style.display = 'none';
@@ -155,7 +155,7 @@ openerp.workflow.Workflow.implement({
 		
 	},
 	
-	get_overlaing_conn : function(s, e, flag) {
+	get_overlaping_connection : function(s, e, flag) {
 		
 		var n = this.connectors.getSize();
 		var conn_overlapped = new Array();
@@ -192,7 +192,7 @@ openerp.workflow.Workflow.implement({
 		return counter;
 	},	
 	
-	add_conn : function(start, end, params) {
+	add_connection : function(start, end, params) {
         
         var source = this.states.get(start);
         var destination = this.states.get(end);     
@@ -214,7 +214,7 @@ openerp.workflow.Workflow.implement({
         var spos = source.getBounds();
         var dpos = destination.getBounds();
     
-        //fix source an destination ports 
+        //fix source and destination ports 
         if(spos.x<dpos.x) {
             conn.setTarget(destination.portL);
             
@@ -263,7 +263,7 @@ openerp.workflow.Workflow.implement({
 				}			
 				
 				if(!flag) {	
-//					var state = new openerp.workflow.State(data['id'], data['name'], data['flow_start'], data['flow_stop'], data['action'], data['kind']);
+				    
 			        if(!data['subflow_id'])
 			             var state = new openerp.workflow.StateOval(data);
 			        else
@@ -277,19 +277,12 @@ openerp.workflow.Workflow.implement({
 					var span = MochiKit.DOM.getElementsByTagAndClassName('span', null, state.getHTMLElement());
 					span[0].innerHTML = data['name'];
 					state.action = data['action'];
-					state.kind = data['kind'];
-//					div.style.width = Math.max(50,(obj.data['name'].length/2*10))+'px'							
+					state.kind = data['kind'];					
 					
-//					if(obj.data['flow_start'] || obj.data['flow_stop'] )
-//					{	
+//					if(data['flow_start'] || data['flow_stop'])
 //						state.setBackgroundColor(new draw2d.Color(155, 155, 155));
-//						log('if')
-//					}
 //					else
-//					{
 //						state.setBackgroundColor(new draw2d.Color(255, 255, 255));
-//						log('else');
-//					}
 				}	
 			});
 		} else {
@@ -297,7 +290,7 @@ openerp.workflow.Workflow.implement({
 		}
 	},
 	
-	create_conn : function(act_from, act_to){
+	create_connection : function(act_from, act_to) {
 		
 		var self = this;
 		
@@ -320,7 +313,7 @@ openerp.workflow.Workflow.implement({
 						end = j;
 				}
 				
-				var counter = self.get_overlaing_conn(data['act_from'][0], data['act_to'][0], 1)
+				var counter = self.get_overlaping_connection(data['act_from'][0], data['act_to'][0], 1)
 				
 				var params = {
 				    id: data['id'],
@@ -335,9 +328,8 @@ openerp.workflow.Workflow.implement({
 					params['OverlapingSeq'] = counter;
 					params['totalOverlaped'] = counter;
 				}		
-					
-//				self.add_conn(data['id'], start, end, data['signal'], data['condition'], data['act_from'][1], data['act_to'][1], data['isOverlaping'], data['OverlapingSeq'], data['totalOverlaped']);
-				self.add_conn(start, end, params);
+				
+				self.add_connection(start, end, params);
 				self.connectors.getLastElement().edit();
 			} else {
 				alert('Could not create transaction at server');
@@ -346,7 +338,7 @@ openerp.workflow.Workflow.implement({
 	},
 	
 	
-	update_conn : function(id) {	
+	update_connection : function(id) {	
 		var self = this;
 		
 		req = Ajax.JSON.post('/workflow/connector/get_info',{id: id});
@@ -376,14 +368,9 @@ openerp.workflow.Workflow.implement({
 	
 	unlink_state : function(state) {
 		
-		params = {
-		'model' : 'workflow.activity',
-		'id' : state.get_act_id()		
-		}
-		
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/state/delete', params);
+		req = Ajax.JSON.post('/workflow/state/delete', {'id' : state.get_act_id()});
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {
@@ -408,12 +395,8 @@ openerp.workflow.Workflow.implement({
 	unlink_connector : function(conn) {
 		
 		var self = this;
-		params = {
-		'model' : 'workflow.transition',
-		'id' : conn.get_tr_id()		
-		}
 		
-		req = Ajax.JSON.post('/workflow/connector/delete', params);
+		req = Ajax.JSON.post('/workflow/connector/delete', {'id' : conn.get_tr_id()});
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {				
@@ -432,7 +415,7 @@ openerp.workflow.Workflow.implement({
 		
 		this.connectors.remove(conn);		
 		if(conn.isOverlaping)	
-			this.get_overlaing_conn(start, end, 0);
+			this.get_overlaping_connection(start, end, 0);
 			
 		this.removeFigure(conn);
 	}

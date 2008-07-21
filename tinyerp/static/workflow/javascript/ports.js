@@ -32,7 +32,7 @@ openerp.workflow.Port.implement({
 		var destination = port.getParent().get_act_id();
 		
 		if(source && destination) {	
-			WORKFLOW.create_conn(source,destination); 
+			WORKFLOW.create_connection(source,destination); 
 		}
 	},		
 	

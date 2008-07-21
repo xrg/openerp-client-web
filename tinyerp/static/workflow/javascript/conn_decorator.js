@@ -7,10 +7,10 @@ if (typeof(openerp.workflow) == "undefined") {
     openerp.workflow = new Object;
 }
 
-openerp.workflow.ConnDecorator = new Class;
-openerp.workflow.ConnDecorator.prototype = $merge(openerp.workflow.ConnDecorator.prototype, draw2d.ArrowConnectionDecorator.prototype);
+openerp.workflow.ConnectionDecorator = new Class;
+openerp.workflow.ConnectionDecorator.prototype = $merge(openerp.workflow.ConnectionDecorator.prototype, draw2d.ArrowConnectionDecorator.prototype);
 
-openerp.workflow.ConnDecorator.implement({
+openerp.workflow.ConnectionDecorator.implement({
 	
 	initialize : function() {
 		draw2d.ArrowConnectionDecorator(this);

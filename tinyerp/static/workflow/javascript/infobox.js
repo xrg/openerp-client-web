@@ -22,7 +22,7 @@ InfoBox.prototype = {
         var title = 'Information Box';
         
         if(this.source instanceof openerp.workflow.StateOval || this.source instanceof openerp.workflow.StateRectangle) {
-       		 var id = 'Id: ' + this.source.get_act_id();
+       	  	 var id = 'Id: ' + this.source.get_act_id();
        		 var dtl1 = 'Action: ' + this.source.action;
        		 var dtl2 = 'Kind: ' + this.source.kind;
         } else {

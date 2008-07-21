@@ -150,7 +150,7 @@ openerp.workflow.StateRectangle.implement({
         openerp.workflow.StateBase.call(this, params.id, params.action, params.kind);
         draw2d.VectorFigure.call(this);
         this.lineColor = new draw2d.Color(0,0,0);
-        this.setLineWidth(1);
+        this.setLineWidth(1); 
         
         this.init_label(params.flow_start, params.flow_stop, params.name);
     },
