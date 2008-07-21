@@ -2,78 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>Attachments</title>
-    <script type="text/javascript">
-
-        function do_select(id, src){
-            var radio = $(src + '/' + id);
-            radio.checked = true;
-
-            do_save(document.forms[0]);
-        }
-
-		function do_edit(form, action) {
-			var list = new ListView('_terp_list');
-            var boxes = list.getSelectedItems();
-			
-			if (boxes.length == 0 &amp;&amp; action == 'edit') {
-				alert('Please select a resouce...');
-				return;
-			}
-			
-			if (boxes.length > 0 &amp;&amp; action == 'edit'){
-            	var id = boxes[0].value;
-            	
-            	var p = boxes[0].parentNode.parentNode;
-            	var a = getElementsByTagAndClassName('a', null, p)[0];
-
-            	var fname = '/' + a.innerHTML;
-            	
-            	setNodeAttribute(form, 'action', getURL('/attachment/edit' + fname, {record: id}));
-            }
-			else {
-				var id = 'none';
-				setNodeAttribute(form, 'action', '/attachment/edit', {record: id});
-			}
-			
-            form.submit();
-		}
-
-        function do_delete(form) {
-            var list = new ListView('_terp_list');
-            var boxes = list.getSelectedItems();
-
-            if (boxes.length == 0){
-                alert('Please select a resouce...');
-                return;
-            }
-
-            var id = boxes[0].value;
-            setNodeAttribute(form, 'action', getURL('/attachment/delete', {record: id}));
-            form.submit();
-        }
-        
-        function do_save(form){
-
-            var list = new ListView('_terp_list');
-            var boxes = list.getSelectedItems();
-
-            if (boxes.length == 0){
-                alert('Please select a resouce...');
-                return;
-            }
-
-            var id = boxes[0].value;
-
-            var p = boxes[0].parentNode.parentNode;
-            var a = getElementsByTagAndClassName('a', null, p)[0];
-
-            var fname = '/' + a.innerHTML;
-
-            setNodeAttribute(form, 'action', getURL('/attachment/save_as' + fname, {record: id}));
-            form.submit();
-        }
-        
-    </script>
+    <script type="text/javascript" src="/static/javascript/attachment.js"></script>
 </head>
 <body>
 
@@ -103,10 +32,10 @@
 	                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	                        <tr>
 	                            <td align="left">
-	                                <button type="button" onclick="do_edit(form, 'add')">Add</button>
+	                                <button type="button" onclick="do_add(form)">Add</button>
 	                            </td>
 	                            <td align="left">
-	                                <button type="button" onclick="do_edit(form, 'edit')">Edit</button>
+	                                <button type="button" onclick="do_edit(form)">Edit</button>
 	                            </td>
 	                            <td align="left">
 	                                <button type="button" onclick="do_delete(form)">Delete</button>

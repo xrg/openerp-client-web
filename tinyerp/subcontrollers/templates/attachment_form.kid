@@ -2,20 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>Attachments</title>
-    <script type="text/javascript">
-
-        function do_select(id, src){
-            var radio = $(src + '/' + id);
-            radio.checked = true;
-
-            do_save(document.forms[0]);
-        }
-        
-        function save_file(form) {
-        	form.submit(form);
-        }
-
-    </script>
+    
 </head>
 <body>
 

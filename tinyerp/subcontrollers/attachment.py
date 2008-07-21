@@ -50,7 +50,7 @@ class Attachment(controllers.Controller, TinyResource):
 
         id = int(id)
         desc = ''
-
+        
         params = TinyDict()
         params.model = 'ir.attachment'
         params.view_mode = ['tree', 'form']
@@ -60,20 +60,23 @@ class Attachment(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
-        if comment:
+        if comment and record:
             desc = rpc.session.execute('object', 'execute', 'ir.attachment', 'write', [int(record)], {'description': comment}, rpc.session.context)
 
         return dict(screen=screen, model=model, desc=desc, id=id, show_header_footer=False)
 
     @expose(template="tinyerp.subcontrollers.templates.attachment_form")
-    def edit(self, fname=None, id=None, **kw):
-        description = ''
-        model = kw.get('model')
-        record = kw.get('record', None)
-        ext = None
+    def edit(self, fname='', **kw):
         
-        datas = rpc.session.execute('object', 'execute', 'ir.attachment', 'read', [record])
-        desc = datas[0].get('description') or ''
+        desc = ''
+        model = kw.get('model')
+        record = kw.get('record')
+        id = int(kw.get('id'))
+        ext = ''
+        
+        if record:
+            datas = rpc.session.execute('object', 'execute', 'ir.attachment', 'read', [record])
+            desc = datas[0].get('description') or ''
         
         if(fname):
             exten = fname.split('.')[-1].lower()
@@ -87,7 +90,7 @@ class Attachment(controllers.Controller, TinyResource):
         record = kw.get('record')
         datas = rpc.session.execute('object', 'execute', 'ir.attachment', 'read', [record])
         datas = datas[0]
-            
+
         try:
             if not datas['link']:
                 return base64.decodestring(datas['datas'])
@@ -96,6 +99,7 @@ class Attachment(controllers.Controller, TinyResource):
 
     @expose()
     def save(self, model, id, uploadfile, **kw):
+
         data = uploadfile.file.read()
         fname = os.path.basename(uploadfile.filename)        
         comment = kw.get('description', '')
@@ -108,11 +112,11 @@ class Attachment(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('ir.attachment')
 
         if data and not record:
-            proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'res_model': model, 'res_id': int(id)})
+            proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'description': comment, 'res_model': model, 'res_id': int(id)})
         if data and record:
             proxy.write()
-            
-        return self.index(model, id, comment, record=record)
+
+        return self.index(model, id, comment=comment, record=record)
 
     @expose()
     def delete(self, model, id, record, **kw):
