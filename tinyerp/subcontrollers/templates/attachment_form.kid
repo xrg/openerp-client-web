@@ -46,22 +46,16 @@
 	                   	</tr>
 	                </table>
 	                <hr/>
-					<table width="100%">
-                    	<tr>
-                    		<td class="item" align="center" width="70%" height="250px">
-                    			<table border='0' width="100%" height="100%">
-                    				<tr>
-                    					<td width="100%" height="100%" align="center" py:if="ext">
-                    					 	<img src="/attachment/get_image?record=${record}"/>
-                    					</td>
-                    					<td width="100%" height="100%" align="center" py:if="not ext">
-                    					 	<img src="/static/images/cancel-icon.png"/>
-                    					</td>
-                    				</tr>
-                    			</table>
-                    		</td>
-                    	</tr>
-                    </table>
+					<table align="center" border='0' width="100%">
+						<tr>
+							<td align="center">
+           						<div style="overflow: scroll; width: 770px; height: 300px;">
+           							<img py:if="ext" src="/attachment/get_image?record=${record}"/>
+           							<img py:if="not ext" src="/static/images/cancel-icon.png"/>
+           						</div>
+           					</td>
+           				</tr>
+           			</table>
                     
                     <div class="toolbar">
 	                    <table border='0' cellpadding='0' cellspacing='0' width="100%">
@@ -71,9 +65,6 @@
 	                            </td>
 	                            <td>
 	                                <button type="button" onclick="history.back()">Cancel</button>
-	                            </td>
-	                            <td>
-	                                <button type="button" onclick="window.close()">Close</button>
 	                            </td>
 	    					</tr>
 	    				</table>
