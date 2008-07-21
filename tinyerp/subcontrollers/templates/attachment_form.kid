@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>Attachments</title>
+    <script type="text/javascript" src="/static/javascript/attachment.js"></script>
     
 </head>
 <body>
