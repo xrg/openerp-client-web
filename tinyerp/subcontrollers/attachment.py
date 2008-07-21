@@ -114,7 +114,7 @@ class Attachment(controllers.Controller, TinyResource):
         if data and not record:
             proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'description': comment, 'res_model': model, 'res_id': int(id)})
         if data and record:
-            proxy.write()
+            proxy.write([int(record)], {'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'description': comment, 'res_model': model, 'res_id': int(id)}, rpc.session.context)
 
         return self.index(model, id, comment=comment, record=record)
 
