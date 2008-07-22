@@ -52,7 +52,7 @@ class List(controllers.Controller, TinyResource):
     @expose('json')
     def save(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
         error = None
         error_field = None
 
@@ -60,7 +60,6 @@ class List(controllers.Controller, TinyResource):
         id = (id > 0) and id or 0
 
         model = params.parent.model
-        
         if model != params.model and not params.parent.id:
             error = _("Parent record doesn't exists...")
 
@@ -70,10 +69,9 @@ class List(controllers.Controller, TinyResource):
         try:
             proxy = rpc.RPCProxy(model)
             frm = TinyForm(**kw).to_python()
-
             data = {}
+            
             if model != params.model:
-
                 source = params.source
                 data = frm.chain_get(source)
                 
@@ -81,28 +79,31 @@ class List(controllers.Controller, TinyResource):
                 
                 fld = source.split('/')[-1]
                 data = {fld : [(id and 1, id, data.copy())]} 
-                myids = proxy.read([params.parent.id], [fld]);               
+                myids = proxy.read([params.parent.id], [fld])[0][fld]
 
                 proxy.write([params.parent.id], data, params.parent.context or {})
                 
-                myids2 = proxy.read([params.parent.id], [fld]);
-                rec_id = [i for i in myids2[0][source] if i not in myids[0][source]]
+                myids2 = proxy.read([params.parent.id], [fld])[0][fld];
+                myids2 = [i for i in myids2 if i not in myids]
+                
+                if myids2:
+                    id = myids2[0] 
+                
             else:
                 data = frm.copy()
-
                 if id > 0:
                     proxy.write([id], data, params.parent.context or {})
                 else:
-                    proxy.create(data, params.parent.context or {})
+#                    proxy.create(data, params.parent.context or {})
                     id = proxy.create(data, params.parent.context or {})
-
+                
         except TinyFormError, e:
             error_field = e.field
             error = ustr(e)
         except Exception, e:
             error = ustr(e)
 
-        return dict(error_field=error_field, error=error, rec_id=rec_id)
+        return dict(error_field=error_field, error=error, rec_id=id)
 
     @expose('json')
     def remove(self, **kw):
