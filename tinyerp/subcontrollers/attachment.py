@@ -60,8 +60,10 @@ class Attachment(controllers.Controller, TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
         
+        proxy = rpc.RPCProxy('ir.attachment')
+        
         if comment and record:
-            desc = rpc.session.execute('object', 'execute', 'ir.attachment', 'write', [int(record)], {'description': comment}, rpc.session.context)
+            desc = proxy.write([int(record)], {'description': comment}, rpc.session.context)
 
         return dict(screen=screen, model=model, desc=desc, id=id, show_header_footer=False)
 
@@ -71,11 +73,14 @@ class Attachment(controllers.Controller, TinyResource):
         desc = ''
         model = kw.get('model')
         record = kw.get('record')
-        id = int(kw.get('id'))
+        id = kw.get('id')
         ext = ''
         
+        proxy = rpc.RPCProxy('ir.attachment')
+        
         if record:
-            datas = rpc.session.execute('object', 'execute', 'ir.attachment', 'read', [record])
+            record = int(record)
+            datas = proxy.read([record])
             desc = datas[0].get('description') or ''
         
         if(fname):
@@ -88,7 +93,9 @@ class Attachment(controllers.Controller, TinyResource):
     @expose()
     def get_image(self, **kw):
         record = kw.get('record')
-        datas = rpc.session.execute('object', 'execute', 'ir.attachment', 'read', [record])
+        
+        proxy = rpc.RPCProxy('ir.attachment')
+        datas = proxy.read([record])
         datas = datas[0]
 
         try:
