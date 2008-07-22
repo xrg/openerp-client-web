@@ -327,7 +327,9 @@ ListView.prototype.onKeyDown = function(evt){
         var editor_save = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
         
         evt.stop();
-        this.save(MochiKit.DOM.getNodeAttribute(editor_save, 'record'));
+        record = MochiKit.DOM.getNodeAttribute(editor_save, 'record');
+        if(record > 0)
+        	this.makeRow(record);
 
         return;
     }
@@ -426,6 +428,11 @@ ListView.prototype.getParentTag = function(element, tagName, className) {
 }
 
 ListView.prototype.makeRow = function(rec_id) {
+	
+	if (Ajax.COUNT > 0) {
+        return callLater(1, bind(this.makeRow, this), rec_id);
+    }
+	
 	var self = this;
 	var tbl = $(this.id + '_grid');
 	
