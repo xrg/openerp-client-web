@@ -323,14 +323,17 @@ ListView.prototype.onKeyDown = function(evt){
         }
         
         var tbl = $(this.id + '_grid');
-        
         var editor_save = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
         
         evt.stop();
         record = MochiKit.DOM.getNodeAttribute(editor_save, 'record');
-        if(record > 0)
-        	this.makeRow(record);
-
+        
+        if(record > 0) {
+        	if(this.id != '_terp_list')
+        		this.makeRow(record);
+        	else if(this.id == '_terp_list')
+				this.save(record);
+        }		
         return;
     }
 
@@ -437,8 +440,6 @@ ListView.prototype.makeRow = function(rec_id) {
 	var tbl = $(this.id + '_grid');
 	
 	var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-	
-	var col = getElementsByTagAndClassName('td', 'grid-cell', editor_row);
 	
 	record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
 	
