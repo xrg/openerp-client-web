@@ -396,22 +396,23 @@ class ViewEd(controllers.Controller, TinyResource):
         
         properties = _PROPERTIES.get(field.localName, [])
         if field.localName == 'field':
-
+            kind = 'char'
             try:
                 model = _get_model(field, parent_model=res['model'])
                 proxy = rpc.RPCProxy(model)
                 attrs2 = proxy.fields_get([attrs['name']])[attrs['name']]
 
                 attrs2.update(attrs)
-                attrs = attrs2
 
-                if attrs.get('widget', False):
-                    if attrs['widget']=='one2many_list':
-                        attrs['widget']='one2many'
-                    attrs['type'] = attrs['widget']
+                if attrs2.get('widget', False):
+                    if attrs2['widget']=='one2many_list':
+                        attrs2['widget']='one2many'
+                    attrs2['type'] = attrs2['widget']
+
+                kind = attrs2.get('type', kind)
             except:
                 pass
-            properties = _PROPERTIES_FIELDS.get(attrs.get('type', 'char')) or properties
+            properties = _PROPERTIES_FIELDS.get(kind) or properties
         properties = properties[:]
         properties += list(set(attrs.keys()) - set(properties))
         
