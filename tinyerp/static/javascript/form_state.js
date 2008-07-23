@@ -96,10 +96,12 @@ var form_hookAttrChange = function() {
         }
         
         for (var attr in attrs) {
+            var expr_fields = {}; // check if field appears more then once in the expr
             forEach(attrs[attr], function(n){
                 var field = MochiKit.DOM.getElement(prefix ? prefix + '/' + n[0] : n[0]);
-                if (field) {
+                if (field && !expr_fields[field.id]) {
                     fields[field.id] = 1;
+                    expr_fields[field.id] = 1;
                     MochiKit.Signal.connect(field, 'onchange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
                 }
             });
