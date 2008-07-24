@@ -36,8 +36,6 @@ var ListView = function(id, terp){
     this.terp = terp;
     
     var prefix = id == '_terp_list' ? '' : id + '/';
-	var save_inline = 0;
-	var count = 0;
 	
     this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
     this.current_record = null;
@@ -92,8 +90,6 @@ ListView.prototype.create = function(){
     var tbl = $(this.id + '_grid');
     var editor = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
     MochiKit.DOM.setNodeAttribute(editor, 'record', 0);
-    this.save_inline = -1;
-    this.count = 1;
     
     this.edit(-1);
 }
@@ -458,7 +454,7 @@ ListView.prototype.makeRow = function(rec_id) {
 	elements = elements.concat(getElementsByTagAndClassName('select', null, editor_row));
 	
 	if(self.id == '_terp_list') {
-		var check_box = MochiKit.DOM.INPUT({'id': self.id  + '/' +  rec_id , 'type': 'checkbox', 'name': self.id, 'value': rec_id});
+		var check_box = MochiKit.DOM.INPUT({'id': self.id  + '/' +  rec_id , 'class': 'checkbox grid-record-selector', 'type': 'checkbox', 'name': self.id, 'value': rec_id});
 		var check_td = MochiKit.DOM.TD({'class': 'grid-cell selector'});
 		MochiKit.DOM.appendChildNodes(check_td, check_box);
 		tds.push(check_td);
@@ -476,25 +472,24 @@ ListView.prototype.makeRow = function(rec_id) {
 					parent_tag = self.getParentTag(getElement(elements[i]), 'td', 'grid-cell');
 					value = getElement(elements[i]).value;
 					
-					if(parent_tag.className.indexOf('many2one') != -1 || i == 0 || i == 1){
-					    var col_anch = MochiKit.DOM.TD({'class': parent_tag.className});
+					if(parent_tag.className.indexOf('many2one') != -1 || i == 0){
+					    var column = MochiKit.DOM.TD({'class': parent_tag.className});
 					 
 					    if(i==0) {
-					       var anch = MochiKit.DOM.A({'onclick': 'do_select(\'' + rec_id + '\', \'' + self.id + '\'); return false;', 'href': 'javascript: void(0)'}, value);
+					       var anchor = MochiKit.DOM.A({'onclick': 'do_select(\'' + rec_id + '\', \'' + self.id + '\'); return false;', 'href': 'javascript: void(0)'}, value);
 					    }
-					    else if(parent_tag.className.indexOf('many2one') != -1){
-					        
+					    else {
 					        var m2o_id = getElement(temp_id).value;
 					        var relation = getNodeAttribute(getElement(elements[i]), 'relation');
 					        
 					        var action = '/form/view?model=' + relation + '&id= ' + m2o_id;
 					        
-					        var anch = MochiKit.DOM.A({'href': 'javascript: void(0)'}, value);
+					        var anchor = MochiKit.DOM.A({'href': 'javascript: void(0)'}, value);
 					        
-					        MochiKit.DOM.setNodeAttribute(anch, 'href', action);
+					        MochiKit.DOM.setNodeAttribute(anchor, 'href', action);
 					    }
-					    MochiKit.DOM.appendChildNodes(col_anch, anch);
-					    tds.push(col_anch);
+					    MochiKit.DOM.appendChildNodes(column, anchor);
+					    tds.push(column);
 					}
 					else {
 					    var col = MochiKit.DOM.TD({'class': parent_tag.className}, value);
