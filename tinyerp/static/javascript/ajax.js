@@ -62,7 +62,7 @@ Ajax.hideStatus = function() {
         return;
 
     try {
-      MochiKit.Async.callLater(0.5, MochiKit.DOM.hideElement, Ajax._status);
+      MochiKit.Async.callLater(0.1, MochiKit.DOM.hideElement, Ajax._status);
     } catch(e){
     }
 }
