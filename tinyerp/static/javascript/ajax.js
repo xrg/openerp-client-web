@@ -34,19 +34,17 @@ var Ajax = function(){
 }
 
 Ajax.COUNT = 0;
-Ajax.STATUS_TEXT = 'Loading...';
 Ajax._status = null;
 
 MochiKit.DOM.addLoadEvent(function(){
-    var s = "display: none; position: absolute; padding: 2px 4px; text-align: center; color: white; background-color: red; font-weight: bold;";
-    Ajax._status = MochiKit.DOM.DIV({id: 'ajax_status', style: s}, Ajax.STATUS_TEXT);
+
+    Ajax._status = DIV({'style': 'display: none; position: absolute; padding: 2px 4px; color: white; background-color: red; font-weight: bold;'}, 'Loading...');
     MochiKit.DOM.appendChildNodes(document.body, Ajax._status);
 });
 
 Ajax.showStatus = function() {
     
-    if (Ajax.STATUS_TEXT && Ajax._status) {    
-        Ajax._status.innetHTML = Ajax.STATUS_TEXT;
+    if (Ajax._status) {
 
         var x = (MochiKit.DOM.getViewportDimensions().w / 2) - (MochiKit.DOM.elementDimensions(Ajax._status).w / 2);
         var y = (window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop) + 5;
