@@ -38,24 +38,35 @@ Ajax.STATUS_TEXT = 'Loading...';
 Ajax._status = null;
 
 MochiKit.DOM.addLoadEvent(function(){
-    var s = "display: none; position: absolute; width: 99%; height: 24px; top: 5px; left: 0px; text-align: center; color: red;";
+    var s = "display: none; position: absolute; padding: 2px 4px; text-align: center; color: white; background-color: red; font-weight: bold;";
     Ajax._status = MochiKit.DOM.DIV({id: 'ajax_status', style: s}, Ajax.STATUS_TEXT);
-    MochiKit.DOM.appendChildNodes(document.body, Ajax._status);    
+    MochiKit.DOM.appendChildNodes(document.body, Ajax._status);
 });
 
 Ajax.showStatus = function() {
     
     if (Ajax.STATUS_TEXT && Ajax._status) {    
         Ajax._status.innetHTML = Ajax.STATUS_TEXT;
-        Ajax._status.style.top = (window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop) + 5 + 'px';
+
+        var x = (MochiKit.DOM.getViewportDimensions().w / 2) - (MochiKit.DOM.elementDimensions(Ajax._status).w / 2);
+        var y = (window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop) + 5;
+
+        Ajax._status.style.left = x + 'px';
+        Ajax._status.style.top = y + 'px';
+
         MochiKit.DOM.showElement(Ajax._status);
     }
 }
 
 Ajax.hideStatus = function() {
+
+    if (Ajax.COUNT > 0) 
+        return;
+
     try {
-      MochiKit.DOM.hideElement(Ajax._status);
-    } catch(e){}
+      MochiKit.Async.callLater(0.5, MochiKit.DOM.hideElement, Ajax._status);
+    } catch(e){
+    }
 }
 
 Ajax.prototype = {
