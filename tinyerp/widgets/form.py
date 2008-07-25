@@ -526,6 +526,13 @@ class Button(TinyField):
         if self.states:
             self.visible = state in self.states
 
+class Picture(TinyField):
+    template = '<img alt="picture" id="${field_id}" kind="${kind}" src="${value}" />'
+
+    def __init__(self, attrs={}):
+        super(Picture, self).__init__(attrs)
+        self.validator = tiny_validators.Picture()
+
 class Image(TinyField):
 
     template = """
@@ -882,7 +889,7 @@ widgets_type = {
     'button': Button,
     'reference': Reference,
     'binary': Binary,
-    #'picture': Picture,
+    'picture': Picture,
     'text': Text,
     'text_tag': Text,
     'html_tag': TinyMCE,

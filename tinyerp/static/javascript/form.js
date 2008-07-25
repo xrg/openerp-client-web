@@ -389,10 +389,11 @@ var getFormData = function(extended) {
     fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
     fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
     fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
+    fields = fields.concat(filter(function(e){return getNodeAttribute(e,'kind')=='picture';}, getElementsByTagAndClassName('img', null, parentNode)));
 
     forEach(fields, function(e){
 
-        if (!e.name)
+        if (e.tagName.toLowerCase() != 'img' && !e.name)
             return;
 
         var n = e.name.replace('_terp_listfields/', '');
@@ -424,6 +425,11 @@ var getFormData = function(extended) {
 
             if (value && (kind == "text" || kind == "char"))
                 attrs['value'] = '""' + value + '""';
+
+            if (kind == "picture") {
+                attrs['value'] = '""' + e.src + '""';
+                n = e.id;
+            }
 
             // pythonize the attr object
             attrs = map(function(x){return '"' + x[0] + '"' + ':' + '"' + x[1] + '"'}, items(attrs));
@@ -518,6 +524,10 @@ var onChange = function(name) {
                 fld.value = value;
 
                 var kind = getNodeAttribute(fld, 'kind');
+                
+                if (kind == 'picture') {
+                    fld.src = value;
+                }
 
                 if (kind == 'many2one'){
                     //getName(fld);

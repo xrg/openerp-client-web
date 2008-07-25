@@ -35,6 +35,7 @@ import base64
 from turbogears import expose
 from turbogears import redirect
 from turbogears import controllers
+import cherrypy
 
 from tinyerp import rpc
 from tinyerp.tinyres import TinyResource
@@ -116,3 +117,18 @@ class Image(controllers.Controller, TinyResource):
             raise redirect('/image', **kw)
         
         return base64.decodestring(res)
+
+    @expose()
+    def b64(self, **kw):
+        #idea from http://dean.edwards.name/weblog/2005/06/base64-ie/
+        try:
+            qs = cherrypy.request.query_string
+            content_type, data = qs.split(';')
+            data_type, data = data.split(',')
+            assert(data_type == 'base64')
+            cherrypy.response.headers['Content-Type'] = content_type
+            return base64.decodestring(data)
+        except:
+            raise cherrypy.HTTPError(400)   # Bad request
+
+

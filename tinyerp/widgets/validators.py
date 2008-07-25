@@ -43,6 +43,7 @@ import turbogears as tg
 
 from tinyerp import tools
 from tinyerp import format
+from tinyerp import icons
 
 class String(tg.validators.String):
     if_empty = False
@@ -215,3 +216,21 @@ class many2one(tg.validators.FancyValidator):
             value = (len(value) or False) and value[0]
 
         return value
+
+
+class Picture(tg.validators.FancyValidator):
+    if_empty = False
+
+    def _from_python(self, value, state):
+        if isinstance(value, tuple):
+            type, data = value
+        else:
+            type, data = 'jpeg', value
+
+        if type == 'stock':
+            stock, size = data
+            url = icons.get_icon(stock)
+        else:
+            url = 'data:image/%s;base64,%s' % (type, data)
+        return url
+
