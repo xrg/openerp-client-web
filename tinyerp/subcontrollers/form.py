@@ -109,7 +109,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.i18n = not editable and mode == 'form'
 
         target = params.context.get('_terp_target')
-        buttons.toolbar = target != 'new' and not params.model.startswith('board.')
+        buttons.toolbar = target != 'new' and not form.is_dashboard
 
         links.view_manager = True
         links.workflow_manager = False

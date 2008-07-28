@@ -829,6 +829,7 @@ class Form(TinyCompoundWidget):
 
             elif node.localName=='action':
                 views += [Action(attrs)]
+                cherrypy.request._terp_dashboard = True
 
         return views
     
