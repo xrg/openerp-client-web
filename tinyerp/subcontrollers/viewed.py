@@ -222,7 +222,7 @@ class ViewEd(controllers.Controller, TinyResource):
             raise common.error(_("Error!"), _("Invalid view id."))
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id, ['model', 'type'])
+        res = proxy.read([view_id], ['model', 'type'])[0]
         
         model = res['model']
         view_type = res['type']
@@ -289,7 +289,7 @@ class ViewEd(controllers.Controller, TinyResource):
             return doc_src.toxml().replace('\t', '')
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id)
+        res = proxy.read([view_id])[0]
 
         def _inherit_apply_rec(result, inherit_id):
             # get all views which inherit from (ie modify) this view
@@ -386,7 +386,7 @@ class ViewEd(controllers.Controller, TinyResource):
         view_id = int(view_id)
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id, ['model', 'arch'])
+        res = proxy.read([view_id], ['model', 'arch'])[0]
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         field = xpath.Evaluate(xpath_expr, doc)[0]
@@ -433,7 +433,7 @@ class ViewEd(controllers.Controller, TinyResource):
         view_id = int(view_id)
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id, ['model', 'arch'])
+        res = proxy.read([view_id], ['model', 'arch'])[0]
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         model = res['model']
@@ -463,7 +463,7 @@ class ViewEd(controllers.Controller, TinyResource):
         view_id = int(view_id)
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id, ['model', 'type', 'arch'])
+        res = proxy.read([view_id], ['model', 'type', 'arch'])[0]
         
         model = res['model']
         view_type = res['type']
@@ -534,7 +534,7 @@ class ViewEd(controllers.Controller, TinyResource):
         view_id = int(view_id)
         
         proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read(view_id, ['model', 'type', 'arch'])
+        res = proxy.read([view_id], ['model', 'type', 'arch'])[0]
         
         model = res['model']
         view_type = res['type']
