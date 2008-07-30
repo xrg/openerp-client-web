@@ -329,7 +329,12 @@ class Form(controllers.Controller, TinyResource):
         elif btype == 'object':
             ctx = params.context or {}
             ctx.update(rpc.session.context.copy())
-            rpc.session.execute('object', 'execute', model, name, ids, ctx)
+            res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
+
+            if isinstance(res, dict):
+                from tinyerp.subcontrollers import actions
+                res['type'] = 'ir.actions.act_window_close'
+                return actions.execute(res)
 
         elif btype == 'action':
             from tinyerp.subcontrollers import actions
