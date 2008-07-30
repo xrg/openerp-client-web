@@ -389,6 +389,14 @@ class Char(object):
 
 class M2O(Char):
 
+    def __init__(self, attrs={}, value=False):
+
+        if isinstance(value, int):
+            from many2one import get_name as _m2o_get_name
+            value = value, _m2o_get_name(attrs['relation'], value)
+
+        super(M2O, self).__init__(attrs, value)
+
     def get_text(self):
         if self.value and len(self.value) > 0:
             return self.value[-1]
