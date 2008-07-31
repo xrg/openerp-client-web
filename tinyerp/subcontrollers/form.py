@@ -333,7 +333,6 @@ class Form(controllers.Controller, TinyResource):
 
             if isinstance(res, dict):
                 from tinyerp.subcontrollers import actions
-                res['type'] = 'ir.actions.act_window_close'
                 return actions.execute(res)
 
         elif btype == 'action':

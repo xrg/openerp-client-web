@@ -88,6 +88,8 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
 
     params.id = (params.ids or False) and params.ids[0]
 
+    mode = mode or view_type
+
     if view_type == 'form':
         mode = mode.split(',')
         params.view_mode=mode
