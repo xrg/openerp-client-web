@@ -462,6 +462,10 @@ MonthCalendar.Week.prototype = {
         forEach(events, function(e){
             var dt = toISODate(e.starts);
             var container = containers[dt];
+            if (!container) {
+                //MochiKit.Logging.log('XXX', dt);
+                return;
+            }
             var evt = new MonthCalendar.Event(e, container);
             container.events = container.events.concat(evt);
             self.eventCache = self.eventCache.concat(evt);
