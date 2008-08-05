@@ -3,7 +3,7 @@
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <title>About eTiny - The OpenERP Web Client</title>
+    <title>About the OpenERP Web Client</title>
 </head>
 
 <body>
@@ -14,7 +14,7 @@
 
 <table width="100%">
         <tr>
-            <td class="titlebar">About eTiny</td>
+            <td class="titlebar">OpenERP Web Client</td>
         </tr>
         <tr>
             <td>
@@ -25,11 +25,11 @@ OpenERP is a trademark of the Tiny Company.
 Licenced under the <a target="_blank" href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL V2</a>.
 </p>
 <p>
-<i>eTiny</i> is the official web client of <a target="_blank" href="http://openerp.com">OpenERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
+<i>OpenERP Web Client</i> is the official web client of <a target="_blank" href="http://openerp.com">OpenERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
 </p>
 
 <p>
-<i>eTiny</i> is known to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a target="_blank" href="http://www.turbogears.org/">TurboGears</a> framework.
+<i>OpenERP Web Client</i> is known to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a target="_blank" href="http://www.turbogears.org/">TurboGears</a> framework.
 </p>
 
             </td>
