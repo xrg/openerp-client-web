@@ -32,7 +32,7 @@
 
 # Release information about eTiny
 
-version = "1.1b1"
+version = "4.3.0"
 
 description = "Web Client of OpenERP, the Enterprise Management Software"
 long_description = "eTiny is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
