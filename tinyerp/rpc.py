@@ -118,6 +118,17 @@ class RPCGateway(object):
         """
         pass
 
+    def execute_noauth(self, obj, method, *args):
+        """Excecute the method of the obj with the given arguments without authentication.
+
+        @param obj: the object
+        @param method: the method to execute
+        @param args: the arguments
+
+        @return: the result of the method
+        """
+        pass
+
     def execute_db(self, method, *args):
         """Execute a database related method.
         """
@@ -153,15 +164,22 @@ class XMLRPCGateway(RPCGateway):
 
         return res
 
-    def execute(self, obj, method, *args):
+    def _execute(self, obj, method, args=(), noauth=False):
         sock = xmlrpclib.ServerProxy(self.url + str(obj))
         try:
-            result = getattr(sock, method)(self.db, self.uid, self.passwd, *args)
-            return result
+            if not noauth:
+                args = (self.db, self.uid, self.passwd) + args
+            return getattr(sock, method)(*args)
         except socket.error, (e1, e2):
             raise common.error(_('Connection refused !'), e1, e2)
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
+
+    def execute(self, obj, method, *args):
+        return self._execute(obj, method, args)
+
+    def execute_noauth(self, obj, method, *args):
+        return self._execute(obj, method, args, noauth=True)
 
     def execute_db(self, method, *args):
         sock = xmlrpclib.ServerProxy(self.url + 'db')
@@ -197,11 +215,13 @@ class NETRPCGateway(RPCGateway):
 
         return res
 
-    def execute(self, obj, method, *args):
+    def _execute(self, obj, method, args=(), noauth=False):
         sock = tiny_socket.mysocket()
         try:
             sock.connect(self.host, self.port)
-            sock.mysend((obj, method, self.db, self.uid, self.passwd)+ args)
+            if not noauth:
+                args = (self.db, self.uid, self.passwd) + args
+            sock.mysend((obj, method) + args)
             res = sock.myreceive()
             sock.disconnect()
             return res
@@ -214,6 +234,12 @@ class NETRPCGateway(RPCGateway):
         
         except tiny_socket.Myexception, err:
             raise RPCException(err.faultCode, err.faultString)
+
+    def execute(self, obj, method, *args):
+        return self._execute(obj, method, args)
+
+    def execute_noauth(self, obj, method, *args):
+        return self._execute(obj, method, args, noauth=True)
 
     def execute_db(self, method, *args):
         sock = tiny_socket.mysocket()
@@ -393,6 +419,9 @@ class RPCSession(object):
             
         except Exception, e:
             raise common.error(_('Application Error !'), str(e))
+
+    def execute_noauth(self, obj, method, *args):
+        return self.gateway.execute_noauth(obj, method, *args)
 
     def execute_db(self, method, *args):
         return self.gateway.execute_db(method, *args)
