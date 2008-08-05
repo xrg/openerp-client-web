@@ -109,10 +109,10 @@ class TinyCalendar(interface.TinyCompoundWidget):
     date_format = '%Y-%m-%d'
     
     css = [tg.widgets.CSSLink('tinyerp', 'tinycalendar/css/calendar.css')]
-    javascript = [tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/New.js'),
-                  tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/Visual.js'),
-                  tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/DragAndDrop.js'),
-                  tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/Resizable.js'),
+    javascript = [tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/New.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/Visual.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/DragAndDrop.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/Resizable.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_date.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_utils.js'),
                   tg.widgets.JSLink('tinyerp', 'tinycalendar/javascript/calendar_box.js'),
