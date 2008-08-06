@@ -184,9 +184,6 @@ openerp.workflow.ConnectionAnchor.implement({
                         return new draw2d.Point(Math.round(root1x), Math.round(root1y));
                     else
                         return new draw2d.Point(Math.round(root2x), Math.round(root2y));
-                       
-//                    return new draw2d.Point(Math.round(x), Math.round(y));                    		                
-		            
 		        }
 		        
 		    } else {//single connector
