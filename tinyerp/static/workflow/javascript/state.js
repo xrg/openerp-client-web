@@ -10,13 +10,13 @@ if (typeof(openerp.workflow) == "undefined") {
 }
 
 
-openerp.workflow.StateBase = function(id, action, kind) {
-    this.__init__(id, action, kind);
+openerp.workflow.StateBase = function(id, action, kind, sname) {
+    this.__init__(id, action, kind, sname);
 } 
     
 openerp.workflow.StateBase.prototype = {
-    __init__ : function(id, action, kind) {
-    
+    __init__ : function(id, action, kind, sname) {
+        this.sname = sname;    
         this.act_id = id || null;
         this.action = action;
         this.kind = kind || ''; 
@@ -26,7 +26,7 @@ openerp.workflow.StateBase.prototype = {
         this.portD = null;
     },
     
-    init_label : function(flow_start, flow_stop, sname) {
+    init_label : function(flow_start, flow_stop) {
     
         this.setDimension(100, 60);
         this.setDeleteable(false);
@@ -40,24 +40,27 @@ openerp.workflow.StateBase.prototype = {
         this.signal = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);  
         
         var span = document.createElement('span');
-        span.id = sname;
+        span.id = this.sname;
         span.style.position = 'absolute';
         span.style.fontSize = '12px';
-        span.innerHTML = sname;
+        span.innerHTML = this.sname;
         span.style.top = '20px';
-        span.style.left = '20px';
         span.style.zIndex = '1000';
         span.style.textAlign = 'center';
         
-        if(!isUndefinedOrNull(sname)) {
-            var n = sname.length;
+        if(!isUndefinedOrNull(this.sname)) {
+            var n = this.sname.length;
+            var width = 100;
             
-            if(n>10)
-            {
-                var width = 100 + Math.round((n-10)/2 * 10);
+            if(n>10) {
+                width = width + Math.round((n-10)/2 * 10);
                 this.setDimension(width,60);
-            }
-        }           
+            }            
+            
+            left = Math.round(Math.abs(width-(n*7))/2);
+            span.style.left = left + 'px';
+        } 
+            
         html.appendChild(span);
     },
     
@@ -101,13 +104,21 @@ openerp.workflow.StateBase.prototype = {
     
     setDimension : function(/*:int*/ w, /*:int*/ h ) {
         
-        draw2d.Oval.prototype.setDimension.call(this, w, h);    
+        draw2d.Oval.prototype.setDimension.call(this, w, h); 
         
-        if(this.portR!=null)    {
-            this.portR.setPosition(w, h/2);
-            this.portU.setPosition(w/2, 0);
-            this.portL.setPosition(0, h/2);
-            this.portD.setPosition(w/2, h);
+        if(this.portR!=null) {
+            this.portR.setPosition(this.width, this.height/2);
+            this.portU.setPosition(this.width/2, 0);
+            this.portL.setPosition(0, this.height/2);
+            this.portD.setPosition(this.width/2, this.height);        
+                   
+            var span = getElement(this.sname)
+            var n = span.innerHTML.length;
+            var left = Math.round(Math.abs(this.width-(n*7))/2);
+            var top = Math.round(Math.abs(this.height-(12))/2);
+            
+            span.style.left = left + 'px';
+            span.style.top = top + 'px';
         }
     },
     
@@ -127,15 +138,14 @@ openerp.workflow.StateBase.prototype = {
 //Oval shape node
 
 openerp.workflow.StateOval = new Class;
-openerp.workflow.StateOval.prototype = $merge(openerp.workflow.StateOval.prototype, openerp.workflow.StateBase.prototype, draw2d.Oval.prototype)
+openerp.workflow.StateOval.prototype = $merge(openerp.workflow.StateOval.prototype, draw2d.Oval.prototype, openerp.workflow.StateBase.prototype)
 openerp.workflow.StateOval.implement({
     
     initialize : function(params) {
         
-        openerp.workflow.StateBase.call(this, params.id, params.action, params.kind);
+        openerp.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
         draw2d.Oval.call(this); 
-        
-        this.init_label(params.flow_start, params.flow_stop, params.name)
+        this.init_label(params.flow_start, params.flow_stop)
     },
 });
 
@@ -147,12 +157,12 @@ openerp.workflow.StateRectangle.implement({
     
     initialize : function(params) {
         
-        openerp.workflow.StateBase.call(this, params.id, params.action, params.kind);
+        openerp.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
         draw2d.VectorFigure.call(this);
         this.lineColor = new draw2d.Color(0,0,0);
         this.setLineWidth(1); 
         
-        this.init_label(params.flow_start, params.flow_stop, params.name);
+        this.init_label(params.flow_start, params.flow_stop);
     },
     
     createHTMLElement : function() {

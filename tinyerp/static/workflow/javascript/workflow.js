@@ -274,8 +274,8 @@ openerp.workflow.Workflow.implement({
 			        state.initPort();
 				} else {
 					var state = self.states.get(index);
-					var span = MochiKit.DOM.getElementsByTagAndClassName('span', null, state.getHTMLElement());
-					span[0].innerHTML = data['name'];
+					var span = getElement(state.sname);
+					span.innerHTML = data['name'];
 					state.action = data['action'];
 					state.kind = data['kind'];					
 					
