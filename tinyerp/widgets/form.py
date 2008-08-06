@@ -597,7 +597,12 @@ class Dashbar(TinyCompoundWidget):
     
     member_widgets = ["children"]
     
-    javascript = [tg.widgets.JSLink("tinyerp", "javascript/dashboard.js")]
+    javascript = [tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/New.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/Visual.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/DragAndDrop.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/Resizable.js'),
+                  tg.widgets.JSLink("tinyerp", "javascript/dashboard.js")]
+
     css = [tg.widgets.CSSLink('tinyerp', 'css/dashboard.css')]
         
     def __init__(self, attrs, children):
