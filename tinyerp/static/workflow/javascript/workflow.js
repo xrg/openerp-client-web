@@ -60,32 +60,6 @@ openerp.workflow.Workflow.implement({
 		this.id = wkf_id;
 		self = this;
 		
-		var n = this.connectors.getSize();
-		for(i=0; i<n; i++) {
-		    this.removeFigure(this.connectors.get(i))
-//			this.connectors.get(i).dispose();
-//			MochiKit.DOM.removeElement(this.connectors.get(i).getHTMLElement());
-		}
-		
-		var figures = this.getFigures();
-		n = figures.getSize();		
-		var arr = [];
-				
-		for(var i=0; i<n; i++) {
-						
-			var fig = figures.get(i);
-			if (fig instanceof openerp.workflow.StateOval || fig instanceof openerp.workflow.StateRectangle) {
-				arr.push(fig);
-			}
-		}
-		
-		for(var i=0; i<arr.length; i++) {
-			this.removeFigure(arr[i]);
-		}
-		
-		this.states.removeAllElements();
-		this.connectors.removeAllElements();
-		
 		req = Ajax.JSON.post('/workflow/get_info',{id:wkf_id});
 		req.addCallback(function(obj) {	
 			
@@ -102,6 +76,7 @@ openerp.workflow.Workflow.implement({
 		        self.states.add(state);
 			}
 			
+			//check for overlapping connections
 			for(i in obj.conn) {
 				var counter = 1;
 				var check_for = obj.conn[i];
@@ -144,8 +119,6 @@ openerp.workflow.Workflow.implement({
 					else if(id==conn['d_id'])
 						end =j;
 				}
-							
-
                 self.add_connection(start, end, conn)
 			}
 			
@@ -388,7 +361,6 @@ openerp.workflow.Workflow.implement({
 		var command = new draw2d.CommandDelete(self.getFigure(state.getId()));
 		self.getCommandStack().execute(command);
 		self.states.remove(state);
-//		this.removeFigure(state);
 	},
 	
 	

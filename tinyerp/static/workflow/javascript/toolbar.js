@@ -119,22 +119,4 @@ openerp.workflow.ToolCreateState = openerp.workflow.ToolGeneric.extend({
     }
 });
 
-//openerp.workflow.ToolCreateSubwkf = openerp.workflow.ToolGeneric.extend({
-//	
-//	initialize : function(palette) {
-//		this.parent(palette, '/static/workflow/images/ToolRectangle.png');
-//	},
-//	
-//	execute : function(x,y) {
-//		
-//		var figure= new draw2d.Rectangle();
-//        figure.setDimension(60, 60);
-//        figure.setBackgroundColor(new draw2d.Color(255, 255, 255));
-//        this.palette.workflow.addFigure(figure, x, y);
-//
-//        // call the parent method
-//        openerp.workflow.ToolGeneric.prototype.execute.call(this, x, y);
-//	}
-//	
-//});
 
