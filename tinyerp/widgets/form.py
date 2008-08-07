@@ -346,12 +346,8 @@ class Integer(TinyField):
         super(Integer, self).__init__(attrs)
         self.validator = tiny_validators.Int()
 
-#        if not self.default:
-#            self.default = 0
-
     def set_value(self, value):
-        if value:
-            self.default = int(value)
+        self.default = value or 0
 
 class Boolean(TinyField):
     template = "tinyerp.widgets.templates.boolean"
