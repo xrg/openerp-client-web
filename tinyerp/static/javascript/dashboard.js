@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-function dashboard() {
+function initialize_dashboard() {
 
     var tds = [];
     var dbar = getElementsByTagAndClassName('table', 'dashboard')[0];
@@ -40,7 +40,7 @@ function dashboard() {
 
         if (MochiKit.Base.findIdentical(tds, div.parentNode) == -1) {
             tds.push(div.parentNode);
-            div.parentNode.appendChild(SPAN({'class':'dashbar_spacer'}));
+            div.parentNode.appendChild(SPAN({'class': 'dashbar_spacer'}));
             new Droppable(div.parentNode, {ondrop: onDrop});
         }        
     });
@@ -70,6 +70,27 @@ function dashboard() {
         src.style.top = 'auto';
         src.style.left = 'auto';
         src.style.width = '100%';
+
+        if (src && ref && ref != src) {
+            
+            var sid = src.id.replace('dashlet_', '');
+            var rid = ref.id.replace('dashlet_', '');
+
+            var args = {src: sid, dst: rid};
+            args['view_id'] = getElement('_terp_view_id').value;
+
+            var req = Ajax.JSON.post('/viewed/update_dashboard', args); 
+            req.addCallback(function(obj) {
+
+                if (obj.error) {
+                    return alert(obj.error);    
+                }
+
+                if (obj.reload) {
+                    window.location.reload();    
+                }
+            });
+        }
     }
 
     connect(MochiKit.DragAndDrop.Draggables, 'onStart', function(evt) {
@@ -86,6 +107,6 @@ function dashboard() {
     });
 }
 
-MochiKit.DOM.addLoadEvent(dashboard);
+MochiKit.DOM.addLoadEvent(initialize_dashboard);
 
 // vim: sts=4 st=4 et

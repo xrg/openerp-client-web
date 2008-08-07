@@ -614,6 +614,35 @@ class ViewEd(controllers.Controller, TinyResource):
         
         return dict(record=record)
 
+    @expose()
+    def update_dashboard(self, view_id, src, dst):
+        
+        error = None
+        reload = False
+        
+        view_id = int(view_id)
+        rec_id = view_id
+        
+        proxy = rpc.RPCProxy('ir.ui.view')
+        data = proxy.read([view_id])[0]
+
+        doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
+        src = xpath.Evaluate(".//*[@name='%s']"%src, doc)[0]
+        dst = xpath.Evaluate(".//*[@name='%s']"%dst, doc)[0]
+        
+        pnode = dst.parentNode
+        pnode.insertBefore(src, dst)
+        
+        del data['id']
+        
+        try:
+            proxy.write(view_id, dict(arch=doc.toxml(encoding="utf-8")))
+        except Exception, e:
+            error = str(e)
+            
+        return dict(error=error)
+  
+
 class Node(object):
     
     def __init__(self, attrs, children=None):
