@@ -69,7 +69,7 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
             params = cherrypy.request.terp_params
             self.terp_ids = params.chain_get(self.name)
             
-            if self.terp_ids is not None:
+            if isinstance(self.terp_ids, TinyDict):
                 ids = self.terp_ids.ids
                 
         else:
