@@ -200,6 +200,6 @@ openerp.workflow.ConnectionAnchor.implement({
                 return new draw2d.Point(Math.round(xnew), Math.round(ynew));
 		    }
 		}
-	},
+	}
 	
 });

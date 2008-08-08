@@ -47,10 +47,7 @@ openerp.workflow.Workflow.implement({
         this.addFigure(this.state, 100, 20);
 		this.state.initPort();
 		this.state.initPort();
-		var html_state = this.state.getHTMLElement();	
-		html_state.style.display = 'none';
-		
-		var state_ports = this.state.getPorts();
+		this.state.getHTMLElement().style.display = 'none';	
 		
 		this.draw_graph(getElement('wkf_id').value);
 	},
@@ -58,7 +55,7 @@ openerp.workflow.Workflow.implement({
 	draw_graph : function(wkf_id) {
 		
 		this.id = wkf_id;
-		self = this;
+		var self = this;
 		
 		req = Ajax.JSON.post('/workflow/get_info',{id:wkf_id});
 		req.addCallback(function(obj) {	
@@ -215,9 +212,9 @@ openerp.workflow.Workflow.implement({
 	
 	create_state : function(id) {
 		if(id != 0) {	
-				
+			log('in function');
 			var position = this.state.getPosition();	
-			self = this;
+			var self = this;
 			
 			req = Ajax.JSON.post('/workflow/state/get_info',{id: id});
 			req.addCallback(function(obj) {
@@ -293,7 +290,7 @@ openerp.workflow.Workflow.implement({
 				    signal: data['signal'],
 				    condition: data['condition'],
 				    source: data['act_from'][1],
-				    destination: data['act_to'][1],
+				    destination: data['act_to'][1]
 				};
 				
 				if(counter>1) {
@@ -358,9 +355,9 @@ openerp.workflow.Workflow.implement({
 	
 	remove_state : function(state) {
 		
-		var command = new draw2d.CommandDelete(self.getFigure(state.getId()));
-		self.getCommandStack().execute(command);
-		self.states.remove(state);
+		var command = new draw2d.CommandDelete(this.getFigure(state.getId()));
+		this.getCommandStack().execute(command);
+		this.states.remove(state);
 	},
 	
 	

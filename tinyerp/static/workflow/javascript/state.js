@@ -146,7 +146,7 @@ openerp.workflow.StateOval.implement({
         openerp.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
         draw2d.Oval.call(this); 
         this.init_label(params.flow_start, params.flow_stop)
-    },
+    }
 });
 
 //Rectangle shape node when it is a sub-workflow
@@ -174,7 +174,7 @@ openerp.workflow.StateRectangle.implement({
             item.style.backgroundColor=this.bgColor.getHTMLStyle();
             
         return item;
-    },
+    }
         
 });
 

@@ -34,7 +34,7 @@ openerp.workflow.Port.implement({
 		if(source && destination) {	
 			WORKFLOW.create_connection(source,destination); 
 		}
-	},		
+	}		
 	
 }); 
 
