@@ -44,23 +44,11 @@ from interface import TinyCompoundWidget
 from tinyerp.utils import TinyDict
 
 class Action(TinyCompoundWidget):
-    template = """<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <div class="toolbar">
-        <table>
-            <tr>
-                <td width="100%"><strong py:content="string"/></td>
-                <td>
-                    <button type="button" onclick="submit_form('dashlet', '${button_name}')">Zoom</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="spacer"/>
-    <span py:if="screen" py:replace="screen.display()"/>
-    </span>
+    template = """
+    <span xmlns:py="http://purl.org/kid/ns#" py:if="screen" py:replace="screen.display()"/>
     """
 
-    params = ['string', 'button_name']
+    params = ['string']
     member_widgets = ['screen']
 
     screen = None
@@ -68,8 +56,6 @@ class Action(TinyCompoundWidget):
     def __init__(self, attrs={}):
         super(Action, self).__init__(attrs)
         self.nolabel = True
-
-        self.button_name = self.name.replace('/', '.')
 
         self.act_id=attrs['name']
         res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [self.act_id], ['type'], rpc.session.context)

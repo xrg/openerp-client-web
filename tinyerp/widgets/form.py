@@ -586,11 +586,7 @@ class Group(TinyCompoundWidget):
 
 class Dashbar(TinyCompoundWidget):
     
-    template = """
-        <div xmlns:py="http://purl.org/kid/ns#" class="dashlet" id="dashlet_${child.name}" py:for="child in children" 
-            py:content="child.display(value_for(child), **params_for(child))"/>
-        """
-    
+    template = "tinyerp.widgets.templates.dashbar"
     member_widgets = ["children"]
     
     javascript = [tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/New.js'),
@@ -600,7 +596,7 @@ class Dashbar(TinyCompoundWidget):
                   tg.widgets.JSLink("tinyerp", "javascript/dashboard.js")]
 
     css = [tg.widgets.CSSLink('tinyerp', 'css/dashboard.css')]
-        
+
     def __init__(self, attrs, children):
         TinyCompoundWidget.__init__(self, attrs)
         
@@ -609,9 +605,11 @@ class Dashbar(TinyCompoundWidget):
 class HPaned(TinyCompoundWidget):
 
     template = """
-    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="hpaned dashboard">
+    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="hpaned">
         <tr>
-            <td class="dashbar" valign="top" py:for="child in children" py:content="child.display(value_for(child), **params_for(child))"></td>
+            <td valign="top" py:for="child in children">
+                <span py:replace="child.display(value_for(child), **params_for(child))"/>
+            </td>
         </tr>
     </table>
     """
@@ -626,9 +624,11 @@ class HPaned(TinyCompoundWidget):
 class VPaned(TinyCompoundWidget):
 
     template = """
-    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="hpaned">
+    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="vpaned">
         <tr py:for="child in children">
-            <td class="dashbar" valign="top" py:content="child.display(value_for(child), **params_for(child))"></td>
+            <td valign="top">
+                <span py:replace="child.display(value_for(child), **params_for(child))"/>
+            </td>
         </tr>
     </table>
     """

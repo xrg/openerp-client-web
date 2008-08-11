@@ -1,14 +1,30 @@
+div.dashbar {
+}
+
 div.dashlet {
 	margin-bottom: 4px;
-	background-color: #FFFFFF;
+	border: solid 1px #bbb8a9;
 }
 
-.dashlet .toolbar {
-	cursor: move;
+div.dashlet-title {
+	background: url(/static/images/grdline1.gif) repeat-x left top;
+	background-color: #F6F6F6;
+    padding: 2px;
+    white-space: nowrap;
+    cursor: move;
+    
+    font-weight: bold;
+	
 }
 
-.dashbar span.dashbar_spacer {
-	height: 1px;
-	display: block;
-	min-width: 250px;
+div.dashlet .dashlet-button {
+    width: auto;
+    margin: 0 1px;
+    cursor: pointer;
+    white-space: nowrap;
 }
+
+div.dashlet-content {
+	padding: 2px;
+}
+
