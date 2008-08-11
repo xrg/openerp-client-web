@@ -32,17 +32,20 @@
 
 function initialize_dashboard() {
 
-    var tds = [];
-    var dbar = getElementsByTagAndClassName('table', 'dashboard')[0];
-
-    forEach(getElementsByTagAndClassName('div', 'dashlet', dbar), function(div){
-        new Draggable(div, {handle: 'toolbar', starteffect: null, endeffect: null, revert: true});
-
-        if (MochiKit.Base.findIdentical(tds, div.parentNode) == -1) {
-            tds.push(div.parentNode);
-            div.parentNode.appendChild(SPAN({'class': 'dashbar_spacer'}));
-            new Droppable(div.parentNode, {ondrop: onDrop});
-        }        
+    var dashbars = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashbar');
+    MochiKit.Iter.forEach(dashbars, function(bar){
+        
+        new Droppable(bar, {'ondrop': onDrop, 
+                            'hoverclass': 'dashbar-hover',
+                            'accept': ['dashlet']});
+        
+        var dashlets = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashlet', bar);
+        MochiKit.Iter.forEach(dashlets, function(dashlet){
+            new Draggable(dashlet, {'handle': 'dashlet-title', 
+                                    'starteffect': null, 
+                                    'endeffect': null, 
+                                    'revert': true});
+        });        
     });
 
     function onDrop(src, dst, evt) {
@@ -63,7 +66,7 @@ function initialize_dashboard() {
                 break;
             }
         }
-
+        
         dst.insertBefore(src, ref);
 
         src.style.position = 'relative';

@@ -1,5 +1,5 @@
 <div xmlns:py="http://purl.org/kid/ns#" class="dashbar">
-    <div class="dashlet" py:for="dashlet in children">
+    <div class="dashlet" id="dashlet_${dashlet.name}" py:for="dashlet in children">
         <div class="dashlet-title">
             <table>
                 <tr>
