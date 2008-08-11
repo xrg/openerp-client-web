@@ -74,12 +74,12 @@ function initialize_dashboard() {
         src.style.left = 'auto';
         src.style.width = '100%';
 
-        if (src && ref && ref != src) {
+        if (src && ref != src) {
             
-            var sid = src.id.replace('dashlet_', '');
-            var rid = ref.id.replace('dashlet_', '');
+            var src_id = src.id.replace('dashlet_', '');
+            var ref_id = ref ? ref.id.replace('dashlet_', '') : null;
 
-            var args = {src: sid, dst: rid};
+            var args = {src: src_id, dst: dst.id, ref: ref_id};
             args['view_id'] = getElement('_terp_view_id').value;
 
             var req = Ajax.JSON.post('/viewed/update_dashboard', args); 

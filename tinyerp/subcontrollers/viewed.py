@@ -615,7 +615,7 @@ class ViewEd(controllers.Controller, TinyResource):
         return dict(record=record)
 
     @expose()
-    def update_dashboard(self, view_id, src, dst):
+    def update_dashboard(self, view_id, dst, src, ref=None):
         
         error = None
         reload = False
@@ -627,11 +627,13 @@ class ViewEd(controllers.Controller, TinyResource):
         data = proxy.read([view_id])[0]
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
-        src = xpath.Evaluate(".//*[@name='%s']"%src, doc)[0]
-        dst = xpath.Evaluate(".//*[@name='%s']"%dst, doc)[0]
         
-        pnode = dst.parentNode
-        pnode.insertBefore(src, dst)
+        pnode = xpath.Evaluate(dst, doc)[0]
+        src = xpath.Evaluate(".//*[@name='%s']"%src, doc)[0]
+        
+        if ref: ref = xpath.Evaluate(".//*[@name='%s']"%ref, doc)[0]
+        
+        pnode.insertBefore(src, ref)
         
         del data['id']
         

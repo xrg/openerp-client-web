@@ -34,6 +34,12 @@ import os
 import time
 import datetime as DT
 
+from xml import xpath
+
+# xpath module replaces __builtins__['_'], which breaks TG i18n
+import turbogears
+turbogears.i18n.tg_gettext.install()
+
 import turbogears as tg
 
 from tinyerp import rpc
@@ -53,3 +59,16 @@ def node_attributes(node):
     for i in range(attrs.length):
         result[attrs.item(i).localName] = attrs.item(i).nodeValue
     return result
+    
+def get_node_xpath(node):
+
+    pn = node.parentNode
+    xp = '/' + node.localName
+
+    if pn and pn.localName and pn.localName != 'view':
+        xp = get_node_xpath(pn) + xp
+
+    nodes = xpath.Evaluate(node.localName, node.parentNode)
+    xp += '[%s]' % (nodes.index(node) + 1)
+
+    return xp

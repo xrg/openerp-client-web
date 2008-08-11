@@ -822,6 +822,7 @@ class Form(TinyCompoundWidget):
 
             elif node.localName in ('child1', 'child2'):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                attrs['name'] = tools.get_node_xpath(node)
                 views += [Dashbar(attrs, n)]
 
             elif node.localName=='action':
