@@ -16,13 +16,14 @@ openerp.workflow.Port.prototype = $merge(openerp.workflow.Port.prototype, draw2d
 openerp.workflow.Port.implement({
 	
 	initialize : function() {
-		draw2d.Port.call(this, new draw2d.ImageFigure('/static/workflow/images/port.gif'));
-		this.setDimension(1,1)
+	    
+//        draw2d.Port.call(this, new draw2d.ImageFigure('/static/workflow/images/port.gif'));
+        
+	    draw2d.Port.call(this, null);     
+		this.setDimension(2,2);
 		var html = this.getHTMLElement();
+		html.style.backgroundColor = '#990200';
 		html.style.zIndex = '1000';
-		
-//      draw2d.Port.call(this);
-//		html.style.backgroundColor = 'red';
 		
 	},	
 	
@@ -34,7 +35,8 @@ openerp.workflow.Port.implement({
 		if(source && destination) {	
 			WORKFLOW.create_connection(source,destination); 
 		}
-	}		
+	}
+	
 	
 }); 
 

@@ -1,4 +1,15 @@
 
+.stateName {
+    position: absolute;
+    font-size: 12px;
+    width: 95%;
+    left: 0;
+    top: 20px;
+    z-index: 1000;
+    overflow: hidden;
+    
+}
+
 #calInfoLayer {
     display: none;
     position: absolute;

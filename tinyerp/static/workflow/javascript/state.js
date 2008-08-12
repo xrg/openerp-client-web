@@ -30,23 +30,21 @@ openerp.workflow.StateBase.prototype = {
     
         this.setDimension(100, 60);
         this.setDeleteable(false);
+        this.setResizeable(false);
         
         if(flow_start || flow_stop)
             this.setBackgroundColor(new draw2d.Color(155, 155, 155));
         else        
             this.setBackgroundColor(new draw2d.Color(255, 255, 255));   
         
-        var html = this.getHTMLElement();       
+        var html = this.getHTMLElement();    
+        html.style.textAlign = 'center';
+        html.style.marginLeft = 'auto';
+        html.style.marginRight = 'auto';   
         this.signal = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);  
         
-        var span = document.createElement('span');
-        span.id = this.sname;
-        span.style.position = 'absolute';
-        span.style.fontSize = '12px';
-        span.innerHTML = this.sname;
-        span.style.top = '20px';
-        span.style.zIndex = '1000';
-        span.style.textAlign = 'center';
+        var span = SPAN({'class': 'stateName', id: this.sname}, this.sname);
+        MochiKit.DOM.appendChildNodes(html, span);
         
         if(!isUndefinedOrNull(this.sname)) {
             var n = this.sname.length;
@@ -56,12 +54,9 @@ openerp.workflow.StateBase.prototype = {
                 width = width + Math.round((n-10)/2 * 10);
                 this.setDimension(width,60);
             }            
-            
-            left = Math.round(Math.abs(width-(n*7))/2);
-            span.style.left = left + 'px';
         } 
             
-        html.appendChild(span);
+        
     },
     
     initPort : function() {
@@ -74,16 +69,16 @@ openerp.workflow.StateBase.prototype = {
         this.portR.setWorkflow(workflow);
         this.addPort(this.portR, width, height/2);
         
-        this.portU = new openerp.workflow.Port();       
-        this.portU.setWorkflow(workflow);
+        this.portU = new openerp.workflow.Port();    
+        this.portU.setWorkflow(workflow);        
         this.addPort(this.portU, width/2, 0);
         
-        this.portL = new openerp.workflow.Port();       
+        this.portL = new openerp.workflow.Port();              
         this.portL.setWorkflow(workflow);
-        this.addPort(this.portL, 0, height/2);
+         this.addPort(this.portL, 0, height/2);
         
-        this.portD = new openerp.workflow.Port();       
-        this.portD.setWorkflow(workflow);
+        this.portD = new openerp.workflow.Port();      
+        this.portD.setWorkflow(workflow);         
         this.addPort(this.portD, width/2, height);
     },
     
@@ -94,34 +89,14 @@ openerp.workflow.StateBase.prototype = {
         '_terp_wkf_id' : WORKFLOW.id 
         }
         
-        if(this.act_id)
+        if(!isUndefinedOrNull(this.act_id))
             params['_terp_id'] = this.act_id;
             
         var act = getURL('/workflow/state/edit', params);
         openWindow(act);
         
     },
-    
-    setDimension : function(/*:int*/ w, /*:int*/ h ) {
-        
-        draw2d.Oval.prototype.setDimension.call(this, w, h); 
-        
-        if(this.portR!=null) {
-            this.portR.setPosition(this.width, this.height/2);
-            this.portU.setPosition(this.width/2, 0);
-            this.portL.setPosition(0, this.height/2);
-            this.portD.setPosition(this.width/2, this.height);        
-                   
-            var span = getElement(this.sname)
-            var n = span.innerHTML.length;
-            var left = Math.round(Math.abs(this.width-(n*7))/2);
-            var top = Math.round(Math.abs(this.height-(12))/2);
-            
-            span.style.left = left + 'px';
-            span.style.top = top + 'px';
-        }
-    },
-    
+
     ondblClick : function(event) {
         new InfoBox(this).show(event);
     },
@@ -138,7 +113,7 @@ openerp.workflow.StateBase.prototype = {
 //Oval shape node
 
 openerp.workflow.StateOval = new Class;
-openerp.workflow.StateOval.prototype = $merge(openerp.workflow.StateOval.prototype, draw2d.Oval.prototype, openerp.workflow.StateBase.prototype)
+openerp.workflow.StateOval.prototype = $merge(openerp.workflow.StateOval.prototype, openerp.workflow.StateBase.prototype, draw2d.Oval.prototype)
 openerp.workflow.StateOval.implement({
     
     initialize : function(params) {

@@ -211,8 +211,8 @@ openerp.workflow.Workflow.implement({
     },
 	
 	create_state : function(id) {
+	    
 		if(id != 0) {	
-			log('in function');
 			var position = this.state.getPosition();	
 			var self = this;
 			
@@ -246,8 +246,11 @@ openerp.workflow.Workflow.implement({
 					var state = self.states.get(index);
 					var span = getElement(state.sname);
 					span.innerHTML = data['name'];
+					span.id = data['name'];
+					
 					state.action = data['action'];
-					state.kind = data['kind'];					
+					state.kind = data['kind'];
+                    state.sname = data['name'];
 					
 //					if(data['flow_start'] || data['flow_stop'])
 //						state.setBackgroundColor(new draw2d.Color(155, 155, 155));
