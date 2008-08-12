@@ -83,7 +83,7 @@
                     </tr>
                     <tr>
                         <td class="dimmed-text">
-                            [<a onmouseover="showElement('customise_menu_');" onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">Customise</a>]
+                            [<a onmouseover="showElement('customise_menu_');" onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">Customise</a>]<br/>
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" onmouseover="showElement(this);" onmouseout="hideElement(this);">
                                 <a title="${_('Manage views of the current object')}" 
                                    onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
