@@ -86,12 +86,12 @@ openerp.workflow.ToolGeneric.implement({
 openerp.workflow.ToolShowGrid = openerp.workflow.ToolToggle.extend({
 
     initialize : function(palette) {
-        this.parent(palette, '/static/workflow/images/ToolShowGrid.png');
+        this.parent(palette, '/static/workflow/images/ToolShowGrid.jpg');
     },
 
     execute : function() {
         var isdown = this.isDown();
-        this.getToolPalette().getWorkflow().setBackgroundImage(isdown ? '/static/workflow/images/grid_10.png' : null, isdown);
+        this.getToolPalette().getWorkflow().setBackgroundImage(isdown ? '/static/workflow/images/grid_10.jpg' : null, isdown);
 
         this.getToolPalette().getWorkflow().setGridWidth(10, 10);
         this.getToolPalette().getWorkflow().setSnapToGrid(isdown);
@@ -102,7 +102,7 @@ openerp.workflow.ToolShowGrid = openerp.workflow.ToolToggle.extend({
 openerp.workflow.ToolCreateState = openerp.workflow.ToolGeneric.extend({
 
     initialize : function(palette) {
-        this.parent(palette, '/static/workflow/images/ToolOval.png');
+        this.parent(palette, '/static/workflow/images/ToolOval.jpg');
     },
 
 	execute : function(x, y) {

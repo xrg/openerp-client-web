@@ -7,16 +7,16 @@
         var form_controller = '${params.path}';
                
          function on_load() {
-         
-           	var id = parseInt($('_terp_id').value) || 0;
+          
+           	var id = parseInt(getElement('_terp_id').value) || 0;
             
-            var lc = $('_terp_load_counter').value;
-            lc = parseInt(lc) || 1;
-
+            var lc = getElement('_terp_load_counter').value;
+            lc = parseInt(lc) || 1;            
+            
             if (lc > 1) {    
     			
                 if (id != 0) {
-            	    window.opener.setTimeout("WORKFLOW.${params.function}"+"('"+id+"')", 0);            	   
+            	    window.opener.setTimeout("WORKFLOW.${params.function}"+"("+id+")", 0);            	   
                }
                 
                return window.close();

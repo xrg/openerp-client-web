@@ -94,12 +94,12 @@ class State(Form):
     def edit(self, **kw):
         
         params, data = TinyDict.split(kw)
+        
         if not params.model:
             params.update(kw)
        
         params.view_mode = ['form']
-        params.view_type = 'form'
-        
+        params.view_type = 'form'        
         params.editable = True
         
         return self.create(params)
@@ -120,13 +120,11 @@ class State(Form):
             error_msg = _("The activity which start the flow can not be deleted.")
         else:
             #all transitions which are connected to the activity
-            trs = data['out_transitions']
-            
+            trs = data['out_transitions']          
 
             for tr in data['in_transitions']:
                 if not trs.__contains__(tr):
                     trs.append(tr)
-
             
             data_trs = proxy_tr.read(trs, ['act_from', 'act_to'], rpc.session.context)
 

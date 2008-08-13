@@ -298,6 +298,7 @@ class Form(controllers.Controller, TinyResource):
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
 
+
         raise redirect(self.path + '/view', **args)
 
     def button_action(self, params):
