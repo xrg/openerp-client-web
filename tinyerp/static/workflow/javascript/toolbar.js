@@ -57,8 +57,9 @@ openerp.workflow.ToolToggle.prototype = $merge(openerp.workflow.ToolToggle.proto
 openerp.workflow.ToolToggle.implement({
     
     initialize : function(palette, image) {
-        this.image = image;
+        this.image = image;        
         draw2d.ToggleButton.call(this, palette);
+        this.getHTMLElement().title = 'Show grid';
     },
 
     getImageUrl : function() {
@@ -75,6 +76,7 @@ openerp.workflow.ToolGeneric.implement({
     initialize : function(palette, image) {
         this.image = image;
         draw2d.ToolGeneric.call(this, palette);
+        this.getHTMLElement().title = 'Create State';
     },
 
     getImageUrl : function() {
@@ -91,10 +93,10 @@ openerp.workflow.ToolShowGrid = openerp.workflow.ToolToggle.extend({
 
     execute : function() {
         var isdown = this.isDown();
-        this.getToolPalette().getWorkflow().setBackgroundImage(isdown ? '/static/workflow/images/grid_10.jpg' : null, isdown);
-
-        this.getToolPalette().getWorkflow().setGridWidth(10, 10);
-        this.getToolPalette().getWorkflow().setSnapToGrid(isdown);
+        
+        WORKFLOW.setBackgroundImage(isdown ? '/static/workflow/images/grid_10.jpg' : null, isdown);
+        WORKFLOW.setGridWidth(10, 10);
+        WORKFLOW.setSnapToGrid(isdown);
     }
 });
 
