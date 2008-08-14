@@ -800,7 +800,7 @@ function on_context_menu(evt) {
     if(! evt.modifier().ctrl)
         return;
         
-    var target = evt.target();    
+    var target = evt.target();
     var kind = getNodeAttribute(target, 'kind');
     
     if(! kind || target.disabled)
@@ -831,7 +831,7 @@ function on_context_menu(evt) {
     if (kind == 'many2one') {
         src = src.slice(0, -5);
     }
-
+    
     var val = $(src).value;
     var relation = getNodeAttribute(src, 'relation');
 

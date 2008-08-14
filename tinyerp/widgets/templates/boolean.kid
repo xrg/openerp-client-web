@@ -7,7 +7,7 @@
         }
     </script>
     <input py:if="editable" type="hidden" kind="${kind}" name="${name}" id="${name}" value="${value}" py:attrs="attrs" callback="${callback}" onchange="${onchange}"/>
-    <input py:if="editable" type="checkbox" class="checkbox" checked="${(value or None) and 1}" py:attrs="attrs" onclick="${name.replace('/', '_')}_clicked(this)"/>
+    <input py:if="editable" type="checkbox" id="${name}_check" kind="${kind}" class="checkbox" checked="${(value or None) and 1}" py:attrs="attrs" onclick="${name.replace('/', '_')}_clicked(this)"/>
     <span py:if="editable and error" class="fielderror" py:content="error"/>
     <input py:if="not editable" type="checkbox" class="checkbox" checked="${(value or None) and 1}" disabled="disabled"/>
 </span>
