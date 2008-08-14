@@ -118,7 +118,8 @@ class OpenO2M(Form):
     @expose()
     @validate(form=get_form)
     def save(self, terp_save_only=False, tg_errors=None, **kw):
-        params, data = TinyDict.split(kw)        
+        params, data = TinyDict.split(kw)
+        params.editable = True
 
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
@@ -137,8 +138,7 @@ class OpenO2M(Form):
         current = params.chain_get(prefix)
         if current and current.id:
             params.load_counter = 2
-                
-        params.editable = True
+
         return self.create(params)
     
     @expose()
