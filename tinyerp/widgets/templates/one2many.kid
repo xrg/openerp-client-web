@@ -10,6 +10,9 @@
                                 <img py:if="parent_id" src="/static/images/stock/gtk-new.png" width="16" height="16"/>
                                 <img py:if="not parent_id" src="/static/images/stock/gtk-save.png" width="16" height="16"/>
                             </button>
+                            <button type="button" py:if="screen.view_type == 'tree'" onclick="new ListView('${name}').remove()" style="padding: 2px">
+                                <img src="/static/images/stock/gtk-delete.png" width="16" height="16"/>
+                            </button>
                             <button type="button" py:if="screen.editable and screen.view_type == 'form' and screen.id" title="${_('Delete current record...')}" onclick="submit_form('delete', '${name}')" style="padding: 2px">
                                 <img src="/static/images/stock/gtk-delete.png" width="16" height="16"/>
                             </button>

@@ -111,7 +111,6 @@ class List(controllers.Controller, TinyResource):
 
         error = None
         proxy = rpc.RPCProxy(params.model)
-        
         if params.ids:
             try:
                 res = proxy.unlink(params.ids)
@@ -139,11 +138,11 @@ class List(controllers.Controller, TinyResource):
         wid = frm.screen.get_widgets_by_name(source, kind=tw.listgrid.List)[0]
         ids = wid.ids
         count = wid.count
-
+        
         if params.edit_inline:
             wid.edit_inline = params.edit_inline
-
-        return dict(ids=str(ids), count=count, view=ustr(wid.render()))
+            
+        return dict(ids=ids, count=count, view=ustr(wid.render()))
     
     @expose('json')
     def button_action(self, **kw):

@@ -140,7 +140,7 @@ class O2M(TinyCompoundWidget):
             
         self.screen = Screen(current, prefix=self.name, views_preloaded=view, 
                              editable=self.editable, readonly=self.readonly, 
-                             selectable=3, nolinks=self.link)
+                             selectable=2, nolinks=self.link)
         self.id = id
         self.ids = ids
 
