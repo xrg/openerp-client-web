@@ -111,13 +111,13 @@ class List(controllers.Controller, TinyResource):
 
         error = None
         proxy = rpc.RPCProxy(params.model)
-
-        if params.id:
+        
+        if params.ids:
             try:
-                res = proxy.unlink([params.id])
+                res = proxy.unlink(params.ids)
             except Exception, e:
                 error = ustr(e)
-
+                
         return dict(error=error)
 
     @expose('json')
