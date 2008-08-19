@@ -11,9 +11,10 @@ if (typeof(openerp.workflow) == "undefined") {
 openerp.workflow.Connector=function(id, signal, condition, from, to) {
 	
 	draw2d.Connection.call(this);
-	
+	this.setLineWidth(2);
+	this.setColor(new draw2d.Color(180, 180, 180));
 	this.setTargetDecorator(new openerp.workflow.ConnectionDecorator());
-
+    
 	this.setSourceAnchor(new openerp.workflow.ConnectionAnchor());
     this.setTargetAnchor(new openerp.workflow.ConnectionAnchor());
     this.setRouter(new draw2d.NullConnectionRouter());

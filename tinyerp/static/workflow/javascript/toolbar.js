@@ -35,11 +35,13 @@ openerp.workflow.Toolbar.implement({
 
         var item = draw2d.ToolPalette.prototype.createHTMLElement.call(this);
 
+        item.style.backgroundImage = 'none';//"url(/static/workflow/images/window_bg.png)";
+
         if (this.hasTitleBar()) {
             this.titlebar.style.backgroundImage = "url(/static/workflow/images/window_toolbar.png)";
         }
 
-//        item.style.backgroundImage = "url(/static/workflow/images/window_bg.png)";
+        
         return item;
     },
 

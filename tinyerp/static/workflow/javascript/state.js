@@ -31,7 +31,8 @@ openerp.workflow.StateBase.prototype = {
         this.setDimension(100, 60);
         this.setDeleteable(false);
         this.setResizeable(false);
-        
+        this.setLineWidth(2);
+                        
         if(flow_start || flow_stop)
             this.setBackgroundColor(new draw2d.Color(155, 155, 155));
         else        
@@ -40,8 +41,10 @@ openerp.workflow.StateBase.prototype = {
         var html = this.getHTMLElement();    
         html.style.textAlign = 'center';
         html.style.marginLeft = 'auto';
-        html.style.marginRight = 'auto';   
+        html.style.marginRight = 'auto';           
         this.signal = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);  
+        
+        this.disableTextSelection(html);
         
         var span = SPAN({'class': 'stateName', id: this.sname}, this.sname);
         MochiKit.DOM.appendChildNodes(html, span);
@@ -122,6 +125,31 @@ openerp.workflow.StateOval.implement({
         draw2d.Oval.call(this); 
         this.init_label(params.flow_start, params.flow_stop)
     }
+//    ,
+//    
+//    onDrag : function() {
+//      this.x = this.draggable.getLeft();
+//      this.y = this.draggable.getTop();
+//    
+//      // enable the alpha blending o the first real move of the object
+//      //
+//      if(this.isMoving==false)
+//      {
+//       this.isMoving = true;
+//       this.setAlpha(0.5);
+//      }
+//      
+//      var self = this;
+//      var temp = function() {
+//          self.setDocumentDirty();
+//          var size= self.moveListener.getSize();
+//          for(var i=0;i<size;i++)
+//          {
+//            self.moveListener.get(i).onOtherFigureMoved(self);
+//          }
+//    }
+//      this.timer = window.setInterval(temp, 100);
+//    }
 });
 
 //Rectangle shape node when it is a sub-workflow

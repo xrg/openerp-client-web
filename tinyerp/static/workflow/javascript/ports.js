@@ -19,7 +19,7 @@ openerp.workflow.Port.implement({
 	    
 //        draw2d.Port.call(this, new draw2d.ImageFigure('/static/workflow/images/port.gif'));
         
-	    draw2d.Port.call(this, null);     
+	    draw2d.Port.call(this);     
 		this.setDimension(2,2);
 		var html = this.getHTMLElement();
 		html.style.backgroundColor = '#990200';

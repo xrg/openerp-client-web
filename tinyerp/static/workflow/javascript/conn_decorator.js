@@ -14,7 +14,8 @@ openerp.workflow.ConnectionDecorator.implement({
 	
 	initialize : function() {
 		draw2d.ArrowConnectionDecorator(this);
-		this.setBackgroundColor(new draw2d.Color(0,0,0))
+		this.setColor(new draw2d.Color(100, 100, 100));
+		this.setBackgroundColor(new draw2d.Color(100, 100, 100))
 	},
 	
 	paint : function(/*:draw2d.Graphics*/ g) {
