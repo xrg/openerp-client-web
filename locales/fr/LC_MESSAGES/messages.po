@@ -427,10 +427,6 @@ msgstr "Non sélectionné"
 msgid "Filter"
 msgstr "Filtrer"
 
-#: tinyerp/widgets/templates/viewform.kid:button
-msgid "New"
-msgstr "Nouveau"
-
 #: tinyerp/widgets/templates/pager.kid:span
 msgid "<< First"
 msgstr "<< Premier"
@@ -1284,10 +1280,6 @@ msgstr "Mot de passe Admin"
 #: tinyerp/subcontrollers/templates/dbadmin_password.kid:td
 msgid "Confirm Password :"
 msgstr "Confirmation du Mot de passe :"
-
-#: tinyerp/subcontrollers/templates/view_log.kid:title
-msgid "Information"
-msgstr "Information"
 
 #: tinyerp/subcontrollers/templates/view_log.kid:button
 msgid "Ok"
