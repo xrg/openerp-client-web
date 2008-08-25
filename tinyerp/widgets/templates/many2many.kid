@@ -4,11 +4,11 @@
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td>
-						<input type="hidden" py:if="inline" kind="${kind}" id='${name}_id' value="${str(screen.ids)}" py:attrs='attrs' relation="${relation}" callback="${callback}"/>
-						<input type="hidden" py:if="not inline" kind="${kind}" id='${name}_id' name="${name}" value="${str(screen.ids)}" py:attrs='attrs' relation="${relation}" callback="${callback}"/>
+                        <input type="hidden" py:if="inline" class="${field_class}" kind="${kind}" id='${name}_id' value="${str(screen.ids)}" py:attrs='attrs' relation="${relation}" callback="${callback}"/>
+                        <input type="hidden" py:if="not inline" class="${field_class}" kind="${kind}" id='${name}_id' name="${name}" value="${str(screen.ids)}" py:attrs='attrs' relation="${relation}" callback="${callback}"/>
                         <input type="hidden" py:if="inline" kind="${kind}" name="${name}" id="${name}" value="${str(screen.ids)}"/>
-                        <input type="text" py:if="inline" class="${field_class}" value="(${len(screen.ids or [])})" readonly="0" id='${name}_set' py:attrs='attrs' style="width: 100%; text-align: center;"/>
-                        <input type="text" py:if="not inline" class="${field_class}" id='${name}_set' py:attrs='attrs' style="width: 100%;"/>
+                        <input type="text" py:if="inline" class="${field_class}" value="(${len(screen.ids or [])})" readonly="0" id='${name}_set' kind="${kind}" py:attrs='attrs' style="width: 100%; text-align: center;"/>
+                        <input type="text" py:if="not inline" class="${field_class}" id='${name}_set' kind="${kind}" py:attrs='attrs' style="width: 100%;"/>
                         <span class="fielderror" py:if="error" py:content="error"/>
                     </td>
                     <td py:if="not inline" width="4px"><div class="spacer"/></td>
@@ -19,9 +19,9 @@
                     </td>
                     <td py:if="not inline" width="4px"><div class="spacer"/></td>
                     <td py:if="not inline" width="32" style="padding-left: 2px;">
-                    	<button type="button" kind="${kind}" py:attrs='attrs' onclick="remove_m2m_rec('${name}')">
-                    		<img src="/static/images/stock/gtk-remove.png" width="16" height="16"/>
-                    	</button>
+                        <button type="button" kind="${kind}" py:attrs='attrs' onclick="remove_m2m_rec('${name}')">
+                            <img src="/static/images/stock/gtk-remove.png" width="16" height="16"/>
+                        </button>
                     </td>
                 </tr>
             </table>

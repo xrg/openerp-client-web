@@ -199,20 +199,31 @@ var validate_required = function(form) {
     if (!form) return true;
 
     var elements = MochiKit.Base.filter(function(el) {
-       return el.id && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
+       return el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
     }, form.elements);
 
     var result = true;
 
     for (var i=0; i<elements.length; i++){
 
-        var elem = elements[i];
+        var elem = elem2 = elements[i];
+        var value = elem.value;
+        var kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
 
-        if (!elem.value) {
-            addElementClass(elem, 'errorfield');
+        if (kind == 'many2many') {
+            elem2 = MochiKit.DOM.getElement(elem.name + '_set');
+            value = value == '[]' ? '' : value;
+        }
+
+        if (kind == 'many2one' || kind == 'reference') {
+            elem2 = MochiKit.DOM.getElement(elem.id + '_text');
+        }
+
+        if (!value) {
+            addElementClass(elem2, 'errorfield');
             result = false;
-        } else if (hasElementClass(elem, 'errorfield')) {
-            removeElementClass(elem, 'errorfield');
+        } else if (hasElementClass(elem2, 'errorfield')) {
+            removeElementClass(elem2, 'errorfield');
         }
     }
     
