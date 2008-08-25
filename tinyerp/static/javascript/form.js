@@ -402,6 +402,10 @@ var getFormData = function(extended) {
         if (n.indexOf('_terp_') > -1)
             return;
 
+        // work arround to skip o2m values (list mode)
+        if (document.getElementsByName(n + '/__id').length)
+            return;
+
         if (extended && n.indexOf('/__id') == -1) {
 
             var attrs = {};
