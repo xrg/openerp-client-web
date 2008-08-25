@@ -388,6 +388,16 @@ class FloatTime(TinyField):
 
     def set_value(self, value):
         self.default = value
+        
+class ProgressBar(TinyCompoundWidget):
+    template = "tinyerp.widgets.templates.progressbar"
+    
+    def __init__(self, attrs={}):
+        super(ProgressBar, self).__init__(attrs)
+        self.validator = tiny_validators.FloatTime()
+
+    def set_value(self, value):
+        self.default = value or 0.00
 
 class Selection(TinyField):
     template = "tinyerp.widgets.templates.selection"
@@ -562,7 +572,7 @@ class Image(TinyField):
             self.id = attrs['id']
         else:
             self.src =  icons.get_icon(icon)
-
+    
 class Group(TinyCompoundWidget):
     template = """
     <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
@@ -789,7 +799,7 @@ class Form(TinyCompoundWidget):
                     raise
                 
                 kind = fields[name]['type']
-
+                
                 if kind not in widgets_type:
                     continue
                 
@@ -843,7 +853,8 @@ class Form(TinyCompoundWidget):
         if attrs.get('widget', False):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
-            attrs['type'] = attrs['widget']
+            if attrs['widget'] in widgets_type:
+                attrs['type'] = attrs['widget']
 
         attrs['value'] = value
 
@@ -899,5 +910,7 @@ widgets_type = {
     'many2one': M2O,
     'email' : Email,
     'url' : Url,
-    'image' : Image
+    'image' : Image,
+    'progressbar' : ProgressBar
+    
 }

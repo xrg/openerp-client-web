@@ -427,10 +427,6 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: tinyerp/widgets/templates/viewform.kid:button
-msgid "New"
-msgstr ""
-
 #: tinyerp/widgets/templates/pager.kid:span
 msgid "<< First"
 msgstr ""
@@ -1273,10 +1269,6 @@ msgstr ""
 
 #: tinyerp/subcontrollers/templates/dbadmin_password.kid:td
 msgid "Confirm Password :"
-msgstr ""
-
-#: tinyerp/subcontrollers/templates/view_log.kid:title
-msgid "Information"
 msgstr ""
 
 #: tinyerp/subcontrollers/templates/view_log.kid:button

@@ -60,7 +60,11 @@ class Graph(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.graph"
 
-    javascript = [tg.widgets.JSLink("tinyerp", "javascript/swfobject.js"),
+    javascript = [tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/New.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/Visual.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/DragAndDrop.js'),
+                  tg.widgets.JSLink('tinyerp', 'javascript/MochiKit/Resizable.js'),
+                  tg.widgets.JSLink("tinyerp", "javascript/swfobject.js"),
                   tg.widgets.JSLink("tinyerp", "javascript/charts.js")]
     
     params = ['chart_type', 'chart_name', 'model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']

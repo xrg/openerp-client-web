@@ -79,12 +79,18 @@ def memoize(limit=100, force=False):
     return memoize_wrapper
 
 @memoize(1000)
-def fields_view_get(model, view_id, view_type, context, hastoolbar=False):
+def __fields_view_get(model, view_id, view_type, context, hastoolbar, sid):
     return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
 
+def fields_view_get(model, view_id, view_type, context, hastoolbar=False):
+    return __fields_view_get(model, view_id, view_type, context, hastoolbar=hastoolbar, sid=cherrypy.session['_id'])
+
 @memoize(1000)
-def fields_get(model, fields, context):
+def __fields_get(model, fields, context, sid):
     return rpc.RPCProxy(model).fields_get(fields, context)
+
+def fields_get(model, fields, context):
+    return __fields_get(model, fields, context, sid=cherrypy.session['_id'])
 
 @memoize(10000, True)
 def _gettext(key, locale, domain):

@@ -194,6 +194,12 @@ class Form(controllers.Controller, TinyResource):
     def cancel(self, **kw):
         params, data = TinyDict.split(kw)
 
+        if params.button:
+            res = self.button_action(params)
+            if res:
+                return res
+            raise redirect('/')
+
         if not params.id and params.ids:
             params.id = params.ids[0]
 
@@ -315,7 +321,28 @@ class Form(controllers.Controller, TinyResource):
         ids = (id or []) and [id]
         
         if btype == 'cancel':
-            raise redirect('/')
+            if name:
+                button.btype = "object"
+                params.id = False
+                res = self.button_action(params)
+                if res:
+                    return res
+
+            return """<html>
+        <head>
+            <script type="text/javascript">
+                window.onload = function(evt){
+                    if (window.opener) {
+                        window.opener.setTimeout("window.location.reload()", 0);
+                        window.close();
+                    } else {
+                        window.location.href = '/';
+                    }
+                }
+            </script>
+        </head>
+        <body></body>
+        </html>"""
         
         elif btype == 'save':
             params.id = False

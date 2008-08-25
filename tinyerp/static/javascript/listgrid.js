@@ -533,17 +533,27 @@ ListView.prototype.makeRow = function(rec_id) {
 	}
 }
 
-ListView.prototype.remove = function(id){
-
-    if (!confirm('Do you realy want to delete this record?')) {
-        return false;
-    }
-
+ListView.prototype.remove = function(ids){
+    
     var self = this;
     var args = {};
-
+    
+    if(!ids) {
+        var ids = this.getSelectedRecords();
+        if(ids.length > 0){
+            ids = '[' + ids.join(', ') + ']';
+        }
+    }
+    
+    if (ids.length == 0) {
+        return alert('You must select at least one record.');
+    }
+    else if (!confirm('Do you realy want to delete record(s) ?')) {
+        return false;
+    }
+    
     args['_terp_model'] = this.model;
-    args['_terp_id'] = id;
+    args['_terp_ids'] = ids;
 
     var req = Ajax.JSON.post('/listgrid/remove', args);
 
@@ -605,10 +615,12 @@ ListView.prototype.reload = function(edit_inline){
 
     req.addCallback(function(obj){
 
+        var _terp_id = $(self.id + '/_terp_id') || $('_terp_id');
         var _terp_ids = $(self.id + '/_terp_ids') || $('_terp_ids');
         var _terp_count = $(self.id + '/_terp_count') || $('_terp_count');
-
-        _terp_ids.value = obj.ids;
+        
+        _terp_id.value = obj.ids[0];
+        _terp_ids.value = '[' + obj.ids.join(',') + ']';
         _terp_count.value = obj.count;
 
         var d = DIV();
