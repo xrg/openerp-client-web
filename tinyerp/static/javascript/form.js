@@ -350,16 +350,6 @@ var buttonClicked = function(name, btype, model, id, sure, target){
     if (sure && !confirm(sure)){
         return;
     }
-    
-        
-    if (btype == 'cancel') {
-        if (window.opener) {
-          window.opener.setTimeout("window.location.reload()", 1);
-          return window.close();
-        } else {
-          return window.location.href = '/';
-        }
-    }
 
     params = {};
 
@@ -368,7 +358,7 @@ var buttonClicked = function(name, btype, model, id, sure, target){
     params['_terp_button/model'] = model;
     params['_terp_button/id'] = id;
 
-    submit_form(get_form_action('save', params), null, null, target);
+    submit_form(get_form_action(btype == 'cancel' ? 'cancel' : 'save', params), null, null, target);
 }
 
 /**

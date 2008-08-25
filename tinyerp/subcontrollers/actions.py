@@ -206,9 +206,11 @@ def execute(action, **data):
             <script type="text/javascript">
                 window.onload = function(evt){
                     if (window.opener) {
-                        window.opener.setTimeout("window.location.reload()", 1);
+                        window.opener.setTimeout("window.location.reload()", 0);
+                        window.close();
+                    } else {
+                        window.location.href = '/';
                     }
-                    window.close();
                 }
             </script>
         </head>

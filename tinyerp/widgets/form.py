@@ -843,7 +843,8 @@ class Form(TinyCompoundWidget):
         if attrs.get('widget', False):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
-            attrs['type'] = attrs['widget']
+            if attrs['widget'] in widgets_type:
+                attrs['type'] = attrs['widget']
 
         attrs['value'] = value
 
