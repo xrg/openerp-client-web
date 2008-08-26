@@ -186,7 +186,7 @@ class Frame(TinyCompoundWidget):
 
         if label:
             colspan -= 1
-            attrs = {'class': 'label'}
+            attrs = {'class': 'label', 'title': getattr(widget, 'help', None)}
             td = [attrs, label]
             tr.append(td)
 
