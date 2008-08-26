@@ -17,15 +17,15 @@
     </script>
 
     <span py:if="not editable and link" py:strip="">
-        <span py:if="link=='1'">
+        <span py:if="link=='1'" kind="${kind}" id="${name}" value="${value}">
             <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"></a>
         </span>
-        <span py:if="link=='0'">
+        <span py:if="link=='0'" kind="${kind}" id="${name}" value="${value}">
             ${text}
         </span>
     </span>
     <span py:if="not editable and not link == '0'">
-        <span>
+        <span kind="${kind}" id="${name}" value="${value}">
             <a href="${tg.query('/form/view', model=relation, id=value)}" py:content="text"></a>
         </span>
     </span>

@@ -19,5 +19,5 @@
                </script>
         </tr>
     </table>
-    <span py:if="not editable and strdate" py:content="strdate"/>
+    <span py:if="not editable and strdate" kind="${kind}" id="${name}" value="${value}" py:content="strdate"/>
 </span>

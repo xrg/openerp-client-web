@@ -167,4 +167,3 @@ class O2M(TinyCompoundWidget):
         values = proxy.read(self.ids)
         
         return [(1, val['id'], val) for val in values]
-        
