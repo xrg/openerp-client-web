@@ -17,14 +17,14 @@ __init__ : function(elements, options) {
     this.elements = elements;
 
     this.toolTitle = TD({'class': 'tip-t'});
-    this.toolText = PRE({});
+    this.toolText = P({});
     
     this.toolTip = TABLE({'class': 'tooltip'},
                         TBODY(null,
                             TR(null,
-                                TD({'class': 'tip-tl'}),
+                                TD({'class': 'tip-tl', 'nowrap': 'nowrap'}),
                                 this.toolTitle,
-                                TD({'class': 'tip-tr'})),
+                                TD({'class': 'tip-tr', 'nowrap': 'nowrap'})),
                             TR(null,
                                 TD({'class': 'tip-l'}),
                                 TD({'class': 'tip-text'}, this.toolText),
@@ -73,7 +73,7 @@ __init__ : function(elements, options) {
 
         this.toolTitle.innerHTML = el.myTitle || '?';
         this.toolText.innerHTML = el.myText.replace(/\n|\r/g, '<br>');
-        
+
         MochiKit.DOM.showElement(this.toolTip);
     },
 
