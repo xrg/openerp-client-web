@@ -48,7 +48,7 @@ __init__ : function(elements, options) {
         }
         
         MochiKit.Signal.connect(el, 'onmouseover', this, this.show);
-        //MochiKit.Signal.connect(el, 'onmousemove', this, this.locate);
+        MochiKit.Signal.connect(el, 'onmousemove', this, this.locate);
         MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
 
     }, this);
@@ -61,33 +61,24 @@ __init__ : function(elements, options) {
         this.toolTitle.innerHTML = el.myTitle || '?';
         this.toolText.innerHTML = el.myText;
 
-        var ps = MochiKit.DOM.elementPosition(el);
-
-        var x = ps.x - 10;
-        var y = ps.y + 30;
-
-        this.toolTip.style.top = y + 'px';
-        this.toolTip.style.left = x + 'px';  
-
         MochiKit.DOM.showElement(this.toolTip);
-
-        // adjust the position
-        var vd = MochiKit.DOM.getViewportDimensions();
-        var md = MochiKit.DOM.elementDimensions(this.toolTip);
-
-        if ((x + md.w) > vd.w) {
-            x -= x + md.w - vd.w;
-        }
-
-        this.toolTip.style.top = y + 'px';
-        this.toolTip.style.left = x + 'px';
     },
 
     locate: function(evt){
         var doc = document.documentElement;
+        var el = evt.src();
+
+        var ps = MochiKit.DOM.elementPosition(el)
+        var vd = MochiKit.DOM.getViewportDimensions();
+        var md = MochiKit.DOM.elementDimensions(this.toolTip);
 
         var x = evt.mouse().client.x + doc.scrollLeft - 30;
         var y = evt.mouse().client.y + doc.scrollTop + 15;
+
+        if ((x + md.w) > vd.w - 30) {
+            x -= x + md.w - vd.w;
+            x -= 20;
+        }
 
         this.toolTip.style.top = y + 'px';
         this.toolTip.style.left = x + 'px';
