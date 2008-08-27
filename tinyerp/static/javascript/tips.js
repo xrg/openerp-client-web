@@ -16,15 +16,28 @@ __init__ : function(elements, options) {
 
     this.elements = elements;
 
-    this.toolTitle = DIV({'class': 'tip-title'});
-    this.toolText = DIV({'class': 'tip-text'});
-
-    this.toolTip = DIV({'class': 'tooltip'},
-                    DIV({'class': 'top-left'}, this.toolTitle),
-                    DIV({'class': 'top-right'}),
-                    DIV({'class': 'inside'}, this.toolText),
-                    DIV({'class': 'bottom-left'}, DIV()),
-                    DIV({'class': 'bottom-right'}));
+    this.toolTitle = TD({'class': 'tip-t'});
+    this.toolText = PRE({});
+    
+    this.toolTip = TABLE({'class': 'tooltip'},
+                        TBODY(null,
+                            TR(null,
+                                TD({'class': 'tip-tl'}),
+                                this.toolTitle,
+                                TD({'class': 'tip-tr'})),
+                            TR(null,
+                                TD({'class': 'tip-l'}),
+                                TD({'class': 'tip-text'}, this.toolText),
+                                TD({'class': 'tip-r'})),
+                            TR(null,
+                                TD({'class': 'tip-bl'}),
+                                TD({'class': 'tip-b'}),
+                                TD({'class': 'tip-br'}))));
+                                
+                            
+    this.toolTip.cellPadding = 0;
+    this.toolTip.cellSpacing = 0;
+    
 
     MochiKit.DOM.appendChildNodes(document.body, this.toolTip);
 
@@ -59,8 +72,8 @@ __init__ : function(elements, options) {
         var el = evt.src();
 
         this.toolTitle.innerHTML = el.myTitle || '?';
-        this.toolText.innerHTML = el.myText;
-
+        this.toolText.innerHTML = el.myText.replace(/\n|\r/g, '<br>');
+        
         MochiKit.DOM.showElement(this.toolTip);
     },
 
@@ -90,6 +103,7 @@ __init__ : function(elements, options) {
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
+        
     var elements = [];    
     MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('input', null, document));
     MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('select', null, document));
@@ -99,6 +113,13 @@ MochiKit.DOM.addLoadEvent(function(evt){
     elements = MochiKit.Base.filter(function(e){
         return MochiKit.DOM.getNodeAttribute(e, 'title');
     }, elements);
-
-    new Tips(elements);
+    
+    if (window.browser.isOpera){
+        MochiKit.Iter.forEach(elements, function(e){
+            var t = MochiKit.DOM.getNodeAttribute(e, 'title');
+            MochiKit.DOM.setNodeAttribute(e, 'title', t.replace(/.*?::/, ''));
+        });        
+    } else
+        new Tips(elements);
 });
+
