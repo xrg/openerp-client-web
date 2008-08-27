@@ -8,6 +8,7 @@
 
     <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css/menu.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css/tips.css" rel="stylesheet" type="text/css"/>
 
     <!--[if lt IE 7]>
         <link href="/static/css/iepngfix.css" rel="stylesheet" type="text/css"/>
@@ -34,6 +35,7 @@
     <script type="text/javascript" src="/static/javascript/master.js"></script>
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
+    <script type="text/javascript" src="/static/javascript/tips.js"></script>
 </head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">

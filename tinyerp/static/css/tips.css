@@ -1,0 +1,66 @@
+.tooltip {
+    position: absolute;
+    display: none;    
+    color: white;
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.tooltip .top-left,
+.tooltip .top-right,
+.tooltip .bottom-left,
+.tooltip .bottom-right {
+    font-size: 2px;
+    height: 24px;
+}
+
+.tooltip .top-left {
+    background: url(/static/images/tips/tl.png) no-repeat left;
+    margin-right: 24px;
+}
+
+.tooltip .top-left div.tip-title {
+    background: url(/static/images/tips/t.png);
+    height: 24px;
+    margin-left: 24px;
+    padding-top: 5px;    
+    font-weight: bold;
+    font-size: 11px;
+    text-align: center;
+}
+
+.tooltip .bottom-left div {
+    background: url(/static/images/tips/b.png);
+    margin-left: 24px;
+    height: 24px;
+    font-size: 2px;
+}
+
+.tooltip .top-right {
+    background: url(/static/images/tips/tr.png) no-repeat right;
+    margin-left: 24px;
+    margin-top: -24px;
+}
+
+.tooltip .bottom-left {
+    background: url(/static/images/tips/bl.png) no-repeat left;
+    margin-right: 24px;
+}
+
+.tooltip .bottom-right {
+    background: url(/static/images/tips/br.png) no-repeat right;
+    margin-left: 24px;
+    margin-top: -24px;
+}
+
+.tooltip .inside {
+    background: url(/static/images/tips/r.png) repeat-y right;
+}
+
+.tooltip .inside .tip-text {
+    background: url(/static/images/tips/l.png);
+    margin-right: 24px;
+    padding-left: 24px;
+    white-space: pre;
+}
+
