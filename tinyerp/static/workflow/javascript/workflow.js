@@ -21,6 +21,7 @@ openerp.workflow.Workflow.implement({
 		draw2d.Workflow.call(this, canvas);
 		this.setBackgroundImage(null, false);
 		this.getCommandStack().setUndoLimit(0);
+//		this.setEnableSmoothFigureHandling(true);
 		
 		this.states = new draw2d.ArrayList();
 		this.connectors = new draw2d.ArrayList();
@@ -44,10 +45,11 @@ openerp.workflow.Workflow.implement({
 		this.state = new openerp.workflow.StateOval({});
         this.state.setDimension(100, 60);
 		this.state.setBackgroundColor(new draw2d.Color(255, 255, 255));
+		this.state.getHTMLElement().style.display = 'none';
         this.addFigure(this.state, 100, 20);
 		this.state.initPort();
 		this.state.initPort();
-		this.state.getHTMLElement().style.display = 'none';	
+			
 		
 		this.draw_graph(getElement('wkf_id').value);
 	},
@@ -356,13 +358,35 @@ openerp.workflow.Workflow.implement({
 	},
 	
 	
-	remove_state : function(state) {
-		
-		var command = new draw2d.CommandDelete(this.getFigure(state.getId()));
-		this.getCommandStack().execute(command);
-		this.states.remove(state);
+	remove_state : function(state) {     
+        
+        var fig = this.getFigure(state.getId());
+        var connections = null
+                
+        if(fig.getPorts && connections==null) {
+          connections = new draw2d.ArrayList();
+          var ports = fig.getPorts();
+          for(var i=0; i<ports.getSize(); i++) {
+            if(ports.get(i).getConnections) {                
+                connections.addAll(ports.get(i).getConnections());
+            }
+          }
+        }
+    
+        if(connections == null)
+            connections = new draw2d.ArrayList();
+      
+        for (var i = 0; i < connections.getSize(); ++i) {
+            this.removeFigure(connections.get(i));
+        }
+   
+        this.removeFigure(fig);
+        this.setCurrentSelection(null); 
+        if(fig.parent!=null)
+            fig.parent.removeChild(fig);
+        this.states.remove(state);
+    
 	},
-	
 	
 	unlink_connector : function(conn) {
 		

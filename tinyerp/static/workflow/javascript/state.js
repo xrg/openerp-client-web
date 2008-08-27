@@ -125,31 +125,6 @@ openerp.workflow.StateOval.implement({
         draw2d.Oval.call(this); 
         this.init_label(params.flow_start, params.flow_stop)
     }
-//    ,
-//    
-//    onDrag : function() {
-//      this.x = this.draggable.getLeft();
-//      this.y = this.draggable.getTop();
-//    
-//      // enable the alpha blending o the first real move of the object
-//      //
-//      if(this.isMoving==false)
-//      {
-//       this.isMoving = true;
-//       this.setAlpha(0.5);
-//      }
-//      
-//      var self = this;
-//      var temp = function() {
-//          self.setDocumentDirty();
-//          var size= self.moveListener.getSize();
-//          for(var i=0;i<size;i++)
-//          {
-//            self.moveListener.get(i).onOtherFigureMoved(self);
-//          }
-//    }
-//      this.timer = window.setInterval(temp, 100);
-//    }
 });
 
 //Rectangle shape node when it is a sub-workflow
