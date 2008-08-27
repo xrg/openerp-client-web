@@ -95,8 +95,6 @@ MochiKit.DOM.addLoadEvent(function(evt){
     MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('select', null, document));
     MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('textarea', null, document));
     MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('td', 'label', document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('a', null, document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('img', null, document));
 
     elements = MochiKit.Base.filter(function(e){
         return MochiKit.DOM.getNodeAttribute(e, 'title');
