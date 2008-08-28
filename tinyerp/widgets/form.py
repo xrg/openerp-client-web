@@ -395,15 +395,13 @@ class ProgressBar(TinyField):
     def __init__(self, attrs={}):
         super(ProgressBar, self).__init__(attrs)
         
-        val = attrs.get('value', '')
-        
-        if val and isinstance(val, Float):
+        if attrs.get('type2') is 'float':
             self.validator = tiny_validators.Float()
         else:
             self.validator = tiny_validators.Int()
             
     def set_value(self, value):
-        self.default = value
+        self.default = value or 0.00
 
 class Selection(TinyField):
     template = "tinyerp.widgets.templates.selection"
@@ -860,6 +858,7 @@ class Form(TinyCompoundWidget):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
             if attrs['widget'] in widgets_type:
+                attrs['type2'] = attrs['type']
                 attrs['type'] = attrs['widget']
 
         attrs['value'] = value

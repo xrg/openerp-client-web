@@ -177,6 +177,9 @@ var form_evalExpr = function(prefix, expr) {
 
 var form_setReadonly = function(container, field, readonly) {
     
+    if (!field)
+        return;
+    
     field.disabled = readonly;
     
     if (readonly) {
