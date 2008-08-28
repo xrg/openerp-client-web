@@ -389,15 +389,21 @@ class FloatTime(TinyField):
     def set_value(self, value):
         self.default = value
         
-class ProgressBar(TinyCompoundWidget):
+class ProgressBar(TinyField):
     template = "tinyerp.widgets.templates.progressbar"
     
     def __init__(self, attrs={}):
         super(ProgressBar, self).__init__(attrs)
-        self.validator = tiny_validators.FloatTime()
-
+        
+        val = attrs.get('value', '')
+        
+        if val and isinstance(val, Float):
+            self.validator = tiny_validators.Float()
+        else:
+            self.validator = tiny_validators.Int()
+            
     def set_value(self, value):
-        self.default = value or 0.00
+        self.default = value
 
 class Selection(TinyField):
     template = "tinyerp.widgets.templates.selection"
