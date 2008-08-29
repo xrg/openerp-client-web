@@ -16,7 +16,7 @@
                                 <span py:if="selector!='checkbox'">&nbsp;</span>
                             </th>
                             <th py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']">Title</th>
-                            <th py:if="buttons" class="grid-cell selector"><div style="width: 0px;"></div></th>
+                            <th py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                         </tr>
@@ -25,7 +25,7 @@
                     <tfoot py:if="field_total">                                    
                         <tr class="field_sum">
                             <td width="1%" py:if="selector" class="grid-cell">&nbsp;</td>
-                            <td py:if="buttons" class="grid-cell selector"><div style="width: 0px;"></div></td>
+                            <td py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
                                  <span py:if="'sum' in field_attrs" py:strip="">
                                      <span py:for="key, val in field_total.items()" py:strip="">
@@ -70,7 +70,7 @@
                                 </span>
                                 <span py:if="data[field].text == ''">&nbsp;</span>
                             </td>
-                                <td py:if="buttons" class="grid-cell buttons" nowrap="nowrap">
+                                <td py:if="buttons" class="grid-cell button" nowrap="nowrap">
                                 <span py:for="button in buttons" py:replace="button.display(parent=name, **button.params_from(data))"/>        
                             </td>
                             <td py:if="editable" class="grid-cell selector">
@@ -92,7 +92,7 @@
                         <tr py:for="i in range(0, 4 - len(data))" class="grid-row">
                             <td width="1%" py:if="selector" class="grid-cell selector">&nbsp;</td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">&nbsp;</td>
-                            <td py:if="buttons" class="grid-cell selector">&nbsp;</td>
+                            <td py:if="buttons" class="grid-cell button">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         </tr>
