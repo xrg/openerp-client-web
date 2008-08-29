@@ -670,16 +670,19 @@ ListView.prototype.onButtonClick = function(name, btype, id, sure){
         _terp_model : this.model,
         _terp_id : id,
         _terp_button_name : name,
-        _terp_button_type : btype,
-        _terp_context : $(prefix + '_terp_context').value
+        _terp_button_type : btype
     }
-    
-    var req = Ajax.JSON.post('/listgrid/button_action', params);
-    req.addCallback(function(obj){
-        if (obj.error){
-            return alert(obj.error);
-        }
-        self.reload();
+
+    var req = eval_domain_context_request({source: this.id, context : $(prefix + '_terp_context').value});
+    req.addCallback(function(res){
+        params['_terp_context'] = res.context;
+        var req = Ajax.JSON.post('/listgrid/button_action', params);
+        req.addCallback(function(obj){
+            if (obj.error){
+                return alert(obj.error);
+            }
+            self.reload();
+        });
     });
 }
 

@@ -282,7 +282,7 @@ class List(TinyCompoundWidget):
                         print " malformed view for :", self.model
                         print " duplicate field :", name
                         print "-"*30
-                        raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
+                        #raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
                     myfields.append(name)
                     
@@ -481,10 +481,10 @@ class Button(TinyField):
     parent = None
     btype = None
     
-    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm']
+    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm', 'width']
     
     template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <button py:if="visible and not icon" type="button" py:content="string" py:attrs="attrs"
+    <button py:if="visible and not icon" type="button" py:content="string" py:attrs="attrs" style="min-width: ${width}px;"
         onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
     <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" py:attrs="attrs"
         onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
@@ -504,7 +504,9 @@ class Button(TinyField):
         self.help = self.help or self.string
         self.confirm = attrs.get('confirm') or ''
         self.readonly = False
-        
+
+        self.width = attrs.get('width', 16)
+
     def params_from(self, data):
         
         record_id = data.get('id')
