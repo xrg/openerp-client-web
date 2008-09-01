@@ -80,40 +80,7 @@ __init__ : function(elements, options) {
         this.toolTitle.innerHTML = el.myTitle || '?';
         this.toolText.innerHTML = el.myText.replace(/\n|\r/g, '<br>');
 
-        this.fadeIn(this.toolTip, 0);
-    },
-
-    fadeIn: function(e, v) {
-
-        if (e.d2) e.d2.cancel();
-
-        MochiKit.DOM.setOpacity(this.toolTip, v);
-
-        if (this.toolTip.style.display = 'none') {
-            MochiKit.DOM.showElement(this.toolTip);
-        }
-
-        if (v <= 1) {
-            e.d1 = callLater(0.01, MochiKit.Base.bind(this.fadeIn, this), e, v+0.05);
-            return;
-        }
-    },
-
-    fadeOut: function(e, v) {
-
-        if (e.d1) e.d1.cancel();
-        
-        MochiKit.DOM.setOpacity(this.toolTip, v);
-
-        if (this.toolTip.style.display = 'none') {
-            MochiKit.DOM.showElement(this.toolTip);
-        }
-
-        if (v >= 0) {
-            e.d2 = callLater(0.01, MochiKit.Base.bind(this.fadeOut, this), e, v-0.05);
-            return;
-        }
-        MochiKit.DOM.hideElement(this.toolTip);
+        MochiKit.DOM.showElement(this.toolTip);
     },
 
     locate: function(evt){
@@ -140,7 +107,7 @@ __init__ : function(elements, options) {
         if (this.deferred) {
             this.deferred.cancel();
         }
-        this.fadeOut(this.toolTip, 1.0);
+        MochiKit.DOM.hideElement(this.toolTip);
     }
 }
 
