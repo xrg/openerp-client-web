@@ -25,6 +25,7 @@ openerp.workflow.Connector=function(id, signal, condition, from, to) {
 	MochiKit.Signal.connect(html, 'ondblclick', this, this.ondblClick);
 	MochiKit.Signal.connect(html, 'onmouseover', this, this.onmouseOver);
 	MochiKit.Signal.connect(html, 'onmouseout', this, this.onmouseOut);
+	MochiKit.Signal.connect(html, 'onclick', this, this.onClick);
 	
 	
 	this.sourceId = null;
@@ -51,6 +52,13 @@ openerp.workflow.Connector.prototype = new draw2d.Connection();
 openerp.workflow.Connector.prototype.ondblClick = function(event) {	
 		new InfoBox(this).show(event);
 }
+
+openerp.workflow.Connector.prototype.onClick = function(event) {
+    
+    if (WORKFLOW.selected==this)
+        new InfoBox(this).show(event);
+}
+
 
 openerp.workflow.Connector.prototype.onmouseOver = function(event) {
     getElement('status').innerHTML = "Condition: " + this.condition + " | Signal: "+ this.signal;
@@ -81,7 +89,7 @@ openerp.workflow.Connector.prototype.get_tr_id = function() {
 }
 
 openerp.workflow.Connector.prototype.__delete__ = function() {
-		MochiKit.Signal.disconnect(this.signal);
+		MochiKit.Signal.disconnectAll(this.getHTMLElement(), 'ondblclick', 'onmouseover', 'onmouseout', 'onclick');
 }
 
 openerp.workflow.Connector.prototype.setSource = function(port) {

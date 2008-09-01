@@ -26,7 +26,7 @@ openerp.workflow.Workflow.implement({
 		this.states = new draw2d.ArrayList();
 		this.connectors = new draw2d.ArrayList();
 		this.id = null;
-		
+		this.selected = null;
 		//this.setToolWindow(toolbar, 30, 30);
 		var tbar = new openerp.workflow.Toolbar();
 		this.toolPalette = tbar;
@@ -414,5 +414,17 @@ openerp.workflow.Workflow.implement({
 			this.get_overlaping_connection(start, end, 0);
 			
 		this.removeFigure(conn);
-	}
+	},
+	
+	onMouseDown : function(x, y) {
+        
+        if (this.currentSelection instanceof draw2d.Connection)
+            this.selected = this.currentSelection;
+        else
+            this.selected = null;	 
+                
+	    draw2d.Workflow.prototype.onMouseDown.call(this, x, y);
+	   
+	},	
+	
 });

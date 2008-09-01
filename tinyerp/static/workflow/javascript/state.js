@@ -42,8 +42,8 @@ openerp.workflow.StateBase.prototype = {
         html.style.textAlign = 'center';
         html.style.marginLeft = 'auto';
         html.style.marginRight = 'auto';           
-        this.signal = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);  
-        
+        this.sgnl_dblclk = MochiKit.Signal.connect(html , 'ondblclick', this, this.ondblClick);  
+        this.sgnl_clk = MochiKit.Signal.connect(html , 'onclick', this, this.onClick);
         this.disableTextSelection(html);
         
         var span = SPAN({'class': 'stateName', id: this.sname}, this.sname);
@@ -58,7 +58,6 @@ openerp.workflow.StateBase.prototype = {
                 this.setDimension(width,60);
             }            
         } 
-            
         
     },
     
@@ -85,6 +84,7 @@ openerp.workflow.StateBase.prototype = {
         this.addPort(this.portD, width/2, height);
     },
     
+    
     edit : function() {
         
         params = {
@@ -99,38 +99,65 @@ openerp.workflow.StateBase.prototype = {
         openWindow(act);
         
     },
+    
 
     ondblClick : function(event) {
         new InfoBox(this).show(event);
     },
     
+    
+    onClick : function(event) {
+        
+        if (WORKFLOW.selected==null)
+            WORKFLOW.selected = this.workflow.currentSelection;
+        else if (WORKFLOW.selected!=this)
+            WORKFLOW.selected = this.workflow.currentSelection;            
+        else {
+            if (!this.dragged)
+                new InfoBox(this).show(event);                
+            else
+                this.dragged = false;
+        }
+    },    
+    
+    
+    onDragend : function() {
+        this.dragged = this.isMoving
+        draw2d.Oval.prototype.onDragend.call(this);  
+    },
+    
+    
     get_act_id : function() {
         return this.act_id;
     },
     
+    
     __delete__ : function() {
-        MochiKit.Signal.disconnect(this.signal);
+        MochiKit.Signal.disconnectAll(this.getHTMLElement(), 'ondblclick', 'onclick');
     }
+   
 }
 
 //Oval shape node
 
 openerp.workflow.StateOval = new Class;
-openerp.workflow.StateOval.prototype = $merge(openerp.workflow.StateOval.prototype, openerp.workflow.StateBase.prototype, draw2d.Oval.prototype)
+openerp.workflow.StateOval.prototype = $merge(openerp.workflow.StateOval.prototype, draw2d.Oval.prototype, openerp.workflow.StateBase.prototype)
 openerp.workflow.StateOval.implement({
     
     initialize : function(params) {
         
         openerp.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
         draw2d.Oval.call(this); 
+        this.dragged = false;
         this.init_label(params.flow_start, params.flow_stop)
     }
+    
 });
 
 //Rectangle shape node when it is a sub-workflow
 
 openerp.workflow.StateRectangle = new Class;
-openerp.workflow.StateRectangle.prototype = $merge(openerp.workflow.StateRectangle.prototype, openerp.workflow.StateBase.prototype, draw2d.VectorFigure.prototype)
+openerp.workflow.StateRectangle.prototype = $merge(openerp.workflow.StateRectangle.prototype, draw2d.VectorFigure.prototype, openerp.workflow.StateBase.prototype)
 openerp.workflow.StateRectangle.implement({
     
     initialize : function(params) {
