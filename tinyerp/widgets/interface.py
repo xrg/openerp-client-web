@@ -190,9 +190,6 @@ class TinyInputWidget(TinyWidget):
         d['kind'] = self.kind
         d['editable'] = self.editable
 
-        if self.help:
-            d['attrs']['title'] = self.help
-
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
             d['attrs']['disabled'] = True

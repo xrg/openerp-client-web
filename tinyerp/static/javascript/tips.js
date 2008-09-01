@@ -11,9 +11,11 @@ Tips.prototype = {
 __init__ : function(elements, options) {
 
     this.options = MochiKit.Base.update({
-        maxTitleChars: 255
+        wait: 1,            // wait for n seconds
+        maxTitleChars: 255  // number of chars in title
     }, options || {});
 
+    this.deferred = null;
     this.elements = elements;
 
     this.toolTitle = TD({'class': 'tip-t'});
@@ -60,12 +62,16 @@ __init__ : function(elements, options) {
             el.myText = MochiKit.Format.strip(dual[1]);
         }
         
-        MochiKit.Signal.connect(el, 'onmouseover', this, this.show);
+        MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
         MochiKit.Signal.connect(el, 'onmousemove', this, this.locate);
         MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
 
     }, this);
 },
+
+    showLater: function(evt){
+        this.deferred = MochiKit.Async.callLater(this.options.wait, MochiKit.Base.bind(this.show, this), evt);
+    },
 
     show: function(evt){
 
@@ -74,7 +80,40 @@ __init__ : function(elements, options) {
         this.toolTitle.innerHTML = el.myTitle || '?';
         this.toolText.innerHTML = el.myText.replace(/\n|\r/g, '<br>');
 
-        MochiKit.DOM.showElement(this.toolTip);
+        this.fadeIn(this.toolTip, 0);
+    },
+
+    fadeIn: function(e, v) {
+
+        if (e.d2) e.d2.cancel();
+
+        MochiKit.DOM.setOpacity(this.toolTip, v);
+
+        if (this.toolTip.style.display = 'none') {
+            MochiKit.DOM.showElement(this.toolTip);
+        }
+
+        if (v <= 1) {
+            e.d1 = callLater(0.01, MochiKit.Base.bind(this.fadeIn, this), e, v+0.05);
+            return;
+        }
+    },
+
+    fadeOut: function(e, v) {
+
+        if (e.d1) e.d1.cancel();
+        
+        MochiKit.DOM.setOpacity(this.toolTip, v);
+
+        if (this.toolTip.style.display = 'none') {
+            MochiKit.DOM.showElement(this.toolTip);
+        }
+
+        if (v >= 0) {
+            e.d2 = callLater(0.01, MochiKit.Base.bind(this.fadeOut, this), e, v-0.05);
+            return;
+        }
+        MochiKit.DOM.hideElement(this.toolTip);
     },
 
     locate: function(evt){
@@ -98,7 +137,10 @@ __init__ : function(elements, options) {
     },
 
     hide: function(){
-        MochiKit.DOM.hideElement(this.toolTip);
+        if (this.deferred) {
+            this.deferred.cancel();
+        }
+        this.fadeOut(this.toolTip, 1.0);
     }
 }
 
