@@ -231,9 +231,20 @@ class Notebook(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.notebook"
 
-    member_widgets = ['_notebook_', "children"]
-    _notebook_ = tg.widgets.Tabber(use_cookie=True)
-    _notebook_.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
+    member_widgets = ["children"]
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/tabber/tabber_cookie.js"),
+                  tg.widgets.JSLink("tinyerp", "javascript/tabber/tabber.js"),
+                  tg.widgets.JSSource("""
+                               try {
+                                   tabberOptions
+                               } catch(e){ 
+                                   tabberOptions = {};
+                               }
+                               tabberOptions['onLoad'] = tabber_onload;
+                               tabberOptions['onClick'] = tabber_onclick;
+                               tabberOptions['cookie'] = 'TGTabber';""")]
+    
+    css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
 
     def __init__(self, attrs, children):
         super(Notebook, self).__init__(attrs)
