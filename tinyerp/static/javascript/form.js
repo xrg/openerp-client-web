@@ -399,7 +399,8 @@ var getFormData = function(extended) {
 
         var n = e.name.replace('_terp_listfields/', '');
 
-        if (n.indexOf('_terp_') > -1)
+        // don't include _terp_ fields except _terp_id
+        if (/_terp_/.test(n) && ! /_terp_id$/.test(n))
             return;
 
         // work arround to skip o2m values (list mode)
@@ -415,6 +416,13 @@ var getFormData = function(extended) {
 
             value = e.value;
             kind = getNodeAttribute(e, 'kind');
+
+            //take care of _terp_id
+            if (/_terp_id$/.test(n)) {
+                kind = 'integer';
+                n = n.replace(/_terp_id$/, 'id');
+                value = value == 'False' ? '' : value;
+            }
 
             attrs['value'] = value;
 
