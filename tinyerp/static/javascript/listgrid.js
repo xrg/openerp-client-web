@@ -655,7 +655,7 @@ ListView.prototype.reload = function(edit_inline){
     });
 }
 
-ListView.prototype.onButtonClick = function(name, btype, id, sure){
+ListView.prototype.onButtonClick = function(name, btype, id, sure, context){
 
     if (sure && !confirm(sure)){
         return;
@@ -673,7 +673,7 @@ ListView.prototype.onButtonClick = function(name, btype, id, sure){
         _terp_button_type : btype
     }
 
-    var req = eval_domain_context_request({source: this.id, context : $(prefix + '_terp_context').value});
+    var req = eval_domain_context_request({source: this.id, context : context || '{}'});
     req.addCallback(function(res){
         params['_terp_context'] = res.context;
         var req = Ajax.JSON.post('/listgrid/button_action', params);

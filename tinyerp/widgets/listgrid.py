@@ -481,13 +481,14 @@ class Button(TinyField):
     parent = None
     btype = None
     
-    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm', 'width']
+    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm', 'width', 'context']
     
     template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <button py:if="visible and not icon" type="button" py:content="string" py:attrs="attrs" style="min-width: ${width}px;"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
-    <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
+    <button py:if="visible and not icon" type="button" py:content="string" 
+        context="${ustr(context)}" py:attrs="attrs" style="min-width: ${width}px;"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
+    <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" py:attrs="attrs"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
     <span py:if="not visible and not icon">&nbsp;</span>
 </span>"""
     
@@ -500,6 +501,8 @@ class Button(TinyField):
         
         if self.icon:
             self.icon = icons.get_icon(self.icon)
+
+        self.context = attrs.get('context', {})
 
         self.help = self.help or self.string
         self.confirm = attrs.get('confirm') or ''
