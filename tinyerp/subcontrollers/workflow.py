@@ -114,15 +114,11 @@ class State(Form):
         
         search_ids = proxy_act.search([('id','=', int(id))], 0, 0, 0, rpc.session.context)
         data = proxy_act.read(search_ids[0], ['out_transitions', 'in_transitions', 'flow_start'], rpc.session.context)
-        
-            
-        if data['flow_start']:
-            error_msg = _("The activity which start the flow can not be deleted.")
-        else:
-            res_act = proxy_act.unlink(int(id))                
+                    
+        res_act = proxy_act.unlink(int(id))                
 
-            if not res_act:
-                error_msg = _('Could not delete state')
+        if not res_act:
+            error_msg = _('Could not delete state')
                     
         return dict(error = error_msg)
     
