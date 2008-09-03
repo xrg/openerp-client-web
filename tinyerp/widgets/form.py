@@ -488,7 +488,7 @@ class Binary(TinyField):
     def set_value(self, value):
         if value:
             #super(Binary, self).set_value("%s bytes" % len(value))
-            self.text = "%s bytes" % len(value)
+            self.text = value
 
 class Url(TinyField):
     template = "tinyerp.widgets.templates.url"
