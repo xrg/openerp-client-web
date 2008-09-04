@@ -14,7 +14,7 @@
         </td>
         <td py:if="text is not None and editable" width="1px"><div class="spacer"/></td>
         <td py:if="text is not None and not readonly and editable" width="75px">
-            <button type="button" onclick="submit_form('clear_binary_data?_terp_field=${name}')">Clear</button>
+            <button type="button" onclick="submit_form('clear_binary_data?_terp_field=${name}&amp;_terp_fname=${filename}')">Clear</button>
         </td>
         <span py:if="editable and error" class="fielderror" py:content="error"/>
         <td py:if="not editable">

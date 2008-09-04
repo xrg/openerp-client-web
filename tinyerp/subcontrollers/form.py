@@ -482,7 +482,10 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         proxy = rpc.RPCProxy(params.model)
-        proxy.write([params.id], {params.field: False})
+        if params.fname:
+            proxy.write([params.id], {params.field: False, params.fname: False})
+        else:
+            proxy.write([params.id], {params.field: False})
 
         return self.create(params)
 
