@@ -253,11 +253,11 @@ openerp.workflow.Workflow.implement({
 					state.action = data['action'];
 					state.kind = data['kind'];
                     state.sname = data['name'];
-					
+									
 //					if(data['flow_start'] || data['flow_stop'])
-//						state.setBackgroundColor(new draw2d.Color(155, 155, 155));
+//                      this.setBackgroundColor(new draw2d.Color(155, 155, 155))
 //					else
-//						state.setBackgroundColor(new draw2d.Color(255, 255, 255));
+//                      this.setBackgroundColor(new draw2d.Color(255, 255, 255))
 				}	
 			});
 		} else {
@@ -424,7 +424,6 @@ openerp.workflow.Workflow.implement({
             this.selected = null;	 
                 
 	    draw2d.Workflow.prototype.onMouseDown.call(this, x, y);
-	   
-	},	
+	}
 	
 });

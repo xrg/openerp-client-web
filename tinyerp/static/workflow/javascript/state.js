@@ -19,7 +19,7 @@ openerp.workflow.StateBase.prototype = {
         this.sname = sname;    
         this.act_id = id || null;
         this.action = action;
-        this.kind = kind || ''; 
+        this.kind = kind || '';        
         this.portR = null;
         this.portU = null;
         this.portL = null;
@@ -32,12 +32,13 @@ openerp.workflow.StateBase.prototype = {
         this.setDeleteable(false);
         this.setResizeable(false);
         this.setLineWidth(2);
-                        
-        if(flow_start || flow_stop)
-            this.setBackgroundColor(new draw2d.Color(155, 155, 155));
-        else        
-            this.setBackgroundColor(new draw2d.Color(255, 255, 255));   
-        
+              
+                       
+        if(flow_start || flow_stop)          
+            this.setBackgroundColor(new draw2d.Color(155, 155, 155))
+        else
+            this.setBackgroundColor(new draw2d.Color(255, 255, 255)); 
+            
         var html = this.getHTMLElement();    
         html.style.textAlign = 'center';
         html.style.marginLeft = 'auto';
@@ -83,7 +84,7 @@ openerp.workflow.StateBase.prototype = {
         this.portD.setWorkflow(workflow);         
         this.addPort(this.portD, width/2, height);
     },
-    
+        
     
     edit : function() {
         
@@ -123,7 +124,7 @@ openerp.workflow.StateBase.prototype = {
     
     onDragend : function() {
         this.dragged = this.isMoving
-        draw2d.Oval.prototype.onDragend.call(this);  
+        draw2d.Node.prototype.onDragend.call(this);  
     },
     
     
@@ -131,7 +132,7 @@ openerp.workflow.StateBase.prototype = {
         return this.act_id;
     },
     
-    
+        
     __delete__ : function() {
         MochiKit.Signal.disconnectAll(this.getHTMLElement(), 'ondblclick', 'onclick');
     }
@@ -151,7 +152,7 @@ openerp.workflow.StateOval.implement({
         this.dragged = false;
         this.init_label(params.flow_start, params.flow_stop)
     }
-    
+        
 });
 
 //Rectangle shape node when it is a sub-workflow
@@ -179,8 +180,7 @@ openerp.workflow.StateRectangle.implement({
             item.style.backgroundColor=this.bgColor.getHTMLStyle();
             
         return item;
-    }
-        
+    }        
 });
 
 
