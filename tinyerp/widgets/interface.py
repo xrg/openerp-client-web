@@ -102,10 +102,6 @@ class TinyWidget(object):
         self.editable = attrs.get('editable', True)
         self.translatable = attrs.get('translate', False)
 
-        # set tooltip title
-        if self.help:
-            self.help = self.string + '::' + self.help
-
         self.set_state(attrs.get('state', 'draft'))
 
         self.callback = attrs.get('on_change', None)

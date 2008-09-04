@@ -112,23 +112,24 @@ __init__ : function(elements, options) {
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
-        
-    var elements = [];    
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('input', null, document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('select', null, document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('textarea', null, document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('td', 'label', document));
 
-    elements = MochiKit.Base.filter(function(e){
-        return MochiKit.DOM.getNodeAttribute(e, 'title');
-    }, elements);
-    
     if (window.browser.isOpera){
-        MochiKit.Iter.forEach(elements, function(e){
-            var t = MochiKit.DOM.getNodeAttribute(e, 'title');
-            MochiKit.DOM.setNodeAttribute(e, 'title', t.replace(/.*?::/, ''));
-        });        
-    } else
-        new Tips(elements);
+        return;
+    }
+
+    var elements = MochiKit.Base.filter(function(e){
+
+        var text = MochiKit.DOM.getNodeAttribute(e, 'title');
+        if (!text)
+            return false;
+        
+        var title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*\:\s*$/g, '');
+        MochiKit.DOM.setNodeAttribute(e, 'title', title + '::' + text);
+
+        return true;
+
+    }, MochiKit.DOM.getElementsByTagAndClassName('td', 'label', document));
+    
+    new Tips(elements);
 });
 
