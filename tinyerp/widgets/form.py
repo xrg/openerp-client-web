@@ -473,13 +473,14 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 
 class Binary(TinyField):
     template = "tinyerp.widgets.templates.binary"
-    params = ["name", "text", "readonly"]
+    params = ["name", "text", "readonly", "filename"]
 
     text = None
     file_upload = True
 
     def __init__(self, attrs={}):
         super(Binary, self).__init__(attrs)
+        self.filename = attrs.get('filename', '')
         self.validator = tiny_validators.Binary()
 
     def set_value(self, value):

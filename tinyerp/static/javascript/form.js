@@ -859,6 +859,12 @@ function on_context_menu(evt) {
     evt.stop();
 }
 
+function set_binary_filename(id, fname){
+    if ($(id)) {
+        $(id).value = fname.value;
+    }
+}
+
 function open_url(site){
     var web_site;
 

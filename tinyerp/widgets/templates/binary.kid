@@ -1,7 +1,10 @@
 <table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0">
     <tr>
-        <td py:if="editable and not readonly" nowrap="nowrap">
+        <td py:if="editable and not readonly and not filename" nowrap="nowrap">
             <input type="file" class="${field_class}" py:attrs="attrs" id="${name}" name="${name}" py:if="editable"/>
+        </td>
+        <td py:if="editable and filename and not readonly">
+            <input type="file" class="${field_class}" py:attrs="attrs" id="${name}" name="${name}" py:if="editable" onchange="set_binary_filename(('${filename}'), this);"/>
         </td>
         <td py:if="text and editable" nowrap="nowrap">
             ( ${text} )
