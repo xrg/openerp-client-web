@@ -76,6 +76,7 @@ class List(controllers.Controller, TinyResource):
                 data = frm.chain_get(source)
                 
                 if '__id' in data: data.pop('__id')
+                if 'id' in data: data.pop('id')
                 
                 fld = source.split('/')[-1]
                 data = {fld : [(id and 1, id, data.copy())]} 
@@ -91,6 +92,8 @@ class List(controllers.Controller, TinyResource):
                 
             else:
                 data = frm.copy()
+                if 'id' in data: data.pop('id')
+
                 if id > 0:
                     proxy.write([id], data, params.parent.context or {})
                 else:
