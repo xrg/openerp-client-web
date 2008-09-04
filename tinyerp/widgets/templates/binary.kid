@@ -10,7 +10,7 @@
             ( ${text} )
         </td>
         <td py:if="text is not None and editable" width="75px">
-            <button type="button" onclick="save_binary_data('${name}')">Save As</button>
+            <button type="button" onclick="save_binary_data('${name}', '${filename}')">Save As</button>
         </td>
         <td py:if="text is not None and editable" width="1px"><div class="spacer"/></td>
         <td py:if="text is not None and not readonly and editable" width="75px">
@@ -20,7 +20,7 @@
         <td py:if="not editable">
             <span py:content="value or text"/>
             <td width="75px" py:if="value or text">
-                <button type="button" onclick="save_binary_data('${name}')">Save As</button>
+                <button type="button" onclick="save_binary_data('${name}', '${filename}')">Save As</button>
             </td>
         </td>
      </tr>

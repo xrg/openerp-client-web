@@ -343,16 +343,15 @@ var pager_action = function(action, src) {
     return src ? new ListView(src).go(action) : submit_search_form(action);
 }
 
-var save_binary_data = function(src) {
-
+var save_binary_data = function(src, filename) {
+    
     var name = $(src) ? $(src).name : src;
-    var fname = $(name + 'name');
-
+    var fname = $(filename) || $(name + 'name');
     var act = '/form/save_binary_data';
-
+    
     act = fname ? act + '/' + fname.value : act;
     act = act + '?_terp_field=' + name;
-
+    
     submit_form(act);
 }
 
