@@ -280,7 +280,7 @@ class NewLine(TinyField):
 class Label(TinyField):
 
     template = """
-        <div xmlns:py="http://purl.org/kid/ns#" style="text-align: $align; width: 100%; white-space: nowrap;">
+        <div xmlns:py="http://purl.org/kid/ns#" style="text-align: $align; width: 100%;">
             ${field_value}
         </div>"""
 
