@@ -305,7 +305,7 @@ openerp.workflow.Workflow.implement({
 				}		
 				
 				self.add_connection(start, end, params);
-				self.connectors.getLastElement().edit();
+//				self.connectors.getLastElement().edit();
 			} else {
 				alert('Could not create transaction at server');
 			}
