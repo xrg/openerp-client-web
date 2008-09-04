@@ -107,15 +107,9 @@ class State(Form):
     @expose()
     def delete(self, id, **kw):
         
-        error_msg = None 
-        
-        proxy_act = rpc.RPCProxy('workflow.activity')
-        proxy_tr =  rpc.RPCProxy('workflow.transition')
-        
-        search_ids = proxy_act.search([('id','=', int(id))], 0, 0, 0, rpc.session.context)
-        data = proxy_act.read(search_ids[0], ['out_transitions', 'in_transitions', 'flow_start'], rpc.session.context)
-                    
-        res_act = proxy_act.unlink(int(id))                
+        error_msg = None         
+        proxy = rpc.RPCProxy('workflow.activity')                    
+        res_act = proxy.unlink(int(id))                
 
         if not res_act:
             error_msg = _('Could not delete state')
@@ -181,34 +175,11 @@ class Connector(Form):
     def delete(self, id, **kw):
         
         error_msg = None
-        proxy_tr = rpc.RPCProxy('workflow.transition')
-        search_tr = proxy_tr.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
-        transition = proxy_tr.read(search_tr[0], ['act_from', 'act_to'], rpc.session.context)        
-        
-        act_list = []
-        act_list.append(transition['act_from'][0])
-        
-        #check for loop transaction 
-        if not act_list.__contains__(transition['act_to'][0]):
-            act_list.append(transition['act_to'][0]);
-        
-        
-        proxy_act = rpc.RPCProxy('workflow.activity')
-        search_act = proxy_act.search([('id', 'in', act_list)], 0, 0, 0, rpc.session.context)
-        data_act = proxy_act.read(search_act, ['out_transitions', 'in_transitions'], rpc.session.context)       
-       
-        for act in data_act:
-            d = []
-            d+=act['out_transitions']
-            d+=act['in_transitions']
-            d.remove(int(id))  
+        proxy = rpc.RPCProxy('workflow.transition')
+        res_tr = proxy.unlink(int(id))
             
-            if not d:
-                error_msg = _('Activity can not be made isolated')
-                break
-            
-        if not error_msg:    
-            res_tr = proxy_tr.unlink(search_tr)
+        if not res_tr:    
+            error_msg = _('Could not delete state')
         
         return dict(error=error_msg)
     

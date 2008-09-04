@@ -215,7 +215,8 @@ openerp.workflow.Workflow.implement({
 	create_state : function(id) {
 	    
 		if(id != 0) {	
-			var position = this.state.getPosition();	
+			var position = this.state.getPosition();
+			this.state.setPosition(100, 20);	
 			var self = this;
 			
 			req = Ajax.JSON.post('/workflow/state/get_info',{id: id});
