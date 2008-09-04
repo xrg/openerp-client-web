@@ -235,11 +235,8 @@ class Notebook(TinyCompoundWidget):
     javascript = [tg.widgets.JSLink("tinyerp", "javascript/tabber/tabber_cookie.js"),
                   tg.widgets.JSLink("tinyerp", "javascript/tabber/tabber.js"),
                   tg.widgets.JSSource("""
-                               try {
-                                   tabberOptions
-                               } catch(e){ 
-                                   tabberOptions = {};
-                               }
+                               if (typeof(tabberOptions) == "undefined")
+                                   var tabberOptions = {};
                                tabberOptions['onLoad'] = tabber_onload;
                                tabberOptions['onClick'] = tabber_onclick;
                                tabberOptions['cookie'] = 'TGTabber';""")]

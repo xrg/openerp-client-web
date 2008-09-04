@@ -55,6 +55,7 @@ from tinyerp.widgets.form import Frame
 from tinyerp.widgets.form import DateTime
 from tinyerp.widgets.form import Integer
 from tinyerp.widgets.form import Selection
+from tinyerp.widgets.form import Notebook
 
 class RangeWidget(TinyCompoundWidget):
     template = "tinyerp.widgets_search.templates.rangewid"
@@ -94,8 +95,7 @@ class Search(TinyCompoundWidget):
     params = ['fields_type']
     member_widgets = ['_notebook', 'basic', 'advance']
 
-    _notebook = tg.widgets.Tabber(use_cookie=True, hide_on_load=True)
-    _notebook.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
+    _notebook = Notebook({}, [])
 
     def __init__(self, model, domain=[], context={}, values={}):
 
