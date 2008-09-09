@@ -236,10 +236,10 @@ class Workflow(Form):
         
         proxy = rpc.RPCProxy("workflow")
         search_ids = proxy.search([('id', '=' , int(id))], 0, 0, 0, rpc.session.context) 
-        graph_search = proxy.graph_get(search_ids[0], (140, 160, 30, 30), rpc.session.context) 
+        graph_search = proxy.graph_get(search_ids[0], (140, 180), rpc.session.context) 
          
-        nodes = graph_search['node']
-        transitions = graph_search['transition']
+        nodes = graph_search['nodes']
+        transitions = graph_search['transitions']
         
         connectors = {}
         list_tr = [];
