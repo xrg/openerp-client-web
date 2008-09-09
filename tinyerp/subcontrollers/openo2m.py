@@ -57,8 +57,8 @@ class OpenO2M(Form):
         params.view_type = 'form'
         
         params.prefix = params.o2m
-
-        view = cache.fields_view_get(params.parent_model, False, 'form', rpc.session.context)
+        view_id = params.parent_view_id or params.view_id or False
+        view = cache.fields_view_get(params.parent_model, view_id, 'form', rpc.session.context)
         parent = TinyDict()
 
         for k, v in view['fields'].items():
