@@ -152,7 +152,8 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         
         error = None
-        
+        reload = (params.context or {}).get('reload', False)
+
         name = params.button_name
         btype = params.button_type
         
@@ -190,7 +191,7 @@ class List(controllers.Controller, TinyResource):
         except Exception, e:
             error = ustr(e)
             
-        return dict(error=error)
+        return dict(error=error, reload=reload)
     
     @expose('json')
     def get_editor(self, **kw):

@@ -693,7 +693,11 @@ ListView.prototype.onButtonClick = function(name, btype, id, sure, context){
             if (obj.error){
                 return alert(obj.error);
             }
-            self.reload();
+
+            if (obj.reload) {
+                window.location.reload();
+            } else
+                self.reload();
         });
     });
 }
