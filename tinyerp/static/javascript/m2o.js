@@ -167,7 +167,7 @@ ManyToOne.prototype.on_keydown = function(evt){
 
 ManyToOne.prototype.on_keypress = function(evt){
 
-    if (evt.event().keyCode == 9 ){
+    if (evt.event().keyCode == 9 || evt.modifier().ctrl){
         return;
     }
 
