@@ -85,6 +85,59 @@ ListView.prototype.getSelectedItems = function() {
     }, getElementsByTagAndClassName('input', 'grid-record-selector', this.id));
 }
 
+ListView.prototype.moveUp = function(id, seq) {
+    
+    var self = this;
+    var args = {};
+    
+    args['_terp_model'] = this.model;
+    
+    if (seq['prev'][0]) {
+        args['_terp_prev_id'] = seq['prev'][0];
+        args['_terp_prev_seq'] = seq['prev'][1];  
+    }
+    
+    if (seq['current'][0]) {
+        args['_terp_cur_id'] = seq['current'][0];
+        args['_terp_cur_seq'] = seq['current'][1];
+    }
+    
+    if (seq['prev'][0]) {
+        var req = Ajax.JSON.post('/listgrid/moveUp', args);
+        
+        req.addCallback(function(){      
+            self.reload();        
+        });
+    }
+}
+
+ListView.prototype.moveDown = function(id, seq) {
+    
+    var self = this;
+    var args = {};
+    
+    args['_terp_model'] = this.model;
+    
+    if (seq['next'][0]) {
+        args['_terp_next_id'] = seq['next'][0];
+        args['_terp_next_seq'] = seq['next'][1];
+    }
+    
+    if (seq['current'][0]) {
+        args['_terp_cur_id'] = seq['current'][0];
+        args['_terp_cur_seq'] = seq['current'][1];
+    }
+    
+    if (seq['next'][0]) {
+        var req = Ajax.JSON.post('/listgrid/moveDown', args);
+        
+        req.addCallback(function(){      
+            self.reload();        
+        });
+    }
+    
+}
+
 ListView.prototype.create = function(){
     
     var tbl = $(this.id + '_grid');

@@ -194,6 +194,38 @@ class List(controllers.Controller, TinyResource):
         return dict(error=error, reload=reload)
     
     @expose('json')
+    def moveUp(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        cur_seq = params.get('_terp_cur_seq')
+        prev_seq = params.get('_terp_prev_seq')
+        model = params.get('_terp_model')
+        cur_id = params.get('_terp_cur_id')
+        prev_id = params.get('_terp_prev_id')
+        
+        proxy = rpc.RPCProxy(model)
+        proxy.write([prev_id], {'sequence': cur_seq}, rpc.session.context)
+        proxy.write([cur_id], {'sequence': prev_seq}, rpc.session.context)
+        
+        return dict()
+    
+    @expose('json')
+    def moveDown(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        cur_seq = params.get('_terp_cur_seq')
+        next_seq = params.get('_terp_next_seq')
+        model = params.get('_terp_model')
+        cur_id = params.get('_terp_cur_id')
+        next_id = params.get('_terp_next_id')
+        
+        proxy = rpc.RPCProxy(model)
+        proxy.write([next_id], {'sequence': cur_seq}, rpc.session.context)
+        proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
+        
+        return dict()
+        
+    @expose('json')
     def get_editor(self, **kw):
         params, data = TinyDict.split(kw)
         
@@ -205,7 +237,7 @@ class List(controllers.Controller, TinyResource):
         
         if current:
             model = current.model
-            context = current.context or {}     
+            context = current.context or {}
       
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get()

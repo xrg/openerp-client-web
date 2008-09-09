@@ -16,6 +16,10 @@
                                 <span py:if="selector!='checkbox'">&nbsp;</span>
                             </th>
                             <th py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']">Title</th>
+                            <th py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector"><div style="width: 0px;"></div>
+                            </th>
+                            <th py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector"><div style="width: 0px;"></div>
+                            </th>
                             <th py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
@@ -73,6 +77,12 @@
                                 <td py:if="buttons" class="grid-cell button" nowrap="nowrap">
                                 <span py:for="button in buttons" py:replace="button.display(parent=name, **button.params_from(data))"/>        
                             </td>
+                            <td py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector">
+                                <img src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']}, ${str(data['_seq'])})"/>
+                            </td>
+                            <td py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector">
+                                <img src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']}, ${str(data['_seq'])})"/>
+                            </td>
                             <td py:if="editable" class="grid-cell selector">
                                 <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
                                 <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
@@ -92,6 +102,8 @@
                         <tr py:for="i in range(0, 4 - len(data))" class="grid-row">
                             <td width="1%" py:if="selector" class="grid-cell selector">&nbsp;</td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">&nbsp;</td>
+                            <td py:if="editable and field_attrs['string'] == 'Sequence'" style="text-align: center" class="grid-cell selector">&nbsp;</td>
+                            <td py:if="editable and field_attrs['string'] == 'Sequence'" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:if="buttons" class="grid-cell button">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>

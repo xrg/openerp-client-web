@@ -344,15 +344,33 @@ class List(TinyCompoundWidget):
                     headers += [(name, fields[name])]
 
         # generate do_select links
+        
         if self.selectable and headers:
             name, field = headers[0]
-            for row in data:
+            for i, row in enumerate(data):
                 cell = row[name]
+                
+                if row.get('sequence') and row.get('id'):
+                    pd = []
+                    nd = []
+                    cd = []
+                    
+                    cur = data[i]
+                    cd = [cur['id'], cur['sequence'].value]
+                    
+                    if i != 0:
+                        prev = data[i-1]
+                        pd = [prev['id'], prev['sequence'].value]
+                    if i != len(data)-1:
+                        next = data[i+1]
+                        nd = [next['id'], next['sequence'].value]
 
+                    row['_seq'] = {'prev': pd, 'current': cd, 'next': nd}
+                    
                 if self.selectable:
                     cell.link = "javascript: void(0)"
                     cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
-
+        
         return headers, hiddens, data, field_total, buttons
 
 from tinyerp.stdvars import tg_query
