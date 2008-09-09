@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" py:replace="''"/>
+<title>Graph</title>
+ <!--meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"-->
+    <title></title>  
+	<link type="text/css" rel="stylesheet" href="/static/workflow/css/process.css"/>	
+	<script src='/static/workflow/javascript/draw2d/wz_jsgraphics.js'></script>
+        <script src='/static/workflow/javascript/draw2d/mootools.js'></script>
+        <script src='/static/workflow/javascript/draw2d/moocanvas.js'></script>
+        <script src='/static/workflow/javascript/draw2d/draw2d.js'></script>
+    
+        <script src='/static/workflow/javascript/process.js'></script>
+
+        <script type="text/javascript">
+            MochiKit.DOM.addLoadEvent(function(evt){
+                var wkf = new openerp.process.Workflow('canvas');
+                wkf.load(${id});
+    	    });
+        </script>
+</head>
+
+<body>
+
+<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td width="100%" valign="top">
+            <table width="100%" class="titlebar">
+                <tr>
+                    <td width="32px" align="center">
+                        <img src="/static/images/icon.gif"/>
+                    </td>
+                    <td width="100%" py:content="title">Title</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            <div id="viewport" style="position: relative; width: 99%; height: 600px; overflow: auto;">
+                <div id="canvas" style="position: relative;"></div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
