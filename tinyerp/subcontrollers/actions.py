@@ -323,11 +323,12 @@ def execute_by_id(act_id, type=None, **data):
     if type==None:
         type = get_action_type(act_id)
 	
-	ctx = rpc.session.context.copy()
+    ctx = rpc.session.context.copy()
     if type == 'ir.actions.act_window':
-		# the field 'views' is transfered as a binary field
+        # the field 'views' is transfered as a binary field
         ctx['get_binary_size'] = False
-    res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
+
+    res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, ctx)[0]
     return execute(res, **data)
 
 def execute_by_keyword(keyword, adds={}, **data):
