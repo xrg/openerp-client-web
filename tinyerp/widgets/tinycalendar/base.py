@@ -230,10 +230,25 @@ class TinyCalendar(interface.TinyCompoundWidget):
         first = days[0].month2.prev()[0] #HACK: add prev month
         domain = self.domain + [(self.date_start, '>', first.isoformat()), 
                                 (self.date_start, '<', days[-1].next().isoformat())]
-               
-        if self.color_values: 
-            domain += [(self.color_field, "in", self.color_values)]
-            
+        
+        # convert color values from string to python values
+        if self.color_values and self.color_field in self.fields:
+            try:
+                import tinyerp.widgets as tw
+                atr = self.fields[self.color_field]
+                atr['required'] = False
+                wid = tw.form.widgets_type[atr['type']](atr)
+                vals = ustr(self.color_values)
+                vals = vals.split(',')
+                for i, v in enumerate(vals):
+                    try:
+                        vals[i] = wid.validator.to_python(v)
+                    except:
+                        pass
+                domain += [(self.color_field, "in", vals)]
+            except Exception, e:
+                pass
+
         if self.options and self.options.use_search:
             domain += self.options.search_domain
             
