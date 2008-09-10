@@ -273,4 +273,6 @@ if __name__ == "__main__":
     print params.chain_get('view_ids')
     print params.chain_get('view_ids.child')
     print params.chain_get('view_ids.child').view_ids
-    
+
+# vim: ts=4 sts=4 sw=4 si et
+

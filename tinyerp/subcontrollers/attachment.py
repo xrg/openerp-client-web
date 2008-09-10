@@ -149,3 +149,6 @@ class Attachment(controllers.Controller, TinyResource):
             return base64.decodestring(data[0]['datas'])
         else:
             return ''
+
+# vim: ts=4 sts=4 sw=4 si et
+

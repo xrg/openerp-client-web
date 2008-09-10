@@ -20,3 +20,6 @@ def ustr(value):
     return unicode(value, 'utf-8')
 
 __builtins__['ustr'] = ustr
+
+# vim: ts=4 sts=4 sw=4 si et
+

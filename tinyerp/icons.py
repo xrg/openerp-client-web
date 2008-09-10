@@ -141,3 +141,6 @@ def get_icon(name):
 
     name, ext = os.path.splitext(name)
     return "/static/images/%s%s" % (name, ext or '.png')
+
+# vim: ts=4 sts=4 sw=4 si et
+

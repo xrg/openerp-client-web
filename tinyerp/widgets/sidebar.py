@@ -106,3 +106,6 @@ class Sidebar(TinyCompoundWidget):
 
             actions = [a[-1] for a in res]
             self.reports = [a for a in actions if self.multi or not a.get('multi')]
+            
+# vim: ts=4 sts=4 sw=4 si et
+

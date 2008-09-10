@@ -106,4 +106,6 @@ class FieldPref(controllers.Controller, TinyResource):
         res = proxy.set('default', deps, field, [(model,False)], value, True, False, False, params.you or False, True)
 
         return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps2, should_close=True, show_header_footer=False)
-    
+
+# vim: ts=4 sts=4 sw=4 si et
+

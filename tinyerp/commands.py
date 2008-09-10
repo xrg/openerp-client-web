@@ -60,3 +60,6 @@ def start():
     from tinyerp.controllers import Root
 
     turbogears.start_server(Root())
+    
+# vim: ts=4 sts=4 sw=4 si et
+

@@ -270,4 +270,6 @@ class List(controllers.Controller, TinyResource):
                 result[k] = value[0]
                 
         return dict(source=source, res=result)
-    
+
+# vim: ts=4 sts=4 sw=4 si et
+

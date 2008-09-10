@@ -336,4 +336,7 @@ class WorkflowList(controllers.Controller, TinyResource):
                 proxy.write([id], {'on_create': False})
                 
         raise redirect('/workflowlist', model=model)
+
+# vim: ts=4 sts=4 sw=4 si et
+
         

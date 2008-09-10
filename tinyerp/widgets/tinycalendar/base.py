@@ -345,4 +345,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
         title = title.strip()
         description = ', '.join(description).strip()
         
-        return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1])       
+        return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1])
+    
+# vim: ts=4 sts=4 sw=4 si et
+

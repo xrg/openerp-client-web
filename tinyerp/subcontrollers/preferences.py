@@ -80,3 +80,6 @@ class Preferences(controllers.Controller, TinyResource):
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
         raise redirect('/')
+        
+# vim: ts=4 sts=4 sw=4 si et
+

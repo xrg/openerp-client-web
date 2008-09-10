@@ -136,3 +136,5 @@ class OpenM2O(Form):
         params.editable = True
         return self.create(params)
 
+# vim: ts=4 sts=4 sw=4 si et
+

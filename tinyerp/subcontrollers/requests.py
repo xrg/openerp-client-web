@@ -73,3 +73,5 @@ class Requests(controllers.Controller, TinyResource):
 
         return actions.execute_window(False, 'res.request', res_id=None, domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
 
+# vim: ts=4 sts=4 sw=4 si et
+

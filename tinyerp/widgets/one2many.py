@@ -172,3 +172,6 @@ class O2M(TinyCompoundWidget):
         values = proxy.read(self.ids)
         
         return [(1, val['id'], val) for val in values]
+    
+# vim: ts=4 sts=4 sw=4 si et
+

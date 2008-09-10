@@ -364,3 +364,6 @@ def execute_by_keyword(keyword, adds={}, **data):
         return execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)
+
+# vim: ts=4 sts=4 sw=4 si et
+

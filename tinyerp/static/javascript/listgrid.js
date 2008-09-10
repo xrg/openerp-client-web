@@ -827,5 +827,5 @@ ListView.prototype.go = function(action){
     this.reload();
 }
 
-// vim: sts=4 st=4 et
+// vim: ts=4 sts=4 sw=4 si et
 

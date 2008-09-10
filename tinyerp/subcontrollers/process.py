@@ -50,3 +50,6 @@ class Process(controllers.Controller, TinyResource):
     @expose('json')
     def get(self, id):
         return dict()
+    
+# vim: ts=4 sts=4 sw=4 si et
+

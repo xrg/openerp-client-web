@@ -229,4 +229,6 @@ class TinyField(TinyInputWidget, tg.widgets.FormField):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.FormField.__init__(self, name=self.name)
 
+# vim: ts=4 sts=4 sw=4 si et
+
 

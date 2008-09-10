@@ -332,3 +332,6 @@ class Search(controllers.Controller, TinyResource):
 
         m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))
         return m2m.screen.render()
+    
+# vim: ts=4 sts=4 sw=4 si et
+

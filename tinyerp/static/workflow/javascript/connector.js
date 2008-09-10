@@ -115,3 +115,6 @@ openerp.workflow.Connector.prototype.setTarget = function(port) {
 	}
 }
 
+// vim: ts=4 sts=4 sw=4 si et
+
+

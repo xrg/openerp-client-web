@@ -16,3 +16,6 @@ if __name__ == "__main__":
     except ConfigurationError, exc:
         sys.stderr.write(str(exc))
         sys.exit(1)
+
+# vim: ts=4 sts=4 sw=4 si et
+

@@ -145,4 +145,6 @@ class OpenO2M(Form):
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
         return self.create(params)
-    
+
+# vim: ts=4 sts=4 sw=4 si et
+
