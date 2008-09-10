@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function get_form_action(action, params){
-
+    
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
 
@@ -231,7 +231,7 @@ var validate_required = function(form) {
 }
 
 var submit_form = function(action, src, data, target){
-
+    
     if (Ajax.COUNT > 0) {
         return callLater(1, submit_form, action, src, data);
     }
@@ -241,7 +241,6 @@ var submit_form = function(action, src, data, target){
     }
 
     var form = document.forms['view_form'];
-
     setNodeAttribute(form, 'target', '');
 
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
@@ -297,8 +296,8 @@ var submit_form = function(action, src, data, target){
     if (/\/save(\?|\/)?/.test(action) && !validate_required(form)){
         return false;
     }
-
-    setNodeAttribute(form, 'action', action);
+    
+    form.attributes['action'].value = action;    
     form.submit();
 }
 

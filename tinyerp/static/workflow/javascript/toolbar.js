@@ -35,11 +35,13 @@ openerp.workflow.Toolbar.implement({
 
         var item = draw2d.ToolPalette.prototype.createHTMLElement.call(this);
 
+        item.style.backgroundImage = 'none';//"url(/static/workflow/images/window_bg.png)";
+
         if (this.hasTitleBar()) {
             this.titlebar.style.backgroundImage = "url(/static/workflow/images/window_toolbar.png)";
         }
 
-        item.style.backgroundImage = "url(/static/workflow/images/window_bg.png)";
+        
         return item;
     },
 
@@ -57,8 +59,9 @@ openerp.workflow.ToolToggle.prototype = $merge(openerp.workflow.ToolToggle.proto
 openerp.workflow.ToolToggle.implement({
     
     initialize : function(palette, image) {
-        this.image = image;
+        this.image = image;        
         draw2d.ToggleButton.call(this, palette);
+        this.getHTMLElement().title = 'Show grid';
     },
 
     getImageUrl : function() {
@@ -75,6 +78,7 @@ openerp.workflow.ToolGeneric.implement({
     initialize : function(palette, image) {
         this.image = image;
         draw2d.ToolGeneric.call(this, palette);
+        this.getHTMLElement().title = 'Create State';
     },
 
     getImageUrl : function() {
@@ -86,15 +90,15 @@ openerp.workflow.ToolGeneric.implement({
 openerp.workflow.ToolShowGrid = openerp.workflow.ToolToggle.extend({
 
     initialize : function(palette) {
-        this.parent(palette, '/static/workflow/images/ToolShowGrid.png');
+        this.parent(palette, '/static/workflow/images/ToolShowGrid.jpg');
     },
 
     execute : function() {
         var isdown = this.isDown();
-        this.getToolPalette().getWorkflow().setBackgroundImage(isdown ? '/static/workflow/images/grid_10.png' : null, isdown);
-
-        this.getToolPalette().getWorkflow().setGridWidth(10, 10);
-        this.getToolPalette().getWorkflow().setSnapToGrid(isdown);
+        
+        WORKFLOW.setBackgroundImage(isdown ? '/static/workflow/images/grid_10.jpg' : null, isdown);
+        WORKFLOW.setGridWidth(10, 10);
+        WORKFLOW.setSnapToGrid(isdown);
     }
 });
 
@@ -102,7 +106,7 @@ openerp.workflow.ToolShowGrid = openerp.workflow.ToolToggle.extend({
 openerp.workflow.ToolCreateState = openerp.workflow.ToolGeneric.extend({
 
     initialize : function(palette) {
-        this.parent(palette, '/static/workflow/images/ToolOval.png');
+        this.parent(palette, '/static/workflow/images/ToolOval.jpg');
     },
 
 	execute : function(x, y) {
@@ -119,22 +123,4 @@ openerp.workflow.ToolCreateState = openerp.workflow.ToolGeneric.extend({
     }
 });
 
-openerp.workflow.ToolCreateSubwkf = openerp.workflow.ToolGeneric.extend({
-	
-	initialize : function(palette) {
-		this.parent(palette, '/static/workflow/images/ToolRectangle.png');
-	},
-	
-	execute : function(x,y) {
-		
-		var figure= new draw2d.Rectangle();
-        figure.setDimension(60, 60);
-        figure.setBackgroundColor(new draw2d.Color(255, 255, 255));
-        this.palette.workflow.addFigure(figure, x, y);
-
-        // call the parent method
-        openerp.workflow.ToolGeneric.prototype.execute.call(this, x, y);
-	}
-	
-});
 
