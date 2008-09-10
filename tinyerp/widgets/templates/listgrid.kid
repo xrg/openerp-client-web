@@ -15,36 +15,14 @@
                                 <input type="checkbox" class="checkbox grid-record-selector" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(!this.checked)"/>
                                 <span py:if="selector!='checkbox'">&nbsp;</span>
                             </th>
-                            <th py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']">Title</th>
-                            <th py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector"><div style="width: 0px;"></div>
-                            </th>
-                            <th py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector"><div style="width: 0px;"></div>
-                            </th>
+                            <th py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']"></th>
                             <th py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                         </tr>
                     </thead>
                     
-                    <tfoot py:if="field_total">                                    
-                        <tr class="field_sum">
-                            <td width="1%" py:if="selector" class="grid-cell">&nbsp;</td>
-                            <td py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></td>
-                            <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
-                                 <span py:if="'sum' in field_attrs" py:strip="">
-                                     <span py:for="key, val in field_total.items()" py:strip="">
-                                         <span py:if="field == key" style="border: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
-                                     </span>
-                                 </span>
-                                 <span py:if="'sum' not in field_attrs" py:strip="">&nbsp;</span>
-                            </td>
-                            <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
-                            <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
-                        </tr>
-                    </tfoot>
-                    
                     <tbody>
-            
                         <tr py:def="make_editors(data=None)" class="grid-row editors" style="display: ${(edit_inline is -1 or 'none') or ''}" py:if="editable and editors">
                             <td py:if="selector" class="grid-cell selector">&nbsp;</td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}">
@@ -73,15 +51,15 @@
                                     ${data[field]}
                                 </span>
                                 <span py:if="data[field].text == ''">&nbsp;</span>
+                                <span py:if="field == 'sequence'" class="grid-cell selector">
+                                    <img src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']}, ${str(data['_seq'])})"/>                                
+                                </span>
+                                <span py:if="field == 'sequence'" class="grid-cell selector">
+                                    <img src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']}, ${str(data['_seq'])})"/>
+                                </span>
                             </td>
-                                <td py:if="buttons" class="grid-cell button" nowrap="nowrap">
+                            <td py:if="buttons" class="grid-cell button" nowrap="nowrap">
                                 <span py:for="button in buttons" py:replace="button.display(parent=name, **button.params_from(data))"/>        
-                            </td>
-                            <td py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector">
-                                <img src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']}, ${str(data['_seq'])})"/>
-                            </td>
-                            <td py:if="field_attrs['string'] == 'Sequence'" class="grid-cell selector">
-                                <img src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']}, ${str(data['_seq'])})"/>
                             </td>
                             <td py:if="editable" class="grid-cell selector">
                                 <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
@@ -102,15 +80,32 @@
                         <tr py:for="i in range(0, 4 - len(data))" class="grid-row">
                             <td width="1%" py:if="selector" class="grid-cell selector">&nbsp;</td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">&nbsp;</td>
-                            <td py:if="editable and field_attrs['string'] == 'Sequence'" style="text-align: center" class="grid-cell selector">&nbsp;</td>
-                            <td py:if="editable and field_attrs['string'] == 'Sequence'" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:if="buttons" class="grid-cell button">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         </tr>
 
                     </tbody>
+                    
+                    <tfoot py:if="field_total">                                    
+                        <tr class="field_sum">
+                            <td width="1%" py:if="selector" class="grid-cell">&nbsp;</td>
+                            <td py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></td>
+                            <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
+                                 <span py:if="'sum' in field_attrs" py:strip="">
+                                     <span py:for="key, val in field_total.items()" py:strip="">
+                                         <span py:if="field == key" style="border: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
+                                     </span>
+                                 </span>
+                                 <span py:if="'sum' not in field_attrs" py:strip="">&nbsp;</span>
+                            </td>
+                            <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
+                            <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
+                        </tr>
+                    </tfoot>
+                    
                 </table>
+                
                 <script type="text/javascript">
                     new SortableGrid('${name}_grid');
                 </script>
