@@ -27,36 +27,40 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
     __init__: function(canvas) {
         this.__super__.call(this, canvas);
+        this.setBackgroundImage(null, false);
         
         this.nodes = {};
         this.transitions = {};
     },
-    
-    load: function(id) {
-    
-    	//TODO: fetch nodes and transitions
-    	
-		var TRANS = {
-			11:  {source: 1, target: 2, buttons: [], roles: []},
-			22: {source: 1, target: 3, buttons: [], roles: []},
-		};
 
-		var NODES = {
-		 	1: {x: 100, y: 200, buttons: [], title: 'Sale Order', menu: ''},
-			2: {x: 400, y: 50, buttons: [], title: '', menu: ''},
-		 	3: {x: 400, y: 350, buttons: [], title: '', menu: ''},
-		};
+    load: function(id, res_model, res_id) {
 
-    	for(var id in NODES){
-    		var data = NODES[id];
+        this.process_id = id;
+        this.res_model = res_model;
+        this.res_id = res_id;
+
+        var self = this;
+        var req = Ajax.JSON.post('/process/get', {id: id, res_model: res_model, res_id: res_id});
+        req.addCallback(function(obj){
+            self._render(obj.nodes, obj.transitions);            
+        });
+
+    },
+
+    _render: function(nodes, transitions) {
+
+    	for(var id in nodes){
+    		var data = nodes[id];
+            data['current'] = data.model == this.res_model;
+
     		var n = new openerp.process.Node(data);
 	    	this.addFigure(n, data.x, data.y);
 	    	
 	    	this.nodes[id] = n; // keep reference
 	    }
 	    
-	    for(var id in TRANS){
-    		var data = TRANS[id];
+	    for(var id in transitions){
+    		var data = transitions[id];
     		var t = new openerp.process.Transition(data);
     		
     		var src = this.nodes[data.source];
@@ -105,18 +109,18 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         "<table border='0' class='node-table'>"+
         "	<tr>"+
         "		<td width='30'></td>"+
-        "		<td class='node-title' colspan='5'></td>"+
+        "		<td class='node-title' colspan='4'></td>"+
         "	</tr>"+
         "	<tr>"+
-        "		<td colspan='6' class='node-text'></td>"+
+        "       <td width='30'></td>"+
+        "		<td colspan='4' class='node-text'></td>"+
         "	</tr>"+
         "	<tr>"+
         "		<td></td>"+
         "		<td class='node-button'></td>"+
         "		<td class='node-button'></td>"+
         "		<td class='node-button'></td>"+
-        "		<td class='node-button'></td>"+
-        "		<td></td>"+
+        "		<td>&nbsp;</td>"+
         "	</tr>"+
         "</table>");
         
@@ -125,14 +129,17 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var text = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-text', table)[0];        
         var buttons = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-button', table);
         
-        table.cellPadding = table.cellSpacing = 0;        
-        title.innerHTML = this.data.title;
+        table.cellPadding = table.cellSpacing = 0;
+        title.innerHTML = this.data.name;
         text.innerHTML = this.data.menu;
         
         buttons[0].innerHTML = "<img src='/static/images/stock/gtk-info.png'/>";
-        buttons[1].innerHTML = "<img src='/static/images/stock/gtk-new.png'/>";
-        buttons[2].innerHTML = "<img src='/static/images/stock/gtk-open.png'/>";
-        buttons[3].innerHTML = "<img src='/static/images/stock/gtk-print.png'/>";
+        if (this.data.current) {
+            buttons[1].innerHTML = "<img src='/static/images/stock/gtk-open.png'/>";
+            buttons[2].innerHTML = "<img src='/static/images/stock/gtk-print.png'/>";
+
+            elem.style.background = "url(/static/workflow/images/node-current.png) no-repeat";
+        }
 
 		elem.className = 'node';
         return elem;
@@ -171,6 +178,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         this.__super__.call(this);
         this.setRouter(new draw2d.ManhattanConnectionRouter());
         this.setTargetDecorator(new openerp.process.TargetDecorator());
+        this.setColor(new draw2d.Color(0, 0, 0));
         this.setLineWidth(2);
         this.setSelectable(false);
     }

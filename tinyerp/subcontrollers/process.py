@@ -44,12 +44,32 @@ from tinyerp.tinyres import TinyResource
 class Process(controllers.Controller, TinyResource):
     
     @expose(template="tinyerp.subcontrollers.templates.process")
-    def default(self, id):
-        return dict(id=id, title="Some Title")
+    def default(self, id, res_model=None, res_id=False):
+
+        id = int(id)
+        res_id = int(res_id)
+
+        proxy = rpc.RPCProxy('process.process')
+        res = proxy.read([id], ['name'], rpc.session.context)[0]
+
+        title = res['name']
+
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title)
     
     @expose('json')
-    def get(self, id):
-        return dict()
+    def get(self, id, res_model=None, res_id=False):
+
+        id = int(id)
+        res_id = int(res_id)
+
+        start = []
+        nodes = {}
+        transitions = {}
+
+        proxy = rpc.RPCProxy('process.process')
+        graph = proxy.graph_get(id, res_model, res_id, (100, 100, 180, 120), rpc.session.context)
+
+        return graph
     
 # vim: ts=4 sts=4 sw=4 si et
 
