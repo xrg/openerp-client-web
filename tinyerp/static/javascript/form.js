@@ -417,8 +417,16 @@ var getFormData = function(extended) {
 
             //take care of _terp_id
             if (/_terp_id$/.test(n)) {
+
+                //  only the resource id and all O2M
+                n = n.replace(/_terp_id$/, '');
+                if (n && !getElement(n + '__id')) {
+                    return; 
+                }
+
+                n = n + 'id';
+                
                 kind = 'integer';
-                n = n.replace(/_terp_id$/, 'id');
                 value = value == 'False' ? '' : value;
             }
 
