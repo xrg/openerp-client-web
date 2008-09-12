@@ -3,12 +3,16 @@
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" py:replace="''"/>
     <title>Process</title>
-    <link type="text/css" rel="stylesheet" href="/static/workflow/css/process.css"/>	
+
+    <link type="text/css" rel="stylesheet" href="/static/workflow/css/process_box.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/workflow/css/process.css"/>
+
     <script src='/static/workflow/javascript/draw2d/wz_jsgraphics.js'></script>
     <script src='/static/workflow/javascript/draw2d/mootools.js'></script>
     <script src='/static/workflow/javascript/draw2d/moocanvas.js'></script>
     <script src='/static/workflow/javascript/draw2d/draw2d.js'></script>
-    
+
+    <script src='/static/workflow/javascript/process_box.js'></script>
     <script src='/static/workflow/javascript/process.js'></script>
 
     <script type="text/javascript">

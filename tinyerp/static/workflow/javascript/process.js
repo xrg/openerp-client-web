@@ -47,6 +47,10 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
     },
 
+    reload: function() {
+        this.load(this.process_id, this.res_model, this.res_id);
+    },
+
     _render: function(nodes, transitions) {
 
     	for(var id in nodes){
@@ -181,8 +185,44 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         this.setColor(new draw2d.Color(0, 0, 0));
         this.setLineWidth(2);
         this.setSelectable(false);
-    }
 
+        this.data = data;
+
+        var elem = this.getHTMLElement();
+        elem.style.cursor = 'pointer';
+        elem.title = data.name;
+
+        MochiKit.Signal.connect(elem, 'onclick', this, this.onClick);
+        
+        var roles = data.roles || [];
+        var description = MochiKit.Base.map(function(role){
+            return TD({align: 'center'}, IMG({src: '/static/images/stock/stock_person.png'}), BR(), role.name);
+        }, roles);
+
+        description = roles.length ? TABLE({'style': 'height: 70px; font-size: 10px'},
+                                        TBODY(null, TR(null, description))) : '';
+
+        var buttons = MochiKit.Base.map(function(b){
+            return b.name;
+        }, data.buttons || []);
+
+        this.infoBox = new InfoBox({
+            'title': this.data.name,
+            'description': description,
+            'buttons': buttons,
+            'buttonClick': MochiKit.Base.bind(this.onBtnClick, this)
+        });
+    },
+
+    onClick: function(evt) {
+        this.infoBox.show(evt);
+    },
+
+    onBtnClick: function(evt) {
+        this.infoBox.hide();
+        alert('Not implemented yet!');
+        window.location.reload();
+    }
 });
 
 /**
