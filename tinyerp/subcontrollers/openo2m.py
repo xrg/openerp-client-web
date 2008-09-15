@@ -126,9 +126,10 @@ class OpenO2M(Form):
        
         proxy = rpc.RPCProxy(params.parent_model)
 
-        pprefix = '.'.join(params.o2m.split('/')[:-1])        
+        pprefix = '.'.join(params.o2m.split('/')[:-1])
+
         if pprefix:
-            data = eval(pprefix, data)
+            data = eval(pprefix, TinyDict(**data)).make_dict()
 
         id = proxy.write([params.parent_id], data, rpc.session.context)
         
