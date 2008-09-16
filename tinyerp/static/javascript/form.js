@@ -211,12 +211,12 @@ var validate_required = function(form) {
         var kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
 
         if (kind == 'many2many') {
-            elem2 = MochiKit.DOM.getElement(elem.name + '_set');
+            elem2 = MochiKit.DOM.getElement(elem.name + '_set') || elem;
             value = value == '[]' ? '' : value;
         }
 
         if (kind == 'many2one' || kind == 'reference') {
-            elem2 = MochiKit.DOM.getElement(elem.id + '_text');
+            elem2 = MochiKit.DOM.getElement(elem.id + '_text') || elem;
         }
 
         if (!value) {
@@ -400,6 +400,10 @@ var getFormData = function(extended) {
         var n = e.name.replace('_terp_listfields/', '');
 
         if (n.indexOf('_terp_') > -1)
+            return;
+
+        // work arround to skip o2m values (list mode)
+        if (document.getElementsByName(n + '/__id').length)
             return;
 
         if (extended && n.indexOf('/__id') == -1) {

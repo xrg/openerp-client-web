@@ -186,7 +186,7 @@ class Frame(TinyCompoundWidget):
 
         if label:
             colspan -= 1
-            attrs = {'class': 'label'}
+            attrs = {'class': 'label', 'title': getattr(widget, 'help', None)}
             td = [attrs, label]
             tr.append(td)
 
@@ -389,13 +389,17 @@ class FloatTime(TinyField):
     def set_value(self, value):
         self.default = value
         
-class ProgressBar(TinyCompoundWidget):
+class ProgressBar(TinyField):
     template = "tinyerp.widgets.templates.progressbar"
     
     def __init__(self, attrs={}):
         super(ProgressBar, self).__init__(attrs)
-        self.validator = tiny_validators.FloatTime()
-
+        
+        if attrs.get('type2') is 'float':
+            self.validator = tiny_validators.Float()
+        else:
+            self.validator = tiny_validators.Int()
+            
     def set_value(self, value):
         self.default = value or 0.00
 
@@ -854,6 +858,7 @@ class Form(TinyCompoundWidget):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
             if attrs['widget'] in widgets_type:
+                attrs['type2'] = attrs['type']
                 attrs['type'] = attrs['widget']
 
         attrs['value'] = value

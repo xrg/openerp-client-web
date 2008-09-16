@@ -137,10 +137,15 @@ class O2M(TinyCompoundWidget):
         
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
-            
+        
+        if self.editable is False:
+            selectable = 0
+        else:
+            selectable = 2
+        
         self.screen = Screen(current, prefix=self.name, views_preloaded=view, 
                              editable=self.editable, readonly=self.readonly, 
-                             selectable=2, nolinks=self.link)
+                             selectable=selectable, nolinks=self.link)
         self.id = id
         self.ids = ids
 
@@ -167,4 +172,3 @@ class O2M(TinyCompoundWidget):
         values = proxy.read(self.ids)
         
         return [(1, val['id'], val) for val in values]
-        

@@ -98,7 +98,8 @@ var form_hookAttrChange = function() {
         for (var attr in attrs) {
             var expr_fields = {}; // check if field appears more then once in the expr
             forEach(attrs[attr], function(n){
-                var field = MochiKit.DOM.getElement(prefix ? prefix + '/' + n[0] : n[0]);
+                var name = prefix ? prefix + '/' + n[0] : n[0];
+                var field = MochiKit.DOM.getElement(name);
                 if (field && !expr_fields[field.id]) {
                     fields[field.id] = 1;
                     expr_fields[field.id] = 1;
@@ -116,7 +117,7 @@ var form_hookAttrChange = function() {
 var form_onAttrChange = function(container, widget, attr, expr, evt) {
     
     var widget = MochiKit.DOM.getElement(widget);
-    var prefix = widget ? widget.name.slice(0, widget.name.lastIndexOf('/')+1) : '';
+    var prefix = widget ? widget.id.slice(0, widget.id.lastIndexOf('/')+1) : '';
     
     var result = form_evalExpr(prefix, expr);
     
@@ -144,28 +145,29 @@ var form_evalExpr = function(prefix, expr) {
         
         var op = ex[1];
         var val = ex[2];
+        var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
         
         switch (op) {
             
             case '=':
             case '==':
-                result = result || (elem.value == val);
+                result = result || (elem_value == val);
                 break;
             case '!=':
             case '<>':
-                result = result || (elem.value != val);
+                result = result || (elem_value != val);
                 break;
             case '<':
-                result = result || (elem.value < val);
+                result = result || (elem_value < val);
                 break;
             case '>':
-                result = result || (elem.value > val);
+                result = result || (elem_value > val);
                 break;
             case '<=':
-                result = result || (elem.value <= val);
+                result = result || (elem_value <= val);
                 break;
             case '>=':
-                result = result || (elem.value >= val);
+                result = result || (elem_value >= val);
                 break;
         }
     }
@@ -174,6 +176,9 @@ var form_evalExpr = function(prefix, expr) {
 }
 
 var form_setReadonly = function(container, field, readonly) {
+    
+    if (!field)
+        return;
     
     field.disabled = readonly;
     

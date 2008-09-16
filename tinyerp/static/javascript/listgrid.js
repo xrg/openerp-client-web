@@ -663,6 +663,8 @@ ListView.prototype.onButtonClick = function(name, btype, id, sure){
     
     var self = this;
     var prefix = this.id == '_terp_list' ? '' : this.id + '/';
+
+    name = name.split('.').pop();
     
     var params = {
         _terp_model : this.model,

@@ -138,9 +138,14 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
         
+        if self.editable is False:
+            selectable = 0
+        else:
+            selectable = 2
+        
         self.screen = Screen(current, prefix=self.name, views_preloaded=view, 
                              editable=False, readonly=self.editable, 
-                             selectable=2, nolinks=self.link)
+                             selectable=selectable, nolinks=self.link)
         
         self.screen.widget.checkbox_name = False            
 #        self.colspan = 4

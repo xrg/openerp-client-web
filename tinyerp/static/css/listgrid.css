@@ -30,11 +30,11 @@
     vertical-align: middle;    
 }
 
-.grid-cell.buttons {
+.grid-cell.button {
 	text-align: center;
 }
 
-.grid-cell.buttons button {
+.grid-cell.button button {
 	margin: 0px;
 	margin-right: 1px;
 }
