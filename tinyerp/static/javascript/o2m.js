@@ -30,7 +30,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var One2Many = function(name, inline){
+
+var One2Many = function(name, inline) {
     
     this.name = name;
     this.inline = inline > 0;
@@ -49,8 +50,8 @@ var One2Many = function(name, inline){
 }
 
 One2Many.prototype = {
-    
-    create : function(){
+
+    create: function() {
 
         if (!this.parent_id || this.parent_id == 'False' || this.mode == 'form'){
             return submit_form('save', this.name);
@@ -60,30 +61,52 @@ One2Many.prototype = {
             return new ListView(this.name).create();
         }
         
-        this.edit(null);    
+        this.edit(null);                 
     },
-    
-    edit : function(id, readonly){
 
-        var args = {_terp_parent_model: this.parent_model,
-        			_terp_parent_id: this.parent_id,
-                    _terp_parent_view_id: this.parent_view_id,
-                    _terp_o2m: this.name,
-                    _terp_o2m_model: this.model,
-                    _terp_o2m_id: id,
-                    _terp_editable: readonly ? 0 : 1};
+    edit: function(id, readonly) {
+
+        var names = this.name.split('/');
+
+        var parents = [];
+        var params = {};
+
+        // get the required view params to get proper view
+        params['_terp_view_params/_terp_model'] = $('_terp_model').value;
+        params['_terp_view_params/_terp_view_id'] = parseInt($('_terp_view_id').value) || 0;
+        params['_terp_view_params/_terp_view_mode'] = "['form']";
+        params['_terp_view_params/_terp_view_type'] = 'form';
+
+        while(names.length) {
+
+            parents.push(names.shift());
+            var prefix = parents.join('/');
+
+            params['_terp_view_params/' + prefix + '/_terp_model'] = $(prefix + '/_terp_model').value;
+            params['_terp_view_params/' + prefix + '/_terp_view_id'] = parseInt($(prefix + '/_terp_view_id').value) || 0;
+            params['_terp_view_params/' + prefix + '_terp_view_mode'] = "['form']";
+            params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
+        }
+
+        MochiKit.Base.update(params, {
+                _terp_parent_model: this.parent_model,
+        		_terp_parent_id: this.parent_id,
+                _terp_parent_view_id: this.parent_view_id,
+                _terp_o2m: this.name,
+                _terp_o2m_model: this.model,
+                _terp_o2m_id: id,
+                _terp_editable: readonly ? 0 : 1});
                     
         if (id && id != 'False' && !this.default_get_ctx){
-            return openWindow(getURL('/openo2m/edit', args));
+            return openWindow(getURL('/openo2m/edit', params));
         }
         
         var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
         
         req.addCallback(function(res){
-            args['_terp_o2m_context'] = res.context;
-            return openWindow(getURL('/openo2m/edit', args));
-        });
-    
+            params['_terp_o2m_context'] = res.context;
+            return openWindow(getURL('/openo2m/edit', params));
+        });     
     }
 }
 

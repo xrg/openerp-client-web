@@ -89,6 +89,8 @@ class O2M(TinyCompoundWidget):
         view = attrs.get('views', {})
         mode = str(attrs.get('mode', 'tree,form')).split(',')
 
+        self.view = view
+
         view_mode = mode
         view_type = mode[0]
 
