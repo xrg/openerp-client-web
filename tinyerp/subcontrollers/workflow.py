@@ -94,86 +94,33 @@ class State(Form):
     def edit(self, **kw):
         
         params, data = TinyDict.split(kw)
+        
         if not params.model:
             params.update(kw)
        
         params.view_mode = ['form']
-        params.view_type = 'form'
-        
+        params.view_type = 'form'        
         params.editable = True
         
         return self.create(params)
     
     @expose()
-    def delete(self,**kw):
+    def delete(self, id, **kw):
         
-        error_msg = None 
-        
-        proxy_act = rpc.RPCProxy(kw['model'])
-        proxy_tr =  rpc.RPCProxy('workflow.transition')
-        
-        search_ids = proxy_act.search([('id','=', int(kw['id']))], 0, 0, 0, rpc.session.context)
-        data = proxy_act.read(search_ids[0], ['out_transitions', 'in_transitions', 'flow_start'], rpc.session.context)
-        
-            
-        if data['flow_start']:
-            error_msg = _("The activity which start the flow can not be deleted.")
-        else:
-            #all transitions which are connected to the activity
-            trs = data['out_transitions']
-            
-            for tr in data['in_transitions']:
-                if not trs.__contains__(tr):
-                    trs.append(tr)
-            
-            data_trs = proxy_tr.read(trs, ['act_from', 'act_to'], rpc.session.context)
-                        
-            opp_side_act = []
-            for tr in data_trs:
-                act_from = tr['act_from'][0]
-                act_to = tr['act_to'][0]
-              
-                if not opp_side_act.__contains__(act_from): 
-                    opp_side_act.append(act_from)              
-                
-                if not opp_side_act.__contains__(act_to):
-                    opp_side_act.append(act_to)
-                        
-            opp_side_act.remove(int(kw['id']))
-            
-            data_opp_acts = proxy_act.read(opp_side_act, ['out_transitions', 'in_transitions'], rpc.session.context)
+        error_msg = None         
+        proxy = rpc.RPCProxy('workflow.activity')                    
+        res_act = proxy.unlink(int(id))                
 
-            
-            error_msg = None
-            
-            for act in data_opp_acts:
-                act_tr = act['out_transitions'] + act['in_transitions']
-                diff_list = []
-                                
-                for tr in act_tr:
-                    if tr not in trs:
-                        diff_list.append(tr)
-                
-                if not diff_list:
-                    error_msg = _('Graph can not be made disconnected')                   
-                    break;
-                
-            if not error_msg:
-                res_tr = proxy_tr.unlink(trs)
-            
-                if res_tr:
-                    res_act = proxy_act.unlink(int(kw['id']))                
-
-                if not res_act:
-                    error_msg = _('Could not delete state')
-                
+        if not res_act:
+            error_msg = _('Could not delete state')
+                    
         return dict(error = error_msg)
     
     @expose('json')
-    def get_info(self,**kw):
-                
+    def get_info(self, id, **kw):
+        
         proxy_act = rpc.RPCProxy('workflow.activity')
-        search_act = proxy_act.search([('id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context)
+        search_act = proxy_act.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
         data = proxy_act.read(search_act, [], rpc.session.context)
     
         return dict(data=data[0])
@@ -186,7 +133,7 @@ class Connector(Form):
     def create(self, params, tg_errors=None):
         
         params.path = self.path
-        params.function = 'update_conn'
+        params.function = 'update_connection'
         
         if params.id and cherrypy.request.path == self.path + '/view':
             params.load_counter = 2
@@ -224,46 +171,23 @@ class Connector(Form):
         
         return self.create(params)
     
-    @expose()
-    def delete(self,**kw):
+    @expose('json')
+    def delete(self, id, **kw):
         
         error_msg = None
-        proxy_tr = rpc.RPCProxy(kw['model'])
-        search_tr = proxy_tr.search([('id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context)
-        transition = proxy_tr.read(search_tr[0], ['act_from', 'act_to'], rpc.session.context)        
-        
-        act_list = []
-        act_list.append(transition['act_from'][0])
-        
-        #check for loop transaction 
-        if not act_list.__contains__(transition['act_to'][0]):
-            act_list.append(transition['act_to'][0]);
-        
-        
-        proxy_act = rpc.RPCProxy('workflow.activity')
-        search_act = proxy_act.search([('id', 'in', act_list)], 0, 0, 0, rpc.session.context)
-        data_act = proxy_act.read(search_act, ['out_transitions', 'in_transitions'], rpc.session.context)       
-       
-        for act in data_act:
-            d = []
-            d+=act['out_transitions']
-            d+=act['in_transitions']
-            d.remove(int(kw['id']))  
+        proxy = rpc.RPCProxy('workflow.transition')
+        res_tr = proxy.unlink(int(id))
             
-            if not d:
-                error_msg = _('Activity can not be made isolated')
-                break
-            
-        if not error_msg:    
-            res_tr = proxy_tr.unlink(search_tr)
+        if not res_tr:    
+            error_msg = _('Could not delete state')
         
         return dict(error=error_msg)
     
     @expose('json')
-    def auto_create(self,**kw):
+    def auto_create(self, act_from, act_to, **kw):
         
         proxy_tr = rpc.RPCProxy('workflow.transition')
-        id = proxy_tr.create({'act_from': kw['act_from'], 'act_to': kw['act_to']})
+        id = proxy_tr.create({'act_from': act_from, 'act_to': act_to})
         data = proxy_tr.read(id, [], rpc.session.context);
         
         if id>0:
@@ -272,19 +196,19 @@ class Connector(Form):
             return dict(flag=False)
     
     @expose('json')
-    def get_info(self,**kw):
+    def get_info(self, id, **kw):
                 
         proxy_tr = rpc.RPCProxy('workflow.transition')
-        search_tr = proxy_tr.search([('id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context)
+        search_tr = proxy_tr.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
         data = proxy_tr.read(search_tr, [], rpc.session.context)
         
         return dict(data=data[0])
     
     @expose('json')
-    def change_ends(self,**kw):     
+    def change_ends(self, id, field, value):     
            
         proxy_tr = rpc.RPCProxy('workflow.transition')
-        id = proxy_tr.write([int(kw['id'])], {kw['field']:int(kw['value'])}, rpc.session.context)
+        id = proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
         return dict()
 
 
@@ -307,15 +231,15 @@ class Workflow(Form):
         wkf = proxy.read(ids, [], rpc.session.context)[0]
         return dict(wkf=wkf, show_header_footer=False)
     
-    @expose()
-    def get_info(self, **kw):
+    @expose('json')
+    def get_info(self, id, **kw):
         
         proxy = rpc.RPCProxy("workflow")
-        search_ids = proxy.search([('id', '=' , int(kw['id']))], 0, 0, 0, rpc.session.context) 
-        graph_search = proxy.graph_get(search_ids[0], (100, 200, 20, 20), rpc.session.context) 
+        search_ids = proxy.search([('id', '=' , int(id))], 0, 0, 0, rpc.session.context) 
+        graph_search = proxy.graph_get(search_ids[0], (140, 180), rpc.session.context) 
          
-        nodes = graph_search['node']
-        transitions = graph_search['transition']
+        nodes = graph_search['nodes']
+        transitions = graph_search['transitions']
         
         connectors = {}
         list_tr = [];
@@ -324,7 +248,8 @@ class Workflow(Form):
             list_tr.append(tr)
             t = connectors.setdefault(tr,{})
             t['id'] = tr
-            t['c'] = transitions[tr]
+            t['s_id'] = transitions[tr][0]
+            t['d_id'] = transitions[tr][1]
             
         proxy_tr = rpc.RPCProxy("workflow.transition")
         search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)
@@ -338,8 +263,8 @@ class Workflow(Form):
             t['destination'] = tr['act_to'][1]
         
         proxy_act = rpc.RPCProxy("workflow.activity")
-        search_acts = proxy_act.search([('wkf_id', '=', int(kw['id']))], 0, 0, 0, rpc.session.context) 
-        data_acts = proxy_act.read(search_acts, ['action', 'kind', 'flow_start', 'flow_stop'], rpc.session.context)
+        search_acts = proxy_act.search([('wkf_id', '=', int(id))], 0, 0, 0, rpc.session.context) 
+        data_acts = proxy_act.read(search_acts, ['action', 'kind', 'flow_start', 'flow_stop', 'subflow_id'], rpc.session.context)
         
         for act in data_acts:
             n = nodes.get(str(act['id'])) 
@@ -348,35 +273,9 @@ class Workflow(Form):
             n['flow_stop'] = act['flow_stop']
             n['action'] = act['action']
             n['kind'] = act['kind']
-        
-        return dict(list=nodes,conn=connectors)
-    
-    @expose(template="tinyerp.subcontrollers.templates.wkf_popup")
-    def create(self, params, tg_errors=None):
-
-        if params.id and cherrypy.request.path == '/workflow/view':
-            params.load_counter = 2
+            n['subflow_id'] = act['subflow_id']
             
-        params.path = self.path
-        params.function = 'create_wkf'
-        
-        form = self.create_form(params, tg_errors)
-        
-        return dict(form=form, params=params, show_header_footer=False)
-
-    @expose()
-    def edit(self,**kw):
-        
-        params, data = TinyDict.split(kw)
-        if not params.model:
-            params.update(kw)
-       
-        params.view_mode = ['form']
-        params.view_type = 'form'
-        
-        params.editable = True
-        
-        return self.create(params)
+        return dict(nodes=nodes,conn=connectors)
     
     state = State()
     connector = Connector()
@@ -403,8 +302,6 @@ class WorkflowList(controllers.Controller, TinyResource):
         
         wkf_name = kw.get('name')
         on_create = kw.get('on_create')
-#        view_type = kw.get('type')
-#        priority = kw.get('priority', 16)
         
         if not wkf_name:
             raise redirect('/workflowlist', model=model)
@@ -423,4 +320,23 @@ class WorkflowList(controllers.Controller, TinyResource):
         proxy.unlink(id)
         
         raise redirect('/workflowlist', model=model)
+    
+    @expose()
+    def activate(self, model, id):
+        
+        activate_id = int(id)
+        
+        proxy = rpc.RPCProxy('workflow')
+        search_ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
+        
+        for id in search_ids:
+            if id==activate_id:                
+                proxy.write([id], {'on_create': True})
+            else:
+                proxy.write([id], {'on_create': False})
+                
+        raise redirect('/workflowlist', model=model)
 
+# vim: ts=4 sts=4 sw=4 si et
+
+        

@@ -129,3 +129,6 @@ class ViewTree(tg.widgets.Form):
             field.update(attrs)
 
             self.headers += [field]
+            
+# vim: ts=4 sts=4 sw=4 si et
+

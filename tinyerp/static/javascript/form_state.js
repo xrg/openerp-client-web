@@ -50,8 +50,9 @@ var form_hookStateChange = function() {
 
 var form_onStateChange = function(evt) {
     
-    var val = MochiKit.DOM.getElement('state').value;
-    
+    var elem = MochiKit.DOM.getElement('state');
+    var val = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
+
     for(var i=0; i<FORM_STATE_INFO.length; i++) {
             
         var item = FORM_STATE_INFO[i];
@@ -275,4 +276,5 @@ MochiKit.DOM.addLoadEvent(function(evt){
     form_hookAttrChange();
 });
 
-// vim: sts=4 st=4 et
+// vim: ts=4 sts=4 sw=4 si et
+

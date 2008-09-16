@@ -87,4 +87,5 @@ class TreeGrid(TinyField):
         self.onheaderclick = kw.get('onheaderclick')
         self.expandall = kw.get('expandall', 0)
         
-        
+# vim: ts=4 sts=4 sw=4 si et
+

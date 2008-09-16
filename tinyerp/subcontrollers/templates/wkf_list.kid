@@ -72,6 +72,18 @@
             
             window.location.href = '/workflowlist/delete?model=${model}&amp;id=' + boxes[0].value;
         }
+        
+        function onActivate() {
+            var list = new ListView('_terp_list');
+            var boxes = list.getSelectedItems();
+
+            if (boxes.length == 0){
+                alert('Please select a workflow...');
+                return;
+            }
+            
+            window.location.href = '/workflowlist/activate?model=${model}&amp;id=' + boxes[0].value;
+        }
 		
 		MochiKit.DOM.addLoadEvent(function(evt){
             
@@ -112,6 +124,7 @@
                                 <button type="button" onclick="onNew()">New</button>
                                 <button type="button" onclick="onEdit()">Edit</button>
                                 <button type="button" onclick="onRemove()">Remove</button>
+                                <button type="button" onclick="onActivate()">Activate</button>
                             </td>
                             <td width="100%"></td>
                             <td>

@@ -11,9 +11,11 @@ Tips.prototype = {
 __init__ : function(elements, options) {
 
     this.options = MochiKit.Base.update({
-        maxTitleChars: 255
+        wait: 1,            // wait for n seconds
+        maxTitleChars: 255  // number of chars in title
     }, options || {});
 
+    this.deferred = null;
     this.elements = elements;
 
     this.toolTitle = TD({'class': 'tip-t'});
@@ -60,12 +62,16 @@ __init__ : function(elements, options) {
             el.myText = MochiKit.Format.strip(dual[1]);
         }
         
-        MochiKit.Signal.connect(el, 'onmouseover', this, this.show);
+        MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
         MochiKit.Signal.connect(el, 'onmousemove', this, this.locate);
         MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
 
     }, this);
 },
+
+    showLater: function(evt){
+        this.deferred = MochiKit.Async.callLater(this.options.wait, MochiKit.Base.bind(this.show, this), evt);
+    },
 
     show: function(evt){
 
@@ -98,28 +104,35 @@ __init__ : function(elements, options) {
     },
 
     hide: function(){
+        if (this.deferred) {
+            this.deferred.cancel();
+        }
         MochiKit.DOM.hideElement(this.toolTip);
     }
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
-        
-    var elements = [];    
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('input', null, document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('select', null, document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('textarea', null, document));
-    MochiKit.Base.extend(elements, MochiKit.DOM.getElementsByTagAndClassName('td', 'label', document));
 
-    elements = MochiKit.Base.filter(function(e){
-        return MochiKit.DOM.getNodeAttribute(e, 'title');
-    }, elements);
-    
     if (window.browser.isOpera){
-        MochiKit.Iter.forEach(elements, function(e){
-            var t = MochiKit.DOM.getNodeAttribute(e, 'title');
-            MochiKit.DOM.setNodeAttribute(e, 'title', t.replace(/.*?::/, ''));
-        });        
-    } else
-        new Tips(elements);
+        return;
+    }
+
+    var elements = MochiKit.Base.filter(function(e){
+
+        var text = MochiKit.DOM.getNodeAttribute(e, 'title');
+        if (!text)
+            return false;
+        
+        var title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*\:\s*$/g, '');
+        MochiKit.DOM.setNodeAttribute(e, 'title', title + '::' + text);
+
+        return true;
+
+    }, MochiKit.DOM.getElementsByTagAndClassName('td', 'label', document));
+    
+    new Tips(elements);
 });
+
+// vim: ts=4 sts=4 sw=4 si et
+
 

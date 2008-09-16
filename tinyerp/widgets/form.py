@@ -231,9 +231,17 @@ class Notebook(TinyCompoundWidget):
 
     template = "tinyerp.widgets.templates.notebook"
 
-    member_widgets = ['_notebook_', "children"]
-    _notebook_ = tg.widgets.Tabber(use_cookie=True)
-    _notebook_.css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
+    member_widgets = ["children"]
+    javascript = [tg.widgets.JSLink("tinyerp", "javascript/tabber/tabber_cookie.js"),
+                  tg.widgets.JSLink("tinyerp", "javascript/tabber/tabber.js"),
+                  tg.widgets.JSSource("""
+                               if (typeof(tabberOptions) == "undefined")
+                                   var tabberOptions = {};
+                               tabberOptions['onLoad'] = tabber_onload;
+                               tabberOptions['onClick'] = tabber_onclick;
+                               tabberOptions['cookie'] = 'TGTabber';""")]
+    
+    css = [tg.widgets.CSSLink('tinyerp', 'css/tabs.css')]
 
     def __init__(self, attrs, children):
         super(Notebook, self).__init__(attrs)
@@ -269,7 +277,7 @@ class NewLine(TinyField):
 class Label(TinyField):
 
     template = """
-        <div xmlns:py="http://purl.org/kid/ns#" style="text-align: $align; width: 100%; white-space: nowrap;">
+        <div xmlns:py="http://purl.org/kid/ns#" style="text-align: $align; width: 100%;">
             ${field_value}
         </div>"""
 
@@ -465,19 +473,20 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 
 class Binary(TinyField):
     template = "tinyerp.widgets.templates.binary"
-    params = ["name", "text", "readonly"]
+    params = ["name", "text", "readonly", "filename"]
 
     text = None
     file_upload = True
 
     def __init__(self, attrs={}):
         super(Binary, self).__init__(attrs)
+        self.filename = attrs.get('filename', '')
         self.validator = tiny_validators.Binary()
 
     def set_value(self, value):
         if value:
             #super(Binary, self).set_value("%s bytes" % len(value))
-            self.text = "%s bytes" % len(value)
+            self.text = value
 
 class Url(TinyField):
     template = "tinyerp.widgets.templates.url"
@@ -919,3 +928,6 @@ widgets_type = {
     'progressbar' : ProgressBar
     
 }
+
+# vim: ts=4 sts=4 sw=4 si et
+

@@ -469,8 +469,11 @@ class Form(controllers.Controller, TinyResource):
             res = form.get(params.field)
             return base64.decodestring(res)
 
+        ctx = rpc.session.context.copy()
+        ctx['get_binary_size'] = False
+        
         proxy = rpc.RPCProxy(params.model)
-        res = proxy.read([params.id],[params.field])
+        res = proxy.read([params.id],[params.field], ctx)
 
         return base64.decodestring(res[0][params.field])
 
@@ -479,7 +482,10 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         proxy = rpc.RPCProxy(params.model)
-        proxy.write([params.id], {params.field: False})
+        if params.fname:
+            proxy.write([params.id], {params.field: False, params.fname: False})
+        else:
+            proxy.write([params.id], {params.field: False})
 
         return self.create(params)
 
@@ -906,3 +912,6 @@ class Form(controllers.Controller, TinyResource):
         for n in names:
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
+                
+# vim: ts=4 sts=4 sw=4 si et
+                

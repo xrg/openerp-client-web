@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function get_form_action(action, params){
-
+    
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
 
@@ -231,7 +231,7 @@ var validate_required = function(form) {
 }
 
 var submit_form = function(action, src, data, target){
-
+    
     if (Ajax.COUNT > 0) {
         return callLater(1, submit_form, action, src, data);
     }
@@ -241,7 +241,6 @@ var submit_form = function(action, src, data, target){
     }
 
     var form = document.forms['view_form'];
-
     setNodeAttribute(form, 'target', '');
 
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
@@ -297,8 +296,8 @@ var submit_form = function(action, src, data, target){
     if (/\/save(\?|\/)?/.test(action) && !validate_required(form)){
         return false;
     }
-
-    setNodeAttribute(form, 'action', action);
+    
+    form.attributes['action'].value = action;    
     form.submit();
 }
 
@@ -343,16 +342,15 @@ var pager_action = function(action, src) {
     return src ? new ListView(src).go(action) : submit_search_form(action);
 }
 
-var save_binary_data = function(src) {
-
+var save_binary_data = function(src, filename) {
+    
     var name = $(src) ? $(src).name : src;
-    var fname = $(name + 'name');
-
+    var fname = $(filename) || $(name + 'name');
     var act = '/form/save_binary_data';
-
+    
     act = fname ? act + '/' + fname.value : act;
     act = act + '?_terp_field=' + name;
-
+    
     submit_form(act);
 }
 
@@ -399,7 +397,8 @@ var getFormData = function(extended) {
 
         var n = e.name.replace('_terp_listfields/', '');
 
-        if (n.indexOf('_terp_') > -1)
+        // don't include _terp_ fields except _terp_id
+        if (/_terp_/.test(n) && ! /_terp_id$/.test(n))
             return;
 
         // work arround to skip o2m values (list mode)
@@ -415,6 +414,21 @@ var getFormData = function(extended) {
 
             value = e.value;
             kind = getNodeAttribute(e, 'kind');
+
+            //take care of _terp_id
+            if (/_terp_id$/.test(n)) {
+
+                //  only the resource id and all O2M
+                n = n.replace(/_terp_id$/, '');
+                if (n && !getElement(n + '__id')) {
+                    return; 
+                }
+
+                n = n + 'id';
+                
+                kind = 'integer';
+                value = value == 'False' ? '' : value;
+            }
 
             attrs['value'] = value;
 
@@ -851,6 +865,12 @@ function on_context_menu(evt) {
     evt.stop();
 }
 
+function set_binary_filename(id, fname){
+    if ($(id)) {
+        $(id).value = fname.value;
+    }
+}
+
 function open_url(site){
     var web_site;
 
@@ -871,4 +891,5 @@ function open_url(site){
     }
 }
 
-// vim: sts=4 st=4 et
+// vim: ts=4 sts=4 sw=4 si et
+

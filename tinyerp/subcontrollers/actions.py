@@ -228,6 +228,9 @@ def execute(action, **data):
         view_ids=False
         if action.get('views', []):
             view_ids=[x[0] for x in action['views']]
+            for x in action['views']:
+                print x
+
             data['view_mode']=",".join([x[1] for x in action['views']])
         elif action.get('view_id', False):
             view_ids=[action['view_id'][0]]
@@ -322,8 +325,13 @@ def execute_by_id(act_id, type=None, **data):
 
     if type==None:
         type = get_action_type(act_id)
+	
+    ctx = rpc.session.context.copy()
+    if type == 'ir.actions.act_window':
+        # the field 'views' is transfered as a binary field
+        ctx['get_binary_size'] = False
 
-    res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
+    res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, ctx)[0]
     return execute(res, **data)
 
 def execute_by_keyword(keyword, adds={}, **data):
@@ -340,7 +348,9 @@ def execute_by_keyword(keyword, adds={}, **data):
         try:
             id = data.get('id', False)
             if (id != False): id = int(id)
-            actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
+            ctx = rpc.session.context.copy()
+            ctx['get_binary_size'] = False
+            actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, ctx)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
             raise e
@@ -359,3 +369,6 @@ def execute_by_keyword(keyword, adds={}, **data):
         return execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)
+
+# vim: ts=4 sts=4 sw=4 si et
+

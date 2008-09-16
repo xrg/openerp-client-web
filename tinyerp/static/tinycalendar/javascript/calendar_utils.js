@@ -94,7 +94,7 @@ var getCalendar = function(action) {
     });
 
     params['_terp_colors'] = $('_terp_colors').value;
-    params['_terp_color_values'] = "[" + values.join(",") + "]";
+    params['_terp_color_values'] = values.join(",");
 
     showElement('calLoading');
 
@@ -187,4 +187,5 @@ var copyCalendarRecord = function(record_id){
     return Ajax.post('/calpopup/duplicate', params);
 }
 
-// vim: sts=4 st=4 et
+// vim: ts=4 sts=4 sw=4 si et
+

@@ -454,3 +454,6 @@ class ImpEx(controllers.Controller, TinyResource):
             raise common.error(_('Importation Error !'), unicode(error))
 
         return self.imp(**kw)
+
+# vim: ts=4 sts=4 sw=4 si et
+

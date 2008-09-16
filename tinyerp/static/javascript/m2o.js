@@ -167,7 +167,7 @@ ManyToOne.prototype.on_keydown = function(evt){
 
 ManyToOne.prototype.on_keypress = function(evt){
 
-    if (evt.event().keyCode == 9 ){
+    if (evt.event().keyCode == 9 || evt.modifier().ctrl){
         return;
     }
 
@@ -222,4 +222,5 @@ ManyToOne.change_icon = function(field) {
     img.src = '/static/images/stock/gtk-' + (field.value ? 'open' : 'find') + '.png';
 }
 
-// vim: sts=4 st=4 et
+// vim: ts=4 sts=4 sw=4 si et
+

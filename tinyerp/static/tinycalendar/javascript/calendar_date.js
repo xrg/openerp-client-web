@@ -121,4 +121,5 @@ Date.prototype.getPrevious = function() {
     return new Date(this.getTime() - 24 * 60 * 60 * 1000);
 }
 
-// vim: sts=4 st=4 et
+// vim: ts=4 sts=4 sw=4 si et
+

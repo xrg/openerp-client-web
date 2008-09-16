@@ -91,4 +91,7 @@ class ViewForm(tg.widgets.Form):
         self.search_data = params.search_data
         
         self.fields = cherrypy.request.terp_fields
+        
+# vim: ts=4 sts=4 sw=4 si et
+
 

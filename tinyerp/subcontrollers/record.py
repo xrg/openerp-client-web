@@ -85,3 +85,6 @@ class Record(dict):
 
         val = tools.expr_eval(expr, d)
         return val
+
+# vim: ts=4 sts=4 sw=4 si et
+

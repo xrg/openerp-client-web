@@ -20,8 +20,7 @@ openerp.workflow.ConnectionAnchor.implement({
 	},
 	
 
-getLocation : function(/*:draw2d.Point*/ reference)
-	{		
+    getLocation : function(/*:draw2d.Point*/ reference)	{		
 		
 		var center = this.getReferencePoint();
 		var bounds = this.getBox();
@@ -35,10 +34,13 @@ getLocation : function(/*:draw2d.Point*/ reference)
 		
 		var connectors = this.owner.getConnections();
 		var n = connectors.getSize();
+		
 		for(i=0; i<n; i++)
-			if(connectors.get(i).tr_id==this.conn_id)
+			if(connectors.get(i).tr_id==this.conn_id) {
 				var conn = connectors.get(i);
-				
+				break;
+			}	
+			
 		//multiple connectors		
 		if(conn.isOverlaping) {	
 			
@@ -72,38 +74,135 @@ getLocation : function(/*:draw2d.Point*/ reference)
 			var ynew = 0;			
 		}
 		
-		//find point on ellipse
-		if(rx!=0) {
-			
-			var c = ynew - (slope * xnew);
-					
-			var A = (b2) + ((a2) * (slope*slope));
-			var B = 2 * c * slope * (a2);
-			var C = (a2) * ((c*c) - (b2));
-			
-			var discriminator = Math.sqrt((B*B) - (4 * A *C));
-			
-			var root1x = (-B + discriminator)/(2 * A);
-			var root2x = (-B - discriminator)/(2 * A);
-			
-			//substituting x in y=mx+c
-			var root1y = slope*root1x + c;
-			var root2y = slope*root2x + c;
-		}
-		else {			
-			var root1x = xnew;
-			var root2x = xnew;
-			
-			var root1y = Math.sqrt((b2 * (a2 - (root1x*root1x)))/(a2))
-			var root2y = -root1y;
-		}
 		
-		var dist1 = Math.sqrt(((rx-root1x)*(rx-root1x)) + ((ry-root1y)*(ry-root1y)));
-		var dist2 = Math.sqrt(((rx-root2x)*(rx-root2x)) + ((ry-root2y)*(ry-root2y)));
+		//find point on ellipse when node is StateOval
+		if(this.owner.getParent() instanceof openerp.workflow.StateOval) {
+    	   
+    		if(rx!=0) {
+    			
+    			var c = ynew - (slope * xnew);
+    					
+    			var A = (b2) + ((a2) * (slope*slope));
+    			var B = 2 * c * slope * (a2);
+    			var C = (a2) * ((c*c) - (b2));
+    			
+    			var discriminator = Math.sqrt((B*B) - (4 * A *C));
+    			
+    			var root1x = (-B + discriminator)/(2 * A);
+    			var root2x = (-B - discriminator)/(2 * A);
+    			
+    			//substituting x in y=mx+c
+    			var root1y = slope*root1x + c;
+    			var root2y = slope*root2x + c;
+    		}
+    		else {			
+    			var root1x = xnew;
+    			var root2x = xnew;
+    			
+    			var root1y = Math.sqrt((b2 * (a2 - (root1x*root1x)))/(a2))
+    			var root2y = -root1y;
+    		}
+    		
+    		var dist1 = Math.sqrt(((rx-root1x)*(rx-root1x)) + ((ry-root1y)*(ry-root1y)));
+    		var dist2 = Math.sqrt(((rx-root2x)*(rx-root2x)) + ((ry-root2y)*(ry-root2y)));
+    
+    		if(dist2>dist1)
+    			return new draw2d.Point(Math.round(center.x + root1x), Math.round(center.y + root1y));
+    		else
+    			return new draw2d.Point(Math.round(center.x + root2x), Math.round(center.y + root2y));
+		}
+		else {//find point on rectangle when node is StateRectangle
 
-		if(dist2>dist1)
-			return new draw2d.Point(Math.round(center.x + root1x), Math.round(center.y + root1y));
-		else
-			return new draw2d.Point(Math.round(center.x + root2x), Math.round(center.y + root2y));
-	},
+            xnew += center.x;
+            ynew += center.y;
+		    
+		    if(conn.isOverlaping) {//multiple connectors
+		        
+		        var bottom = bounds.y + bounds.h;//bottom line of the rectangle perimeter		        
+		        var right = bounds.x + bounds.w;//right line of the rectangle perimeter
+		        
+		        var xtop = (bounds.y - ynew + (slope*xnew))/slope;
+		        var xbase = (bottom - ynew + (slope*xnew))/slope;
+		        var yleft = slope*(bounds.x - xnew) + ynew; 
+                var yright = slope*(right - xnew) + ynew;
+                
+                //to check that points lies on rectangle perimeter
+		        if(bounds.x > xtop  || xtop > right)
+                    xtop = 0;
+                    
+                if(bounds.x > xbase  || xbase > right)
+                    xbase = 0;
+		        
+		        if(bounds.y > yleft || yleft > bottom)
+                    yleft = 0;
+                    		          
+		        if(bounds.y > yright || yright > bottom)
+                    yright = 0;
+                
+                
+                if(xtop != 0 && xbase != 0) {
+                    var d1 = Math.abs(reference.y - bounds.y);
+                    var d2 = Math.abs(reference.y - bottom);
+                    
+                    if(d1 > d2) 
+                        return new draw2d.Point(Math.round(xbase), Math.round(bottom));
+                    else
+                        return new draw2d.Point(Math.round(xtop), Math.round(bounds.y));
+                }                    
+                else if(yleft != 0 && yright != 0) {
+                    var d1 = Math.abs(reference.x - bounds.x);
+                    var d2 = Math.abs(reference.x - right);
+                    
+                    if(d1 > d2) 
+                        return new draw2d.Point(Math.round(right), Math.round(yright));
+                    else
+                        return new draw2d.Point(Math.round(bounds.x), Math.round(yleft));
+                }
+		        else {
+		            if(xtop != 0) { 
+                        var root1x = xtop;
+                        var root1y = bounds.y;
+		            }
+                    else {
+                        var root1x = xbase;
+                        var root1y = bottom;
+                    }    
+                    
+                    if(yleft != 0) { 	              
+                        var root2y = yleft;
+                        var root2x = bounds.x;
+                    }
+                    else {
+                        var root2y = yright;
+                        var root2x = right;
+                    }    
+                    
+                    var dist1 = Math.sqrt(((reference.x-root1x)*(reference.x-root1x)) + ((reference.y-root1y)*(reference.y-root1y)));
+                    var dist2 = Math.sqrt(((reference.x-root2x)*(reference.x-root2x)) + ((reference.y-root2y)*(reference.y-root2y)));
+            
+                    if(dist2>dist1)
+                        return new draw2d.Point(Math.round(root1x), Math.round(root1y));
+                    else
+                        return new draw2d.Point(Math.round(root2x), Math.round(root2y));
+		        }
+		        
+		    } else {//single connector
+                var dx = reference.x - center.x;
+                var dy = reference.y - center.y;    		    
+    		    
+    		    var scale = 0.5 / Math.max(Math.abs(dx) / bounds.w, Math.abs(dy) / bounds.h);
+    
+                dx *= scale;
+                dy *= scale;
+                xnew += dx;
+                ynew += dy;
+                
+                return new draw2d.Point(Math.round(xnew), Math.round(ynew));
+		    }
+		}
+	}
+	
 });
+
+// vim: ts=4 sts=4 sw=4 si et
+

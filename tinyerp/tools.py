@@ -72,3 +72,6 @@ def get_node_xpath(node):
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
+
+# vim: ts=4 sts=4 sw=4 si et
+

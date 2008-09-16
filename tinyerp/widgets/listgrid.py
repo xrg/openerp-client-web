@@ -344,15 +344,33 @@ class List(TinyCompoundWidget):
                     headers += [(name, fields[name])]
 
         # generate do_select links
+        
         if self.selectable and headers:
             name, field = headers[0]
-            for row in data:
+            for i, row in enumerate(data):
                 cell = row[name]
+                
+                if row.get('sequence') and row.get('id'):
+                    pd = []
+                    nd = []
+                    cd = []
+                    
+                    cur = data[i]
+                    cd = [cur['id'], cur['sequence'].value]
+                    
+                    if i != 0:
+                        prev = data[i-1]
+                        pd = [prev['id'], prev['sequence'].value]
+                    if i != len(data)-1:
+                        next = data[i+1]
+                        nd = [next['id'], next['sequence'].value]
 
+                    row['_seq'] = {'prev': pd, 'current': cd, 'next': nd}
+                    
                 if self.selectable:
                     cell.link = "javascript: void(0)"
                     cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
-
+        
         return headers, hiddens, data, field_total, buttons
 
 from tinyerp.stdvars import tg_query
@@ -481,13 +499,14 @@ class Button(TinyField):
     parent = None
     btype = None
     
-    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm']
+    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm', 'width', 'context']
     
     template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <button py:if="visible and not icon" type="button" py:content="string" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
-    <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}')"/>
+    <button py:if="visible and not icon" type="button" py:content="string" 
+        context="${ustr(context)}" py:attrs="attrs" style="min-width: ${width}px;"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
+    <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" py:attrs="attrs"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
     <span py:if="not visible and not icon">&nbsp;</span>
 </span>"""
     
@@ -501,10 +520,14 @@ class Button(TinyField):
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
+        self.context = attrs.get('context', {})
+
         self.help = self.help or self.string
         self.confirm = attrs.get('confirm') or ''
         self.readonly = False
-        
+
+        self.width = attrs.get('width', 16)
+
     def params_from(self, data):
         
         record_id = data.get('id')
@@ -530,3 +553,6 @@ CELLTYPES = {
         'integer':Int,
         'boolean' : Boolean
 }
+
+# vim: ts=4 sts=4 sw=4 si et
+

@@ -171,3 +171,6 @@ def parse_decimal(value):
         return float(value)
     
     return value
+
+# vim: ts=4 sts=4 sw=4 si et
+

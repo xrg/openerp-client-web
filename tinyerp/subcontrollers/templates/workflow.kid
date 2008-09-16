@@ -56,13 +56,19 @@
             </td>
         </tr>
         <tr>
-            <td width="36px" valign="top" id="toolbox"></td>
-            <td height="500" width="auto" valign="top">
-                <div id="viewport" style="position: relative; width: 100%; height: 500px; border: 1px solid gray; overflow: auto;">
-                    <div id="canvas" style="position: absolute;  width: 3000px; height: 3000px;">
-                        <span id="loading" style="color: red; width:100%;" align="right">Loading...</span>
-                    </div>
-                </div>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td width="36px" valign="top" id="toolbox"></td>
+                        <td height="500" width="auto" valign="top">
+                            <div id="viewport" style="position: relative; width: 100%; height: 500px; border: 1px solid gray; overflow: auto;">
+                                <div id="canvas" style="position: absolute;  width: 3000px; height: 3000px;">
+                                    <span id="loading" style="color: red; width:100%;" align="right">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
         <tr class="toolbar">
@@ -70,7 +76,7 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td id="status" width="100%">&nbsp;</td>
+                            <td align="left" id="status" style="width: 100%; ">&nbsp;</td>
                             <td><button type="button" onclick="window.close()">Close</button></td>
                         </tr>
                     </table>

@@ -69,3 +69,6 @@ def message(msg):
 
 def to_xml(s):
     return s.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+
+# vim: ts=4 sts=4 sw=4 si et
+

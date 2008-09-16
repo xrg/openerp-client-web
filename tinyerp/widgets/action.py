@@ -62,8 +62,11 @@ class Action(TinyCompoundWidget):
         if not res:
             raise _('Action not found !')
 
+        ctx = rpc.session.context.copy()
+        ctx['get_binary_size'] = False
+
         type=res[0]['type']
-        self.action = rpc.session.execute('object', 'execute', type, 'read', [self.act_id], False, rpc.session.context)[0]
+        self.action = rpc.session.execute('object', 'execute', type, 'read', [self.act_id], False, ctx)[0]
 
         if 'view_mode' in attrs:
             self.action['view_mode'] = attrs['view_mode']
@@ -111,3 +114,6 @@ class Action(TinyCompoundWidget):
                 
             elif self.action['view_type']=='tree':
                 pass #TODO
+            
+# vim: ts=4 sts=4 sw=4 si et
+

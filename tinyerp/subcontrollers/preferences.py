@@ -52,8 +52,7 @@ class Preferences(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('res.users')
         action_id = proxy.action_get({})
         
-        action = rpc.RPCProxy('ir.actions.act_window').read([action_id], False, {})[0]
-        print action
+        action = rpc.RPCProxy('ir.actions.act_window').read([action_id], False, {'get_binary_size':False})[0]
 
         view_ids=[]
         if action.get('views', []):
@@ -81,3 +80,6 @@ class Preferences(controllers.Controller, TinyResource):
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
         raise redirect('/')
+        
+# vim: ts=4 sts=4 sw=4 si et
+

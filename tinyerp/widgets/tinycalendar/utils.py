@@ -268,3 +268,6 @@ class Month(object):
 
     def __repr__(self):
         return 'Month(%s, %s)'%(self.year, self.month)
+    
+# vim: ts=4 sts=4 sw=4 si et
+

@@ -1,94 +1,13 @@
-div.canvas {
-    position: relative;;
-    border: 1px solid navy;
-    background-color: white;
-    width: 80%;
-    height: 300px;
-    z-index: 99;
-    padding: 0px;
-    overflow: auto;
-}
 
-div.tool_tip {
+.stateName {
     position: absolute;
-    background-color: lightslategray;;
-    background: transparent;
-    border: solid 1px black;
-    width: 100px;
-    height: 30px;
     font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    visibility: hidden;
+    width: 95%;
+    left: 0;
+    top: 20px;
     z-index: 1000;
-}
-
-td.menu {
-    padding: 5px;
-    width: 40px;
-}
-
-table.main_table {
-    width: 100%;
-    border-collapse: separate;
-}
-
-.conn_button {
-    width: 32px;
-    height: 32px;
-    border-width: 1px;
-    border-style: groove;
-    border-color: grey;
-    padding: 2px 3px 0px 5px;
-    background: transparent url(/static/workflow/images/connect.gif) no-repeat;
-    background-position: center;
-}
-
-.onclick_button {
-    width: 32px;
-    height: 32px;
-    border-width: 1px;
-    border-style: groove;
-    border-color: red;
-    padding: 2px 3px 0px 5px;
-    background: transparent url(/static/workflow/images/connect.gif) no-repeat;
-    background-position: center;
-}
-
-div.state {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    z-index: 100;
-    border-width: 0px;
-    border-style: solid;
-    border-color: black;
-    background-color: grey;
-    cursor: move;
-    vertical-align: middle;
-}
-
-div.menu_state {
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    z-index: 100;
-    background-color: #333;
-    cursor: move;
-}
-
-div.connector {
-    position: absolute;
-    background-color: #FF9900;
-    z-index: 1000;
-}
-
-div.segment {
-    position: absolute;
     overflow: hidden;
-    background-color: black;
-    cursor: pointer;
-    z-index: 999;
+    
 }
 
 #calInfoLayer {

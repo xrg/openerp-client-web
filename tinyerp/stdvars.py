@@ -63,3 +63,6 @@ def add_vars(vars):
 
 view.root_variable_providers.append(add_root_vars)
 view.variable_providers.append(add_vars)
+
+# vim: ts=4 sts=4 sw=4 si et
+

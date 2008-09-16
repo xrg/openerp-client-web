@@ -86,6 +86,8 @@ class TinyDict(dict):
         super(TinyDict, self).__init__()
         
         for k, v in kwargs.items():
+            if (isinstance(v, dict) and not isinstance(v, TinyDict)):
+                v = TinyDict(**v)
             self[k] = v
 
     def _eval(self, value):
@@ -155,6 +157,14 @@ class TinyDict(dict):
             else:
                 res[prefix + k] = v
 
+        return res
+
+    def make_dict(self):
+        res = {}
+        for k, v in self.items():
+            if isinstance(v, TinyDict):
+                v = v.make_dict()
+            res[k] = v
         return res
 
 _VALIDATORS = {
@@ -273,4 +283,6 @@ if __name__ == "__main__":
     print params.chain_get('view_ids')
     print params.chain_get('view_ids.child')
     print params.chain_get('view_ids.child').view_ids
-    
+
+# vim: ts=4 sts=4 sw=4 si et
+

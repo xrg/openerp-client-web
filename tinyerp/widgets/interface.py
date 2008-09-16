@@ -102,10 +102,6 @@ class TinyWidget(object):
         self.editable = attrs.get('editable', True)
         self.translatable = attrs.get('translate', False)
 
-        # set tooltip title
-        if self.help:
-            self.help = self.string + '::' + self.help
-
         self.set_state(attrs.get('state', 'draft'))
 
         self.callback = attrs.get('on_change', None)
@@ -190,9 +186,6 @@ class TinyInputWidget(TinyWidget):
         d['kind'] = self.kind
         d['editable'] = self.editable
 
-        if self.help:
-            d['attrs']['title'] = self.help
-
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
             d['attrs']['disabled'] = True
@@ -235,5 +228,7 @@ class TinyField(TinyInputWidget, tg.widgets.FormField):
     def __init__(self, attrs):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.FormField.__init__(self, name=self.name)
+
+# vim: ts=4 sts=4 sw=4 si et
 
 

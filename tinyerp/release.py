@@ -44,3 +44,6 @@ copyright = "Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd."
 url = "http://openerp.com/"
 download_url = "http://openerp.com/download"
 license = "GPL"
+
+# vim: ts=4 sts=4 sw=4 si et
+

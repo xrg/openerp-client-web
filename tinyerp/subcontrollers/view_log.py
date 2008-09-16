@@ -83,3 +83,5 @@ class View_Log(controllers.Controller, TinyResource):
 
         return dict(tmp=tmp, todo=todo, show_header_footer=False)
 
+# vim: ts=4 sts=4 sw=4 si et
+

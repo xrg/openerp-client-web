@@ -234,3 +234,5 @@ class Picture(tg.validators.FancyValidator):
             url = 'data:image/%s;base64,%s' % (type, data)
         return url
 
+# vim: ts=4 sts=4 sw=4 si et
+

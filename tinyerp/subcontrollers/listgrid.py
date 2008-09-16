@@ -76,6 +76,7 @@ class List(controllers.Controller, TinyResource):
                 data = frm.chain_get(source)
                 
                 if '__id' in data: data.pop('__id')
+                if 'id' in data: data.pop('id')
                 
                 fld = source.split('/')[-1]
                 data = {fld : [(id and 1, id, data.copy())]} 
@@ -91,6 +92,8 @@ class List(controllers.Controller, TinyResource):
                 
             else:
                 data = frm.copy()
+                if 'id' in data: data.pop('id')
+
                 if id > 0:
                     proxy.write([id], data, params.parent.context or {})
                 else:
@@ -149,7 +152,8 @@ class List(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         
         error = None
-        
+        reload = (params.context or {}).get('reload', False)
+
         name = params.button_name
         btype = params.button_type
         
@@ -187,8 +191,40 @@ class List(controllers.Controller, TinyResource):
         except Exception, e:
             error = ustr(e)
             
-        return dict(error=error)
+        return dict(error=error, reload=reload)
     
+    @expose('json')
+    def moveUp(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        cur_seq = params.get('_terp_cur_seq')
+        prev_seq = params.get('_terp_prev_seq')
+        model = params.get('_terp_model')
+        cur_id = params.get('_terp_cur_id')
+        prev_id = params.get('_terp_prev_id')
+        
+        proxy = rpc.RPCProxy(model)
+        proxy.write([prev_id], {'sequence': cur_seq}, rpc.session.context)
+        proxy.write([cur_id], {'sequence': prev_seq}, rpc.session.context)
+        
+        return dict()
+    
+    @expose('json')
+    def moveDown(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        cur_seq = params.get('_terp_cur_seq')
+        next_seq = params.get('_terp_next_seq')
+        model = params.get('_terp_model')
+        cur_id = params.get('_terp_cur_id')
+        next_id = params.get('_terp_next_id')
+        
+        proxy = rpc.RPCProxy(model)
+        proxy.write([next_id], {'sequence': cur_seq}, rpc.session.context)
+        proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
+        
+        return dict()
+        
     @expose('json')
     def get_editor(self, **kw):
         params, data = TinyDict.split(kw)
@@ -201,7 +237,7 @@ class List(controllers.Controller, TinyResource):
         
         if current:
             model = current.model
-            context = current.context or {}     
+            context = current.context or {}
       
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get()
@@ -234,4 +270,6 @@ class List(controllers.Controller, TinyResource):
                 result[k] = value[0]
                 
         return dict(source=source, res=result)
-    
+
+# vim: ts=4 sts=4 sw=4 si et
+

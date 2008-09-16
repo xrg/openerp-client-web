@@ -110,3 +110,6 @@ function do_save(form){
     setNodeAttribute(form, 'action', getURL('/attachment/save_as' + fname, {record: id}));
     form.submit();
 }
+
+// vim: ts=4 sts=4 sw=4 si et
+

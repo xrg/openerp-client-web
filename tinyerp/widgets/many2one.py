@@ -89,3 +89,6 @@ class M2O(TinyField):
         
         if d['value'] and not d['text']:
             d['text'] = get_name(self.relation, d['value'])
+            
+# vim: ts=4 sts=4 sw=4 si et
+

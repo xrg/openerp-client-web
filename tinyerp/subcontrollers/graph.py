@@ -67,3 +67,6 @@ class Graph(controllers.Controller, TinyResource):
         data = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
         
         return dict(data=data.get_bar_data())
+    
+# vim: ts=4 sts=4 sw=4 si et
+

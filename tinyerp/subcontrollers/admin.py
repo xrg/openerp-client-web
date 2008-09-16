@@ -297,5 +297,6 @@ class Admin(controllers.Controller):
             raise redirect("/admin")
         else:
             raise common.error(_('Error'), _(message))
-        
-    
+
+# vim: ts=4 sts=4 sw=4 si et
+

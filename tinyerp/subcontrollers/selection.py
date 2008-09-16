@@ -56,3 +56,5 @@ class Selection(controllers.Controller, TinyResource):
         from tinyerp.subcontrollers import actions
         return actions.execute(params.action, **params.data)
 
+# vim: ts=4 sts=4 sw=4 si et
+

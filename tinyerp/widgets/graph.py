@@ -338,4 +338,7 @@ class GraphData(object):
                 data = values[x]
                 dataset.append({'legend': legend[i], 'values': data, 'links': urls[i]})
         
-        return result  
+        return result
+    
+# vim: ts=4 sts=4 sw=4 si et
+

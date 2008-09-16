@@ -265,3 +265,6 @@ class Tree(controllers.Controller, TinyResource):
         datas['ids'] = kw.get('id')
 
         return self.do_action('tree_but_open', datas=datas)
+
+# vim: ts=4 sts=4 sw=4 si et
+

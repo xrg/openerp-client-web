@@ -7,14 +7,15 @@ if (typeof(openerp.workflow) == "undefined") {
     openerp.workflow = new Object;
 }
 
-openerp.workflow.ConnDecorator = new Class;
-openerp.workflow.ConnDecorator.prototype = $merge(openerp.workflow.ConnDecorator.prototype, draw2d.ArrowConnectionDecorator.prototype);
+openerp.workflow.ConnectionDecorator = new Class;
+openerp.workflow.ConnectionDecorator.prototype = $merge(openerp.workflow.ConnectionDecorator.prototype, draw2d.ArrowConnectionDecorator.prototype);
 
-openerp.workflow.ConnDecorator.implement({
+openerp.workflow.ConnectionDecorator.implement({
 	
 	initialize : function() {
 		draw2d.ArrowConnectionDecorator(this);
-		this.setBackgroundColor(new draw2d.Color(0,0,0))
+		this.setColor(new draw2d.Color(100, 100, 100));
+		this.setBackgroundColor(new draw2d.Color(100, 100, 100))
 	},
 	
 	paint : function(/*:draw2d.Graphics*/ g) {
@@ -33,3 +34,6 @@ openerp.workflow.ConnDecorator.implement({
 	
 	
 });
+
+// vim: ts=4 sts=4 sw=4 si et
+

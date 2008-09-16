@@ -131,4 +131,5 @@ class Image(controllers.Controller, TinyResource):
         except:
             raise cherrypy.HTTPError(400)   # Bad request
 
+# vim: ts=4 sts=4 sw=4 si et
 

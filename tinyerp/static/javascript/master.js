@@ -136,4 +136,5 @@ window.browser.isWebKit = /webkit/.test(navigator.userAgent.toLowerCase());
 // Opera
 window.browser.isOpera = /opera/.test(navigator.userAgent.toLowerCase());
 
-// vim: sts=4 st=4 et
+// vim: ts=4 sts=4 sw=4 si et
+

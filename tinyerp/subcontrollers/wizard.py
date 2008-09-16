@@ -203,3 +203,6 @@ class Wizard(controllers.Controller, TinyResource):
         params.datas['form'].update(datas)
         
         return self.create(params, tg_errors=tg_errors)
+    
+# vim: ts=4 sts=4 sw=4 si et
+

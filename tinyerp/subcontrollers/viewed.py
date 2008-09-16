@@ -866,3 +866,6 @@ _PROPERTY_WIDGETS = {
 def get_property_widget(name, value=None):
     wid = _PROPERTY_WIDGETS.get(name, tg_widgets.TextField)
     return wid(name=name, default=value)
+
+# vim: ts=4 sts=4 sw=4 si et
+

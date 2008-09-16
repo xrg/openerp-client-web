@@ -31,12 +31,13 @@
 }
 
 .grid-cell.button {
-	text-align: center;
+	text-align: right;
 }
 
 .grid-cell.button button {
 	margin: 0px;
 	margin-right: 1px;
+        width: auto;
 }
 
 .grid-header .grid-cell {

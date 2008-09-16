@@ -94,3 +94,6 @@ class Shortcuts(controllers.Controller, TinyResource):
         cherrypy.session['terp_shortcuts'] = sc
 
         raise redirect('/tree/open', id=id, model='ir.ui.menu')
+        
+# vim: ts=4 sts=4 sw=4 si et
+

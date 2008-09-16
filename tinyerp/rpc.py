@@ -488,3 +488,5 @@ if __name__=="__main__":
     res = RPCProxy('ir.values').get('action', 'tree_but_open', [('ir.ui.menu', 73)], False, {})
     print res
 
+# vim: ts=4 sts=4 sw=4 si et
+
