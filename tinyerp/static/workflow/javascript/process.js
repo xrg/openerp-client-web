@@ -188,12 +188,6 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
         this.data = data;
 
-        var elem = this.getHTMLElement();
-        elem.style.cursor = 'pointer';
-        elem.title = data.name;
-
-        MochiKit.Signal.connect(elem, 'onclick', this, this.onClick);
-        
         var roles = data.roles || [];
         var description = MochiKit.Base.map(function(role){
             return TD({align: 'center'}, IMG({src: '/static/images/stock/stock_person.png'}), BR(), role.name);
@@ -212,6 +206,35 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
             'buttons': buttons,
             'buttonClick': MochiKit.Base.bind(this.onBtnClick, this)
         });
+
+        if (roles.length) {
+            var role_img = new draw2d.ImageFigure('/static/images/stock/stock_person.png');
+            role_img.setDimension(32, 32);
+            role_img.html.style.cursor = "pointer";
+            this.addFigure(role_img, new draw2d.ManhattenMidpointLocator(this));
+        }
+
+        var title = data.name + '::' + (data.notes || '');
+
+        if (roles.length) {
+            title += '<hr noshade="noshade"><ul style="margin: 0px;">';
+        }
+
+        MochiKit.Base.map(function(r){
+            title += '<li>' + r.name + '</li>';
+        }, roles);
+
+        if (roles.length) {
+            title += '</ul>';
+        }
+
+        var elem = this.getHTMLElement();
+        elem.style.cursor = 'pointer';
+        elem.title = title;
+
+        new Tips([elem]);
+
+        MochiKit.Signal.connect(elem, 'onclick', this, this.onClick);
     },
 
     onClick: function(evt) {
