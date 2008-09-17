@@ -188,32 +188,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
         this.data = data;
 
-        var roles = data.roles || [];
-        var description = MochiKit.Base.map(function(role){
-            return TD({align: 'center'}, IMG({src: '/static/images/stock/stock_person.png'}), BR(), role.name);
-        }, roles);
-
-        description = roles.length ? TABLE({'style': 'height: 70px; font-size: 10px'},
-                                        TBODY(null, TR(null, description))) : '';
-
-        var buttons = MochiKit.Base.map(function(b){
-            return b.name;
-        }, data.buttons || []);
-
-        this.infoBox = new InfoBox({
-            'title': this.data.name,
-            'description': description,
-            'buttons': buttons,
-            'buttonClick': MochiKit.Base.bind(this.onBtnClick, this)
-        });
-
-        if (roles.length) {
-            var role_img = new draw2d.ImageFigure('/static/images/stock/stock_person.png');
-            role_img.setDimension(32, 32);
-            role_img.html.style.cursor = "pointer";
-            this.addFigure(role_img, new draw2d.ManhattenMidpointLocator(this));
-        }
-
+        var roles = data.roles || [];        
         var title = data.name + '::' + (data.notes || '');
 
         if (roles.length) {
@@ -234,7 +209,36 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
         new Tips([elem]);
 
-        MochiKit.Signal.connect(elem, 'onclick', this, this.onClick);
+        if (data.buttons && data.buttons.length) {
+
+            var description = MochiKit.Base.map(function(role){
+                return TD({align: 'center'}, IMG({src: '/static/images/stock/stock_person.png'}), BR(), role.name);
+            }, roles);
+
+            description = roles.length ? TABLE({'style': 'height: 70px; font-size: 10px'},
+                                            TBODY(null, TR(null, description))) : '';
+
+            var buttons = MochiKit.Base.map(function(b){
+                return b.name;
+            }, data.buttons || []);
+
+            this.infoBox = new InfoBox({
+                'title': this.data.name,
+                'description': description,
+                'buttons': buttons,
+                'buttonClick': MochiKit.Base.bind(this.onBtnClick, this)
+            });
+
+            MochiKit.Signal.connect(elem, 'onclick', this, this.onClick);
+        }
+
+        if (roles.length) {
+            var role_img = new draw2d.ImageFigure('/static/images/stock/stock_person.png');
+            role_img.setDimension(32, 32);
+            role_img.html.style.cursor = "pointer";
+            this.addFigure(role_img, new draw2d.ManhattenMidpointLocator(this));
+        }
+
     },
 
     onClick: function(evt) {
