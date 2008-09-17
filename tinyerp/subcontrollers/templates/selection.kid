@@ -47,7 +47,7 @@
                     <td width="100%">
                     </td>
                     <td>
-                        <button type="button" onclick="history.back()">Cancel</button>
+                        <button type="button" onclick="window.opener ? window.close() : history.back()">Cancel</button>
                         <button type="submit">OK</button>
                     </td>
                 </tr>
