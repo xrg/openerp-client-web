@@ -55,7 +55,6 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
     	for(var id in nodes){
     		var data = nodes[id];
-            data['current'] = data.model == this.res_model;
 
     		var n = new openerp.process.Node(data);
 	    	this.addFigure(n, data.x, data.y);
@@ -140,7 +139,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         buttons[0].innerHTML = ("<img src='/static/images/stock/gtk-info.png'/>");
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
-        if (this.data.current) {
+        if (this.data.active) {
             buttons[1].innerHTML = "<img src='/static/images/stock/gtk-open.png'/>";
             buttons[2].innerHTML = "<img src='/static/images/stock/gtk-print.png'/>";
 
