@@ -137,10 +137,15 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         title.innerHTML = this.data.name;
         text.innerHTML = this.data.menu;
         
-        buttons[0].innerHTML = "<img src='/static/images/stock/gtk-info.png'/>";
+        buttons[0].innerHTML = ("<img src='/static/images/stock/gtk-info.png'/>");
+        buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
+
         if (this.data.current) {
             buttons[1].innerHTML = "<img src='/static/images/stock/gtk-open.png'/>";
             buttons[2].innerHTML = "<img src='/static/images/stock/gtk-print.png'/>";
+
+            buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
+            buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
 
             elem.style.background = "url(/static/workflow/images/node-current.png) no-repeat";
         }
@@ -163,6 +168,20 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         
         this.inPort.getHTMLElement().style.display = 'none';    
     	this.outPort.getHTMLElement().style.display = 'none';
+    },
+
+    onView: function() {
+        window.open(getURL("/form/view", {model: this.workflow.res_model, id: this.workflow.res_id}));
+    },
+
+    onPrint: function() {
+        window.open(getURL("/form/report", {
+            _terp_model: this.workflow.res_model, 
+            _terp_id: this.workflow.res_id}));
+    },
+
+    onHelp: function() {
+        window.open("http://openerp.com/scripts/context_index.php?model=" + this.data.model);
     }
 });
 
