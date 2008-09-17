@@ -200,9 +200,15 @@ class Frame(TinyCompoundWidget):
         if not hasattr(widget, 'visible'):
             widget.visible = True
         
-        # Visibility based on current state
-        if isinstance(widget, (Button, Group, Page)) and getattr(widget, 'states'):
-            attrs['states'] = ','.join(widget.states)
+        # state change
+        if getattr(widget, 'states', False):
+            # convert into JS
+            states = widget.states.copy()
+            for k, v in states.items():
+                states[k] = dict(v)
+
+            attrs['states'] = str(states)
+            attrs['widget'] = widget.name
             if not widget.visible:
                 attrs['style'] = 'display: none'
             widget.visible = True
@@ -210,6 +216,7 @@ class Frame(TinyCompoundWidget):
         if isinstance(widget, (Group, Notebook, O2M, M2M)):
             attrs['valign'] = 'top'
             
+        # attr change
         if getattr(widget, 'attributes', False):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name

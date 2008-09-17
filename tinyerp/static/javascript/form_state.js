@@ -30,8 +30,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var FORM_STATE_INFO = [];
-
 var form_hookStateChange = function() {
     
     var items = [];
@@ -43,24 +41,62 @@ var form_hookStateChange = function() {
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'states');
     }, items);
+
+    var fields = {};
+
+    forEach(items, function(e) {
+        var widget = getNodeAttribute(e, 'widget');
+        var states = getNodeAttribute(e, 'states');
+        var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
+
+        // remove the u'from unicode text'
+        states = states.replace(/u'/g, "'");
+        // conver to JS
+        states = eval('(' + states + ')');
+
+        var state = getElement(prefix ? prefix + 'state' : 'state');
+        if (state) {
+            fields[state.id] = state;
+            MochiKit.Signal.connect(state, 'onchange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
+        }
+    });
     
-    FORM_STATE_INFO = items;
-    MochiKit.Signal.connect('state', 'onchange', form_onStateChange);   
+    for(var field in fields) {
+        MochiKit.Signal.signal(field, 'onchange');
+    }
 }
 
-var form_onStateChange = function(evt) {
-    
-    var elem = MochiKit.DOM.getElement('state');
-    var val = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
+var form_onStateChange = function(container, widget, states, evt) {
 
-    for(var i=0; i<FORM_STATE_INFO.length; i++) {
-            
-        var item = FORM_STATE_INFO[i];
-        var states = getNodeAttribute(item, 'states');
-        states = states.split(',');
-        
-        form_setVisible(item, null, findIdentical(states, val) > -1);
+    var src = evt.src();
+    var attr = states[src.value];
+
+    var readonly = false;
+    var required = false;
+    var invisible = false;
+
+    for(var a in attr) {
+        var v = attr[v];
+        v = v == 'False' ? 0 : parseInt(v) || 1;
+
+        switch(a) {
+            case 'readonly':
+                readonly = v;
+                break;
+            case 'required':
+                required = v;
+                break;
+            case 'invisible':
+                invisible = v;
+                break;
+        }
     }
+
+    form_setReadonly(container, widget, readonly);
+    form_setRequired(container, widget, required);
+
+    //XXX: layout issue, allow Notebook, Group and Button only
+    form_setVisible(container, widget, !invisible);
 }
 
 var form_hookAttrChange = function() {
@@ -181,7 +217,8 @@ var form_setReadonly = function(container, field, readonly) {
     if (!field)
         return;
     
-    field.disabled = readonly;
+    field = MochiKit.DOM.getElement(field);
+    field.readOnly = readonly;
     
     if (readonly) {
         MochiKit.DOM.addElementClass(field, 'readonlyfield');
@@ -208,12 +245,12 @@ var form_setReadonly = function(container, field, readonly) {
 var form_setRequired = function(container, field, required) {
     
     if (required) {
-       MochiKit.DOM.addElementClass(field, 'requiredfield');    
+       MochiKit.DOM.addElementClass(field, 'requiredfield');
     } else {
-       MochiKit.DOM.removeElementClass(field, 'requiredfield');    
-       MochiKit.DOM.removeElementClass(field, 'errorfield');
+       MochiKit.DOM.removeElementClass(field, 'requiredfield');
     }
-    
+    MochiKit.DOM.removeElementClass(field, 'errorfield');
+
     var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
     
     if (field.type == 'hidden' && kind == 'many2one') {
@@ -266,13 +303,8 @@ var form_setVisible = function(container, field, visible) {
     }
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
-    
-    if (MochiKit.DOM.getElement('state')) {
-        form_hookStateChange();
-        form_onStateChange();
-    }
-    
+MochiKit.DOM.addLoadEvent(function(evt){    
+    form_hookStateChange();
     form_hookAttrChange();
 });
 
