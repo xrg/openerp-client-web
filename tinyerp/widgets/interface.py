@@ -134,10 +134,12 @@ class TinyInputWidget(TinyWidget):
         self._validator = None
 
     def get_validator(self):
-        if self._validator:
-            self._validator.not_empty = (self.required or False) and True
-        elif self.required:
-            self._validator = tg.validators.NotEmpty()
+
+        # required fields are now validated at client side
+        #if self._validator:
+        #    self._validator.not_empty = (self.required or False) and True
+        #elif self.required:
+        #    self._validator = tg.validators.NotEmpty()
 
         return self._validator
 
