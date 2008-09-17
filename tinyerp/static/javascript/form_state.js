@@ -49,9 +49,10 @@ var form_hookStateChange = function() {
         var states = getNodeAttribute(e, 'states');
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
 
-        // remove the u'from unicode text'
-        states = states.replace(/u'/g, "'");
         // conver to JS
+        states = states.replace(/u'/g, "'");
+        states = states.replace(/True/g, '1');
+        states = states.replace(/False/g, '0');
         states = eval('(' + states + ')');
 
         var state = getElement(prefix ? prefix + 'state' : 'state');
@@ -69,6 +70,12 @@ var form_hookStateChange = function() {
 var form_onStateChange = function(container, widget, states, evt) {
 
     var src = evt.src();
+    var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
+
+    if (MochiKit.Base.isArrayLike(states)) {
+        return form_setVisible(container, widget, findIdentical(states, value) > -1);
+    }
+
     var attr = states[src.value];
 
     var readonly = false;
@@ -95,7 +102,7 @@ var form_onStateChange = function(container, widget, states, evt) {
     form_setReadonly(container, widget, readonly);
     form_setRequired(container, widget, required);
 
-    //XXX: layout issue, allow Notebook, Group and Button only
+    //XXX: layout issue, allow Notebook, Group and Button only (see above, isArrayLike)
     form_setVisible(container, widget, !invisible);
 }
 
@@ -233,12 +240,9 @@ var form_setReadonly = function(container, field, readonly) {
     }
     
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
-        
         var img = getElement(field.name + '_trigger');
-        if (readonly)
-            img.parentNode.style.display = 'none';
-        else
-            img.parentNode.style.display = '';
+        if (img)
+            img.parentNode.style.display = readonly ? 'none' : '';
     }
 }
 

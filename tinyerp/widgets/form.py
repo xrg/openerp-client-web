@@ -202,10 +202,13 @@ class Frame(TinyCompoundWidget):
         
         # state change
         if getattr(widget, 'states', False):
+
+            states = widget.states
             # convert into JS
-            states = widget.states.copy()
-            for k, v in states.items():
-                states[k] = dict(v)
+            if isinstance(states, dict):
+                states = states.copy()
+                for k, v in states.items():
+                    states[k] = dict(v)
 
             attrs['states'] = str(states)
             attrs['widget'] = widget.name
