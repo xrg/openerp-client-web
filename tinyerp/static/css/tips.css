@@ -13,8 +13,8 @@ table.tooltip .tip-tl,
 table.tooltip .tip-tr,
 table.tooltip .tip-bl,
 table.tooltip .tip-br {
-    width: 24px;
-    height: 24px;
+    width: 9px;
+    height: 9px;
     white-space: nowrap;
 }
 
@@ -28,11 +28,6 @@ table.tooltip .tip-tr {
 
 table.tooltip .tip-t {
     background: url(/static/images/tips/t.png);
-    font-weight: bold;
-    font-size: 12px;
-    text-align: center;
-    padding-top: 4px;
-    white-space: nowrap;
 }
 
 table.tooltip .tip-bl {
@@ -59,8 +54,19 @@ table.tooltip .tip-text {
     background: url(/static/images/tips/l.png);
 }
 
-table.tooltip .tip-text p {
+table.tooltip .tipTitle {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+    text-align: center;
+    white-space: nowrap;
+    margin-bottom: 2px;
+}
+
+table.tooltip .tipText {
     margin: 0px;
-    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 2px;
 }
 

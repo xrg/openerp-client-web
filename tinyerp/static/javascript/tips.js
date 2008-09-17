@@ -18,18 +18,19 @@ __init__ : function(elements, options) {
     this.deferred = null;
     this.elements = elements;
 
-    this.toolTitle = TD({'class': 'tip-t'});
-    this.toolText = P({});
+    this.toolTitle = SPAN({'class': 'tipTitle'});
+    this.toolText = P({'class': 'tipText'});
     
     this.toolTip = TABLE({'class': 'tooltip'},
                         TBODY(null,
                             TR(null,
                                 TD({'class': 'tip-tl', 'nowrap': 'nowrap'}),
-                                this.toolTitle,
+                                TD({'class': 'tip-t'}),
                                 TD({'class': 'tip-tr', 'nowrap': 'nowrap'})),
                             TR(null,
                                 TD({'class': 'tip-l'}),
-                                TD({'class': 'tip-text'}, this.toolText),
+                                TD({'class': 'tip-text'}, 
+                                    this.toolTitle, this.toolText),
                                 TD({'class': 'tip-r'})),
                             TR(null,
                                 TD({'class': 'tip-bl'}),
@@ -40,7 +41,6 @@ __init__ : function(elements, options) {
     this.toolTip.cellPadding = 0;
     this.toolTip.cellSpacing = 0;
     
-
     MochiKit.DOM.appendChildNodes(document.body, this.toolTip);
 
     MochiKit.Iter.forEach(elements, function(el) {
@@ -76,9 +76,20 @@ __init__ : function(elements, options) {
     show: function(evt){
 
         var el = evt.src();
+        var text = el.myText;
+        var title = el.myTitle;
+        
+        // if plain text then replace \n with <br>
+        if (! /<\w+/.test(text)) {
+            text = text.replace(/\n|\r/g, '<br>');
+        }
+        
+        title = text ? title : '';
 
-        this.toolTitle.innerHTML = el.myTitle || '?';
-        this.toolText.innerHTML = el.myText.replace(/\n|\r/g, '<br>');
+        this.toolTitle.innerHTML = title;
+        this.toolText.innerHTML = text ? text : el.myTitle;
+        
+        this.toolTitle.style.display = title ? 'block' : 'none';
 
         MochiKit.DOM.showElement(this.toolTip);
     },
