@@ -30,6 +30,7 @@
 #
 ###############################################################################
 
+import re
 import time
 import datetime as DT
 
@@ -83,7 +84,15 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
     
     if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(server_format, value)
-        
+
+    # add time part in value if missing
+    if kind == 'datetime' and not re.match('\s+\d{2}:\d{2}:\d{2}', value):
+        value += ' 00:00:00'
+
+    # remove time part from value
+    if kind == 'date':
+        value = re.sub('\s+\d{2}:\d{2}:\d{2}', '', value)
+
     value = time.strptime(value, server_format)
 
     if kind == "datetime" and 'tz' in rpc.session.context:
