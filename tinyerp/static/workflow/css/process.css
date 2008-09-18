@@ -16,6 +16,12 @@
     color: white;
 }
 
+.node-text {
+    padding-top: 2px;
+    padding-right: 2px;
+    font-size: 11px;
+}
+
 .node-button {
     width: 17px;
     height: 17px;

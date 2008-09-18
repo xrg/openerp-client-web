@@ -163,7 +163,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         
         table.cellPadding = table.cellSpacing = 0;
         title.innerHTML = this.data.name || '';
-        text.innerHTML = this.data.notes || '';
+        text.innerHTML = (this.data.active ? '<b>' + this.data.active + '</b><br>' : '') + (this.data.notes || '');
 
         if (this.data.menu) {
             var menu_img = IMG({src: '/static/images/stock/gtk-jump-to.png'});
