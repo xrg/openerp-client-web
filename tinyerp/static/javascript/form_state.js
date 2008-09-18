@@ -76,34 +76,23 @@ var form_onStateChange = function(container, widget, states, evt) {
         return form_setVisible(container, widget, findIdentical(states, value) > -1);
     }
 
-    var attr = states[value];
+    var has_readonly = false;
+    var has_required = false;
 
-    var readonly = false;
-    var required = false;
-    var invisible = false;
-
-    for(var a in attr) {
-
-        var v = typeof(attr[a]) == "undefined" ? 0 : attr[a];
-
-        switch(a) {
-            case 'readonly':
-                readonly = v;
-                break;
-            case 'required':
-                required = v;
-                break;
-            case 'invisible':
-                invisible = v;
-                break;
-        }
+    for(var a in states) {
+        a = states[a];
+        has_readonly = has_readonly || typeof(a.readonly) != "undefined";
+        has_required = has_required || typeof(a.required) != "undefined";
     }
 
-    form_setReadonly(container, widget, readonly);
-    form_setRequired(container, widget, required);
+    var attr = states[value];
 
-    //XXX: layout issue, allow Notebook, Group and Button only (see above, isArrayLike)
-    form_setVisible(container, widget, !invisible);
+    if (has_readonly)
+        form_setReadonly(container, widget, attr['readonly']);
+
+    if (has_required)
+        form_setRequired(container, widget, attr['required']);
+
 }
 
 var form_hookAttrChange = function() {
@@ -248,10 +237,13 @@ var form_setReadonly = function(container, field, readonly) {
 
 var form_setRequired = function(container, field, required) {
     
+    
+    log(field, required);
+
     if (required) {
-       MochiKit.DOM.addElementClass(field, 'requiredfield');
+        MochiKit.DOM.addElementClass(field, 'requiredfield');
     } else {
-       MochiKit.DOM.removeElementClass(field, 'requiredfield');
+        MochiKit.DOM.removeElementClass(field, 'requiredfield');
     }
     MochiKit.DOM.removeElementClass(field, 'errorfield');
 
