@@ -26,6 +26,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     __super__: draw2d.Workflow,
 
     __init__: function(canvas) {
+
         this.__super__.call(this, canvas);
         this.setBackgroundImage(null, false);
         
@@ -34,6 +35,10 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     },
 
     load: function(id, res_model, res_id) {
+
+        if (window.browser.isOpera) {
+            return;
+        }
 
         this.process_id = id;
         this.res_model = res_model;
@@ -244,24 +249,11 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
         this.data = data;
 
-        var roles = data.roles || [];        
-        var title = data.name + '::' + (data.notes || '');
-
-        if (roles.length) {
-            title += '<hr noshade="noshade"><ul style="margin: 0px;">';
-        }
-
-        MochiKit.Base.map(function(r){
-            title += '<li>' + r.name + '</li>';
-        }, roles);
-
-        if (roles.length) {
-            title += '</ul>';
-        }
+        var roles = data.roles || [];
 
         var elem = this.getHTMLElement();
         elem.style.cursor = 'pointer';
-        elem.title = title;
+        elem.title = this._makeTipText();
 
         if (data.active && data.buttons && data.buttons.length) {
 
@@ -289,6 +281,33 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
             this.addFigure(role_img, new draw2d.ManhattenMidpointLocator(this));
         }
 
+    },
+
+    _makeTipText: function() {
+
+        var data = this.data;
+        var title = data.name + '::' + (data.notes || '');
+
+        var roles = data.roles || [];
+        var buttons = data.buttons || [];
+
+        var _mkList = function(values) {
+            var r = '<ul style="margin: 0px;">';
+            MochiKit.Base.map(function(v){
+                r += '<li>' + v.name + '</li>';
+            }, values);
+            return r + '</ul>';
+        }
+
+        if (roles.length) {
+            title += '<hr noshare=""><span style="">Roles:</span>' + _mkList(roles);
+        }
+
+        if (buttons.length) {
+            title += '<br><span style="">Actions:</span>' + _mkList(buttons);
+        }
+
+        return title;
     },
 
     onClick: function(evt) {
