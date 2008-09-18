@@ -299,12 +299,16 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
             return r + '</ul>';
         }
 
+        if (roles.length || buttons.length) {
+            title += '<hr noshare="">'
+        }
+
         if (roles.length) {
-            title += '<hr noshare=""><span style="">Roles:</span>' + _mkList(roles);
+            title += '<span>Roles:</span>' + _mkList(roles);
         }
 
         if (buttons.length) {
-            title += '<br><span style="">Actions:</span>' + _mkList(buttons);
+            title += '<span>Actions:</span>' + _mkList(buttons);
         }
 
         return title;
