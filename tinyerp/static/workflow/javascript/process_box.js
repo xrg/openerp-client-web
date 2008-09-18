@@ -28,8 +28,11 @@ InfoBox.prototype = {
         var desc = options.description || '';
 
         var buttons = MochiKit.Base.map(function(b){
-                var res = BUTTON({'class': 'button', 'type': 'button'}, b);
-                MochiKit.Signal.connect(res, 'onclick', options.buttonClick || function(){});
+                var res = BUTTON({'class': 'button', 'type': 'button'}, b.name);
+                var btnClick = options.buttonClick || function(){};
+                MochiKit.Signal.connect(res, 'onclick', function(evt){
+                    btnClick(evt, b);
+                });
                 return res;
         }, options.buttons || []);
 

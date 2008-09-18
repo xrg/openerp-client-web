@@ -239,14 +239,10 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
             description = roles.length ? TABLE({'style': 'height: 70px; font-size: 10px'},
                                             TBODY(null, TR(null, description))) : '';
 
-            var buttons = MochiKit.Base.map(function(b){
-                return b.name;
-            }, data.buttons || []);
-
             this.infoBox = new InfoBox({
                 'title': this.data.name,
                 'description': description,
-                'buttons': buttons,
+                'buttons': data.buttons || [],
                 'buttonClick': MochiKit.Base.bind(this.onBtnClick, this)
             });
 
@@ -266,10 +262,28 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         this.infoBox.show(evt);
     },
 
-    onBtnClick: function(evt) {
+    onBtnClick: function(evt, button) {
         this.infoBox.hide();
-        alert('Not implemented yet!');
-        window.location.reload();
+
+        if (button.state == "dummy" || !button.action)
+            return;
+
+        var req = Ajax.JSON.post('/process/action', {
+            _terp_model: this.workflow.res_model,
+            _terp_id: this.workflow.res_id,
+            _terp_kind: button.state,
+            _terp_action: button.action
+        });
+
+
+        req.addCallback(function(res){
+            if (res.error) {
+                alert(res.error);
+            } else {
+                window.location.reload();
+            }
+        });
+
     }
 });
 

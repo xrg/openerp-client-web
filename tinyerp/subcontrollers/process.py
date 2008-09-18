@@ -39,7 +39,10 @@ import cherrypy
 from tinyerp import rpc
 from tinyerp import common
 
+from tinyerp.utils import TinyDict
 from tinyerp.tinyres import TinyResource
+
+import form
 
 class Process(controllers.Controller, TinyResource):
     
@@ -70,6 +73,29 @@ class Process(controllers.Controller, TinyResource):
         graph = proxy.graph_get(id, res_model, res_id, (100, 100, 180, 120), rpc.session.context)
 
         return graph
-    
+
+    @expose('json')
+    def action(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        button = TinyDict()
+        
+        button.model = params.model
+        button.id = params.id
+        button.name = params.action
+        button.btype = params.kind
+        
+        params.button = button
+
+        fobj = form.Form()
+
+        error = ""
+        try:
+            res = fobj.button_action(params)
+        except Exception, e:
+            error = str(e)
+
+        return dict(error=error)
+
 # vim: ts=4 sts=4 sw=4 si et
 
