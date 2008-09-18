@@ -106,8 +106,11 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
 
     createHTMLElement: function() {
         var elem = this.__super__.prototype.createHTMLElement.call(this);
-        elem.style.background = "url(/static/workflow/images/node.png) no-repeat";
-                
+
+        elem.style.background = this.data.gray ?
+                                    "url(/static/workflow/images/node-gray.png) no-repeat" :
+                                    "url(/static/workflow/images/node.png) no-repeat";
+
         elem.innerHTML = (
         "<table border='0' class='node-table'>"+
         "	<tr>"+
