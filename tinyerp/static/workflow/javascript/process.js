@@ -64,10 +64,14 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 	    
 	    for(var id in transitions){
     		var data = transitions[id];
-    		var t = new openerp.process.Transition(data);
     		
     		var src = this.nodes[data.source];
     		var dst = this.nodes[data.target];
+
+            // make active
+            data.active = src.data.active && !dst.data.gray;
+
+            var t = new openerp.process.Transition(data);
     		
     		t.setSource(src.outPort);
     		t.setTarget(dst.inPort);
@@ -230,7 +234,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
         new Tips([elem]);
 
-        if (data.buttons && data.buttons.length) {
+        if (data.active && data.buttons && data.buttons.length) {
 
             var description = MochiKit.Base.map(function(role){
                 return TD({align: 'center'}, IMG({src: '/static/images/stock/stock_person.png'}), BR(), role.name);
