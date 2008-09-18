@@ -87,10 +87,10 @@ var form_onStateChange = function(container, widget, states, evt) {
 
     var attr = states[value];
 
-    if (has_readonly)
+    if (attr && has_readonly)
         form_setReadonly(container, widget, attr['readonly']);
 
-    if (has_required)
+    if (attr && has_required)
         form_setRequired(container, widget, attr['required']);
 
 }
@@ -123,7 +123,7 @@ var form_hookAttrChange = function() {
         attrs = attrs.replace(/False/g, '0');
         
         try {
-            eval('attrs='+attrs);
+            attrs = eval('(' + attrs + ')');
         } catch(e){
             return;
         }
