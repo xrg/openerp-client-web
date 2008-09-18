@@ -91,6 +91,15 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     		
     		this.transitions[id] = t; // keep reference
     	}
+
+        var elems = MochiKit.DOM.getElementsByTagAndClassName('*', null, this.html);
+        elems = MochiKit.Base.filter(function(e){
+            return MochiKit.DOM.getNodeAttribute(e, 'title');
+        }, elems);
+
+        if (elems.length) {
+            new Tips(elems);
+        }
     }
    
 });
@@ -141,25 +150,36 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         "		<td class='node-button'></td>"+
         "		<td class='node-button'></td>"+
         "		<td class='node-button'></td>"+
-        "		<td>&nbsp;</td>"+
+        "		<td class='node-menu' align='right'></td>"+
         "	</tr>"+
         "</table>");
         
         var table = elem.getElementsByTagName('table')[0];
         var title = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-title', table)[0];
-        var text = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-text', table)[0];        
+        var text = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-text', table)[0];
+        var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', table)[0];
+
         var buttons = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-button', table);
         
         table.cellPadding = table.cellSpacing = 0;
-        title.innerHTML = this.data.name;
-        text.innerHTML = this.data.menu;
+        title.innerHTML = this.data.name || '';
+        text.innerHTML = this.data.notes || '';
+
+        if (this.data.menu) {
+            var menu_img = IMG({src: '/static/images/stock/gtk-jump-to.png'});
+            menu_img.title = this.data.menu.name;
+            menu_img.onclick = MochiKit.Base.bind(function(){
+                window.open(getURL('/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id}));
+            }, this);
+            MochiKit.DOM.appendChildNodes(menu, menu_img);
+        }
         
-        buttons[0].innerHTML = ("<img src='/static/images/stock/gtk-info.png'/>");
+        buttons[0].innerHTML = ("<img src='/static/images/stock/gtk-info.png' title='Help'/>");
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
         if (this.data.active) {
-            buttons[1].innerHTML = "<img src='/static/images/stock/gtk-open.png'/>";
-            buttons[2].innerHTML = "<img src='/static/images/stock/gtk-print.png'/>";
+            buttons[1].innerHTML = "<img src='/static/images/stock/gtk-open.png' title='View'/>";
+            buttons[2].innerHTML = "<img src='/static/images/stock/gtk-print.png' title='Print'/>";
 
             buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
@@ -242,8 +262,6 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         var elem = this.getHTMLElement();
         elem.style.cursor = 'pointer';
         elem.title = title;
-
-        new Tips([elem]);
 
         if (data.active && data.buttons && data.buttons.length) {
 

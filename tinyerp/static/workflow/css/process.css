@@ -22,6 +22,11 @@
     padding: 1px;
 }
 
+.node-menu {
+    padding-right: 6px;
+}
+
+.node-menu img,
 .node-button img {
     cursor: pointer;
 }
