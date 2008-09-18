@@ -76,15 +76,15 @@ var form_onStateChange = function(container, widget, states, evt) {
         return form_setVisible(container, widget, findIdentical(states, value) > -1);
     }
 
-    var attr = states[src.value];
+    var attr = states[value];
 
     var readonly = false;
     var required = false;
     var invisible = false;
 
     for(var a in attr) {
-        var v = attr[v];
-        v = v == 'False' ? 0 : parseInt(v) || 1;
+
+        var v = typeof(attr[a]) == "undefined" ? 0 : attr[a];
 
         switch(a) {
             case 'readonly':
