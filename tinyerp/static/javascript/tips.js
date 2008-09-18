@@ -51,10 +51,10 @@ __init__ : function(elements, options) {
         if (el.myText) 
             el.removeAttribute('title');
 
-        if (el.href){
-            if (el.href.indexOf('http://') > -1) el.myTitle = el.href.replace('http://', '');
-            if (el.href.length > this.options.maxTitleChars) el.myTitle = el.href.substr(0,this.options.maxTitleChars-3)+"...";
-        }
+        //if (el.href){
+        //    if (el.href.indexOf('http://') > -1) el.myTitle = el.href.replace('http://', '');
+        //    if (el.href.length > this.options.maxTitleChars) el.myTitle = el.href.substr(0,this.options.maxTitleChars-3)+"...";
+        //}
         
         if (el.myText && el.myText.indexOf('::') > -1){
             var dual = el.myText.split('::');
@@ -78,16 +78,22 @@ __init__ : function(elements, options) {
         var el = evt.src();
         var text = el.myText;
         var title = el.myTitle;
-        
+
         // if plain text then replace \n with <br>
         if (! /<\w+/.test(text)) {
-            text = text.replace(/\n|\r/g, '<br>');
+            text = text.replace(/\n|\r/g, '<br/>');
         }
         
         title = text ? title : '';
 
+        // hack for strange IE error
+        var div = document.createElement('div');
+        div.innerHTML = text ? text : el.myTitle;
+
         this.toolTitle.innerHTML = title;
-        this.toolText.innerHTML = text ? text : el.myTitle;
+        this.toolText.innerHTML = '';
+        
+        MochiKit.DOM.appendChildNodes(this.toolText, div.childNodes);
         
         this.toolTitle.style.display = title ? 'block' : 'none';
 

@@ -5,8 +5,10 @@
 }
 
 .node-table {
-    width: 100%;
+    width: 155px;
     height: 116px;
+    margin-left: 26px;    
+    text-align: left;
 }
 
 .node-title {
@@ -20,6 +22,7 @@
     padding-top: 2px;
     padding-right: 2px;
     font-size: 11px;
+    height: 74px;
 }
 
 .node-button {
@@ -30,6 +33,7 @@
 
 .node-menu {
     padding-right: 6px;
+    width: 100%;
 }
 
 .node-menu img,

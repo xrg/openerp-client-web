@@ -143,15 +143,12 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         elem.innerHTML = (
         "<table border='0' class='node-table'>"+
         "	<tr>"+
-        "		<td width='30'></td>"+
         "		<td class='node-title' colspan='4'></td>"+
         "	</tr>"+
         "	<tr>"+
-        "       <td width='30'></td>"+
         "		<td colspan='4' class='node-text'></td>"+
         "	</tr>"+
         "	<tr>"+
-        "		<td></td>"+
         "		<td class='node-button'></td>"+
         "		<td class='node-button'></td>"+
         "		<td class='node-button'></td>"+
@@ -292,7 +289,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         var buttons = data.buttons || [];
 
         var _mkList = function(values) {
-            var r = '<ul style="margin: 0px;">';
+            var r = '<ul style="margin-bottom: 0px; margin-top: 0px;">';
             MochiKit.Base.map(function(v){
                 r += '<li>' + v.name + '</li>';
             }, values);
@@ -300,7 +297,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         }
 
         if (roles.length || buttons.length) {
-            title += '<hr noshare="">'
+            title += '<hr noshade="noshade"/>'
         }
 
         if (roles.length) {
