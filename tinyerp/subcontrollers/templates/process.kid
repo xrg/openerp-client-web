@@ -17,7 +17,7 @@
 
     <script type="text/javascript">
         MochiKit.DOM.addLoadEvent(function(evt){
-            var wkf = new openerp.process.Workflow('canvas');
+            var wkf = new openerp.process.Workflow('process_canvas');
 
             var id = getElement('id').value;
             var res_model = getElement('res_model').value;
@@ -48,9 +48,7 @@
             <input type="hidden" id="id" value="$id"/>
             <input type="hidden" id="res_model" value="$res_model"/>
             <input type="hidden" id="res_id" value="$res_id"/>
-            <div id="viewport" style="position: relative; width: 99%; height: 600px; overflow: auto;">
-                <div id="canvas" style="position: relative;"></div>
-            </div>
+            <div id="process_canvas"></div>
         </td>
     </tr>
 </table>

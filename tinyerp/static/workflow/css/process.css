@@ -1,3 +1,9 @@
+#process_canvas {
+    position: relative;
+    margin: auto;
+    outline: none;
+}
+
 .node-table {
     width: 100%;
     height: 116px;

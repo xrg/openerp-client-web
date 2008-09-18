@@ -53,6 +53,9 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
     _render: function(nodes, transitions) {
 
+        var h = 0;
+        var w = 0;
+
     	for(var id in nodes){
     		var data = nodes[id];
 
@@ -60,7 +63,15 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 	    	this.addFigure(n, data.x, data.y);
 	    	
 	    	this.nodes[id] = n; // keep reference
+
+            h = Math.max(h, data.y);
+            w = Math.max(w, data.x);
 	    }
+
+        h += 120 + 10; // add height of node + some margin
+        w += 180 + 10; // add width of node + some margin
+
+        MochiKit.DOM.setElementDimensions(this.html, {h: h, w: w});
 	    
 	    for(var id in transitions){
     		var data = transitions[id];
