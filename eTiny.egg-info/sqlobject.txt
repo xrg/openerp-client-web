@@ -1,2 +1,0 @@
-db_module=tinyerp.model
-history_dir=$base/tinyerp/sqlobject-history

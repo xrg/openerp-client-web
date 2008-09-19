@@ -15,649 +15,649 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 
 
-#: tinyerp/common.py:42 tinyerp/common.py:56
-#: tinyerp/subcontrollers/actions.py:91 tinyerp/subcontrollers/actions.py:156
-#: tinyerp/subcontrollers/actions.py:246 tinyerp/subcontrollers/form.py:736
+#: openerp/common.py:42 openerp/common.py:56
+#: openerp/subcontrollers/actions.py:91 openerp/subcontrollers/actions.py:156
+#: openerp/subcontrollers/actions.py:246 openerp/subcontrollers/form.py:736
 msgid "Error"
 msgstr ""
 
-#: tinyerp/common.py:47 tinyerp/common.py:59
+#: openerp/common.py:47 openerp/common.py:59
 msgid "Warning"
 msgstr ""
 
-#: tinyerp/common.py:52
+#: openerp/common.py:52
 msgid "Information"
 msgstr ""
 
-#: tinyerp/controllers.py:105
+#: openerp/controllers.py:105
 msgid "Access Denied !"
 msgstr ""
 
-#: tinyerp/controllers.py:105
+#: openerp/controllers.py:105
 msgid ""
 "You can not log into the system !\n"
 "Ask the administrator to verify\n"
 "you have an action defined for your user."
 msgstr ""
 
-#: tinyerp/controllers.py:165 tinyerp/tinyres.py:119
+#: openerp/controllers.py:165 openerp/tinyres.py:119
 msgid "Could not connect to server !"
 msgstr ""
 
-#: tinyerp/rpc.py:175 tinyerp/rpc.py:223 tinyerp/rpc.py:385
+#: openerp/rpc.py:175 openerp/rpc.py:223 openerp/rpc.py:385
 msgid "Connection refused !"
 msgstr ""
 
-#: tinyerp/rpc.py:277 tinyerp/rpc.py:291
+#: openerp/rpc.py:277 openerp/rpc.py:291
 msgid "Unsupported protocol:"
 msgstr ""
 
-#: tinyerp/rpc.py:345
+#: openerp/rpc.py:345
 msgid ""
 "You select a timezone but Tiny ERP could not find pytz library !\n"
 "The timezone functionality will be disable."
 msgstr ""
 
-#: tinyerp/rpc.py:375
+#: openerp/rpc.py:375
 msgid "Authorization Error !"
 msgstr ""
 
-#: tinyerp/rpc.py:375
+#: openerp/rpc.py:375
 msgid "Not logged..."
 msgstr ""
 
-#: tinyerp/rpc.py:392 tinyerp/rpc.py:395
+#: openerp/rpc.py:392 openerp/rpc.py:395
 msgid "Application Error !"
 msgstr ""
 
-#: tinyerp/subcontrollers/actions.py:91
+#: openerp/subcontrollers/actions.py:91
 msgid "Invalid View!"
 msgstr ""
 
-#: tinyerp/subcontrollers/actions.py:116
+#: openerp/subcontrollers/actions.py:116
 msgid "Error no report"
 msgstr ""
 
-#: tinyerp/subcontrollers/actions.py:141
+#: openerp/subcontrollers/actions.py:141
 msgid "Nothing to print!"
 msgstr ""
 
-#: tinyerp/subcontrollers/actions.py:156
+#: openerp/subcontrollers/actions.py:156
 msgid "Printing aborted, too long delay !"
 msgstr ""
 
-#: tinyerp/subcontrollers/actions.py:246
+#: openerp/subcontrollers/actions.py:246
 msgid "Action not found!!!"
 msgstr ""
 
-#: tinyerp/subcontrollers/actions.py:292
+#: openerp/subcontrollers/actions.py:292
 msgid "No action defined!"
 msgstr ""
 
-#: tinyerp/subcontrollers/confeditor.py:76
+#: openerp/subcontrollers/confeditor.py:76
 msgid "Invalid Password !"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:79
+#: openerp/subcontrollers/dbadmin.py:79
 msgid "Bad database name !"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:79
+#: openerp/subcontrollers/dbadmin.py:79
 msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:86 tinyerp/subcontrollers/dbadmin.py:88
+#: openerp/subcontrollers/dbadmin.py:86 openerp/subcontrollers/dbadmin.py:88
 msgid "Could not create database."
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:86 tinyerp/subcontrollers/dbadmin.py:118
-#: tinyerp/subcontrollers/dbadmin.py:174
+#: openerp/subcontrollers/dbadmin.py:86 openerp/subcontrollers/dbadmin.py:118
+#: openerp/subcontrollers/dbadmin.py:174
 msgid "Bad database administrator password !"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:88
+#: openerp/subcontrollers/dbadmin.py:88
 msgid "Error during database creation !"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:118
+#: openerp/subcontrollers/dbadmin.py:118
 msgid "Could not drop database."
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:120
+#: openerp/subcontrollers/dbadmin.py:120
 msgid "Couldn't drop database"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:149
+#: openerp/subcontrollers/dbadmin.py:149
 msgid "Could not create backup."
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:174
+#: openerp/subcontrollers/dbadmin.py:174
 msgid "Could not restore database."
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:176
+#: openerp/subcontrollers/dbadmin.py:176
 msgid "Couldn't restore database"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:196
+#: openerp/subcontrollers/dbadmin.py:196
 msgid "Confirmation password do not match new password, operation cancelled!"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:196
+#: openerp/subcontrollers/dbadmin.py:196
 msgid "Validation Error."
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:202
+#: openerp/subcontrollers/dbadmin.py:202
 msgid "Bas password provided !"
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:202
+#: openerp/subcontrollers/dbadmin.py:202
 msgid "Could not change password database."
 msgstr ""
 
-#: tinyerp/subcontrollers/dbadmin.py:204
+#: openerp/subcontrollers/dbadmin.py:204
 msgid "Error, password not changed."
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:639 tinyerp/subcontrollers/tree.py:212
+#: openerp/subcontrollers/form.py:639 openerp/subcontrollers/tree.py:212
 msgid "No record selected !"
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:644
+#: openerp/subcontrollers/form.py:644
 msgid "Print Screen"
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:661
+#: openerp/subcontrollers/form.py:661
 msgid "You must save this record to use the sidebar button!"
 msgstr ""
 
-#: tinyerp/subcontrollers/form.py:736
+#: openerp/subcontrollers/form.py:736
 msgid "Wrong on_change trigger: %s"
 msgstr ""
 
-#: tinyerp/subcontrollers/impex.py:76
+#: openerp/subcontrollers/impex.py:76
 msgid ""
 "Operation failed !\n"
 "I/O error"
 msgstr ""
 
-#: tinyerp/subcontrollers/impex.py:270
+#: openerp/subcontrollers/impex.py:270
 msgid "XML-RPC error !"
 msgstr ""
 
-#: tinyerp/subcontrollers/impex.py:272
+#: openerp/subcontrollers/impex.py:272
 msgid "Imported %d objects !"
 msgstr ""
 
-#: tinyerp/subcontrollers/listgrid.py:61
+#: openerp/subcontrollers/listgrid.py:61
 msgid "Parent record doesn't exists..."
 msgstr ""
 
-#: tinyerp/subcontrollers/requests.py:54
+#: openerp/subcontrollers/requests.py:54
 msgid "No request"
 msgstr ""
 
-#: tinyerp/subcontrollers/requests.py:56
+#: openerp/subcontrollers/requests.py:56
 msgid "%s request(s)"
 msgstr ""
 
-#: tinyerp/subcontrollers/requests.py:59
+#: openerp/subcontrollers/requests.py:59
 msgid " - %s pending request(s)"
 msgstr ""
 
-#: tinyerp/subcontrollers/translator.py:144
+#: openerp/subcontrollers/translator.py:144
 msgid "You need to save the resource before adding translations."
 msgstr ""
 
-#: tinyerp/subcontrollers/tree.py:235
+#: openerp/subcontrollers/tree.py:235
 msgid "No resource selected !"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:59
+#: openerp/subcontrollers/view_log.py:59
 msgid "You have to select one resource!"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:67
+#: openerp/subcontrollers/view_log.py:67
 msgid "ID"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:68
+#: openerp/subcontrollers/view_log.py:68
 msgid "Creation User"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:69
+#: openerp/subcontrollers/view_log.py:69
 msgid "Creation Date"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:70
+#: openerp/subcontrollers/view_log.py:70
 msgid "Latest Modification by"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:71
+#: openerp/subcontrollers/view_log.py:71
 msgid "Latest Modification Date"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:72
+#: openerp/subcontrollers/view_log.py:72
 msgid "Owner"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:73
+#: openerp/subcontrollers/view_log.py:73
 msgid "Group Owner"
 msgstr ""
 
-#: tinyerp/subcontrollers/view_log.py:74
+#: openerp/subcontrollers/view_log.py:74
 msgid "Access Level"
 msgstr ""
 
-#: tinyerp/tinyres.py:122
+#: openerp/tinyres.py:122
 msgid "Bad username or password !"
 msgstr ""
 
-#: tinyerp/widgets/action.py:74
+#: openerp/widgets/action.py:74
 msgid "Action not found !"
 msgstr ""
 
-#: tinyerp/widgets/listgrid.py:406
+#: openerp/widgets/listgrid.py:406
 msgid "Yes"
 msgstr ""
 
-#: tinyerp/widgets/listgrid.py:408
+#: openerp/widgets/listgrid.py:408
 msgid "No"
 msgstr ""
 
-#: tinyerp/widgets/one2many.py:53
+#: openerp/widgets/one2many.py:53
 msgid "Create new record."
 msgstr ""
 
-#: tinyerp/widgets/one2many.py:53
+#: openerp/widgets/one2many.py:53
 msgid "New"
 msgstr ""
 
-#: tinyerp/widgets/one2many.py:67
+#: openerp/widgets/one2many.py:67
 msgid "Save parent and create new record."
 msgstr ""
 
-#: tinyerp/widgets/one2many.py:67
+#: openerp/widgets/one2many.py:67
 msgid "Save/New"
 msgstr ""
 
-#: tinyerp/widgets/pager.py:69
+#: openerp/widgets/pager.py:69
 msgid "[%s/%s]"
 msgstr ""
 
-#: tinyerp/widgets/pager.py:80
+#: openerp/widgets/pager.py:80
 msgid "[%s - %s of %s]"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:34
+#: openerp/widgets/tinycalendar/utils.py:34
 msgid "Monday"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:35
+#: openerp/widgets/tinycalendar/utils.py:35
 msgid "Tuesday"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:36
+#: openerp/widgets/tinycalendar/utils.py:36
 msgid "Wednesday"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:37
+#: openerp/widgets/tinycalendar/utils.py:37
 msgid "Thursday"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:38
+#: openerp/widgets/tinycalendar/utils.py:38
 msgid "Friday"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:39
+#: openerp/widgets/tinycalendar/utils.py:39
 msgid "Saturday"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:40
+#: openerp/widgets/tinycalendar/utils.py:40
 msgid "Sunday"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:43
+#: openerp/widgets/tinycalendar/utils.py:43
 msgid "January"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:44
+#: openerp/widgets/tinycalendar/utils.py:44
 msgid "February"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:45
+#: openerp/widgets/tinycalendar/utils.py:45
 msgid "March"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:46
+#: openerp/widgets/tinycalendar/utils.py:46
 msgid "April"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:47
+#: openerp/widgets/tinycalendar/utils.py:47
 msgid "May"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:48
+#: openerp/widgets/tinycalendar/utils.py:48
 msgid "June"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:49
+#: openerp/widgets/tinycalendar/utils.py:49
 msgid "July"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:50
+#: openerp/widgets/tinycalendar/utils.py:50
 msgid "August"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:51
+#: openerp/widgets/tinycalendar/utils.py:51
 msgid "September"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:52
+#: openerp/widgets/tinycalendar/utils.py:52
 msgid "October"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:53
+#: openerp/widgets/tinycalendar/utils.py:53
 msgid "November"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/utils.py:54
+#: openerp/widgets/tinycalendar/utils.py:54
 msgid "December"
 msgstr ""
 
-#: tinyerp/widgets/validators.py:137
+#: openerp/widgets/validators.py:137
 msgid "Please select a file."
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/week.kid:div
+#: openerp/widgets/tinycalendar/templates/week.kid:div
 msgid "Loading..."
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/week.kid:button
+#: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Today"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/week.kid:button
+#: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Day"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/week.kid:button
+#: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Week"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/week.kid:button
+#: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Month"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/week.kid:td
+#: openerp/widgets/tinycalendar/templates/week.kid:td
 msgid "Apply search filter"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/mini.kid:td
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
 msgid "M"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/mini.kid:td
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
 msgid "T"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/mini.kid:td
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
 msgid "W"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/mini.kid:td
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
 msgid "F"
 msgstr ""
 
-#: tinyerp/widgets/tinycalendar/templates/mini.kid:td
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
 msgid "S"
 msgstr ""
 
-#: tinyerp/widgets/templates/selection.kid:option
+#: openerp/widgets/templates/selection.kid:option
 msgid "Selected"
 msgstr ""
 
-#: tinyerp/widgets/templates/selection.kid:option
+#: openerp/widgets/templates/selection.kid:option
 msgid "Not Selected"
 msgstr ""
 
-#: tinyerp/widgets/templates/viewform.kid:button
+#: openerp/widgets/templates/viewform.kid:button
 msgid "Filter"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:span
+#: openerp/widgets/templates/pager.kid:span
 msgid "<< First"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:span
+#: openerp/widgets/templates/pager.kid:span
 msgid "< Previous"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:span
+#: openerp/widgets/templates/pager.kid:span
 msgid "Next >"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:span
+#: openerp/widgets/templates/pager.kid:span
 msgid "Last >>"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:a
+#: openerp/widgets/templates/pager.kid:a
 msgid "Change Limit:"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:option
+#: openerp/widgets/templates/pager.kid:option
 msgid "20"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:option
+#: openerp/widgets/templates/pager.kid:option
 msgid "40"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:option
+#: openerp/widgets/templates/pager.kid:option
 msgid "60"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:option
+#: openerp/widgets/templates/pager.kid:option
 msgid "80"
 msgstr ""
 
-#: tinyerp/widgets/templates/pager.kid:option
+#: openerp/widgets/templates/pager.kid:option
 msgid "100"
 msgstr ""
 
-#: tinyerp/widgets/templates/email.kid:img
+#: openerp/widgets/templates/email.kid:img
 msgid "Go!"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:td
+#: openerp/widgets/templates/listgrid.kid:td
 msgid "Title"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:img
+#: openerp/widgets/templates/listgrid.kid:img
 msgid "Update"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:img
+#: openerp/widgets/templates/listgrid.kid:img
 msgid "Cancel"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:img
+#: openerp/widgets/templates/listgrid.kid:img
 msgid "Edit"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:img
+#: openerp/widgets/templates/listgrid.kid:img
 msgid "Delete"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:a
+#: openerp/widgets/templates/listgrid.kid:a
 msgid "Import"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:a
+#: openerp/widgets/templates/listgrid.kid:a
 msgid "|"
 msgstr ""
 
-#: tinyerp/widgets/templates/listgrid.kid:a
+#: openerp/widgets/templates/listgrid.kid:a
 msgid "Export"
 msgstr ""
 
-#: tinyerp/widgets/templates/button.kid:td
+#: openerp/widgets/templates/button.kid:td
 msgid "Button Label"
 msgstr ""
 
-#: tinyerp/widgets/templates/datetime.kid:img
+#: openerp/widgets/templates/datetime.kid:img
 msgid "Select"
 msgstr ""
 
-#: tinyerp/widgets/templates/one2many.kid:button
+#: openerp/widgets/templates/one2many.kid:button
 msgid "Delete current record..."
 msgstr ""
 
-#: tinyerp/widgets/templates/one2many.kid:button
+#: openerp/widgets/templates/one2many.kid:button
 msgid "Previous record..."
 msgstr ""
 
-#: tinyerp/widgets/templates/one2many.kid:button
+#: openerp/widgets/templates/one2many.kid:button
 msgid "Next record..."
 msgstr ""
 
-#: tinyerp/widgets/templates/one2many.kid:button
+#: openerp/widgets/templates/one2many.kid:button
 msgid "Switch view..."
 msgstr ""
 
-#: tinyerp/widgets/templates/one2many.kid:img
+#: openerp/widgets/templates/one2many.kid:img
 msgid "Translate me."
 msgstr ""
 
-#: tinyerp/widgets/templates/binary.kid:button
+#: openerp/widgets/templates/binary.kid:button
 msgid "Save As"
 msgstr ""
 
-#: tinyerp/widgets/templates/binary.kid:button
+#: openerp/widgets/templates/binary.kid:button
 msgid "Clear"
 msgstr ""
 
-#: tinyerp/widgets/templates/many2one.kid:img
+#: openerp/widgets/templates/many2one.kid:img
 msgid "Search / Open a resource"
 msgstr ""
 
-#: tinyerp/widgets/templates/many2one.kid:img
+#: openerp/widgets/templates/many2one.kid:img
 msgid "Search"
 msgstr ""
 
-#: tinyerp/widgets_search/templates/search.kid:h3
+#: openerp/widgets_search/templates/search.kid:h3
 msgid "Basic Search"
 msgstr ""
 
-#: tinyerp/widgets_search/templates/search.kid:h3
+#: openerp/widgets_search/templates/search.kid:h3
 msgid "Advanced Search"
 msgstr ""
 
-#: tinyerp/widgets_search/templates/rangewid.kid:b
+#: openerp/widgets_search/templates/rangewid.kid:b
 msgid "-"
 msgstr ""
 
-#: tinyerp/templates/about.kid:title
-msgid "About eTiny - The Tiny ERP Web Client"
+#: openerp/templates/about.kid:title
+msgid "About OpenERP Web - The Tiny ERP Web Client"
 msgstr ""
 
-#: tinyerp/templates/about.kid:td
-msgid "About eTiny"
+#: openerp/templates/about.kid:td
+msgid "About OpenERP Web"
 msgstr ""
 
-#: tinyerp/templates/about.kid:p
+#: openerp/templates/about.kid:p
 msgid "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
 msgstr ""
 
-#: tinyerp/templates/about.kid:br
+#: openerp/templates/about.kid:br
 msgid ""
 "Tiny ERP is a trademark of the Tiny Company.\n"
 "Licenced under the"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "GPL V2"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "."
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
-msgid "eTiny"
+#: openerp/templates/about.kid:i
+msgid "OpenERP Web"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid "is the official web client of"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Tiny ERP"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "developed by"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Tiny"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "and"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Axelor"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid "is know to work with all major web browsers available today including"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid "Firefox"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid ","
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid "IE6"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid "IE7"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid "Safari3"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid "Opera9"
 msgstr ""
 
-#: tinyerp/templates/about.kid:i
+#: openerp/templates/about.kid:i
 msgid ". It's built on the"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "TurboGears"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "framework."
 msgstr ""
 
-#: tinyerp/templates/about.kid:td
+#: openerp/templates/about.kid:td
 msgid "About Tiny ERP"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid ""
 "is a free enterprise-scale software system that is designed to boost\n"
 "productivity and profit through data integration. It connects, improves and\n"
@@ -665,7 +665,7 @@ msgid ""
 "project management, production, services, CRM, etc.."
 msgstr ""
 
-#: tinyerp/templates/about.kid:p
+#: openerp/templates/about.kid:p
 msgid ""
 "The system is platform-independent, and can be installed on Windows, Mac OS X,\n"
 "and various Linux and other Unix-based distributions. Its architecture enables\n"
@@ -673,625 +673,625 @@ msgid ""
 "production system and migration to a new version to be straightforward."
 msgstr ""
 
-#: tinyerp/templates/about.kid:p
+#: openerp/templates/about.kid:p
 msgid ""
 "Depending on your needs, Tiny ERP is available through a web or application\n"
 "client."
 msgstr ""
 
-#: tinyerp/templates/about.kid:td
+#: openerp/templates/about.kid:td
 msgid "Links"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "The Axelor Company"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "The Tiny Company"
 msgstr ""
 
-#: tinyerp/templates/about.kid:td
+#: openerp/templates/about.kid:td
 msgid "RESOURCES"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Homepage"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Documentation"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Forum"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Modules"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Download"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Planet"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "SaaS Offers"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Trainings"
 msgstr ""
 
-#: tinyerp/templates/about.kid:a
+#: openerp/templates/about.kid:a
 msgid "Services"
 msgstr ""
 
-#: tinyerp/templates/master.kid:title
+#: openerp/templates/master.kid:title
 msgid "Your title goes here"
 msgstr ""
 
-#: tinyerp/templates/master.kid:img
+#: openerp/templates/master.kid:img
 msgid "Tiny ERP Logo"
 msgstr ""
 
-#: tinyerp/templates/master.kid:td
+#: openerp/templates/master.kid:td
 msgid "Welcome"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "Home"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "Preferences"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "About"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "Logout"
 msgstr ""
 
-#: tinyerp/templates/master.kid:td
+#: openerp/templates/master.kid:td
 msgid "Requests:"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "MAIN MENU"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "SHORTCUTS"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid ">>"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "[ADD]"
 msgstr ""
 
-#: tinyerp/templates/master.kid:hr
+#: openerp/templates/master.kid:hr
 msgid "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
-msgid "http://tinyerp.com"
+#: openerp/templates/master.kid:a
+msgid "http://openerp.com"
 msgstr ""
 
-#: tinyerp/templates/master.kid:br
+#: openerp/templates/master.kid:br
 msgid "The web client is developed by Axelor ("
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "http://axelor.com"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid ") and Tiny ("
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid "http://tiny.be"
 msgstr ""
 
-#: tinyerp/templates/master.kid:a
+#: openerp/templates/master.kid:a
 msgid ")"
 msgstr ""
 
-#: tinyerp/templates/master.kid:br
+#: openerp/templates/master.kid:br
 msgid "Running Server:"
 msgstr ""
 
-#: tinyerp/templates/error.kid:button
+#: openerp/templates/error.kid:button
 msgid "OK"
 msgstr ""
 
-#: tinyerp/templates/login.kid:title
+#: openerp/templates/login.kid:title
 msgid "Login"
 msgstr ""
 
-#: tinyerp/templates/login.kid:div
+#: openerp/templates/login.kid:div
 msgid "Welcome to Tiny ERP"
 msgstr ""
 
-#: tinyerp/templates/login.kid:td
+#: openerp/templates/login.kid:td
 msgid "Server :"
 msgstr ""
 
-#: tinyerp/templates/login.kid:td
+#: openerp/templates/login.kid:td
 msgid "Database :"
 msgstr ""
 
-#: tinyerp/templates/login.kid:option
+#: openerp/templates/login.kid:option
 msgid "dbname"
 msgstr ""
 
-#: tinyerp/templates/login.kid:td
+#: openerp/templates/login.kid:td
 msgid "User :"
 msgstr ""
 
-#: tinyerp/templates/login.kid:td
+#: openerp/templates/login.kid:td
 msgid "Password :"
 msgstr ""
 
-#: tinyerp/templates/login.kid:button
+#: openerp/templates/login.kid:button
 msgid "Manage"
 msgstr ""
 
-#: tinyerp/templates/login.kid:img
+#: openerp/templates/login.kid:img
 msgid "Developped by Axelor and Tiny"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:title
+#: openerp/subcontrollers/templates/translator.kid:title
 msgid "Add Translations"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:td
+#: openerp/subcontrollers/templates/translator.kid:td
 msgid "Add Translation"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:td
+#: openerp/subcontrollers/templates/translator.kid:td
 msgid "Add Translation for:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:option
+#: openerp/subcontrollers/templates/translator.kid:option
 msgid "Fields"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:option
+#: openerp/subcontrollers/templates/translator.kid:option
 msgid "Labels"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:option
+#: openerp/subcontrollers/templates/translator.kid:option
 msgid "Relates"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:option
+#: openerp/subcontrollers/templates/translator.kid:option
 msgid "View"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:button
+#: openerp/subcontrollers/templates/translator.kid:button
 msgid "Save"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:button
+#: openerp/subcontrollers/templates/translator.kid:button
 msgid "Close"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:td
+#: openerp/subcontrollers/templates/translator.kid:td
 msgid "Field"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/translator.kid:td
+#: openerp/subcontrollers/templates/translator.kid:td
 msgid "Language"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/search.kid:td
+#: openerp/subcontrollers/templates/search.kid:td
 msgid "Search View"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/search.kid:td
+#: openerp/subcontrollers/templates/search.kid:td
 msgid "Screen View"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/selection.kid:title
+#: openerp/subcontrollers/templates/selection.kid:title
 msgid "Select action"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/selection.kid:div
+#: openerp/subcontrollers/templates/selection.kid:div
 msgid "Select your action"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_create.kid:title
+#: openerp/subcontrollers/templates/dbadmin_create.kid:title
 msgid "Create Database"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_create.kid:td
+#: openerp/subcontrollers/templates/dbadmin_create.kid:td
 msgid "Super admin password :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_create.kid:td
+#: openerp/subcontrollers/templates/dbadmin_create.kid:td
 msgid "(use 'admin', if you did not changed it)"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_create.kid:td
+#: openerp/subcontrollers/templates/dbadmin_create.kid:td
 msgid "New database name :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_create.kid:td
+#: openerp/subcontrollers/templates/dbadmin_create.kid:td
 msgid "Load Demonstration data :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_create.kid:td
+#: openerp/subcontrollers/templates/dbadmin_create.kid:td
 msgid "Default Language :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:title
+#: openerp/subcontrollers/templates/form.kid:title
 msgid "Form Title"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Form"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Calendar"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Graph"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:img
+#: openerp/subcontrollers/templates/form.kid:img
 msgid "Add an attachment to this resource."
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:img
+#: openerp/subcontrollers/templates/form.kid:img
 msgid "Translate this resource."
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:img
+#: openerp/subcontrollers/templates/form.kid:img
 msgid "View Log."
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Create a new resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Edit this resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Save this resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Save & Edit"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Save & Edit this resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Duplicate"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Duplicate this resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Delete this resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:button
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Cancel editing the current resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:td
+#: openerp/subcontrollers/templates/form.kid:td
 msgid "REPORTS"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:td
+#: openerp/subcontrollers/templates/form.kid:td
 msgid "ACTIONS"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/form.kid:td
+#: openerp/subcontrollers/templates/form.kid:td
 msgid "LINKS"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin.kid:title
+#: openerp/subcontrollers/templates/dbadmin.kid:title
 msgid "Database Admin"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin.kid:div
+#: openerp/subcontrollers/templates/dbadmin.kid:div
 msgid "Database Administration"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin.kid:button
+#: openerp/subcontrollers/templates/dbadmin.kid:button
 msgid "Create"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin.kid:button
+#: openerp/subcontrollers/templates/dbadmin.kid:button
 msgid "Drop"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin.kid:button
+#: openerp/subcontrollers/templates/dbadmin.kid:button
 msgid "Backup"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin.kid:button
+#: openerp/subcontrollers/templates/dbadmin.kid:button
 msgid "Restore"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin.kid:button
+#: openerp/subcontrollers/templates/dbadmin.kid:button
 msgid "Password"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/image.kid:title
+#: openerp/subcontrollers/templates/image.kid:title
 msgid "Image"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/image.kid:td
+#: openerp/subcontrollers/templates/image.kid:td
 msgid "Add Resource:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:button
+#: openerp/subcontrollers/templates/tree.kid:button
 msgid "Switch"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:button
+#: openerp/subcontrollers/templates/tree.kid:button
 msgid "Switch current view: form/list"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:button
+#: openerp/subcontrollers/templates/tree.kid:button
 msgid "Action"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:button
+#: openerp/subcontrollers/templates/tree.kid:button
 msgid "Launch action about this resource"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:button
+#: openerp/subcontrollers/templates/tree.kid:button
 msgid "Print"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:button
+#: openerp/subcontrollers/templates/tree.kid:button
 msgid "Print documents"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:th
+#: openerp/subcontrollers/templates/tree.kid:th
 msgid "Toolbar"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/tree.kid:td
+#: openerp/subcontrollers/templates/tree.kid:td
 msgid "Tree View"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/openo2m.kid:td
+#: openerp/subcontrollers/templates/openo2m.kid:td
 msgid "Form View"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:title
+#: openerp/subcontrollers/templates/confeditor.kid:title
 msgid "Config Editor"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:td
+#: openerp/subcontrollers/templates/confeditor.kid:td
 msgid "Host :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:td
+#: openerp/subcontrollers/templates/confeditor.kid:td
 msgid "Port :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:td
+#: openerp/subcontrollers/templates/confeditor.kid:td
 msgid "Protocol :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:td
+#: openerp/subcontrollers/templates/confeditor.kid:td
 msgid "Old Password :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:span
+#: openerp/subcontrollers/templates/confeditor.kid:span
 msgid "Password is Incorrect"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:td
+#: openerp/subcontrollers/templates/confeditor.kid:td
 msgid "New Password :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:span
+#: openerp/subcontrollers/templates/confeditor.kid:span
 msgid "Please Enter New Password"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:td
+#: openerp/subcontrollers/templates/confeditor.kid:td
 msgid "Retype Password :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:span
+#: openerp/subcontrollers/templates/confeditor.kid:span
 msgid "Passwords do not Match"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/confeditor.kid:button
+#: openerp/subcontrollers/templates/confeditor.kid:button
 msgid "Change Password"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:title
+#: openerp/subcontrollers/templates/fieldpref.kid:title
 msgid "Field Preferences"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:td
+#: openerp/subcontrollers/templates/fieldpref.kid:td
 msgid "Field Name:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:td
+#: openerp/subcontrollers/templates/fieldpref.kid:td
 msgid "Domain:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:td
+#: openerp/subcontrollers/templates/fieldpref.kid:td
 msgid "Default Value:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:strong
+#: openerp/subcontrollers/templates/fieldpref.kid:strong
 msgid "Value applicable for:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:td
+#: openerp/subcontrollers/templates/fieldpref.kid:td
 msgid "Only for you"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:td
+#: openerp/subcontrollers/templates/fieldpref.kid:td
 msgid "For all"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:strong
+#: openerp/subcontrollers/templates/fieldpref.kid:strong
 msgid "Value applicable if:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/fieldpref.kid:td
+#: openerp/subcontrollers/templates/fieldpref.kid:td
 msgid "Always applicable !"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/attachment.kid:title
+#: openerp/subcontrollers/templates/attachment.kid:title
 msgid "Attachments"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/attachment.kid:td
+#: openerp/subcontrollers/templates/attachment.kid:td
 msgid "List View"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:title
+#: openerp/subcontrollers/templates/imp.kid:title
 msgid "Import Data"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:th
+#: openerp/subcontrollers/templates/imp.kid:th
 msgid "All fields"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:th
+#: openerp/subcontrollers/templates/imp.kid:th
 msgid "Fields to import"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:button
+#: openerp/subcontrollers/templates/imp.kid:button
 msgid "Add"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:button
+#: openerp/subcontrollers/templates/imp.kid:button
 msgid "Remove"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:button
+#: openerp/subcontrollers/templates/imp.kid:button
 msgid "Nothing"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:button
+#: openerp/subcontrollers/templates/imp.kid:button
 msgid "Auto Detect"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:legend
+#: openerp/subcontrollers/templates/imp.kid:legend
 msgid "File to import"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:legend
+#: openerp/subcontrollers/templates/imp.kid:legend
 msgid "Options"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:td
+#: openerp/subcontrollers/templates/imp.kid:td
 msgid "Separator:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:td
+#: openerp/subcontrollers/templates/imp.kid:td
 msgid "Delimiter:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:td
+#: openerp/subcontrollers/templates/imp.kid:td
 msgid "Encoding:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:option
+#: openerp/subcontrollers/templates/imp.kid:option
 msgid "UTF-8"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:option
+#: openerp/subcontrollers/templates/imp.kid:option
 msgid "Latin 1"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/imp.kid:td
+#: openerp/subcontrollers/templates/imp.kid:td
 msgid "Lines to skip:"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_restore.kid:title
+#: openerp/subcontrollers/templates/dbadmin_restore.kid:title
 msgid "Restore Database"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_restore.kid:td
+#: openerp/subcontrollers/templates/dbadmin_restore.kid:td
 msgid "File :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_restore.kid:td
+#: openerp/subcontrollers/templates/dbadmin_restore.kid:td
 msgid "New Database name :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/exp.kid:title
+#: openerp/subcontrollers/templates/exp.kid:title
 msgid "Export Data"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/exp.kid:th
+#: openerp/subcontrollers/templates/exp.kid:th
 msgid "Fields to export"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/exp.kid:option
+#: openerp/subcontrollers/templates/exp.kid:option
 msgid "Export as CSV"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/exp.kid:option
+#: openerp/subcontrollers/templates/exp.kid:option
 msgid "Export as Excel"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/exp.kid:td
+#: openerp/subcontrollers/templates/exp.kid:td
 msgid "Add field names"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_password.kid:title
+#: openerp/subcontrollers/templates/dbadmin_password.kid:title
 msgid "Admin Password"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_password.kid:td
+#: openerp/subcontrollers/templates/dbadmin_password.kid:td
 msgid "Confirm Password :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/view_log.kid:button
+#: openerp/subcontrollers/templates/view_log.kid:button
 msgid "Ok"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_drop.kid:title
+#: openerp/subcontrollers/templates/dbadmin_drop.kid:title
 msgid "Drop Database"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_backup.kid:title
+#: openerp/subcontrollers/templates/dbadmin_backup.kid:title
 msgid "Database Backup"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_backup.kid:div
+#: openerp/subcontrollers/templates/dbadmin_backup.kid:div
 msgid "Backup Database"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_backup.kid:td
+#: openerp/subcontrollers/templates/dbadmin_backup.kid:td
 msgid "Databases :"
 msgstr ""
 
-#: tinyerp/subcontrollers/templates/dbadmin_backup.kid:option
+#: openerp/subcontrollers/templates/dbadmin_backup.kid:option
 msgid "Database"
 msgstr ""
 
