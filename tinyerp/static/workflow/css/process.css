@@ -4,31 +4,31 @@
     outline: none;
 }
 
-.node-table {
-    width: 155px;
-    height: 116px;
-    margin-left: 26px;    
+.node {
+    width: 180px;
+    height: 120px;
     text-align: left;
 }
 
 .node-title {
-    padding-left: 34px;
-    height: 24px;
+    padding-left: 60px;
+    padding-top: 2px;
+    height: 20px;
     font-size: 10px;
     color: white;
+    overflow: hidden;
 }
 
 .node-text {
-    padding-top: 2px;
-    padding-right: 2px;
+    padding-left: 24px;
     font-size: 11px;
-    height: 74px;
+    height: 75px;
+    overflow: hidden;
 }
 
-.node-button {
-    width: 17px;
-    height: 17px;
-    padding: 1px;
+.node-bottom {
+    padding-left: 24px;
+    height: 18px;
 }
 
 .node-menu {
@@ -36,8 +36,12 @@
     width: 100%;
 }
 
-.node-menu img,
-.node-button img {
+.node-bottom table {
+    border-collapse: collapse;
+}
+
+.node-bottom img {
     cursor: pointer;
+    margin: 2px;
 }
 

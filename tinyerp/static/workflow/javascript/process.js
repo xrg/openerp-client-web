@@ -141,29 +141,22 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
                                     "url(/static/workflow/images/node.png) no-repeat";
 
         elem.innerHTML = (
-        "<table border='0' class='node-table'>"+
-        "	<tr>"+
-        "		<td class='node-title' colspan='4'></td>"+
-        "	</tr>"+
-        "	<tr>"+
-        "		<td colspan='4' class='node-text'></td>"+
-        "	</tr>"+
-        "	<tr>"+
-        "		<td class='node-button'></td>"+
-        "		<td class='node-button'></td>"+
-        "		<td class='node-button'></td>"+
-        "		<td class='node-menu' align='right'></td>"+
-        "	</tr>"+
-        "</table>");
-        
-        var table = elem.getElementsByTagName('table')[0];
-        var title = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-title', table)[0];
-        var text = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-text', table)[0];
-        var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', table)[0];
+        "<div class='node-title'></div>"+
+        "<div class='node-text'></div>"+
+        "<div class='node-bottom'>"+
+        "   <table>"+
+        "	    <tr>"+
+        "		    <td class='node-buttons' nowrap='nowrap'></td>"+
+        "		    <td class='node-menu' align='right'></td>"+
+        "	    </tr>"+
+        "   </table>"+
+        "</div>");
 
-        var buttons = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-button', table);
-        
-        table.cellPadding = table.cellSpacing = 0;
+        var title = MochiKit.DOM.getElementsByTagAndClassName('div', 'node-title', elem)[0];
+        var text = MochiKit.DOM.getElementsByTagAndClassName('div', 'node-text', elem)[0];
+        var bbar = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-buttons', elem)[0];        
+        var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', elem)[0];
+
         title.innerHTML = this.data.name || '';
         text.innerHTML = (this.data.active ? '<b>' + this.data.active + '</b><br>' : '') + (this.data.notes || '');
 
@@ -175,19 +168,21 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
             }, this);
             MochiKit.DOM.appendChildNodes(menu, menu_img);
         }
-        
-        buttons[0].innerHTML = ("<img src='/static/images/stock/gtk-info.png' title='Help'/>");
+
+        var buttons = [IMG({src: '/static/images/stock/gtk-info.png', title: 'Help'})];
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
         if (this.data.active) {
-            buttons[1].innerHTML = "<img src='/static/images/stock/gtk-open.png' title='View'/>";
-            buttons[2].innerHTML = "<img src='/static/images/stock/gtk-print.png' title='Print'/>";
+            buttons.push(IMG({src: '/static/images/stock/gtk-open.png', title: 'View'}));
+            buttons.push(IMG({src: '/static/images/stock/gtk-print.png', title: 'Print'}));
 
             buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
 
             elem.style.background = "url(/static/workflow/images/node-current.png) no-repeat";
         }
+
+        MochiKit.DOM.appendChildNodes(bbar, buttons);
 
 		elem.className = 'node';
         return elem;
