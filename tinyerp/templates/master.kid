@@ -41,8 +41,14 @@
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
 
 <?python
-shortcuts = tg.root.shortcuts.my()
-requests, requests_message = tg.root.requests.my()
+# put in try block to prevent improper redirection on connection refuse error
+try:
+    shortcuts = tg.root.shortcuts.my()
+    requests, requests_message = tg.root.requests.my()
+except:
+    shortcuts = []
+    requests = []
+    requests_message = None
 ?>
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
