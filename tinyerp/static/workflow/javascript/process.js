@@ -73,8 +73,8 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
             w = Math.max(w, data.x);
 	    }
 
-        h += 120 + 10; // add height of node + some margin
-        w += 180 + 10; // add width of node + some margin
+        h += 100 + 10; // add height of node + some margin
+        w += 150 + 10; // add width of node + some margin
 
         MochiKit.DOM.setElementDimensions(this.html, {h: h, w: w});
 	    
@@ -126,7 +126,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         
         this.__super__.call(this);
         
-        this.setDimension(180, 120);
+        this.setDimension(150, 100);
         this.setResizeable(false);
         this.setSelectable(false);
         this.setCanDrag(false);

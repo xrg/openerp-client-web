@@ -70,7 +70,7 @@ class Process(controllers.Controller, TinyResource):
         transitions = {}
 
         proxy = rpc.RPCProxy('process.process')
-        graph = proxy.graph_get(id, res_model, res_id, (100, 100, 180, 120), rpc.session.context)
+        graph = proxy.graph_get(id, res_model, res_id, (80, 80, 150, 100), rpc.session.context)
 
         return graph
 
