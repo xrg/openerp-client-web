@@ -82,7 +82,7 @@ Configuration:
     Locate the `config/default.cfg` in the installed `eTiny EGG`, and make 
     appropriate changes, especially:
 
-    [tinyerp]
+    [openerp]
     server = "localhost"
     port = 8070
     protocol = "socket"
@@ -93,9 +93,9 @@ Configuration:
     port is the OpenERP server port...
     protocol is the protocol to be used (socket, http or https)
 
-Now start the eTiny server with `start-tinyerp` command, like:
+Now start the eTiny server with `start-openerp` command, like:
 
-    $ start-tinyerp
+    $ start-openerp
 
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
@@ -173,7 +173,7 @@ Matplotlib:
 
 Python Imaging Library (PIL):
 
-    If you have installed TinyERP server on the same machine you already have
+    If you have installed OpenERP server on the same machine you already have
     installed Python Imaging Library (PIL). If not do install it from: http://effbot.org/downloads/PIL-1.1.6.win32-py2.4.exe
 
 eTiny:
@@ -189,7 +189,7 @@ Configuration:
     Locate the `config/default.cfg` in the installed `eTiny egg`, and make 
     appropriate changes, especially:
 
-    [tinyerp]
+    [openerp]
     server = "localhost"
     port = 8070
     protocol = "socket"
@@ -200,9 +200,9 @@ Configuration:
     port is the OpenERP server port...
     protocol is the protocol to be used (socket, http or https)
 
-Now start the eTiny server with `start-tinyerp` command, like:
+Now start the eTiny server with `start-openerp` command, like:
 
-    > start-tinyerp
+    > start-openerp
 
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
@@ -269,7 +269,7 @@ Notes:
 
     This method only works if you want your eTiny application at the root of 
     your server (https://www.example.com). eTiny currently can't be deployed 
-    under a subdirectory, e.g. http://www.example.com/tinyerp.
+    under a subdirectory, e.g. http://www.example.com/openerp.
 
     To overcome with the issue you can go with `subdomain`, like:
 

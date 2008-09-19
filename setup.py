@@ -2,17 +2,17 @@ from setuptools import setup, find_packages
 from turbogears.finddata import find_package_data
 
 import os
-execfile(os.path.join("tinyerp", "release.py"))
+execfile(os.path.join("openerp", "release.py"))
 
 packages = find_packages()
-package_data = find_package_data(where='tinyerp', package='tinyerp')
+package_data = find_package_data(where='openerp', package='openerp')
 
 if os.path.isdir('locales'):
     packages.append('locales')
     package_data.update(find_package_data(where='locales', exclude=('*.po',), only_in_packages=False))
 
 setup(
-    name = "eTiny",
+    name = "openerp-web",
     version = version,
 
     # uncomment the following lines if you fill them out in release.py
@@ -68,13 +68,13 @@ setup(
     test_suite = 'nose.collector',
     entry_points = {
         'console_scripts': [
-            'start-tinyerp = tinyerp.commands:start',
+            'start-openerp-web = openerp.commands:start',
         ],
     },
     # Uncomment next line and create a default.cfg file in your project dir
     # if you want to package a default configuration in your egg.
     data_files = [('config', ['default.cfg']), 
-                  ('scripts', ['etiny-server'])],
+                  ('scripts', ['openerp-web'])],
     )
 
 # vim: ts=4 sts=4 sw=4 si et
