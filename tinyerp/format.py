@@ -85,13 +85,15 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
     if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(server_format, value)
 
+    value = value.strip()
+
     # add time part in value if missing
-    if kind == 'datetime' and not re.match('\s+\d{2}:\d{2}:\d{2}', value):
+    if kind == 'datetime' and not re.search('\s+\d{2}:\d{2}:\d{2}$', value):
         value += ' 00:00:00'
 
     # remove time part from value
-    if kind == 'date':
-        value = re.sub('\s+\d{2}:\d{2}:\d{2}', '', value)
+    elif kind == 'date':
+        value = re.sub('\s+\d{2}:\d{2}:\d{2}$', '', value)
 
     value = time.strptime(value, server_format)
 
