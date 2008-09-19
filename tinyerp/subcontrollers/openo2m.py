@@ -49,24 +49,25 @@ class OpenO2M(Form):
     
     path = '/openo2m'    # mapping from root
     
-    def create_form(self, params, tg_errors=None):        
+    def create_form(self, params, tg_errors=None):
         
         params.id = params.o2m_id
         params.model = params.o2m_model        
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
-        
+
+        # to get proper view, first generate form using the view_params
+        vp = params.view_params
+        form = tw.form_view.ViewForm(vp, name="view_form", action="/form/save")
+        cherrypy.request.terp_validators = {}
+        wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
+
+        # save view_params for later phazes
+        vp = vp.make_plain('_terp_view_params/')
+        hiddens = map(lambda x: widgets.HiddenField(name=x, default=vp[x]), vp)
+
         params.prefix = params.o2m
-        view_id = params.parent_view_id or params.view_id or False
-        view = cache.fields_view_get(params.parent_model, view_id, 'form', rpc.session.context)
-        parent = TinyDict()
-
-        for k, v in view['fields'].items():
-            parent[k] = v
-
-        views = parent.get(params.o2m)
-        if views and 'views' in views:
-            params.views = views['views']
+        params.views = wid.view
 
         ctx = params.context or {}
         ctx.update(params.o2m_context or {})
@@ -80,7 +81,7 @@ class OpenO2M(Form):
                               widgets.HiddenField(name='_terp_o2m', default=params.o2m),                              
                               widgets.HiddenField(name='_terp_o2m_id', default=params.id or None),
                               widgets.HiddenField(name='_terp_o2m_model', default=params.o2m_model),
-                              widgets.HiddenField(name=params.prefix + '/__id', default=params.id or None)]
+                              widgets.HiddenField(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
         return form
     
@@ -137,6 +138,7 @@ class OpenO2M(Form):
 
         prefix = params.o2m
         current = params.chain_get(prefix)
+
         if current and current.id:
             params.load_counter = 2
 

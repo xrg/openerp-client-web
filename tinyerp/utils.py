@@ -149,13 +149,17 @@ class TinyDict(dict):
         return _make_dict(params, True), _make_dict(data, False)
     
     def make_plain(self, prefix=''):
+
         res = {}
-    
-        for k, v in self.items():
-            if isinstance(v, dict):
-                res.update(make_plain(v, prefix + k +'/'))
-            else:
-                res[prefix + k] = v
+
+        def _plain(data, prefix):
+            for k, v in data.items():
+                if isinstance(v, dict):
+                    _plain(v, prefix + k +'/')
+                else:
+                    res[prefix + k] = v
+
+        _plain(self, prefix)
 
         return res
 
