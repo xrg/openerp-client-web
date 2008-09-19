@@ -86,30 +86,33 @@ __init__ : function(elements, options) {
         
         title = text ? title : '';
 
-        // hack for strange IE error
-        var div = document.createElement('div');
-        div.innerHTML = text ? text : el.myTitle;
-
         this.toolTitle.innerHTML = title;
-        this.toolText.innerHTML = '';
-        
-        MochiKit.DOM.appendChildNodes(this.toolText, div.childNodes);
+
+        if (/msie/.test(navigator.userAgent.toLowerCase())) { // hack for strange IE error
+            var div = document.createElement('div');
+            div.innerHTML = text ? text : el.myTitle;
+            this.toolText.innerHTML = '';        
+            MochiKit.DOM.appendChildNodes(this.toolText, div.childNodes);
+        } else {
+            this.toolText.innerHTML = text ? text : el.myTitle;;
+        }
         
         this.toolTitle.style.display = title ? 'block' : 'none';
-
         MochiKit.DOM.showElement(this.toolTip);
     },
 
     locate: function(evt){
         var doc = document.documentElement;
+        var body = document.body;
+
         var el = evt.src();
 
         var ps = MochiKit.DOM.elementPosition(el)
         var vd = MochiKit.DOM.getViewportDimensions();
         var md = MochiKit.DOM.elementDimensions(this.toolTip);
 
-        var x = evt.mouse().client.x + doc.scrollLeft - 30;
-        var y = evt.mouse().client.y + doc.scrollTop + 15;
+        var x = evt.mouse().client.x + (doc.scrollLeft || body.scrollLeft) - 30;
+        var y = evt.mouse().client.y + (doc.scrollTop || body.scrollTop) + 15;
 
         if ((x + md.w) > vd.w - 30) {
             x -= x + md.w - vd.w;
