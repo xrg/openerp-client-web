@@ -232,7 +232,8 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
     },
 
     onView: function() {
-        window.open(getURL("/form/view", {model: this.data.res.model, id: this.data.res.id}));
+        var params = {model: this.data.res.model, id: this.data.res.id};
+        openWindow(getURL("/process/resource/edit", params));
     },
 
     onPrint: function() {
