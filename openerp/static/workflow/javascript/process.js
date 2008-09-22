@@ -47,7 +47,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var self = this;
         var req = Ajax.JSON.post('/process/get', {id: id, res_model: res_model, res_id: res_id});
         req.addCallback(function(obj){
-            self._render(obj.nodes, obj.transitions);            
+            self._render(obj.notes, obj.nodes, obj.transitions);            
         });
 
     },
@@ -56,10 +56,12 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         this.load(this.process_id, this.res_model, this.res_id);
     },
 
-    _render: function(nodes, transitions) {
+    _render: function(notes, nodes, transitions) {
 
         var h = 0;
         var w = 0;
+
+        var subflows = [];
 
     	for(var id in nodes){
     		var data = nodes[id];
@@ -74,6 +76,11 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
             h = Math.max(h, data.y);
             w = Math.max(w, data.x);
+
+            if (data.subflow && data.subflow.length) {
+                subflows.push(data.subflow);
+            }
+
 	    }
 
         h += 100 + 10; // add height of node + some margin
@@ -99,6 +106,10 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     		
     		this.transitions[id] = t; // keep reference
     	}
+
+        // create notes
+        var note = new openerp.process.Note(notes, subflows, this.res_model, this.res_id);
+        this.addFigure(note, 0, 0);
 
         var elems = MochiKit.DOM.getElementsByTagAndClassName('*', null, this.html);
         elems = MochiKit.Base.filter(function(e){
@@ -165,8 +176,8 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         title.innerHTML = this.data.name || '';
         text.innerHTML = this.data.notes || '';
 
-        if (this.data.subflow) {
-            var href = getURL('/process', {id: this.data.subflow, res_model: this.data.res_model, res_id: this.data.res_id});
+        if (this.data.subflow && this.data.subflow.length) {
+            var href = getURL('/process', {id: this.data.subflow[0], res_model: this.data.res_model, res_id: this.data.res_id});
             title.innerHTML = "<a href='" + href + "'>" + this.data.name + "</a>";
         }
 
@@ -384,6 +395,62 @@ MochiKit.Base.update(openerp.process.TargetDecorator.prototype, {
 		g.setStroke(1);
 		g.drawPolygon([0, 6, 6, 0], [0, 6, -6, 0]);
 	}
+});
+
+/**
+ * openerp.process.notes
+ */
+openerp.process.Note = function(note, subflows, res_model, res_id) {
+    this.__init__(note, subflows, res_model, res_id);
+}
+
+openerp.process.Note.prototype = new draw2d.Rectangle();
+MochiKit.Base.update(openerp.process.Note.prototype, {
+
+    __super__: draw2d.Rectangle,
+
+    __init__: function(note, subflows, res_model, res_id) {
+    
+        this.note = note;
+        this.subflows = MochiKit.Base.map(function(subflow) {
+            return "<a href='" + getURL('/process', {id: subflow[0], res_model: res_model, res_id: res_id}) + "'>" + subflow[1] + "</a>";
+        }, subflows || []);
+
+        this.__super__.call(this);
+
+        this.setResizeable(false);
+        this.setSelectable(false);
+        this.setCanDrag(false);
+
+        this.setColor(null);
+    },
+
+    createHTMLElement: function() {
+        var elem = this.__super__.prototype.createHTMLElement.call(this);
+
+        elem.className = "process-notes";
+        elem.style.lineHeight = "";
+        elem.style.fontSize = '11px';
+        elem.style.textAlign = 'left';
+
+        var text = (
+                "<dl>"+
+                    "<dt>Notes:</dt>" +
+                    "<dd>" +
+                        this.note + 
+                    "</dd>");
+
+        if (this.subflows.length) {
+            text += "<dt>Subflows:</dt><dd>" + this.subflows.join("<br/>") + "</dd>";
+        }
+
+        text += "</dl>";
+
+        elem.innerHTML = text;
+
+        return elem;
+    }
+
 });
 
 // vim: ts=4 sts=4 sw=4 si et

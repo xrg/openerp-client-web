@@ -4,6 +4,22 @@
     outline: none;
 }
 
+.process-notes {
+    line-height: "";
+    font-size: 11px;
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.process-notes dt {
+    font-weight: bold;
+}
+
+.process-notes dd {
+    margin-left: 15px;
+    margin-bottom: 4px;
+}
+
 .node {
     width: 150px;
     height: 100px;
