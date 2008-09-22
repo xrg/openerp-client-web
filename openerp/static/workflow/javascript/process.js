@@ -47,7 +47,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var self = this;
         var req = Ajax.JSON.post('/process/get', {id: id, res_model: res_model, res_id: res_id});
         req.addCallback(function(obj){
-            self._render(obj.notes, obj.nodes, obj.transitions);            
+            self._render(obj.title, obj.notes, obj.nodes, obj.transitions);            
         });
 
     },
@@ -56,7 +56,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         this.load(this.process_id, this.res_model, this.res_id);
     },
 
-    _render: function(notes, nodes, transitions) {
+    _render: function(title, notes, nodes, transitions) {
 
         var h = 0;
         var w = 0;
@@ -110,6 +110,9 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         // create notes
         var note = new openerp.process.Note(notes, subflows, this.res_model, this.res_id);
         this.addFigure(note, 0, 0);
+
+        // set title
+        MochiKit.DOM.getElement('process_title').innerHTML = title;
 
         var elems = MochiKit.DOM.getElementsByTagAndClassName('*', null, this.html);
         elems = MochiKit.Base.filter(function(e){

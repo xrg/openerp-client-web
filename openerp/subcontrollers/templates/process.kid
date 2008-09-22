@@ -38,7 +38,7 @@
                     <td width="32px" align="center">
                         <img src="/static/images/icon.gif"/>
                     </td>
-                    <td width="100%" py:content="title">Title</td>
+                    <td width="100%" py:content="title" id="process_title">Title</td>
                 </tr>
             </table>
         </td>
