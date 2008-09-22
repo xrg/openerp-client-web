@@ -15,8 +15,15 @@
     padding-top: 1px;
     height: 15px;
     font-size: 10px;
+    font-weight: bold;
     color: white;
     overflow: hidden;
+}
+
+.node-title a:hover,
+.node-title a {
+    color: white;
+    text-decoration: none;
 }
 
 .node-text {

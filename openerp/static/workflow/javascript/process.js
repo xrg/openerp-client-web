@@ -64,6 +64,9 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     	for(var id in nodes){
     		var data = nodes[id];
 
+            data['res_model'] = this.res_model;
+            data['res_id'] = this.res_id;
+
     		var n = new openerp.process.Node(data);
 	    	this.addFigure(n, data.x, data.y);
 	    	
@@ -135,10 +138,12 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
 
     createHTMLElement: function() {
         var elem = this.__super__.prototype.createHTMLElement.call(this);
+        
+        var bg = "node";        
+        bg = this.data.kind == "subflow" ? "node-subflow" : "node"; 
+        bg = this.data.gray ? bg + "-gray" : bg;
 
-        elem.style.background = this.data.gray ?
-                                    "url(/static/workflow/images/node-gray.png) no-repeat" :
-                                    "url(/static/workflow/images/node.png) no-repeat";
+        elem.style.background = "url(/static/workflow/images/" + bg + ".png) no-repeat";
 
         elem.innerHTML = (
         "<div class='node-title'></div>"+
@@ -159,6 +164,11 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
 
         title.innerHTML = this.data.name || '';
         text.innerHTML = (this.data.active ? '<b>' + this.data.active + '</b><br>' : '') + (this.data.notes || '');
+
+        if (this.data.subflow) {
+            var href = getURL('/process', {id: this.data.subflow, res_model: this.data.res_model, res_id: this.data.res_id});
+            title.innerHTML = "<a href='" + href + "'>" + this.data.name + "</a>";
+        }
 
         if (this.data.menu) {
             var menu_img = IMG({src: '/static/images/stock/gtk-jump-to.png'});
