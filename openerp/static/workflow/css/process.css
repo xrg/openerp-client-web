@@ -23,7 +23,7 @@
 .node-title a:hover,
 .node-title a {
     color: white;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .node-text {
