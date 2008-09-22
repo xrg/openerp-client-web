@@ -20,6 +20,12 @@
     overflow: hidden;
 }
 
+.node-title a:hover,
+.node-title a {
+    color: white;
+    text-decoration: none;
+}
+
 .node-text {
     font-size: 11px;
     padding: 2px;
