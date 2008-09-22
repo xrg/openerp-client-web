@@ -163,11 +163,15 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', elem)[0];
 
         title.innerHTML = this.data.name || '';
-        text.innerHTML = (this.data.active ? '<b>' + this.data.active + '</b><br>' : '') + (this.data.notes || '');
+        text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow) {
             var href = getURL('/process', {id: this.data.subflow, res_model: this.data.res_model, res_id: this.data.res_id});
             title.innerHTML = "<a href='" + href + "'>" + this.data.name + "</a>";
+        }
+
+        if (this.data.res) {
+            text.innerHTML = '<b>' + this.data.res.name + '</b><br>' + (this.data.notes || '');
         }
 
         if (this.data.menu) {
@@ -182,13 +186,15 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var buttons = [IMG({src: '/static/images/stock/gtk-info.png', title: 'Help'})];
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
-        if (this.data.active) {
-            buttons.push(IMG({src: '/static/images/stock/gtk-open.png', title: 'View'}));
+        if (this.data.res) {
+            buttons.push(IMG({src: '/static/images/stock/gtk-open.png', title: 'Open'}));
             buttons.push(IMG({src: '/static/images/stock/gtk-print.png', title: 'Print'}));
 
             buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
+        }
 
+        if (this.data.active){
             elem.style.background = "url(/static/workflow/images/node-current.png) no-repeat";
         }
 
@@ -244,8 +250,11 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
     __init__: function(data) {
         this.__super__.call(this);
         this.setRouter(new draw2d.ManhattanConnectionRouter());
-        this.setTargetDecorator(new openerp.process.TargetDecorator());
-        this.setColor(new draw2d.Color(0, 0, 0));
+
+        var color = data.active && data.buttons && data.buttons.length ? new draw2d.Color(128, 0, 0) : new draw2d.Color(179, 179, 179);
+
+        this.setTargetDecorator(new openerp.process.TargetDecorator(color));
+        this.setColor(color);
         this.setLineWidth(2);
         this.setSelectable(false);
 
@@ -348,8 +357,8 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 /**
  * openerp.process.TargetDecorator
  */
-openerp.process.TargetDecorator = function() {
-    this.__init__();
+openerp.process.TargetDecorator = function(color) {
+    this.__init__(color);
 }
 
 openerp.process.TargetDecorator.prototype = new draw2d.ArrowConnectionDecorator();
@@ -357,9 +366,10 @@ MochiKit.Base.update(openerp.process.TargetDecorator.prototype, {
 
     __super__: draw2d.ArrowConnectionDecorator,
 
-    __init__: function() {
+    __init__: function(color) {
         this.__super__.call(this);
-	    this.setBackgroundColor(new draw2d.Color(0, 0, 0));
+	    this.setBackgroundColor(color);
+        this.setColor(color);
     },
     
     paint: function(/*draw2d.Graphics*/ g) {
