@@ -135,10 +135,12 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
 
     createHTMLElement: function() {
         var elem = this.__super__.prototype.createHTMLElement.call(this);
+        
+        var bg = "node";        
+        bg = this.data.kind == "subflow" ? "node-subflow" : "node"; 
+        bg = this.data.gray ? bg + "-gray" : bg;
 
-        elem.style.background = this.data.gray ?
-                                    "url(/static/workflow/images/node-gray.png) no-repeat" :
-                                    "url(/static/workflow/images/node.png) no-repeat";
+        elem.style.background = "url(/static/workflow/images/" + bg + ".png) no-repeat";
 
         elem.innerHTML = (
         "<div class='node-title'></div>"+
