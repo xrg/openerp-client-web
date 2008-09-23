@@ -6,7 +6,7 @@
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
             <td width="16" style="padding-left: 2px" py:if="not attrs.get('disabled')">
-                <img id="${field_id}_trigger" width="16" height="16" alt="${_('Select')}" src="/static/images/calendar.gif" style="cursor: pointer;"/>
+                <img id="${field_id}_trigger" width="16" height="16" alt="${_('Select')}" src="/static/images/stock/stock_calendar.png" style="cursor: pointer;"/>
             </td>
             <script type="text/javascript" py:if="not attrs.get('disabled')">
                 Calendar.setup(

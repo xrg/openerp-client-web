@@ -36,7 +36,7 @@
             <table width="100%" class="titlebar">
                 <tr>
                     <td width="32px" align="center">
-                        <img src="/static/images/icon.gif"/>
+                        <img src="/static/images/stock/gtk-refresh.png"/>
                     </td>
                     <td width="100%" py:content="title" id="process_title">Title</td>
                 </tr>

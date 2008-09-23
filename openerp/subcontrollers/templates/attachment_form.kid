@@ -13,7 +13,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/icon.gif"/>
+                            <img src="/static/images/stock/stock-paste.png"/>
                         </td>
                         <td width="100%">Attachments Form</td>
                     </tr>
@@ -50,8 +50,8 @@
 						<tr>
 							<td align="center">
            						<div style="overflow: scroll; width: 770px; height: 300px;">
-           							<img py:if="ext" src="/attachment/get_image?record=${record}"/>
-           							<img py:if="not ext" src="/static/images/cancel-icon.png"/>
+           							<img py:if="ext" src="${tg.url('/attachment/get_image', record=record)}"/>
+           							<img py:if="not ext" src="/static/images/stock/gtk-cancel.png"/>
            						</div>
            					</td>
            				</tr>
