@@ -52,7 +52,7 @@ class Preferences(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('res.users')
         action_id = proxy.action_get({})
         
-        action = rpc.RPCProxy('ir.actions.act_window').read([action_id], False, {'get_binary_size':False})[0]
+        action = rpc.RPCProxy('ir.actions.act_window').read([action_id], False, rpc.session.context)[0]
 
         view_ids=[]
         if action.get('views', []):

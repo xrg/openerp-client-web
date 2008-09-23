@@ -43,6 +43,7 @@ from openerp.utils import TinyDict
 from openerp.tinyres import TinyResource
 
 import form
+import actions
 
 class ResourcePopup(form.Form):
     
@@ -112,6 +113,10 @@ class Process(controllers.Controller, TinyResource):
             error = str(e)
 
         return dict(error=error)
+
+    @expose(content_type='application/pdf')
+    def print_workflow(self, id, model):
+        return actions.execute_report("workflow.instance.graph", ids=[], id=int(id), model=model, nested=False)
 
 # vim: ts=4 sts=4 sw=4 si et
 

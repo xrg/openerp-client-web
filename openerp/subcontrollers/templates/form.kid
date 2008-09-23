@@ -29,7 +29,9 @@
                             <table width="100%" class="titlebar">
                                 <tr>
                                     <td width="32px" align="center">
-                                        <img src="/static/images/icon.gif"/>
+                                        <img py:if="form.screen.view_type not in ('form', 'calendar')" src="/static/images/stock/gtk-find.png"/>
+                                        <img py:if="form.screen.view_type == 'form'" src="/static/images/stock/gtk-edit.png"/>
+                                        <img py:if="form.screen.view_type == 'calendar'" src="/static/images/stock/stock_calendar.png"/>
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>
                                     <td nowrap="nowrap" py:if="buttons.search or buttons.form or buttons.calendar or buttons.graph">
@@ -42,13 +44,13 @@
                                         <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/stock/gtk-paste.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.can_attach and buttons.has_attach">
-                                        <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/gtk-paste-v.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                        <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/stock/gtk-paste-v.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.i18n">
-                                        <img class="button" title="${_('Translate this resource.')}" src="/static/images/translate.png" width="16" height="16" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                        <img class="button" title="${_('Translate this resource.')}" src="/static/images/stock/stock_translate.png" width="16" height="16" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.i18n">
-                                        <img class="button" title="${_('View Log.')}" src="/static/images/log.png" width="16" height="16" onclick="openWindow('${tg.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
+                                        <img class="button" title="${_('View Log.')}" src="/static/images/stock/stock_log.png" width="16" height="16" onclick="openWindow('${tg.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16">
                                         <a target="new" href="${tg.query('http://openerp.com/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>

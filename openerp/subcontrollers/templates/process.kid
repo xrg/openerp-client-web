@@ -36,9 +36,17 @@
             <table width="100%" class="titlebar">
                 <tr>
                     <td width="32px" align="center">
-                        <img src="/static/images/icon.gif"/>
+                        <img src="/static/images/stock/gtk-refresh.png"/>
                     </td>
                     <td width="100%" py:content="title" id="process_title">Title</td>
+                    <td nowrap="nowrap">
+                        <img class="button" title="Print related workflow" src="/static/images/stock/gtk-execute.png" width="16" height="16"
+                            onclick="window.open(getURL('/process/print_workflow', {model: '$res_model', id: '$res_id'}))"/>
+                    </td>
+                    <td nowrap="nowrap">
+                        <img class="button" title="Help" src="/static/images/stock/gtk-help.png" width="16" height="16"
+                             onclick="window.open('http://openerp.com/scripts/context_index.php?model=process.process')"/>
+                    </td>
                 </tr>
             </table>
         </td>

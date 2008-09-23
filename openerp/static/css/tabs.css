@@ -1,3 +1,8 @@
+
+.tabber { /* hide on load */
+    display: none;
+}
+
 .tabberlive .tabbertabhide {
     display:none;
 }
