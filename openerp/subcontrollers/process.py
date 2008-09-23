@@ -44,7 +44,23 @@ from openerp.tinyres import TinyResource
 
 import form
 
+class ResourcePopup(form.Form):
+    
+    path = '/process/resource'    # mapping from root
+    
+    @expose(template="openerp.subcontrollers.templates.process_open")
+    def create(self, params, tg_errors=None):
+        params.editable = True
+
+        if params.id and cherrypy.request.path == self.path + '/view':
+            params.load_counter = 2
+
+        form = self.create_form(params, tg_errors)       
+        return dict(form=form, params=params, show_header_footer=False)   
+
 class Process(controllers.Controller, TinyResource):
+
+    resource = ResourcePopup()
     
     @expose(template="openerp.subcontrollers.templates.process")
     def default(self, id, res_model=None, res_id=False):

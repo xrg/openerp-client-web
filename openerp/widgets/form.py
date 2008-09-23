@@ -320,7 +320,6 @@ class Label(TinyField):
 class Char(TinyField):
     template = "openerp.widgets.templates.char"
     params = ['password', 'size']
-    invisible = False
 
     def __init__(self, attrs={}):
         super(Char, self).__init__(attrs)
@@ -809,10 +808,6 @@ class Form(TinyCompoundWidget):
 
             elif node.localName == 'field':
                 name = attrs['name']
-                
-                # password field? then let XML attrs overrides invisible property.
-                if fields[name].get('type') == 'char' and 'invisible' in fields[name]:
-                    attrs['password'] = fields[name].pop('invisible')
 
                 try:
                     fields[name].update(attrs)
