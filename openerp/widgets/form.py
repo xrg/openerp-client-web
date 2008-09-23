@@ -704,6 +704,7 @@ class Form(TinyCompoundWidget):
 
         ctx = rpc.session.context.copy()
         ctx.update(context)
+        ctx['bin_size'] = True
 
         values = {}
         defaults = {}

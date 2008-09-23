@@ -139,11 +139,8 @@ class Attachment(controllers.Controller, TinyResource):
         
         record = int(record)
         
-        ctx = rpc.session.context.copy()
-        ctx['get_binary_size'] = False
-        
         proxy = rpc.RPCProxy('ir.attachment')
-        data = proxy.read([record], [], ctx)
+        data = proxy.read([record], [], rpc.session.context)
         
         if len(data) and not data[0]['link'] and data[0]['datas']:
             return base64.decodestring(data[0]['datas'])
