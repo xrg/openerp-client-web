@@ -140,8 +140,6 @@ class Attachment(controllers.Controller, TinyResource):
         record = int(record)
         
         ctx = rpc.session.context.copy()
-        ctx['get_binary_size'] = False
-        
         proxy = rpc.RPCProxy('ir.attachment')
         data = proxy.read([record], [], ctx)
         

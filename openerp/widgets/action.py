@@ -63,9 +63,8 @@ class Action(TinyCompoundWidget):
             raise _('Action not found !')
 
         ctx = rpc.session.context.copy()
-        ctx['get_binary_size'] = False
-
         type=res[0]['type']
+
         self.action = rpc.session.execute('object', 'execute', type, 'read', [self.act_id], False, ctx)[0]
 
         if 'view_mode' in attrs:

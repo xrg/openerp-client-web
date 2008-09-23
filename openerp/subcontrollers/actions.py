@@ -324,11 +324,8 @@ def execute_by_id(act_id, type=None, **data):
         type = get_action_type(act_id)
 	
     ctx = rpc.session.context.copy()
-    if type == 'ir.actions.act_window':
-        # the field 'views' is transfered as a binary field
-        ctx['get_binary_size'] = False
-
     res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, ctx)[0]
+
     return execute(res, **data)
 
 def execute_by_keyword(keyword, adds={}, **data):
@@ -346,7 +343,6 @@ def execute_by_keyword(keyword, adds={}, **data):
             id = data.get('id', False)
             if (id != False): id = int(id)
             ctx = rpc.session.context.copy()
-            ctx['get_binary_size'] = False
             actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, ctx)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
