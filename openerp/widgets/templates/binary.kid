@@ -6,9 +6,6 @@
         <td py:if="editable and filename and not readonly">
             <input type="file" class="${field_class}" py:attrs="attrs" id="${name}" name="${name}" py:if="editable" onchange="set_binary_filename(('${filename}'), this);"/>
         </td>
-        <td py:if="text and editable" nowrap="nowrap">
-            ( ${text} )
-        </td>
         <td py:if="text is not None and editable" width="75px">
             <button type="button" onclick="save_binary_data('${name}', '${filename}')">Save As</button>
         </td>

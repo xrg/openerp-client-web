@@ -59,6 +59,11 @@
             <div id="process_canvas"></div>
         </td>
     </tr>
+    <tr>
+        <td class="dimmed-text">
+            [<a target="_blank" href="${tg.url('/form/edit', model='process.process', id=id)}">Customize</a>]
+        </td>
+    </tr>
 </table>
 
 </body>

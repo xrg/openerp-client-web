@@ -87,13 +87,16 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     value = value.strip()
 
+    # remove trailing miliseconds
+    value = re.sub("(.*?)(\s+\d{2}:\d{2}:\d{2})(\.\d+)?$", "\g<1>\g<2>", value)
+
     # add time part in value if missing
-    if kind == 'datetime' and not re.search('\s+\d{2}:\d{2}:\d{2}$', value):
+    if kind == 'datetime' and not re.search('\s+\d{2}:\d{2}:\d{2}?$', value):
         value += ' 00:00:00'
 
     # remove time part from value
     elif kind == 'date':
-        value = re.sub('\s+\d{2}:\d{2}:\d{2}$', '', value)
+        value = re.sub('\s+\d{2}:\d{2}:\d{2}(\.\d+)?$', '', value)
 
     value = time.strptime(value, server_format)
 

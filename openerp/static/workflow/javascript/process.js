@@ -47,7 +47,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var self = this;
         var req = Ajax.JSON.post('/process/get', {id: id, res_model: res_model, res_id: res_id});
         req.addCallback(function(obj){
-            self._render(obj.title, obj.notes, obj.nodes, obj.transitions);            
+            self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions);            
         });
 
     },
@@ -56,7 +56,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         this.load(this.process_id, this.res_model, this.res_id);
     },
 
-    _render: function(title, notes, nodes, transitions) {
+    _render: function(title, perm, notes, nodes, transitions) {
 
         var h = 0;
         var w = 0;
@@ -108,7 +108,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     	}
 
         // create notes
-        var note = new openerp.process.Note(notes, subflows, this.res_model, this.res_id);
+        var note = new openerp.process.Note(notes, subflows, this.res_model, this.res_id, perm);
         this.addFigure(note, 0, 0);
 
         // set title
@@ -185,7 +185,9 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         }
 
         if (this.data.res) {
-            text.innerHTML = '<b>' + this.data.res.name + '</b><br>' + (this.data.notes || '');
+            text.innerHTML= '<b>' + this.data.res.name + '</b><br>' + (this.data.notes || '');
+            var perm = this.data.res.perm || {};
+            text.title = perm.text + ":" + (perm.write_uid[1] || perm.create_uid[1]) + " (" + (perm.date || 'N/A') + ")";
         }
 
         if (this.data.menu) {
@@ -246,7 +248,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
     },
 
     onHelp: function() {
-        window.open("http://openerp.com/scripts/context_index.php?model=" + this.data.model);
+        window.open(this.data.url || "http://openerp.com/scripts/context_index.php?model=" + this.data.model);
     }
 });
 
@@ -404,8 +406,8 @@ MochiKit.Base.update(openerp.process.TargetDecorator.prototype, {
 /**
  * openerp.process.notes
  */
-openerp.process.Note = function(note, subflows, res_model, res_id) {
-    this.__init__(note, subflows, res_model, res_id);
+openerp.process.Note = function(note, subflows, res_model, res_id, perm) {
+    this.__init__(note, subflows, res_model, res_id, perm);
 }
 
 openerp.process.Note.prototype = new draw2d.Rectangle();
@@ -413,12 +415,14 @@ MochiKit.Base.update(openerp.process.Note.prototype, {
 
     __super__: draw2d.Rectangle,
 
-    __init__: function(note, subflows, res_model, res_id) {
+    __init__: function(note, subflows, res_model, res_id, perm) {
     
         this.note = note;
         this.subflows = MochiKit.Base.map(function(subflow) {
             return "<a href='" + getURL('/process', {id: subflow[0], res_model: res_model, res_id: res_id}) + "'>" + subflow[1] + "</a>";
         }, subflows || []);
+
+        this.perm = perm || {};
 
         this.__super__.call(this);
 
@@ -442,6 +446,10 @@ MochiKit.Base.update(openerp.process.Note.prototype, {
                     "<dt>Notes:</dt>" +
                     "<dd>" +
                         this.note + 
+                    "</dd>"+
+                    "<dt>"+ this.perm.text + "</dt>"+
+                    "<dd>"+
+                        (this.perm.write_uid[1] || this.perm.create_uid[1]) + ' (' + (this.perm.date || 'N/A') + ')' +
                     "</dd>");
 
         if (this.subflows.length) {
