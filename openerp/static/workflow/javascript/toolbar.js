@@ -28,6 +28,7 @@ openerp.workflow.Toolbar.implement({
         this.addChild(this.tool1);
         this.addChild(this.tool2);
 
+        this.setActiveTool(this.tool1);
         this.setDimension(30, 300);
     },
     
