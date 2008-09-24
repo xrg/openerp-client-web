@@ -108,8 +108,9 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     	}
 
         // create notes
-        var note = new openerp.process.Note(notes, subflows, this.res_model, this.res_id, perm);
-        this.addFigure(note, 0, 0);
+        var note = this._create_note(notes, subflows, perm);
+        var canvas = getElement('process_canvas');
+        canvas.parentNode.insertBefore(note, canvas);
 
         // set title
         MochiKit.DOM.getElement('process_title').innerHTML = title;
@@ -122,6 +123,36 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         if (elems.length) {
             new Tips(elems);
         }
+    },
+
+    _create_note:  function(notes, subflows, perm) {
+
+        var elem = MochiKit.DOM.DIV({'class': 'process-notes'});
+        var perm = perm || {};
+        var subflows = MochiKit.Base.map(function(subflow) {
+            return "<a href='" + getURL('/process', {id: subflow[0], res_model: res_model, res_id: res_id}) + "'>" + subflow[1] + "</a>";
+        }, subflows || []);
+
+        var text = (
+                    "<dl>"+
+                    "<dt>Notes:</dt>" +
+                    "<dd>" +
+                        notes + 
+                    "</dd>"+
+                    "<dt>"+ perm.text + "</dt>"+
+                    "<dd>"+
+                        (perm.write_uid[1] || perm.create_uid[1]) + ' (' + (perm.date || 'N/A') + ')' +
+                    "</dd>");
+
+        if (subflows.length) {
+            text += "<dt>Subflows:</dt><dd>" + subflows.join("<br/>") + "</dd>";
+        }
+
+        text += "</dl>";
+
+        elem.innerHTML = text;
+
+        return elem;
     }
    
 });
@@ -401,68 +432,6 @@ MochiKit.Base.update(openerp.process.TargetDecorator.prototype, {
 		g.setStroke(1);
 		g.drawPolygon([0, 6, 6, 0], [0, 6, -6, 0]);
 	}
-});
-
-/**
- * openerp.process.notes
- */
-openerp.process.Note = function(note, subflows, res_model, res_id, perm) {
-    this.__init__(note, subflows, res_model, res_id, perm);
-}
-
-openerp.process.Note.prototype = new draw2d.Rectangle();
-MochiKit.Base.update(openerp.process.Note.prototype, {
-
-    __super__: draw2d.Rectangle,
-
-    __init__: function(note, subflows, res_model, res_id, perm) {
-    
-        this.note = note;
-        this.subflows = MochiKit.Base.map(function(subflow) {
-            return "<a href='" + getURL('/process', {id: subflow[0], res_model: res_model, res_id: res_id}) + "'>" + subflow[1] + "</a>";
-        }, subflows || []);
-
-        this.perm = perm || {};
-
-        this.__super__.call(this);
-
-        this.setResizeable(false);
-        this.setSelectable(false);
-        this.setCanDrag(false);
-
-        this.setColor(null);
-    },
-
-    createHTMLElement: function() {
-        var elem = this.__super__.prototype.createHTMLElement.call(this);
-
-        elem.className = "process-notes";
-        elem.style.lineHeight = "";
-        elem.style.fontSize = '11px';
-        elem.style.textAlign = 'left';
-
-        var text = (
-                "<dl>"+
-                    "<dt>Notes:</dt>" +
-                    "<dd>" +
-                        this.note + 
-                    "</dd>"+
-                    "<dt>"+ this.perm.text + "</dt>"+
-                    "<dd>"+
-                        (this.perm.write_uid[1] || this.perm.create_uid[1]) + ' (' + (this.perm.date || 'N/A') + ')' +
-                    "</dd>");
-
-        if (this.subflows.length) {
-            text += "<dt>Subflows:</dt><dd>" + this.subflows.join("<br/>") + "</dd>";
-        }
-
-        text += "</dl>";
-
-        elem.innerHTML = text;
-
-        return elem;
-    }
-
 });
 
 // vim: ts=4 sts=4 sw=4 si et
