@@ -81,10 +81,9 @@ class Process(controllers.Controller, TinyResource):
 
         else:
             selection = proxy.search_by_model(res_model, rpc.session.context)
-
-        if len(selection) == 1:
-            id = selection[0][0]
-            selection = []
+            if len(selection) == 1:
+                id = selection[0][0]
+                selection = None
 
         return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
     
