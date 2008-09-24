@@ -469,9 +469,8 @@ class Form(controllers.Controller, TinyResource):
             res = form.get(params.field)
             return base64.decodestring(res)
 
-        ctx = rpc.session.context.copy()
         proxy = rpc.RPCProxy(params.model)
-        res = proxy.read([params.id],[params.field], ctx)
+        res = proxy.read([params.id],[params.field], rpc.session.context)
 
         return base64.decodestring(res[0][params.field])
 
