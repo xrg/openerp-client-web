@@ -17,14 +17,26 @@
 
     <script type="text/javascript">
         MochiKit.DOM.addLoadEvent(function(evt){
-            var wkf = new openerp.process.Workflow('process_canvas');
-
-            var id = getElement('id').value;
+    
+            var id = parseInt(getElement('id').value) || 0;
             var res_model = getElement('res_model').value;
             var res_id = getElement('res_id').value;
 
-            wkf.load(id, res_model, res_id);
-    	});
+            if (id) {
+                var wkf = new openerp.process.Workflow('process_canvas');
+                wkf.load(id, res_model, res_id);
+            }
+
+        });
+    
+        var select_workflow = function() {
+            var id = getElement('select_workflow').value;
+            var res_model = getElement('res_model').value;
+            var res_id = getElement('res_id').value;
+
+            window.location.href = getURL("/process", {id: id, res_model: res_model, res_id: res_id});
+        }
+
     </script>
 </head>
 
@@ -56,10 +68,17 @@
             <input type="hidden" id="id" value="$id"/>
             <input type="hidden" id="res_model" value="$res_model"/>
             <input type="hidden" id="res_id" value="$res_id"/>
-            <div id="process_canvas"></div>
+            <div py:if="not selection" id="process_canvas"></div>
+            <fieldset py:if="selection">
+                <legend><b>Select Workflow</b></legend>
+                <select id="select_workflow" name="select_workflow" style="min-width: 150px">
+                    <option value="${val}" py:content="text" py:for="val, text in selection"/>
+                </select>
+                <button class="button" type="button" onclick="select_workflow()">Select</button>
+            </fieldset>
         </td>
     </tr>
-    <tr>
+    <tr py:if="not selection">
         <td class="dimmed-text">
             [<a target="_blank" href="${tg.url('/form/edit', model='process.process', id=id)}">Customize</a>]
         </td>

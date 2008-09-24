@@ -35,25 +35,61 @@
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>
                                     <td nowrap="nowrap" py:if="buttons.search or buttons.form or buttons.calendar or buttons.graph">
-                                        <button type="button" title="Search View..." disabled="${tg.selector(not buttons.search)}" onclick="switchView('tree')">Search</button>
-                                        <button type="button" title="Form View..." disabled="${tg.selector(not buttons.form)}" onclick="switchView('form')">Form</button>
-                                        <button type="button" title="Calendar View..." disabled="${tg.selector(not buttons.calendar)}" onclick="switchView('calendar')">Calendar</button>
-                                        <button type="button" title="Graph View..." disabled="${tg.selector(not buttons.graph)}" onclick="switchView('graph')">Graph</button>
+                                        <button 
+                                            type="button" 
+                                            title="Search View..." 
+                                            disabled="${tg.selector(not buttons.search)}" 
+                                            onclick="switchView('tree')">Search</button>
+                                        <button 
+                                            type="button" 
+                                            title="Form View..." 
+                                            disabled="${tg.selector(not buttons.form)}" 
+                                            onclick="switchView('form')">Form</button>
+                                        <button 
+                                            type="button" 
+                                            title="Calendar View..." 
+                                            disabled="${tg.selector(not buttons.calendar)}" 
+                                            onclick="switchView('calendar')">Calendar</button>
+                                        <button 
+                                            type="button" 
+                                            title="Graph View..." 
+                                            disabled="${tg.selector(not buttons.graph)}" 
+                                            onclick="switchView('graph')">Graph</button>
+                                        <button 
+                                            type="button" 
+                                            title="Corporate Intelligence..."
+                                            onclick="show_process_view()">Process</button>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.can_attach and not buttons.has_attach">
-                                        <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/stock/gtk-paste.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                        <img 
+                                            class="button" width="16" height="16"
+                                            title="${_('Add an attachment to this resource.')}" 
+                                            src="/static/images/stock/gtk-paste.png" 
+                                            onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.can_attach and buttons.has_attach">
-                                        <img class="button" title="${_('Add an attachment to this resource.')}" src="/static/images/stock/gtk-paste-v.png" width="16" height="16" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                        <img
+                                            class="button" width="16" height="16"
+                                            title="${_('Add an attachment to this resource.')}" 
+                                            src="/static/images/stock/gtk-paste-v.png" onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.i18n">
-                                        <img class="button" title="${_('Translate this resource.')}" src="/static/images/stock/stock_translate.png" width="16" height="16" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                        <img 
+                                            class="button" width="16" height="16"
+                                            title="${_('Translate this resource.')}" 
+                                            src="/static/images/stock/stock_translate.png" onclick="openWindow('${tg.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.i18n">
-                                        <img class="button" title="${_('View Log.')}" src="/static/images/stock/stock_log.png" width="16" height="16" onclick="openWindow('${tg.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
+                                        <img 
+                                            class="button" width="16" height="16"
+                                            title="${_('View Log.')}" 
+                                            src="/static/images/stock/stock_log.png"
+                                            onclick="openWindow('${tg.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16">
-                                        <a target="new" href="${tg.query('http://openerp.com/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}"><img class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
+                                        <a target="_blank" href="${tg.url('http://openerp.com/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
+                                            <img class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/>
+                                        </a>
                                     </td>
                                 </tr>
                             </table>

@@ -190,6 +190,30 @@ var switch_O2M = function(view_type, src){
     });
 }
 
+var show_process_view = function() {
+    var model = getElement('_terp_model').value;
+    var id = getElement('_terp_id').value;
+
+    if (getElement('_terp_list')) {
+        var list = new ListView('_terp_list');
+        var ids = list.getSelectedRecords();
+
+        if (ids.length == 0) {
+           return alert('You must select at least one record.');
+        }
+
+        id = ids[0];
+    }
+
+    id = parseInt(id) || 0;
+
+    if (!id) {
+        return alert('You must save this record.');
+    }
+
+    window.open(getURL('/process', {res_model: model, res_id: id}));
+}
+
 var validate_required = function(form) {
 
     if (typeof form == 'string') {
