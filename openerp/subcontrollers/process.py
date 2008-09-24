@@ -38,6 +38,7 @@ import cherrypy
 
 from openerp import rpc
 from openerp import common
+from openerp import format
 
 from openerp.utils import TinyDict
 from openerp.tinyres import TinyResource
@@ -82,12 +83,31 @@ class Process(controllers.Controller, TinyResource):
         id = int(id)
         res_id = int(res_id)
 
-        start = []
-        nodes = {}
-        transitions = {}
-
         proxy = rpc.RPCProxy('process.process')
         graph = proxy.graph_get(id, res_model, res_id, (80, 80, 150, 100), rpc.session.context)
+
+        # last modified by
+        perm = graph['perm']
+        perm['text'] = _("Last modified by:")
+
+        # formate datetime
+        try:
+            perm['date'] = format.format_datetime(perm['write_date'] or perm['create_date'])
+        except:
+            pass
+
+        for nid, node in graph['nodes'].items():
+            if not node.get('res'):
+                continue
+
+            perm = node['res']['perm']
+            perm['text'] = _("Last modified by:")
+
+            # formate datetime
+            try:
+                perm['date'] = format.format_datetime(perm['write_date'] or perm['create_date'])
+            except:
+                pass
 
         return graph
 
