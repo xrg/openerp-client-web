@@ -138,7 +138,7 @@ class Root(controllers.RootController, TinyResource):
 
         url = rpc.session.get_url()
         dblist = rpc.session.listdb()
-        manage_visible = config.get('manage.visible', path='openerp')
+        manage_visible = config.get('manage.visible', path='admin')
         
         if dblist == -1:
             dblist = []

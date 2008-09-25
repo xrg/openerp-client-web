@@ -123,7 +123,7 @@ def secured(fn):
                 if action == 'login':
                     message = _("Bad username or password !")
                 
-                if config.get('dblist.filter', path='openerp'):
+                if config.get('dblist.filter', path='admin'):
                     
                     headers = cherrypy.request.headers
                     host = headers.get('X-Forwarded-Host', headers.get('Host'))
@@ -132,7 +132,7 @@ def secured(fn):
                     base = base + '_'                
                     dblist = [d for d in dblist if d.startswith(base)]
                     
-                manage_visible = config.get('manage.visible', path='openerp')
+                manage_visible = config.get('manage.visible', path='admin')
 
                 return _login(cherrypy.request.path, manage_visible=manage_visible, message=message, 
                         dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
