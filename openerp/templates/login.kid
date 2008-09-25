@@ -40,7 +40,7 @@
                     
                     <tr>
                         <td class="label">Password :</td>
-                        <td><input type="password" value="${passwd}" id="passwd" name="passwd" style="width: 300px;"/></td>
+                        <td><input type="password" value="${password}" id="password" name="password" style="width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td></td>

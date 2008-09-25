@@ -78,12 +78,12 @@ class RPCGateway(object):
     def _get_uid(self):
         return session.uid
 
-    def _get_passwd(self):
-        return session.passwd
+    def _get_password(self):
+        return session.password
 
     db = property(_get_db)
     uid = property(_get_uid)
-    passwd = property(_get_passwd)
+    password = property(_get_password)
 
     def get_url(self):
         """Get the url
@@ -96,12 +96,12 @@ class RPCGateway(object):
         """
         pass
 
-    def login(self, db, user, passwd):
+    def login(self, db, user, password):
         """Do login.
 
         @param db: the database
         @param user: the user
-        @param passwd: the password
+        @param password: the password
 
         @return: 1 on success else negative error value
         """
@@ -155,10 +155,10 @@ class XMLRPCGateway(RPCGateway):
         except Exception, e:
             return -1
 
-    def login(self, db, user, passwd):
+    def login(self, db, user, password):
         sock = xmlrpclib.ServerProxy(self.url + 'common')
         try:
-            res = sock.login(db, user, passwd)
+            res = sock.login(db, user, password)
         except Exception, e:
             return -1
 
@@ -168,7 +168,7 @@ class XMLRPCGateway(RPCGateway):
         sock = xmlrpclib.ServerProxy(self.url + str(obj))
         try:
             if not noauth:
-                args = (self.db, self.uid, self.passwd) + args
+                args = (self.db, self.uid, self.password) + args
             return getattr(sock, method)(*args)
         except socket.error, (e1, e2):
             raise common.error(_('Connection refused !'), e1, e2)
@@ -203,11 +203,11 @@ class NETRPCGateway(RPCGateway):
         except Exception, e:
             return -1
 
-    def login(self, db, user, passwd):
+    def login(self, db, user, password):
         sock = tiny_socket.mysocket()
         try:
             sock.connect(self.host, self.port)
-            sock.mysend(('common', 'login', db, user, passwd))
+            sock.mysend(('common', 'login', db, user, password))
             res = sock.myreceive()
             sock.disconnect()
         except Exception, e:
@@ -220,7 +220,7 @@ class NETRPCGateway(RPCGateway):
         try:
             sock.connect(self.host, self.port)
             if not noauth:
-                args = (self.db, self.uid, self.passwd) + args
+                args = (self.db, self.uid, self.password) + args
             sock.mysend((obj, method) + args)
             res = sock.myreceive()
             sock.disconnect()
@@ -321,19 +321,19 @@ class RPCSession(object):
     def listdb(self):
         return self.gateway.listdb()
 
-    def login(self, db, user, passwd):
+    def login(self, db, user, password):
 
-        if passwd is None:
+        if password is None:
             return -1
 
-        uid = self.gateway.login(db, user or '', passwd or '')
+        uid = self.gateway.login(db, user or '', password or '')
 
         if uid <= 0:
             return -1
 
         self.uid = uid
         self.db = db
-        self.passwd = passwd
+        self.password = password
         self.open = True
 
         # read the full name of the user

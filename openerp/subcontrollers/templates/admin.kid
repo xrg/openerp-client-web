@@ -92,12 +92,12 @@
                         <div class="box2 welcome">Administration</div>
                         <div>
                             <form name="config" action="/admin/login" method="post">
-                                <div class="box2" id="passwd">
+                                <div class="box2" id="password">
                                     <table align="center" border="0" width="100%">
                                         <tr>
                                             <td align="right" class="label">Password :</td>
                                             <td>
-                                                <input type="password" name="passwd" style="width: 99%;"/>
+                                                <input type="password" name="password" style="width: 99%;"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -290,7 +290,7 @@
                                     </tr>
                                     <tr>
                                         <td align="right" class="label" nowrap="nowrap">Password :</td>
-                                        <td class="item" width="100%"><input type="password" name="passwd" id="user" style="width: 99%;" /></td>
+                                        <td class="item" width="100%"><input type="password" name="password" id="user" style="width: 99%;" /></td>
                                     </tr>
                                 </table>
                             </div>
@@ -360,7 +360,7 @@
                                     </tr>
                                     <tr>
                                         <td align="right" class="label" nowrap="nowrap">Password :</td>
-                                        <td class="item" width="100%"><input type="password" name="passwd" id="passwd" style="width: 99%;" /></td>
+                                        <td class="item" width="100%"><input type="password" name="password" id="password" style="width: 99%;" /></td>
                                     </tr>
                                     <tr>
                                         <td align="right" class="label" nowrap="nowrap">New Database name :</td>
@@ -386,15 +386,15 @@
                                 <table align="center" width="100%" border="0">
                                     <tr>
                                         <td align="right" class="label" nowrap="nowrap">Old Password :</td>
-                                        <td class="item" width="100%"><input type="password" name="old_passwd" id="user" style="width: 99%;" /></td>
+                                        <td class="item" width="100%"><input type="password" name="old_password" id="user" style="width: 99%;" /></td>
                                     </tr>
                                     <tr>
                                         <td align="right" class="label" nowrap="nowrap">New Password :</td>
-                                        <td class="item" width="100%"><input type="password" name="new_passwd" id="user" style="width: 99%;" /></td>
+                                        <td class="item" width="100%"><input type="password" name="new_password" id="user" style="width: 99%;" /></td>
                                     </tr>
                                     <tr>
                                         <td align="right" class="label" nowrap="nowrap">Confirm Password :</td>
-                                        <td class="item" width="100%"><input type="password" name="new_passwd2" id="user" style="width: 99%;" /></td>
+                                        <td class="item" width="100%"><input type="password" name="new_password2" id="user" style="width: 99%;" /></td>
                                     </tr>
                                 </table>
                             </div>
