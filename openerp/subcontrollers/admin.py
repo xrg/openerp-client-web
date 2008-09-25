@@ -101,7 +101,7 @@ class Admin(controllers.Controller):
         protocol = config.get('protocol', path="openerp")
         comp_url = config.get('company_url', path='admin')
         
-        return dict(langlist=langlist, password=spwd, dblist=dblist, selectedDb=selectedDb,
+        return dict(langlist=langlist, dbpassword=spwd, dblist=dblist, selectedDb=selectedDb,
                     db=db, url=url, db_name=db_name, demo_data=demo_data,
                     password=password, message=message, mode=mode, host=host,
                     port=port, protocol=protocol, comp_url=comp_url)
