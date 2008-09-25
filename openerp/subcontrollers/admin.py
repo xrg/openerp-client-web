@@ -109,7 +109,7 @@ class Admin(controllers.Controller):
     @expose()
     def login(self, **kw):
         
-        confpass = conf.get('admin', {}).get('passwd', '')
+        confpass = conf.get('admin', {}).get('password', '')
         cherrypy.session['auth_check'] = ''
         
         passwd = kw.get('passwd')        
