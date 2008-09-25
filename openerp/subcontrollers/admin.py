@@ -65,7 +65,6 @@ class MySchema(validators.Schema):
 class UserPassword(validators.Schema):
     admin_password = validators.String(not_empty=True)
     confirm_password = validators.String(not_empty=True)
-#    chained_validators = [validators.RequireIfPresent(present='admin_password', required='confirm_password'), validators.FieldsMatch('admin_password', 'confirm_password')]
 
 class Admin(controllers.Controller):
 
