@@ -86,7 +86,7 @@ class Admin(controllers.Controller):
         except Exception, e:
             pass
         
-        spwd = cherrypy.session.get('terp_passwd')
+        spwd = cherrypy.session.get('terp_password')
         db = cherrypy.request.simple_cookie.get('terp_db')
 
         try:
@@ -101,7 +101,7 @@ class Admin(controllers.Controller):
         protocol = config.get('protocol', path="openerp")
         comp_url = config.get('company_url', path='admin')
         
-        return dict(langlist=langlist, passwd=spwd, dblist=dblist, selectedDb=selectedDb,
+        return dict(langlist=langlist, dbpassword=spwd, dblist=dblist, selectedDb=selectedDb,
                     db=db, url=url, db_name=db_name, demo_data=demo_data,
                     password=password, message=message, mode=mode, host=host,
                     port=port, protocol=protocol, comp_url=comp_url)
@@ -109,14 +109,14 @@ class Admin(controllers.Controller):
     @expose()
     def login(self, **kw):
         
-        confpass = conf.get('admin', {}).get('passwd', '')
+        confpass = conf.get('admin', {}).get('password', '')
         cherrypy.session['auth_check'] = ''
         
-        passwd = kw.get('passwd')        
+        password = kw.get('password')        
         
-        if passwd:
-            if passwd == confpass:
-                cherrypy.session['terp_passwd'] = passwd
+        if password:
+            if password == confpass:
+                cherrypy.session['terp_password'] = password
                 raise redirect("/admin")
             else:
                 message = str(_('Invalid Password...!'))
@@ -155,13 +155,13 @@ class Admin(controllers.Controller):
             comp_url = 'http://'+comp_url
 
         if tg_errors:
-            return dict(mode='db_config', message=None, passwd=None, host=host, port=port, protocol=protocol, comp_url=comp_url)
+            return dict(mode='db_config', message=None, password=None, host=host, port=port, protocol=protocol, comp_url=comp_url)
 
         oldpwd=kw.get('oldpwd')
-        spwd = cherrypy.session.get('terp_passwd')
+        spwd = cherrypy.session.get('terp_password')
         
         if spwd == oldpwd and newpwd:
-            cherrypy.session['terp_passwd'] = newpwd
+            cherrypy.session['terp_password'] = newpwd
         
             conf['admin'] = {}
             conf['admin']['password'] = str(newpwd)            
@@ -175,7 +175,7 @@ class Admin(controllers.Controller):
                 
         conf.write()
 
-        cherrypy.session['terp_passwd'] = None
+        cherrypy.session['terp_password'] = None
 
         raise redirect("/admin")
             
@@ -207,7 +207,7 @@ class Admin(controllers.Controller):
                 raise common.error(_('Error'), _(message))
             
     @expose()
-    def dropdb(self, db='', dblist=None, db_name=None, passwd=None):
+    def dropdb(self, db='', dblist=None, db_name=None, password=None):
         
         message=None
         res = None
@@ -216,7 +216,7 @@ class Admin(controllers.Controller):
             return
         
         try:
-            res = rpc.session.execute_db('drop', passwd, db_name)
+            res = rpc.session.execute_db('drop', password, db_name)
         except Exception, e:
             if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
                 message = _('Bad database administrator password !') + "\n\n" + _("Could not drop database.")
@@ -251,7 +251,7 @@ class Admin(controllers.Controller):
         raise redirect("/admin")
    
     @expose()
-    def restoredb(self, passwd=None, new_db=None, path=None):
+    def restoredb(self, password=None, new_db=None, path=None):
 
         if path is None:
             return
@@ -261,7 +261,7 @@ class Admin(controllers.Controller):
 
         try:
             data_b64 = base64.encodestring(path.file.read())
-            res = rpc.session.execute_db('restore', passwd, new_db, data_b64)
+            res = rpc.session.execute_db('restore', password, new_db, data_b64)
         except Exception, e:
             if e.faultString=='AccessDenied:None':
                 message = _('Bad database administrator password !') + "\n\n" + _("Could not restore database.")
@@ -274,19 +274,19 @@ class Admin(controllers.Controller):
             raise common.error(_('Error'), _(message))
     
     @expose()
-    def passworddb(self, new_passwd=None, old_passwd=None, new_passwd2=None):
+    def passworddb(self, new_password=None, old_password=None, new_password2=None):
 
         message = None
         res = None
 
-        if not new_passwd:
+        if not new_password:
             return
         
-        if new_passwd != new_passwd2:
+        if new_password != new_password2:
             message = _("Confirmation password do not match with new password, operation cancelled !") + "\n\n" + _("Validation Error.")
         else:
             try:
-                res = rpc.session.execute_db('change_admin_password', old_passwd, new_passwd)
+                res = rpc.session.execute_db('change_admin_password', old_password, new_password)
             except Exception,e:
                 if e.faultString=='AccessDenied:None':
                     message = _("Could not change password database.") + "\n\n" + _('Bas password provided !')

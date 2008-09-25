@@ -54,7 +54,7 @@ def _login(target, dblist=None, manage_visible=False, db= None, user=None, actio
     url = str(url[:-1])
 
     return dict(target=target, url=url, manage_visible=manage_visible, dblist=dblist, user=user, 
-            passwd=None, db=db, action=action, message=message, origArgs=origArgs)
+            password=None, db=db, action=action, message=message, origArgs=origArgs)
 
 def secured(fn):
     """A Decorator to make a TinyResource controller method secured.
@@ -66,7 +66,7 @@ def secured(fn):
 
         if kw.has_key('db'): del kw['db']
         if kw.has_key('user'): del kw['user']
-        if kw.has_key('passwd'): del kw['passwd']
+        if kw.has_key('password'): del kw['password']
         if kw.has_key('login_action'): del kw['login_action']
 
     def get_orig_args(kw={}):
@@ -77,7 +77,7 @@ def secured(fn):
 
         if new_kw.has_key('db'): del new_kw['db']
         if new_kw.has_key('user'): del new_kw['user']
-        if new_kw.has_key('passwd'): del new_kw['passwd']
+        if new_kw.has_key('password'): del new_kw['password']
         if new_kw.has_key('login_action'): del new_kw['login_action']
 
         return new_kw
@@ -95,7 +95,7 @@ def secured(fn):
 
             db = None
             user = None
-            passwd = None
+            password = None
             message = None
             manage_visible = False
 
@@ -110,10 +110,10 @@ def secured(fn):
 
             db = kw.get('db', db)
             user = kw.get('user', user)
-            passwd = kw.get('passwd', passwd)
+            password = kw.get('password', password)
 
             # See if the user just tried to log in
-            if rpc.session.login(db, user, passwd) <= 0:
+            if rpc.session.login(db, user, password) <= 0:
                 # Bad login attempt
                 dblist = rpc.session.listdb()
                 if dblist == -1:
@@ -123,7 +123,7 @@ def secured(fn):
                 if action == 'login':
                     message = _("Bad username or password !")
                 
-                if config.get('dblist.filter', path='openerp'):
+                if config.get('dblist.filter', path='admin'):
                     
                     headers = cherrypy.request.headers
                     host = headers.get('X-Forwarded-Host', headers.get('Host'))
@@ -132,7 +132,7 @@ def secured(fn):
                     base = base + '_'                
                     dblist = [d for d in dblist if d.startswith(base)]
                     
-                manage_visible = config.get('manage.visible', path='openerp')
+                manage_visible = config.get('manage.visible', path='admin')
 
                 return _login(cherrypy.request.path, manage_visible=manage_visible, message=message, 
                         dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))

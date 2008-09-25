@@ -132,19 +132,19 @@ class Root(controllers.RootController, TinyResource):
 
     @expose(template="openerp.templates.login")
     @unsecured
-    def login(self, db=None, user=None, passwd=None):
+    def login(self, db=None, user=None, password=None):
 
         message = None
 
         url = rpc.session.get_url()
         dblist = rpc.session.listdb()
-        manage_visible = config.get('manage.visible', path='openerp')
+        manage_visible = config.get('manage.visible', path='admin')
         
         if dblist == -1:
             dblist = []
             message = _("Could not connect to server !")
 
-        return dict(target='/', url=url, manage_visible=manage_visible, dblist=dblist, user=user, passwd=passwd, db=db, action='login', message=message, origArgs={})
+        return dict(target='/', url=url, manage_visible=manage_visible, dblist=dblist, user=user, password=password, db=db, action='login', message=message, origArgs={})
 
     @expose()
     @unsecured
