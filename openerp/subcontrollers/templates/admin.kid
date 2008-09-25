@@ -223,7 +223,7 @@
                     </div>
                   
                     <div class="view" id="dbcreate" py:if="mode=='db_create'">
-                        <form action="/admin/createdb" method="post">
+                        <form id="view_form" action="/admin/createdb" method="post">
                             <div class="box2 welcome">Create Database</div>
                             <div align="center" class="box2">
                                 <table align="center" border="0" width="100%">
@@ -235,7 +235,7 @@
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td>(use 'admin', if you did not changed it)</td>
+                                        <td>(<i>admin</i>, By Default)</td>
                                     </tr>
                 
                                     <tr>
@@ -256,6 +256,20 @@
                                             <select name="language" style="width: 100%;">
                                                 <option py:for="i, key in enumerate(langlist)" value="${langlist[i][0]}" py:content="langlist[i][1]" selected="${(i+1 == len(langlist) or None) and 1}">Language</option>
                                             </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" class="label" nowrap="nowrap">Administrator password :</td>
+                                        <td class="item" width="100%">
+                                            <input type="password" name="admin_password" style="width: 99%;"/>
+                                            <span py:if="'admin_password' in tg.errors" class="fielderror">Password is required.</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right" class="label" nowrap="nowrap">Confirm password :</td>
+                                        <td class="item" width="100%">
+                                            <input type="password" name="confirm_password" style="width: 99%;"/>
+                                            <span py:if="'confirm_password' in tg.errors" class="fielderror">Password do not match.</span>
                                         </td>
                                     </tr>
                                 </table>
