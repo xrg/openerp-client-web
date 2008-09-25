@@ -102,13 +102,41 @@
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
                                         <td>
-                                            <button type="button" title="${_('Create a new resource')}" py:if="buttons.new" onclick="editRecord(null)">New</button>
-                                            <button type="button" title="${_('Edit this resource')}" py:if="buttons.edit" onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
-                                            <button type="button" title="${_('Save this resource')}" py:if="buttons.save" onclick="submit_form('save')">Save</button>
-                                            <button type="button" title="${_('Save &amp; Edit this resource')}" py:if="buttons.save" onclick="submit_form('save_and_edit')">Save &amp; Edit</button>
-                                            <button type="button" title="${_('Duplicate this resource')}" py:if="buttons.edit" onclick="submit_form('duplicate')">Duplicate</button>
-                                            <button type="button" title="${_('Delete this resource')}" py:if="buttons.delete" onclick="submit_form('delete')">Delete</button>
-                                            <button type="button" title="${_('Cancel editing the current resource')}" py:if="buttons.cancel" onclick="submit_form('cancel')">Cancel</button>
+                                            <button 
+                                                type="button" 
+                                                title="${_('Create a new resource')}" 
+                                                py:if="buttons.new" 
+                                                onclick="editRecord(null)">New</button>
+                                            <button 
+                                                type="button" 
+                                                title="${_('Edit this resource')}" 
+                                                py:if="buttons.edit" 
+                                                onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
+                                            <button 
+                                                type="button" 
+                                                title="${_('Save this resource')}"
+                                                py:if="buttons.save" 
+                                                onclick="submit_form('save')">Save</button>
+                                            <button 
+                                                type="button" 
+                                                title="${_('Save &amp; Edit this resource')}" 
+                                                py:if="buttons.save" 
+                                                onclick="submit_form('save_and_edit')">Save &amp; Edit</button>
+                                            <button 
+                                                type="button" 
+                                                title="${_('Duplicate this resource')}"
+                                                py:if="buttons.edit" 
+                                                onclick="submit_form('duplicate')">Duplicate</button>
+                                            <button 
+                                                type="button"
+                                                title="${_('Delete this resource')}" 
+                                                py:if="buttons.delete"
+                                                onclick="submit_form('delete')">Delete</button>
+                                            <button 
+                                                type="button" 
+                                                title="${_('Cancel editing the current resource')}" 
+                                                py:if="buttons.cancel" 
+                                                onclick="submit_form('cancel')">Cancel</button>
                                         </td>
                                         <td align="right" nowrap="nowrap" py:if="buttons.pager" class="pager" py:content="pager.display()"></td>
                                     </tr>
@@ -121,8 +149,10 @@
                     </tr>
                     <tr>
                         <td class="dimmed-text">
-                            [<a onmouseover="showElement('customise_menu_');" onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">Customise</a>]<br/>
-                            <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" onmouseover="showElement(this);" onmouseout="hideElement(this);">
+                            [<a onmouseover="showElement('customise_menu_');" 
+                                onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">Customise</a>]<br/>
+                            <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
+                                 onmouseover="showElement(this);" onmouseout="hideElement(this);">
                                 <a title="${_('Manage views of the current object')}" 
                                    onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">Manage Views</a>

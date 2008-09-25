@@ -5,10 +5,12 @@
 }
 
 .process-notes {
-    line-height: "";
     font-size: 11px;
     max-width: 250px;
     max-height: 250px;
+    text-align: left;
+    position: absolute;
+    left: 10px;
 }
 
 .process-notes dt {
