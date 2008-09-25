@@ -32,7 +32,12 @@
 
 function initialize_dashboard() {
     
+    var dashtabs = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashlet-title');
+    
     if (window.browser.isIE || window.browser.isIE6 || window.browser.isIE7) {
+        forEach(dashtabs, function(tabs){
+            tabs.style.cursor = 'normal';    
+        });
         return;
     }
 

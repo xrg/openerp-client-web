@@ -297,7 +297,11 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
     __init__: function(data) {
         this.__super__.call(this);
-        this.setRouter(new draw2d.ManhattanConnectionRouter());
+
+        this.setSourceAnchor(new draw2d.ChopboxConnectionAnchor());
+        this.setTargetAnchor(new draw2d.ChopboxConnectionAnchor());
+        this.setRouter(new draw2d.NullConnectionRouter());
+        //this.setRouter(new draw2d.ManhattanConnectionRouter());
 
         var color = data.active && data.buttons && data.buttons.length ? new draw2d.Color(128, 0, 0) : new draw2d.Color(179, 179, 179);
 

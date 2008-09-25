@@ -114,11 +114,34 @@ Date.prototype.getWeekDay = function(monday){
 }
 
 Date.prototype.getNext = function() {
-    return new Date(this.getTime() + 24 * 60 * 60 * 1000);
+    
+    //XXX: timezone problem (CEST, CET) 
+    // return new Date(this.getTime() + 24 * 60 * 60 * 1000);
+
+    var y = this.getFullYear();
+    var m = this.getMonth();
+    var d = this.getDate();
+    var H = this.getHours();
+    var M = this.getMinutes();
+    var S = this.getSeconds();
+    var X = this.getMilliseconds();
+
+    return new Date(y, m, d+1, H, M, S, X);
 }
 
 Date.prototype.getPrevious = function() {
-    return new Date(this.getTime() - 24 * 60 * 60 * 1000);
+    //XXX: timezone problem (CEST, CET)
+    // return new Date(this.getTime() - 24 * 60 * 60 * 1000);
+    
+    var y = this.getFullYear();
+    var m = this.getMonth();
+    var d = this.getDate();
+    var H = this.getHours();
+    var M = this.getMinutes();
+    var S = this.getSeconds();
+    var X = this.getMilliseconds();
+
+    return new Date(y, m, d-1, H, M, S, X);
 }
 
 // vim: ts=4 sts=4 sw=4 si et

@@ -633,15 +633,16 @@ function eval_domain_context_request(options){
     if (prefix[0] == '_terp_listfields'){
         prefix.shift();
     }
+    prefix = prefix.join('/');
 
     var params = getFormData(1);
-
+    
     params['_terp_domain'] = options.domain;
     params['_terp_context'] = options.context;
     params['_terp_prefix'] = prefix;    
-    params['_terp_parent_id'] = prefix.length > 0 ? $(prefix + '/_terp_id').value : $('_terp_id').value;
+    params['_terp_parent_id'] = prefix ? $(prefix + '/_terp_id').value : $('_terp_id').value;
     
-    var parent_context = prefix.length > 0 ? $(prefix + '/_terp_context') : $('_terp_context');
+    var parent_context = prefix ? $(prefix + '/_terp_context') : $('_terp_context');
     
     if (parent_context){
         params['_terp_parent_context'] = parent_context.value;
