@@ -61,11 +61,15 @@ class MySchema(validators.Schema):
     newpwd = validators.String()
     repwd = validators.String()
     chained_validators = [validators.RequireIfPresent(present='oldpwd',required='newpwd'), validators.FieldsMatch('newpwd', 'repwd')]
-    
+
+class UserPassword(validators.Schema):
+    admin_password = validators.String(not_empty=True)
+    confirm_password = validators.String(not_empty=True)
+
 class Admin(controllers.Controller):
 
     @expose(template="openerp.subcontrollers.templates.admin")
-    def index(self, message='', id=None, db='', url='', selectedDb='', password=None, db_name=None, language=[], demo_data=False):
+    def index(self, message='', id=None, db='', url='', selectedDb='', password=None, admin_password='', confirm_password='', db_name=None, language=[], demo_data=False):
         
         if cherrypy.session.get('auth_check'):
             mode = cherrypy.session.get('auth_check')
@@ -178,21 +182,38 @@ class Admin(controllers.Controller):
         cherrypy.session['terp_password'] = None
 
         raise redirect("/admin")
-            
-    @expose()
-    def createdb(self, langlist=[], password=None, db_name=None, language=[], demo_data=False):
-                
+           
+    @validate(validators=UserPassword())        
+    @expose(template="openerp.subcontrollers.templates.admin")
+    def createdb(self, tg_errors=None, langlist=[], password=None, db_name=None, admin_password=None, confirm_password=None, language=[], demo_data=False):
+        
         if not db_name:
             return
 
         message = None
         res = None
+        
+        langlist = []
+        
+        try:
+            langlist = rpc.session.execute_db('list_lang') or []
+        except Exception, e:
+            pass
+
+        langlist.append(('en_EN','English'))
+    
+        if tg_errors:
+            return dict(mode='db_create', langlist=langlist, db_name=None, message=None, password=None, admin_password=None, 
+                        confirm_password=None, demo_data=False)
+        
+        if admin_password and (admin_password == confirm_password):
+            user_password = admin_password
     
         if ((not db_name) or (not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', db_name))):
             message = _('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name !')
         else:
             try:
-                res = rpc.session.execute_db('create', password, db_name, demo_data, language)
+                res = rpc.session.execute_db('create', password, db_name, demo_data, language, user_password)
         
                 time.sleep(5) # wait for few seconds
             except Exception, e:

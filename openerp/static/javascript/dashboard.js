@@ -31,6 +31,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function initialize_dashboard() {
+    
+    if (window.browser.isIE || window.browser.isIE6 || window.browser.isIE7) {
+        return;
+    }
 
     var dashbars = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashbar');
     MochiKit.Iter.forEach(dashbars, function(bar){
