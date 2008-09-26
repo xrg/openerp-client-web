@@ -270,6 +270,18 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
         }
 
+        if (this.data.workflow) {
+            var btn = IMG({src: '/static/images/stock/gtk-execute.png', title: 'Print workflow'});
+            btn.onclick = MochiKit.Base.bind(this.onPrintWorkflow, this);
+            buttons.push(btn);
+        }
+
+        if (this.data.directory) {
+            var btn = IMG({src: '/static/images/stock/gtk-directory-remote.png', title: 'Documents'});
+            btn.onclick = MochiKit.Base.bind(this.onDocument, this);
+            buttons.push(btn);
+        }
+
         if (this.data.active){
             elem.style.background = "url(/static/workflow/images/node-current.png) no-repeat";
         }
@@ -305,6 +317,15 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         window.open(getURL("/form/report", {
             _terp_model: this.workflow.res_model, 
             _terp_id: this.workflow.res_id}));
+    },
+
+    onDocument: function() {
+        window.open(this.data.directory);
+    },
+
+    onPrintWorkflow: function() {
+        var id = this.data.res ? this.data.res.id : "False";
+        window.open(getURL('/process/print_workflow', {model: this.data.model, id: id}));
     },
 
     onHelp: function() {
