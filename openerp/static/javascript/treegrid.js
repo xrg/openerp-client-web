@@ -108,6 +108,7 @@ TreeGrid.prototype = {
            
             req.addCallback(function(obj){
                 self.records = obj.records;
+                MochiKit.Signal.signal(self, 'onDataLoad', self, null);
             });
            
             req.addBoth(function(obj){
@@ -646,6 +647,8 @@ TreeNode.prototype = {
            
             req.addCallback(function(obj){
                 _makeChildNodes(obj.records);
+                MochiKit.Signal.signal(self.tree, 'onDataLoad', self.tree, self);
+                MochiKit.Signal.signal(self.tree, 'onNodeExpand', self.tree, self);
             });
            
             req.addBoth(function(obj){
@@ -683,6 +686,7 @@ TreeNode.prototype = {
             }
         });
 
+        MochiKit.Signal.signal(this.tree, 'onNodeExpand', this.tree, this);
     },
     
     collapse : function() {
@@ -698,6 +702,8 @@ TreeNode.prototype = {
         
         this.setState('expand');
         this.expanded = false;
+
+        MochiKit.Signal.signal(this.tree, 'onNodeCollapse', this.tree, this);
     },
     
     setState : function(state/* can be 'expand', 'collapse', 'loading' */) {
