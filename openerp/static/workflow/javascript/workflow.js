@@ -49,7 +49,7 @@ openerp.workflow.Workflow.implement({
 		
 		draw2d.Workflow.call(this, canvas);
 		this.getCommandStack().setUndoLimit(0);
-//		this.setEnableSmoothFigureHandling(true);
+        this.setEnableSmoothFigureHandling(true);
 
         // enable grid by default
         this.setBackgroundImage('/static/workflow/images/grid_10.jpg', true);
