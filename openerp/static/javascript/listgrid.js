@@ -40,6 +40,7 @@ var ListView = function(id, terp){
     this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
     this.current_record = null;
     
+    this.ids = getElement(prefix + '_terp_ids').value;
     var view_ids = getElement(prefix + '_terp_view_ids');
     var view_mode = getElement(prefix + '_terp_view_mode');
     var def_ctx = getElement(prefix + '_terp_default_get_ctx');
@@ -91,6 +92,15 @@ ListView.prototype.moveUp = function(id, seq) {
     var args = {};
     
     args['_terp_model'] = this.model;
+    args['_terp_ids'] = this.ids;
+    
+    if((seq['prev'][1] == 0) && (seq['current'][1] == 0)) {
+        var req = Ajax.JSON.post('/listgrid/assign_seq', args);
+        
+        req.addCallback(function(){      
+            self.reload();        
+        });
+    }
     
     if (seq['prev'][0]) {
         args['_terp_prev_id'] = seq['prev'][0];
@@ -112,11 +122,18 @@ ListView.prototype.moveUp = function(id, seq) {
 }
 
 ListView.prototype.moveDown = function(id, seq) {
-    
     var self = this;
     var args = {};
     
     args['_terp_model'] = this.model;
+    
+    if((seq['next'][1] == 0) && (seq['current'][1] == 0)) {
+        var req = Ajax.JSON.post('/listgrid/assign_seq', args);
+        
+        req.addCallback(function(){      
+            self.reload();        
+        });
+    }
     
     if (seq['next'][0]) {
         args['_terp_next_id'] = seq['next'][0];

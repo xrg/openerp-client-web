@@ -224,6 +224,18 @@ class List(controllers.Controller, TinyResource):
         proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
         
         return dict()
+    
+    @expose('json')
+    def assign_seq(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        model = params.get('_terp_model')
+        proxy = rpc.RPCProxy(model)
+        
+        for i, id in enumerate(params.ids):
+            proxy.write([id], {'sequence': i}, rpc.session.context)
+        
+        return dict()
         
     @expose('json')
     def get_editor(self, **kw):

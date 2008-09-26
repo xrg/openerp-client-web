@@ -356,14 +356,14 @@ class List(TinyCompoundWidget):
                     cd = []
                     
                     cur = data[i]
-                    cd = [cur['id'], cur['sequence'].value]
+                    cd = [cur['id'], int(cur['sequence'].value)]
                     
                     if i != 0:
                         prev = data[i-1]
-                        pd = [prev['id'], prev['sequence'].value]
+                        pd = [prev['id'], int(prev['sequence'].value)]
                     if i != len(data)-1:
                         next = data[i+1]
-                        nd = [next['id'], next['sequence'].value]
+                        nd = [next['id'], int(next['sequence'].value)]
 
                     row['_seq'] = {'prev': pd, 'current': cd, 'next': nd}
                     
