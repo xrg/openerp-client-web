@@ -270,7 +270,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
         }
 
-        if (this.data.workflow) {
+        if (this.data.workflow && this.data.res) {
             var btn = IMG({src: '/static/images/stock/gtk-execute.png', title: 'Print workflow'});
             btn.onclick = MochiKit.Base.bind(this.onPrintWorkflow, this);
             buttons.push(btn);
