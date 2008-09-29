@@ -655,7 +655,8 @@ TreeNode.prototype = {
             });
            
         } else {
-            _makeChildNodes(this.record.children)
+            _makeChildNodes(this.record.children);
+            MochiKit.Signal.signal(this.tree, 'onNodeExpand', this.tree, this);
         }
         
     },
