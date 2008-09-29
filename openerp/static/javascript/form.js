@@ -588,6 +588,9 @@ var onChange = function(name) {
             }
         }
 
+        if (obj.warning && obj.warning.message) {
+            alert(obj.warning.message);
+        }
     });
 }
 
