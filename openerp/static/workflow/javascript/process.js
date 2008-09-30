@@ -276,7 +276,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
             buttons.push(btn);
         }
 
-        if (this.data.directory) {
+        if (this.data.res && this.data.res.directory) {
             var btn = IMG({src: '/static/images/stock/gtk-directory-remote.png', title: 'Documents'});
             btn.onclick = MochiKit.Base.bind(this.onDocument, this);
             buttons.push(btn);
@@ -320,7 +320,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
     },
 
     onDocument: function() {
-        window.open(this.data.directory);
+        window.open(this.data.res.directory);
     },
 
     onPrintWorkflow: function() {
