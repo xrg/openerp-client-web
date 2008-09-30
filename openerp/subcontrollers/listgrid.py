@@ -202,8 +202,13 @@ class List(controllers.Controller, TinyResource):
         prev_id = params.get('_terp_prev_id')
         
         proxy = rpc.RPCProxy(model)
-        proxy.write([prev_id], {'sequence': cur_seq}, rpc.session.context)
-        proxy.write([cur_id], {'sequence': prev_seq}, rpc.session.context)
+        
+        if cur_seq == prev_seq:
+            proxy.write([prev_id], {'sequence': cur_seq + 1}, rpc.session.context)
+            proxy.write([cur_id], {'sequence': prev_seq}, rpc.session.context)
+        else:            
+            proxy.write([prev_id], {'sequence': cur_seq}, rpc.session.context)
+            proxy.write([cur_id], {'sequence': prev_seq}, rpc.session.context)
         
         return dict()
     
@@ -218,9 +223,14 @@ class List(controllers.Controller, TinyResource):
         next_id = params.get('_terp_next_id')
         
         proxy = rpc.RPCProxy(model)
-        proxy.write([next_id], {'sequence': cur_seq}, rpc.session.context)
-        proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
         
+        if cur_seq == next_seq:
+            proxy.write([next_id], {'sequence': cur_seq + 1}, rpc.session.context)
+            proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
+        else:
+            proxy.write([next_id], {'sequence': cur_seq}, rpc.session.context)
+            proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
+            
         return dict()
     
     @expose('json')
