@@ -1,49 +1,47 @@
 MochiKit.DragAndDrop.Resizables = {
     /***
 
-    Manage Resizables elements. Not intended to direct use.
+    Manage draggables elements. Not intended to direct use.
 
     ***/
-    resizers: [],
+    drags: [],
 
-    observers: [],
-
-    register: function (resizable) {
-        if (this.resizers.length === 0) {
-            var bind = MochiKit.Base.bind;
+    register: function (draggable) {
+        if (this.drags.length === 0) {
             var conn = MochiKit.Signal.connect;
-            
-            this.eventMouseUp = conn(document, 'onmouseup', this, 'endResize'); 
-            this.eventMouseMove = conn(document, 'onmousemove', this, 'updateResize'); 
-            this.eventKeypress = conn(document, 'onkeypress', this, 'keyPress');
+            this.eventMouseUp = conn(document, 'onmouseup', this, this.endDrag);
+            this.eventMouseMove = conn(document, 'onmousemove', this,
+                                       this.updateDrag);
+            this.eventKeypress = conn(document, 'onkeypress', this,
+                                      this.keyPress);
         }
-        this.resizers.push(resizable);
+        this.drags.push(draggable);
     },
 
-    unregister: function (resizable) {
-        this.resizers = MochiKit.Base.filter(function (d) {
-            return d != resizable;
-        }, this.resizers);
-        if (this.resizers.length === 0) {
-            var disc = MochiKit.Signal.disconnect
-            disc(this.eventMouseUp); 
-            disc(this.eventMouseMove); 
+    unregister: function (draggable) {
+        this.drags = MochiKit.Base.filter(function (d) {
+            return d != draggable;
+        }, this.drags);
+        if (this.drags.length === 0) {
+            var disc = MochiKit.Signal.disconnect;
+            disc(this.eventMouseUp);
+            disc(this.eventMouseMove);
             disc(this.eventKeypress);
         }
     },
 
-    activate: function (resizable) {
+    activate: function (draggable) {
         // allows keypress events if window is not currently focused
         // fails for Safari
         window.focus();
-        this.activeResizable = resizable;
+        this.activeResizable = draggable;
     },
 
     deactivate: function () {
         this.activeResizable = null;
     },
 
-    updateResize: function (event) {
+    updateDrag: function (event) {
         if (!this.activeResizable) {
             return;
         }
@@ -55,15 +53,15 @@ MochiKit.DragAndDrop.Resizables = {
             return;
         }
         this._lastPointer = pointer;
-        this.activeResizable.updateResize(event, pointer);
+        this.activeResizable.updateDrag(event, pointer);
     },
 
-    endResize: function (event) {
+    endDrag: function (event) {
         if (!this.activeResizable) {
             return;
         }
         this._lastPointer = null;
-        this.activeResizable.endResize(event);
+        this.activeResizable.endDrag(event);
         this.activeResizable = null;
     },
 
@@ -72,20 +70,25 @@ MochiKit.DragAndDrop.Resizables = {
             this.activeResizable.keyPress(event);
         }
     },
-    
-    notify: function (eventName, draggable, event) {    
+
+    notify: function (eventName, draggable, event) {
         MochiKit.Signal.signal(this, eventName, draggable, event);
     }
 };
 
+/** @id MochiKit.DragAndDrop.Resizable */
 MochiKit.DragAndDrop.Resizable = function (element, options) {
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(element, options);
+    }
     this.__init__(element, options);
 };
 
 MochiKit.DragAndDrop.Resizable.prototype = {
     /***
 
-    A resizable object. Simple instantiate :
+    A draggable object. Simple instantiate :
 
         new MochiKit.DragAndDrop.Resizable('myelement');
 
@@ -94,30 +97,58 @@ MochiKit.DragAndDrop.Resizable.prototype = {
 
     __init__: function (element, /* optional */options) {
         var v = MochiKit.Visual;
-        options = MochiKit.Base.update({
+        var b = MochiKit.Base;
+        options = b.update({
+
+            /** @id MochiKit.DragAndDrop.handle */
             handle: false,
-            starteffect: function (element) {
-                new v.Opacity(element, {duration:0.2, from:1.0, to:0.7});
+
+            /** @id MochiKit.DragAndDrop.starteffect */
+            starteffect: function (innerelement) {
+                this._savedOpacity = MochiKit.Style.getStyle(innerelement, 'opacity') || 1.0;
+                new v.Opacity(innerelement, {duration:0.2, from:this._savedOpacity, to:0.7});
             },
-            reverteffect: function (element, top_offset, left_offset) {
+            /** @id MochiKit.DragAndDrop.reverteffect */
+            reverteffect: function (innerelement, top_offset, left_offset) {
                 var dur = Math.sqrt(Math.abs(top_offset^2) +
                           Math.abs(left_offset^2))*0.02;
-                element._revert = new v.Move(element,
+                return new v.Move(innerelement,
                             {x: -left_offset, y: -top_offset, duration: dur});
             },
-            endeffect: function (element) {
-                new v.Opacity(element, {duration:0.2, from:0.7, to:1.0});
+
+            /** @id MochiKit.DragAndDrop.endeffect */
+            endeffect: function (innerelement) {
+                new v.Opacity(innerelement, {duration:0.2, from:0.7, to:this._savedOpacity});
             },
+
+            /** @id MochiKit.DragAndDrop.onchange */
+            onchange: b.noop,
+
+            /** @id MochiKit.DragAndDrop.zindex */
             zindex: 1000,
+
+            /** @id MochiKit.DragAndDrop.revert */
             revert: false,
+
+            /** @id MochiKit.DragAndDrop.scroll */
             scroll: false,
+
+            /** @id MochiKit.DragAndDrop.scrollSensitivity */
             scrollSensitivity: 20,
+
+            /** @id MochiKit.DragAndDrop.scrollSpeed */
             scrollSpeed: 15,
             // false, or xy or [x, y] or function (x, y){return [x, y];}
+
+            /** @id MochiKit.DragAndDrop.snap */
             snap: false,
+            
+            /** @id MochiKit.DragAndDrop.Resizable.min **/
             min: [0, 0],
+
+            /** @id MochiKit.DragAndDrop.Resizable.max **/
             max: false
-        }, options || {});
+        }, options);
 
         var d = MochiKit.DOM;
         this.element = d.getElement(element);
@@ -135,87 +166,89 @@ MochiKit.DragAndDrop.Resizable.prototype = {
 
         if (options.scroll && !options.scroll.scrollTo && !options.scroll.outerHTML) {
             options.scroll = d.getElement(options.scroll);
+            this._isScrollChild = MochiKit.DOM.isChildNode(this.element, options.scroll);
         }
 
         d.makePositioned(this.element);  // fix IE
-        
-        this.options = options;
-        this.delta = this.currentDelta();
-        this.resizing = false;
 
-        this.eventMouseDown = MochiKit.Signal.connect(this.handle, 'onmousedown', this, 'initResize');
+        this.delta = this.currentDelta();
+        this.options = options;
+        this.dragging = false;
+
+        this.eventMouseDown = MochiKit.Signal.connect(this.handle,
+                              'onmousedown', this, this.initDrag);
         MochiKit.DragAndDrop.Resizables.register(this);
     },
 
+    /** @id MochiKit.DragAndDrop.destroy */
     destroy: function () {
         MochiKit.Signal.disconnect(this.eventMouseDown);
         MochiKit.DragAndDrop.Resizables.unregister(this);
     },
 
+    /** @id MochiKit.DragAndDrop.currentDelta */
     currentDelta: function () {
-        var s = MochiKit.DOM.getStyle;
+        var s = MochiKit.Style.getStyle;
         return [
           parseInt(s(this.element, 'left') || '0'),
           parseInt(s(this.element, 'top') || '0')];
     },
 
-    initResize: function (event) {
+    /** @id MochiKit.DragAndDrop.initDrag */
+    initDrag: function (event) {
         if (!event.mouse().button.left) {
             return;
         }
         // abort on form elements, fixes a Firefox issue
-        var src = event.target;
-        if (src.tagName && (
-            src.tagName == 'INPUT' ||
-            src.tagName == 'SELECT' ||
-            src.tagName == 'OPTION' ||
-            src.tagName == 'BUTTON' ||
-            src.tagName == 'TEXTAREA')) {
+        var src = event.target();
+        var tagName = (src.tagName || '').toUpperCase();
+        if (tagName === 'INPUT' || tagName === 'SELECT' ||
+            tagName === 'OPTION' || tagName === 'BUTTON' ||
+            tagName === 'TEXTAREA') {
             return;
         }
 
-        if (this.element._revert) {
-            this.element._revert.cancel();
-            this.element._revert = null;
+        if (this._revert) {
+            this._revert.cancel();
+            this._revert = null;
         }
 
         var pointer = event.mouse();
         var pos = MochiKit.Position.cumulativeOffset(this.element);
-        this.offset = [pointer.page.x - pos[0], pointer.page.y - pos[1]]
-                
+        this.offset = [pointer.page.x - pos.x, pointer.page.y - pos.y];
+        this.delta = this.currentDelta();
+
         var dim = MochiKit.DOM.elementDimensions(this.element);
         
         this.dimensions = [0, 0];
         this.borders = [0, 0];
                         
-        this.dimensions[0] = parseInt(MochiKit.DOM.getStyle(this.element, 'width')) || 0;
-        this.dimensions[1] = parseInt(MochiKit.DOM.getStyle(this.element, 'height')) || 0;
+        this.dimensions[0] = parseInt(MochiKit.Style.getStyle(this.element, 'width')) || 0;
+        this.dimensions[1] = parseInt(MochiKit.Style.getStyle(this.element, 'height')) || 0;
         
         this.borders[0] = dim.w - this.dimensions[0];
         this.borders[1] = dim.h - this.dimensions[1];
-        
+
         MochiKit.DragAndDrop.Resizables.activate(this);
         event.stop();
     },
 
-    startResize: function (event) {
-        this.resizing = true;
+    /** @id MochiKit.DragAndDrop.startDrag */
+    startDrag: function (event) {
+        this.dragging = true;
         if (this.options.selectclass) {
             MochiKit.DOM.addElementClass(this.element,
                                          this.options.selectclass);
         }
-        if (this.options.onselect) {
-            this.options.onselect(this.element);
-        }
         if (this.options.zindex) {
-            this.originalZ = parseInt(MochiKit.DOM.getStyle(this.element,
+            this.originalZ = parseInt(MochiKit.Style.getStyle(this.element,
                                       'z-index') || '0');
             this.element.style.zIndex = this.options.zindex;
         }
 
         if (this.options.ghosting) {
             this._clone = this.element.cloneNode(true);
-            MochiKit.Position.absolutize(this.element);
+            this.ghostPosition = MochiKit.Position.absolutize(this.element);
             this.element.parentNode.insertBefore(this._clone, this.element);
         }
 
@@ -230,79 +263,79 @@ MochiKit.DragAndDrop.Resizable.prototype = {
             }
         }
 
-        MochiKit.DragAndDrop.Resizables.notify('onStart', this, event);
+        MochiKit.DragAndDrop.Resizables.notify('start', this, event);
         if (this.options.starteffect) {
             this.options.starteffect(this.element);
         }
     },
 
-    updateResize: function (event, pointer) {
-        if (!this.resizing) {
-            this.startResize(event);
+    /** @id MochiKit.DragAndDrop.updateDrag */
+    updateDrag: function (event, pointer) {
+        if (!this.dragging) {
+            this.startDrag(event);
         }
         MochiKit.Position.prepare();
-        MochiKit.DragAndDrop.Resizables.notify('onResize', this, event);
+        MochiKit.DragAndDrop.Resizables.notify('drag', this, event);
         this.draw(pointer);
-        if (this.options.change) {
-            this.options.change(this);
-        }
+        this.options.onchange(this);
 
         if (this.options.scroll) {
             this.stopScrolling();
-            var p;
-             if (this.options.scroll == window) {
+            var p, q;
+            if (this.options.scroll == window) {
                 var s = this._getWindowScroll(this.options.scroll);
-                p = [s.left, s.top, s.left+s.width, s.top+s.height];
+                p = new MochiKit.Style.Coordinates(s.left, s.top);
+                q = new MochiKit.Style.Coordinates(s.left + s.width,
+                                                   s.top + s.height);
             } else {
                 p = MochiKit.Position.page(this.options.scroll);
-                p[0] += this.options.scroll.scrollLeft;
-                p[1] += this.options.scroll.scrollTop;
-                p.push(p[0] + this.options.scroll.offsetWidth);
-                p.push(p[1] + this.options.scroll.offsetHeight);
+                p.x += this.options.scroll.scrollLeft;
+                p.y += this.options.scroll.scrollTop;
+                p.x += (window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0);
+                p.y += (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0);
+                q = new MochiKit.Style.Coordinates(p.x + this.options.scroll.offsetWidth,
+                                                   p.y + this.options.scroll.offsetHeight);
             }
             var speed = [0, 0];
-            if (pointer.page.x < (p[0] + this.options.scrollSensitivity)) {
-                speed[0] = pointer.page.x - (p[0] + this.options.scrollSensitivity);
+            if (pointer.page.x > (q.x - this.options.scrollSensitivity)) {
+                speed[0] = pointer.page.x - (q.x - this.options.scrollSensitivity);
+            } else if (pointer.page.x < (p.x + this.options.scrollSensitivity)) {
+                speed[0] = pointer.page.x - (p.x + this.options.scrollSensitivity);
             }
-            if (pointer.page.y < (p[1] + this.options.scrollSensitivity)) {
-                speed[1] = pointer.page.y - (p[1] + this.options.scrollSensitivity);
-            }
-            if (pointer.page.x > (p[2] - this.options.scrollSensitivity)) {
-                speed[0] = pointer.page.x - (p[2]-this.options.scrollSensitivity);
-            }
-            if (pointer.page.y > (p[3] - this.options.scrollSensitivity)) {
-                speed[1] = pointer.page.y - (p[3] - this.options.scrollSensitivity);
+            if (pointer.page.y > (q.y - this.options.scrollSensitivity)) {
+                speed[1] = pointer.page.y - (q.y - this.options.scrollSensitivity);
+            } else if (pointer.page.y < (p.y + this.options.scrollSensitivity)) {
+                speed[1] = pointer.page.y - (p.y + this.options.scrollSensitivity);
             }
             this.startScrolling(speed);
         }
 
         // fix AppleWebKit rendering
-        if (MochiKit.Base.isSafari()) {
+        if (/AppleWebKit/.test(navigator.appVersion)) {
             window.scrollBy(0, 0);
         }
         event.stop();
     },
 
-    finishResize: function (event, success) {
+    /** @id MochiKit.DragAndDrop.finishDrag */
+    finishDrag: function (event, success) {
         var dr = MochiKit.DragAndDrop;
-        this.resizing = false;
+        this.dragging = false;
         if (this.options.selectclass) {
             MochiKit.DOM.removeElementClass(this.element,
                                             this.options.selectclass);
         }
-        if (this.options.ondeselect) {
-            this.options.ondeselect(this.element);
-        }
 
         if (this.options.ghosting) {
             // XXX: from a user point of view, it would be better to remove
-            // the node only *after* the MochiKit.Visual.Move end
-            MochiKit.Position.relativize(this.element);
+            // the node only *after* the MochiKit.Visual.Move end when used
+            // with revert.
+            MochiKit.Position.relativize(this.element, this.ghostPosition);
             MochiKit.DOM.removeElement(this._clone);
             this._clone = null;
         }
 
-        dr.Resizables.notify('onEnd', this, event);
+        dr.Resizables.notify('end', this, event);
 
         var revert = this.options.revert;
         if (revert && typeof(revert) == 'function') {
@@ -311,7 +344,7 @@ MochiKit.DragAndDrop.Resizable.prototype = {
 
         var d = this.currentDelta();
         if (revert && this.options.reverteffect) {
-            this.options.reverteffect(this.element,
+            this._revert = this.options.reverteffect(this.element,
                 d[1] - this.delta[1], d[0] - this.delta[0]);
         } else {
             this.delta = d;
@@ -328,40 +361,40 @@ MochiKit.DragAndDrop.Resizable.prototype = {
         dr.Resizables.deactivate();
     },
 
+    /** @id MochiKit.DragAndDrop.keyPress */
     keyPress: function (event) {
-        if (event.keyString != "KEY_ESCAPE") {
+        if (event.key().string != "KEY_ESCAPE") {
             return;
         }
-        this.finishResize(event, false);
+        this.finishDrag(event, false);
         event.stop();
     },
 
-    endResize: function (event) {
-        if (!this.resizing) {
+    /** @id MochiKit.DragAndDrop.endDrag */
+    endDrag: function (event) {
+        if (!this.dragging) {
             return;
         }
         this.stopScrolling();
-        this.finishResize(event, true);
+        this.finishDrag(event, true);
         event.stop();
     },
 
+    /** @id MochiKit.DragAndDrop.draw */
     draw: function (point) {
         var pos = MochiKit.Position.cumulativeOffset(this.element);
         var d = this.currentDelta();
-        pos[0] -= d[0];
-        pos[1] -= d[1];
+        pos.x -= d[0];
+        pos.y -= d[1];
 
-        if (this.options.scroll && !this.options.scroll.scrollTo) {
-            pos[0] -= this.options.scroll.scrollLeft - this.originalScrollLeft;
-            pos[1] -= this.options.scroll.scrollTop - this.originalScrollTop;
+        if (this.options.scroll && (this.options.scroll != window && this._isScrollChild)) {
+            pos.x -= this.options.scroll.scrollLeft - this.originalScrollLeft;
+            pos.y -= this.options.scroll.scrollTop - this.originalScrollTop;
         }
 
-        var p = [point.page.x - pos[0] - this.offset[0],
-                 point.page.y - pos[1] - this.offset[1]];
+        var p = [point.page.x - pos.x - this.offset[0],
+                 point.page.y - pos.y - this.offset[1]];
 
-        p[0] += this.dimensions[0];
-        p[1] += this.dimensions[1];           
-        
         if (this.options.snap) {
             if (typeof(this.options.snap) == 'function') {
                 p = this.options.snap(p[0], p[1]);
@@ -371,107 +404,123 @@ MochiKit.DragAndDrop.Resizable.prototype = {
                     p = MochiKit.Base.map(MochiKit.Base.bind(function (v) {
                             i += 1;
                             return Math.round(v/this.options.snap[i]) *
-                                   this.options.snap[i]
-                        }, this), p)
+                                   this.options.snap[i];
+                        }, this), p);
                 } else {
                     p = MochiKit.Base.map(MochiKit.Base.bind(function (v) {
                         return Math.round(v/this.options.snap) *
-                               this.options.snap
-                        }, this), p)
+                               this.options.snap;
+                        }, this), p);
                 }
             }
-        }                     
-        
-        p[0] -= d[0] + this.borders[0];
-        p[1] -= d[1] + this.borders[1];                      
-                
+        }
+
+        var w = this.dimensions[0] + (p[0] - this.delta[0]);
+        var h = this.dimensions[1] + (p[1] - this.delta[1]);
+
         if (this.options.min) {
-            p[0] = p[0] > this.options.min[0] ? p[0] : this.options.min[0];
-            p[1] = p[1] > this.options.min[1] ? p[1] : this.options.min[1];
+            w = Math.max(w, this.options.min[0]);
+            h = Math.max(h, this.options.min[1]);
         }
         
         if (this.options.max) {
-            p[0] = p[0] < this.options.max[0] ? p[0] : this.options.max[0];
-            p[1] = p[1] < this.options.max[1] ? p[1] : this.options.max[1];
+            w = Math.min(w, this.options.max[0]);
+            h = Math.min(h, this.options.max[1]);
         }
         
         var style = this.element.style;
         if ((!this.options.constraint) ||
-            (this.options.constraint == 'horizontal')) {                        
-            style.width = p[0] + 'px';
+            (this.options.constraint == 'horizontal')) {
+            style.width = w + 'px';
         }
         if ((!this.options.constraint) ||
             (this.options.constraint == 'vertical')) {
-            style.height = p[1] + 'px';
+            style.height = h + 'px';
         }
         if (style.visibility == 'hidden') {
             style.visibility = '';  // fix gecko rendering
         }
     },
 
+    /** @id MochiKit.DragAndDrop.stopScrolling */
     stopScrolling: function () {
         if (this.scrollInterval) {
             clearInterval(this.scrollInterval);
             this.scrollInterval = null;
+            MochiKit.DragAndDrop.Resizables._lastScrollPointer = null;
         }
     },
 
+    /** @id MochiKit.DragAndDrop.startScrolling */
     startScrolling: function (speed) {
-        this.scrollSpeed = [speed[0] * this.options.scrollSpeed, speed[1] * this.options.scrollSpeed];
+        if (!speed[0] && !speed[1]) {
+            return;
+        }
+        this.scrollSpeed = [speed[0] * this.options.scrollSpeed,
+                            speed[1] * this.options.scrollSpeed];
         this.lastScrolled = new Date();
         this.scrollInterval = setInterval(MochiKit.Base.bind(this.scroll, this), 10);
     },
 
+    /** @id MochiKit.DragAndDrop.scroll */
     scroll: function () {
         var current = new Date();
         var delta = current - this.lastScrolled;
         this.lastScrolled = current;
-        
+
         if (this.options.scroll == window) {
             var s = this._getWindowScroll(this.options.scroll);
             if (this.scrollSpeed[0] || this.scrollSpeed[1]) {
-                var d = delta / 1000;
-                this.options.scroll.scrollTo(s.left + d*this.scrollSpeed[0], s.top + d*this.scrollSpeed[1]);
+                var dm = delta / 1000;
+                this.options.scroll.scrollTo(s.left + dm * this.scrollSpeed[0],
+                                             s.top + dm * this.scrollSpeed[1]);
             }
         } else {
             this.options.scroll.scrollLeft += this.scrollSpeed[0] * delta / 1000;
             this.options.scroll.scrollTop += this.scrollSpeed[1] * delta / 1000;
         }
-        
+
         var d = MochiKit.DragAndDrop;
-        
+
         MochiKit.Position.prepare();
-        this.draw(d.Resizables._lastPointer);
-        if (this.options.change) {
-            this.options.change(this);
+        d.Resizables.notify('drag', this);
+        if (this._isScrollChild) {
+            d.Resizables._lastScrollPointer = d.Resizables._lastScrollPointer || d.Resizables._lastPointer;
+            d.Resizables._lastScrollPointer.x += this.scrollSpeed[0] * delta / 1000;
+            d.Resizables._lastScrollPointer.y += this.scrollSpeed[1] * delta / 1000;
+            if (d.Resizables._lastScrollPointer.x < 0) {
+                d.Resizables._lastScrollPointer.x = 0;
+            }
+            if (d.Resizables._lastScrollPointer.y < 0) {
+                d.Resizables._lastScrollPointer.y = 0;
+            }
+            this.draw(d.Resizables._lastScrollPointer);
         }
+
+        this.options.onchange(this);
     },
 
-    _getWindowScroll: function (w) {
-        var T, L, W, H;
-        with (w.document) {
-            if (w.document.documentElement && documentElement.scrollTop) {
-                T = documentElement.scrollTop;
-                L = documentElement.scrollLeft;
-            } else if (w.document.body) {
-                T = body.scrollTop;
-                L = body.scrollLeft;
-            }
-            if (w.innerWidth) {
-                W = w.innerWidth;
-                H = w.innerHeight;
-            } else if (w.document.documentElement && documentElement.clientWidth) {
-                W = documentElement.clientWidth;
-                H = documentElement.clientHeight;
-            } else {
-                W = body.offsetWidth;
-                H = body.offsetHeight
-            }
+    _getWindowScroll: function (win) {
+        var vp, w, h;
+        MochiKit.DOM.withWindow(win, function () {
+            vp = MochiKit.Style.getViewportPosition(win.document);
+        });
+        if (win.innerWidth) {
+            w = win.innerWidth;
+            h = win.innerHeight;
+        } else if (win.document.documentElement && win.document.documentElement.clientWidth) {
+            w = win.document.documentElement.clientWidth;
+            h = win.document.documentElement.clientHeight;
+        } else {
+            w = win.document.body.offsetWidth;
+            h = win.document.body.offsetHeight;
         }
-        return {top: T, left: L, width: W, height: H};
+        return {top: vp.y, left: vp.x, width: w, height: h};
     },
 
+    /** @id MochiKit.DragAndDrop.repr */
     repr: function () {
         return '[' + this.__class__.NAME + ", options:" + MochiKit.Base.repr(this.options) + "]";
     }
 };
+

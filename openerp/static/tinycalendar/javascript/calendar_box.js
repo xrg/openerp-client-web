@@ -56,7 +56,7 @@ InfoBox.prototype = {
         MochiKit.Signal.connect(btnCopy, 'onclick', this, 'onCopy');
         MochiKit.Signal.connect(btnDelete, 'onclick', this, 'onDelete');
         
-        var DT_FORMAT = getNodeAttribute('calMonth', 'dtFormat') || getNodeAttribute('calWeek', 'dtFormat');
+        var DT_FORMAT = getElement('calMonth') ? getNodeAttribute('calMonth', 'dtFormat') : getNodeAttribute('calWeek', 'dtFormat');
         var H_FORMAT = '%I:%M %P';
         var DTH_FORMAT = DT_FORMAT + ' ' + H_FORMAT;
 

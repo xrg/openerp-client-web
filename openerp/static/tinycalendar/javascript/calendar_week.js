@@ -66,7 +66,7 @@ WeekCalendar.prototype = {
     attachSignals : function(){
         this.eventLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.eventResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
-        this.eventResizeEnd = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'onEnd', this, 'onResizeEnd');
+        this.eventResizeEnd = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onResizeEnd');
     },
 
     dettachSignals : function(){
@@ -76,7 +76,6 @@ WeekCalendar.prototype = {
     },
 
     onResize : function(evt){
-
         this.colWidth = Math.round(elementDimensions('calGridCol').w / this.colCount);
         this.colWidth = Math.max(0, this.colWidth);
 
@@ -674,10 +673,6 @@ WeekCalendar.DayGrid.prototype = {
         x = this.containers[x].index * this.calendar.colWidth + 2;
         var y = evt.mouse().page.y - elementPosition(target).y;
 
-        if (Browser.isIE || Browser.isGecko19){
-            y -= $('calBodySect').scrollTop;
-        }
-
         if (Browser.isOpera){
             y = evt.mouse().page.y - elementPosition2(target).y + $('calBodySect').scrollTop;
         }
@@ -710,8 +705,8 @@ WeekCalendar.DayGrid.prototype = {
 
         showElement('calEventNew');
 
-        // initialise resize
-        this.resizable.initResize(evt);
+        // initialise drag
+        this.resizable.initDrag(evt);
     },
 
     onMouseUp : function(evt){
