@@ -93,7 +93,6 @@ __init__ : function(elements, options) {
         }
         
         MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
-        MochiKit.Signal.connect(el, 'onmousemove', this, this.locate);
         MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
 
     }, this);
@@ -128,10 +127,10 @@ __init__ : function(elements, options) {
         }
         
         this.toolTitle.style.display = title ? 'block' : 'none';
-        MochiKit.DOM.showElement(this.toolTip);
-    },
+        MochiKit.Visual.appear(this.toolTip, {duration: 0.5, from: 0});
 
-    locate: function(evt){
+        // adjust position
+
         var doc = document.documentElement;
         var body = document.body;
 
@@ -157,7 +156,7 @@ __init__ : function(elements, options) {
         if (this.deferred) {
             this.deferred.cancel();
         }
-        MochiKit.DOM.hideElement(this.toolTip);
+        MochiKit.Visual.fade(this.toolTip, {duration: 0.2, queue: 'end'});
     }
 }
 
