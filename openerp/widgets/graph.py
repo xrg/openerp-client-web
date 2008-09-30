@@ -58,11 +58,7 @@ class Graph(TinyCompoundWidget):
 
     template = "openerp.widgets.templates.graph"
 
-    javascript = [tg.widgets.JSLink('openerp', 'javascript/MochiKit/New.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/Visual.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/DragAndDrop.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/Resizable.js'),
-                  tg.widgets.JSLink("openerp", "javascript/swfobject.js"),
+    javascript = [tg.widgets.JSLink("openerp", "javascript/swfobject.js"),
                   tg.widgets.JSLink("openerp", "javascript/charts.js")]
     
     params = ['chart_type', 'chart_name', 'model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']

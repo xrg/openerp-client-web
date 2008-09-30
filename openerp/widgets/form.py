@@ -619,11 +619,7 @@ class Dashbar(TinyCompoundWidget):
     template = "openerp.widgets.templates.dashbar"
     member_widgets = ["children"]
     
-    javascript = [tg.widgets.JSLink('openerp', 'javascript/MochiKit/New.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/Visual.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/DragAndDrop.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/Resizable.js'),
-                  tg.widgets.JSLink("openerp", "javascript/dashboard.js")]
+    javascript = [tg.widgets.JSLink("openerp", "javascript/dashboard.js")]
 
     css = [tg.widgets.CSSLink('openerp', 'css/dashboard.css')]
 

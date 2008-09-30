@@ -107,11 +107,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
     date_format = '%Y-%m-%d'
     
     css = [tg.widgets.CSSLink('openerp', 'tinycalendar/css/calendar.css')]
-    javascript = [tg.widgets.JSLink('openerp', 'javascript/MochiKit/New.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/Visual.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/DragAndDrop.js'),
-                  tg.widgets.JSLink('openerp', 'javascript/MochiKit/Resizable.js'),
-                  tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_date.js'),
+    javascript = [tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_date.js'),
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_utils.js'),
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_box.js'),
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_month.js'),

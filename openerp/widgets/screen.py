@@ -178,7 +178,7 @@ class Screen(TinyCompoundWidget):
             self.ids = self.widget.ids
 
         elif view_type == 'calendar':
-            kmode = "month"
+            kmode = "week"
             if self.kalendar: kmode = self.kalendar.mode
 
             kwid = {"month": tinycalendar.MonthCalendar,
