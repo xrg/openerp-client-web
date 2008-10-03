@@ -41,12 +41,14 @@ from openerp import rpc
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 
-from openerp.widgets.screen import Screen
+from form import Form
 
-class Preferences(controllers.Controller, TinyResource):
+class Preferences(Form):
 
     @expose(template="openerp.subcontrollers.templates.preferences")
     def create(self):
+        
+        tg_errors = None
         proxy = rpc.RPCProxy('res.users')
         action_id = proxy.action_get({})
         
@@ -66,18 +68,20 @@ class Preferences(controllers.Controller, TinyResource):
         params.view_mode = ['form']
         params.view_ids = view_ids
 
-        screen = Screen(params, views_preloaded=action.get('views'), editable=True)
-        screen.string = _('Preferences')
+        params.string = _('Preferences')
         
-        return dict(screen=screen)
+        params.editable = True
+        form = self.create_form(params, tg_errors)
 
-    @expose()
+        return dict(form=form, params=params, editable=True)
+    
+    @expose() 
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy('res.users')
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
-        raise redirect('/')
+        raise redirect('/pref/create')
         
 # vim: ts=4 sts=4 sw=4 si et
 
