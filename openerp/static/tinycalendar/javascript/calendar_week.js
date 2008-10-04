@@ -13,20 +13,18 @@
 // guarantees and support are strongly advised to contract a Free Software
 // Service Company
 //
-// This program is Free Software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the 
-// Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
-// Boston, MA  02111-1307, USA.
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -68,7 +66,7 @@ WeekCalendar.prototype = {
     attachSignals : function(){
         this.eventLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.eventResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
-        this.eventResizeEnd = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'onEnd', this, 'onResizeEnd');
+        this.eventResizeEnd = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onResizeEnd');
     },
 
     dettachSignals : function(){
@@ -78,7 +76,6 @@ WeekCalendar.prototype = {
     },
 
     onResize : function(evt){
-
         this.colWidth = Math.round(elementDimensions('calGridCol').w / this.colCount);
         this.colWidth = Math.max(0, this.colWidth);
 
@@ -676,10 +673,6 @@ WeekCalendar.DayGrid.prototype = {
         x = this.containers[x].index * this.calendar.colWidth + 2;
         var y = evt.mouse().page.y - elementPosition(target).y;
 
-        if (Browser.isIE || Browser.isGecko19){
-            y -= $('calBodySect').scrollTop;
-        }
-
         if (Browser.isOpera){
             y = evt.mouse().page.y - elementPosition2(target).y + $('calBodySect').scrollTop;
         }
@@ -712,8 +705,8 @@ WeekCalendar.DayGrid.prototype = {
 
         showElement('calEventNew');
 
-        // initialise resize
-        this.resizable.initResize(evt);
+        // initialise drag
+        this.resizable.initDrag(evt);
     },
 
     onMouseUp : function(evt){

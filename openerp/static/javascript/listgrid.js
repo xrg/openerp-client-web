@@ -13,20 +13,18 @@
 // guarantees and support are strongly advised to contract a Free Software
 // Service Company
 //
-// This program is Free Software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the 
-// Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
-// Boston, MA  02111-1307, USA.
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -40,6 +38,7 @@ var ListView = function(id, terp){
     this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
     this.current_record = null;
     
+    this.ids = getElement(prefix + '_terp_ids').value;
     var view_ids = getElement(prefix + '_terp_view_ids');
     var view_mode = getElement(prefix + '_terp_view_mode');
     var def_ctx = getElement(prefix + '_terp_default_get_ctx');
@@ -91,6 +90,15 @@ ListView.prototype.moveUp = function(id, seq) {
     var args = {};
     
     args['_terp_model'] = this.model;
+    args['_terp_ids'] = this.ids;
+    
+    if((seq['prev'][1] == 0) && (seq['current'][1] == 0)) {
+        var req = Ajax.JSON.post('/listgrid/assign_seq', args);
+        
+        req.addCallback(function(){      
+            self.reload();        
+        });
+    }
     
     if (seq['prev'][0]) {
         args['_terp_prev_id'] = seq['prev'][0];
@@ -112,11 +120,18 @@ ListView.prototype.moveUp = function(id, seq) {
 }
 
 ListView.prototype.moveDown = function(id, seq) {
-    
     var self = this;
     var args = {};
     
     args['_terp_model'] = this.model;
+    
+    if((seq['next'][1] == 0) && (seq['current'][1] == 0)) {
+        var req = Ajax.JSON.post('/listgrid/assign_seq', args);
+        
+        req.addCallback(function(){      
+            self.reload();        
+        });
+    }
     
     if (seq['next'][0]) {
         args['_terp_next_id'] = seq['next'][0];

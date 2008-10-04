@@ -1,3 +1,33 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
+//
+// $Id$
+//
+// Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
+//
+// WARNING: This program as such is intended to be used by professional
+// programmers who take the whole responsibility of assessing all potential
+// consequences resulting from its eventual inadequacies and bugs
+// End users who are looking for a ready-to-use solution with commercial
+// guarantees and support are strongly advised to contract a Free Software
+// Service Company
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+////////////////////////////////////////////////////////////////////////////////
+
 // Based on Tips.js of Mootools (http://mootools.net) which is again based on 
 // Bubble Tooltips (http://web-graphics.com/mtarchive/001717.php) 
 // by Alessandro Fulcitiniti (http://web-graphics.com)
@@ -63,7 +93,6 @@ __init__ : function(elements, options) {
         }
         
         MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
-        MochiKit.Signal.connect(el, 'onmousemove', this, this.locate);
         MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
 
     }, this);
@@ -98,10 +127,10 @@ __init__ : function(elements, options) {
         }
         
         this.toolTitle.style.display = title ? 'block' : 'none';
-        MochiKit.DOM.showElement(this.toolTip);
-    },
+        MochiKit.Visual.appear(this.toolTip, {duration: 0.5, from: 0});
 
-    locate: function(evt){
+        // adjust position
+
         var doc = document.documentElement;
         var body = document.body;
 
@@ -127,7 +156,7 @@ __init__ : function(elements, options) {
         if (this.deferred) {
             this.deferred.cancel();
         }
-        MochiKit.DOM.hideElement(this.toolTip);
+        MochiKit.Visual.fade(this.toolTip, {duration: 0.2, queue: 'end'});
     }
 }
 
