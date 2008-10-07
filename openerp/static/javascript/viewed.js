@@ -29,7 +29,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var onSelect = function(evt, node){
-    MochiKit.DOM.getElement('view_ed').innerHTML = '';
 }
 
 var getXPath = function(node) {
@@ -56,8 +55,6 @@ var getXPath = function(node) {
 
 var onDelete = function(node){
     
-    getElement('view_ed').innerHTML = '';
-
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
     
@@ -86,7 +83,6 @@ var onDelete = function(node){
         }
         
         selected.parentNode.removeChild(selected);
-        getElement('view_ed').innerHTML = '';
     });
 }
 
@@ -108,8 +104,20 @@ var onAdd = function(node){
     
     var req = Ajax.post('/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
-        var el = getElement('view_ed');
+        var el = window.mbox.content;
         el.innerHTML = xmlHttp.responseText;
+
+        var scripts = getElementsByTagAndClassName('script', null, el);
+        forEach(scripts, function(s){
+            eval('(' + s.innerHTML + ')');
+        });
+
+        var dim = getElementDimensions(document.body);
+
+        window.mbox.width = Math.max(dim.w - 100, 0);
+        window.mbox.height = Math.max(dim.h - 100, 0);
+
+        window.mbox.show();
     });
 }
 
@@ -174,27 +182,28 @@ var onEdit = function(node) {
     var record = selected.record;
     var data = record.items;
     
-    var el = getElement('view_ed');
-    
     if (data.localName == 'view') {
-        el.innerHTML = '';
         return;
     };
     
     var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
+        
+        var el = window.mbox.content;
         el.innerHTML = xmlHttp.responseText;
         
         var scripts = getElementsByTagAndClassName('script', null, el);
         forEach(scripts, function(s){
-            eval('x=' + s.innerHTML);
+            eval('(' + s.innerHTML + ')');
         });
-    });
-    
-    req.addErrback(function(xmlHttp){
-       log('errrr', xmlHttp); 
-    });
 
+        var dim = getElementDimensions(document.body);
+
+        window.mbox.width = Math.max(dim.w - 100, 0);
+        window.mbox.height = Math.max(dim.h - 100, 0);
+
+        window.mbox.show();
+    });
 }
 
 var doEdit = function() {
@@ -241,10 +250,12 @@ var doEdit = function() {
         }
         
         selected.updateDOM(obj.record);
-        getElement('view_ed').innerHTML = '';
-        
     });
     
+    req.addBoth(function(obj){
+        window.mbox.hide();
+    });
+
     return false;
 }
 
@@ -372,5 +383,24 @@ var toggleFields = function(selector) {
     MochiKit.DOM.getElement('name').style.display = selector.value == 'field' ? '' : 'none';
     MochiKit.DOM.getElement('new_field').style.display = selector.value == 'field' ? '' : 'none';
 }
+
+var onShowBox = function(box){
+}
+
+var onHideBox = function(box){
+}
+
+MochiKit.DOM.addLoadEvent(function(evt){
+
+    window.mbox = new ModalBox({
+        title: 'Properties',
+        buttons: [
+            {text: 'Update', onclick: doEdit},
+        ]
+    });
+
+    MochiKit.Signal.connect(window.mbox, 'show', onShowBox);
+    MochiKit.Signal.connect(window.mbox, 'hide', onHideBox);
+});
 
 // vim: sts=4 st=4 et
