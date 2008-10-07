@@ -114,8 +114,9 @@ var onAdd = function(node){
 
         var dim = getElementDimensions(document.body);
 
-        window.mbox.width = Math.max(dim.w - 100, 0);
-        window.mbox.height = Math.max(dim.h - 100, 0);
+        window.mbox.width = 400;
+        window.mbox.height = 150;
+        window.mbox.onUpdate = doAdd;
 
         window.mbox.show();
     });
@@ -164,7 +165,13 @@ var doAdd = function() {
         }
         
         node.onSelect();
-        onEdit(node);
+
+        if (obj.record.items && obj.record.items.edit)
+            MochiKit.Async.callLater(0.1, onEdit, node);
+    });
+
+    req.addBoth(function(obj){
+        window.mbox.hide();
     });
     
     return false;
@@ -201,6 +208,7 @@ var onEdit = function(node) {
 
         window.mbox.width = Math.max(dim.w - 100, 0);
         window.mbox.height = Math.max(dim.h - 100, 0);
+        window.mbox.onUpdate = doEdit;
 
         window.mbox.show();
     });
@@ -384,10 +392,8 @@ var toggleFields = function(selector) {
     MochiKit.DOM.getElement('new_field').style.display = selector.value == 'field' ? '' : 'none';
 }
 
-var onShowBox = function(box){
-}
-
-var onHideBox = function(box){
+var onUpdate = function(){
+    window.mbox.onUpdate();
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
@@ -395,12 +401,10 @@ MochiKit.DOM.addLoadEvent(function(evt){
     window.mbox = new ModalBox({
         title: 'Properties',
         buttons: [
-            {text: 'Update', onclick: doEdit},
+            {text: 'Update', onclick: onUpdate},
         ]
     });
 
-    MochiKit.Signal.connect(window.mbox, 'show', onShowBox);
-    MochiKit.Signal.connect(window.mbox, 'hide', onHideBox);
 });
 
 // vim: sts=4 st=4 et
