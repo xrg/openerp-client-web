@@ -105,18 +105,21 @@ class Search(TinyCompoundWidget):
         self.context       = context
 
         ctx = rpc.session.context.copy()
-        self.view = cache.fields_view_get(self.model, False, 'form', ctx, True)
+        view = cache.fields_view_get(self.model, False, 'form', ctx, True)
 
-        fields = self.view['fields']
-
-        dom = xml.dom.minidom.parseString(self.view['arch'].encode('utf-8'))
+        dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
 
         self.fields_type = {}
         self.widgets = []
-        self.parse(dom, fields, values)
+        self.parse(dom, view['fields'], values)
+
+        # also parse the tree view
+        view = cache.fields_view_get(self.model, False, 'tree', ctx, True)
+        dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
+        self.parse(dom, view['fields'], values)
 
         self.basic = Frame({}, [w for w in self.widgets if not w.adv])
         self.advance = Frame({}, self.widgets)
@@ -136,7 +139,7 @@ class Search(TinyCompoundWidget):
             if attrs.has_key('nolabel'):
                 attrs['nolabel'] = False
 
-            if node.localName == 'form':
+            if node.localName in ('form', 'tree'):
                 self.parse(root=node, fields=fields, values=values)
                 #views += [Frame(attrs, n)]
 
@@ -152,6 +155,9 @@ class Search(TinyCompoundWidget):
             elif node.localName == 'field':
                 name = attrs['name']
 
+                if name in self.fields_type:
+                    continue
+
                 if not ('select' in attrs or 'select' in fields[name]):
                     continue
 
@@ -166,6 +172,7 @@ class Search(TinyCompoundWidget):
                 attrs['translate'] = False
                 attrs['disabled'] = False
                 attrs['visible'] = True
+                attrs['invisible'] = False
                 attrs['editable'] = True
 
                 try:
