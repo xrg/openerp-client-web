@@ -149,7 +149,7 @@
                     </tr>
                     <tr>
                         <td class="dimmed-text">
-                            [<a onmouseover="showElement('customise_menu_');" 
+                            [<a onmouseover="MochiKit.Visual.appear('customise_menu_', {from: 0, duration: 0.4});" 
                                 onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">Customise</a>]<br/>
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
                                  onmouseover="showElement(this);" onmouseout="hideElement(this);">

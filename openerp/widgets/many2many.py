@@ -162,6 +162,9 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
             ids = eval(ids)
             
         self.ids = ids
+        
+    def get_value(self):
+        return [(6, 0, self.ids or [])]
 
 # vim: ts=4 sts=4 sw=4 si et
 

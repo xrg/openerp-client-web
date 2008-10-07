@@ -5,11 +5,14 @@
     <script type="text/javascript" src="/static/javascript/form.js"></script>
     <script type="text/javascript" src="/static/javascript/m2o.js"></script>
     <script type="text/javascript" src="/static/javascript/viewed.js"></script>    
+    <script type="text/javascript" src="/static/javascript/modalbox.js"></script>
+
+    <link href="/static/css/modalbox.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <table class="view" border="0">
         <tr>
-            <td colspan="2">
+            <td>
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
@@ -27,10 +30,9 @@
             <td id="view_tr" height="500" width="auto">
                 <div py:content="tree.display()" style="overflow-x: auto; overflow-y: scroll; width: 100%; height: 100%; border: solid #999999 1px;"/>
             </td>
-            <td id="view_ed" valign="top"  height="500" width="350"></td>
         </tr>
         <tr class="toolbar">
-            <td align="right" colspan="2">
+            <td align="right">
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
