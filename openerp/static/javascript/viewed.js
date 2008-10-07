@@ -379,7 +379,7 @@ var onPreview = function() {
 
 var onNew = function(model){                          
     var act = getURL('/viewed/new_field/edit', {'for_model' : model});
-    openWindow(act, {width: 650, height: 300});
+    openWindow(act, {width: 650, height: 400});
 }
 
 var onClose = function(){
