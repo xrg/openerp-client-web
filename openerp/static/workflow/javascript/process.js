@@ -141,6 +141,17 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var canvas = getElement('process_canvas');
         canvas.parentNode.insertBefore(note, canvas);
 
+        // check whether any node overlaps the notes
+        var npos = getElementPosition(note, note.parentNode);
+        var ndim = getElementDimensions(note);
+        for(var id in nodes){
+    		var data = nodes[id];
+            if ((data.x >= npos.x && data.x <= npos.x + ndim.w) && (data.y >= npos.y && data.y <= npos.y + ndim.h)) {
+                canvas.style.marginTop = ndim.h + 4 + 'px';
+                break;
+            }
+        }
+
         // set title
         MochiKit.DOM.getElement('process_title').innerHTML = title;
 
