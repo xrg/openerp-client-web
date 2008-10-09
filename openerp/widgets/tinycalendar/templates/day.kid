@@ -12,6 +12,7 @@
                         <button type="button" title="Day Calendar..." disabled="disabled">Day</button>
                         <button type="button" title="Week Calendar..." onclick="getCalendar('/calendar/get/${day.week[0].isoformat()}/${day.week[-1].isoformat()}')">Week</button>
                         <button type="button" title="Month Calendar..." onclick="getCalendar('/calendar/get/${day.year}/${day.month}')">Month</button>
+                        <button type="button" title="Gantt view..." onclick="getCalendar('/calendar/gantt/${day.year}/${day.month}')">Gantt</button>
                     </td>
                 </tr>
          </table>

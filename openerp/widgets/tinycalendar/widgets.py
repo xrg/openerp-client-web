@@ -170,6 +170,12 @@ class DayCalendar(TinyCalendar):
         self.events = self.get_events([self.day])        
         self.minical = MiniCalendar(self.day)
         self.groupbox = GroupBox(self.colors, self.color_values, self.day, title=(self.color_field or None) and self.fields[self.color_field]['string'], mode='day')
-        
+
+class GanttCalendar(MonthCalendar):
+    template = 'openerp.widgets.tinycalendar.templates.gantt'
+
+    def __init__(self, model, view, ids, domain=[], context={}, options=None):
+        super(GanttCalendar, self).__init__(model, view, ids, domain, context, options)
+
 # vim: ts=4 sts=4 sw=4 si et
 

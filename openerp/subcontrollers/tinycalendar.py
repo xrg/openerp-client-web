@@ -57,6 +57,13 @@ class TinyCalendar(Form):
     @expose()
     def get(self, _arg1, _arg2=None, **kw):
         return self.make(_arg1, _arg2, False, kw)
+
+    #TODO: reimplement get/make to support gantt
+    @expose()
+    def gantt(self, _arg1, _arg2=None, **kw):
+        kw = kw.copy()
+        kw['mode'] = 'gantt'
+        return self.make(_arg1, _arg2, False, kw)
     
     @expose()
     def mini(self, year, month, forweek=False):
@@ -100,7 +107,7 @@ class TinyCalendar(Form):
         if not isinstance(_arg2, basestring):
             options.date2 = _arg2
             
-        options.mode = "month"
+        options.mode = kw.get('mode', 'month')
         
         if options.date1:            
             if options.date2:
