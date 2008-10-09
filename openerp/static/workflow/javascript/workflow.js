@@ -103,7 +103,7 @@ openerp.workflow.Workflow.implement({
 		        else
 		          var state = new openerp.workflow.StateRectangle(node);
 		          
-		        self.addFigure(state, node['y'], node['x']);
+		        self.addFigure(state, node['x'], node['y']);
 		        state.initPort();
 		        self.states.add(state);
 			}
@@ -419,7 +419,6 @@ openerp.workflow.Workflow.implement({
         if(fig.parent!=null)
             fig.parent.removeChild(fig);
         this.states.remove(state);
-    
 	},
 	
 	unlink_connector : function(conn) {

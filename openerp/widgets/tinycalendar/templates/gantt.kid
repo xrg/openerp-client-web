@@ -4,15 +4,15 @@
     <td id="calNavigation">
         <table width="100%" class="toolbar">
             <tr>
-                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('/calendar/get/${month.prev().year}/${month.prev().month}')"/></td>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('/calendar/gantt/${month.prev().year}/${month.prev().month}')"/></td>
                 <td nowrap="nowrap"><button type="button" title="Today..." onclick="getCalendar('/calendar/get/${selected_day.today().isoformat()}')">Today</button></td>
-                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('/calendar/get/${month.next().year}/${month.next().month}')"/></td>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('/calendar/gantt/${month.next().year}/${month.next().month}')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${ustr(month)}</strong></td>
                 <td nowrap="nowrap">
                     <button type="button" title="Day Calendar..." onclick="getCalendar('/calendar/get/${selected_day.isoformat()}')">Day</button>
                     <button type="button" title="Week Calendar..." onclick="getCalendar('/calendar/get/${selected_day.week[0].isoformat()}/${selected_day.week[-1].isoformat()}')">Week</button>
-                    <button type="button" title="Month Calendar..." disabled="disabled">Month</button>
-                    <button type="button" title="Gantt view..." onclick="getCalendar('/calendar/gantt/${selected_day.year}/${selected_day.month}')">Gantt</button>
+                    <button type="button" title="Month Calendar..." onclick="getCalendar('/calendar/get/${selected_day.year}/${selected_day.month}')">Month</button>
+                    <button type="button" title="Gantt view..." disabled="disabled">Gantt</button>
                 </td>
             </tr>
         </table>
@@ -37,10 +37,10 @@
 
     <td id="calMainArea" valign="top">
 
-        <div id="calMonth" class="calMonth" dtFormat="${date_format}" dtStart="${month[0].isoformat()}" dtFirst="${month.year}-${month.month}-01"><span></span>
+        <div id="calGantt" class="calGantt" dtFormat="${date_format}" dtStart="${month[0].isoformat()}" dtFirst="${month.year}-${month.month}-01"><span></span>
 
             <div id="calHeaderSect">
-                <div class="calDayName" py:for="day in month.weeks[0]">${day.name}</div>
+                <div class="calDayName" py:for="week in month.weeks">${week[0].strftime('Week %W, %Y')}</div>
             </div>
 
             <div id="calBodySect">
@@ -64,7 +64,7 @@
         </div>
 
         <script type="text/javascript">
-            CAL_INSTANCE = new MonthCalendar();
+            CAL_INSTANCE = new GanttCalendar();
         </script>
 
     </td>
