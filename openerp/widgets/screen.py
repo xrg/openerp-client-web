@@ -183,7 +183,8 @@ class Screen(TinyCompoundWidget):
 
             kwid = {"month": tinycalendar.MonthCalendar,
                     "week": tinycalendar.WeekCalendar,
-                    "day": tinycalendar.DayCalendar,}
+                    "day": tinycalendar.DayCalendar,
+                    "day": tinycalendar.GanttCalendar,}
 
             self.widget = kwid[kmode](model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, options=self.kalendar)
 
