@@ -95,10 +95,16 @@ class Frame(TinyCompoundWidget):
 
             if isinstance(child, NewLine):
                 self.add_row()
+
+            elif getattr(child, 'invisible', False):
+                self.add_hidden(child)
+
             elif getattr(child, 'visible', True) or isinstance(child, (Button, Group, Page)):
                 self.add(child, string, rowspan, colspan)
+
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
+
             else:
                 pass
 
@@ -230,6 +236,7 @@ class Frame(TinyCompoundWidget):
     def add_hidden(self, widget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
+
         self.hiddens += [widget]
         
 class Notebook(TinyCompoundWidget):
