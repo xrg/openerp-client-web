@@ -51,10 +51,10 @@
                                     ${data[field]}
                                 </span>
                                 <span py:if="data[field].text == ''">&nbsp;</span>
-                                <span py:if="field == 'sequence'" class="grid-cell selector">
+                                <span py:if="editable and field == 'sequence'" class="grid-cell selector">
                                     <img src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']}, ${str(data['_seq'])})"/>                                
                                 </span>
-                                <span py:if="field == 'sequence'" class="grid-cell selector">
+                                <span py:if="editable and field == 'sequence'" class="grid-cell selector">
                                     <img src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']}, ${str(data['_seq'])})"/>
                                 </span>
                             </td>
