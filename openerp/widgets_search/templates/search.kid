@@ -2,12 +2,10 @@
     <tr>
         <td>
             <div class="tabber" id="search_view_notebook">
-                <div class="tabbertab">
-                    <h3 class="tabbertabtitle">Basic Search</h3>
+                <div class="tabbertab" title="Basic Search">
                       <span py:replace="basic.display(value_for(basic), **params_for(basic))" py:if="basic"/>
                 </div>
-                <div class="tabbertab">
-                    <h3 class="tabbertabtitle">Advanced Search</h3>
+                <div class="tabbertab" title="Advanced Search">
                     <span py:replace="advance.display(value_for(advance), **params_for(advance))" py:if="advance"/>
                 </div>
             </div>
