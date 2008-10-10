@@ -183,10 +183,12 @@ class Screen(TinyCompoundWidget):
 
             kwid = {"month": tinycalendar.MonthCalendar,
                     "week": tinycalendar.WeekCalendar,
-                    "day": tinycalendar.DayCalendar,
-                    "gantt": tinycalendar.GanttCalendar,}
+                    "day": tinycalendar.DayCalendar,}
 
             self.widget = kwid[kmode](model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, options=self.kalendar)
+            
+        elif view_type == 'gantt':
+            self.widget = tinycalendar.GanttCalendar(model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, options=self.kalendar)
 
         self.string = (self.widget or '') and self.widget.string
 

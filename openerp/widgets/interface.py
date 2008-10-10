@@ -92,7 +92,7 @@ class TinyWidget(object):
         try:
             visval = attrs.get('invisible', 'False')
             ctx = attrs.get('context', {})
-            self.visible = not eval(visval, {'context': ctx})
+            self.invisible = eval(visval, {'context': ctx})
         except:
             pass
         

@@ -158,10 +158,7 @@ GanttCalendar.DayGrid.prototype = {
 
             this.days = this.days.concat(toISODate(dt));
 
-            var md = DIV({'class': 'calGanttDay', 'dtDay' : toISODate(dt)},
-                        DIV({'class':'calGanttDayTitle'},
-                            A({'href':'javascript: void(0)',
-                               'onclick': "getCalendar('/calendar/get/" + toISODate(dt) + "')"}, dt.getDate())));
+            var md = DIV({'class': 'calGanttDay', 'dtDay' : toISODate(dt)});
 
             if (dt.getMonth() != this.calendar.first.getMonth()){
                 addElementClass(md, 'dayOff');
@@ -194,10 +191,6 @@ GanttCalendar.DayGrid.prototype = {
             var e = this.elements[i];
 
             e.style.position = 'absolute';
-
-            if (i % 7 == 0) {
-                e.style.borderLeftWidth = '2px';
-            }
 
             e.style.top = '0px';
             e.style.left = i * w + 'px';

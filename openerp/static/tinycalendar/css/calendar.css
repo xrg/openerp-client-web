@@ -251,6 +251,10 @@
     height: 550px;
 }
 
+.calGantt .calDayHeader {
+    font-size: 10px;
+}
+
 .calGantt .calGanttWeek {
     position: absolute;
     height: 100%;
@@ -263,7 +267,7 @@
     vertical-align: top;
 
     background-color: white;
-    border-left: 1px solid #C0C0C0;
+    border-left: 1px dotted #C0C0C0;
 
     font-size: 10px;
 }

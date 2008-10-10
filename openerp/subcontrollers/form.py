@@ -102,6 +102,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
         buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
+        buttons.gantt = 'gantt' in params.view_mode and mode != 'gantt'
         buttons.can_attach = id and mode == 'form'
         buttons.has_attach = buttons.can_attach and self._has_attachments(params.model, id, mode)
         buttons.i18n = not editable and mode == 'form'
