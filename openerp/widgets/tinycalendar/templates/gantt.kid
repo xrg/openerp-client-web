@@ -4,15 +4,13 @@
     <td id="calNavigation">
         <table width="100%" class="toolbar">
             <tr>
-                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('/calendar/gantt/${month.prev().year}/${month.prev().month}')"/></td>
-                <td nowrap="nowrap"><button type="button" title="Today..." onclick="getCalendar('/calendar/get/${selected_day.today().isoformat()}')">Today</button></td>
-                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('/calendar/gantt/${month.next().year}/${month.next().month}')"/></td>
-                <td nowrap="nowrap" width="100%"><strong>${ustr(month)}</strong></td>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="alert('TODO: prev span')"/></td>
+                <td nowrap="nowrap"><button type="button" title="Today..." onclick="alert('TODO: goto the current date')">Today</button></td>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="alert('TODO: next span')"/></td>
+                <td nowrap="nowrap" width="100%"><strong>${ustr(month[0])} - ${ustr(month[-1])}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="Day Calendar..." onclick="getCalendar('/calendar/get/${selected_day.isoformat()}')">Day</button>
-                    <button type="button" title="Week Calendar..." onclick="getCalendar('/calendar/get/${selected_day.week[0].isoformat()}/${selected_day.week[-1].isoformat()}')">Week</button>
-                    <button type="button" title="Month Calendar..." onclick="getCalendar('/calendar/get/${selected_day.year}/${selected_day.month}')">Month</button>
-                    <button type="button" title="Gantt view..." disabled="disabled">Gantt</button>
+                    <img height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png" onclick="alert('TODO: reduce time/date period')"/>
+                    <img height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" onclick="alert('TODO: increse time/date period')"/>
                 </td>
             </tr>
         </table>
@@ -23,7 +21,7 @@
 </tr>
 <tr>
     <td id="calSidebar" valign="top">
-        <div py:replace="minical.display()"/>
+        <div style='border: 1px solid gray; height: 350px;'>TODO: tree here</div>
         <div py:replace="groupbox.display()"/>
         <div id="calSearchOptions">
             <table border="0">
@@ -40,7 +38,7 @@
         <div id="calGantt" class="calGantt" dtFormat="${date_format}" dtStart="${month[0].isoformat()}" dtFirst="${month.year}-${month.month}-01"><span></span>
 
             <div id="calHeaderSect">
-                <div class="calDayName" py:for="week in month.weeks">${week[0].strftime('Week %W, %Y')}</div>
+                <div class="calDayName" py:for="day in month">${day.day}</div>
             </div>
 
             <div id="calBodySect">

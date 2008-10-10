@@ -3,22 +3,21 @@
     <td style="width: 200px"><div id="calLoading">Loading...</div></td>
     <td id="calNavigation">
         <table width="100%" class="toolbar">
-                <tr>
-                    <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('/calendar/get/${day.prev().isoformat()}')"/></td>
-                    <td nowrap="nowrap"><button type="button" title="Today..." disabled="${tg.selector(day == day.today())}" onclick="getCalendar('/calendar/get/${day.today().isoformat()}')">Today</button></td>
-                    <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('/calendar/get/${day.next().isoformat()}')"/></td>
-                    <td nowrap="nowrap" width="100%"><strong>${ustr(day)}</strong></td>
-                    <td nowrap="nowrap">
-                        <button type="button" title="Day Calendar..." disabled="disabled">Day</button>
-                        <button type="button" title="Week Calendar..." onclick="getCalendar('/calendar/get/${day.week[0].isoformat()}/${day.week[-1].isoformat()}')">Week</button>
-                        <button type="button" title="Month Calendar..." onclick="getCalendar('/calendar/get/${day.year}/${day.month}')">Month</button>
-                        <button type="button" title="Gantt view..." onclick="getCalendar('/calendar/gantt/${day.year}/${day.month}')">Gantt</button>
-                    </td>
-                </tr>
-         </table>
-         <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${day.isoformat()}"/>
-         <input type="hidden" id="_terp_calendar_args" name="_terp_calendar_args" value="${day.isoformat()}"/>
-         <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${ustr(calendar_fields)}"/>
+            <tr>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('/calendar/get/${day.prev().isoformat()}')"/></td>
+                <td nowrap="nowrap"><button type="button" title="Today..." disabled="${tg.selector(day == day.today())}" onclick="getCalendar('/calendar/get/${day.today().isoformat()}')">Today</button></td>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('/calendar/get/${day.next().isoformat()}')"/></td>
+                <td nowrap="nowrap" width="100%"><strong>${ustr(day)}</strong></td>
+                <td nowrap="nowrap">
+                    <button type="button" title="Day Calendar..." disabled="disabled">Day</button>
+                    <button type="button" title="Week Calendar..." onclick="getCalendar('/calendar/get/${day.week[0].isoformat()}/${day.week[-1].isoformat()}')">Week</button>
+                    <button type="button" title="Month Calendar..." onclick="getCalendar('/calendar/get/${day.year}/${day.month}')">Month</button>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${day.isoformat()}"/>
+        <input type="hidden" id="_terp_calendar_args" name="_terp_calendar_args" value="${day.isoformat()}"/>
+        <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${ustr(calendar_fields)}"/>
     </td>
 </tr>
 <tr>

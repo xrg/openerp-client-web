@@ -29,12 +29,12 @@
                             <table width="100%" class="titlebar">
                                 <tr>
                                     <td width="32px" align="center">
-                                        <img py:if="form.screen.view_type not in ('form', 'calendar')" src="/static/images/stock/gtk-find.png"/>
-                                        <img py:if="form.screen.view_type == 'form'" src="/static/images/stock/gtk-edit.png"/>
-                                        <img py:if="form.screen.view_type == 'calendar'" src="/static/images/stock/stock_calendar.png"/>
+                                        <img py:if="form.screen.view_type in ('tree', 'graph')" src="/static/images/stock/gtk-find.png"/>
+                                        <img py:if="form.screen.view_type in ('form')" src="/static/images/stock/gtk-edit.png"/>
+                                        <img py:if="form.screen.view_type in ('calendar', 'gantt')" src="/static/images/stock/stock_calendar.png"/>
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>
-                                    <td nowrap="nowrap" py:if="buttons.search or buttons.form or buttons.calendar or buttons.graph">
+                                    <td nowrap="nowrap" py:if="buttons.search or buttons.form or buttons.calendar or buttons.gantt or buttons.graph">
                                         <button 
                                             type="button" 
                                             title="Search View..." 
@@ -50,6 +50,11 @@
                                             title="Calendar View..." 
                                             disabled="${tg.selector(not buttons.calendar)}" 
                                             onclick="switchView('calendar')">Calendar</button>
+                                        <button 
+                                            type="button" 
+                                            title="Gantt View..." 
+                                            disabled="${tg.selector(not buttons.gantt)}" 
+                                            onclick="switchView('gantt')">Gantt</button>
                                         <button 
                                             type="button" 
                                             title="Graph View..." 
