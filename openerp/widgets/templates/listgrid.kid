@@ -15,9 +15,9 @@
                                 <input type="checkbox" class="checkbox grid-record-selector" py:if="selector=='checkbox'" onclick="new ListView('${name}').checkAll(!this.checked)"/>
                                 <span py:if="selector!='checkbox'">&nbsp;</span>
                             </th>
+                            <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                             <th py:for="(field, field_attrs) in headers" id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" py:content="field_attrs['string']"></th>
                             <th py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></th>
-                            <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                             <th py:if="editable" class="grid-cell selector"><div style="width: 0px;"></div></th>
                         </tr>
                     </thead>
@@ -43,6 +43,10 @@
                             <td py:if="selector" class="grid-cell selector">
                                 <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}"/>
                             </td>
+                            <td py:if="editable" class="grid-cell selector">
+                                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
+                                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
+                            </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" sortable_value="${data[field].get_sortable_text()}">
                                 <span py:if="not (field_attrs.get('type')=='many2one' and link=='0')" py:strip="">
                                     <a py:strip="(show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not data[field].link" href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
@@ -62,10 +66,6 @@
                                 <span py:for="button in buttons" py:replace="button.display(parent=name, **button.params_from(data))"/>        
                             </td>
                             <td py:if="editable" class="grid-cell selector">
-                                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
-                                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
-                            </td>
-                            <td py:if="editable" class="grid-cell selector">
                                 <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
                             </td>
                         </tr>
@@ -79,9 +79,9 @@
 
                         <tr py:for="i in range(0, 4 - len(data))" class="grid-row">
                             <td width="1%" py:if="selector" class="grid-cell selector">&nbsp;</td>
+                            <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">&nbsp;</td>
                             <td py:if="buttons" class="grid-cell button">&nbsp;</td>
-                            <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         </tr>
 
@@ -90,6 +90,7 @@
                     <tfoot py:if="field_total">                                    
                         <tr class="field_sum">
                             <td width="1%" py:if="selector" class="grid-cell">&nbsp;</td>
+                            <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
                             <td py:if="buttons" class="grid-cell button"><div style="width: 0px;"></div></td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
                                  <span py:if="'sum' in field_attrs" py:strip="">
@@ -99,7 +100,6 @@
                                  </span>
                                  <span py:if="'sum' not in field_attrs" py:strip="">&nbsp;</span>
                             </td>
-                            <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
                             <td width="1%" py:if="editable" class="grid-cell">&nbsp;</td>
                         </tr>
                     </tfoot>
