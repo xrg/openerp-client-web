@@ -25,7 +25,6 @@
         }
         
         function doClose() {
-            window.opener.setTimeout("window.location.reload()", 0);
             window.close();
         }
         
@@ -49,8 +48,14 @@
                 alert('Please select a view...');
                 return;
             }
-            
-            openWindow(getURL('/viewed', {view_id: boxes[0].value}));
+
+            var act = getURL('/viewed', {view_id: boxes[0].value});
+            if (window.opener) {
+                window.opener.setTimeout("openWindow('" + act + "')", 0);
+                window.close();
+            } else {
+                openWindow(act);
+            }
         }
         
         function onRemove() {
