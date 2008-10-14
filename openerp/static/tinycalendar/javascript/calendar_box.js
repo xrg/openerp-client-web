@@ -143,7 +143,7 @@ InfoBox.prototype = {
         this.hide();
         var req = copyCalendarRecord(this.params.nRecordID);
         req.addCallback(function(res){
-            getCalendar('/calendar/get/' + $('_terp_calendar_args').value);
+            getCalendar();
         });
     },
 
@@ -154,9 +154,40 @@ InfoBox.prototype = {
         if (!confirm('Do you realy want to delete this record?')) {
             return false;
         }
-
-        $('_terp_id').value = this.params.nRecordID;
-        getCalendar('/calendar/delete/' + $('_terp_calendar_args').value);
+        
+        var req = Ajax.JSON.post('/calendar/delete', {
+           _terp_id: this.params.nRecordID,
+           _terp_model: getElement('_terp_model').value 
+        });
+        
+        var self = this;
+        
+        req.addCallback(function(obj){
+            
+           if (obj.error) {
+               return alert(obj.error);
+           }
+           
+           var id = parseInt(getElement('_terp_id').value) || 0;
+           var ids = [];
+           
+           try {
+               ids = eval('(' + getElement('_terp_ids').value + ')') || [];
+           }catch(e){}
+           
+           var idx = MochiKit.Base.findIdentical(ids, self.params.nRecordID);
+           
+           if (id == self.params.nRecordID) {
+               getElement('_terp_id').value = 'False';
+           }
+           
+           if (idx > -1) {
+               ids = ids.splice(idx, 1);
+               getElement('_terp_ids').value = '[' + ids.join(', ') + ']';
+           }
+           
+           getCalendar();
+        });
     }
 }
 

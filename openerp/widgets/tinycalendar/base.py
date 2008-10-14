@@ -233,8 +233,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
                 atr = self.fields[self.color_field]
                 atr['required'] = False
                 wid = tw.form.widgets_type[atr['type']](atr)
-                vals = ustr(self.color_values)
-                vals = vals.split(',')
+                vals = self.color_values[:]
                 for i, v in enumerate(vals):
                     try:
                         vals[i] = wid.validator.to_python(v)

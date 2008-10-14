@@ -174,21 +174,27 @@ class Screen(TinyCompoundWidget):
             self.count = self.widget.count
 
         elif view_type == 'graph':
-            self.widget = graph.Graph(model=self.model, view_id=view.get('view_id', False), ids=self.ids, domain=self.domain, context=self.context)
+            self.widget = graph.Graph(model=self.model, 
+                                      view_id=view.get('view_id', False), 
+                                      ids=self.ids, domain=self.domain, 
+                                      context=self.context)
             self.ids = self.widget.ids
 
         elif view_type == 'calendar':
-            kmode = "month"
-            if self.kalendar: kmode = self.kalendar.mode
-
-            kwid = {"month": tinycalendar.MonthCalendar,
-                    "week": tinycalendar.WeekCalendar,
-                    "day": tinycalendar.DayCalendar,}
-
-            self.widget = kwid[kmode](model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, options=self.kalendar)
+            self.widget = tinycalendar.get_calendar(view=view, 
+                                                    model=self.model, 
+                                                    ids=self.ids, 
+                                                    domain=self.domain, 
+                                                    context=self.context, 
+                                                    options=self.kalendar)
             
         elif view_type == 'gantt':
-            self.widget = tinycalendar.GanttCalendar(model=self.model, view=view, ids=self.ids, domain=self.domain, context=self.context, options=self.kalendar)
+            self.widget = tinycalendar.GanttCalendar(model=self.model, 
+                                                     view=view, 
+                                                     ids=self.ids, 
+                                                     domain=self.domain, 
+                                                     context=self.context, 
+                                                     options=self.kalendar)
 
         self.string = (self.widget or '') and self.widget.string
 

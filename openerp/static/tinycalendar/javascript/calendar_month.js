@@ -89,8 +89,7 @@ MonthCalendar.prototype = {
             var week = new MonthCalendar.Week(this, dt);
             this.weeks = this.weeks.concat(week);
 
-            var a = A({href: 'javascript: void(0)',
-                       onclick : "getCalendar('/calendar/get/" + week.days[0] + "/" + week.days[6] + "')"}, this.firstWeek + i);
+            var a = A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, this.firstWeek + i);
 
             appendChildNodes('calTimeCol', DIV({'style': 'height: 120px'}, a));
 
@@ -320,7 +319,7 @@ MonthCalendar.Week.prototype = {
             var md = DIV({'class': 'calMonthDay', 'dtDay' : toISODate(dt)},
                         DIV({'class':'calMonthDayTitle'},
                             A({'href':'javascript: void(0)',
-                               'onclick': "getCalendar('/calendar/get/" + toISODate(dt) + "')"}, dt.getDate())));
+                               'onclick': "getCalendar('" + toISODate(dt) + "', 'day')"}, dt.getDate())));
 
             if (dt.getMonth() != this.calendar.first.getMonth()){
                 addElementClass(md, 'dayOff');

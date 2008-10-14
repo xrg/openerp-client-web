@@ -133,7 +133,7 @@ WeekCalendar.Header.prototype = {
 
             var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'},
                             A({'href': 'javascript: void(0)',
-                               'onclick': "getCalendar('/calendar/get/" + getNodeAttribute(day, 'dtDay') + "'); return false;"}, MochiKit.DOM.scrapeText(day)));
+                               'onclick': "getCalendar('" + getNodeAttribute(day, 'dtDay') + "', 'day'); return false;"}, MochiKit.DOM.scrapeText(day)));
 
             self.elements = self.elements.concat(div);
             self.calendar.colDays = self.calendar.colDays.concat(getNodeAttribute(day, 'dtDay'));

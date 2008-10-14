@@ -201,6 +201,21 @@ GanttCalendar.DayGrid.prototype = {
     }
 }
 
+// Day
+GanttCalendar.Day = function(day) {
+    this.__init__(day);
+}
+
+GanttCalendar.Day.prototype = {
+
+    __init__: function(day) {
+    },
+
+    adjust: function() {
+    }
+}
+
+// Event
 GanttCalendar.Event = function(element, container){
     this.__init__(element, container);
 }
