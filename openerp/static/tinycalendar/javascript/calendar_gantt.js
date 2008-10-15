@@ -105,12 +105,14 @@ GanttCalendar.Header.prototype = {
         this.elements = [];
 
         var self = this;
-        var weeks = getElementsByTagAndClassName('div', null, 'calHeaderSect');
+        var days = getElementsByTagAndClassName('div', null, 'calHeaderSect');
 
-        forEach(weeks, function(week){
-            var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, MochiKit.DOM.scrapeText(week));
+        forEach(days, function(day){
+            var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, 
+                        A({'href': 'javascript: void(0)',
+                            'onclick': "getCalendar('" + getNodeAttribute(day, 'dtDay') + "', 'day'); return false;"}, MochiKit.DOM.scrapeText(day)));
             self.elements = self.elements.concat(div);
-            MochiKit.DOM.swapDOM(week, div);
+            MochiKit.DOM.swapDOM(day, div);
         });
     },
 
@@ -153,24 +155,11 @@ GanttCalendar.DayGrid.prototype = {
 
         var dt = this.starts;
         for(var i = 0; i < this.range; i++){
-
-            this.days = this.days.concat(toISODate(dt));
-
-            var md = DIV({'class': 'calGanttDay', 'dtDay' : toISODate(dt)});
-            var nw = new Date();
-
-            if (dt.getFullYear() == nw.getFullYear() && dt.getMonth() == nw.getMonth() && dt.getDate() == nw.getDate()){
-                addElementClass(md, 'dayThis');
-            }
-
-            this.elements = this.elements.concat(md);
+            this.days.push(new GanttCalendar.Day(dt, this.calendar));
             dt = dt.getNext();
         }
 
-        appendChildNodes('calGrid', this.elements);
-
         this.droppables = [];
-        var self = this;
     },
 
     __delete__ : function(){
@@ -181,7 +170,8 @@ GanttCalendar.DayGrid.prototype = {
         var w = elementDimensions('calGrid').w / this.range;
 
         for(var i = 0; i < this.range; i++){
-            var e = this.elements[i];
+
+            var e = this.days[i].element;
 
             e.style.position = 'absolute';
 
@@ -190,21 +180,70 @@ GanttCalendar.DayGrid.prototype = {
 
             e.style.width = w + 'px';
             e.style.height = '100%';
+
+            this.days[i].adjust();
         }
     }
 }
 
 // Day
-GanttCalendar.Day = function(day) {
-    this.__init__(day);
+GanttCalendar.Day = function(day, calendar) {
+    this.__init__(day, calendar);
 }
 
 GanttCalendar.Day.prototype = {
 
-    __init__: function(day) {
+    __init__: function(day, calendar) {
+
+        this.day = day;
+        this.range = calendar.range;
+
+        this.element = DIV({'class': 'calGanttDay', 'dtDay' : toISODate(day)});
+        MochiKit.DOM.appendChildNodes('calGrid', this.element);
+
+        var nw = new Date();
+        if (day.getFullYear() == day.getFullYear() && day.getMonth() == nw.getMonth() && day.getDate() == nw.getDate()){
+            MochiKit.DOM.addElementClass(this.element, 'dayThis');
+        }
+
+        this.elements = [];
+
+        // day mode
+        if (this.range == 1) {
+            for(j = 0; j < 48; j++) {
+                var cell = DIV({'class': j % 2 == 0 ? 'calVRule even' : 'calVRule odd'});
+                this.elements.push(cell);
+                appendChildNodes(this.element, cell);
+            }
+        }
+
+        // week mode
+        else if (this.range == 7) {
+            for(j = 0; j < 12; j++) {
+                var cell = DIV({'class': j % 2 == 0 ? 'calVRule even' : 'calVRule odd'});
+                this.elements.push(cell);
+                appendChildNodes(this.element, cell);
+            }
+        }
+
+        // month mode
+        else {
+            MochiKit.DOM.addElementClass(this.element, 'calVRule');
+        }
+
     },
 
     adjust: function() {
+        
+        var w = getElementDimensions(this.element).w;
+        w = w / this.elements.length;
+
+        for(var i=0; i<this.elements.length; i++){
+            var e = this.elements[i];
+
+            e.style.width = w + 'px';
+            e.style.left = i * w + 'px';
+        }
     }
 }
 

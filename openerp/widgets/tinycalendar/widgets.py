@@ -208,18 +208,20 @@ class GanttCalendar(ICalendar):
         if self.mode == 'day':
             self.days = [day]
             self.title = ustr(day)
+            self.selected_day = day
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
             self.title = ustr(self.days[0]) + " - " + ustr(self.days[-1])
+            self.selected_day = self.selected_day or day
         
         else:
             month = Month(y, m)
             self.days = [d for d in month if d.month == m and d.year == y]
             self.title = ustr(month)
+            self.selected_day = self.selected_day or day
 
-        self.selected_day = self.selected_day or day
-
+        self.events = self.get_events(self.days)
         self.groupbox = GroupBox(self.colors, self.color_values, day, 
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
 

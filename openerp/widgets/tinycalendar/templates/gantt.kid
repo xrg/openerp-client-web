@@ -48,8 +48,8 @@
         <div id="calGantt" class="calGantt" dtFormat="${date_format}" dtStart="${days[0].isoformat()}" dtRange="${len(days)}"><span></span>
 
             <div id="calHeaderSect">
-                <div py:if="len(days) not in (1, 7)" class="calDayName" py:for="day in days">${day.day}</div>
-                <div py:if="len(days) in (1, 7)" class="calDayName" py:for="day in days">${ustr(day)}</div>
+                <div py:if="len(days) not in (1, 7)" class="calDayName" py:for="day in days" dtDay="${day.isoformat()}">${day.day}</div>
+                <div py:if="len(days) in (1, 7)" class="calDayName" py:for="day in days" dtDay="${day.isoformat()}">${ustr(day)}</div>
             </div>
 
             <div id="calBodySect">
