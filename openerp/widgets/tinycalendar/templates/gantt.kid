@@ -21,6 +21,8 @@
                     <button type="button" title="Day..." disabled="${tg.selector(mode == 'day')}" onclick="getCalendar(null, 'day')">Day</button>
                     <button type="button" title="Week..." disabled="${tg.selector(mode == 'week')}" onclick="getCalendar(null, 'week')">Week</button>
                     <button type="button" title="Month..." disabled="${tg.selector(mode == 'month')}" onclick="getCalendar(null, 'month')">Month</button>
+                    <button type="button" title="3 Months..." disabled="${tg.selector(mode == '3months')}" onclick="getCalendar(null, '3months')">3 Months</button>
+                    <button type="button" title="Year..." disabled="${tg.selector(mode == 'year')}" onclick="getCalendar(null, 'year')">Year</button>
                 </td>
             </tr>
         </table>
@@ -48,8 +50,7 @@
         <div id="calGantt" class="calGantt" dtFormat="${date_format}" dtStart="${days[0].isoformat()}" dtRange="${len(days)}"><span></span>
 
             <div id="calHeaderSect">
-                <div py:if="len(days) not in (1, 7)" class="calDayName" py:for="day in days" dtDay="${day.isoformat()}">${day.day}</div>
-                <div py:if="len(days) in (1, 7)" class="calDayName" py:for="day in days" dtDay="${day.isoformat()}">${ustr(day)}</div>
+                <div class="calDayName" py:for="header in headers">${header}</div>
             </div>
 
             <div id="calBodySect">

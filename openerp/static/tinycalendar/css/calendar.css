@@ -262,7 +262,7 @@
     border-left: 2px solid #C0C0C0;
 }
 
-.calGanttDay {
+.calGanttCol {
     position: absolute;
     vertical-align: top;
 
@@ -272,7 +272,7 @@
     font-size: 10px;
 }
 
-.calGanttDay.dayThis {
+.calGanttCol.dayThis {
     background-color: #FFFFDF;
 }
 

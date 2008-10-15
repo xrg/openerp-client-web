@@ -48,6 +48,7 @@ from base import TinyCalendar
 from utils import Day
 from utils import Week
 from utils import Month
+from utils import Year
 
 class MiniCalendar(tg.widgets.CompoundWidget, interface.TinyWidget):
     template = 'openerp.widgets.tinycalendar.templates.mini'
@@ -185,17 +186,19 @@ class GanttCalendar(ICalendar):
     
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    params = ['title', 'levels', 'days', 'events', 'calendar_fields', 'date_format', 'selected_day', 'mode']
+    params = ['title', 'levels', 'days', 'events', 'calendar_fields', 'date_format', 'selected_day', 'mode', 'headers']
     member_widgets = ['groupbox', 'use_search']
 
     levels = None
     title = None
     days = None
+    headers = None
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 
         self.levels = []
         self.days = []
+        self.headers = []
 
         super(GanttCalendar, self).__init__(model, ids, view, domain, context, options)
 
@@ -209,17 +212,49 @@ class GanttCalendar(ICalendar):
             self.days = [day]
             self.title = ustr(day)
             self.selected_day = day
+            self.headers = [ustr(day)]
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
             self.title = ustr(self.days[0]) + " - " + ustr(self.days[-1])
             self.selected_day = self.selected_day or day
-        
+            self.headers = [ustr(d) for d in self.days]
+
+        elif self.mode == '3months':
+            mt = Month(y, m)
+            mp = mt.prev()
+            mn = mt.next()
+
+            days = []
+            days += [d for d in mp if d.year == mp.year and d.month == mp.month]
+            days += [d for d in mt if d.year == mt.year and d.month == mt.month]
+            days += [d for d in mn if d.year == mn.year and d.month == mn.month]
+
+            self.days = days
+            self.title = u"%s, %s, %s" % (mp, mt, mn)
+            self.selected_day = self.selected_day or day
+            
+            headers = []
+            headers += [w for w in mp.weeks]
+            headers += [w for w in mt.weeks]
+            headers += [w for w in mn.weeks]
+
+            self.headers = [_('Week %s') % w[0].strftime('%W') for w in headers]
+
+        elif self.mode == 'year':
+            yr = Year(y)
+
+            self.days = yr.days
+            self.title = u"Year %s" % (y)
+            self.selected_day = self.selected_day or day
+            self.headers = [m.name for m in yr.months]
+
         else:
             month = Month(y, m)
             self.days = [d for d in month if d.month == m and d.year == y]
             self.title = ustr(month)
             self.selected_day = self.selected_day or day
+            self.headers = [d.day for d in self.days]
 
         self.events = self.get_events(self.days)
         self.groupbox = GroupBox(self.colors, self.color_values, day, 

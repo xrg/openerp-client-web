@@ -266,6 +266,86 @@ class Month(object):
 
     def __repr__(self):
         return 'Month(%s, %s)'%(self.year, self.month)
-    
+
+
+class Year(object):
+
+    def __init__(self, year):
+        self.year = year
+        self.__months = []
+        self.__weeks = []
+        self.__days = []
+
+    def months(self):
+        if self.__months:
+            return self.__months
+
+        m = Month(self.year, 1)
+        while(m.year == self.year):
+            self.__months += [m]
+            m = m.next()
+
+        return self.__months
+
+    def weeks(self):
+        if self.__weeks:
+            return self.__weeks
+
+        w = Week(Day(self.year, 1, 1))
+        while (w[0].year == self.year or w[-1].year == self.year):
+            self.__weeks += [w]
+            w = w.next()
+
+        return self.__weeks
+        
+    def days(self):
+        if self.__days:
+            return self.__days
+
+        d = Day(self.year, 1, 1)
+        while (d.year == self.year):
+            self.__days += [d]
+            d = d.next()
+
+        return self.__days
+
+    days = property(days)
+    weeks = property(weeks)
+    months = property(months)
+
+    def next(self):
+        """Get next year
+        """
+        return self + 1
+
+    def prev(self):
+        """Get previous year
+        """
+        return self - 1
+
+    def __add__(self, value):
+        return Year(self.year + value)
+
+    def __sub__(self, value):
+        return Year(self.year - value)
+
+    def __getitem__(self, index):
+        return self.days[index]
+
+    def __iter__(self):
+        return iter(self.days)
+
+    def __hash__(self):
+        return hash(self.year)
+
+    def __unicode__(self):
+        return unicode(self.year)
+
+    def __str__(self):
+        return str(self.year)
+
+    def __repr__(self):
+        return "Year %s" % self.year
+
 # vim: ts=4 sts=4 sw=4 si et
 
