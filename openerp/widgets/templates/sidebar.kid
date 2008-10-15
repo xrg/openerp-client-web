@@ -1,4 +1,4 @@
-<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" py:if="reports or actions or relates">
+<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" py:if="reports or actions or relates or attachments">
     <tr>
         <td id="sidebar_pane" width="163" valign="top" style="padding-left: 2px">
             <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
@@ -94,7 +94,7 @@
                             </tr>
                             <tr py:for="item in attachments" data="${str(item)}">
                                 <td>
-                                    <a href="/attachment/save_as?fname=${item[1]}&amp;record=${item[0]}">${item[1]}</a>
+                                    <a href="/attachment/save_as/${item[1]}?record=${item[0]}">${item[1]}</a>
                                 </td>
                             </tr>
                         </table>

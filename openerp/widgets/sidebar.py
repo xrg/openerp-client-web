@@ -66,7 +66,7 @@ class Sidebar(TinyCompoundWidget):
         });    
     """)]
     
-    def __init__(self, model, id=None, toolbar=None, multi=True, is_tree=False, context={}):
+    def __init__(self, model, id=None, view_type="form", toolbar=None, multi=True, is_tree=False, context={}):
         
         super(Sidebar, self).__init__()
         
@@ -74,6 +74,7 @@ class Sidebar(TinyCompoundWidget):
         self.id = int(id)
         self.multi = multi
         self.context = context
+        self.view_type = view_type
         
         toolbar = toolbar or {}
         
@@ -119,7 +120,7 @@ class Sidebar(TinyCompoundWidget):
         ids = screen.ids or []
         
         proxy = rpc.RPCProxy('ir.attachment')
-        if ids:
+        if ids and self.view_type=='form':
             for i in ids:
                 attach = []
                 datas = proxy.read([i])
