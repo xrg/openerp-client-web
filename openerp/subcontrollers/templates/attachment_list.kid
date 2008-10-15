@@ -12,7 +12,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/stock-find.png"/>
+                            <img src="/static/images/stock/gtk-find.png"/>
                         </td>
                         <td width="100%">Attachments List</td>
                     </tr>
