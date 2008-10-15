@@ -42,6 +42,7 @@ from openerp.utils import TinyDict
 
 from openerp.widgets import interface
 
+from base import ICalendar
 from base import TinyCalendar
 
 from utils import Day
@@ -180,11 +181,64 @@ class DayCalendar(TinyCalendar):
         self.minical = MiniCalendar(self.day)
         self.groupbox = GroupBox(self.colors, self.color_values, self.day, title=(self.color_field or None) and self.fields[self.color_field]['string'], mode='day')
 
-class GanttCalendar(MonthCalendar):
+class GanttCalendar(ICalendar):
+    
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    def __init__(self, model, view, ids, domain=[], context={}, options=None):
-        super(GanttCalendar, self).__init__(model, view, ids, domain, context, options)
+    params = ['title', 'levels', 'days', 'events', 'calendar_fields', 'date_format', 'selected_day', 'mode']
+    member_widgets = ['groupbox', 'use_search']
+
+    levels = None
+    title = None
+    days = None
+
+    def __init__(self, model, ids, view, domain=[], context={}, options=None):
+
+        self.levels = []
+        self.days = []
+
+        super(GanttCalendar, self).__init__(model, ids, view, domain, context, options)
+
+        y, m, d = time.localtime()[:3]
+        if options:
+            y, m, d = options.date1[:3]
+
+        day = Day(y, m, d)
+
+        if self.mode == 'day':
+            self.days = [day]
+            self.title = ustr(day)
+
+        elif self.mode == 'week':
+            self.days = [d for d in Week(day)]
+            self.title = ustr(self.days[0]) + " - " + ustr(self.days[-1])
+        
+        else:
+            month = Month(y, m)
+            self.days = [d for d in month if d.month == m and d.year == y]
+            self.title = ustr(month)
+
+        self.selected_day = self.selected_day or day
+
+        self.groupbox = GroupBox(self.colors, self.color_values, day, 
+                title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
+
+    def parse(self, root, fields):
+        
+        info_fields = []
+        attrs = tools.node_attributes(root)
+
+        for node in root.childNodes:
+            attrs = tools.node_attributes(node)
+            
+            if node.localName == 'field':
+                info_fields += [attrs['name']]
+
+            if node.localName == 'level':
+                self.levels.append(attrs)
+                self.parse(node, fields)
+
+        return info_fields
 
 # vim: ts=4 sts=4 sw=4 si et
 

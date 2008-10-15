@@ -40,10 +40,7 @@ GanttCalendar.prototype = {
         }, options || {});
 
         this.starts = MochiKit.DateTime.isoDate(getNodeAttribute('calGantt', 'dtStart'));
-        this.first = MochiKit.DateTime.isoDate(getNodeAttribute('calGantt', 'dtFirst'));
-        this.firstWeek = this.first.getWeek(1);
-
-        this.month = this.first.getMonth();
+        this.range = parseInt(getNodeAttribute('calGantt', 'dtRange')) || 1;
 
         var self = this;
 
@@ -147,6 +144,7 @@ GanttCalendar.DayGrid.prototype = {
 
         this.calendar = calendar;
         this.starts = calendar.starts;
+        this.range = calendar.range;
 
         this.eventCache = []; // cache of event objects
         this.elements = [];
@@ -154,16 +152,11 @@ GanttCalendar.DayGrid.prototype = {
         this.days = [];
 
         var dt = this.starts;
-        for(var i = 0; i < 42; i++){
+        for(var i = 0; i < this.range; i++){
 
             this.days = this.days.concat(toISODate(dt));
 
             var md = DIV({'class': 'calGanttDay', 'dtDay' : toISODate(dt)});
-
-            if (dt.getMonth() != this.calendar.first.getMonth()){
-                addElementClass(md, 'dayOff');
-            }
-
             var nw = new Date();
 
             if (dt.getFullYear() == nw.getFullYear() && dt.getMonth() == nw.getMonth() && dt.getDate() == nw.getDate()){
@@ -185,9 +178,9 @@ GanttCalendar.DayGrid.prototype = {
 
     adjust : function(){
         
-        var w = elementDimensions('calGrid').w / 42;
+        var w = elementDimensions('calGrid').w / this.range;
 
-        for(var i = 0; i < 42; i++){
+        for(var i = 0; i < this.range; i++){
             var e = this.elements[i];
 
             e.style.position = 'absolute';
