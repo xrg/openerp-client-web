@@ -18,11 +18,13 @@
                 </td>
                 <td nowrap="nowrap" width="100%"><strong>${title}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="Day..." disabled="${tg.selector(mode == 'day')}" onclick="getCalendar(null, 'day')">Day</button>
-                    <button type="button" title="Week..." disabled="${tg.selector(mode == 'week')}" onclick="getCalendar(null, 'week')">Week</button>
-                    <button type="button" title="Month..." disabled="${tg.selector(mode == 'month')}" onclick="getCalendar(null, 'month')">Month</button>
-                    <button type="button" title="3 Months..." disabled="${tg.selector(mode == '3months')}" onclick="getCalendar(null, '3months')">3 Months</button>
-                    <button type="button" title="Year..." disabled="${tg.selector(mode == 'year')}" onclick="getCalendar(null, 'year')">Year</button>
+                    <img height="16" width="16" src="/static/images/stock/gtk-zoom-in-d.png" py:if="mode == 'year'"/>
+                    <img height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'year'"
+                        onclick="ganttZoomIn()"/>
+                    
+                    <img height="16" width="16" src="/static/images/stock/gtk-zoom-out-d.png" py:if="mode == 'day'"/>
+                    <img height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != 'day'"
+                        onclick="ganttZoomOut()"/>
                 </td>
             </tr>
         </table>

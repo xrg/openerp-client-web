@@ -254,5 +254,31 @@ GanttCalendar.Event.prototype = {
     }
 }
 
+var ganttZoomIn = function() {
+
+    var mode = getElement('_terp_selected_mode').value;
+    var modes = {
+        'day': 'week',
+        'week': 'month',
+        'month': '3months',
+        '3months': 'year'
+    };
+
+    return getCalendar(null, modes[mode]);
+}
+
+var ganttZoomOut = function() {
+
+    var mode = getElement('_terp_selected_mode').value;
+    var modes = {
+        'year': '3months',
+        '3months': 'month',
+        'month': 'week',
+        'week': 'day'
+    };
+
+    return getCalendar(null, modes[mode]);
+}
+
 // vim: ts=4 sts=4 sw=4 si et
 
