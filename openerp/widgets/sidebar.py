@@ -66,12 +66,11 @@ class Sidebar(TinyCompoundWidget):
         });    
     """)]
     
-    def __init__(self, model, id=None, view_type="form", toolbar=None, multi=True, is_tree=False, context={}):
+    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}):
         
         super(Sidebar, self).__init__()
         
         self.model = model
-        self.id = int(id)
         self.multi = multi
         self.context = context
         self.view_type = view_type
@@ -111,22 +110,25 @@ class Sidebar(TinyCompoundWidget):
             actions = [a[-1] for a in res]
             self.reports = [a for a in actions if self.multi or not a.get('multi')]
         
-        params = TinyDict()
-        params.model = 'ir.attachment'
-        params.view_mode = ['tree', 'form']
-
-        params.domain = [('res_model', '=', model), ('res_id', '=', id)]
-        screen = Screen(params, selectable=1)
-        ids = screen.ids or []
         
-        proxy = rpc.RPCProxy('ir.attachment')
-        if ids and self.view_type=='form':
-            for i in ids:
-                attach = []
-                datas = proxy.read([i])
-                attach += [datas[0].get('id')]
-                attach += [datas[0].get('name')]
-                self.attachments += [attach]
+        if self.view_type == 'form':
+            id = int(id)
+            params = TinyDict()
+            params.model = 'ir.attachment'
+            params.view_mode = ['tree', 'form']
+    
+            params.domain = [('res_model', '=', model), ('res_id', '=', id)]
+            screen = Screen(params, selectable=1)
+            ids = screen.ids or []
+            
+            proxy = rpc.RPCProxy('ir.attachment')
+            if ids:
+                for i in ids:
+                    attach = []
+                    datas = proxy.read([i])
+                    attach += [datas[0].get('id')]
+                    attach += [datas[0].get('name')]
+                    self.attachments += [attach]
             
 # vim: ts=4 sts=4 sw=4 si et
 
