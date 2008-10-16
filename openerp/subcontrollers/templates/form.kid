@@ -174,7 +174,7 @@
                 </table>
             </td>
 
-            <td py:if="form.sidebar and form.screen.view_type != 'calendar'" width="163" valign="top">
+            <td py:if="form.sidebar and form.screen.view_type not in ('calendar', 'gantt')" width="163" valign="top">
                 ${form.sidebar.display()}
             </td>
         </tr>

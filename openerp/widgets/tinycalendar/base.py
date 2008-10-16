@@ -95,8 +95,11 @@ class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
         self.description = description
         self.color = color
 
-class TinyCalendar(interface.TinyCompoundWidget):
+class ICalendar(interface.TinyCompoundWidget):
+    """ Base Calendar calss
+    """
     
+    mode = 'month'
     date_start = None
     date_delay = None
     date_stop = None
@@ -155,7 +158,12 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.date_stop = attrs.get('date_stop')
         self.color_field = attrs.get('color')
         self.day_length = int(attrs.get('day_length', 8))
-        
+
+        if options and options.mode:
+            self.mode = options.mode
+        else:
+            self.mode = attrs.get('mode') or self.mode or 'month'
+
         self.info_fields = self.parse(root, view['fields'])
         
         fields = view['fields']
@@ -185,17 +193,9 @@ class TinyCalendar(interface.TinyCompoundWidget):
         self.calendar_fields['day_length'] = self.day_length
 
     def parse(self, root, fields):
-        
-        info_fields = []
-        attrs = tools.node_attributes(root)        
-
-        for node in root.childNodes:
-            attrs = tools.node_attributes(node)
-            
-            if node.localName == 'field':
-                info_fields += [attrs['name']]
-
-        return info_fields
+        """ Deraived class must override parse method
+        """
+        pass
    
     def convert(self, event):
         
@@ -233,8 +233,7 @@ class TinyCalendar(interface.TinyCompoundWidget):
                 atr = self.fields[self.color_field]
                 atr['required'] = False
                 wid = tw.form.widgets_type[atr['type']](atr)
-                vals = ustr(self.color_values)
-                vals = vals.split(',')
+                vals = self.color_values[:]
                 for i, v in enumerate(vals):
                     try:
                         vals[i] = wid.validator.to_python(v)
@@ -356,6 +355,22 @@ class TinyCalendar(interface.TinyCompoundWidget):
         description = ', '.join(description).strip()
         
         return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1])
-    
+
+
+class TinyCalendar(ICalendar):
+
+    def parse(self, root, fields):
+        
+        info_fields = []
+        attrs = tools.node_attributes(root)        
+
+        for node in root.childNodes:
+            attrs = tools.node_attributes(node)
+            
+            if node.localName == 'field':
+                info_fields += [attrs['name']]
+
+        return info_fields
+
 # vim: ts=4 sts=4 sw=4 si et
 

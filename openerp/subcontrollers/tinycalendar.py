@@ -51,21 +51,6 @@ import openerp.widgets.tinycalendar as tc
 class TinyCalendar(Form):
     
     @expose()
-    def default(self, _arg1, _arg2=None, **kw):
-        return self.make(_arg1, _arg2, True, kw)
-    
-    @expose()
-    def get(self, _arg1, _arg2=None, **kw):
-        return self.make(_arg1, _arg2, False, kw)
-
-    #TODO: reimplement get/make to support gantt
-    @expose()
-    def gantt(self, _arg1, _arg2=None, **kw):
-        kw = kw.copy()
-        kw['mode'] = 'gantt'
-        return self.make(_arg1, _arg2, False, kw)
-    
-    @expose()
     def mini(self, year, month, forweek=False):
         params = TinyDict()
         
@@ -78,43 +63,22 @@ class TinyCalendar(Form):
 
         return minical.render()
 
-    def make(self, _arg1, _arg2=None, _full=False, kw={}):
+    @expose()
+    def get(self, day, mode, **kw):
         
         params, data = TinyDict.split(kw)
         
-        if '-' in _arg1:
-            _arg1 = time.strptime(_arg1, '%Y-%m-%d')
-
-        if _arg2 and '-' in _arg2:
-            _arg2 = time.strptime(_arg2, '%Y-%m-%d')
-
-        options = TinyDict()        
-        options.selected_day = params.selected_day 
+        options = TinyDict()
+        options.selected_day = params.selected_day
         
-        if isinstance(_arg1, basestring):
-            options.year = _arg1
-            options.month = _arg2
-        else:
-            options.year = _arg1[0]
-            options.month = _arg1[1]
-
-        options.date1 = None
-        options.date2 = None
+        day = time.strptime(day, '%Y-%m-%d') 
         
-        if not isinstance(_arg1, basestring):     
-            options.date1 = _arg1
+        options.year = day[0]
+        options.month = day[1]
         
-        if not isinstance(_arg2, basestring):
-            options.date2 = _arg2
-            
-        options.mode = kw.get('mode', 'month')
+        options.date1 = day
+        options.mode = mode
         
-        if options.date1:            
-            if options.date2:
-                options.mode = "week"
-            else:
-                options.mode = "day"                                    
-
         if params.colors:
             #options.colors = params.colors
             try:
@@ -130,35 +94,23 @@ class TinyCalendar(Form):
 
         params.kalendar = options
         
-        if _full:
-            return self.create(params)
-        
-        form = self.create_form(params)        
+        form = self.create_form(params)
         return form.screen.widget.render()
     
-    @expose()
-    def delete(self, _arg1, _arg2=None, **kw):
+    @expose('json')
+    def delete(self, **kw):
+        
         params, data = TinyDict.split(kw)
         
+        error = None
         proxy = rpc.RPCProxy(params.model)
         
-        idx = -1
-        if params.id:
-            res = proxy.unlink([params.id])
+        try:
+            proxy.unlink([params.id])
+        except Exception, e:
+            error = ustr(e)
             
-            if params.ids and params.id in params.ids:
-                idx = params.ids.index(params.id)
-                params.ids.remove(params.id)
-                params.count = 0 # invalidate count
-
-                if idx == len(params.ids):
-                    idx = -1
-
-        params.id = (params.ids or None) and params.ids[idx]
-        
-        kw['_terp_ids'] = ustr(params.ids)
-        
-        return self.make(_arg1, _arg2, False, kw)
+        return dict(error=error)
     
     @expose()
     def save(self, **kw):

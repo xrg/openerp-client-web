@@ -68,8 +68,12 @@ function elementPosition2(elem) {
 
 var CAL_INSTANCE = null;
 
-var getCalendar = function(action) {
-    var act = action ? action : '/calendar/get/' + $('_terp_calendar_args').value;
+var getCalendar = function(day, mode) {
+
+    var day = day || MochiKit.DOM.getElement('_terp_selected_day').value;
+    var mode = mode || MochiKit.DOM.getElement('_terp_selected_mode').value;
+    
+    var act = getURL('/calendar/get', {day: day, mode: mode});
 
     var form = document.forms['view_form'];
     var contents = formContents(form);
@@ -92,7 +96,7 @@ var getCalendar = function(action) {
     });
 
     params['_terp_colors'] = $('_terp_colors').value;
-    params['_terp_color_values'] = values.join(",");
+    params['_terp_color_values'] = '[' + values.join(",") + ']';
 
     showElement('calLoading');
 
@@ -105,7 +109,7 @@ var getCalendar = function(action) {
         var newContainer = d.getElementsByTagName('table')[0];
         
         if (newContainer.id != 'calContainer'){
-            return window.location.href = '/';   
+            return ;//window.location.href = '/';   
         }
 
         // release resources
@@ -122,10 +126,6 @@ var getCalendar = function(action) {
                 eval(s.innerHTML);
             });
         }
-		
-		if (act.indexOf('/calendar/delete') == 0) {
-			getElement('_terp_id').value = 'False';
-		}
 
         callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
     });

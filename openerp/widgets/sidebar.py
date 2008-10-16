@@ -32,13 +32,15 @@ from turbogears import widgets
 
 from openerp import rpc
 from openerp import tools
+from openerp.utils import TinyDict
 
+from screen import Screen
 from interface import TinyCompoundWidget
 
 class Sidebar(TinyCompoundWidget):
 
     template = "openerp.widgets.templates.sidebar"
-    params = ['reports', 'actions', 'relates']
+    params = ['reports', 'actions', 'relates', 'attachments']
     
     javascript = [widgets.JSSource("""
         function toggle_sidebar(forced) {
@@ -64,19 +66,22 @@ class Sidebar(TinyCompoundWidget):
         });    
     """)]
     
-    def __init__(self, model, toolbar=None, multi=True, is_tree=False, context={}):
+    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}):
         
         super(Sidebar, self).__init__()
         
         self.model = model
         self.multi = multi
         self.context = context
+        self.view_type = view_type
         
         toolbar = toolbar or {}
         
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
+        
+        self.attachments = []
         
         proxy = rpc.RPCProxy('ir.values')
         
@@ -104,6 +109,26 @@ class Sidebar(TinyCompoundWidget):
 
             actions = [a[-1] for a in res]
             self.reports = [a for a in actions if self.multi or not a.get('multi')]
+        
+        
+        if self.view_type == 'form':
+            id = int(id)
+            params = TinyDict()
+            params.model = 'ir.attachment'
+            params.view_mode = ['tree', 'form']
+    
+            params.domain = [('res_model', '=', model), ('res_id', '=', id)]
+            screen = Screen(params, selectable=1)
+            ids = screen.ids or []
+            
+            proxy = rpc.RPCProxy('ir.attachment')
+            if ids:
+                for i in ids:
+                    attach = []
+                    datas = proxy.read([i])
+                    attach += [datas[0].get('id')]
+                    attach += [datas[0].get('name')]
+                    self.attachments += [attach]
             
 # vim: ts=4 sts=4 sw=4 si et
 

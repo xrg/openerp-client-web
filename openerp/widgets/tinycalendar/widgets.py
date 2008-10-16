@@ -31,6 +31,7 @@
 import time
 import datetime
 import calendar
+import xml.dom.minidom
 
 import cherrypy
 import turbogears as tg
@@ -41,11 +42,13 @@ from openerp.utils import TinyDict
 
 from openerp.widgets import interface
 
+from base import ICalendar
 from base import TinyCalendar
 
 from utils import Day
 from utils import Week
 from utils import Month
+from utils import Year
 
 class MiniCalendar(tg.widgets.CompoundWidget, interface.TinyWidget):
     template = 'openerp.widgets.tinycalendar.templates.mini'
@@ -64,7 +67,7 @@ class MiniCalendar(tg.widgets.CompoundWidget, interface.TinyWidget):
         
 class GroupBox(tg.widgets.CompoundWidget, interface.TinyWidget):
     template = 'openerp.widgets.tinycalendar.templates.groups'
-    params = ["colors", "color_values", "action", "title"]
+    params = ["colors", "color_values", "title"]
         
     colors = {}
     color_values = []
@@ -74,15 +77,23 @@ class GroupBox(tg.widgets.CompoundWidget, interface.TinyWidget):
     def __init__(self, colors, color_values, selected_day, title=None, mode='month'):
         self.colors = colors
         self.color_values = color_values
-        self.action = "/calendar/get"
         self.title = title
         
-        if mode == 'day':
-            self.action = "%s/%s" %(self.action, selected_day.isoformat())            
-        elif mode == 'week':
-            self.action = "%s/%s/%s" %(self.action, selected_day.week[0].isoformat(), selected_day.week[-1].isoformat())
-        else:
-            self.action = "%s/%s/%s" %(self.action, selected_day.year, selected_day.month)        
+def get_calendar(model, view, ids=None, domain=[], context={}, options=None):
+        
+    mode = (options or None) and options.mode
+    if not mode:
+        dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
+        attrs = tools.node_attributes(dom.childNodes[0])
+        mode = attrs.get('mode')
+    
+    if mode == 'day':
+        return DayCalendar(model, view, ids, domain, context, options)
+        
+    if mode == 'week':
+        return WeekCalendar(model, view, ids, domain, context, options)
+    
+    return MonthCalendar(model, view, ids, domain, context, options)
 
 class MonthCalendar(TinyCalendar):
 
@@ -171,11 +182,101 @@ class DayCalendar(TinyCalendar):
         self.minical = MiniCalendar(self.day)
         self.groupbox = GroupBox(self.colors, self.color_values, self.day, title=(self.color_field or None) and self.fields[self.color_field]['string'], mode='day')
 
-class GanttCalendar(MonthCalendar):
+class GanttCalendar(ICalendar):
+    
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    def __init__(self, model, view, ids, domain=[], context={}, options=None):
-        super(GanttCalendar, self).__init__(model, view, ids, domain, context, options)
+    params = ['title', 'levels', 'days', 'events', 'calendar_fields', 'date_format', 'selected_day', 'mode', 'headers']
+    member_widgets = ['groupbox', 'use_search']
+
+    levels = None
+    title = None
+    days = None
+    headers = None
+    mode = 'week'
+
+    def __init__(self, model, ids, view, domain=[], context={}, options=None):
+
+        self.levels = []
+        self.days = []
+        self.headers = []
+
+        super(GanttCalendar, self).__init__(model, ids, view, domain, context, options)
+
+        y, m, d = time.localtime()[:3]
+        if options:
+            y, m, d = options.date1[:3]
+
+        day = Day(y, m, d)
+
+        if self.mode == 'day':
+            self.days = [day]
+            self.title = ustr(day)
+            self.selected_day = day
+            self.headers = [ustr(day)]
+
+        elif self.mode == 'week':
+            self.days = [d for d in Week(day)]
+            self.title = ustr(self.days[0]) + " - " + ustr(self.days[-1])
+            self.selected_day = self.selected_day or day
+            self.headers = [ustr(d) for d in self.days]
+
+        elif self.mode == '3months':
+            mt = Month(y, m)
+            mp = mt.prev()
+            mn = mt.next()
+
+            days = []
+            days += [d for d in mp if d.year == mp.year and d.month == mp.month]
+            days += [d for d in mt if d.year == mt.year and d.month == mt.month]
+            days += [d for d in mn if d.year == mn.year and d.month == mn.month]
+
+            self.days = days
+            self.title = u"%s, %s, %s" % (mp, mt, mn)
+            self.selected_day = self.selected_day or day
+            
+            headers = []
+            headers += [w for w in mp.weeks]
+            headers += [w for w in mt.weeks]
+            headers += [w for w in mn.weeks]
+
+            self.headers = [_('Week %s') % w[0].strftime('%W') for w in headers]
+
+        elif self.mode == 'year':
+            yr = Year(y)
+
+            self.days = yr.days
+            self.title = u"Year %s" % (y)
+            self.selected_day = self.selected_day or day
+            self.headers = [m.name for m in yr.months]
+
+        else:
+            month = Month(y, m)
+            self.days = [d for d in month if d.month == m and d.year == y]
+            self.title = ustr(month)
+            self.selected_day = self.selected_day or day
+            self.headers = [d.day for d in self.days]
+
+        self.events = self.get_events(self.days)
+        self.groupbox = GroupBox(self.colors, self.color_values, day, 
+                title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
+
+    def parse(self, root, fields):
+        
+        info_fields = []
+        attrs = tools.node_attributes(root)
+
+        for node in root.childNodes:
+            attrs = tools.node_attributes(node)
+            
+            if node.localName == 'field':
+                info_fields += [attrs['name']]
+
+            if node.localName == 'level':
+                self.levels.append(attrs)
+                self.parse(node, fields)
+
+        return info_fields
 
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -65,7 +65,7 @@ class ViewForm(tg.widgets.Form):
             readonly = False
             
         self.screen = Screen(prefix='', hastoolbar=True, editable=editable, readonly=readonly, selectable=2)
-        self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.view_type != 'form', self.screen.context)
+        self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.id, self.screen.view_type, self.screen.view_type != 'form', self.screen.context)
 
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
         

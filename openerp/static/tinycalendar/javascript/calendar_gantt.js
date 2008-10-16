@@ -40,10 +40,7 @@ GanttCalendar.prototype = {
         }, options || {});
 
         this.starts = MochiKit.DateTime.isoDate(getNodeAttribute('calGantt', 'dtStart'));
-        this.first = MochiKit.DateTime.isoDate(getNodeAttribute('calGantt', 'dtFirst'));
-        this.firstWeek = this.first.getWeek(1);
-
-        this.month = this.first.getMonth();
+        this.range = parseInt(getNodeAttribute('calGantt', 'dtRange')) || 1;
 
         var self = this;
 
@@ -108,12 +105,12 @@ GanttCalendar.Header.prototype = {
         this.elements = [];
 
         var self = this;
-        var weeks = getElementsByTagAndClassName('div', null, 'calHeaderSect');
+        var days = getElementsByTagAndClassName('div', null, 'calHeaderSect');
 
-        forEach(weeks, function(week){
-            var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, MochiKit.DOM.scrapeText(week));
+        forEach(days, function(day){
+            var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, MochiKit.DOM.scrapeText(day));
             self.elements = self.elements.concat(div);
-            MochiKit.DOM.swapDOM(week, div);
+            MochiKit.DOM.swapDOM(day, div);
         });
     },
 
@@ -147,37 +144,16 @@ GanttCalendar.DayGrid.prototype = {
 
         this.calendar = calendar;
         this.starts = calendar.starts;
+        this.range = calendar.range;
 
         this.eventCache = []; // cache of event objects
-        this.elements = [];
+        this.columns = [];
 
-        this.days = [];
-
-        var dt = this.starts;
-        for(var i = 0; i < 42; i++){
-
-            this.days = this.days.concat(toISODate(dt));
-
-            var md = DIV({'class': 'calGanttDay', 'dtDay' : toISODate(dt)});
-
-            if (dt.getMonth() != this.calendar.first.getMonth()){
-                addElementClass(md, 'dayOff');
-            }
-
-            var nw = new Date();
-
-            if (dt.getFullYear() == nw.getFullYear() && dt.getMonth() == nw.getMonth() && dt.getDate() == nw.getDate()){
-                addElementClass(md, 'dayThis');
-            }
-
-            this.elements = this.elements.concat(md);
-            dt = dt.getNext();
+        var headers = calendar.header.elements;
+        for(var i = 0; i < headers.length; i++){
+            this.columns.push(new GanttCalendar.Column(this.calendar));
         }
 
-        appendChildNodes('calGrid', this.elements);
-
-        this.droppables = [];
-        var self = this;
     },
 
     __delete__ : function(){
@@ -185,10 +161,11 @@ GanttCalendar.DayGrid.prototype = {
 
     adjust : function(){
         
-        var w = elementDimensions('calGrid').w / 42;
+        var w = elementDimensions('calGrid').w / this.columns.length;
 
-        for(var i = 0; i < 42; i++){
-            var e = this.elements[i];
+        for(var i = 0; i < this.columns.length; i++){
+
+            var e = this.columns[i].element;
 
             e.style.position = 'absolute';
 
@@ -197,10 +174,68 @@ GanttCalendar.DayGrid.prototype = {
 
             e.style.width = w + 'px';
             e.style.height = '100%';
+
+            this.columns[i].adjust();
         }
     }
 }
 
+// Column
+GanttCalendar.Column = function(calendar) {
+    this.__init__(calendar);
+}
+
+GanttCalendar.Column.prototype = {
+
+    __init__: function(calendar) {
+
+        this.range = calendar.range;
+
+        this.element = DIV({'class': 'calGanttCol'});
+        MochiKit.DOM.appendChildNodes('calGrid', this.element);
+
+        this.elements = [];
+
+        // day mode
+        if (this.range == 1) {
+            for(j = 0; j < 48; j++) {
+                var cell = DIV({'class': j % 2 == 0 ? 'calVRule even' : 'calVRule odd'});
+                this.elements.push(cell);
+                appendChildNodes(this.element, cell);
+            }
+        }
+
+        // week mode
+        else if (this.range == 7) {
+            for(j = 0; j < 12; j++) {
+                var cell = DIV({'class': j % 2 == 0 ? 'calVRule even' : 'calVRule odd'});
+                this.elements.push(cell);
+                appendChildNodes(this.element, cell);
+            }
+        }
+
+        // other modes
+        else {
+            MochiKit.DOM.addElementClass(this.element, 'calVRule');
+        }
+
+    },
+
+    adjust: function() {
+        
+        var w = getElementDimensions(this.element).w;
+        w = w / this.elements.length;
+
+        for(var i=0; i<this.elements.length; i++){
+            var e = this.elements[i];
+
+            e.style.width = w + 'px';
+            e.style.left = i * w + 'px';
+        }
+    }
+}
+
+// Event
 GanttCalendar.Event = function(element, container){
     this.__init__(element, container);
 }
@@ -217,6 +252,32 @@ GanttCalendar.Event.prototype = {
 
     adjust : function(){
     }
+}
+
+var ganttZoomIn = function() {
+
+    var mode = getElement('_terp_selected_mode').value;
+    var modes = {
+        'day': 'week',
+        'week': 'month',
+        'month': '3months',
+        '3months': 'year'
+    };
+
+    return getCalendar(null, modes[mode]);
+}
+
+var ganttZoomOut = function() {
+
+    var mode = getElement('_terp_selected_mode').value;
+    var modes = {
+        'year': '3months',
+        '3months': 'month',
+        'month': 'week',
+        'week': 'day'
+    };
+
+    return getCalendar(null, modes[mode]);
 }
 
 // vim: ts=4 sts=4 sw=4 si et
