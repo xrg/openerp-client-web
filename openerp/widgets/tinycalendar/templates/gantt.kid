@@ -18,12 +18,12 @@
                 </td>
                 <td nowrap="nowrap" width="100%"><strong>${title}</strong></td>
                 <td nowrap="nowrap">
-                    <img height="16" width="16" src="/static/images/stock/gtk-zoom-in-d.png" py:if="mode == 'year'"/>
-                    <img height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'year'"
+                    <img title="Zoom In" height="16" width="16" src="/static/images/stock/gtk-zoom-in-d.png" py:if="mode == 'year'"/>
+                    <img title="Zoom In" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'year'"
                         onclick="ganttZoomIn()"/>
                     
-                    <img height="16" width="16" src="/static/images/stock/gtk-zoom-out-d.png" py:if="mode == 'day'"/>
-                    <img height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != 'day'"
+                    <img title="Zoom Out" height="16" width="16" src="/static/images/stock/gtk-zoom-out-d.png" py:if="mode == 'day'"/>
+                    <img title="Zoom Out" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != 'day'"
                         onclick="ganttZoomOut()"/>
                 </td>
             </tr>

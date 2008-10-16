@@ -51,15 +51,6 @@ import openerp.widgets.tinycalendar as tc
 class TinyCalendar(Form):
     
     @expose()
-    def get(self, day, mode='month', **kw):
-        return self.make(day, mode, False, kw)
-
-    #TODO: reimplement get/make to support gantt
-    @expose()
-    def gantt(self, day, mode='month', **kw):
-        return self.make(day, mode, False, kw)
-    
-    @expose()
     def mini(self, year, month, forweek=False):
         params = TinyDict()
         
@@ -72,11 +63,12 @@ class TinyCalendar(Form):
 
         return minical.render()
 
-    def make(self, day, mode, _full=False, kw={}):
+    @expose()
+    def get(self, day, mode, **kw):
         
         params, data = TinyDict.split(kw)
         
-        options = TinyDict()        
+        options = TinyDict()
         options.selected_day = params.selected_day
         
         day = time.strptime(day, '%Y-%m-%d') 
@@ -85,7 +77,7 @@ class TinyCalendar(Form):
         options.month = day[1]
         
         options.date1 = day
-        options.mode = mode                                    
+        options.mode = mode
         
         if params.colors:
             #options.colors = params.colors
@@ -102,10 +94,7 @@ class TinyCalendar(Form):
 
         params.kalendar = options
         
-        if _full:
-            return self.create(params)
-        
-        form = self.create_form(params)        
+        form = self.create_form(params)
         return form.screen.widget.render()
     
     @expose('json')
