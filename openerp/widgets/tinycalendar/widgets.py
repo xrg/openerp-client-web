@@ -193,6 +193,7 @@ class GanttCalendar(ICalendar):
     title = None
     days = None
     headers = None
+    mode = 'week'
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 

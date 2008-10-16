@@ -162,8 +162,8 @@ class ICalendar(interface.TinyCompoundWidget):
         if options and options.mode:
             self.mode = options.mode
         else:
-            self.mode = attrs.get('mode', 'month')
-        
+            self.mode = attrs.get('mode') or self.mode or 'month'
+
         self.info_fields = self.parse(root, view['fields'])
         
         fields = view['fields']
