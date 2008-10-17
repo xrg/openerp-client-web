@@ -131,7 +131,9 @@ class MonthCalendar(TinyCalendar):
         else:
             self.minical = MiniCalendar(self.selected_day)
             
-        self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day, title=(self.color_field or None) and self.fields[self.color_field]['string'], mode='month')
+        self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day, 
+                title=(self.color_field or None) and self.fields[self.color_field]['string'], 
+                mode='month')
             
             
 class WeekCalendar(TinyCalendar):
@@ -157,7 +159,9 @@ class WeekCalendar(TinyCalendar):
         self.selected_day = self.selected_day or self.week[0]
 
         self.minical = MiniCalendar(self.week[0], True)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.week[0], title=(self.color_field or None) and self.fields[self.color_field]['string'], mode='week')
+        self.groupbox = GroupBox(self.colors, self.color_values, self.week[0], 
+                title=(self.color_field or None) and self.fields[self.color_field]['string'], 
+                mode='week')
 
 class DayCalendar(TinyCalendar):
     template = 'openerp.widgets.tinycalendar.templates.day'
@@ -180,13 +184,16 @@ class DayCalendar(TinyCalendar):
 
         self.events = self.get_events([self.day])        
         self.minical = MiniCalendar(self.day)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.day, title=(self.color_field or None) and self.fields[self.color_field]['string'], mode='day')
+        self.groupbox = GroupBox(self.colors, self.color_values, self.day, 
+                title=(self.color_field or None) and self.fields[self.color_field]['string'], 
+                mode='day')
 
 class GanttCalendar(ICalendar):
     
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    params = ['title', 'levels', 'days', 'events', 'calendar_fields', 'date_format', 'selected_day', 'mode', 'headers']
+    params = ['title', 'levels', 'days', 'events', 'calendar_fields', 
+            'date_format', 'selected_day', 'mode', 'headers']
     member_widgets = ['groupbox', 'use_search']
 
     levels = None
@@ -273,8 +280,8 @@ class GanttCalendar(ICalendar):
                 info_fields += [attrs['name']]
 
             if node.localName == 'level':
-                self.levels.append(attrs)
-                self.parse(node, fields)
+                self.levels.insert(0, attrs)
+                info_fields += self.parse(node, fields)
 
         return info_fields
 
