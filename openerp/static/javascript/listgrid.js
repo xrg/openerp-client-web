@@ -531,6 +531,16 @@ ListView.prototype.makeRow = function(rec_id) {
 	var check_td = MochiKit.DOM.TD({'class': 'grid-cell selector'}, check_box);
 	tds.push(check_td);
 	
+	var td_edit = MochiKit.DOM.TD({'class': 'grid-cell selector', 'style': 'text-align: center; padding: 0px;'});  
+    var edit = MochiKit.DOM.IMG({
+                'class': 'listImage', 
+                'border': '0', 
+                'src': '/static/images/edit_inline.gif', 
+                'onclick': 'new ListView(\''+ this.id +'\').edit('+ rec_id +')'});
+    
+    MochiKit.DOM.appendChildNodes(td_edit, edit);
+    tds.push(td_edit);
+	
 	forEach(elem, function(e) {
 		
 		elem_id = getElement(e).id.replace('grid-data-column', '_terp_listfields');
@@ -572,16 +582,6 @@ ListView.prototype.makeRow = function(rec_id) {
 			}
 		}
 	});
-	
-	var td_edit = MochiKit.DOM.TD({'class': 'grid-cell selector', 'style': 'text-align: center; padding: 0px;'});	
-	var edit = MochiKit.DOM.IMG({
-                'class': 'listImage', 
-                'border': '0', 
-                'src': '/static/images/edit_inline.gif', 
-                'onclick': 'new ListView(\''+ this.id +'\').edit('+ rec_id +')'});
-	
-	MochiKit.DOM.appendChildNodes(td_edit, edit);
-	tds.push(td_edit);
 	
 	var td_del = MochiKit.DOM.TD({'class': 'grid-cell selector', 'style': 'text-align: center; padding: 0px;'});
 	var del = MochiKit.DOM.IMG({'class': 'listImage', 
