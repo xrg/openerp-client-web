@@ -67,14 +67,14 @@
                                             py:if="buttons.calendar"
                                             title="Calendar View..."
                                             src="/static/images/stock/stock_calendar.png"
-                                            width="16" height="18"
+                                            width="16" height="16"
                                             onclick="switchView('calendar')"
                                             style="cursor: pointer;">
                                         </img>                                        
                                         <img
                                             py:if="not buttons.calendar" 
                                             src="/static/images/stock-disabled/stock_calendar.png"
-                                            width="16" height="18">
+                                            width="16" height="16">
                                         </img>
                                         
                                         <img 
@@ -86,7 +86,7 @@
                                             style="cursor: pointer;">
                                         </img>
                                         <img
-                                            py:if="'gantt' not in form.screen.view_mode and not buttons.gantt" 
+                                            py:if="not buttons.gantt" 
                                             src="/static/images/stock-disabled/stock_gantt.png"
                                             width="16" height="16">
                                         </img>                                       
