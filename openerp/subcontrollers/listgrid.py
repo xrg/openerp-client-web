@@ -109,12 +109,14 @@ class List(controllers.Controller, TinyResource):
     @expose('json')
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
-
         error = None
         proxy = rpc.RPCProxy(params.model)
         if params.ids:
             try:
-                res = proxy.unlink(params.ids)
+                if isinstance(params.ids, list):                    
+                    res = proxy.unlink(params.ids)
+                else:
+                    res = proxy.unlink([params.ids])
             except Exception, e:
                 error = ustr(e)
                 
