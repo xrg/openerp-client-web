@@ -56,8 +56,13 @@ InfoBox.prototype = {
         MochiKit.Signal.connect(btnCopy, 'onclick', this, 'onCopy');
         MochiKit.Signal.connect(btnDelete, 'onclick', this, 'onDelete');
         
-        var DT_FORMAT = getElement('calMonth') ? getNodeAttribute('calMonth', 'dtFormat') : getNodeAttribute('calWeek', 'dtFormat');
+        var DT_FORMAT = '%Y-%m-%d';
         var H_FORMAT = '%I:%M %P';
+
+        DTH_FORMAT = getElement('calGantt') ? getNodeAttribute('calGantt', 'dtFormat') :
+                        getElement('calMonth') ? getNodeAttribute('calMonth', 'dtFormat') : 
+                            getElement('calWeek') ? getNodeAttribute('calWeek', 'dtFormat') : DT_FORMAT;
+
         var DTH_FORMAT = DT_FORMAT + ' ' + H_FORMAT;
 
         var title = this.params.title;                         

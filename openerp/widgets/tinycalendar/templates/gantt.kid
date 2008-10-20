@@ -18,12 +18,12 @@
                 </td>
                 <td nowrap="nowrap" width="100%"><strong>${title}</strong></td>
                 <td nowrap="nowrap">
-                    <img title="Zoom In" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-in.png" py:if="mode == 'year'"/>
-                    <img title="Zoom In" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'year'"
+                    <img title="Zoom In" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-in.png" py:if="mode == 'day'"/>
+                    <img title="Zoom In" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'day'"
                         onclick="ganttZoomIn()"/>
                     
-                    <img title="Zoom Out" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-out.png" py:if="mode == 'day'"/>
-                    <img title="Zoom Out" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != 'day'"
+                    <img title="Zoom Out" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-out.png" py:if="mode == 'year'"/>
+                    <img title="Zoom Out" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != 'year'"
                         onclick="ganttZoomOut()"/>
                 </td>
             </tr>
@@ -35,7 +35,7 @@
 </tr>
 <tr>
     <td id="calSidebar" valign="top">
-        <div style='border: 1px solid gray; height: 350px; margin-bottom: 4px;'>TODO: tree here</div>
+        <div style='border: 1px solid gray; height: 150px; margin-bottom: 4px;'>TODO: filter by levels</div>
         <div py:replace="groupbox.display()"/>
         <div id="calSearchOptions">
             <table border="0">

@@ -248,7 +248,14 @@
     position: relative;
     overflow: hidden;
 
-    height: 550px;
+    height: 100%;
+}
+
+.calGantt #calBodySect {
+    height: 480px;
+    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .calGantt .calDayHeader {
@@ -378,10 +385,14 @@
  * Group Box
  */
 
+#MiniCalendar {
+    margin-bottom: 5px;
+}
+
 #calSearchOptions,
 #calGroups {
     margin: 0pt;
-    margin-top: 5px;
+    margin-bottom: 5px;
     padding: 8px;
     background-color: #E0E0E0;
 }
