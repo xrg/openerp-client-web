@@ -220,18 +220,20 @@ class GanttCalendar(ICalendar):
             self.days = [day]
             self.title = ustr(day)
             self.selected_day = day
-            self.headers = [ustr(day)]
+            self.headers = ["%d" % d for d in range(24)]
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
-            self.title = ustr(self.days[0]) + " - " + ustr(self.days[-1])
+            self.title = ("Week %s") % day.strftime("%W")
             self.selected_day = self.selected_day or day
             self.headers = [ustr(d) for d in self.days]
 
         elif self.mode == '3months':
-            mt = Month(y, m)
+            q = 1 + (m - 1) / 3
+
+            mn = Month(y, q * 3)
+            mt = mn.prev()
             mp = mt.prev()
-            mn = mt.next()
 
             days = []
             days += [d for d in mp if d.year == mp.year and d.month == mp.month]
@@ -239,7 +241,7 @@ class GanttCalendar(ICalendar):
             days += [d for d in mn if d.year == mn.year and d.month == mn.month]
 
             self.days = days
-            self.title = u"%s, %s, %s" % (mp, mt, mn)
+            self.title = _("%s, Qtr %s") % (y, q)
             self.selected_day = self.selected_day or day
             
             headers = []
@@ -247,7 +249,7 @@ class GanttCalendar(ICalendar):
             headers += [w for w in mt.weeks]
             headers += [w for w in mn.weeks]
 
-            self.headers = [_('Week %s') % w[0].strftime('%W') for w in headers]
+            self.headers = [ustr(mp), ustr(mt), ustr(mn)]
 
         elif self.mode == 'year':
             yr = Year(y)
@@ -262,7 +264,7 @@ class GanttCalendar(ICalendar):
             self.days = [d for d in month if d.month == m and d.year == y]
             self.title = ustr(month)
             self.selected_day = self.selected_day or day
-            self.headers = [d.day for d in self.days]
+            self.headers = [_("Week %s") % w[0].strftime('%W') for w in month.weeks]
 
         self.events = self.get_events(self.days)
         self.groupbox = GroupBox(self.colors, self.color_values, day, 
