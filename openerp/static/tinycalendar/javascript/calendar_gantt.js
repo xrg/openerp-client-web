@@ -325,6 +325,8 @@ GanttCalendar.Group.prototype = {
             return 1;
         });
 
+        this.calculate_usages();
+
         MochiKit.DOM.appendChildNodes(this.element, this.bar, MochiKit.Base.map(function(e){
             return e.element;
         }, this.events));
@@ -336,6 +338,70 @@ GanttCalendar.Group.prototype = {
         forEach(this.events, function(e){
             e.__delete__();
         });
+    },
+
+    calculate_usages: function() {
+
+        this.bars = [];
+        
+        if (!this.events.length) {
+            return;
+        }
+
+        var st = this.events[0].starts;
+        var se = this.events[this.events.length-1].ends;
+
+        var bounds = [];
+
+        var self = this;
+        forEach(this.events, function(e){
+            if (MochiKit.Base.findValue(bounds, e.starts) == -1) {
+                bounds.push(e.starts);
+            }
+            if (MochiKit.Base.findValue(bounds, e.ends) == -1) {
+                bounds.push(e.ends);
+            }
+        });
+
+        bounds.sort(function(a, b){
+            if (a == b) return 0;
+            if (a < b) return -1;
+            return 1;
+        });
+
+        var periods = [];
+
+        var cur = bounds.pop();
+        while(bounds.length) {
+            var last = bounds.pop();
+            periods = periods.concat([[last, cur]]);
+            cur = last;
+        }
+
+        periods.reverse();
+
+        var divs = MochiKit.Base.map(function(b){
+            var div = DIV({});
+            div.starts = b[0];
+            div.ends = b[1];
+            div.style.position = "absolute";
+            div.style.height = '100%';
+
+            var n = 0;
+            forEach(self.events, function(e){
+                if ((div.starts >= e.starts && div.starts <= e.ends) &&
+                    (div.ends <= e.ends && div.ends >= e.starts)) {
+                    n += 1;
+                }
+            });
+            
+            div.style.backgroundColor = n == 1 ? "blue" : n > 1 ? "red" : "";
+
+            return div;
+        }, periods);
+
+        appendChildNodes(this.bar, divs);
+        this.bars = divs;
     },
 
     adjust: function(){
@@ -372,6 +438,16 @@ GanttCalendar.Group.prototype = {
         if (this.bar) {
             this.bar.style.left = bx + 'px';
             this.bar.style.width = bw - 2 + 'px';
+        }
+
+        for(var i=0; i<this.bars.length; i++){
+            var e = this.bars[i];
+            var x = (e.starts.getTime() - this.events[0].starts.getTime()) / (60 * 1000);
+            var w = (e.ends.getTime() - e.starts.getTime()) / (60 * 1000);
+            x = x * scale;
+            w = w * scale;
+            e.style.left = parseInt(x) + 'px';
+            e.style.width = parseInt(w) + 'px';
         }
     }
 }
