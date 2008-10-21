@@ -35,83 +35,36 @@
                                     </td>
                                     <td width="100%" py:content="form.screen.string">Form Title</td>
                                     <td nowrap="nowrap" py:if="buttons.search or buttons.form or buttons.calendar or buttons.gantt or buttons.graph">
-                                        <img 
-                                            py:if="buttons.search"
-                                            title="Search View..."
-                                            src="/static/images/stock/gtk-find.png"
-                                            width="16" height="16"
-                                            onclick="switchView('tree')"
-                                            style="cursor: pointer;">
-                                        </img>                                        
-                                        <img
-                                            py:if="not buttons.search" 
-                                            src="/static/images/stock-disabled/gtk-find.png"
-                                            width="16" height="16">
-                                        </img>
-                                        
-                                        <img 
-                                            py:if="buttons.form"
-                                            title="Form View..."
-                                            src="/static/images/stock/gtk-justify-fill.png"
-                                            width="16" height="16"
-                                            onclick="switchView('form')"
-                                            style="cursor: pointer;">
-                                        </img>                                        
-                                        <img
-                                            py:if="not buttons.form" 
-                                            src="/static/images/stock-disabled/gtk-justify-fill.png"
-                                            width="16" height="16">
-                                        </img>
-                                        
-                                        <img 
-                                            py:if="buttons.calendar"
-                                            title="Calendar View..."
-                                            src="/static/images/stock/stock_calendar.png"
-                                            width="16" height="16"
-                                            onclick="switchView('calendar')"
-                                            style="cursor: pointer;">
-                                        </img>                                        
-                                        <img
-                                            py:if="not buttons.calendar" 
-                                            src="/static/images/stock-disabled/stock_calendar.png"
-                                            width="16" height="16">
-                                        </img>
-                                        
-                                        <img 
-                                            py:if="'gantt' in form.screen.view_mode and buttons.gantt"
+                                        <button 
+                                            type="button" 
+                                            title="Tree View..." 
+                                            disabled="${tg.selector(not buttons.search)}" 
+                                            onclick="switchView('tree')">Search</button>
+                                        <button 
+                                            type="button" 
+                                            title="Form View..." 
+                                            disabled="${tg.selector(not buttons.form)}" 
+                                            onclick="switchView('form')">Form</button>
+                                        <button 
+                                            type="button" 
+                                            title="Calendar View..." 
+                                            disabled="${tg.selector(not buttons.calendar)}" 
+                                            onclick="switchView('calendar')">Calendar</button>
+                                        <button 
+                                            type="button" 
                                             title="Gantt View..."
-                                            src="/static/images/stock/stock_gantt.png"
-                                            width="16" height="16"
-                                            onclick="switchView('gantt')"
-                                            style="cursor: pointer;">
-                                        </img>
-                                        <img
-                                            py:if="not buttons.gantt" 
-                                            src="/static/images/stock-disabled/stock_gantt.png"
-                                            width="16" height="16">
-                                        </img>                                       
-                                        
-                                        <img 
-                                            py:if="buttons.graph"
-                                            title="Graph View..."
-                                            src="/static/images/stock/stock_graph.png"
-                                            width="16" height="16"
-                                            onclick="switchView('graph')"
-                                            style="cursor: pointer;">
-                                        </img>                                        
-                                        <img
-                                            py:if="not buttons.graph" 
-                                            src="/static/images/stock-disabled/stock_graph.png"
-                                            width="16" height="16">
-                                        </img> 
-                                            
-                                        <img 
+                                            py:if="'gantt' in form.screen.view_mode"
+                                            disabled="${tg.selector(not buttons.gantt)}" 
+                                            onclick="switchView('gantt')">Gantt</button>
+                                        <button 
+                                            type="button" 
+                                            title="Graph View..." 
+                                            disabled="${tg.selector(not buttons.graph)}" 
+                                            onclick="switchView('graph')">Graph</button>
+                                        <button 
+                                            type="button" 
                                             title="Corporate Intelligence..."
-                                            src="/static/images/stock/gtk-execute.png"
-                                            width="16" height="16"
-                                            onclick="show_process_view()"
-                                            style="cursor: pointer;">
-                                        </img>  
+                                            onclick="show_process_view()">Process</button>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.can_attach and not buttons.has_attach">
                                         <img 

@@ -279,7 +279,7 @@ GanttCalendar.Column.prototype = {
 
         // day mode
         if (this.range == 1) {
-            for(j = 0; j < 48; j++) {
+            for(j = 0; j < 2; j++) {
                 var cell = DIV({'class': j % 2 == 0 ? 'calVRule even' : 'calVRule odd'});
                 this.elements.push(cell);
                 appendChildNodes(this.element, cell);
