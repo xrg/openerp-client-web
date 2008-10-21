@@ -44,18 +44,12 @@ GanttCalendar.prototype = {
 
         appendChildNodes('calBodySect', DIV({'id': 'calGrid', 'class': 'calGrid'}));
 
-        this.header = new GanttCalendar.Header(this);
-        this.grid = new GanttCalendar.DayGrid(this);
-
-        this.eventCache = []; // cache of event objects
         this.events = {};
 
         var self = this;
         var events = getElementsByTagAndClassName('div', 'calEvent', 'calBodySect');
         forEach(events, function(e){
-
             var id = getNodeAttribute(e, 'nRecordID');
-
             self.events[id] = {
                 dayspan : getNodeAttribute(e, 'nDaySpan'),
                 starts : getNodeAttribute(e, 'dtStart'),
@@ -66,35 +60,17 @@ GanttCalendar.prototype = {
                 clr: e.style.color,
                 text: MochiKit.DOM.scrapeText(e)
             };
-
-            e.style.backgroundColor = e.style.backgroundColor || e.style.color;
-            e.style.color = "";
-
-            var fmt = getNodeAttribute('calGantt', 'dtFormat') + ' %I:%M %P';
-            var title = MochiKit.DOM.scrapeText(e);
-
-            var evt = self.events[id];
-            if (evt.dayspan == 0) {
-                title = title.slice(title.indexOf('-') + 2);
-            }
-
-            var st = isoTimestamp(evt.starts);
-            var et = isoTimestamp(evt.ends);
-
-            e.title = title + '::' + st.strftime(fmt) + ' - ' + et.strftime(fmt);
-            e.innerHTML = "";
-
-            e.style.height = '14px';
         });
 
-        this.attachSignals();
-        this.makeEvents();
+        this.header = new GanttCalendar.Header(this);
+        this.grid = new GanttCalendar.DayGrid(this);
 
-        new Tips(events);
+        this.attachSignals();
     },
 
     __delete__ : function(){
         this.dettachSignals();
+        this.grid.__delete__();
     },
 
     attachSignals : function(){
@@ -107,72 +83,9 @@ GanttCalendar.prototype = {
         MochiKit.Signal.disconnect(this.eventResize);
     },
 
-    makeEvents : function(){
-
-        var self = this;
-
-        // release the cache
-        forEach(this.eventCache, function(e){
-            e.__delete__();
-        });
-        this.eventCache = [];
-
-        var events = getElementsByTagAndClassName('div', 'calEvent', 'calBodySect');
-        
-        forEach(events, function(e){
-            e.starts = isoTimestamp(getNodeAttribute(e, 'dtStart'));
-            e.ends = isoTimestamp(getNodeAttribute(e, 'dtEnd'));
-            e.dayspan = parseInt(getNodeAttribute(e, 'nDaySpan')) || 1;
-        });
-
-        events.sort(function(a, b){
-            if (a.dayspan > b.dayspan) return -1;
-            if (a.starts == b.starts) return 0;
-            if (a.starts < b.starts) return -1;
-            return 1;
-        });
-
-        forEach(events, function(e){
-            var evt = new GanttCalendar.Event(e, self);
-            self.eventCache = self.eventCache.concat(evt);
-        });
-
-        MochiKit.DOM.appendChildNodes('calGrid', events);
-        
-    },
-
     onResize : function(evt){
         this.header.adjust();
         this.grid.adjust();
-
-        var row = 0;
-        var row_height = 28;
-
-        var minutes = this.range * 24 * 60;
-        var scale = getElementDimensions('calGrid').w / minutes;
-
-        for(var i=0; i<this.eventCache.length; i++){
-            var e = this.eventCache[i];
-            var elem = e.element;
-
-            var y = row * row_height;
-            var x = (e.starts.getTime() - this.starts.getTime()) / (60 * 1000);
-            var w = (e.ends.getTime() - e.starts.getTime()) / (60 * 1000);
-
-            x = x * scale;
-            w = w * scale;
-
-            elem.style.top = y + 'px';
-            elem.style.left = parseInt(x) + 'px';
-            elem.style.width = parseInt(w) + 'px';
-
-            row += 1;
-        }
-
-        var gh = getElementDimensions('calGrid').h;
-        if (row * row_height > gh) {
-            setElementDimensions('calGrid', {h: row * row_height});
-        }
     }
 }
 
@@ -235,16 +148,45 @@ GanttCalendar.DayGrid.prototype = {
             this.columns.push(new GanttCalendar.Column(this.calendar));
         }
 
+        this.groups = [];
+        this.makeGroups();
     },
 
     __delete__ : function(){
+
+        forEach(this.groups, function(g){
+            g.__delete__();
+        });
+    },
+
+    makeGroups : function(){
+
+        var self = this;
+
+        var events = getElementsByTagAndClassName('div', 'calEvent', 'calBodySect');
+        forEach(events, function(e){
+            MochiKit.DOM.removeElement(e);
+        });
+
+        var groups = getElementsByTagAndClassName('div', 'calGroup', 'calBodySect');
+        forEach(groups, function(g){
+            MochiKit.DOM.removeElement(g);
+        });
+
+        if (groups.length == 0) {
+            groups = [DIV({'class': 'calGroup'})]; // dummy group
+        }
+        
+        forEach(groups, function(g){
+            self.groups = self.groups.concat(new GanttCalendar.Group(g, events, self.calendar));
+        });
     },
 
     adjust : function(){
         
         var w = elementDimensions('calGrid').w / this.columns.length;
 
-        for(var i = 0; i < this.columns.length; i++){
+        for(var i = 0; i<this.columns.length; i++){
 
             var e = this.columns[i].element;
 
@@ -258,10 +200,22 @@ GanttCalendar.DayGrid.prototype = {
 
             this.columns[i].adjust();
         }
+
+        var h = 0;
+
+        forEach(this.groups, function(g){
+            g.adjust();
+            h += getElementDimensions(g.element).h;
+        });
+
+        var gh = getElementDimensions('calGrid').h;
+        if (h > gh) {
+            setElementDimensions('calGrid', {h: h});
+        }
     }
 }
 
-// Column
+// Grid Column
 GanttCalendar.Column = function(calendar) {
     this.__init__(calendar);
 }
@@ -316,16 +270,122 @@ GanttCalendar.Column.prototype = {
     }
 }
 
+// Group
+GanttCalendar.Group = function(elem, events, calendar) {
+    this.__init__(elem, events, calendar);
+}
+
+GanttCalendar.Group.prototype = {
+
+    __init__: function(elem, events, calendar){
+
+        this.calendar = calendar;
+        this.element = elem;
+        
+        this.id = MochiKit.DOM.getNodeAttribute(elem, 'nRecordID');
+        this.model = MochiKit.DOM.getNodeAttribute(elem, 'model');
+        this.title = MochiKit.DOM.getNodeAttribute(elem, 'title');
+        this.items = MochiKit.DOM.getNodeAttribute(elem, 'items');
+
+        if (this.items) {
+            this.items = eval("(" + this.items + ")");
+        }
+
+        this.isDummy = !this.id;
+        
+        if (this.isDummy) {
+            this.items = MochiKit.Base.map(function(e){
+                return parseInt(MochiKit.DOM.getNodeAttribute(e, 'nRecordID'));
+            }, events);
+        }
+
+        this.bar = this.isDummy ? null : DIV({'class': 'calEvent calBar'});
+        this.events = [];
+
+        var self = this;
+        forEach(this.items, function(id){
+            var evt = self.calendar.events[id];
+            var div = DIV({
+                    'nRecordID': id,
+                    'dtStart': evt.starts,
+                    'dtEnd': evt.ends,
+                    'title': evt.title
+                });
+
+            div.className = evt.className;
+            div.style.backgroundColor = evt.bg;
+
+            self.events = self.events.concat(new GanttCalendar.Event(div, self));
+        });
+
+        this.events.sort(function(a, b){
+            if (a.dayspan > b.dayspan) return -1;
+            if (a.starts == b.starts) return 0;
+            if (a.starts < b.starts) return -1;
+            return 1;
+        });
+
+        MochiKit.DOM.appendChildNodes(this.element, this.bar, MochiKit.Base.map(function(e){
+            return e.element;
+        }, this.events));
+
+        MochiKit.DOM.appendChildNodes('calGrid', this.element);
+    },
+
+    __delete__: function(){
+        forEach(this.events, function(e){
+            e.__delete__();
+        });
+    },
+
+    adjust: function(){
+
+        var minutes = this.calendar.range * 24 * 60;
+        var scale = getElementDimensions('calGrid').w / minutes;
+
+        this.element.style.width = (getElementDimensions('calGrid').w - 2) + 'px';
+
+        var bx = 0;
+        var bw = 0;
+
+        for(var i=0; i<this.events.length; i++){
+
+            var e = this.events[i];
+            var elem = e.element;
+
+            var x = (e.starts.getTime() - this.calendar.starts.getTime()) / (60 * 1000);
+            var w = (e.ends.getTime() - e.starts.getTime()) / (60 * 1000);
+
+            x = x * scale;
+            w = w * scale;
+
+            elem.style.left = parseInt(x) + 'px';
+            elem.style.width = parseInt(w) + 'px';
+
+            bx = bx == 0 ? x : Math.min(x, bx);
+            bw = bw == 0 ? w : Math.max(x - bx + w, bw);
+        }
+
+        bx = parseInt(bx);
+        bw = parseInt(bw);
+
+        if (this.bar) {
+            this.bar.style.left = bx + 'px';
+            this.bar.style.width = bw - 2 + 'px';
+        }
+    }
+}
+
 // Event
-GanttCalendar.Event = function(element, calendar){
-    this.__init__(element, calendar);
+GanttCalendar.Event = function(element, container){
+    this.__init__(element, container);
 }
 
 GanttCalendar.Event.prototype = {
 
-    __init__ : function(element, calendar){
+    __init__ : function(element, container){
         this.element = element;
-        this.calendar = calendar;
+        this.container = container;
 
         this.starts = isoTimestamp(getNodeAttribute(element, 'dtStart'));
         this.ends = isoTimestamp(getNodeAttribute(element, 'dtEnd'));
