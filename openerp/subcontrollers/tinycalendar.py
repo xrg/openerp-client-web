@@ -176,6 +176,46 @@ class TinyCalendar(Form):
             
         return dict(id=new_id)
 
+    def _get_gantt_records(self, model, ids=None, group=None):
+
+        if group:
+            record = {'id': group['id']}
+            record['items'] = {'name': group['title']}
+            record['action'] = None
+            record['target'] = None
+            record['icon'] = None
+            record['children'] = self._get_gantt_records(model, group['items'])
+            return [record]
+
+        proxy = rpc.RPCProxy(model)
+        ctx = rpc.session.context.copy()
+
+        records = []
+        for id in ids:
+            record = {'id': id}
+            record['items'] = {'name': proxy.name_get([id], ctx)[0][-1]}
+            record['action'] = 'javascript: void(0)'
+            record['target'] = None
+            record['icon'] = None
+            record['children'] = None
+
+            records.append(record)
+
+        return records
+
+    @expose('json')
+    def gantt_data(self, **kw):
+        params, data = TinyDict.split(kw)
+        records = []
+
+        if params.groups:
+            for group in params.groups:
+                records += self._get_gantt_records(params.model, None, group)
+        else:
+            records = self._get_gantt_records(params.model, params.ids or [])
+
+        return dict(records=records)
+
 class CalendarPopup(Form):
     
     path = '/calpopup'    # mapping from root

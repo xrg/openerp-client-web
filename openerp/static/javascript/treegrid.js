@@ -569,6 +569,8 @@ TreeNode.prototype = {
         if (evt && tree.options.onselect) {
             tree.options.onselect(evt, this);
         }
+
+        MochiKit.Signal.signal(self.tree, 'onNodeSelect', evt, this);
     },
     
     onButtonClick : function() {

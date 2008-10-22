@@ -192,19 +192,25 @@ class GanttCalendar(ICalendar):
     
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    params = ['title', 'levels', 'days', 'events', 'calendar_fields', 
-            'date_format', 'selected_day', 'mode', 'headers']
-    member_widgets = ['groupbox', 'use_search']
+    params = ['title', 'levels', 'groups', 'days', 'events', 'calendar_fields', 
+            'date_format', 'selected_day', 'mode', 'headers', 'model', 'ids']
+    member_widgets = ['groupbox', 'use_search', 'extra_css', 'extra_javascript']
 
     levels = None
+    groups = None
     title = None
     days = None
     headers = None
     mode = 'week'
 
+    extra_css = [tg.widgets.CSSLink('openerp', 'css/treegrid.css')]
+    extra_javascript = [tg.widgets.JSLink('openerp', 'javascript/treegrid.js'),
+                        tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_gantt.js')]
+
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 
         self.levels = []
+        self.groups = []
         self.days = []
         self.headers = []
 
@@ -266,7 +272,14 @@ class GanttCalendar(ICalendar):
             self.selected_day = self.selected_day or day
             self.headers = [_("Week %s") % w[0].strftime('%W') for w in month.weeks]
 
+        if self.levels:
+            field = self.levels[0]['link']
+            fields = rpc.RPCProxy(self.model).fields_get([field])
+            self.fields.update(fields)
+
         self.events = self.get_events(self.days)
+        self.groups = self.get_groups(self.events)
+
         self.groupbox = GroupBox(self.colors, self.color_values, day, 
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
 
@@ -286,6 +299,30 @@ class GanttCalendar(ICalendar):
                 info_fields += self.parse(node, fields)
 
         return info_fields
+
+    def get_groups(self, events):
+
+        if not self.levels:
+            return []
+
+        level = self.levels[0]
+        
+        obj = level['object']
+        field = level['link']
+        domain = level['domain']
+
+        keys = []
+        groups = {}
+        for evt in events:
+            group_id, group_title = evt.record[field]
+            group = groups.setdefault(group_id, {'id': group_id, 'title': group_title, 'model': obj, 'items': []})
+
+            group['items'].append(evt.record_id)
+
+            if group_id not in keys:
+                keys.append(group_id)
+
+        return [groups[i] for i in keys]
 
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -35,7 +35,9 @@
 </tr>
 <tr>
     <td id="calSidebar" valign="top">
-        <div style='border: 1px solid gray; height: 150px; margin-bottom: 4px;'>TODO: filter by levels</div>
+        <div id="calTreeContainer">
+            <div id="calTree"/>
+        </div>
         <div py:replace="groupbox.display()"/>
         <div id="calSearchOptions">
             <table border="0">
@@ -56,26 +58,52 @@
             </div>
 
             <div id="calBodySect">
-                <div py:for="evt in events" py:strip="">
-                    <div class="calEvent" py:if="evt.dayspan > 0"
-                         nRecordID="${evt.record_id}"
-                         nDaySpan="${evt.dayspan}"
-                         dtStart="${str(evt.starts)}"
-                         dtEnd="${str(evt.ends)}"
-                         title="${evt.description}"
-                         style="background-color: ${evt.color}">${evt.title}</div>
-                    <div class="calEvent calEventInfo" py:if="evt.dayspan == 0"
-                         nRecordID="${evt.record_id}"
-                         nDaySpan="${evt.dayspan}"
-                         dtStart="${str(evt.starts)}"
-                         dtEnd="${str(evt.ends)}"
-                         title="${evt.description}"
-                         style="color: ${evt.color}">${evt.starts.strftime('%H:%M')} - ${evt.title}</div>
-                </div>
+                <div py:for="group in groups" class="calGroup"
+                    nRecordID="${group['id']}"
+                    items="${str(group['items'])}"
+                    model="${group['model']}"
+                    title="${group['title']}"/>
+                <div py:for="evt in events" class="calEvent"
+                    nRecordID="${evt.record_id}"
+                    nDaySpan="${evt.dayspan}"
+                    dtStart="${str(evt.starts)}"
+                    dtEnd="${str(evt.ends)}"
+                    title="${evt.title}"
+                    style="background-color: ${evt.color}"/>
             </div>
         </div>
 
         <script type="text/javascript">
+
+            var onTreeExpand = function(tree, node) {
+                //TODO: show related group box
+            }
+
+            var onTreeCollapse = function(tree, node) {
+                //TODO: hide related group box
+            }
+
+            var onTreeSelect = function(evt, tree) {
+                //TODO: highlight related gantt bar
+            }
+            
+            var tree = new TreeGrid('calTree');
+
+            tree.options.showheaders = true;        
+            tree.options.expandall = true;
+
+            tree.setHeaders([{"string": "${_('Name')}", "name": "name", "type": "char"}]);
+            tree.setRecords('/calendar/gantt_data', {
+                "_terp_model": "${model}", 
+                "_terp_ids": "${str([e.record_id for e in events])}",
+                "_terp_groups": "${str(groups)}"});
+
+            MochiKit.Signal.connect(tree, 'onNodeExpand', onTreeExpand);
+            MochiKit.Signal.connect(tree, 'onNodeCollapse', onTreeCollapse);
+            MochiKit.Signal.connect(tree, 'onNodeSelect', onTreeSelect);
+
+            tree.render();
+
             CAL_INSTANCE = new GanttCalendar();
         </script>
 
