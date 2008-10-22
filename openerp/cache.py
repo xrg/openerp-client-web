@@ -30,6 +30,7 @@
 
 import os
 import re
+import copy
 import cPickle
 
 import cherrypy
@@ -69,7 +70,7 @@ def memoize(limit=100, force=False):
                 if limit is not None and len(queue) > limit:
                     del store[queue.pop(0)]
 
-            return store[key]
+            return copy.deepcopy(store[key])
 
         func_wrapper.func_name = func.func_name
         return func_wrapper
