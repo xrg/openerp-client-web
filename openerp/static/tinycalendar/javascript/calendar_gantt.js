@@ -445,7 +445,7 @@ GanttCalendar.Group.prototype = {
             var x = (e.starts.getTime() - this.events[0].starts.getTime()) / (60 * 1000);
             var w = (e.ends.getTime() - e.starts.getTime()) / (60 * 1000);
             x = x * scale;
-            w = w * scale;
+            w = (w * scale) + 1;
             e.style.left = parseInt(x) + 'px';
             e.style.width = parseInt(w) + 'px';
         }
