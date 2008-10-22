@@ -114,7 +114,6 @@ class ICalendar(interface.TinyCompoundWidget):
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_utils.js'),
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_box.js'),
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_month.js'),
-                  tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_gantt.js'),
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_week.js')]
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):

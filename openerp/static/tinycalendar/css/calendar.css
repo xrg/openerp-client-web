@@ -312,6 +312,18 @@
     background-color: #C9C9C9;
 }
 
+#calTreeContainer {
+    height: 300px;
+    border: solid 1px #c0c0c0;
+    margin-bottom: 4px;
+    overflow: auto;
+}
+
+
+#calSidebar {
+    max-width: 225px;
+}
+
 /**
  * Info Dialog
  */

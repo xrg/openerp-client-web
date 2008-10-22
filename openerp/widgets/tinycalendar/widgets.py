@@ -193,8 +193,8 @@ class GanttCalendar(ICalendar):
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
     params = ['title', 'levels', 'groups', 'days', 'events', 'calendar_fields', 
-            'date_format', 'selected_day', 'mode', 'headers']
-    member_widgets = ['groupbox', 'use_search']
+            'date_format', 'selected_day', 'mode', 'headers', 'model', 'ids']
+    member_widgets = ['groupbox', 'use_search', 'extra_css', 'extra_javascript']
 
     levels = None
     groups = None
@@ -202,6 +202,10 @@ class GanttCalendar(ICalendar):
     days = None
     headers = None
     mode = 'week'
+
+    extra_css = [tg.widgets.CSSLink('openerp', 'css/treegrid.css')]
+    extra_javascript = [tg.widgets.JSLink('openerp', 'javascript/treegrid.js'),
+                        tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_gantt.js')]
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 
