@@ -733,7 +733,6 @@ _PROPERTIES = {
     'graph' : ['string', 'type'],
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
     'view' : [],
-    'properties' : ['groups'],
 }
 
 # TODO: valid attributes for each field type
@@ -768,12 +767,12 @@ _PROPERTIES_FIELDS = {
 
 _CHILDREN = {
     'view': ['form', 'tree', 'graph', 'calendar', 'field'],
-    'form': ['notebook', 'group', 'field', 'label', 'button', 'image', 'newline', 'separator', 'properties'],
+    'form': ['notebook', 'group', 'field', 'label', 'button', 'image', 'newline', 'separator'],
     'tree': ['field'],
     'graph': ['field'],
     'calendar': ['field'],
     'notebook': ['page'],
-    'page': ['notebook', 'group', 'field', 'label', 'button', 'image', 'newline', 'separator', 'properties'],
+    'page': ['notebook', 'group', 'field', 'label', 'button', 'image', 'newline', 'separator'],
     'group': ['field', 'label', 'button', 'separator', 'newline'],
     'hpaned': ['child1', 'child2'],
     'vpaned': ['child1', 'child2'],
@@ -786,7 +785,6 @@ _CHILDREN = {
     'image': [],
     'newline': [],
     'separator': [],
-    'properties': [],
 }
 
 class SelectProperty(tg_widgets.SingleSelectField):
