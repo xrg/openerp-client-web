@@ -45,7 +45,7 @@ var form_hookStateChange = function() {
     forEach(items, function(e) {
         var widget = getNodeAttribute(e, 'widget');
         var states = getNodeAttribute(e, 'states');
-        var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
+        var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
 
         // conver to JS
         states = states.replace(/u'/g, "'");
@@ -53,7 +53,7 @@ var form_hookStateChange = function() {
         states = states.replace(/False/g, '0');
         states = eval('(' + states + ')');
 
-        var state = getElement(prefix ? prefix + 'state' : 'state');
+        var state = getElement(prefix + 'state');
         if (state) {
             fields[state.id] = state;
             MochiKit.Signal.connect(state, 'onchange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
@@ -112,8 +112,8 @@ var form_hookAttrChange = function() {
         var attrs = getNodeAttribute(e, 'attrs') || '{}';
         var widget = getNodeAttribute(e, 'widget') || '';
         var container = e;
-        var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
-        
+        var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
+
         // Convert Python statement into it's equivalent in JavaScript.
         attrs = attrs.replace(/\(/g, '[');
         attrs = attrs.replace(/\)/g, ']');
@@ -129,7 +129,7 @@ var form_hookAttrChange = function() {
         for (var attr in attrs) {
             var expr_fields = {}; // check if field appears more then once in the expr
             forEach(attrs[attr], function(n){
-                var name = prefix ? prefix + '/' + n[0] : n[0];
+                var name = prefix + n[0];
                 var field = MochiKit.DOM.getElement(name);
                 if (field && !expr_fields[field.id]) {
                     fields[field.id] = 1;
@@ -169,7 +169,7 @@ var form_evalExpr = function(prefix, expr) {
     for(var i=0; i<expr.length; i++) {
         
         var ex = expr[i];
-        var elem = MochiKit.DOM.getElement(prefix ? prefix + '/' + ex[0] : ex[0]);
+        var elem = MochiKit.DOM.getElement(prefix + ex[0]);
         
         if (!elem) 
             continue;
@@ -199,6 +199,12 @@ var form_evalExpr = function(prefix, expr) {
                 break;
             case '>=':
                 result = result || (elem_value >= val);
+                break;
+            case 'in':
+                result = result || MochiKit.Base.findIdentical(val, elem_value) > -1;
+                break;
+            case 'not in':
+                result = result || MochiKit.Base.findIdentical(val, elem_value) == -1;
                 break;
         }
     }
@@ -236,9 +242,6 @@ var form_setReadonly = function(container, field, readonly) {
 
 var form_setRequired = function(container, field, required) {
     
-    
-    log(field, required);
-
     if (required) {
         MochiKit.DOM.addElementClass(field, 'requiredfield');
     } else {
