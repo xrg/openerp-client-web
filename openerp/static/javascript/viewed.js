@@ -201,7 +201,7 @@ var onEdit = function(node) {
         
         var scripts = getElementsByTagAndClassName('script', null, el);
         forEach(scripts, function(s){
-            eval('(' + s.innerHTML + ')');
+            eval(s.innerHTML);
         });
 
         var dim = getElementDimensions(document.body);

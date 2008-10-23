@@ -40,7 +40,7 @@
 
     </script>
 
-    <script type="text/javascript" py:if="params.kind &gt; 0">
+    <script type="text/javascript" py:if="params.kind == 1">
 
         function do_select(id){
             if (!id) {
@@ -84,15 +84,23 @@
 
         function do_select(id) {
 
-            ids = window.opener.document.getElementById('${params.source}/_terp_ids').value;
-            
-            list_this = new ListView('_terp_list');
-            ids = eval(ids);
+            var source = "${params.source}";
+            var ids = [];
+
+            if (source.indexOf('_terp_listfields/') == 0) {
+                ids = window.opener.document.getElementById('${params.source}').value;
+            } else {
+                ids = window.opener.document.getElementById('${params.source}/_terp_ids').value;
+            }
+
+            ids = ids ? eval(ids) : [];
+
+            var list_this = new ListView('_terp_list');
             
             if (id){
                 if (findValue(ids, id) == -1) ids.push(id);
             } else {
-                boxes = list_this.getSelectedItems();
+                var boxes = list_this.getSelectedItems();
 
                 if(boxes.length == 0) {
                     alert("No record selected...");
@@ -104,7 +112,7 @@
                 });
             }
 
-            expr = "var m2m = getElement('${params.source}' + '_id');" + "m2m.value = '" + ids.join(',') + "'; m2m.onchange();";
+            var expr = "var m2m = getElement('${params.source}' + '_id');" + "m2m.value = '" + ids.join(',') + "'; m2m.onchange();";
             window.opener.setTimeout(expr, 1);
             window.close();
         }
@@ -142,7 +150,7 @@
                 <td>
                     <div class="toolbar">
                         <button type="submit">Filter</button>
-                        <button type="button" onclick="do_create()" py:if="params.kind &gt; 0">New</button>
+                        <button type="button" onclick="do_create()" py:if="params.kind == 1">New</button>
                         <button type="button" onclick="do_select()">Select</button>
                     </div>
                 </td>
