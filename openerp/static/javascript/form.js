@@ -658,6 +658,10 @@ function open_search_window(relation, domain, context, source, kind, text) {
                                            domain: domain, 
                                            context: context});
 
+    if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
+        text = "";
+    }
+
     req.addCallback(function(obj){
         openWindow(getURL('/search/new', {model: relation, 
                                           domain: obj.domain, 
