@@ -516,11 +516,13 @@ class Url(TinyField):
 class Hidden(TinyField):
     template = "openerp.widgets.templates.hidden"
     wid = None
+    params = ['relation']
 
     def __init__(self, attrs={}):
         super(Hidden, self).__init__(attrs)
         self.wid = widgets_type[self.kind](attrs)
         self.validator = self.wid.validator
+        self.relation = attrs.get('relation') or None
 
     def set_value(self, value):
         self.wid.set_value(value)
