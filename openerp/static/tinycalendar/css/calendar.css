@@ -312,16 +312,16 @@
     background-color: #C9C9C9;
 }
 
+#calSidebar {
+    width: 250px;
+}
+
 #calTreeContainer {
-    height: 300px;
+    height: 400px;
     border: solid 1px #c0c0c0;
     margin-bottom: 4px;
     overflow: auto;
-}
-
-
-#calSidebar {
-    max-width: 225px;
+    overflow-x: scroll;
 }
 
 /**

@@ -118,6 +118,8 @@ GanttCalendar.Header.prototype = {
         var w = (d.w - 2) / n;
         var h = d.h;
 
+        log(w);
+
         for(var i=0; i < n; i++){
 
             var div = this.elements[i];
