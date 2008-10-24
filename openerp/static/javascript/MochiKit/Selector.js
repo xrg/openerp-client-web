@@ -199,13 +199,13 @@ MochiKit.Selector.Selector.prototype = {
                 var splitValueBy = function (delimiter) {
                     return value + '.split(' + repr(delimiter) + ')';
                 }
-
+                conditions.push(value + ' != null');
                 switch (attribute.operator) {
                     case '=':
                         conditions.push(value + ' == ' + repr(attribute.value));
                         break;
                     case '~=':
-                        conditions.push(value + ' && MochiKit.Base.findValue(' + splitValueBy(' ') + ', ' + repr(attribute.value) + ') > -1');
+                        conditions.push('MochiKit.Base.findValue(' + splitValueBy(' ') + ', ' + repr(attribute.value) + ') > -1');
                         break;
                     case '^=':
                         conditions.push(value + '.substring(0, ' + attribute.value.length + ') == ' + repr(attribute.value));
@@ -217,16 +217,14 @@ MochiKit.Selector.Selector.prototype = {
                         conditions.push(value + '.match(' + repr(attribute.value) + ')');
                         break;
                     case '|=':
-                        conditions.push(
-                            value + ' && ' + splitValueBy('-') + '[0].toUpperCase() == ' + repr(attribute.value.toUpperCase())
-                        );
+                        conditions.push(splitValueBy('-') + '[0].toUpperCase() == ' + repr(attribute.value.toUpperCase()));
                         break;
                     case '!=':
                         conditions.push(value + ' != ' + repr(attribute.value));
                         break;
                     case '':
                     case undefined:
-                        conditions.push(value + ' != null');
+                        // Condition already added above
                         break;
                     default:
                         throw 'Unknown operator ' + attribute.operator + ' in selector';
@@ -239,8 +237,9 @@ MochiKit.Selector.Selector.prototype = {
 
     /** @id MochiKit.Selector.Selector.prototype.compileMatcher */
     compileMatcher: function () {
-        this.match = new Function('element', 'if (!element.tagName) return false; \
-                return ' + this.buildMatchExpression());
+        var code = 'return (!element.tagName) ? false : ' +
+                   this.buildMatchExpression() + ';';
+        this.match = new Function('element', code);
     },
 
     /** @id MochiKit.Selector.Selector.prototype.nthChild */
@@ -282,13 +281,13 @@ MochiKit.Selector.Selector.prototype = {
             if (axis == "") {
                 return MochiKit.DOM.isChildNode(element, scope);
             } else if (axis == ">") {
-                return element.parentNode == scope;
+                return element.parentNode === scope;
             } else if (axis == "+") {
-                return element == nextSiblingElement(scope);
+                return element === nextSiblingElement(scope);
             } else if (axis == "~") {
                 var sibling = scope;
                 while (sibling = nextSiblingElement(sibling)) {
-                    if (element == sibling) {
+                    if (element === sibling) {
                         return true;
                     }
                 }
@@ -363,9 +362,18 @@ MochiKit.Base.update(MochiKit.Selector, {
 
     /** @id MochiKit.Selector.findChildElements */
     findChildElements: function (element, expressions) {
+        var uniq = function(arr) {
+            var res = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (MochiKit.Base.findIdentical(res, arr[i]) < 0) {
+                    res.push(arr[i]);
+                }
+            }
+            return res;
+        };
         return MochiKit.Base.flattenArray(MochiKit.Base.map(function (expression) {
             var nextScope = "";
-            return MochiKit.Iter.reduce(function (results, expr) {
+            var reducer = function (results, expr) {
                 if (match = expr.match(/^[>+~]$/)) {
                     nextScope = match[0];
                     return results;
@@ -377,7 +385,9 @@ MochiKit.Base.update(MochiKit.Selector, {
                     nextScope = "";
                     return elements;
                 }
-            }, expression.replace(/(^\s+|\s+$)/g, '').split(/\s+/), [null]);
+            };
+            var exprs = expression.replace(/(^\s+|\s+$)/g, '').split(/\s+/);
+            return uniq(MochiKit.Iter.reduce(reducer, exprs, [null]));
         }, expressions));
     },
 
