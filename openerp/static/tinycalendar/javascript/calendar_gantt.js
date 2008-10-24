@@ -118,8 +118,6 @@ GanttCalendar.Header.prototype = {
         var w = (d.w - 2) / n;
         var h = d.h;
 
-        log(w);
-
         for(var i=0; i < n; i++){
 
             var div = this.elements[i];
@@ -320,12 +318,13 @@ GanttCalendar.Group.prototype = {
             self.events = self.events.concat(new GanttCalendar.Event(div, self));
         });
 
+        /*
         this.events.sort(function(a, b){
-            if (a.dayspan > b.dayspan) return -1;
             if (a.starts == b.starts) return 0;
             if (a.starts < b.starts) return -1;
             return 1;
         });
+        */
 
         this.calculate_usages();
 
@@ -477,6 +476,8 @@ GanttCalendar.Event.prototype = {
     }
 }
 
+// Zoom handler
+
 var ganttZoomOut = function() {
 
     var mode = getElement('_terp_selected_mode').value;
@@ -501,6 +502,87 @@ var ganttZoomIn = function() {
     };
 
     return getCalendar(null, modes[mode]);
+}
+
+// Tree event handlers
+
+var barCache = {};
+
+var onTreeExpand = function(tree, node) {
+
+    if (!node.childNodes.length){
+        return;
+    }
+
+    // create a cache of bar elements when tree gets expanded
+    var key = 'gr' + node.name;
+    if (!barCache[key]){
+        var s = new MochiKit.Selector.Selector('div.calGroup[nRecordID='+node.name+']');
+        if (s){
+            barCache[key] = s.findElements()[0];
+        }
+    }
+
+    forEach(node.childNodes, function(ch){
+                    
+        var id = ch.name;
+        var key = 'ch'+id;
+        var bar = barCache[key];
+
+        if (!bar) {
+            var s = new MochiKit.Selector.Selector('div.calEvent[nRecordID='+id+']');
+            if (s){
+                bar = s.findElements()[0];
+                barCache[key] = bar;
+            }
+        }
+        if (bar){
+            MochiKit.Style.showElement(bar);
+        }
+    });
+}
+
+var onTreeCollapse = function(tree, node) {
+
+    if (!node.childNodes.length){
+        return;
+    }
+
+    forEach(node.childNodes, function(ch){
+                    
+        var key = 'ch'+ch.name;
+        var bar = barCache[key];
+
+        if (bar){
+            MochiKit.Style.hideElement(bar);
+        }
+
+    });
+}
+
+var onTreeSelect = function(evt, node) {
+    if (!node.name) 
+        return;
+
+    var key = node.childNodes.length ? 'gr'+node.name : 'ch'+node.name;
+    var bar = barCache[key];
+                
+    var hb = getElement('calBarHighlighter');
+    if (!hb) {
+        hb = DIV({});
+        hb.style.position = 'absolute';
+        hb.style.height = '14px';
+        hb.style.width = '100%';
+        hb.style.zIndex = 0;
+        MochiKit.Style.setOpacity(hb, 0.50);
+        appendChildNodes('calGrid', hb);
+    }
+
+    if (bar) {
+        hb.style.top = getElementPosition(bar, 'calGrid').y + 'px';
+        hb.style.height = getElementDimensions(bar).h + 'px';
+        MochiKit.Visual.Highlight(hb, {startcolor: '#990000'});
+    }
 }
 
 // vim: ts=4 sts=4 sw=4 si et

@@ -82,18 +82,6 @@
 
         <script type="text/javascript">
 
-            var onTreeExpand = function(tree, node) {
-                //TODO: show related group box
-            }
-
-            var onTreeCollapse = function(tree, node) {
-                //TODO: hide related group box
-            }
-
-            var onTreeSelect = function(evt, tree) {
-                //TODO: highlight related gantt bar
-            }
-            
             var tree = new TreeGrid('calTree');
 
             tree.options.showheaders = true;        

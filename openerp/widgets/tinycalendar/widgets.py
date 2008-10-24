@@ -278,8 +278,9 @@ class GanttCalendar(ICalendar):
             self.fields.update(fields)
 
         self.events = self.get_events(self.days)
-        self.groups = self.get_groups(self.events)
+        self.events.sort(lambda a,b: cmp(a.starts, b.starts))
 
+        self.groups = self.get_groups(self.events)
         self.groupbox = GroupBox(self.colors, self.color_values, day, 
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
 
