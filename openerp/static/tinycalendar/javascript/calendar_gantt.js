@@ -473,6 +473,7 @@ GanttCalendar.Event.prototype = {
     },
 
     __delete__ : function() {
+        MochiKit.Signal.disconnectAll(this.element);
     },
 
     adjust : function(){
@@ -520,9 +521,12 @@ var onTreeExpand = function(tree, node) {
     // create a cache of bar elements when tree gets expanded
     var key = 'gr' + node.name;
     if (!barCache[key]){
-        var s = new MochiKit.Selector.Selector('div.calGroup[nRecordID='+node.name+']');
-        if (s){
-            barCache[key] = s.findElements()[0];
+        var s = new MochiKit.Selector.Selector('div.calGroup[nRecordID='+node.name+']').findElements();
+        if (s.length){
+            var bar = s[0];
+            barCache[key] = bar;
+            bar.treeNode = node;
+            MochiKit.Signal.connect(bar, 'onclick', onBarClick);
         }
     }
 
@@ -533,10 +537,12 @@ var onTreeExpand = function(tree, node) {
         var bar = barCache[key];
 
         if (!bar) {
-            var s = new MochiKit.Selector.Selector('div.calEvent[nRecordID='+id+']');
-            if (s){
-                bar = s.findElements()[0];
+            var s = new MochiKit.Selector.Selector('div.calEvent[nRecordID='+id+']').findElements();
+            if (s.length){
+                bar = s[0];
                 barCache[key] = bar;
+                bar.treeNode = ch;
+                MochiKit.Signal.connect(bar, 'onclick', onBarClick);
             }
         }
         if (bar){
@@ -566,7 +572,8 @@ var onTreeCollapse = function(tree, node) {
 }
 
 var onTreeSelect = function(evt, node) {
-    if (!node.name) 
+
+    if (!node.name || !evt)
         return;
 
     var barCache = CAL_INSTANCE.barCache;
@@ -590,6 +597,18 @@ var onTreeSelect = function(evt, node) {
         hb.style.height = getElementDimensions(bar).h + 'px';
         MochiKit.Visual.Highlight(hb, {startcolor: '#990000'});
     }
+}
+
+var onBarClick = function(evt){
+    var e = evt.src();
+    var t = evt.target();
+
+    if (t.treeNode) {
+        t.treeNode.onSelect();
+    } else if (hasElementClass(e, 'calGroup') && t != e) {
+        e.treeNode.onSelect();
+    }
+
 }
 
 // vim: ts=4 sts=4 sw=4 si et
