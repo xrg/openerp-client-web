@@ -66,6 +66,9 @@ GanttCalendar.prototype = {
         this.grid = new GanttCalendar.DayGrid(this);
 
         this.attachSignals();
+
+        // cache for bar & group elements
+        this.barCache = {};
     },
 
     __delete__ : function(){
@@ -506,13 +509,13 @@ var ganttZoomIn = function() {
 
 // Tree event handlers
 
-var barCache = {};
-
 var onTreeExpand = function(tree, node) {
 
     if (!node.childNodes.length){
         return;
     }
+
+    var barCache = CAL_INSTANCE.barCache;
 
     // create a cache of bar elements when tree gets expanded
     var key = 'gr' + node.name;
@@ -548,6 +551,8 @@ var onTreeCollapse = function(tree, node) {
         return;
     }
 
+    var barCache = CAL_INSTANCE.barCache;
+
     forEach(node.childNodes, function(ch){
                     
         var key = 'ch'+ch.name;
@@ -563,6 +568,8 @@ var onTreeCollapse = function(tree, node) {
 var onTreeSelect = function(evt, node) {
     if (!node.name) 
         return;
+
+    var barCache = CAL_INSTANCE.barCache;
 
     var key = node.childNodes.length ? 'gr'+node.name : 'ch'+node.name;
     var bar = barCache[key];
