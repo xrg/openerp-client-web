@@ -295,7 +295,7 @@
 .calGantt .calGroup {
     position: relative;
     overflow: hidden;
-    padding: 2px 0;
+    padding-top: 2px;
 }
 
 .calGantt .calBar,
