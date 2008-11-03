@@ -434,7 +434,7 @@ class Selection(TinyField):
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)
         
-        # o2m as selection
+        # m2o as selection
         if attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
             try:
