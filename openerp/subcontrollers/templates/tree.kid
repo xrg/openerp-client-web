@@ -27,7 +27,6 @@
         }
 
         function button_click(id){
-            alert($('_terp_model').value);
             location.href = getURL('/tree', {id : id, model : $('_terp_model').value, domain: $('_terp_domain').value});
         }
 
