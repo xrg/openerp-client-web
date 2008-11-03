@@ -76,8 +76,11 @@ class Tree(controllers.Controller, TinyResource):
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
         if tree.toolbar:
             for tool in tree.toolbar:
-                tool['icon'] = icons.get_icon(tool['icon'])
-
+                if tool.get('icon'):
+                    tool['icon'] = icons.get_icon(tool['icon'])
+                else:
+                    tool['icon'] = False
+                    
         return dict(tree=tree)
 
     @expose()

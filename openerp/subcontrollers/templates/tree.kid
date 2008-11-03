@@ -27,6 +27,7 @@
         }
 
         function button_click(id){
+            alert($('_terp_model').value);
             location.href = getURL('/tree', {id : id, model : $('_terp_model').value, domain: $('_terp_domain').value});
         }
 
@@ -69,7 +70,7 @@
                                     <td>
                                         <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
                                             <tr>
-                                                <td><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
+                                                <td py:if="tool['icon']"><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
                                                 <td>${tool['name']}</td>
                                             </tr>
                                         </table>
