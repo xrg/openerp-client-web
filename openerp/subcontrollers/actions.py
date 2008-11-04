@@ -225,8 +225,12 @@ def execute(action, **data):
 
         view_ids=False
         if action.get('views', []):
-            view_ids=[x[0] for x in action['views']]
-            data['view_mode']=",".join([x[1] for x in action['views']])
+            if isinstance(action['views'], list):
+                view_ids=[x[0] for x in action['views']]
+                data['view_mode']=",".join([x[1] for x in action['views']])
+            else:
+                if action.get('view_id', False):
+                    view_ids=[action['view_id'][0]]
         elif action.get('view_id', False):
             view_ids=[action['view_id'][0]]
 
