@@ -90,7 +90,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var h = 0;
         var w = 0;
 
-        var subflows = [];
+        var subflows = {};
 
     	for(var id in nodes){
     		var data = nodes[id];
@@ -106,8 +106,8 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
             h = Math.max(h, data.y);
             w = Math.max(w, data.x);
 
-            if (data.subflow && data.subflow.length) {
-                subflows.push(data.subflow);
+            if (data.subflow && data.subflow.length && data.subflow[0] != this.process_id) {
+                subflows[data.subflow[0]] = data.subflow[1];
             }
 
 	    }
@@ -172,9 +172,11 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var self = this;
         var elem = MochiKit.DOM.DIV({'class': 'process-notes'});
         var perm = perm || {};
-        var subflows = MochiKit.Base.map(function(subflow) {
-            return "<a href='" + getURL('/process', {id: subflow[0], res_model: self.res_model, res_id: self.res_id}) + "'>" + subflow[1] + "</a>";
-        }, subflows || []);
+        var sflows = "";
+
+        for(var k in subflows) {
+            sflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
+        }
 
         var text = (
                     "<dl>"+
@@ -187,8 +189,8 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
                         (perm.write_uid[1] || perm.create_uid[1]) + ' (' + (perm.date || 'N/A') + ')' +
                     "</dd>");
 
-        if (subflows.length) {
-            text += "<dt>Subflows:</dt><dd>" + subflows.join("<br/>") + "</dd>";
+        if (sflows.length) {
+            text += "<dt>Subflows:</dt><dd>" + sflows + "</dd>";
         }
 
         text += "</dl>";
