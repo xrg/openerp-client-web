@@ -76,7 +76,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var self = this;
         var req = Ajax.JSON.post('/process/get', {id: id, res_model: res_model, res_id: res_id});
         req.addCallback(function(obj){
-            self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions);            
+            self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions, obj.related);            
         });
 
     },
@@ -85,12 +85,13 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         this.load(this.process_id, this.res_model, this.res_id);
     },
 
-    _render: function(title, perm, notes, nodes, transitions) {
+    _render: function(title, perm, notes, nodes, transitions, related) {
 
         var h = 0;
         var w = 0;
 
         var subflows = {};
+        var related = related || {};
 
     	for(var id in nodes){
     		var data = nodes[id];
@@ -106,7 +107,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
             h = Math.max(h, data.y);
             w = Math.max(w, data.x);
 
-            if (data.subflow && data.subflow.length && data.subflow[0] != this.process_id) {
+            if (data.subflow && data.subflow.length) {
                 subflows[data.subflow[0]] = data.subflow[1];
             }
 
@@ -137,7 +138,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     	}
 
         // create notes
-        var note = this._create_note(notes, subflows, perm);
+        var note = this._create_note(notes, subflows, perm, related);
         var canvas = getElement('process_canvas');
         canvas.parentNode.insertBefore(note, canvas);
 
@@ -167,15 +168,23 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         }
     },
 
-    _create_note:  function(notes, subflows, perm) {
+    _create_note:  function(notes, subflows, perm, related) {
 
         var self = this;
         var elem = MochiKit.DOM.DIV({'class': 'process-notes'});
         var perm = perm || {};
+
         var sflows = "";
+        var rflows = "";
 
         for(var k in subflows) {
-            sflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
+            if (k != this.process_id)
+                sflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
+        }
+
+        for(var k in related) {
+            if (k != this.process_id)
+                rflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + related[k] + "</a><br/>";
         }
 
         var text = (
@@ -191,6 +200,10 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
         if (sflows.length) {
             text += "<dt>Subflows:</dt><dd>" + sflows + "</dd>";
+        }
+
+        if (rflows.length) {
+            text += "<dt>Related:</dt><dd>" + rflows + "</dd>";
         }
 
         text += "</dl>";

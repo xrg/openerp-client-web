@@ -72,18 +72,17 @@ class Process(controllers.Controller, TinyResource):
         selection = None
 
         proxy = rpc.RPCProxy('process.process')
-
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
             title = res['name']
-
         else:
             selection = proxy.search_by_model(res_model, rpc.session.context)
-            if len(selection) == 1:
-                id = selection[0][0]
-                selection = None
+            if len(selection):
+                id, title = selection[0]
+            else:
+                raise common.message(_("Process not found for the given resource."))
 
-        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title)
     
     @expose('json')
     def get(self, id, res_model=None, res_id=False):
@@ -93,6 +92,9 @@ class Process(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy('process.process')
         graph = proxy.graph_get(id, res_model, res_id, (80, 80, 150, 100), rpc.session.context)
+
+        related = proxy.search_by_model(res_model, rpc.session.context) or {}
+        graph['related'] = dict(related)
 
         # last modified by
         perm = graph['perm']
