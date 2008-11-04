@@ -124,9 +124,9 @@
     <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_kind" name="_terp_kind" value="${params.kind}"/>
-        <input type="hidden" id="_terp_limit" name="_terp_limit" value="${screen.limit}"/>
+        <!--<input type="hidden" id="_terp_limit" name="_terp_limit" value="${screen.limit}"/>
         <input type="hidden" id="_terp_offset" name="_terp_offset" value="${screen.offset}"/>
-        <input type="hidden" id="_terp_count" name="_terp_count" value="${screen.count}"/>
+        <input type="hidden" id="_terp_count" name="_terp_count" value="${screen.count}"/>-->
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(params.search_domain)}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${ustr(params.search_data)}"/>
 
