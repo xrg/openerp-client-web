@@ -144,13 +144,15 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         // check whether any node overlaps the notes
         var npos = getElementPosition(note, note.parentNode);
         var ndim = getElementDimensions(note);
+        var mx = 0;
+
         for(var id in nodes){
     		var data = nodes[id];
             if ((data.x >= npos.x && data.x <= npos.x + ndim.w) && (data.y >= npos.y && data.y <= npos.y + ndim.h)) {
-                canvas.style.marginTop = ndim.h + 4 + 'px';
-                break;
+                mx = Math.max(mx, npos.y + ndim.h - data.y);
             }
         }
+        canvas.style.marginTop = mx + 4 + 'px';
 
         // set title
         MochiKit.DOM.getElement('process_title').innerHTML = title;
@@ -167,10 +169,11 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
     _create_note:  function(notes, subflows, perm) {
 
+        var self = this;
         var elem = MochiKit.DOM.DIV({'class': 'process-notes'});
         var perm = perm || {};
         var subflows = MochiKit.Base.map(function(subflow) {
-            return "<a href='" + getURL('/process', {id: subflow[0], res_model: res_model, res_id: res_id}) + "'>" + subflow[1] + "</a>";
+            return "<a href='" + getURL('/process', {id: subflow[0], res_model: self.res_model, res_id: self.res_id}) + "'>" + subflow[1] + "</a>";
         }, subflows || []);
 
         var text = (
@@ -247,7 +250,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var bbar = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-buttons', elem)[0];        
         var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', elem)[0];
 
-        title.innerHTML = this.data.name || '';
+        title.innerHTML = title.title = this.data.name || '';
         text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow && this.data.subflow.length) {
