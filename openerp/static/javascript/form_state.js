@@ -218,8 +218,11 @@ var form_setReadonly = function(container, field, readonly) {
         return;
     
     field = MochiKit.DOM.getElement(field);
-    field.readOnly = readonly;
-    field.disabled = readonly;
+    
+    if (field) {
+        field.readOnly = readonly;
+        field.disabled = readonly;
+    }
     
     if (readonly) {
         MochiKit.DOM.addElementClass(field, 'readonlyfield');
