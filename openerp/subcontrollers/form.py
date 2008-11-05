@@ -96,7 +96,7 @@ class Form(controllers.Controller, TinyResource):
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
-        buttons.pager =  not editable and mode == 'form'
+        buttons.pager =  mode == 'form' # Pager will visible in edit and non-edit mode in form view.
 
         buttons.search = 'tree' in params.view_mode and mode != 'tree'
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
