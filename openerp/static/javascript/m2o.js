@@ -199,9 +199,7 @@ ManyToOne.prototype.get_matched = function(){
                                                          _terp_domain: domain, 
                                                          _terp_context: context});
         req2.addCallback(function(obj){
-            open_search_window(relation, domain, context, m2o.name, 1, '');
-            /*
-             * if (obj.values.length == 1) {
+            if (obj.values.length == 1) {
                 val = obj.values[0];
                 m2o.field.value = val[0];
                 m2o.text.value = val[1];
@@ -209,7 +207,6 @@ ManyToOne.prototype.get_matched = function(){
             }else{
                 open_search_window(relation, domain, context, m2o.name, 1, text);
             }
-            * */
         });
     }
 
