@@ -1,6 +1,6 @@
 /***
 
-MochiKit.DOM 1.4
+MochiKit.DOM 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('DOM', ['Base']);
 
 MochiKit.DOM.NAME = "MochiKit.DOM";
-MochiKit.DOM.VERSION = "1.4";
+MochiKit.DOM.VERSION = "1.4.1";
 MochiKit.DOM.__repr__ = function () {
     return "[" + this.NAME + " " + this.VERSION + "]";
 };
@@ -93,15 +93,12 @@ MochiKit.DOM.EXPORT = [
     "removeElementClass",
     "swapElementClass",
     "hasElementClass",
+    "computedStyle", // deprecated in 1.4
     "escapeHTML",
     "toHTML",
     "emitHTML",
     "scrapeText",
     "getFirstParentByTagAndClassName",
-    "makeClipping",
-    "undoClipping",
-    "makePositioned",
-    "undoPositioned",
     "getFirstElementByTagAndClassName"
 ];
 
@@ -110,32 +107,39 @@ MochiKit.DOM.EXPORT_OK = [
 ];
 
 MochiKit.DOM.DEPRECATED = [
+    /** @id MochiKit.DOM.computedStyle  */
     ['computedStyle', 'MochiKit.Style.getStyle', '1.4'],
     /** @id MochiKit.DOM.elementDimensions  */
     ['elementDimensions', 'MochiKit.Style.getElementDimensions', '1.4'],
     /** @id MochiKit.DOM.elementPosition  */
     ['elementPosition', 'MochiKit.Style.getElementPosition', '1.4'],
+    /** @id MochiKit.DOM.getViewportDimensions */
+    ['getViewportDimensions', 'MochiKit.Style.getViewportDimensions', '1.4'],
+    /** @id MochiKit.DOM.hideElement */
     ['hideElement', 'MochiKit.Style.hideElement', '1.4'],
+    /** @id MochiKit.DOM.makeClipping */
+    ['makeClipping', 'MochiKit.Style.makeClipping', '1.4.1'],
+    /** @id MochiKit.DOM.makePositioned */
+    ['makePositioned', 'MochiKit.Style.makePositioned', '1.4.1'],
     /** @id MochiKit.DOM.setElementDimensions */
     ['setElementDimensions', 'MochiKit.Style.setElementDimensions', '1.4'],
     /** @id MochiKit.DOM.setElementPosition */
     ['setElementPosition', 'MochiKit.Style.setElementPosition', '1.4'],
+    /** @id MochiKit.DOM.setDisplayForElement */
     ['setDisplayForElement', 'MochiKit.Style.setDisplayForElement', '1.4'],
     /** @id MochiKit.DOM.setOpacity */
     ['setOpacity', 'MochiKit.Style.setOpacity', '1.4'],
+    /** @id MochiKit.DOM.showElement */
     ['showElement', 'MochiKit.Style.showElement', '1.4'],
+    /** @id MochiKit.DOM.undoClipping */
+    ['undoClipping', 'MochiKit.Style.undoClipping', '1.4.1'],
+    /** @id MochiKit.DOM.undoPositioned */
+    ['undoPositioned', 'MochiKit.Style.undoPositioned', '1.4.1'],
     /** @id MochiKit.DOM.Coordinates */
     ['Coordinates', 'MochiKit.Style.Coordinates', '1.4'], // FIXME: broken
     /** @id MochiKit.DOM.Dimensions */
     ['Dimensions', 'MochiKit.Style.Dimensions', '1.4'] // FIXME: broken
 ];
-
-/** @id MochiKit.DOM.getViewportDimensions */
-MochiKit.DOM.getViewportDimensions = new Function('' +
-    'if (!MochiKit["Style"]) {' +
-    '    throw new Error("This function has been deprecated and depends on MochiKit.Style.");' +
-    '}' +
-    'return MochiKit.Style.getViewportDimensions.apply(this, arguments);');
 
 MochiKit.Base.update(MochiKit.DOM, {
 
@@ -989,49 +993,6 @@ MochiKit.Base.update(MochiKit.DOM, {
             if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
                 node.parentNode.removeChild(node);
             }
-        }
-    },
-
-    /** @id MochiKit.DOM.makeClipping */
-    makeClipping: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        var oldOverflow = element.style.overflow;
-        if ((MochiKit.Style.getStyle(element, 'overflow') || 'visible') != 'hidden') {
-            element.style.overflow = 'hidden';
-        }
-        return oldOverflow;
-    },
-
-    /** @id MochiKit.DOM.undoClipping */
-    undoClipping: function (element, overflow) {
-        element = MochiKit.DOM.getElement(element);
-        if (!overflow) {
-            return;
-        }
-        element.style.overflow = overflow;
-    },
-
-    /** @id MochiKit.DOM.makePositioned */
-    makePositioned: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        var pos = MochiKit.Style.getStyle(element, 'position');
-        if (pos == 'static' || !pos) {
-            element.style.position = 'relative';
-            // Opera returns the offset relative to the positioning context,
-            // when an element is position relative but top and left have
-            // not been defined
-            if (/Opera/.test(navigator.userAgent)) {
-                element.style.top = 0;
-                element.style.left = 0;
-            }
-        }
-    },
-
-    /** @id MochiKit.DOM.undoPositioned */
-    undoPositioned: function (element) {
-        element = MochiKit.DOM.getElement(element);
-        if (element.style.position == 'relative') {
-            element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
         }
     },
 

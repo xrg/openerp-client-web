@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Style 1.4
+MochiKit.Style 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Style', ['Base', 'DOM']);
 
 MochiKit.Style.NAME = 'MochiKit.Style';
-MochiKit.Style.VERSION = '1.4';
+MochiKit.Style.VERSION = '1.4.1';
 MochiKit.Style.__repr__ = function () {
     return '[' + this.NAME + ' ' + this.VERSION + ']';
 };
@@ -31,6 +31,10 @@ MochiKit.Style.EXPORT = [
     'getElementPosition',
     'elementPosition', // deprecated
     'setElementPosition',
+    "makePositioned",
+    "undoPositioned",
+    "makeClipping",
+    "undoClipping",
     'setDisplayForElement',
     'hideElement',
     'showElement',
@@ -334,6 +338,57 @@ MochiKit.Base.update(MochiKit.Style, {
         MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
     },
 
+    /** @id MochiKit.Style.makePositioned */
+    makePositioned: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        var pos = MochiKit.Style.getStyle(element, 'position');
+        if (pos == 'static' || !pos) {
+            element.style.position = 'relative';
+            // Opera returns the offset relative to the positioning context,
+            // when an element is position relative but top and left have
+            // not been defined
+            if (/Opera/.test(navigator.userAgent)) {
+                element.style.top = 0;
+                element.style.left = 0;
+            }
+        }
+    },
+
+    /** @id MochiKit.Style.undoPositioned */
+    undoPositioned: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        if (element.style.position == 'relative') {
+            element.style.position = element.style.top = element.style.left = element.style.bottom = element.style.right = '';
+        }
+    },
+
+    /** @id MochiKit.Style.makeClipping */
+    makeClipping: function (element) {
+        element = MochiKit.DOM.getElement(element);
+        var s = element.style;
+        var oldOverflow = { 'overflow': s.overflow,
+                            'overflow-x': s.overflowX,
+                            'overflow-y': s.overflowY };
+        if ((MochiKit.Style.getStyle(element, 'overflow') || 'visible') != 'hidden') {
+            element.style.overflow = 'hidden';
+            element.style.overflowX = 'hidden';
+            element.style.overflowY = 'hidden';
+        }
+        return oldOverflow;
+    },
+
+    /** @id MochiKit.Style.undoClipping */
+    undoClipping: function (element, overflow) {
+        element = MochiKit.DOM.getElement(element);
+        if (typeof(overflow) == 'string') {
+            element.style.overflow = overflow;
+        } else if (overflow != null) {
+            element.style.overflow = overflow['overflow'];
+            element.style.overflowX = overflow['overflow-x'];
+            element.style.overflowY = overflow['overflow-y'];
+        }
+    },
+
     /** @id MochiKit.Style.getElementDimensions */
     getElementDimensions: function (elem, contentSize/*optional*/) {
         var self = MochiKit.Style;
@@ -354,7 +409,7 @@ MochiKit.Base.update(MochiKit.Style, {
             var originalDisplay = s.display;
             s.visibility = 'hidden';
             s.position = 'absolute';
-            s.display = '';
+            s.display = self._getDefaultDisplay(elem);
             var originalWidth = elem.offsetWidth;
             var originalHeight = elem.offsetHeight;
             s.display = originalDisplay;
@@ -429,6 +484,17 @@ MochiKit.Base.update(MochiKit.Style, {
         MochiKit.DOM.updateNodeAttributes(elem, {'style': newStyle});
     },
 
+    _getDefaultDisplay: function (elem) {
+        var self = MochiKit.Style;
+        var dom = MochiKit.DOM;
+        elem = dom.getElement(elem);
+        if (!elem) {
+            return undefined;
+        }
+        var tagName = elem.tagName.toUpperCase();
+        return self._defaultDisplay[tagName] || 'block';
+    },
+
     /** @id MochiKit.Style.setDisplayForElement */
     setDisplayForElement: function (display, element/*, ...*/) {
         var elements = MochiKit.Base.extend(null, arguments, 1);
@@ -480,10 +546,32 @@ MochiKit.Base.update(MochiKit.Style, {
     __new__: function () {
         var m = MochiKit.Base;
 
+        var inlines = ['A','ABBR','ACRONYM','B','BASEFONT','BDO','BIG','BR',
+                       'CITE','CODE','DFN','EM','FONT','I','IMG','KBD','LABEL',
+                       'Q','S','SAMP','SMALL','SPAN','STRIKE','STRONG','SUB',
+                       'SUP','TEXTAREA','TT','U','VAR'];
+        this._defaultDisplay = { 'TABLE': 'table',
+                                 'THEAD': 'table-header-group',
+                                 'TBODY': 'table-row-group',
+                                 'TFOOT': 'table-footer-group',
+                                 'COLGROUP': 'table-column-group',
+                                 'COL': 'table-column',
+                                 'TR': 'table-row',
+                                 'TD': 'table-cell',
+                                 'TH': 'table-cell',
+                                 'CAPTION': 'table-caption',
+                                 'LI': 'list-item',
+                                 'INPUT': 'inline-block',
+                                 'SELECT': 'inline-block' };
+        for (var i = 0; i < inlines.length; i++) {
+            this._defaultDisplay[inlines[i]] = 'inline';
+        }
+
         this.elementPosition = this.getElementPosition;
         this.elementDimensions = this.getElementDimensions;
 
         this.hideElement = m.partial(this.setDisplayForElement, 'none');
+        // TODO: showElement could be improved by using getDefaultDisplay.
         this.showElement = m.partial(this.setDisplayForElement, 'block');
 
         this.EXPORT_TAGS = {
