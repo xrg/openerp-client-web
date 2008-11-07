@@ -34,18 +34,25 @@
     </td>
 </tr>
 <tr>
-    <td id="calSidebar" valign="top">
-        <div id="calTreeContainer">
-            <div id="calTree"/>
-        </div>
-        <div py:replace="groupbox.display()"/>
-        <div id="calSearchOptions">
-            <table border="0">
-                <tr>
-                    <td><input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" checked="${(use_search or None) and 'checked'}" onclick="getCalendar()"/></td>
-                    <td>Apply search filter</td>
-                </tr>
-            </table>
+    <td id="calSidebarArea" valign="top">
+        <div id="calSidebar">
+            <div id="calTreeContainer">
+                <div id="calTree"/>
+            </div>
+            <div py:replace="groupbox.display()"/>
+            <div id="calSearchOptions">
+                <table border="0">
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="checkbox" 
+                                id="_terp_use_search" name="_terp_use_search" 
+                                checked="${(use_search or None) and 'checked'}" 
+                                onclick="getCalendar()"/>
+                        </td>
+                        <td>Apply search filter</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </td>
 
@@ -75,18 +82,6 @@
 
         <script type="text/javascript">
 
-            var onTreeExpand = function(tree, node) {
-                //TODO: show related group box
-            }
-
-            var onTreeCollapse = function(tree, node) {
-                //TODO: hide related group box
-            }
-
-            var onTreeSelect = function(evt, tree) {
-                //TODO: highlight related gantt bar
-            }
-            
             var tree = new TreeGrid('calTree');
 
             tree.options.showheaders = true;        

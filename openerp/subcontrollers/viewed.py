@@ -47,6 +47,7 @@ import cherrypy
 from openerp import rpc
 from openerp import tools
 from openerp import common
+from openerp import icons
 from openerp import cache
 
 from openerp.utils import TinyDict
@@ -417,6 +418,8 @@ class ViewEd(controllers.Controller, TinyResource):
         for prop in properties:
             if field.localName == 'action' and prop == 'name':
                 ed = ActionProperty(prop, attrs.get(prop))
+            elif field.localName == 'button' and prop in _PROPERTY_WIDGETS_BUTTON:
+                ed = _PROPERTY_WIDGETS_BUTTON[prop](prop, attrs.get(prop))
             else:
                 ed = get_property_widget(prop, attrs.get(prop))
                 
@@ -847,7 +850,31 @@ class ActionProperty(tw.many2one.M2O):
         attrs = dict(name=name, relation='ir.actions.actions')
         super(ActionProperty, self).__init__(attrs)
         self.set_value(default or False)
+
+class IconProperty(tg_widgets.SingleSelectField):
     
+    def __init__(self, name, default=None):
+        options = [('', '')] + icons.icons
+        super(IconProperty, self).__init__(name=name, options=options, default=default)
+
+class ButtonTargetProperty(tg_widgets.SingleSelectField):
+    
+    def __init__(self, name, default=None):
+        options = [('', ''), ('new', _('New Window'))]
+        super(ButtonTargetProperty, self).__init__(name=name, options=options, default=default)
+
+class ButtonTypeProperty(tg_widgets.SingleSelectField):
+    
+    def __init__(self, name, default=None):
+        options = [('', ''), ('action', 'Action'), ('object', 'Object'), ('workflow', 'Workflow')]
+        super(ButtonTypeProperty, self).__init__(name=name, options=options, default=default)
+
+class ButtonSpecialProperty(tg_widgets.SingleSelectField):
+    
+    def __init__(self, name, default=None):
+        options = [('', ''), ('sale', _('Save Button')), ('cancel', _('Cancel Button'))]
+        super(ButtonSpecialProperty, self).__init__(name=name, options=options, default=default)        
+
 _PROPERTY_WIDGETS = {
     'select' : SelectProperty,
     'required' : BooleanProperty,                                                               
@@ -856,7 +883,14 @@ _PROPERTY_WIDGETS = {
     'completion' : BooleanProperty,
     'widget' : WidgetProperty,
     'groups' : GroupsProperty,
-    'position': PositionProperty                                             
+    'position': PositionProperty,
+    'icon': IconProperty,
+}
+
+_PROPERTY_WIDGETS_BUTTON = {
+    'special': ButtonSpecialProperty,
+    'type': ButtonTypeProperty,
+    'target': ButtonTargetProperty,
 }
 
 def get_property_widget(name, value=None):

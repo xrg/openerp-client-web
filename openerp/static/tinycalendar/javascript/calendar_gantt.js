@@ -66,6 +66,9 @@ GanttCalendar.prototype = {
         this.grid = new GanttCalendar.DayGrid(this);
 
         this.attachSignals();
+
+        // cache for bar & group elements
+        this.barCache = {};
     },
 
     __delete__ : function(){
@@ -318,12 +321,13 @@ GanttCalendar.Group.prototype = {
             self.events = self.events.concat(new GanttCalendar.Event(div, self));
         });
 
+        /*
         this.events.sort(function(a, b){
-            if (a.dayspan > b.dayspan) return -1;
             if (a.starts == b.starts) return 0;
             if (a.starts < b.starts) return -1;
             return 1;
         });
+        */
 
         this.calculate_usages();
 
@@ -469,11 +473,14 @@ GanttCalendar.Event.prototype = {
     },
 
     __delete__ : function() {
+        MochiKit.Signal.disconnectAll(this.element);
     },
 
     adjust : function(){
     }
 }
+
+// Zoom handler
 
 var ganttZoomOut = function() {
 
@@ -499,6 +506,109 @@ var ganttZoomIn = function() {
     };
 
     return getCalendar(null, modes[mode]);
+}
+
+// Tree event handlers
+
+var onTreeExpand = function(tree, node) {
+
+    if (!node.childNodes.length){
+        return;
+    }
+
+    var barCache = CAL_INSTANCE.barCache;
+
+    // create a cache of bar elements when tree gets expanded
+    var key = 'gr' + node.name;
+    if (!barCache[key]){
+        var s = new MochiKit.Selector.Selector('div.calGroup[nRecordID='+node.name+']').findElements();
+        if (s.length){
+            var bar = s[0];
+            barCache[key] = bar;
+            bar.treeNode = node;
+            MochiKit.Signal.connect(bar, 'onclick', onBarClick);
+        }
+    }
+
+    forEach(node.childNodes, function(ch){
+                    
+        var id = ch.name;
+        var key = 'ch'+id;
+        var bar = barCache[key];
+
+        if (!bar) {
+            var s = new MochiKit.Selector.Selector('div.calEvent[nRecordID='+id+']').findElements();
+            if (s.length){
+                bar = s[0];
+                barCache[key] = bar;
+                bar.treeNode = ch;
+                MochiKit.Signal.connect(bar, 'onclick', onBarClick);
+            }
+        }
+        if (bar){
+            MochiKit.Style.showElement(bar);
+        }
+    });
+}
+
+var onTreeCollapse = function(tree, node) {
+
+    if (!node.childNodes.length){
+        return;
+    }
+
+    var barCache = CAL_INSTANCE.barCache;
+
+    forEach(node.childNodes, function(ch){
+                    
+        var key = 'ch'+ch.name;
+        var bar = barCache[key];
+
+        if (bar){
+            MochiKit.Style.hideElement(bar);
+        }
+
+    });
+}
+
+var onTreeSelect = function(evt, node) {
+
+    if (!node.name || !evt)
+        return;
+
+    var barCache = CAL_INSTANCE.barCache;
+
+    var key = node.childNodes.length ? 'gr'+node.name : 'ch'+node.name;
+    var bar = barCache[key];
+                
+    var hb = getElement('calBarHighlighter');
+    if (!hb) {
+        hb = DIV({});
+        hb.style.position = 'absolute';
+        hb.style.height = '14px';
+        hb.style.width = '100%';
+        hb.style.zIndex = 0;
+        MochiKit.Style.setOpacity(hb, 0.50);
+        appendChildNodes('calGrid', hb);
+    }
+
+    if (bar) {
+        hb.style.top = getElementPosition(bar, 'calGrid').y + 'px';
+        hb.style.height = getElementDimensions(bar).h + 'px';
+        MochiKit.Visual.Highlight(hb, {startcolor: '#990000'});
+    }
+}
+
+var onBarClick = function(evt){
+    var e = evt.src();
+    var t = evt.target();
+
+    if (t.treeNode) {
+        t.treeNode.onSelect();
+    } else if (hasElementClass(e, 'calGroup') && t != e) {
+        e.treeNode.onSelect();
+    }
+
 }
 
 // vim: ts=4 sts=4 sw=4 si et

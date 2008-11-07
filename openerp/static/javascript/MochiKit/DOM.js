@@ -97,7 +97,6 @@ MochiKit.DOM.EXPORT = [
     "toHTML",
     "emitHTML",
     "scrapeText",
-    "isParent",
     "getFirstParentByTagAndClassName",
     "makeClipping",
     "undoClipping",
@@ -386,12 +385,16 @@ MochiKit.Base.update(MochiKit.DOM, {
     getNodeAttribute: function (node, attr) {
         var self = MochiKit.DOM;
         var rename = self.attributeArray.renames[attr];
+        var ignoreValue = self.attributeArray.ignoreAttr[attr];
         node = self.getElement(node);
         try {
             if (rename) {
                 return node[rename];
             }
-            return node.getAttribute(attr);
+            var value = node.getAttribute(attr);
+            if (value != ignoreValue) {
+                return value;
+            }
         } catch (e) {
             // pass
         }
@@ -441,6 +444,10 @@ MochiKit.Base.update(MochiKit.DOM, {
                     } else {
                         elem.setAttribute(k, v);
                     }
+                    if (typeof(elem[k]) == "string" && elem[k] != v) {
+                        // Also set property for weird attributes (see #302)
+                        elem[k] = v;
+                    }
                 }
             } else {
                 // IE is insane in the membrane
@@ -466,6 +473,10 @@ MochiKit.Base.update(MochiKit.DOM, {
                         elem[k] = v;
                     } else {
                         elem.setAttribute(k, v);
+                    }
+                    if (typeof(elem[k]) == "string" && elem[k] != v) {
+                        // Also set property for weird attributes (see #302)
+                        elem[k] = v;
                     }
                 }
             }
@@ -628,7 +639,8 @@ MochiKit.Base.update(MochiKit.DOM, {
 
     /** @id MochiKit.DOM.removeElement */
     removeElement: function (elem) {
-        var e = MochiKit.DOM.getElement(elem);
+        var self = MochiKit.DOM;
+        var e = self.coerceToDOM(self.getElement(elem));
         e.parentNode.removeChild(e);
         return e;
     },
@@ -639,7 +651,7 @@ MochiKit.Base.update(MochiKit.DOM, {
         dest = self.getElement(dest);
         var parent = dest.parentNode;
         if (src) {
-            src = self.getElement(src);
+            src = self.coerceToDOM(self.getElement(src), parent);
             parent.replaceChild(src, dest);
         } else {
             parent.removeChild(dest);
@@ -669,6 +681,9 @@ MochiKit.Base.update(MochiKit.DOM, {
             parent = self._document;
         }
         parent = self.getElement(parent);
+        if (parent == null) {
+            return [];
+        }
         var children = (parent.getElementsByTagName(tagName)
             || self._document.all);
         if (typeof(className) == 'undefined' || className === null) {
@@ -846,6 +861,9 @@ MochiKit.Base.update(MochiKit.DOM, {
     /** @id MochiKit.DOM.hasElementClass */
     hasElementClass: function (element, className/*...*/) {
         var obj = MochiKit.DOM.getElement(element);
+        if (obj == null) {
+            return false;
+        }
         var cls = obj.className;
         if (typeof(cls) != "string") {
             cls = obj.getAttribute("class");
@@ -1028,9 +1046,14 @@ MochiKit.Base.update(MochiKit.DOM, {
             parent = self._document;
         }
         parent = self.getElement(parent);
+        if (parent == null) {
+            return null;
+        }
         var children = (parent.getElementsByTagName(tagName)
             || self._document.all);
-        if (typeof(className) == 'undefined' || className === null) {
+        if (children.length <= 0) {
+            return null;
+        } else if (typeof(className) == 'undefined' || className === null) {
             return children[0];
         }
 
@@ -1049,6 +1072,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 }
             }
         }
+        return null;
     },
 
     /** @id MochiKit.DOM.getFirstParentByTagAndClassName */
@@ -1075,19 +1099,6 @@ MochiKit.Base.update(MochiKit.DOM, {
             elem = elem.parentNode;
         }
         return null;
-    },
-
-    /** @id MochiKit.DOM.isParent */
-    isParent: function (child, element) {
-        if (!child.parentNode || child == element) {
-            return false;
-        }
-
-        if (child.parentNode == element) {
-            return true;
-        }
-
-        return MochiKit.DOM.isParent(child.parentNode, element);
     },
 
     __new__: function (win) {
@@ -1149,6 +1160,7 @@ MochiKit.Base.update(MochiKit.DOM, {
                 return node.attributes;
             };
             attributeArray.compliant = true;
+            attributeArray.ignoreAttr = {};
             attributeArray.renames = {};
         }
         this.attributeArray = attributeArray;

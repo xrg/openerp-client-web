@@ -123,7 +123,7 @@ MochiKit.Base.update(MochiKit.Style, {
                 value = css ? css.getPropertyValue(cssProperty) : null;
             } else if (elem.currentStyle) {
                 value = elem.currentStyle[cssProperty];
-                if (/^\d/.test(value) && !/px$/.test(value)) {
+                if (/^\d/.test(value) && !/px$/.test(value) && cssProperty != 'fontWeight') {
                     /* Convert to px using an hack from Dean Edwards */
                     var left = elem.style.left;
                     var rsLeft = elem.runtimeStyle.left;
@@ -256,6 +256,8 @@ MochiKit.Base.update(MochiKit.Style, {
 
             if (parent != elem) {
                 while (parent) {
+                    c.x += parseInt(parent.style.borderLeftWidth) || 0;
+                    c.y += parseInt(parent.style.borderTopWidth) || 0;
                     c.x += parent.offsetLeft;
                     c.y += parent.offsetTop;
                     parent = parent.offsetParent;
