@@ -433,7 +433,14 @@ ListView.prototype.save = function(id){
     }
 
     var parent_field = this.id.split('/');
-    var args = getFormData(2);
+    var data = getFormData(true);
+    var args = {};
+
+    for(var k in data) {
+        if (k.indexOf(this.id + '/') == 0 || this.id == '_terp_list') {
+            args[k] = data[k];
+        }
+    }
 
     args['_terp_id'] = id ? id : -1;
     args['_terp_model'] = this.model;

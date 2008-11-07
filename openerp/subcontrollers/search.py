@@ -38,6 +38,8 @@ from turbogears import expose
 from turbogears import widgets
 from turbogears import redirect
 from turbogears import controllers
+from turbogears import validators
+from turbogears import validate
 
 from openerp import rpc
 from openerp import tools
@@ -154,9 +156,11 @@ class Search(controllers.Controller, TinyResource):
         params.kind = kind
 
         if text:
+            ctx = rpc.session.context.copy()
+            ctx.update(params.context or {})
             params.ids = []
             proxy = rpc.RPCProxy(model)
-            ids = proxy.name_search(text, params.domain or [], 'ilike', params.context or {})
+            ids = proxy.name_search(text, params.domain or [], 'ilike', ctx)
             if ids:
                 params.ids = [id[0] for id in ids]
                 params.count = len(ids)
@@ -205,10 +209,27 @@ class Search(controllers.Controller, TinyResource):
 
         return dict(domain=ustr(domain), context=ustr(context))
 
+    def get_filter_form(self):
+        params, data = TinyDict.split(cherrypy.request.params)
+        if params.view_type == 'form':
+            return None
+
+        cherrypy.request.terp_validators = {}
+        params.nodefault = True
+        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+        
+        cherrypy.request.terp_form = form
+
+        vals = cherrypy.request.terp_validators
+        schema = validators.Schema(**vals)
+
+        form.validator = schema
+        return form
+
     @expose()
+    @validate(form=get_filter_form)
     def filter(self, **kw):
         params, data = TinyDict.split(kw)
-        
         l = params.limit or 20
         o = params.offset or 0
 

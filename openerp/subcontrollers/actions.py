@@ -52,7 +52,7 @@ from selection import Selection
 
 from openerp.utils import TinyDict
 
-def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, 
+def execute_window(view_ids, model, limit, res_id=False, domain=None, view_type='form', context={}, 
                    mode='form,tree', name=None, target=None):
     """Performs `actions.act_window` action.
 
@@ -74,6 +74,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.view_ids = view_ids
     params.domain = domain or []
     params.context = context or {}
+    params.limit = limit
     
     if name:
         params.context['_view_name'] = name
@@ -217,16 +218,20 @@ def execute(action, **data):
         """
     
     elif action['type']=='ir.actions.act_window':
-        for key in ('res_id', 'res_model', 'view_type','view_mode'):
+        for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
             data[key] = action.get(key, data.get(key, None))
-            
+        
         if not data.get('limit'):
             data['limit'] = 80
-
+        
         view_ids=False
         if action.get('views', []):
-            view_ids=[x[0] for x in action['views']]
-            data['view_mode']=",".join([x[1] for x in action['views']])
+            if isinstance(action['views'], list):
+                view_ids=[x[0] for x in action['views']]
+                data['view_mode']=",".join([x[1] for x in action['views']])
+            else:
+                if action.get('view_id', False):
+                    view_ids=[action['view_id'][0]]
         elif action.get('view_id', False):
             view_ids=[action['view_id'][0]]
 
@@ -251,6 +256,7 @@ def execute(action, **data):
 
         res = execute_window(view_ids,
                              data['res_model'],
+                             data['limit'],
                              data['res_id'],
                              domain,
                              action['view_type'],

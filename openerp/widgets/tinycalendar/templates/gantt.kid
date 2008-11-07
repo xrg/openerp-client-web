@@ -1,7 +1,7 @@
 <table border="0" id="calContainer" width="100%" xmlns:py="http://purl.org/kid/ns#">
 <tr>
-    <td style="width: 200px"><div id="calLoading">Loading...</div></td>
-    <td id="calNavigation">
+    <td width="200"><div id="calLoading">Loading...</div></td>
+    <td width="100%" id="calNavigation">
         <table width="100%" class="toolbar">
             <tr>
                 <td nowrap="nowrap">

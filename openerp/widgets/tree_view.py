@@ -43,7 +43,7 @@ import treegrid
 
 class ViewTree(tg.widgets.Form):
     template = "openerp.widgets.templates.viewtree"
-    params = ['model', 'id', 'ids', 'domain', 'context', 'toolbar']
+    params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
@@ -61,6 +61,7 @@ class ViewTree(tg.widgets.Form):
             self.domain = domain
 
         self.view = view
+        self.view_id = view['view_id']
 
         proxy = rpc.RPCProxy(self.model)
 

@@ -470,10 +470,25 @@ GanttCalendar.Event.prototype = {
         this.starts = isoTimestamp(getNodeAttribute(element, 'dtStart'));
         this.ends = isoTimestamp(getNodeAttribute(element, 'dtEnd'));
         this.dayspan = parseInt(getNodeAttribute(element, 'nDaySpan')) || 1;
+        this.record_id = getNodeAttribute(element, 'nRecordID');
+
+        this.evtClick = MochiKit.Signal.connect(this.element, 'onclick', this, this.onClick);
     },
 
     __delete__ : function() {
         MochiKit.Signal.disconnectAll(this.element);
+    },
+
+    onClick: function(evt) {
+        if (!hasElementClass(this.element, 'dragging')){
+            new InfoBox({
+                dtStart : this.starts,
+                dtEnd : this.ends,
+                nRecordID: this.record_id,
+                title: this.element.title,
+                description: this.element.title
+            }).show(evt);
+        }
     },
 
     adjust : function(){

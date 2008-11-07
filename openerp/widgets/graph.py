@@ -96,8 +96,12 @@ class Graph(TinyCompoundWidget):
 class GraphData(object):
     
     def __init__(self, model, view_id=False, ids=[], domain=[], context={}):
-        
-        view = cache.fields_view_get(model, view_id, 'graph', context)
+
+        ctx = {}
+        ctx = rpc.session.context.copy()
+        ctx.update(context)
+
+        view = cache.fields_view_get(model, view_id, 'graph', ctx)
         fields = view['fields']
         
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))

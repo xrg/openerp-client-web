@@ -1,6 +1,6 @@
 /***
 
-MochiKit.Signal 1.4
+MochiKit.Signal 1.4.1
 
 See <http://mochikit.com/> for documentation, downloads, license, etc.
 
@@ -11,7 +11,7 @@ See <http://mochikit.com/> for documentation, downloads, license, etc.
 MochiKit.Base._deps('Signal', ['Base', 'DOM', 'Style']);
 
 MochiKit.Signal.NAME = 'MochiKit.Signal';
-MochiKit.Signal.VERSION = '1.4';
+MochiKit.Signal.VERSION = '1.4.1';
 
 MochiKit.Signal._observers = [];
 
@@ -117,9 +117,14 @@ MochiKit.Base.update(MochiKit.Signal.Event.prototype, {
             elem = (this._event.relatedTarget ||
                 this._event.toElement);
         }
-        if (elem !== null) {
-            this._relatedTarget = elem;
-            return elem;
+        try {
+            if (elem !== null && elem.nodeType !== null) {
+                this._relatedTarget = elem;
+                return elem;
+            }
+        } catch (ignore) {
+            // Firefox 3 throws a permission denied error when accessing
+            // any property on XUL elements (e.g. scrollbars)...
         }
 
         return undefined;

@@ -39,6 +39,7 @@ import xml.dom.minidom
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
+from turbogears import url as tg_url
 
 from openerp import rpc
 from openerp import icons
@@ -76,16 +77,24 @@ class Tree(controllers.Controller, TinyResource):
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
         if tree.toolbar:
             for tool in tree.toolbar:
-                tool['icon'] = icons.get_icon(tool['icon'])
-
+                if tool.get('icon'):
+                    tool['icon'] = icons.get_icon(tool['icon'])
+                else:
+                    tool['icon'] = False
+                    
         return dict(tree=tree)
 
     @expose()
-    def default(self, id, model, domain):
+    def default(self, id, model, view_id, domain):
         params = TinyDict()
 
+        try:
+            view_id = int(view_id)
+        except:
+            view_id = False
+
         params.ids = id
-        params.view_ids = [1]
+        params.view_ids = [view_id]
         params.model = model
         params.domain = domain
         params.context = {}
@@ -176,12 +185,12 @@ class Tree(controllers.Controller, TinyResource):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = '/tree/open?model=%s&id=%s'%(model, record['id'])
+            record['action'] = tg_url('/tree/open', model=model, id=record['id'])
             record['target'] = None
 
             record['icon'] = None
 
-            if icon_name and icon_name in item:
+            if icon_name and item.get(icon_name):
                 icon = item.pop(icon_name)
                 record['icon'] = icons.get_icon(icon)
 

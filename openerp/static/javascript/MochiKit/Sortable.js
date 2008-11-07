@@ -9,7 +9,7 @@ See scriptaculous.js for full license.
 MochiKit.Base._deps('Sortable', ['Base', 'Iter', 'DOM', 'Position', 'DragAndDrop']);
 
 MochiKit.Sortable.NAME = 'MochiKit.Sortable';
-MochiKit.Sortable.VERSION = '1.4';
+MochiKit.Sortable.VERSION = '1.4.1';
 
 MochiKit.Sortable.__repr__ = function () {
     return '[' + this.NAME + ' ' + this.VERSION + ']';
@@ -574,3 +574,16 @@ MochiKit.Base.update(MochiKit.Sortable, {
 
 // trunk compatibility
 MochiKit.Sortable.Sortable = MochiKit.Sortable;
+
+MochiKit.Sortable.__new__ = function () {
+    MochiKit.Base.nameFunctions(this);
+
+    this.EXPORT_TAGS = {
+        ":common": this.EXPORT,
+        ":all": MochiKit.Base.concat(this.EXPORT, this.EXPORT_OK)
+    };
+};
+
+MochiKit.Sortable.__new__();
+
+MochiKit.Base._exportSymbols(this, MochiKit.Sortable);

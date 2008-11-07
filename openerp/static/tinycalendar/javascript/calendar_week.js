@@ -486,7 +486,7 @@ WeekCalendar.DayGrid.prototype = {
                     TBODY(null,
                         TR(null,
                             TD({'id' : 'calTimeCol', 'class': 'calTimeCol', 'valign': 'top', 'width': '70px'}),
-                            TD({'id' : 'calGridCol', 'valign': 'top', 'width' : 'auto'}))));
+                            TD({'id' : 'calGridCol', 'valign': 'top'}))));
 
         tbl.cellPadding = 0;
         tbl.cellSpacing = 0;

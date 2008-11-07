@@ -27,7 +27,11 @@
         }
 
         function button_click(id){
-            location.href = getURL('/tree', {id : id, model : $('_terp_model').value, domain: $('_terp_domain').value});
+            location.href = getURL('/tree', {
+                    id : id, 
+                    model : $('_terp_model').value,
+                    view_id : $('_terp_view_id').value,
+                    domain: $('_terp_domain').value});
         }
 
     </script>
@@ -50,7 +54,7 @@
                                     <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
                                 </td>
                                 <td align="center" valign="middle" width="16">
-                                    <a target="new" href="${tg.query('http://openerp.org/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
+                                    <a target="new" href="${tg.query('http://openerp.com/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
                                 </td>
                             </tr>
                          </table>
@@ -69,7 +73,7 @@
                                     <td>
                                         <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
                                             <tr>
-                                                <td><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
+                                                <td py:if="tool['icon']"><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
                                                 <td>${tool['name']}</td>
                                             </tr>
                                         </table>

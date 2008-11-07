@@ -248,13 +248,13 @@ class Notebook(TinyCompoundWidget):
 
     member_widgets = ["children"]
     javascript = [tg.widgets.JSLink("openerp", "javascript/tabber/tabber_cookie.js"),
-                  tg.widgets.JSLink("openerp", "javascript/tabber/tabber.js"),
                   tg.widgets.JSSource("""
                                if (typeof(tabberOptions) == "undefined")
                                    var tabberOptions = {};
                                tabberOptions['onLoad'] = tabber_onload;
                                tabberOptions['onClick'] = tabber_onclick;
-                               tabberOptions['cookie'] = 'TGTabber';""")]
+                               tabberOptions['cookie'] = 'TGTabber';"""),
+                  tg.widgets.JSLink("openerp", "javascript/tabber/tabber.js")]
     
     css = [tg.widgets.CSSLink('openerp', 'css/tabs.css')]
 
@@ -434,7 +434,7 @@ class Selection(TinyField):
     def __init__(self, attrs={}):
         super(Selection, self).__init__(attrs)
         
-        # o2m as selection
+        # m2o as selection
         if attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
             try:

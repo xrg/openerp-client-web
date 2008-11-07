@@ -76,7 +76,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         var self = this;
         var req = Ajax.JSON.post('/process/get', {id: id, res_model: res_model, res_id: res_id});
         req.addCallback(function(obj){
-            self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions);            
+            self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions, obj.related);            
         });
 
     },
@@ -85,12 +85,13 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         this.load(this.process_id, this.res_model, this.res_id);
     },
 
-    _render: function(title, perm, notes, nodes, transitions) {
+    _render: function(title, perm, notes, nodes, transitions, related) {
 
         var h = 0;
         var w = 0;
 
-        var subflows = [];
+        var subflows = {};
+        var related = related || {};
 
     	for(var id in nodes){
     		var data = nodes[id];
@@ -107,7 +108,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
             w = Math.max(w, data.x);
 
             if (data.subflow && data.subflow.length) {
-                subflows.push(data.subflow);
+                subflows[data.subflow[0]] = data.subflow[1];
             }
 
 	    }
@@ -137,20 +138,22 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
     	}
 
         // create notes
-        var note = this._create_note(notes, subflows, perm);
+        var note = this._create_note(notes, subflows, perm, related);
         var canvas = getElement('process_canvas');
         canvas.parentNode.insertBefore(note, canvas);
 
         // check whether any node overlaps the notes
         var npos = getElementPosition(note, note.parentNode);
         var ndim = getElementDimensions(note);
+        var mx = 0;
+
         for(var id in nodes){
     		var data = nodes[id];
             if ((data.x >= npos.x && data.x <= npos.x + ndim.w) && (data.y >= npos.y && data.y <= npos.y + ndim.h)) {
-                canvas.style.marginTop = ndim.h + 4 + 'px';
-                break;
+                mx = Math.max(mx, npos.y + ndim.h - data.y);
             }
         }
+        canvas.style.marginTop = mx + 4 + 'px';
 
         // set title
         MochiKit.DOM.getElement('process_title').innerHTML = title;
@@ -165,13 +168,24 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         }
     },
 
-    _create_note:  function(notes, subflows, perm) {
+    _create_note:  function(notes, subflows, perm, related) {
 
+        var self = this;
         var elem = MochiKit.DOM.DIV({'class': 'process-notes'});
         var perm = perm || {};
-        var subflows = MochiKit.Base.map(function(subflow) {
-            return "<a href='" + getURL('/process', {id: subflow[0], res_model: res_model, res_id: res_id}) + "'>" + subflow[1] + "</a>";
-        }, subflows || []);
+
+        var sflows = "";
+        var rflows = "";
+
+        for(var k in subflows) {
+            if (k != this.process_id)
+                sflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
+        }
+
+        for(var k in related) {
+            if (k != this.process_id)
+                rflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + related[k] + "</a><br/>";
+        }
 
         var text = (
                     "<dl>"+
@@ -184,8 +198,12 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
                         (perm.write_uid[1] || perm.create_uid[1]) + ' (' + (perm.date || 'N/A') + ')' +
                     "</dd>");
 
-        if (subflows.length) {
-            text += "<dt>Subflows:</dt><dd>" + subflows.join("<br/>") + "</dd>";
+        if (sflows.length) {
+            text += "<dt>Subflows:</dt><dd>" + sflows + "</dd>";
+        }
+
+        if (rflows.length) {
+            text += "<dt>Related:</dt><dd>" + rflows + "</dd>";
         }
 
         text += "</dl>";
@@ -247,7 +265,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var bbar = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-buttons', elem)[0];        
         var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', elem)[0];
 
-        title.innerHTML = this.data.name || '';
+        title.innerHTML = title.title = this.data.name || '';
         text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow && this.data.subflow.length) {

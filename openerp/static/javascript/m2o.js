@@ -36,6 +36,7 @@ var ManyToOne = function(name){
     this.text =    $(name + '_text');
 
     this.select_img = $(name + '_select');
+    this.open_img = $(name + '_open');
     this.reference = $(name + '_reference'); // reference widget
 
     this.callback = getNodeAttribute(this.field, 'callback');
@@ -47,6 +48,7 @@ var ManyToOne = function(name){
     connect(this.text, 'onkeypress', this, this.on_keypress);
 
     connect(this.select_img, 'onclick', this, this.select);
+    connect(this.open_img, 'onclick', this, this.open_record);
     
     if (this.reference) {
         connect(this.reference, 'onchange', this, this.on_reference_changed);
@@ -56,10 +58,12 @@ var ManyToOne = function(name){
 }
 
 ManyToOne.prototype.select = function(evt){
+    this.get_matched();
+}
+
+ManyToOne.prototype.open_record = function(evt){
     if (this.field.value) {
         this.open(this.field.value);
-    } else if (!this.field.disabled){
-        this.get_matched();
     }
 }
 
@@ -134,7 +138,10 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 }
 
 ManyToOne.prototype.change_icon = function(evt){
-    this.select_img.src = '/static/images/stock/gtk-' + (this.field.value ? 'open' : 'find') + '.png';
+    this.open_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
+    if (!this.field.value) {
+        this.open_img.style.cursor = ''; 
+    }
 }
 
 ManyToOne.prototype.on_keydown = function(evt){
