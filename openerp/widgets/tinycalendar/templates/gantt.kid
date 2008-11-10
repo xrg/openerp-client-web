@@ -1,6 +1,5 @@
 <table border="0" id="calContainer" width="100%" xmlns:py="http://purl.org/kid/ns#">
 <tr>
-    <td width="200"><div id="calLoading">Loading...</div></td>
     <td width="100%" id="calNavigation">
         <table width="100%" class="toolbar">
             <tr>
@@ -34,28 +33,6 @@
     </td>
 </tr>
 <tr>
-    <td id="calSidebarArea" valign="top">
-        <div id="calSidebar">
-            <div id="calTreeContainer">
-                <div id="calTree"/>
-            </div>
-            <div py:replace="groupbox.display()"/>
-            <div id="calSearchOptions">
-                <table border="0">
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="checkbox" 
-                                id="_terp_use_search" name="_terp_use_search" 
-                                checked="${(use_search or None) and 'checked'}" 
-                                onclick="getCalendar()"/>
-                        </td>
-                        <td>Apply search filter</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </td>
-
     <td id="calMainArea" valign="top">
 
         <div id="calGantt" class="calGantt" dtFormat="${date_format}" dtStart="${days[0].isoformat()}" dtRange="${len(days)}"><span></span>
@@ -80,25 +57,23 @@
             </div>
         </div>
 
+        <div py:replace="groupbox.display()"/>
+            <div id="calSearchOptions">
+                <table border="0">
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="checkbox" 
+                                id="_terp_use_search" name="_terp_use_search" 
+                                checked="${(use_search or None) and 'checked'}" 
+                                onclick="getCalendar()"/>
+                        </td>
+                        <td>Apply search filter</td>
+                    </tr>
+                </table>
+            </div>
+
+
         <script type="text/javascript">
-
-            var tree = new TreeGrid('calTree');
-
-            tree.options.showheaders = true;        
-            tree.options.expandall = true;
-
-            tree.setHeaders([{"string": "${_('Name')}", "name": "name", "type": "char"}]);
-            tree.setRecords('/calendar/gantt_data', {
-                "_terp_model": "${model}", 
-                "_terp_ids": "${str([e.record_id for e in events])}",
-                "_terp_groups": "${str(groups)}"});
-
-            MochiKit.Signal.connect(tree, 'onNodeExpand', onTreeExpand);
-            MochiKit.Signal.connect(tree, 'onNodeCollapse', onTreeCollapse);
-            MochiKit.Signal.connect(tree, 'onNodeSelect', onTreeSelect);
-
-            tree.render();
-
             CAL_INSTANCE = new GanttCalendar();
         </script>
 
