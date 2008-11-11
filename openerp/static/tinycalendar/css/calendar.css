@@ -331,7 +331,16 @@
 }
 
 .calGantt .calGroupLabel {
+    height: 16px;
     font-weight: bold;
+}
+
+.calGantt .calEventGrip2 {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    right: 0px;
+    cursor: w-resize;
 }
 
 /**
