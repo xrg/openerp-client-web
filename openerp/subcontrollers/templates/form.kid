@@ -53,7 +53,6 @@
                                         <button 
                                             type="button" 
                                             title="Gantt View..."
-                                            py:if="'gantt' in form.screen.view_mode"
                                             disabled="${tg.selector(not buttons.gantt)}" 
                                             onclick="switchView('gantt')">Gantt</button>
                                         <button 
