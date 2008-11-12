@@ -52,8 +52,8 @@ from selection import Selection
 
 from openerp.utils import TinyDict
 
-def execute_window(view_ids, model, limit, res_id=False, domain=None, view_type='form', context={}, 
-                   mode='form,tree', name=None, target=None):
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, 
+                   mode='form,tree', name=None, target=None, limit=None):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -256,13 +256,13 @@ def execute(action, **data):
 
         res = execute_window(view_ids,
                              data['res_model'],
-                             data['limit'],
                              data['res_id'],
                              domain,
                              action['view_type'],
                              context,data['view_mode'],
                              name=action.get('name'),
-                             target=action.get('target'))
+                             target=action.get('target'),
+                             limit=data.get('limit'))
         return res
 
     elif action['type']=='ir.actions.server':
