@@ -422,7 +422,8 @@ MonthCalendar.Week.prototype = {
                 index: i,                       // index of the container
                 week: self,                     // reference it this week
                 calendar: self.calendar,        // reference to the calendar
-                events: []                      // events in the day container
+                events: [],                     // events in the day container
+                rows: []                        // mark used rows
             }
         }
 
@@ -487,7 +488,12 @@ MonthCalendar.Week.prototype = {
                     var cnt = containers[dt];
 
                     forEach(cnt.events, function(e){
+                        cnt.rows.push(evt.row);
                         e.row = e.row >= evt.row ? e.row + 1 : e.row;
+
+                        while(cnt.rows.indexOf(e.row) > -1) {
+                            e.row = e.row + 1;
+                        }
                     });
                 }
             });
