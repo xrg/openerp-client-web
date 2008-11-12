@@ -230,9 +230,9 @@ class GanttCalendar(ICalendar):
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
-            self.title = ("Week %s") % day.strftime("%W")
+            self.title = _("%s, Week %s") % (y, day.strftime("%W"))
             self.selected_day = self.selected_day or day
-            self.headers = [ustr(d) for d in self.days]
+            self.headers = ["%s %s" % (d.month2.name, d.day) for d in self.days]
 
         elif self.mode == '3months':
             q = 1 + (m - 1) / 3
