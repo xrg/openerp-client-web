@@ -575,6 +575,7 @@ class Image(TinyField):
             <img py:if="stock" align="left" src="${src}" width="${width}" height="${height}"/>
             <img py:if="not stock and id and editable" id="${field}" border='1' alt="Click here to add new image." align="left" src="${src}" width="${width}" height="${height}" onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
             <img py:if="not stock and id and not editable" id="${field}" border='1' align="left" src="${src}" width="${width}" height="${height}"/>
+            <input py:if="not stock and not id and editable" type="file" class="${field_class}" id="${name}" py:attrs="attrs" name="${name}"/>
         </span>
         """
 
@@ -591,6 +592,8 @@ class Image(TinyField):
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
         TinyField.__init__(self, attrs)
+        self.filename = attrs.get('filename', '')
+        self.validator = tiny_validators.Binary()
 
         if 'widget' in attrs:
             self.stock = False
