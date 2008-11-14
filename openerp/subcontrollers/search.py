@@ -155,15 +155,14 @@ class Search(controllers.Controller, TinyResource):
         params.source = source
         params.kind = kind
 
-        if text:
-            ctx = rpc.session.context.copy()
-            ctx.update(params.context or {})
-            params.ids = []
-            proxy = rpc.RPCProxy(model)
-            ids = proxy.name_search(text, params.domain or [], 'ilike', ctx)
-            if ids:
-                params.ids = [id[0] for id in ids]
-                params.count = len(ids)
+        ctx = rpc.session.context.copy()
+        ctx.update(params.context or {})
+        params.ids = []
+        proxy = rpc.RPCProxy(model)
+        ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
+        if ids:
+            params.ids = [id[0] for id in ids]
+            params.count = len(ids)
 
         return self.create(params)
 

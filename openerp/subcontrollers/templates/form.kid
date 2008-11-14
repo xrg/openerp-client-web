@@ -4,6 +4,10 @@
     <title py:content="form.screen.string">Form Title</title>
 
     <script type="text/javascript">
+        var form_controller = '$path';
+    </script>
+
+    <script type="text/javascript">
     
         function do_select(id, src) {
             viewRecord(id, src);
