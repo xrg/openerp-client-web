@@ -122,7 +122,7 @@ class Form(controllers.Controller, TinyResource):
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, 
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links, show_header_footer=target!='new')
+        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path, show_header_footer=target!='new')
 
     def _has_attachments(self, model, id, mode):
         if mode <> 'form':
