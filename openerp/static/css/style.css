@@ -95,6 +95,10 @@ button.inactive {
 }
 
 *[disabled] {
+    color: #999;
+}
+
+.item .readonlyfield {
     color: black;
 }
 
