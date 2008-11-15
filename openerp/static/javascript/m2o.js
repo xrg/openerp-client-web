@@ -33,12 +33,12 @@ var ManyToOne = function(name){
     this.name = name;
 
     this.field = $(name);
-    this.text = $(name + '_text');
+    this.text =    $(name + '_text');
 
     this.select_img = $(name + '_select');
     this.open_img = $(name + '_open');
     this.reference = $(name + '_reference'); // reference widget
-    
+
     this.callback = getNodeAttribute(this.field, 'callback');
     this.relation = getNodeAttribute(this.field, 'relation');
 
@@ -47,10 +47,8 @@ var ManyToOne = function(name){
     connect(this.text, 'onkeydown', this, this.on_keydown);
     connect(this.text, 'onkeypress', this, this.on_keypress);
 
-    if(this.select_img)
-        connect(this.select_img, 'onclick', this, this.select);
-    if(this.open_img)
-        connect(this.open_img, 'onclick', this, this.open_record);
+    connect(this.select_img, 'onclick', this, this.select);
+    connect(this.open_img, 'onclick', this, this.open_record);
     
     if (this.reference) {
         connect(this.reference, 'onchange', this, this.on_reference_changed);
@@ -140,12 +138,9 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 }
 
 ManyToOne.prototype.change_icon = function(evt){
-    if(this.open_img) {
-        this.open_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
-        
-        if (!this.field.value) {
-            this.open_img.style.cursor = ''; 
-        }
+    this.open_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
+    if (!this.field.value) {
+        this.open_img.style.cursor = ''; 
     }
 }
 
@@ -226,15 +221,10 @@ ManyToOne.prototype.get_matched = function(){
 }
 
 ManyToOne.change_icon = function(field) {
-    var field = $(field);    
+    var field = $(field);
     var img = $(field.id + '_select');
-    if (img) {    
-        img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
-        
-        if (!this.field.value) {
-            this.img.style.cursor = ''; 
-        }
-    }
+    
+    img.src = '/static/images/stock/gtk-' + (field.value ? 'open' : 'find') + '.png';
 }
 
 // vim: ts=4 sts=4 sw=4 si et

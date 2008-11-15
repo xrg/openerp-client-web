@@ -57,7 +57,7 @@ def get_name(model, id):
 
 class M2O(TinyField):
     template = "openerp.widgets.templates.many2one"
-    params=['relation', 'text', 'domain', 'context', 'link', 'readonly']
+    params=['relation', 'text', 'domain', 'context', 'link']
 
     domain = []
     context = {}
@@ -67,7 +67,7 @@ class M2O(TinyField):
 
         super(M2O, self).__init__(attrs)
         self.relation = attrs.get('relation', '')
-        self.readonly = attrs.get('readonly', '')
+
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {})
         self.link = attrs.get('link')
