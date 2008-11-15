@@ -95,7 +95,7 @@ button.inactive {
 }
 
 *[disabled] {
-    color: #999;
+    color: black;
 }
 
 #container {
