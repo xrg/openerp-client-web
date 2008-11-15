@@ -54,11 +54,11 @@ class Image(controllers.Controller, TinyResource):
     def get_image(self, **kw):
         model = kw.get('model')
         field = kw.get('field')
-        id = kw.get('id')
+        id = int(kw.get('id'))
 
         proxy = rpc.RPCProxy(model)
+        
         res = proxy.read([id], [field])[0]
-
         res = res.get(field)
 
         return base64.decodestring(res)
