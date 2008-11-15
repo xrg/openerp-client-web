@@ -189,12 +189,15 @@ class Month(object):
         self.year = year
         self.month = month
         self.name = MONTH_NAMES[month]
+        self._range = calendar.monthrange(year, month)
+
+    def range(self):
+        return self._range
 
     def days(self):
         days = []
-        mrange = calendar.monthrange(self.year, self.month)
 
-        starts = mrange[0]
+        starts = self.range[0]
         first = Day(self.year, self.month, 1)
 
         for i in range(starts, 0, -1):
@@ -214,6 +217,7 @@ class Month(object):
 
         return weeks
 
+    range = property(range)
     days = property(days)
     weeks = property(weeks)
 

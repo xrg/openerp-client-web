@@ -109,6 +109,7 @@ var getCalendar = function(day, mode) {
         var newContainer = d.getElementsByTagName('table')[0];
         
         if (newContainer.id != 'calContainer'){
+        log(11111);
             return ;//window.location.href = '/';   
         }
 
@@ -128,6 +129,10 @@ var getCalendar = function(day, mode) {
         }
 
         callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
+    });
+
+    req.addErrback(function(e){
+        log(e);
     });
 }
 
