@@ -109,7 +109,6 @@ var getCalendar = function(day, mode) {
         var newContainer = d.getElementsByTagName('table')[0];
         
         if (newContainer.id != 'calContainer'){
-        log(11111);
             return ;//window.location.href = '/';   
         }
 
