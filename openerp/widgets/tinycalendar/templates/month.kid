@@ -9,12 +9,13 @@
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${month.next().year}-${month.next().month}-01')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${ustr(month)}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="Day Calendar..." onclick="getCalendar('${selected_day.isoformat()}', 'day')">Day</button>
-                    <button type="button" title="Week Calendar..." onclick="getCalendar('${selected_day.isoformat()}', 'week')">Week</button>
+                    <button type="button" title="Day Calendar..." onclick="getCalendar(null, 'day')">Day</button>
+                    <button type="button" title="Week Calendar..." onclick="getCalendar(null, 'week')">Week</button>
                     <button type="button" title="Month Calendar..." disabled="disabled">Month</button>
                 </td>
             </tr>
         </table>
+        <input type="hidden" id="_terp_current_day" name="_terp_current_day" value="${month.year}-${month.month}-01"/>
         <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${selected_day.isoformat()}"/>
         <input type="hidden" id="_terp_selected_mode" name="_terp_selected_mode" value="month"/>
         <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${ustr(calendar_fields)}"/>
