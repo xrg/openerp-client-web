@@ -15,7 +15,6 @@
                 </td>
             </tr>
         </table>
-        <input type="hidden" id="_terp_current_day" name="_terp_current_day" value="${week[0].isoformat()}"/>
         <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${selected_day.isoformat()}"/>
         <input type="hidden" id="_terp_selected_mode" name="_terp_selected_mode" value="week"/>
         <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${ustr(calendar_fields)}"/>

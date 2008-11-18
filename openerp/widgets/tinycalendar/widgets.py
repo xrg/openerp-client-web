@@ -95,6 +95,23 @@ def get_calendar(model, view, ids=None, domain=[], context={}, options=None):
     
     return MonthCalendar(model, view, ids, domain, context, options)
 
+def _get_selection_day(day, selected, mode):
+    selected = selected or Day.today()
+
+    if mode == 'day':
+        return day
+
+    if mode == 'week':
+        return Week(day)[selected.weekday()]
+
+    month = day.month2
+    d = selected.day
+
+    if d > month.range[-1]:
+        d = month.range[-1]
+
+    return Day(day.year, day.month, d)
+
 class MonthCalendar(TinyCalendar):
 
     template = 'openerp.widgets.tinycalendar.templates.month'
@@ -117,24 +134,15 @@ class MonthCalendar(TinyCalendar):
             m = options.month
 
         self.month = Month(y, m)
-        self.events = self.get_events([d for d in self.month])
-        
-        if not self.selected_day:
-            sd = Day.today()
-            if sd.year == y and sd.month == m:
-                self.selected_day = sd
-            else:
-                self.selected_day = Day(y, m, 1)
+        self.events = self.get_events(self.month.days)
 
-        if not (self.selected_day.year == y and self.selected_day.month == m):
-            self.minical = MiniCalendar(Day(y, m, 1))
-        else:
-            self.minical = MiniCalendar(self.selected_day)
-            
+        self.selected_day = _get_selection_day(Day(y, m, 1), self.selected_day, 'month')
+
+        self.minical = MiniCalendar(self.selected_day)            
         self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day, 
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], 
                 mode='month')
-            
+
             
 class WeekCalendar(TinyCalendar):
     template = 'openerp.widgets.tinycalendar.templates.week'
@@ -152,11 +160,11 @@ class WeekCalendar(TinyCalendar):
         y, m, d = time.localtime()[:3]
         if options:
             y, m, d = options.date1[:3]
-                        
-        self.week = Week(Day(y,m,d))
         
-        self.events = self.get_events([d for d in self.week])        
-        self.selected_day = self.selected_day or self.week[0]
+        self.week = Week(Day(y, m, d))
+        self.events = self.get_events(self.week.days)
+
+        self.selected_day = _get_selection_day(Day(y, m, d), self.selected_day, 'week')
 
         self.minical = MiniCalendar(self.week[0], True)
         self.groupbox = GroupBox(self.colors, self.color_values, self.week[0], 
@@ -230,7 +238,7 @@ class GanttCalendar(ICalendar):
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
             self.title = _("%s, Week %s") % (y, day.strftime("%W"))
-            self.selected_day = self.selected_day or day
+            self.selected_day = _get_selection_day(day, self.selected_day, 'week')
             self.headers = [(12, "%s %s" % (d.month2.name, d.day)) for d in self.days]
 
         elif self.mode == '3months':
@@ -247,7 +255,7 @@ class GanttCalendar(ICalendar):
 
             self.days = days
             self.title = _("%s, Qtr %s") % (y, q)
-            self.selected_day = self.selected_day or day
+            self.selected_day = _get_selection_day(day, self.selected_day, '3months')
             
             headers = []
             headers += [w for w in mp.weeks]
@@ -261,14 +269,14 @@ class GanttCalendar(ICalendar):
 
             self.days = yr.days
             self.title = u"Year %s" % (y)
-            self.selected_day = self.selected_day or day
+            self.selected_day = _get_selection_day(day, self.selected_day, 'year')
             self.headers = [(m.range[-1], m.name) for m in yr.months]
 
         else:
             month = Month(y, m)
             self.days = [d for d in month]
             self.title = ustr(month)
-            self.selected_day = self.selected_day or day
+            self.selected_day = _get_selection_day(day, self.selected_day, 'month')
             self.headers = [(7, _("Week %s") % w[0].strftime('%W')) for w in month.weeks]
 
         if self.levels:
