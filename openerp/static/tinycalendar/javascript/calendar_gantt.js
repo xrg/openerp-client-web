@@ -106,13 +106,15 @@ GanttCalendar.prototype = {
             var elem = events[i];
             var id = MochiKit.DOM.getNodeAttribute(elem, 'nRecordID');
 
+            var bg = MochiKit.Color.Color.fromBackground(elem);
+
             this.events[id] = {
                 'dayspan': MochiKit.DOM.getNodeAttribute(elem, 'nDaySpan'),
                 'starts': MochiKit.DOM.getNodeAttribute(elem, 'dtStart'),
                 'ends': MochiKit.DOM.getNodeAttribute(elem, 'dtEnd'),
                 'title': elem.title,
                 'className': elem.className,
-                'bg': elem.style.backgroundColor,
+                'bg': bg.lighterColorWithLevel(0.2).toHexString(),
                 'clr': elem.style.color,
                 'text': MochiKit.DOM.scrapeText(elem)
             }
@@ -600,10 +602,7 @@ GanttCalendar.GridGroup.prototype = {
         forEach(this.events, function(e){
             e.adjust();
         });
-
         this.calculate_usages();
-
-        //TODO: move calc usages here
 
         var w = 0;
 
