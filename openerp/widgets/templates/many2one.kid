@@ -7,10 +7,12 @@
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
             <td width="16" style="padding-left: 2px">
-                <img id='${name}_open' width="16" height="16" alt="${_('Open')}" title="${_('Open a resource')}" src="/static/images/stock/gtk-open.png" style="cursor: pointer;" class="imgSelect"/>
+                <img py:if="readonly" width="16" height="16" alt="${_('Open')}" title="${_('Open a resource')}" src="/static/images/stock-disabled/gtk-open.png"/>
+                <img py:if="not readonly" id='${name}_open' width="16" height="16" alt="${_('Open')}" title="${_('Open a resource')}" src="/static/images/stock/gtk-open.png" style="cursor: pointer;" class="imgSelect"/>
             </td>
             <td width="16" style="padding-left: 2px">
-                <img id='${name}_select' width="16" height="16" alt="${_('Search')}" title="${_('Search')}" src="/static/images/stock/gtk-find.png" style="cursor: pointer;" class="imgSelect"/>
+                <img py:if="readonly" width="16" height="16" alt="${_('Search')}" title="${_('Search')}" src="/static/images/stock-disabled/gtk-find.png"/>
+                <img py:if="not readonly" id='${name}_select' width="16" height="16" alt="${_('Search')}" title="${_('Search')}" src="/static/images/stock/gtk-find.png" style="cursor: pointer;" class="imgSelect"/>
             </td>
         </tr>
     </table>
