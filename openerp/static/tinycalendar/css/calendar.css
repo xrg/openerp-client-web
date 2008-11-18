@@ -1,5 +1,4 @@
 .calMonth,
-.calGantt,
 .calWeek {
     background-color: #E0E0E0;
     padding: 8px;
@@ -240,107 +239,6 @@
 
 .calMonthDay .calEventInfo a {
     text-decoration: none;
-}
-
-/***********************************************/
-
-.calGantt .calGrid {
-    position: relative;
-    overflow: hidden;
-}
-
-.calGantt #calBodySect {
-    height: 480px;
-    overflow: auto;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
-.calGantt .calDayHeader {
-    font-size: 10px;
-}
-
-.calGantt .calGanttWeek {
-    position: absolute;
-    height: 100%;
-
-    border-left: 2px solid #C0C0C0;
-}
-
-.calGanttCol {
-    position: absolute;
-    vertical-align: top;
-
-    background-color: white;
-    border-left: 1px solid #C0C0C0;
-
-    font-size: 10px;
-}
-
-.calGanttCol.dayThis {
-    background-color: #FFFFDF;
-}
-
-.calGantt .calVRule {
-    position: absolute;
-    top: 0pt;
-    width: 1px;
-    height: 100%;
-
-    border-left: 1px dotted #C0C0C0;
-}
-
-.calGantt .calGroup {
-    position: relative;
-    overflow: hidden;
-}
-
-.calGantt .calBar,
-.calGantt .calEvent {
-    position: relative;
-    height: 14px;
-    margin-top: 1px;
-    width: 0pt;
-}
-
-.calGantt .calBar {
-    border: 1px solid black;
-    background-color: #C9C9C9;
-}
-
-.calGantt #calHeaderSect {
-    margin-left: 175px;
-}
-
-.calGantt .calLabelCol {
-    width: 175px;
-}
-
-.calGantt .calGroupLabel,
-.calGantt .calEventLabel {
-    height: 14px;
-    max-width: 150px;
-    overflow: hidden;
-    margin-top: 1px;
-    margin-left: 2px;
-    font-size: 10px;
-}
-
-.calGantt .calEventLabel {
-    padding-left: 25px;
-}
-
-.calGantt .calGroupLabel {
-    height: 16px;
-    font-weight: bold;
-}
-
-.calGantt .calEventGrip2 {
-    position: absolute;
-    width: 2px;
-    height: 100%;
-    right: 0px;
-    cursor: w-resize;
 }
 
 /**

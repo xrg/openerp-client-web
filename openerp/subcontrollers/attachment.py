@@ -37,113 +37,35 @@ from turbogears import controllers
 from openerp import rpc
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
+from openerp.subcontrollers import actions
 from openerp import common
 
 import openerp.widgets as tw
 
 class Attachment(controllers.Controller, TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.attachment_list")
-    def index(self, model, id, comment='', record=None):
+    @expose()
+    def index(self, model, id):
 
         id = int(id)
-        desc = ''
         
-        params = TinyDict()
-        params.model = 'ir.attachment'
-        params.view_mode = ['tree', 'form']
+        if id:
+            ctx = {}
+            ctx.update(rpc.session.context.copy())
 
-        params.domain = [('res_model', '=', model), ('res_id', '=', id)]
+            action = rpc.session.execute('object', 'execute', 'ir.attachment', 'action_get', ctx)
 
-        screen = tw.screen.Screen(params, selectable=1)
-        screen.widget.pageable = False
-        
-        proxy = rpc.RPCProxy('ir.attachment')
-        
-        if comment and record:
-            desc = proxy.write([int(record)], {'description': comment}, rpc.session.context)
-
-        return dict(screen=screen, model=model, desc=desc, id=id, show_header_footer=False)
-
-    @expose(template="openerp.subcontrollers.templates.attachment_form")
-    def edit(self, fname='', **kw):
-        
-        desc = ''
-        model = kw.get('model')
-        record = kw.get('record')
-        id = kw.get('id')
-        ext = ''
-        
-        proxy = rpc.RPCProxy('ir.attachment')
-        
-        if record:
-            record = int(record)
-            datas = proxy.read([record])
-            desc = datas[0].get('description') or ''
-        
-        if(fname):
-            exten = fname.split('.')[-1].lower()
-            if exten in ('jpg', 'jpeg', 'png', 'gif', 'bmp'):
-                ext = exten
-                
-        return dict(model=model, fname=fname, id=id, desc=desc, record=record, ext=ext, show_header_footer=False)
-    
-    @expose()
-    def get_image(self, **kw):
-        record = kw.get('record')
-        
-        proxy = rpc.RPCProxy('ir.attachment')
-        datas = proxy.read([record])
-        datas = datas[0]
-
-        try:
-            if not datas['link']:
-                return base64.decodestring(datas['datas'])
-        except Exception, e:
-            return common.message(_('Unable to preview image file !\nVerify the format.'))
-
-    @expose()
-    def save(self, model, id, uploadfile, **kw):
-
-        data = uploadfile.file.read()
-        fname = os.path.basename(uploadfile.filename)        
-        comment = kw.get('description', '')
-        record = kw.get('record', None)
-
-        # XXX: we can't reconise basename of window path on Linux
-        if '\\' in fname: # though `\` is valid in Unix path
-            fname = fname.split('\\')[-1]
-
-        proxy = rpc.RPCProxy('ir.attachment')
-
-        if data and not record:
-            proxy.create({'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'description': comment, 'res_model': model, 'res_id': int(id)})
-        if data and record:
-            proxy.write([int(record)], {'name': fname, 'datas': base64.encodestring(data), 'datas_fname': fname, 'description': comment, 'res_model': model, 'res_id': int(id)}, rpc.session.context)
-
-        return self.index(model, id, comment=comment, record=record)
-
-    @expose()
-    def delete(self, model, id, record, **kw):
-        record = int(record)
-        
-        proxy = rpc.RPCProxy('ir.attachment')
-        proxy.unlink([record])
-
-        return self.index(model, id)
-
-    @expose(content_type="application/octet-stream")
-    def save_as(self, fname=None, record=False, **kw):
-        
-        record = int(record)
-        
-        proxy = rpc.RPCProxy('ir.attachment')
-        data = proxy.read([record], [], rpc.session.context)
-        
-        if len(data) and not data[0]['link'] and data[0]['datas']:
-            return base64.decodestring(data[0]['datas'])
+            action['domain'] = [('res_model', '=', model), ('res_id', '=', id)]
+            ctx['default_res_model'] = model
+            ctx['default_res_id'] = id
+            action['context'] = ctx
+            
+            return actions.execute(action) 
         else:
-            return ''
+            message = str(_('No record selected ! You can only attach to existing record...!'))
+            raise common.error(_('Error'), _(message))
+        
+        return True
 
 # vim: ts=4 sts=4 sw=4 si et
 

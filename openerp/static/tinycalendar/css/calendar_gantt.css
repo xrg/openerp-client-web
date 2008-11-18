@@ -1,0 +1,118 @@
+.calGantt {
+    background-color: #E0E0E0;
+    padding: 8px;
+    padding-top: 4px;
+    position: relative;
+}
+
+.calGantt #calHeaderC {
+    height: 21px;
+    overflow: hidden;
+    position: relative;
+    margin-right: 17px;
+}
+
+.calGantt .calHeader {
+    font-size: 10px;
+    font-weight: bold;
+    width: 200px;
+    text-align: center;
+}
+
+.calGantt #calListC,
+.calGantt #calGridC {
+    height: 500px;
+    border: 1px inset #FFF;
+    background-color: #FFF;
+    overflow: scroll;
+    position: relative;
+}
+
+.calGantt #calListC {
+    margin-right: 4px;
+    overflow-y: hidden;
+    width: 200px;
+}
+
+.calGantt .calGrid {
+    overflow: hidden;
+}
+
+.calGantt .calColumn {
+
+    height: 100%;
+
+    position: absolute;
+    vertical-align: top;
+
+    background-color: white;
+    border-left: 1px dotted #C0C0C0;
+
+    font-size: 10px;
+}
+
+.calGantt .calColumn.dayThis {
+    background-color: #FFFFDF;
+}
+
+.calGantt .calVRule {
+    position: absolute;
+    top: 0pt;
+    width: 1px;
+    height: 100%;
+
+    border-left: 1px dotted #F0F0F0;
+}
+
+.calGantt #calGroupC {
+    position: absolute;
+}
+
+.calGantt .calGroup {
+    position: relative;
+    overflow: hidden;
+}
+
+.calGantt .calBar,
+.calGantt .calEvent {
+    position: relative;
+    height: 14px;
+    margin-top: 1px;
+    width: 0pt;
+}
+
+.calGantt .calBar {
+    border: 1px solid black;
+    background-color: #C9C9C9;
+}
+
+.calGantt .calGroupLabel,
+.calGantt .calEventLabel {
+    height: 14px;
+    overflow: hidden;
+    margin-top: 1px;
+    margin-left: 2px;
+    font-size: 10px;
+}
+
+.calGantt .calEventLabel {
+    padding-left: 25px;
+}
+
+.calGantt .calGroupLabel {
+    height: 16px;
+    font-weight: bold;
+}
+
+.calGantt .calEventGrip2 {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    right: 0px;
+    cursor: w-resize;
+}
+
+/**
+ * vim: sts=4 st=4 et
+ *
+ */

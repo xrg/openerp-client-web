@@ -592,8 +592,9 @@ class Image(TinyField):
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
         TinyField.__init__(self, attrs)
-        self.filename = attrs.get('filename', '')
-        self.validator = tiny_validators.Binary()
+        if not id:
+            self.filename = attrs.get('filename', '')
+            self.validator = tiny_validators.Binary()
 
         if 'widget' in attrs:
             self.stock = False

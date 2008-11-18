@@ -98,6 +98,10 @@ button.inactive {
     color: #999;
 }
 
+.item .readonlyfield {
+    color: black;
+}
+
 #container {
     margin: auto;
     width: 100%;

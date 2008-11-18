@@ -203,9 +203,8 @@ class GanttCalendar(ICalendar):
     headers = None
     mode = 'week'
 
-    extra_css = [tg.widgets.CSSLink('openerp', 'css/treegrid.css')]
-    extra_javascript = [tg.widgets.JSLink('openerp', 'javascript/treegrid.js'),
-                        tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_gantt.js')]
+    extra_css = [tg.widgets.CSSLink('openerp', 'tinycalendar/css/calendar_gantt.css')]
+    extra_javascript = [tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_gantt.js')]
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 
@@ -226,13 +225,13 @@ class GanttCalendar(ICalendar):
             self.days = [day]
             self.title = ustr(day)
             self.selected_day = day
-            self.headers = ["%d" % d for d in range(24)]
+            self.headers = [(2, time.strftime('%I %P', (y, m, d, i, 0, 0, 0, 0, 0))) for i in range(24)]
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
             self.title = _("%s, Week %s") % (y, day.strftime("%W"))
             self.selected_day = self.selected_day or day
-            self.headers = ["%s %s" % (d.month2.name, d.day) for d in self.days]
+            self.headers = [(12, "%s %s" % (d.month2.name, d.day)) for d in self.days]
 
         elif self.mode == '3months':
             q = 1 + (m - 1) / 3
@@ -255,7 +254,7 @@ class GanttCalendar(ICalendar):
             headers += [w for w in mt.weeks]
             headers += [w for w in mn.weeks]
 
-            self.headers = [ustr(mp), ustr(mt), ustr(mn)]
+            self.headers = [(mp.range[-1], ustr(mp)), (mt.range[-1], ustr(mt)), (mn.range[-1], ustr(mn))]
 
         elif self.mode == 'year':
             yr = Year(y)
@@ -263,14 +262,14 @@ class GanttCalendar(ICalendar):
             self.days = yr.days
             self.title = u"Year %s" % (y)
             self.selected_day = self.selected_day or day
-            self.headers = [m.name for m in yr.months]
+            self.headers = [(m.range[-1], m.name) for m in yr.months]
 
         else:
             month = Month(y, m)
-            self.days = [d for d in month if d.month == m and d.year == y]
+            self.days = [d for d in month]
             self.title = ustr(month)
             self.selected_day = self.selected_day or day
-            self.headers = [_("Week %s") % w[0].strftime('%W') for w in month.weeks]
+            self.headers = [(7, _("Week %s") % w[0].strftime('%W')) for w in month.weeks]
 
         if self.levels:
             field = self.levels[0]['link']

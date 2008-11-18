@@ -38,7 +38,7 @@
         <div id="calGantt" class="calGantt" dtFormat="${date_format}" dtStart="${days[0].isoformat()}" dtRange="${len(days)}"><span></span>
 
             <div id="calHeaderSect">
-                <div class="calDayName" py:for="header in headers">${header}</div>
+                <div class="calDayName" py:for="count, header in headers" nCount="${count}">${header}</div>
             </div>
 
             <div id="calBodySect">

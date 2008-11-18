@@ -129,6 +129,10 @@ var getCalendar = function(day, mode) {
 
         callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
     });
+
+    req.addErrback(function(e){
+        log(e);
+    });
 }
 
 var getMiniCalendar = function(action) {
