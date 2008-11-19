@@ -310,7 +310,7 @@ GanttCalendar.Header.prototype = {
         this.element = DIV({'class': 'calHeader'}, divs);
 
         // HACK: set height for the header
-        divs[0].style.position = 'relative';
+        // divs[0].style.position = 'relative';
     },
 
    

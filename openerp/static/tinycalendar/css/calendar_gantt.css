@@ -6,6 +6,7 @@
 }
 
 .calGantt #calHeaderC {
+    height: 18px;
     overflow: hidden;
     position: relative;
     margin-right: 17px;
@@ -101,6 +102,7 @@
     padding-right: 4px;
     font-size: 10px;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .calGantt .calGroupLabel:hover,
