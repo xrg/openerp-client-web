@@ -662,19 +662,19 @@ GanttCalendar.GridGroup.prototype = {
 
         this.element.style.width = w + 'px';
 
-        var bx = 0;
-        var bw = 0;
+        var bx = null;
+        var bw = null;
 
         for(var i=0; i<this.events.length; i++){
 
             var e = this.events[i];
 
-            bx = bx == 0 ? e.left : Math.min(e.left, bx);
-            bw = bw == 0 ? e.width : Math.max(e.left - bx + e.width, bw);
+            bx = bx == null ? e.left : Math.min(e.left, bx);
+            bw = bw == null ? e.width : Math.max(e.left - bx + e.width, bw);
         }
 
-        bx = Math.round(bx);
-        bw = Math.round(bw);
+        bx = Math.round(bx || 0);
+        bw = Math.round(bw || 0);
 
         if (this.bar) {
             this.bar.style.left = bx + 'px';
