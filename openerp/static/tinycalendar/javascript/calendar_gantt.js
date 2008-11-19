@@ -505,14 +505,6 @@ GanttCalendar.GridGroup.prototype = {
             self.events = self.events.concat(new GanttCalendar.Event(div, self));
         });
 
-        /*
-        this.events.sort(function(a, b){
-            if (a.starts == b.starts) return 0;
-            if (a.starts < b.starts) return -1;
-            return 1;
-        });
-        */
-
         MochiKit.DOM.appendChildNodes(this.element, this.bar, MochiKit.Base.map(function(e){
             return e.element;
         }, this.events));
@@ -541,13 +533,22 @@ GanttCalendar.GridGroup.prototype = {
         // clear the bar
         MochiKit.DOM.replaceChildNodes(this.bar);
 
-        var st = this.events[0].starts;
-        var se = this.events[this.events.length-1].ends;
+        var events = this.events;
+
+        // sort them by start time
+        events.sort(function(a, b){
+            if (a.starts == b.starts) return 0;
+            if (a.starts < b.starts) return -1;
+            return 1;
+        });
+
+        var st = events[0].starts;
+        var se = events[events.length-1].ends;
 
         var bounds = [];
 
         var self = this;
-        forEach(this.events, function(e){
+        forEach(events, function(e){
             if (MochiKit.Base.findValue(bounds, e.starts) == -1) {
                 bounds.push(e.starts);
             }
@@ -581,7 +582,7 @@ GanttCalendar.GridGroup.prototype = {
             div.style.height = '100%';
 
             var n = 0;
-            forEach(self.events, function(e){
+            forEach(events, function(e){
                 if ((div.starts >= e.starts && div.starts <= e.ends) &&
                     (div.ends <= e.ends && div.ends >= e.starts)) {
                     n += 1;
