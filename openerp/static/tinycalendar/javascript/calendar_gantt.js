@@ -155,6 +155,10 @@ GanttCalendar.prototype = {
 
         var element = draggable.element;
 
+        if (hasElementClass(element, 'calEventLabel')) {
+            return this.list.onUpdate(draggable, evt);
+        }
+
         var id = getNodeAttribute(element, 'nRecordID');
         var ds = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtStart'));
         var de = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtEnd'));
@@ -350,7 +354,7 @@ GanttCalendar.List.prototype = {
 
             forEach(group.events, function(evt) {
                 var div = DIV({'class': 'calEventLabel'}, evt.title);
-                var e = MochiKit.Signal.connect(div, 'onclick', self, partial(self.onClick, evt));
+                var e = MochiKit.Signal.connect(div, 'ondblclick', self, partial(self.onClick, evt));
                 MochiKit.DOM.appendChildNodes(elem, div);
                 self._signals.push(e);
                 self._groups[group.id].push(div);
@@ -360,6 +364,13 @@ GanttCalendar.List.prototype = {
         });
 
         appendChildNodes('calListC', DIV({'id': 'calList'}, elements));
+
+        forEach(elements, function(elem){
+            MochiKit.Sortable.Sortable.create(elem, {
+                'tag': 'div',
+                'only': ['calEventLabel']
+            });
+        });     
     },
    
     __delete__: function() {
@@ -386,6 +397,11 @@ GanttCalendar.List.prototype = {
 
     onClick: function(task, evt) {
         task.onClick(evt);
+    },
+
+    onUpdate: function(draggable, evt) {
+        var element = draggable.element;
+        log('TODO: reorder the tasks...');
     }
 }
 
