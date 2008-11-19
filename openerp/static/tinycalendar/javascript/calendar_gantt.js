@@ -292,7 +292,7 @@ GanttCalendar.Header.prototype = {
             MochiKit.Style.setStyle(div, {
                     'position': 'absolute',
                     'width': w + 'px',
-                    'left': w * i + 'px',
+                    'left': scale + 'px',
                     'top': '0px'
             });
 
