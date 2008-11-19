@@ -149,7 +149,7 @@ class List(TinyCompoundWidget):
             self.ids = ids
 
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
-
+        
         for k, v in self.field_total.items():
             self.field_total[k][1] = self.do_sum(self.data, k)
 
@@ -373,7 +373,13 @@ class List(TinyCompoundWidget):
 
 from openerp.stdvars import tg_query
 
-class Char(object):
+class Char(widgets.Widget):
+    
+    template = """
+        <span xmlns:py="http://purl.org/kid/ns#" py:content="text"/>
+    """
+    
+    params = ['text', 'link']
 
     def __init__(self, attrs={}, value=False):
         self.attrs = attrs
@@ -404,7 +410,13 @@ class Char(object):
         return ustr(self.text)
 
 class M2O(Char):
-
+    
+    template = """
+        <span xmlns:py="http://purl.org/kid/ns#">
+            <a href="${link}">${text}</a>
+        </span>
+    """
+    
     def __init__(self, attrs={}, value=False):
 
         if isinstance(value, int):
@@ -472,6 +484,23 @@ class Int(Char):
             return int(self.value)
 
         return 0
+
+class ProgressBar(Char):
+    
+    template = """
+        <div xmlns:py="http://purl.org/kid/ns#" style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
+            <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${text}%; height: 100%;"></div>
+            <div style="position: absolute; top:0px; left: 0px; width: 100%; height: 100%; text-align: center">${text}%</div>
+        </div>
+    """
+    
+    def get_text(self):
+        if isinstance(self.value, float):
+            self.value = '%.2f' % (self.value)
+            return self.value
+        else:
+            self.value = '%d' % (self.value)
+            return self.value
 
 class DateTime(Char):
     
@@ -549,7 +578,8 @@ CELLTYPES = {
         'float':Float,
         'float_time':FloatTime,
         'integer':Int,
-        'boolean' : Boolean
+        'boolean' : Boolean,
+        'progressbar' : ProgressBar
 }
 
 # vim: ts=4 sts=4 sw=4 si et

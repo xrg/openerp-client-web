@@ -48,13 +48,10 @@
                                 <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
                             </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                                <span py:if="not (field_attrs.get('type')=='many2one' and link=='0')" py:strip="">
-                                    <a py:strip="(show_links &lt; 0 or (i &gt; 0 and show_links==0)) or not data[field].link" href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
-                                 </span>
-                                <span py:if="field_attrs.get('type')=='many2one' and link=='0'" py:strip="">
-                                    ${data[field]}
+                                <span py:if="i==0">
+                                    <a href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
                                 </span>
-                                <span py:if="data[field].text == ''">&nbsp;</span>
+                                <span py:if="i &gt; 0" py:replace="data[field].display()"/>
                                 <span py:if="editable and field == 'sequence'" class="grid-cell selector">
                                     <img src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']}, ${str(data['_seq'])})"/>                                
                                 </span>
