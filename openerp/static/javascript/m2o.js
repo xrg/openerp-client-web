@@ -68,10 +68,8 @@ ManyToOne.prototype.select = function(evt){
 }
 
 ManyToOne.prototype.open_record = function(evt){
-    if(this.field_class.indexOf('readonlyfield') == -1) {
-        if (this.field.value) {
-            this.open(this.field.value);
-        }
+    if (this.field.value) {
+        this.open(this.field.value);
     }
 }
 
@@ -86,13 +84,19 @@ ManyToOne.prototype.open = function(id){
 
     var model = this.relation;
     var source = this.name;
+    var editable = 'True';
+    
+    // To open popup form in readonly mode.
+    if (this.field_class.indexOf('readonlyfield') != -1) {
+        var editable = 'False';
+    }
 
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
     req.addCallback(function(obj){
         openWindow(getURL('/openm2o/edit', {_terp_model: model, _terp_id: id, 
                                             _terp_domain: obj.domain, _terp_context: obj.context,
-                                            _terp_m2o: source}));
+                                            _terp_m2o: source, _terp_editable: editable}));
     });
 }
 
