@@ -66,6 +66,17 @@ class Attachment(controllers.Controller, TinyResource):
             raise common.error(_('Error'), _(message))
         
         return True
+    
+    @expose(content_type="application/octet-stream")
+    def save_as(self, fname=None, record=False, **kw):
+        record = int(record)
+        proxy = rpc.RPCProxy('ir.attachment')
+        
+        data = proxy.read([record], [], rpc.session.context)
+        if len(data) and not data[0]['link'] and data[0]['datas']:
+            return base64.decodestring(data[0]['datas'])
+        else:
+            return '' 
 
 # vim: ts=4 sts=4 sw=4 si et
 
