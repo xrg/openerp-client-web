@@ -6,17 +6,24 @@
 }
 
 .calGantt #calHeaderC {
-    height: 21px;
+    height: 18px;
     overflow: hidden;
     position: relative;
     margin-right: 17px;
+    margin-bottom: 4px;
+    border: 1px inset white;
 }
 
 .calGantt .calHeader {
     font-size: 10px;
     font-weight: bold;
-    width: 200px;
     text-align: center;
+    position: relative;
+}
+
+.calGantt .calHeader .calTitle {
+    border-left: 1px dotted #b0b0b0;
+    padding: 2px 0px;
 }
 
 .calGantt #calListC,
@@ -35,7 +42,7 @@
 }
 
 .calGantt .calGrid {
-    overflow: hidden;
+    position: relative;
 }
 
 .calGantt .calColumn {
@@ -66,6 +73,7 @@
 
 .calGantt #calGroupC {
     position: absolute;
+    padding-bottom: 10px;
 }
 
 .calGantt .calGroup {
@@ -89,10 +97,17 @@
 .calGantt .calGroupLabel,
 .calGantt .calEventLabel {
     height: 14px;
-    overflow: hidden;
-    margin-top: 1px;
-    margin-left: 2px;
+    padding-top: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
     font-size: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.calGantt .calGroupLabel:hover,
+.calGantt .calEventLabel:hover {
+    color: blue;
 }
 
 .calGantt .calEventLabel {

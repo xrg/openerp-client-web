@@ -9,9 +9,9 @@
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${week.next()[0].isoformat()}')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${ustr(week)}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="Day Calendar..." onclick="getCalendar('${selected_day.isoformat()}', 'day')">Day</button>
+                    <button type="button" title="Day Calendar..." onclick="getCalendar(null, 'day')">Day</button>
                     <button type="button" title="Week Calendar..." disabled="disabled">Week</button>
-                    <button type="button" title="Month Calendar..." onclick="getCalendar('${selected_day.isoformat()}', 'month')">Month</button>
+                    <button type="button" title="Month Calendar..." onclick="getCalendar(null, 'month')">Month</button>
                 </td>
             </tr>
         </table>

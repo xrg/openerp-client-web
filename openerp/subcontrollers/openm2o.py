@@ -49,8 +49,8 @@ class OpenM2O(Form):
     
     @expose(template="openerp.subcontrollers.templates.openm2o")
     def create(self, params, tg_errors=None):
-
-        params.editable = True
+        
+        params.editable = params.get('_terp_editable', True)
         form = self.create_form(params, tg_errors)
         
         form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]
@@ -126,12 +126,15 @@ class OpenM2O(Form):
     @expose()    
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
+        
         if not params.model:
             params.update(kw)
-
+            
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
-        params.editable = True
+        
+        params.editable = params.get('_terp_editable', True)
+        
         return self.create(params)
 
 # vim: ts=4 sts=4 sw=4 si et

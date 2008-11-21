@@ -1,11 +1,4 @@
-<table xmlns:py="http://purl.org/kid/ns#" width="100%" cellpadding='0' cellspacing='0'>
-    <tr>
-        <td style="border: 1px solid gray;" width="85%">
-            <input type="hidden" kind="${kind}" name='${name}' id ='${field_id}' value="${value}" class="${field_class}" py:attrs='attrs' callback="${callback}" onchange="${onchange}"/>
-            <div style="background: #9f9f9f; width: ${'%d' % (value)}%;">&nbsp;</div>
-        </td>
-        <td width="15%" class="label">
-            ${'%.2f%%' % (value)}
-        </td>
-    </tr>
-</table>
+<div xmlns:py="http://purl.org/kid/ns#" style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
+    <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${value}%; height: 100%;"></div>
+    <div style="position: absolute; top:0px; left: 0px; width: 100%; height: 100%; text-align: center">${value}%</div>
+</div>
