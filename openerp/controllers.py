@@ -210,6 +210,6 @@ class Root(controllers.RootController, TinyResource):
     workflow = subcontrollers.workflow.Workflow()
     workflowlist = subcontrollers.workflow.WorkflowList()
     process = subcontrollers.process.Process()
-    
+    wiki = subcontrollers.wiki.WikiView()
 # vim: ts=4 sts=4 sw=4 si et
 

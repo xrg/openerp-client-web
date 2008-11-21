@@ -24,6 +24,6 @@ import viewed
 import viewlist
 import workflow
 import process
-
+import wiki
 # vim: ts=4 sts=4 sw=4 si et
 
