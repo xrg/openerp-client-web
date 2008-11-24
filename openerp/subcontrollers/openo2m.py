@@ -79,6 +79,7 @@ class OpenO2M(Form):
                               widgets.HiddenField(name='_terp_o2m', default=params.o2m),                              
                               widgets.HiddenField(name='_terp_o2m_id', default=params.id or None),
                               widgets.HiddenField(name='_terp_o2m_model', default=params.o2m_model),
+                              widgets.HiddenField(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
                               widgets.HiddenField(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
         return form
