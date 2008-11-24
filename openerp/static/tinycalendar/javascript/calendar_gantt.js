@@ -333,7 +333,6 @@ GanttCalendar.List.prototype = {
     __init__: function(calendar) {
         this.calendar = calendar;
 
-        this._groups = {};
         this._signals = [];
 
         var elements = [];
@@ -346,10 +345,9 @@ GanttCalendar.List.prototype = {
 
             if (!group.isDummy) {
                 var div = DIV({'class': 'calGroupLabel'}, group.title);
-                var e = MochiKit.Signal.connect(div, 'onclick', self, partial(self.onToggle, group));
+                var e = MochiKit.Signal.connect(div, 'onclick', self, partial(self.onToggle, elem, group));
                 MochiKit.DOM.appendChildNodes(elem, div);
                 self._signals.push(e);
-                self._groups[group.id] = [];
             }
 
             forEach(group.events, function(evt) {
@@ -357,10 +355,11 @@ GanttCalendar.List.prototype = {
                 var e = MochiKit.Signal.connect(div, 'ondblclick', self, partial(self.onClick, evt));
                 MochiKit.DOM.appendChildNodes(elem, div);
                 self._signals.push(e);
-                self._groups[group.id].push(div);
             });
 
             elements = elements.concat(elem);
+            elem.__toggled = false;
+            self.onToggle(elem, group);
         });
 
         appendChildNodes('calListC', DIV({'id': 'calList'}, elements));
@@ -379,12 +378,12 @@ GanttCalendar.List.prototype = {
         });
     },
 
-    onToggle: function(group, evt) {
+    onToggle: function(element, group, evt) {
 
-        var element = evt.src();
         var show = element.__toggled;
+        var divs = getElementsByTagAndClassName('div', 'calEventLabel', element);
 
-        forEach(this._groups[group.id], function(div) {
+        forEach(divs, function(div) {
             div.style.display = show ? '' : 'none';
         });
 
