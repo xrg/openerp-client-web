@@ -202,6 +202,7 @@ class ICalendar(interface.TinyCompoundWidget):
         
         for fld in fields:
             typ = self.fields[fld]['type']
+            assert type in ('date', 'datetime'), "Invalid field type (%s), should be either `date` or `datetime`: %s" % (typ, fld)
             fmt = format.DT_SERVER_FORMATS[typ]
 
             if event[fld] and fmt:
