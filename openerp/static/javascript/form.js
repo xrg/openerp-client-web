@@ -392,6 +392,15 @@ var buttonClicked = function(name, btype, model, id, sure, target){
     submit_form(get_form_action(btype == 'cancel' ? 'cancel' : 'save', params), null, null, target);
 }
 
+var onBooleanClicked = function(name) {
+
+    var source = getElement(name + '_checkbox_');
+    var target = getElement(name);
+
+    target.value = source.checked ? 1 : '';
+	MochiKit.Signal.signal(target, 'onchange');
+}
+
 /**
  * get key-pair object of the form data
  *
@@ -581,6 +590,10 @@ var onChange = function(name) {
 
                 if (kind == 'many2many'){
                     fld.onchange();
+                }
+
+                if (kind == 'boolean') {
+                    $(prefix + k + '_checkbox_').checked = value || false;
                 }
                 
                 // should be saved

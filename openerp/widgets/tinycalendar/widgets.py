@@ -320,7 +320,12 @@ class GanttCalendar(ICalendar):
         keys = []
         groups = {}
         for evt in events:
-            group_id, group_title = evt.record[field]
+            group_id = evt.record[field]
+            if isinstance(group_id, (list, tuple)):
+                group_id, group_title = evt.record[field]
+            else:
+                group_id, group_title = rpc.RPCProxy(obj).name_get([group_id], rpc.session.context)[0]
+
             group = groups.setdefault(group_id, {'id': group_id, 'title': group_title, 'model': obj, 'items': []})
 
             group['items'].append(evt.record_id)
