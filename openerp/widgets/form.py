@@ -912,6 +912,7 @@ from one2many import O2M
 from many2many import M2M
 from reference import Reference
 from tiny_mce import TinyMCE
+import wiki
 
 widgets_type = {
     'date': DateTime,
@@ -938,8 +939,8 @@ widgets_type = {
     'email' : Email,
     'url' : Url,
     'image' : Image,
-    'progressbar' : ProgressBar
-    
+    'progressbar' : ProgressBar,
+    'text_wiki': wiki.Wiki
 }
 
 # vim: ts=4 sts=4 sw=4 si et
