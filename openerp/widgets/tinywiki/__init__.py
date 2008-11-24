@@ -347,7 +347,7 @@ _endCommentPat = re.compile(ur'(-->)', re.UNICODE)
 _extractTagsAndParams_n = 1
 _guillemetLeftPat = re.compile(ur'(.) (\?|:|;|!|\302\273)', re.UNICODE)
 _guillemetRightPat = re.compile(ur'(\302\253) ', re.UNICODE)
-_image = re.compile(r'img://(.*)\.(.*)', re.UNICODE)
+_image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
 
 def setupAttributeWhitelist():
@@ -1643,8 +1643,12 @@ class Parser(BaseParser):
 	
 	def addImage(self, text):
 		def image(path):
-			file = path.group().split("//") 
-			return "<img src='/wiki/getImage?file=%s' height=400 wigth=600/>" % (file[1])
+			file = path.group().replace('img:','')
+			if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
+				return "<img src='%s'/>" % (file)
+			else:
+				return "<img src='/wiki/getImage?file=%s'/>" % (file)
+			
 		bits = _image.sub(image, text) 
 		return bits
 	
@@ -1704,7 +1708,7 @@ class Parser(BaseParser):
 			elif len(td) == 0:
 				pass
 			elif u'|}' == x[0:2]:
-				z = u"</table>" + x[2:]
+				z = u"</table><br/><br/><br/><br/>" + x[2:]
 				l = ltd.pop()
 				if not has_opened_tr.pop():
 					z = u"<tr><td></td><tr>" + z
@@ -1797,11 +1801,11 @@ class Parser(BaseParser):
 				t.append(u'</tr>')
 			if not has_opened_tr.pop():
 				t.append(u'<tr><td></td></tr>')
-			t.append(u'</table>')
+			t.append(u'</table><br/><br/><br/><br/>')
 	
 		text = u'\n'.join(t)
 		# special case: don't return empty table
-		if text == u"<table>\n<tr><td></td></tr>\n</table>":
+		if text == u"<table>\n<tr><td></td></tr>\n</table><br/><br/><br/><br/>":
 			text = u''
 	
 		return text
