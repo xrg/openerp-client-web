@@ -1,4 +1,4 @@
-<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" cellspacing="0" width="100%">
+<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" cellspacing="0" width="100%" class="many2many">
     <tr py:if="editable">
         <td>
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
