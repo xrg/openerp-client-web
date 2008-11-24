@@ -582,6 +582,10 @@ var onChange = function(name) {
                 if (kind == 'many2many'){
                     fld.onchange();
                 }
+
+                if (kind == 'boolean') {
+                    $(prefix + k + '_checkbox_').checked = value || false;
+                }
                 
                 // should be saved
                 fld.disabled = false;
