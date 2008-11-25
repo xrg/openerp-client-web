@@ -33,15 +33,15 @@ including Firefox, IE6, IE7, Safari3 and Opera9.
 -------------------------------------------------------------------------------
 
 Here is the installation instructions for Debian based Linux distributions.
-Tested on Debian Etch and Ubuntu Feisty/Gutsy. The procedure might work with 
-other Linux or similar distributions. See the docs on how to install the 
-specified Packages on your favourite distro.
+Tested on Debian Etch and Ubuntu Hardy. The procedure might work with other 
+Linux or similar distributions. See the docs on how to install the specified 
+Packages on your favourite distro.
 
 Prerequisites:
 
    1. Python >= 2.4
-   2. OpenERP Server >= 4.2.1
-   3. TurboGears >= 1.0.3.2
+   2. OpenERP Server >= 5.0
+   3. TurboGears >= 1.0.3.2 <= 1.0.7
 
 OpenERP Server:
 
@@ -57,7 +57,7 @@ or
 
     $ wget http://peak.telecommunity.com/dist/ez_setup.py
     $ python ez_setup.py
-    $ easy_install "TurboGears >= 1.0.3.2"
+    $ easy_install "TurboGears == 1.0.7"
 
 OpenERP Web 5.0:
 
@@ -135,8 +135,8 @@ Start the deamon:
 Prerequisites
 
     1. Python >= 2.4
-    2. OpenERP Server 4.2.x
-    3. TurboGears >= 1.0.3.2
+    2. OpenERP Server >= 5.0
+    3. TurboGears >= 1.0.3.2 <= 1.0.7
 
 Python:
 
@@ -150,9 +150,9 @@ OpenERP Server:
 
 TurboGears:
 
-    Install setuptools package from http://cheeseshop.python.org/packages/2.5/s/setuptools/setuptools-0.6c7.win32-py2.5.exe
+    Install setuptools package from http://cheeseshop.python.org/packages/2.5/s/setuptools/setuptools-0.6c9.win32-py2.5.exe
 
-    > easy_install "TurboGears >= 1.0.3.2"
+    > easy_install "TurboGears == 1.0.7"
 
 OpenERP Web 5.0:
 
