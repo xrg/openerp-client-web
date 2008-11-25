@@ -339,6 +339,8 @@ GanttCalendar.List.prototype = {
         var groups = this.calendar.grid.groups;
         var self = this;
 
+        this._get_status();
+
         forEach(groups, function(group) {
 
             var elem = DIV({'class': 'calListGroup'});
@@ -358,7 +360,6 @@ GanttCalendar.List.prototype = {
             });
 
             elements = elements.concat(elem);
-            elem.__toggled = false;
             self.onToggle(elem, group);
         });
 
@@ -378,20 +379,44 @@ GanttCalendar.List.prototype = {
         });
     },
 
+    _get_status: function() {
+        this.stat = {};
+
+        var s = get_cookie('terp_gantt_status') || '';
+        try{
+            this.stat = eval('({' + s + '})');
+        }catch(e){}
+    },
+
+    _set_status: function() {
+        var s = [];
+        for(var k in this.stat) {
+            s.push("'" + k + "':" + this.stat[k]);
+        }
+        set_cookie('terp_gantt_status', s.join(','));
+    },
+
     onToggle: function(element, group, evt) {
 
-        var show = element.__toggled;
+        var key = getElement('_terp_model').value + '-' + group.model + '-' + group.id;
+
+        var visible = this.stat[key];
+        visible = typeof(visible) == "undefined" ? 1 : visible;
+
         var divs = getElementsByTagAndClassName('div', 'calEventLabel', element);
 
         forEach(divs, function(div) {
-            div.style.display = show ? '' : 'none';
+            div.style.display = evt ? (visible ? '' : 'none') : (visible ? 'none' : '');
         });
 
         forEach(group.events, function(e){
-            e.element.style.display = show ? '' : 'none';
+            e.element.style.display = evt ? (visible ? '' : 'none') : (visible ? 'none' : '');
         });
 
-        element.__toggled = ! show;
+        if (evt) {
+            this.stat[key] = visible ? 0 : 1;
+            this._set_status();
+        }
     },
 
     onClick: function(task, evt) {
