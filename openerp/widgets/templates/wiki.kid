@@ -19,5 +19,5 @@
         py:attrs='attrs'/>
     
     <span py:if="editable and error" class="fielderror" py:content="error"/>
-    <span py:if="not editable and value" kind="${kind}" id="${name}" style="padding: 1px" py:content="XML(data)"/>
+    <div py:if="not editable and value" kind="${kind}" id="${name}" class="${field_class}" py:content="XML(data)"/>
 </div>

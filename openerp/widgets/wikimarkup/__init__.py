@@ -347,8 +347,6 @@ _endCommentPat = re.compile(ur'(-->)', re.UNICODE)
 _extractTagsAndParams_n = 1
 _guillemetLeftPat = re.compile(ur'(.) (\?|:|;|!|\302\273)', re.UNICODE)
 _guillemetRightPat = re.compile(ur'(\302\253) ', re.UNICODE)
-_image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
-_internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
 
 def setupAttributeWhitelist():
 	common = ( u'id', u'class', u'lang', u'dir', u'title', u'style' )
@@ -1066,7 +1064,7 @@ class BaseParser(object):
 				sb.append(u'</a>')
 				i += 2
 		return ''.join(sb)
-	
+
 	# TODO: fix this so it actually works
 	def replaceFreeExternalLinks(self, text):
 		bits = _protocolPat.split(text)
@@ -1615,15 +1613,12 @@ class Parser(BaseParser):
 			taggedNewline = False
 
 		text = self.strip(text)
-		text = self.addImage(text)
-		
 		text = self.removeHtmlTags(text)
 		text = self.doTableStuff(text)
 		text = self.parseHorizontalRule(text)
 		text = self.checkTOC(text)
 		text = self.parseHeaders(text)
 		text = self.parseAllQuotes(text)
-		text = self.addInternalLinks(text)
 		text = self.replaceExternalLinks(text)
 		if not self.show_toc and text.find(u"<!--MWTOC-->") == -1:
 			self.show_toc = False
@@ -1632,7 +1627,6 @@ class Parser(BaseParser):
 		text = self.fixtags(text)
 		text = self.doBlockLevels(text, True)
 		text = self.unstripNoWiki(text)
-		
 		text = text.split(u'\n')
 		text = u'\n'.join(text)
 		if taggedNewline and text[-1:] == u'\n':
@@ -1640,38 +1634,7 @@ class Parser(BaseParser):
 		if utf8:
 			return text.encode("utf-8")
 		return text
-	
-	def addImage(self, text):
-		def image(path):
-			file = path.group().replace('img:','')
-			if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
-				return "<img src='%s'/>" % (file)
-			else:
-				return "<img src='/wiki/getImage?file=%s'/>" % (file)
-			
-		bits = _image.sub(image, text) 
-		return bits
-	
-	def addInternalLinks(self, text):
-		from openerp import rpc
-		proxy = rpc.RPCProxy('wiki.wiki')
-		def link(path):
-			link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
-			
-			mids = proxy.search([('name','ilike',link[0])])
-			if not mids:
-				mids = [1]
-			link_str = ""
-			if len(link) == 2:
-				link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
-			elif len(link) == 1:
-				link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
-			
-			return link_str
-		
-		bits = _internalLinks.sub(link, text) 
-		return bits
-	
+
 	def checkTOC(self, text):
 		if text.find(u"__NOTOC__") != -1:
 			text = text.replace(u"__NOTOC__", u"")
@@ -1708,7 +1671,7 @@ class Parser(BaseParser):
 			elif len(td) == 0:
 				pass
 			elif u'|}' == x[0:2]:
-				z = u"</table><br/><br/><br/><br/>" + x[2:]
+				z = u"</table>" + x[2:]
 				l = ltd.pop()
 				if not has_opened_tr.pop():
 					z = u"<tr><td></td><tr>" + z
@@ -1801,11 +1764,11 @@ class Parser(BaseParser):
 				t.append(u'</tr>')
 			if not has_opened_tr.pop():
 				t.append(u'<tr><td></td></tr>')
-			t.append(u'</table><br/><br/><br/><br/>')
+			t.append(u'</table>')
 	
 		text = u'\n'.join(t)
 		# special case: don't return empty table
-		if text == u"<table>\n<tr><td></td></tr>\n</table><br/><br/><br/><br/>":
+		if text == u"<table>\n<tr><td></td></tr>\n</table>":
 			text = u''
 	
 		return text

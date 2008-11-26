@@ -651,6 +651,7 @@ openerp/subcontrollers/tree.py
 openerp/subcontrollers/view_log.py
 openerp/subcontrollers/viewed.py
 openerp/subcontrollers/viewlist.py
+openerp/subcontrollers/wiki.py
 openerp/subcontrollers/wizard.py
 openerp/subcontrollers/workflow.py
 openerp/subcontrollers/templates/__init__.py
@@ -697,6 +698,7 @@ openerp/widgets/tiny_mce.py
 openerp/widgets/tree_view.py
 openerp/widgets/treegrid.py
 openerp/widgets/validators.py
+openerp/widgets/wiki.py
 openerp/widgets/templates/__init__.py
 openerp/widgets/templates/binary.kid
 openerp/widgets/templates/boolean.kid
@@ -734,6 +736,7 @@ openerp/widgets/tinycalendar/templates/groups.kid
 openerp/widgets/tinycalendar/templates/mini.kid
 openerp/widgets/tinycalendar/templates/month.kid
 openerp/widgets/tinycalendar/templates/week.kid
+openerp/widgets/tinywiki/__init__.py
 openerp/widgets_search/__init__.py
 openerp/widgets_search/search.py
 openerp/widgets_search/templates/__init__.py
