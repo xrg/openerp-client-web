@@ -18,13 +18,7 @@ class Wiki(Text):
         super(Wiki, self).set_value(value)
         
         if value:
-            from tinywiki import parse
+            from tinywiki import wiki2html
             text = value+'\n\n'
-            html = parse(text, True)
+            html = wiki2html(text, True)
             self.data = html
-            
-#            input = StringIO(value+'\n\n')
-#            parser = Wiki2Html.Wiki2Html()
-#            parser.read(input)
-#            html = parser.html
-#            self.data = html
