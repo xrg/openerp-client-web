@@ -72,7 +72,7 @@ class O2M(TinyCompoundWidget):
 
         pparams = params.chain_get(pprefix)
         if (pparams and not pparams.id) or (not pparams and not params.id):
-            self.new_attrs = { 'text': _("Save/New"), 'help': _('Save parent and create new record.')}
+            self.new_attrs = { 'text': _("Save/New"), 'help': _('Save parent record.')}
             
         self.parent_id = params.id
         if pparams:
