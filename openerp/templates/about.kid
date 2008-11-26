@@ -21,15 +21,11 @@
             <b>Version ${version}</b>
 <p>
 Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
-OpenERP is a trademark of the Tiny Company.
-Licenced under the <a target="_blank" href="http://www.gnu.org/licenses/gpl.html">GPL V3</a>.
-</p>
-<p>
-<i>OpenERP Web</i> is the official web client of <a target="_blank" href="http://openerp.com">OpenERP</a> developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
+OpenERP is a trademark of the Tiny Company. <i>OpenERP Web Client</i> is jointly developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
 </p>
 
 <p>
-<i>OpenERP Web</i> is known to work with all major web browsers available today including <i>Firefox</i>, <i>IE6</i>, <i>IE7</i>, <i>Safari3</i> and <i>Opera9</i>. It's built on the <a target="_blank" href="http://www.turbogears.org/">TurboGears</a> framework.
+Licenced under the terms of <a href="/LICENSE.txt">OpenERP Public License (OEPL) v1.1</a>
 </p>
 
             </td>
