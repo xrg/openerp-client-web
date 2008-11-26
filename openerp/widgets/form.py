@@ -6,25 +6,24 @@
 #
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
-# WARNING: This program as such is intended to be used by professional
-# programmers who take the whole responsibility of assessing all potential
-# consequences resulting from its eventual inadequacies and bugs
-# End users who are looking for a ready-to-use solution with commercial
-# guarantees and support are strongly advised to contract a Free Software
-# Service Company
+# The OpenERP web client is distributed under the "OpenERP Public License".
+# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# restrictions:
 #
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+#     kept as in original distribution without any changes in all software 
+#     screens, especially in start-up page and the software header, even if 
+#     the application source code has been changed or updated or code has been 
+#     added.
+#
+# -   All distributions of the software must keep source code with OEPL.
 # 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# -   All integrations to any other software must keep source code with OEPL.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# If you need commercial licence to remove this kind of restriction please
+# contact us.
+#
+# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
 
@@ -594,8 +593,7 @@ class Image(TinyField):
         TinyField.__init__(self, attrs)
         
         self.filename = attrs.get('filename', '')
-        self.validator = tiny_validators.Binary()
-
+        
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
@@ -603,6 +601,7 @@ class Image(TinyField):
             self.height = attrs.get('img_height', attrs.get('height', 160))
             self.width = attrs.get('img_width', attrs.get('width', 200))
             self.id = attrs['id']
+            self.validator = tiny_validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
     
@@ -912,7 +911,7 @@ from one2many import O2M
 from many2many import M2M
 from reference import Reference
 from tiny_mce import TinyMCE
-import wiki
+from wiki import WikiWidget
 
 widgets_type = {
     'date': DateTime,
@@ -940,7 +939,7 @@ widgets_type = {
     'url' : Url,
     'image' : Image,
     'progressbar' : ProgressBar,
-    'text_wiki': wiki.Wiki
+    'text_wiki': WikiWidget
 }
 
 # vim: ts=4 sts=4 sw=4 si et

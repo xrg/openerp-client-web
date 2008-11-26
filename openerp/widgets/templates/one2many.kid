@@ -1,6 +1,6 @@
-<table border="0" cellpadding="0" id="_o2m_$name" cellspacing="0" class="one2many" width="100%" xmlns:py="http://purl.org/kid/ns#">
+<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" id="_o2m_$name" cellspacing="0" width="100%" class="one2many">
     <tr>
-        <td style="padding: 2px">
+        <td>
             <div class="toolbar">
                 <table width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>

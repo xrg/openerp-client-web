@@ -353,8 +353,10 @@ div.welcome {
 .view .fields {
 }
 
-.view table.one2many {
-    border-bottom: 1px solid #bbb8a9;
+.view table.one2many,
+.view table.many2many {
+    border: 1px solid #bbb8a9;
+    padding: 2px;
 }
 
 .view .separator {

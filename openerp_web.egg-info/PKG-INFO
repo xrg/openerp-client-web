@@ -5,7 +5,7 @@ Summary: Web Client of OpenERP, the Enterprise Management Software
 Home-page: http://openerp.com/
 Author: Tiny ERP Pvt. Ltd.
 Author-email: info@openerp.com
-License: GPL
+License: OEPL
 Download-URL: http://openerp.com/download
 Description: OpenERP Web is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt...
 Keywords: turbogears.app
