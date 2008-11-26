@@ -66,15 +66,25 @@ class ViewList(controllers.Controller, TinyResource):
         
         if not view_name:
             raise redirect('/viewlist', model=model)
-        
-        arch = """<?xml version="1.0"?>
-        <%s string="Unknwown">
-            <field name="name"/>
-        </%s>
-        """ % (view_type, view_type)
-        
-        proxy = rpc.RPCProxy('ir.ui.view')
-        proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
+
+        proxy = rpc.RPCProxy(model)
+        fields = proxy.fields_get({}).keys()
+
+        fname = None
+        for n in ('name', 'x_name'):
+            if n in fields:
+                fname = n
+                break
+
+        if fname:
+            arch = """<?xml version="1.0"?>
+            <%s string="Unknwown">
+                <field name="%s"/>
+            </%s>
+            """ % (view_type, fname, view_type)
+
+            proxy = rpc.RPCProxy('ir.ui.view')
+            proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
         
         raise redirect('/viewlist', model=model)
     
