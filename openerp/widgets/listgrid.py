@@ -297,9 +297,6 @@ class List(TinyCompoundWidget):
                 
                     kind = fields[name]['type']
 
-                    if 'sum' in attrs:
-                        field_total[name] = [attrs['sum'], 0.0]
-
                     if kind not in CELLTYPES:
                         kind = 'char'
 
@@ -315,6 +312,9 @@ class List(TinyCompoundWidget):
                     if invisible:
                         hiddens += [(name, fields[name])]
                         continue
+
+                    if 'sum' in attrs:
+                        field_total[name] = [attrs['sum'], 0.0]
 
                     for i, row in enumerate(data):
 
