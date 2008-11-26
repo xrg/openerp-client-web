@@ -98,8 +98,8 @@ GanttCalendar.prototype = {
         this.events = {};
         this.groups = {};
 
-        var events = MochiKit.DOM.getElementsByTagAndClassName('div', 'calEvent', 'calGantt');
-        var groups = MochiKit.DOM.getElementsByTagAndClassName('div', 'calGroup', 'calGantt');
+        var events = MochiKit.DOM.getElementsByTagAndClassName('div', 'calEvent', 'calGantt') || [];
+        var groups = MochiKit.DOM.getElementsByTagAndClassName('div', 'calGroup', 'calGantt') || [];
 
         for(var i=0; i<events.length; i++) {
         
@@ -141,14 +141,6 @@ GanttCalendar.prototype = {
             MochiKit.DOM.removeElement(elem);
         }
 
-        // create a dummy group if no group
-        if (groups.length == 0) {
-            this.groups[0] = {
-                'title': null,
-                'model': null,
-                'items': null
-            }
-        }
     },
 
     onEventDrag: function(draggable, evt) {
@@ -345,12 +337,10 @@ GanttCalendar.List.prototype = {
 
             var elem = DIV({'class': 'calListGroup'});
 
-            if (!group.isDummy) {
-                var div = DIV({'class': 'calGroupLabel'}, group.title);
-                var e = MochiKit.Signal.connect(div, 'onclick', self, partial(self.onToggle, elem, group));
-                MochiKit.DOM.appendChildNodes(elem, div);
-                self._signals.push(e);
-            }
+            var div = DIV({'class': 'calGroupLabel'}, group.title);
+            var e = MochiKit.Signal.connect(div, 'onclick', self, partial(self.onToggle, elem, group));
+            MochiKit.DOM.appendChildNodes(elem, div);
+            self._signals.push(e);
 
             forEach(group.events, function(evt) {
                 var div = DIV({'class': 'calEventLabel'}, evt.title);
@@ -486,7 +476,7 @@ GanttCalendar.Grid.prototype = {
         this.groups = [];
 
         for(var id in this.calendar.groups) {
-            this.groups = this.groups.concat(new GanttCalendar.GridGroup(id, this.calendar));
+            this.groups = this.groups.concat(new GanttCalendar.GridGroup(parseInt(id), this.calendar));
         }
     },
    
@@ -553,13 +543,8 @@ GanttCalendar.GridGroup.prototype = {
         this.items = group.items || [];
 
         this.element = DIV({'class': 'calGroup'});
-        this.isDummy = !this.id;
 
-        if (this.isDummy) {
-            this.items = MochiKit.Base.keys(events);
-        }
-
-        this.bar = this.isDummy ? null : DIV({'class': 'calEvent calBar'});
+        this.bar = DIV({'class': 'calEvent calBar'});
         this.events = [];
 
         var self = this;
