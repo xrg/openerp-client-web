@@ -13,6 +13,7 @@ class WikiParser(wikimarkup.Parser):
 		text = self.strip(text)
 		text = self.addImage(text)
 		text = super(WikiParser, self).parse(text)
+		text = self.addInternalLinks(text)
 		return text
 	
 	def addImage(self, text):
@@ -31,15 +32,14 @@ class WikiParser(wikimarkup.Parser):
 		proxy = rpc.RPCProxy('wiki.wiki')
 		def link(path):
 			link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
-			
-			mids = proxy.search([('name','ilike',link[0])])
+			mids = proxy.search([('name','ilike',link[0].strip())])
 			if not mids:
 				mids = [1]
 			link_str = ""
 			if len(link) == 2:
-				link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
+				link_str = "<a href='?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1].strip())
 			elif len(link) == 1:
-				link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
+				link_str = "<a href='?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0].strip())
 			
 			return link_str
 		
