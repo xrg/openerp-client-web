@@ -45,6 +45,7 @@ from openerp import rpc
 def expr_eval(string, context={}):
     context['uid'] = rpc.session.uid
     if isinstance(string, basestring):
+        string = string.replace("'active_id'", "active_id")
         return eval(string, context)
     else:
         return string

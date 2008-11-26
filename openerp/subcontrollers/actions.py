@@ -238,15 +238,14 @@ def execute(action, **data):
         if not action.get('domain', False):
             action['domain']='[]'
 
-        context = {'active_id': data.get('id', False), 'active_ids': data.get('ids', [])}
-        context.update(tools.expr_eval(action.get('context', '{}'), context.copy()))
-        context.update(rpc.session.context.copy())
-        context.update(data.get('context', {}).copy())
-        
+        ctx = data.get('context', {}).copy()
+        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
+        ctx.update(tools.expr_eval(action.get('context', '{}'), ctx.copy()))
+
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
-        a = context.copy()
+        a = ctx.copy()
         a['time'] = time
         a['datetime'] = datetime
         domain = tools.expr_eval(action['domain'], a)
@@ -259,7 +258,7 @@ def execute(action, **data):
                              data['res_id'],
                              domain,
                              action['view_type'],
-                             context,data['view_mode'],
+                             ctx, data['view_mode'],
                              name=action.get('name'),
                              target=action.get('target'),
                              limit=data.get('limit'))
