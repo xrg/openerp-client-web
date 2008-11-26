@@ -593,8 +593,7 @@ class Image(TinyField):
         TinyField.__init__(self, attrs)
         
         self.filename = attrs.get('filename', '')
-        self.validator = tiny_validators.Binary()
-
+        
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
@@ -602,6 +601,7 @@ class Image(TinyField):
             self.height = attrs.get('img_height', attrs.get('height', 160))
             self.width = attrs.get('img_width', attrs.get('width', 200))
             self.id = attrs['id']
+            self.validator = tiny_validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
     
