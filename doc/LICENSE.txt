@@ -1,6 +1,69 @@
-                          MOZILLA PUBLIC LICENSE
-                                Version 1.1
+                        OpenERP Public License (OEPL) 
+                                 Version 1.1
+===============================================================================
 
+The OpenERP web client is distributed under the "OpenERP Public License".
+It's based on Mozilla Public License (MPL) Version 1.1 with following 
+restrictions:
+
+-   All names, links and logos of Tiny, Open ERP and Axelor must be 
+    kept as in original distribution without any changes in all software 
+    screens, especially in start-up page and the software header, even if 
+    the application source code has been changed or updated or code has been 
+    added.
+
+-   All distributions of the software must keep source code with OEPL.
+
+-   All integrations to any other software must keep source code with OEPL.
+
+If you need commercial licence to remove this kind of restriction please
+contact us.
+
+You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+
+===============================================================================
+Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
+
+-------------------------------------------------------------------------------
+FAQ
+-------------------------------------------------------------------------------
+
+1.  Why based on MPL?
+
+    -   MPL is one of the fastest growing OS licenses and widely recognized 
+        Open Source licence by all open Source community.
+
+    -   MPL guarantees end-user freedoms - Under MPL, end-users are free to 
+        share, deploy, and integrate derivative works of "OpenObject web client"
+        throughout their organizations as well as within their IT outsourcing
+        partners without any obligation to open source any value-added IP. And 
+        of course, enterprises can deploy the "Open Object web client" for an 
+        unlimited number of users with no requirement to have a commercial 
+        relationship with "OpenObject web client" editors.
+
+    -   MPL encourages third-parties to provide value-added components - Any
+        vendor is free to produce, integrate and sell separable open-source
+        or closed-source extensions to the "OpenObject web client".
+
+    -   MPL best ensures that value-added resellers do the right thing - Any
+        vendor is free to use "OpenObject web client" open source software to
+        produce and sell a value-added derivative work.
+
+    -   client is inherently redistributed via browser-download to their 
+        customers (in both source code and, as appropriate.)
+
+2.  Why add branding restrictions on MPL?
+
+    These restrictions are only to maintain our trademark and branding. It will
+    not affect in any case product copying, improvements, deploying, etc.
+
+    We believe that community will not be affected by these few restrictions
+    that's goal is only to recognise editors efforts. Source still opens and
+    free so enjoy
+
+
+                          Open ERP PUBLIC LICENSE
+                                Version 1.1
                               ---------------
 
 1. Definitions.
@@ -432,39 +495,13 @@
      Your choice of the NPL or the alternative licenses, if any, specified
      by the Initial Developer in the file described in Exhibit A.
 
-EXHIBIT A -Mozilla Public License.
+14. All names, links and logos of Tiny, Open ERP and Axelor must be 
+    kept as in original distribution without any changes in all software 
+    screens, especially in start-up page and the software header, even if 
+    the application source code has been changed or updated or code has been 
+    added.
 
-     ``The contents of this file are subject to the Mozilla Public License
-     Version 1.1 (the "License"); you may not use this file except in
-     compliance with the License. You may obtain a copy of the License at
-     http://www.mozilla.org/MPL/
+15. All distributions of the software must keep source code with OEPL.
 
-     Software distributed under the License is distributed on an "AS IS"
-     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-     License for the specific language governing rights and limitations
-     under the License.
-
-     The Original Code is ______________________________________.
-
-     The Initial Developer of the Original Code is ________________________.
-     Portions created by ______________________ are Copyright (C) ______
-     _______________________. All Rights Reserved.
-
-     Contributor(s): ______________________________________.
-
-     Alternatively, the contents of this file may be used under the terms
-     of the _____ license (the  "[___] License"), in which case the
-     provisions of [______] License are applicable instead of those
-     above.  If you wish to allow use of your version of this file only
-     under the terms of the [____] License and not to allow others to use
-     your version of this file under the MPL, indicate your decision by
-     deleting  the provisions above and replace  them with the notice and
-     other provisions required by the [___] License.  If you do not delete
-     the provisions above, a recipient may use your version of this file
-     under either the MPL or the [___] License."
-
-     [NOTE: The text of this Exhibit A may differ slightly from the text of
-     the notices in the Source Code files of the Original Code. You should
-     use the text of this Exhibit A rather than the text found in the
-     Original Code Source Code for Your Modifications.]
+16. All integrations to any other software must keep source code with OEPL.
 

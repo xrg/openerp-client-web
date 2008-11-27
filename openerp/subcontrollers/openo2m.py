@@ -130,7 +130,10 @@ class OpenO2M(Form):
         if pprefix:
             data = eval(pprefix, TinyDict(**data)).make_dict()
 
-        id = proxy.write([params.parent_id], data, rpc.session.context)
+        ctx = rpc.session.context.copy()
+        ctx.update(params.o2m_context or {})
+
+        id = proxy.write([params.parent_id], data, ctx)
         
         params.load_counter = 1
 

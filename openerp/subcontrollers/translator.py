@@ -88,7 +88,7 @@ class Translator(controllers.Controller, TinyResource):
                         val = proxy.read([params.id], [name], context)
                         val = val[0]
 
-                        value[lang['code']] = val[name]
+                        value[lang['code']] = val[name] or None
 
                     data += [(name, value, None, attrs.get('string'))]
         
@@ -102,7 +102,7 @@ class Translator(controllers.Controller, TinyResource):
                         val = proxy.read_string(False, [code], [name])
                         
                         if name in val[code]:
-                            value[code] = val[code][name]
+                            value[code] = val[code][name] or None
 
                     if value: data += [(name, value, None, None)]
                     
@@ -115,7 +115,7 @@ class Translator(controllers.Controller, TinyResource):
                         code = lang['code']                    
                         val = rpc.session.execute('object', 'execute', tool['type'], 'read', [tool['id']], ['name'], {'lang': code})
 
-                        value[code] = val[0]['name']
+                        value[code] = val[0]['name'] or None
                         
                     data += [(tool['id'], value, tool['type'], None)]
 

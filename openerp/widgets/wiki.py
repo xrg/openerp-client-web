@@ -30,7 +30,7 @@
 import re
 import random
 import locale
-
+import cherrypy
 from base64 import b64encode, b64decode
 from StringIO import StringIO
 
@@ -38,28 +38,74 @@ import turbogears as tg
 import wikimarkup
 
 from form import Text
-
+from openerp import rpc
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
+_attach = re.compile(r'attach:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
+_edit = re.compile(r'edit:(.*)\|(.*)', re.UNICODE)
 
 class WikiParser(wikimarkup.Parser):
     
-    def parse(self, text):
+    def parse(self, text, id):
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
-        text = self.addImage(text)
         text = super(WikiParser, self).parse(text)
+        text = self.addImage(text, id)
+        text = self.attachDoc(text)
+        text = self.recordLink(text)
+        text = self.addInternalLinks(text)
         return text
+
+    def attachDoc(self, text):
+        def document(path):
+            file = path.group().replace('attach:','')
+            if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
+                return "<a href='%s'>Download File</a>" % (file)
+            else:
+                proxy = rpc.RPCProxy('ir.attachment')
+                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
+                if len(ids) > 0:
+                    return "<a href='/wiki/getfile?file=%s'>%s</a>" % (file, file)
+                else:
+                    return "<a href='/attachment/?model=wiki.wiki&amp;id=20'>Attach : %s </a>" % (file)
+        bits = _attach.sub(document, text)
+        return bits
     
-    def addImage(self, text):
+    def addImage(self, text, id):
         def image(path):
             file = path.group().replace('img:','')
             if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
                 return "<img src='%s'/>" % (file)
             else:
-                return "<img src='/wiki/getImage?file=%s'/>" % (file)
-            
+                proxy = rpc.RPCProxy('ir.attachment')
+                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
+                if len(ids) > 0:
+                    return "<img src='/wiki/getImage?file=%s'/>" % (file)
+                else:
+                    return "[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
         bits = _image.sub(image, text) 
+        return bits
+    
+    def recordLink(self, text):
+        def record(path):
+            record = path.group().replace('edit:','').split("|")
+            model = record[0]
+            text = record[1].replace('\r','').strip()
+            label = "Edit Record"
+            if len(record) > 2:
+                label = record[2]
+            proxy = rpc.RPCProxy(model)
+            ids = proxy.name_search(text, [], '=', {})
+            if len(ids):
+                id = ids[0][0]
+            else:
+                try:
+                    id = int(text)
+                except:
+                    id = 0
+            return "[[/form/edit?model=%s&amp;id=%d | %s]]" % (model, id, label)
+        
+        bits = _edit.sub(record, text) 
         return bits
     
     def addInternalLinks(self, text):
@@ -67,24 +113,28 @@ class WikiParser(wikimarkup.Parser):
         proxy = rpc.RPCProxy('wiki.wiki')
         def link(path):
             link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
-            
+
             mids = proxy.search([('name','ilike',link[0])])
-            if not mids:
-                mids = [1]
             link_str = ""
-            if len(link) == 2:
-                link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
-            elif len(link) == 1:
-                link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
-            
+            if mids:
+               if len(link) == 2:
+                   link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
+               elif len(link) == 1:
+                   link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
+            else:
+                if len(link) == 2:
+                    link_str = "<a href='%s'>%s</a>" % (link[0], link[1])
+                elif len(link) == 1:
+                    link_str = "<a href='/form/edit?model=wiki.wiki&amp;id=False'>%s</a>" % (link[0])
+                    
             return link_str
         
         bits = _internalLinks.sub(link, text) 
         return bits
 
-def wiki2html(text, showToc=True):
+def wiki2html(text, showToc, id):
     p = WikiParser(show_toc=showToc)
-    return p.parse(text)
+    return p.parse(text, id)
 
 class WikiWidget(Text):
     template = "openerp.widgets.templates.wiki"
@@ -101,8 +151,12 @@ class WikiWidget(Text):
 
     def set_value(self, value):
         super(WikiWidget, self).set_value(value)
-        
         if value:
+            toc = True
+            if hasattr(cherrypy.request, 'terp_record'): 
+                toc = cherrypy.request.terp_record.get('toc', True)
+                params = cherrypy.request.terp_params
+                id = params.id
             text = value+'\n\n'
-            html = wiki2html(text, True)
+            html = wiki2html(text, toc, id)
             self.data = html
