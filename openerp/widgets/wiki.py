@@ -42,6 +42,7 @@ from openerp import rpc
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
 _attach = re.compile(r'attach:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
+_edit = re.compile(r'edit:(.*)\|(.*)', re.UNICODE)
 
 class WikiParser(wikimarkup.Parser):
     
@@ -51,6 +52,7 @@ class WikiParser(wikimarkup.Parser):
         text = super(WikiParser, self).parse(text)
         text = self.addImage(text, id)
         text = self.attachDoc(text)
+        text = self.recordLink(text)
         text = self.addInternalLinks(text)
         return text
 
@@ -82,6 +84,28 @@ class WikiParser(wikimarkup.Parser):
                 else:
                     return "[[/attachment/?model=wiki.wiki&amp;id=%d | img:%s]]" % (id, file)
         bits = _image.sub(image, text) 
+        return bits
+    
+    def recordLink(self, text):
+        def record(path):
+            record = path.group().replace('edit:','').split("|")
+            model = record[0]
+            text = record[1].replace('\r','').strip()
+            label = "Edit Record"
+            if len(record) > 2:
+                label = record[2]
+            proxy = rpc.RPCProxy(model)
+            ids = proxy.name_search(text, [], '=', {})
+            if len(ids):
+                id = ids[0][0]
+            else:
+                try:
+                    id = int(text)
+                except:
+                    id = 0
+            return "[[/form/edit?model=%s&amp;id=%d | %s]]" % (model, id, label)
+        
+        bits = _edit.sub(record, text) 
         return bits
     
     def addInternalLinks(self, text):
