@@ -1,10 +1,6 @@
 CHANGES.txt
-LICENSE.txt
 MANIFEST.in
-README.txt
-TODO.txt
 clean.sh
-default.cfg
 dev.cfg
 sample-prod.cfg
 setup.py
@@ -736,7 +732,7 @@ openerp/widgets/tinycalendar/templates/groups.kid
 openerp/widgets/tinycalendar/templates/mini.kid
 openerp/widgets/tinycalendar/templates/month.kid
 openerp/widgets/tinycalendar/templates/week.kid
-openerp/widgets/tinywiki/__init__.py
+openerp/widgets/wikimarkup/__init__.py
 openerp/widgets_search/__init__.py
 openerp/widgets_search/search.py
 openerp/widgets_search/templates/__init__.py
