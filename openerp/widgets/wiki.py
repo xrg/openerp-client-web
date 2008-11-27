@@ -124,6 +124,9 @@ class WikiParser(wikimarkup.Parser):
             else:
                 if len(link) == 2:
                     link_str = "<a href='%s'>%s</a>" % (link[0], link[1])
+                elif len(link) == 1:
+                    link_str = "<a href='/form/edit?model=wiki.wiki&amp;id=False'>%s</a>" % (link[0])
+                    
             return link_str
         
         bits = _internalLinks.sub(link, text) 
