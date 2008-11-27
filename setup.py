@@ -11,11 +11,14 @@ if os.path.isdir('locales'):
     packages.append('locales')
     package_data.update(find_package_data(where='locales', exclude=('*.po',), only_in_packages=False))
 
+data_files = []
+for name in ('config', 'scripts', 'doc'):
+    data = find_package_data(where=name, package=name, exclude=('*~',), only_in_packages=False)
+    data_files += [(name, [name + '/' + f for f in data[name]])]
+
 setup(
     name = "openerp-web",
     version = version,
-
-    # uncomment the following lines if you fill them out in release.py
     description = description,
     long_description = long_description,
     author = author,
@@ -35,20 +38,6 @@ setup(
     keywords = [
         # Use keywords if you'll be adding your package to the
         # Python Cheeseshop
-
-        # if this has widgets, uncomment the next line
-        # 'turbogears.widgets',
-
-        # if this has a tg-admin command, uncomment the next line
-        # 'turbogears.command',
-
-        # if this has identity providers, uncomment the next line
-        # 'turbogears.identity.provider',
-
-        # If this is a template plugin, uncomment the next line
-        # 'python.templating.engines',
-
-        # If this is a full application, uncomment the next line
         'turbogears.app',
     ],
     classifiers = [
@@ -57,13 +46,7 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Framework :: TurboGears',
-        # if this is an application that you'll distribute through
-        # the Cheeseshop, uncomment the next line
         'Framework :: TurboGears :: Applications',
-
-        # if this is a package that includes widgets that you'll distribute
-        # through the Cheeseshop, uncomment the next line
-        # 'Framework :: TurboGears :: Widgets',
     ],
     test_suite = 'nose.collector',
     entry_points = {
@@ -71,10 +54,8 @@ setup(
             'start-openerp-web = openerp.commands:start',
         ],
     },
-    # Uncomment next line and create a default.cfg file in your project dir
-    # if you want to package a default configuration in your egg.
-    data_files = [('config', ['default.cfg']), 
-                  ('scripts', ['openerp-web'])],
+
+    data_files = data_files,
     )
 
 # vim: ts=4 sts=4 sw=4 si et
