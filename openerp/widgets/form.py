@@ -438,7 +438,9 @@ class Selection(TinyField):
             proxy = rpc.RPCProxy(attrs['relation'])
             try:
                 ids = proxy.search(attrs.get('domain') or [])
-                self.options = proxy.name_get(ids)
+                ctx = rpc.session.context.copy()
+                ctx.update(attrs.get('context', {}))
+                self.options = proxy.name_get(ids, ctx)
             except:
                 self.options = []
         else:
@@ -452,12 +454,12 @@ class Selection(TinyField):
             self.validator = tiny_validators.Selection()
 
     def set_value(self, value):
-        
+
+        if isinstance(value, (tuple, list)):
+            value = value[0]
+
         if self.options and value not in dict(self.options):
             value = None
-               
-        elif isinstance(value, (tuple, list)):
-            value = value[0]
             
         super(Selection, self).set_value(value)
 

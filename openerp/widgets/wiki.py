@@ -48,19 +48,24 @@ class WikiParser(wikimarkup.Parser):
     def parse(self, text, id):
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
-        #text = self.attachDoc(text)
         text = super(WikiParser, self).parse(text)
         text = self.addImage(text, id)
+        text = self.attachDoc(text)
         text = self.addInternalLinks(text)
         return text
-    
+
     def attachDoc(self, text):
         def document(path):
             file = path.group().replace('attach:','')
             if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
-                return "<a href='%s'>Download</a>" % (file)
+                return "<a href='%s'>Download File</a>" % (file)
             else:
-                return "<a href='/attachment/?model=wiki.wiki&id=20'>Apple</a>"
+                proxy = rpc.RPCProxy('ir.attachment')
+                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
+                if len(ids) > 0:
+                    return "<a href='/wiki/getfile?file=%s'>%s</a>" % (file, file)
+                else:
+                    return "<a href='/attachment/?model=wiki.wiki&amp;id=20'>Attach : %s </a>" % (file)
         bits = _attach.sub(document, text)
         return bits
     
@@ -71,7 +76,7 @@ class WikiParser(wikimarkup.Parser):
                 return "<img src='%s'/>" % (file)
             else:
                 proxy = rpc.RPCProxy('ir.attachment')
-                ids = proxy.search([('datas_fname','=',file), ('res_model','=','wiki.wiki')])
+                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
                 if len(ids) > 0:
                     return "<img src='/wiki/getImage?file=%s'/>" % (file)
                 else:
@@ -123,8 +128,7 @@ class WikiWidget(Text):
             toc = True
             if hasattr(cherrypy.request, 'terp_record'): 
                 toc = cherrypy.request.terp_record.get('toc', True)
-                print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX : ', dir(cherrypy.request)
-                id = rpc.session.context.get('active_id',0)
+                id = rpc.session.active_id
             text = value+'\n\n'
             html = wiki2html(text, toc, id)
             self.data = html

@@ -29,7 +29,7 @@
 
 import os
 import base64
-
+import cherrypy
 import kid
 from turbogears import expose
 from turbogears import controllers
@@ -45,6 +45,12 @@ import openerp.widgets as tw
 from pyparsing import *
 import form
 
+FILE_FORMATS = {
+     'pdf' : 'application/pdf',
+     'doc' : 'application/vnd.ms-word',
+     'html': 'text/html',
+}
+
 class WikiView(controllers.Controller, TinyResource):
     path = '/wiki' 
     @expose(content_type='application/octet')
@@ -56,4 +62,17 @@ class WikiView(controllers.Controller, TinyResource):
         ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki')])
         res = proxy.read(ids, ['datas'])[0]
         res = res.get('datas')
+        return base64.decodestring(res)
+    
+    @expose(content_type='application/octet')
+    def getfile(self, *kw, **kws):
+        model = 'ir.attachment'
+        field = 'datas_fname'
+        file = kws.get('file').replace("'",'').strip()
+        proxy = rpc.RPCProxy(model)
+        ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki')])
+        res = proxy.read(ids, ['datas'])[0]
+        res = res.get('datas')
+        #cherrypy.response.headers['Content-Type'] = FILE_FORMATS[data['format']]
+        cherrypy.response.headers['Content-Disposition'] = 'filename="' + file + '"';
         return base64.decodestring(res)
