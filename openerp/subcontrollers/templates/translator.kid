@@ -55,8 +55,8 @@
                     </tr>
                     <tr class="grid-row" py:for="n, v, x, s in data">
                         <input type="hidden" name="_terp_models/${n}" value="${x}" py:if="x"/>
-                        <td py:if="translate=='fields'" class="grid-cell" align="right">${s}: </td>
-                        <td class="grid-cell" py:for="lang in langs">
+                        <td py:if="translate=='fields'" class="grid-cell label" align="right">${s}: </td>
+                        <td class="grid-cell item" py:for="lang in langs">
                             <input type="text" name="${lang['code']}/${n}" value="${v[lang['code']]}" style="width: 100%;"/>
                         </td>
                     </tr>
