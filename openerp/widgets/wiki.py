@@ -82,7 +82,7 @@ class WikiParser(wikimarkup.Parser):
                 if len(ids) > 0:
                     return "<img src='/wiki/getImage?file=%s'/>" % (file)
                 else:
-                    return "[[/attachment/?model=wiki.wiki&amp;id=%d | img:%s]]" % (id, file)
+                    return "[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
         bits = _image.sub(image, text) 
         return bits
     
@@ -152,7 +152,8 @@ class WikiWidget(Text):
             toc = True
             if hasattr(cherrypy.request, 'terp_record'): 
                 toc = cherrypy.request.terp_record.get('toc', True)
-                id = rpc.session.active_id
+                params = cherrypy.request.terp_params
+                id = params.id
             text = value+'\n\n'
             html = wiki2html(text, toc, id)
             self.data = html
