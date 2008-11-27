@@ -30,7 +30,7 @@
 import re
 import random
 import locale
-
+import cherrypy
 from base64 import b64encode, b64decode
 from StringIO import StringIO
 
@@ -38,27 +38,44 @@ import turbogears as tg
 import wikimarkup
 
 from form import Text
-
+from openerp import rpc
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
+_attach = re.compile(r'attach:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
 
 class WikiParser(wikimarkup.Parser):
     
-    def parse(self, text):
+    def parse(self, text, id):
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
-        text = self.addImage(text)
+        #text = self.attachDoc(text)
         text = super(WikiParser, self).parse(text)
+        text = self.addImage(text, id)
+        text = self.addInternalLinks(text)
         return text
     
-    def addImage(self, text):
+    def attachDoc(self, text):
+        def document(path):
+            file = path.group().replace('attach:','')
+            if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
+                return "<a href='%s'>Download</a>" % (file)
+            else:
+                return "<a href='/attachment/?model=wiki.wiki&id=20'>Apple</a>"
+        bits = _attach.sub(document, text)
+        return bits
+    
+    def addImage(self, text, id):
         def image(path):
             file = path.group().replace('img:','')
             if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
                 return "<img src='%s'/>" % (file)
             else:
-                return "<img src='/wiki/getImage?file=%s'/>" % (file)
-            
+                proxy = rpc.RPCProxy('ir.attachment')
+                ids = proxy.search([('datas_fname','=',file), ('res_model','=','wiki.wiki')])
+                if len(ids) > 0:
+                    return "<img src='/wiki/getImage?file=%s'/>" % (file)
+                else:
+                    return "[[/attachment/?model=wiki.wiki&amp;id=%d | img:%s]]" % (id, file)
         bits = _image.sub(image, text) 
         return bits
     
@@ -67,24 +84,25 @@ class WikiParser(wikimarkup.Parser):
         proxy = rpc.RPCProxy('wiki.wiki')
         def link(path):
             link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
-            
+
             mids = proxy.search([('name','ilike',link[0])])
-            if not mids:
-                mids = [1]
             link_str = ""
-            if len(link) == 2:
-                link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
-            elif len(link) == 1:
-                link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
-            
+            if mids:
+               if len(link) == 2:
+                   link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
+               elif len(link) == 1:
+                   link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
+            else:
+                if len(link) == 2:
+                    link_str = "<a href='%s'>%s</a>" % (link[0], link[1])
             return link_str
         
         bits = _internalLinks.sub(link, text) 
         return bits
 
-def wiki2html(text, showToc=True):
+def wiki2html(text, showToc, id):
     p = WikiParser(show_toc=showToc)
-    return p.parse(text)
+    return p.parse(text, id)
 
 class WikiWidget(Text):
     template = "openerp.widgets.templates.wiki"
@@ -101,8 +119,12 @@ class WikiWidget(Text):
 
     def set_value(self, value):
         super(WikiWidget, self).set_value(value)
-        
         if value:
+            toc = True
+            if hasattr(cherrypy.request, 'terp_record'): 
+                toc = cherrypy.request.terp_record.get('toc', True)
+                print 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX : ', dir(cherrypy.request)
+                id = rpc.session.context.get('active_id',0)
             text = value+'\n\n'
-            html = wiki2html(text, True)
+            html = wiki2html(text, toc, id)
             self.data = html

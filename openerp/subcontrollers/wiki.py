@@ -52,7 +52,6 @@ class WikiView(controllers.Controller, TinyResource):
         model = 'ir.attachment'
         field = 'datas_fname'
         file = kws.get('file').replace("'",'').strip()
-        #id = kws.get('id')
         proxy = rpc.RPCProxy(model)
         ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki')])
         res = proxy.read(ids, ['datas'])[0]
