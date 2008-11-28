@@ -577,10 +577,6 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: openerp/widgets/templates/viewform.kid:button
-msgid "New"
-msgstr ""
-
 #: openerp/widgets/templates/pager.kid:span
 msgid "<< First"
 msgstr ""
@@ -877,10 +873,6 @@ msgstr ""
 
 #: openerp/templates/master.kid:a
 msgid "Home"
-msgstr ""
-
-#: openerp/templates/master.kid:a
-msgid "Preferences"
 msgstr ""
 
 #: openerp/templates/master.kid:a
@@ -1581,9 +1573,5 @@ msgstr ""
 
 #: openerp/subcontrollers/templates/process.kid:a
 msgid "Customize"
-msgstr ""
-
-#: openerp/subcontrollers/templates/view_log.kid:title
-msgid "Information"
 msgstr ""
 
