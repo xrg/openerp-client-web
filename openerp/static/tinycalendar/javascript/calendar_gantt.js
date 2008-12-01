@@ -454,6 +454,8 @@ GanttCalendar.Grid.prototype = {
 
         this._makeGrid();
         this._makeGroups();
+
+        this.adjust();
     },
 
     __delete__: function() {
@@ -499,9 +501,16 @@ GanttCalendar.Grid.prototype = {
     },
    
     adjust: function() {
+
+        var left = null;
         forEach(this.groups, function(g){
             g.adjust();
+            var x = parseInt(g.bar.style.left) || 0;
+            left = left == null ? x : Math.min(left, x);
         });
+
+        // adjust horizontal scrollbar
+        getElement('calGridC').scrollLeft = left - 50;
     }
 }
 
@@ -588,8 +597,6 @@ GanttCalendar.GridGroup.prototype = {
         if (this.events.length) {
             MochiKit.DOM.appendChildNodes('calGroupC', this.element);
         }
-
-        this.adjust();
     },
 
     __delete__: function(){
