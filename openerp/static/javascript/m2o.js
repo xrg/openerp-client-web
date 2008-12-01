@@ -160,7 +160,7 @@ ManyToOne.prototype.change_icon = function(evt){
 ManyToOne.prototype.on_keydown = function(evt){
     var key = evt.event().keyCode;
 
-    if (key == 8 || key == 46){
+    if ((key == 8 || key == 46) && this.field.value){
         this.text.value = '';
         this.field.value = '';
         this.on_change(evt);
