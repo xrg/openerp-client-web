@@ -9,7 +9,7 @@ GanttCalendar._ZOOM_SCALE = {
     'day': 30,
     '3days': 15,
     'week': 24,
-    '3weeks': 6 * 7,
+    '3weeks': 12 * 7,
     'month': 6 * 7,
     '3months': 12,
     'year': 6
