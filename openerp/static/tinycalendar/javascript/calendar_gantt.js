@@ -5,6 +5,16 @@ var GanttCalendar = function(options) {
     this.__init__(options);
 }
 
+GanttCalendar._ZOOM_SCALE = {
+    'day': 30,
+    '3days': 15,
+    'week': 24,
+    '3weeks': 6 * 7,
+    'month': 6 * 7,
+    '3months': 12,
+    'year': 6
+}
+
 GanttCalendar.prototype = {
    
     __init__: function(options) {
@@ -163,13 +173,16 @@ GanttCalendar.prototype = {
         var m = st.getMinutes();
         var s = st.getSeconds();
 
-        if (this.range == 1) {
+        if (this.mode == 'day') {
             m = m - m % 15;
             s = 0;
-        } else if (this.range == 3) {
+        } else if (this.mode == '3days') {
             m = m - m % 30;
             s = 0;
-        } else if (this.range == 7) {
+        } else if (this.mode == 'week') {
+            m = 0;
+            s = 0;
+        } else if (this.mode == '3weeks') {
             m = 0;
             s = 0;
         } else {
@@ -217,13 +230,16 @@ GanttCalendar.prototype = {
         var m = se.getMinutes();
         var s = se.getSeconds();
 
-        if (this.range == 1) {
+        if (this.mode == 'day') {
             m = m - m % 15;
             s = 0;
-        } else if (this.range == 3) {
+        } else if (this.mode == '3days') {
             m = m - m % 30;
             s = 0;
-        } else if (this.range == 7) {
+        } else if (this.mode == 'week') {
+            m = 0;
+            s = 0;
+        } else if (this.mode == '3weeks') {
             m = 0;
             s = 0;
         } else {
@@ -273,11 +289,7 @@ GanttCalendar.Header.prototype = {
 
         // subcolumn width
         var mode = calendar.mode;
-        var scw = mode == 'day' ? 30 :
-                  mode == '3days' ? 15 :
-                  mode == 'week' ? 24 :
-                  mode == 'month' ? 6 * 7:
-                  mode == '3months' ? 12 : 6;
+        var scw = GanttCalendar._ZOOM_SCALE[mode];
 
         var scale = 0;
         var divs = [];
@@ -439,7 +451,6 @@ GanttCalendar.Grid.prototype = {
       
         this.calendar = calendar;
         this.starts = calendar.starts;
-        this.range = calendar.range;
 
         this._makeGrid();
         this._makeGroups();
@@ -785,16 +796,16 @@ GanttCalendar.Event.prototype = {
 
     doSnap: function(x, y) {
 
-        var range = this.container.calendar.range;
+        var mode = this.container.calendar.mode;
         var scale = this.container.calendar.scale;
 
         var snap = 24 * 60 * scale; // default 1 day
 
-        if (range == 1) {
+        if (mode == 'day') {
             snap = 15 * scale; // 15 minutes
-        } else if (range == 3) {
+        } else if (mode == '3days') {
             snap = 30 * scale; // 30 minutes
-        } else if (range == 7) {
+        } else if (mode == 'week') {
             snap = 60 * scale; // 1 hour
         }
 
@@ -812,7 +823,8 @@ var ganttZoomOut = function() {
     var modes = {
         'day': '3days',
         '3days': 'week',
-        'week': 'month',
+        'week': '3weeks',
+        '3weeks': 'month',
         'month': '3months',
         '3months': 'year'
     };
@@ -826,7 +838,8 @@ var ganttZoomIn = function() {
     var modes = {
         'year': '3months',
         '3months': 'month',
-        'month': 'week',
+        'month': '3weeks',
+        '3weeks': 'week',
         'week': '3days',
         '3days': 'day'
     };
