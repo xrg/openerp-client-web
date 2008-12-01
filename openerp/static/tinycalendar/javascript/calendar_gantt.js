@@ -42,7 +42,7 @@ GanttCalendar.prototype = {
                     TBODY(null,
                         TR(null,
                             TD({'width': 200, 'nowrap': 'nowrap'}),
-                            TD({}, DIV({'id': 'calHeaderC'}, this.header.element))),
+                            TD({}, DIV({'id': 'calHeaderC'}, this.header.elements))),
                         TR(null,
                             TD({'width': 200, 'nowrap': 'nowrap'}, DIV({'id': 'calListC'})),
                             TD({}, DIV({'id': 'calGridC'})))));
@@ -279,7 +279,9 @@ GanttCalendar.Header.prototype = {
 
     __init__: function(calendar) {
 
-        var titles = MochiKit.DOM.getElementsByTagAndClassName('div', null, 'calHeaderSect');
+        var titles = MochiKit.DOM.getElementsByTagAndClassName('div', 'calTitle', 'calHeaderSect');
+        var subtitles = MochiKit.DOM.getElementsByTagAndClassName('div', 'calSubTitle', 'calHeaderSect');
+
         MochiKit.DOM.removeElement('calHeaderSect');
 
         this.calendar = calendar;
@@ -293,6 +295,7 @@ GanttCalendar.Header.prototype = {
 
         var scale = 0;
         var divs = [];
+        var subs = [];
 
         for(var i=0; i<titles.length; i++) {
 
@@ -315,13 +318,25 @@ GanttCalendar.Header.prototype = {
             divs = divs.concat(div);
         }
 
+        var w = scale / subtitles.length;
+
+        for(var i=0; i<subtitles.length; i++) {
+            
+            var _div = DIV({'class': 'calSubTitle'}, MochiKit.DOM.scrapeText(subtitles[i]));
+            MochiKit.Style.setStyle(_div, {
+                    'position': 'absolute',
+                    'width': w + 'px',
+                    'left': i * w + 'px',
+                    'top': '0px'
+            });
+
+            subs = subs.concat(_div);
+        }
+
         this.calendar.scale = scale / (this.calendar.range * 24 * 60);
 
         this.count = divs.length;
-        this.element = DIV({'class': 'calHeader'}, divs);
-
-        // HACK: set height for the header
-        // divs[0].style.position = 'relative';
+        this.elements = [DIV({'class': 'calHeader'}, divs), DIV({'class': 'calHeader'}, subs)];
     },
 
    
