@@ -47,6 +47,11 @@ _edit = re.compile(r'edit:(.*)\|(.*)', re.UNICODE)
 class WikiParser(wikimarkup.Parser):
     
     def parse(self, text, id):
+        text = text.replace('&nbsp;', 'n-b-s-p')
+        text = text.replace('&amp;', 'n-a-m-p')
+        text = text.replace('&','&amp;')
+        text = text.replace('n-b-s-p', '&nbsp;')
+        text = text.replace('n-a-m-p', '&amp;')
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
         text = super(WikiParser, self).parse(text)
