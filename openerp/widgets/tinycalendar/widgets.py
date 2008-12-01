@@ -234,6 +234,15 @@ class GanttCalendar(ICalendar):
             self.selected_day = day
             self.headers = [(2, time.strftime('%I %P', (y, m, d, i, 0, 0, 0, 0, 0))) for i in range(24)]
 
+        elif self.mode == '3days':
+            dp = day - 1
+            dn = day + 1
+            self.days = [dp, day, dn]
+            self.title = "%s, %s, %s" % (ustr(dp), ustr(day), ustr(dn))
+            self.selected_day = day
+
+            self.headers = [(24, ustr(dp)), (24, ustr(day)), (24, ustr(dn))]
+
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
             self.title = _("%s, Week %s") % (y, day.strftime("%W"))

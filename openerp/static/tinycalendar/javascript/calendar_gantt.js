@@ -166,6 +166,9 @@ GanttCalendar.prototype = {
         if (this.range == 1) {
             m = m - m % 15;
             s = 0;
+        } else if (this.range == 3) {
+            m = m - m % 30;
+            s = 0;
         } else if (this.range == 7) {
             m = 0;
             s = 0;
@@ -216,6 +219,9 @@ GanttCalendar.prototype = {
 
         if (this.range == 1) {
             m = m - m % 15;
+            s = 0;
+        } else if (this.range == 3) {
+            m = m - m % 30;
             s = 0;
         } else if (this.range == 7) {
             m = 0;
@@ -268,6 +274,7 @@ GanttCalendar.Header.prototype = {
         // subcolumn width
         var mode = calendar.mode;
         var scw = mode == 'day' ? 30 :
+                  mode == '3days' ? 15 :
                   mode == 'week' ? 24 :
                   mode == 'month' ? 6 * 7:
                   mode == '3months' ? 12 : 6;
@@ -785,6 +792,8 @@ GanttCalendar.Event.prototype = {
 
         if (range == 1) {
             snap = 15 * scale; // 15 minutes
+        } else if (range == 3) {
+            snap = 30 * scale; // 30 minutes
         } else if (range == 7) {
             snap = 60 * scale; // 1 hour
         }
@@ -801,7 +810,8 @@ var ganttZoomOut = function() {
 
     var mode = getElement('_terp_selected_mode').value;
     var modes = {
-        'day': 'week',
+        'day': '3days',
+        '3days': 'week',
         'week': 'month',
         'month': '3months',
         '3months': 'year'
@@ -817,7 +827,8 @@ var ganttZoomIn = function() {
         'year': '3months',
         '3months': 'month',
         'month': 'week',
-        'week': 'day'
+        'week': '3days',
+        '3days': 'day'
     };
 
     return getCalendar(null, modes[mode]);
