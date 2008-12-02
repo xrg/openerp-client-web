@@ -17,7 +17,7 @@
         </tr>
         <tr>
             <td>
-                <div class="box2">
+                <div py:if="tmp and not message" class="box2">
                     <table border="0" width="100%" align="center">
                         <tr py:for="key, val in todo">
                             <td class="label" width="50%">
@@ -29,6 +29,15 @@
                         </tr>
                     </table>
                 </div>
+                <div py:if="message and not tmp" class="toolbar">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td style="text-align: center;" width="100%">
+                                ${message}
+                            </td>
+                        </tr>
+                    </table>
+                </div><br/>
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
