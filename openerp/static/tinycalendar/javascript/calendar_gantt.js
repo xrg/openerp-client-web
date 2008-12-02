@@ -381,6 +381,9 @@ GanttCalendar.List.prototype = {
                 var e = MochiKit.Signal.connect(div, 'ondblclick', self, partial(self.onClick, evt));
                 MochiKit.DOM.appendChildNodes(elem, div);
                 self._signals.push(e);
+
+                // keep the id
+                div.__id = evt.record_id;
             });
 
             elements = elements.concat(elem);
@@ -449,7 +452,29 @@ GanttCalendar.List.prototype = {
 
     onUpdate: function(draggable, evt) {
         var element = draggable.element;
-        log('TODO: reorder the tasks...');
+        var group = element.parentNode;
+
+        var items = getElementsByTagAndClassName('div', 'calEventLabel', group);
+        var ids = MochiKit.Base.map(function(e){
+            return e.__id;
+        }, items);
+
+        var params = {
+            '_terp_model': getElement('_terp_model').value,
+            '_terp_ids': '[' + ids.join(',') + ']'
+        }
+
+        var self = this;
+        var req = Ajax.post('/calendar/gantt_reorder', params);
+        req.addCallback(function(obj){
+            if (obj.error) {
+                return alert(obj.error);
+            }
+        });
+
+        req.addBoth(function(obj){
+            return getCalendar();
+        });
     }
 }
 
@@ -631,7 +656,8 @@ GanttCalendar.GridGroup.prototype = {
         // clear the bar
         MochiKit.DOM.replaceChildNodes(this.bar);
 
-        var events = this.events;
+        // copy events
+        var events = Array.prototype.slice.call(this.events);
 
         // sort them by start time
         events.sort(function(a, b){
@@ -639,6 +665,8 @@ GanttCalendar.GridGroup.prototype = {
             if (a.starts < b.starts) return -1;
             return 1;
         });
+
+        // prepare usages bar
 
         var st = events[0].starts;
         var se = events[events.length-1].ends;
@@ -663,14 +691,12 @@ GanttCalendar.GridGroup.prototype = {
 
         var periods = [];
 
-        var cur = bounds.pop();
+        var cur = bounds.shift();
         while(bounds.length) {
-            var last = bounds.pop();
-            periods = periods.concat([[last, cur]]);
+            var last = bounds.shift();
+            periods = periods.concat([[cur, last]]);
             cur = last;
         }
-
-        periods.reverse();
 
         var divs = MochiKit.Base.map(function(b){
             var div = DIV({});
@@ -694,29 +720,15 @@ GanttCalendar.GridGroup.prototype = {
 
         appendChildNodes(this.bar, divs);
         this.bars = divs;
-    },
 
-    adjust: function(){
-
-        forEach(this.events, function(e){
-            e.adjust();
-        });
-        this.calculate_usages();
-
-        var w = 0;
-
-        forEach(this.calendar.header.specs, function(spec){
-            w += spec.count * spec.width;
-        });
-
-        this.element.style.width = w + 'px';
+        // adjust usages bar
 
         var bx = null;
         var bw = null;
 
-        for(var i=0; i<this.events.length; i++){
+        for(var i=0; i<events.length; i++){
 
-            var e = this.events[i];
+            var e = events[i];
 
             bx = bx == null ? e.left : Math.min(e.left, bx);
             bw = bw == null ? e.width : Math.max(e.left - bx + e.width, bw);
@@ -732,13 +744,29 @@ GanttCalendar.GridGroup.prototype = {
 
         for(var i=0; i<this.bars.length; i++){
             var e = this.bars[i];
-            var x = (e.starts.getTime() - this.events[0].starts.getTime()) / (60 * 1000);
+            var x = (e.starts.getTime() - events[0].starts.getTime()) / (60 * 1000);
             var w = (e.ends.getTime() - e.starts.getTime()) / (60 * 1000);
             x = x * this.calendar.scale;
             w = (w * this.calendar.scale) + 1;
             e.style.left = Math.round(x) + 'px';
             e.style.width = Math.round(w) + 'px';
         }
+    },
+
+    adjust: function(){
+
+        forEach(this.events, function(e){
+            e.adjust();
+        });
+        
+        var w = 0;
+
+        forEach(this.calendar.header.specs, function(spec){
+            w += spec.count * spec.width;
+        });
+
+        this.element.style.width = w + 'px';
+        this.calculate_usages();
     }
 }
 
