@@ -74,13 +74,13 @@
                                             class="button" width="16" height="16"
                                             title="${_('Add an attachment to this resource.')}" 
                                             src="/static/images/stock/gtk-paste.png" 
-                                            onclick="openWindow(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
+                                            onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}), {name : 'Attachments'})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.can_attach and buttons.has_attach">
                                         <img
                                             class="button" width="16" height="16"
                                             title="${_('Add an attachment to this resource.')}" 
-                                            src="/static/images/stock/gtk-paste-v.png" onclick="window.location.href=getURL('/attachment', {model: '$form.screen.model', id: '$form.screen.id'})"/>
+                                            src="/static/images/stock/gtk-paste-v.png" onclick="window.open(getURL('/attachment', {model: '$form.screen.model', id: '$form.screen.id'}))"/>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="form.screen.view_type in ('form')">
                                         <img 
