@@ -50,35 +50,37 @@ class View_Log(controllers.Controller, TinyResource):
     @expose(template="openerp.subcontrollers.templates.view_log")
     def index(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
         id = params.id
         model = params.model
-
-        if not id:
-            self.message_state(_('You have to select one resource!'))
-            return False
-
-        res = rpc.session.execute('object', 'execute', model, 'perm_read', [id], rpc.session.context)
+        message = None
         tmp = {}
+        todo = []
 
-        for line in res:
-            todo = [
-                ('id', _('ID')),
-                ('create_uid', _('Creation User')),
-                ('create_date', _('Creation Date')),
-                ('write_uid', _('Latest Modification by')),
-                ('write_date', _('Latest Modification Date')),
-                ('uid', _('Owner')),
-                ('gid', _('Group Owner')),
-                ('level', _('Access Level'))
-            ]
-            for (key,val) in todo:
-                if line.get(key) and key in ('create_uid','write_uid','uid'):
-                    line[key] = line[key][1]
+        if id:
+            res = rpc.session.execute('object', 'execute', model, 'perm_read', [id], rpc.session.context)
 
-                tmp[key] = ustr(line.get(key) or '/')
+            for line in res:
+                todo = [
+                    ('id', _('ID')),
+                    ('create_uid', _('Creation User')),
+                    ('create_date', _('Creation Date')),
+                    ('write_uid', _('Latest Modification by')),
+                    ('write_date', _('Latest Modification Date')),
+                    ('uid', _('Owner')),
+                    ('gid', _('Group Owner')),
+                    ('level', _('Access Level'))
+                ]
+                for (key,val) in todo:
+                    if line.get(key) and key in ('create_uid','write_uid','uid'):
+                        line[key] = line[key][1]
+    
+                    tmp[key] = ustr(line.get(key) or '/')
+        
+        if not id:
+            message = _("No resource is selected...!")
 
-        return dict(tmp=tmp, todo=todo, show_header_footer=False)
+        return dict(tmp=tmp, todo=todo, message=message, show_header_footer=False)
 
 # vim: ts=4 sts=4 sw=4 si et
 
