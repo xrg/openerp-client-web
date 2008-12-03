@@ -489,6 +489,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 class Binary(TinyField):
     template = "openerp.widgets.templates.binary"
     params = ["name", "text", "readonly", "filename"]
+    javascript = [tg.widgets.JSLink("openerp", "javascript/binary.js")]
 
     text = None
     file_upload = True

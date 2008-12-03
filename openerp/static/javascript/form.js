@@ -363,18 +363,6 @@ var pager_action = function(action, src) {
     return src ? new ListView(src).go(action) : submit_search_form(action);
 }
 
-var save_binary_data = function(src, filename) {
-    
-    var name = $(src) ? $(src).name : src;
-    var fname = $(filename) || $(name + 'name');
-    var act = '/form/save_binary_data';
-    
-    act = fname ? act + '/' + fname.value : act;
-    act = act + '?_terp_field=' + name;
-    
-    submit_form(act);
-}
-
 var buttonClicked = function(name, btype, model, id, sure, target){
 
     if (sure && !confirm(sure)){
@@ -905,12 +893,6 @@ function on_context_menu(evt) {
     makeContextMenu(src, kind, relation, val);        
     
     evt.stop();
-}
-
-function set_binary_filename(id, fname){
-    if ($(id)) {
-        $(id).value = fname.value;
-    }
 }
 
 function open_url(site){
