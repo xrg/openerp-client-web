@@ -12,7 +12,9 @@ GanttCalendar._ZOOM_SCALE = {
     '3weeks': 12 * 7,
     'month': 6 * 7,
     '3months': 12,
-    'year': 6
+    'year': 6,
+    '3years': 150,
+    '5years': 200
 }
 
 GanttCalendar.prototype = {
@@ -884,7 +886,9 @@ var ganttZoomOut = function() {
         'week': '3weeks',
         '3weeks': 'month',
         'month': '3months',
-        '3months': 'year'
+        '3months': 'year',
+        'year': '3years',
+        '3years': '5years'
     };
 
     return getCalendar(null, modes[mode]);
@@ -894,6 +898,8 @@ var ganttZoomIn = function() {
 
     var mode = getElement('_terp_selected_mode').value;
     var modes = {
+        '5years': '3years',
+        '3years': 'year',
         'year': '3months',
         '3months': 'month',
         'month': '3weeks',

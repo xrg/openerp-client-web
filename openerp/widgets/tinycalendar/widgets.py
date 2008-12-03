@@ -308,6 +308,32 @@ class GanttCalendar(ICalendar):
             self.headers = [(m.range[-1], m.name) for m in yr.months]
             self.subheaders = [_("W %s") % x[0].strftime('%W') for x in yr.weeks]
 
+        elif self.mode == '3years':
+            yr = Year(y)
+            yp = yr - 1
+            yn = yr + 1
+
+            self.days = yp.days + yr.days + yn.days
+            self.title = _("Year %s to Year %s") % (y - 1, y + 1)
+            self.selected_day = _get_selection_day(day, self.selected_day, 'year')
+
+            self.headers = [(4, y - 1), (4, y), (4, y + 1)]
+            self.subheaders = ['Q1', 'Q2', 'Q3', 'Q4'] * 3
+
+        elif self.mode == '5years':
+            yr = Year(y)
+            yp1 = yr - 1
+            yp2 = yr - 2
+            yn1 = yr + 1
+            yn2 = yr + 1
+
+            self.days = yp2.days + yp1.days + yr.days + yn1.days + yn2.days
+            self.title = _("Year %s to Year %s") % (y - 2, y + 2)
+            self.selected_day = _get_selection_day(day, self.selected_day, 'year')
+
+            self.headers = [(2, y - 2), (2, y - 1), (2, y), (2, y + 1), (2, y + 2)]
+            self.subheaders = ['H1', 'H2'] * 5
+
         else:
             month = Month(y, m)
             self.days = [d for d in month]
