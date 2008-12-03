@@ -376,14 +376,17 @@ GanttCalendar.List.prototype = {
             MochiKit.DOM.appendChildNodes(elem, div);
             self._signals.push(e);
 
+            // keep the reference of the associated Group object
+            elem.__group = group;
+
             forEach(group.events, function(evt) {
                 var div = DIV({'class': 'calEventLabel'}, evt.title);
                 var e = MochiKit.Signal.connect(div, 'ondblclick', self, partial(self.onClick, evt));
                 MochiKit.DOM.appendChildNodes(elem, div);
                 self._signals.push(e);
 
-                // keep the id
-                div.__id = evt.record_id;
+                // keep the reference of the associated Event object
+                div.__event = evt;
             });
 
             elements = elements.concat(elem);
@@ -395,7 +398,8 @@ GanttCalendar.List.prototype = {
         forEach(elements, function(elem){
             MochiKit.Sortable.Sortable.create(elem, {
                 'tag': 'div',
-                'only': ['calEventLabel']
+                'only': ['calEventLabel'],
+                'containment': elements
             });
         });     
     },
@@ -451,17 +455,21 @@ GanttCalendar.List.prototype = {
     },
 
     onUpdate: function(draggable, evt) {
-        var element = draggable.element;
-        var group = element.parentNode;
 
-        var items = getElementsByTagAndClassName('div', 'calEventLabel', group);
-        var ids = MochiKit.Base.map(function(e){
-            return e.__id;
+        var group = draggable.element.parentNode.__group;
+        var event = draggable.element.__event;
+
+        var items = getElementsByTagAndClassName('div', 'calEventLabel', 'calListC');
+        items = MochiKit.Base.map(function(item){
+            return item.__event.record_id;
         }, items);
 
         var params = {
+            '_terp_id': event.record_id,
+            '_terp_ids': '[' + items.join(',') + ']',
             '_terp_model': getElement('_terp_model').value,
-            '_terp_ids': '[' + ids.join(',') + ']'
+            '_terp_level': getElement('_terp_gantt_level').value,
+            '_terp_level_value': group.id
         }
 
         var self = this;

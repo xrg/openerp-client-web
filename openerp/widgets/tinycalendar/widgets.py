@@ -199,11 +199,11 @@ class GanttCalendar(ICalendar):
     
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    params = ['title', 'levels', 'groups', 'days', 'events', 'calendar_fields', 
-            'date_format', 'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
+    params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format', 
+              'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
     member_widgets = ['groupbox', 'use_search', 'extra_css', 'extra_javascript']
 
-    levels = None
+    level = None
     groups = None
     title = None
     days = None
@@ -216,7 +216,7 @@ class GanttCalendar(ICalendar):
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 
-        self.levels = []
+        self.level = None
         self.groups = []
         self.days = []
         self.headers = []
@@ -316,8 +316,8 @@ class GanttCalendar(ICalendar):
             self.headers = [(7, _("Week %s") % w[0].strftime('%W')) for w in month.weeks]
             self.subheaders = [d.day for d in month]
 
-        if self.levels:
-            field = self.levels[0]['link']
+        if self.level:
+            field = self.level['link']
             fields = rpc.RPCProxy(self.model).fields_get([field])
             self.fields.update(fields)
 
@@ -338,21 +338,19 @@ class GanttCalendar(ICalendar):
                 info_fields += [attrs['name']]
 
             if node.localName == 'level':
-                self.levels.insert(0, attrs)
+                self.level = attrs
                 info_fields += self.parse(node, fields)
 
         return info_fields
 
     def get_groups(self, events):
 
-        if not self.levels:
+        if not self.level:
             return []
 
-        level = self.levels[0]
-        
-        obj = level['object']
-        field = level['link']
-        domain = level['domain']
+        obj = self.level['object']
+        field = self.level['link']
+        domain = self.level['domain']
 
         keys = []
         groups = {}
