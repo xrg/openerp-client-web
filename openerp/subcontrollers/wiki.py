@@ -58,8 +58,10 @@ class WikiView(controllers.Controller, TinyResource):
         model = 'ir.attachment'
         field = 'datas_fname'
         file = kws.get('file').replace("'",'').strip()
+        id = kws.get('id').strip()
         proxy = rpc.RPCProxy(model)
-        ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki')])
+        ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
+
         res = proxy.read(ids, ['datas'])[0]
         res = res.get('datas')
         return base64.decodestring(res)
@@ -69,8 +71,9 @@ class WikiView(controllers.Controller, TinyResource):
         model = 'ir.attachment'
         field = 'datas_fname'
         file = kws.get('file').replace("'",'').strip()
+        id = kws.get('id').strip()
         proxy = rpc.RPCProxy(model)
-        ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki')])
+        ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
         res = proxy.read(ids, ['datas'])[0]
         res = res.get('datas')
         #cherrypy.response.headers['Content-Type'] = FILE_FORMATS[data['format']]
