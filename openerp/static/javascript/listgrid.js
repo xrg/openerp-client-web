@@ -741,7 +741,7 @@ ListView.prototype.makeArgs = function(){
 }
 
 ListView.prototype.reload = function(edit_inline){
-
+    
     var self = this;
     var args = this.makeArgs();
 
@@ -754,16 +754,17 @@ ListView.prototype.reload = function(edit_inline){
     }
 
     var req = Ajax.JSON.post('/listgrid/get', args);
-
     req.addCallback(function(obj){
 
         var _terp_id = $(self.id + '/_terp_id') || $('_terp_id');
         var _terp_ids = $(self.id + '/_terp_ids') || $('_terp_ids');
         var _terp_count = $(self.id + '/_terp_count') || $('_terp_count');
         
-        _terp_id.value = obj.ids[0];
-        _terp_ids.value = '[' + obj.ids.join(',') + ']';
-        _terp_count.value = obj.count;
+        if(obj.ids) {
+            _terp_id.value = obj.ids[0];
+            _terp_ids.value = '[' + obj.ids.join(',') + ']';
+            _terp_count.value = obj.count;
+        }
 
         var d = DIV();
         d.innerHTML = obj.view;

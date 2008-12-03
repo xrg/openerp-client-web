@@ -214,7 +214,7 @@ class Admin(controllers.Controller):
         
                 time.sleep(5) # wait for few seconds
             except Exception, e:
-                if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
+                if getattr(e, 'faultCode', False) == 'AccessDenied':
                     message = _('Bad database administrator password !') + "\n\n" + _("Could not create database.")
                 else:
                     message = _("Could not create database.") + "\n\n" + _('Error during database creation !')
@@ -236,7 +236,7 @@ class Admin(controllers.Controller):
         try:
             res = rpc.session.execute_db('drop', password, db_name)
         except Exception, e:
-            if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
+            if getattr(e, 'faultCode', False) == 'AccessDenied':
                 message = _('Bad database administrator password !') + "\n\n" + _("Could not drop database.")
             else:
                 message = _("Couldn't drop database")
@@ -281,7 +281,7 @@ class Admin(controllers.Controller):
             data_b64 = base64.encodestring(path.file.read())
             res = rpc.session.execute_db('restore', password, new_db, data_b64)
         except Exception, e:
-            if e.faultString=='AccessDenied:None':
+            if getattr(e, 'faultCode', False) == 'AccessDenied':
                 message = _('Bad database administrator password !') + "\n\n" + _("Could not restore database.")
             else:
                 message = _("Couldn't restore database")
@@ -301,13 +301,13 @@ class Admin(controllers.Controller):
             return
         
         if new_password != new_password2:
-            message = _("Confirmation password do not match with new password, operation cancelled !") + "\n\n" + _("Validation Error.")
+            message = _("Confirmation password does not match with new password, operation cancelled !") + "\n\n" + _("Validation Error.")
         else:
             try:
                 res = rpc.session.execute_db('change_admin_password', old_password, new_password)
             except Exception,e:
-                if e.faultString=='AccessDenied:None':
-                    message = _("Could not change password database.") + "\n\n" + _('Bas password provided !')
+                if getattr(e, 'faultCode', False) == 'AccessDenied':
+                    message = _("Could not change super admin password.") + "\n\n" + _('Bad password provided !')
                 else:
                     message = _("Error, password not changed.")
 
