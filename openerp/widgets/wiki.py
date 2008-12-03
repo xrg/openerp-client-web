@@ -62,13 +62,13 @@ class WikiParser(wikimarkup.Parser):
         text = self.strip(text)
         text = super(WikiParser, self).parse(text)
         text = self.addImage(text, id)
-        text = self.attachDoc(text)
+        text = self.attachDoc(text, id)
         text = self.recordLink(text)
         text = self.addInternalLinks(text)
         
         return text
 
-    def attachDoc(self, text):
+    def attachDoc(self, text, id):
         def document(path):
             file = path.group().replace('attach:','')
             if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
@@ -77,9 +77,9 @@ class WikiParser(wikimarkup.Parser):
                 proxy = rpc.RPCProxy('ir.attachment')
                 ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
                 if len(ids) > 0:
-                    return "<a href='/wiki/getfile?file=%s'>%s</a>" % (file, file)
+                    return "<a href='/wiki/getfile?file=%s&amp;id=%d'>%s</a>" % (file, id, file)
                 else:
-                    return "<a href='/attachment/?model=wiki.wiki&amp;id=20'>Attach : %s </a>" % (file)
+                    return "<a href='/attachment/?model=wiki.wiki&amp;id=%d'>Attach : %s </a>" % (id, file)
         bits = _attach.sub(document, text)
         return bits
     
@@ -92,7 +92,7 @@ class WikiParser(wikimarkup.Parser):
                 proxy = rpc.RPCProxy('ir.attachment')
                 ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
                 if len(ids) > 0:
-                    return "<img src='/wiki/getImage?file=%s'/>" % (file)
+                    return "<img src='/wiki/getImage?file=%s&amp;id=%d'/>" % (file, id)
                 else:
                     return "[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
         bits = _image.sub(image, text) 
