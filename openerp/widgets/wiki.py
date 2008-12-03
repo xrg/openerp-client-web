@@ -35,10 +35,12 @@ from base64 import b64encode, b64decode
 from StringIO import StringIO
 
 import turbogears as tg
+
 import wikimarkup
 
 from form import Text
 from openerp import rpc
+
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
 _attach = re.compile(r'attach:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
@@ -52,6 +54,10 @@ class WikiParser(wikimarkup.Parser):
         text = text.replace('&','&amp;')
         text = text.replace('n-b-s-p', '&nbsp;')
         text = text.replace('n-a-m-p', '&amp;')
+        text = text.replace('<code>', '<pre>')
+        text = text.replace('</code>', '</pre>')
+        #text = text.replace('\n', '<br/>')
+        
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
         text = super(WikiParser, self).parse(text)
@@ -59,6 +65,7 @@ class WikiParser(wikimarkup.Parser):
         text = self.attachDoc(text)
         text = self.recordLink(text)
         text = self.addInternalLinks(text)
+        
         return text
 
     def attachDoc(self, text):
@@ -164,4 +171,6 @@ class WikiWidget(Text):
                 id = params.id
             text = value+'\n\n'
             html = wiki2html(text, toc, id)
+            print 'XXXXXXXXX : ', html
+            
             self.data = html
