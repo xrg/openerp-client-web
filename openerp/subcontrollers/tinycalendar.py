@@ -215,6 +215,49 @@ class TinyCalendar(Form):
 
         return dict(records=records)
 
+    @expose('json')
+    def gantt_reorder(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        id = params.id
+        ids = params.ids or []
+        model = params.model
+        level = params.level
+        level_value = params.level_value
+
+        proxy = rpc.RPCProxy(model)
+        fields = proxy.fields_get([])
+
+        if id and level and level_value:
+            try:
+                proxy.write([id], {level['link']: level_value})
+            except Exception, e:
+                return dict(error=ustr(e))
+
+        if 'sequence' not in fields:
+            return dict(error=None)
+
+        res = proxy.read(ids, ['sequence'])
+
+        sequence = [r['sequence'] for r in res]
+        sequence.sort()
+
+        sequence2 = []
+        for seq in sequence:
+            if seq not in sequence2:
+                sequence2.append(seq)
+            else:
+                sequence2.append(sequence2[-1]+1)
+
+        for n, id in enumerate(ids):
+            seq = sequence2[n]
+            try:
+                proxy.write([id], {'sequence': seq})
+            except Exception, e:
+                return dict(error=ustr(e))
+
+        return dict()
+
 class CalendarPopup(Form):
     
     path = '/calpopup'    # mapping from root
