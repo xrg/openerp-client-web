@@ -79,16 +79,20 @@ GanttCalendar.prototype = {
         this.evtLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.evtResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
         this.evtScrollGrid = MochiKit.Signal.connect('calGridC', 'onscroll', this, 'onScrollGrid');
-        this.evtEventDrag = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', this, 'onEventDrag');
-        this.evtEventResize = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onEventResize');
+
+        this.evtEventDrag = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'drag', this, 'onEventDrag');
+        this.evtEventDragged = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', this, 'onEventDragged');
+        this.evtEventResized = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onEventResized');
     },
 
     dettachSignals: function(){
         MochiKit.Signal.disconnect(this.evtLoad);
         MochiKit.Signal.disconnect(this.evtResize);
         MochiKit.Signal.disconnect(this.evtScrollGrid);
+
         MochiKit.Signal.disconnect(this.evtEventDrag);
-        MochiKit.Signal.disconnect(this.evtEventResize);
+        MochiKit.Signal.disconnect(this.evtEventDragged);
+        MochiKit.Signal.disconnect(this.evtEventResized);
     },
 
     onResize: function(evt){
@@ -155,15 +159,8 @@ GanttCalendar.prototype = {
 
     },
 
-    onEventDrag: function(draggable, evt) {
+    computeDates: function(element) {
 
-        var element = draggable.element;
-
-        if (hasElementClass(element, 'calEventLabel')) {
-            return this.list.onUpdate(draggable, evt);
-        }
-
-        var id = getNodeAttribute(element, 'nRecordID');
         var ds = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtStart'));
         var de = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtEnd'));
 
@@ -197,12 +194,53 @@ GanttCalendar.prototype = {
 
         var et = new Date(de.getTime() + st.getTime() - ds.getTime());
 
+        return [st, et];
+    },
+
+    onEventDrag: function(draggable, evt) {
+
+        var element = draggable.element;
+        [st, et] = this.computeDates(element);
+
+        var pos = getElementPosition(element, 'calGrid');
+        var dim = getElementDimensions(element);
+
+        with(this.sTip) {
+            style.display = "";
+            style.top = pos.y + 'px';
+            style.right = getElementDimensions('calGrid').w - pos.x + 2 + 'px';
+            innerHTML = st.strftime('%Y-%m-%d %H:%M');
+        }
+
+        with(this.eTip) {
+            style.display = "";
+            style.top = pos.y + 'px';
+            style.left = pos.x + dim.w + 2 + 'px';
+            innerHTML = et.strftime('%Y-%m-%d %H:%M');
+        }
+    },
+
+    onEventDragged: function(draggable, evt) {
+
+        var element = draggable.element;
+
+        hideElement(this.sTip);
+        hideElement(this.eTip);
+
+        if (hasElementClass(element, 'calEventLabel')) {
+            return this.list.onUpdate(draggable, evt);
+        }
+
+        var id = getNodeAttribute(element, 'nRecordID');
+        [st, et] = this.computeDates(element);
+
         var self = this;
         var req = saveCalendarRecord(id, toISOTimestamp(st), toISOTimestamp(et));
         
         req.addCallback(function(obj){
             
             if (obj.error) {
+                self.grid.adjust();
                 return alert(obj.error);
             }
 
@@ -217,7 +255,7 @@ GanttCalendar.prototype = {
 
     },
 
-    onEventResize: function(resizable, evt) {
+    onEventResized: function(resizable, evt) {
         var element = resizable.element;
 
         var id = getNodeAttribute(element, 'nRecordID');
@@ -258,6 +296,7 @@ GanttCalendar.prototype = {
         req.addCallback(function(obj){
             
             if (obj.error) {
+                self.grid.adjust();
                 return alert(obj.error);
             }
 
@@ -533,6 +572,11 @@ GanttCalendar.Grid.prototype = {
 
         this.element = DIV({'id': 'calGrid', 'class': 'calGrid'}, divs, DIV({'id': 'calGroupC'}));
         MochiKit.DOM.appendChildNodes('calGridC', this.element);
+
+        // start/end time tips
+        this.calendar.sTip = DIV({'style': 'position: absolute; font-size: 10px; white-space: nowrap;'});
+        this.calendar.eTip = DIV({'style': 'position: absolute; font-size: 10px; white-space: nowrap;'});
+        MochiKit.DOM.appendChildNodes(this.element, this.calendar.sTip, this.calendar.eTip);
     },
 
     _makeGroups : function(){
