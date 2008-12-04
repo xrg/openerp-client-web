@@ -51,6 +51,37 @@ from openerp.utils import TinyForm
 
 import search
 
+def get_validation_schema(self):
+    """Generate validation schema for the given Form instance. Should be used 
+    to validate form inputs with @validate decorator.
+
+    @param self: and instance of Form
+
+    @returns a new instance of Form with validation schema
+    """
+
+    kw = cherrypy.request.params
+    params, data = TinyDict.split(kw)
+
+    # bypass validations, if saving from button in non-editable view
+    if params.button and not params.editable and params.id:
+        return None
+
+    cherrypy.request.terp_validators = {}
+    params.nodefault = True
+        
+    form = self.create_form(params)
+    cherrypy.request.terp_form = form
+
+    vals = cherrypy.request.terp_validators
+    keys = vals.keys()
+    for k in keys:
+        if k not in kw:
+            vals.pop(k)
+
+    form.validator = validators.Schema(**vals)
+    return form
+
 class Form(controllers.Controller, TinyResource):
 
     path = '/form'    # mapping from root
@@ -217,31 +248,8 @@ class Form(controllers.Controller, TinyResource):
         params.view_type = 'tree'
         return self.create(params)
 
-    def get_form(self):
-        kw = cherrypy.request.params
-        params, data = TinyDict.split(kw)
-
-        # bypass validations, if saving from button in non-editable view
-        if params.button and not params.editable and params.id:
-            return None
-
-        cherrypy.request.terp_validators = {}
-        params.nodefault = True
-        
-        form = self.create_form(params)
-        cherrypy.request.terp_form = form
-
-        vals = cherrypy.request.terp_validators
-        keys = vals.keys()
-        for k in keys:
-            if k not in kw:
-                vals.pop(k)
-
-        form.validator = validators.Schema(**vals)
-        return form
-
     @expose()
-    @validate(form=get_form)
+    @validate(form=get_validation_schema)
     def save(self, terp_save_only=False, tg_source=None, tg_errors=None, tg_exceptions=None, **kw):
         """Controller method to save/button actions...
 
@@ -487,26 +495,8 @@ class Form(controllers.Controller, TinyResource):
 
         return self.create(params)
 
-    def get_filter_form(self):
-        params, data = TinyDict.split(cherrypy.request.params)
-
-        if params.view_type == 'form':
-            return None
-
-        cherrypy.request.terp_validators = {}
-        params.nodefault = True
-        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
-        cherrypy.request.terp_form = form
-
-        vals = cherrypy.request.terp_validators
-        schema = validators.Schema(**vals)
-
-        form.validator = schema
-
-        return form
-
     @expose()
-    @validate(form=get_filter_form)
+    @validate(form=get_validation_schema)
     def filter(self, tg_errors=None, **kw):
         params, data = TinyDict.split(kw)
 
