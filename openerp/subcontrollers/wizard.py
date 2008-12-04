@@ -46,7 +46,6 @@ from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 
 import form
-import search
 
 class Wizard(controllers.Controller, TinyResource):
 
@@ -158,9 +157,10 @@ class Wizard(controllers.Controller, TinyResource):
 
         raise redirect('/')
 
-    def get_form(self):
-        params, datas = TinyDict.split(cherrypy.request.params)
-        #params.datas['form'].update(datas)
+    def get_validation_schema(self):
+
+        kw = cherrypy.request.params
+        params, datas = TinyDict.split(kw)
 
         params.state = params.state2
 
@@ -175,14 +175,16 @@ class Wizard(controllers.Controller, TinyResource):
         cherrypy.request.terp_buttons = buttons
 
         vals = cherrypy.request.terp_validators
-        schema = validators.Schema(**vals)
+        keys = vals.keys()
+        for k in keys:
+            if k not in kw:
+                vals.pop(k)
 
-        form.validator = schema
-
+        form.validator = validators.Schema(**vals)
         return form
 
     @expose()
-    @validate(form=get_form)
+    @validate(form=get_validation_schema)
     def report(self, tg_errors=None, **kw):
         
         params, datas = TinyDict.split(kw)
@@ -194,7 +196,7 @@ class Wizard(controllers.Controller, TinyResource):
         return self.execute(params)
 
     @expose()
-    @validate(form=get_form)
+    @validate(form=get_validation_schema)
     def action(self, tg_errors=None, **kw):
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
