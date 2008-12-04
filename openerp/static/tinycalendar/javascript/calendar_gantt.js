@@ -200,6 +200,11 @@ GanttCalendar.prototype = {
     onEventDrag: function(draggable, evt) {
 
         var element = draggable.element;
+
+        if (hasElementClass(element, 'calEventLabel')) {
+            return;
+        }
+
         [st, et] = this.computeDates(element);
 
         var pos = getElementPosition(element, 'calGrid');
@@ -224,12 +229,12 @@ GanttCalendar.prototype = {
 
         var element = draggable.element;
 
-        hideElement(this.sTip);
-        hideElement(this.eTip);
-
         if (hasElementClass(element, 'calEventLabel')) {
             return this.list.onUpdate(draggable, evt);
         }
+
+        hideElement(this.sTip);
+        hideElement(this.eTip);
 
         var id = getNodeAttribute(element, 'nRecordID');
         [st, et] = this.computeDates(element);
