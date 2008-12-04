@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-11-27 18:17\n"
+"POT-Creation-Date: 2008-12-04 17:03\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 #: openerp/subcontrollers/admin.py:147 openerp/subcontrollers/admin.py:225
 #: openerp/subcontrollers/admin.py:247 openerp/subcontrollers/admin.py:267
 #: openerp/subcontrollers/admin.py:292 openerp/subcontrollers/admin.py:317
-#: openerp/subcontrollers/attachment.py:65 openerp/subcontrollers/form.py:789
+#: openerp/subcontrollers/attachment.py:65 openerp/subcontrollers/form.py:857
 msgid "Error"
 msgstr ""
 
@@ -159,7 +159,7 @@ msgid "Couldn't restore database"
 msgstr ""
 
 #: openerp/subcontrollers/admin.py:304
-msgid "Confirmation password do not match with new password, operation cancelled !"
+msgid "Confirmation password does not match with new password, operation cancelled !"
 msgstr ""
 
 #: openerp/subcontrollers/admin.py:304
@@ -167,11 +167,11 @@ msgid "Validation Error."
 msgstr ""
 
 #: openerp/subcontrollers/admin.py:310
-msgid "Bas password provided !"
+msgid "Bad password provided !"
 msgstr ""
 
 #: openerp/subcontrollers/admin.py:310
-msgid "Could not change password database."
+msgid "Could not change super admin password."
 msgstr ""
 
 #: openerp/subcontrollers/admin.py:312
@@ -182,23 +182,23 @@ msgstr ""
 msgid "No record selected ! You can only attach to existing record...!"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:379
+#: openerp/subcontrollers/form.py:465
 msgid "Invalid button type"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:710 openerp/subcontrollers/tree.py:226
+#: openerp/subcontrollers/form.py:778 openerp/subcontrollers/tree.py:226
 msgid "No record selected !"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:715
+#: openerp/subcontrollers/form.py:783
 msgid "Print Screen"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:732
+#: openerp/subcontrollers/form.py:800
 msgid "You must save this record to use the sidebar button!"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:789
+#: openerp/subcontrollers/form.py:857
 msgid "Wrong on_change trigger: %s"
 msgstr ""
 
@@ -288,40 +288,40 @@ msgstr ""
 msgid "No resource selected !"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:58
-msgid "You have to select one resource!"
-msgstr ""
-
-#: openerp/subcontrollers/view_log.py:66
+#: openerp/subcontrollers/view_log.py:65
 msgid "ID"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:67
+#: openerp/subcontrollers/view_log.py:66
 msgid "Creation User"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:68
+#: openerp/subcontrollers/view_log.py:67
 msgid "Creation Date"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:69
+#: openerp/subcontrollers/view_log.py:68
 msgid "Latest Modification by"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:70
+#: openerp/subcontrollers/view_log.py:69
 msgid "Latest Modification Date"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:71
+#: openerp/subcontrollers/view_log.py:70
 msgid "Owner"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:72
+#: openerp/subcontrollers/view_log.py:71
 msgid "Group Owner"
 msgstr ""
 
-#: openerp/subcontrollers/view_log.py:73
+#: openerp/subcontrollers/view_log.py:72
 msgid "Access Level"
+msgstr ""
+
+#: openerp/subcontrollers/view_log.py:81
+msgid "No resource is selected...!"
 msgstr ""
 
 #: openerp/subcontrollers/viewed.py:220
@@ -377,11 +377,11 @@ msgstr ""
 msgid "Action not found !"
 msgstr ""
 
-#: openerp/widgets/form.py:844 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:845 openerp/widgets/listgrid.py:282
 msgid "Application Error!"
 msgstr ""
 
-#: openerp/widgets/form.py:844 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:845 openerp/widgets/listgrid.py:282
 msgid "Invalid view, duplicate field: %s"
 msgstr ""
 
@@ -497,16 +497,31 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: openerp/widgets/tinycalendar/widgets.py:239
+#: openerp/widgets/tinycalendar/widgets.py:254
 msgid "%s, Week %s"
 msgstr ""
 
-#: openerp/widgets/tinycalendar/widgets.py:256
+#: openerp/widgets/tinycalendar/widgets.py:266
+msgid "%s - %s"
+msgstr ""
+
+#: openerp/widgets/tinycalendar/widgets.py:268
+#: openerp/widgets/tinycalendar/widgets.py:298
+#: openerp/widgets/tinycalendar/widgets.py:342
+msgid "Week %s"
+msgstr ""
+
+#: openerp/widgets/tinycalendar/widgets.py:287
 msgid "%s, Qtr %s"
 msgstr ""
 
-#: openerp/widgets/tinycalendar/widgets.py:279
-msgid "Week %s"
+#: openerp/widgets/tinycalendar/widgets.py:309
+msgid "W %s"
+msgstr ""
+
+#: openerp/widgets/tinycalendar/widgets.py:317
+#: openerp/widgets/tinycalendar/widgets.py:331
+msgid "Year %s to Year %s"
 msgstr ""
 
 #: openerp/widgets/validators.py:166
@@ -707,6 +722,10 @@ msgstr ""
 
 #: openerp/widgets/templates/one2many.kid:img
 msgid "Translate me."
+msgstr ""
+
+#: openerp/widgets/templates/binary.kid:button
+msgid "Add"
 msgstr ""
 
 #: openerp/widgets/templates/binary.kid:button
@@ -1289,10 +1308,6 @@ msgstr ""
 
 #: openerp/subcontrollers/templates/imp.kid:th
 msgid "Fields to import"
-msgstr ""
-
-#: openerp/subcontrollers/templates/imp.kid:button
-msgid "Add"
 msgstr ""
 
 #: openerp/subcontrollers/templates/imp.kid:button
