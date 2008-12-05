@@ -207,14 +207,13 @@ ManyToOne.prototype.get_matched = function(){
     var m2o = this;
 
     var do_get_matched = function(relation, text, domain, context){
+        
+        text = m2o.field.value ? '' : text;
 
         var req2 = Ajax.JSON.post('/search/get_matched', {model: relation, text: text, 
                                                          _terp_domain: domain, 
                                                          _terp_context: context});
-                                                         
-        open_search_window(relation, domain, context, m2o.name, 1, '');
         
-        /*     single word search...                                                    
         req2.addCallback(function(obj){
             if (obj.values.length == 1) {
                 val = obj.values[0];
@@ -225,7 +224,6 @@ ManyToOne.prototype.get_matched = function(){
                 open_search_window(relation, domain, context, m2o.name, 1, text);
             }
         });
-        */ 
     }
 
     var domain = getNodeAttribute(this.field, 'domain');
