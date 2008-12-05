@@ -435,7 +435,7 @@ class Form(controllers.Controller, TinyResource):
             res = rpc.session.execute('object', 'exec_workflow', model, name, id)
             if isinstance(res, dict):
                 from openerp.subcontrollers import actions
-                return actions.execute(res)
+                return actions.execute(res, ids=[id])
 
         elif btype == 'object':
             ctx = params.context or {}
@@ -444,7 +444,7 @@ class Form(controllers.Controller, TinyResource):
 
             if isinstance(res, dict):
                 from openerp.subcontrollers import actions
-                return actions.execute(res)
+                return actions.execute(res, ids=[id])
 
         elif btype == 'action':
             from openerp.subcontrollers import actions
