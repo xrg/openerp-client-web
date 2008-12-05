@@ -66,12 +66,14 @@ class Search(Form):
         params.limit = params.limit or 20
         params.count = params.count or 0
 
+        params.editable = 0
+
         form = self.create_form(params, tg_errors)
 
         # don't show links in list view, except the do_select link
         form.screen.widget.show_links = 0
 
-        return dict(search=form.search, screen=form.screen, params=params, show_header_footer=False)
+        return dict(form=form, params=params, show_header_footer=False)
 
     @expose()
     def new(self, model, source=None, kind=0, text=None, domain=[], context={}):
