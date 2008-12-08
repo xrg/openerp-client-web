@@ -63,15 +63,20 @@ class ViewForm(tg.widgets.Form):
         if readonly is None:
             readonly = False
             
-        self.screen = Screen(prefix='', hastoolbar=True, editable=editable, readonly=readonly, selectable=2)
-        self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.id, self.screen.view_type, self.screen.view_type != 'form', self.screen.context)
+        self.screen = Screen(prefix='', hastoolbar=True, editable=editable, readonly=readonly, 
+                             selectable=params.selectable or 2)
+
+        self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.id, 
+                               self.screen.view_type, self.screen.view_type != 'form', 
+                               self.screen.context)
 
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
         
         self.search = None
         
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
+            self.search = Search(model=params.model, domain=params.domain, 
+                                 context=params.context, values=params.search_data or {})
             
         if params.view_type == 'tree':
             self.screen.id = False

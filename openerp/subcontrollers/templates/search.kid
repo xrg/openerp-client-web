@@ -40,7 +40,7 @@
 
     </script>
 
-    <script type="text/javascript" py:if="params.kind == 1">
+    <script type="text/javascript" py:if="params.selectable == 1">
 
         function do_select(id){
             if (!id) {
@@ -80,7 +80,7 @@
         }
     </script>
 
-    <script type="text/javascript" py:if="params.kind == 2">
+    <script type="text/javascript" py:if="params.selectable == 2">
 
         function do_select(id) {
 
@@ -123,10 +123,7 @@
 <div class="view">
     <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
-        <input type="hidden" id="_terp_kind" name="_terp_kind" value="${params.kind}"/>
-        <!--<input type="hidden" id="_terp_limit" name="_terp_limit" value="${screen.limit}"/>
-        <input type="hidden" id="_terp_offset" name="_terp_offset" value="${screen.offset}"/>
-        <input type="hidden" id="_terp_count" name="_terp_count" value="${screen.count}"/>-->
+        <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(params.search_domain)}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${ustr(params.search_data)}"/>
 
@@ -147,12 +144,19 @@
                 <td py:content="search.display()">Search View</td>
             </tr>
             <tr>
-                <td>
-                    <div class="toolbar">
-                        <button type="submit">Filter</button>
-                        <button type="button" onclick="do_create()" py:if="params.kind == 1">New</button>
-                        <button type="button" onclick="do_select()">Select</button>
-                    </div>
+                <td class="toolbar">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="100%">
+                                <button type="submit">Filter</button>
+                                <button type="button" onclick="do_create()" py:if="params.selectable == 1">New</button>
+                                <button type="button" onclick="do_select()">Select</button>
+                            </td>
+                            <td>
+                                <button type="button" onclick="window.close()">Close</button>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
             <tr>

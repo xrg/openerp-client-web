@@ -49,7 +49,111 @@ from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 from openerp.utils import TinyForm
 
-import search
+def make_domain(name, value):
+    """A helper function to generate domain for the given name, value pair.
+    Will be used for search window...
+    """
+
+    if isinstance(value, int) and not isinstance(value, bool):
+        return [(name, '=', value)]
+
+    if isinstance(value, dict):
+
+        start = value.get('from')
+        end = value.get('to')
+
+        if start and end:
+            return [(name, '>=', start), (name, '<=', end)]
+
+        elif start:
+            return [(name, '>=', start)]
+
+        elif end:
+            return [(name, '<=', end)]
+
+        return None
+
+    if isinstance(value, basestring) and value:
+        return [(name, 'ilike', value)]
+
+    if isinstance(value, bool) and value:
+        return [(name, '=', 1)]
+
+    return []
+
+def search(model, offset=0, limit=20, domain=[], context={}, data={}):
+    """A helper function to search for data by given criteria.
+
+    @param model: the resource on which to make search
+    @param offset: offset from when to start search
+    @param limit: limit of the search result
+    @param domain: the domain (search criteria)
+    @param context: the context
+    @param data: the form data
+
+    @returns dict with list of ids count of records etc.
+    """
+
+    domain = domain or []
+    context = context or {}
+    data = data or {}
+
+    search_domain = domain[:]
+    search_data = {}
+
+    for k, v in data.items():
+        t = make_domain(k, v)
+
+        if t:
+            search_domain += t
+            search_data[k] = v
+
+    l = limit
+    o = offset
+
+    if l < 1: l = 20
+    if o < 0: o = 0
+
+    proxy = rpc.RPCProxy(model)
+    ctx = rpc.session.context.copy()
+    ctx.update(context)
+
+    ids = proxy.search(search_domain, o, l, 0, ctx)
+    count = proxy.search_count(search_domain, ctx)
+
+    return dict(model=model, ids=ids, count=count, offset=o, limit=l,
+                search_domain=search_domain, search_data=search_data)
+
+def get_validation_schema(self):
+    """Generate validation schema for the given Form instance. Should be used 
+    to validate form inputs with @validate decorator.
+
+    @param self: and instance of Form
+
+    @returns a new instance of Form with validation schema
+    """
+
+    kw = cherrypy.request.params
+    params, data = TinyDict.split(kw)
+
+    # bypass validations, if saving from button in non-editable view
+    if params.button and not params.editable and params.id:
+        return None
+
+    cherrypy.request.terp_validators = {}
+    params.nodefault = True
+        
+    form = self.create_form(params)
+    cherrypy.request.terp_form = form
+
+    vals = cherrypy.request.terp_validators
+    keys = vals.keys()
+    for k in keys:
+        if k not in kw:
+            vals.pop(k)
+
+    form.validator = validators.Schema(**vals)
+    return form
 
 class Form(controllers.Controller, TinyResource):
 
@@ -131,7 +235,8 @@ class Form(controllers.Controller, TinyResource):
         return cpt > 0
 
     @expose()
-    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'], 
+             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
 
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
@@ -164,7 +269,8 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], 
+            domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
@@ -217,31 +323,8 @@ class Form(controllers.Controller, TinyResource):
         params.view_type = 'tree'
         return self.create(params)
 
-    def get_form(self):
-        kw = cherrypy.request.params
-        params, data = TinyDict.split(kw)
-
-        # bypass validations, if saving from button in non-editable view
-        if params.button and not params.editable and params.id:
-            return None
-
-        cherrypy.request.terp_validators = {}
-        params.nodefault = True
-        
-        form = self.create_form(params)
-        cherrypy.request.terp_form = form
-
-        vals = cherrypy.request.terp_validators
-        keys = vals.keys()
-        for k in keys:
-            if k not in kw:
-                vals.pop(k)
-
-        form.validator = validators.Schema(**vals)
-        return form
-
     @expose()
-    @validate(form=get_form)
+    @validate(form=get_validation_schema)
     def save(self, terp_save_only=False, tg_source=None, tg_errors=None, tg_exceptions=None, **kw):
         """Controller method to save/button actions...
 
@@ -352,7 +435,7 @@ class Form(controllers.Controller, TinyResource):
             res = rpc.session.execute('object', 'exec_workflow', model, name, id)
             if isinstance(res, dict):
                 from openerp.subcontrollers import actions
-                return actions.execute(res)
+                return actions.execute(res, ids=[id])
 
         elif btype == 'object':
             ctx = params.context or {}
@@ -361,7 +444,7 @@ class Form(controllers.Controller, TinyResource):
 
             if isinstance(res, dict):
                 from openerp.subcontrollers import actions
-                return actions.execute(res)
+                return actions.execute(res, ids=[id])
 
         elif btype == 'action':
             from openerp.subcontrollers import actions
@@ -487,26 +570,8 @@ class Form(controllers.Controller, TinyResource):
 
         return self.create(params)
 
-    def get_filter_form(self):
-        params, data = TinyDict.split(cherrypy.request.params)
-
-        if params.view_type == 'form':
-            return None
-
-        cherrypy.request.terp_validators = {}
-        params.nodefault = True
-        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
-        cherrypy.request.terp_form = form
-
-        vals = cherrypy.request.terp_validators
-        schema = validators.Schema(**vals)
-
-        form.validator = schema
-
-        return form
-
     @expose()
-    @validate(form=get_filter_form)
+    @validate(form=get_validation_schema)
     def filter(self, tg_errors=None, **kw):
         params, data = TinyDict.split(kw)
 
@@ -550,7 +615,7 @@ class Form(controllers.Controller, TinyResource):
                 domain = params.search_domain
                 data = params.search_data
                 
-            res = search.search(params.model, o, l, domain=domain, data=data)
+            res = search(params.model, o, l, domain=domain, data=data)
             
             o = res['offset']
             l = res['limit']
@@ -890,7 +955,9 @@ class Form(controllers.Controller, TinyResource):
             for x in res:
                 act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
-                relates += [{'text': '... '+x['name'], 'action': act and "do_relate(%s, '%s', '%s', this)" %(x['id'], field, relation), 'data': "%s"%str(x)}]
+                relates += [{'text': '... '+x['name'], 
+                             'action': act and "do_relate(%s, '%s', '%s', this)" %(x['id'], field, relation), 
+                             'data': "%s"%str(x)}]
 
         return dict(defaults=defaults, actions=actions, relates=relates)
 

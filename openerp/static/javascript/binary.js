@@ -39,15 +39,24 @@ var save_binary_data = function(src, filename) {
     submit_form(act);
 }
 
-var add_binary = function(src, filename) {
-    binary_add = $('binary_add');
-    binary_buttons = $('binary_buttons');
+var add_binary = function(src) {
+    binary_add = $(src + '_binary_add');
+    binary_buttons = $(src + '_binary_buttons');
         
     binary_add.style.display = "";
-    binary_buttons.style.display = "None";
+    binary_buttons.style.display = "none";
     
     fld = MochiKit.DOM.getElement(src);
     fld.disabled = false;
+    
+    connect(src, 'onkeydown', function(e){
+        if (e.key().string == 'KEY_ESCAPE') {
+            binary_add.style.display = "none";
+            binary_buttons.style.display = "";
+            
+            fld.disabled = true;
+        } 
+    });
 }
 
 function set_binary_filename(id, fname){
