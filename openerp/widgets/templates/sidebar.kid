@@ -93,7 +93,7 @@
                                 </td>
                             </tr>
                             <tr py:for="item in attachments" data="${str(item)}">
-                                <td>
+                                <td py:if="item[1]">
                                     <a href="/attachment/save_as/${item[1]}?record=${item[0]}">${item[1]}</a>
                                 </td>
                             </tr>
