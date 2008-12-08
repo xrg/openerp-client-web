@@ -86,7 +86,7 @@
                                             <td width="8" style="background: #ac0000"/>
                                             <td width="7" style="background-color: #363636"/>
                                             <td style="font: verdana; color:white; font-weight:bold; font-size:12px; background-color: #363636">ATTACHMENTS</td>
-                                            <td width="35" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
+                                            <td width="42" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
                                             <td width="50" style="background-color: #666666"/>
                                         </tr>
                                     </table>
