@@ -219,14 +219,12 @@
                         <legend>Save List</legend>
                         <table>
                             <tr>                           
-                                <td class="label">
-                                    Name of This Export :    
-                                </td>                            
+                                <td class="label">Name of This Export:</td>                            
                                 <td>
                                     <input type="text" id="savelist_name" name="savelist_name"/>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="save_export()">Ok</button>
+                                    <button type="button" onclick="save_export()">OK</button>
                                 </td>
                             </tr>
                         </table>

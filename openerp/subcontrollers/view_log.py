@@ -78,7 +78,7 @@ class View_Log(controllers.Controller, TinyResource):
                     tmp[key] = ustr(line.get(key) or '/')
         
         if not id:
-            message = _("No resource is selected...!")
+            message = _("No resource is selected...")
 
         return dict(tmp=tmp, todo=todo, message=message, show_header_footer=False)
 

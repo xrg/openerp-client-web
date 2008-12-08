@@ -288,7 +288,7 @@ var submit_form = function(action, src, data, target){
         cur_id = parseInt(cur_id) || 0;
 
         if (!cur_id) {
-           return alert('You must save this record to use the relate button !');
+           return alert('You must save this record to use the relate button!');
         }
     }
     

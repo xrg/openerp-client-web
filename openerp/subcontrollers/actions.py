@@ -164,7 +164,7 @@ def execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise common.error(_('Error'), _('Printing aborted, too long delay !'))
+                raise common.error(_('Error'), _('Printing aborted, too long delay!'))
         
         # report name
         report_name = 'report'
@@ -308,7 +308,7 @@ def get_action_type(act_id):
     res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
 
     if not len(res):
-        raise common.error(_('Error'), _('Action not found!!!'))
+        raise common.error(_('Error'), _('Action not found!'))
 
     return res[0]['type']
 

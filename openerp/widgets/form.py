@@ -824,7 +824,7 @@ class Form(TinyCompoundWidget):
                 try:
                     fields[name].update(attrs)
                 except:
-                    print "-"*30,"\n malformed tag for :", attrs
+                    print "-"*30,"\n malformed tag for:", attrs
                     print "-"*30
                     raise
                 
@@ -841,8 +841,8 @@ class Form(TinyCompoundWidget):
 
                 if name in myfields:
                     print "-"*30
-                    print " malformed view for :", self.model
-                    print " duplicate field :", name
+                    print " malformed view for:", self.model
+                    print " duplicate field:", name
                     print "-"*30
                     raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
