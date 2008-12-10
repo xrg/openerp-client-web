@@ -124,7 +124,7 @@ class Sidebar(TinyCompoundWidget):
             if ids:
                 for i in ids:
                     attach = []
-                    datas = proxy.read([i])
+                    datas = proxy.read([i], ['datas_fname'])
                     attach += [datas[0].get('id')]
                     attach += [datas[0].get('datas_fname', '')]
                     if datas[0].get('datas_fname'):
