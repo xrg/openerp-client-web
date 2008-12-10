@@ -374,7 +374,11 @@ class RPCSession(object):
     def __convert(self, result):
 
         if isinstance(result, basestring):
-            return ustr(result)
+            # try to convert into unicode string
+            try:
+                return ustr(result)
+            except Exception, e:
+                return result
 
         elif isinstance(result, list):
             return [self.__convert(val) for val in result]
