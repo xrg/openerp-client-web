@@ -163,7 +163,7 @@ var form_onAttrChange = function(container, widget, attr, expr, evt) {
 
 var form_evalExpr = function(prefix, expr) {
     
-    var result = false;
+    var result = true;
     
     for(var i=0; i<expr.length; i++) {
         
@@ -177,33 +177,33 @@ var form_evalExpr = function(prefix, expr) {
         var val = ex[2];
         var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
         
-        switch (op) {
+        switch (op.toLowerCase()) {
             
             case '=':
             case '==':
-                result = result || (elem_value == val);
+                result = result && (elem_value == val);
                 break;
             case '!=':
             case '<>':
-                result = result || (elem_value != val);
+                result = result && (elem_value != val);
                 break;
             case '<':
-                result = result || (elem_value < val);
+                result = result && (elem_value < val);
                 break;
             case '>':
-                result = result || (elem_value > val);
+                result = result && (elem_value > val);
                 break;
             case '<=':
-                result = result || (elem_value <= val);
+                result = result && (elem_value <= val);
                 break;
             case '>=':
-                result = result || (elem_value >= val);
+                result = result && (elem_value >= val);
                 break;
             case 'in':
-                result = result || MochiKit.Base.findIdentical(val, elem_value) > -1;
+                result = result && MochiKit.Base.findIdentical(val, elem_value) > -1;
                 break;
             case 'not in':
-                result = result || MochiKit.Base.findIdentical(val, elem_value) == -1;
+                result = result && MochiKit.Base.findIdentical(val, elem_value) == -1;
                 break;
         }
     }
