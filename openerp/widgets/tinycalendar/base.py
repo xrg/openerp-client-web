@@ -248,7 +248,9 @@ class ICalendar(interface.TinyCompoundWidget):
         ctx = rpc.session.context.copy()
         ctx.update(self.context)
 
-        ids = proxy.search(domain, 0, 0, 0, ctx)
+        order_by = ('sequence' in self.fields or 0) and 'sequence'
+
+        ids = proxy.search(domain, 0, 0, order_by, ctx)
         result = proxy.read(ids, self.fields.keys(), ctx)
         
         if self.color_field:

@@ -80,7 +80,7 @@ class Root(controllers.RootController, TinyResource):
         act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
 
         if not act_id[0][id]:
-            common.warning(_('You can not log into the system !\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied !'))
+            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
             raise redirect('/');
 
@@ -139,7 +139,7 @@ class Root(controllers.RootController, TinyResource):
         
         if dblist == -1:
             dblist = []
-            message = _("Could not connect to server !")
+            message = _("Could not connect to server!")
 
         return dict(target='/', url=url, manage_visible=manage_visible, dblist=dblist, user=user, password=password, db=db, action='login', message=message, origArgs={})
 
@@ -193,7 +193,8 @@ class Root(controllers.RootController, TinyResource):
     shortcuts = subcontrollers.shortcuts.Shortcuts()
     requests = subcontrollers.requests.Requests()
     openm2o = subcontrollers.openm2o.OpenM2O()
-    openo2m = subcontrollers.openo2m.OpenO2M()    
+    openo2m = subcontrollers.openo2m.OpenO2M() 
+    openm2m = subcontrollers.openm2m.OpenM2M()   
     listgrid = subcontrollers.listgrid.List()
     attachment = subcontrollers.attachment.Attachment()
     translator = subcontrollers.translator.Translator()

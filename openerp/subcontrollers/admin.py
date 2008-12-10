@@ -120,7 +120,7 @@ class Admin(controllers.Controller):
                 cherrypy.session['terp_password'] = password
                 raise redirect("/admin")
             else:
-                message = str(_('Invalid Password...!'))
+                message = str(_('Invalid Password...'))
                 raise common.error(_('Error'), _(message))
         
         if confpass:
@@ -129,7 +129,7 @@ class Admin(controllers.Controller):
             raise redirect("/admin")
             
         if confpass == "":
-            raise common.error(_("Error"), _("Administration password is empty..!"))
+            raise common.error(_("Error"), _("Administration password is empty..."))
     
     @validate(validators=MySchema())
     @expose(template="openerp.subcontrollers.templates.admin")
@@ -144,7 +144,7 @@ class Admin(controllers.Controller):
                 logo_file.write(datas)
                 logo_file.close()
             except Exception, e:
-                raise common.error(_('Error'), _('File reading or writing failed... !'))
+                raise common.error(_('Error'), _('File reading or writing failed...'))
         
         host = kw.get('host')
         port = kw.get('port')
@@ -207,17 +207,17 @@ class Admin(controllers.Controller):
             user_password = admin_password
     
         if ((not db_name) or (not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', db_name))):
-            message = _('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name !')
+            message = _('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name!')
         else:
             try:
                 res = rpc.session.execute_db('create', password, db_name, demo_data, language, user_password)
         
                 time.sleep(5) # wait for few seconds
             except Exception, e:
-                if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
-                    message = _('Bad database administrator password !') + "\n\n" + _("Could not create database.")
+                if getattr(e, 'faultCode', False) == 'AccessDenied':
+                    message = _('Bad database administrator password!') + "\n\n" + _("Could not create database.")
                 else:
-                    message = _("Could not create database.") + "\n\n" + _('Error during database creation !')
+                    message = _("Could not create database.") + "\n\n" + _('Error during database creation!')
             
             if res:        
                 raise redirect("/admin")
@@ -236,8 +236,8 @@ class Admin(controllers.Controller):
         try:
             res = rpc.session.execute_db('drop', password, db_name)
         except Exception, e:
-            if ('faultString' in e and e.faultString=='AccessDenied:None') or str(e)=='AccessDenied':
-                message = _('Bad database administrator password !') + "\n\n" + _("Could not drop database.")
+            if getattr(e, 'faultCode', False) == 'AccessDenied':
+                message = _('Bad database administrator password!') + "\n\n" + _("Could not drop database.")
             else:
                 message = _("Couldn't drop database")
 
@@ -281,8 +281,8 @@ class Admin(controllers.Controller):
             data_b64 = base64.encodestring(path.file.read())
             res = rpc.session.execute_db('restore', password, new_db, data_b64)
         except Exception, e:
-            if e.faultString=='AccessDenied:None':
-                message = _('Bad database administrator password !') + "\n\n" + _("Could not restore database.")
+            if getattr(e, 'faultCode', False) == 'AccessDenied':
+                message = _('Bad database administrator password!') + "\n\n" + _("Could not restore database.")
             else:
                 message = _("Couldn't restore database")
 
@@ -301,13 +301,13 @@ class Admin(controllers.Controller):
             return
         
         if new_password != new_password2:
-            message = _("Confirmation password do not match with new password, operation cancelled !") + "\n\n" + _("Validation Error.")
+            message = _("Confirmation password does not match with new password, operation cancelled!") + "\n\n" + _("Validation Error.")
         else:
             try:
                 res = rpc.session.execute_db('change_admin_password', old_password, new_password)
             except Exception,e:
-                if e.faultString=='AccessDenied:None':
-                    message = _("Could not change password database.") + "\n\n" + _('Bas password provided !')
+                if getattr(e, 'faultCode', False) == 'AccessDenied':
+                    message = _("Could not change super admin password.") + "\n\n" + _('Bad password provided!')
                 else:
                     message = _("Error, password not changed.")
 

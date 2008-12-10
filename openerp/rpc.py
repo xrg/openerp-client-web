@@ -168,7 +168,7 @@ class XMLRPCGateway(RPCGateway):
                 args = (self.db, self.uid, self.password) + args
             return getattr(sock, method)(*args)
         except socket.error, (e1, e2):
-            raise common.error(_('Connection refused !'), e1, e2)
+            raise common.error(_('Connection refused!'), e1, e2)
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
 
@@ -224,7 +224,7 @@ class NETRPCGateway(RPCGateway):
             return res
         
         except socket.error, (e1, e2):
-            raise common.error(_('Connection refused !'), e2, e1)
+            raise common.error(_('Connection refused!'), e2, e1)
         
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
@@ -281,7 +281,7 @@ class RPCSession(object):
             self.gateway = NETRPCGateway(host, port)
 
         else:
-            raise common.error(_("Connection refused !"), _("Unsupported protocol: %s" % protocol))
+            raise common.error(_("Connection refused!"), _("Unsupported protocol: %s" % protocol))
 
     def __getattr__(self, name):
         try:
@@ -366,7 +366,7 @@ class RPCSession(object):
             try:
                 import pytz
             except:
-                raise common.warning(_('You select a timezone but OpenERP could not find pytz library !\nThe timezone functionality will be disable.'))
+                raise common.warning(_('You select a timezone but OpenERP could not find pytz library!\nThe timezone functionality will be disable.'))
                 
         # set locale in session
         self.locale = self.context.get('lang')
@@ -374,7 +374,11 @@ class RPCSession(object):
     def __convert(self, result):
 
         if isinstance(result, basestring):
-            return ustr(result)
+            # try to convert into unicode string
+            try:
+                return ustr(result)
+            except Exception, e:
+                return result
 
         elif isinstance(result, list):
             return [self.__convert(val) for val in result]
@@ -395,7 +399,7 @@ class RPCSession(object):
     def execute(self, obj, method, *args):
 
         if not self.is_logged():
-            raise common.error(_('Authorization Error !'), _('Not logged...'))
+            raise common.error(_('Authorization Error!'), _('Not logged...'))
 
         try:
             
@@ -405,17 +409,17 @@ class RPCSession(object):
             return self.__convert(result)
 
         except socket.error, (e1, e2):
-            raise common.error(_('Connection refused !'), e1, e2)
+            raise common.error(_('Connection refused!'), e1, e2)
         
         except RPCException, err:
 
             if err.type in ('warning', 'UserError'):
                 raise common.warning(err.data)
             else:
-                raise common.error(_('Application Error !'), err.code, err.backtrace)
+                raise common.error(_('Application Error!'), err.code, err.backtrace)
             
         except Exception, e:
-            raise common.error(_('Application Error !'), str(e))
+            raise common.error(_('Application Error!'), str(e))
 
     def execute_noauth(self, obj, method, *args):
         return self.gateway.execute_noauth(obj, method, *args)

@@ -41,6 +41,7 @@ from openerp import widgets as tw
 from openerp.utils import TinyDict
 
 from form import Form
+from form import get_validation_schema
 
 class OpenO2M(Form):
     
@@ -93,29 +94,8 @@ class OpenO2M(Form):
                 
         return dict(form=form, params=params, show_header_footer=False)
     
-    def get_form(self):
-        params, data = TinyDict.split(cherrypy.request.params)
-
-        # bypass validations, if saving from button in non-editable view
-        if params.button and not params.editable and params.id:
-            return None
-
-        cherrypy.request.terp_validators = {}
-
-        params.nodefault = True
-
-        form = self.create_form(params)
-        cherrypy.request.terp_form = form
-
-        vals = cherrypy.request.terp_validators
-        schema = validators.Schema(**vals)
-
-        form.validator = schema
-
-        return form
-    
     @expose()
-    @validate(form=get_form)
+    @validate(form=get_validation_schema)
     def save(self, terp_save_only=False, tg_errors=None, **kw):
         params, data = TinyDict.split(kw)
         params.editable = True
@@ -134,6 +114,13 @@ class OpenO2M(Form):
         ctx.update(params.o2m_context or {})
 
         id = proxy.write([params.parent_id], data, ctx)
+        button = params.button
+
+        # perform button action
+        if params.button:
+            res = self.button_action(params)
+            if res:
+                return res
         
         params.load_counter = 1
 

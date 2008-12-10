@@ -56,11 +56,13 @@ class Image(controllers.Controller, TinyResource):
         id = int(kw.get('id'))
 
         proxy = rpc.RPCProxy(model)
-        
         res = proxy.read([id], [field])[0]
         res = res.get(field)
-
-        return base64.decodestring(res)
+        
+        if res:
+            return base64.decodestring(res)
+        else:
+            return ''
 
     @expose(template="openerp.subcontrollers.templates.image")
     def add(self, upimage,  **kw):

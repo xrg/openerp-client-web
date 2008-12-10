@@ -5,6 +5,18 @@ var GanttCalendar = function(options) {
     this.__init__(options);
 }
 
+GanttCalendar._ZOOM_SCALE = {
+    'day': 30,
+    '3days': 15,
+    'week': 24,
+    '3weeks': 12 * 7,
+    'month': 6 * 7,
+    '3months': 12,
+    'year': 6,
+    '3years': 150,
+    '5years': 200
+}
+
 GanttCalendar.prototype = {
    
     __init__: function(options) {
@@ -32,7 +44,7 @@ GanttCalendar.prototype = {
                     TBODY(null,
                         TR(null,
                             TD({'width': 200, 'nowrap': 'nowrap'}),
-                            TD({}, DIV({'id': 'calHeaderC'}, this.header.element))),
+                            TD({}, DIV({'id': 'calHeaderC'}, this.header.elements))),
                         TR(null,
                             TD({'width': 200, 'nowrap': 'nowrap'}, DIV({'id': 'calListC'})),
                             TD({}, DIV({'id': 'calGridC'})))));
@@ -67,16 +79,20 @@ GanttCalendar.prototype = {
         this.evtLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.evtResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
         this.evtScrollGrid = MochiKit.Signal.connect('calGridC', 'onscroll', this, 'onScrollGrid');
-        this.evtEventDrag = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', this, 'onEventDrag');
-        this.evtEventResize = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onEventResize');
+
+        this.evtEventDrag = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'drag', this, 'onEventDrag');
+        this.evtEventDragged = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', this, 'onEventDragged');
+        this.evtEventResized = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onEventResized');
     },
 
     dettachSignals: function(){
         MochiKit.Signal.disconnect(this.evtLoad);
         MochiKit.Signal.disconnect(this.evtResize);
         MochiKit.Signal.disconnect(this.evtScrollGrid);
+
         MochiKit.Signal.disconnect(this.evtEventDrag);
-        MochiKit.Signal.disconnect(this.evtEventResize);
+        MochiKit.Signal.disconnect(this.evtEventDragged);
+        MochiKit.Signal.disconnect(this.evtEventResized);
     },
 
     onResize: function(evt){
@@ -143,15 +159,8 @@ GanttCalendar.prototype = {
 
     },
 
-    onEventDrag: function(draggable, evt) {
+    computeDates: function(element) {
 
-        var element = draggable.element;
-
-        if (hasElementClass(element, 'calEventLabel')) {
-            return this.list.onUpdate(draggable, evt);
-        }
-
-        var id = getNodeAttribute(element, 'nRecordID');
         var ds = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtStart'));
         var de = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtEnd'));
 
@@ -163,10 +172,16 @@ GanttCalendar.prototype = {
         var m = st.getMinutes();
         var s = st.getSeconds();
 
-        if (this.range == 1) {
+        if (this.mode == 'day') {
             m = m - m % 15;
             s = 0;
-        } else if (this.range == 7) {
+        } else if (this.mode == '3days') {
+            m = m - m % 30;
+            s = 0;
+        } else if (this.mode == 'week') {
+            m = 0;
+            s = 0;
+        } else if (this.mode == '3weeks') {
             m = 0;
             s = 0;
         } else {
@@ -179,27 +194,73 @@ GanttCalendar.prototype = {
 
         var et = new Date(de.getTime() + st.getTime() - ds.getTime());
 
+        return {'starts': st, 'ends': et};
+    },
+
+    onEventDrag: function(draggable, evt) {
+
+        var element = draggable.element;
+
+        if (hasElementClass(element, 'calEventLabel')) {
+            return;
+        }
+
+        var dt = this.computeDates(element); 
+
+        var pos = getElementPosition(element, 'calGrid');
+        var dim = getElementDimensions(element);
+
+        with(this.sTip) {
+            style.display = "";
+            style.top = pos.y + 'px';
+            style.right = getElementDimensions('calGrid').w - pos.x + 2 + 'px';
+            innerHTML = dt.starts.strftime('%Y-%m-%d %H:%M');
+        }
+
+        with(this.eTip) {
+            style.display = "";
+            style.top = pos.y + 'px';
+            style.left = pos.x + dim.w + 2 + 'px';
+            innerHTML = dt.ends.strftime('%Y-%m-%d %H:%M');
+        }
+    },
+
+    onEventDragged: function(draggable, evt) {
+
+        var element = draggable.element;
+
+        if (hasElementClass(element, 'calEventLabel')) {
+            return this.list.onUpdate(draggable, evt);
+        }
+
+        hideElement(this.sTip);
+        hideElement(this.eTip);
+
+        var id = getNodeAttribute(element, 'nRecordID');
+        var dt = this.computeDates(element);
+
         var self = this;
-        var req = saveCalendarRecord(id, toISOTimestamp(st), toISOTimestamp(et));
+        var req = saveCalendarRecord(id, toISOTimestamp(dt.starts), toISOTimestamp(dt.ends));
         
         req.addCallback(function(obj){
             
             if (obj.error) {
+                self.grid.adjust();
                 return alert(obj.error);
             }
 
-            self.events[id].starts = toISOTimestamp(st);
-            self.events[id].ends = toISOTimestamp(et);
+            self.events[id].starts = toISOTimestamp(dt.starts);
+            self.events[id].ends = toISOTimestamp(dt.ends);
             
-            setNodeAttribute(element, 'dtstart', toISOTimestamp(st));
-            setNodeAttribute(element, 'dtend', toISOTimestamp(et));
+            setNodeAttribute(element, 'dtstart', toISOTimestamp(dt.starts));
+            setNodeAttribute(element, 'dtend', toISOTimestamp(dt.ends));
             
             self.grid.adjust();
         });
 
     },
 
-    onEventResize: function(resizable, evt) {
+    onEventResized: function(resizable, evt) {
         var element = resizable.element;
 
         var id = getNodeAttribute(element, 'nRecordID');
@@ -214,10 +275,16 @@ GanttCalendar.prototype = {
         var m = se.getMinutes();
         var s = se.getSeconds();
 
-        if (this.range == 1) {
+        if (this.mode == 'day') {
             m = m - m % 15;
             s = 0;
-        } else if (this.range == 7) {
+        } else if (this.mode == '3days') {
+            m = m - m % 30;
+            s = 0;
+        } else if (this.mode == 'week') {
+            m = 0;
+            s = 0;
+        } else if (this.mode == '3weeks') {
             m = 0;
             s = 0;
         } else {
@@ -234,6 +301,7 @@ GanttCalendar.prototype = {
         req.addCallback(function(obj){
             
             if (obj.error) {
+                self.grid.adjust();
                 return alert(obj.error);
             }
 
@@ -257,7 +325,9 @@ GanttCalendar.Header.prototype = {
 
     __init__: function(calendar) {
 
-        var titles = MochiKit.DOM.getElementsByTagAndClassName('div', null, 'calHeaderSect');
+        var titles = MochiKit.DOM.getElementsByTagAndClassName('div', 'calTitle', 'calHeaderSect');
+        var subtitles = MochiKit.DOM.getElementsByTagAndClassName('div', 'calSubTitle', 'calHeaderSect');
+
         MochiKit.DOM.removeElement('calHeaderSect');
 
         this.calendar = calendar;
@@ -267,13 +337,11 @@ GanttCalendar.Header.prototype = {
 
         // subcolumn width
         var mode = calendar.mode;
-        var scw = mode == 'day' ? 30 :
-                  mode == 'week' ? 24 :
-                  mode == 'month' ? 6 * 7:
-                  mode == '3months' ? 12 : 6;
+        var scw = GanttCalendar._ZOOM_SCALE[mode];
 
         var scale = 0;
         var divs = [];
+        var subs = [];
 
         for(var i=0; i<titles.length; i++) {
 
@@ -296,13 +364,25 @@ GanttCalendar.Header.prototype = {
             divs = divs.concat(div);
         }
 
+        var w = scale / subtitles.length;
+
+        for(var i=0; i<subtitles.length; i++) {
+            
+            var _div = DIV({'class': 'calSubTitle'}, MochiKit.DOM.scrapeText(subtitles[i]));
+            MochiKit.Style.setStyle(_div, {
+                    'position': 'absolute',
+                    'width': w + 'px',
+                    'left': i * w + 'px',
+                    'top': '0px'
+            });
+
+            subs = subs.concat(_div);
+        }
+
         this.calendar.scale = scale / (this.calendar.range * 24 * 60);
 
         this.count = divs.length;
-        this.element = DIV({'class': 'calHeader'}, divs);
-
-        // HACK: set height for the header
-        // divs[0].style.position = 'relative';
+        this.elements = [DIV({'class': 'calHeader'}, divs), DIV({'class': 'calHeader'}, subs)];
     },
 
    
@@ -342,11 +422,17 @@ GanttCalendar.List.prototype = {
             MochiKit.DOM.appendChildNodes(elem, div);
             self._signals.push(e);
 
+            // keep the reference of the associated Group object
+            elem.__group = group;
+
             forEach(group.events, function(evt) {
                 var div = DIV({'class': 'calEventLabel'}, evt.title);
                 var e = MochiKit.Signal.connect(div, 'ondblclick', self, partial(self.onClick, evt));
                 MochiKit.DOM.appendChildNodes(elem, div);
                 self._signals.push(e);
+
+                // keep the reference of the associated Event object
+                div.__event = evt;
             });
 
             elements = elements.concat(elem);
@@ -358,7 +444,8 @@ GanttCalendar.List.prototype = {
         forEach(elements, function(elem){
             MochiKit.Sortable.Sortable.create(elem, {
                 'tag': 'div',
-                'only': ['calEventLabel']
+                'only': ['calEventLabel'],
+                'containment': elements
             });
         });     
     },
@@ -414,8 +501,34 @@ GanttCalendar.List.prototype = {
     },
 
     onUpdate: function(draggable, evt) {
-        var element = draggable.element;
-        log('TODO: reorder the tasks...');
+
+        var group = draggable.element.parentNode.__group;
+        var event = draggable.element.__event;
+
+        var items = getElementsByTagAndClassName('div', 'calEventLabel', 'calListC');
+        items = MochiKit.Base.map(function(item){
+            return item.__event.record_id;
+        }, items);
+
+        var params = {
+            '_terp_id': event.record_id,
+            '_terp_ids': '[' + items.join(',') + ']',
+            '_terp_model': getElement('_terp_model').value,
+            '_terp_level': getElement('_terp_gantt_level').value,
+            '_terp_level_value': group.id
+        }
+
+        var self = this;
+        var req = Ajax.JSON.post('/calendar/gantt_reorder', params);
+        req.addCallback(function(obj){
+            if (obj.error) {
+                return alert(obj.error);
+            }
+        });
+
+        req.addBoth(function(obj){
+            return getCalendar();
+        });
     }
 }
 
@@ -432,10 +545,11 @@ GanttCalendar.Grid.prototype = {
       
         this.calendar = calendar;
         this.starts = calendar.starts;
-        this.range = calendar.range;
 
         this._makeGrid();
         this._makeGroups();
+
+        this.adjust();
     },
 
     __delete__: function() {
@@ -463,6 +577,11 @@ GanttCalendar.Grid.prototype = {
 
         this.element = DIV({'id': 'calGrid', 'class': 'calGrid'}, divs, DIV({'id': 'calGroupC'}));
         MochiKit.DOM.appendChildNodes('calGridC', this.element);
+
+        // start/end time tips
+        this.calendar.sTip = DIV({'style': 'position: absolute; font-size: 10px; white-space: nowrap;'});
+        this.calendar.eTip = DIV({'style': 'position: absolute; font-size: 10px; white-space: nowrap;'});
+        MochiKit.DOM.appendChildNodes(this.element, this.calendar.sTip, this.calendar.eTip);
     },
 
     _makeGroups : function(){
@@ -481,9 +600,16 @@ GanttCalendar.Grid.prototype = {
     },
    
     adjust: function() {
+
+        var left = null;
         forEach(this.groups, function(g){
             g.adjust();
+            var x = parseInt(g.bar.style.left) || 0;
+            left = left == null ? x : Math.min(left, x);
         });
+
+        // adjust horizontal scrollbar
+        getElement('calGridC').scrollLeft = left - 50;
     }
 }
 
@@ -570,8 +696,6 @@ GanttCalendar.GridGroup.prototype = {
         if (this.events.length) {
             MochiKit.DOM.appendChildNodes('calGroupC', this.element);
         }
-
-        this.adjust();
     },
 
     __delete__: function(){
@@ -591,7 +715,8 @@ GanttCalendar.GridGroup.prototype = {
         // clear the bar
         MochiKit.DOM.replaceChildNodes(this.bar);
 
-        var events = this.events;
+        // copy events
+        var events = Array.prototype.slice.call(this.events);
 
         // sort them by start time
         events.sort(function(a, b){
@@ -599,6 +724,8 @@ GanttCalendar.GridGroup.prototype = {
             if (a.starts < b.starts) return -1;
             return 1;
         });
+
+        // prepare usages bar
 
         var st = events[0].starts;
         var se = events[events.length-1].ends;
@@ -623,14 +750,12 @@ GanttCalendar.GridGroup.prototype = {
 
         var periods = [];
 
-        var cur = bounds.pop();
+        var cur = bounds.shift();
         while(bounds.length) {
-            var last = bounds.pop();
-            periods = periods.concat([[last, cur]]);
+            var last = bounds.shift();
+            periods = periods.concat([[cur, last]]);
             cur = last;
         }
-
-        periods.reverse();
 
         var divs = MochiKit.Base.map(function(b){
             var div = DIV({});
@@ -654,29 +779,15 @@ GanttCalendar.GridGroup.prototype = {
 
         appendChildNodes(this.bar, divs);
         this.bars = divs;
-    },
 
-    adjust: function(){
-
-        forEach(this.events, function(e){
-            e.adjust();
-        });
-        this.calculate_usages();
-
-        var w = 0;
-
-        forEach(this.calendar.header.specs, function(spec){
-            w += spec.count * spec.width;
-        });
-
-        this.element.style.width = w + 'px';
+        // adjust usages bar
 
         var bx = null;
         var bw = null;
 
-        for(var i=0; i<this.events.length; i++){
+        for(var i=0; i<events.length; i++){
 
-            var e = this.events[i];
+            var e = events[i];
 
             bx = bx == null ? e.left : Math.min(e.left, bx);
             bw = bw == null ? e.width : Math.max(e.left - bx + e.width, bw);
@@ -692,13 +803,29 @@ GanttCalendar.GridGroup.prototype = {
 
         for(var i=0; i<this.bars.length; i++){
             var e = this.bars[i];
-            var x = (e.starts.getTime() - this.events[0].starts.getTime()) / (60 * 1000);
+            var x = (e.starts.getTime() - events[0].starts.getTime()) / (60 * 1000);
             var w = (e.ends.getTime() - e.starts.getTime()) / (60 * 1000);
             x = x * this.calendar.scale;
             w = (w * this.calendar.scale) + 1;
             e.style.left = Math.round(x) + 'px';
             e.style.width = Math.round(w) + 'px';
         }
+    },
+
+    adjust: function(){
+
+        forEach(this.events, function(e){
+            e.adjust();
+        });
+        
+        var w = 0;
+
+        forEach(this.calendar.header.specs, function(spec){
+            w += spec.count * spec.width;
+        });
+
+        this.element.style.width = w + 'px';
+        this.calculate_usages();
     }
 }
 
@@ -778,14 +905,16 @@ GanttCalendar.Event.prototype = {
 
     doSnap: function(x, y) {
 
-        var range = this.container.calendar.range;
+        var mode = this.container.calendar.mode;
         var scale = this.container.calendar.scale;
 
         var snap = 24 * 60 * scale; // default 1 day
 
-        if (range == 1) {
+        if (mode == 'day') {
             snap = 15 * scale; // 15 minutes
-        } else if (range == 7) {
+        } else if (mode == '3days') {
+            snap = 30 * scale; // 30 minutes
+        } else if (mode == 'week') {
             snap = 60 * scale; // 1 hour
         }
 
@@ -801,10 +930,14 @@ var ganttZoomOut = function() {
 
     var mode = getElement('_terp_selected_mode').value;
     var modes = {
-        'day': 'week',
-        'week': 'month',
+        'day': '3days',
+        '3days': 'week',
+        'week': '3weeks',
+        '3weeks': 'month',
         'month': '3months',
-        '3months': 'year'
+        '3months': 'year',
+        'year': '3years',
+        '3years': '5years'
     };
 
     return getCalendar(null, modes[mode]);
@@ -814,10 +947,14 @@ var ganttZoomIn = function() {
 
     var mode = getElement('_terp_selected_mode').value;
     var modes = {
+        '5years': '3years',
+        '3years': 'year',
         'year': '3months',
         '3months': 'month',
-        'month': 'week',
-        'week': 'day'
+        'month': '3weeks',
+        '3weeks': 'week',
+        'week': '3days',
+        '3days': 'day'
     };
 
     return getCalendar(null, modes[mode]);

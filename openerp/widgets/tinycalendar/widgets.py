@@ -199,15 +199,16 @@ class GanttCalendar(ICalendar):
     
     template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    params = ['title', 'levels', 'groups', 'days', 'events', 'calendar_fields', 
-            'date_format', 'selected_day', 'mode', 'headers', 'model', 'ids']
+    params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format', 
+              'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
     member_widgets = ['groupbox', 'use_search', 'extra_css', 'extra_javascript']
 
-    levels = None
+    level = None
     groups = None
     title = None
     days = None
     headers = None
+    subheaders = None
     mode = 'week'
 
     extra_css = [tg.widgets.CSSLink('openerp', 'tinycalendar/css/calendar_gantt.css')]
@@ -215,7 +216,7 @@ class GanttCalendar(ICalendar):
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 
-        self.levels = []
+        self.level = None
         self.groups = []
         self.days = []
         self.headers = []
@@ -232,13 +233,43 @@ class GanttCalendar(ICalendar):
             self.days = [day]
             self.title = ustr(day)
             self.selected_day = day
-            self.headers = [(2, time.strftime('%I %P', (y, m, d, i, 0, 0, 0, 0, 0))) for i in range(24)]
+
+            self.headers = [(48, ustr(day))]
+            self.subheaders = [time.strftime('%I %P', (y, m, d, i, 0, 0, 0, 0, 0)) for i in range(24)]
+
+        elif self.mode == '3days':
+            dp = day - 1
+            dn = day + 1
+            self.days = [dp, day, dn]
+            self.title = u"%s, %s, %s" % (ustr(dp), ustr(day), ustr(dn))
+            self.selected_day = day
+
+            self.headers = [(24, ustr(dp)), (24, ustr(day)), (24, ustr(dn))]
+            self.subheaders = []
+            for x in self.headers:
+                self.subheaders += [time.strftime('%I %P', (y, m, 1, i, 0, 0, 0, 0, 0)) for i in range(0, 24, 6)]
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
             self.title = _("%s, Week %s") % (y, day.strftime("%W"))
             self.selected_day = _get_selection_day(day, self.selected_day, 'week')
-            self.headers = [(12, "%s %s" % (d.month2.name, d.day)) for d in self.days]
+            self.headers = [(12, u"%s %s" % (d.month2.name, d.day)) for d in self.days]
+            self.subheaders = []
+            for x in self.days:
+                self.subheaders += [time.strftime('%I %P', (y, m, 1, i, 0, 0, 0, 0, 0)) for i in range(0, 24, 12)]
+
+        elif self.mode == '3weeks':
+            w = Week(day)
+            wp = w - 1
+            wn = w + 1
+            self.days = wp.days + w.days + wn.days
+            self.title = _(u"%s - %s") % (ustr(self.days[0]), ustr(self.days[-1]))
+            self.selected_day = _get_selection_day(day, self.selected_day, 'week')
+            self.headers = [(7, _("Week %s") % w[0].strftime('%W')) for w in [wp, w, wn]]
+            self.subheaders = []
+            self.subheaders += [x.strftime('%a %d') for x in wp]
+            self.subheaders += [x.strftime('%a %d') for x in w]
+            self.subheaders += [x.strftime('%a %d') for x in wn]
 
         elif self.mode == '3months':
             q = 1 + (m - 1) / 3
@@ -262,6 +293,11 @@ class GanttCalendar(ICalendar):
             headers += [w for w in mn.weeks]
 
             self.headers = [(mp.range[-1], ustr(mp)), (mt.range[-1], ustr(mt)), (mn.range[-1], ustr(mn))]
+            self.subheaders = []
+            for x in headers:
+                x = _("Week %s") % x[0].strftime('%W')
+                if x not in self.subheaders:
+                    self.subheaders += [x]
 
         elif self.mode == 'year':
             yr = Year(y)
@@ -270,6 +306,33 @@ class GanttCalendar(ICalendar):
             self.title = u"Year %s" % (y)
             self.selected_day = _get_selection_day(day, self.selected_day, 'year')
             self.headers = [(m.range[-1], m.name) for m in yr.months]
+            self.subheaders = [_("W %s") % x[0].strftime('%W') for x in yr.weeks]
+
+        elif self.mode == '3years':
+            yr = Year(y)
+            yp = yr - 1
+            yn = yr + 1
+
+            self.days = yp.days + yr.days + yn.days
+            self.title = _("Year %s to Year %s") % (y - 1, y + 1)
+            self.selected_day = _get_selection_day(day, self.selected_day, 'year')
+
+            self.headers = [(4, y - 1), (4, y), (4, y + 1)]
+            self.subheaders = ['Q1', 'Q2', 'Q3', 'Q4'] * 3
+
+        elif self.mode == '5years':
+            yr = Year(y)
+            yp1 = yr - 1
+            yp2 = yr - 2
+            yn1 = yr + 1
+            yn2 = yr + 1
+
+            self.days = yp2.days + yp1.days + yr.days + yn1.days + yn2.days
+            self.title = _("Year %s to Year %s") % (y - 2, y + 2)
+            self.selected_day = _get_selection_day(day, self.selected_day, 'year')
+
+            self.headers = [(2, y - 2), (2, y - 1), (2, y), (2, y + 1), (2, y + 2)]
+            self.subheaders = ['H1', 'H2'] * 5
 
         else:
             month = Month(y, m)
@@ -277,9 +340,10 @@ class GanttCalendar(ICalendar):
             self.title = ustr(month)
             self.selected_day = _get_selection_day(day, self.selected_day, 'month')
             self.headers = [(7, _("Week %s") % w[0].strftime('%W')) for w in month.weeks]
+            self.subheaders = [d.day for d in month]
 
-        if self.levels:
-            field = self.levels[0]['link']
+        if self.level:
+            field = self.level['link']
             fields = rpc.RPCProxy(self.model).fields_get([field])
             self.fields.update(fields)
 
@@ -300,21 +364,19 @@ class GanttCalendar(ICalendar):
                 info_fields += [attrs['name']]
 
             if node.localName == 'level':
-                self.levels.insert(0, attrs)
+                self.level = attrs
                 info_fields += self.parse(node, fields)
 
         return info_fields
 
     def get_groups(self, events):
 
-        if not self.levels:
+        if not self.level:
             return []
 
-        level = self.levels[0]
-        
-        obj = level['object']
-        field = level['link']
-        domain = level['domain']
+        obj = self.level['object']
+        field = self.level['link']
+        domain = self.level['domain']
 
         keys = []
         groups = {}

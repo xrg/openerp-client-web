@@ -223,7 +223,7 @@ class Tree(controllers.Controller, TinyResource):
             from openerp.subcontrollers import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
-            raise common.message(_("No record selected !"))
+            raise common.message(_("No record selected!"))
 
     @expose()
     def report(self, **kw):
@@ -258,7 +258,7 @@ class Tree(controllers.Controller, TinyResource):
             from openerp.subcontrollers import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
         else:
-            raise common.message(_('No resource selected !'))
+            raise common.message(_('No resource selected!'))
 
     @expose()
     def open(self, **kw):

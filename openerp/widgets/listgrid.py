@@ -276,8 +276,8 @@ class List(TinyCompoundWidget):
 
                     if name in myfields:
                         print "-"*30
-                        print " malformed view for :", self.model
-                        print " duplicate field :", name
+                        print " malformed view for:", self.model
+                        print " duplicate field:", name
                         print "-"*30
                         raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
@@ -291,7 +291,7 @@ class List(TinyCompoundWidget):
                     try:
                         fields[name].update(attrs)
                     except:
-                        print "-"*30,"\n malformed tag for :", attrs
+                        print "-"*30,"\n malformed tag for:", attrs
                         print "-"*30
                         raise
                 
@@ -320,7 +320,7 @@ class List(TinyCompoundWidget):
 
                         row_value = values[i]
 
-                        cell = CELLTYPES[kind](attrs=fields[name], value=row_value[name])
+                        cell = CELLTYPES[kind](attrs=fields[name], value=row_value.get(name, False))
 
                         for color, expr in self.colors.items():
                             try:

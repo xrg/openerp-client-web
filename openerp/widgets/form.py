@@ -489,6 +489,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 class Binary(TinyField):
     template = "openerp.widgets.templates.binary"
     params = ["name", "text", "readonly", "filename"]
+    javascript = [tg.widgets.JSLink("openerp", "javascript/binary.js")]
 
     text = None
     file_upload = True
@@ -500,8 +501,10 @@ class Binary(TinyField):
 
     def set_value(self, value):
         if value:
-            #super(Binary, self).set_value("%s bytes" % len(value))
-            self.text = value
+            if isinstance(value, basestring):
+                self.text = value
+            else:
+                self.text = _('%.2f Kb') % (value/1024.00)
 
 class Url(TinyField):
     template = "openerp.widgets.templates.url"
@@ -821,7 +824,7 @@ class Form(TinyCompoundWidget):
                 try:
                     fields[name].update(attrs)
                 except:
-                    print "-"*30,"\n malformed tag for :", attrs
+                    print "-"*30,"\n malformed tag for:", attrs
                     print "-"*30
                     raise
                 
@@ -838,8 +841,8 @@ class Form(TinyCompoundWidget):
 
                 if name in myfields:
                     print "-"*30
-                    print " malformed view for :", self.model
-                    print " duplicate field :", name
+                    print " malformed view for:", self.model
+                    print " duplicate field:", name
                     print "-"*30
                     raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 

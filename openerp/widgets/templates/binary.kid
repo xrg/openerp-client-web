@@ -1,24 +1,31 @@
 <table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0">
     <tr>
-        <td py:if="editable and not readonly and not filename" nowrap="nowrap">
-            <input type="file" class="${field_class}" py:attrs="attrs" id="${name}" name="${name}" py:if="editable"/>
-        </td>
-        <td py:if="editable and filename and not readonly">
-            <input type="file" class="${field_class}" py:attrs="attrs" id="${name}" name="${name}" py:if="editable" onchange="set_binary_filename(('${filename}'), this);"/>
-        </td>
-        <td py:if="text is not None and editable" width="75px">
-            <button type="button" onclick="save_binary_data('${name}', '${filename}')">Save As</button>
-        </td>
-        <td py:if="text is not None and editable" width="1px"><div class="spacer"/></td>
-        <td py:if="text is not None and not readonly and editable" width="75px">
-            <button type="button" onclick="submit_form('clear_binary_data?_terp_field=${name}&amp;_terp_fname=${filename}')">Clear</button>
-        </td>
-        <span py:if="editable and error" class="fielderror" py:content="error"/>
-        <td py:if="not editable">
-            <span py:content="value or text"/>
-            <td width="75px" py:if="value or text">
-                <button type="button" onclick="save_binary_data('${name}', '${filename}')">Save As</button>
-            </td>
+        <td>
+            <div id="${name}_binary_add" style="display: none;">
+                <input py:if="editable and not readonly and not filename" py:attrs="attrs"
+                    type="file" 
+                    class="${field_class}"
+                    kind="${kind}"
+                    disabled="disabled" 
+                    id="${name}"
+                    name="${name}"/>
+                <input py:if="editable and filename and not readonly" py:attrs="attrs"
+                    type="file" 
+                    class="${field_class}" 
+                    kind="${kind}"
+                    disabled="disabled" 
+                    id="${name}" 
+                    name="${name}" 
+                    onchange="set_binary_filename(('${filename}'), this);"/>
+            </div>
+            <div id="${name}_binary_buttons" style="white-space: nowrap;">
+                <span py:content="value or text"/>
+                <button py:if="editable and not text" type="button" onclick="add_binary('${name}')">Add</button>
+                <button py:if="text" type="button" onclick="save_binary_data('${name}', '${filename}')">Save As</button>
+                <button py:if="text and not readonly and editable" type="button" 
+                    onclick="submit_form('clear_binary_data?_terp_field=${name}&amp;_terp_fname=${filename}')">Clear</button>
+            </div>
+            <span py:if="editable and error" class="fielderror" py:content="error"/>
         </td>
      </tr>
  </table>

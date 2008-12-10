@@ -6,7 +6,7 @@
 }
 
 .calGantt #calHeaderC {
-    height: 18px;
+    height: 36px;
     overflow: hidden;
     position: relative;
     margin-right: 17px;
@@ -19,10 +19,21 @@
     font-weight: bold;
     text-align: center;
     position: relative;
+    height: 18px;
 }
 
 .calGantt .calHeader .calTitle {
     border-left: 1px dotted #b0b0b0;
+    padding: 2px 0px;
+}
+
+.calGantt .calHeader .calSubTitle {
+    border-top: 1px dotted #b0b0b0;
+    border-left: 1px dotted #b0b0b0;
+
+    font-size: 8px;
+    font-weight: normal;
+    
     padding: 2px 0px;
 }
 
@@ -68,7 +79,7 @@
     width: 1px;
     height: 100%;
 
-    border-left: 1px dotted #F0F0F0;
+    border-left: 1px dotted #E0E0E0;
 }
 
 .calGantt #calGroupC {

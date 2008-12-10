@@ -52,86 +52,28 @@ from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 from openerp.utils import TinyForm
 
-def make_domain(name, value):
+from form import Form
 
-    if isinstance(value, int) and not isinstance(value, bool):
-        return [(name, '=', value)]
-
-    if isinstance(value, dict):
-
-        start = value.get('from')
-        end = value.get('to')
-
-        if start and end:
-            return [(name, '>=', start), (name, '<=', end)]
-
-        elif start:
-            return [(name, '>=', start)]
-
-        elif end:
-            return [(name, '<=', end)]
-
-        return None
-
-    if isinstance(value, basestring) and value:
-        return [(name, 'ilike', value)]
-
-    if isinstance(value, bool) and value:
-        return [(name, '=', 1)]
-
-    return []
-
-from turbogears import validate, validators
-
-def search(model, offset=0, limit=20, domain=[], context={}, data={}):
-
-    domain = domain or []
-    context = context or {}
-    data = data or {}
-
-    search_domain = domain[:]
-    search_data = {}
-
-    for k, v in data.items():
-        t = make_domain(k, v)
-
-        if t:
-            search_domain += t
-            search_data[k] = v
-
-    l = limit
-    o = offset
-
-    if l < 1: l = 20
-    if o < 0: o = 0
-
-    proxy = rpc.RPCProxy(model)
-    ctx = rpc.session.context.copy()
-    ctx.update(context)
-
-    ids = proxy.search(search_domain, o, l, 0, ctx)
-    count = proxy.search_count(search_domain, ctx)
-
-    return dict(model=model, ids=ids, count=count, search_domain=search_domain, search_data=search_data, offset=o, limit=l)
-
-class Search(controllers.Controller, TinyResource):
+class Search(Form):
 
     @expose(template="openerp.subcontrollers.templates.search")
-    def create(self, params):
+    def create(self, params, tg_errors=None):
 
         params.view_mode = ['tree', 'form']
+        params.view_type = 'tree'
 
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
 
-        search = tws.search.Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
-        screen = tw.screen.Screen(params=params, selectable=params.kind or 2)
+        params.editable = 0
+
+        form = self.create_form(params, tg_errors)
 
         # don't show links in list view, except the do_select link
-        screen.widget.show_links = 0
+        form.screen.widget.show_links = 0
 
-        return dict(search=search, screen=screen, params=params, show_header_footer=False)
+        return dict(form=form, params=params, show_header_footer=False)
 
     @expose()
     def new(self, model, source=None, kind=0, text=None, domain=[], context={}):
@@ -152,7 +94,7 @@ class Search(controllers.Controller, TinyResource):
         params.context = context
 
         params.source = source
-        params.kind = kind
+        params.selectable = kind
 
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
@@ -206,109 +148,6 @@ class Search(controllers.Controller, TinyResource):
                     context[key] = False
 
         return dict(domain=ustr(domain), context=ustr(context))
-
-    def get_filter_form(self):
-        params, data = TinyDict.split(cherrypy.request.params)
-        if params.view_type == 'form':
-            return None
-
-        cherrypy.request.terp_validators = {}
-        params.nodefault = True
-        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
-        
-        cherrypy.request.terp_form = form
-
-        vals = cherrypy.request.terp_validators
-        schema = validators.Schema(**vals)
-
-        form.validator = schema
-        return form
-
-    @expose()
-    @validate(form=get_filter_form)
-    def filter(self, **kw):
-        params, data = TinyDict.split(kw)
-        l = params.limit or 20
-        o = params.offset or 0
-
-        domain = params.domain
-
-        if params.search_domain is not None:
-            domain = params.search_domain
-            data = params.search_data
-
-        res = search(params.model, o, l, domain=params.domain, data=data)
-
-        params.ids = res['ids']
-        params.offset = res['offset']
-        params.limit = res['limit']
-        params.count = res['count']
-        params.search_domain = res['search_domain']
-        params.search_data = res['search_data']
-
-        return self.create(params)
-
-    @expose()
-    def find(self, **kw):
-
-        kw['_terp_offset'] = None
-        kw['_terp_limit'] = None
-
-        kw['_terp_search_domain'] = None
-        kw['_terp_search_data'] = None
-
-        return self.filter(**kw)
-
-    @expose()
-    def first(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        l = params.limit or 20
-        o = 0
-
-        kw['_terp_offset'] = o
-
-        return self.filter(**kw)
-
-    @expose()
-    def previous(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        l = params.limit or 20
-        o = params.offset or 0
-
-        o -= l
-
-        kw['_terp_offset'] = o
-
-        return self.filter(**kw)
-
-    @expose()
-    def next(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        l = params.limit or 20
-        o = params.offset or 0
-
-        o += l
-
-        kw['_terp_offset'] = o
-
-        return self.filter(**kw)
-
-    @expose()
-    def last(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        l = params.limit or 20
-        o = params.offset or 0
-        c = params.count or 0
-
-        o = c - (c % l)
-
-        kw['_terp_offset'] = o
-
-        return self.filter(**kw)
 
     @expose('json')
     def ok(self, **kw):

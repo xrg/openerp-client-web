@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
-    <title>Search ${screen.string}</title>
+    <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
 
@@ -40,7 +40,7 @@
 
     </script>
 
-    <script type="text/javascript" py:if="params.kind == 1">
+    <script type="text/javascript" py:if="params.selectable == 1">
 
         function do_select(id){
             if (!id) {
@@ -80,7 +80,7 @@
         }
     </script>
 
-    <script type="text/javascript" py:if="params.kind == 2">
+    <script type="text/javascript" py:if="params.selectable == 2">
 
         function do_select(id) {
 
@@ -116,6 +116,15 @@
             window.opener.setTimeout(expr, 1);
             window.close();
         }
+        
+        function do_create(){
+            act = getURL('/openm2m/new', {_terp_model: '${params.model}', 
+                                           _terp_source: '${params.source}',
+                                           _terp_m2o: '${params.source}',
+                                           _terp_domain: $('_terp_domain').value,
+                                           _terp_context: $('_terp_context').value});
+            window.location.href = act;
+        }
     </script>
 </head>
 
@@ -123,10 +132,7 @@
 <div class="view">
     <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
-        <input type="hidden" id="_terp_kind" name="_terp_kind" value="${params.kind}"/>
-        <!--<input type="hidden" id="_terp_limit" name="_terp_limit" value="${screen.limit}"/>
-        <input type="hidden" id="_terp_offset" name="_terp_offset" value="${screen.offset}"/>
-        <input type="hidden" id="_terp_count" name="_terp_count" value="${screen.count}"/>-->
+        <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(params.search_domain)}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${ustr(params.search_data)}"/>
 
@@ -138,25 +144,32 @@
                             <td width="32px" align="center">
                                 <img src="/static/images/stock/gtk-find.png"/>
                             </td>
-                            <td width="100%">Search ${screen.string}</td>
+                            <td width="100%">Search ${form.screen.string}</td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td py:content="search.display()">Search View</td>
+                <td py:content="form.search.display()">Search View</td>
             </tr>
             <tr>
-                <td>
-                    <div class="toolbar">
-                        <button type="submit">Filter</button>
-                        <button type="button" onclick="do_create()" py:if="params.kind == 1">New</button>
-                        <button type="button" onclick="do_select()">Select</button>
-                    </div>
+                <td class="toolbar">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="100%">
+                                <button type="submit">Filter</button>
+                                <button type="button" onclick="do_create()">New</button>
+                                <button type="button" onclick="do_select()">Select</button>
+                            </td>
+                            <td>
+                                <button type="button" onclick="window.close()">Close</button>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
             <tr>
-                <td py:content="screen.display()">Screen View</td>
+                <td py:content="form.screen.display()">Screen View</td>
             </tr>
         </table>
     </form>

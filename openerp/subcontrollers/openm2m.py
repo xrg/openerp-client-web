@@ -43,17 +43,17 @@ from openerp.utils import TinyDict
 from form import Form
 from form import get_validation_schema
 
-class OpenM2O(Form):
+class OpenM2M(Form):
     
-    path = '/openm2o'    # mapping from root
+    path = '/openm2m'
     
-    @expose(template="openerp.subcontrollers.templates.openm2o")
+    @expose(template="openerp.subcontrollers.templates.openm2m")
     def create(self, params, tg_errors=None):
         
         params.editable = params.get('_terp_editable', True)
         form = self.create_form(params, tg_errors)
         
-        form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]
+        form.hidden_fields = [widgets.HiddenField(name='_terp_m2m', default=params.m2o)]
 
         return dict(form=form, params=params, show_header_footer=False)
     
@@ -103,7 +103,7 @@ class OpenM2O(Form):
         return self.create(params)
     
     @expose()    
-    def edit(self, **kw):
+    def new(self, **kw):
         params, data = TinyDict.split(kw)
         
         if not params.model:
@@ -115,6 +115,5 @@ class OpenM2O(Form):
         params.editable = params.get('_terp_editable', True)
         
         return self.create(params)
-
-# vim: ts=4 sts=4 sw=4 si et
-
+    
+    

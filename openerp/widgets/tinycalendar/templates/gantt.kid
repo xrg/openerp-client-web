@@ -21,8 +21,8 @@
                     <img title="Zoom In" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'day'"
                         onclick="ganttZoomIn()"/>
                     
-                    <img title="Zoom Out" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-out.png" py:if="mode == 'year'"/>
-                    <img title="Zoom Out" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != 'year'"
+                    <img title="Zoom Out" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-out.png" py:if="mode == '5years'"/>
+                    <img title="Zoom Out" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != '5years'"
                         onclick="ganttZoomOut()"/>
                 </td>
             </tr>
@@ -30,6 +30,7 @@
         <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${selected_day.isoformat()}"/>
         <input type="hidden" id="_terp_selected_mode" name="_terp_selected_mode" value="${mode}"/>
         <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${ustr(calendar_fields)}"/>
+        <input type="hidden" id="_terp_gantt_level" name="_terp_gantt_level" value="${ustr(level)}"/>
     </td>
 </tr>
 <tr>
@@ -38,7 +39,8 @@
         <div id="calGantt" class="calGantt" dtFormat="${date_format}" dtStart="${days[0].isoformat()}" dtRange="${len(days)}"><span></span>
 
             <div id="calHeaderSect">
-                <div class="calDayName" py:for="count, header in headers" nCount="${count}">${header}</div>
+                <div class="calTitle" py:for="count, header in headers" nCount="${count}">${header}</div>
+                <div class="calSubTitle" py:for="header in subheaders">${header}</div>
             </div>
 
             <div id="calBodySect">
