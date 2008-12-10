@@ -270,36 +270,19 @@ var form_setVisible = function(container, field, visible) {
 
         var tabs = getElementsByTagAndClassName('div', 'tabbertab', container.parentNode);
         var idx = findIdentical(tabs, container);
-        var idx2 = -1;
-        
         var tab = tabber.tabs[idx];
-        
-        if (hasElementClass(tab.li, 'tabberactive') && tab.li.style.display != 'none' && tabs.length > 1) {
-            
-            for (var j=idx-1; j>-1;j--){                        
-                if (idx2 > -1) 
-                    break;
-                if (tabs[j].style.display != 'none')
-                    idx2 = j;
-            }
-            
-            for (var j=idx+1; j<tabs.length; j++){                        
-                if (idx2 > -1) 
-                    break;
-                if (tabs[j].style.display != 'none')
-                    idx2 = j;
-            }
-            
-            if (idx2 > -1) {
-                tabber.tabShow(idx2);
-            }
+
+        if (visible) {            
+            tab.li.style.display = '';
+            return tabber.tabShow(idx);
+        } else {
+            var tab = tabber.tabs[idx];
+            tab.li.style.display = 'none';
+            return tabber.tabHide(idx);
         }
-        
-        tab.li.style.display = visible ? '' : 'none';
-        tab.div.style.display = visible ? '' : 'none';
-        
+
     } else {
-       container.style.display = visible ? '' : 'none';    
+       container.style.display = visible ? '' : 'none';
     }
 }
 
