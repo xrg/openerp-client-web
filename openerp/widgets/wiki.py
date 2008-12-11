@@ -42,6 +42,7 @@ from form import Text
 from openerp import rpc
 
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
+_rss = re.compile(r'rss:(.*)\.(.*)', re.UNICODE)
 _attach = re.compile(r'attach:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
 _edit = re.compile(r'edit:(.*)\|(.*)', re.UNICODE)
@@ -56,10 +57,10 @@ class WikiParser(wikimarkup.Parser):
         text = text.replace('n-a-m-p', '&amp;')
         text = text.replace('<code>', '<pre>')
         text = text.replace('</code>', '</pre>')
-        #text = text.replace('\n', '<br/>')
         
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
+        text = self.addRss(text, id)
         text = super(WikiParser, self).parse(text)
         text = self.addImage(text, id)
         text = self.attachDoc(text, id)
@@ -68,6 +69,22 @@ class WikiParser(wikimarkup.Parser):
         
         return text
 
+    def addRss(self, text, id):
+        def addrss(path):
+            rssurl = path.group().replace('rss:','')
+            import rss.feedparser as feedparser
+            data = feedparser.parse(rssurl)
+            values = "==%s==\n" % (data.feed.title)
+            values += "%s\n" % (data.channel.description)
+            for entry in data['entries']:
+                values += "===[%s %s]===\n" % (entry.link, entry.title)
+                values += "%s \n" % (entry.summary)
+            
+            return values
+        
+        bits = _rss.sub(addrss, text)
+        return bits
+    
     def attachDoc(self, text, id):
         def document(path):
             file = path.group().replace('attach:','')
