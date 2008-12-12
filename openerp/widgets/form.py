@@ -347,14 +347,10 @@ class Email(TinyField):
 
 class Text(TinyField):
     template = "openerp.widgets.templates.text"
-    params = ['inline']
     javascript = [tg.widgets.JSLink("openerp", "javascript/textarea.js")]
     
-    inline = False
-
     def __init__(self, attrs={}):
         super(Text, self).__init__(attrs)
-        self.inline = attrs.get('inline', 0)
         self.validator = tiny_validators.String()
 
     def set_value(self, value):

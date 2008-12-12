@@ -58,6 +58,7 @@ class TinyWidget(object):
     editable = True
     translatable = False
     visible = True
+    inline = False
 
     name = None
     model = None
@@ -87,6 +88,7 @@ class TinyWidget(object):
         self.required = eval_get(attrs, 'required', False)
         self.readonly = eval_get(attrs, 'readonly', False)
         self.visible = True
+        self.inline = attrs.get('inline');
         
         try:
             visval = attrs.get('invisible', 'False')
@@ -184,6 +186,7 @@ class TinyInputWidget(TinyWidget):
 
         d['kind'] = self.kind
         d['editable'] = self.editable
+        d['inline'] = self.inline
 
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
