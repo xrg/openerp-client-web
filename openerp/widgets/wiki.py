@@ -42,6 +42,7 @@ from form import Text
 from openerp import rpc
 
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
+_rss = re.compile(r'rss:(.*)\.(.*)', re.UNICODE)
 _attach = re.compile(r'attach:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
 _edit = re.compile(r'edit:(.*)\|(.*)', re.UNICODE)
@@ -56,18 +57,34 @@ class WikiParser(wikimarkup.Parser):
         text = text.replace('n-a-m-p', '&amp;')
         text = text.replace('<code>', '<pre>')
         text = text.replace('</code>', '</pre>')
-        #text = text.replace('\n', '<br/>')
         
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
+        
         text = super(WikiParser, self).parse(text)
         text = self.addImage(text, id)
         text = self.attachDoc(text, id)
         text = self.recordLink(text)
         text = self.addInternalLinks(text)
-        
+        text = self.addRss(text, id)
         return text
 
+    def addRss(self, text, id):
+        def addrss(path):
+            rssurl = path.group().replace('rss:','')
+            import rss.feedparser as feedparser
+            data = feedparser.parse(rssurl)
+            values = "<h2>%s</h2><br/>" % (data.feed.title)
+            values += "%s<br/>" % (data.channel.description)
+            for entry in data['entries']:
+                values += "<h3><a href='%s'> %s </a></h3><br/>" % (entry.link, entry.title)
+                values += "%s <br/>" % (entry.summary)
+            
+            return values
+        
+        bits = _rss.sub(addrss, text)
+        return bits
+    
     def attachDoc(self, text, id):
         def document(path):
             file = path.group().replace('attach:','')
@@ -174,6 +191,5 @@ class WikiWidget(Text):
                 id = params.id
             text = value+'\n\n'
             html = wiki2html(text, toc, id)
-            print 'XXXXXXXXX : ', html
             
             self.data = html
