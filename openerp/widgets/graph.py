@@ -241,9 +241,8 @@ class GraphData(object):
                 key_ids['id'] = val.get('id')
                 key_ids['rec_id'] = val.get('rec_id')
                 key_ids['prod_id'] = val[axis[0]]
-                
                 lbl = val[axis[0]]
-                key = urllib.quote_plus(val[axis[0]])
+                key = urllib.quote_plus(val[axis[0]].encode('utf-8'))
                 info = data_axis.setdefault(key, {})
                 
                 keys[key] = 1
