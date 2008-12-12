@@ -56,6 +56,8 @@ class List(controllers.Controller, TinyResource):
         id = params.id or 0
         id = (id > 0) and id or 0
 
+        ids = params.ids or []
+
         model = params.parent.model
         if model != params.model and not params.parent.id:
             error = _("Parent record doesn't exists...")
@@ -76,17 +78,17 @@ class List(controllers.Controller, TinyResource):
                 if 'id' in data: data.pop('id')
                 
                 fld = source.split('/')[-1]
-                data = {fld : [(id and 1, id, data.copy())]} 
-                myids = proxy.read([params.parent.id], [fld])[0][fld]
+                data = {fld : [(id and 1, id, data.copy())]}
 
                 proxy.write([params.parent.id], data, params.parent.context or {})
-                
-                myids2 = proxy.read([params.parent.id], [fld])[0][fld];
-                myids2 = [i for i in myids2 if i not in myids]
-                
-                if myids2:
-                    id = myids2[0] 
-                
+
+                all_ids = proxy.read([params.parent.id], [fld])[0][fld]
+                new_ids = [i for i in all_ids if i not in ids]
+
+                ids = all_ids
+                if new_ids:
+                    id = new_ids[0]
+
             else:
                 data = frm.copy()
                 if 'id' in data: data.pop('id')
@@ -94,8 +96,8 @@ class List(controllers.Controller, TinyResource):
                 if id > 0:
                     proxy.write([id], data, params.parent.context or {})
                 else:
-#                    proxy.create(data, params.parent.context or {})
                     id = proxy.create(data, params.parent.context or {})
+                    ids = [id] + ids
                 
         except TinyFormError, e:
             error_field = e.field
@@ -103,7 +105,7 @@ class List(controllers.Controller, TinyResource):
         except Exception, e:
             error = ustr(e)
 
-        return dict(error_field=error_field, error=error, rec_id=id)
+        return dict(error_field=error_field, error=error, id=id, ids=str([int(i) for i in ids]))
 
     @expose('json')
     def remove(self, **kw):

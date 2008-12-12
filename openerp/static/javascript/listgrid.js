@@ -330,6 +330,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     makeRow: function(rec_id) {
+
         if (Ajax.COUNT > 0) {
             return callLater(1, bind(this.makeRow, this), rec_id);
         }
@@ -702,6 +703,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     save: function(id){
+
         if (Ajax.COUNT > 0) {
             return callLater(1, bind(this.save, this), id);
         }
@@ -716,7 +718,10 @@ MochiKit.Base.update(ListView.prototype, {
             }
         }
 
+        var prefix = this.name == '_terp_list' ? '' : this.name + '/';
+
         args['_terp_id'] = id ? id : -1;
+        args['_terp_ids'] = $(prefix + '_terp_ids').value;
         args['_terp_model'] = this.model;
 
         if (parent_field.length > 0){
@@ -750,7 +755,12 @@ MochiKit.Base.update(ListView.prototype, {
                     }
                 }
             } else {
-                self.makeRow(obj.rec_id);
+
+                $(prefix + '_terp_id').value = obj.id;
+                $(prefix + '_terp_ids').value = obj.ids;
+
+                // TODO: make rows for all newly created rows
+                self.makeRow(obj.id);
              }
          });
     },
