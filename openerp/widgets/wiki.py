@@ -67,10 +67,6 @@ class WikiParser(wikimarkup.Parser):
         text = self.recordLink(text)
         text = self.addInternalLinks(text)
         text = self.addRss(text, id)
-        text = self.checkTOC(text)
-        if not self.show_toc and text.find(u"<!--MWTOC-->") == -1:
-            self.show_toc = False
-        text = self.formatHeadings(text, True)
         return text
 
     def addRss(self, text, id):
