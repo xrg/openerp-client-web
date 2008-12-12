@@ -60,13 +60,17 @@ class WikiParser(wikimarkup.Parser):
         
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
-        text = self.addRss(text, id)
+        
         text = super(WikiParser, self).parse(text)
         text = self.addImage(text, id)
         text = self.attachDoc(text, id)
         text = self.recordLink(text)
         text = self.addInternalLinks(text)
-        
+        text = self.addRss(text, id)
+        text = self.checkTOC(text)
+        if not self.show_toc and text.find(u"<!--MWTOC-->") == -1:
+            self.show_toc = False
+        text = self.formatHeadings(text, True)
         return text
 
     def addRss(self, text, id):
@@ -74,11 +78,11 @@ class WikiParser(wikimarkup.Parser):
             rssurl = path.group().replace('rss:','')
             import rss.feedparser as feedparser
             data = feedparser.parse(rssurl)
-            values = "==%s==\n" % (data.feed.title)
-            values += "%s\n" % (data.channel.description)
+            values = "<h2>%s</h2><br/>" % (data.feed.title)
+            values += "%s<br/>" % (data.channel.description)
             for entry in data['entries']:
-                values += "===[%s %s]===\n" % (entry.link, entry.title)
-                values += "%s \n" % (entry.summary)
+                values += "<h3><a href='%s'> %s </a></h3><br/>" % (entry.link, entry.title)
+                values += "%s <br/>" % (entry.summary)
             
             return values
         
