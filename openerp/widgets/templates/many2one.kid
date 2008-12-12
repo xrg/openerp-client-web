@@ -20,7 +20,7 @@
                     relation="${relation}"/>
                 <span class="fielderror" py:if="error" py:content="error"/>
             </td>
-            <td width="16" style="padding-left: 2px">
+            <td py:if="not inline" width="16" style="padding-left: 2px">
                 <img id='${name}_open' 
                     width="16" 
                     height="16" 
