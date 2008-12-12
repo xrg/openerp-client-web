@@ -191,6 +191,5 @@ class WikiWidget(Text):
                 id = params.id
             text = value+'\n\n'
             html = wiki2html(text, toc, id)
-            print 'XXXXXXXXX : ', html
             
             self.data = html
