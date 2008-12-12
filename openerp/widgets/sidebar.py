@@ -126,8 +126,8 @@ class Sidebar(TinyCompoundWidget):
                     attach = []
                     datas = proxy.read([i])
                     attach += [datas[0].get('id')]
-                    attach += [datas[0].get('name')]
+                    attach += [datas[0].get('datas_fname', '')]
                     self.attachments += [attach]
-            
+                    
 # vim: ts=4 sts=4 sw=4 si et
 

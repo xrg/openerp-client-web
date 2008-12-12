@@ -31,15 +31,17 @@ var save_binary_data = function(src, filename) {
     
     var name = $(src) ? $(src).name : src;
     var fname = $(filename) || $(name + 'name');
-    var act = '/form/save_binary_data';
-    
-    act = fname ? act + '/' + fname.value : act;
-    act = act + '?_terp_field=' + name;
-    
-    submit_form(act);
+
+    fname = fname ? fname.value || fname.innerHTML : null;
+
+    var act = get_form_action('save_binary_data');
+    act = fname ? act + '/' + fname : act;
+
+    submit_form(getURL(act, {_terp_field: name}));
 }
 
 var add_binary = function(src) {
+
     binary_add = $(src + '_binary_add');
     binary_buttons = $(src + '_binary_buttons');
         
@@ -48,21 +50,17 @@ var add_binary = function(src) {
     
     fld = MochiKit.DOM.getElement(src);
     fld.disabled = false;
-    
-    connect(src, 'onkeydown', function(e){
-        if (e.key().string == 'KEY_ESCAPE') {
-            binary_add.style.display = "none";
-            binary_buttons.style.display = "";
-            
-            fld.disabled = true;
-        } 
-    });
 }
 
-function set_binary_filename(id, fname){
-    if ($(id)) {
-        $(id).value = fname.value;
+var set_binary_filename = function(id, fname){
+
+    var target = getElement(id);
+    fname = getElement(fname);
+
+    if (fname && target) {
+        target.value = fname.value;
     }
 }
 
+// vim: ts=4 sts=4 sw=4 si et
 

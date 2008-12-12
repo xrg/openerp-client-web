@@ -15,7 +15,7 @@ msgstr ""
 msgid "Could not find default configuration."
 msgstr ""
 
-#: openerp/subcontrollers/attachment.py:65 openerp/subcontrollers/form.py:857
+#: openerp/subcontrollers/attachment.py:65 openerp/subcontrollers/form.py:858
 msgid "Error"
 msgstr "Erreur"
 
@@ -175,23 +175,23 @@ msgstr "Erreur, mot de passe n'a pas changé."
 msgid "No record selected ! You can only attach to existing record...!"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:465
+#: openerp/subcontrollers/form.py:466
 msgid "Invalid button type"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:778 openerp/subcontrollers/tree.py:226
+#: openerp/subcontrollers/form.py:779 openerp/subcontrollers/tree.py:226
 msgid "No record selected !"
 msgstr "Aucun enregistrement sélectionné !"
 
-#: openerp/subcontrollers/form.py:783
+#: openerp/subcontrollers/form.py:784
 msgid "Print Screen"
 msgstr "Capture d'écran"
 
-#: openerp/subcontrollers/form.py:800
+#: openerp/subcontrollers/form.py:801
 msgid "You must save this record to use the sidebar button!"
 msgstr "Vous devriez sauver cet enregistrement pour utiliser la barre de raccourcie !"
 
-#: openerp/subcontrollers/form.py:857
+#: openerp/subcontrollers/form.py:858
 msgid "Wrong on_change trigger: %s"
 msgstr "Mauvais on_change gâchette: %s"
 
@@ -370,6 +370,10 @@ msgstr "Mot de passe ou compte erroné !"
 #: openerp/widgets/action.py:60
 msgid "Action not found !"
 msgstr "Action non trouvée !"
+
+#: openerp/widgets/form.py:505
+msgid "%.2f Kb"
+msgstr ""
 
 #: openerp/widgets/form.py:845 openerp/widgets/listgrid.py:282
 msgid "Application Error!"
@@ -733,6 +737,14 @@ msgstr ""
 
 #: openerp/widgets/templates/many2one.kid:img
 msgid "Open"
+msgstr ""
+
+#: openerp/widgets_search/templates/search.kid:div
+msgid "Basic Search"
+msgstr ""
+
+#: openerp/widgets_search/templates/search.kid:div
+msgid "Advanced Search"
 msgstr ""
 
 #: openerp/widgets_search/templates/rangewid.kid:b

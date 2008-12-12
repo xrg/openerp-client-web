@@ -166,11 +166,7 @@ class Form(controllers.Controller, TinyResource):
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
-
         params.view_type = params.view_type or params.view_mode[0]
-
-        if params.view_type == 'tree':
-            params.editable = True
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
@@ -183,6 +179,11 @@ class Form(controllers.Controller, TinyResource):
 
     @expose(template="openerp.subcontrollers.templates.form")
     def create(self, params, tg_errors=None):
+
+        params.view_type = params.view_type or params.view_mode[0]
+
+        if params.view_type == 'tree':
+            params.editable = True
 
         form = self.create_form(params, tg_errors)
 

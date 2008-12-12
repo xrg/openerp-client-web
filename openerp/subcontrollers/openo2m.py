@@ -114,6 +114,13 @@ class OpenO2M(Form):
         ctx.update(params.o2m_context or {})
 
         id = proxy.write([params.parent_id], data, ctx)
+        button = params.button
+
+        # perform button action
+        if params.button:
+            res = self.button_action(params)
+            if res:
+                return res
         
         params.load_counter = 1
 

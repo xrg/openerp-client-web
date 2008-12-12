@@ -713,12 +713,14 @@ ListView.prototype.makeArgs = function(){
     var args = {};
     var names = this.id.split('/');
 
-    var values = ['id', 'ids', 'model', 'view_ids', 'view_mode', 
-                  'view_type', 'domain', 'context', 'offset', 'limit'];
+    var values = ['id', 'ids', 'model', 'view_ids', 'view_mode', 'view_type', 
+                  'domain', 'context', 'offset', 'limit', 'editable', 'selectable'];
 
     forEach(values, function(val){
-        var key = '_terp_' + val;        
-        args[key] = getElement(key).value;
+        var key = '_terp_' + val;
+        var elem = getElement(key);
+
+        if (elem) args[key] = elem.value;
     });
 
     for(var i=0; i<names.length; i++){

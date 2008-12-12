@@ -320,7 +320,7 @@ class List(TinyCompoundWidget):
 
                         row_value = values[i]
 
-                        cell = CELLTYPES[kind](attrs=fields[name], value=row_value[name])
+                        cell = CELLTYPES[kind](attrs=fields[name], value=row_value.get(name, False))
 
                         for color, expr in self.colors.items():
                             try:

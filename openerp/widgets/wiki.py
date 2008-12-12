@@ -75,11 +75,12 @@ class WikiParser(wikimarkup.Parser):
                 return "<a href='%s'>Download File</a>" % (file)
             else:
                 proxy = rpc.RPCProxy('ir.attachment')
-                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
+                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
                 if len(ids) > 0:
                     return "<a href='/wiki/getfile?file=%s&amp;id=%d'>%s</a>" % (file, id, file)
                 else:
-                    return "<a href='/attachment/?model=wiki.wiki&amp;id=%d'>Attach : %s </a>" % (id, file)
+                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}), 
+                    {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
         bits = _attach.sub(document, text)
         return bits
     
@@ -90,11 +91,13 @@ class WikiParser(wikimarkup.Parser):
                 return "<img src='%s'/>" % (file)
             else:
                 proxy = rpc.RPCProxy('ir.attachment')
-                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki')])
+                ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
                 if len(ids) > 0:
                     return "<img src='/wiki/getImage?file=%s&amp;id=%d'/>" % (file, id)
                 else:
-                    return "[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
+                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}), 
+                    {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
+                #"[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
         bits = _image.sub(image, text) 
         return bits
     
