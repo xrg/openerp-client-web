@@ -241,7 +241,7 @@ class GanttCalendar(ICalendar):
             dp = day - 1
             dn = day + 1
             self.days = [dp, day, dn]
-            self.title = "%s, %s, %s" % (ustr(dp), ustr(day), ustr(dn))
+            self.title = u"%s, %s, %s" % (ustr(dp), ustr(day), ustr(dn))
             self.selected_day = day
 
             self.headers = [(24, ustr(dp)), (24, ustr(day)), (24, ustr(dn))]
@@ -253,7 +253,7 @@ class GanttCalendar(ICalendar):
             self.days = [d for d in Week(day)]
             self.title = _("%s, Week %s") % (y, day.strftime("%W"))
             self.selected_day = _get_selection_day(day, self.selected_day, 'week')
-            self.headers = [(12, "%s %s" % (d.month2.name, d.day)) for d in self.days]
+            self.headers = [(12, u"%s %s" % (d.month2.name, d.day)) for d in self.days]
             self.subheaders = []
             for x in self.days:
                 self.subheaders += [time.strftime('%I %P', (y, m, 1, i, 0, 0, 0, 0, 0)) for i in range(0, 24, 12)]
@@ -263,7 +263,7 @@ class GanttCalendar(ICalendar):
             wp = w - 1
             wn = w + 1
             self.days = wp.days + w.days + wn.days
-            self.title = _("%s - %s") % (ustr(self.days[0]), ustr(self.days[-1]))
+            self.title = _(u"%s - %s") % (ustr(self.days[0]), ustr(self.days[-1]))
             self.selected_day = _get_selection_day(day, self.selected_day, 'week')
             self.headers = [(7, _("Week %s") % w[0].strftime('%W')) for w in [wp, w, wn]]
             self.subheaders = []

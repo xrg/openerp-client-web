@@ -194,7 +194,7 @@ GanttCalendar.prototype = {
 
         var et = new Date(de.getTime() + st.getTime() - ds.getTime());
 
-        return [st, et];
+        return {'starts': st, 'ends': et};
     },
 
     onEventDrag: function(draggable, evt) {
@@ -205,7 +205,7 @@ GanttCalendar.prototype = {
             return;
         }
 
-        [st, et] = this.computeDates(element);
+        var dt = this.computeDates(element); 
 
         var pos = getElementPosition(element, 'calGrid');
         var dim = getElementDimensions(element);
@@ -214,14 +214,14 @@ GanttCalendar.prototype = {
             style.display = "";
             style.top = pos.y + 'px';
             style.right = getElementDimensions('calGrid').w - pos.x + 2 + 'px';
-            innerHTML = st.strftime('%Y-%m-%d %H:%M');
+            innerHTML = dt.starts.strftime('%Y-%m-%d %H:%M');
         }
 
         with(this.eTip) {
             style.display = "";
             style.top = pos.y + 'px';
             style.left = pos.x + dim.w + 2 + 'px';
-            innerHTML = et.strftime('%Y-%m-%d %H:%M');
+            innerHTML = dt.ends.strftime('%Y-%m-%d %H:%M');
         }
     },
 
@@ -237,10 +237,10 @@ GanttCalendar.prototype = {
         hideElement(this.eTip);
 
         var id = getNodeAttribute(element, 'nRecordID');
-        [st, et] = this.computeDates(element);
+        var dt = this.computeDates(element);
 
         var self = this;
-        var req = saveCalendarRecord(id, toISOTimestamp(st), toISOTimestamp(et));
+        var req = saveCalendarRecord(id, toISOTimestamp(dt.starts), toISOTimestamp(dt.ends));
         
         req.addCallback(function(obj){
             
@@ -249,11 +249,11 @@ GanttCalendar.prototype = {
                 return alert(obj.error);
             }
 
-            self.events[id].starts = toISOTimestamp(st);
-            self.events[id].ends = toISOTimestamp(et);
+            self.events[id].starts = toISOTimestamp(dt.starts);
+            self.events[id].ends = toISOTimestamp(dt.ends);
             
-            setNodeAttribute(element, 'dtstart', toISOTimestamp(st));
-            setNodeAttribute(element, 'dtend', toISOTimestamp(et));
+            setNodeAttribute(element, 'dtstart', toISOTimestamp(dt.starts));
+            setNodeAttribute(element, 'dtend', toISOTimestamp(dt.ends));
             
             self.grid.adjust();
         });

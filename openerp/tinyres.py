@@ -115,10 +115,10 @@ def secured(fn):
                 dblist = rpc.session.listdb()
                 if dblist == -1:
                     dblist = []
-                    message = _("Could not connect to server !")
+                    message = _("Could not connect to server!")
 
                 if action == 'login':
-                    message = _("Bad username or password !")
+                    message = _("Bad username or password!")
                 
                 if config.get('dblist.filter', path='admin'):
                     

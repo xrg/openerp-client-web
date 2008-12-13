@@ -177,7 +177,7 @@ class Search(TinyCompoundWidget):
                 try:
                     fields[name].update(attrs)
                 except:
-                    print "-"*30,"\n malformed tag for :", attrs
+                    print "-"*30,"\n malformed tag for:", attrs
                     print "-"*30
                     raise
                 

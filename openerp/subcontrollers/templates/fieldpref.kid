@@ -73,7 +73,7 @@
                                 <fieldset>
                                     <legend><strong>Value applicable if:</strong></legend>
                                     <table border="0">
-                                        <tr py:if="not deps"><td align="center">Always applicable !</td></tr>
+                                        <tr py:if="not deps"><td align="center">Always applicable!</td></tr>
                                         <tr py:if="deps">
                                             <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
                                             <span py:for="n, n, v, v in deps" py:strip="">

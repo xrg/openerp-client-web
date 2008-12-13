@@ -19,11 +19,11 @@
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
                     <tr>
-                        <td class="label">Server :</td>
+                        <td class="label">Server:</td>
                         <td py:content="url"/>
                     </tr>
                     <tr>
-                        <td class="label">Database :</td>
+                        <td class="label">Database:</td>
                         <td>
                             <select name="db" style="width: 302px;">
                                 <span py:if="dblist and (dblist is not -1)" py:strip="">
@@ -34,12 +34,12 @@
                     </tr>
 
                     <tr>
-                        <td class="label">User :</td>
+                        <td class="label">User:</td>
                         <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
                     </tr>
                     
                     <tr>
-                        <td class="label">Password :</td>
+                        <td class="label">Password:</td>
                         <td><input type="password" value="${password}" id="password" name="password" style="width: 300px;"/></td>
                     </tr>
                     <tr>

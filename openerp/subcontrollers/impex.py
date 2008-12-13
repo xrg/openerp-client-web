@@ -79,7 +79,7 @@ def export_csv(fields, result, write_title=False):
 
         return data
     except IOError, (errno, strerror):
-        raise common.message(_("Operation failed !\nI/O error")+"(%s)" % (errno,))
+        raise common.message(_("Operation failed!\nI/O error")+"(%s)" % (errno,))
 
 def _fields_get_all(model, views):
     
@@ -416,7 +416,7 @@ class ImpEx(controllers.Controller, TinyResource):
                     fields += [(_fields_invert[word], word)]
                 break
         except:
-            raise common.warning(_('Error processing your first line of the file.\nField %s is unknown !') % (word,), _('Import Error.'))
+            raise common.warning(_('Error processing your first line of the file.\nField %s is unknown!') % (word,), _('Import Error.'))
 
         kw['fields'] = fields
         return self.imp(**kw)
@@ -440,15 +440,15 @@ class ImpEx(controllers.Controller, TinyResource):
         try:
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas)
         except Exception, e:
-            raise common.warning(ustr(e), _('XML-RPC error !'))
+            raise common.warning(ustr(e), _('XML-RPC error!'))
         if res[0]>=0:
-            raise common.message(_('Imported %d objects !') % (res[0],))
+            raise common.message(_('Imported %d objects!') % (res[0],))
         else:
             d = ''
             for key,val in res[1].items():
                 d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
             error = _('Unable to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
-            raise common.error(_('Importation Error !'), unicode(error))
+            raise common.error(_('Importation Error!'), unicode(error))
 
         return self.imp(**kw)
 

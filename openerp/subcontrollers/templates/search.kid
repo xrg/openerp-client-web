@@ -116,6 +116,15 @@
             window.opener.setTimeout(expr, 1);
             window.close();
         }
+        
+        function do_create(){
+            act = getURL('/openm2m/new', {_terp_model: '${params.model}', 
+                                           _terp_source: '${params.source}',
+                                           _terp_m2o: '${params.source}',
+                                           _terp_domain: $('_terp_domain').value,
+                                           _terp_context: $('_terp_context').value});
+            window.location.href = act;
+        }
     </script>
 </head>
 
@@ -149,7 +158,7 @@
                         <tr>
                             <td width="100%">
                                 <button type="submit">Filter</button>
-                                <button type="button" onclick="do_create()" py:if="params.selectable == 1">New</button>
+                                <button type="button" onclick="do_create()">New</button>
                                 <button type="button" onclick="do_select()">Select</button>
                             </td>
                             <td>

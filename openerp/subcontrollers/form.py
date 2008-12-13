@@ -776,7 +776,7 @@ class Form(controllers.Controller, TinyResource):
             from openerp.subcontrollers import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
-            raise common.message(_("No record selected !"))
+            raise common.message(_("No record selected!"))
 
     @expose()
     def report(self, **kw):

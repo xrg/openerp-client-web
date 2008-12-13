@@ -95,7 +95,7 @@
                                 <div class="box2" id="password">
                                     <table align="center" border="0" width="100%">
                                         <tr>
-                                            <td align="right" class="label">Password :</td>
+                                            <td align="right" class="label">Password:</td>
                                             <td>
                                                 <input type="password" name="password" style="width: 99%;"/>
                                             </td>
@@ -131,21 +131,21 @@
                                         </tr>
                                     
                                         <tr>
-                                            <td align="right" class="label">Host :</td>
+                                            <td align="right" class="label">Host:</td>
                                             <td>
                                                 <input type="text" name="host" value="${host}" style="width: 99%;"/>
                                                 <span py:if="'host' in tg.errors" class="fielderror">${tg.errors['host']}</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align='right' class="label">Port :</td>
+                                            <td align='right' class="label">Port:</td>
                                             <td>
                                                 <input type="text" name="port" value="${port}" style="width: 99%;"/>
                                                 <span py:if="'port' in tg.errors" class="fielderror">${tg.errors['port']}</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align='right' class="label">Protocol :</td>
+                                            <td align='right' class="label">Protocol:</td>
                                             <td>
                                                 <select name="protocol" style="width: 100%;">
 	                                                <span>
@@ -165,13 +165,13 @@
                                         </tr>
                                     
                                         <tr>
-                                            <td align="right" class="label">Logo Image :</td>
+                                            <td align="right" class="label">Logo Image:</td>
                                             <td>
                                                 <input type="file" id="new_logo" name="new_logo" style="width: 99%;"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align="right" class="label">Company URL :</td>
+                                            <td align="right" class="label">Company URL:</td>
                                             <td>
                                                 <input type="text" id="comp_url" name="comp_url" value='${comp_url}' style="width: 99%;"/>
                                             </td>
@@ -184,21 +184,21 @@
                                         </tr>    
                                     
                                         <tr>
-                                            <td align="right" class="label">Old Password :</td>
+                                            <td align="right" class="label">Old Password:</td>
                                             <td>
                                                 <input type="password" name="oldpwd" style="width: 99%;"/>
                                                 <span py:if="'oldpwd' in tg.errors" class="fielderror">Password is Incorrect</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align='right' class="label">New Password :</td>
+                                            <td align='right' class="label">New Password:</td>
                                             <td>
                                                 <input type="password" name="newpwd" style="width: 99%;"/>
                                                 <span py:if="'newpwd' in tg.errors" class="fielderror">Please Enter New Password</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td align='right' class="label">Retype Password :</td>
+                                            <td align='right' class="label">Retype Password:</td>
                                             <td>
                                                 <input type="password" name="repwd" style="width: 99%;"/>
                                                 <span py:if="'repwd' in tg.errors" class="fielderror">Passwords do not Match</span>
@@ -217,7 +217,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="label_header"><u>Note</u> : Any changes in configuration needs to restart the web client.</div>
+                                <div class="label_header"><u>Note</u>: Any changes in configuration needs to restart the web client.</div>
                             </form>
                         </div>
                     </div>
@@ -228,7 +228,7 @@
                             <div align="center" class="box2">
                                 <table align="center" border="0" width="100%">
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Super admin password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Super admin password:</td>
                                         <td class="item" width="100%">
                                             <input type="password" name="password" style="width: 99%;"/>
                                         </td>
@@ -239,19 +239,19 @@
                                     </tr>
                 
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">New database name :</td>
+                                        <td align="right" class="label" nowrap="nowrap">New database name:</td>
                                         <td class="item" width="100%">
                                             <input type="text" name="db_name" style="width: 99%;"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Load Demonstration data :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Load Demonstration data:</td>
                                         <td width="100%">
                                             <input type="checkbox" class="checkbox" name="demo_data" value="True" checked="checked"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Default Language :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Default Language:</td>
                                         <td class="item" width="100%">
                                             <select name="language" style="width: 100%;">
                                                 <option py:for="i, key in enumerate(langlist)" value="${langlist[i][0]}" py:content="langlist[i][1]" selected="${(i+1 == len(langlist) or None) and 1}">Language</option>
@@ -259,14 +259,14 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Administrator password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Administrator password:</td>
                                         <td class="item" width="100%">
                                             <input type="password" name="admin_password" style="width: 99%;"/>
                                             <span py:if="'admin_password' in tg.errors" class="fielderror">Password is required.</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Confirm password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Confirm password:</td>
                                         <td class="item" width="100%">
                                             <input type="password" name="confirm_password" style="width: 99%;"/>
                                             <span py:if="'confirm_password' in tg.errors" class="fielderror">Password do not match.</span>
@@ -292,7 +292,7 @@
                             <div align="center" class="box2">
                                 <table align="center" width="100%">
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Database :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Database:</td>
                                         <td class="item" width="100%">
                                             <select name="db_name" style="width: 100%;">
                                                 <span py:for="db in dblist">
@@ -303,7 +303,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Password:</td>
                                         <td class="item" width="100%"><input type="password" name="password" id="user" style="width: 99%;" /></td>
                                     </tr>
                                 </table>
@@ -326,13 +326,13 @@
                             <div class="box2" align="center">
                                 <table align="center" border="0" width="100%">
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Password:</td>
                                         <td class="item" width="100%">
                                             <input type="password" name="password" style="width: 99%;"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Databases :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Databases:</td>
                                         <td class="item" py:if="dblist" width="100%">
                                             <select name="dblist" style="width: 100%;"> 
                                                 <span py:for="db in dblist">
@@ -369,15 +369,15 @@
                             <div align="center" class="box2">
                                 <table align="center" width="100%">
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">File :</td>
+                                        <td align="right" class="label" nowrap="nowrap">File:</td>
                                         <td class="item" width="100%"><input type="file" name="path" id="path"/></td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Password:</td>
                                         <td class="item" width="100%"><input type="password" name="password" id="password" style="width: 99%;" /></td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">New Database name :</td>
+                                        <td align="right" class="label" nowrap="nowrap">New Database name:</td>
                                         <td class="item" width="100%"><input type="text" name="new_db"  style="width: 99%;" /></td>
                                     </tr>
                                 </table>
@@ -399,15 +399,15 @@
                             <div align="center" class="box2">
                                 <table align="center" width="100%" border="0">
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Old Password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Old Password:</td>
                                         <td class="item" width="100%"><input type="password" name="old_password" id="user" style="width: 99%;" /></td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">New Password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">New Password:</td>
                                         <td class="item" width="100%"><input type="password" name="new_password" id="user" style="width: 99%;" /></td>
                                     </tr>
                                     <tr>
-                                        <td align="right" class="label" nowrap="nowrap">Confirm Password :</td>
+                                        <td align="right" class="label" nowrap="nowrap">Confirm Password:</td>
                                         <td class="item" width="100%"><input type="password" name="new_password2" id="user" style="width: 99%;" /></td>
                                     </tr>
                                 </table>

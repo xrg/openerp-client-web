@@ -163,7 +163,7 @@ var form_onAttrChange = function(container, widget, attr, expr, evt) {
 
 var form_evalExpr = function(prefix, expr) {
     
-    var result = false;
+    var result = true;
     
     for(var i=0; i<expr.length; i++) {
         
@@ -177,33 +177,33 @@ var form_evalExpr = function(prefix, expr) {
         var val = ex[2];
         var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
         
-        switch (op) {
+        switch (op.toLowerCase()) {
             
             case '=':
             case '==':
-                result = result || (elem_value == val);
+                result = result && (elem_value == val);
                 break;
             case '!=':
             case '<>':
-                result = result || (elem_value != val);
+                result = result && (elem_value != val);
                 break;
             case '<':
-                result = result || (elem_value < val);
+                result = result && (elem_value < val);
                 break;
             case '>':
-                result = result || (elem_value > val);
+                result = result && (elem_value > val);
                 break;
             case '<=':
-                result = result || (elem_value <= val);
+                result = result && (elem_value <= val);
                 break;
             case '>=':
-                result = result || (elem_value >= val);
+                result = result && (elem_value >= val);
                 break;
             case 'in':
-                result = result || MochiKit.Base.findIdentical(val, elem_value) > -1;
+                result = result && MochiKit.Base.findIdentical(val, elem_value) > -1;
                 break;
             case 'not in':
-                result = result || MochiKit.Base.findIdentical(val, elem_value) == -1;
+                result = result && MochiKit.Base.findIdentical(val, elem_value) == -1;
                 break;
         }
     }
@@ -270,36 +270,19 @@ var form_setVisible = function(container, field, visible) {
 
         var tabs = getElementsByTagAndClassName('div', 'tabbertab', container.parentNode);
         var idx = findIdentical(tabs, container);
-        var idx2 = -1;
-        
         var tab = tabber.tabs[idx];
-        
-        if (hasElementClass(tab.li, 'tabberactive') && tab.li.style.display != 'none' && tabs.length > 1) {
-            
-            for (var j=idx-1; j>-1;j--){                        
-                if (idx2 > -1) 
-                    break;
-                if (tabs[j].style.display != 'none')
-                    idx2 = j;
-            }
-            
-            for (var j=idx+1; j<tabs.length; j++){                        
-                if (idx2 > -1) 
-                    break;
-                if (tabs[j].style.display != 'none')
-                    idx2 = j;
-            }
-            
-            if (idx2 > -1) {
-                tabber.tabShow(idx2);
-            }
+
+        if (visible) {            
+            tab.li.style.display = '';
+            return tabber.tabShow(idx);
+        } else {
+            var tab = tabber.tabs[idx];
+            tab.li.style.display = 'none';
+            return tabber.tabHide(idx);
         }
-        
-        tab.li.style.display = visible ? '' : 'none';
-        tab.div.style.display = visible ? '' : 'none';
-        
+
     } else {
-       container.style.display = visible ? '' : 'none';    
+       container.style.display = visible ? '' : 'none';
     }
 }
 
