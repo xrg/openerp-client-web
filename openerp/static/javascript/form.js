@@ -444,6 +444,10 @@ var getFormData = function(extended) {
 
                 n = n + 'id';
                 
+                if (!getElement(n)) {
+                    return;    
+                }
+                
                 kind = 'integer';
                 value = value == 'False' ? '' : value;
             }
