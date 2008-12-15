@@ -521,10 +521,12 @@ var onChange = function(name) {
 
     var vals = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
+    var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
 
     vals['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
     vals['_terp_callback'] = callback;
     vals['_terp_model'] = model;
+    vals['_terp_context'] = context;
 
     req = Ajax.JSON.post('/form/on_change', vals);
 
