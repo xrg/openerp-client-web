@@ -314,7 +314,7 @@ class GraphData(object):
             legend = [axis_data[x]['string'] for x in axis[1:]]
             
             for i in label_x:
-                temp_lbl.append(urllib.quote_plus(i))
+                temp_lbl.append(urllib.quote_plus(i).encode('utf-8'))
                             
             result['x_labels'] = temp_lbl
             result['y_legend'] = ''
