@@ -62,7 +62,7 @@ FAQ
 
     We believe that community will not be affected by these few restrictions
     that's goal is only to recognise editors efforts. Source still opens and
-    free so enjoy
+    free so enjoy.
 
 
                           Open ERP PUBLIC LICENSE
