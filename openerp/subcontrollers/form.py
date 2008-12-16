@@ -260,6 +260,10 @@ class Form(controllers.Controller, TinyResource):
             
         if params.view_type == 'tree':
             params.view_type = 'form'
+            
+        if not params.ids:
+            params.count = 1
+            params.offset = 0
 
         # On New O2M
         if params.source:
@@ -292,6 +296,10 @@ class Form(controllers.Controller, TinyResource):
             
         if params.view_type == 'tree':
             params.view_type = 'form'
+            
+        if not params.ids:
+            params.count = 1
+            params.offset = 0
 
         return self.create(params)
 
@@ -671,7 +679,7 @@ class Form(controllers.Controller, TinyResource):
         return self.filter(**kw)
 
     @expose()
-    def next(self, **kw):        
+    def next(self, **kw):
         if '_terp_source' in kw:
             return self.next_o2m(**kw)
 
