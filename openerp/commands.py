@@ -50,6 +50,9 @@ def start():
         except pkg_resources.DistributionNotFound:
             raise ConfigurationError(_("Could not find default configuration."))
 
+    if not os.path.exists(configfile):
+        raise ConfigurationError(_("Could not find configuration file: %s") % configfile)
+
     turbogears.update_config(configfile=configfile,
         modulename="openerp.config")
     
