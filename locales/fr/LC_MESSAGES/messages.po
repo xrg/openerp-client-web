@@ -18,7 +18,7 @@ msgstr ""
 msgid "Could not find default configuration."
 msgstr ""
 
-#: openerp/subcontrollers/attachment.py:65 openerp/subcontrollers/form.py:858
+#: openerp/subcontrollers/attachment.py:65 openerp/subcontrollers/form.py:872
 msgid "Error"
 msgstr "Erreur"
 
@@ -48,7 +48,7 @@ msgstr ""
 msgid "Could not connect to server!"
 msgstr "Impossible de se connecter au serveur!"
 
-#: openerp/rpc.py:171 openerp/rpc.py:227 openerp/rpc.py:284 openerp/rpc.py:408
+#: openerp/rpc.py:171 openerp/rpc.py:227 openerp/rpc.py:284 openerp/rpc.py:412
 msgid "Connection refused!"
 msgstr "Connexion refusée!"
 
@@ -60,11 +60,11 @@ msgstr ""
 "Vous avez sélectionné un fuseau horaire mais OpenERP n'a pas trouvé la bibliothèque pytz.\n"
 "La fonctionnalité fuseau horaire sera hors service."
 
-#: openerp/rpc.py:398
+#: openerp/rpc.py:402
 msgid "Authorization Error!"
 msgstr "Erreur d'autorisation!"
 
-#: openerp/rpc.py:398
+#: openerp/rpc.py:402
 msgid "Not logged..."
 msgstr "Non connecté..."
 
@@ -180,23 +180,23 @@ msgstr "Erreur, mot de passe n'a pas changé."
 msgid "No record selected! You can only attach to existing record..."
 msgstr ""
 
-#: openerp/subcontrollers/form.py:466
+#: openerp/subcontrollers/form.py:474
 msgid "Invalid button type"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:779 openerp/subcontrollers/tree.py:226
+#: openerp/subcontrollers/form.py:787 openerp/subcontrollers/tree.py:226
 msgid "No record selected!"
 msgstr "Aucun enregistrement sélectionné!"
 
-#: openerp/subcontrollers/form.py:784
+#: openerp/subcontrollers/form.py:792
 msgid "Print Screen"
 msgstr "Capture d'écran"
 
-#: openerp/subcontrollers/form.py:801
+#: openerp/subcontrollers/form.py:809
 msgid "You must save this record to use the sidebar button!"
 msgstr "Vous devriez sauver cet enregistrement pour utiliser la barre de raccourcie!"
 
-#: openerp/subcontrollers/form.py:858
+#: openerp/subcontrollers/form.py:872
 msgid "Wrong on_change trigger: %s"
 msgstr "Mauvais on_change gâchette: %s"
 
@@ -248,7 +248,7 @@ msgstr ""
 msgid "Importation Error!"
 msgstr ""
 
-#: openerp/subcontrollers/listgrid.py:61
+#: openerp/subcontrollers/listgrid.py:63
 msgid "Parent record doesn't exists..."
 msgstr "L'enregistrement parent n'existe pas..."
 
@@ -372,19 +372,19 @@ msgstr ""
 msgid "Bad username or password!"
 msgstr "Mot de passe ou compte erroné!"
 
-#: openerp/widgets/form.py:507
+#: openerp/widgets/form.py:503
 msgid "%.2f Kb"
 msgstr ""
 
-#: openerp/widgets/form.py:847 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:843 openerp/widgets/listgrid.py:282
 msgid "Invalid view, duplicate field: %s"
 msgstr ""
 
-#: openerp/widgets/listgrid.py:516
+#: openerp/widgets/listgrid.py:498
 msgid "Yes"
 msgstr "Oui"
 
-#: openerp/widgets/listgrid.py:518
+#: openerp/widgets/listgrid.py:500
 msgid "No"
 msgstr "Non"
 
@@ -525,16 +525,32 @@ msgid "Loading..."
 msgstr "Chargement..."
 
 #: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Today..."
+msgstr ""
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Today"
 msgstr "Aujourd'hui"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Day Calendar..."
+msgstr ""
 
 #: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Day"
 msgstr "Jour"
 
 #: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Week Calendar..."
+msgstr ""
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Week"
 msgstr "Semaine"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Month Calendar..."
+msgstr ""
 
 #: openerp/widgets/tinycalendar/templates/week.kid:button
 msgid "Month"
@@ -543,6 +559,14 @@ msgstr "Mois"
 #: openerp/widgets/tinycalendar/templates/week.kid:td
 msgid "Apply search filter"
 msgstr "Appliquez le filtre de recherche"
+
+#: openerp/widgets/tinycalendar/templates/gantt.kid:img
+msgid "Zoom In"
+msgstr ""
+
+#: openerp/widgets/tinycalendar/templates/gantt.kid:img
+msgid "Zoom Out"
+msgstr ""
 
 #: openerp/widgets/tinycalendar/templates/mini.kid:td
 msgid "M"
@@ -577,12 +601,28 @@ msgid "?"
 msgstr ""
 
 #: openerp/widgets/templates/viewform.kid:button
+msgid "Filter records."
+msgstr ""
+
+#: openerp/widgets/templates/viewform.kid:button
 msgid "Filter"
 msgstr "Filtrer"
 
 #: openerp/widgets/templates/viewform.kid:button
+msgid "Delete selected records."
+msgstr ""
+
+#: openerp/widgets/templates/viewform.kid:button
 msgid "Delete"
 msgstr "Supprimer"
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Edit selected records."
+msgstr ""
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Edit"
+msgstr "Modifier"
 
 #: openerp/widgets/templates/pager.kid:span
 msgid "<< First"
@@ -659,10 +699,6 @@ msgstr "Mise à jour"
 #: openerp/widgets/templates/listgrid.kid:img
 msgid "Cancel"
 msgstr "Annuler"
-
-#: openerp/widgets/templates/listgrid.kid:img
-msgid "Edit"
-msgstr "Modifier"
 
 #: openerp/widgets/templates/listgrid.kid:img
 msgid "Move Up"
@@ -1091,20 +1127,44 @@ msgid "Form Title"
 msgstr "Titre de formulaire"
 
 #: openerp/subcontrollers/templates/form.kid:button
+msgid "Tree View..."
+msgstr ""
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Form View..."
+msgstr ""
+
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Form"
 msgstr "Formulaire"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Calendar View..."
+msgstr ""
 
 #: openerp/subcontrollers/templates/form.kid:button
 msgid "Calendar"
 msgstr "Calendrier"
 
 #: openerp/subcontrollers/templates/form.kid:button
+msgid "Gantt View..."
+msgstr ""
+
+#: openerp/subcontrollers/templates/form.kid:button
 msgid "Gantt"
+msgstr ""
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Graph View..."
 msgstr ""
 
 #: openerp/subcontrollers/templates/form.kid:button
 msgid "Graph"
 msgstr "Graphe"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Corporate Intelligence..."
+msgstr ""
 
 #: openerp/subcontrollers/templates/form.kid:button
 msgid "Process"
@@ -1584,6 +1644,10 @@ msgstr "Ajouter les noms de champ"
 
 #: openerp/subcontrollers/templates/workflow.kid:td
 msgid "Workflow"
+msgstr ""
+
+#: openerp/subcontrollers/templates/process.kid:img
+msgid "Help"
 msgstr ""
 
 #: openerp/subcontrollers/templates/process.kid:a
