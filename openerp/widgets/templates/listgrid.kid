@@ -29,13 +29,13 @@
                                 <!-- begin hidden fields -->
                                 <span py:for="field, field_attrs in hiddens" py:replace="editors[field].display()"/>
                                 <!-- end of hidden fields -->
-                                <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save_editor(this.parentNode.parentNode)"/>
+                                <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                             </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}">
                                 ${editors[field].display()}
                             </td>
                             <td class="grid-cell selector" style="text-align: center; padding: 0px;">
-                                <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').cancel_editor(this.parentNode.parentNode)"/>
+                                <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
                             </td>
                         </tr>
                 
