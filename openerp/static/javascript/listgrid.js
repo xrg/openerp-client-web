@@ -384,12 +384,6 @@ MochiKit.Base.update(ListView.prototype, {
 MochiKit.Base.update(ListView.prototype, {
 
     create: function(){
-
-        var tbl = this.grid;
-        var editor = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-
-        MochiKit.DOM.setNodeAttribute(editor, 'record', 0);
-        
         this.edit(-1);
     },
 

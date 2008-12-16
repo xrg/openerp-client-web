@@ -66,7 +66,9 @@
                                 <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
                             </td>
                         </tr>
-                        		
+                        
+                        <tr py:replace="make_editors()" py:if="edit_inline == -1"/>
+                
                         <span py:for="i, d in enumerate(data)" py:strip="">
                             <tr py:if="d['id'] == edit_inline" class="grid-row" py:replace="make_editors(d)"/>
                             <tr py:if="d['id'] != edit_inline" class="grid-row" py:replace="make_row(d)"/>
