@@ -27,6 +27,31 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+var form_hookOnChange = function() {
+
+    var id = getElement('_terp_id').value;
+    var view_type = getElement('_terp_view_type').value;
+    var editable = getElement('_terp_editable').value;
+
+    if (!(view_type == 'form' || editable == 'True')) {
+        return;
+    }
+
+    var fields = getFormData();
+    //TODO: remove onchange="${onchange}" from all kid templates and register onChange here
+
+    // signal fake onchange events for default value in new record form
+    id = parseInt(id) || 0;
+    if (id) return;
+
+    for(var name in fields) {
+        var field = getElement(name);
+        if (field && field.value && getNodeAttribute(field, 'callback')) {
+            MochiKit.Signal.signal(field, 'onchange');
+        }
+    }
+}
+
 var form_hookStateChange = function() {
     
     var items = [];
@@ -289,6 +314,7 @@ var form_setVisible = function(container, field, visible) {
 MochiKit.DOM.addLoadEvent(function(evt){    
     form_hookStateChange();
     form_hookAttrChange();
+    form_hookOnChange();
 });
 
 // vim: ts=4 sts=4 sw=4 si et
