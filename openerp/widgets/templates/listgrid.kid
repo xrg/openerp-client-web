@@ -23,7 +23,7 @@
                     </thead>
                     
                     <tbody>
-                        <tr py:def="make_editors(data=None)" class="grid-row editors" style="display: ${(edit_inline is -1 or 'none') or ''}" py:if="editable and editors">
+                        <tr py:def="make_editors(data=None)" class="grid-row editors" py:if="editable and editors">
                             <td py:if="selector" class="grid-cell selector">&nbsp;</td>
                             <td class="grid-cell selector" style="text-align: center; padding: 0px;">
                                 <!-- begin hidden fields -->
@@ -67,8 +67,6 @@
                             </td>
                         </tr>
                         		
-                        <tr py:replace="make_editors()" py:if="editors"/>
-                
                         <span py:for="i, d in enumerate(data)" py:strip="">
                             <tr py:if="d['id'] == edit_inline" class="grid-row" py:replace="make_editors(d)"/>
                             <tr py:if="d['id'] != edit_inline" class="grid-row" py:replace="make_row(d)"/>

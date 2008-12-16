@@ -394,10 +394,6 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     edit: function(edit_inline){
-
-        if (this.wait_counter > 0)
-            return;
-
         this.reload(edit_inline);
     },
 
@@ -531,6 +527,10 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     reload: function(edit_inline){
+
+        if (Ajax.COUNT > 0) {
+            return callLater(1, bind(this.reload, this), edit_inline);
+        }
 
         var self = this;
         var args = this.makeArgs();
