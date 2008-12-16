@@ -67,10 +67,6 @@ ListView.prototype = {
 
         // save the reference
         getElement(name).__instance = this;
-
-        // store references of the container elements
-        this.grid = getElement(this.name + '_grid');
-        this.element = getElement(this.name);
     },
 
     checkAll: function(clear){
@@ -219,73 +215,29 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = {};
         
-        sq = MochiKit.DOM.getNodeAttribute($(id +'_moveup'), 'seq');
-        self.seq = eval ('(' + sq + ')');
-        
         args['_terp_model'] = this.model;
         args['_terp_ids'] = this.ids;
+        args['_terp_id'] = id;
         
-        if((self.seq['prev'][1] == 0) && (self.seq['current'][1] == 0)) {
-            var req = Ajax.JSON.post('/listgrid/assign_seq', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
-        
-        if (self.seq['prev'][0]) {
-            args['_terp_prev_id'] = self.seq['prev'][0];
-            args['_terp_prev_seq'] = self.seq['prev'][1];  
-        }
-        
-        if (self.seq['current'][0]) {
-            args['_terp_cur_id'] = self.seq['current'][0];
-            args['_terp_cur_seq'] = self.seq['current'][1];
-        }
-        
-        if (self.seq['prev'][0]) {
-            var req = Ajax.JSON.post('/listgrid/moveUp', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
+        var req = Ajax.JSON.post('/listgrid/moveUp', args);
+        req.addCallback(function(){      
+            self.reload();        
+        });        
     },
 
     moveDown: function(id) {
+
         var self = this;
         var args = {};
         
-        sq = MochiKit.DOM.getNodeAttribute($(id +'_movedown'), 'seq');
-        self.seq = eval ('(' + sq + ')');
-        
         args['_terp_model'] = this.model;
+        args['_terp_ids'] = this.ids;
+        args['_terp_id'] = id;
         
-        if((self.seq['next'][1] == 0) && (self.seq['current'][1] == 0)) {
-            var req = Ajax.JSON.post('/listgrid/assign_seq', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
-        
-        if (self.seq['next'][0]) {
-            args['_terp_next_id'] = self.seq['next'][0];
-            args['_terp_next_seq'] = self.seq['next'][1];
-        }
-        
-        if (self.seq['current'][0]) {
-            args['_terp_cur_id'] = self.seq['current'][0];
-            args['_terp_cur_seq'] = self.seq['current'][1];
-        }
-        
-        if (self.seq['next'][0]) {
-            var req = Ajax.JSON.post('/listgrid/moveDown', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
+        var req = Ajax.JSON.post('/listgrid/moveDown', args);
+        req.addCallback(function(){      
+            self.reload();        
+        });
     }
 });
 
