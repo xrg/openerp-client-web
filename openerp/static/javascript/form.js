@@ -35,7 +35,7 @@ function get_form_action(action, params){
     return getURL(act, params);
 }
 
-var editRecord = function(id, src){
+var editRecord = function(id, src, target){
 
     if (src && src != '_terp_list' && $('_terp_count').value != '0') {
         return new One2Many(src).edit(id);
@@ -71,7 +71,20 @@ var editRecord = function(id, src){
                 'count': count,
                 'search_domain': search_domain};
 
+    if (target == '_blank') {
+        return window.open(get_form_action('edit', args));
+    }
+
     window.location.href = get_form_action('edit', args);
+}
+
+var editSelectedRecord = function() {
+    var lst = new ListView('_terp_list');
+    var ids = lst.getSelectedRecords();
+
+    forEach(ids, function(id){
+        editRecord(id, '_terp_list', '_blank');
+    });
 }
 
 var viewRecord = function(id, src){
