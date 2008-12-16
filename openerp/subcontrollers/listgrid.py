@@ -248,51 +248,5 @@ class List(controllers.Controller, TinyResource):
         
         return dict()
         
-    @expose('json')
-    def get_editor(self, **kw):
-        params, data = TinyDict.split(kw)
-        
-        source = (params.source or '') and str(params.source)
-        current = params.chain_get(source)
-       
-        model = params.model
-        context = params.context or {}
-        
-        if current:
-            model = current.model
-            context = current.context or {}
-      
-        proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get()
-        
-        ctx = rpc.session.context.copy()
-        ctx.update(context)
-        
-        if(params.edit_inline==-1):
-            result = proxy.default_get(fields.keys(), ctx)
-        else:
-            result = proxy.read([params.edit_inline], [], ctx)[0];
-            
-        data = {}
-        for k, v in result.items():
-            if k == 'id': continue
-            data[k] = {'type': fields[k]['type'], 'value': v}
-        
-        _form = TinyForm(**data)
-        result = _form.from_python()
-                
-        for k, v in data.items():
-            kind = v['type']
-            value = v['value']
-            
-            if kind in ('many2one', 'many2many', 'reference'):
-                result[k] = value
-                
-            if value and kind == 'many2one' and isinstance(value, int):
-                value = rpc.RPCProxy(fields[k]['relation']).name_get([value], ctx)
-                result[k] = value[0]
-                
-        return dict(source=source, res=result)
-
 # vim: ts=4 sts=4 sw=4 si et
 
