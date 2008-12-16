@@ -321,15 +321,8 @@ MochiKit.Base.update(ListView.prototype, {
                 src.onchange();
             }
             
-            var tbl = this.grid;
-            var editor_save = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-            
             evt.stop();
-            record = MochiKit.DOM.getNodeAttribute(editor_save, 'record');
-            
-            this.save(record);
-            
-            return;
+            return this.save(this.current_record);
         }
 
         var editors = getElementsByTagAndClassName(null, 'listfields', this.name);
