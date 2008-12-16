@@ -580,7 +580,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             // set focus on the first field
-            var first = getElementsByTagAndClassName(null, 'listfields', this.name)[0] || null;
+            var first = getElementsByTagAndClassName(null, 'listfields', self.name)[0] || null;
             if (first) {
                 first.focus();
                 first.select();
