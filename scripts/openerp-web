@@ -27,7 +27,7 @@ CONFIGFILE="/etc/openerp-web.cfg"
 PIDFILE=/var/run/$NAME.pid
 
 # Additional options that are passed to the Daemon.
-DAEMON_OPTS="$CONFIGFILE"
+DAEMON_OPTS="-c $CONFIGFILE"
 
 [ -x $DAEMON ] || exit 0
 [ -f $CONFIGFILE ] || exit 0
