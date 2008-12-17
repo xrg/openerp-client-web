@@ -69,7 +69,6 @@ class TinyWidget(object):
     field_class = None
 
     def __init__(self, attrs={}):
-
         self.string = attrs.get("string", None)
         self.model = attrs.get("model", None)
 
@@ -82,7 +81,7 @@ class TinyWidget(object):
 
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
-
+        
         self.select = eval_get(attrs, 'select', False)
         self.nolabel = eval_get(attrs, 'nolabel', False)
         self.required = eval_get(attrs, 'required', False)
@@ -104,6 +103,7 @@ class TinyWidget(object):
         self.set_state(attrs.get('state', 'draft'))
 
         self.callback = attrs.get('on_change', None)
+        self.change_default = attrs.get('change_default', False)
         self.kind = attrs.get('type', None)
 
         self.attributes = attrs.get('attrs', {})
@@ -180,9 +180,9 @@ class TinyInputWidget(TinyWidget):
         d['attrs'] = {}
         # name as field_id
         d['field_id'] = self.name
-
+        d['change_default'] = self.change_default
         d['callback'] = self.callback
-        d['onchange'] = (self.callback or None) and 'onChange(this)'
+        d['onchange'] = 'onChange(this)'
 
         d['kind'] = self.kind
         d['editable'] = self.editable

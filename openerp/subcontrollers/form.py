@@ -996,5 +996,17 @@ class Form(controllers.Controller, TinyResource):
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
                 
+    @expose('json')
+    def change_default_get(self, model, field, value):
+        ir = rpc.RPCProxy('ir.values')
+        field = field.split('/')[-1]
+        values = ir.get('default', '%s=%s' % (field, value),
+                        [(model, False)], False, {})
+        
+        data = {}
+        for index, fname, value in values:
+            data[fname] = value
+       
+        return dict(data=data)       
 # vim: ts=4 sts=4 sw=4 si et
                 

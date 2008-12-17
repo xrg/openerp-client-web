@@ -521,13 +521,28 @@ var getFormParams = function(){
     return frm;
 }
 
+var changeDefault = function(prefix, model, field, val){
+    
+    params = {'model': model, 'field': field, 'value': val};
+    
+    req = Ajax.JSON.post('/form/change_default_get', params)
+    
+    req.addCallback(function(obj){
+        for(k in obj.data){
+            fld = prefix + k;
+            setNodeAttribute(fld, 'value', obj.data[k]);
+        } 
+    });        
+}
+
 var onChange = function(name) {
 
     var caller = $(name);
-    var callback = getNodeAttribute(caller, 'callback');
     
-    if (!callback)
-        return;
+    var change_default = getNodeAttribute(caller, 'change_default');
+    
+    
+    var callback = getNodeAttribute(caller, 'callback');
 
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
     var prefix =  caller.name.slice(0, caller.name.lastIndexOf('/')+1);
@@ -540,6 +555,13 @@ var onChange = function(name) {
     vals['_terp_callback'] = callback;
     vals['_terp_model'] = model;
     vals['_terp_context'] = context;
+    
+    if (change_default) {
+        changeDefault(prefix, model, caller.id, caller.value);
+    }
+    
+    if (!callback)
+        return;
 
     req = Ajax.JSON.post('/form/on_change', vals);
 
