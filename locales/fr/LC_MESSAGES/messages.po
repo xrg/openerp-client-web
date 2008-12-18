@@ -14,11 +14,15 @@ msgstr ""
 "X-Poedit-Language: French\n"
 
 
-#: openerp/commands.py:51
+#: openerp/commands.py:36
 msgid "Could not find default configuration."
 msgstr ""
 
-#: openerp/subcontrollers/attachment.py:65 openerp/subcontrollers/form.py:872
+#: openerp/commands.py:39
+msgid "Could not find configuration file: %s"
+msgstr ""
+
+#: openerp/subcontrollers/database.py:230 openerp/subcontrollers/form.py:872
 msgid "Error"
 msgstr "Erreur"
 
@@ -26,7 +30,7 @@ msgstr "Erreur"
 msgid "Warning"
 msgstr "Avertissement"
 
-#: openerp/common.py:55
+#: openerp/common.py:55 openerp/subcontrollers/templates/view_log.kid:title
 msgid "Information"
 msgstr "Information"
 
@@ -44,7 +48,7 @@ msgstr ""
 "Demandez l'administrateur de vérifier!\n"
 "Vous avez une action définie pour votre utilisateur."
 
-#: openerp/controllers.py:142 openerp/tinyres.py:118
+#: openerp/controllers.py:141 openerp/tinyres.py:117
 msgid "Could not connect to server!"
 msgstr "Impossible de se connecter au serveur!"
 
@@ -100,23 +104,87 @@ msgstr "Action non trouvée!"
 msgid "No action defined!"
 msgstr "Action n'est pas définie!"
 
-#: openerp/subcontrollers/admin.py:123
-msgid "Invalid Password..."
+#: openerp/subcontrollers/attachment.py:64
+msgid "No record selected! You can only attach to existing record..."
 msgstr ""
 
-#: openerp/subcontrollers/admin.py:132
-msgid "Administration password is empty..."
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Create new database"
 msgstr ""
 
-#: openerp/subcontrollers/admin.py:147
-msgid "File reading or writing failed..."
+#: openerp/subcontrollers/database.py:105 openerp/templates/error.kid:button
+msgid "OK"
+msgstr "OK"
+
+#: openerp/subcontrollers/database.py:67
+msgid "Super admin password:"
+msgstr "Mot de passe Super admin:"
+
+#: openerp/subcontrollers/database.py:68 openerp/subcontrollers/database.py:99
+msgid "New database name:"
+msgstr "Nom de la nouvelle base de donnée:"
+
+#: openerp/subcontrollers/database.py:69
+msgid "Load Demonstration data:"
+msgstr "Chargé les données de démonstration:"
+
+#: openerp/subcontrollers/database.py:70
+msgid "Default Language:"
+msgstr "Langue par défaut:"
+
+#: openerp/subcontrollers/database.py:71
+msgid "Administrator password:"
 msgstr ""
 
-#: openerp/subcontrollers/admin.py:210
+#: openerp/subcontrollers/database.py:72
+msgid "Confirm password:"
+msgstr ""
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Drop database"
+msgstr ""
+
+#: openerp/templates/login.kid:td
+msgid "Database:"
+msgstr "Base de donnée:"
+
+#: openerp/subcontrollers/database.py:98 openerp/templates/login.kid:td
+msgid "Password:"
+msgstr "Mot de passe:"
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Backup database"
+msgstr ""
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Change Administrator Password"
+msgstr ""
+
+#: openerp/subcontrollers/database.py:97
+msgid "File:"
+msgstr "Fichier:"
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Restore database"
+msgstr ""
+
+#: openerp/subcontrollers/database.py:106
+msgid "Old Password:"
+msgstr "Mot de passe actuel:"
+
+#: openerp/subcontrollers/database.py:107
+msgid "New Password:"
+msgstr "Nouveau mot de passe:"
+
+#: openerp/subcontrollers/database.py:108
+msgid "Confirm Password:"
+msgstr "Confirmation du Mot de passe:"
+
+#: openerp/subcontrollers/database.py:138
 msgid "Bad database name!"
 msgstr "Mauvais nom de base de données!"
 
-#: openerp/subcontrollers/admin.py:210
+#: openerp/subcontrollers/database.py:138
 msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
@@ -124,61 +192,49 @@ msgstr ""
 "Le nom de base de donnée doit avoir seulement les caractères normaux ou \"_\".\n"
 "Vous devez éviter tous les accents, l'espace ou les caractères speciaux."
 
-#: openerp/subcontrollers/admin.py:218 openerp/subcontrollers/admin.py:220
+#: openerp/subcontrollers/database.py:147
 msgid "Could not create database."
 msgstr "La base de donnée n'a pas pu être crée."
 
-#: openerp/subcontrollers/admin.py:285
+#: openerp/subcontrollers/database.py:207
 msgid "Bad database administrator password!"
 msgstr "Mauvais mot de passe d'administrateur de la base de donnée!"
 
-#: openerp/subcontrollers/admin.py:220
+#: openerp/subcontrollers/database.py:147
 msgid "Error during database creation!"
 msgstr "Erreur pendant la création de la base de donnée!"
 
-#: openerp/subcontrollers/admin.py:240
+#: openerp/subcontrollers/database.py:166
 msgid "Could not drop database."
 msgstr "La base de donnée n'a pas être abondonnée."
 
-#: openerp/subcontrollers/admin.py:242
+#: openerp/subcontrollers/database.py:168
 msgid "Couldn't drop database"
 msgstr "N'a pas pu abondonner la base de donnée"
 
-#: openerp/subcontrollers/admin.py:261
+#: openerp/subcontrollers/database.py:189
 msgid "Could not create backup."
 msgstr "La sauvegarde n'a pas être crée"
 
-#: openerp/subcontrollers/admin.py:285
+#: openerp/subcontrollers/database.py:207
 msgid "Could not restore database."
 msgstr "La base de donnée n'a pas être restauré."
 
-#: openerp/subcontrollers/admin.py:287
+#: openerp/subcontrollers/database.py:209
 msgid "Couldn't restore database"
 msgstr "La base de données n'a pas être restauré"
 
-#: openerp/subcontrollers/admin.py:304
-msgid "Confirmation password does not match with new password, operation cancelled!"
-msgstr ""
-
-#: openerp/subcontrollers/admin.py:304
-msgid "Validation Error."
-msgstr "Erreur de validation."
-
-#: openerp/subcontrollers/admin.py:310
+#: openerp/subcontrollers/database.py:227
 msgid "Bad password provided!"
 msgstr ""
 
-#: openerp/subcontrollers/admin.py:310
+#: openerp/subcontrollers/database.py:227
 msgid "Could not change super admin password."
 msgstr ""
 
-#: openerp/subcontrollers/admin.py:312
+#: openerp/subcontrollers/database.py:229
 msgid "Error, password not changed."
 msgstr "Erreur, mot de passe n'a pas changé."
-
-#: openerp/subcontrollers/attachment.py:64
-msgid "No record selected! You can only attach to existing record..."
-msgstr ""
 
 #: openerp/subcontrollers/form.py:474
 msgid "Invalid button type"
@@ -252,7 +308,7 @@ msgstr ""
 msgid "Parent record doesn't exists..."
 msgstr "L'enregistrement parent n'existe pas..."
 
-#: openerp/subcontrollers/preferences.py:70
+#: openerp/subcontrollers/preferences.py:70 openerp/templates/master.kid:a
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -368,7 +424,7 @@ msgstr ""
 msgid "No workflow associated!"
 msgstr ""
 
-#: openerp/tinyres.py:121
+#: openerp/tinyres.py:120
 msgid "Bad username or password!"
 msgstr "Mot de passe ou compte erroné!"
 
@@ -392,11 +448,11 @@ msgstr "Non"
 msgid "== Access Denied =="
 msgstr ""
 
-#: openerp/widgets/one2many.py:59
+#: openerp/widgets/templates/viewform.kid:button
 msgid "Create new record."
 msgstr "Créer un nouveau record."
 
-#: openerp/widgets/one2many.py:59
+#: openerp/widgets/templates/viewform.kid:button
 msgid "New"
 msgstr "Nouveau"
 
@@ -994,10 +1050,6 @@ msgstr ")"
 msgid "Running Server:"
 msgstr "Serveur courant:"
 
-#: openerp/templates/error.kid:button
-msgid "OK"
-msgstr "OK"
-
 #: openerp/templates/login.kid:title
 msgid "Login"
 msgstr "Ouverture"
@@ -1010,10 +1062,6 @@ msgstr "Bienvenue à OpenERP"
 msgid "Server:"
 msgstr "Serveur:"
 
-#: openerp/templates/login.kid:td
-msgid "Database:"
-msgstr "Base de donnée:"
-
 #: openerp/templates/login.kid:option
 msgid "dbname"
 msgstr "Nom de la base de donnée"
@@ -1022,13 +1070,9 @@ msgstr "Nom de la base de donnée"
 msgid "User:"
 msgstr "Utilisateur:"
 
-#: openerp/templates/login.kid:td
-msgid "Password:"
-msgstr "Mot de passe:"
-
 #: openerp/templates/login.kid:button
-msgid "Manage"
-msgstr "Gérer"
+msgid "Databases"
+msgstr ""
 
 #: openerp/templates/login.kid:img
 msgid "Developped by Axelor and Tiny"
@@ -1414,205 +1458,25 @@ msgstr "Latin 1"
 msgid "Lines to skip:"
 msgstr "Lignes à sauter:"
 
-#: openerp/subcontrollers/templates/admin.kid:title
-msgid "Config Editor"
-msgstr "Configurer l'Editeur"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Administration"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Server Admin"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:a
-msgid "Configuration"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "DB Admin"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:a
+#: openerp/subcontrollers/templates/database.kid:button
 msgid "Create"
 msgstr "Créer"
 
-#: openerp/subcontrollers/templates/admin.kid:a
+#: openerp/subcontrollers/templates/database.kid:button
 msgid "Drop"
 msgstr "Abondonner"
 
-#: openerp/subcontrollers/templates/admin.kid:a
+#: openerp/subcontrollers/templates/database.kid:button
 msgid "Backup"
 msgstr "Sauvegarde"
 
-#: openerp/subcontrollers/templates/admin.kid:a
+#: openerp/subcontrollers/templates/database.kid:button
 msgid "Restore"
 msgstr "Restaurer"
 
-#: openerp/subcontrollers/templates/admin.kid:a
+#: openerp/subcontrollers/templates/database.kid:button
 msgid "Password"
 msgstr "Mot de passe"
-
-#: openerp/subcontrollers/templates/admin.kid:hr
-msgid "OpenERP Server"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Host:"
-msgstr "Hébérgeur:"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Port:"
-msgstr "Port:"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Protocol:"
-msgstr "Protocole:"
-
-#: openerp/subcontrollers/templates/admin.kid:option
-msgid "NET-RPC (faster)"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:option
-msgid "XML-RPC"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:option
-msgid "XML-RPC secure"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:hr
-msgid "Company Logo"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Logo Image:"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Company URL:"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:hr
-msgid "Admin Password"
-msgstr "Mot de passe Admin"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Old Password:"
-msgstr "Mot de passe actuel:"
-
-#: openerp/subcontrollers/templates/admin.kid:span
-msgid "Password is Incorrect"
-msgstr "Mot de passe est incorrect"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "New Password:"
-msgstr "Nouveau mot de passe:"
-
-#: openerp/subcontrollers/templates/admin.kid:span
-msgid "Please Enter New Password"
-msgstr "Saisissez un nouveau mot de passe"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Retype Password:"
-msgstr "Retapez le Mot de Passe:"
-
-#: openerp/subcontrollers/templates/admin.kid:span
-msgid "Passwords do not Match"
-msgstr "Les mots de passes ne S'accordent pas"
-
-#: openerp/subcontrollers/templates/admin.kid:u
-msgid "Note"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:u
-msgid ": Any changes in configuration needs to restart the web client."
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:div
-msgid "Create Database"
-msgstr "Créer la base de donnée"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Super admin password:"
-msgstr "Mot de passe Super admin:"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "("
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:i
-msgid "admin"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:i
-msgid ", By Default)"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "New database name:"
-msgstr "Nom de la nouvelle base de donnée:"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Load Demonstration data:"
-msgstr "Chargé les données de démonstration:"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Default Language:"
-msgstr "Langue par défaut:"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Administrator password:"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:span
-msgid "Password is required."
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Confirm password:"
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:span
-msgid "Password do not match."
-msgstr ""
-
-#: openerp/subcontrollers/templates/admin.kid:div
-msgid "Drop Database"
-msgstr "Abondonner la base de donnée"
-
-#: openerp/subcontrollers/templates/admin.kid:div
-msgid "Backup Database"
-msgstr "Base de données de sauvegarde"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Databases:"
-msgstr "Bases de données:"
-
-#: openerp/subcontrollers/templates/admin.kid:option
-msgid "Database"
-msgstr "Base de données"
-
-#: openerp/subcontrollers/templates/admin.kid:div
-msgid "Restore Database"
-msgstr "Restaurer la base de donnée"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "File:"
-msgstr "Fichier:"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "New Database name:"
-msgstr "Nom de la nouvelle base de donnée:"
-
-#: openerp/subcontrollers/templates/admin.kid:div
-msgid "Change Password"
-msgstr "Modifier le mot de passe"
-
-#: openerp/subcontrollers/templates/admin.kid:td
-msgid "Confirm Password:"
-msgstr "Confirmation du Mot de passe:"
 
 #: openerp/subcontrollers/templates/exp.kid:title
 msgid "Export Data"
