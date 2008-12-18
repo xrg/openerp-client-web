@@ -91,7 +91,7 @@ class FormBackup(widgets.TableForm):
 
 class FormRestore(widgets.TableForm):
     name = "restore"
-    string = _('Change Administrator Password')
+    string = _('Restore database')
     action = '/database/do_restore'
     submit_text = _('OK')
     fields = [widgets.FileField(name="filename", label=_('File:')),
@@ -100,7 +100,7 @@ class FormRestore(widgets.TableForm):
 
 class FormPassword(widgets.TableForm):
     name = "password"
-    string = _('Restore database')
+    string = _('Change Administrator Password')
     action = '/database/do_password'
     submit_text = _('OK')
     fields = [widgets.PasswordField(name='old_password', label=_('Old Password:'), validator=validators.NotEmpty()),
