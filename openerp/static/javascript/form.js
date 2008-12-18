@@ -521,49 +521,30 @@ var getFormParams = function(){
     return frm;
 }
 
-var changeDefault = function(prefix, model, field, val){
-    
-    params = {'model': model, 'field': field, 'value': val};
-    
-    req = Ajax.JSON.post('/form/change_default_get', params)
-    
-    req.addCallback(function(obj){
-        for(k in obj.data){
-            fld = prefix + k;
-            setNodeAttribute(fld, 'value', obj.data[k]);
-        } 
-    });        
-}
-
 var onChange = function(name) {
 
     var caller = $(name);
-    
-    var change_default = getNodeAttribute(caller, 'change_default');
-    
-    
     var callback = getNodeAttribute(caller, 'callback');
+    var change_default = getNodeAttribute(caller, 'change_default');
 
+    if (!(callback || change_default)) {
+        return;
+    }
+    
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
     var prefix =  caller.name.slice(0, caller.name.lastIndexOf('/')+1);
 
-    var vals = getFormData(1);
+    var params = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
     var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
 
-    vals['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
-    vals['_terp_callback'] = callback;
-    vals['_terp_model'] = model;
-    vals['_terp_context'] = context;
+    params['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
+    params['_terp_callback'] = callback;
+    params['_terp_model'] = model;
+    params['_terp_context'] = context;
+    params['_terp_value'] = caller.value;
     
-    if (change_default) {
-        changeDefault(prefix, model, caller.id, caller.value);
-    }
-    
-    if (!callback)
-        return;
-
-    req = Ajax.JSON.post('/form/on_change', vals);
+    var req = Ajax.JSON.post(change_default ? '/form/change_default_get' : '/form/on_change', params);
 
     req.addCallback(function(obj){
 
@@ -571,7 +552,7 @@ var onChange = function(name) {
             return alert(obj.error);
         }
         
-        values = obj['value'];
+        values = obj['values'];
         domains = obj['domain'];
 
         domains = domains ? domains : {};
