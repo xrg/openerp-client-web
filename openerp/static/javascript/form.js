@@ -526,7 +526,7 @@ var onChange = function(name) {
     var caller = $(name);
     var callback = getNodeAttribute(caller, 'callback');
     var change_default = getNodeAttribute(caller, 'change_default');
-
+    
     if (!(callback || change_default)) {
         return;
     }
@@ -544,7 +544,7 @@ var onChange = function(name) {
     params['_terp_context'] = context;
     params['_terp_value'] = caller.value;
     
-    var req = Ajax.JSON.post(change_default ? '/form/change_default_get' : '/form/on_change', params);
+    var req = Ajax.JSON.post(callback ? '/form/on_change' : '/form/change_default_get', params);
 
     req.addCallback(function(obj){
 
