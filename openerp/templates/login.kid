@@ -45,7 +45,7 @@
                     <tr>
                         <td></td>
                         <td align="right">
-                            <button py:if="manage_visible" type="button" style="width: 80px; white-space: nowrap" tabindex="-1" onclick="location.href='/admin/login'">Manage</button>
+                            <button py:if="manage_visible" type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='/database'">Databases</button>
                             <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
                         </td>
                     </tr>                    

@@ -135,13 +135,12 @@ class Root(controllers.RootController, TinyResource):
 
         url = rpc.session.get_url()
         dblist = rpc.session.listdb()
-        manage_visible = config.get('manage.visible', path='admin')
         
         if dblist == -1:
             dblist = []
             message = _("Could not connect to server!")
 
-        return dict(target='/', url=url, manage_visible=manage_visible, dblist=dblist, user=user, password=password, db=db, action='login', message=message, origArgs={})
+        return dict(target='/', url=url, manage_visible=True, dblist=dblist, user=user, password=password, db=db, action='login', message=message, origArgs={})
 
     @expose()
     @unsecured
@@ -183,11 +182,6 @@ class Root(controllers.RootController, TinyResource):
             else:
                  res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
         return res
-        
-    @expose(template="openerp.templates.admin")
-    @unsecured
-    def admin(self):
-        return dict()
     
     @expose()
     @unsecured
@@ -224,7 +218,7 @@ class Root(controllers.RootController, TinyResource):
     calpopup = subcontrollers.tinycalendar.CalendarPopup()
     viewlog = subcontrollers.view_log.View_Log()
     image = subcontrollers.image.Image()    
-    admin = subcontrollers.admin.Admin()
+    database = subcontrollers.database.Database()
     viewed = subcontrollers.viewed.ViewEd()
     viewlist = subcontrollers.viewlist.ViewList()
     workflow = subcontrollers.workflow.Workflow()
