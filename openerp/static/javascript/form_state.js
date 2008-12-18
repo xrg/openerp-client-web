@@ -77,7 +77,7 @@ var form_hookStateChange = function() {
         states = states.replace(/False/g, '0');
         states = eval('(' + states + ')');
 
-        var state = getElement(prefix + 'state');
+        var state = getElement(prefix + 'state') || getElement(prefix + 'x_state');
         if (state) {
             fields[state.id] = state;
             MochiKit.Signal.connect(state, 'onchange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
