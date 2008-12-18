@@ -51,7 +51,8 @@
                                 <span py:if="i==0">
                                     <a href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
                                 </span>
-                                <span py:if="i &gt; 0" py:replace="data[field].display()"/>
+                                <span py:if="i and show_links" py:replace="data[field].display()"/>
+                                <span py:if="i and not show_links" py:content="data[field]"/>
                                 <span py:if="editable and field == 'sequence'" class="selector">
                                     <img id="${data['id']}_moveup" src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>                                
                                     <img id="${data['id']}_movedown" src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
