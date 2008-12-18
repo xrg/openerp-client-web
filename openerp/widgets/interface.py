@@ -64,6 +64,7 @@ class TinyWidget(object):
     model = None
     states = None
     callback = None
+    change_default = None
     kind=None
     
     field_class = None
@@ -177,20 +178,22 @@ class TinyInputWidget(TinyWidget):
     
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
-        d['attrs'] = {}
+
+        attrs = d['attrs'] = {}
+
+        attrs['change_default'] = self.change_default or None
+        attrs['callback'] = self.callback or None
+        attrs['onchange'] = 'onChange(this)'
+
         # name as field_id
         d['field_id'] = self.name
-        d['change_default'] = self.change_default
-        d['callback'] = self.callback
-        d['onchange'] = 'onChange(this)'
-
         d['kind'] = self.kind
         d['editable'] = self.editable
         d['inline'] = self.inline
 
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
-            d['attrs']['disabled'] = True
+            attrs['disabled'] = 'disabled'
 
         if self.required and 'requiredfield' not in d['field_class'].split(' '):
             d['field_class'] = " ".join([d['field_class'], "requiredfield"])

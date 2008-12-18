@@ -4,9 +4,7 @@
         kind="${kind}" 
         name="${name}" 
         id="${name}" 
-        value="${value}" 
-        callback="${callback}" 
-        onchange="${onchange}"/>
+        value="${value}"/>
     <input py:if="editable" py:attrs="attrs" 
         type="checkbox" 
         kind="${kind}" 
