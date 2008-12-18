@@ -65,6 +65,7 @@ class TinyWidget(object):
     states = None
     callback = None
     change_default = None
+    onchange = 'onChange(this)'
     kind=None
     
     field_class = None
@@ -183,7 +184,7 @@ class TinyInputWidget(TinyWidget):
 
         attrs['change_default'] = self.change_default or None
         attrs['callback'] = self.callback or None
-        attrs['onchange'] = 'onChange(this)'
+        attrs['onchange'] = self.onchange
 
         # name as field_id
         d['field_id'] = self.name

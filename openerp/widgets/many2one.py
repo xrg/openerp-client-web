@@ -70,6 +70,7 @@ class M2O(TinyField):
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {})
         self.link = attrs.get('link')
+        self.onchange = None # override onchange in js code
 
         self.validator = tiny_validators.many2one()
 
