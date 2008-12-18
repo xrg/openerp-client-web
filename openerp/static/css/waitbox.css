@@ -14,7 +14,7 @@
 }
 
 #WaitBox {
-	display: none;
+    display: none;
     position: absolute;
     z-index: 200;
     
@@ -40,8 +40,8 @@
     text-align: center;
     
     background-image: url("/static/images/progress.gif");
-	background-repeat: no-repeat;
-	background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #WaitBox .WaitButtons {

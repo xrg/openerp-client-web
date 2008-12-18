@@ -56,22 +56,26 @@ div.contextmenu {
     z-index: 100;
 }
 
-div.contextmenu a {
+div.contextmenu a,
+div.contextmenu span {
     display: block;
     text-align: left;
     text-decoration: none;
     white-space: nowrap;
     padding: 2px;
     color: #FFF;
+    cursor: pointer;
 }
 
-div.contextmenu a:hover {
+div.contextmenu a:hover,
+div.contextmenu span:hover {
     color: #FFF;
     background-color: #505050;
     text-decoration: none;
 }
 
-div.contextmenu a.disabled {
+div.contextmenu a.disabled,
+div.contextmenu span.disabled {
     color: #C0C0C0;
 }
 

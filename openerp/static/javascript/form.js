@@ -713,7 +713,7 @@ function makeContextMenu(id, kind, relation, val) {
 
         for(var r in obj.defaults) {
             var o = obj.defaults[r];                        
-            var a = A({href: "javascript: void(0)", onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
+            var a = SPAN({onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
             rows = rows.concat(a);
         }
 
@@ -723,8 +723,7 @@ function makeContextMenu(id, kind, relation, val) {
             for(var r in obj.actions) {
                 var o = obj.actions[r];
 
-                var a = A({'class': o.action ? '' : 'disabled',
-                           'href': "javascript: void(0)", 
+                var a = SPAN({'class': o.action ? '' : 'disabled',
                            'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''}, o.text);
 
                 rows = rows.concat(a);
@@ -737,8 +736,7 @@ function makeContextMenu(id, kind, relation, val) {
             for(var r in obj.relates) {
                 var o = obj.relates[r];
 
-                var a = A({'class': o.action ? '' : 'disabled',
-                           'href': "javascript: void(0)", data: o.data,
+                var a = SPAN({'class': o.action ? '' : 'disabled',
                            'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : ''}, o.text);
 
                 rows = rows.concat(a);
