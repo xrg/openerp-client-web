@@ -735,7 +735,7 @@ _PROPERTIES = {
     'action' : ['name', 'string', 'colspan', 'groups'],
     'tree' : ['string', 'colors', 'editable', 'link'],
     'graph' : ['string', 'type'],
-    'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color'],
+    'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color', 'mode'],
     'view' : [],
 }
 
