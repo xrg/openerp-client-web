@@ -659,6 +659,8 @@ class Node(object):
         self.string = self.get_text()
         
     def get_text(self):
+        if 'string' in self.attrs:
+            return '<%s string="%s">' % (self.name, self.attrs['string'])
         return "<%s>" % self.name
     
     def get_record(self):
@@ -693,19 +695,19 @@ class FieldNode(Node):
     def get_text(self):
         
         if self.attrs.get('type') == 'one2many':
-            return '[{%s}]' % self.name
-        
-        return '[%s]' % self.name
+            return '<field name="%s">' % self.name
+
+        return '<field name="%s">' % self.name
     
 class ButtonNode(Node):
     
     def get_text(self):
-        return '<button>'
+        return '<button name="%s">' % self.name
     
 class ActionNode(Node):
     
     def get_text(self):
-        return '<action>'
+        return '<action name="%s">' % self.name
 
 _NODES = {
     'view' : ViewNode,

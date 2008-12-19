@@ -68,6 +68,14 @@ class ViewList(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get({}).keys()
+        string = "Unknown"
+
+        try:
+            proxy2 = rpc.RPCProxy('ir.model')
+            mid = proxy2.search([('model','=',model)])[0]
+            string = proxy2.read([mid], ['name'])[0]['name']
+        except:
+            pass
 
         fname = None
         for n in ('name', 'x_name'):
@@ -77,10 +85,10 @@ class ViewList(controllers.Controller, TinyResource):
 
         if fname:
             arch = """<?xml version="1.0"?>
-            <%s string="Unknwown">
+            <%s string="%s">
                 <field name="%s"/>
             </%s>
-            """ % (view_type, fname, view_type)
+            """ % (view_type, string, fname, view_type)
 
             proxy = rpc.RPCProxy('ir.ui.view')
             proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
