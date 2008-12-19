@@ -44,6 +44,10 @@
     margin-left: 2px;
 }
 
+#modalbox .modalbox-content {
+    overflow: auto;
+}
+
 /**
  * vim: sts=4 st=4 et
  *

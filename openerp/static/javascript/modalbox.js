@@ -100,6 +100,12 @@ ModalBox.prototype = {
         showElement(this.overlay);
         showElement(this.box);
 
+        // set the height of content
+        var h2 = h - getElementDimensions(this.title).h - 
+            getElementDimensions(getElementsByTagAndClassName('table', 'modalbox-buttons', this.box)[0]).h;
+
+        setElementDimensions(this.content, {h: h2});
+
         MochiKit.Signal.signal(this, "show", this);
     },
 

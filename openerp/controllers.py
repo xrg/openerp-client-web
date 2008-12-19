@@ -164,6 +164,26 @@ class Root(controllers.RootController, TinyResource):
                  res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
         return res
     
+    @expose()
+    @unsecured
+    def developped_by(self):
+        comp_url = config.get('company_url', path='admin') or None
+        
+        res="""<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" usemap="#devby_map"/>
+                    <map name="devby_map">
+                        <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
+                        <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
+                    </map>"""
+                    
+        if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
+            if comp_url:
+                res = """   <a href='"""+comp_url+"""' target='_blank'>
+                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/> 
+                            </a> """
+            else:
+                 res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
+        return res
+        
     @expose(template="openerp.templates.admin")
     @unsecured
     def admin(self):

@@ -865,7 +865,7 @@ class ButtonTargetProperty(tg_widgets.SingleSelectField):
 class ButtonTypeProperty(tg_widgets.SingleSelectField):
     
     def __init__(self, name, default=None):
-        options = [('', ''), ('action', 'Action'), ('object', 'Object'), ('workflow', 'Workflow')]
+        options = [('', ''), ('action', 'Action'), ('object', 'Object'), ('workflow', 'Workflow'), ('server_action', 'Server Action')]
         super(ButtonTypeProperty, self).__init__(name=name, options=options, default=default)
 
 class ButtonSpecialProperty(tg_widgets.SingleSelectField):

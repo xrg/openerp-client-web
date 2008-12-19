@@ -851,6 +851,12 @@ class Form(controllers.Controller, TinyResource):
         callback = data.pop('_terp_callback')
         caller = data.pop('_terp_caller')
         model = data.pop('_terp_model')
+        context = data.pop('_terp_context')
+
+        try:
+            context = eval(context) # convert to python dict
+        except:
+            context = {}
         
         match = re.match('^(.*?)\((.*)\)$', callback)
         
@@ -879,8 +885,11 @@ class Form(controllers.Controller, TinyResource):
                 pprefix = prefix.rsplit('/', 1)[0]
                 pctx = pctx.chain_get(pprefix)
 
+        ctx2 = rpc.session.context.copy()
+        ctx2.update(context or {})
+
         ctx['parent'] = pctx
-        ctx['context'] = rpc.session.context.copy()
+        ctx['context'] = ctx2
 
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]
