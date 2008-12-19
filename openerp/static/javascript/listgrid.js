@@ -67,10 +67,6 @@ ListView.prototype = {
 
         // save the reference
         getElement(name).__instance = this;
-
-        // store references of the container elements
-        this.grid = getElement(this.name + '_grid');
-        this.element = getElement(this.name);
     },
 
     checkAll: function(clear){
@@ -151,109 +147,6 @@ ListView.prototype = {
 // inline editor related functions
 MochiKit.Base.update(ListView.prototype, {
 
-    loadEditors: function(edit_inline, args) {
-
-        var self = this;
-        var req = Ajax.JSON.post('/listgrid/get_editor', args);
-
-        req.addCallback(function(obj){
-		
-		    if(obj.source == '_terp_list')
-			    prefix = '_terp_listfields';
-		    else
-            	prefix = '_terp_listfields' + '/' + obj.source;
-
-            var tbl = self.grid;
-            var tr = null;
-            var idx = 1;
-            
-            var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-            var editors = self.adjustEditors(editor_row);
-            
-            if (editors.length > 0 && !editor_row.keyBound) {
-                self.bindKeyEventsToEditors(editors);
-                editor_row.keyBound = 1;
-            }
-            record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
-
-            if(edit_inline != -1) {
-
-                for (var i=0; i<tbl.rows.length; i++){
-                    
-                    var e = tbl.rows[i];
-                    tr = MochiKit.DOM.getNodeAttribute(e, 'record') == edit_inline ? e : null;
-                    if (tr) break;
-                }
-
-                if (tbl.last) {
-                    tbl.last.style.display = '';
-                }
-
-                idx = findIdentical(tbl.rows, tr);
-            }
-
-            var tr_tmp = tbl.insertRow(idx);
-            swapDOM(tr_tmp, editor_row);
-
-            if(edit_inline == -1 && record_id == null){
-                editor_row.style.display = '';
-            } else if(edit_inline == -1 && record_id >= 0){
-                if (tbl.last) {
-                    tbl.last.style.display = '';
-                }
-                editor_row.style.display = '';
-            } else {
-                tr.style.display = 'none';
-                editor_row.style.display = '';
-
-                MochiKit.DOM.setNodeAttribute(editor_row, 'record', edit_inline);
-            }
-
-            elements = [];
-
-            elements = elements.concat(getElementsByTagAndClassName('input', null, editor_row));
-            elements = elements.concat(getElementsByTagAndClassName('select', null, editor_row));
-           
-            forEach(elements, function(f) {
-                getElement(f).value = "";
-            });
-
-            for(var r in obj.res) {
-                var id = prefix + '/' + r;
-                var kind = 'char';
-                var elem = getElement(id);
-
-                if (elem) {                 
-                    kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
-                    type = MochiKit.DOM.getNodeAttribute(elem, 'type');
-                    
-                    if (kind ==  'many2one') {
-                        val = obj.res[r] || ['', '']
-                        elem.value = val[0];
-                        try {
-                            getElement(id + '_text').value = val[1];
-                        } catch(e) {}
-                    } else if ((kind = 'boolean') && (type = 'checkbox')) {
-                        elem.value = obj.res[r];
-                        try {
-                            getElement(id + '_checkbox_').checked = obj.res[r];
-                            getElement(id + '_checkbox_').value = obj.res[r];
-                        } catch(e) {}
-                    } else {
-                        elem.value = obj.res[r];
-                    }
-                }
-            }
-
-            tbl.last = tr;
-            var first = getElementsByTagAndClassName(null, 'listfields', this.name)[0] || null;
-            if (first) {
-                first.focus();
-                first.select();
-            }
-        });
-    },
-
     adjustEditors: function(newlist){
 
         var editors = this.getEditors(false, newlist);
@@ -298,23 +191,6 @@ MochiKit.Base.update(ListView.prototype, {
         });
     },
 
-    cancel_editor: function(row){
-
-        var tbl = this.grid;
-        var editor_cancel = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-
-        hideElement(editor_cancel);
-
-        if(tbl.last) {
-            MochiKit.DOM.setNodeAttribute(editor_cancel, 'record', 0);
-            tbl.last.style.display = '';
-        }
-    },
-
-    save_editor: function(row){
-        this.save(MochiKit.DOM.getNodeAttribute(row, 'record'));
-    },
-
     getEditors: function(named, dom){
         var editors = [];
         var dom = dom ? dom : this.name;
@@ -327,166 +203,6 @@ MochiKit.Base.update(ListView.prototype, {
             name = named ? e.name : e.id;
             return name &&  name.indexOf('_terp_listfields') == 0;
         }, editors);
-    },
-
-    makeRow: function(rec_id) {
-
-        if (Ajax.COUNT > 0) {
-            return callLater(1, bind(this.makeRow, this), rec_id);
-        }
-	
-	    var self = this;
-	    var tbl = this.grid;
-	
-	    var editor_row = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-		
-	    record_id = MochiKit.DOM.getNodeAttribute(editor_row, 'record');
-	
-	    if(record_id > 0) {
-	        rec_id = record_id;
-	    }
-	
-	    var elem = [];
-	    var elements = [];
-	    var tds = [];
-	    var parent_tag = [];
-	
-	    elem = self.getColumns();
-	
-	    elements = elements.concat(getElementsByTagAndClassName('input', null, editor_row));
-	    elements = elements.concat(getElementsByTagAndClassName('select', null, editor_row));
-	
-	    var check_box = MochiKit.DOM.INPUT({
-                    'id': self.name  + '/' +  rec_id , 
-                    'class': 'checkbox grid-record-selector', 
-                    'type': 'checkbox', 
-                    'name': self.name, 
-                    'value': rec_id});
-
-	    var check_td = MochiKit.DOM.TD({'class': 'grid-cell selector'}, check_box);
-	    tds.push(check_td);
-	
-	    var td_edit = MochiKit.DOM.TD({'class': 'grid-cell selector', 'style': 'text-align: center; padding: 0px;'});
-        var edit = MochiKit.DOM.IMG({
-                    'class': 'listImage', 
-                    'border': '0', 
-                    'src': '/static/images/edit_inline.gif', 
-                    'onclick': 'new ListView(\''+ this.name +'\').edit('+ rec_id +')'});
-        
-        MochiKit.DOM.appendChildNodes(td_edit, edit);
-        tds.push(td_edit);
-	
-	    forEach(elem, function(e) {
-		    elem_id = getElement(e).id.replace('grid-data-column', '_terp_listfields');
-		    temp_id = elem_id;
-		
-		    for(var i=0; i<elements.length; i++) {
-			    if(getElement(elements[i]).type != 'hidden') {
-				    if(elem_id == getElement(elements[i]).id || (elem_id + '_text') == getElement(elements[i]).id || (elem_id + '_checkbox_') == getElement(elements[i]).id){
-					    parent_tag = getFirstParentByTagAndClassName(elements[i], 'td', 'grid-cell');
-					    value = getElement(elements[i]).value;
-					
-					    if (parent_tag.className.indexOf('selection') != -1){
-					       value = getElement(elements[i]).options[getElement(elements[i]).selectedIndex].text; 
-					    }
-					
-					    if (parent_tag.className.indexOf('boolean') != -1){
-                            if (getElement(elements[i]).value == 1) {
-                                value = 'Yes';
-                            } else {
-                                value = 'No';
-                            } 
-                        }
-					
-					    if(parent_tag.className.indexOf('many2one') != -1 || i == 0){
-					        var column = MochiKit.DOM.TD({'class': parent_tag.className});
-					     
-					        if(i==0) {
-					           var anchor = MochiKit.DOM.A({
-                                                       'onclick': 'do_select(\'' + rec_id + '\', \'' + self.name + '\'); return false;', 
-                                                       'href': 'javascript: void(0)'}, value);
-					        }
-					        else {
-					            var m2o_id = getElement(temp_id).value;
-					            var relation = getNodeAttribute(getElement(elements[i]), 'relation');
-					            
-					            var action = '/form/view?model=' + relation + '&id= ' + m2o_id;
-					            
-					            var anchor = MochiKit.DOM.A({'href': 'javascript: void(0)'}, value);
-					            
-					            MochiKit.DOM.setNodeAttribute(anchor, 'href', action);
-					        }
-					        MochiKit.DOM.appendChildNodes(column, anchor);
-					        tds.push(column);
-					    }
-					    else if(getElement(elements[i]).id == '_terp_listfields/sequence') {
-                            
-					        var column = MochiKit.DOM.TD({'class': parent_tag.className});
-					        var span_val = MochiKit.DOM.SPAN(value);
-					        					    
-                            var span_up = MochiKit.DOM.SPAN({'class': 'grid-cell selector'});
-                            var img_up = MochiKit.DOM.IMG({'id': rec_id + '_moveup',
-                                                        'seq': tbl.__seq, 
-                                                        'class': 'listImage', 
-                                                        'title': 'Move Up',
-                                                        'border': '0',
-                                                        'src': '/static/images/up.png',
-                                                        'onclick' : 'new ListView(\'' + self.name + '\').moveUp(' + rec_id + ')'});
-                            
-                            MochiKit.DOM.appendChildNodes(span_up, img_up);
-                                                                                
-                            var img_down = MochiKit.DOM.IMG({'id': rec_id + '_movedown',
-                                                        'seq': tbl.__seq,
-                                                        'class': 'listImage',
-                                                        'title': 'Move Down',
-                                                        'border': '0',
-                                                        'src': '/static/images/down.png',
-                                                        'onclick': 'new ListView(\'' + self.name + '\').moveDown(' + rec_id + ')'});
-                                                        
-                            var span_down = MochiKit.DOM.SPAN({'class': 'grid-cell selector'});
-                            MochiKit.DOM.appendChildNodes(span_down, img_down);
-                            
-                            MochiKit.DOM.appendChildNodes(column, span_val, span_up, span_down);
-                            
-                            tds.push(column);
-                        }					
-					    else {
-					        var col = MochiKit.DOM.TD({'class': parent_tag.className}, value);
-					        tds.push(col);
-					    }
-				    }
-			    }
-		    }
-	    });
-	
-	    var td_del = MochiKit.DOM.TD({'class': 'grid-cell selector', 'style': 'text-align: center; padding: 0px;'});
-	    var del = MochiKit.DOM.IMG({'class': 'listImage', 
-                'border': '0', 
-                'src': '/static/images/delete_inline.gif', 
-                'onclick': 'new ListView(\''+ this.name +'\').remove('+ rec_id +')'});
-	
-	    MochiKit.DOM.appendChildNodes(td_del, del);	
-	    tds.push(td_del);
-        
-	    if(record_id > 0) {
-		    var tr = MochiKit.DOM.TR({'class': 'grid-row', 'record': record_id}, tds);
-		
-		    idx = findIdentical(tbl.rows, editor_row);
-            swapDOM(tbl.last, tr);
-        	
-		    tr.style.display = '';
-		    editor_row.style.display = 'none';
-            MochiKit.DOM.setNodeAttribute(editor_row, 'record', 0);
-	    }
-	    else {
-	        var idx = 1;
-		    var tr = MochiKit.DOM.TR({'class': 'grid-row', 'record': rec_id}, tds);
-            
-            var tr_tmp = tbl.insertRow(idx + 1);
-            swapDOM(tr_tmp, tr);
-		
-		    self.create();
-	    }
     }
 
 });
@@ -499,73 +215,29 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = {};
         
-        sq = MochiKit.DOM.getNodeAttribute($(id +'_moveup'), 'seq');
-        self.seq = eval ('(' + sq + ')');
-        
         args['_terp_model'] = this.model;
         args['_terp_ids'] = this.ids;
+        args['_terp_id'] = id;
         
-        if((self.seq['prev'][1] == 0) && (self.seq['current'][1] == 0)) {
-            var req = Ajax.JSON.post('/listgrid/assign_seq', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
-        
-        if (self.seq['prev'][0]) {
-            args['_terp_prev_id'] = self.seq['prev'][0];
-            args['_terp_prev_seq'] = self.seq['prev'][1];  
-        }
-        
-        if (self.seq['current'][0]) {
-            args['_terp_cur_id'] = self.seq['current'][0];
-            args['_terp_cur_seq'] = self.seq['current'][1];
-        }
-        
-        if (self.seq['prev'][0]) {
-            var req = Ajax.JSON.post('/listgrid/moveUp', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
+        var req = Ajax.JSON.post('/listgrid/moveUp', args);
+        req.addCallback(function(){      
+            self.reload();        
+        });        
     },
 
     moveDown: function(id) {
+
         var self = this;
         var args = {};
         
-        sq = MochiKit.DOM.getNodeAttribute($(id +'_movedown'), 'seq');
-        self.seq = eval ('(' + sq + ')');
-        
         args['_terp_model'] = this.model;
+        args['_terp_ids'] = this.ids;
+        args['_terp_id'] = id;
         
-        if((self.seq['next'][1] == 0) && (self.seq['current'][1] == 0)) {
-            var req = Ajax.JSON.post('/listgrid/assign_seq', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
-        
-        if (self.seq['next'][0]) {
-            args['_terp_next_id'] = self.seq['next'][0];
-            args['_terp_next_seq'] = self.seq['next'][1];
-        }
-        
-        if (self.seq['current'][0]) {
-            args['_terp_cur_id'] = self.seq['current'][0];
-            args['_terp_cur_seq'] = self.seq['current'][1];
-        }
-        
-        if (self.seq['next'][0]) {
-            var req = Ajax.JSON.post('/listgrid/moveDown', args);
-            
-            req.addCallback(function(){      
-                self.reload();        
-            });
-        }
+        var req = Ajax.JSON.post('/listgrid/moveDown', args);
+        req.addCallback(function(){      
+            self.reload();        
+        });
     }
 });
 
@@ -582,8 +254,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         if (key.string == "KEY_ESCAPE"){
             evt.stop();
-            this.cancel_editor();
-            return;
+            return this.reload();
         }
 
         if (key.string == "KEY_ENTER"){
@@ -602,15 +273,8 @@ MochiKit.Base.update(ListView.prototype, {
                 src.onchange();
             }
             
-            var tbl = this.grid;
-            var editor_save = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-            
             evt.stop();
-            record = MochiKit.DOM.getNodeAttribute(editor_save, 'record');
-            
-            this.save(record);
-            
-            return;
+            return this.save(this.current_record);
         }
 
         var editors = getElementsByTagAndClassName(null, 'listfields', this.name);
@@ -665,41 +329,11 @@ MochiKit.Base.update(ListView.prototype, {
 MochiKit.Base.update(ListView.prototype, {
 
     create: function(){
-
-        var tbl = this.grid;
-        var editor = getElementsByTagAndClassName('tr', 'editors', tbl)[0];
-
-        MochiKit.DOM.setNodeAttribute(editor, 'record', 0);
-        
         this.edit(-1);
     },
 
     edit: function(edit_inline){
-        var self = this;
-        var args = this.makeArgs();
-        
-        var tbl = this.grid;
-
-        tbl.__seq = MochiKit.DOM.getNodeAttribute($(edit_inline +'_moveup'), 'seq') || "{}";
-        
-        // add args
-        args['_terp_source'] = this.name;
-        args['_terp_edit_inline'] = edit_inline;
-        
-        if (this.name == '_terp_list') {
-            args['_terp_search_domain'] = $('_terp_search_domain').value;
-        }
-        
-        if (!this.default_get_ctx) {
-            return self.loadEditors(edit_inline, args)
-        }
-
-        var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
-        
-        req.addCallback(function(res){
-            args['_terp_context'] = res.context;
-            self.loadEditors(edit_inline, args);
-        });
+        this.reload(edit_inline);
     },
 
     save: function(id){
@@ -759,8 +393,7 @@ MochiKit.Base.update(ListView.prototype, {
                 $(prefix + '_terp_id').value = obj.id;
                 $(prefix + '_terp_ids').value = obj.ids;
 
-                // TODO: make rows for all newly created rows
-                self.makeRow(obj.id);
+                self.reload(id > 0 ? null : -1);
              }
          });
     },
@@ -834,6 +467,10 @@ MochiKit.Base.update(ListView.prototype, {
 
     reload: function(edit_inline){
 
+        if (Ajax.COUNT > 0) {
+            return callLater(1, bind(this.reload, this), edit_inline);
+        }
+
         var self = this;
         var args = this.makeArgs();
 
@@ -882,7 +519,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             // set focus on the first field
-            var first = getElementsByTagAndClassName(null, 'listfields', this.name)[0] || null;
+            var first = getElementsByTagAndClassName(null, 'listfields', self.name)[0] || null;
             if (first) {
                 first.focus();
                 first.select();

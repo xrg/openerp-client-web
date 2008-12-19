@@ -76,6 +76,7 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
 
         self.model = attrs.get('relation', 'model')
         self.link = attrs.get('link', None)
+        self.onchange = None # override onchange in js code
         
         self.relation = attrs.get('relation', '')
         self.domain = attrs.get('domain', [])

@@ -41,32 +41,32 @@
                                     <td nowrap="nowrap" py:if="buttons.search or buttons.form or buttons.calendar or buttons.gantt or buttons.graph">
                                         <button 
                                             type="button" 
-                                            title="Tree View..." 
+                                            title="${_('Tree View...')}" 
                                             disabled="${tg.selector(not buttons.search)}" 
                                             onclick="switchView('tree')">Search</button>
                                         <button 
                                             type="button" 
-                                            title="Form View..." 
+                                            title="${_('Form View...')}" 
                                             disabled="${tg.selector(not buttons.form)}" 
                                             onclick="switchView('form')">Form</button>
                                         <button 
                                             type="button" 
-                                            title="Calendar View..." 
+                                            title="${_('Calendar View...')}" 
                                             disabled="${tg.selector(not buttons.calendar)}" 
                                             onclick="switchView('calendar')">Calendar</button>
                                         <button 
                                             type="button" 
-                                            title="Gantt View..."
+                                            title="${_('Gantt View...')}"
                                             disabled="${tg.selector(not buttons.gantt)}" 
                                             onclick="switchView('gantt')">Gantt</button>
                                         <button 
                                             type="button" 
-                                            title="Graph View..." 
+                                            title="${_('Graph View...')}" 
                                             disabled="${tg.selector(not buttons.graph)}" 
                                             onclick="switchView('graph')">Graph</button>
                                         <button 
                                             type="button" 
-                                            title="Corporate Intelligence..."
+                                            title="${_('Corporate Intelligence...')}"
                                             onclick="show_process_view()">Process</button>
                                     </td>
                                     <td align="center" valign="middle" width="16" py:if="buttons.can_attach and not buttons.has_attach">

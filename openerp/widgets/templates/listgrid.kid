@@ -23,19 +23,19 @@
                     </thead>
                     
                     <tbody>
-                        <tr py:def="make_editors(data=None)" class="grid-row editors" style="display: ${(edit_inline is -1 or 'none') or ''}" py:if="editable and editors">
+                        <tr py:def="make_editors(data=None)" class="grid-row editors" py:if="editable and editors">
                             <td py:if="selector" class="grid-cell selector">&nbsp;</td>
                             <td class="grid-cell selector" style="text-align: center; padding: 0px;">
                                 <!-- begin hidden fields -->
                                 <span py:for="field, field_attrs in hiddens" py:replace="editors[field].display()"/>
                                 <!-- end of hidden fields -->
-                                <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save_editor(this.parentNode.parentNode)"/>
+                                <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                             </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}">
                                 ${editors[field].display()}
                             </td>
                             <td class="grid-cell selector" style="text-align: center; padding: 0px;">
-                                <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').cancel_editor(this.parentNode.parentNode)"/>
+                                <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
                             </td>
                         </tr>
                 
@@ -51,12 +51,11 @@
                                 <span py:if="i==0">
                                     <a href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
                                 </span>
-                                <span py:if="i &gt; 0" py:replace="data[field].display()"/>
-                                <span py:if="editable and field == 'sequence'" class="grid-cell selector">
-                                    <img id="${data['id']}_moveup" src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" seq="${str(data['_seq'])}" onclick="new ListView('${name}').moveUp(${data['id']})"/>                                
-                                </span>
-                                <span py:if="editable and field == 'sequence'" class="grid-cell selector">
-                                    <img id="${data['id']}_movedown" src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" seq="${str(data['_seq'])}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
+                                <span py:if="i and show_links" py:replace="data[field].display()"/>
+                                <span py:if="i and not show_links" py:content="data[field]"/>
+                                <span py:if="editable and field == 'sequence'" class="selector">
+                                    <img id="${data['id']}_moveup" src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>                                
+                                    <img id="${data['id']}_movedown" src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
                                 </span>
                             </td>
                             <td py:if="buttons" class="grid-cell button" nowrap="nowrap">
@@ -66,8 +65,8 @@
                                 <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
                             </td>
                         </tr>
-                        		
-                        <tr py:replace="make_editors()" py:if="editors"/>
+                        
+                        <tr py:replace="make_editors()" py:if="edit_inline == -1"/>
                 
                         <span py:for="i, d in enumerate(data)" py:strip="">
                             <tr py:if="d['id'] == edit_inline" class="grid-row" py:replace="make_editors(d)"/>

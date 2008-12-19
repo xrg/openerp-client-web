@@ -51,6 +51,7 @@ class Reference(TinyField):
         self.domain = []
         self.context = {}
         self.validator = tiny_validators.Reference()
+        self.onchange = None # override onchange in js code
 
     def set_value(self, value):
         if value:

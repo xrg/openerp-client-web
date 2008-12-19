@@ -2,7 +2,6 @@
     <textarea py:if="editable and not inline"
         rows="10" id ="${field_id}" name="${name}" 
         class="${field_class}" kind="${kind}"
-        callback="${callback}" onchange="${onchange}"
         py:attrs='attrs' py:content="value or None">
     </textarea>
     <script type="text/javascript" py:if="editable and not inline">
@@ -14,7 +13,6 @@
     <input py:if="editable and inline"
         id ="${field_id}" name="${name}"
         type="text" class="${field_class}" kind="${kind}"  
-        callback="${callback}" onchange="${onchange}"
         value="${value or None}"
         py:attrs='attrs'/>
     

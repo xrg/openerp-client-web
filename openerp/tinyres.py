@@ -44,14 +44,14 @@ import rpc
 import pkg_resources
 
 @expose(template="openerp.templates.login")
-def _login(target, dblist=None, manage_visible=False, db= None, user=None, action=None, message=None, origArgs={}):
+def _login(target, dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
     """Login page, exposed without any controller, will be used by _check_method wrapper
     """
     url = rpc.session.get_url()
     url = str(url[:-1])
 
-    return dict(target=target, url=url, manage_visible=manage_visible, dblist=dblist, user=user, 
-            password=None, db=db, action=action, message=message, origArgs=origArgs)
+    return dict(target=target, url=url, dblist=dblist, user=user, password=None, 
+            db=db, action=action, message=message, origArgs=origArgs)
 
 def secured(fn):
     """A Decorator to make a TinyResource controller method secured.
@@ -94,7 +94,6 @@ def secured(fn):
             user = None
             password = None
             message = None
-            manage_visible = False
 
             action = kw.get('login_action')
 
@@ -120,7 +119,7 @@ def secured(fn):
                 if action == 'login':
                     message = _("Bad username or password!")
                 
-                if config.get('dblist.filter', path='admin'):
+                if config.get('dblist.filter', path='openerp-web'):
                     
                     headers = cherrypy.request.headers
                     host = headers.get('X-Forwarded-Host', headers.get('Host'))
@@ -129,10 +128,8 @@ def secured(fn):
                     base = base + '_'                
                     dblist = [d for d in dblist if d.startswith(base)]
                     
-                manage_visible = config.get('manage.visible', path='admin')
-
-                return _login(cherrypy.request.path, manage_visible=manage_visible, message=message, 
-                        dblist=dblist, db=db, user=user, action=action, origArgs=get_orig_args(kw))
+                return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, 
+                        user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies
             expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))

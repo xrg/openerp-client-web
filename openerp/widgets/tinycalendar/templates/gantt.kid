@@ -8,7 +8,7 @@
                         onclick="getCalendar('${days[0].prev().isoformat()}', null)"/>
                 </td>
                 <td nowrap="nowrap">
-                    <button type="button" title="Today..." 
+                    <button type="button" title="${_('Today...')}" 
                         onclick="getCalendar('${days[0].today().isoformat()}', 'day')">Today</button>
                 </td>
                 <td nowrap="nowrap">
@@ -17,12 +17,12 @@
                 </td>
                 <td nowrap="nowrap" width="100%"><strong>${title}</strong></td>
                 <td nowrap="nowrap">
-                    <img title="Zoom In" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-in.png" py:if="mode == 'day'"/>
-                    <img title="Zoom In" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'day'"
+                    <img title="${_('Zoom In')}" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-in.png" py:if="mode == 'day'"/>
+                    <img title="${_('Zoom In')}" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-in.png"  py:if="mode != 'day'"
                         onclick="ganttZoomIn()"/>
                     
-                    <img title="Zoom Out" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-out.png" py:if="mode == '5years'"/>
-                    <img title="Zoom Out" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != '5years'"
+                    <img title="${_('Zoom Out')}" height="16" width="16" src="/static/images/stock-disabled/gtk-zoom-out.png" py:if="mode == '5years'"/>
+                    <img title="${_('Zoom Out')}" height="16" width="16" class="button" src="/static/images/stock/gtk-zoom-out.png" py:if="mode != '5years'"
                         onclick="ganttZoomOut()"/>
                 </td>
             </tr>

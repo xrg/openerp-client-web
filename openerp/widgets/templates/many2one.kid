@@ -10,8 +10,7 @@
                     kind="${kind}" 
                     domain="${ustr(domain)}" 
                     context="${ustr(context)}" 
-                    relation="${relation}" 
-                    callback="${callback}"/>
+                    relation="${relation}"/>
                 <input type="text" py:attrs='attrs' 
                     id='${name}_text' 
                     value="${text}" 

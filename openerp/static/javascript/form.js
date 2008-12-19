@@ -35,7 +35,7 @@ function get_form_action(action, params){
     return getURL(act, params);
 }
 
-var editRecord = function(id, src){
+var editRecord = function(id, src, target){
 
     if (src && src != '_terp_list' && $('_terp_count').value != '0') {
         return new One2Many(src).edit(id);
@@ -71,7 +71,20 @@ var editRecord = function(id, src){
                 'count': count,
                 'search_domain': search_domain};
 
+    if (target == '_blank') {
+        return window.open(get_form_action('edit', args));
+    }
+
     window.location.href = get_form_action('edit', args);
+}
+
+var editSelectedRecord = function() {
+    var lst = new ListView('_terp_list');
+    var ids = lst.getSelectedRecords();
+
+    forEach(ids, function(id){
+        editRecord(id, '_terp_list', '_blank');
+    });
 }
 
 var viewRecord = function(id, src){
@@ -512,23 +525,26 @@ var onChange = function(name) {
 
     var caller = $(name);
     var callback = getNodeAttribute(caller, 'callback');
+    var change_default = getNodeAttribute(caller, 'change_default');
     
-    if (!callback)
+    if (!(callback || change_default)) {
         return;
-
+    }
+    
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
     var prefix =  caller.name.slice(0, caller.name.lastIndexOf('/')+1);
 
-    var vals = getFormData(1);
+    var params = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
     var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
 
-    vals['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
-    vals['_terp_callback'] = callback;
-    vals['_terp_model'] = model;
-    vals['_terp_context'] = context;
-
-    req = Ajax.JSON.post('/form/on_change', vals);
+    params['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
+    params['_terp_callback'] = callback;
+    params['_terp_model'] = model;
+    params['_terp_context'] = context;
+    params['_terp_value'] = caller.value;
+    
+    var req = Ajax.JSON.post(callback ? '/form/on_change' : '/form/change_default_get', params);
 
     req.addCallback(function(obj){
 
@@ -536,7 +552,7 @@ var onChange = function(name) {
             return alert(obj.error);
         }
         
-        values = obj['value'];
+        values = obj['values'];
         domains = obj['domain'];
 
         domains = domains ? domains : {};
@@ -697,7 +713,7 @@ function makeContextMenu(id, kind, relation, val) {
 
         for(var r in obj.defaults) {
             var o = obj.defaults[r];                        
-            var a = A({href: "javascript: void(0)", onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
+            var a = SPAN({onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
             rows = rows.concat(a);
         }
 
@@ -707,8 +723,7 @@ function makeContextMenu(id, kind, relation, val) {
             for(var r in obj.actions) {
                 var o = obj.actions[r];
 
-                var a = A({'class': o.action ? '' : 'disabled',
-                           'href': "javascript: void(0)", 
+                var a = SPAN({'class': o.action ? '' : 'disabled',
                            'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''}, o.text);
 
                 rows = rows.concat(a);
@@ -721,8 +736,7 @@ function makeContextMenu(id, kind, relation, val) {
             for(var r in obj.relates) {
                 var o = obj.relates[r];
 
-                var a = A({'class': o.action ? '' : 'disabled',
-                           'href': "javascript: void(0)", data: o.data,
+                var a = SPAN({'class': o.action ? '' : 'disabled',
                            'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : ''}, o.text);
 
                 rows = rows.concat(a);

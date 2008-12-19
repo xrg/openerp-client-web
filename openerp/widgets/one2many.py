@@ -82,6 +82,7 @@ class O2M(TinyCompoundWidget):
 
         self.model = attrs['relation']
         self.link = attrs['link']
+        self.onchange = None # override onchange in js code
 
         view = attrs.get('views', {})
         mode = str(attrs.get('mode', 'tree,form')).split(',')

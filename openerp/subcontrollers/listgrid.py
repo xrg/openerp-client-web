@@ -196,103 +196,62 @@ class List(controllers.Controller, TinyResource):
     
     @expose('json')
     def moveUp(self, **kw):
+
         params, data = TinyDict.split(kw)
+
+        id = params.id
+        ids = params.ids or []
+
+        if id not in ids or ids.index(id) == 0:
+            return dict()
+
+        proxy = rpc.RPCProxy(params.model)
+        ctx = rpc.session.context.copy()
+
+        prev_id = ids[ids.index(id)-1]
+
+        try:
+            res = proxy.read([id, prev_id], ['sequence'], ctx)
+            records = dict([(r['id'], r['sequence']) for r in res])
+
+            cur_seq = records[id]
+            prev_seq = records[prev_id]
+
+            proxy.write([id], {'sequence': prev_seq}, ctx)
+            proxy.write([prev_id], {'sequence': cur_seq}, ctx)
         
-        cur_seq = params.get('_terp_cur_seq')
-        prev_seq = params.get('_terp_prev_seq')
-        model = params.get('_terp_model')
-        cur_id = params.get('_terp_cur_id')
-        prev_id = params.get('_terp_prev_id')
-        
-        proxy = rpc.RPCProxy(model)
-        
-        if cur_seq == prev_seq:
-            proxy.write([prev_id], {'sequence': cur_seq + 1}, rpc.session.context)
-            proxy.write([cur_id], {'sequence': prev_seq}, rpc.session.context)
-        else:            
-            proxy.write([prev_id], {'sequence': cur_seq}, rpc.session.context)
-            proxy.write([cur_id], {'sequence': prev_seq}, rpc.session.context)
-        
-        return dict()
-    
+            return dict()
+        except Exception, e:
+            return dict(error=str(e))
+
     @expose('json')
     def moveDown(self, **kw):
         params, data = TinyDict.split(kw)
-        
-        cur_seq = params.get('_terp_cur_seq')
-        next_seq = params.get('_terp_next_seq')
-        model = params.get('_terp_model')
-        cur_id = params.get('_terp_cur_id')
-        next_id = params.get('_terp_next_id')
-        
-        proxy = rpc.RPCProxy(model)
-        
-        if cur_seq == next_seq:
-            proxy.write([next_id], {'sequence': cur_seq + 1}, rpc.session.context)
-            proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
-        else:
-            proxy.write([next_id], {'sequence': cur_seq}, rpc.session.context)
-            proxy.write([cur_id], {'sequence': next_seq}, rpc.session.context)
-            
-        return dict()
-    
-    @expose('json')
-    def assign_seq(self, **kw):
-        params, data = TinyDict.split(kw)
-        
-        model = params.get('_terp_model')
-        proxy = rpc.RPCProxy(model)
-        
-        for i, id in enumerate(params.ids):
-            proxy.write([id], {'sequence': i}, rpc.session.context)
-        
-        return dict()
-        
-    @expose('json')
-    def get_editor(self, **kw):
-        params, data = TinyDict.split(kw)
-        
-        source = (params.source or '') and str(params.source)
-        current = params.chain_get(source)
-       
-        model = params.model
-        context = params.context or {}
-        
-        if current:
-            model = current.model
-            context = current.context or {}
-      
-        proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get()
-        
-        ctx = rpc.session.context.copy()
-        ctx.update(context)
-        
-        if(params.edit_inline==-1):
-            result = proxy.default_get(fields.keys(), ctx)
-        else:
-            result = proxy.read([params.edit_inline], [], ctx)[0];
-            
-        data = {}
-        for k, v in result.items():
-            if k == 'id': continue
-            data[k] = {'type': fields[k]['type'], 'value': v}
-        
-        _form = TinyForm(**data)
-        result = _form.from_python()
-                
-        for k, v in data.items():
-            kind = v['type']
-            value = v['value']
-            
-            if kind in ('many2one', 'many2many', 'reference'):
-                result[k] = value
-                
-            if value and kind == 'many2one' and isinstance(value, int):
-                value = rpc.RPCProxy(fields[k]['relation']).name_get([value], ctx)
-                result[k] = value[0]
-                
-        return dict(source=source, res=result)
 
+        id = params.id
+        ids = params.ids or []
+
+        if id not in ids or ids.index(id) == len(ids) - 1:
+            return dict()
+
+        proxy = rpc.RPCProxy(params.model)
+        ctx = rpc.session.context.copy()
+
+        next_id = ids[ids.index(id)+1]
+
+        try:
+            res = proxy.read([id, next_id], ['sequence'], ctx)
+            records = dict([(r['id'], r['sequence']) for r in res])
+
+            cur_seq = records[id]
+            next_seq = records[next_id]
+
+            proxy.write([id], {'sequence': next_seq}, ctx)
+            proxy.write([next_id], {'sequence': cur_seq}, ctx)
+        
+            return dict()
+        except Exception, e:
+            return dict(error=str(e))
+        
 # vim: ts=4 sts=4 sw=4 si et
 

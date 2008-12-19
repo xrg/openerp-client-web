@@ -739,10 +739,13 @@ class Form(TinyCompoundWidget):
         elif 'state' in fields: # if nodefault and state get state only
             defaults = proxy.default_get(['state'], ctx)
 
+        elif 'x_state' in fields: # if nodefault and x_state get x_state only (for custom objects)
+            defaults = proxy.default_get(['x_state'], ctx)
+
         for k, v in defaults.items():
             values.setdefault(k, v)
             
-        self.state = values.get('state')
+        self.state = values.get('state', values.get('x_state'))
 
         # store current record values in request object (see, self.parse & O2M default_get_ctx)
         if not hasattr(cherrypy.request, 'terp_record'): 

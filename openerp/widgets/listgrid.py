@@ -346,24 +346,6 @@ class List(TinyCompoundWidget):
             name, field = headers[0]
             for i, row in enumerate(data):
                 cell = row[name]
-                
-                if row.get('sequence') and row.get('id'):
-                    pd = []
-                    nd = []
-                    cd = []
-                    
-                    cur = data[i]
-                    cd = [cur['id'], int(cur['sequence'].value)]
-                    
-                    if i != 0:
-                        prev = data[i-1]
-                        pd = [prev['id'], int(prev['sequence'].value)]
-                    if i != len(data)-1:
-                        next = data[i+1]
-                        nd = [next['id'], int(next['sequence'].value)]
-
-                    row['_seq'] = {'prev': pd, 'current': cd, 'next': nd}
-                    
                 if self.selectable:
                     cell.link = "javascript: void(0)"
                     cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)

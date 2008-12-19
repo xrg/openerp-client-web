@@ -64,12 +64,13 @@ class TinyWidget(object):
     model = None
     states = None
     callback = None
+    change_default = None
+    onchange = 'onChange(this)'
     kind=None
     
     field_class = None
 
     def __init__(self, attrs={}):
-
         self.string = attrs.get("string", None)
         self.model = attrs.get("model", None)
 
@@ -82,7 +83,7 @@ class TinyWidget(object):
 
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
-
+        
         self.select = eval_get(attrs, 'select', False)
         self.nolabel = eval_get(attrs, 'nolabel', False)
         self.required = eval_get(attrs, 'required', False)
@@ -104,6 +105,7 @@ class TinyWidget(object):
         self.set_state(attrs.get('state', 'draft'))
 
         self.callback = attrs.get('on_change', None)
+        self.change_default = attrs.get('change_default', False)
         self.kind = attrs.get('type', None)
 
         self.attributes = attrs.get('attrs', {})
@@ -177,20 +179,22 @@ class TinyInputWidget(TinyWidget):
     
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
-        d['attrs'] = {}
+
+        attrs = d['attrs'] = {}
+
+        attrs['change_default'] = self.change_default or None
+        attrs['callback'] = self.callback or None
+        attrs['onchange'] = self.onchange
+
         # name as field_id
         d['field_id'] = self.name
-
-        d['callback'] = self.callback
-        d['onchange'] = (self.callback or None) and 'onChange(this)'
-
         d['kind'] = self.kind
         d['editable'] = self.editable
         d['inline'] = self.inline
 
         if self.readonly:
             d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
-            d['attrs']['disabled'] = True
+            attrs['disabled'] = 'disabled'
 
         if self.required and 'requiredfield' not in d['field_class'].split(' '):
             d['field_class'] = " ".join([d['field_class'], "requiredfield"])

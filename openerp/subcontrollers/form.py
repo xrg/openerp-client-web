@@ -260,6 +260,10 @@ class Form(controllers.Controller, TinyResource):
             
         if params.view_type == 'tree':
             params.view_type = 'form'
+            
+        if not params.ids:
+            params.count = 1
+            params.offset = 0
 
         # On New O2M
         if params.source:
@@ -292,6 +296,10 @@ class Form(controllers.Controller, TinyResource):
             
         if params.view_type == 'tree':
             params.view_type = 'form'
+            
+        if not params.ids:
+            params.count = 1
+            params.offset = 0
 
         return self.create(params)
 
@@ -671,7 +679,7 @@ class Form(controllers.Controller, TinyResource):
         return self.filter(**kw)
 
     @expose()
-    def next(self, **kw):        
+    def next(self, **kw):
         if '_terp_source' in kw:
             return self.next_o2m(**kw)
 
@@ -933,7 +941,7 @@ class Form(controllers.Controller, TinyResource):
             if relation and kind in ('many2one', 'reference') and values.get(k):
                 values[k] = [values[k], tw.many2one.get_name(relation, values[k])]
 
-        result['value'] = values
+        result['values'] = values
 
         # convert domains in string to prevent them being converted in JSON
         if 'domain' in result:
@@ -988,5 +996,24 @@ class Form(controllers.Controller, TinyResource):
             if n.endswith('_notebookTGTabber'):
                 cherrypy.response.simple_cookie[n] = 0
                 
+    @expose('json')
+    def change_default_get(self, **kw):
+        params, data = TinyDict.split(kw)
+
+        ctx = rpc.session.context.copy()
+        ctx.update(params.context or {})
+
+        model = params.model
+        field = params.caller.split('/')[-1]
+        value = params.value or False
+
+        proxy = rpc.RPCProxy('ir.values')
+        values = proxy.get('default', '%s=%s' % (field, value), [(model, False)], False, ctx)
+        
+        data = {}
+        for index, fname, value in values:
+            data[fname] = value
+       
+        return dict(values=data)
 # vim: ts=4 sts=4 sw=4 si et
                 

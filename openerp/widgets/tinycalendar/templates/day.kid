@@ -5,13 +5,13 @@
         <table width="100%" class="toolbar">
             <tr>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('${day.prev().isoformat()}')"/></td>
-                <td nowrap="nowrap"><button type="button" title="Today..." disabled="${tg.selector(day == day.today())}" onclick="getCalendar('${day.today().isoformat()}', 'day')">Today</button></td>
+                <td nowrap="nowrap"><button type="button" title="${_('Today...')}" disabled="${tg.selector(day == day.today())}" onclick="getCalendar('${day.today().isoformat()}', 'day')">Today</button></td>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${day.next().isoformat()}')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${ustr(day)}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="Day Calendar..." disabled="disabled">Day</button>
-                    <button type="button" title="Week Calendar..." onclick="getCalendar(null, 'week')">Week</button>
-                    <button type="button" title="Month Calendar..." onclick="getCalendar(null, 'month')">Month</button>
+                    <button type="button" title="${_('Day Calendar...')}" disabled="disabled">Day</button>
+                    <button type="button" title="${_('Week Calendar...')}" onclick="getCalendar(null, 'week')">Week</button>
+                    <button type="button" title="${_('Month Calendar...')}" onclick="getCalendar(null, 'month')">Month</button>
                 </td>
             </tr>
         </table>
