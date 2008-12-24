@@ -119,6 +119,7 @@ PRINT_FORMATS = {
      'pdf' : 'application/pdf',
      'doc' : 'application/vnd.ms-word',
      'html': 'text/html',
+     'sxw' : 'application/vnd.sun.xml.writer'
 }
 
 def _print_data(data):
