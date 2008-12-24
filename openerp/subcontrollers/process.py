@@ -76,12 +76,10 @@ class Process(controllers.Controller, TinyResource):
             title = res['name']
         else:
             selection = proxy.search_by_model(res_model, rpc.session.context)
-            if len(selection):
-                id, title = selection[0]
-            else:
-                raise common.message(_("Process not found for the given resource."))
+            if res_model and not selection:
+                selection = proxy.search_by_model(False, rpc.session.context)
 
-        return dict(id=id, res_model=res_model, res_id=res_id, title=title)
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
     
     @expose('json')
     def get(self, id, res_model=None, res_id=False):
@@ -92,31 +90,31 @@ class Process(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy('process.process')
         graph = proxy.graph_get(id, res_model, res_id, (80, 80, 150, 100), rpc.session.context)
 
-        related = proxy.search_by_model(res_model, rpc.session.context) or {}
-        graph['related'] = dict(related)
+        related = (res_model or None) and proxy.search_by_model(res_model, rpc.session.context)
+        graph['related'] = dict(related or {})
 
-        # last modified by
-        perm = graph['perm']
-        perm['text'] = _("Last modified by:")
-
-        # formate datetime
-        try:
-            perm['date'] = format.format_datetime(perm['write_date'] or perm['create_date'])
-        except:
-            pass
-
-        for nid, node in graph['nodes'].items():
-            if not node.get('res'):
-                continue
-
-            perm = node['res']['perm']
+        def update_perm(perm):
+            perm = perm or {}
             perm['text'] = _("Last modified by:")
+            perm['value'] = perm.get('write_uid') or perm.get('create_uid')
+            if perm['value']: 
+                perm['value'] =  '%s (%s)' % (perm['value'][1], perm.get('date') or 'N/A')
+            else:
+                perm['value'] = 'N/A'
 
-            # formate datetime
             try:
                 perm['date'] = format.format_datetime(perm['write_date'] or perm['create_date'])
             except:
                 pass
+
+            return perm
+
+        # last modified by
+        graph['perm'] = update_perm(graph['perm'] or {})
+        for nid, node in graph['nodes'].items():
+            if not node.get('res'):
+                continue
+            node['res']['perm'] = update_perm(node['res']['perm'] or {})
 
         return graph
 

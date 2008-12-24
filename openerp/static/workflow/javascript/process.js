@@ -193,9 +193,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
                         notes + 
                     "</dd>"+
                     "<dt>"+ perm.text + "</dt>"+
-                    "<dd>"+
-                        (perm.write_uid[1] || perm.create_uid[1]) + ' (' + (perm.date || 'N/A') + ')' +
-                    "</dd>");
+                    "<dd>"+ perm.value + "</dd>");
 
         if (sflows.length) {
             text += "<dt>Subflows:</dt><dd>" + sflows + "</dd>";
@@ -275,7 +273,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         if (this.data.res) {
             text.innerHTML= '<b>' + this.data.res.name + '</b><br>' + (this.data.notes || '');
             var perm = this.data.res.perm || {};
-            text.title = perm.text + ":" + (perm.write_uid[1] || perm.create_uid[1]) + " (" + (perm.date || 'N/A') + ")";
+            text.title = perm.text + ": " + perm.value;
         }
 
         if (this.data.menu) {

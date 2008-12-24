@@ -117,7 +117,7 @@ class OpenO2M(Form):
         button = params.button
 
         # perform button action
-        if params.button:
+        if button:
             res = self.button_action(params)
             if res:
                 return res
@@ -127,7 +127,7 @@ class OpenO2M(Form):
         prefix = params.o2m
         current = params.chain_get(prefix)
 
-        if current and current.id:
+        if current and current.id and not button:
             params.load_counter = 2
 
         return self.create(params)

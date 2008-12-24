@@ -15,7 +15,14 @@
     <script src='/static/workflow/javascript/process_box.js'></script>
     <script src='/static/workflow/javascript/process.js'></script>
 
-    <script type="text/javascript">
+    <script type="text/javascript" py:if="selection">
+        var select_workflow = function() {
+            var id = getElement('select_workflow').value;
+            window.location.href = getURL("/process", {id: id});
+        }
+    </script>
+
+    <script type="text/javascript" py:if="not selection">
         MochiKit.DOM.addLoadEvent(function(evt){
     
             var id = parseInt(getElement('id').value) || 0;
@@ -33,7 +40,15 @@
 
 <body>
 
-<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+<fieldset py:if="selection">
+    <legend><b>Select Process</b></legend>
+    <select id="select_workflow" name="select_workflow" style="min-width: 150px">
+        <option value="${val}" py:content="text" py:for="val, text in selection"/>
+    </select>
+    <button class="button" type="button" onclick="select_workflow()">Select</button>
+</fieldset>
+
+<table py:if="not selection" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td width="100%" valign="top">
             <table width="100%" class="titlebar">

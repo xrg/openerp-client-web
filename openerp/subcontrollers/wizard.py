@@ -103,11 +103,9 @@ class Wizard(controllers.Controller, TinyResource):
                 form.screen.add_view(res)
 
                 # store datas in _terp_datas
-                form.hidden_fields = [
-                                      widgets.HiddenField(name='_terp_datas', default=ustr(datas)),
+                form.hidden_fields = [widgets.HiddenField(name='_terp_datas', default=ustr(datas)),
                                       widgets.HiddenField(name='_terp_state2', default=state),
-                                      widgets.HiddenField(name='_terp_wiz_id', default=wiz_id)
-                                  ]
+                                      widgets.HiddenField(name='_terp_wiz_id', default=wiz_id)]
 
                 buttons = res.get('state', [])
                 params.state = state
@@ -150,10 +148,13 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     def end(self, **kw):
-        
-        if 'wizard_parent_form' in cherrypy.session:
-            params = cherrypy.session.pop('wizard_parent_form')
-            return form.Form().create(params)
+
+        if 'wizard_parent_params' in cherrypy.session:
+            frm = cherrypy.session['wizard_parent_form']
+            params = cherrypy.session['wizard_parent_params']
+
+            frm = eval('cherrypy.root' + frm.replace('/', '.'))
+            return frm.create(params)
 
         raise redirect('/')
 

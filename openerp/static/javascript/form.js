@@ -207,19 +207,11 @@ var show_process_view = function() {
     if (getElement('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
-
-        if (ids.length == 0) {
-           return alert('You must select at least one record.');
-        }
-
-        id = ids[0];
+        if (ids.length)
+            id = ids[0];
     }
 
-    id = parseInt(id) || 0;
-
-    if (!id) {
-        return alert('You must save this record.');
-    }
+    id = parseInt(id) || null;
 
     window.open(getURL('/process', {res_model: model, res_id: id}));
 }
