@@ -770,10 +770,9 @@ class Form(TinyCompoundWidget):
                 field = self._make_field_widget(attrs, values.get(name))
                 self.frame.add_hidden(field)
 
-    def parse(self, prefix='', root=None, fields=None, values={}, myfields=None):
+    def parse(self, prefix='', root=None, fields=None, values={}):
 
         views = []
-        myfields = myfields or [] # check for duplicate fields
 
         for node in root.childNodes:
 
@@ -804,17 +803,17 @@ class Form(TinyCompoundWidget):
                 views += [Frame(attrs, n)]
 
             elif node.localName == 'notebook':
-                n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(attrs, n)
                 nb.name = prefix.replace('/', '_') + '_notebook'
                 views += [nb]
 
             elif node.localName == 'page':
-                n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Page(attrs, n)]
 
             elif node.localName=='group':
-                n = self.parse(prefix=prefix, root=node, fields=fields, values=values, myfields=myfields)
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Group(attrs, n)]
 
             elif node.localName == 'field':
@@ -838,14 +837,13 @@ class Form(TinyCompoundWidget):
                     except:
                         kind = 'html_tag'
 
-                if name in myfields:
+                if name in self.view_fields:
                     print "-"*30
                     print " malformed view for:", self.model
                     print " duplicate field:", name
                     print "-"*30
                     raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
-                myfields.append(name)
                 self.view_fields.append(name)
                 
                 field = self._make_field_widget(fields[name], values.get(name))
