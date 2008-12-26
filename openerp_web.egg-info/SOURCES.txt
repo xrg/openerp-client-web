@@ -623,14 +623,15 @@ openerp/static/tinycalendar/javascript/calendar_utils.js
 openerp/static/tinycalendar/javascript/calendar_week.js
 openerp/subcontrollers/__init__.py
 openerp/subcontrollers/actions.py
-openerp/subcontrollers/admin.py
 openerp/subcontrollers/attachment.py
+openerp/subcontrollers/database.py
 openerp/subcontrollers/fieldpref.py
 openerp/subcontrollers/form.py
 openerp/subcontrollers/graph.py
 openerp/subcontrollers/image.py
 openerp/subcontrollers/impex.py
 openerp/subcontrollers/listgrid.py
+openerp/subcontrollers/openm2m.py
 openerp/subcontrollers/openm2o.py
 openerp/subcontrollers/openo2m.py
 openerp/subcontrollers/preferences.py
@@ -650,7 +651,6 @@ openerp/subcontrollers/wiki.py
 openerp/subcontrollers/wizard.py
 openerp/subcontrollers/workflow.py
 openerp/subcontrollers/templates/__init__.py
-openerp/subcontrollers/templates/admin.kid
 openerp/subcontrollers/templates/calpopup.kid
 openerp/subcontrollers/templates/exp.kid
 openerp/subcontrollers/templates/fieldpref.kid
@@ -694,6 +694,8 @@ openerp/widgets/tree_view.py
 openerp/widgets/treegrid.py
 openerp/widgets/validators.py
 openerp/widgets/wiki.py
+openerp/widgets/rss/__init__.py
+openerp/widgets/rss/feedparser.py
 openerp/widgets/templates/__init__.py
 openerp/widgets/templates/binary.kid
 openerp/widgets/templates/boolean.kid
