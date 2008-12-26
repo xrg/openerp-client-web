@@ -99,17 +99,18 @@ class Process(controllers.Controller, TinyResource):
 
         def update_perm(perm):
             perm = perm or {}
+
+            try:
+                perm['date'] = format.format_datetime(perm['write_date'] or perm['create_date'])
+            except:
+                pass
+
             perm['text'] = _("Last modified by:")
             perm['value'] = perm.get('write_uid') or perm.get('create_uid')
             if perm['value']: 
                 perm['value'] =  '%s (%s)' % (perm['value'][1], perm.get('date') or 'N/A')
             else:
                 perm['value'] = 'N/A'
-
-            try:
-                perm['date'] = format.format_datetime(perm['write_date'] or perm['create_date'])
-            except:
-                pass
 
             return perm
 
