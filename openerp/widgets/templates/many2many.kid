@@ -13,13 +13,13 @@
                     </td>
                     <td width="4px"><div class="spacer"/></td>
                     <td width="32" style="padding-left: 2px;">
-                        <button type="button" id='${name}_button' py:attrs='attrs' domain="${ustr(domain)}" context="${ustr(context)}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, getElement('${name}_set').value);">
+                        <button type="button" id='_${name}_button1' py:attrs='attrs' domain="${ustr(domain)}" context="${ustr(context)}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, getElement('${name}_set').value);">
                             <img width="16" height="16" src="/static/images/stock/gtk-add.png"/>
                         </button>
                     </td>
                     <td py:if="not inline" width="4px"><div class="spacer"/></td>
                     <td py:if="not inline" width="32" style="padding-left: 2px;">
-                        <button type="button" kind="${kind}" py:attrs='attrs' onclick="remove_m2m_rec('${name}')">
+                        <button type="button" id='_${name}_button2' py:attrs='attrs' onclick="Many2Many('${name}').remove()">
                             <img src="/static/images/stock/gtk-remove.png" width="16" height="16"/>
                         </button>
                     </td>
