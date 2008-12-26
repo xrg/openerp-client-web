@@ -79,6 +79,10 @@ class Process(controllers.Controller, TinyResource):
             if res_model and not selection:
                 selection = proxy.search_by_model(False, rpc.session.context)
 
+            if len(selection) == 1:
+                id, title = selection[0]
+                selection = None
+
         return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
     
     @expose('json')
