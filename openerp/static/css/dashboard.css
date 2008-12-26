@@ -1,22 +1,23 @@
 div.dashbar {
-    min-width: 100px;
-    min-height: 250px;
+	min-width: 100px;
+	min-height: 250px;
 }
 
 div.dashbar-hover {
-    /*border: 2px dashed gray;*/
+	/*border: 2px dashed gray;*/
 }
 
 div.dashlet {
-    margin-bottom: 4px;
-    border: solid 1px #bbb8a9;
-    background-color: #ffffff;
+	margin-bottom: 4px;
+	border: solid 1px #bbb8a9;
+	background-color: #ffffff;
 }
 
 div.dashlet-title {
-    background: url(/static/images/grdline1.gif) repeat-x left top;
+	background: url(/static/images/grdline1.gif) repeat-x left top;
     padding: 2px;
     white-space: nowrap;
+    cursor: move;
     font-weight: bold;
 }
 
@@ -28,6 +29,6 @@ div.dashlet .dashlet-button {
 }
 
 div.dashlet-content {
-    padding: 2px;
+	padding: 2px;
 }
 
