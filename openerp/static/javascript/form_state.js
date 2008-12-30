@@ -238,23 +238,26 @@ var form_evalExpr = function(prefix, expr) {
 
 var form_setReadonly = function(container, field, readonly) {
     
-    if (!field)
+    var field = MochiKit.DOM.getElement(field);
+
+    if (!field) {
         return;
-    
-    field = MochiKit.DOM.getElement(field);
-    
-    if (field) {
-        field.readOnly = readonly;
-        field.disabled = readonly;
     }
+    
+    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
+
+    if (!kind && MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
+        return Many2Many(field.id).setReadonly(readonly);
+    }
+
+    field.readOnly = readonly;
+    field.disabled = readonly;
     
     if (readonly) {
         MochiKit.DOM.addElementClass(field, 'readonlyfield');
     } else {
         MochiKit.DOM.removeElementClass(field, 'readonlyfield');
     }
-    
-    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
     
     if (field.type == 'hidden' && kind == 'many2one') {
         form_setReadonly(container, getElement(field.name + '_text'), readonly);

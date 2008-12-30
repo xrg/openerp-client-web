@@ -28,6 +28,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var Many2Many = function(name) {
+
+    var elem = getElement(name);
+    if (elem.__instance) {
+        return elem.__instance;
+    }
+
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(name);
+    }
+
     this.__init__(name);
 }
 
@@ -39,7 +50,10 @@ Many2Many.prototype = {
 
         this.id = getElement(name + '_id');
         this.text = getElement(name + '_set');
-        this.btn = getElement(name + '_button');
+
+        this.btnAdd = getElement('_' + name + '_button1');
+        this.btnDel = getElement('_' + name + '_button2');
+
         this.terp_ids = getElement(name + '/_terp_ids');
         this.element = getElement(name);
 
@@ -67,10 +81,13 @@ Many2Many.prototype = {
 
             }, this));
         }
+
+        // save the reference
+        getElement(name).__instance = this;
     },
     
     onClick : function() {
-    	this.btn.onclick();
+    	this.btnAdd.onclick();
     },
 
     onChange : function() {
@@ -137,37 +154,53 @@ Many2Many.prototype = {
             this.text.value = '(' + ids.length + ')';
             this.element.value = '[' + ids + ']';
         }
+    },
+
+    remove: function() {
+        
+        var ids = eval(this.terp_ids.value);
+        var boxes = getElementsByTagAndClassName('input', 'grid-record-selector', this.name + '_grid');
+    
+        boxes = MochiKit.Base.filter(function(box) {
+            return box && (box.checked);
+        }, boxes);
+    
+        if(boxes.length <= 0)
+            return;
+    
+        boxes = MochiKit.Base.map(function(box) {
+            return parseInt(box.value);
+        }, boxes);
+    
+        ids = MochiKit.Base.filter(function(id) {
+            return MochiKit.Base.findIdentical(boxes, id) == -1;
+        }, ids);
+    
+        this.terp_ids.value = '[' + ids.join(',') + ']';
+        this.id.value = '[' + ids.join(',') + ']';
+
+        this.onChange();
+    },
+
+    setReadonly: function(readonly) {
+
+        this.id.readOnly = readonly;
+        this.id.disabled = readonly;
+        this.text.readOnly = readonly;
+        this.text.disabled = readonly;
+        
+        if (readonly) {
+            MochiKit.DOM.addElementClass(this.id, 'readonlyfield');
+            MochiKit.DOM.addElementClass(this.text, 'readonlyfield');
+            this.btnAdd.parentNode.style.display = 'none';
+            this.btnDel.parentNode.style.display = 'none';
+        } else {
+            MochiKit.DOM.removeElementClass(this.id, 'readonlyfield');
+            MochiKit.DOM.removeElementClass(this.text, 'readonlyfield');
+            this.btnAdd.parentNode.style.display = '';
+            this.btnDel.parentNode.style.display = '';
+        }
     }
-}
-
-function remove_m2m_rec(name) {
-
-    var elem = MochiKit.DOM.getElement(name + '_id');
-    var terp_ids =  MochiKit.DOM.getElement(name + '/_terp_ids');
-    
-    var ids = eval(terp_ids.value);
-    var boxes = getElementsByTagAndClassName('input', 'grid-record-selector', name + '_grid');
-    
-    boxes = MochiKit.Base.filter(function(box) {
-        return box && (box.checked);
-    }, boxes);
-    
-    if(boxes.length <= 0)
-        return;
-    
-    boxes = MochiKit.Base.map(function(box) {
-        return parseInt(box.value);
-    }, boxes);
-    
-    ids = MochiKit.Base.filter(function(id) {
-        return MochiKit.Base.findIdentical(boxes, id) == -1;
-    }, ids);
-    
-    terp_ids.value = '[' + ids.join(',') + ']';
-    elem.value = '[' + ids.join(',') + ']';
-    elem.onchange();
-
-    return;
 }
 
 // vim: ts=4 sts=4 sw=4 si et
