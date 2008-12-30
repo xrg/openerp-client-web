@@ -32,9 +32,7 @@ This module implementes the RootController of the TurboGears application.
 For more information on TG controllers, please see the TG docs.
 """
 
-import sys
-import os.path
-import cgitb
+import os
 
 from turbogears import controllers
 from turbogears import expose
@@ -101,31 +99,9 @@ class Root(controllers.RootController, TinyResource):
         return self.user_action('menu_id')
 
     def _cp_on_error(self, *args, **kw):
-        etype, value, tb = sys.exc_info()
-
-        if isinstance(value, common.TinyException) or not cherrypy.config.get('server.environment') == 'development':
-            cherrypy.session._last_error = value
-            raise redirect('/error')
-        else:
-            message = cgitb.html((etype, value, tb))
-            cherrypy.response.headers['Content-Type'] = 'text/html'
-            cherrypy.response.body = [message]
-
-    @expose(template="openerp.templates.error")
-    @unsecured
-    def error(self):
-
-        title = "Internal error!"
-        error = "Unknown error!"
-
-        if hasattr(cherrypy.session, '_last_error'):
-            error = cherrypy.session._last_error
-
-        if isinstance(error, common.TinyException):
-            title = error.title
-            error = error.message
-
-        return dict(title=title, message=error)
+        message = subcontrollers.error_page.render()
+        cherrypy.response.headers['Content-Type'] = 'text/html'
+        cherrypy.response.body = [message]
 
     @expose(template="openerp.templates.login")
     @unsecured
@@ -225,5 +201,7 @@ class Root(controllers.RootController, TinyResource):
     workflowlist = subcontrollers.workflow.WorkflowList()
     process = subcontrollers.process.Process()
     wiki = subcontrollers.wiki.WikiView()
+    error = subcontrollers.error_page.ErrorPage()
+
 # vim: ts=4 sts=4 sw=4 si et
 
