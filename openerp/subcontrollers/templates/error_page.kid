@@ -12,16 +12,14 @@
      <table class="view" border="0" width="100%">
         <tr py:if="error">
             <td valign="top">
-                <form id="view_form" action="/error/submit">
-                    <div class='tabber'>
-                        <div class='tabbertab' title="Maintenance">
-                            <div>TODO: maintenance</div>
-                        </div>
-                        <div class='tabbertab' title="Error">
-                            <div py:content="message"/>
-                        </div>
+                <div class='tabber'>
+                    <div class='tabbertab' title="Maintenance">
+                        <div>TODO: maintenance</div>
                     </div>
-                </form>
+                    <div class='tabbertab' title="Error">
+                        <div py:content="message"/>
+                    </div>
+                </div>
             </td>
         </tr>
         <tr py:if="not error">

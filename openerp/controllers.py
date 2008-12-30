@@ -99,7 +99,7 @@ class Root(controllers.RootController, TinyResource):
         return self.user_action('menu_id')
 
     def _cp_on_error(self, *args, **kw):
-        message = subcontrollers.error_page.render()
+        message = self.errorpage.render()
         cherrypy.response.headers['Content-Type'] = 'text/html'
         cherrypy.response.body = [message]
 
@@ -201,7 +201,7 @@ class Root(controllers.RootController, TinyResource):
     workflowlist = subcontrollers.workflow.WorkflowList()
     process = subcontrollers.process.Process()
     wiki = subcontrollers.wiki.WikiView()
-    error = subcontrollers.error_page.ErrorPage()
+    errorpage = subcontrollers.error_page.ErrorPage()
 
 # vim: ts=4 sts=4 sw=4 si et
 

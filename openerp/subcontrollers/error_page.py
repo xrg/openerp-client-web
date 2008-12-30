@@ -42,25 +42,29 @@ from openerp import common
 
 import openerp.widgets as tw
 
-def render():
-    etype, value, tb = sys.exc_info()
-
-    if isinstance(value, common.TinyException):
-        return _ep.render(title=value.title, message=value.message, error=isinstance(value, common.TinyError))
-
-    return cgitb.html((etype, value, tb))
-
 class ErrorPage(controllers.Controller):
 
-    _nb = tw.form.Notebook({}, [])
+    nb = tw.form.Notebook({}, [])
 
     @expose()
     def index(self, *args, **kw):
         raise redirect('/')
 
+    def render(self):
+        etype, value, tb = sys.exc_info()
+
+        if not isinstance(value, common.TinyException):
+            return cgitb.html((etype, value, tb))
+
+        return self.__render(value)
+
     @expose(template="openerp.subcontrollers.templates.error_page")
-    def render(self, title, message, error=None):
-        return dict(title=title, message=message, error=error, nb=self._nb)
+    def __render(self, value):
+        title=value.title
+        message=value.message
+        error=isinstance(value, common.TinyError)
+
+        return dict(title=title, message=message, error=error, nb=self.nb)
 
     @expose('json')
     def submit(self, **kw):
