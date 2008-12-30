@@ -17,8 +17,10 @@
 
     <script type="text/javascript" py:if="selection">
         var select_workflow = function() {
-            var id = getElement('select_workflow').value;
-            window.location.href = getURL("/process", {id: id});
+            var id = parseInt(getElement('select_workflow').value) || null;
+            var res_model = getElement('res_model').value || null;
+            var res_id = parseInt(getElement('res_id').value) || null;
+            window.location.href = getURL("/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
 
@@ -40,13 +42,17 @@
 
 <body>
 
-<fieldset py:if="selection">
-    <legend><b>Select Process</b></legend>
-    <select id="select_workflow" name="select_workflow" style="min-width: 150px">
-        <option value="${val}" py:content="text" py:for="val, text in selection"/>
-    </select>
-    <button class="button" type="button" onclick="select_workflow()">Select</button>
-</fieldset>
+<div py:if="selection" class="view">
+    <input type="hidden" id="res_model" value="$res_model"/>
+    <input type="hidden" id="res_id" value="$res_id"/>
+    <fieldset>
+        <legend><b>Select Process</b></legend>
+        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
+            <option value="${val}" py:content="text" py:for="val, text in selection"/>
+        </select>
+        <button class="button" type="button" onclick="select_workflow()">Select</button>
+    </fieldset>
+</div>
 
 <table py:if="not selection" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
