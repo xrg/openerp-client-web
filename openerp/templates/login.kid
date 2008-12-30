@@ -8,6 +8,13 @@
 
 <body>
     <div class="view">
+
+        <br/>
+
+        <center>
+            <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" py:replace="XML(tg.root.developped_by())"/>
+        </center>
+
         <br/>
 
         <form action="${target}" method="post" name="loginform">
@@ -54,12 +61,6 @@
         </form>
 
         <div class="box2 message" id="message" py:if="message" py:content="message"/>
-
-        <br/>
-
-        <center>
-            <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" py:replace="XML(tg.root.developped_by())"/>
-        </center>
     </div>
 </body>
 
