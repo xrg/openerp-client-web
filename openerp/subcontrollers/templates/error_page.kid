@@ -10,19 +10,66 @@
 <body>
 
      <table class="view" border="0" width="100%">
-        <tr py:if="error">
+        <tr py:if="maintenance_info">
             <td valign="top">
+<form id="view_form" onsubmit="return false;">
                 <div class='tabber'>
                     <div class='tabbertab' title="Maintenance">
-                        <div>TODO: maintenance</div>
+                            <pre py:if="'invalid' in maintenance_info">
+<b>An unknown error has been reported.</b><br/>
+
+<b>You do not have a valid Open ERP maintenance contract !</b><br/><br/>
+If you are using Open ERP in production, it is highly suggested to subscribe
+a maintenance program.
+
+The Open ERP maintenance contract provides you a bugfix guarantee and an
+automatic migration system so that we can fix your problems within a few
+hours. If you had a maintenance contract, this error would have been sent
+to the quality team of the Open ERP editor.
+
+The maintenance program offers you:
+* Automatic migrations on new versions,
+* A bugfix guarantee,
+* Monthly announces of potential bugs and their fixes,
+* Security alerts by email and automatic migration,
+* Access to the customer portal.
+
+You can use the link bellow for more information. The detail of the error
+is displayed on the second tab.
+                            </pre>
+                            <pre py:if="'partial' in maintenance_info">
+<b>An unknown error has been reported.</b><br/><br/>
+
+Your maintenance contract does not cover all modules installed in your system !
+If you are using Open ERP in production, it is highly suggested to upgrade your
+contract.
+
+If you have developped your own modules or installed third party module, we
+can provide you an additional maintenance contract for these modules. After
+having reviewed your modules, our quality team will ensure they will migrate
+automatically for all futur stable versions of Open ERP at no extra cost.
+
+Here is the list of modules not covered by your maintenance contract:
+
+<span py:strip="" py:for="mod in maintenance_info['modules']" py:content="' * %s\n' % mod"/>
+You can use the link bellow for more information. The detail of the error
+is displayed on the second tab.
+                            </pre>
+                            <div py:if="'full' in maintenance_info">
+                                TODO: maintenance form
+                            </div>
                     </div>
-                    <div class='tabbertab' title="Error">
-                        <div py:content="message"/>
+                    <div class='tabbertab' title="Application Error!">
+                        <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20" py:content="error"/>
+                        <script type="text/javascript">
+                            new ResizableTextarea('error');
+                        </script>
                     </div>
                 </div>
+</form>
             </td>
         </tr>
-        <tr py:if="not error">
+        <tr py:if="not maintenance_info">
             <td valign="top">
                 <table border="0" cellpadding="0" cellspacing="0" align="center">
                     <tr><td height="15px"/></tr>
@@ -32,7 +79,7 @@
                     <tr><td height="5px"/></tr>
                     <tr>
                         <td class="errorbox" style="padding: 30px;">
-                            <pre py:content="message"/>
+                            <pre py:content="error"/>
                         </td>
                     </tr>
                     <tr><td height="5px"/></tr>

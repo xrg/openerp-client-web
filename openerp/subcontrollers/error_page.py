@@ -45,6 +45,7 @@ import openerp.widgets as tw
 class ErrorPage(controllers.Controller):
 
     nb = tw.form.Notebook({}, [])
+    ta = tw.form.Text({})
 
     @expose()
     def index(self, *args, **kw):
@@ -61,10 +62,24 @@ class ErrorPage(controllers.Controller):
     @expose(template="openerp.subcontrollers.templates.error_page")
     def __render(self, value):
         title=value.title
-        message=value.message
-        error=isinstance(value, common.TinyError)
+        error=value.message
+        maintenance_info = {}
 
-        return dict(title=title, message=message, error=error, nb=self.nb)
+        if isinstance(value, common.TinyError):
+            proxy = rpc.RPCProxy('maintenance.contract')
+
+            contract_ids = proxy.search([])
+            if not contract_ids:
+                maintenance_info['invalid'] = 1
+            else:
+                contract = proxy.read(contract_ids, [])[0]
+                if contract['kind'] != 'full':
+                    maintenance_info['partial'] = 1
+                    maintenance_info['modules'] = contract['module_ids']
+                else:
+                    maintenance_info['full'] = 1
+
+        return dict(title=title, error=error, maintenance_info=maintenance_info, nb=self.nb, ta=self.ta)
 
     @expose('json')
     def submit(self, **kw):

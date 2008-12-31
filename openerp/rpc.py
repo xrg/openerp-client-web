@@ -44,14 +44,20 @@ class RPCException(Exception):
     def __init__(self, code, backtrace):
 
         self.code = code
-        lines = code.split('\n')
+        self.args = backtrace
+        if hasattr(code, 'split'):
+            lines = code.split('\n')
 
-        self.type = lines[0].split(' -- ')[0]
-        self.message = ''
-        if len(lines[0].split(' -- ')) > 1:
-            self.message = lines[0].split(' -- ')[1]
+            self.type = lines[0].split(' -- ')[0]
+            self.message = ''
+            if len(lines[0].split(' -- ')) > 1:
+                self.message = lines[0].split(' -- ')[1]
 
-        self.data = '\n'.join(lines[2:])
+            self.data = '\n'.join(lines[2:])
+        else:
+            self.type = 'error'
+            self.message = backtrace
+            self.data = backtrace
 
         self.backtrace = backtrace
 
@@ -167,8 +173,6 @@ class XMLRPCGateway(RPCGateway):
             if not noauth:
                 args = (self.db, self.uid, self.password) + args
             return getattr(sock, method)(*args)
-        except socket.error, (e1, e2):
-            raise common.error(_('Connection refused!'), e1, e2)
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
 
@@ -222,10 +226,7 @@ class NETRPCGateway(RPCGateway):
             res = sock.myreceive()
             sock.disconnect()
             return res
-        
-        except socket.error, (e1, e2):
-            raise common.error(_('Connection refused!'), e2, e1)
-        
+
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
         
@@ -281,7 +282,7 @@ class RPCSession(object):
             self.gateway = NETRPCGateway(host, port)
 
         else:
-            raise common.error(_("Connection refused!"), _("Unsupported protocol: %s" % protocol))
+            raise RPCException(69, _("Connection refused!"))
 
     def __getattr__(self, name):
         try:
@@ -399,7 +400,7 @@ class RPCSession(object):
     def execute(self, obj, method, *args):
 
         if not self.is_logged():
-            raise common.error(_('Authorization Error!'), _('Not logged...'))
+            raise common.warning(_('Not logged...'), _('Authorization Error!'))
 
         try:
             
@@ -409,14 +410,14 @@ class RPCSession(object):
             return self.__convert(result)
 
         except socket.error, (e1, e2):
-            raise common.error(_('Connection refused!'), e1, e2)
-        
+            raise RPCException(69, _('Connection refused!'))
+
         except RPCException, err:
 
             if err.type in ('warning', 'UserError'):
                 raise common.warning(err.data)
             else:
-                raise common.error(_('Application Error!'), err.code, err.backtrace)
+                raise common.error(_('Application Error!'), err.backtrace)
             
         except Exception, e:
             raise common.error(_('Application Error!'), str(e))
