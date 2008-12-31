@@ -282,7 +282,7 @@ class RPCSession(object):
             self.gateway = NETRPCGateway(host, port)
 
         else:
-            raise RPCException(69, _("Connection refused!"))
+            raise common.message(_("Connection refused!"))
 
     def __getattr__(self, name):
         try:
@@ -410,7 +410,7 @@ class RPCSession(object):
             return self.__convert(result)
 
         except socket.error, (e1, e2):
-            raise RPCException(69, _('Connection refused!'))
+            raise common.message(_('Connection refused!'))
 
         except RPCException, err:
 
