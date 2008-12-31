@@ -63,23 +63,13 @@ class ErrorPage(controllers.Controller):
     def __render(self, value):
         title=value.title
         error=value.message
-        maintenance_info = {}
+        maintenance = None
 
         if isinstance(value, common.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
+            maintenance = proxy.status()
 
-            contract_ids = proxy.search([])
-            if not contract_ids:
-                maintenance_info['invalid'] = 1
-            else:
-                contract = proxy.read(contract_ids, [])[0]
-                if contract['kind'] != 'full':
-                    maintenance_info['partial'] = 1
-                    maintenance_info['modules'] = contract['module_ids']
-                else:
-                    maintenance_info['full'] = 1
-
-        return dict(title=title, error=error, maintenance_info=maintenance_info, nb=self.nb, ta=self.ta)
+        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb, ta=self.ta)
 
     @expose('json')
     def submit(self, **kw):

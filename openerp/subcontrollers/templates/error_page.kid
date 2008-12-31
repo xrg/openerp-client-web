@@ -10,12 +10,12 @@
 <body>
 
      <table class="view" border="0" width="100%">
-        <tr py:if="maintenance_info">
+        <tr py:if="maintenance">
             <td valign="top">
 <form id="view_form" onsubmit="return false;">
                 <div class='tabber'>
                     <div class='tabbertab' title="Maintenance">
-                            <pre py:if="'invalid' in maintenance_info">
+                            <pre py:if="maintenance['status'] == 'none'">
 <b>An unknown error has been reported.</b><br/>
 
 <b>You do not have a valid Open ERP maintenance contract !</b><br/><br/>
@@ -37,7 +37,7 @@ The maintenance program offers you:
 You can use the link bellow for more information. The detail of the error
 is displayed on the second tab.
                             </pre>
-                            <pre py:if="'partial' in maintenance_info">
+                            <pre py:if="maintenance['status'] == 'partial'">
 <b>An unknown error has been reported.</b><br/><br/>
 
 Your maintenance contract does not cover all modules installed in your system !
@@ -51,11 +51,11 @@ automatically for all futur stable versions of Open ERP at no extra cost.
 
 Here is the list of modules not covered by your maintenance contract:
 
-<span py:strip="" py:for="mod in maintenance_info['modules']" py:content="' * %s\n' % mod"/>
+<span py:strip="" py:for="mod in maintenance['uncovered_modules']" py:content="' * %s\n' % mod"/>
 You can use the link bellow for more information. The detail of the error
 is displayed on the second tab.
                             </pre>
-                            <div py:if="'full' in maintenance_info">
+                            <div py:if="maintenance['status'] == 'full'">
                                 TODO: maintenance form
                             </div>
                     </div>
@@ -69,7 +69,7 @@ is displayed on the second tab.
 </form>
             </td>
         </tr>
-        <tr py:if="not maintenance_info">
+        <tr py:if="not maintenance">
             <td valign="top">
                 <table border="0" cellpadding="0" cellspacing="0" align="center">
                     <tr><td height="15px"/></tr>
