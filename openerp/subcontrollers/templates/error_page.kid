@@ -5,6 +5,25 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
     <title>${title}</title>
+    <script type="text/javascript">
+        var send_maintenance_request = function() {
+
+            var args = {
+                explanation: getElement('explanation').value,
+                remarks: getElement('remarks').value,
+                tb: getElement('error').value
+            }
+
+            var req = Ajax.JSON.post('/errorpage/submit', args);
+
+            req.addCallback(function(obj){
+                if (obj.message) {
+                    return alert(obj.message);
+                }
+                return history.length > 1 ? history.back() : window.close()
+            });
+        }
+    </script>
  </head>
 
 <body>
@@ -56,7 +75,38 @@ You can use the link bellow for more information. The detail of the error
 is displayed on the second tab.
                             </pre>
                             <div py:if="maintenance['status'] == 'full'">
-                                TODO: maintenance form
+                                <table width="100%">
+                                    <tr>
+                                        <td colspan="2" align="center">
+                                            <strong>Maintenance contract.</strong><br/><br/>
+                                            <em>Your request will be sent to OpenERP and maintenance team will reply you shortly.</em>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label" width="5%" nowrap="nowrap">Explain what you did:</td>
+                                        <td class="item">
+                                            <textarea id="explanation" class="text" rows="10"/>
+                                            <script type="text/javascript">
+                                                new ResizableTextarea('explanation');
+                                            </script>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label">Other Comments:</td>
+                                        <td class="item">
+                                            <textarea id="remarks" class="text" rows="10"/>
+                                            <script type="text/javascript">
+                                                new ResizableTextarea('remarks');
+                                            </script>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <button class="button" type="button" onclick="send_maintenance_request()">Send to Maintenance Team</button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                     </div>
                     <div class='tabbertab' title="Application Error!">

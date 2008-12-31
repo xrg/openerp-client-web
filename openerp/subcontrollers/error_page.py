@@ -72,9 +72,12 @@ class ErrorPage(controllers.Controller):
         return dict(title=title, error=error, maintenance=maintenance, nb=self.nb, ta=self.ta)
 
     @expose('json')
-    def submit(self, **kw):
-        #TODO: submit maintenance request
-        return dict()
+    def submit(self, tb, explanation, remarks):
+        res = rpc.RPCProxy('maintenance.contract').send(tb, explanation, remarks)
+        if res:
+            return dict(message=_('Your problem has been sent to the quality team!\nWe will recontact you after analysing the problem.'))
+        else:
+            return dict(message=_('Your problem could not be sent to the quality team!\nPlease report this error manually at %s') % ('http://openerp.com/report_bug.html'))
 
 _ep = ErrorPage()
 
