@@ -98,7 +98,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
         return Tree().create(params)
 
     else:
-        return common.error(_('Error'), _("Invalid View!"))
+        raise common.message(_("Invalid View!"))
 
 def execute_wizard(name, **datas):
     """Executes given wizard with the given data
@@ -125,7 +125,8 @@ PRINT_FORMATS = {
 def _print_data(data):
     
     if 'result' not in data:
-        common.message(_('Error no report'))
+        raise common.message(_('Error no report'))
+
     if data.get('code','normal')=='zlib':
         import zlib
         content = zlib.decompress(base64.decodestring(data['result']))
@@ -165,7 +166,7 @@ def execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise common.error(_('Error'), _('Printing aborted, too long delay!'))
+                raise common.message(_('Printing aborted, too long delay!'))
         
         # report name
         report_name = 'report'
@@ -296,7 +297,7 @@ def execute_url(**data):
     url = data.get('url') or ''
         
     if not ('://' in url or url.startswith('/')):
-        raise common.error(_('Error'), _('Relative URLs are not supported!'))
+        raise common.message(_('Relative URLs are not supported!'))
     
     raise redirect(url)
 
@@ -309,7 +310,7 @@ def get_action_type(act_id):
     res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
 
     if not len(res):
-        raise common.error(_('Error'), _('Action not found!'))
+        raise common.message(_('Action not found!'))
 
     return res[0]['type']
 

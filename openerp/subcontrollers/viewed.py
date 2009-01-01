@@ -217,7 +217,7 @@ class ViewEd(controllers.Controller, TinyResource):
             pass
         
         if isinstance(view_id, basestring) or not view_id:
-            raise common.error(_("Error!"), _("Invalid view id."))
+            raise common.message(_("Invalid view id."))
         
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read([view_id], ['model', 'type'])[0]
