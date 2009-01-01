@@ -17,9 +17,15 @@
             var req = Ajax.JSON.post('/errorpage/submit', args);
 
             req.addCallback(function(obj){
-                if (obj.message) {
-                    return alert(obj.message);
+
+                if (obj.error) {
+                    return alert(obj.error);
                 }
+                
+                if (obj.message) {
+                    alert(obj.message)
+                }
+
                 return history.length > 1 ? history.back() : window.close()
             });
         }
