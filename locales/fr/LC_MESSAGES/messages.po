@@ -22,7 +22,7 @@ msgstr ""
 msgid "Could not find configuration file: %s"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:230 openerp/subcontrollers/form.py:872
+#: openerp/subcontrollers/database.py:230 openerp/subcontrollers/form.py:873
 msgid "Error"
 msgstr "Erreur"
 
@@ -34,11 +34,11 @@ msgstr "Avertissement"
 msgid "Information"
 msgstr "Information"
 
-#: openerp/controllers.py:83
+#: openerp/controllers.py:81
 msgid "Access Denied!"
 msgstr "Acces refusé!"
 
-#: openerp/controllers.py:83
+#: openerp/controllers.py:81
 msgid ""
 "You can not log into the system!\n"
 "Ask the administrator to verify\n"
@@ -48,15 +48,15 @@ msgstr ""
 "Demandez l'administrateur de vérifier!\n"
 "Vous avez une action définie pour votre utilisateur."
 
-#: openerp/controllers.py:141 openerp/tinyres.py:117
+#: openerp/controllers.py:117 openerp/tinyres.py:117
 msgid "Could not connect to server!"
 msgstr "Impossible de se connecter au serveur!"
 
-#: openerp/rpc.py:171 openerp/rpc.py:227 openerp/rpc.py:284 openerp/rpc.py:412
+#: openerp/rpc.py:285 openerp/rpc.py:413
 msgid "Connection refused!"
 msgstr "Connexion refusée!"
 
-#: openerp/rpc.py:369
+#: openerp/rpc.py:370
 msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
@@ -64,11 +64,11 @@ msgstr ""
 "Vous avez sélectionné un fuseau horaire mais OpenERP n'a pas trouvé la bibliothèque pytz.\n"
 "La fonctionnalité fuseau horaire sera hors service."
 
-#: openerp/rpc.py:402
+#: openerp/rpc.py:403
 msgid "Authorization Error!"
 msgstr "Erreur d'autorisation!"
 
-#: openerp/rpc.py:402
+#: openerp/rpc.py:403
 msgid "Not logged..."
 msgstr "Non connecté..."
 
@@ -80,27 +80,27 @@ msgstr "Erreur d'application!"
 msgid "Invalid View!"
 msgstr "Vue Invalide!"
 
-#: openerp/subcontrollers/actions.py:127
+#: openerp/subcontrollers/actions.py:128
 msgid "Error no report"
 msgstr "Erreur pas de rapport"
 
-#: openerp/subcontrollers/actions.py:152
+#: openerp/subcontrollers/actions.py:153
 msgid "Nothing to print!"
 msgstr "Rien à  imprimer!"
 
-#: openerp/subcontrollers/actions.py:167
+#: openerp/subcontrollers/actions.py:168
 msgid "Printing aborted, too long delay!"
 msgstr "Impression annulée, délai dépassé!"
 
-#: openerp/subcontrollers/actions.py:298
+#: openerp/subcontrollers/actions.py:299
 msgid "Relative URLs are not supported!"
 msgstr ""
 
-#: openerp/subcontrollers/actions.py:311 openerp/widgets/action.py:60
+#: openerp/subcontrollers/actions.py:312 openerp/widgets/action.py:60
 msgid "Action not found!"
 msgstr "Action non trouvée!"
 
-#: openerp/subcontrollers/actions.py:357
+#: openerp/subcontrollers/actions.py:358
 msgid "No action defined!"
 msgstr "Action n'est pas définie!"
 
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Create new database"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:105 openerp/templates/error.kid:button
+#: openerp/subcontrollers/templates/selection.kid:button
 msgid "OK"
 msgstr "OK"
 
@@ -157,7 +157,7 @@ msgid "Backup database"
 msgstr ""
 
 #: openerp/subcontrollers/templates/database.kid:button
-msgid "Change Administrator Password"
+msgid "Restore database"
 msgstr ""
 
 #: openerp/subcontrollers/database.py:97
@@ -165,7 +165,7 @@ msgid "File:"
 msgstr "Fichier:"
 
 #: openerp/subcontrollers/templates/database.kid:button
-msgid "Restore database"
+msgid "Change Administrator Password"
 msgstr ""
 
 #: openerp/subcontrollers/database.py:106
@@ -236,23 +236,35 @@ msgstr ""
 msgid "Error, password not changed."
 msgstr "Erreur, mot de passe n'a pas changé."
 
-#: openerp/subcontrollers/form.py:474
+#: openerp/subcontrollers/error_page.py:79
+msgid ""
+"Your problem has been sent to the quality team!\n"
+"We will recontact you after analysing the problem."
+msgstr ""
+
+#: openerp/subcontrollers/error_page.py:81
+msgid ""
+"Your problem could not be sent to the quality team!\n"
+"Please report this error manually at %s"
+msgstr ""
+
+#: openerp/subcontrollers/form.py:475
 msgid "Invalid button type"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:787 openerp/subcontrollers/tree.py:226
+#: openerp/subcontrollers/form.py:788 openerp/subcontrollers/tree.py:226
 msgid "No record selected!"
 msgstr "Aucun enregistrement sélectionné!"
 
-#: openerp/subcontrollers/form.py:792
+#: openerp/subcontrollers/form.py:793
 msgid "Print Screen"
 msgstr "Capture d'écran"
 
-#: openerp/subcontrollers/form.py:809
+#: openerp/subcontrollers/form.py:810
 msgid "You must save this record to use the sidebar button!"
 msgstr "Vous devriez sauver cet enregistrement pour utiliser la barre de raccourcie!"
 
-#: openerp/subcontrollers/form.py:872
+#: openerp/subcontrollers/form.py:873
 msgid "Wrong on_change trigger: %s"
 msgstr "Mauvais on_change gâchette: %s"
 
@@ -316,11 +328,7 @@ msgstr "Préférences"
 msgid "Select Workflow"
 msgstr ""
 
-#: openerp/subcontrollers/process.py:82
-msgid "Process not found for the given resource."
-msgstr ""
-
-#: openerp/subcontrollers/process.py:100 openerp/subcontrollers/process.py:113
+#: openerp/subcontrollers/process.py:108
 msgid "Last modified by:"
 msgstr ""
 
@@ -404,15 +412,15 @@ msgstr ""
 msgid "Unable to update the view."
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:862
+#: openerp/subcontrollers/viewed.py:864
 msgid "New Window"
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:874
+#: openerp/subcontrollers/viewed.py:876
 msgid "Cancel Button"
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:874
+#: openerp/subcontrollers/viewed.py:876
 msgid "Save Button"
 msgstr ""
 
@@ -432,7 +440,7 @@ msgstr "Mot de passe ou compte erroné!"
 msgid "%.2f Kb"
 msgstr ""
 
-#: openerp/widgets/form.py:843 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:845 openerp/widgets/listgrid.py:282
 msgid "Invalid view, duplicate field: %s"
 msgstr ""
 
@@ -721,8 +729,12 @@ msgid "100"
 msgstr "100"
 
 #: openerp/widgets/templates/reference.kid:img
-msgid "Search / Open a resource"
-msgstr "Recherche / Ouvrir une ressource"
+msgid "Open a resource"
+msgstr ""
+
+#: openerp/widgets/templates/reference.kid:img
+msgid "Open"
+msgstr ""
 
 #: openerp/widgets/templates/reference.kid:img
 msgid "Search"
@@ -819,14 +831,6 @@ msgstr "Enregistrer sous"
 #: openerp/widgets/templates/binary.kid:button
 msgid "Clear"
 msgstr "Effacer"
-
-#: openerp/widgets/templates/many2one.kid:img
-msgid "Open a resource"
-msgstr ""
-
-#: openerp/widgets/templates/many2one.kid:img
-msgid "Open"
-msgstr ""
 
 #: openerp/widgets_search/templates/search.kid:div
 msgid "Basic Search"
@@ -1054,6 +1058,10 @@ msgstr "Serveur courant:"
 msgid "Login"
 msgstr "Ouverture"
 
+#: openerp/templates/login.kid:img
+msgid "Developped by Axelor and Tiny"
+msgstr "Développée par Axelor et Tiny"
+
 #: openerp/templates/login.kid:div
 msgid "Welcome to OpenERP"
 msgstr "Bienvenue à OpenERP"
@@ -1073,10 +1081,6 @@ msgstr "Utilisateur:"
 #: openerp/templates/login.kid:button
 msgid "Databases"
 msgstr ""
-
-#: openerp/templates/login.kid:img
-msgid "Developped by Axelor and Tiny"
-msgstr "Développée par Axelor et Tiny"
 
 #: openerp/subcontrollers/templates/translator.kid:title
 msgid "Add Translations"
@@ -1342,6 +1346,75 @@ msgstr ""
 msgid "Priority:"
 msgstr ""
 
+#: openerp/subcontrollers/templates/error_page.kid:b
+msgid "An unknown error has been reported."
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:b
+msgid "You do not have a valid Open ERP maintenance contract !"
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:br
+msgid ""
+"If you are using Open ERP in production, it is highly suggested to subscribe\n"
+"a maintenance program.\n"
+"\n"
+"The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
+"automatic migration system so that we can fix your problems within a few\n"
+"hours. If you had a maintenance contract, this error would have been sent\n"
+"to the quality team of the Open ERP editor.\n"
+"\n"
+"The maintenance program offers you:\n"
+"* Automatic migrations on new versions,\n"
+"* A bugfix guarantee,\n"
+"* Monthly announces of potential bugs and their fixes,\n"
+"* Security alerts by email and automatic migration,\n"
+"* Access to the customer portal.\n"
+"\n"
+"You can use the link bellow for more information. The detail of the error\n"
+"is displayed on the second tab."
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:br
+msgid ""
+"Your maintenance contract does not cover all modules installed in your system !\n"
+"If you are using Open ERP in production, it is highly suggested to upgrade your\n"
+"contract.\n"
+"\n"
+"If you have developped your own modules or installed third party module, we\n"
+"can provide you an additional maintenance contract for these modules. After\n"
+"having reviewed your modules, our quality team will ensure they will migrate\n"
+"automatically for all futur stable versions of Open ERP at no extra cost.\n"
+"\n"
+"Here is the list of modules not covered by your maintenance contract:"
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:span
+msgid ""
+"You can use the link bellow for more information. The detail of the error\n"
+"is displayed on the second tab."
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:strong
+msgid "Maintenance contract."
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:em
+msgid "Your request will be sent to OpenERP and maintenance team will reply you shortly."
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:td
+msgid "Explain what you did:"
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:td
+msgid "Other Comments:"
+msgstr ""
+
+#: openerp/subcontrollers/templates/error_page.kid:button
+msgid "Send to Maintenance Team"
+msgstr ""
+
 #: openerp/subcontrollers/templates/image.kid:title
 msgid "Image"
 msgstr "Image"
@@ -1508,6 +1581,10 @@ msgstr "Ajouter les noms de champ"
 
 #: openerp/subcontrollers/templates/workflow.kid:td
 msgid "Workflow"
+msgstr ""
+
+#: openerp/subcontrollers/templates/process.kid:b
+msgid "Select Process"
 msgstr ""
 
 #: openerp/subcontrollers/templates/process.kid:img
