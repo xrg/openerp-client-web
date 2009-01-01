@@ -29,13 +29,13 @@
                                 <!-- begin hidden fields -->
                                 <span py:for="field, field_attrs in hiddens" py:replace="editors[field].display()"/>
                                 <!-- end of hidden fields -->
-                                <img src="/static/images/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
+                                <img src="/static/images/listgrid/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                             </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}">
                                 ${editors[field].display()}
                             </td>
                             <td class="grid-cell selector" style="text-align: center; padding: 0px;">
-                                <img src="/static/images/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
+                                <img src="/static/images/listgrid/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
                             </td>
                         </tr>
                 
@@ -44,8 +44,8 @@
                                 <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}"/>
                             </td>
                             <td py:if="editable" class="grid-cell selector">
-                                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
-                                <img src="/static/images/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
+                                <img src="/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
+                                <img src="/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
                             </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" sortable_value="${data[field].get_sortable_text()}">
                                 <span py:if="i==0">
@@ -54,15 +54,15 @@
                                 <span py:if="i and show_links" py:replace="data[field].display()"/>
                                 <span py:if="i and not show_links" py:content="data[field]"/>
                                 <span py:if="editable and field == 'sequence'" class="selector">
-                                    <img id="${data['id']}_moveup" src="/static/images/up.png" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>                                
-                                    <img id="${data['id']}_movedown" src="/static/images/down.png" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
+                                    <img src="/static/images/listgrid/arrow_up.gif" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
+                                    <img src="/static/images/listgrid/arrow_down.gif" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
                                 </span>
                             </td>
                             <td py:if="buttons" class="grid-cell button" nowrap="nowrap">
                                 <span py:for="button in buttons" py:replace="button.display(parent=name, **button.params_from(data))"/>        
                             </td>
                             <td py:if="editable" class="grid-cell selector">
-                                <img src="/static/images/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
+                                <img src="/static/images/listgrid/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
                             </td>
                         </tr>
                         
