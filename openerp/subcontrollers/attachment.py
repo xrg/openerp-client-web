@@ -61,8 +61,7 @@ class Attachment(controllers.Controller, TinyResource):
             
             return actions.execute(action) 
         else:
-            message = str(_('No record selected! You can only attach to existing record...'))
-            raise common.error(_('Error'), _(message))
+            raise common.message(_('No record selected! You can only attach to existing record...'))
         
         return True
     

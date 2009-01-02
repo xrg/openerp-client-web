@@ -199,7 +199,7 @@ class List(controllers.Controller, TinyResource):
     def moveUp(self, **kw):
 
         params, data = TinyDict.split(kw)
-
+        
         id = params.id
         ids = params.ids or []
 
@@ -210,16 +210,19 @@ class List(controllers.Controller, TinyResource):
         ctx = rpc.session.context.copy()
 
         prev_id = ids[ids.index(id)-1]
-
+        
         try:
             res = proxy.read([id, prev_id], ['sequence'], ctx)
             records = dict([(r['id'], r['sequence']) for r in res])
-
             cur_seq = records[id]
             prev_seq = records[prev_id]
-
-            proxy.write([id], {'sequence': prev_seq}, ctx)
-            proxy.write([prev_id], {'sequence': cur_seq}, ctx)
+            
+            if cur_seq == prev_seq:
+                proxy.write([prev_id], {'sequence': cur_seq + 1}, ctx)
+                proxy.write([id], {'sequence': prev_seq}, ctx)
+            else:
+                proxy.write([id], {'sequence': prev_seq}, ctx)
+                proxy.write([prev_id], {'sequence': cur_seq}, ctx)
         
             return dict()
         except Exception, e:
@@ -246,9 +249,13 @@ class List(controllers.Controller, TinyResource):
 
             cur_seq = records[id]
             next_seq = records[next_id]
-
-            proxy.write([id], {'sequence': next_seq}, ctx)
-            proxy.write([next_id], {'sequence': cur_seq}, ctx)
+            
+            if cur_seq == next_seq:
+                proxy.write([next_id], {'sequence': cur_seq + 1}, ctx)
+                proxy.write([id], {'sequence': next_seq}, ctx) 
+            else:
+                proxy.write([id], {'sequence': next_seq}, ctx)
+                proxy.write([next_id], {'sequence': cur_seq}, ctx)
         
             return dict()
         except Exception, e:

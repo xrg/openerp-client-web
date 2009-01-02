@@ -30,22 +30,22 @@ a:hover .imglink {
 }
 
 .dimmed-text {
-	color: #bbb;
+    color: #bbb;
 }
 
 .dimmed-text a {
-	font-size: 10px;
-	color: #bbb;
-	text-transform: uppercase;
+    font-size: 10px;
+    color: #bbb;
+    text-transform: uppercase;
 }
 
 .dimmed-text a:hover {
-	color: #333;
-	text-decoration: none;
+    color: #333;
+    text-decoration: none;
 }
 
-td.dimmed-text {	
-	padding-left: 5px;
+td.dimmed-text {    
+    padding-left: 5px;
 }
 
 hr {
@@ -360,9 +360,9 @@ div.welcome {
 }
 
 .view .separator {
-	font-weight: bold;
-	border-bottom: 1px solid #666;
-	margin: 6px 0px;
+    font-weight: bold;
+    border-bottom: 1px solid #666;
+    margin: 6px 0px;
 }
 
 td.label {
@@ -378,15 +378,15 @@ td.item button {
     width: 99%;
 }
 
-td.item .resizable-textarea .grip {
-	background:#EEEEEE url(/static/images/textarea-grip.png) no-repeat scroll center 2px;
-	border-color:#DDDDDD;
-	border-style:solid;
-	border-width:0pt 1px 1px;
-	cursor:s-resize;
-	width: 99%; 
-	height:9px;
-	overflow:hidden;
+.resizable-textarea .grip {
+    background:#EEEEEE url(/static/images/textarea-grip.png) no-repeat scroll center 2px;
+    border-color:#DDDDDD;
+    border-style:solid;
+    border-width:0pt 1px 1px;
+    cursor:s-resize;
+    width: 99%; 
+    height:9px;
+    overflow:hidden;
 }
 
 td.item .mceSelectList {
@@ -478,14 +478,14 @@ td.item .radio {
 }
 
 div .chart_resize {
-	background:#EEEEEE url(/static/images/textarea-grip.png) no-repeat scroll center 2px;
-	border-color:#DDDDDD;
-	border-style:solid;
-	border-width:0pt 1px 1px;
-	cursor:s-resize;
-	width: 99%; 
-	height:9px;
-	overflow:hidden;	
+    background:#EEEEEE url(/static/images/textarea-grip.png) no-repeat scroll center 2px;
+    border-color:#DDDDDD;
+    border-style:solid;
+    border-width:0pt 1px 1px;
+    cursor:s-resize;
+    width: 99%; 
+    height:9px;
+    overflow:hidden;    
 }
 
 /* ------------- End side bar ------- */

@@ -448,7 +448,7 @@ class ImpEx(controllers.Controller, TinyResource):
             for key,val in res[1].items():
                 d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
             error = _('Unable to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
-            raise common.error(_('Importation Error!'), unicode(error))
+            raise common.message(unicode(error))
 
         return self.imp(**kw)
 

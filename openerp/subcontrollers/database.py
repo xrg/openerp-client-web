@@ -135,18 +135,16 @@ class Database(controllers.Controller):
     def do_create(self, password, dbname, admin_password, confirm_password, demo_data=False, language=None, **kw):
 
         if not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', dbname):
-            raise common.error(_('Error'), _('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.') + "\n\n" + _('Bad database name!'))
+            raise common.warning(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.'), _('Bad database name!'))
 
         try:
             res = rpc.session.execute_db('create', password, dbname, demo_data, language, admin_password)
             time.sleep(10) # wait for few seconds
         except Exception, e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                message = _('Bad database administrator password!') + "\n\n" + _("Could not create database.")
+                raise common.warning(_('Bad database administrator password!'), _("Could not create database."))
             else:
-                message = _("Could not create database.") + "\n\n" + _('Error during database creation!')
-
-            raise common.error(_('Error'), _(message))
+                raise common.warning(_("Could not create database."))
 
         raise redirect('/login', db=dbname)
 
@@ -163,10 +161,9 @@ class Database(controllers.Controller):
             rpc.session.execute_db('drop', password, dbname)
         except Exception, e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                message = _('Bad database administrator password!') + "\n\n" + _("Could not drop database.")
+                raise common.warning(_('Bad database administrator password!'), _("Could not drop database."))
             else:
-                message = _("Couldn't drop database")            
-            raise common.error(_('Error'), message)
+                raise common.warning(_("Couldn't drop database"))
 
         raise redirect("/login")
 
@@ -186,7 +183,7 @@ class Database(controllers.Controller):
                 cherrypy.response.headers['Content-Disposition'] = 'filename="' + dbname + '.dump"';
                 return base64.decodestring(res)
         except Exception, e:
-            raise common.error(_('Error'), _("Could not create backup."))
+            raise common.warning(_("Could not create backup."))
 
         raise redirect('/login')
 
@@ -204,10 +201,9 @@ class Database(controllers.Controller):
             res = rpc.session.execute_db('restore', password, dbname, data)
         except Exception, e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                message = _('Bad database administrator password!') + "\n\n" + _("Could not restore database.")
+                raise common.warning(_('Bad database administrator password!'), _("Could not restore database."))
             else:
-                message = _("Couldn't restore database")
-            raise common.error(_('Error'), _(message))
+                raise common.warning(_("Couldn't restore database"))
 
         raise redirect('/login', db=dbname)
 
@@ -224,11 +220,10 @@ class Database(controllers.Controller):
             res = rpc.session.execute_db('change_admin_password', old_password, new_password)
         except Exception,e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                message = _("Could not change super admin password.") + "\n\n" + _('Bad password provided!')
+                raise common.warning(_("Could not change super admin password."), _('Bad password provided!'))
             else:
-                message = _("Error, password not changed.")
-            raise common.error(_('Error'), message)
-       
+                raise common.warning(_("Error, password not changed."))
+
         raise redirect('/login')
 
 # vim: ts=4 sts=4 sw=4 si et

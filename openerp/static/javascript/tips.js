@@ -98,12 +98,16 @@ __init__ : function(elements, options) {
 },
 
     showLater: function(evt){
-        this.deferred = MochiKit.Async.callLater(this.options.wait, MochiKit.Base.bind(this.show, this), evt);
+        
+        var e = evt.src();
+        var x = evt.mouse().client.x;
+        var y = evt.mouse().client.y;
+
+        this.deferred = MochiKit.Async.callLater(this.options.wait, MochiKit.Base.bind(this.show, this), e, x, y);
     },
 
-    show: function(evt){
+    show: function(el, x, y){
 
-        var el = evt.src();
         var text = el.myText;
         var title = el.myTitle;
 
@@ -133,14 +137,12 @@ __init__ : function(elements, options) {
         var doc = document.documentElement;
         var body = document.body;
 
-        var el = evt.src();
-
-        var ps = MochiKit.DOM.elementPosition(el)
+        var ps = MochiKit.Style.getElementPosition(el)
         var vd = MochiKit.DOM.getViewportDimensions();
-        var md = MochiKit.DOM.elementDimensions(this.toolTip);
+        var md = MochiKit.Style.getElementDimensions(this.toolTip);
 
-        var x = evt.mouse().client.x + (doc.scrollLeft || body.scrollLeft) - 30;
-        var y = evt.mouse().client.y + (doc.scrollTop || body.scrollTop) + 15;
+        var x = x + (doc.scrollLeft || body.scrollLeft) - 30;
+        var y = y + (doc.scrollTop || body.scrollTop) + 15;
 
         if ((x + md.w) > vd.w - 30) {
             x -= x + md.w - vd.w;
