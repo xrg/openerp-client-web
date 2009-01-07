@@ -498,9 +498,7 @@ var getFormParams = function(){
     var parentNode = document.forms['view_form'];
 
     var frm = {};
-    var fields = [];
-
-    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
+    var fields = getElementsByTagAndClassName('input', null, parentNode);
 
     forEach(fields, function(e){
 
