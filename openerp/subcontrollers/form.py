@@ -188,14 +188,7 @@ class Form(controllers.Controller, TinyResource):
         params.count = params.count or 0
         params.view_type = params.view_type or params.view_mode[0]
 
-        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
-
-        if 'remember_notebook' in cherrypy.session:
-            cherrypy.session.pop('remember_notebook')
-        else:
-            self.del_notebook_cookies()
-
-        return form
+        return tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
     @expose(template="openerp.subcontrollers.templates.form")
     def create(self, params, tg_errors=None):
@@ -206,6 +199,11 @@ class Form(controllers.Controller, TinyResource):
             params.editable = True
 
         form = self.create_form(params, tg_errors)
+
+        if 'remember_notebook' in cherrypy.session:
+            cherrypy.session.pop('remember_notebook')
+        else:
+            self.del_notebook_cookies()
 
         editable = form.screen.editable
         mode = form.screen.view_type
