@@ -36,6 +36,8 @@ from turbogears import controllers
 from turbogears import validators
 from turbogears import validate
 from turbogears import redirect
+from turbogears import error_handler
+from turbogears import exception_handler
 
 import cherrypy
 
@@ -154,6 +156,24 @@ def get_validation_schema(self):
 
     form.validator = validators.Schema(**vals)
     return form
+
+def default_error_handler(self, tg_errors=None, **kw):
+    """ Error handler for the given Form instance.
+
+    @param self: an instance for Form
+    @param tg_errors: errors
+    """
+    params, data = TinyDict.split(kw)
+    return self.create(params, tg_errors=tg_errors)
+
+def default_exception_handler(self, tg_exceptions=None, **kw):
+    """ Exception handler for the given Form instance.
+
+    @param self: an instance for Form
+    @param tg_exceptions: exception
+    """
+    # let _cp_on_error handle the exception
+    raise tg_exceptions
 
 class Form(controllers.Controller, TinyResource):
 
@@ -335,7 +355,9 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_validation_schema)
-    def save(self, terp_save_only=False, tg_source=None, tg_errors=None, tg_exceptions=None, **kw):
+    @error_handler(default_error_handler)
+    @exception_handler(default_exception_handler)
+    def save(self, terp_save_only=False, **kw):
         """Controller method to save/button actions...
 
         @param tg_errors: TG special arg, used durring validation
@@ -344,12 +366,9 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
         params, data = TinyDict.split(kw)
-        
+
         # remember the current notebook tab
         cherrypy.session['remember_notebook'] = True
-
-        if tg_errors:
-            return self.create(params, tg_errors=tg_errors)
 
         # bypass save, for button action in non-editable view
         if not (params.button and not params.editable and params.id):
@@ -583,7 +602,9 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_validation_schema)
-    def filter(self, tg_errors=None, **kw):
+    @error_handler(default_error_handler)
+    @exception_handler(default_exception_handler)
+    def filter(self, **kw):
         params, data = TinyDict.split(kw)
 
         l = params.limit or 20

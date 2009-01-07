@@ -33,7 +33,6 @@ from turbogears import widgets
 from turbogears import controllers
 from turbogears import validators
 from turbogears import validate
-from turbogears import error_handler
 
 import cherrypy
 
@@ -186,8 +185,11 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_validation_schema)
-    def report(self, tg_errors=None, **kw):
+    def report(self, tg_errors=None, tg_exceptions=None, **kw):
         
+        if tg_exceptions:
+            raise tg_exceptions
+
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
         
@@ -198,7 +200,11 @@ class Wizard(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_validation_schema)
-    def action(self, tg_errors=None, **kw):
+    def action(self, tg_errors=None, tg_exceptions=None, **kw):
+
+        if tg_exceptions:
+            raise tg_exceptions
+
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
         
