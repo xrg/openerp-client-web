@@ -3,8 +3,7 @@
 import os
 import sys
 import zipfile
-import urllib2
-
+import urllib
 
 URLS={
     "python": ("http://www.python.org/ftp/python/2.4.4/python-2.4.4.msi", "python-2.4.4.msi"),
@@ -22,22 +21,50 @@ if not os.path.exists(BUILD_DIR):
 
 os.chdir(BUILD_DIR)
 
-def download(url, dest=None):
-    if not dest:
-        dest = url.split('/')[-1]
+def _reporthook(numblocks, blocksize, filesize, url=None):
+    base = os.path.basename(url)
+    try:
+        percent = min((numblocks*blocksize*100)/filesize, 100)
+    except:
+        percent = 100
+    if numblocks != 0:
+        sys.stdout.write("\b"*70)
+    sys.stdout.write("%-66s%3d%%" % (base, percent))
 
-    if os.path.exists(dest):
+def download(url, dst=None):
+    
+    if not dst:
+        dst = url.split('/')[-1]
+
+    if os.path.exists(dst):
         return
 
-    print "Downloading", url
+    print "Downloading %s..." % (url)
+
     try:
-        src = urllib2.urlopen(url)
-        data = src.read()
-        fo = open(dest, "wb")
-        fo.write(data)
-        fo.close()
+        if sys.stdout.isatty():
+            urllib.urlretrieve(url, dst,
+                               lambda nb, bs, fs, url=url: _reporthook(nb,bs,fs,url))
+            sys.stdout.write('\n')
+        else:
+            urllib.urlretrieve(url, dst)
     except:
-        os.remove(dest)
+        os.remove(dst)
+
+def unzip(file, dir):
+    zf = zipfile.ZipFile(file)
+    for i, name in enumerate(zf.namelist()):
+        if not name.endswith('/'):
+            outfile = os.path.join(dir, name)
+            outdir = os.path.dirname(outfile)
+
+            if not os.path.exists(outdir):
+                os.makedirs(outdir)
+
+            outfile = open(outfile, 'wb')
+            outfile.write(zf.read(name))
+            outfile.flush()
+            outfile.close()
 
 def check_python():
 
@@ -63,14 +90,14 @@ def check_setuptools():
 
 def check_pywin32():
 
-    res = os.system("\"%s\\python.exe -c \"import win32api\"" % (os.path.basename(PYDIR)))
+    res = os.system("\"%s\\python.exe -c \"import pywintypes\"" % (os.path.basename(PYDIR)))
     if res == 0:
         return
 
     url, name = URLS['pywin32']
     download(url)
 
-    os.system("\"%s\\python.exe -c \"from setuptools import archive_util;archive_util.unpack_archive('%s', 'tmp_pyw32')\"\"" % (os.path.basename(PYDIR), name))
+    unzip(name, 'tmp_pyw32')
 
     os.system("xcopy /q /y /e tmp_pyw32\\PLATLIB\\* \"%s\\Lib\\site-packages\"" % PYDIR)
     os.system("copy /y \"%s\\Lib\\site-packages\\pywin32_system32\\*\" \"%s\"" % (PYDIR, PYDIR))
