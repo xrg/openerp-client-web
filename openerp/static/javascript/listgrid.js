@@ -30,8 +30,8 @@
 var ListView = function(name) {
 
     var elem = getElement(name);
-    if (elem.__instance) {
-        return elem.__instance;
+    if (elem.__listview) {
+        return elem.__listview;
     }
 
     var cls = arguments.callee;
@@ -66,7 +66,7 @@ ListView.prototype = {
         this.default_get_ctx = def_ctx ? def_ctx.value : null;
 
         // save the reference
-        getElement(name).__instance = this;
+        getElement(name).__listview = this;
     },
 
     checkAll: function(clear){
