@@ -269,6 +269,7 @@ class Form(controllers.Controller, TinyResource):
         if params.source:
             current = TinyDict()
             current.id = False
+            current.view_type = 'form'
             params[params.source] = current
 
         return self.create(params)
