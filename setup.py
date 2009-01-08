@@ -29,7 +29,7 @@ setup(
     license = license,
 
     install_requires=[
-        "TurboGears >= 1.0.3.2, < 1.1",
+        "TurboGears >= 1.0.7, < 1.1",
     ],
 
     zip_safe = False,
