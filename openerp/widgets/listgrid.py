@@ -339,16 +339,6 @@ class List(TinyCompoundWidget):
                         row[name] = cell
 
                     headers += [(name, fields[name])]
-
-        # generate do_select links
-        
-        if self.selectable and headers:
-            name, field = headers[0]
-            for i, row in enumerate(data):
-                cell = row[name]
-                if self.selectable:
-                    cell.link = "javascript: void(0)"
-                    cell.onclick = "do_select(%s, '%s'); return false;"%(row['id'], self.name)
         
         return headers, hiddens, data, field_total, buttons
 

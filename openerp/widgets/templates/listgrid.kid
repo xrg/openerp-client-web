@@ -49,7 +49,7 @@
                             </td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" sortable_value="${data[field].get_sortable_text()}">
                                 <span py:if="i==0">
-                                    <a href="${data[field].link}" onclick="${data[field].onclick}">${data[field]}</a>
+                                    <a href="javascript: void(0)" onclick="do_select(${data['id']}, '$name'); return false;">${data[field]}</a>
                                 </span>
                                 <span py:if="i and show_links" py:replace="data[field].display()"/>
                                 <span py:if="i and not show_links" py:content="data[field]"/>
