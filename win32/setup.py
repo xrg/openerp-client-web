@@ -56,7 +56,7 @@ class bdist_wininst(Command):
         return not os.system(PYDIR + "\\python.exe " + " ".join(args))
 
     def run_ez(self, *args):
-        return not os.system(PYDIR + "\\Scripts\\easy_install.exe -x -Z " + " ".join(args))
+        return not os.system(PYDIR + "\\Scripts\\easy_install.exe -Z " + " ".join(args))
 
     def check_module(self, module):
         return self.run_py('-c', '"import %s"' % module)
