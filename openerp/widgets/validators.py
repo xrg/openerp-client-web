@@ -167,10 +167,22 @@ class Binary(tg.validators.FancyValidator):
 
         return self.if_empty
 
-class Url(tg.validators.URL):
-    if_empty = False
+class URL(tg.validators.URL):
 
-    url_re = re.compile(r'(^(http|https|ftp|file)://(.*?:.*?@)?([^\s/:]+)(:\d+)?(/.*)?$)|^(http|https|ftp|file)://', re.IGNORECASE)
+    if_empty = False
+    require_tld = False
+
+    url_re = re.compile(r'''
+        ^(http|https|ftp|sftp|file)://          # protocol
+        (?:[%:\w]*@)?                           # authenticator
+        (?P<domain>[a-z0-9][a-z0-9\-]{1,62}\.)* # (sub)domain - alpha followed by 62max chars (63 total)
+        (?P<tld>[a-z]{2,})?                     # TLD
+        (?::[0-9]+)?                            # port
+
+        # files/delims/etc
+        (?P<path>/[a-z0-9\-\._~:/\?#\[\]@!%\$&\'\(\)\*\+,;=]*)?
+        $
+    ''', re.I | re.VERBOSE)
 
     def _from_python(self, value, state):
         return value or ''

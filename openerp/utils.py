@@ -185,7 +185,7 @@ _VALIDATORS = {
     'many2many': lambda *a: tw_validators.many2many(),
     'many2one': lambda *a: tw_validators.many2one(),
     'email' : lambda *a: tw_validators.Email(),
-    'url' : lambda *a: tw_validators.Url(),
+    'url' : lambda *a: tw_validators.URL(),
 	'picture': lambda *a: tw_validators.Picture(),
 }
 
