@@ -200,10 +200,11 @@ class Form(controllers.Controller, TinyResource):
 
         form = self.create_form(params, tg_errors)
 
-        if 'remember_notebook' in cherrypy.session:
-            cherrypy.session.pop('remember_notebook')
-        else:
-            self.del_notebook_cookies()
+        if not tg_errors:
+            try:
+                cherrypy.session.pop('remember_notebooks')
+            except:
+                self.reset_notebooks()
 
         editable = form.screen.editable
         mode = form.screen.view_type
@@ -365,8 +366,8 @@ class Form(controllers.Controller, TinyResource):
         """
         params, data = TinyDict.split(kw)
 
-        # remember the current notebook tab
-        cherrypy.session['remember_notebook'] = True
+        # remember the current page (tab) of notebooks
+        cherrypy.session['remember_notebooks'] = True
 
         # bypass save, for button action in non-editable view
         if not (params.button and not params.editable and params.id):
@@ -551,7 +552,7 @@ class Form(controllers.Controller, TinyResource):
 
         current.id = (current.ids or None) and current.ids[idx]
 
-        self.del_notebook_cookies()
+        self.reset_notebooks()
 
         args = {'model': params.model,
                 'id': params.id,
@@ -635,8 +636,8 @@ class Form(controllers.Controller, TinyResource):
                 id = ids[ids.index(id)+1]
 
         if filter_action:
-            # remember the current notebook tab
-            cherrypy.session['remember_notebook'] = True
+            # remember the current page (tab) of notebooks
+            cherrypy.session['remember_notebooks'] = True
 
         if params.offset != o:
     
@@ -1010,13 +1011,11 @@ class Form(controllers.Controller, TinyResource):
 
         return dict(value=value)
 
-    def del_notebook_cookies(self):
-        names = cherrypy.request.simple_cookie.keys()
+    def reset_notebooks(self):
+        for name in cherrypy.request.simple_cookie.keys():
+            if name.endswith('_notebookTGTabber'):
+                cherrypy.response.simple_cookie[name] = 0
 
-        for n in names:
-            if n.endswith('_notebookTGTabber'):
-                cherrypy.response.simple_cookie[n] = 0
-                
     @expose('json')
     def change_default_get(self, **kw):
         params, data = TinyDict.split(kw)

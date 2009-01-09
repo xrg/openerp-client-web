@@ -68,8 +68,8 @@ class OpenM2M(Form):
     def save(self, terp_save_only=False, **kw):
         params, data = TinyDict.split(kw)
         
-        # remember the current notebook tab
-        cherrypy.session['remember_notebook'] = True
+        # remember the current page (tab) of notebooks
+        cherrypy.session['remember_notebooks'] = True
 
         # bypass save, for button action in non-editable view
         if not (params.button and not params.editable and params.id):
