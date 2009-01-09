@@ -21,10 +21,10 @@ PYDIR=os.path.join(BUILD_DIR, "python24")
 execfile(os.path.join("openerp", "release.py"))
 
 class bdist_wininst(Command):
-    user_options = []
+    user_options = [('allinone', None, 'Generate the windows installer for the All In One')]
 
     def initialize_options (self):
-        pass
+        self.allinone = None
 
     def finalize_options (self):
         pass
@@ -142,7 +142,11 @@ class bdist_wininst(Command):
         if not os.path.exists(makensis):
             makensis = "makensis.exe"
 
-        os.system('"%s" /DVERSION=%s ..\\setup.nsi' % (makensis, version))
+        cmd = '"%s" %s /DVERSION=%s ..\\setup.nsi' % (makensis, 
+                                                      self.allinone and '/DALLINONE=1' or '',
+                                                      version)
+
+        os.system(cmd)
 
 setup(cmdclass={'bdist_wininst': bdist_wininst})
 
