@@ -64,6 +64,7 @@ class FormCreate(widgets.TableForm):
     string = _('Create new database')
     action = '/database/do_create'
     submit_text = _('OK')
+    form_attrs = {'onsubmit': 'return on_create()'}
     fields = [widgets.PasswordField(name='password', label=_('Super admin password:'), validator=validators.NotEmpty()),
               widgets.TextField(name='dbname', label=_('New database name:'), validator=validators.NotEmpty()),
               widgets.CheckBox(name='demo_data', label=_('Load Demonstration data:'), default=True, validator=validators.Bool(if_empty=False)),
@@ -78,6 +79,7 @@ class FormDrop(widgets.TableForm):
     string = _('Drop database')
     action = '/database/do_drop'
     submit_text = _('OK')
+    form_attrs = {'onsubmit': 'return on_drop()'}
     fields = [widgets.SingleSelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
@@ -137,15 +139,39 @@ class Database(controllers.Controller):
         if not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', dbname):
             raise common.warning(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.'), _('Bad database name!'))
 
+        ok = False
         try:
+            dblist = rpc.session.listdb()
+            if dbname in dblist:
+                raise Exception('DbExist')
+
             res = rpc.session.execute_db('create', password, dbname, demo_data, language, admin_password)
-            time.sleep(10) # wait for few seconds
+            while True:
+                try:
+                    progress, users = rpc.session.execute_db('get_progress', password, res)
+                    if progress == 1.0:
+                        for x in users:
+                            if x['login'] == 'admin':
+                                rpc.session.login(dbname, 'admin', password)
+                                ok = True
+                        break
+                    else:
+                        time.sleep(1)
+                except:
+                    raise Exception('DbFailed')
         except Exception, e:
-            if getattr(e, 'faultCode', False) == 'AccessDenied':
+            if e.args == ('DbExist',):
+                raise common.warning(_("Could not create database."), _('Database already exists !'))
+            elif e.args == ('DbFailed'):
+                raise common.warning(_("The server crashed during installation.\nWe suggest you to drop this database."), 
+                                     _("Error during database creation !"))
+            elif getattr(e, 'faultCode', False) == 'AccessDenied':
                 raise common.warning(_('Bad database administrator password!'), _("Could not create database."))
             else:
                 raise common.warning(_("Could not create database."))
 
+        if ok:
+            raise redirect('/')
         raise redirect('/login', db=dbname)
 
     @expose(template="openerp.subcontrollers.templates.database")

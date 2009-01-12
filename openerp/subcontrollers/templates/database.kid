@@ -5,6 +5,9 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title>${form.string}</title>
 
+    <script type="text/javascript" src="/static/javascript/waitbox.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/waitbox.css"/>
+
     <style type="text/css">
         .tableform table {
             margin-top: 20px;
@@ -52,9 +55,26 @@
     </style>
 
     <script type="text/javascript">
+
+        var WAITBOX = null;
+
+        MochiKit.DOM.addLoadEvent(function(evt){
+            WAITBOX = new WaitBox();
+        });
+
         var dbView = function(name) {
             window.location.href = '/database/' + name;
         }
+
+        var on_create = function() {
+            WAITBOX.show();
+            return true;
+        }
+
+        var on_drop = function() {
+            return window.confirm('${_("Do you really want to drop the selected database?")}');
+        }
+
     </script>
 
 </head>
