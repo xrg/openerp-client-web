@@ -90,6 +90,18 @@ def __fields_get(model, fields, context, sid):
 def fields_get(model, fields, context):
     return __fields_get(model, fields, context, sid=cherrypy.session.id)
 
+@memoize(1000)
+def __can_write(model, sid):
+    proxy = rpc.RPCProxy('ir.model.access')
+    try:
+        return proxy.check(model, 'write')
+    except:
+        pass
+    return False
+
+def can_write(model):
+    return __can_write(model, sid=cherrypy.session.id)
+
 @memoize(10000, True)
 def _gettext(key, locale, domain):
     return tg_gettext.tg_gettext(key, locale, domain)

@@ -44,6 +44,7 @@ import cherrypy
 from openerp import rpc
 from openerp import tools
 from openerp import common
+from openerp import cache
 
 from openerp import widgets as tw
 from openerp.tinyres import TinyResource
@@ -233,13 +234,14 @@ class Form(controllers.Controller, TinyResource):
         target = params.context.get('_terp_target')
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
-        links.view_manager = True
-        links.workflow_manager = False
+        if cache.can_write('ir.ui.view'):
+            links.view_manager = True
+            links.workflow_manager = False
         
-        proxy = rpc.RPCProxy('workflow')
-        wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
-        links.workflow_manager = (wkf_ids or False) and wkf_ids[0]
-        
+            proxy = rpc.RPCProxy('workflow')
+            wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
+            links.workflow_manager = (wkf_ids or False) and wkf_ids[0]
+
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, 
