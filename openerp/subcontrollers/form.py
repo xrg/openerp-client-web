@@ -36,12 +36,15 @@ from turbogears import controllers
 from turbogears import validators
 from turbogears import validate
 from turbogears import redirect
+from turbogears import error_handler
+from turbogears import exception_handler
 
 import cherrypy
 
 from openerp import rpc
 from openerp import tools
 from openerp import common
+from openerp import cache
 
 from openerp import widgets as tw
 from openerp.tinyres import TinyResource
@@ -155,6 +158,24 @@ def get_validation_schema(self):
     form.validator = validators.Schema(**vals)
     return form
 
+def default_error_handler(self, tg_errors=None, **kw):
+    """ Error handler for the given Form instance.
+
+    @param self: an instance for Form
+    @param tg_errors: errors
+    """
+    params, data = TinyDict.split(kw)
+    return self.create(params, tg_errors=tg_errors)
+
+def default_exception_handler(self, tg_exceptions=None, **kw):
+    """ Exception handler for the given Form instance.
+
+    @param self: an instance for Form
+    @param tg_exceptions: exception
+    """
+    # let _cp_on_error handle the exception
+    raise tg_exceptions
+
 class Form(controllers.Controller, TinyResource):
 
     path = '/form'    # mapping from root
@@ -168,14 +189,7 @@ class Form(controllers.Controller, TinyResource):
         params.count = params.count or 0
         params.view_type = params.view_type or params.view_mode[0]
 
-        form = tw.form_view.ViewForm(params, name="view_form", action="/form/save")
-
-        if 'remember_notebook' in cherrypy.session:
-            cherrypy.session.pop('remember_notebook')
-        else:
-            self.del_notebook_cookies()
-
-        return form
+        return tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
     @expose(template="openerp.subcontrollers.templates.form")
     def create(self, params, tg_errors=None):
@@ -186,6 +200,12 @@ class Form(controllers.Controller, TinyResource):
             params.editable = True
 
         form = self.create_form(params, tg_errors)
+
+        if not tg_errors:
+            try:
+                cherrypy.session.pop('remember_notebooks')
+            except:
+                self.reset_notebooks()
 
         editable = form.screen.editable
         mode = form.screen.view_type
@@ -214,13 +234,14 @@ class Form(controllers.Controller, TinyResource):
         target = params.context.get('_terp_target')
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
-        links.view_manager = True
-        links.workflow_manager = False
+        if cache.can_write('ir.ui.view'):
+            links.view_manager = True
+            links.workflow_manager = False
         
-        proxy = rpc.RPCProxy('workflow')
-        wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
-        links.workflow_manager = (wkf_ids or False) and wkf_ids[0]
-        
+            proxy = rpc.RPCProxy('workflow')
+            wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
+            links.workflow_manager = (wkf_ids or False) and wkf_ids[0]
+
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, 
@@ -269,6 +290,7 @@ class Form(controllers.Controller, TinyResource):
         if params.source:
             current = TinyDict()
             current.id = False
+            current.view_type = 'form'
             params[params.source] = current
 
         return self.create(params)
@@ -334,7 +356,9 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_validation_schema)
-    def save(self, terp_save_only=False, tg_source=None, tg_errors=None, tg_exceptions=None, **kw):
+    @error_handler(default_error_handler)
+    @exception_handler(default_exception_handler)
+    def save(self, terp_save_only=False, **kw):
         """Controller method to save/button actions...
 
         @param tg_errors: TG special arg, used durring validation
@@ -343,12 +367,9 @@ class Form(controllers.Controller, TinyResource):
         @return: form view
         """
         params, data = TinyDict.split(kw)
-        
-        # remember the current notebook tab
-        cherrypy.session['remember_notebook'] = True
 
-        if tg_errors:
-            return self.create(params, tg_errors=tg_errors)
+        # remember the current page (tab) of notebooks
+        cherrypy.session['remember_notebooks'] = True
 
         # bypass save, for button action in non-editable view
         if not (params.button and not params.editable and params.id):
@@ -533,7 +554,7 @@ class Form(controllers.Controller, TinyResource):
 
         current.id = (current.ids or None) and current.ids[idx]
 
-        self.del_notebook_cookies()
+        self.reset_notebooks()
 
         args = {'model': params.model,
                 'id': params.id,
@@ -582,7 +603,9 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     @validate(form=get_validation_schema)
-    def filter(self, tg_errors=None, **kw):
+    @error_handler(default_error_handler)
+    @exception_handler(default_exception_handler)
+    def filter(self, **kw):
         params, data = TinyDict.split(kw)
 
         l = params.limit or 20
@@ -615,8 +638,8 @@ class Form(controllers.Controller, TinyResource):
                 id = ids[ids.index(id)+1]
 
         if filter_action:
-            # remember the current notebook tab
-            cherrypy.session['remember_notebook'] = True
+            # remember the current page (tab) of notebooks
+            cherrypy.session['remember_notebooks'] = True
 
         if params.offset != o:
     
@@ -990,13 +1013,11 @@ class Form(controllers.Controller, TinyResource):
 
         return dict(value=value)
 
-    def del_notebook_cookies(self):
-        names = cherrypy.request.simple_cookie.keys()
+    def reset_notebooks(self):
+        for name in cherrypy.request.simple_cookie.keys():
+            if name.endswith('_notebookTGTabber'):
+                cherrypy.response.simple_cookie[name] = 0
 
-        for n in names:
-            if n.endswith('_notebookTGTabber'):
-                cherrypy.response.simple_cookie[n] = 0
-                
     @expose('json')
     def change_default_get(self, **kw):
         params, data = TinyDict.split(kw)

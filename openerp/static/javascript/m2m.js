@@ -30,8 +30,8 @@
 var Many2Many = function(name) {
 
     var elem = getElement(name);
-    if (elem.__instance) {
-        return elem.__instance;
+    if (elem._m2m) {
+        return elem._m2m;
     }
 
     var cls = arguments.callee;
@@ -83,7 +83,7 @@ Many2Many.prototype = {
         }
 
         // save the reference
-        getElement(name).__instance = this;
+        getElement(name)._m2m = this;
     },
     
     onClick : function() {

@@ -497,21 +497,18 @@ class Binary(TinyField):
 
     def set_value(self, value):
         if value:
-            if isinstance(value, basestring):
-                self.text = value
-            else:
-                self.text = _('%.2f Kb') % (value/1024.00)
+            self.text = tools.get_size(len(value))
 
-class Url(TinyField):
+class URL(TinyField):
     template = "openerp.widgets.templates.url"
 
     def __init__(self, attrs={}):
-        super(Url, self).__init__(attrs)
-        self.validator = tiny_validators.Url()
+        super(URL, self).__init__(attrs)
+        self.validator = tiny_validators.URL()
 
     def set_value(self, value):
         if value:
-            super(Url, self).set_value(value)
+            super(URL, self).set_value(value)
 
 class Hidden(TinyField):
     template = "openerp.widgets.templates.hidden"
@@ -938,7 +935,7 @@ widgets_type = {
     'many2many': M2M,
     'many2one': M2O,
     'email' : Email,
-    'url' : Url,
+    'url' : URL,
     'image' : Image,
     'progressbar' : ProgressBar,
     'text_wiki': WikiWidget

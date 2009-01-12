@@ -3,8 +3,9 @@
 
 import os
 import sys
+import optparse
 
-from os.path import exists
+from os.path import join, dirname, exists
 
 # ubuntu 8.04 has obsoleted `pyxml` package and installs here.
 # the path needs to be updated before any `import xml`
@@ -21,17 +22,30 @@ import cherrypy
 
 cherrypy.lowercase_api = True
 
+from openerp.release import version
+
 class ConfigurationError(Exception):
     pass
 
-def start(configfile=None):
+def get_config_file():
+    setupdir = dirname(dirname(__file__))
+    if exists(join(setupdir, "setup.py")):
+        return join(setupdir, "dev.cfg")
+    return None
+
+def start():
     """Start the CherryPy application server."""
+
+    parser = optparse.OptionParser(version=version)
+    parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
+    (opt, args) = parser.parse_args()
+
+    configfile = opt.config
 
     if configfile is None:
         try:
             configfile = pkg_resources.resource_filename(
-              pkg_resources.Requirement.parse("openerp-web"), 
-                "config/default.cfg")
+                    pkg_resources.Requirement.parse("openerp-web"), "config/default.cfg")
         except pkg_resources.DistributionNotFound:
             raise ConfigurationError(_("Could not find default configuration."))
 

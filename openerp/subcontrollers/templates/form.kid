@@ -156,7 +156,7 @@
                     <tr>
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
-                    <tr>
+                    <tr py:if="links">
                         <td class="dimmed-text">
                             [<a onmouseover="MochiKit.Visual.appear('customise_menu_', {from: 0, duration: 0.4});" 
                                 onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">Customise</a>]<br/>

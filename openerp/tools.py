@@ -71,5 +71,18 @@ def get_node_xpath(node):
 
     return xp
 
+def get_size(sz):
+    """
+    Return the size in a human readable format
+    """
+    if not sz:
+        return False
+    units = ('bytes', 'Kb', 'Mb', 'Gb')
+    s, i = float(sz), 0
+    while s >= 1024 and i < len(units)-1:
+        s = s / 1024
+        i = i + 1
+    return "%0.2f %s" % (s, units[i])
+
 # vim: ts=4 sts=4 sw=4 si et
 

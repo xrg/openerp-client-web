@@ -1,9 +1,7 @@
 MANIFEST.in
 clean.sh
 dev.cfg
-sample-prod.cfg
 setup.py
-test.cfg
 locales/messages.pot
 locales/fr/LC_MESSAGES/messages.mo
 locales/fr/LC_MESSAGES/messages.po
@@ -35,16 +33,12 @@ openerp/static/css/style.css
 openerp/static/css/tabs.css
 openerp/static/css/texttag.css
 openerp/static/css/treegrid.css
-openerp/static/images/arrow_down.gif
-openerp/static/images/arrow_up.gif
 openerp/static/images/blank.gif
 openerp/static/images/button_bg.png
 openerp/static/images/button_bg2.png
-openerp/static/images/delete_inline.gif
 openerp/static/images/developped_by.png
 openerp/static/images/diagonal_left.gif
 openerp/static/images/diagonal_right.gif
-openerp/static/images/edit_inline.gif
 openerp/static/images/favicon.ico
 openerp/static/images/gradientlinebg.gif
 openerp/static/images/grdbig.png
@@ -54,7 +48,6 @@ openerp/static/images/iepngfix.htc
 openerp/static/images/mainmenu_button.png
 openerp/static/images/openerp_big.png
 openerp/static/images/openerp_small.png
-openerp/static/images/save_inline.gif
 openerp/static/images/sidebar_button_bg.png
 openerp/static/images/sidebar_hide.gif
 openerp/static/images/sidebar_show.gif
@@ -625,6 +618,7 @@ openerp/subcontrollers/__init__.py
 openerp/subcontrollers/actions.py
 openerp/subcontrollers/attachment.py
 openerp/subcontrollers/database.py
+openerp/subcontrollers/error_page.py
 openerp/subcontrollers/fieldpref.py
 openerp/subcontrollers/form.py
 openerp/subcontrollers/graph.py
@@ -668,7 +662,6 @@ openerp/subcontrollers/templates/view_log.kid
 openerp/subcontrollers/templates/wizard.kid
 openerp/templates/__init__.py
 openerp/templates/about.kid
-openerp/templates/error.kid
 openerp/templates/login.kid
 openerp/templates/master.kid
 openerp/tests/__init__.py

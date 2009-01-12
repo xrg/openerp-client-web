@@ -31,6 +31,8 @@ from turbogears import expose
 from turbogears import widgets
 from turbogears import validators
 from turbogears import validate
+from turbogears import error_handler
+from turbogears import exception_handler
 
 import cherrypy
 
@@ -42,6 +44,8 @@ from openerp.utils import TinyDict
 
 from form import Form
 from form import get_validation_schema
+from form import default_error_handler
+from form import default_exception_handler
 
 class OpenO2M(Form):
     
@@ -96,13 +100,12 @@ class OpenO2M(Form):
     
     @expose()
     @validate(form=get_validation_schema)
-    def save(self, terp_save_only=False, tg_errors=None, **kw):
+    @error_handler(default_error_handler)
+    @exception_handler(default_exception_handler)
+    def save(self, terp_save_only=False, **kw):
         params, data = TinyDict.split(kw)
         params.editable = True
 
-        if tg_errors:
-            return self.create(params, tg_errors=tg_errors)
-       
         proxy = rpc.RPCProxy(params.parent_model)
 
         pprefix = '.'.join(params.o2m.split('/')[:-1])

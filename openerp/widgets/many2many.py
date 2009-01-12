@@ -61,18 +61,16 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         tg.widgets.CompoundWidget.__init__(self)
 
         ids = []
-        if hasattr(cherrypy.request, 'terp_params'):
-            params = cherrypy.request.terp_params
-            self.terp_ids = params.chain_get(self.name)
-            
-            if isinstance(self.terp_ids, TinyDict):
-                ids = self.terp_ids.ids
-                
-        else:
+        params = getattr(cherrypy.request, 'terp_params', None)
+        if not params:
             params = TinyDict()
             params.model = attrs.get('relation', 'model')
             params.ids = attrs.get('value', [])
             params.name = attrs.get('name', '')
+
+        current = params.chain_get(self.name)
+        if current and params.source == self.name:
+            ids = current.ids
 
         self.model = attrs.get('relation', 'model')
         self.link = attrs.get('link', None)
