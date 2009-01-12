@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2009-01-01 15:47\n"
+"POT-Creation-Date: 2009-01-12 19:52\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,24 +14,15 @@ msgstr ""
 "Content-Transfer-Encoding: utf-8\n"
 "Generated-By: pygettext.py 1.5\n"
 
-#: openerp/commands.py:36
+#: openerp/commands.py:50
 msgid "Could not find default configuration."
 msgstr ""
 
-#: openerp/commands.py:39
+#: openerp/commands.py:53
 msgid "Could not find configuration file: %s"
 msgstr ""
 
 #: openerp/common.py:45 openerp/common.py:59
-#: openerp/subcontrollers/actions.py:101 openerp/subcontrollers/actions.py:168
-#: openerp/subcontrollers/actions.py:299 openerp/subcontrollers/actions.py:312
-#: openerp/subcontrollers/attachment.py:65
-#: openerp/subcontrollers/database.py:138
-#: openerp/subcontrollers/database.py:149
-#: openerp/subcontrollers/database.py:169
-#: openerp/subcontrollers/database.py:189
-#: openerp/subcontrollers/database.py:210
-#: openerp/subcontrollers/database.py:230 openerp/subcontrollers/form.py:873
 msgid "Error"
 msgstr ""
 
@@ -76,8 +67,8 @@ msgstr ""
 msgid "Not logged..."
 msgstr ""
 
-#: openerp/rpc.py:420 openerp/rpc.py:423 openerp/widgets/form.py:845
-#: openerp/widgets/listgrid.py:282
+#: openerp/rpc.py:420 openerp/rpc.py:423 openerp/subcontrollers/form.py:896
+#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
 msgid "Application Error!"
 msgstr ""
 
@@ -89,23 +80,23 @@ msgstr ""
 msgid "Error no report"
 msgstr ""
 
-#: openerp/subcontrollers/actions.py:153
+#: openerp/subcontrollers/actions.py:154
 msgid "Nothing to print!"
 msgstr ""
 
-#: openerp/subcontrollers/actions.py:168
+#: openerp/subcontrollers/actions.py:169
 msgid "Printing aborted, too long delay!"
 msgstr ""
 
-#: openerp/subcontrollers/actions.py:299
+#: openerp/subcontrollers/actions.py:300
 msgid "Relative URLs are not supported!"
 msgstr ""
 
-#: openerp/subcontrollers/actions.py:312 openerp/widgets/action.py:60
+#: openerp/subcontrollers/actions.py:313 openerp/widgets/action.py:60
 msgid "Action not found!"
 msgstr ""
 
-#: openerp/subcontrollers/actions.py:358
+#: openerp/subcontrollers/actions.py:359
 msgid "No action defined!"
 msgstr ""
 
@@ -118,137 +109,153 @@ msgstr ""
 msgid "Create new database"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:66 openerp/subcontrollers/database.py:80
-#: openerp/subcontrollers/database.py:88 openerp/subcontrollers/database.py:96
-#: openerp/subcontrollers/database.py:105
+#: openerp/subcontrollers/database.py:66 openerp/subcontrollers/database.py:81
+#: openerp/subcontrollers/database.py:90 openerp/subcontrollers/database.py:98
+#: openerp/subcontrollers/database.py:107
 #: openerp/subcontrollers/templates/selection.kid:button
 msgid "OK"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:67
+#: openerp/subcontrollers/database.py:68
 msgid "Super admin password:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:68 openerp/subcontrollers/database.py:99
+#: openerp/subcontrollers/database.py:69
+#: openerp/subcontrollers/database.py:101
 msgid "New database name:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:69
+#: openerp/subcontrollers/database.py:70
 msgid "Load Demonstration data:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:70
+#: openerp/subcontrollers/database.py:71
 msgid "Default Language:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:71
+#: openerp/subcontrollers/database.py:72
 msgid "Administrator password:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:72
+#: openerp/subcontrollers/database.py:73
 msgid "Confirm password:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:78
+#: openerp/subcontrollers/database.py:79
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Drop database"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:81 openerp/subcontrollers/database.py:89
+#: openerp/subcontrollers/database.py:82
+msgid "Do you really want to drop the selected database?"
+msgstr ""
+
+#: openerp/subcontrollers/database.py:83 openerp/subcontrollers/database.py:91
 #: openerp/templates/login.kid:td
 msgid "Database:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:82 openerp/subcontrollers/database.py:90
-#: openerp/subcontrollers/database.py:98 openerp/templates/login.kid:td
+#: openerp/subcontrollers/database.py:84 openerp/subcontrollers/database.py:92
+#: openerp/subcontrollers/database.py:100 openerp/templates/login.kid:td
 msgid "Password:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:86
+#: openerp/subcontrollers/database.py:88
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Backup database"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:94
+#: openerp/subcontrollers/database.py:96
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Restore database"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:97
+#: openerp/subcontrollers/database.py:99
 msgid "File:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:103
+#: openerp/subcontrollers/database.py:105
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Change Administrator Password"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:106
+#: openerp/subcontrollers/database.py:108
 msgid "Old Password:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:107
+#: openerp/subcontrollers/database.py:109
 msgid "New Password:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:108
+#: openerp/subcontrollers/database.py:110
 msgid "Confirm Password:"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:138
+#: openerp/subcontrollers/database.py:140
 msgid "Bad database name!"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:138
+#: openerp/subcontrollers/database.py:140
 msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
 msgstr ""
 
-#: openerp/subcontrollers/database.py:145
-#: openerp/subcontrollers/database.py:147
+#: openerp/subcontrollers/database.py:164
+msgid "Database already exists!"
+msgstr ""
+
+#: openerp/subcontrollers/database.py:164
+#: openerp/subcontrollers/database.py:169
+#: openerp/subcontrollers/database.py:171
 msgid "Could not create database."
 msgstr ""
 
-#: openerp/subcontrollers/database.py:145
 #: openerp/subcontrollers/database.py:166
-#: openerp/subcontrollers/database.py:207
-msgid "Bad database administrator password!"
+msgid ""
+"The server crashed during installation.\n"
+"We suggest you to drop this database."
 msgstr ""
 
-#: openerp/subcontrollers/database.py:147
+#: openerp/subcontrollers/database.py:167
 msgid "Error during database creation!"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:166
+#: openerp/subcontrollers/database.py:169
+#: openerp/subcontrollers/database.py:190
+#: openerp/subcontrollers/database.py:230
+msgid "Bad database administrator password!"
+msgstr ""
+
+#: openerp/subcontrollers/database.py:190
 msgid "Could not drop database."
 msgstr ""
 
-#: openerp/subcontrollers/database.py:168
+#: openerp/subcontrollers/database.py:192
 msgid "Couldn't drop database"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:189
+#: openerp/subcontrollers/database.py:212
 msgid "Could not create backup."
 msgstr ""
 
-#: openerp/subcontrollers/database.py:207
+#: openerp/subcontrollers/database.py:230
 msgid "Could not restore database."
 msgstr ""
 
-#: openerp/subcontrollers/database.py:209
+#: openerp/subcontrollers/database.py:232
 msgid "Couldn't restore database"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:227
+#: openerp/subcontrollers/database.py:249
 msgid "Bad password provided!"
 msgstr ""
 
-#: openerp/subcontrollers/database.py:227
+#: openerp/subcontrollers/database.py:249
 msgid "Could not change super admin password."
 msgstr ""
 
-#: openerp/subcontrollers/database.py:229
+#: openerp/subcontrollers/database.py:251
 msgid "Error, password not changed."
 msgstr ""
 
@@ -264,23 +271,23 @@ msgid ""
 "Please report this error manually at %s"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:475
+#: openerp/subcontrollers/form.py:496
 msgid "Invalid button type"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:788 openerp/subcontrollers/tree.py:226
+#: openerp/subcontrollers/form.py:811 openerp/subcontrollers/tree.py:226
 msgid "No record selected!"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:793
+#: openerp/subcontrollers/form.py:816
 msgid "Print Screen"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:810
+#: openerp/subcontrollers/form.py:833
 msgid "You must save this record to use the sidebar button!"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:873
+#: openerp/subcontrollers/form.py:896
 msgid "Wrong on_change trigger: %s"
 msgstr ""
 
@@ -324,10 +331,6 @@ msgid ""
 "%s\n"
 "\n"
 "%s"
-msgstr ""
-
-#: openerp/subcontrollers/impex.py:451
-msgid "Importation Error!"
 msgstr ""
 
 #: openerp/subcontrollers/listgrid.py:63
@@ -403,10 +406,6 @@ msgid "No resource is selected..."
 msgstr ""
 
 #: openerp/subcontrollers/viewed.py:220
-msgid "Error!"
-msgstr ""
-
-#: openerp/subcontrollers/viewed.py:220
 msgid "Invalid view id."
 msgstr ""
 
@@ -451,19 +450,15 @@ msgstr ""
 msgid "Bad username or password!"
 msgstr ""
 
-#: openerp/widgets/form.py:503
-msgid "%.2f Kb"
-msgstr ""
-
-#: openerp/widgets/form.py:845 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
 msgid "Invalid view, duplicate field: %s"
 msgstr ""
 
-#: openerp/widgets/listgrid.py:498
+#: openerp/widgets/listgrid.py:488
 msgid "Yes"
 msgstr ""
 
-#: openerp/widgets/listgrid.py:500
+#: openerp/widgets/listgrid.py:490
 msgid "No"
 msgstr ""
 

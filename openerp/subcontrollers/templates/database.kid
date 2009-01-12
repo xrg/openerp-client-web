@@ -71,10 +71,6 @@
             return true;
         }
 
-        var on_drop = function() {
-            return window.confirm('${_("Do you really want to drop the selected database?")}');
-        }
-
     </script>
 
 </head>

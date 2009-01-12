@@ -79,7 +79,7 @@ class FormDrop(widgets.TableForm):
     string = _('Drop database')
     action = '/database/do_drop'
     submit_text = _('OK')
-    form_attrs = {'onsubmit': 'return on_drop()'}
+    form_attrs = {'onsubmit': 'return window.confirm("%s")' % _("Do you really want to drop the selected database?")}
     fields = [widgets.SingleSelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
@@ -161,10 +161,10 @@ class Database(controllers.Controller):
                     raise Exception('DbFailed')
         except Exception, e:
             if e.args == ('DbExist',):
-                raise common.warning(_("Could not create database."), _('Database already exists !'))
+                raise common.warning(_("Could not create database."), _('Database already exists!'))
             elif e.args == ('DbFailed'):
                 raise common.warning(_("The server crashed during installation.\nWe suggest you to drop this database."), 
-                                     _("Error during database creation !"))
+                                     _("Error during database creation!"))
             elif getattr(e, 'faultCode', False) == 'AccessDenied':
                 raise common.warning(_('Bad database administrator password!'), _("Could not create database."))
             else:
