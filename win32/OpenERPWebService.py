@@ -1,8 +1,3 @@
-#
-# etiny-service.py
-#
-# Script installing Tiny ERP Web Client (eTiny) as Windows service
-
 import os
 import sys
 import thread
