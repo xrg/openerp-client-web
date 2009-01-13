@@ -107,14 +107,11 @@ def _gettext(key, locale, domain):
     return tg_gettext.tg_gettext(key, locale, domain)
 
 def gettext(key, locale=None, domain=None):
-
-    if key in _MESSAGES:
-        locale = locale or tg_gettext.get_locale()
-        return _gettext(key, locale, domain)
-
+    if key in __TRANSLATABLES:
+        return _gettext(key, locale or tg_gettext.get_locale(), 'messages')
     return key
 
-def _load_translatables():
+def __load_translatables():
 
     localedir = tg_gettext.get_locale_dir()
 
@@ -123,14 +120,18 @@ def _load_translatables():
         from turbogears import config
         config.update({'package': 'openerp'})
         localedir = tg_gettext.get_locale_dir()
+    
+    result = {}
+    for lang in os.listdir(localedir):
+        try:
+            t = translation(domain='messages', localedir=localedir, languages=[lang])
+            result.update(t._catalog)
+        except:
+            pass
 
-    t = translation(domain='messages', localedir=localedir, languages=['fr'])
+    return result.keys()
 
-    result = [x for x in t._catalog.keys() if x]
-
-    return result
-
-_MESSAGES = _load_translatables()
+__TRANSLATABLES = __load_translatables()
 
 # vim: ts=4 sts=4 sw=4 si et
 
