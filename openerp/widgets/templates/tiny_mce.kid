@@ -10,25 +10,26 @@
             mode: "exact",
             elements: "${name}",
             editor_selector: "tinymce",
+            readonly: ${(not editable or 0) and 1},
             
             theme: "advanced",
-            plugins: "fullscreen,print",
+            plugins: "fullscreen,print,safari",
             
-            content_css: "/static/css/texttag.css",
+            content_css: "${tg.url('/static/css/tiny_mcs.css')}",
             apply_source_formatting : true,
             
             extended_valid_elements : "a[href|target|name]",
+
             theme_advanced_disable : "styleselect",
-            
-            ${buttons},
-                                                
-            //theme_advanced_statusbar_location : "bottom",
-            //theme_advanced_resizing : true,
-            //theme_advanced_resize_horizontal : false,
+            theme_advanced_toolbar_location : "top",
+            theme_advanced_buttons3_add : "|,print,fullscreen",
+            theme_advanced_statusbar_location : "bottom",
+            theme_advanced_resizing : true,
+            theme_advanced_resize_horizontal : false,
             
             height: 350,
             debug: false
-        });    
+        });
     </script>
     
 </span>

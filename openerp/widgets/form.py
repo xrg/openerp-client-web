@@ -829,10 +829,7 @@ class Form(TinyCompoundWidget):
                     continue
                 
                 if kind in ('text', 'text_tag') and attrs.get('html'):
-                    try:
-                        cherrypy.request.headers["User-Agent"].index('Safari')
-                    except:
-                        kind = 'text_html'
+                    kind = 'text_html'
 
                 if name in self.view_fields:
                     print "-"*30

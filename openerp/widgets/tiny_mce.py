@@ -36,26 +36,11 @@ class TinyMCE(TinyField):
 
     template = "openerp.widgets.templates.tiny_mce"
     javascript = [JSLink("openerp", "tiny_mce/tiny_mce.js")]
-    params = ["buttons"]
 
     def __init__(self, attrs={}):
         super(TinyMCE, self).__init__(attrs)
         self.validator = tiny_validators.String()
         
-        self.buttons = """theme_advanced_toolbar_location : "top",
-        theme_advanced_buttons3_add : "|,print,fullscreen"
-        """
-
-        if not self.editable:
-            self.buttons = """theme_advanced_toolbar_location : "bottom",
-            theme_advanced_buttons1 : "",
-            theme_advanced_buttons2 : "",
-            theme_advanced_buttons3 : "",
-            handle_event_callback: function(){
-                return false;
-            }
-            """
-
     def set_value(self, value):
         super(TinyMCE, self).set_value(value)
         
