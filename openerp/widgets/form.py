@@ -517,7 +517,7 @@ class Hidden(TinyField):
 
     def __init__(self, attrs={}):
         super(Hidden, self).__init__(attrs)
-        self.wid = widgets_type[self.kind](attrs)
+        self.wid = WIDGETS[self.kind](attrs)
         self.validator = self.wid.validator
         self.relation = attrs.get('relation') or None
 
@@ -757,7 +757,7 @@ class Form(TinyCompoundWidget):
             if name not in self.view_fields:
                 
                 kind = attrs.get('type', 'char')
-                if kind not in widgets_type:
+                if kind not in WIDGETS:
                     continue
                 
                 attrs['prefix'] = prefix
@@ -825,14 +825,14 @@ class Form(TinyCompoundWidget):
                 
                 kind = fields[name]['type']
                 
-                if kind not in widgets_type:
+                if kind not in WIDGETS:
                     continue
                 
                 if kind in ('text', 'text_tag') and attrs.get('html'):
                     try:
                         cherrypy.request.headers["User-Agent"].index('Safari')
                     except:
-                        kind = 'html_tag'
+                        kind = 'text_html'
 
                 if name in self.view_fields:
                     print "-"*30
@@ -877,7 +877,7 @@ class Form(TinyCompoundWidget):
         if attrs.get('widget', False):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
-            if attrs['widget'] in widgets_type:
+            if attrs['widget'] in WIDGETS:
                 attrs['type2'] = attrs['type']
                 attrs['type'] = attrs['widget']
 
@@ -893,7 +893,7 @@ class Form(TinyCompoundWidget):
         if self.readonly:
             attrs['readonly'] = True
             
-        field = widgets_type[kind](attrs)
+        field = WIDGETS[kind](attrs)
         
         if isinstance(field, TinyInputWidget):
             field.set_value(value)        
@@ -912,7 +912,7 @@ from reference import Reference
 from tiny_mce import TinyMCE
 from wiki import WikiWidget
 
-widgets_type = {
+WIDGETS = {
     'date': DateTime,
     'time': DateTime,
     'float_time': FloatTime,
@@ -928,7 +928,8 @@ widgets_type = {
     'picture': Picture,
     'text': Text,
     'text_tag': Text,
-    'html_tag': TinyMCE,
+    'text_html': TinyMCE,
+    'text_wiki': WikiWidget,
     'one2many': O2M,
     'one2many_form': O2M,
     'one2many_list': O2M,
@@ -937,8 +938,7 @@ widgets_type = {
     'email' : Email,
     'url' : URL,
     'image' : Image,
-    'progressbar' : ProgressBar,
-    'text_wiki': WikiWidget
+    'progressbar' : ProgressBar,    
 }
 
 # vim: ts=4 sts=4 sw=4 si et

@@ -167,17 +167,17 @@ class List(TinyCompoundWidget):
 
             for f, fa in self.headers:
                 k = fa.get('type', 'char')
-                if k not in form.widgets_type:
+                if k not in form.WIDGETS:
                     k = 'char'
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 fa['inline'] = True
-                self.editors[f] = form.widgets_type[k](fa)
+                self.editors[f] = form.WIDGETS[k](fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
                 k = fa.get('type', 'char')
-                if k not in form.widgets_type:
+                if k not in form.WIDGETS:
                     k = 'char'
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)

@@ -73,8 +73,8 @@ class RangeWidget(TinyCompoundWidget):
         from_attrs['name'] = fname + '/from'
         to_attrs['name'] = fname + '/to'
 
-        self.from_field = range_widgets_type[kind](from_attrs)
-        self.to_field = range_widgets_type[kind](to_attrs)
+        self.from_field = RANGE_WIDGETS[kind](from_attrs)
+        self.to_field = RANGE_WIDGETS[kind](to_attrs)
 
         # in search view fields should be writable
         self.from_field.readonly = False
@@ -183,12 +183,12 @@ class Search(TinyCompoundWidget):
                 
                 kind = fields[name]['type']
 
-                if kind not in widgets_type:
+                if kind not in WIDGETS:
                     continue
 
                 self.fields_type[name] = kind
 
-                field = widgets_type[kind](attrs=fields[name])
+                field = WIDGETS[kind](attrs=fields[name])
                 field.onchange = None
                 field.callback = None
 
@@ -204,7 +204,7 @@ class Search(TinyCompoundWidget):
 
                 self.widgets += [field]
 
-range_widgets_type = {
+RANGE_WIDGETS = {
     'date': DateTime,
     'time': DateTime,
     'datetime': DateTime,
@@ -212,7 +212,7 @@ range_widgets_type = {
     'integer': Integer,
 }
 
-widgets_type = {
+WIDGETS = {
     'date': RangeWidget,
     'datetime': RangeWidget,
     'float': RangeWidget,
@@ -220,11 +220,7 @@ widgets_type = {
     'selection': Selection,
     'char': Char,
     'boolean': Selection,
-    #'reference': Reference,
-    #'binary': Binary,
-    #'picture': Picture,
     'text': Char,
-    #'text_tag': TextTag,
     'one2many': Char,
     'one2many_form': Char,
     'one2many_list': Char,
@@ -232,7 +228,6 @@ widgets_type = {
     'many2one': Char,
     'email' : Char,
     'url' : Char,
-    #'image' : Image,
 }
 
 # vim: ts=4 sts=4 sw=4 si et

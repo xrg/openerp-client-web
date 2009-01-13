@@ -756,7 +756,8 @@ _PROPERTIES_FIELDS = {
     #'picture': Picture,
     'text': [],
     'text_tag': [],
-    'html_tag': [],
+    'text_html': [],
+    'text_wiki': [],
     'one2many': [],
     'one2many_form': [],
     'one2many_list': [],
@@ -817,7 +818,7 @@ class WidgetProperty(tg_widgets.SingleSelectField):
     
     def __init__(self, name, default=None):
         
-        options = [''] + tw.form.widgets_type.keys()
+        options = [''] + tw.form.WIDGETS.keys()
                 
         super(WidgetProperty, self).__init__(name=name, options=options, default=default)        
         
