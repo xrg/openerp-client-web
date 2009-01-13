@@ -43,7 +43,7 @@ setup(
     license = license,
 
     install_requires=[
-        "TurboGears >= 1.0.7, < 1.1",
+        "TurboGears >= 1.0.7, < 1.1b1",
         "pyparsing >= 1.5.0"
     ],
 
