@@ -15,7 +15,7 @@
             theme: "advanced",
             plugins: "fullscreen,print,safari",
             
-            content_css: "${tg.url('/static/css/tiny_mcs.css')}",
+            content_css: "${tg.url('/static/css/tiny_mce.css')}",
             apply_source_formatting : true,
             
             extended_valid_elements : "a[href|target|name]",
