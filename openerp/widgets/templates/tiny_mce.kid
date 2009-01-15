@@ -13,6 +13,7 @@
             readonly: ${(not editable or 0) and 1},
             
             theme: "advanced",
+
             plugins: "fullscreen,print,safari",
             
             content_css: "${tg.url('/static/css/tiny_mce.css')}",
@@ -26,7 +27,8 @@
             theme_advanced_statusbar_location : "bottom",
             theme_advanced_resizing : true,
             theme_advanced_resize_horizontal : false,
-            
+
+            tab_focus : ':prev,:next',
             height: 350,
             debug: false
         });
