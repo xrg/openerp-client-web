@@ -506,7 +506,9 @@ MochiKit.Base.update(ListView.prototype, {
                 
             self.current_record = edit_inline;
 
+            var __listview = getElement(self.name).__listview;
             swapDOM(self.name, newlist);
+            getElement(self.name).__listview = __listview;
 
             var ua = navigator.userAgent.toLowerCase();
 
@@ -524,6 +526,8 @@ MochiKit.Base.update(ListView.prototype, {
                 first.focus();
                 first.select();
             }
+
+            MochiKit.Signal.signal(self, 'onreload')
         });
     }
 

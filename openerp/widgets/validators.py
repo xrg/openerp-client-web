@@ -243,5 +243,29 @@ class Picture(tg.validators.FancyValidator):
             url = 'data:image/%s;base64,%s' % (type, data)
         return url
 
+
+
+
+
+# Let some FormEncode strings goes into message catalog.
+__email_messages = {
+    'empty': _('Please enter an email address'),
+    'noAt': _('An email address must contain a single @'),
+    'badUsername': _('The username portion of the email address is invalid (the portion before the @: %(username)s)'),
+    'badDomain': _('The domain portion of the email address is invalid (the portion after the @: %(domain)s)'),
+}
+
+__url_messages = {
+    'noScheme': _('You must start your URL with http://, https://, etc'),
+    'badURL': _('That is not a valid URL'),
+    'noTLD': _('You must provide a full domain name (like %(domain)s.com)'),
+}
+
+__type_messages = {
+    'integer': _("Please enter an integer value"),
+    'number': _("Please enter a number"),
+    'badFormat': _('Invalid datetime format'),
+}
+
 # vim: ts=4 sts=4 sw=4 si et
 

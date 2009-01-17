@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2009-01-12 19:52\n"
+"POT-Creation-Date: 2009-01-13 01:04\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -597,6 +597,50 @@ msgstr ""
 
 #: openerp/widgets/validators.py:166
 msgid "Please select a file."
+msgstr ""
+
+#: openerp/widgets/validators.py:252
+msgid "Please enter an email address"
+msgstr ""
+
+#: openerp/widgets/validators.py:253
+msgid "An email address must contain a single @"
+msgstr ""
+
+#: openerp/widgets/validators.py:254
+msgid ""
+"The username portion of the email address is invalid (the portion before the "
+"@: %(username)s)"
+msgstr ""
+
+#: openerp/widgets/validators.py:255
+msgid ""
+"The domain portion of the email address is invalid (the portion after the @: "
+"%(domain)s)"
+msgstr ""
+
+#: openerp/widgets/validators.py:259
+msgid "You must start your URL with http://, https://, etc"
+msgstr ""
+
+#: openerp/widgets/validators.py:260
+msgid "That is not a valid URL"
+msgstr ""
+
+#: openerp/widgets/validators.py:261
+msgid "You must provide a full domain name (like %(domain)s.com)"
+msgstr ""
+
+#: openerp/widgets/validators.py:265
+msgid "Please enter an integer value"
+msgstr ""
+
+#: openerp/widgets/validators.py:266
+msgid "Please enter a number"
+msgstr ""
+
+#: openerp/widgets/validators.py:267
+msgid "Invalid datetime format"
 msgstr ""
 
 #: openerp/widgets/tinycalendar/templates/week.kid:div
