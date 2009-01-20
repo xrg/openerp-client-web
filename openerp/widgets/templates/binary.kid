@@ -15,8 +15,7 @@
                     kind="${kind}"
                     disabled="disabled" 
                     id="${name}" 
-                    name="${name}" 
-                    onchange="set_binary_filename(('${filename}'), this);"/>
+                    name="${name}"/>
             </div>
             <div id="${name}_binary_buttons" style="white-space: nowrap;">
                 <span py:content="value or text"/>
