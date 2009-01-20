@@ -165,6 +165,9 @@ def default_error_handler(self, tg_errors=None, **kw):
     @param tg_errors: errors
     """
     params, data = TinyDict.split(kw)
+    print "XXXXXXXXXXXXXXXXXXXXXXXXX"
+    print tg_errors
+    print "XXXXXXXXXXXXXXXXXXXXXXXXX"
     return self.create(params, tg_errors=tg_errors)
 
 def default_exception_handler(self, tg_exceptions=None, **kw):
@@ -506,12 +509,8 @@ class Form(controllers.Controller, TinyResource):
         model = params.model
         
         proxy = rpc.RPCProxy(model)
-        new_id = False
-        try:
-            new_id = proxy.copy(id, {}, ctx)
-        except Exception, e:
-            pass
-
+        new_id = proxy.copy(id, {}, ctx)
+        
         if new_id:
             params.id = new_id
             params.ids += [int(new_id)]
