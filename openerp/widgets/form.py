@@ -719,8 +719,9 @@ class Form(TinyCompoundWidget):
                 values[d[0]] = d[2]
 
         if ids:
-            values = proxy.read(ids[:1], fields.keys(), ctx)[0]
+            values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
             self.id = ids[0]
+            self.last_update = values.pop('__last_update')
 
         elif 'datas' in view: # wizard data
 

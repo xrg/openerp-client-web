@@ -1,0 +1,1740 @@
+# translation of openobject-web-client-de.po to Deutsch
+# translation of de_messages.po to
+# translation of messages.po to
+# Copyright (C) YEAR ORGANIZATION
+#
+# Ferdinand Gassauer <f.gassauer@chricar.at>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-web-client-de\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-01-13 01:04+0000\n"
+"PO-Revision-Date: 2009-01-18 08:43+0000\n"
+"Last-Translator: Ferdinand Gassauer <Unknown>\n"
+"Language-Team: Deutsch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-01-19 08:12+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: openerp/commands.py:50
+msgid "Could not find default configuration."
+msgstr "Konnte Standard Konfiguration nicht finden."
+
+#: openerp/commands.py:53
+msgid "Could not find configuration file: %s"
+msgstr "Konfigurationsdatei fehlt: %s"
+
+#: openerp/common.py:45 openerp/common.py:59
+msgid "Error"
+msgstr "Fehler"
+
+#: openerp/common.py:50 openerp/common.py:62
+msgid "Warning"
+msgstr "Warnung"
+
+#: openerp/common.py:55 openerp/subcontrollers/templates/view_log.kid:title
+msgid "Information"
+msgstr "Information"
+
+#: openerp/controllers.py:81
+msgid "Access Denied!"
+msgstr "Zugriff Abgelehnt!"
+
+#: openerp/controllers.py:81
+msgid ""
+"You can not log into the system!\n"
+"Ask the administrator to verify\n"
+"you have an action defined for your user."
+msgstr ""
+"Systemanmeldung nicht möglich!\n"
+"Administrator befragen, ob eine \n"
+"\"Aktion\" für Ihren Benutzernamen definiert ist."
+
+#: openerp/controllers.py:117 openerp/tinyres.py:117
+msgid "Could not connect to server!"
+msgstr "Kann nicht zum Server verbinden!"
+
+#: openerp/rpc.py:285 openerp/rpc.py:413
+msgid "Connection refused!"
+msgstr "Verbindung zurückgewiesen!"
+
+#: openerp/rpc.py:370
+msgid ""
+"You select a timezone but OpenERP could not find pytz library!\n"
+"The timezone functionality will be disable."
+msgstr ""
+"Sie haben eine Zeitzone definiert, aber OpenERP konnte die Bibliothek pytz "
+"nicht finden!\n"
+"Die Zeitzonenfunktion wird dekativiert."
+
+#: openerp/rpc.py:403
+msgid "Authorization Error!"
+msgstr "Autorisierung Fehler!"
+
+#: openerp/rpc.py:403
+msgid "Not logged..."
+msgstr "Nicht eingeloggt."
+
+#: openerp/rpc.py:420 openerp/rpc.py:423 openerp/subcontrollers/form.py:896
+#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
+msgid "Application Error!"
+msgstr "Programm Fehler!"
+
+#: openerp/subcontrollers/actions.py:101
+msgid "Invalid View!"
+msgstr "Ungültige Ansicht!"
+
+#: openerp/subcontrollers/actions.py:128
+msgid "Error no report"
+msgstr "Fehler: kein Bericht"
+
+#: openerp/subcontrollers/actions.py:154
+msgid "Nothing to print!"
+msgstr "Nichts zu drucken!"
+
+#: openerp/subcontrollers/actions.py:169
+msgid "Printing aborted, too long delay!"
+msgstr "Drucken abgebrochen, zu lange keine Antwort!"
+
+#: openerp/subcontrollers/actions.py:300
+msgid "Relative URLs are not supported!"
+msgstr "Relative URL sind nicht unterstützt!"
+
+#: openerp/subcontrollers/actions.py:313 openerp/widgets/action.py:60
+msgid "Action not found!"
+msgstr "Aktion nicht gefunden!"
+
+#: openerp/subcontrollers/actions.py:359
+msgid "No action defined!"
+msgstr "Keine Aktion definiert!"
+
+#: openerp/subcontrollers/attachment.py:64
+msgid "No record selected! You can only attach to existing record..."
+msgstr ""
+"Kein Datensatz gewählt. Anhänge nur für bestehend Datensätze möglich."
+
+#: openerp/subcontrollers/database.py:64
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Create new database"
+msgstr "Neue Datenbank erstellen"
+
+#: openerp/subcontrollers/database.py:66 openerp/subcontrollers/database.py:81
+#: openerp/subcontrollers/database.py:90 openerp/subcontrollers/database.py:98
+#: openerp/subcontrollers/database.py:107
+#: openerp/subcontrollers/templates/selection.kid:button
+msgid "OK"
+msgstr "OK"
+
+#: openerp/subcontrollers/database.py:68
+msgid "Super admin password:"
+msgstr "Super Systemverwalter Kennwort"
+
+#: openerp/subcontrollers/database.py:69
+#: openerp/subcontrollers/database.py:101
+msgid "New database name:"
+msgstr "Neuer Datenbankname:"
+
+#: openerp/subcontrollers/database.py:70
+msgid "Load Demonstration data:"
+msgstr "Laden Demo Daten:"
+
+#: openerp/subcontrollers/database.py:71
+msgid "Default Language:"
+msgstr "Standardsprache:"
+
+#: openerp/subcontrollers/database.py:72
+msgid "Administrator password:"
+msgstr "Verwalter Kennwort"
+
+#: openerp/subcontrollers/database.py:73
+msgid "Confirm password:"
+msgstr "Bestätigen Kennwort:"
+
+#: openerp/subcontrollers/database.py:79
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Drop database"
+msgstr "Datenbank löschen"
+
+#: openerp/subcontrollers/database.py:82
+msgid "Do you really want to drop the selected database?"
+msgstr "Wellen Sie die ausgewählte Datenbank wirklich löschen?"
+
+#: openerp/subcontrollers/database.py:83 openerp/subcontrollers/database.py:91
+#: openerp/templates/login.kid:td
+msgid "Database:"
+msgstr "Datenbank:"
+
+#: openerp/subcontrollers/database.py:84 openerp/subcontrollers/database.py:92
+#: openerp/subcontrollers/database.py:100 openerp/templates/login.kid:td
+msgid "Password:"
+msgstr "Kennwort:"
+
+#: openerp/subcontrollers/database.py:88
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Backup database"
+msgstr "Datenbank sichern"
+
+#: openerp/subcontrollers/database.py:96
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Restore database"
+msgstr "Datenbank rücksichern"
+
+#: openerp/subcontrollers/database.py:99
+msgid "File:"
+msgstr "Datei:"
+
+#: openerp/subcontrollers/database.py:105
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Change Administrator Password"
+msgstr "Administrator Kennwort ändern"
+
+#: openerp/subcontrollers/database.py:108
+msgid "Old Password:"
+msgstr "Altes Kennwort:"
+
+#: openerp/subcontrollers/database.py:109
+msgid "New Password:"
+msgstr "Neues Kennwort:"
+
+#: openerp/subcontrollers/database.py:110
+msgid "Confirm Password:"
+msgstr "Bestätigen Kennwort:"
+
+#: openerp/subcontrollers/database.py:140
+msgid "Bad database name!"
+msgstr "Unzulässiger Datenbankname!"
+
+#: openerp/subcontrollers/database.py:140
+msgid ""
+"The database name must contain only normal characters or \"_\".\n"
+"You must avoid all accents, space or special characters."
+msgstr ""
+"Der Datenbankname darf nur aus normalen Zeichen und \"_\" bestehen.\n"
+"Keine Akkzente, Leerstellen, oder Sonderzeichen."
+
+#: openerp/subcontrollers/database.py:164
+msgid "Database already exists!"
+msgstr "Datenbank besteht bereits!"
+
+#: openerp/subcontrollers/database.py:164
+#: openerp/subcontrollers/database.py:169
+#: openerp/subcontrollers/database.py:171
+msgid "Could not create database."
+msgstr "Konnte neue Datenbank nicht erzeugen."
+
+#: openerp/subcontrollers/database.py:166
+msgid ""
+"The server crashed during installation.\n"
+"We suggest you to drop this database."
+msgstr ""
+"Die Datenbank ist während der Installation abgestürzt.\n"
+"Wir empfehlen, diese zu löschen."
+
+#: openerp/subcontrollers/database.py:167
+msgid "Error during database creation!"
+msgstr "Fehler bei Datenbank Erstellung!"
+
+#: openerp/subcontrollers/database.py:169
+#: openerp/subcontrollers/database.py:190
+#: openerp/subcontrollers/database.py:230
+msgid "Bad database administrator password!"
+msgstr "Falsches Datenbank Systemverwalter Kennwort!"
+
+#: openerp/subcontrollers/database.py:190
+msgid "Could not drop database."
+msgstr "Datenbank konnte nicht gelöscht werden."
+
+#: openerp/subcontrollers/database.py:192
+msgid "Couldn't drop database"
+msgstr "Datenbank konnte nicht gelöscht werden."
+
+#: openerp/subcontrollers/database.py:212
+msgid "Could not create backup."
+msgstr "Konnte Sicherung nicht erstellen."
+
+#: openerp/subcontrollers/database.py:230
+msgid "Could not restore database."
+msgstr "Datenbank konnte nicht wiederhergestellt werden."
+
+#: openerp/subcontrollers/database.py:232
+msgid "Couldn't restore database"
+msgstr "Datenbank konnte nicht wiederhergestellt werden."
+
+#: openerp/subcontrollers/database.py:249
+msgid "Bad password provided!"
+msgstr "falsches Kennwort eingegeben!"
+
+#: openerp/subcontrollers/database.py:249
+msgid "Could not change super admin password."
+msgstr "Konnte Datenbankverwalter Kennwort  nicht ändern."
+
+#: openerp/subcontrollers/database.py:251
+msgid "Error, password not changed."
+msgstr "Fehler, Kennwort nicht geändert."
+
+#: openerp/subcontrollers/error_page.py:79
+msgid ""
+"Your problem has been sent to the quality team!\n"
+"We will recontact you after analysing the problem."
+msgstr ""
+"Ihr Problem wurde an das Qualitätssicherungsteam geschickt\n"
+"Wir werden Sie nach der Anlalyse des Problems kontaktieren."
+
+#: openerp/subcontrollers/error_page.py:81
+msgid ""
+"Your problem could not be sent to the quality team!\n"
+"Please report this error manually at %s"
+msgstr ""
+"Ihr Problem konnte nicht an das Qualitätssicherungsteam geschickt werden.\n"
+"BItte berichten Sie das Problem hier: %s"
+
+#: openerp/subcontrollers/form.py:496
+msgid "Invalid button type"
+msgstr "Ungültige Schaltfläche Art"
+
+#: openerp/subcontrollers/form.py:811 openerp/subcontrollers/tree.py:226
+msgid "No record selected!"
+msgstr "Kein Datensatz ausgewählt!"
+
+#: openerp/subcontrollers/form.py:816
+msgid "Print Screen"
+msgstr "Bildschirm drucken"
+
+#: openerp/subcontrollers/form.py:833
+msgid "You must save this record to use the sidebar button!"
+msgstr ""
+"Der Datensatz muss vor der Benutzung der seitlichen Werkzeugleiste "
+"gespeichert werden"
+
+#: openerp/subcontrollers/form.py:896
+msgid "Wrong on_change trigger: %s"
+msgstr "Fehler beim \"on_change Trigger\": %s"
+
+#: openerp/subcontrollers/impex.py:82
+msgid ""
+"Operation failed!\n"
+"I/O error"
+msgstr ""
+"Operation fehlgeschlagen!\n"
+"Eingabe/Ausgabe Fehler."
+
+#: openerp/subcontrollers/impex.py:408
+msgid "Error opening .CSV file"
+msgstr "Fehler beim Öffnen der CSV-Datei"
+
+#: openerp/subcontrollers/impex.py:408
+msgid "Input Error."
+msgstr "Eingabe Fehler."
+
+#: openerp/subcontrollers/impex.py:419
+msgid ""
+"Error processing your first line of the file.\n"
+"Field %s is unknown!"
+msgstr ""
+"Fehler beim Verarbeiten der 1. Zeile.\n"
+"Feld %s ist unbekannt!"
+
+#: openerp/subcontrollers/impex.py:419
+msgid "Import Error."
+msgstr "Import Fehler"
+
+#: openerp/subcontrollers/impex.py:443
+msgid "XML-RPC error!"
+msgstr "XML-RPC Fehler!"
+
+#: openerp/subcontrollers/impex.py:445
+msgid "Imported %d objects!"
+msgstr "Importiert: %d Objkete!"
+
+#: openerp/subcontrollers/impex.py:450
+msgid ""
+"Unable to import this record:\n"
+"%s\n"
+"Error Message:\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"Kann diesen Datensatz nicht laden:\n"
+"%s\n"
+"Fehlermeldung:\n"
+"%s\n"
+"\n"
+"%s"
+
+#: openerp/subcontrollers/listgrid.py:63
+msgid "Parent record doesn't exists..."
+msgstr "Übergeordneter Datensatz existiert nicht.."
+
+#: openerp/subcontrollers/preferences.py:70 openerp/templates/master.kid:a
+msgid "Preferences"
+msgstr "Einstellungen"
+
+#: openerp/subcontrollers/process.py:70
+msgid "Select Workflow"
+msgstr "Auswählen Arbeitsgang"
+
+#: openerp/subcontrollers/process.py:108
+msgid "Last modified by:"
+msgstr "Letzte Änderung durch"
+
+#: openerp/subcontrollers/requests.py:54
+msgid "No request"
+msgstr "Keine Anfrage"
+
+#: openerp/subcontrollers/requests.py:56
+msgid "%s request(s)"
+msgstr "%s Anfrage(n)"
+
+#: openerp/subcontrollers/requests.py:59
+msgid " - %s pending request(s)"
+msgstr " - %s% schwebende Anfragen"
+
+#: openerp/subcontrollers/translator.py:143
+msgid "You need to save the resource before adding translations."
+msgstr "Der Datensatz muss vor Übersetzung gespeichert werden."
+
+#: openerp/subcontrollers/tree.py:261
+msgid "No resource selected!"
+msgstr "Kein Datensatz ausgewählt!"
+
+#: openerp/subcontrollers/view_log.py:65
+msgid "ID"
+msgstr "ID"
+
+#: openerp/subcontrollers/view_log.py:66
+msgid "Creation User"
+msgstr "Benutzer erstellen"
+
+#: openerp/subcontrollers/view_log.py:67
+msgid "Creation Date"
+msgstr "Erstellungsdatum"
+
+#: openerp/subcontrollers/view_log.py:68
+msgid "Latest Modification by"
+msgstr "Letzte Änderung durch"
+
+#: openerp/subcontrollers/view_log.py:69
+msgid "Latest Modification Date"
+msgstr "Letztes Änderungsdatum"
+
+#: openerp/subcontrollers/view_log.py:70
+msgid "Owner"
+msgstr "Eigentümer"
+
+#: openerp/subcontrollers/view_log.py:71
+msgid "Group Owner"
+msgstr "Gruppe Eigentümer"
+
+#: openerp/subcontrollers/view_log.py:72
+msgid "Access Level"
+msgstr "Zugriffsebene"
+
+#: openerp/subcontrollers/view_log.py:81
+msgid "No resource is selected..."
+msgstr "Kein Datensatz ausgewählt!"
+
+#: openerp/subcontrollers/viewed.py:220
+msgid "Invalid view id."
+msgstr "Ungültige Ansicht ID!"
+
+#: openerp/subcontrollers/viewed.py:501
+msgid "Unable to create inherited view."
+msgstr "Kann vererbte Sicht nicht erzeugen."
+
+#: openerp/subcontrollers/viewed.py:503
+msgid "Can't create inherited view here."
+msgstr "Kann hier keine vererbte Sicht erzeugen."
+
+#: openerp/subcontrollers/viewed.py:506
+msgid "Not implemented yet!"
+msgstr "Noch nicht programmiert!"
+
+#: openerp/subcontrollers/viewed.py:608
+msgid "Unable to update the view."
+msgstr "Kann Sicht nicht verändern."
+
+#: openerp/subcontrollers/viewed.py:864
+msgid "New Window"
+msgstr "Neues Fenster"
+
+#: openerp/subcontrollers/viewed.py:876
+msgid "Cancel Button"
+msgstr "Abbrechen Schaltfläche"
+
+#: openerp/subcontrollers/viewed.py:876
+msgid "Save Button"
+msgstr "Speichern Schaltfläche"
+
+#: openerp/subcontrollers/workflow.py:112
+#: openerp/subcontrollers/workflow.py:179
+msgid "Could not delete state"
+msgstr "Konnte Status nicht löschen."
+
+#: openerp/subcontrollers/workflow.py:226
+msgid "No workflow associated!"
+msgstr "Kein Arbeitsgang definiert."
+
+#: openerp/tinyres.py:120
+msgid "Bad username or password!"
+msgstr "Benutzername oder Kennwort falsch"
+
+#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
+msgid "Invalid view, duplicate field: %s"
+msgstr "ungültige Sicht, doppeltes Feld: %s"
+
+#: openerp/widgets/listgrid.py:488
+msgid "Yes"
+msgstr "Ja"
+
+#: openerp/widgets/listgrid.py:490
+msgid "No"
+msgstr "Nein"
+
+#: openerp/widgets/many2one.py:51
+msgid "== Access Denied =="
+msgstr "== Zugriff Abgelehnt! =="
+
+#: openerp/widgets/one2many.py:59
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Create new record."
+msgstr "neuen Datensatz Erstellen"
+
+#: openerp/widgets/one2many.py:59
+#: openerp/widgets/templates/viewform.kid:button
+msgid "New"
+msgstr "Neu"
+
+#: openerp/widgets/one2many.py:74
+msgid "Save parent record."
+msgstr "Übergeordneten Datensatz sichern"
+
+#: openerp/widgets/one2many.py:74
+msgid "Save/New"
+msgstr "Speichern/Neu"
+
+#: openerp/widgets/pager.py:69
+msgid "[%s/%s]"
+msgstr "[%s/%s]"
+
+#: openerp/widgets/pager.py:80
+msgid "[%s - %s of %s]"
+msgstr "[%s - %s of %s]"
+
+#: openerp/widgets/tinycalendar/utils.py:34
+msgid "Monday"
+msgstr "Montag"
+
+#: openerp/widgets/tinycalendar/utils.py:35
+msgid "Tuesday"
+msgstr "Dienstag"
+
+#: openerp/widgets/tinycalendar/utils.py:36
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+#: openerp/widgets/tinycalendar/utils.py:37
+msgid "Thursday"
+msgstr "Donnerstag"
+
+#: openerp/widgets/tinycalendar/utils.py:38
+msgid "Friday"
+msgstr "Freitag"
+
+#: openerp/widgets/tinycalendar/utils.py:39
+msgid "Saturday"
+msgstr "Samstag"
+
+#: openerp/widgets/tinycalendar/utils.py:40
+msgid "Sunday"
+msgstr "Sonntag"
+
+#: openerp/widgets/tinycalendar/utils.py:43
+msgid "January"
+msgstr "Januar"
+
+#: openerp/widgets/tinycalendar/utils.py:44
+msgid "February"
+msgstr "Februar"
+
+#: openerp/widgets/tinycalendar/utils.py:45
+msgid "March"
+msgstr "März"
+
+#: openerp/widgets/tinycalendar/utils.py:46
+msgid "April"
+msgstr "April"
+
+#: openerp/widgets/tinycalendar/utils.py:47
+msgid "May"
+msgstr "Mai"
+
+#: openerp/widgets/tinycalendar/utils.py:48
+msgid "June"
+msgstr "Juni"
+
+#: openerp/widgets/tinycalendar/utils.py:49
+msgid "July"
+msgstr "Juli"
+
+#: openerp/widgets/tinycalendar/utils.py:50
+msgid "August"
+msgstr "August"
+
+#: openerp/widgets/tinycalendar/utils.py:51
+msgid "September"
+msgstr "September"
+
+#: openerp/widgets/tinycalendar/utils.py:52
+msgid "October"
+msgstr "Oktober"
+
+#: openerp/widgets/tinycalendar/utils.py:53
+msgid "November"
+msgstr "November"
+
+#: openerp/widgets/tinycalendar/utils.py:54
+msgid "December"
+msgstr "Dezember"
+
+#: openerp/widgets/tinycalendar/widgets.py:254
+msgid "%s, Week %s"
+msgstr "%s, Woche %s"
+
+#: openerp/widgets/tinycalendar/widgets.py:266
+msgid "%s - %s"
+msgstr "%s - %s"
+
+#: openerp/widgets/tinycalendar/widgets.py:268
+#: openerp/widgets/tinycalendar/widgets.py:298
+#: openerp/widgets/tinycalendar/widgets.py:342
+msgid "Week %s"
+msgstr "Woche %s"
+
+#: openerp/widgets/tinycalendar/widgets.py:287
+msgid "%s, Qtr %s"
+msgstr "%s, Quartal %s"
+
+#: openerp/widgets/tinycalendar/widgets.py:309
+msgid "W %s"
+msgstr "W %s"
+
+#: openerp/widgets/tinycalendar/widgets.py:317
+#: openerp/widgets/tinycalendar/widgets.py:331
+msgid "Year %s to Year %s"
+msgstr "Jahr %s bis Jahr %s"
+
+#: openerp/widgets/validators.py:166
+msgid "Please select a file."
+msgstr "Bitte eine Datei auswählen."
+
+#: openerp/widgets/validators.py:252
+msgid "Please enter an email address"
+msgstr "BItte eine EMail Adresse eingeben"
+
+#: openerp/widgets/validators.py:253
+msgid "An email address must contain a single @"
+msgstr "Eine EMail Adresse muss genau ein \"@\" beinhalten"
+
+#: openerp/widgets/validators.py:254
+msgid ""
+"The username portion of the email address is invalid (the portion before the "
+"@: %(username)s)"
+msgstr "Der Benutzername vor dem \"@\" ist ungültig: %(username)s)"
+
+#: openerp/widgets/validators.py:255
+msgid ""
+"The domain portion of the email address is invalid (the portion after the @: "
+"%(domain)s)"
+msgstr "Der Domain Name der EMail nach dem \"@\" ist ungültig: %(domain)s)"
+
+#: openerp/widgets/validators.py:259
+msgid "You must start your URL with http://, https://, etc"
+msgstr "Die URL muss mit http://, https://, etc beginnen"
+
+#: openerp/widgets/validators.py:260
+msgid "That is not a valid URL"
+msgstr "Dies ist keine gültige URL"
+
+#: openerp/widgets/validators.py:261
+msgid "You must provide a full domain name (like %(domain)s.com)"
+msgstr "Ein Domain Name muss eingegeben werden (Beispiel %(domain)s.com)"
+
+#: openerp/widgets/validators.py:265
+msgid "Please enter an integer value"
+msgstr "BItte eine Ganzzahl eingeben (ohne Kommastellen)"
+
+#: openerp/widgets/validators.py:266
+msgid "Please enter a number"
+msgstr "Bitte eine Nummer eingeben"
+
+#: openerp/widgets/validators.py:267
+msgid "Invalid datetime format"
+msgstr "Ungültiges Datum-Zeit Format"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:div
+msgid "Loading..."
+msgstr "Ladevorgang läuft ..."
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Today..."
+msgstr "Heute"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Today"
+msgstr "Heute"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Day Calendar..."
+msgstr "Tagesansicht"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Day"
+msgstr "Tag"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Week Calendar..."
+msgstr "Wochenansicht"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Week"
+msgstr "Woche"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Month Calendar..."
+msgstr "Monatsansicht"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:button
+msgid "Month"
+msgstr "Monat"
+
+#: openerp/widgets/tinycalendar/templates/week.kid:td
+msgid "Apply search filter"
+msgstr "Suchfilter anwenden"
+
+#: openerp/widgets/tinycalendar/templates/gantt.kid:img
+msgid "Zoom In"
+msgstr "Vergrößern"
+
+#: openerp/widgets/tinycalendar/templates/gantt.kid:img
+msgid "Zoom Out"
+msgstr "Verkleinern"
+
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
+msgid "M"
+msgstr "M"
+
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
+msgid "T"
+msgstr "T"
+
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
+msgid "W"
+msgstr "W"
+
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
+msgid "F"
+msgstr "F"
+
+#: openerp/widgets/tinycalendar/templates/mini.kid:td
+msgid "S"
+msgstr "S"
+
+#: openerp/widgets/templates/selection.kid:option
+msgid "Selected"
+msgstr "Ausgewählt"
+
+#: openerp/widgets/templates/selection.kid:option
+msgid "Not Selected"
+msgstr "Nicht Ausgewählt"
+
+#: openerp/widgets/templates/frame.kid:sup
+msgid "?"
+msgstr "?"
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Filter records."
+msgstr "Datensätze filtern"
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Filter"
+msgstr "Filter"
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Delete selected records."
+msgstr "ausgewählte Datensätze löschen"
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Delete"
+msgstr "Löschen"
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Edit selected records."
+msgstr "ausgewählte Datensätze bearbeiten"
+
+#: openerp/widgets/templates/viewform.kid:button
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: openerp/widgets/templates/pager.kid:span
+msgid "<< First"
+msgstr "<< Erster"
+
+#: openerp/widgets/templates/pager.kid:span
+msgid "< Previous"
+msgstr "< Zurück"
+
+#: openerp/widgets/templates/pager.kid:span
+msgid "Next >"
+msgstr "Nächster >"
+
+#: openerp/widgets/templates/pager.kid:span
+msgid "Last >>"
+msgstr "Letzter >>"
+
+#: openerp/widgets/templates/pager.kid:a
+msgid "Change Limit:"
+msgstr "Ändern der Beschränkung:"
+
+#: openerp/widgets/templates/pager.kid:option
+msgid "20"
+msgstr "20"
+
+#: openerp/widgets/templates/pager.kid:option
+msgid "40"
+msgstr "40"
+
+#: openerp/widgets/templates/pager.kid:option
+msgid "60"
+msgstr "60"
+
+#: openerp/widgets/templates/pager.kid:option
+msgid "80"
+msgstr "80"
+
+#: openerp/widgets/templates/pager.kid:option
+msgid "100"
+msgstr "100"
+
+#: openerp/widgets/templates/reference.kid:img
+msgid "Open a resource"
+msgstr "Datensatz öffnen"
+
+#: openerp/widgets/templates/reference.kid:img
+msgid "Open"
+msgstr "Öffnen"
+
+#: openerp/widgets/templates/reference.kid:img
+msgid "Search"
+msgstr "Suchen"
+
+#: openerp/widgets/templates/sidebar.kid:td
+msgid "REPORTS"
+msgstr "BERICHTE"
+
+#: openerp/widgets/templates/sidebar.kid:td
+msgid "ACTIONS"
+msgstr "AKTIONEN"
+
+#: openerp/widgets/templates/sidebar.kid:td
+msgid "LINKS"
+msgstr "LINKS"
+
+#: openerp/widgets/templates/sidebar.kid:td
+msgid "ATTACHMENTS"
+msgstr "ANHÄNGE"
+
+#: openerp/widgets/templates/email.kid:img
+msgid "Go!"
+msgstr "Gehe zu!"
+
+#: openerp/widgets/templates/listgrid.kid:img
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: openerp/widgets/templates/listgrid.kid:img
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: openerp/widgets/templates/listgrid.kid:img
+msgid "Move Up"
+msgstr "Nach oben"
+
+#: openerp/widgets/templates/listgrid.kid:img
+msgid "Move Down"
+msgstr "Nach unten"
+
+#: openerp/widgets/templates/listgrid.kid:a
+msgid "Import"
+msgstr "Importieren"
+
+#: openerp/widgets/templates/listgrid.kid:a
+msgid "|"
+msgstr "|"
+
+#: openerp/widgets/templates/listgrid.kid:a
+msgid "Export"
+msgstr "Exportieren"
+
+#: openerp/widgets/templates/button.kid:td
+msgid "Button Label"
+msgstr "Knopf Beschriftung"
+
+#: openerp/widgets/templates/datetime.kid:img
+msgid "Select"
+msgstr "Auswählen"
+
+#: openerp/widgets/templates/separator.kid:td
+msgid "Title"
+msgstr "Titel"
+
+#: openerp/widgets/templates/one2many.kid:button
+msgid "Delete current record..."
+msgstr "Aktuellen Datensatz Löschen"
+
+#: openerp/widgets/templates/one2many.kid:button
+msgid "Previous record..."
+msgstr "Voriger Datensatz"
+
+#: openerp/widgets/templates/one2many.kid:button
+msgid "Next record..."
+msgstr "Nächster Datensatz"
+
+#: openerp/widgets/templates/one2many.kid:button
+msgid "Switch view..."
+msgstr "Umschalten."
+
+#: openerp/widgets/templates/one2many.kid:img
+msgid "Translate me."
+msgstr "Übersetze mich."
+
+#: openerp/widgets/templates/binary.kid:button
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: openerp/widgets/templates/binary.kid:button
+msgid "Save As"
+msgstr "Speichern unter"
+
+#: openerp/widgets/templates/binary.kid:button
+msgid "Clear"
+msgstr "Leeren"
+
+#: openerp/widgets_search/templates/search.kid:div
+msgid "Basic Search"
+msgstr "Einfache Suche"
+
+#: openerp/widgets_search/templates/search.kid:div
+msgid "Advanced Search"
+msgstr "Erweiterte Suche"
+
+#: openerp/widgets_search/templates/rangewid.kid:b
+msgid "-"
+msgstr "-"
+
+#: openerp/templates/about.kid:title
+msgid "About the OpenERP Web"
+msgstr "Über OpenERP Web"
+
+#: openerp/templates/about.kid:td
+msgid "OpenERP Web"
+msgstr "OpenERP Web"
+
+#: openerp/templates/about.kid:p
+msgid "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+msgstr "Copyright © 2006-Heute Tiny ERP Pvt. Ltd. Alle Rechte Reserviert."
+
+#: openerp/templates/about.kid:br
+msgid "OpenERP is a trademark of the Tiny Company."
+msgstr ""
+"OpenERP ist die Handelsmarke von Tiny \n"
+"Lizensiert unter"
+
+#: openerp/templates/about.kid:i
+msgid "OpenERP Web Client"
+msgstr "OpenERP Web Anwendung"
+
+#: openerp/templates/about.kid:i
+msgid "is jointly developed by"
+msgstr "gemeinsam entwickelt von"
+
+#: openerp/templates/about.kid:a
+msgid "Tiny"
+msgstr "Tiny"
+
+#: openerp/templates/about.kid:a
+msgid "and"
+msgstr "und"
+
+#: openerp/templates/about.kid:a
+msgid "Axelor"
+msgstr "Axelor"
+
+#: openerp/templates/about.kid:a
+msgid "."
+msgstr "."
+
+#: openerp/templates/about.kid:p
+msgid "Licenced under the terms of"
+msgstr "Lizensiert unter den Bedingungen"
+
+#: openerp/templates/about.kid:a
+msgid "OpenERP Public License (OEPL) v1.1"
+msgstr "OpenERP Public License (OEPL) v1.1"
+
+#: openerp/templates/about.kid:td
+msgid "About OpenERP"
+msgstr "Über OpenERP Web"
+
+#: openerp/templates/about.kid:a
+msgid "OpenERP"
+msgstr "OpenERP"
+
+#: openerp/templates/about.kid:a
+msgid ""
+"is a free enterprise-scale software system that is designed to boost\n"
+"productivity and profit through data integration. It connects, improves and\n"
+"manages business processes in areas such as sales, finance, supply chain,\n"
+"project management, production, services, CRM, etc.."
+msgstr ""
+"OpenERP ist eine Unternehmens Software, die Produktivität und Profitabilität "
+"durch\n"
+"Datenintegration verbessert. Sie verbindet, verbessert und verwaltet "
+"Geschäftsprozesse\n"
+"in allen Unternehmensbereichen wie zB Verkauf, Finanzen, Einkauf, "
+"Produktion, Projektverwaltung, Dienstleistungen, CRM, etc..."
+
+#: openerp/templates/about.kid:p
+msgid ""
+"The system is platform-independent, and can be installed on Windows, Mac OS "
+"X,\n"
+"and various Linux and other Unix-based distributions. Its architecture "
+"enables\n"
+"new functionality to be rapidly created, modifications to be made to a\n"
+"production system and migration to a new version to be straightforward."
+msgstr ""
+"Das System ist plattformunabhängig und kann auf Windows, Mac-OS und "
+"verschiedenen Linux Verianten und anderen UNIX basierenden Systemen "
+"eingesetzt werden.\n"
+"Die Architektur ermöglicht die rasche Entwicklung neuer Funktionalitäten, "
+"laufende Anpassungen des produktiven Systems während des Betriebes, und "
+"einfache Migration auf neue Versionen."
+
+#: openerp/templates/about.kid:p
+msgid ""
+"Depending on your needs, OpenERP is available through a web or application\n"
+"client."
+msgstr ""
+"Je nach Anforderung ist OpenERP verfügbar als WEB-Applikation oder eigene "
+"Anwendung."
+
+#: openerp/templates/about.kid:td
+msgid "Links"
+msgstr "Verknüpfungen"
+
+#: openerp/templates/about.kid:a
+msgid "The Axelor Company"
+msgstr "Axelor"
+
+#: openerp/templates/about.kid:a
+msgid "The Tiny Company"
+msgstr "The Tiny Company"
+
+#: openerp/templates/about.kid:td
+msgid "RESOURCES"
+msgstr "DATENSÄTZE"
+
+#: openerp/templates/about.kid:a
+msgid "Homepage"
+msgstr "Startseite"
+
+#: openerp/templates/about.kid:a
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: openerp/templates/about.kid:a
+msgid "Forum"
+msgstr "Forum"
+
+#: openerp/templates/about.kid:a
+msgid "Modules"
+msgstr "Module"
+
+#: openerp/templates/about.kid:a
+msgid "Download"
+msgstr "Herunterladen"
+
+#: openerp/templates/about.kid:a
+msgid "Planet"
+msgstr "Planet"
+
+#: openerp/templates/about.kid:a
+msgid "SaaS Offers"
+msgstr "ASP Angebote"
+
+#: openerp/templates/about.kid:a
+msgid "Trainings"
+msgstr "Schulungen"
+
+#: openerp/templates/about.kid:a
+msgid "Services"
+msgstr "Dienste"
+
+#: openerp/templates/master.kid:title
+msgid "Your title goes here"
+msgstr "Ihr Titel ist hier einzugeben"
+
+#: openerp/templates/master.kid:td
+msgid "Welcome"
+msgstr "Willkommen"
+
+#: openerp/templates/master.kid:a
+msgid "Home"
+msgstr "Persönlicher Ordner"
+
+#: openerp/templates/master.kid:a
+msgid "About"
+msgstr "Über"
+
+#: openerp/templates/master.kid:a
+msgid "Logout"
+msgstr "Abmeldung"
+
+#: openerp/templates/master.kid:td
+msgid "Requests:"
+msgstr "Anfragen:"
+
+#: openerp/templates/master.kid:a
+msgid "MAIN MENU"
+msgstr "Haupt Menü"
+
+#: openerp/templates/master.kid:a
+msgid "SHORTCUTS"
+msgstr "Abkürzungen"
+
+#: openerp/templates/master.kid:a
+msgid ">>"
+msgstr ">>"
+
+#: openerp/templates/master.kid:a
+msgid "[ADD]"
+msgstr "[HINZU]"
+
+#: openerp/templates/master.kid:div
+msgid ""
+"Copyright © 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More "
+"Information on"
+msgstr "Copyright © 2007-Heute Tiny ERP Pvt. Ltd. Alle Rechte vorbehalten."
+
+#: openerp/templates/master.kid:a
+msgid "http://openerp.com"
+msgstr "http://openerp.com"
+
+#: openerp/templates/master.kid:br
+msgid "The web client is developed by Axelor ("
+msgstr "Der Web-Cient wurde von Axelor entwickelt ("
+
+#: openerp/templates/master.kid:a
+msgid "http://axelor.com"
+msgstr "http://axelor.com"
+
+#: openerp/templates/master.kid:a
+msgid ") and Tiny ("
+msgstr ") und Tiny ("
+
+#: openerp/templates/master.kid:a
+msgid "http://tiny.be"
+msgstr "http://tiny.be"
+
+#: openerp/templates/master.kid:a
+msgid ")"
+msgstr ")"
+
+#: openerp/templates/master.kid:br
+msgid "Running Server:"
+msgstr "Server:"
+
+#: openerp/templates/login.kid:title
+msgid "Login"
+msgstr "Login"
+
+#: openerp/templates/login.kid:img
+msgid "Developped by Axelor and Tiny"
+msgstr "Entwickelt von Axelor und Tiny"
+
+#: openerp/templates/login.kid:div
+msgid "Welcome to OpenERP"
+msgstr "Willkommen bei OpenERP"
+
+#: openerp/templates/login.kid:td
+msgid "Server:"
+msgstr "Server:"
+
+#: openerp/templates/login.kid:option
+msgid "dbname"
+msgstr "Datenbankname"
+
+#: openerp/templates/login.kid:td
+msgid "User:"
+msgstr "Benutzer:"
+
+#: openerp/templates/login.kid:button
+msgid "Databases"
+msgstr "Datenbanken"
+
+#: openerp/subcontrollers/templates/translator.kid:title
+msgid "Add Translations"
+msgstr "Übersetzungen hinzufügen"
+
+#: openerp/subcontrollers/templates/translator.kid:td
+msgid "Add Translation"
+msgstr "Übersetzung hinzufügen"
+
+#: openerp/subcontrollers/templates/translator.kid:td
+msgid "Add Translation for:"
+msgstr "Hinzufügen Übersetzung für:"
+
+#: openerp/subcontrollers/templates/translator.kid:option
+msgid "Fields"
+msgstr "Felder"
+
+#: openerp/subcontrollers/templates/translator.kid:option
+msgid "Labels"
+msgstr "Etiketten"
+
+#: openerp/subcontrollers/templates/translator.kid:option
+msgid "Relates"
+msgstr "bezieht sich auf"
+
+#: openerp/subcontrollers/templates/translator.kid:option
+msgid "View"
+msgstr "Ansicht"
+
+#: openerp/subcontrollers/templates/translator.kid:button
+msgid "Save"
+msgstr "Speichern"
+
+#: openerp/subcontrollers/templates/translator.kid:button
+msgid "Close"
+msgstr "Schließen"
+
+#: openerp/subcontrollers/templates/translator.kid:td
+msgid "Field"
+msgstr "Feld"
+
+#: openerp/subcontrollers/templates/translator.kid:td
+msgid "Language"
+msgstr "Sprache"
+
+#: openerp/subcontrollers/templates/search.kid:td
+msgid "Search View"
+msgstr "Suchen Ansicht"
+
+#: openerp/subcontrollers/templates/search.kid:td
+msgid "Screen View"
+msgstr "Bildschirm Ansicht"
+
+#: openerp/subcontrollers/templates/viewed_add.kid:td
+msgid "Node Type:"
+msgstr "Knoten Typ:"
+
+#: openerp/subcontrollers/templates/viewed_add.kid:button
+msgid "New Field"
+msgstr "Neues Feld"
+
+#: openerp/subcontrollers/templates/viewed_add.kid:td
+msgid "Position:"
+msgstr "Position:"
+
+#: openerp/subcontrollers/templates/selection.kid:title
+msgid "Select action"
+msgstr "Auswählen Aktion"
+
+#: openerp/subcontrollers/templates/selection.kid:div
+msgid "Select your action"
+msgstr "Auswählen Ihrer Aktion"
+
+#: openerp/subcontrollers/templates/viewed.kid:title
+msgid "View Editor"
+msgstr "Sichten bearbeiten"
+
+#: openerp/subcontrollers/templates/viewed.kid:button
+msgid "Create a new inherited view"
+msgstr "Neuen vererbte Sicht erzeugen"
+
+#: openerp/subcontrollers/templates/viewed.kid:button
+msgid "Inherited View"
+msgstr "vererbte Ansicht!"
+
+#: openerp/subcontrollers/templates/viewed.kid:button
+msgid "Preview"
+msgstr "Voransicht"
+
+#: openerp/subcontrollers/templates/form.kid:title
+msgid "Form Title"
+msgstr "Formular Titel"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Tree View..."
+msgstr "Baumansicht"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Form View..."
+msgstr "Formularansicht"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Form"
+msgstr "Formular"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Calendar View..."
+msgstr "Kalenderansicht"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Calendar"
+msgstr "Kalender"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Gantt View..."
+msgstr "Hantt Ansicht"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Gantt"
+msgstr "Gantt"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Graph View..."
+msgstr "Graphik"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Graph"
+msgstr "Graphik"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Corporate Intelligence..."
+msgstr "Geschäftsanalytik"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Process"
+msgstr "Prozess"
+
+#: openerp/subcontrollers/templates/form.kid:img
+msgid "Add an attachment to this resource."
+msgstr "Anhang zu Datensatz hinzufügen."
+
+#: openerp/subcontrollers/templates/form.kid:img
+msgid "Translate this resource."
+msgstr "Übersetzen Ressource."
+
+#: openerp/subcontrollers/templates/form.kid:img
+msgid "View Log."
+msgstr "Protokoll.anzeigen"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Create a new resource"
+msgstr "Neuen Datensatz erzeugen"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Edit this resource"
+msgstr "Bearbeiten Datensatz"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Save this resource"
+msgstr "Speichern Ressource"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Save & Edit this resource"
+msgstr "Speichern & Bearbeiten Datensatz"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Save & Edit"
+msgstr "Speichern & Bearbeiten"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Duplicate this resource"
+msgstr "Dupliziere diesen Datensatz"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Delete this resource"
+msgstr "Datensatz löschen"
+
+#: openerp/subcontrollers/templates/form.kid:button
+msgid "Cancel editing the current resource"
+msgstr "Abbrechen der Bearbeitung dieses Datensatzes"
+
+#: openerp/subcontrollers/templates/form.kid:td
+msgid "["
+msgstr "["
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "Customise"
+msgstr "Anpassen"
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "]"
+msgstr "]"
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "Manage views of the current object"
+msgstr "Verwalten der Ansichten des aktuellen Objektes"
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "Manage Views"
+msgstr "Verwalten der Ansichten"
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "Manage workflows of the current object"
+msgstr "Verwalten der Arbeitsgänge des aktuellen Objektes"
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "Manage Workflows"
+msgstr "Verwalten Arbeitsgänge"
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "Customise current object or create a new object"
+msgstr "Aktuelles Objekt anpassen oder neues Objekt erstellen"
+
+#: openerp/subcontrollers/templates/form.kid:a
+msgid "Customise Object"
+msgstr "Objekt Anpassen"
+
+#: openerp/subcontrollers/templates/viewed_new_model.kid:td
+msgid "Form View"
+msgstr "Formular Ansicht"
+
+#: openerp/subcontrollers/templates/wkf_list.kid:td
+msgid "List View"
+msgstr "Listenansicht"
+
+#: openerp/subcontrollers/templates/wkf_list.kid:button
+msgid "Remove"
+msgstr "Entfernen"
+
+#: openerp/subcontrollers/templates/wkf_list.kid:button
+msgid "Activate"
+msgstr "Aktivieren"
+
+#: openerp/subcontrollers/templates/wkf_list.kid:td
+msgid "Workflow Name:"
+msgstr "Arbeitsablauf Name:"
+
+#: openerp/subcontrollers/templates/wkf_list.kid:td
+msgid "Resource Model:"
+msgstr "Ressource Modell:"
+
+#: openerp/subcontrollers/templates/wkf_list.kid:td
+msgid "On Create:"
+msgstr "Beim Erstellen"
+
+#: openerp/subcontrollers/templates/viewlist.kid:td
+msgid "View Name:"
+msgstr "Sicht Name:"
+
+#: openerp/subcontrollers/templates/viewlist.kid:td
+msgid "View Type:"
+msgstr "Ansicht Typ:"
+
+#: openerp/subcontrollers/templates/viewlist.kid:option
+msgid "Tree"
+msgstr "Baumansicht"
+
+#: openerp/subcontrollers/templates/viewlist.kid:td
+msgid "Priority:"
+msgstr "Reihenfolge:"
+
+#: openerp/subcontrollers/templates/error_page.kid:b
+msgid "An unknown error has been reported."
+msgstr "Ein unbekannter Fehler wurde gefunden."
+
+#: openerp/subcontrollers/templates/error_page.kid:b
+msgid "You do not have a valid Open ERP maintenance contract !"
+msgstr "Sie haben keinen OpenERP Wartungsvertrag!"
+
+#: openerp/subcontrollers/templates/error_page.kid:br
+msgid ""
+"If you are using Open ERP in production, it is highly suggested to "
+"subscribe\n"
+"a maintenance program.\n"
+"\n"
+"The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
+"automatic migration system so that we can fix your problems within a few\n"
+"hours. If you had a maintenance contract, this error would have been sent\n"
+"to the quality team of the Open ERP editor.\n"
+"\n"
+"The maintenance program offers you:\n"
+"* Automatic migrations on new versions,\n"
+"* A bugfix guarantee,\n"
+"* Monthly announces of potential bugs and their fixes,\n"
+"* Security alerts by email and automatic migration,\n"
+"* Access to the customer portal.\n"
+"\n"
+"You can use the link bellow for more information. The detail of the error\n"
+"is displayed on the second tab."
+msgstr ""
+"Wenn Sie OpenERP in einem Produktionssystem verwenden sollten Sie einen "
+"Wartungsvertrag abschliessen.\n"
+"Der OpenERP Wartungsvertrage beinhaltet eine Garantie zur Fehlerbehebung und "
+"ein \n"
+"automatisches Migrationssystem, so dass wir Ihre Probleme innerhalb weniger "
+"Stunden beheben können.\n"
+"Wenn Sie einen Wartungsvertrag hätten, wäre dieser Fehler an das "
+"Qualitätsicherungsteam gesandt worden.\n"
+"\n"
+"Der Wartungsvertrag beietet:\n"
+"* automatische Migration auf neue Versionen\n"
+"* Garantie der Fehlerbehebung\n"
+"* monatliche Mitteilung möglicher Fehler und deren Behebung\n"
+"* Sicherheitsrelevante Warnungen per EMail und automatische Migration.\n"
+"* Zugang zum Kundenportal\n"
+"\n"
+"Sie können den unten stehenden Link für weitere Information verwenden.\n"
+"Die Einzelheiten des Fehlers werden auf dem 2. Reiter angezeigt."
+
+#: openerp/subcontrollers/templates/error_page.kid:br
+msgid ""
+"Your maintenance contract does not cover all modules installed in your "
+"system !\n"
+"If you are using Open ERP in production, it is highly suggested to upgrade "
+"your\n"
+"contract.\n"
+"\n"
+"If you have developped your own modules or installed third party module, we\n"
+"can provide you an additional maintenance contract for these modules. After\n"
+"having reviewed your modules, our quality team will ensure they will "
+"migrate\n"
+"automatically for all futur stable versions of Open ERP at no extra cost.\n"
+"\n"
+"Here is the list of modules not covered by your maintenance contract:"
+msgstr ""
+"Ihr Wartungsvertrag beinhaltet nicht alle auf Ihrem System installierten "
+"Module.\n"
+"Wenn Sie OpenERP in einem Produktionssystem verwenden sollten Sie Ihren "
+"Wartungsvertrag erweitern.\n"
+"\n"
+"Wenn Sie Ihre eigenen oder andere fremde Module installiert haben, \n"
+"können wir Ihnen einen erweiterten Wartungsvertrag anbieten.\n"
+"Nach Überprüfung Ihrer Module wird unser Wartungsteam sicher stellen, dass "
+"Sie \n"
+"ohne weitere Kosten auf alle zukünftigen stabilen Versionen von OpenERP "
+"migrieren können.\n"
+"\n"
+"Hier ist eine Liste der Module, die NICHT duch den Wartungsvertrag gedeckt "
+"sind."
+
+#: openerp/subcontrollers/templates/error_page.kid:span
+msgid ""
+"You can use the link bellow for more information. The detail of the error\n"
+"is displayed on the second tab."
+msgstr ""
+"Sie können den Link weiter unten für weitere Informationene verwenden.\n"
+"Die Einzelheiten der Fehlermeldung sind auf dem 2. Reiter zu finden."
+
+#: openerp/subcontrollers/templates/error_page.kid:strong
+msgid "Maintenance contract."
+msgstr "Wartungsvertrag"
+
+#: openerp/subcontrollers/templates/error_page.kid:em
+msgid ""
+"Your request will be sent to OpenERP and maintenance team will reply you "
+"shortly."
+msgstr ""
+"Ihre Anfrage wird an OpenERP gesendet und das Wartungsteam wird in Kürze "
+"antworten."
+
+#: openerp/subcontrollers/templates/error_page.kid:td
+msgid "Explain what you did:"
+msgstr "Beschreiben Sie, was Sie gemacht haben"
+
+#: openerp/subcontrollers/templates/error_page.kid:td
+msgid "Other Comments:"
+msgstr "weitere Kommentare"
+
+#: openerp/subcontrollers/templates/error_page.kid:button
+msgid "Send to Maintenance Team"
+msgstr "Senden and das Service Team"
+
+#: openerp/subcontrollers/templates/image.kid:title
+msgid "Image"
+msgstr "Bild"
+
+#: openerp/subcontrollers/templates/image.kid:td
+msgid "Add Resource:"
+msgstr "Hinzufügen Ressource:"
+
+#: openerp/subcontrollers/templates/tree.kid:td
+msgid "Tree Title"
+msgstr "Baumansicht Titel"
+
+#: openerp/subcontrollers/templates/tree.kid:button
+msgid "Switch current view: form/list"
+msgstr "Umschalten aktuelle Ansicht Formular/Liste"
+
+#: openerp/subcontrollers/templates/tree.kid:button
+msgid "Switch"
+msgstr "Umschalten"
+
+#: openerp/subcontrollers/templates/tree.kid:th
+msgid "Toolbar"
+msgstr "Werkzeugleiste"
+
+#: openerp/subcontrollers/templates/tree.kid:td
+msgid "Tree View"
+msgstr "Baumansicht"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:title
+msgid "Field Preferences"
+msgstr "Feld Einstellungen"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:td
+msgid "Field Name:"
+msgstr "Feld Name:"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:td
+msgid "Domain:"
+msgstr "Bereich:"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:td
+msgid "Default Value:"
+msgstr "Voreinstellung Wert:"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:strong
+msgid "Value applicable for:"
+msgstr "Wert zutreffend für:"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:td
+msgid "Only for you"
+msgstr "Nur für Sie"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:td
+msgid "For all"
+msgstr "Für alle"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:strong
+msgid "Value applicable if:"
+msgstr "Wert zutreffend wenn:"
+
+#: openerp/subcontrollers/templates/fieldpref.kid:td
+msgid "Always applicable!"
+msgstr "Immer anwendbar!"
+
+#: openerp/subcontrollers/templates/imp.kid:title
+msgid "Import Data"
+msgstr "Importiere Daten"
+
+#: openerp/subcontrollers/templates/imp.kid:th
+msgid "All fields"
+msgstr "Alle Felder"
+
+#: openerp/subcontrollers/templates/imp.kid:th
+msgid "Fields to import"
+msgstr "Zu importierende Felder"
+
+#: openerp/subcontrollers/templates/imp.kid:button
+msgid "Nothing"
+msgstr "alle entfernen"
+
+#: openerp/subcontrollers/templates/imp.kid:button
+msgid "Auto Detect"
+msgstr "Autom. Zuordnen"
+
+#: openerp/subcontrollers/templates/imp.kid:legend
+msgid "File to import"
+msgstr "Datei zu importieren"
+
+#: openerp/subcontrollers/templates/imp.kid:legend
+msgid "Options"
+msgstr "Optionen"
+
+#: openerp/subcontrollers/templates/imp.kid:td
+msgid "Separator:"
+msgstr "Trennzeichen:"
+
+#: openerp/subcontrollers/templates/imp.kid:td
+msgid "Delimiter:"
+msgstr "Feldtrenner:"
+
+#: openerp/subcontrollers/templates/imp.kid:td
+msgid "Encoding:"
+msgstr "Kodierung:"
+
+#: openerp/subcontrollers/templates/imp.kid:option
+msgid "UTF-8"
+msgstr "UTF-8"
+
+#: openerp/subcontrollers/templates/imp.kid:option
+msgid "Latin 1"
+msgstr "Latein 1"
+
+#: openerp/subcontrollers/templates/imp.kid:td
+msgid "Lines to skip:"
+msgstr "Anzahl zu überspringender Zeilen"
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Create"
+msgstr "Erstellen"
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Drop"
+msgstr "Löschen"
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Backup"
+msgstr "Sicherung"
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+#: openerp/subcontrollers/templates/database.kid:button
+msgid "Password"
+msgstr "Kennwort"
+
+#: openerp/subcontrollers/templates/exp.kid:title
+msgid "Export Data"
+msgstr "Exportiere Daten"
+
+#: openerp/subcontrollers/templates/exp.kid:th
+msgid "Fields to export"
+msgstr "zu exportierende Felder"
+
+#: openerp/subcontrollers/templates/exp.kid:button
+msgid "Save List"
+msgstr "Liste Speichern"
+
+#: openerp/subcontrollers/templates/exp.kid:td
+msgid "Name of This Export:"
+msgstr "Name dieses Exports."
+
+#: openerp/subcontrollers/templates/exp.kid:option
+msgid "Export as CSV"
+msgstr "Exportieren als CSV"
+
+#: openerp/subcontrollers/templates/exp.kid:option
+msgid "Export as Excel"
+msgstr "Exportieren als Excel"
+
+#: openerp/subcontrollers/templates/exp.kid:td
+msgid "Add field names"
+msgstr "Alle Felder Hinzufügen"
+
+#: openerp/subcontrollers/templates/workflow.kid:td
+msgid "Workflow"
+msgstr "Arbeitsablauf"
+
+#: openerp/subcontrollers/templates/process.kid:b
+msgid "Select Process"
+msgstr "Prozess auswählen"
+
+#: openerp/subcontrollers/templates/process.kid:img
+msgid "Help"
+msgstr "Hilfe"
+
+#: openerp/subcontrollers/templates/process.kid:a
+msgid "Customize"
+msgstr "Anpassen"
