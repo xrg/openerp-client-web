@@ -15,6 +15,12 @@
     <script src='/static/workflow/javascript/process_box.js'></script>
     <script src='/static/workflow/javascript/process.js'></script>
 
+    <script type="text/javascript">
+        var context_help = function() {
+            return window.open(getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
+        }
+    </script>
+
     <script type="text/javascript" py:if="selection">
         var select_workflow = function() {
             var id = parseInt(getElement('select_workflow').value) || null;
@@ -65,7 +71,7 @@
                     <td width="100%" py:content="title" id="process_title">Title</td>
                     <td nowrap="nowrap">
                         <img class="button" title="${_('Help')}" src="/static/images/stock/gtk-help.png" width="16" height="16"
-                             onclick="window.open('http://doc.openerp.com/index.php?model=process.process')"/>
+                        onclick="context_help()"/>
                     </td>
                 </tr>
             </table>
