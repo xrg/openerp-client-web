@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2009-01-21 10:43\n"
+"POT-Creation-Date: 2009-01-21 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -800,6 +800,7 @@ msgid "Open a resource"
 msgstr ""
 
 #: openerp/widgets/templates/reference.kid:img
+#: openerp/static/workflow/javascript/process.js:291
 msgid "Open"
 msgstr ""
 
@@ -1657,9 +1658,30 @@ msgid "Select Process"
 msgstr ""
 
 #: openerp/subcontrollers/templates/process.kid:img
+#: openerp/static/workflow/javascript/process.js:287
 msgid "Help"
 msgstr ""
 
 #: openerp/subcontrollers/templates/process.kid:a
 msgid "Customize"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:198
+msgid "Subflows:"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:202
+msgid "Related:"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:292
+msgid "Print"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:299
+msgid "Print workflow"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:305
+msgid "Documents"
 msgstr ""

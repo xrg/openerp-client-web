@@ -801,7 +801,7 @@ msgstr "100"
 msgid "Open a resource"
 msgstr "Datensatz öffnen"
 
-#: openerp/widgets/templates/reference.kid:img
+#: openerp/static/workflow/javascript/process.js:291
 msgid "Open"
 msgstr "Öffnen"
 
@@ -1680,11 +1680,31 @@ msgstr "Arbeitsablauf"
 msgid "Select Process"
 msgstr "Prozess auswählen"
 
-#: openerp/subcontrollers/templates/process.kid:img
+#: openerp/static/workflow/javascript/process.js:287
 msgid "Help"
 msgstr "Hilfe"
 
 #: openerp/subcontrollers/templates/process.kid:a
 msgid "Customize"
 msgstr "Anpassen"
+
+#: openerp/static/workflow/javascript/process.js:198
+msgid "Subflows:"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:202
+msgid "Related:"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:292
+msgid "Print"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:299
+msgid "Print workflow"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:305
+msgid "Documents"
+msgstr ""
 

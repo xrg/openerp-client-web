@@ -110,7 +110,6 @@ class Process(controllers.Controller, TinyResource):
             except:
                 pass
 
-            perm['title'] = _("Notes:")
             perm['text'] = _("Last modified by:")
             perm['value'] = perm.get('write_uid') or perm.get('create_uid')
             if perm['value']: 
