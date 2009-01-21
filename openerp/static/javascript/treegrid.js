@@ -98,7 +98,7 @@ TreeGrid.prototype = {
             var self = this;
             var req = Ajax.JSON.post(this.ajax_url, this.ajax_params);
             
-            var div = DIV({id: this.id}, "Loading...");
+            var div = DIV({id: this.id}, _("Loading..."));
             MochiKit.DOM.swapDOM(this.id, div);
            
             self._ajax_counter += 1;

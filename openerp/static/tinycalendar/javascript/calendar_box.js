@@ -155,7 +155,7 @@ InfoBox.prototype = {
 
         this.hide();
 
-        if (!confirm('Do you realy want to delete this record?')) {
+        if (!confirm(_('Do you realy want to delete this record?'))) {
             return false;
         }
         

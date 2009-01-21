@@ -110,7 +110,7 @@
             var boxes = list.getSelectedItems();
                         
             if (boxes.length == 0){
-                alert('Please select a List name...');
+                alert(_('Please select an item...'));
                 return;
             }
             
@@ -137,7 +137,7 @@
             var options = $('fields').options;
 
             if (options.length == 0){
-                return alert('Please select fields to export...');
+                return alert(_('Please select fields to export...'));
             }
 
             var fields2 = [];

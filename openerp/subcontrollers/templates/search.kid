@@ -103,7 +103,7 @@
                 var boxes = list_this.getSelectedItems();
 
                 if(boxes.length == 0) {
-                    alert("No record selected...");
+                    alert(_("No record selected..."));
                     return;
                 }
 

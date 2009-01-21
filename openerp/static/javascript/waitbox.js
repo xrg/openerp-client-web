@@ -46,8 +46,8 @@ WaitBox.prototype = {
             var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
             MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
             
-            var title = this.options.title || "Please wait...";
-            var desc = this.options.description || "This operation may take a while...";
+            var title = this.options.title || _("Please wait...");
+            var desc = this.options.description || _("This operation may take a while...");
             
             var info = DIV(null,
                         DIV({'class': 'WaitTitle'}, title),

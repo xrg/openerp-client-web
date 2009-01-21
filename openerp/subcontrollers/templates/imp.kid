@@ -111,7 +111,7 @@
         function do_autodetect(form){
 
             if (! $('csvfile').value ){
-                return alert('You must select an import file first!');
+                return alert(_('You must select an import file first!'));
             }
 
             form.target = "detector";

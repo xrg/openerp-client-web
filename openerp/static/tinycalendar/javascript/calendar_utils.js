@@ -27,6 +27,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+if (typeof(_) == "undefined") {
+    _ = function(key) {return key};
+}
+
 var Browser = {
 
     // Is Internet Explorer?

@@ -49,7 +49,7 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                alert('Please select a workflow...');
+                alert(_('Please select a workflow...'));
                 return;
             }
             
@@ -62,11 +62,11 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                alert('Please select a workflow...');
+                alert(_('Please select a workflow...'));
                 return;
             }
             
-            if (!window.confirm('Do you really want to remove this workflow?')){
+            if (!window.confirm(_('Do you really want to remove this workflow?'))){
                 return;
             }
             
@@ -78,7 +78,7 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                alert('Please select a workflow...');
+                alert(_('Please select a workflow...'));
                 return;
             }
             

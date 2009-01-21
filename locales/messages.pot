@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2009-01-21 12:59\n"
+"POT-Creation-Date: 2009-01-21 13:32\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -350,10 +350,6 @@ msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
 msgstr ""
 
 #: openerp/subcontrollers/process.py:113
-msgid "Notes:"
-msgstr ""
-
-#: openerp/subcontrollers/process.py:114
 msgid "Last modified by:"
 msgstr ""
 
@@ -652,6 +648,7 @@ msgid "Invalid datetime format"
 msgstr ""
 
 #: openerp/widgets/tinycalendar/templates/week.kid:div
+#: openerp/static/javascript/treegrid.js:101
 msgid "Loading..."
 msgstr ""
 
@@ -1664,6 +1661,44 @@ msgstr ""
 
 #: openerp/subcontrollers/templates/process.kid:a
 msgid "Customize"
+msgstr ""
+
+#: openerp/static/javascript/waitbox.js:49
+msgid "Please wait..."
+msgstr ""
+
+#: openerp/static/javascript/waitbox.js:50
+msgid "This operation may take a while..."
+msgstr ""
+
+#: openerp/static/javascript/listgrid.js:414
+#: openerp/static/javascript/form.js:284
+msgid "You must select at least one record."
+msgstr ""
+
+#: openerp/static/javascript/listgrid.js:416
+msgid "Do you realy want to delete selected record(s) ?"
+msgstr ""
+
+#: openerp/static/javascript/form.js:265
+#: openerp/static/tinycalendar/javascript/calendar_box.js:158
+msgid "Do you realy want to delete this record?"
+msgstr ""
+
+#: openerp/static/javascript/form.js:296
+msgid "You must save this record to use the relate button!"
+msgstr ""
+
+#: openerp/static/javascript/viewed.js:71
+msgid "Do you really want to remove this node?"
+msgstr ""
+
+#: openerp/static/javascript/viewed.js:337
+msgid "Do you really wants to create an inherited view here?"
+msgstr ""
+
+#: openerp/static/workflow/javascript/process.js:190
+msgid "Notes:"
 msgstr ""
 
 #: openerp/static/workflow/javascript/process.js:198

@@ -10,7 +10,7 @@
             var selection = MochiKit.DOM.getElement('tree_ids').value;
             
             if (!selection) {
-                return alert('You must select at least one record.');
+                return alert(_('You must select at least one record.'));
             }
             
             var form = document.forms['view_tree'];

@@ -45,7 +45,7 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                alert('Please select a view...');
+                alert(_('Please select a view...'));
                 return;
             }
 
@@ -64,11 +64,11 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                alert('Please select a view...');
+                alert(_('Please select a view...'));
                 return;
             }
             
-            if (!window.confirm('Do you realy want to remove this view?')){
+            if (!window.confirm(_('Do you realy want to remove this view?'))){
                 return;
             }
             

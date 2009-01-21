@@ -262,7 +262,7 @@ var submit_form = function(action, src, data, target){
         return callLater(1, submit_form, action, src, data);
     }
 
-    if (action == 'delete' && !confirm('Do you realy want to delete this record?')) {
+    if (action == 'delete' && !confirm(_('Do you realy want to delete this record?'))) {
         return false;
     }
 
@@ -281,7 +281,7 @@ var submit_form = function(action, src, data, target){
         var ids = list.getSelectedRecords();
 
         if (ids.length == 0) {
-           return alert('You must select at least one record.');
+           return alert(_('You must select at least one record.'));
         }
 
         args['_terp_selection'] = '[' + ids.join(',') + ']';
@@ -293,7 +293,7 @@ var submit_form = function(action, src, data, target){
         cur_id = parseInt(cur_id) || 0;
 
         if (!cur_id) {
-           return alert('You must save this record to use the relate button!');
+           return alert(_('You must save this record to use the relate button!'));
         }
     }
     
