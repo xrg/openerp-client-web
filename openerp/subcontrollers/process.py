@@ -97,6 +97,11 @@ class Process(controllers.Controller, TinyResource):
         related = (res_model or None) and proxy.search_by_model(res_model, rpc.session.context)
         graph['related'] = dict(related or {})
 
+        if graph.get('resource'):
+            graph['title'] = _("%(name)s - Resource: %(resource)s, State: %(state)s") % graph
+        else:
+            graph['title'] = graph['name']
+
         def update_perm(perm):
             perm = perm or {}
 
@@ -105,6 +110,7 @@ class Process(controllers.Controller, TinyResource):
             except:
                 pass
 
+            perm['title'] = _("Notes:")
             perm['text'] = _("Last modified by:")
             perm['value'] = perm.get('write_uid') or perm.get('create_uid')
             if perm['value']: 

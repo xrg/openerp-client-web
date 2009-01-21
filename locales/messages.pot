@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2009-01-13 01:04\n"
+"POT-Creation-Date: 2009-01-21 10:43\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,8 +67,8 @@ msgstr ""
 msgid "Not logged..."
 msgstr ""
 
-#: openerp/rpc.py:420 openerp/rpc.py:423 openerp/subcontrollers/form.py:896
-#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
+#: openerp/rpc.py:420 openerp/rpc.py:423 openerp/subcontrollers/form.py:895
+#: openerp/widgets/form.py:841 openerp/widgets/listgrid.py:282
 msgid "Application Error!"
 msgstr ""
 
@@ -271,23 +271,23 @@ msgid ""
 "Please report this error manually at %s"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:496
+#: openerp/subcontrollers/form.py:499
 msgid "Invalid button type"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:811 openerp/subcontrollers/tree.py:226
+#: openerp/subcontrollers/form.py:810 openerp/subcontrollers/tree.py:226
 msgid "No record selected!"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:816
+#: openerp/subcontrollers/form.py:815
 msgid "Print Screen"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:833
+#: openerp/subcontrollers/form.py:832
 msgid "You must save this record to use the sidebar button!"
 msgstr ""
 
-#: openerp/subcontrollers/form.py:896
+#: openerp/subcontrollers/form.py:895
 msgid "Wrong on_change trigger: %s"
 msgstr ""
 
@@ -345,7 +345,15 @@ msgstr ""
 msgid "Select Workflow"
 msgstr ""
 
-#: openerp/subcontrollers/process.py:108
+#: openerp/subcontrollers/process.py:101
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr ""
+
+#: openerp/subcontrollers/process.py:113
+msgid "Notes:"
+msgstr ""
+
+#: openerp/subcontrollers/process.py:114
 msgid "Last modified by:"
 msgstr ""
 
@@ -409,31 +417,31 @@ msgstr ""
 msgid "Invalid view id."
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:501
+#: openerp/subcontrollers/viewed.py:500
 msgid "Unable to create inherited view."
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:503
+#: openerp/subcontrollers/viewed.py:502
 msgid "Can't create inherited view here."
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:506
+#: openerp/subcontrollers/viewed.py:505
 msgid "Not implemented yet!"
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:608
+#: openerp/subcontrollers/viewed.py:607
 msgid "Unable to update the view."
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:864
+#: openerp/subcontrollers/viewed.py:866
 msgid "New Window"
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:876
+#: openerp/subcontrollers/viewed.py:878
 msgid "Cancel Button"
 msgstr ""
 
-#: openerp/subcontrollers/viewed.py:876
+#: openerp/subcontrollers/viewed.py:878
 msgid "Save Button"
 msgstr ""
 
@@ -450,7 +458,7 @@ msgstr ""
 msgid "Bad username or password!"
 msgstr ""
 
-#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:841 openerp/widgets/listgrid.py:282
 msgid "Invalid view, duplicate field: %s"
 msgstr ""
 

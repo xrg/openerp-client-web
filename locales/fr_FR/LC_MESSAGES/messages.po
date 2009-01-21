@@ -72,7 +72,7 @@ msgstr "Erreur d'autorisation !"
 msgid "Not logged..."
 msgstr "Non connecté..."
 
-#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:841 openerp/widgets/listgrid.py:282
 msgid "Application Error!"
 msgstr "Erreur applicative !"
 
@@ -266,23 +266,23 @@ msgstr ""
 "Votre problème n'a pas pu être envoyé à l'équipe Qualité !\n"
 "Veuillez rapporter cette erreur manuellement à %s"
 
-#: openerp/subcontrollers/form.py:496
+#: openerp/subcontrollers/form.py:499
 msgid "Invalid button type"
 msgstr "Type de bouton non valide"
 
-#: openerp/subcontrollers/form.py:811 openerp/subcontrollers/tree.py:226
+#: openerp/subcontrollers/form.py:810 openerp/subcontrollers/tree.py:226
 msgid "No record selected!"
 msgstr "Pas d'enregistrement sélectionné !"
 
-#: openerp/subcontrollers/form.py:816
+#: openerp/subcontrollers/form.py:815
 msgid "Print Screen"
 msgstr "Capture d'écran"
 
-#: openerp/subcontrollers/form.py:833
+#: openerp/subcontrollers/form.py:832
 msgid "You must save this record to use the sidebar button!"
 msgstr "Vous devez sauvegarder cet enregistrement pour utiliser la barre latérale !"
 
-#: openerp/subcontrollers/form.py:896
+#: openerp/subcontrollers/form.py:895
 msgid "Wrong on_change trigger: %s"
 msgstr "Mauvais déclenchement on_change: %s"
 
@@ -350,7 +350,15 @@ msgstr "Préférences"
 msgid "Select Workflow"
 msgstr "Sélectionnez le workflow"
 
-#: openerp/subcontrollers/process.py:108
+#: openerp/subcontrollers/process.py:101
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr ""
+
+#: openerp/subcontrollers/process.py:113
+msgid "Notes:"
+msgstr ""
+
+#: openerp/subcontrollers/process.py:114
 msgid "Last modified by:"
 msgstr "Dernière modification par :"
 
@@ -414,31 +422,31 @@ msgstr "Aucune ressource n'est sélectionnée..."
 msgid "Invalid view id."
 msgstr "Identifiant de vue invalide."
 
-#: openerp/subcontrollers/viewed.py:501
+#: openerp/subcontrollers/viewed.py:500
 msgid "Unable to create inherited view."
 msgstr "Création de vue héritée impossible."
 
-#: openerp/subcontrollers/viewed.py:503
+#: openerp/subcontrollers/viewed.py:502
 msgid "Can't create inherited view here."
 msgstr "Impossible de créer la vue héritée ici."
 
-#: openerp/subcontrollers/viewed.py:506
+#: openerp/subcontrollers/viewed.py:505
 msgid "Not implemented yet!"
 msgstr "Pas encore implémenté !"
 
-#: openerp/subcontrollers/viewed.py:608
+#: openerp/subcontrollers/viewed.py:607
 msgid "Unable to update the view."
 msgstr "Mise à jour de la vue impossible."
 
-#: openerp/subcontrollers/viewed.py:864
+#: openerp/subcontrollers/viewed.py:866
 msgid "New Window"
 msgstr "Nouvelle fenêtre"
 
-#: openerp/subcontrollers/viewed.py:876
+#: openerp/subcontrollers/viewed.py:878
 msgid "Cancel Button"
 msgstr "Bouton 'Annuler'"
 
-#: openerp/subcontrollers/viewed.py:876
+#: openerp/subcontrollers/viewed.py:878
 msgid "Save Button"
 msgstr "Bouton Sauvegarder"
 
@@ -454,7 +462,7 @@ msgstr "Pas de workflow associé !"
 msgid "Bad username or password!"
 msgstr "Utilisateur ou mot de passe incorrect !"
 
-#: openerp/widgets/form.py:842 openerp/widgets/listgrid.py:282
+#: openerp/widgets/form.py:841 openerp/widgets/listgrid.py:282
 msgid "Invalid view, duplicate field: %s"
 msgstr "Vue invalide, champ redondant: %s"
 

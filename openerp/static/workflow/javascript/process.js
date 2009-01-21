@@ -188,7 +188,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
         var text = (
                     "<dl>"+
-                    "<dt>Notes:</dt>" +
+                    "<dt>"+ perm.title + "</dt>" +
                     "<dd>" +
                         notes + 
                     "</dd>"+
