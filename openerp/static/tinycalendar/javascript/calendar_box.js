@@ -45,10 +45,10 @@ InfoBox.prototype = {
         this.layer = $('calInfoLayer');
         this.box = $('calInfoBox');
 
-        var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
-        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, 'Edit');
-        var btnCopy = BUTTON({'class': 'button', 'type': 'button'}, 'Duplicate');
-        var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, 'Delete');
+        var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, _('Cancel'));
+        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, _('Edit'));
+        var btnCopy = BUTTON({'class': 'button', 'type': 'button'}, _('Duplicate'));
+        var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, _('Delete'));
 
         MochiKit.Signal.connect(btnCancel, 'onclick', this, 'hide');
         MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit');
