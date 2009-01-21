@@ -96,8 +96,8 @@
                                             onclick="openWindow('${tg.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     <td align="center" valign="middle" width="16">
-                                        <a target="_blank" href="${tg.url('http://openerp.com/scripts/context_index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
-                                            <img class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/>
+                                        <a target="_blank" href="${tg.url('http://doc.openerp.com/index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
+                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/>
                                         </a>
                                     </td>
                                 </tr>

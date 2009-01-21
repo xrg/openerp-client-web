@@ -153,6 +153,11 @@ var form_hookAttrChange = function() {
         for (var attr in attrs) {
             var expr_fields = {}; // check if field appears more then once in the expr
             forEach(attrs[attr], function(n){
+
+                if (typeof(n) == "number") { // {'invisible': [1]}
+                    return form_onAttrChange(container, widget, attr, n);
+                }
+
                 var name = prefix + n[0];
                 var field = MochiKit.DOM.getElement(name);
                 if (field && !expr_fields[field.id]) {

@@ -36,9 +36,8 @@ if (typeof(openerp.process) == 'undefined') {
 }
 
 openerp.process.NAME = "openerp.process";
-openerp.process.VERSION = "4.3";
 openerp.process.__repr__ = openerp.process.toString = function () {
-    return "[" + this.NAME + " " + this.VERSION + "]";
+    return "[" + this.NAME + "]";
 };
 
 /**
@@ -188,7 +187,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
         var text = (
                     "<dl>"+
-                    "<dt>Notes:</dt>" +
+                    "<dt>"+ _("Notes:") + "</dt>" +
                     "<dd>" +
                         notes + 
                     "</dd>"+
@@ -196,11 +195,11 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
                     "<dd>"+ perm.value + "</dd>");
 
         if (sflows.length) {
-            text += "<dt>Subflows:</dt><dd>" + sflows + "</dd>";
+            text += "<dt>" + _("Subflows:") + "</dt><dd>" + sflows + "</dd>";
         }
 
         if (rflows.length) {
-            text += "<dt>Related:</dt><dd>" + rflows + "</dd>";
+            text += "<dt>" + _("Related:") + "</dt><dd>" + rflows + "</dd>";
         }
 
         text += "</dl>";
@@ -285,25 +284,25 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
             MochiKit.DOM.appendChildNodes(menu, menu_img);
         }
 
-        var buttons = [IMG({src: '/static/images/stock/gtk-info.png', title: 'Help'})];
+        var buttons = [IMG({src: '/static/images/stock/gtk-info.png', title: _('Help')})];
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
         if (this.data.res) {
-            buttons.push(IMG({src: '/static/images/stock/gtk-open.png', title: 'Open'}));
-            buttons.push(IMG({src: '/static/images/stock/gtk-print.png', title: 'Print'}));
+            buttons.push(IMG({src: '/static/images/stock/gtk-open.png', title: _('Open')}));
+            buttons.push(IMG({src: '/static/images/stock/gtk-print.png', title: _('Print')}));
 
             buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
         }
 
         if (this.data.workflow && this.data.res) {
-            var btn = IMG({src: '/static/images/stock/gtk-execute.png', title: 'Print workflow'});
+            var btn = IMG({src: '/static/images/stock/gtk-execute.png', title: _('Print workflow')});
             btn.onclick = MochiKit.Base.bind(this.onPrintWorkflow, this);
             buttons.push(btn);
         }
 
         if (this.data.res && this.data.res.directory) {
-            var btn = IMG({src: '/static/images/stock/gtk-directory-remote.png', title: 'Documents'});
+            var btn = IMG({src: '/static/images/stock/gtk-directory-remote.png', title: _('Documents')});
             btn.onclick = MochiKit.Base.bind(this.onDocument, this);
             buttons.push(btn);
         }

@@ -68,7 +68,7 @@ var onDelete = function(node){
         return;
     }
     
-    if (!confirm('Do you really want to remove this node?')) {
+    if (!confirm(_('Do you really want to remove this node?'))) {
         return;
     }
     
@@ -334,7 +334,7 @@ var onButtonClick = function(evt, node) {
 
 var onInherit = function() {
     
-    if (!confirm('Do you really wants to create an inherited view here?')) {
+    if (!confirm(_('Do you really wants to create an inherited view here?'))) {
         return;
     }
     

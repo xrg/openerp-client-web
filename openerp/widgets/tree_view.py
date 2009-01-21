@@ -97,7 +97,7 @@ class ViewTree(tg.widgets.Form):
                                       model=self.model, 
                                       headers=self.headers, 
                                       url="/tree/data", 
-                                      ids=ids, 
+                                      ids=ids or 0,
                                       domain=self.domain, 
                                       context=self.context, 
                                       field_parent=self.field_parent)

@@ -267,6 +267,9 @@ class Notebook(TinyCompoundWidget):
 class Page(Frame):
     def __init__(self, attrs, children):
         super(Page, self).__init__(attrs, children)
+        if self.invisible:
+            attributes = self.attributes.setdefault('invisible', [])
+            attributes += [1]
 
 class Separator(TinyField):
     """Separator widget.
@@ -494,6 +497,7 @@ class Binary(TinyField):
         super(Binary, self).__init__(attrs)
         self.filename = attrs.get('filename', '')
         self.validator = tiny_validators.Binary()
+        self.onchange = "onChange(this); set_binary_filename('%s', this);" % self.filename
 
     def set_value(self, value):
         if value:
@@ -719,8 +723,9 @@ class Form(TinyCompoundWidget):
                 values[d[0]] = d[2]
 
         if ids:
-            values = proxy.read(ids[:1], fields.keys(), ctx)[0]
+            values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
             self.id = ids[0]
+            self.last_update = values.pop('__last_update')
 
         elif 'datas' in view: # wizard data
 

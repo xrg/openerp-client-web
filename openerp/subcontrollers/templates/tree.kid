@@ -10,7 +10,7 @@
             var selection = MochiKit.DOM.getElement('tree_ids').value;
             
             if (!selection) {
-                return alert('You must select at least one record.');
+                return alert(_('You must select at least one record.'));
             }
             
             var form = document.forms['view_tree'];
@@ -54,7 +54,7 @@
                                     <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
                                 </td>
                                 <td align="center" valign="middle" width="16">
-                                    <a target="new" href="${tg.query('http://openerp.com/scripts/context_index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
+                                    <a target="new" href="${tg.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
                                 </td>
                             </tr>
                          </table>
