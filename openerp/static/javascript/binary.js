@@ -30,7 +30,10 @@
 var save_binary_data = function(src, filename) {
     
     var name = $(src) ? $(src).name : src;
-    var fname = $(filename) || $(name + 'name');
+    var prefix = name.split(); prefix.pop(); 
+    var prefix = prefix.join('/'); prefix ? prefix + '/' : '';
+
+    var fname = $(filename) || $(prefix + 'name');
 
     fname = fname ? fname.value || fname.innerHTML : null;
 
