@@ -491,9 +491,9 @@ var getFormData = function(extended) {
 
 /*
  * get key-value pair of form params (_terp_)
- *
+ * @param name: only return values for given param
  */
-var getFormParams = function(){
+var getFormParams = function(name){
 
     var parentNode = document.forms['view_form'];
 
@@ -505,7 +505,15 @@ var getFormParams = function(){
         if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1)
             return
 
-        frm[e.name] = e.value;
+        if (name && e.name != name) {
+            return;
+        }
+
+        if (typeof(frm[e.name]) != "undefined") {
+            frm[e.name] = MochiKit.Base.flattenArray([frm[e.name], e.value]);
+        } else {
+            frm[e.name] = e.value;
+        }
     });
 
     return frm;
