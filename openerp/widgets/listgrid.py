@@ -137,6 +137,7 @@ class List(TinyCompoundWidget):
 
             self.count = proxy.search_count(domain, context)
 
+        self.data_dict = {}
         data = []
         if len(ids) > 0:
 
@@ -144,6 +145,8 @@ class List(TinyCompoundWidget):
             ctx.update(context)
 
             data = proxy.read(ids, fields.keys(), ctx)
+            for item in data:
+                self.data_dict[item['id']] = item.copy()
 
             self.ids = ids
 
@@ -231,7 +234,7 @@ class List(TinyCompoundWidget):
                     values[d[0]] = d[2]
 
             if self.edit_inline > 0:
-                values = proxy.read([self.edit_inline], fields, ctx)[0]
+                values = self.data_dict[self.edit_inline]
             else:
                 defaults = proxy.default_get(fields, ctx)
 
