@@ -1,4 +1,4 @@
-                        OpenERP Public License (OEPL) 
+                        Open ERP Public License (OEPL)
                                  Version 1.1
 ===============================================================================
 
@@ -6,11 +6,14 @@ The OpenERP web client is distributed under the "OpenERP Public License".
 It's based on Mozilla Public License (MPL) Version 1.1 with following 
 restrictions:
 
--   All names, links and logos of Tiny, Open ERP and Axelor must be 
-    kept as in original distribution without any changes in all software 
-    screens, especially in start-up page and the software header, even if 
-    the application source code has been changed or updated or code has been 
-    added.
+-   All names, links and logos of Open ERP must be kept as in original
+    distribution without any changes in all software screens, especially in
+    start-up page and the software header, even if the application source code
+    has been changed or updated or code has been added.
+
+-   You can use the configuration interface to replace the "Made by Tiny &
+    Axelor" logo by your own logo but you must keep all others references to
+    Open ERP as it.
 
 -   All distributions of the software must keep source code with OEPL.
 
@@ -28,7 +31,7 @@ Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
 FAQ
 -------------------------------------------------------------------------------
 
-1.  Why based on MPL?
+1.  Why based on MPL ?
 
     -   MPL is one of the fastest growing OS licenses and widely recognized 
         Open Source licence by all open Source community.
@@ -59,7 +62,7 @@ FAQ
 
     We believe that community will not be affected by these few restrictions
     that's goal is only to recognise editors efforts. Source still opens and
-    free so enjoy
+    free so enjoy.
 
 
                           Open ERP PUBLIC LICENSE
@@ -495,11 +498,10 @@ FAQ
      Your choice of the NPL or the alternative licenses, if any, specified
      by the Initial Developer in the file described in Exhibit A.
 
-14. All names, links and logos of Tiny, Open ERP and Axelor must be 
-    kept as in original distribution without any changes in all software 
-    screens, especially in start-up page and the software header, even if 
-    the application source code has been changed or updated or code has been 
-    added.
+14. All names, links and logos of Open ERP must be kept as in original
+    distribution without any changes in all software screens, especially in
+    start-up page and the software header, even if the application source code
+    has been changed or updated or code has been added.
 
 15. All distributions of the software must keep source code with OEPL.
 
