@@ -123,7 +123,7 @@ is displayed on the second tab.
                     </div>
                 </div>
                 <script type="text/javascript">
-                    tabberOptions.div = getElement(error_page_notebook');
+                    tabberOptions.div = getElement('error_page_notebook');
                     tabberOptions.div.tabber = new tabberObj(tabberOptions);
                 </script>
 </form>
