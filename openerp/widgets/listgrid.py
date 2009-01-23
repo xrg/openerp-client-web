@@ -47,6 +47,7 @@ from pager import Pager
 
 from interface import TinyField
 from interface import TinyCompoundWidget
+from interface import ConcurrencyInfo
 
 class List(TinyCompoundWidget):
 
@@ -147,7 +148,7 @@ class List(TinyCompoundWidget):
 
             data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
             self._update_concurrency_info(self.model, data)
-            self.concurrency_info = form.ConcurrencyInfo(self.model, ids)
+            self.concurrency_info = ConcurrencyInfo(self.model, ids)
 
             for item in data:
                 self.data_dict[item['id']] = item.copy()

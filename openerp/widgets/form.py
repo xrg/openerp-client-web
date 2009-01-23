@@ -49,6 +49,7 @@ from openerp.utils import TinyDict
 from interface import TinyField
 from interface import TinyInputWidget
 from interface import TinyCompoundWidget
+from interface import ConcurrencyInfo
 
 import validators as tiny_validators
 
@@ -680,23 +681,6 @@ class VPaned(TinyCompoundWidget):
         super(VPaned, self).__init__(attrs)
         self.children = children
         self.nolabel = True
-
-class ConcurrencyInfo(TinyCompoundWidget):
-    template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="" py:if="ids and model in info">
-        <input type="hidden" py:if="id in info[model]" py:for="id in ids"
-            name="_terp_concurrency_info" value="('$model,$id', '${info[model][id]}')"/>
-    </span>"""
-
-    params = ['ids', 'model', 'info']
-
-    def __init__(self, model, ids):
-        self.ids = ids
-        self.model = model
-
-    def _get_concurrency_info(self):
-        return getattr(cherrypy.request, 'terp_concurrency_info', {})
-
-    info = property(_get_concurrency_info)
 
 class Form(TinyCompoundWidget):
     """A generic form widget

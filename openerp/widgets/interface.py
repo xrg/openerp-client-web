@@ -248,6 +248,23 @@ class TinyField(TinyInputWidget, tg.widgets.FormField):
         TinyInputWidget.__init__(self, attrs)
         tg.widgets.FormField.__init__(self, name=self.name)
 
+class ConcurrencyInfo(TinyCompoundWidget):
+    template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="" py:if="ids and model in info">
+        <input type="hidden" py:if="id in info[model]" py:for="id in ids"
+            name="_terp_concurrency_info" value="('$model,$id', '${info[model][id]}')"/>
+    </span>"""
+
+    params = ['ids', 'model', 'info']
+
+    def __init__(self, model, ids):
+        self.ids = ids
+        self.model = model
+
+    def _get_concurrency_info(self):
+        return getattr(cherrypy.request, 'terp_concurrency_info', {})
+
+    info = property(_get_concurrency_info)
+
 # vim: ts=4 sts=4 sw=4 si et
 
 
