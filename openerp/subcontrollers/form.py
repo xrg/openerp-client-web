@@ -381,7 +381,7 @@ class Form(controllers.Controller, TinyResource):
                 params.id = int(id)
                 params.count += 1
             else:
-                ctx = tools.update_concurrency_info(params.context, params.concurrency_info)
+                ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
                 id = proxy.write([params.id], data, ctx)
 
         button = params.button
@@ -539,7 +539,7 @@ class Form(controllers.Controller, TinyResource):
 
         idx = -1
         if current.id:
-            ctx = tools.update_concurrency_info(current.context, params.concurrency_info)
+            ctx = tools.context_with_concurrency_info(current.context, params.concurrency_info)
             res = proxy.unlink([current.id], ctx)
             idx = current.ids.index(current.id)
             current.ids.remove(current.id)
@@ -590,7 +590,7 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         proxy = rpc.RPCProxy(params.model)
-        ctx = tools.update_concurrency_info(params.context, params.concurrency_info)
+        ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
 
         if params.fname:
             proxy.write([params.id], {params.field: False, params.fname: False}, ctx)

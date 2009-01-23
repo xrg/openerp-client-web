@@ -70,7 +70,7 @@ class List(controllers.Controller, TinyResource):
             proxy = rpc.RPCProxy(model)
             frm = TinyForm(**kw).to_python()
             data = {}
-            ctx = tools.update_concurrency_info(params.parent.context or {}, params.concurrency_info)
+            ctx = tools.context_with_concurrency_info(params.parent.context, params.concurrency_info)
 
             if model != params.model:
                 source = params.source
@@ -115,7 +115,7 @@ class List(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(params.model)
         if params.ids:
             try:
-                ctx = tools.update_concurrency_info(params.context or {}, params.concurrency_info)
+                ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
                 if isinstance(params.ids, list):                    
                     res = proxy.unlink(params.ids, ctx)
                 else:
