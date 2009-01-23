@@ -14,9 +14,11 @@
                     <div class="toolbar">
                         <button type="submit" title="${_('Filter records.')}" 
                             onclick="setNodeAttribute(form, 'action', ''); submit_search_form('find')">Filter</button>
-                        <button type="button" title="${_('Delete selected records.')}" 
+                        <button type="button" title="${_('Delete selected records.')}"
+                            py:if="screen.editable and screen.view_type in ('form', 'tree')"
                             onclick="new ListView('_terp_list').remove()">Delete</button>
-                        <button type="button" title="${_('Edit selected records.')}" 
+                        <button type="button" title="${_('Edit selected records.')}"
+                            py:if="screen.editable and screen.view_type in ('form', 'tree')"
                             onclick="editSelectedRecord()">Edit</button>
                         <button type="button" title="${_('Create new record.')}" 
                             py:if="screen.editable and not (screen.view_type=='tree' and screen.widget.editors)" 
