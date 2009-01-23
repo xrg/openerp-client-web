@@ -154,14 +154,15 @@ var getMiniCalendar = function(action) {
 
 var saveCalendarRecord = function(record_id, starts, ends){
 
-    var params = {
+    var params = getFormParams('_terp_concurrency_info');
+    MochiKit.Base.update(params, {
         '_terp_id': record_id,
         '_terp_model': $('_terp_model').value,
         '_terp_fields': $('_terp_calendar_fields').value,
         '_terp_starts' : starts,
         '_terp_ends' : ends,
         '_terp_context': $('_terp_context').value
-    }
+    });
 
     return Ajax.JSON.post('/calendar/save', params);
 }

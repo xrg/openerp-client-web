@@ -158,12 +158,14 @@ InfoBox.prototype = {
         if (!confirm(_('Do you realy want to delete this record?'))) {
             return false;
         }
-        
-        var req = Ajax.JSON.post('/calendar/delete', {
-           _terp_id: this.params.nRecordID,
-           _terp_model: getElement('_terp_model').value 
+
+        var params = getFormParams('_terp_concurrency_info');
+        MochiKit.Base.update(params, {
+           '_terp_id': this.params.nRecordID,
+           '_terp_model': getElement('_terp_model').value 
         });
-        
+
+        var req = Ajax.JSON.post('/calendar/delete', params);
         var self = this;
         
         req.addCallback(function(obj){

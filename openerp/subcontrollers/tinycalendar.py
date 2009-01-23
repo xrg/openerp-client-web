@@ -102,10 +102,11 @@ class TinyCalendar(Form):
         params, data = TinyDict.split(kw)
         
         error = None
+        ctx = tools.update_concurrency_info(rpc.session.context.copy(), params.concurrency_info)
         proxy = rpc.RPCProxy(params.model)
         
         try:
-            proxy.unlink([params.id])
+            proxy.unlink([params.id], ctx)
         except Exception, e:
             error = ustr(e)
             
@@ -142,7 +143,8 @@ class TinyCalendar(Form):
         
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
-        
+        ctx = tools.update_concurrency_info(ctx, params.concurrency_info)
+
         error = None
         proxy = rpc.RPCProxy(params.model)
         

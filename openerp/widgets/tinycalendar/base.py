@@ -108,6 +108,7 @@ class ICalendar(interface.TinyCompoundWidget):
     selected_day = None    
     date_format = '%Y-%m-%d'
     
+    member_widgets = ['concurrency_info']
     css = [tg.widgets.CSSLink('openerp', 'tinycalendar/css/calendar.css')]
     javascript = [tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_date.js'),
                   tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_utils.js'),
@@ -126,6 +127,7 @@ class ICalendar(interface.TinyCompoundWidget):
         self.color_values = []
         
         self.calendar_fields = {}
+        self.concurrency_info = None
 
         self.ids = ids
         self.model = model        
@@ -251,7 +253,9 @@ class ICalendar(interface.TinyCompoundWidget):
         order_by = ('sequence' in self.fields or 0) and 'sequence'
 
         ids = proxy.search(domain, 0, 0, order_by, ctx)
-        result = proxy.read(ids, self.fields.keys(), ctx)
+        result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
+        self._update_concurrency_info(self.model, result)
+        self.concurrency_info = interface.ConcurrencyInfo(self.model, ids)
         
         if self.color_field:
             

@@ -255,7 +255,8 @@ GanttCalendar.prototype = {
             setNodeAttribute(element, 'dtstart', toISOTimestamp(dt.starts));
             setNodeAttribute(element, 'dtend', toISOTimestamp(dt.ends));
             
-            self.grid.adjust();
+            //self.grid.adjust();
+            getCalendar();
         });
 
     },
@@ -306,10 +307,10 @@ GanttCalendar.prototype = {
             }
 
             self.events[id].ends = toISOTimestamp(se);
-
             setNodeAttribute(element, 'dtend', toISOTimestamp(se));
             
-            self.grid.adjust();
+            //self.grid.adjust();
+            getCalendar();
         });
     }
 }
