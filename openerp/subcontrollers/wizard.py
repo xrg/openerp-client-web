@@ -155,7 +155,21 @@ class Wizard(controllers.Controller, TinyResource):
             frm = eval('cherrypy.root' + frm.replace('/', '.'))
             return frm.create(params)
 
-        raise redirect('/')
+        return """<html>
+            <head>
+                <script type="text/javascript">
+                    if (window.opener) {
+                        window.opener.setTimeout("window.location.reload()", 0);
+                        window.close();
+                    } else {
+                        window.location.href = "/";
+                    }
+                </script>
+            </head>
+            <body>
+            </body>
+        </html>
+        """
 
     def get_validation_schema(self):
 
