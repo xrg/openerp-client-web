@@ -143,9 +143,8 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
                              editable=False, readonly=self.editable, 
                              selectable=selectable, nolinks=self.link)
         
-        self.screen.widget.checkbox_name = False            
-#        self.colspan = 4
-#        self.nolabel = True
+        self.screen.widget.checkbox_name = False
+        self.screen.widget.m2m = True
 
         self.validator = tiny_validators.many2many()
 

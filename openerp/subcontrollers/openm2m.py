@@ -38,6 +38,7 @@ import cherrypy
 
 from openerp import rpc
 from openerp import cache
+from openerp import tools
 from openerp import widgets as tw
 
 from openerp.utils import TinyDict
@@ -82,7 +83,8 @@ class OpenM2M(Form):
                 params.id = int(id)
                 params.count += 1
             else:
-                id = proxy.write([params.id], data, params.context)
+                ctx = tools.update_concurrency_info(params.context, params.concurrency_info)
+                id = proxy.write([params.id], data, ctx)
 
         button = (params.button or False) and True
 

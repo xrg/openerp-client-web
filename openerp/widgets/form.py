@@ -681,16 +681,34 @@ class VPaned(TinyCompoundWidget):
         self.children = children
         self.nolabel = True
 
+class ConcurrencyInfo(TinyCompoundWidget):
+    template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="" py:if="ids and model in info">
+        <input type="hidden" py:if="id in info[model]" py:for="id in ids"
+            name="_terp_concurrency_info" value="('$model,$id', '${info[model][id]}')"/>
+    </span>"""
+
+    params = ['ids', 'model', 'info']
+
+    def __init__(self, model, ids):
+        self.ids = ids
+        self.model = model
+
+    def _get_concurrency_info(self):
+        return getattr(cherrypy.request, 'terp_concurrency_info', {})
+
+    info = property(_get_concurrency_info)
+
 class Form(TinyCompoundWidget):
     """A generic form widget
     """
 
-    template = """
-        <span xmlns:py="http://purl.org/kid/ns#" py:if="frame" py:replace="frame.display(value_for(frame), **params_for(frame))"/>
-        """
+    template = """<span xmlns:py="http://purl.org/kid/ns#" py:if="frame">
+        ${concurrency_info.display()}
+        <span py:replace="frame.display(value_for(frame), **params_for(frame))"/>
+    </span>"""
 
-    member_widgets = ['frame']
-    frame = None
+    params = ['id', 'model']
+    member_widgets = ['frame', 'concurrency_info']
 
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
         super(Form, self).__init__()
@@ -726,7 +744,7 @@ class Form(TinyCompoundWidget):
         if ids:
             values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
             self.id = ids[0]
-            self.last_update = values.pop('__last_update')
+            self._update_concurrency_info(self.model, [values])
 
         elif 'datas' in view: # wizard data
 
@@ -756,6 +774,7 @@ class Form(TinyCompoundWidget):
 
         self.view_fields = []
         self.frame = self.parse(prefix, dom, fields, values)[0]
+        self.concurrency_info = ConcurrencyInfo(self.model, [self.id])
         
         # We should generate hidden fields for fields which are not in view, as
         # the values of such fields might be used during `onchange` 

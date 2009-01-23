@@ -84,5 +84,12 @@ def get_size(sz):
         i = i + 1
     return "%0.2f %s" % (s, units[i])
 
+def update_concurrency_info(context, concurrency_info):
+    if isinstance(concurrency_info, tuple):
+        concurrency_info = [concurrency_info]
+    ctx = context.copy()
+    ctx['__last_update'] = dict(concurrency_info)
+    return ctx
+
 # vim: ts=4 sts=4 sw=4 si et
 

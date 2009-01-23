@@ -53,9 +53,9 @@ class List(TinyCompoundWidget):
     template = "openerp.widgets.templates.listgrid"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m']
     
-    member_widgets = ['pager', 'children', 'buttons']
+    member_widgets = ['pager', 'children', 'buttons', 'concurrency_info']
 
     pager = None
     children = []
@@ -105,7 +105,8 @@ class List(TinyCompoundWidget):
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
-
+        self.m2m = False
+        self.concurrency_info = None
         self.selector = None
 
         if self.selectable == 1:
@@ -144,7 +145,10 @@ class List(TinyCompoundWidget):
             ctx = rpc.session.context.copy()
             ctx.update(context)
 
-            data = proxy.read(ids, fields.keys(), ctx)
+            data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
+            self._update_concurrency_info(self.model, data)
+            self.concurrency_info = form.ConcurrencyInfo(self.model, ids)
+
             for item in data:
                 self.data_dict[item['id']] = item.copy()
 

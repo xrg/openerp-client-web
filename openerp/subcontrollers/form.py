@@ -165,9 +165,6 @@ def default_error_handler(self, tg_errors=None, **kw):
     @param tg_errors: errors
     """
     params, data = TinyDict.split(kw)
-    print "XXXXXXXXXXXXXXXXXXXXXXXXX"
-    print tg_errors
-    print "XXXXXXXXXXXXXXXXXXXXXXXXX"
     return self.create(params, tg_errors=tg_errors)
 
 def default_exception_handler(self, tg_exceptions=None, **kw):
@@ -384,7 +381,8 @@ class Form(controllers.Controller, TinyResource):
                 params.id = int(id)
                 params.count += 1
             else:
-                id = proxy.write([params.id], data, params.context)
+                ctx = tools.update_concurrency_info(params.context, params.concurrency_info)
+                id = proxy.write([params.id], data, ctx)
 
         button = params.button
 
@@ -537,12 +535,12 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         current = params.chain_get(params.source or '') or params
-
         proxy = rpc.RPCProxy(current.model)
 
         idx = -1
         if current.id:
-            res = proxy.unlink([current.id])
+            ctx = tools.update_concurrency_info(current.context, params.concurrency_info)
+            res = proxy.unlink([current.id], ctx)
             idx = current.ids.index(current.id)
             current.ids.remove(current.id)
             params.count = 0 # invalidate count
@@ -592,10 +590,12 @@ class Form(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
 
         proxy = rpc.RPCProxy(params.model)
+        ctx = tools.update_concurrency_info(params.context, params.concurrency_info)
+
         if params.fname:
-            proxy.write([params.id], {params.field: False, params.fname: False})
+            proxy.write([params.id], {params.field: False, params.fname: False}, ctx)
         else:
-            proxy.write([params.id], {params.field: False})
+            proxy.write([params.id], {params.field: False}, ctx)
 
         return self.create(params)
 

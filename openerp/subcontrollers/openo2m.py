@@ -38,6 +38,7 @@ import cherrypy
 
 from openerp import rpc
 from openerp import cache
+from openerp import tools
 from openerp import widgets as tw
 
 from openerp.utils import TinyDict
@@ -113,7 +114,7 @@ class OpenO2M(Form):
         if pprefix:
             data = eval(pprefix, TinyDict(**data)).make_dict()
 
-        ctx = rpc.session.context.copy()
+        ctx = tools.update_concurrency_info(rpc.session.context, params.concurrency_info)
         ctx.update(params.o2m_context or {})
 
         id = proxy.write([params.parent_id], data, ctx)

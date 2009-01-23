@@ -33,6 +33,7 @@ from turbogears import expose
 from turbogears import controllers
 
 from openerp import rpc
+from openerp import tools
 from openerp.tinyres import TinyResource
 
 from openerp.utils import TinyDict
@@ -69,7 +70,8 @@ class List(controllers.Controller, TinyResource):
             proxy = rpc.RPCProxy(model)
             frm = TinyForm(**kw).to_python()
             data = {}
-            
+            ctx = tools.update_concurrency_info(params.parent.context or {}, params.concurrency_info)
+
             if model != params.model:
                 source = params.source
                 data = frm.chain_get(source)
@@ -79,8 +81,7 @@ class List(controllers.Controller, TinyResource):
                 
                 fld = source.split('/')[-1]
                 data = {fld : [(id and 1, id, data.copy())]}
-
-                proxy.write([params.parent.id], data, params.parent.context or {})
+                proxy.write([params.parent.id], data, ctx)
 
                 all_ids = proxy.read([params.parent.id], [fld])[0][fld]
                 new_ids = [i for i in all_ids if i not in ids]
@@ -94,7 +95,7 @@ class List(controllers.Controller, TinyResource):
                 if 'id' in data: data.pop('id')
 
                 if id > 0:
-                    proxy.write([id], data, params.parent.context or {})
+                    proxy.write([id], data, ctx)
                 else:
                     id = proxy.create(data, params.parent.context or {})
                     ids = [id] + ids
@@ -114,10 +115,11 @@ class List(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(params.model)
         if params.ids:
             try:
+                ctx = tools.update_concurrency_info(params.context or {}, params.concurrency_info)
                 if isinstance(params.ids, list):                    
-                    res = proxy.unlink(params.ids)
+                    res = proxy.unlink(params.ids, ctx)
                 else:
-                    res = proxy.unlink([params.ids])
+                    res = proxy.unlink([params.ids], ctx)
             except Exception, e:
                 error = ustr(e)
                 

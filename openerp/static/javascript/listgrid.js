@@ -344,7 +344,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         var parent_field = this.name.split('/');
         var data = getFormData(true);
-        var args = {};
+        var args = getFormParams('_terp_concurrency_info');
 
         for(var k in data) {
             if (k.indexOf(this.name + '/') == 0 || this.name == '_terp_list') {
@@ -401,7 +401,7 @@ MochiKit.Base.update(ListView.prototype, {
     remove: function(ids){
 
         var self = this;
-        var args = {};
+        var args = getFormParams('_terp_concurrency_info');;
         
         if(!ids) {
             var ids = this.getSelectedRecords();
