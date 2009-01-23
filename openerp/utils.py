@@ -88,6 +88,12 @@ class TinyDict(dict):
             self[k] = v
 
     def _eval(self, value):
+
+        if isinstance(value, list):
+            for i, v in enumerate(value):
+                value[i] = self._eval(v)
+            return value
+
         if not isinstance(value, basestring):
             return value
 
