@@ -252,7 +252,8 @@ class Notebook(TinyCompoundWidget):
                                    var tabberOptions = {};
                                tabberOptions['onLoad'] = tabber_onload;
                                tabberOptions['onClick'] = tabber_onclick;
-                               tabberOptions['cookie'] = 'TGTabber';"""),
+                               tabberOptions['cookie'] = 'TGTabber';
+                               tabberOptions['manualStartup'] = true;"""),
                   tg.widgets.JSLink("openerp", "javascript/tabber/tabber.js")]
     
     css = [tg.widgets.CSSLink('openerp', 'css/tabs.css')]
