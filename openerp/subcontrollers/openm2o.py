@@ -84,7 +84,6 @@ class OpenM2O(Form):
                 params.count += 1
             else:
                 ctx = tools.update_concurrency_info(params.context, params.concurrency_info)
-                print "XXXXXXXXX", ctx
                 id = proxy.write([params.id], data, ctx)
 
         button = (params.button or False) and True
