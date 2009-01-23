@@ -9,6 +9,10 @@
                     <span py:replace="advance.display(value_for(advance), **params_for(advance))" py:if="advance"/>
                 </div>
             </div>
+            <script type="text/javascript">
+                tabberOptions.div = getElement('search_view_notebook');
+                tabberOptions.div.tabber = new tabberObj(tabberOptions);
+            </script>
         </td>
     </tr>
 </table>

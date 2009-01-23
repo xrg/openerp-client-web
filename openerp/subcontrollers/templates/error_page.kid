@@ -38,7 +38,7 @@
         <tr py:if="maintenance">
             <td valign="top">
 <form id="view_form" onsubmit="return false;">
-                <div class='tabber'>
+                <div class='tabber' id="error_page_notebook">
                     <div class='tabbertab' title="Maintenance">
                             <pre py:if="maintenance['status'] == 'none'">
 <b>An unknown error has been reported.</b><br/>
@@ -122,6 +122,10 @@ is displayed on the second tab.
                         </script>
                     </div>
                 </div>
+                <script type="text/javascript">
+                    tabberOptions.div = getElement(error_page_notebook');
+                    tabberOptions.div.tabber = new tabberObj(tabberOptions);
+                </script>
 </form>
             </td>
         </tr>
