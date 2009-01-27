@@ -235,7 +235,7 @@ class GanttCalendar(ICalendar):
             self.selected_day = day
 
             self.headers = [(48, ustr(day))]
-            self.subheaders = [time.strftime('%I %P', (y, m, d, i, 0, 0, 0, 0, 0)) for i in range(24)]
+            self.subheaders = [time.strftime('%I %P', (y, m, d, i, 0, 0, 1, 1, 0)) for i in range(24)]
 
         elif self.mode == '3days':
             dp = day - 1
