@@ -265,7 +265,7 @@ class GanttCalendar(ICalendar):
             self.days = wp.days + w.days + wn.days
             self.title = _(u"%s - %s") % (ustr(self.days[0]), ustr(self.days[-1]))
             self.selected_day = _get_selection_day(day, self.selected_day, 'week')
-            self.headers = [(7, _("Week %s") % w[0].strftime('%W')) for w in [wp, w, wn]]
+            self.headers = [(7, _("Week %s") % w1[0].strftime('%W')) for w1 in [wp, w, wn]]
             self.subheaders = []
             self.subheaders += [x.strftime('%a %d') for x in wp]
             self.subheaders += [x.strftime('%a %d') for x in w]
