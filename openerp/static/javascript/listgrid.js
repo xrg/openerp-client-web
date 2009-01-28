@@ -535,7 +535,7 @@ MochiKit.Base.update(ListView.prototype, {
                 first.select();
             }
 
-            MochiKit.Signal.signal(self, 'onreload')
+            MochiKit.Signal.signal(__listview, 'onreload');
         });
     }
 

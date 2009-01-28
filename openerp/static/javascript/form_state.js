@@ -251,7 +251,8 @@ var form_setReadonly = function(container, field, readonly) {
     
     var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
 
-    if (!kind && MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
+    if (!kind && MochiKit.DOM.getElement(field.id + '_id') && 
+            MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
         return Many2Many(field.id).setReadonly(readonly);
     }
 
