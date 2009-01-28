@@ -114,6 +114,9 @@ class ViewTree(tg.widgets.Form):
             
         self.sidebar = Sidebar(self.model, toolbar, True, True, context=self.context)
 
+        if self.context and '_view_name' in self.context:
+            self.string = self.context.pop('_view_name')
+
     def parse(self, root, fields=None):
 
         for node in root.childNodes:
