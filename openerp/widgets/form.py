@@ -32,6 +32,7 @@ This module implementes widget parser for form view, and
 several widget components.
 """
 
+import re
 import time
 import xml.dom.minidom
 
@@ -546,6 +547,9 @@ class Button(TinyField):
     def __init__(self, current_model, id=None, attrs={}):
 
         TinyField.__init__(self, attrs)
+
+        # remove mnemonic
+        self.string = re.sub('_(?!_)', '', self.string or '')
 
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.confirm = attrs.get('confirm', None)

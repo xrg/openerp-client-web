@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import re
+
 from turbogears import expose
 from turbogears import redirect
 from turbogears import widgets
@@ -107,6 +109,7 @@ class Wizard(controllers.Controller, TinyResource):
                                       widgets.HiddenField(name='_terp_wiz_id', default=wiz_id)]
 
                 buttons = res.get('state', [])
+                buttons = [(b[0], re.sub('_(?!_)', '', b[1])) for b in buttons] # remove mnemonic
                 params.state = state
                 
                 return dict(form=form, buttons=buttons)
