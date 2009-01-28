@@ -393,7 +393,7 @@ MochiKit.Base.update(ListView.prototype, {
                 $(prefix + '_terp_id').value = obj.id;
                 $(prefix + '_terp_ids').value = obj.ids;
 
-                self.reload(id > 0 ? null : -1);
+                self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
              }
          });
     },
@@ -465,10 +465,10 @@ MochiKit.Base.update(ListView.prototype, {
         this.reload();
     },
 
-    reload: function(edit_inline){
+    reload: function(edit_inline, concurrency_info){
 
         if (Ajax.COUNT > 0) {
-            return callLater(1, bind(this.reload, this), edit_inline);
+            return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
         }
 
         var self = this;
@@ -477,6 +477,7 @@ MochiKit.Base.update(ListView.prototype, {
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
+        args['_terp_concurrency_info'] = concurrency_info;
 
         if (this.name == '_terp_list') {
             args['_terp_search_domain'] = $('_terp_search_domain').value;
@@ -493,6 +494,13 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_id.value = obj.ids[0];
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
                 _terp_count.value = obj.count;
+            }
+
+            // update concurrency info
+            for(var key in obj.info) {
+                var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
+                var value = "('" + key + "', '" + obj.info[key] + "')";
+                item.value = value;
             }
 
             var d = DIV();

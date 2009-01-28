@@ -47,7 +47,7 @@
             lc = parseInt(lc) || 0;
 
             if (lc > 0) {
-                window.opener.setTimeout("new ListView('${params.o2m}').reload()", 0);
+                window.opener.setTimeout("new ListView('${params.o2m}').reload(null, 1)", 0.5);
             }
 
             if (lc > 1) {

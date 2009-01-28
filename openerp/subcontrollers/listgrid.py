@@ -147,8 +147,14 @@ class List(controllers.Controller, TinyResource):
         
         if params.edit_inline:
             wid.edit_inline = params.edit_inline
-            
-        return dict(ids=ids, count=count, view=ustr(wid.render()))
+
+        info = {}
+        if params.concurrency_info:
+            for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
+                for i, d in v.items():
+                    info['%s,%s' % (m, i)] = d
+
+        return dict(ids=ids, count=count, view=ustr(wid.render()), info=info)
     
     @expose('json')
     def button_action(self, **kw):
