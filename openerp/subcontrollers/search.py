@@ -51,6 +51,7 @@ from openerp.tinyres import TinyResource
 
 from openerp.utils import TinyDict
 from openerp.utils import TinyForm
+from openerp.utils import TinyFormError
 
 from form import Form
 
@@ -113,12 +114,17 @@ class Search(Form):
         
         domain = params.domain
         context = params.context
+
         parent_context = params.parent_context or {}
-        
         parent_context.update(rpc.session.context.copy())
 
-        ctx = TinyForm(**kw).to_python()
-        pctx = ctx
+        try:
+            ctx = TinyForm(**kw).to_python()
+            pctx = ctx
+        except TinyFormError, e:
+            return dict(error_field=e.field, error=ustr(e))
+        except Exception, e:
+            return dict(error=ustr(e))
 
         prefix = params.prefix
         if prefix:

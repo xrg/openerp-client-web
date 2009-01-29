@@ -669,7 +669,28 @@ function eval_domain_context_request(options){
         params['_terp_parent_context'] = parent_context.value;
     }
     
-    return Ajax.JSON.post('/search/eval_domain_and_context', params);
+    var req = Ajax.JSON.post('/search/eval_domain_and_context', params);
+    return req.addCallback(function(obj){
+
+        if (obj.error_field) {
+
+            var fld = getElement(obj.error_field) || getElement('_terp_listfields/' + obj.error_field);
+
+            if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
+            fld = getElement(fld.id + '_text');
+
+            if (fld) {
+                fld.focus();
+                fld.select();
+            }
+        }
+
+        if (obj.error) {
+            return alert(obj.error);
+        }
+
+        return obj;
+    });
 }
 
 function open_search_window(relation, domain, context, source, kind, text) {
