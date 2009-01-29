@@ -283,7 +283,7 @@ class Form(controllers.Controller, TinyResource):
             params.view_type = 'form'
             
         if not params.ids:
-            params.count = 1
+            params.count = 0
             params.offset = 0
 
         # On New O2M
