@@ -534,6 +534,15 @@ MochiKit.Base.update(ListView.prototype, {
                 first.focus();
                 first.select();
             }
+            
+            // call on_change for default values
+            if (editors.length) {
+                forEach(editors, function(e){
+                    if (e.value && getNodeAttribute(e, 'callback')) {
+                        MochiKit.Signal.signal(e, 'onchange');
+                    }
+                });
+            }
 
             MochiKit.Signal.signal(__listview, 'onreload');
         });
