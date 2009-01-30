@@ -57,7 +57,7 @@ class O2M(TinyCompoundWidget):
         super(O2M, self).__init__(attrs)
         
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
-        self.default_get_ctx = attrs.get('context', {})
+        self.default_get_ctx = attrs.get('default_get', {})
 
 #        self.colspan = 4
 #        self.nolabel = True
@@ -128,8 +128,11 @@ class O2M(TinyCompoundWidget):
             #if self.parent:
             #    ctx['parent'] = EvalEnvironment(self.parent)
 
-            ctx = tools.expr_eval("dict(%s)" % self.default_get_ctx, ctx)
-            current.context.update(ctx)
+            try:
+                ctx = tools.expr_eval("dict(%s)" % self.default_get_ctx, ctx)
+                current.context.update(ctx)
+            except:
+                pass
             
         current.offset = current.offset or 0
         current.limit = current.limit or 20

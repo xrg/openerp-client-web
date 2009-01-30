@@ -69,8 +69,8 @@ One2Many.prototype = {
 
         // get the required view params to get proper view
         params['_terp_view_params/_terp_model'] = $('_terp_model').value;
-        params['_terp_view_params/_terp_view_id'] = parseInt($('_terp_view_id').value) || 0;
-        params['_terp_view_params/_terp_view_mode'] = "['form']";
+        params['_terp_view_params/_terp_view_ids'] = $('_terp_view_ids').value;
+        params['_terp_view_params/_terp_view_mode'] = $('_terp_view_mode').value;
         params['_terp_view_params/_terp_view_type'] = 'form';
 
         while(names.length) {
@@ -79,8 +79,8 @@ One2Many.prototype = {
             var prefix = parents.join('/');
 
             params['_terp_view_params/' + prefix + '/_terp_model'] = $(prefix + '/_terp_model').value;
-            params['_terp_view_params/' + prefix + '/_terp_view_id'] = parseInt($(prefix + '/_terp_view_id').value) || 0;
-            params['_terp_view_params/' + prefix + '_terp_view_mode'] = "['form']";
+            params['_terp_view_params/' + prefix + '/_terp_view_ids'] = $(prefix + '/_terp_view_ids').value;
+            params['_terp_view_params/' + prefix + '_terp_view_mode'] = $(prefix + '/_terp_view_mode').value;
             params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
         }
 
