@@ -87,7 +87,7 @@
                             </td>
                             <td>
                                 <button type="button" onclick="window.close()">Close</button>
-                                <button py:if="params.editable" type="button" onclick="submit_form('save')">Save</button>
+                                <button py:if="form.screen.editable" type="button" onclick="submit_form('save')">Save</button>
                             </td>
                         </tr>
                     </table>
