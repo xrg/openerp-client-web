@@ -498,9 +498,11 @@ MochiKit.Base.update(ListView.prototype, {
 
             // update concurrency info
             for(var key in obj.info) {
-                var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
-                var value = "('" + key + "', '" + obj.info[key] + "')";
-                item.value = value;
+                try {
+                    var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
+                    var value = "('" + key + "', '" + obj.info[key] + "')";
+                    item.value = value;
+                }catch(e){}
             }
 
             var d = DIV();
