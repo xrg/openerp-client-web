@@ -5,6 +5,7 @@
 
 .grid {
     border: none;
+    border-collapse: collapse;
 }
 
 .grid-row {
@@ -31,12 +32,12 @@
 }
 
 .grid-cell.button {
-	text-align: right;
+    text-align: right;
 }
 
 .grid-cell.button button {
-	margin: 0px;
-	margin-right: 1px;
+    margin: 0px;
+    margin-right: 1px;
         width: auto;
 }
 
@@ -56,7 +57,7 @@
 }
 
 .grid-header .grid-cell.sortable {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .grid-row .grid-cell {
@@ -83,7 +84,7 @@
 
 .grid-cell.many2many,
 .grid-cell.one2many {
-	text-align: center;
+    text-align: center;
 }
 
 .gridview .pagerbar {
