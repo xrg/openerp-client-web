@@ -24,15 +24,15 @@
             MochiKit.Iter.forEach(pform.elements, function(e){
             
                 if (e.name &amp;&amp; e.type != 'button' &amp;&amp; e.name.indexOf('${params.o2m}') != 0){
-                
-                    var attrs = {};
+
+                    var fld = MochiKit.DOM.INPUT(null);
                     MochiKit.Iter.forEach(e.attributes, function(a){
-                        attrs[a.name] = a.value;
+                        try{
+                            MochiKit.DOM.setNodeAttribute(fld, a.name, a.value);
+                        }catch(e){}
                     });
-                    
-                    attrs['type'] = 'hidden';
-                    
-                    var fld = MochiKit.DOM.INPUT(attrs);
+
+                    fld.type = 'hidden';
                     fld.disabled = true;
                     fld.value = e.value;
 
