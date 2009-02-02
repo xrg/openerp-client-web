@@ -67,7 +67,7 @@ class OpenO2M(Form):
 
         # save view_params for later phazes
         vp = vp.make_plain('_terp_view_params/')
-        hiddens = map(lambda x: widgets.HiddenField(name=x, default=vp[x]), vp)
+        hiddens = map(lambda x: widgets.HiddenField(name=x, default=ustr(vp[x])), vp)
 
         params.prefix = params.o2m
         params.views = wid.view
