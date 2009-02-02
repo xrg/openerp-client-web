@@ -130,7 +130,12 @@ __init__ : function(elements, options) {
         }
         
         this.toolTitle.style.display = title ? 'block' : 'none';
-        MochiKit.Visual.appear(this.toolTip, {duration: 0.5, from: 0});
+        
+        if (browser.isIE){
+            this.toolTip.style.display = 'block';
+        } else {
+            MochiKit.Visual.appear(this.toolTip, {duration: 0.5, from: 0});
+        }
 
         // adjust position
 
@@ -157,7 +162,11 @@ __init__ : function(elements, options) {
         if (this.deferred) {
             this.deferred.cancel();
         }
-        MochiKit.Visual.fade(this.toolTip, {duration: 0.2, queue: 'end'});
+        if (browser.isIE){
+            this.toolTip.style.display = 'none';
+        } else {
+            MochiKit.Visual.fade(this.toolTip, {duration: 0.2, queue: 'end'});
+        }
     }
 }
 
