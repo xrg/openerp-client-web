@@ -82,7 +82,7 @@ class ViewForm(tg.widgets.Form):
             self.screen.id = False
             
         if params.context and '_view_name' in params.context:
-            self.screen.string = params.context.pop('_view_name')
+            self.screen.string = params.context.get('_view_name')
 
         # get the actual pager data
         self.limit = self.screen.limit
