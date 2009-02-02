@@ -73,6 +73,7 @@ class OpenO2M(Form):
         params.views = wid.view
 
         ctx = params.context or {}
+        ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
         p, ctx = TinyDict.split(ctx)
         
@@ -81,6 +82,7 @@ class OpenO2M(Form):
         form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
         form.hidden_fields = [widgets.HiddenField(name='_terp_parent_model', default=params.parent_model),
                               widgets.HiddenField(name='_terp_parent_id', default=params.parent_id),
+                              widgets.HiddenField(name='_terp_parent_context', default=ustr(params.parent_context)),
                               widgets.HiddenField(name='_terp_o2m', default=params.o2m),                              
                               widgets.HiddenField(name='_terp_o2m_id', default=params.id or None),
                               widgets.HiddenField(name='_terp_o2m_model', default=params.o2m_model),
