@@ -400,7 +400,7 @@ MochiKit.DOM.addLoadEvent(function(evt){
     window.mbox = new ModalBox({
         title: 'Properties',
         buttons: [
-            {text: 'Update', onclick: onUpdate},
+            {text: 'Update', onclick: onUpdate}
         ]
     });
 

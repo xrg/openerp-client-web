@@ -38,7 +38,7 @@ ModalBox.prototype = {
         this.options = MochiKit.Base.update({
             title: 'Modalbox',  // title
             content: null,      // content
-            buttons: [],        // buttons
+            buttons: []         // buttons
         }, options || {});
 
         if (MochiKit.DOM.getElement('modalbox_overlay')){
