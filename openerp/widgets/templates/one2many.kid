@@ -1,4 +1,4 @@
-<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" id="_o2m_$name" cellspacing="0" width="100%" class="one2many">
+<table xmlns:py="http://purl.org/kid/ns#" border="0" id="_o2m_$name" width="100%" class="one2many">
     <tr>
         <td class="toolbar">
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -36,16 +36,10 @@
         </td>
     </tr>
     <tr>
-        <td><div class="spacer"></div></td>
-    </tr>
-    <tr>
         <td py:if="screen">
             <input type="hidden" name="${name}/__id" id="${name}/__id" value="${id}"/>
             <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${ustr(default_get_ctx)}"/>
             ${screen.display()}
         </td>
-    </tr>
-    <tr>
-        <td><div class="spacer"></div></td>
     </tr>
 </table>

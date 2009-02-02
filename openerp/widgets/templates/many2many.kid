@@ -1,4 +1,4 @@
-<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" cellspacing="0" width="100%" class="many2many">
+<table xmlns:py="http://purl.org/kid/ns#" border="0" width="100%" class="many2many">
     <tr py:if="editable">
         <td>
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -27,7 +27,6 @@
             </table>
         </td>
     </tr>
-    <tr py:if="editable and not inline"><td colspan="${(editable or None) and 3}" height="4px"></td></tr>
     <tr py:if="not inline">
     	<td py:if="screen" id='${name}_container'>
             ${screen.display()}

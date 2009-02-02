@@ -356,7 +356,6 @@ div.welcome {
 .view table.one2many,
 .view table.many2many {
     border: 1px solid #bbb8a9;
-    padding: 2px;
 }
 
 .view .separator {
