@@ -202,7 +202,6 @@ class Root(controllers.RootController, TinyResource):
     process = subcontrollers.process.Process()
     wiki = subcontrollers.wiki.WikiView()
     errorpage = subcontrollers.error_page.ErrorPage()
-    messages_js = subcontrollers.js_i18n.JSCatalog()
 
 # vim: ts=4 sts=4 sw=4 si et
 

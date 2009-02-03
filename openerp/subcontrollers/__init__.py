@@ -27,7 +27,6 @@ import workflow
 import process
 import wiki
 import error_page
-import js_i18n
 
 # vim: ts=4 sts=4 sw=4 si et
 
