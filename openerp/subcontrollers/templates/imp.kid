@@ -16,7 +16,7 @@
         }
 
         .fields-selector-center {
-            width: 10%;
+            width: 15%;
         }
 
         .fields-selector-right {
@@ -176,7 +176,7 @@
             <td>
                 <fieldset>
                     <legend>File to import</legend>
-                    <input type="file" id="csvfile" name="csvfile" onchange="do_autodetect(form)"/>
+                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect(form)"/>
                 </fieldset>
             </td>
         </tr>

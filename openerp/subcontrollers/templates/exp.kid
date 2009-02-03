@@ -16,7 +16,7 @@
         }
 
         .fields-selector-center {
-            width: 10%;
+            width: 15%;
         }
 
         .fields-selector-right {
