@@ -53,6 +53,11 @@ var add_binary = function(src) {
     
     fld = MochiKit.DOM.getElement(src);
     fld.disabled = false;
+
+    // Firefox problem (bug: 324408)
+    if (browser.isGecko) {
+        fld.size = 50;
+    }
 }
 
 var set_binary_filename = function(id, fname){
