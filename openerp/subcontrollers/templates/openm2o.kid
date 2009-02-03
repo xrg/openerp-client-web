@@ -60,7 +60,7 @@
                             </td>
                             <td>
                                 <button type="button" onclick="window.close()">Close</button>
-                                <button type="button" onclick="submit_form('save')">Save</button>
+                                <button type="button" onclick="submit_form('save')" py:if="form.screen.editable">Save</button>
                             </td>
                         </tr>
                     </table>
