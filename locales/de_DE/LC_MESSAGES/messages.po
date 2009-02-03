@@ -8,16 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openobject-web-client-de\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-01-13 01:04+0000\n"
-"PO-Revision-Date: 2009-01-18 08:43+0000\n"
+"POT-Creation-Date: 2009-01-21 13:32+0000\n"
+"PO-Revision-Date: 2009-01-29 13:21+0000\n"
 "Last-Translator: Ferdinand Gassauer <Unknown>\n"
 "Language-Team: Deutsch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-19 08:12+0000\n"
+"X-Launchpad-Export-Date: 2009-02-03 14:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
 
 #: openerp/commands.py:50
 msgid "Could not find default configuration."
@@ -66,7 +65,8 @@ msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"Sie haben eine Zeitzone definiert, aber OpenERP konnte die Bibliothek pytz nicht finden!\n"
+"Sie haben eine Zeitzone definiert, aber OpenERP konnte die Bibliothek pytz "
+"nicht finden!\n"
 "Die Zeitzonenfunktion wird dekativiert."
 
 #: openerp/rpc.py:403
@@ -77,6 +77,7 @@ msgstr "Autorisierung Fehler!"
 msgid "Not logged..."
 msgstr "Nicht eingeloggt."
 
+#: openerp/rpc.py:420 openerp/rpc.py:423 openerp/subcontrollers/form.py:895
 #: openerp/widgets/form.py:841 openerp/widgets/listgrid.py:282
 msgid "Application Error!"
 msgstr "Programm Fehler!"
@@ -111,12 +112,17 @@ msgstr "Keine Aktion definiert!"
 
 #: openerp/subcontrollers/attachment.py:64
 msgid "No record selected! You can only attach to existing record..."
-msgstr "Kein Datensatz gewählt. Anhänge nur für bestehend Datensätze möglich."
+msgstr ""
+"Kein Datensatz gewählt. Anhänge nur für bestehend Datensätze möglich."
 
+#: openerp/subcontrollers/database.py:64
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Create new database"
 msgstr "Neue Datenbank erstellen"
 
+#: openerp/subcontrollers/database.py:66 openerp/subcontrollers/database.py:81
+#: openerp/subcontrollers/database.py:90 openerp/subcontrollers/database.py:98
+#: openerp/subcontrollers/database.py:107
 #: openerp/subcontrollers/templates/selection.kid:button
 msgid "OK"
 msgstr "OK"
@@ -125,6 +131,7 @@ msgstr "OK"
 msgid "Super admin password:"
 msgstr "Super Systemverwalter Kennwort"
 
+#: openerp/subcontrollers/database.py:69
 #: openerp/subcontrollers/database.py:101
 msgid "New database name:"
 msgstr "Neuer Datenbankname:"
@@ -145,6 +152,7 @@ msgstr "Verwalter Kennwort"
 msgid "Confirm password:"
 msgstr "Bestätigen Kennwort:"
 
+#: openerp/subcontrollers/database.py:79
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Drop database"
 msgstr "Datenbank löschen"
@@ -153,18 +161,22 @@ msgstr "Datenbank löschen"
 msgid "Do you really want to drop the selected database?"
 msgstr "Wellen Sie die ausgewählte Datenbank wirklich löschen?"
 
+#: openerp/subcontrollers/database.py:83 openerp/subcontrollers/database.py:91
 #: openerp/templates/login.kid:td
 msgid "Database:"
 msgstr "Datenbank:"
 
+#: openerp/subcontrollers/database.py:84 openerp/subcontrollers/database.py:92
 #: openerp/subcontrollers/database.py:100 openerp/templates/login.kid:td
 msgid "Password:"
 msgstr "Kennwort:"
 
+#: openerp/subcontrollers/database.py:88
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Backup database"
 msgstr "Datenbank sichern"
 
+#: openerp/subcontrollers/database.py:96
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Restore database"
 msgstr "Datenbank rücksichern"
@@ -173,6 +185,7 @@ msgstr "Datenbank rücksichern"
 msgid "File:"
 msgstr "Datei:"
 
+#: openerp/subcontrollers/database.py:105
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Change Administrator Password"
 msgstr "Administrator Kennwort ändern"
@@ -205,6 +218,8 @@ msgstr ""
 msgid "Database already exists!"
 msgstr "Datenbank besteht bereits!"
 
+#: openerp/subcontrollers/database.py:164
+#: openerp/subcontrollers/database.py:169
 #: openerp/subcontrollers/database.py:171
 msgid "Could not create database."
 msgstr "Konnte neue Datenbank nicht erzeugen."
@@ -221,6 +236,8 @@ msgstr ""
 msgid "Error during database creation!"
 msgstr "Fehler bei Datenbank Erstellung!"
 
+#: openerp/subcontrollers/database.py:169
+#: openerp/subcontrollers/database.py:190
 #: openerp/subcontrollers/database.py:230
 msgid "Bad database administrator password!"
 msgstr "Falsches Datenbank Systemverwalter Kennwort!"
@@ -287,7 +304,9 @@ msgstr "Bildschirm drucken"
 
 #: openerp/subcontrollers/form.py:832
 msgid "You must save this record to use the sidebar button!"
-msgstr "Der Datensatz muss vor der Benutzung der seitlichen Werkzeugleiste gespeichert werden"
+msgstr ""
+"Der Datensatz muss vor der Benutzung der seitlichen Werkzeugleiste "
+"gespeichert werden"
 
 #: openerp/subcontrollers/form.py:895
 msgid "Wrong on_change trigger: %s"
@@ -359,7 +378,7 @@ msgstr "Auswählen Arbeitsgang"
 
 #: openerp/subcontrollers/process.py:101
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr ""
+msgstr "%(name)s - Resource: %(resource)s, Status: %(state)s"
 
 #: openerp/subcontrollers/process.py:113
 msgid "Last modified by:"
@@ -453,6 +472,7 @@ msgstr "Abbrechen Schaltfläche"
 msgid "Save Button"
 msgstr "Speichern Schaltfläche"
 
+#: openerp/subcontrollers/workflow.py:112
 #: openerp/subcontrollers/workflow.py:179
 msgid "Could not delete state"
 msgstr "Konnte Status nicht löschen."
@@ -481,10 +501,12 @@ msgstr "Nein"
 msgid "== Access Denied =="
 msgstr "== Zugriff Abgelehnt! =="
 
+#: openerp/widgets/one2many.py:59
 #: openerp/widgets/templates/viewform.kid:button
 msgid "Create new record."
 msgstr "neuen Datensatz Erstellen"
 
+#: openerp/widgets/one2many.py:59
 #: openerp/widgets/templates/viewform.kid:button
 msgid "New"
 msgstr "Neu"
@@ -589,6 +611,8 @@ msgstr "%s, Woche %s"
 msgid "%s - %s"
 msgstr "%s - %s"
 
+#: openerp/widgets/tinycalendar/widgets.py:268
+#: openerp/widgets/tinycalendar/widgets.py:298
 #: openerp/widgets/tinycalendar/widgets.py:342
 msgid "Week %s"
 msgstr "Woche %s"
@@ -601,6 +625,7 @@ msgstr "%s, Quartal %s"
 msgid "W %s"
 msgstr "W %s"
 
+#: openerp/widgets/tinycalendar/widgets.py:317
 #: openerp/widgets/tinycalendar/widgets.py:331
 msgid "Year %s to Year %s"
 msgstr "Jahr %s bis Jahr %s"
@@ -618,11 +643,15 @@ msgid "An email address must contain a single @"
 msgstr "Eine EMail Adresse muss genau ein \"@\" beinhalten"
 
 #: openerp/widgets/validators.py:254
-msgid "The username portion of the email address is invalid (the portion before the @: %(username)s)"
+msgid ""
+"The username portion of the email address is invalid (the portion before the "
+"@: %(username)s)"
 msgstr "Der Benutzername vor dem \"@\" ist ungültig: %(username)s)"
 
 #: openerp/widgets/validators.py:255
-msgid "The domain portion of the email address is invalid (the portion after the @: %(domain)s)"
+msgid ""
+"The domain portion of the email address is invalid (the portion after the @: "
+"%(domain)s)"
 msgstr "Der Domain Name der EMail nach dem \"@\" ist ungültig: %(domain)s)"
 
 #: openerp/widgets/validators.py:259
@@ -649,6 +678,7 @@ msgstr "Bitte eine Nummer eingeben"
 msgid "Invalid datetime format"
 msgstr "Ungültiges Datum-Zeit Format"
 
+#: openerp/widgets/tinycalendar/templates/week.kid:div
 #: openerp/static/javascript/treegrid.js:101
 msgid "Loading..."
 msgstr "Ladevorgang läuft ..."
@@ -797,6 +827,7 @@ msgstr "100"
 msgid "Open a resource"
 msgstr "Datensatz öffnen"
 
+#: openerp/widgets/templates/reference.kid:img
 #: openerp/static/workflow/javascript/process.js:291
 msgid "Open"
 msgstr "Öffnen"
@@ -974,25 +1005,36 @@ msgid ""
 "manages business processes in areas such as sales, finance, supply chain,\n"
 "project management, production, services, CRM, etc.."
 msgstr ""
-"OpenERP ist eine Unternehmens Software, die Produktivität und Profitabilität durch\n"
-"Datenintegration verbessert. Sie verbindet, verbessert und verwaltet Geschäftsprozesse\n"
-"in allen Unternehmensbereichen wie zB Verkauf, Finanzen, Einkauf, Produktion, Projektverwaltung, Dienstleistungen, CRM, etc..."
+"OpenERP ist eine Unternehmens Software, die Produktivität und Profitabilität "
+"durch\n"
+"Datenintegration verbessert. Sie verbindet, verbessert und verwaltet "
+"Geschäftsprozesse\n"
+"in allen Unternehmensbereichen wie zB Verkauf, Finanzen, Einkauf, "
+"Produktion, Projektverwaltung, Dienstleistungen, CRM, etc..."
 
 #: openerp/templates/about.kid:p
 msgid ""
-"The system is platform-independent, and can be installed on Windows, Mac OS X,\n"
-"and various Linux and other Unix-based distributions. Its architecture enables\n"
+"The system is platform-independent, and can be installed on Windows, Mac OS "
+"X,\n"
+"and various Linux and other Unix-based distributions. Its architecture "
+"enables\n"
 "new functionality to be rapidly created, modifications to be made to a\n"
 "production system and migration to a new version to be straightforward."
 msgstr ""
-"Das System ist plattformunabhängig und kann auf Windows, Mac-OS und verschiedenen Linux Verianten und anderen UNIX basierenden Systemen eingesetzt werden.\n"
-"Die Architektur ermöglicht die rasche Entwicklung neuer Funktionalitäten, laufende Anpassungen des produktiven Systems während des Betriebes, und einfache Migration auf neue Versionen."
+"Das System ist plattformunabhängig und kann auf Windows, Mac-OS und "
+"verschiedenen Linux Verianten und anderen UNIX basierenden Systemen "
+"eingesetzt werden.\n"
+"Die Architektur ermöglicht die rasche Entwicklung neuer Funktionalitäten, "
+"laufende Anpassungen des produktiven Systems während des Betriebes, und "
+"einfache Migration auf neue Versionen."
 
 #: openerp/templates/about.kid:p
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application\n"
 "client."
-msgstr "Je nach Anforderung ist OpenERP verfügbar als WEB-Applikation oder eigene Anwendung."
+msgstr ""
+"Je nach Anforderung ist OpenERP verfügbar als WEB-Applikation oder eigene "
+"Anwendung."
 
 #: openerp/templates/about.kid:td
 msgid "Links"
@@ -1087,7 +1129,9 @@ msgid "[ADD]"
 msgstr "[HINZU]"
 
 #: openerp/templates/master.kid:div
-msgid "Copyright © 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More Information on"
+msgid ""
+"Copyright © 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More "
+"Information on"
 msgstr "Copyright © 2007-Heute Tiny ERP Pvt. Ltd. Alle Rechte vorbehalten."
 
 #: openerp/templates/master.kid:a
@@ -1420,7 +1464,8 @@ msgstr "Sie haben keinen OpenERP Wartungsvertrag!"
 
 #: openerp/subcontrollers/templates/error_page.kid:br
 msgid ""
-"If you are using Open ERP in production, it is highly suggested to subscribe\n"
+"If you are using Open ERP in production, it is highly suggested to "
+"subscribe\n"
 "a maintenance program.\n"
 "\n"
 "The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
@@ -1438,10 +1483,14 @@ msgid ""
 "You can use the link bellow for more information. The detail of the error\n"
 "is displayed on the second tab."
 msgstr ""
-"Wenn Sie OpenERP in einem Produktionssystem verwenden sollten Sie einen Wartungsvertrag abschliessen.\n"
-"Der OpenERP Wartungsvertrage beinhaltet eine Garantie zur Fehlerbehebung und ein \n"
-"automatisches Migrationssystem, so dass wir Ihre Probleme innerhalb weniger Stunden beheben können.\n"
-"Wenn Sie einen Wartungsvertrag hätten, wäre dieser Fehler an das Qualitätsicherungsteam gesandt worden.\n"
+"Wenn Sie OpenERP in einem Produktionssystem verwenden sollten Sie einen "
+"Wartungsvertrag abschliessen.\n"
+"Der OpenERP Wartungsvertrage beinhaltet eine Garantie zur Fehlerbehebung und "
+"ein \n"
+"automatisches Migrationssystem, so dass wir Ihre Probleme innerhalb weniger "
+"Stunden beheben können.\n"
+"Wenn Sie einen Wartungsvertrag hätten, wäre dieser Fehler an das "
+"Qualitätsicherungsteam gesandt worden.\n"
 "\n"
 "Der Wartungsvertrag beietet:\n"
 "* automatische Migration auf neue Versionen\n"
@@ -1455,26 +1504,34 @@ msgstr ""
 
 #: openerp/subcontrollers/templates/error_page.kid:br
 msgid ""
-"Your maintenance contract does not cover all modules installed in your system !\n"
-"If you are using Open ERP in production, it is highly suggested to upgrade your\n"
+"Your maintenance contract does not cover all modules installed in your "
+"system !\n"
+"If you are using Open ERP in production, it is highly suggested to upgrade "
+"your\n"
 "contract.\n"
 "\n"
 "If you have developped your own modules or installed third party module, we\n"
 "can provide you an additional maintenance contract for these modules. After\n"
-"having reviewed your modules, our quality team will ensure they will migrate\n"
+"having reviewed your modules, our quality team will ensure they will "
+"migrate\n"
 "automatically for all futur stable versions of Open ERP at no extra cost.\n"
 "\n"
 "Here is the list of modules not covered by your maintenance contract:"
 msgstr ""
-"Ihr Wartungsvertrag beinhaltet nicht alle auf Ihrem System installierten Module.\n"
-"Wenn Sie OpenERP in einem Produktionssystem verwenden sollten Sie Ihren Wartungsvertrag erweitern.\n"
+"Ihr Wartungsvertrag beinhaltet nicht alle auf Ihrem System installierten "
+"Module.\n"
+"Wenn Sie OpenERP in einem Produktionssystem verwenden sollten Sie Ihren "
+"Wartungsvertrag erweitern.\n"
 "\n"
 "Wenn Sie Ihre eigenen oder andere fremde Module installiert haben, \n"
 "können wir Ihnen einen erweiterten Wartungsvertrag anbieten.\n"
-"Nach Überprüfung Ihrer Module wird unser Wartungsteam sicher stellen, dass Sie \n"
-"ohne weitere Kosten auf alle zukünftigen stabilen Versionen von OpenERP migrieren können.\n"
+"Nach Überprüfung Ihrer Module wird unser Wartungsteam sicher stellen, dass "
+"Sie \n"
+"ohne weitere Kosten auf alle zukünftigen stabilen Versionen von OpenERP "
+"migrieren können.\n"
 "\n"
-"Hier ist eine Liste der Module, die NICHT duch den Wartungsvertrag gedeckt sind."
+"Hier ist eine Liste der Module, die NICHT duch den Wartungsvertrag gedeckt "
+"sind."
 
 #: openerp/subcontrollers/templates/error_page.kid:span
 msgid ""
@@ -1489,8 +1546,12 @@ msgid "Maintenance contract."
 msgstr "Wartungsvertrag"
 
 #: openerp/subcontrollers/templates/error_page.kid:em
-msgid "Your request will be sent to OpenERP and maintenance team will reply you shortly."
-msgstr "Ihre Anfrage wird an OpenERP gesendet und das Wartungsteam wird in Kürze antworten."
+msgid ""
+"Your request will be sent to OpenERP and maintenance team will reply you "
+"shortly."
+msgstr ""
+"Ihre Anfrage wird an OpenERP gesendet und das Wartungsteam wird in Kürze "
+"antworten."
 
 #: openerp/subcontrollers/templates/error_page.kid:td
 msgid "Explain what you did:"
@@ -1676,6 +1737,7 @@ msgstr "Arbeitsablauf"
 msgid "Select Process"
 msgstr "Prozess auswählen"
 
+#: openerp/subcontrollers/templates/process.kid:img
 #: openerp/static/workflow/javascript/process.js:287
 msgid "Help"
 msgstr "Hilfe"
@@ -1686,57 +1748,60 @@ msgstr "Anpassen"
 
 #: openerp/static/javascript/waitbox.js:49
 msgid "Please wait..."
-msgstr ""
+msgstr "Bitte warten..."
 
 #: openerp/static/javascript/waitbox.js:50
 msgid "This operation may take a while..."
-msgstr ""
+msgstr "Dieser Vorgang kann eine Weile dauern"
 
+#: openerp/static/javascript/listgrid.js:414
 #: openerp/static/javascript/form.js:284
 msgid "You must select at least one record."
-msgstr ""
+msgstr "Wählen Sie mindestens einen Datensatz"
 
 #: openerp/static/javascript/listgrid.js:416
 msgid "Do you realy want to delete selected record(s) ?"
-msgstr ""
+msgstr "Wollen Sie die ausgewählten Datensätze wirklich löschen"
 
+#: openerp/static/javascript/form.js:265
 #: openerp/static/tinycalendar/javascript/calendar_box.js:158
 msgid "Do you realy want to delete this record?"
-msgstr ""
+msgstr "Wollen Sie diesen Datensatz wirklich löschen?"
 
 #: openerp/static/javascript/form.js:296
 msgid "You must save this record to use the relate button!"
 msgstr ""
+"Sie müssen diesen Datensatz speichern um die \"Relation\" Schaltfläche "
+"nutzen zu können"
 
 #: openerp/static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Wollen Sie diesen Knoten wirklich löschen?"
 
 #: openerp/static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Wollen Sie hier wirklich eine vererbte Sicht erstellen?"
 
 #: openerp/static/workflow/javascript/process.js:190
 msgid "Notes:"
-msgstr ""
+msgstr "Bemerkungen:"
 
 #: openerp/static/workflow/javascript/process.js:198
 msgid "Subflows:"
-msgstr ""
+msgstr "untergeordnete Flussdiagramme"
 
 #: openerp/static/workflow/javascript/process.js:202
 msgid "Related:"
-msgstr ""
+msgstr "Verbunden:"
 
 #: openerp/static/workflow/javascript/process.js:292
 msgid "Print"
-msgstr ""
+msgstr "Drucken"
 
 #: openerp/static/workflow/javascript/process.js:299
 msgid "Print workflow"
-msgstr ""
+msgstr "Arbeitsfluss Drucken"
 
 #: openerp/static/workflow/javascript/process.js:305
 msgid "Documents"
-msgstr ""
-
+msgstr "Dokumente"
