@@ -6,7 +6,7 @@
         py:attrs='attrs' py:content="value or None">
     </textarea>
     <script type="text/javascript" py:if="editable and not inline">
-        if (!window.browser.isWebkit) {
+        if (!window.browser.isWebKit) {
             new ResizableTextarea('$field_id');
         }
     </script>
