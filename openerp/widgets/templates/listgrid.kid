@@ -47,7 +47,7 @@
                                 <img src="/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="not editors" onclick="editRecord(${data['id']}, '${source}')"/>
                                 <img src="/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" py:if="editors" onclick="new ListView('${name}').edit(${data['id']})"/>
                             </td>
-                            <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="color: ${data[field].color};" sortable_value="${data[field].get_sortable_text()}">
+                            <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
                                 <span py:if="i==0">
                                     <a href="javascript: void(0)" onclick="do_select(${data['id']}, '$name'); return false;">${data[field]}</a>
                                 </span>
