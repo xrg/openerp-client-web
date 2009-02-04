@@ -82,6 +82,7 @@ button {
     padding: 0px 2px;
     font-size: 11px;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 button:hover {
@@ -311,7 +312,6 @@ div.welcome {
 .view .titlebar button {
     width: auto;
     margin: 0 1px;
-    cursor: pointer;
     white-space: nowrap;
 }
 
@@ -335,7 +335,6 @@ div.welcome {
 .view .toolbar button {
     width: auto;
     margin: 0 1px;
-    cursor: pointer;
     white-space: nowrap;
 }
 
@@ -345,6 +344,7 @@ div.welcome {
     margin: 0 1px;
     vertical-align: middle;
 }
+
 .view .toolbar img.button,
 .view .titlebar img.button {
     cursor: pointer;
