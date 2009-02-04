@@ -328,12 +328,12 @@ MochiKit.Base.update(ListView.prototype, {
 // standard actions
 MochiKit.Base.update(ListView.prototype, {
 
-    create: function(){
-        this.edit(-1);
+    create: function(default_get_ctx){
+        this.edit(-1, default_get_ctx);
     },
 
-    edit: function(edit_inline){
-        this.reload(edit_inline);
+    edit: function(edit_inline, default_get_ctx){
+        this.reload(edit_inline, null, default_get_ctx);
     },
 
     save: function(id){
@@ -465,7 +465,7 @@ MochiKit.Base.update(ListView.prototype, {
         this.reload();
     },
 
-    reload: function(edit_inline, concurrency_info){
+    reload: function(edit_inline, concurrency_info, default_get_ctx){
 
         if (Ajax.COUNT > 0) {
             return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
@@ -477,6 +477,7 @@ MochiKit.Base.update(ListView.prototype, {
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
+        args['_terp_source_default_get'] = default_get_ctx;
         args['_terp_concurrency_info'] = concurrency_info;
 
         if (this.name == '_terp_list') {

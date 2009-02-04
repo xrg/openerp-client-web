@@ -55,10 +55,19 @@ One2Many.prototype = {
         }
     
         if (this.mode == 'tree' && this.inline){
-            return new ListView(this.name).create();
+
+            if (this.default_get_ctx) {
+                var self = this;
+                var req = eval_domain_context_request({source: this.name, context: this.default_get_ctx});
+                req.addCallback(function(res){
+                    ListView(self.name).create(res.context);
+                });
+            } else {
+                ListView(this.name).create();
+            }
+        } else {
+            this.edit(null);
         }
-        
-        this.edit(null);                 
     },
 
     edit: function(id, readonly) {

@@ -139,6 +139,12 @@ class List(controllers.Controller, TinyResource):
             if params.search_domain:
                 params.domain += params.search_domain
 
+        # default_get context
+        current = params.chain_get(source)
+        if current and params.source_default_get:
+            current.context = current.context or {}
+            current.context.update(params.source_default_get)
+
         frm = form.Form().create_form(params)
 
         wid = frm.screen.get_widgets_by_name(source, kind=tw.listgrid.List)[0]
