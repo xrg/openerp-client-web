@@ -41,14 +41,13 @@
             var id = parseInt($('_terp_id').value) || 0;
             
             var lc = $('_terp_load_counter').value;
-            lc = parseInt(lc) || 1;
+            lc = parseInt(lc) || 0;
 
-            if (lc > 1) {    
-    
-                if (id != 0) {
-                    window.opener.setTimeout('getCalendar()', 0.5);
-                }
-                
+            if (lc > 0) { 
+                window.opener.setTimeout('getCalendar()', 0.5);
+            }
+            
+            if (lc > 1) {
                 return window.close();
             }
 
