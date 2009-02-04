@@ -29,6 +29,7 @@ table.menubar div.submenu {
     background-color: #666;
     border: 1px solid #333;
     position: absolute;
+    left: 0px;
     visibility: hidden;
     margin-left:  -1px;
     z-index: 3

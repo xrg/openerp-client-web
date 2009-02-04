@@ -34,21 +34,36 @@ var Menu = function(id, submenu){
     this.visible = false;
 
     if (this.menu){
-        connect(this.menu, "onmouseover", bind(this.show, this));
-        connect(this.menu, "onmouseout", bind(this.hide, this));
-        connect(this.layer, "onmouseover", bind(this.show, this));
-        connect(this.layer, "onmouseout", bind(this.hide, this));
+        MochiKit.Signal.connect(this.menu, "onmouseover", this, this.show);
+        MochiKit.Signal.connect(this.menu, "onmouseout", this, this.hide);
+        MochiKit.Signal.connect(this.layer, "onmouseover", this, this.show);
+        MochiKit.Signal.connect(this.layer, "onmouseout", this, this.hide);
     }
 }
 
-Menu.prototype.show = function(){
+Menu.prototype.show = function(evt){
+
     if (!this.visible) {
+
         this.layer.style.visibility="visible";
         this.visible = true;
+
+        //var vd = getViewportDimensions();
+        var vd = getElementDimensions(window.document.body);
+        var md = getElementDimensions(this.layer);
+
+        this.layer.style.left = getElementPosition(this.menu).x + 'px';
+
+        var x = parseInt(this.layer.style.left) || 0;
+
+        if ((x + md.w) > vd.w) {
+            x -= x + md.w - vd.w;
+            this.layer.style.left = x + 'px';
+        }
     }
 }
 
-Menu.prototype.hide = function(){
+Menu.prototype.hide = function(evt){
     if (this.visible) {
         this.layer.style.visibility="hidden";
         this.visible = false;
