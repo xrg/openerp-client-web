@@ -23,7 +23,7 @@
                 with(window.opener) {
 
                     var m2m = Many2Many('${params.m2m}');
-                    var ids = eval(m2m.terp_ids.value);
+                    var ids = m2m.getValue();
 
                     ids.push(id);
 

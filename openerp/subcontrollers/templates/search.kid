@@ -90,7 +90,7 @@
             with(window.opener) {
 
                 var m2m = Many2Many('${params.source}');
-                var ids = eval(m2m.terp_ids.value);
+                var ids = m2m.getValue();
 
                 if (id){
                     if (findValue(ids, id) == -1) ids.push(id);

@@ -116,6 +116,11 @@ Many2Many.prototype = {
         }
     },
 
+    getValue: function(){
+        var ids = this.hasList ? this.terp_ids.value : this.id.value;
+        return eval(ids);
+    },
+
     remove: function() {
         
         var ids = eval(this.terp_ids.value);
