@@ -113,6 +113,7 @@ Many2Many.prototype = {
         } else {
             this.text.value = '(' + ids.length + ')';
             this.id.value = '[' + ids.join(',') + ']';
+            getElement(this.name).value = ids;
         }
     },
 
