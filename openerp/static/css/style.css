@@ -358,6 +358,10 @@ div.welcome {
     border: 1px solid #bbb8a9;
 }
 
+.view td.grid-cell table.many2many {
+    border: none;    
+}
+
 .view .separator {
     font-weight: bold;
     border-bottom: 1px solid #666;
