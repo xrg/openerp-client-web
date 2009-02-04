@@ -184,16 +184,6 @@ class Search(Form):
         
         return dict(values=values)
 
-    @expose()
-    def get_m2m(self, model, ids, list_id):
-        if not ids:
-            ids='[]'
-        ids = eval(ids)
 
-        if not isinstance(ids, (list, tuple)): ids = [ids]
-
-        m2m = tw.many2many.M2M(dict(relation=model, value=ids, name=list_id))
-        return m2m.screen.render()
-    
 # vim: ts=4 sts=4 sw=4 si et
 

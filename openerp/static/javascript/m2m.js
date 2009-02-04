@@ -44,7 +44,7 @@ var Many2Many = function(name) {
 
 Many2Many.prototype = {
 
-    __init__ : function(name) {
+    __init__: function(name) {
 
         this.name = name;
 
@@ -55,8 +55,6 @@ Many2Many.prototype = {
         this.btnDel = getElement('_' + name + '_button2');
 
         this.terp_ids = getElement(name + '/_terp_ids');
-        this.element = getElement(name);
-
         this.model = getNodeAttribute(this.id, 'relation');
 
         this.hasList = getElement(name + '_container') ? true : false;
@@ -86,88 +84,46 @@ Many2Many.prototype = {
         getElement(name)._m2m = this;
     },
     
-    onClick : function() {
+    onClick: function() {
     	this.btnAdd.onclick();
     },
 
-    onChange : function() {
+    onChange: function() {
+        this.setValue(this.id.value);
+    },
 
-        var self = this;
-        var ids = this.id.value;
-
-        if(this.hasList) {
-
-            req = Ajax.post('/search/get_m2m', {model: this.model, ids : ids, list_id : this.name});
-            req.addCallback(function(xmlHttp){
-                var listview = getElement(self.name + '_container');
-                listview.innerHTML = xmlHttp.responseText;
-                
-                // execute JavaScript
-                var scripts = getElementsByTagAndClassName('script', null, listview);
-                forEach(scripts, function(s){
-                   eval(s.innerHTML);
-                });
-            });
-            
-            this.terp_ids = '[' + ids + ']';
-            this.element.value = '[' + ids + ']';
-
-        } else {
-            ids = ids == '[]' ? '' : ids;
-            ids = ids ? ids.split(',') : [];
-
-            this.text.value = '(' + ids.length + ')';
-            ids = '[' + ids + ']';
-            this.element.value = ids;
+    selectAll: function(){
+        if (this.hasList) {
+            ListView(this.name).checkAll();
         }
     },
 
-    selectAll : function(){
-        if (this.hasList) {
-            new ListView(this.name).checkAll();
-        }
-    },
+    setValue: function(ids){
 
-    setValue : function(ids){
-
-        var self = this;
+        ids = /^\[.*\]/.test(ids) ? ids : '[' + ids + ']';
+        ids = eval(ids);
 
         if (this.hasList) {
 
-            req = Ajax.post('/search/get_m2m', {model: this.model, ids : ids, list_id: this.name});
+            this.terp_ids.value = '[' + ids.join(',') + ']';
+            this.id.value = '[' + ids.join(',') + ']';
 
-            req.addCallback(function(xmlHttp) {
-                var listview = getElement(self.name + '_container');
-                listview.innerHTML = xmlHttp.responseText;
-                
-                // execute JavaScript
-                var scripts = getElementsByTagAndClassName('script', null, listview);
-                forEach(scripts, function(s){
-                   eval(s.innerHTML);
-                });
-            });
-            
-            this.terp_ids = '[' + ids + ']';
-            this.element.value = '[' + ids + ']';
+            ListView(this.name).reload();
 
         } else {
             this.text.value = '(' + ids.length + ')';
-            this.element.value = '[' + ids + ']';
+            this.id.value = '[' + ids.join(',') + ']';
         }
     },
 
     remove: function() {
         
         var ids = eval(this.terp_ids.value);
-        var boxes = getElementsByTagAndClassName('input', 'grid-record-selector', this.name + '_grid');
-    
-        boxes = MochiKit.Base.filter(function(box) {
-            return box && (box.checked);
-        }, boxes);
-    
+        var boxes = ListView(this.name).getSelectedItems();
+
         if(boxes.length <= 0)
             return;
-    
+
         boxes = MochiKit.Base.map(function(box) {
             return parseInt(box.value);
         }, boxes);
@@ -175,10 +131,8 @@ Many2Many.prototype = {
         ids = MochiKit.Base.filter(function(id) {
             return MochiKit.Base.findIdentical(boxes, id) == -1;
         }, ids);
-    
-        this.terp_ids.value = '[' + ids.join(',') + ']';
-        this.id.value = '[' + ids.join(',') + ']';
 
+        this.id.value = '[' + ids.join(',') + ']';
         this.onChange();
     },
 

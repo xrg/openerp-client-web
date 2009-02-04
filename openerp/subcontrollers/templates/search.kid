@@ -85,35 +85,30 @@
         function do_select(id) {
 
             var source = "${params.source}";
-            var ids = [];
-
-            if (source.indexOf('_terp_listfields/') == 0) {
-                ids = window.opener.document.getElementById('${params.source}').value;
-            } else {
-                ids = window.opener.document.getElementById('${params.source}/_terp_ids').value;
-            }
-
-            ids = ids ? eval(ids) : [];
-
             var list_this = new ListView('_terp_list');
-            
-            if (id){
-                if (findValue(ids, id) == -1) ids.push(id);
-            } else {
-                var boxes = list_this.getSelectedItems();
 
-                if(boxes.length == 0) {
-                    alert(_("No record selected..."));
-                    return;
+            with(window.opener) {
+
+                var m2m = Many2Many('${params.source}');
+                var ids = eval(m2m.terp_ids.value);
+
+                if (id){
+                    if (findValue(ids, id) == -1) ids.push(id);
+                } else {
+                    var boxes = list_this.getSelectedItems();
+
+                    if(boxes.length == 0) {
+                        alert(_("No record selected..."));
+                        return;
+                    }
+
+                    forEach(boxes, function(b){
+                        if (findValue(ids, b.value) == -1) ids.push(b.value);
+                    });
                 }
 
-                forEach(boxes, function(b){
-                    if (findValue(ids, b.value) == -1) ids.push(b.value);
-                });
+                m2m.setValue(ids);
             }
-
-            var expr = "var m2m = getElement('${params.source}' + '_id');" + "m2m.value = '" + ids.join(',') + "'; m2m.onchange();";
-            window.opener.setTimeout(expr, 1);
             window.close();
         }
         

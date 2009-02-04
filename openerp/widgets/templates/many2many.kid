@@ -5,7 +5,6 @@
                 <tr>
                     <td>
                         <input type="hidden" py:if="inline" class="${field_class}" kind="${kind}" id='${name}_id' value="${str(screen.ids)}" py:attrs='attrs' relation="${relation}"/>
-                        <input type="hidden" py:if="not inline" class="${field_class}" kind="${kind}" id='${name}_id' name="${name}" value="${str(screen.ids)}" py:attrs='attrs' relation="${relation}"/>
                         <input type="hidden" py:if="inline" kind="${kind}" name="${name}" id="${name}" value="${str(screen.ids)}"/>
                         <input type="text" py:if="inline" class="${field_class}" value="(${len(screen.ids or [])})" readonly="0" id='${name}_set' kind="${kind}" py:attrs='attrs' style="width: 100%; text-align: center;"/>
                         <input type="text" py:if="not inline" class="${field_class}" id='${name}_set' kind="${kind}" py:attrs='attrs' style="width: 100%;"/>
@@ -30,6 +29,8 @@
     <tr py:if="not inline">
     	<td py:if="screen" id='${name}_container'>
             ${screen.display()}
+            <!-- IMP: IE problem, $('some_name') returns field with name="some_id" instead of id="some_id" -->
+            <input type="hidden" py:if="not inline" class="${field_class}" kind="${kind}" id='${name}_id' name="${name}" value="${str(screen.ids)}" py:attrs='attrs' relation="${relation}"/>
         </td>
     </tr>
 

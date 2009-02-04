@@ -19,15 +19,16 @@
             var lc = parseInt(MochiKit.DOM.getElement('_terp_load_counter').value) || 1;
     
             if (lc &gt; 1 &amp;&amp; id) {
-                ids = window.opener.document.getElementById('${params.m2m}_id').value;
-                ids = ids ? eval(ids) : [];
-                
-                ids.push(id);
-                
-                var expr = "var m2m = document.getElementById('${params.m2m}_id');" + "m2m.value = '" + '[' + ids.join(',') + ']' + "'; m2m.onchange();";
-            
-                window.opener.setTimeout(expr, 1);
-                window.close();
+
+                with(window.opener) {
+
+                    var m2m = Many2Many('${params.m2m}');
+                    var ids = eval(m2m.terp_ids.value);
+
+                    ids.push(id);
+
+                    m2m.setValue(ids);
+                }
             }
 
             if (lc > 1) {
