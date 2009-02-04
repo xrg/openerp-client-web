@@ -86,7 +86,7 @@ class TinyCalendar(Form):
                 pass
             
         if params.color_values:
-            options.color_values = params.color_values
+            options.color_values = ustr(params.color_values).split(',')
             
         options.search_domain = params.search_domain or []
         options.use_search = params.use_search

@@ -99,7 +99,7 @@ var getCalendar = function(day, mode) {
     });
 
     params['_terp_colors'] = $('_terp_colors').value;
-    params['_terp_color_values'] = '[' + values.join(",") + ']';
+    params['_terp_color_values'] = values.join(",");
 
     showElement('calLoading');
 
