@@ -2,17 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eTiny! 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-01 15:47+0000\n"
-"PO-Revision-Date: 2009-01-13 00:28+0530\n"
-"Last-Translator: Amit Mendapara <ame@tinyerp.com>\n"
+"POT-Creation-Date: 2009-01-21 13:32+0000\n"
+"PO-Revision-Date: 2009-02-04 07:47+0000\n"
+"Last-Translator: Olivier (OpenERP) <Unknown>\n"
 "Language-Team: eTiny! Team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-06 05:36+0000\n"
+"X-Launchpad-Export-Date: 2009-02-04 07:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: French\n"
-
 
 #: openerp/commands.py:50
 msgid "Could not find default configuration."
@@ -61,7 +60,8 @@ msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"Vous avez choisi un fuseau horaire mais OpenERP n'a pas pu trouver la bibliothèque pytz !\n"
+"Vous avez choisi un fuseau horaire mais OpenERP n'a pas pu trouver la "
+"bibliothèque pytz !\n"
 "La fonctionnalité va être désactivée."
 
 #: openerp/rpc.py:403
@@ -72,6 +72,7 @@ msgstr "Erreur d'autorisation !"
 msgid "Not logged..."
 msgstr "Non connecté..."
 
+#: openerp/rpc.py:420 openerp/rpc.py:423 openerp/subcontrollers/form.py:895
 #: openerp/widgets/form.py:841 openerp/widgets/listgrid.py:282
 msgid "Application Error!"
 msgstr "Erreur applicative !"
@@ -106,12 +107,18 @@ msgstr "Pas d'action définie !"
 
 #: openerp/subcontrollers/attachment.py:64
 msgid "No record selected! You can only attach to existing record..."
-msgstr "Pas d'enregistrement sélectionné ! Vous pouvez seulement attacher un enregistrement préexistant..."
+msgstr ""
+"Pas d'enregistrement sélectionné ! Vous pouvez seulement attacher un "
+"enregistrement préexistant..."
 
+#: openerp/subcontrollers/database.py:64
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Create new database"
 msgstr "Créer nouvelle base de données"
 
+#: openerp/subcontrollers/database.py:66 openerp/subcontrollers/database.py:81
+#: openerp/subcontrollers/database.py:90 openerp/subcontrollers/database.py:98
+#: openerp/subcontrollers/database.py:107
 #: openerp/subcontrollers/templates/selection.kid:button
 msgid "OK"
 msgstr "OK"
@@ -120,6 +127,7 @@ msgstr "OK"
 msgid "Super admin password:"
 msgstr "Mot de passe super administrateur :"
 
+#: openerp/subcontrollers/database.py:69
 #: openerp/subcontrollers/database.py:101
 msgid "New database name:"
 msgstr "Nom de la nouvelle base de données :"
@@ -140,26 +148,31 @@ msgstr "Mot de passe administrateur :"
 msgid "Confirm password:"
 msgstr "Confirmez le mot de passe :"
 
+#: openerp/subcontrollers/database.py:79
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Drop database"
 msgstr "Supprimer la base de données"
 
 #: openerp/subcontrollers/database.py:82
 msgid "Do you really want to drop the selected database?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer la base de donnée sélectionnée?"
 
+#: openerp/subcontrollers/database.py:83 openerp/subcontrollers/database.py:91
 #: openerp/templates/login.kid:td
 msgid "Database:"
 msgstr "Base de données :"
 
+#: openerp/subcontrollers/database.py:84 openerp/subcontrollers/database.py:92
 #: openerp/subcontrollers/database.py:100 openerp/templates/login.kid:td
 msgid "Password:"
 msgstr "Mot de passe :"
 
+#: openerp/subcontrollers/database.py:88
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Backup database"
 msgstr "Sauvegarder la base de données (backup)"
 
+#: openerp/subcontrollers/database.py:96
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Restore database"
 msgstr "Restaurer la base de données"
@@ -168,6 +181,7 @@ msgstr "Restaurer la base de données"
 msgid "File:"
 msgstr "Fichier :"
 
+#: openerp/subcontrollers/database.py:105
 #: openerp/subcontrollers/templates/database.kid:button
 msgid "Change Administrator Password"
 msgstr "Modifier le mot de passe de l'administrateur"
@@ -193,13 +207,16 @@ msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
 msgstr ""
-"Le nom de base de donnée doit avoir seulement les caractères normaux ou \"_\".\n"
+"Le nom de base de donnée doit avoir seulement les caractères normaux ou "
+"\"_\".\n"
 "Vous devez éviter tous les accents, l'espace ou les caractères speciaux."
 
 #: openerp/subcontrollers/database.py:164
 msgid "Database already exists!"
-msgstr ""
+msgstr "La base de donnée existe déjà!"
 
+#: openerp/subcontrollers/database.py:164
+#: openerp/subcontrollers/database.py:169
 #: openerp/subcontrollers/database.py:171
 msgid "Could not create database."
 msgstr "Impossible de créer la base de données."
@@ -209,11 +226,15 @@ msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
+"Le serveur est tombé en panne lors de l'installation.\n"
+"Nous vous conseillons de supprimer la base de données."
 
 #: openerp/subcontrollers/database.py:167
 msgid "Error during database creation!"
 msgstr "Erreur lors de la création de la base de données !"
 
+#: openerp/subcontrollers/database.py:169
+#: openerp/subcontrollers/database.py:190
 #: openerp/subcontrollers/database.py:230
 msgid "Bad database administrator password!"
 msgstr "Mot de passe d'administrateur de base de données invalide !"
@@ -280,7 +301,8 @@ msgstr "Capture d'écran"
 
 #: openerp/subcontrollers/form.py:832
 msgid "You must save this record to use the sidebar button!"
-msgstr "Vous devez sauvegarder cet enregistrement pour utiliser la barre latérale !"
+msgstr ""
+"Vous devez sauvegarder cet enregistrement pour utiliser la barre latérale !"
 
 #: openerp/subcontrollers/form.py:895
 msgid "Wrong on_change trigger: %s"
@@ -352,7 +374,7 @@ msgstr "Sélectionnez le workflow"
 
 #: openerp/subcontrollers/process.py:101
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr ""
+msgstr "%(name)s - Ressource: %(resource)s, État: %(state)s"
 
 #: openerp/subcontrollers/process.py:113
 msgid "Last modified by:"
@@ -446,6 +468,7 @@ msgstr "Bouton 'Annuler'"
 msgid "Save Button"
 msgstr "Bouton Sauvegarder"
 
+#: openerp/subcontrollers/workflow.py:112
 #: openerp/subcontrollers/workflow.py:179
 msgid "Could not delete state"
 msgstr "Impossible d'effacer l'état"
@@ -474,10 +497,12 @@ msgstr "Non"
 msgid "== Access Denied =="
 msgstr "== Accès refusé =="
 
+#: openerp/widgets/one2many.py:59
 #: openerp/widgets/templates/viewform.kid:button
 msgid "Create new record."
 msgstr "Créer un nouvel enregistrement."
 
+#: openerp/widgets/one2many.py:59
 #: openerp/widgets/templates/viewform.kid:button
 msgid "New"
 msgstr "Nouveau"
@@ -582,6 +607,8 @@ msgstr "%s, Semaine %s"
 msgid "%s - %s"
 msgstr "%s - %s"
 
+#: openerp/widgets/tinycalendar/widgets.py:268
+#: openerp/widgets/tinycalendar/widgets.py:298
 #: openerp/widgets/tinycalendar/widgets.py:342
 msgid "Week %s"
 msgstr "Semaine %s"
@@ -594,6 +621,7 @@ msgstr "%s, Trim %s"
 msgid "W %s"
 msgstr "S %s"
 
+#: openerp/widgets/tinycalendar/widgets.py:317
 #: openerp/widgets/tinycalendar/widgets.py:331
 msgid "Year %s to Year %s"
 msgstr "Année %s à année %s"
@@ -604,44 +632,53 @@ msgstr "Choisissez un fichier."
 
 #: openerp/widgets/validators.py:252
 msgid "Please enter an email address"
-msgstr ""
+msgstr "Veuillez saisir un courriel"
 
 #: openerp/widgets/validators.py:253
 msgid "An email address must contain a single @"
-msgstr ""
+msgstr "Un courriel doit contenir un seul @"
 
 #: openerp/widgets/validators.py:254
-msgid "The username portion of the email address is invalid (the portion before the @: %(username)s)"
+msgid ""
+"The username portion of the email address is invalid (the portion before the "
+"@: %(username)s)"
 msgstr ""
+"La partie 'nom d'utilisateur' du courriel est invalide (la partie avant le @ "
+": %(username)s)"
 
 #: openerp/widgets/validators.py:255
-msgid "The domain portion of the email address is invalid (the portion after the @: %(domain)s)"
+msgid ""
+"The domain portion of the email address is invalid (the portion after the @: "
+"%(domain)s)"
 msgstr ""
+"La partie 'domaine' du courriel est invalide (la partie après le @ : "
+"%(domain)s)"
 
 #: openerp/widgets/validators.py:259
 msgid "You must start your URL with http://, https://, etc"
-msgstr ""
+msgstr "Votre URL doit commencer par http://, https://, etc"
 
 #: openerp/widgets/validators.py:260
 msgid "That is not a valid URL"
-msgstr "That is not a valid URL"
+msgstr "Ce n'est pas une URL valide"
 
 #: openerp/widgets/validators.py:261
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr ""
+msgstr "Vous devez fournir un nom de domaine complet (comme %(domain)s.com)"
 
 #: openerp/widgets/validators.py:265
 msgid "Please enter an integer value"
-msgstr ""
+msgstr "Veuillez saisir une valeur entière"
 
 #: openerp/widgets/validators.py:266
 msgid "Please enter a number"
-msgstr ""
+msgstr "Veuillez saisir un nombre"
 
 #: openerp/widgets/validators.py:267
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Format de date/heure invalide"
 
+#: openerp/widgets/tinycalendar/templates/week.kid:div
 #: openerp/static/javascript/treegrid.js:101
 msgid "Loading..."
 msgstr "Chargement..."
@@ -790,6 +827,7 @@ msgstr "100"
 msgid "Open a resource"
 msgstr "Ouvrir une ressource"
 
+#: openerp/widgets/templates/reference.kid:img
 #: openerp/static/workflow/javascript/process.js:291
 msgid "Open"
 msgstr "Ouvrir"
@@ -966,20 +1004,25 @@ msgid ""
 "project management, production, services, CRM, etc.."
 msgstr ""
 "est un progiciel de gestion intégrée qui est conçu à améliorer\n"
-"la productivité et le profit par l'intégration de la base de donnée. Tiny ERP connecte, améliore et \n"
-"gére des processus dans les domaines de ventes, finances, chaîne logistique, \n"
+"la productivité et le profit par l'intégration de la base de donnée. Tiny "
+"ERP connecte, améliore et \n"
+"gére des processus dans les domaines de ventes, finances, chaîne logistique, "
+"\n"
 "Gestion de projet, Production, Services, CRM, etc..."
 
 #: openerp/templates/about.kid:p
 msgid ""
-"The system is platform-independent, and can be installed on Windows, Mac OS X,\n"
-"and various Linux and other Unix-based distributions. Its architecture enables\n"
+"The system is platform-independent, and can be installed on Windows, Mac OS "
+"X,\n"
+"and various Linux and other Unix-based distributions. Its architecture "
+"enables\n"
 "new functionality to be rapidly created, modifications to be made to a\n"
 "production system and migration to a new version to be straightforward."
 msgstr ""
 "Le système peut être installé sur Windows, Mac OS X, \n"
 "et différents distributions de Linux et Unix. Son architecture permets \n"
-"la création rapide de la nouvelle fonctionalité, les modifications à faire au \n"
+"la création rapide de la nouvelle fonctionalité, les modifications à faire "
+"au \n"
 "système de production et la simple migration de la nouvelle version."
 
 #: openerp/templates/about.kid:p
@@ -987,7 +1030,8 @@ msgid ""
 "Depending on your needs, OpenERP is available through a web or application\n"
 "client."
 msgstr ""
-"Selon vos besoins, OpenERP est disponible à travers un client web ou une application\n"
+"Selon vos besoins, OpenERP est disponible à travers un client web ou une "
+"application\n"
 "cliente."
 
 #: openerp/templates/about.kid:td
@@ -1083,8 +1127,12 @@ msgid "[ADD]"
 msgstr "[AJOUTER]"
 
 #: openerp/templates/master.kid:div
-msgid "Copyright © 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More Information on"
-msgstr "Copyright © 2007-TODAY Tiny ERP SPRL. Tous Droits Réservés. Plus d'Informations sur"
+msgid ""
+"Copyright © 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More "
+"Information on"
+msgstr ""
+"Copyright © 2007-TODAY Tiny ERP SPRL. Tous Droits Réservés. Plus "
+"d'Informations sur"
 
 #: openerp/templates/master.kid:a
 msgid "http://openerp.com"
@@ -1416,7 +1464,8 @@ msgstr "Vous n'avez pas de contrat de maintenance Open ERP valide !"
 
 #: openerp/subcontrollers/templates/error_page.kid:br
 msgid ""
-"If you are using Open ERP in production, it is highly suggested to subscribe\n"
+"If you are using Open ERP in production, it is highly suggested to "
+"subscribe\n"
 "a maintenance program.\n"
 "\n"
 "The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
@@ -1434,10 +1483,15 @@ msgid ""
 "You can use the link bellow for more information. The detail of the error\n"
 "is displayed on the second tab."
 msgstr ""
-"Si vous utilisez Open ERP en production. il est vivement recommandé de souscrire\n"
+"Si vous utilisez Open ERP en production. il est vivement recommandé de "
+"souscrire\n"
 "un contrat de maintenance.\n"
 "\n"
-"Le contrat de maintenance Open ERP vous donne droit à une garantie de correction des bugs et au système de migration automatique, ainsi nous pouvons corriger votre problème en quelques heures. Si vous aviez un contrat de maintenance, cette erreur aurait été envoyée à l'équipe Qualité de l'éditeur Open ERP.\n"
+"Le contrat de maintenance Open ERP vous donne droit à une garantie de "
+"correction des bugs et au système de migration automatique, ainsi nous "
+"pouvons corriger votre problème en quelques heures. Si vous aviez un contrat "
+"de maintenance, cette erreur aurait été envoyée à l'équipe Qualité de "
+"l'éditeur Open ERP.\n"
 "\n"
 "Le programme de maintenance vous offre:\n"
 "\n"
@@ -1447,25 +1501,35 @@ msgstr ""
 "* des alertes sécurité par courriel et une migration automatique\n"
 "* l'accès au portail client\n"
 "\n"
-"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. Le détail de l'erreur est affiché dans le second onglet."
+"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. Le "
+"détail de l'erreur est affiché dans le second onglet."
 
 #: openerp/subcontrollers/templates/error_page.kid:br
 msgid ""
-"Your maintenance contract does not cover all modules installed in your system !\n"
-"If you are using Open ERP in production, it is highly suggested to upgrade your\n"
+"Your maintenance contract does not cover all modules installed in your "
+"system !\n"
+"If you are using Open ERP in production, it is highly suggested to upgrade "
+"your\n"
 "contract.\n"
 "\n"
 "If you have developped your own modules or installed third party module, we\n"
 "can provide you an additional maintenance contract for these modules. After\n"
-"having reviewed your modules, our quality team will ensure they will migrate\n"
+"having reviewed your modules, our quality team will ensure they will "
+"migrate\n"
 "automatically for all futur stable versions of Open ERP at no extra cost.\n"
 "\n"
 "Here is the list of modules not covered by your maintenance contract:"
 msgstr ""
-"Votre contrat de maintenance ne couvre pas tous les modules installés sur votre système !\n"
-"Si vous utilisez Open ERP en production, il est hautement conseillé de mettre votre contrat à niveau.\n"
+"Votre contrat de maintenance ne couvre pas tous les modules installés sur "
+"votre système !\n"
+"Si vous utilisez Open ERP en production, il est hautement conseillé de "
+"mettre votre contrat à niveau.\n"
 "\n"
-"Si vous avez développé vos propres modules ou installé des modules tiers, nous pouvons vous mettre à disposition un contrat de maintenance additionel pour ces modules. Après avoir auditionné vos modules, notre équipe Qualité s'assurera qu'ils migreront automatiquement pour toutes les futures versions stables d'Open ERP sans coût additionel.\n"
+"Si vous avez développé vos propres modules ou installé des modules tiers, "
+"nous pouvons vous mettre à disposition un contrat de maintenance additionel "
+"pour ces modules. Après avoir auditionné vos modules, notre équipe Qualité "
+"s'assurera qu'ils migreront automatiquement pour toutes les futures versions "
+"stables d'Open ERP sans coût additionel.\n"
 "\n"
 "Voici la liste des modules non couverts par votre contrat de maintenance:"
 
@@ -1474,7 +1538,8 @@ msgid ""
 "You can use the link bellow for more information. The detail of the error\n"
 "is displayed on the second tab."
 msgstr ""
-"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. Le détail de l'erreur\n"
+"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. Le "
+"détail de l'erreur\n"
 "est affiché dans le second onglet."
 
 #: openerp/subcontrollers/templates/error_page.kid:strong
@@ -1482,8 +1547,12 @@ msgid "Maintenance contract."
 msgstr "Contrat de maintenance"
 
 #: openerp/subcontrollers/templates/error_page.kid:em
-msgid "Your request will be sent to OpenERP and maintenance team will reply you shortly."
-msgstr "Votre requête sera envoyée à Open ERP et l'équipe de maintenance vous répondra sous peu."
+msgid ""
+"Your request will be sent to OpenERP and maintenance team will reply you "
+"shortly."
+msgstr ""
+"Votre requête sera envoyée à Open ERP et l'équipe de maintenance vous "
+"répondra sous peu."
 
 #: openerp/subcontrollers/templates/error_page.kid:td
 msgid "Explain what you did:"
@@ -1669,6 +1738,7 @@ msgstr "Diagramme de flux (workflow)"
 msgid "Select Process"
 msgstr "Sélectionnez le processus"
 
+#: openerp/subcontrollers/templates/process.kid:img
 #: openerp/static/workflow/javascript/process.js:287
 msgid "Help"
 msgstr "Aide"
@@ -1679,57 +1749,347 @@ msgstr "Personnaliser"
 
 #: openerp/static/javascript/waitbox.js:49
 msgid "Please wait..."
-msgstr ""
+msgstr "Veuillez patienter..."
 
 #: openerp/static/javascript/waitbox.js:50
 msgid "This operation may take a while..."
-msgstr ""
+msgstr "Cette opération peut prendre un certain temps..."
 
+#: openerp/static/javascript/listgrid.js:414
 #: openerp/static/javascript/form.js:284
 msgid "You must select at least one record."
-msgstr ""
+msgstr "Vous devez sélectionner au moins un enregistrement."
 
 #: openerp/static/javascript/listgrid.js:416
 msgid "Do you realy want to delete selected record(s) ?"
 msgstr ""
+"Voulez-vous vraiment supprimer le(s) enregistrement(s) sélectionné(s)?"
 
+#: openerp/static/javascript/form.js:265
 #: openerp/static/tinycalendar/javascript/calendar_box.js:158
 msgid "Do you realy want to delete this record?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer cet enregistrement?"
 
 #: openerp/static/javascript/form.js:296
 msgid "You must save this record to use the relate button!"
 msgstr ""
+"Vous devez sauvegarder cet enregistrement pour utiliser le bouton "
+"\"Associer\" !"
 
 #: openerp/static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Voulez-vous vraiment supprimer ce nœud?"
 
 #: openerp/static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Voulez-vous vraiment créer une vue héritée ici ?"
 
 #: openerp/static/workflow/javascript/process.js:190
 msgid "Notes:"
-msgstr ""
+msgstr "Remarques :"
 
 #: openerp/static/workflow/javascript/process.js:198
 msgid "Subflows:"
-msgstr ""
+msgstr "Sous-processus"
 
 #: openerp/static/workflow/javascript/process.js:202
 msgid "Related:"
-msgstr ""
+msgstr "Associé :"
 
 #: openerp/static/workflow/javascript/process.js:292
 msgid "Print"
-msgstr ""
+msgstr "Imprimer"
 
 #: openerp/static/workflow/javascript/process.js:299
 msgid "Print workflow"
-msgstr ""
+msgstr "Imprimer le workflow"
 
 #: openerp/static/workflow/javascript/process.js:305
 msgid "Documents"
-msgstr ""
+msgstr "Documents"
 
+#~ msgid "Access Denied !"
+#~ msgstr "Acces refusé !"
+
+#~ msgid ""
+#~ "You can not log into the system !\n"
+#~ "Ask the administrator to verify\n"
+#~ "you have an action defined for your user."
+#~ msgstr ""
+#~ "Vous ne pouvez pas vous connecter!\n"
+#~ "Demandez l'administrateur de vérifier!\n"
+#~ "Vous avez une action définie pour votre utilisateur."
+
+#~ msgid "Connection refused !"
+#~ msgstr "Connexion refusée !"
+
+#~ msgid "Unsupported protocol:"
+#~ msgstr "Protocole non-soutenu:"
+
+#~ msgid "Authorization Error !"
+#~ msgstr "Erreur d'autorisation !"
+
+#~ msgid "Application Error !"
+#~ msgstr "Erreur d'application !"
+
+#~ msgid "Action not found!!!"
+#~ msgstr "Action non trouvée"
+
+#~ msgid "Invalid Password !"
+#~ msgstr "Mot de passe Invalide !"
+
+#~ msgid "Bad database administrator password !"
+#~ msgstr "Mauvais mot de passe d'administrateur de la base de donnée !"
+
+#~ msgid "Error during database creation !"
+#~ msgstr "Erreur pendant la création de la base de donnée !"
+
+#~ msgid "Confirmation password do not match new password, operation cancelled!"
+#~ msgstr ""
+#~ "La confirmation de mot de passe n'accord pas avec le nouveau mot de passe, "
+#~ "l'operation annulée!"
+
+#~ msgid "Validation Error."
+#~ msgstr "Erreur de validation."
+
+#~ msgid "Bas password provided !"
+#~ msgstr "Mauvais mot de passe !"
+
+#~ msgid "Could not change password database."
+#~ msgstr "Le mot de passe de la base de donnée n'a pas être changé."
+
+#~ msgid "No record selected !"
+#~ msgstr "Aucun enregistrement sélectionné !"
+
+#~ msgid ""
+#~ "Operation failed !\n"
+#~ "I/O error"
+#~ msgstr ""
+#~ "Opération échouée !\n"
+#~ "I/O erreur"
+
+#~ msgid "XML-RPC error !"
+#~ msgstr "Erreur de XML-RPC"
+
+#~ msgid "Imported %d objects !"
+#~ msgstr "Importation %d objets !"
+
+#~ msgid "No resource selected !"
+#~ msgstr "Aucune ressource sélectionnée !"
+
+#~ msgid "You have to select one resource!"
+#~ msgstr "Vous devez choisir une ressource !"
+
+#~ msgid "Bad username or password !"
+#~ msgstr "Mot de passe ou compte erroné !"
+
+#~ msgid "Action not found !"
+#~ msgstr "Action non trouvée !"
+
+#~ msgid "Save parent and create new record."
+#~ msgstr "Enregistrer parent et créer un nouveau enregistrement."
+
+#~ msgid "Search / Open a resource"
+#~ msgstr "Recherche / Ouvrir une ressource"
+
+#~ msgid "About eTiny - The Tiny ERP Web Client"
+#~ msgstr "Au sujet d'eTiny - L'interface Web Tiny ERP"
+
+#~ msgid "About eTiny"
+#~ msgstr "Au sujet d'eTiny"
+
+#~ msgid ""
+#~ "Tiny ERP is a trademark of the Tiny Company.\n"
+#~ "Licenced under the"
+#~ msgstr ""
+#~ "Tiny ERP est une marque de la Société Tiny. \n"
+#~ " Licensé sur le"
+
+#~ msgid "GPL V2"
+#~ msgstr "GPL V2"
+
+#~ msgid "eTiny"
+#~ msgstr "eTiny"
+
+#~ msgid "is the official web client of"
+#~ msgstr "est une interface web officielle de"
+
+#~ msgid "Tiny ERP"
+#~ msgstr "Tiny ERP"
+
+#~ msgid "developed by"
+#~ msgstr "développé par"
+
+#~ msgid "is know to work with all major web browsers available today including"
+#~ msgstr ""
+#~ "est connu pour travailler avec tous les navigateurs web disponible "
+#~ "aujourd'hui y inclus"
+
+#~ msgid "Firefox"
+#~ msgstr "Firefox"
+
+#~ msgid ","
+#~ msgstr ","
+
+#~ msgid "IE6"
+#~ msgstr "IE6"
+
+#~ msgid "IE7"
+#~ msgstr "IE7"
+
+#~ msgid "Safari3"
+#~ msgstr "Safari3"
+
+#~ msgid "Opera9"
+#~ msgstr "Opera9"
+
+#~ msgid ". It's built on the"
+#~ msgstr "C'est crée sur"
+
+#~ msgid "TurboGears"
+#~ msgstr "TurboGears"
+
+#~ msgid "framework."
+#~ msgstr "cadre."
+
+#~ msgid "About Tiny ERP"
+#~ msgstr "A propos de Tiny ERP"
+
+#~ msgid ""
+#~ "Depending on your needs, Tiny ERP is available through a web or application\n"
+#~ "client."
+#~ msgstr ""
+#~ "Selon vos besoins, Tiny ERP est disponible en web ou application client."
+
+#~ msgid "Tiny ERP Logo"
+#~ msgstr "Logo de Tiny ERP"
+
+#~ msgid "(C) Copyright 2006-Today, Tiny ERP Pvt Ltd. More Information on"
+#~ msgstr ""
+#~ "(c) Copyright  2006-Aujourd'hui, Tiny ERP Pvt Ltd. Plus d'information sur"
+
+#~ msgid "http://tinyerp.com"
+#~ msgstr "http://tinyerp.com"
+
+#~ msgid "Welcome to Tiny ERP"
+#~ msgstr "Bienvenue à Tiny ERP"
+
+#~ msgid "Server :"
+#~ msgstr "Serveur :"
+
+#~ msgid "Database :"
+#~ msgstr "Base de donnée :"
+
+#~ msgid "User :"
+#~ msgstr "Utilisateur :"
+
+#~ msgid "Password :"
+#~ msgstr "Mot de passe :"
+
+#~ msgid "Manage"
+#~ msgstr "Gérer"
+
+#~ msgid "Create Database"
+#~ msgstr "Créer la base de donnée"
+
+#~ msgid "Super admin password :"
+#~ msgstr "Mot de passe Super admin :"
+
+#~ msgid "(use 'admin', if you did not changed it)"
+#~ msgstr "(utilisez 'admin', si vous ne l'avez pas changé)"
+
+#~ msgid "New database name :"
+#~ msgstr "Nom de la nouvelle base de donnée :"
+
+#~ msgid "Load Demonstration data :"
+#~ msgstr "Chargé les données de démonstration :"
+
+#~ msgid "Default Language :"
+#~ msgstr "Langue par défaut :"
+
+#~ msgid "Database Admin"
+#~ msgstr "Base de donnée admin"
+
+#~ msgid "Database Administration"
+#~ msgstr "Administration de base de données"
+
+#~ msgid "Action"
+#~ msgstr "Action"
+
+#~ msgid "Launch action about this resource"
+#~ msgstr "Actions disponibles sur cette ressource"
+
+#~ msgid "Print documents"
+#~ msgstr "Imprimer les documents"
+
+#~ msgid "Config Editor"
+#~ msgstr "Configurer l'Editeur"
+
+#~ msgid "Host :"
+#~ msgstr "Hébérgeur :"
+
+#~ msgid "Port :"
+#~ msgstr "Port :"
+
+#~ msgid "Protocol :"
+#~ msgstr "Protocole :"
+
+#~ msgid "Old Password :"
+#~ msgstr "Mot de passe actuel :"
+
+#~ msgid "Password is Incorrect"
+#~ msgstr "Mot de passe est incorrect"
+
+#~ msgid "New Password :"
+#~ msgstr "Nouveau mot de passe :"
+
+#~ msgid "Please Enter New Password"
+#~ msgstr "Saisissez un nouveau mot de passe"
+
+#~ msgid "Retype Password :"
+#~ msgstr "Retapez le Mot de Passe :"
+
+#~ msgid "Passwords do not Match"
+#~ msgstr "Les mots de passes ne S'accordent pas"
+
+#~ msgid "Change Password"
+#~ msgstr "Modifier le mot de passe"
+
+#~ msgid "Always applicable !"
+#~ msgstr "Toujours applicable !"
+
+#~ msgid "Attachments"
+#~ msgstr "Fichiers Joindre"
+
+#~ msgid "Restore Database"
+#~ msgstr "Restaurer la base de donnée"
+
+#~ msgid "File :"
+#~ msgstr "Fichier :"
+
+#~ msgid "New Database name :"
+#~ msgstr "Nom de la nouvelle base de donnée :"
+
+#~ msgid "Admin Password"
+#~ msgstr "Mot de passe Admin"
+
+#~ msgid "Confirm Password :"
+#~ msgstr "Confirmation du Mot de passe :"
+
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+#~ msgid "Drop Database"
+#~ msgstr "Abondonner la base de donnée"
+
+#~ msgid "Database Backup"
+#~ msgstr "Sauvegarde de la base de donnée"
+
+#~ msgid "Backup Database"
+#~ msgstr "Base de données de sauvegarde"
+
+#~ msgid "Databases :"
+#~ msgstr "Bases de données :"
+
+#~ msgid "Database"
+#~ msgstr "Base de données"
