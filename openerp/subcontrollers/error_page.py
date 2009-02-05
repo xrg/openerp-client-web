@@ -45,7 +45,6 @@ import openerp.widgets as tw
 class ErrorPage(controllers.Controller):
 
     nb = tw.form.Notebook({}, [])
-    ta = tw.form.Text({})
 
     @expose()
     def index(self, *args, **kw):
@@ -69,7 +68,7 @@ class ErrorPage(controllers.Controller):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
 
-        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb, ta=self.ta)
+        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb)
 
     @expose('json')
     def submit(self, tb, explanation, remarks):

@@ -80,8 +80,7 @@ class List(TinyCompoundWidget):
 
     css = [widgets.CSSLink('openerp', 'css/listgrid.css')]
     javascript = [widgets.JSLink('openerp', 'javascript/listgrid.js'),
-                  widgets.JSLink('openerp', 'javascript/sortablegrid.js'),
-                  widgets.JSLink('openerp', 'javascript/o2m.js')]
+                  widgets.JSLink('openerp', 'javascript/sortablegrid.js')]
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 

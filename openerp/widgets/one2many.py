@@ -46,7 +46,6 @@ class O2M(TinyCompoundWidget):
     params = ['string', 'id', 'readonly', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx']
 
     member_widgets = ['screen']
-    javascript = [tg.widgets.JSLink("openerp", "javascript/o2m.js", location=tg.widgets.js_location.bodytop)]
     
     form = None
 

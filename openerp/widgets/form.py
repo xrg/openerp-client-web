@@ -353,7 +353,6 @@ class Email(TinyField):
 
 class Text(TinyField):
     template = "openerp.widgets.templates.text"
-    javascript = [tg.widgets.JSLink("openerp", "javascript/textarea.js")]
     
     def __init__(self, attrs={}):
         super(Text, self).__init__(attrs)
@@ -491,8 +490,7 @@ class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
 class Binary(TinyField):
     template = "openerp.widgets.templates.binary"
     params = ["name", "text", "readonly", "filename"]
-    javascript = [tg.widgets.JSLink("openerp", "javascript/binary.js")]
-
+    
     text = None
     file_upload = True
 
