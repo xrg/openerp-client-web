@@ -1,0 +1,69 @@
+5.0.0 (2009-02-06)
+
+New Features:
+
+	* Enterprise Intelligence (Process View)
+	* Workflow Designer
+	* Object Designer
+	* View Editor
+	* Gantt View
+	* Wiki Widget
+	* Fency Tooltip
+	* Progressbar Widget
+	* Resizable Textarea
+	* Wait dialog for wizards
+	* Support for concurrency check
+	* State & Attrs support (dynamic field attribute change)
+	* Standard Attachment window.
+	* Sortable TreeGrid
+	* Requires TurboGears 1.0.8 & MochiKit 1.4
+	* Reordering of records in ListGrid
+	* Reimplemented TreeGrid (dynamic node adding, images etc)
+	* Reimplemented init.d script (generic, now works on flavour of Linux).
+	* ListGrid record limit from Window action (ir.actions.act_window).
+	* Internationalization support for JavaScript.
+	* Implemented multiple delete records in listgrid.
+	* Implemented TIMEZONE & localised number, datetime format.
+	* Global Ajax call progress indicator massage.	
+	* Client side validation of required fields
+	* Charts/Graphs have been replace with the beautiful flash charts using Open Flash Charts.
+	* Command line options
+	* Win32 Installer
+
+Improvements:
+	
+	* Calendar view (default mode in view, e.g. mode="week")
+	* Save export list in export dialog.
+	* Switch O2M using Ajax (no page reload)
+	* Rendering speed of very big forms has been 4 times faster now.
+	* Reimplemented `reference widget` as an extended `M2O` (using same JS).
+	* Reimplemented Database admin views.
+	* M2O can have selection widget (widget="selection")
+	* M2M having features like O2M (navigation, search, new, edit).
+	* Improved TinyMCE (widget="html_tag")
+	* Improved `ONCHANGE` implementation (validators + reduced M2O Ajax calls).
+	* Improved `M2O` field (reduced Ajax calls + auto insert for single item)
+	* Improved calendar visuals (better colors, tango style)
+	* Improved `Calendar View`, now updates event title on move (week/day mode).
+	* Improved Cache System
+	* Improved Binary widget
+	* Generate proper filename while printing reports
+	* Improved form parser (duplicate field validation).
+	* Client side validation for required fields (no page reload)
+	* Changes the way web app loads default configuration.
+
+* Bug fixed:
+	
+	* Fixed timezone change problem (CEST to CET)
+	* Fixed `sidebar links` problem (ignore links for multi records on FORM)
+	* Fixed `Month Calendar` (proper week numbers for last and first months)
+	* Fixed `import/export` controller (i18n)
+	* Fixed `import error` (accented char in column title)
+	* Fixed `datetime` widget (missing readonly functionality)
+	* Fixed Calendar (filter by color groups problem)
+	* Fixed loading of the translation catalog fails if installed as egg.
+
+	For more complete bug fix history, please visit Launchpad.
+
+For previous versions, please visit OpenERP web site.
+
