@@ -156,7 +156,7 @@
 </head>
 <body>
 
-<form id='view_form' action="/impex/export_data" method="post">
+    <form id='view_form' action="/impex/export_data" method="post" onsubmit="return false;">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ustr(ids)}"/>
@@ -176,14 +176,13 @@
                 </table>
             </td>
         </tr>        
-        <tr>
+        <tr py:if="new_list.ids">
             <td>
-                <div py:if="new_list.ids" id='exported_list' py:content="new_list.display()" style="height: 142px; overflow: auto;">                    
-                </div>
+                <div id='exported_list' py:content="new_list.display()" style="overflow: auto;"/>
             </td>
         </tr>
-        <tr>
-            <td py:if="new_list.ids" class="toolbar">
+        <tr py:if="new_list.ids">
+            <td class="toolbar">
                 <button type="button" onclick="delete_listname(form);">Delete</button>
             </td>
         </tr>
