@@ -50,22 +50,22 @@ OpenERP Server:
 
 TurboGears:
 
-    $ wget http://www.turbogears.org/download/tgsetup.py
-    $ python tgsetup.py
+    $ sudo apt-get install python-setuptools
+    $ sudo easy_install "TurboGears==1.0.8"
     
 or
 
     $ wget http://peak.telecommunity.com/dist/ez_setup.py
-    $ python ez_setup.py
-    $ easy_install "TurboGears==1.0.8"
+    $ sudo python ez_setup.py
+    $ sudo easy_install "TurboGears==1.0.8"
 
 OpenERP Web 5.0:
 
-    $ easy_install openerp-web
+    $ sudo easy_install openerp-web
     
 or 
     
-    $ easy_install http://openerp.com/download/stable/source/openerp-web-5.0.tar.gz
+    $ sudo easy_install http://openerp.com/download/stable/source/openerp-web-5.0.tar.gz
 
 Configuration:
 
@@ -109,8 +109,8 @@ with the admin/admin or demo/demo to see OpenERP in action...
 
 This has been tested on `ubuntu` only.
 
-    $ cp /path/to/openerp_web-5.0-py2.5.egg/scripts/openerp-web /etc/init.d
-    $ cp /path/to/openerp_web-5.0-py2.5.egg/config/default.cfg /etc/openerp-web.cfg
+    $ sudo cp /path/to/openerp_web-5.0-py2.5.egg/scripts/openerp-web /etc/init.d
+    $ sudo cp /path/to/openerp_web-5.0-py2.5.egg/config/default.cfg /etc/openerp-web.cfg
 
 edit `/etc/init.d/openerp-web`:
 
@@ -265,8 +265,9 @@ Here is the list of supported browsers.
 
     1. Firefox >= 1.5
     2. Internet Explorer >= 6.0
-    3. Opera >= 9.0
+    3. Google Chrome >= 1.0
     4. Safari >= 3.0
+    5. Opera >= 9.0
 
 -------------------------------------------------------------------------------
 7. SUPPORT
