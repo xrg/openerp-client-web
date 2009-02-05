@@ -49,15 +49,15 @@ Menu.prototype.show = function(evt){
         this.visible = true;
 
         //var vd = getViewportDimensions();
-        var vd = getElementDimensions(window.document.body);
-        var md = getElementDimensions(this.layer);
+        var vw = window.document.documentElement.clientWidth + window.document.documentElement.scrollLeft;
+        var mw = getElementDimensions(this.layer).w;
 
         this.layer.style.left = getElementPosition(this.menu).x + 'px';
 
         var x = parseInt(this.layer.style.left) || 0;
 
-        if ((x + md.w) > vd.w) {
-            x -= x + md.w - vd.w;
+        if ((x + mw) > vw) {
+            x -= x + mw - vw;
             this.layer.style.left = x + 'px';
         }
     }
