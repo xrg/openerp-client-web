@@ -27,14 +27,7 @@ class JSI18n(Widget):
 js_i18n = JSI18n()
 
 
-
-
-
-
-
-
-
-
+# Auto generate language files from gettext catalogs.
 
 import os
 import pkg_resources
@@ -78,4 +71,6 @@ def __generate_catalogs():
         __generate_catalog(lang)
 
 __generate_catalogs()
+
+# vim: ts=4 sts=4 sw=4 si et
 
