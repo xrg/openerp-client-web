@@ -186,7 +186,7 @@ Section "OpenERP Web" SecOpenERPWeb
     !insertmacro MUI_STARTMENU_WRITE_END
 
     nsExec::Exec '"$INSTDIR\python24\python.exe" "$INSTDIR\python24\Scripts\fixps.py"'
-    nsExec::Exec '"$INSTDIR\python24\python.exe" "$INSTDIR\bin\OpenERPWebService.py" install'
+    nsExec::Exec '"$INSTDIR\python24\python.exe" "$INSTDIR\bin\OpenERPWebService.py" --startup auto install'
 
 SectionEnd
 
