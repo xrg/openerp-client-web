@@ -13,9 +13,8 @@ _oldxml = '/usr/lib/python%s/site-packages/oldxml' % sys.version[:3]
 if exists(_oldxml):
     sys.path.append(_oldxml)
 
-
 import pkg_resources
-pkg_resources.require("TurboGears")
+pkg_resources.require("TurboGears >= 1.0.7, < 1.1b1")
 
 import turbogears
 import cherrypy
