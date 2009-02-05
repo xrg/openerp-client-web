@@ -40,8 +40,8 @@ Packages on your favourite distro.
 Prerequisites:
 
     1. Python >= 2.4
-    2. OpenERP Server >= 5.0
-    3. TurboGears >= 1.0.7 < 1.1
+    2. OpenERP Server >= 5.0.0
+    3. TurboGears >= 1.0.7 < 1.1b1
 
 OpenERP Server:
 
@@ -59,13 +59,13 @@ or
     $ sudo python ez_setup.py
     $ sudo easy_install "TurboGears==1.0.8"
 
-OpenERP Web 5.0:
+OpenERP Web:
 
     $ sudo easy_install openerp-web
     
 or 
     
-    $ sudo easy_install http://openerp.com/download/stable/source/openerp-web-5.0.tar.gz
+    $ sudo easy_install http://openerp.com/download/stable/source/openerp-web-5.0.0.tar.gz
 
 Configuration:
 
@@ -109,8 +109,8 @@ with the admin/admin or demo/demo to see OpenERP in action...
 
 This has been tested on `ubuntu` only.
 
-    $ sudo cp /path/to/openerp_web-5.0-py2.5.egg/scripts/openerp-web /etc/init.d
-    $ sudo cp /path/to/openerp_web-5.0-py2.5.egg/config/default.cfg /etc/openerp-web.cfg
+    $ sudo cp /path/to/openerp_web-5.0.0-py2.5.egg/scripts/openerp-web /etc/init.d
+    $ sudo cp /path/to/openerp_web-5.0.0-py2.5.egg/config/default.cfg /etc/openerp-web.cfg
 
 edit `/etc/init.d/openerp-web`:
 
@@ -135,7 +135,7 @@ Start the deamon:
 Prerequisites
 
     1. Python >= 2.4
-    2. OpenERP Server >= 5.0
+    2. OpenERP Server >= 5.0.0
     3. TurboGears >= 1.0.7 < 1.1
 
 Python:
@@ -154,13 +154,13 @@ TurboGears:
 
     > easy_install "TurboGears==1.0.8"
 
-OpenERP Web 5.0:
+OpenERP Web:
 
     > easy_install openerp-web
     
 or
 
-    > easy_install http://openerp.com/download/stable/source/openerp-web-5.0.tar.gz
+    > easy_install http://openerp.com/download/stable/source/openerp-web-5.0.0.tar.gz
 
 Configuration:
 
