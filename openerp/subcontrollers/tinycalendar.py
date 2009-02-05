@@ -146,14 +146,17 @@ class TinyCalendar(Form):
         ctx = tools.context_with_concurrency_info(ctx, params.concurrency_info)
 
         error = None
+        info = {}
         proxy = rpc.RPCProxy(params.model)
         
         try:
-            res = proxy.write(params.id, data, ctx)
+            res = proxy.write([params.id], data, ctx)
+            info = proxy.read([params.id], ['__last_update'])[0]['__last_update']
+            info = {'%s,%s'%(params.model, params.id): info}
         except Exception, e:
             error = ustr(e)
         
-        return dict(error=error)
+        return dict(error=error, info=info)
     
     @expose()
     def duplicate(self, **kw):

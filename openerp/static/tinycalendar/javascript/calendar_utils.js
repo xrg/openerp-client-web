@@ -164,7 +164,20 @@ var saveCalendarRecord = function(record_id, starts, ends){
         '_terp_context': $('_terp_context').value
     });
 
-    return Ajax.JSON.post('/calendar/save', params);
+    var req = Ajax.JSON.post('/calendar/save', params);
+    return req.addCallback(function(obj){
+
+        // update concurrency info
+        for(var key in obj.info) {
+            try {
+                var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
+                var value = "('" + key + "', '" + obj.info[key] + "')";
+                item.value = value;
+            }catch(e){}
+        }
+
+        return obj;
+    });
 }
 
 var editCalendarRecord = function(record_id){
