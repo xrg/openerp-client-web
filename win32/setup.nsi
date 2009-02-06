@@ -249,14 +249,14 @@ LangString LicenseNext ${LANG_ENGLISH} "Next >"
 LangString LicenseNext ${LANG_FRENCH} "Suivant >"
 
 LangString FinishPageText ${LANG_ENGLISH} "Start OpenERP Web"
-LangString FinishPageText ${LANG_FRENCH} "Lancer le serveur OpenERP"
+LangString FinishPageText ${LANG_FRENCH} "Lancer le serveur Web OpenERP"
 
 ;Language strings
 LangString DESC_SecOpenERPWeb ${LANG_ENGLISH} "OpenERP Web."
-LangString DESC_SecOpenERPWeb ${LANG_FRENCH} "Serveur OpenERP."
+LangString DESC_SecOpenERPWeb ${LANG_FRENCH} "Serveur Web OpenERP."
 
 LangString CannotInstallWebText ${LANG_ENGLISH} "Can not install the OpenERP Web because a previous installation already exists on this system. Please uninstall your current installation and relaunch this setup wizard."
-LangString CannotInstallWebText ${LANG_FRENCH} "Ne peut pas installer le serveur Open ERP parce qu'une installation existe déjà  sur ce système. S'il vous plait, désinstallez votre installation actuelle et relancer l'installeur."
+LangString CannotInstallWebText ${LANG_FRENCH} "Ne peut pas installer le serveur Web Open ERP parce qu'une installation existe déjà sur ce système. S'il vous plait, désinstallez votre installation actuelle et relancer l'installeur."
 
 
 ;Assign language strings to sections
