@@ -117,6 +117,7 @@ class OpenO2M(Form):
             data = eval(pprefix, TinyDict(**data)).make_dict()
 
         ctx = tools.context_with_concurrency_info(rpc.session.context, params.concurrency_info)
+        ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
 
         id = proxy.write([params.parent_id], data, ctx)

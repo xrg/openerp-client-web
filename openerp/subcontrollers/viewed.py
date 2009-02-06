@@ -84,8 +84,8 @@ class NewField(Form):
         if for_model:
             params.model_id = rpc.RPCProxy('ir.model').search([('model', '=', for_model)])[0]
         
-        if not params.id:
-            params.context = {'manual' : True}
+        params.context = params.context or {}
+        params.context.update({'manual' : True})
 
         form = self.create_form(params, tg_errors)
         
@@ -104,8 +104,8 @@ class NewModel(Form):
     def create(self, params, tg_errors=None):
         
         params.editable = True
-        if not params.id:
-            params.context = {'manual' : True}
+        params.context = params.context or {}
+        params.context.update({'manual' : True})
 
         form = self.create_form(params, tg_errors)
         
