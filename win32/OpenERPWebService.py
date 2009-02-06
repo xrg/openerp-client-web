@@ -10,8 +10,8 @@ WORK_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 p = os.environ.get('PATH', '').split(';')
 
 p.insert(0, WORK_DIR)
-p.insert(0, WORK_DIR+"\\python24")
-p.insert(0, WORK_DIR+"\\python24\\Scripts")
+p.insert(0, WORK_DIR+"\\python25")
+p.insert(0, WORK_DIR+"\\python25\\Scripts")
 
 os.environ['PATH'] = ';'.join(p)
 
@@ -26,7 +26,7 @@ import servicemanager
 
 # The command itself
 #EXECUTABLE = ["start-openerp-web.exe", "--config", "conf\openerp-web.cfg"]
-EXECUTABLE = ["python.exe", "python24\Scripts\start-openerp-web-script.py", "--config", "conf\openerp-web.cfg"]
+EXECUTABLE = ["python.exe", "python25\Scripts\start-openerp-web-script.py", "--config", "conf\openerp-web.cfg"]
 
 class TinyService(win32serviceutil.ServiceFramework):
     

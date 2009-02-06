@@ -33,7 +33,7 @@
 ;General
 
 ;Name and file
-Name "OpenERP Web Client"
+Name "OpenERP Web"
 OutFile "openerp-web-setup-${VERSION}.exe"
 SetCompressor lzma
 SetCompress auto
@@ -147,10 +147,10 @@ Section "OpenERP Web" SecOpenERPWeb
     nsExec::Exec "net stop openerp-web"
     sleep 2
 
-    SetOutPath "$INSTDIR\python24"
+    SetOutPath "$INSTDIR\python25"
 
     ;ADD YOUR OWN FILES HERE...
-    File /r /x "*.pyc" /x "*.pyo" /x "*.msi" /x "*~" "build\python24\*"
+    File /r /x "*.pyc" /x "*.pyo" /x "*.msi" /x "*~" "build\python25\*"
 
     SetOutPath "$INSTDIR\bin"
     File "start.bat"
@@ -175,8 +175,8 @@ Section "OpenERP Web" SecOpenERPWeb
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
         ;Create shortcuts
         CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
-        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start Web Client.lnk" "$INSTDIR\bin\start.bat"
-        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Stop Web Client.lnk" "$INSTDIR\bin\stop.bat"
+        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start OpenERP Web.lnk" "$INSTDIR\bin\start.bat"
+        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Stop OpenERP Web.lnk" "$INSTDIR\bin\stop.bat"
         CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Edit Web Config.lnk" "notepad.exe" "$INSTDIR\conf\openerp-web.cfg"
 !ifndef ALLINONE
         CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\uninstall.exe"
@@ -185,8 +185,8 @@ Section "OpenERP Web" SecOpenERPWeb
 	!insertmacro CreateInternetShortcut "$SMPROGRAMS\$STARTMENU_FOLDER\Translation" "https://translations.launchpad.net/openobject"
     !insertmacro MUI_STARTMENU_WRITE_END
 
-    nsExec::Exec '"$INSTDIR\python24\python.exe" "$INSTDIR\python24\Scripts\fixps.py"'
-    nsExec::Exec '"$INSTDIR\python24\python.exe" "$INSTDIR\bin\OpenERPWebService.py" --startup auto install'
+    nsExec::Exec '"$INSTDIR\python25\python.exe" "$INSTDIR\python25\Scripts\fixps.py"'
+    nsExec::Exec '"$INSTDIR\python25\python.exe" "$INSTDIR\bin\OpenERPWebService.py" --startup auto install'
 
 SectionEnd
 
@@ -199,7 +199,7 @@ SectionEnd
 Section "Uninstall"
     nsExec::Exec "net stop openerp-web"
     sleep 2
-    nsExec::Exec '"$INSTDIR\python24\python.exe" "$INSTDIR\bin\OpenERPWebService.py" remove'
+    nsExec::Exec '"$INSTDIR\python25\python.exe" "$INSTDIR\bin\OpenERPWebService.py" remove'
     sleep 2
 
     RMDIR /r "$INSTDIR" 
@@ -211,8 +211,8 @@ Section "Uninstall"
     Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
 !endif 
     Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\Start Web Client.lnk"
-    Delete "$SMPROGRAMS\$MUI_TEMP\Stop Web Client.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\Start OpenERP Web.lnk"
+    Delete "$SMPROGRAMS\$MUI_TEMP\Stop OpenERP Web.lnk"
     Delete "$SMPROGRAMS\$MUI_TEMP\Edit Web Config.lnk"
 
     ;Delete empty start menu parent diretories
@@ -248,14 +248,14 @@ LangString LicenseText ${LANG_FRENCH} "Normalement, une licence propriétaire est
 LangString LicenseNext ${LANG_ENGLISH} "Next >"
 LangString LicenseNext ${LANG_FRENCH} "Suivant >"
 
-LangString FinishPageText ${LANG_ENGLISH} "Start OpenERP Web Client"
+LangString FinishPageText ${LANG_ENGLISH} "Start OpenERP Web"
 LangString FinishPageText ${LANG_FRENCH} "Lancer le serveur OpenERP"
 
 ;Language strings
-LangString DESC_SecOpenERPWeb ${LANG_ENGLISH} "OpenERP Web Client."
+LangString DESC_SecOpenERPWeb ${LANG_ENGLISH} "OpenERP Web."
 LangString DESC_SecOpenERPWeb ${LANG_FRENCH} "Serveur OpenERP."
 
-LangString CannotInstallWebText ${LANG_ENGLISH} "Can not install the OpenERP Web Client because a previous installation already exists on this system. Please uninstall your current installation and relaunch this setup wizard."
+LangString CannotInstallWebText ${LANG_ENGLISH} "Can not install the OpenERP Web because a previous installation already exists on this system. Please uninstall your current installation and relaunch this setup wizard."
 LangString CannotInstallWebText ${LANG_FRENCH} "Ne peut pas installer le serveur Open ERP parce qu'une installation existe déjà  sur ce système. S'il vous plait, désinstallez votre installation actuelle et relancer l'installeur."
 
 
@@ -263,3 +263,4 @@ LangString CannotInstallWebText ${LANG_FRENCH} "Ne peut pas installer le serveur
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SecOpenERPWeb} $(DESC_SecOpenERPWeb)
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
+

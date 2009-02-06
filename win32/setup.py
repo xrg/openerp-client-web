@@ -8,15 +8,15 @@ from distutils.errors import *
 import util
 
 URLS = {
-    "python": ("http://www.python.org/ftp/python/2.4.4/python-2.4.4.msi", "python-2.4.4.msi"),
+    "python": ("http://www.python.org/ftp/python/2.5.4/python-2.5.4.msi", "python-2.5.4.msi"),
     "ez_setup": ("http://peak.telecommunity.com/dist/ez_setup.py", "ez_setup.py"),
-    "pyxml": ("http://nchc.dl.sourceforge.net/sourceforge/pyxml/PyXML-0.8.4.win32-py2.4.exe", "PyXML-0.8.4.win32-py2.4.exe"),
-    "pywin32": ("http://nchc.dl.sourceforge.net/sourceforge/pywin32/pywin32-212.win32-py2.4.exe", "pywin32-212.win32-py2.4.exe"),
+    "pyxml": ("http://www.burgaud.com/wordpress/wp-content/uploads/pyxml-084win32-py25.exe", "PyXML-0.8.4.win32-py2.5.exe"),
+    "pywin32": ("http://nchc.dl.sourceforge.net/sourceforge/pywin32/pywin32-212.win32-py2.5.exe", "pywin32-212.win32-py2.5.exe"),
     "pyparsing": ("http://pypi.python.org/packages/source/p/pyparsing/pyparsing-1.5.1.tar.gz", "pyparsing-1.5.1.tar.gz"),
 }
 
 BUILD_DIR=os.path.join(os.path.dirname(os.path.abspath(__file__)), "build")
-PYDIR=os.path.join(BUILD_DIR, "python24")
+PYDIR=os.path.join(BUILD_DIR, "python25")
 
 execfile(os.path.join("openerp", "release.py"))
 
@@ -109,11 +109,18 @@ class bdist_wininst(Command):
         self.run_ez(name)
 
     def _check_turbogears(self):
-        
-        if self.check_module("turbogears"):
-            return
 
-        self.run_ez("TurboGears==1.0.8")
+        count = 0
+        while not self.check_module("turbogears"):
+            count += 1
+            if count > 3:
+                print "Unable to install TurboGears==1.0.8"
+                sys.exit(1)
+
+            self.run_ez("http://www.kid-templating.org/dist/0.9.6/kid-0.9.6-py2.5.egg")
+            self.run_ez("http://pypi.python.org/packages/2.5/E/Extremes/Extremes-1.1-py2.5.egg")
+            self.run_ez("Paste==1.3")
+            self.run_ez("TurboGears==1.0.8")
 
     def _check_pyparsing(self):
 
