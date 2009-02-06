@@ -14,7 +14,11 @@ if exists(_oldxml):
     sys.path.append(_oldxml)
 
 import pkg_resources
-pkg_resources.require("TurboGears >= 1.0.7, < 1.1b1")
+try:
+    pkg_resources.require("TurboGears >= 1.0.7, < 1.1b1")
+except pkg_resources.VersionConflict, e:
+    print "Error: TurboGears >= 1.0.7, < 1.1b1 required."
+    sys.exit(0)
 
 import turbogears
 import cherrypy
