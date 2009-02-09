@@ -124,11 +124,11 @@ class Root(controllers.RootController, TinyResource):
         
         comp_url = config.get('company.url', path='openerp-web') or None
         
-        res="""<img src="/static/images/openerp_big.png" alt="${_('Open ERP')}" border="0" width="200px" height="60px" usemap="#logo_map"/>
+        res="""<img src="/static/images/openerp_big.png" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
                     <map name="logo_map">
                         <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
                         <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
-                    </map>"""
+                    </map>"""%(dict(alt=_('OpenERP')))
                     
         if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
             if comp_url:
@@ -144,11 +144,11 @@ class Root(controllers.RootController, TinyResource):
     def developped_by(self):
         comp_url = config.get('company.url', path='openerp-web') or None
         
-        res="""<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" usemap="#devby_map"/>
+        res="""<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
                     <map name="devby_map">
                         <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
                         <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
-                    </map>"""
+                    </map>"""%(dict(alt=_('Developped by Axelor and Tiny')))
                     
         if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
             if comp_url:
