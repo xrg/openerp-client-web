@@ -1,1 +1,7 @@
-exclude .project .pydevproject
+exclude .project .pydevproject clean.sh win32
+include start-openerp-web.py
+recursive-include doc *
+recursive-include config *
+recursive-include locales *
+recursive-include scripts *
+global-exclude *pyc *~

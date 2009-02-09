@@ -1,8 +1,18 @@
 MANIFEST.in
-clean.sh
 dev.cfg
 setup.py
+start-openerp-web.py
+config/default.cfg
+doc/ChangeLog
+doc/LICENSE.txt
+doc/README.txt
 locales/messages.pot
+locales/de_DE/LC_MESSAGES/messages.mo
+locales/de_DE/LC_MESSAGES/messages.po
+locales/es_ES/LC_MESSAGES/messages.mo
+locales/es_ES/LC_MESSAGES/messages.po
+locales/fr_FR/LC_MESSAGES/messages.mo
+locales/fr_FR/LC_MESSAGES/messages.po
 openerp/__init__.py
 openerp/cache.py
 openerp/commands.py
@@ -434,3 +444,4 @@ openerp_web.egg-info/paster_plugins.txt
 openerp_web.egg-info/requires.txt
 openerp_web.egg-info/sqlobject.txt
 openerp_web.egg-info/top_level.txt
+scripts/openerp-web
