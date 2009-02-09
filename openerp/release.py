@@ -30,7 +30,7 @@
 # Release information about openerp-web
 
 version = "5.0.0"
-release = "2"
+release = "3"
 
 description = "Web Client of OpenERP, the Enterprise Management Software"
 long_description = "OpenERP Web is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
@@ -40,7 +40,7 @@ copyright = "Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd."
 
 # if it's open source, you might want to specify these
 url = "http://openerp.com/"
-download_url = "http://openerp.com/download"
+download_url = "http://www.openerp.com/index.php?option=com_content&view=article&id=18&Itemid=28"
 license = "OEPL"
 
 # vim: ts=4 sts=4 sw=4 si et

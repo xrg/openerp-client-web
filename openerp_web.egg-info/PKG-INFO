@@ -1,12 +1,12 @@
 Metadata-Version: 1.0
 Name: openerp-web
-Version: 5.0.0-2
+Version: 5.0.0-3
 Summary: Web Client of OpenERP, the Enterprise Management Software
 Home-page: http://openerp.com/
 Author: Tiny ERP Pvt. Ltd.
 Author-email: info@openerp.com
 License: OEPL
-Download-URL: http://openerp.com/download
+Download-URL: http://www.openerp.com/index.php?option=com_content&view=article&id=18&Itemid=28
 Description: OpenERP Web is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt...
 Keywords: turbogears.app
 Platform: UNKNOWN
