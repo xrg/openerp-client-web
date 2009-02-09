@@ -11,6 +11,9 @@ from turbogears.finddata import find_package_data
 
 execfile(os.path.join("openerp", "release.py"))
 
+if 'bdist_rpm' not in sys.argv:
+    version = version + '-' + release
+
 packages = find_packages()
 package_data = find_package_data(where='openerp', package='openerp')
 
