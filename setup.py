@@ -59,13 +59,13 @@ setup(
         'turbogears.app',
     ],
     classifiers = [
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Framework :: TurboGears',
         'Framework :: TurboGears :: Applications',
-    ],
+        ],
     test_suite = 'nose.collector',
     entry_points = {
         'console_scripts': [
