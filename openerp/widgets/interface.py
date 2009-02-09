@@ -228,14 +228,14 @@ class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
     def get_last_update_info(resource, values):
         result = {}
         for item in values:
-            result["%s,%s" % (resource, item['id'])] = item.pop('__last_update')
+            result["%s,%s" % (resource, item['id'])] = item.pop('__last_update', '')
         return result
 
     def _update_concurrency_info(self, resource, records):
         info = getattr(cherrypy.request, 'terp_concurrency_info', {})
         vals = info.setdefault(resource, {})
         for item in records:
-            vals[item['id']] = item.pop('__last_update')
+            vals[item['id']] = item.pop('__last_update', '')
         cherrypy.request.terp_concurrency_info = info
 
     def update_params(self, d):
