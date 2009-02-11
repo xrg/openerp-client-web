@@ -170,7 +170,8 @@ class Root(controllers.RootController, TinyResource):
     @expose(template="openerp.templates.about")
     @unsecured
     def about(self):
-        from release import version
+        from openerp import release
+        version = _("Version %s-%s") % (release.version, release.release)
         return dict(version=version)
 
     form = subcontrollers.form.Form()

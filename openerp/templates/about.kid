@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td>
-            <b>Version ${version}</b>
+            <b>${version}</b>
 <p>
 Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.<br/>
 OpenERP is a trademark of the Tiny Company. <i>OpenERP Web Client</i> is jointly developed by <a target="_blank" href="http://tiny.be">Tiny</a> and <a target="_blank" href="http://www.axelor.com/">Axelor</a>.
