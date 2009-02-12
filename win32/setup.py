@@ -46,6 +46,7 @@ class bdist_wininst(Command):
         self._check_pyxml()
         self._check_turbogears()
         self._check_pyparsing()
+        self._check_pytz()
         self._check_openerp_web()
         self._check_fixps()
 
@@ -131,6 +132,13 @@ class bdist_wininst(Command):
         util.download(url, name)
 
         self.run_ez(name)
+
+    def _check_pytz(self):
+
+        if self.check_module("pytz"):
+            return
+
+        self.run_ez("pytz")
 
     def _check_openerp_web(self):
 
