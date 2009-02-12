@@ -17,7 +17,19 @@ def ustr(value):
     if not isinstance(value, str):
         value = str(value)
 
-    return unicode(value, 'utf-8')
+    try: # first try utf-8
+        return unicode(value, 'utf-8')
+    except:
+        pass
+
+    try: # then extened iso-8858
+        return unicode(value, 'iso-8859-15')
+    except:
+        pass
+
+    # else use default system locale
+    from locale import getlocale
+    return unicode(value, getlocale()[1])
 
 __builtins__['ustr'] = ustr
 
