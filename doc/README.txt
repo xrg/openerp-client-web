@@ -241,7 +241,7 @@ On Linux do this:
     $ iptables -A INPUT -i lo -j ACCEPT
     $ iptables -A INPUT -p tcp --dport 8080 -j REJECT
 
-    IMP: Don't block the localhost/121.0.0.1 (the first rule)
+    IMP: Don't block the localhost/127.0.0.1 (the first rule)
 
 Notes:
 
