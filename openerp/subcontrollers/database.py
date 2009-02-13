@@ -191,7 +191,7 @@ class Database(controllers.Controller):
             else:
                 raise common.warning(_("Couldn't drop database"))
 
-        raise redirect("/login")
+        raise redirect("/database/drop")
 
     @expose(template="openerp.subcontrollers.templates.database")
     def backup(self, tg_errors=None, **kw):
