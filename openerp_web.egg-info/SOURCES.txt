@@ -13,7 +13,6 @@ locales/es_ES/LC_MESSAGES/messages.mo
 locales/es_ES/LC_MESSAGES/messages.po
 locales/fr_FR/LC_MESSAGES/messages.mo
 locales/fr_FR/LC_MESSAGES/messages.po
-openerp/.release.py.swp
 openerp/__init__.py
 openerp/cache.py
 openerp/commands.py
