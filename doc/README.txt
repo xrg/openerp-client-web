@@ -41,7 +41,7 @@ Prerequisites:
 
     1. Python >= 2.4
     2. OpenERP Server >= 5.0.0
-    3. TurboGears >= 1.0.7 < 1.1b1
+    3. TurboGears >= 1.0.7, < 1.1b1
 
 OpenERP Server:
 
@@ -61,12 +61,8 @@ or
 
 OpenERP Web:
 
-    $ sudo easy_install openerp-web
+    $ sudo easy_install -U openerp-web
     
-or 
-    
-    $ sudo easy_install http://openerp.com/download/stable/source/openerp-web-5.0.0.tar.gz
-
 Configuration:
 
     Locate the `config/default.cfg` in the installed `EGG`, and make 
@@ -90,13 +86,13 @@ Now start the web server with `start-openerp-web` command:
 If you see message showing `cherrypy._cperror.NotReady: Port not free.` make
 sure no other application is running on the specified port (8080 is default).
 
-You can change port for by changing `server.socket_port` value in
+You can change port by changing `server.socket_port` value in
 `config/default.cfg`.
 
 If everything is fine, open your favourite web browser and type 
 http://localhost:8080, and your can see welcome page with login screen.
 
-Don't forget to enable cookies !
+Please make sure cookies are enabled in your browser.
 
 Of course, OpenERP Server must be running at that time. You should create a
 database from the DBAdmin interface by clicking on Manage button that you can
@@ -122,6 +118,8 @@ and `/etc/openerp-web.cfg`:
 
 Now run following command to start the OpenERP Web automatically on system startup.
 
+    $ sudo touch /var/log/openerp-web.log
+    $ sudo chown terp /var/log/openerp-web.log
     $ sudo update-rc.d openerp-web
 
 Start the deamon:
@@ -156,11 +154,7 @@ TurboGears:
 
 OpenERP Web:
 
-    > easy_install openerp-web
-    
-or
-
-    > easy_install http://openerp.com/download/stable/source/openerp-web-5.0.0.tar.gz
+    > easy_install -U openerp-web
 
 Configuration:
 
@@ -191,7 +185,7 @@ You can change port by changing `server.socket_port` value in
 If everything is fine, open your favourite web browser and type 
 http://localhost:8080, and your can see welcome page with login screen.
 
-Don't forget to enable cookies !
+Please make sure cookies are enabled in your browser.
 
 Of course, OpenERP Server must be running at that time. You should create a
 database from the DBAdmin interface by clicking on Manage button that you can
