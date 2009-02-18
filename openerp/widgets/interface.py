@@ -27,20 +27,28 @@
 #
 ###############################################################################
 
-import turbogears as tg
 import cherrypy
+import turbogears as tg
 
 from openerp import tools
 
-def eval_get(attrs, name, default=None):
-    if name not in attrs:
-        return default
+_attrs_boolean = {
+    'select': False,
+    'nolabel': False,
+    'required': False,
+    'readonly': False,
+}
 
-    val = attrs[name]
-    if isinstance(val, basestring):
-        val = val.title()
+def _boolean_attr(attrs, name):
 
-    return tools.expr_eval(val)
+    if name not in _attrs_boolean:
+        return attrs.get(name)
+
+    val = attrs.get(name)
+    if isinstance(val, basestring) and val.lower() in ('false', 'none', '0'):
+        return False
+    
+    return (attrs.get(name) and True) or _attrs_boolean.get(name)
 
 class TinyWidget(object):
     """Widget interface, every widget class should implement
@@ -84,10 +92,11 @@ class TinyWidget(object):
         self.colspan = int(attrs.get('colspan', 1))
         self.rowspan = int(attrs.get('rowspan', 1))
         
-        self.select = eval_get(attrs, 'select', False)
-        self.nolabel = eval_get(attrs, 'nolabel', False)
-        self.required = eval_get(attrs, 'required', False)
-        self.readonly = eval_get(attrs, 'readonly', False)
+        self.select = _boolean_attr(attrs, 'select')
+        self.nolabel = _boolean_attr(attrs, 'nolabel')
+        self.required = _boolean_attr(attrs, 'required')
+        self.readonly = _boolean_attr(attrs, 'readonly')
+
         self.visible = True
         self.inline = attrs.get('inline');
         
