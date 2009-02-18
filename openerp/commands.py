@@ -25,7 +25,7 @@ import cherrypy
 
 cherrypy.lowercase_api = True
 
-from openerp.release import version
+from openerp import release
 
 class ConfigurationError(Exception):
     pass
@@ -39,7 +39,7 @@ def get_config_file():
 def start():
     """Start the CherryPy application server."""
 
-    parser = optparse.OptionParser(version=version)
+    parser = optparse.OptionParser(version="%s-%s" % (release.version, release.release))
     parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
     (opt, args) = parser.parse_args()
 
