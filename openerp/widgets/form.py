@@ -501,8 +501,11 @@ class Binary(TinyField):
         self.onchange = "onChange(this); set_binary_filename('%s', this);" % self.filename
 
     def set_value(self, value):
-        if value:
-            self.text = tools.get_size(len(value))
+        #XXX: server bug work-arround
+        try:
+            self.text = tools.get_size(value)
+        except:
+            self.text = value or ''
 
 class URL(TinyField):
     template = "openerp.widgets.templates.url"
