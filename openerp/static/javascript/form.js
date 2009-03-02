@@ -550,7 +550,7 @@ var onChange = function(name) {
             return alert(obj.error);
         }
         
-        values = obj['values'];
+        values = obj['value'];
         domains = obj['domain'];
 
         domains = domains ? domains : {};
