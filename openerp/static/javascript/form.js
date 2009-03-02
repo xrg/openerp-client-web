@@ -228,8 +228,6 @@ var validate_required = function(form) {
        return !el.disabled && el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
     }, form.elements);
 
-    log(elements.length);
-
     var result = true;
 
     for (var i=0; i<elements.length; i++){
@@ -247,8 +245,6 @@ var validate_required = function(form) {
             elem2 = MochiKit.DOM.getElement(elem.id + '_text') || elem;
         }
 
-        log(elem.name, value);
-
         if (!value) {
             addElementClass(elem2, 'errorfield');
             result = false;
@@ -257,8 +253,6 @@ var validate_required = function(form) {
         }
     }
 
-    log(1, result);
-    
     return result;
 }
 
