@@ -30,15 +30,16 @@
 var save_binary_data = function(src, filename) {
     
     var name = $(src) ? $(src).name : src;
-    var prefix = name.split(); prefix.pop(); 
-    var prefix = prefix.join('/'); prefix ? prefix + '/' : '';
+
+    var prefix = name.split('/'); prefix.pop(); 
+    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
 
     var fname = $(filename) || $(prefix + 'name');
 
     fname = fname ? fname.value || fname.innerHTML : null;
 
     var act = get_form_action('save_binary_data');
-    act = fname ? act + '/' + fname : act;
+    act = fname ? act + '/' + fname : act;    
 
     submit_form(getURL(act, {_terp_field: name}));
 }

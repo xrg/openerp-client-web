@@ -502,7 +502,7 @@ class Binary(TinyField):
 
     def set_value(self, value):
         if value:
-            self.text = tools.get_size(len(value))
+            self.text = tools.get_size(value)
 
 class URL(TinyField):
     template = "openerp.widgets.templates.url"
