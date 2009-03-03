@@ -31,7 +31,7 @@ var save_binary_data = function(src, filename) {
     
     var name = $(src) ? $(src).name : src;
 
-    var prefix = name.split('/'); prefix.pop(); 
+    var prefix = name.split('/'); name = prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
 
     var fname = $(filename) || $(prefix + 'name');
@@ -41,7 +41,11 @@ var save_binary_data = function(src, filename) {
     var act = get_form_action('save_binary_data');
     act = fname ? act + '/' + fname : act;    
 
-    submit_form(getURL(act, {_terp_field: name}));
+    act = getURL(act, {_terp_field: name,
+                       _terp_model: $(prefix + '_terp_model').value,
+                       _terp_id: $(prefix + '_terp_id').value});
+
+    submit_form(act);
 }
 
 var add_binary = function(src) {
