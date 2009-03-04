@@ -27,6 +27,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+var form_hookContextMenu = function(){
+    if (!MochiKit.DOM.getElement('_terp_list')) {
+        MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
+    }
+}
+
 var form_hookOnChange = function() {
 
     var id = getElement('_terp_id').value;
@@ -323,6 +329,7 @@ var form_setVisible = function(container, field, visible) {
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){    
+    form_hookContextMenu();
     form_hookStateChange();
     form_hookAttrChange();
     form_hookOnChange();
