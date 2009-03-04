@@ -34,7 +34,7 @@ var save_binary_data = function(src, filename) {
     var prefix = name.split('/'); name = prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
 
-    var fname = $(filename) || $(prefix + 'name');
+    var fname = $(prefix + filename) || $(prefix + 'name');
 
     fname = fname ? fname.value || fname.innerHTML : null;
 
@@ -42,6 +42,22 @@ var save_binary_data = function(src, filename) {
     act = fname ? act + '/' + fname : act;    
 
     act = getURL(act, {_terp_field: name,
+                       _terp_model: $(prefix + '_terp_model').value,
+                       _terp_id: $(prefix + '_terp_id').value});
+
+    submit_form(act);
+}
+
+var clear_binary_data = function(src, filename) {
+    
+    var name = $(src) ? $(src).name : src;
+
+    var prefix = name.split('/'); name = prefix.pop();
+    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+    
+    var act = get_form_action('clear_binary_data');
+    act = getURL(act, {_terp_field: name,
+                       _terp_fname: filename || null,
                        _terp_model: $(prefix + '_terp_model').value,
                        _terp_id: $(prefix + '_terp_id').value});
 
@@ -65,13 +81,21 @@ var add_binary = function(src) {
     }
 }
 
-var set_binary_filename = function(id, fname){
+var set_binary_filename = function(src, filename){
 
-    var target = getElement(id);
-    fname = getElement(fname);
+    var src = getElement(src);
+    var name = src.name;
 
-    if (fname && target) {
-        target.value = fname.value;
+    var prefix = name.split('/'); prefix.pop();
+    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+
+    var target = getElement(prefix + filename);
+
+    var fname = src.value || '';
+    fname = fname.split('/'); fname = fname.pop();
+
+    if (target) {
+        target.value = fname;
     }
 }
 

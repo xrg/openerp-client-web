@@ -498,7 +498,7 @@ class Binary(TinyField):
         super(Binary, self).__init__(attrs)
         self.filename = attrs.get('filename', '')
         self.validator = tiny_validators.Binary()
-        self.onchange = "onChange(this); set_binary_filename('%s', this);" % self.filename
+        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % self.filename
 
     def set_value(self, value):
         #XXX: server bug work-arround
