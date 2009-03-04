@@ -68,7 +68,7 @@
                 return;
             }
             
-            if (!window.confirm(_('Do you realy want to remove this view?'))){
+            if (!window.confirm(_('Do you really want to remove this view?'))){
                 return;
             }
             
