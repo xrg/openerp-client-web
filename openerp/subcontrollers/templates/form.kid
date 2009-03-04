@@ -12,13 +12,7 @@
         function do_select(id, src) {
             viewRecord(id, src);
         }
-        
-        MochiKit.DOM.addLoadEvent(function(evt) {
-            if (!MochiKit.DOM.getElement('_terp_list')) {
-                MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
-            }
-        });
-        
+
     </script>
 
 </head>

@@ -893,10 +893,11 @@ function on_context_menu(evt) {
     
     if(! kind || target.disabled)
         return;
-       
+
     var menu = $('contextmenu');
 
     if (!menu) {
+
         menu = DIV({'id': 'contextmenu', 
                     'class' : 'contextmenu', 
                     'onmouseout' : 'hideContextMenu()', 
