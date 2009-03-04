@@ -133,7 +133,7 @@ InfoBox.prototype = {
     onDelete : function(){
     	
 		this.hide();
-        if (!confirm('Do you realy want to delete this record?')) {
+        if (!confirm('Do you really want to delete this record?')) {
             return false;
         }
 		WORKFLOW.remove_elem(this.source);

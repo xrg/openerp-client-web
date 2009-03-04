@@ -963,7 +963,7 @@ class Form(controllers.Controller, TinyResource):
             if relation and kind in ('many2one', 'reference') and values.get(k):
                 values[k] = [values[k], tw.many2one.get_name(relation, values[k])]
 
-        result['values'] = values
+        result['value'] = values
 
         # convert domains in string to prevent them being converted in JSON
         if 'domain' in result:

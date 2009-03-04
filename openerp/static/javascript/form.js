@@ -262,7 +262,7 @@ var submit_form = function(action, src, data, target){
         return callLater(1, submit_form, action, src, data);
     }
 
-    if (action == 'delete' && !confirm(_('Do you realy want to delete this record?'))) {
+    if (action == 'delete' && !confirm(_('Do you really want to delete this record?'))) {
         return false;
     }
 
@@ -550,7 +550,7 @@ var onChange = function(name) {
             return alert(obj.error);
         }
         
-        values = obj['values'];
+        values = obj['value'];
         domains = obj['domain'];
 
         domains = domains ? domains : {};

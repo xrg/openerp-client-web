@@ -1677,12 +1677,12 @@ msgid "You must select at least one record."
 msgstr ""
 
 #: openerp/static/javascript/listgrid.js:416
-msgid "Do you realy want to delete selected record(s) ?"
+msgid "Do you really want to delete selected record(s) ?"
 msgstr ""
 
 #: openerp/static/javascript/form.js:265
 #: openerp/static/tinycalendar/javascript/calendar_box.js:158
-msgid "Do you realy want to delete this record?"
+msgid "Do you really want to delete this record?"
 msgstr ""
 
 #: openerp/static/javascript/form.js:296
