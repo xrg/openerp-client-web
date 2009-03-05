@@ -57,6 +57,8 @@ from form import Form
 
 class Search(Form):
 
+    path = '/search'    # mapping from root
+
     @expose(template="openerp.subcontrollers.templates.search")
     def create(self, params, tg_errors=None):
 

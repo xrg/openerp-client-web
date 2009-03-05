@@ -4,6 +4,10 @@
     <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
+        var form_controller = '/search';
+    </script>
+
+    <script type="text/javascript">
 
         function submit_search_form(action){
             form = $('search_form');
