@@ -76,6 +76,9 @@ class RangeWidget(TinyCompoundWidget):
         self.from_field = RANGE_WIDGETS[kind](from_attrs)
         self.to_field = RANGE_WIDGETS[kind](to_attrs)
 
+        self.from_field.validator.if_invalid = False
+        self.to_field.validator.if_invalid = False
+
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
