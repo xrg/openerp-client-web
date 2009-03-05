@@ -679,6 +679,7 @@ class Form(controllers.Controller, TinyResource):
 
         kw['_terp_search_domain'] = None
         kw['_terp_search_data'] = None
+        kw['_terp_filter_action'] = 'FIND'
 
         return self.filter(**kw)
 
