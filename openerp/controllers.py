@@ -38,6 +38,7 @@ from turbogears import controllers
 from turbogears import expose
 from turbogears import redirect
 from turbogears import config
+from turbogears import url as tg_url
 
 import cherrypy
 
@@ -105,13 +106,20 @@ class Root(controllers.RootController, TinyResource):
 
     @expose(template="openerp.templates.login")
     @unsecured
-    def login(self, db=None, user=None, password=None):
+    def login(self, db=None, user=None, password=None, url=None, **kw):
+
+        if url and kw:
+            url = tg_url(url, kw)
+
+        if db and user == "anonymous":
+            if rpc.session.login(db, 'anonymous', password):
+                raise redirect(url or '/')
+
+        url = url or rpc.session.get_url()
+        dblist = rpc.session.listdb()
 
         message = None
 
-        url = rpc.session.get_url()
-        dblist = rpc.session.listdb()
-        
         if dblist == -1:
             dblist = []
             message = _("Could not connect to server!")
