@@ -22,7 +22,7 @@
         <tr>
             <td width="100%" valign="top">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                    <tr>
+                    <tr py:if="buttons.toolbar">
                         <td>
                             <table width="100%" class="titlebar">
                                 <tr>
