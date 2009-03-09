@@ -184,14 +184,13 @@ class WikiWidget(Text):
 
     def set_value(self, value):
         super(WikiWidget, self).set_value(value)
-        from openerp import rpc
-        proxy = rpc.RPCProxy('wiki.wiki')
         
         if value:
             toc = True
             if hasattr(cherrypy.request, 'terp_record'):
                 params = cherrypy.request.terp_params
                 if params._terp_model == 'wiki.wiki':
+                    proxy = rpc.RPCProxy('wiki.wiki')
                     toc = proxy.read([params.id], ['toc'])[0]['toc']
                     id = params.id
                     
