@@ -33,6 +33,7 @@ For more information on TG controllers, please see the TG docs.
 """
 
 import os
+import re
 
 from turbogears import controllers
 from turbogears import expose
@@ -124,8 +125,30 @@ class Root(controllers.RootController, TinyResource):
             dblist = []
             message = _("Could not connect to server!")
 
-        return dict(target=location or '/', url=url, dblist=dblist, user=user, 
-                password=password, db=db, action='login', message=message, origArgs={}, show_header_footer=not location)
+        map = dict(target=location or '/', url=url, dblist=dblist, user=user, 
+                   password=password, db=db, action='login', message=message, origArgs={}, 
+                   show_header_footer=not location)
+
+        if location:
+            map['tg_template'] = "openerp.templates.login_small"
+        
+        if config.get('dblist.filter', path='openerp-web'):
+
+            headers = cherrypy.request.headers
+            host = headers.get('X-Forwarded-Host', headers.get('Host'))
+
+            base = re.split('\.|:|/', host)[0]                
+            base = base + '_'                
+            dblist = [d for d in dblist if d.startswith(base)]
+
+        if config.get('dblist.hide', path='openerp-web'):
+            db = (dblist or False) and dblist[0]
+            dblist = None
+
+        map['db'] = db
+        map['dblist'] = dblist
+
+        return map
 
     @expose()
     def jump_to(self, location='/', target=None):
@@ -138,10 +161,10 @@ class Root(controllers.RootController, TinyResource):
                 <script type="text/javascript">
                     var target = "%s";
                     var url = "%s"
-                    if (target == 'main' && window.parent) {
-                        window.parent.document.location.href = url;
+                    if (target == 'main' && parent) {
+                        parent.document.location.href = url;
                     } else {
-                        window.document.location.href = url;
+                        document.location.href = url;
                     }
                 </script>
             </head>
