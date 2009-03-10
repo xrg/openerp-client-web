@@ -51,6 +51,8 @@ from openerp import subcontrollers
 from openerp import cache
 
 from openerp.tinyres import TinyResource, unsecured
+from openerp.tinyres import _login as tiny
+from openerp.tinyres import _login as tiny_login
 
 import pkg_resources
 from turbogears.widgets import register_static_directory
@@ -105,7 +107,7 @@ class Root(controllers.RootController, TinyResource):
         cherrypy.response.headers['Content-Type'] = 'text/html'
         cherrypy.response.body = [message]
 
-    @expose(template="openerp.templates.login")
+    @expose()
     @unsecured
     def login(self, db=None, user=None, password=None, location=None, **kw):
 
@@ -125,28 +127,10 @@ class Root(controllers.RootController, TinyResource):
             dblist = []
             message = _("Could not connect to server!")
 
-        map = dict(target=location or '/', url=url, dblist=dblist, user=user, 
-                   password=password, db=db, action='login', message=message, origArgs={}, 
-                   show_header_footer=not location)
-        
-        if config.get('dblist.filter', path='openerp-web'):
+        if isinstance(location, list):
+            print "XXXX", location
 
-            headers = cherrypy.request.headers
-            host = headers.get('X-Forwarded-Host', headers.get('Host'))
-
-            base = re.split('\.|:|/', host)[0]                
-            base = base + '_'                
-            dblist = [d for d in dblist if d.startswith(base)]
-
-        if location:
-            map['tg_template'] = "openerp.templates.login_small"
-            db = (dblist or False) and dblist[0]
-            dblist = None
-
-        map['db'] = db
-        map['dblist'] = dblist
-
-        return map
+        return tiny_login(target=location or '/', dblist=dblist, db=db, user=user, action="login", message=message)
 
     @expose()
     def jump_to(self, location='/', target=None):
@@ -161,7 +145,10 @@ class Root(controllers.RootController, TinyResource):
                     var url = "%s"
                     if (target == 'main' && parent) {
                         parent.location.href = url;
-                    } else {
+                    } else if (target == "_blank") {
+                        window.open(url);
+                        window.location.href = "/login?location=/jump_to&location=" + url + "&target=" + target;
+                    } else if (!parent) {
                         window.location.href = url;
                     }
                 </script>

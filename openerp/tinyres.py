@@ -50,8 +50,30 @@ def _login(target, dblist=None, db= None, user=None, action=None, message=None, 
     url = rpc.session.get_url()
     url = str(url[:-1])
 
-    return dict(target=target, url=url, dblist=dblist, user=user, password=None, 
+    map = dict(target=target, url=url, dblist=dblist, user=user, password=None, 
             db=db, action=action, message=message, origArgs=origArgs)
+
+    if config.get('dblist.filter', path='openerp-web'):
+
+        headers = cherrypy.request.headers
+        host = headers.get('X-Forwarded-Host', headers.get('Host'))
+
+        base = re.split('\.|:|/', host)[0]                
+        base = base + '_'                
+        dblist = [d for d in dblist if d.startswith(base)]
+
+    if (cherrypy.request.path == "/login" and 'location' in cherrypy.request.params) or \
+            (cherrypy.request.path == "/jump_to"):
+
+        map['tg_template'] = "openerp.templates.login_small"
+        map['show_header_footer'] = False
+        db = (dblist or False) and dblist[0]
+        dblist = None
+
+    map['db'] = db
+    map['dblist'] = dblist
+
+    return map
 
 def secured(fn):
     """A Decorator to make a TinyResource controller method secured.
@@ -118,15 +140,6 @@ def secured(fn):
 
                 if action == 'login':
                     message = _("Bad username or password!")
-                
-                if config.get('dblist.filter', path='openerp-web'):
-                    
-                    headers = cherrypy.request.headers
-                    host = headers.get('X-Forwarded-Host', headers.get('Host'))
-
-                    base = re.split('\.|:|/', host)[0]                
-                    base = base + '_'                
-                    dblist = [d for d in dblist if d.startswith(base)]
 
                 return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, 
                         user=user, action=action, origArgs=get_orig_args(kw))

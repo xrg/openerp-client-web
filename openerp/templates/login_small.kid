@@ -10,6 +10,7 @@
     <div class="view">
 
         <form action="${target}" method="post" name="loginform">
+            <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
             <input type="hidden" name="login_action" value="login"/>
         
                 <table align="center" cellspacing="2px" border="0">
@@ -49,7 +50,7 @@
                 </table> 
         </form>
 
-        <div class="box-small message" id="message" py:if="message" py:content="message"/>
+        <div id="message" py:if="message" py:content="message" style="color: red; text-align: center;"/>
     </div>
 </body>
 
