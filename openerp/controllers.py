@@ -128,9 +128,6 @@ class Root(controllers.RootController, TinyResource):
         map = dict(target=location or '/', url=url, dblist=dblist, user=user, 
                    password=password, db=db, action='login', message=message, origArgs={}, 
                    show_header_footer=not location)
-
-        if location:
-            map['tg_template'] = "openerp.templates.login_small"
         
         if config.get('dblist.filter', path='openerp-web'):
 
@@ -141,7 +138,8 @@ class Root(controllers.RootController, TinyResource):
             base = base + '_'                
             dblist = [d for d in dblist if d.startswith(base)]
 
-        if config.get('dblist.hide', path='openerp-web'):
+        if location:
+            map['tg_template'] = "openerp.templates.login_small"
             db = (dblist or False) and dblist[0]
             dblist = None
 
