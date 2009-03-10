@@ -125,7 +125,7 @@ class Root(controllers.RootController, TinyResource):
             message = _("Could not connect to server!")
 
         return dict(target=location or '/', url=url, dblist=dblist, user=user, 
-                password=password, db=db, action='login', message=message, origArgs={})
+                password=password, db=db, action='login', message=message, origArgs={}, show_header_footer=not location)
 
     @expose()
     def jump_to(self, location='/', target=None):
