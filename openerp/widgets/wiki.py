@@ -187,6 +187,7 @@ class WikiWidget(Text):
         
         if value:
             toc = True
+            id = False
             if hasattr(cherrypy.request, 'terp_record'):
                 params = cherrypy.request.terp_params
                 if params._terp_model == 'wiki.wiki':
