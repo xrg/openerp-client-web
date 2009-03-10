@@ -106,16 +106,16 @@ class Root(controllers.RootController, TinyResource):
 
     @expose(template="openerp.templates.login")
     @unsecured
-    def login(self, db=None, user=None, password=None, url=None, **kw):
+    def login(self, db=None, user=None, password=None, location=None, **kw):
 
-        if url and kw:
-            url = tg_url(url, kw)
+        if location and kw:
+            location = tg_url(location, kw)
 
         if db and user == "anonymous":
             if rpc.session.login(db, 'anonymous', password):
-                raise redirect(url or '/')
+                raise redirect(location or '/')
 
-        url = url or rpc.session.get_url()
+        url = rpc.session.get_url()
         dblist = rpc.session.listdb()
 
         message = None
@@ -124,7 +124,31 @@ class Root(controllers.RootController, TinyResource):
             dblist = []
             message = _("Could not connect to server!")
 
-        return dict(target='/', url=url, dblist=dblist, user=user, password=password, db=db, action='login', message=message, origArgs={})
+        return dict(target=location or '/', url=url, dblist=dblist, user=user, 
+                password=password, db=db, action='login', message=message, origArgs={})
+
+    @expose()
+    def jump_to(self, location='/', target=None):
+
+        location = location or '/'
+        target = target or 'self'
+
+        html = """<html>
+            <head>
+                <script type="text/javascript">
+                    var target = "%s";
+                    var url = "%s"
+                    if (target == 'main' && window.parent) {
+                        window.parent.document.location.href = url;
+                    } else {
+                        window.document.location.href = url;
+                    }
+                </script>
+            </head>
+        </html>
+        """ % (target, location)
+
+        return html
 
     @expose()
     @unsecured
