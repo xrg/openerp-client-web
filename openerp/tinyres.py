@@ -127,7 +127,11 @@ def secured(fn):
                     base = re.split('\.|:|/', host)[0]                
                     base = base + '_'                
                     dblist = [d for d in dblist if d.startswith(base)]
-                    
+
+                if config.get('dblist.hide', path='openerp-web'):
+                    db = (dblist or False) and dblist[0]
+                    dblist = None
+
                 return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, 
                         user=user, action=action, origArgs=get_orig_args(kw))
 
