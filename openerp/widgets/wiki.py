@@ -66,7 +66,8 @@ class WikiParser(wikimarkup.Parser):
         text = self.attachDoc(text, id)
         text = self.recordLink(text)
         text = self.addInternalLinks(text)
-        text = self.addRss(text, id)
+        #TODO : already implemented but we will implement it later after releasing the 5.0
+        #text = self.addRss(text, id)
         return text
 
     def addRss(self, text, id):
@@ -183,12 +184,17 @@ class WikiWidget(Text):
 
     def set_value(self, value):
         super(WikiWidget, self).set_value(value)
+        
         if value:
             toc = True
-            if hasattr(cherrypy.request, 'terp_record'): 
-                toc = cherrypy.request.terp_record.get('toc', True)
+            id = False
+            if hasattr(cherrypy.request, 'terp_record'):
                 params = cherrypy.request.terp_params
-                id = params.id
+                if params._terp_model == 'wiki.wiki':
+                    proxy = rpc.RPCProxy('wiki.wiki')
+                    toc = proxy.read([params.id], ['toc'])[0]['toc']
+                    id = params.id
+                    
             text = value+'\n\n'
             html = wiki2html(text, toc, id)
             
