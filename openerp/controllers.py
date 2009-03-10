@@ -160,9 +160,9 @@ class Root(controllers.RootController, TinyResource):
                     var target = "%s";
                     var url = "%s"
                     if (target == 'main' && parent) {
-                        parent.document.location.href = url;
+                        parent.location.href = url;
                     } else {
-                        document.location.href = url;
+                        window.location.href = url;
                     }
                 </script>
             </head>
