@@ -145,6 +145,29 @@ class Preview(Form):
                                        '_terp_view_mode' : [view_type]})
         return self.create(params)
 
+def simple_xpath(expr, ref):
+    
+    if '/' not in expr:
+        name, index = expr.split('[')
+        index = int(index.replace(']', ''))
+        
+        nodes = [n for n in ref.childNodes if n.localName == name]
+        try:
+            return nodes[index-1]
+        except Exception, e:
+            return nodes
+    
+    parts = expr.split('/')
+    for part in parts:
+        if not part or '.' in part:
+#            for node in ref.childNodes:
+#               if node.nodeType == node.ELEMENT_NODE:
+#                   ref = node
+            continue
+        ref = simple_xpath(part, ref)
+
+    return [ref]
+    
 def _get_xpath(node):
 
     pn = node.parentNode
@@ -153,7 +176,7 @@ def _get_xpath(node):
     if pn and pn.localName and pn.localName != 'view':
         xp = _get_xpath(pn) + xp
 
-    nodes = xpath.Evaluate(node.localName, node.parentNode)
+    nodes = simple_xpath(node.localName, node.parentNode)
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
@@ -168,11 +191,11 @@ def _get_model(node, parent_model):
         if pnode.localName == 'field':
         
             ch = []
-            ch += xpath.Evaluate('./form', pnode)
-            ch += xpath.Evaluate('./tree', pnode)
-            ch += xpath.Evaluate('./graph', pnode)
-            ch += xpath.Evaluate('./calendar', pnode)
-        
+            ch += simple_xpath('./form[1]', pnode)
+            ch += simple_xpath('./tree[1]', pnode)
+            ch += simple_xpath('./graph[1]', pnode)
+            ch += simple_xpath('./calendar[1]', pnode)
+            
             if ch:
                 parents += [pnode.getAttribute('name')]
                 
@@ -246,7 +269,7 @@ class ViewEd(controllers.Controller, TinyResource):
             def _find(node, node2):
                 # Check if xpath query or normal inherit (with field matching)
                 if node2.nodeType==node2.ELEMENT_NODE and node2.localName=='xpath':
-                    res = xpath.Evaluate(node2.getAttribute('expr'), node)
+                    res = simple_xpath(node2.getAttribute('expr'), node)
                     return res and res[0]
                 else:
                     if node.nodeType==node.ELEMENT_NODE and node.localName==node2.localName:
@@ -380,15 +403,14 @@ class ViewEd(controllers.Controller, TinyResource):
     
     @expose(template="openerp.subcontrollers.templates.viewed_edit")
     def edit(self, view_id, xpath_expr):
-        
         view_id = int(view_id)
         
         proxy = rpc.RPCProxy('ir.ui.view')
         res = proxy.read([view_id], ['model', 'arch'])[0]
         
-        doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
-        field = xpath.Evaluate(xpath_expr, doc)[0]
-
+        doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
+        field = simple_xpath(xpath_expr, doc)[0]
+        
         attrs = tools.node_attributes(field)
         editors = []
         
@@ -437,7 +459,7 @@ class ViewEd(controllers.Controller, TinyResource):
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         model = res['model']
         
-        field_node = xpath.Evaluate(xpath_expr, doc)[0]
+        field_node = simple_xpath(xpath_expr, doc)[0]
         model = _get_model(field_node, parent_model=model)
         
         # get the fields
@@ -473,7 +495,7 @@ class ViewEd(controllers.Controller, TinyResource):
         if view_id:
             
             doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-            node = xpath.Evaluate(xpath_expr, doc)[0]
+            node = simple_xpath(xpath_expr, doc)[0]
             new_node = doc.createElement('view')
             
             if node.localName == 'field':
@@ -539,7 +561,7 @@ class ViewEd(controllers.Controller, TinyResource):
         view_type = res['type']
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-        node = xpath.Evaluate(xpath_expr, doc)[0]
+        node = simple_xpath(xpath_expr, doc)[0]
 
         new_node = None
         record = None
@@ -582,7 +604,7 @@ class ViewEd(controllers.Controller, TinyResource):
             
             refNode = None
             try:
-                refNode = xpath.Evaluate(kw['xpath_ref'], doc)[0]
+                refNode = simple_xpath(kw['xpath_ref'], doc)[0]
             except:
                 pass
                             
@@ -627,10 +649,10 @@ class ViewEd(controllers.Controller, TinyResource):
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
         
-        pnode = xpath.Evaluate(dst, doc)[0]
-        src = xpath.Evaluate(".//*[@name='%s']"%src, doc)[0]
+        pnode = simple_xpath(dst, doc)[0]
+        src = simple_xpath(".//*[@name='%s']"%src, doc)[0]
         
-        if ref: ref = xpath.Evaluate(".//*[@name='%s']"%ref, doc)[0]
+        if ref: ref = simple_xpath(".//*[@name='%s']"%ref, doc)[0]
         
         pnode.insertBefore(src, ref)
         

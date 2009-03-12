@@ -58,15 +58,39 @@ def node_attributes(node):
         result[attrs.item(i).localName] = attrs.item(i).nodeValue
     return result
     
+def simple_xpath(expr, ref):
+    
+    if '/' not in expr:
+        name, index = expr.split('[')
+        index = int(index.replace(']', ''))
+        
+        nodes = [n for n in ref.childNodes if n.localName == name]
+        try:
+            return nodes[index-1]
+        except Exception, e:
+            return nodes
+    
+    parts = expr.split('/')
+    for part in parts:
+        if not part or '.' in part:
+#            for node in ref.childNodes:
+#               if node.nodeType == node.ELEMENT_NODE:
+#                   ref = node
+            continue
+        ref = simple_xpath(part, ref)
+
+    return [ref]
+
 def get_node_xpath(node):
 
     pn = node.parentNode
     xp = '/' + node.localName
-
+    root = xp + '[1]'
+    
     if pn and pn.localName and pn.localName != 'view':
         xp = get_node_xpath(pn) + xp
-
-    nodes = xpath.Evaluate(node.localName, node.parentNode)
+        
+    nodes = simple_xpath(root, node.parentNode)
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
