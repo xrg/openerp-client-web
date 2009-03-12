@@ -124,7 +124,7 @@ class Root(controllers.RootController, TinyResource):
 
         if style in ('ajax', 'ajax_small'):
             return dict(db=db, user=user, password=password, location=location, style=style,
-                    show_header_footer=False, tg_template="openerp.templates.login_small")
+                    show_header_footer=False, tg_template="openerp.templates.login_ajax")
 
         return tiny_login(target=location, db=db, user=user, password=password, action="login")
 

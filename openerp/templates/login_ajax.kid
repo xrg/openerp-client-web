@@ -9,6 +9,10 @@
 
         var do_login = function(form) {
 
+            if (Ajax.COUNT > 0) {
+                return false;
+            }
+
             var user = $('user').value;
             var password = $('password').value;
 
@@ -43,7 +47,6 @@
 
             req.addCallback(function(obj){
                 if (obj.result) {
-                    $('password').value = '';
                     window.open($('location').value || '/');
                     MochiKit.Style.hideElement('message');
                 } else {
