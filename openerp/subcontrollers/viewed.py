@@ -187,12 +187,7 @@ def xml_getElementsByTagAndName(tag, name, ref):
 
     @return: list of nodes
     """
-    nodes = ref.getElementsByTagName(tag)
-    result = []
-    for node in nodes:
-        if node.getAttribute('name') == name:
-            result += [node]
-    return result
+    return [node for node in ref.getElementsByTagName(tag) if node.getAttribute('name') == name]
 
 def _get_model(node, parent_model):
     
@@ -673,7 +668,6 @@ class ViewEd(controllers.Controller, TinyResource):
         
         try:
             proxy.write(view_id, dict(arch=doc.toxml(encoding="utf-8")))
-            a = 1/0
         except Exception, e:
             error = str(e)
             
