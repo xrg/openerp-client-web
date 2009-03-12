@@ -51,8 +51,7 @@ from openerp import subcontrollers
 from openerp import cache
 
 from openerp.tinyres import TinyResource, unsecured
-from openerp.tinyres import _login as tiny
-from openerp.tinyres import _login as tiny_login
+from openerp.tinyres import login as tiny_login
 
 import pkg_resources
 from turbogears.widgets import register_static_directory
@@ -107,56 +106,27 @@ class Root(controllers.RootController, TinyResource):
         cherrypy.response.headers['Content-Type'] = 'text/html'
         cherrypy.response.body = [message]
 
-    @expose()
+    @expose(allow_json=True)
     @unsecured
-    def login(self, db=None, user=None, password=None, location=None, **kw):
+    def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
 
-        if location and kw:
-            location = tg_url(location, kw)
+        rpc.session.logout()
+        location = tg_url(location or '/', kw or {})
 
         if db and user == "anonymous":
             if rpc.session.login(db, 'anonymous', password):
-                raise redirect(location or '/')
+                raise redirect(location)
 
-        url = rpc.session.get_url()
-        dblist = rpc.session.listdb()
+        if cherrypy.request.params.get('tg_format') == 'json':
+            if rpc.session.login(db, user, password) > 0:
+                return dict(result=1)
+            return dict(result=0)
 
-        message = None
+        if style in ('ajax', 'ajax_small'):
+            return dict(db=db, user=user, password=password, location=location, style=style,
+                    show_header_footer=False, tg_template="openerp.templates.login_small")
 
-        if dblist == -1:
-            dblist = []
-            message = _("Could not connect to server!")
-
-        if isinstance(location, list):
-            print "XXXX", location
-
-        return tiny_login(target=location or '/', dblist=dblist, db=db, user=user, action="login", message=message)
-
-    @expose()
-    def jump_to(self, location='/', target=None):
-
-        location = location or '/'
-        target = target or 'self'
-
-        html = """<html>
-            <head>
-                <script type="text/javascript">
-                    var target = "%s";
-                    var url = "%s"
-                    if (target == 'main' && parent) {
-                        parent.location.href = url;
-                    } else if (target == "_blank") {
-                        window.open(url);
-                        window.location.href = "/login?location=/jump_to&location=" + url + "&target=" + target;
-                    } else if (!parent) {
-                        window.location.href = url;
-                    }
-                </script>
-            </head>
-        </html>
-        """ % (target, location)
-
-        return html
+        return tiny_login(target=location, db=db, user=user, password=password, action="login")
 
     @expose()
     @unsecured

@@ -44,14 +44,15 @@ import rpc
 import pkg_resources
 
 @expose(template="openerp.templates.login")
-def _login(target, dblist=None, db= None, user=None, action=None, message=None, origArgs={}):
-    """Login page, exposed without any controller, will be used by _check_method wrapper
-    """
+def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
+    
     url = rpc.session.get_url()
     url = str(url[:-1])
 
-    map = dict(target=target, url=url, dblist=dblist, user=user, password=None, 
-            db=db, action=action, message=message, origArgs=origArgs)
+    dblist = rpc.session.listdb()
+    if dblist == -1:
+        dblist = []
+        message = _("Could not connect to server!")
 
     if config.get('dblist.filter', path='openerp-web'):
 
@@ -62,18 +63,8 @@ def _login(target, dblist=None, db= None, user=None, action=None, message=None, 
         base = base + '_'                
         dblist = [d for d in dblist if d.startswith(base)]
 
-    if (cherrypy.request.path == "/login" and 'location' in cherrypy.request.params) or \
-            (cherrypy.request.path == "/jump_to"):
-
-        map['tg_template'] = "openerp.templates.login_small"
-        map['show_header_footer'] = False
-        db = (dblist or False) and dblist[0]
-        dblist = None
-
-    map['db'] = db
-    map['dblist'] = dblist
-
-    return map
+    return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password, 
+            action=action, message=message, origArgs=origArgs)
 
 def secured(fn):
     """A Decorator to make a TinyResource controller method secured.
@@ -133,16 +124,11 @@ def secured(fn):
             # See if the user just tried to log in
             if rpc.session.login(db, user, password) <= 0:
                 # Bad login attempt
-                dblist = rpc.session.listdb()
-                if dblist == -1:
-                    dblist = []
-                    message = _("Could not connect to server!")
-
                 if action == 'login':
                     message = _("Bad username or password!")
 
-                return _login(cherrypy.request.path, message=message, dblist=dblist, db=db, 
-                        user=user, action=action, origArgs=get_orig_args(kw))
+                return login(cherrypy.request.path, message=message, 
+                        db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies
             expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
