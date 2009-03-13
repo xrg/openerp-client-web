@@ -176,7 +176,7 @@ def xml_locate(expr, ref):
             continue
         ref = xml_locate(part, ref)
 
-    return []
+    return [ref]
 
 def xml_getElementsByTagAndName(tag, name, ref):
     """Convenient function to locate tags with Tag name and Name attribute.
@@ -656,21 +656,17 @@ class ViewEd(controllers.Controller, TinyResource):
         data = proxy.read([view_id])[0]
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
-
         pnode = xml_locate(dst, doc)[0]
         src = xml_getElementsByTagAndName('*', src, doc)[0]
         
-        if ref: ref = src = xml_getElementsByTagAndName('*', ref, doc)[0]
-
+        if ref: ref = xml_getElementsByTagAndName('*', ref, doc)[0]
         pnode.insertBefore(src, ref)
-        
         del data['id']
         
         try:
             proxy.write(view_id, dict(arch=doc.toxml(encoding="utf-8")))
         except Exception, e:
             error = str(e)
-            
         return dict(error=error)
   
 
