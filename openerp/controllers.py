@@ -110,7 +110,6 @@ class Root(controllers.RootController, TinyResource):
     @unsecured
     def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
 
-        rpc.session.logout()
         location = tg_url(location or '/', kw or {})
 
         if db and user == "anonymous":
