@@ -263,8 +263,11 @@ class ICalendar(interface.TinyCompoundWidget):
                 key = evt[self.color_field]
                 name = key
                 value = key
-                
-                if isinstance(key, (tuple, list)): #M2O 
+
+                if isinstance(key, list): # M2O, XMLRPC returns List instead of Tuple
+                    evt[self.color_field] = key = tuple(key)
+
+                if isinstance(key, tuple): # M2O 
                     value, name = key
 
                 self.colors[key] = (name, value, None)

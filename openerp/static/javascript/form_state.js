@@ -181,10 +181,10 @@ var form_hookAttrChange = function() {
 }
 
 var form_onAttrChange = function(container, widget, attr, expr, evt) {
-    
+
+    var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
     var widget = MochiKit.DOM.getElement(widget);
-    var prefix = widget ? widget.id.slice(0, widget.id.lastIndexOf('/')+1) : '';
-    
+
     var result = form_evalExpr(prefix, expr);
     
     if (attr == 'readonly')
@@ -324,7 +324,12 @@ var form_setVisible = function(container, field, visible) {
         }
 
     } else {
-       container.style.display = visible ? '' : 'none';
+        container.style.display = visible ? '' : 'none';
+        try {
+            var label = getNodeAttribute(container, 'for');
+            label = MochiKit.Selector.findChildElements(container.parentNode, ['td.label[for="' + label + '"]'])[0];
+            label.style.display = visible ? '' : 'none';
+        }catch(e){}
     }
 }
 

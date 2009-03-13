@@ -25,11 +25,14 @@
 
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
-                    <tr>
-                        <td class="label">Server:</td>
+                    <tr py:if="dblist is not None">
+                        <td class="label">
+                            <span>Server:</span>
+                            <input py:if="dblist is None" type="hidden" name="db" value="$db"/>
+                        </td>
                         <td py:content="url"/>
                     </tr>
-                    <tr>
+                    <tr py:if="dblist is not None">
                         <td class="label">Database:</td>
                         <td>
                             <select name="db" style="width: 302px;">

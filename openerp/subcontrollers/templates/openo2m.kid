@@ -21,21 +21,21 @@
             var form = document.forms['view_form'];
             var fields = [];
 
+            var required_attrs = ['id', 'name', 'value', 'kind', 'class', 'domain', 'context', 'relation'];
+
             MochiKit.Iter.forEach(pform.elements, function(e){
             
                 if (e.name &amp;&amp; e.type != 'button' &amp;&amp; e.name.indexOf('${params.o2m}') != 0){
 
-                    var fld = MochiKit.DOM.INPUT(null);
-                    MochiKit.Iter.forEach(e.attributes, function(a){
-                        try{
-                            MochiKit.DOM.setNodeAttribute(fld, a.name, a.value);
-                        }catch(e){}
+                    var attrs = {}
+                    MochiKit.Iter.forEach(required_attrs, function(n){
+                        if (e.attributes[n]) attrs[n] = e.attributes[n].value;
                     });
+                    attrs['type'] = 'hidden';
+                    attrs['disabled'] = 'disabled';
+                    attrs['value'] = e.value;
 
-                    fld.type = 'hidden';
-                    fld.disabled = true;
-                    fld.value = e.value;
-
+                    var fld = MochiKit.DOM.INPUT(attrs);
                     fields = fields.concat(fld);
                 }
             });

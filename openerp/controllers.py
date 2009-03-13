@@ -33,6 +33,7 @@ For more information on TG controllers, please see the TG docs.
 """
 
 import os
+import re
 
 from turbogears import controllers
 from turbogears import expose
@@ -50,6 +51,7 @@ from openerp import subcontrollers
 from openerp import cache
 
 from openerp.tinyres import TinyResource, unsecured
+from openerp.tinyres import login as tiny_login
 
 import pkg_resources
 from turbogears.widgets import register_static_directory
@@ -104,27 +106,27 @@ class Root(controllers.RootController, TinyResource):
         cherrypy.response.headers['Content-Type'] = 'text/html'
         cherrypy.response.body = [message]
 
-    @expose(template="openerp.templates.login")
+    @expose(allow_json=True)
     @unsecured
-    def login(self, db=None, user=None, password=None, url=None, **kw):
+    def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
 
-        if url and kw:
-            url = tg_url(url, kw)
+        rpc.session.logout()
+        location = tg_url(location or '/', kw or {})
 
         if db and user == "anonymous":
             if rpc.session.login(db, 'anonymous', password):
-                raise redirect(url or '/')
+                raise redirect(location)
 
-        url = url or rpc.session.get_url()
-        dblist = rpc.session.listdb()
+        if cherrypy.request.params.get('tg_format') == 'json':
+            if rpc.session.login(db, user, password) > 0:
+                return dict(result=1)
+            return dict(result=0)
 
-        message = None
+        if style in ('ajax', 'ajax_small'):
+            return dict(db=db, user=user, password=password, location=location, style=style,
+                    show_header_footer=False, tg_template="openerp.templates.login_ajax")
 
-        if dblist == -1:
-            dblist = []
-            message = _("Could not connect to server!")
-
-        return dict(target='/', url=url, dblist=dblist, user=user, password=password, db=db, action='login', message=message, origArgs={})
+        return tiny_login(target=location, db=db, user=user, password=password, action="login")
 
     @expose()
     @unsecured

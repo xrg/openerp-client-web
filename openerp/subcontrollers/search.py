@@ -138,17 +138,17 @@ class Search(Form):
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context
+        ctx['active_id'] = params.parent_id or False
 
         if isinstance(domain, basestring):
-            domain = eval(domain, ctx)  
+            domain = tools.expr_eval(domain, ctx)  
         
         if isinstance(context, basestring):
             if not context.startswith('{'):
                 context = "dict(%s)"%context
                 ctx['dict'] = dict # required
             
-            ctx['active_id'] = params.parent_id or False
-            context = eval(context, ctx)
+            context = tools.expr_eval(context, ctx)
 
 #           Fixed many2one pop up in listgrid when value is None.
             for key, val in context.items():

@@ -191,14 +191,14 @@ class Frame(TinyCompoundWidget):
 
         if label:
             colspan -= 1
-            attrs = {'class': 'label', 'title': getattr(widget, 'help', None)}
+            attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
             td = [attrs, label]
             tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
 
-        attrs = {'class': 'item'}
+        attrs = {'class': 'item', 'for': widget.name}
         if rowspan > 1: attrs['rowspan'] = rowspan
         if colspan > 1: attrs['colspan'] = colspan
 
