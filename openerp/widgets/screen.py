@@ -155,8 +155,10 @@ class Screen(TinyCompoundWidget):
                                     readonly=self.readonly,
                                     nodefault=self.nodefault, nolinks=self.link)
             
-            if not self.ids:
-                self.ids = (self.id or []) and [self.id]
+            if self.ids is None:
+                proxy = rpc.RPCProxy(self.model)
+                self.ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
+                self.count = proxy.search_count(self.domain, self.context)
 
         elif view_type == 'tree':
             self.widget = listgrid.List(self.name or '_terp_list',
