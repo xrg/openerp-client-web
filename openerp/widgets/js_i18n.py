@@ -22,7 +22,7 @@ class JSCatelog(JSLink):
 
 class JSI18n(Widget):
     javascript = [JSLink('openerp', 'javascript/i18n/i18n.js'),
-                  JSCatelog('openerp', 'javascript/i18n/en_EN.js'),]
+                  JSCatelog('openerp', 'javascript/i18n/en_US.js'),]
 
 js_i18n = JSI18n()
 

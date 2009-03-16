@@ -46,7 +46,7 @@ from openerp import common
 
 
 def get_lang_list():
-    langs = [('en_EN', 'English')]
+    langs = [('en_US', 'English (US)')]
     try:
         return langs + (rpc.session.execute_db('list_lang') or [])
     except Exception, e:
