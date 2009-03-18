@@ -355,7 +355,7 @@ openerp/static/javascript/MochiKit/Test.js
 openerp/static/javascript/MochiKit/Visual.js
 openerp/static/javascript/MochiKit/__package__.js
 openerp/static/javascript/i18n/de_DE.js
-openerp/static/javascript/i18n/en_EN.js
+openerp/static/javascript/i18n/en_US.js
 openerp/static/javascript/i18n/es_ES.js
 openerp/static/javascript/i18n/fr_FR.js
 openerp/static/javascript/i18n/i18n.js

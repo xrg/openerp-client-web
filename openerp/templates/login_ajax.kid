@@ -47,6 +47,7 @@
 
             req.addCallback(function(obj){
                 if (obj.result) {
+                    $('password').value = '';
                     window.open($('location').value || '/');
                     MochiKit.Style.hideElement('message');
                 } else {
