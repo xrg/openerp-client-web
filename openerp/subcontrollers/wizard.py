@@ -87,6 +87,7 @@ class Wizard(controllers.Controller, TinyResource):
                 res['datas'] = {}
 
             if res['type']=='form':
+                params.is_wizard = True
                 form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
                 
                 fields = res['fields']
