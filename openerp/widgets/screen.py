@@ -87,7 +87,9 @@ class Screen(TinyCompoundWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
- 
+
+        self.is_wizard = params.is_wizard
+
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 
@@ -155,7 +157,7 @@ class Screen(TinyCompoundWidget):
                                     readonly=self.readonly,
                                     nodefault=self.nodefault, nolinks=self.link)
             
-            if self.ids is None:
+            if not self.is_wizard and self.ids is None:
                 proxy = rpc.RPCProxy(self.model)
                 self.ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
                 self.count = proxy.search_count(self.domain, self.context)
