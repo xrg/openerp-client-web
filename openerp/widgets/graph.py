@@ -443,7 +443,7 @@ class PieChart(GraphData):
                             "border": 1,
                             "animate": "true", 
                             "label-colour": "#432BAF", 
-                            "alpha": 0.30,
+                            "alpha": 0.20,
                             "tip": "#label# (#percent#)",
                             "values": allvalues})
         
