@@ -54,7 +54,7 @@ class List(TinyCompoundWidget):
     template = "openerp.widgets.templates.listgrid"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
     
     member_widgets = ['pager', 'children', 'buttons', 'concurrency_info']
 
@@ -77,6 +77,7 @@ class List(TinyCompoundWidget):
     show_links = 1
     source = None
     checkbox_name = True
+    min_rows = 5
 
     css = [widgets.CSSLink('openerp', 'css/listgrid.css')]
     javascript = [widgets.JSLink('openerp', 'javascript/listgrid.js'),
@@ -121,6 +122,12 @@ class List(TinyCompoundWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
+
+        self.min_rows = 5
+        try:
+            self.min_rows = int(attrs.get('min_rows'))
+        except:
+            pass
 
         self.colors = {}
         for color_spec in attrs.get('colors', '').split(';'):

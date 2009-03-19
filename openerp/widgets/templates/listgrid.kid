@@ -77,7 +77,7 @@
                             <td py:content="concurrency_info.display()"></td>
                         </tr>
 
-                        <tr py:for="i in range(0, 4 - len(data))" class="grid-row">
+                        <tr py:for="i in range(0, min_rows - len(data))" class="grid-row">
                             <td width="1%" py:if="selector" class="grid-cell selector">&nbsp;</td>
                             <td py:if="editable" style="text-align: center" class="grid-cell selector">&nbsp;</td>
                             <td py:for="i, (field, field_attrs) in enumerate(headers)" class="grid-cell">&nbsp;</td>
