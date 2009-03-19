@@ -56,7 +56,7 @@ class Graph(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         data = PieChart(params.model, params.view_id, params.ids, params.domain, params.context)
         
-        return data.get_pie_data()
+        return data.get_data()
         
     @expose('json')
     def bar(self, **kw):
@@ -64,7 +64,7 @@ class Graph(controllers.Controller, TinyResource):
         params, data = TinyDict.split(kw)
         data = BarChart(params.model, params.view_id, params.ids, params.domain, params.context)
         
-        return data.get_bar_data()
+        return data.get_data()
     
 # vim: ts=4 sts=4 sw=4 si et
 

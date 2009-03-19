@@ -313,7 +313,6 @@ openerp/static/images/treegrid/header.gif
 openerp/static/images/treegrid/loading.gif
 openerp/static/javascript/ajax.js
 openerp/static/javascript/binary.js
-openerp/static/javascript/charts.js
 openerp/static/javascript/dashboard.js
 openerp/static/javascript/form.js
 openerp/static/javascript/form_state.js
