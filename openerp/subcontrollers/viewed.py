@@ -732,7 +732,7 @@ _PROPERTIES = {
     'child1' : ['groups'],
     'child2' : ['groups'],
     'action' : ['name', 'string', 'colspan', 'groups'],
-    'tree' : ['string', 'colors', 'editable', 'link'],
+    'tree' : ['string', 'colors', 'editable', 'link', 'min_rows'],
     'graph' : ['string', 'type'],
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color', 'mode'],
     'view' : [],
