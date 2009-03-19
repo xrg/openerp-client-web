@@ -300,34 +300,6 @@ class BarChart(GraphData):
         else:
             return res
         
-        temp_lbl = []
-        dataset = result.setdefault('dataset', [])
-        ChartColors = ['#c4a000', '#ce5c00', '#8f5902', '#4e9a06', '#204a87', '#5c3566', '#a40000', '#babdb6', '#2e3436'];
-        
-        for i in label_x:
-            lbl = {}
-            lbl['text'] = i
-            lbl['colour'] = "#432BAF" 
-            temp_lbl.append(lbl)
-        
-        urls = []
-        url = []            
-        
-        for i, x in enumerate(axis[1:]):
-            for dom in domain:                    
-                u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
-                       _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
-            
-                url.append(urllib.quote_plus(u))
-            urls += [[url]]
-        
-        allvalues = []
-        for i, x in enumerate(axis[1:]):
-            data = values[x]
-            for d in data:
-                allvalues.append(d)
-            dataset.append({"text": axis[i+1], "type": "bar_3d", "colour": ChartColors[i+3], "values": data, "font-size": 10})
-        
         def minmx_ticks(values):
         
             yopts = {}
@@ -356,13 +328,52 @@ class BarChart(GraphData):
             tk = round(total/5)
             
             while (tk > 10):
-                tk = Math.round(tk/2)
+                tk = round(tk/2)
             
             yopts['y_max'] = mx;
             yopts['y_min'] = mn;
             yopts['y_steps'] = tk;
             
             return yopts;
+        
+        temp_lbl = []
+        dataset = result.setdefault('dataset', [])
+        ChartColors = ['#c4a000', '#ce5c00', '#8f5902', '#4e9a06', '#204a87', '#5c3566', '#a40000', '#babdb6', '#2e3436'];
+        
+        for i in label_x:
+            lbl = {}
+            lbl['text'] = i
+            lbl['colour'] = "#432BAF" 
+            temp_lbl.append(lbl)
+        
+        urls = []
+        url = []            
+        
+        for i, x in enumerate(axis[1:]):
+            for dom in domain:                    
+                u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
+                       _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
+            
+                url.append(urllib.quote_plus(u))
+            urls += [[url]]
+        
+        allvalues = []
+        
+        for i, x in enumerate(axis[1:]):
+            datas = []
+            data = values[x]
+            for d in data:
+                dt = {}
+                dt["on-click"]= "onChartClick" #"function(){onChartClick('" + url[i] + "')}"
+                dt['top'] = d
+                datas.append(dt)
+                allvalues.append(d)
+                
+            dataset.append({"text": axis[i+1], 
+                            "type": "bar_3d",
+                            "colour": ChartColors[i+3], 
+                            "values": datas, 
+                            "font-size": 10})
 
         yopts = minmx_ticks(allvalues)
                     
@@ -403,7 +414,7 @@ class PieChart(GraphData):
         else:
             return res
             
-        ChartColors = ['#c4a000', '#ce5c00', '#8f5902', '#4e9a06', '#204a87', '#5c3566', '#a40000', '#babdb6', '#2e3436'];
+        ChartColors = ['#204a87', '#8f5902', '#4e9a06', '#5c3566', '#a40000', '#c4a000', '#ce5c00','#babdb6', '#2e3436'];
         
         dataset = result.setdefault('dataset', [])            
         value = values.values()[0]
@@ -414,13 +425,14 @@ class PieChart(GraphData):
             u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
             
-            url.append(urllib.quote_plus(u))
+            url.append(u)
         
         allvalues = []
         for i, x in enumerate(label_x):
             val = {}
             val['value'] = value[i]
             val['label'] = x
+            val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             allvalues.append(val)
             
         for i, x in enumerate(label_x):
@@ -429,7 +441,7 @@ class PieChart(GraphData):
                             "border": 1,
                             "animate": "true", 
                             "label-colour": "#432BAF", 
-                            "alpha": 0.40,
+                            "alpha": 0.30,
                             "tip": "#label# (#percent#)",
                             "values": allvalues})
         

@@ -19,6 +19,13 @@
             							{"data-file": address});
             											
             </script>
+            
+            <script type="text/javascript">
+	            function onChartClick(onClickText)
+				{
+				   	window.location.href = onClickText;
+				}
+            </script>
 			
             <script type="text/javascript">
             
