@@ -22,7 +22,7 @@
             
             <script type="text/javascript">
 	            function onChartClick(onClickText)
-				{
+	            {
 				   	window.location.href = onClickText;
 				}
             </script>

@@ -354,7 +354,7 @@ class BarChart(GraphData):
                 u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
             
-                url.append(urllib.quote_plus(u))
+                url.append(u)  # urllib.quote_plus(u))
             urls += [[url]]
         
         allvalues = []
@@ -362,9 +362,10 @@ class BarChart(GraphData):
         for i, x in enumerate(axis[1:]):
             datas = []
             data = values[x]
-            for d in data:
+            
+            for j, d in enumerate(data):
                 dt = {}
-                dt["on-click"]= "onChartClick" #"function(){onChartClick('" + url[i] + "')}"
+                dt["on-click"]= "function(){onChartClick('" + url[j] + "')}"
                 dt['top'] = d
                 datas.append(dt)
                 allvalues.append(d)
@@ -372,21 +373,22 @@ class BarChart(GraphData):
             dataset.append({"text": axis[i+1], 
                             "type": "bar_3d",
                             "colour": ChartColors[i+3], 
-                            "values": datas, 
+                            "values": datas,
                             "font-size": 10})
-
+            
         yopts = minmx_ticks(allvalues)
                     
-        result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min']},
+        result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                             'stroke': 2},
                   "title": {"text": ""},
                   "elements": [i for i in dataset],
                   "bg_colour": "#FFFFFF",
                   "x_axis": {"colour": "#909090",
                              "stroke": 1, 
-                             "tick-height": 5, 
-                             "grid-colour": "#86BF83", 
+                             "tick-height": 5,
+                             "grid-colour" : "#FFFFFF",
                              "steps": 1, "labels": { "rotate": "diagonal", "colour": "#ff0000", "labels": [l for l in temp_lbl]},
-                             "3d": 1
+                             "3d": 3
                              }
                   }
         
