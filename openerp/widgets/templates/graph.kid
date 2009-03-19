@@ -1,9 +1,25 @@
 <table width="100%" xmlns:py="http://purl.org/kid/ns#" class="graph-table">
     <tr>
         <td align="center">
-
+        	
 			<div class="graph" id="${chart_name}" style="width: ${width}; height: ${height}; min-width: 350px; min-height: 350px;"></div>
-			            
+			
+			<script type="text/javascript">
+				var model = "${model}";
+				var view_id = "${view_id}";
+				var ids = "${ustr(ids)}";
+				var domain = "${ustr(domain)}";
+				var context = "${ustr(context)}";
+				
+				var chart = '${chart_type}';
+				
+				var address = urlEncode("/graph/"+chart+"?_terp_model="+model+"&amp;_terp_view_id="+view_id+"&amp;_terp_ids="+ids+"&amp;_terp_domain="+domain+"&amp;_terp_context="+context); 
+				
+            	swfobject.embedSWF("/static/open-flash-chart.swf", "${chart_name}", "500", "350", "9.0.0", "expressInstall.swf", 
+            							{"data-file": address});
+            											
+            </script>
+			
             <script type="text/javascript">
             
             	if (getElement('_terp_model').value == '${model}' &amp;&amp; '${chart_type}'=='bar') {
@@ -33,13 +49,7 @@
 				}
         		
         	</script>
-        	
-        	<script py:if="chart_type=='bar'" type="text/javascript">
-                new BarChart('${chart_name}', "${tg.url('/graph/bar', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context))}");
-            </script>
-            <script py:if="chart_type=='pie'" type="text/javascript">
-                new PieChart('${chart_name}', "${tg.url('/graph/pie', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context))}");
-            </script>
+            
         </td>
     </tr>
 </table>

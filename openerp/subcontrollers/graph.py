@@ -45,25 +45,26 @@ from openerp import common
 
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
-from openerp.widgets.graph import GraphData
+from openerp.widgets.graph import BarChart
+from openerp.widgets.graph import PieChart
 
 class Graph(controllers.Controller, TinyResource):
 
     @expose('json')
     def pie(self, **kw):
-                                
-        params, data = TinyDict.split(kw)
-        data = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
         
-        return dict(data=data.get_pie_data())
+        params, data = TinyDict.split(kw)
+        data = PieChart(params.model, params.view_id, params.ids, params.domain, params.context)
+        
+        return data.get_pie_data()
         
     @expose('json')
     def bar(self, **kw):
         
         params, data = TinyDict.split(kw)
-        data = GraphData(params.model, params.view_id, params.ids, params.domain, params.context)
+        data = BarChart(params.model, params.view_id, params.ids, params.domain, params.context)
         
-        return dict(data=data.get_bar_data())
+        return data.get_bar_data()
     
 # vim: ts=4 sts=4 sw=4 si et
 
