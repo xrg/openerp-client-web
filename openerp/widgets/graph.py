@@ -320,12 +320,53 @@ class BarChart(GraphData):
             
                 url.append(urllib.quote_plus(u))
             urls += [[url]]
-            
+        
+        allvalues = []
         for i, x in enumerate(axis[1:]):
             data = values[x]
+            for d in data:
+                allvalues.append(d)
             dataset.append({"text": axis[i+1], "type": "bar_3d", "colour": ChartColors[i+3], "values": data, "font-size": 10})
+        
+        def minmx_ticks(values):
+        
+            yopts = {}
+            mx = 0
+            mn = 0
+            tk = 2
+            
+            for i,j in enumerate(values):
+                mx = max(mx, values[i])
+                mn = min(mn, values[i])
+            
+            if mx != 0:
+                if mx < 0:
+                    mx = mx - (10 + mx % 10)
+                else:
+                    mx = mx + (10 - (mx % 10))  
+            
+            if mn != 0:
+                if mn < 0:
+                    mn = mn - (10 + mn % 10)
+                else:
+                    mn = mn + (10 - (mn % 10))
+
+            
+            total = abs(mx) + abs(mn)
+            tk = round(total/5)
+            
+            while (tk > 10):
+                tk = Math.round(tk/2)
+            
+            yopts['y_max'] = mx;
+            yopts['y_min'] = mn;
+            yopts['y_steps'] = tk;
+            
+            return yopts;
+
+        yopts = minmx_ticks(allvalues)
                     
-        result = {"y_axis": {"steps": 5, "max": 25, "min": 0},
+        result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min']},
                   "title": {"text": ""},
                   "elements": [i for i in dataset],
                   "bg_colour": "#FFFFFF",
