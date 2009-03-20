@@ -16,7 +16,7 @@
 				var address = urlEncode("/graph/"+chart+"?_terp_model="+model+"&amp;_terp_view_id="+view_id+"&amp;_terp_ids="+ids+"&amp;_terp_domain="+domain+"&amp;_terp_context="+context); 
 				
             	swfobject.embedSWF("/static/open-flash-chart.swf", "${chart_name}", "500", "350", "9.0.0", "expressInstall.swf", 
-            							{"data-file": address});
+            							{"data-file": address, "loading":"Please wait, Graph is loading..."});
             											
             </script>
             
