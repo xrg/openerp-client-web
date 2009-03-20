@@ -56,39 +56,45 @@ if not hasattr(locale, 'D_FMT'):
 class Graph(TinyCompoundWidget):
 
     template = "openerp.widgets.templates.graph"
-    javascript = [tg.widgets.JSLink("openerp", "javascript/swfobject.js")]
+    javascript = [tg.widgets.JSSource("""
+    var onChartClick = function(path) {
+        window.location.href = path;
+    }
+    """)]
                   
-    params = ['chart_type', 'chart_name', 'model', 'view_id', 'ids', 'domain', 'context', 'width', 'height']
+    params = ['url', 'width', 'height']
     
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width='350px', height='350px'):
-
-        self.model = model
-        self.view_id = view_id
-        self.ids = ids
-        self.domain = domain
-        self.context = context
+    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width='100%', height=350):
+       
+        self.name = 'graph_%s' % (random.randint(0,10000)) 
         
         self.width = width
         self.height = height
+
+        ctx = rpc.session.context.copy()
+        ctx.update(context or {})
         
-        cxt = rpc.session.context.copy()
-        cxt.update(context or {})
-        
-        view = cache.fields_view_get(model, view_id, 'graph', cxt)
+        view = cache.fields_view_get(model, view_id, 'graph', ctx)
         
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
 
         self.string = attrs.get('string', '')
-        self.chart_type = attrs.get('type', 'pie')
-        self.chart_name = 'graph_%s' % (random.randint(0,10000)) 
-
-        if self.chart_type == 'pie':
-            self.width="100%"
-            
+        chart_type = attrs.get('type', 'pie')
+        
+        self.ids = ids
         if ids is None:
-            self.ids = rpc.RPCProxy(model).search(domain)
+            self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
+
+        self.url = tg.url("/graph/"+chart_type, {
+            '_terp_model': model,
+            '_terp_view_id': view_id,
+            '_terp_ids': ustr(ids),
+            '_terp_domain': ustr(domain),
+            '_terp_context': ustr(context or {})})
+
+        self.url = urllib.quote(self.url)
 
 class GraphData(object):
     

@@ -45,6 +45,7 @@ from openerp import common
 
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
+
 from openerp.widgets.graph import BarChart
 from openerp.widgets.graph import PieChart
 
