@@ -80,7 +80,7 @@ class O2M(TinyCompoundWidget):
         current = params.chain_get(self.name)
 
         self.model = attrs['relation']
-        self.link = attrs['link']
+        self.link = attrs.get('link', '')
         self.onchange = None # override onchange in js code
 
         view = attrs.get('views', {})
@@ -100,7 +100,7 @@ class O2M(TinyCompoundWidget):
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
 
-        ids = attrs['value'] or []
+        ids = attrs.get('value') or []
         id = (ids or None) and ids[0]
 
         if current and params.source == self.name:
