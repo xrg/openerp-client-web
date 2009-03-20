@@ -64,7 +64,7 @@ class Graph(TinyCompoundWidget):
                   
     params = ['url', 'width', 'height']
     
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width='100%', height=350):
+    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
        
         self.name = 'graph_%s' % (random.randint(0,10000)) 
         
@@ -436,11 +436,18 @@ class PieChart(GraphData):
             url.append(u)
         
         allvalues = []
+        per = []
+        total_val = 0
+        for i, x in enumerate(label_x):
+            total_val += value[i]
+        
         for i, x in enumerate(label_x):
             val = {}
             val['value'] = value[i]
-            val['label'] = x
+            val['label'] = value[i]
             val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
+            val["tip"] = x + ' (' + str(round((100 * value[i])/total_val)) + '%)'
+            
             allvalues.append(val)
             
         for i, x in enumerate(label_x):
@@ -451,7 +458,6 @@ class PieChart(GraphData):
                             "label-colour": "#432BAF", 
                             "alpha": 0.30,
                             "gradient-fill": 'true',
-                            "tip": "#label# (#percent#)",
                             "values": allvalues})
         
         result = {"elements": [d for d in dataset],

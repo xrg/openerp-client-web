@@ -47,8 +47,7 @@ class ViewForm(tg.widgets.Form):
                   tg.widgets.JSLink("openerp", "javascript/m2m.js", location=tg.widgets.js_location.bodytop),
                   tg.widgets.JSLink("openerp", "javascript/o2m.js", location=tg.widgets.js_location.bodytop),
                   tg.widgets.JSLink("openerp", "javascript/textarea.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/binary.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/swfobject.js", location=tg.widgets.js_location.bodytop)]
+                  tg.widgets.JSLink("openerp", "javascript/binary.js", location=tg.widgets.js_location.bodytop)]
 
     def __init__(self, params, **kw):
         super(ViewForm, self).__init__(**kw)
