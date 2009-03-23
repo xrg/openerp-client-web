@@ -316,7 +316,7 @@ class BarChart(GraphData):
             for i,j in enumerate(values):
                 mx = max(mx, values[i])
                 mn = min(mn, values[i])
-            
+                
             if mx != 0:
                 if mx < 0:
                     mx = mx - (10 + mx % 10)
@@ -329,12 +329,11 @@ class BarChart(GraphData):
                 else:
                     mn = mn + (10 - (mn % 10))
 
-            
             total = abs(mx) + abs(mn)
-            tk = round(total/5)
-            
-            while (tk > 10):
-                tk = round(tk/2)
+            tk = round(total/10)
+                
+#            while (tk > 10):
+#                tk = round(tk/2)
             
             yopts['y_max'] = mx;
             yopts['y_min'] = mn;
