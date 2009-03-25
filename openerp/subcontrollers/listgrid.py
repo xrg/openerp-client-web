@@ -44,6 +44,7 @@ import openerp.widgets as tw
 
 import form
 import search
+import wizard
 
 class List(controllers.Controller, TinyResource):
 
@@ -145,7 +146,11 @@ class List(controllers.Controller, TinyResource):
             current.context = current.context or {}
             current.context.update(params.source_default_get)
 
-        frm = form.Form().create_form(params)
+        if params.wiz_id:
+            res = wizard.Wizard().execute(params)
+            frm = res['form']
+        else:
+            frm = form.Form().create_form(params)
 
         wid = frm.screen.get_widgets_by_name(source, kind=tw.listgrid.List)[0]
         ids = wid.ids
