@@ -18,7 +18,7 @@
         <br/>
 
         <form action="${target}" method="post" name="loginform">
-            <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
+            <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${ustr(value)}"/>
             <input type="hidden" name="login_action" value="login"/>
         
             <div class="box2 welcome">Welcome to OpenERP</div>
