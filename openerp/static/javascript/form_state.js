@@ -53,7 +53,11 @@ var form_hookOnChange = function() {
     for(var name in fields) {
         var field = getElement(name);
         if (field && field.value && getNodeAttribute(field, 'callback')) {
-            MochiKit.Signal.signal(field, 'onchange');
+            if (field.onchange) {
+                field.onchange();
+            } else {
+                MochiKit.Signal.signal(field, 'onchange');
+            }
         }
     }
 }
