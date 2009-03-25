@@ -127,7 +127,7 @@ class GraphData(object):
 
         if ids is None:
             ids = proxy.search(domain, 0, 0, 0, ctx)
-
+            
         rec_ids = []
         values = proxy.read(ids, fields.keys(), ctx)
         
@@ -185,19 +185,20 @@ class GraphData(object):
 
         for node in root.childNodes:
             attrs = tools.node_attributes(node)
+            
             if node.localName == 'field':
                 name = attrs['name']
                 attrs['string'] = fields[name]['string']
 
                 axis.append(ustr(name))
                 axis_data[ustr(name)] =  attrs
-
+                
         for i in axis_data:
             axis_data[i]['string'] = fields[i]['string']
             if axis_data[i].get('group', False):
                 axis_group[i]=1
                 axis.remove(i)
-        
+                
         return axis, axis_data, axis_group
     
     def get_data(self):
@@ -227,14 +228,21 @@ class GraphData(object):
         data_axis = {}
         label = {}
         
+        axis_group = {}
+        data_all = {}
+        data_ax = []
+        
         temp_dom = []        
         label_x = []
         total_ids = []
         domain = []
         
         for field in axis[1:]:
-            
+            data_all = {}
             for val in datas:
+                group_eval = ','.join(map(lambda x: val[x], self.axis_group_field.keys()))
+                axis_group[group_eval] = 1
+                
                 key_ids = {}
                 key_ids['id'] = val.get('id')
                 key_ids['rec_id'] = val.get('rec_id')
@@ -242,6 +250,8 @@ class GraphData(object):
                 lbl = val[axis[0]]
                 key = urllib.quote_plus(val[axis[0]].encode('utf-8'))
                 info = data_axis.setdefault(key, {})
+                
+                data_all.setdefault(val[axis[0]], {})
                 
                 keys[key] = 1
                 label[lbl] = 1
@@ -251,12 +261,20 @@ class GraphData(object):
                     info[field] = oper(info[field], val[field])
                 else:
                     info[field] = val[field]
+                
+                if group_eval in data_all[val[axis[0]]]:
+                     oper = operators[axis_data[field].get('operator', '+')]
+                     data_all[val[axis[0]]][group_eval] = oper(data_all[val[axis[0]]][group_eval], val[field])
+                else:
+                    data_all[val[axis[0]]][group_eval] = val[field]
                     
                 total_ids += [key_ids]
-                
+            data_ax.append(data_all)
+        axis_group = axis_group.keys()
+        axis_group.sort()
         keys = keys.keys()
         keys.sort()
-
+        
         label = label.keys()
         label.sort()
         
@@ -274,16 +292,31 @@ class GraphData(object):
                 label_x.append(l)
         
         for d in temp_dom:
-            
             for val in datas:
-                rec = val.get('rec_id')            
+                rec = val.get('rec_id')
             domain += [[(axis[0], '=', d), ('id', 'in', rec)]]
             
         values = {}
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
-    
-        return values, domain, self.model, label_x, axis
+        
+        n = len(axis)-1
+        stack_list = []
+        val = []
+        
+        if len(axis_group) > 1:
+            for i in range(n):
+                datas = data_ax[i]
+                for y in range(len(axis_group)):
+                    for field in axis[1:]:
+                        values[field] = [datas[x].get(axis_group[y],0.0) for x in keys]
+                for x in keys:
+                    for field in axis[1:]:
+                        v = [datas[x].get(axis_group[y],0.0) for y in range(len(axis_group))]
+                        val.append(v)
+                stack_list += val
+       
+        return values, domain, self.model, label_x, axis, axis_group, stack_list, keys
     
 class BarChart(GraphData):
     
@@ -303,6 +336,9 @@ class BarChart(GraphData):
             model = res[2]
             label_x = res[3]
             axis = res[4]
+            axis_group = res[5]
+            stack_list = res[6]
+            stack_labels = res[7]
         else:
             return res
         
@@ -343,7 +379,7 @@ class BarChart(GraphData):
         
         temp_lbl = []
         dataset = result.setdefault('dataset', [])
-        ChartColors = ['#c4a000', '#ce5c00', '#8f5902', '#4e9a06', '#204a87', '#5c3566', '#a40000', '#babdb6', '#2e3436'];
+        ChartColors = ['#4e9a06', '#204a87', '#5c3566', '#a40000', '#babdb6', '#2e3436', '#c4a000', '#ce5c00', '#8f5902'];
         
         for i in label_x:
             lbl = {}
@@ -355,7 +391,7 @@ class BarChart(GraphData):
         url = []            
         
         for i, x in enumerate(axis[1:]):
-            for dom in domain:                    
+            for dom in domain:
                 u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']", 
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
             
@@ -382,20 +418,50 @@ class BarChart(GraphData):
                             "font-size": 10})
             
         yopts = minmx_ticks(allvalues)
-                    
-        result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                             'stroke': 2},
-                  "title": {"text": ""},
-                  "elements": [i for i in dataset],
-                  "bg_colour": "#FFFFFF",
-                  "x_axis": {"colour": "#909090",
-                             "stroke": 1, 
-                             "tick-height": 5,
-                             "grid-colour" : "#FFFFFF",
-                             "steps": 1, "labels": { "rotate": "diagonal", "colour": "#ff0000", "labels": [l for l in temp_lbl]},
-                             "3d": 3
-                             }
-                  }
+        
+        if len(axis_group) > 1:
+            all_keys = []
+            for i, x in enumerate(axis_group):
+                data = {}
+                data['text'] = x
+                data['colour'] = ChartColors[i]
+                all_keys.append(data)
+            
+            stack_val = []
+            for j, stk in enumerate(stack_list):
+                sval = []
+                for x, s in enumerate(stk):
+                    stack = {}
+                    stack['val'] = s
+                    stack["on-click"]= "function(){onChartClick('" + url[j] + "')}"
+                    sval.append(stack)
+                stack_val.append(sval)
+            
+            result = { "elements": [{"type": "bar_stack",
+                                     "colours": [ col for col in ChartColors ],
+                                     "values": [s for s in stack_val],
+                                     "keys": [key for key in all_keys]}],
+                        "x_axis": {"labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
+                                   "grid-colour" : "#FFFFFF"},
+                        "y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                                   'stroke': 2 },
+                        "bg_colour": "#FFFFFF",
+                        "tooltip": {"mouse": 2 }}
+                        
+        else:
+            result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                                 'stroke': 2},
+                      "title": {"text": ""},
+                      "elements": [i for i in dataset],
+                      "bg_colour": "#FFFFFF",
+                      "x_axis": {"colour": "#909090",
+                                 "stroke": 1, 
+                                 "tick-height": 5,
+                                 "grid-colour" : "#FFFFFF",
+                                 "steps": 1, "labels": { "rotate": "diagonal", "colour": "#ff0000", "labels": [l for l in temp_lbl]},
+                                 "3d": 3
+                                 }
+                      }
         
         return result
 
