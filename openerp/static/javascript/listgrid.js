@@ -481,7 +481,7 @@ MochiKit.Base.update(ListView.prototype, {
             var _terp_count = $(self.name + '/_terp_count') || $('_terp_count');
             
             if(obj.ids) {
-                _terp_id.value = obj.ids[0];
+                _terp_id.value = obj.ids.length ? obj.ids[0] : 'False';
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
                 _terp_count.value = obj.count;
             }
