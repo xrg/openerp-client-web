@@ -11,10 +11,6 @@
     <link href="/static/css/tips.css" rel="stylesheet" type="text/css"/>
 
     <!--[if lt IE 7]>
-        <link href="/static/css/iepngfix.css" rel="stylesheet" type="text/css"/>
-    <![endif]-->
-
-    <!--[if lt IE 7]>
     <style type="text/css">
         ul.tabbernav {
         padding: 0px;

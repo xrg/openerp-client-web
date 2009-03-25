@@ -29,6 +29,17 @@ div.box2 button {
     width: 98%;
 }
 
+td.item input,
+td.item select,
+td.item textarea,
+td.item button {
+    width: 98%;
+}
+
+.resizable-textarea .grip {
+    width: 98%;
+}
+
 .grid-row.editors .grid-cell {
     padding: 4px;
 }
