@@ -32,6 +32,8 @@
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
     <script type="text/javascript" src="/static/javascript/tips.js"></script>
+    <script type="text/javascript" src="/static/javascript/quickmenu.js"></script>
+    
 </head>
 
 <body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
@@ -87,7 +89,7 @@ except:
                         <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                             <tr>
                                 <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                                    <a href="/menu">MAIN MENU</a>
+                                    <a href="#">MAIN MENU</a>
                                 </td>
                                 <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
                                     <a href="/shortcuts">SHORTCUTS</a>

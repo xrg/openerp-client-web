@@ -81,7 +81,11 @@ class Tree(controllers.Controller, TinyResource):
                 else:
                     tool['icon'] = False
                     
-        return dict(tree=tree)
+        show_header_footer = True
+        if model == 'ir.ui.menu':
+            show_header_footer=False
+            
+        return dict(tree=tree, model=model, show_header_footer=show_header_footer)
 
     @expose()
     def default(self, id, model, view_id, domain):

@@ -950,10 +950,22 @@ function open_url(site){
     else
         web_site = site;
 
-    if(site.length > 0) {        
+    if(site.length > 0) {
         window.open(web_site);
     }
 }
+
+function show_menu(evt) {
+//	quickshow.width = 550;
+//  quickshow.height = 550;
+	quickshow.show(evt);
+}
+MochiKit.DOM.addLoadEvent(function(){
+	var menu = $('menu_header_menu');
+	quickshow = new QuickMenu();
+	MochiKit.Signal.connect(menu, 'onclick', show_menu);
+});
+
 
 // vim: ts=4 sts=4 sw=4 si et
 

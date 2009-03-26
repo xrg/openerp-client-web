@@ -100,6 +100,10 @@ class Root(controllers.RootController, TinyResource):
         """Main menu page, loads the view defined by `menu_id`.
         """
         return self.user_action('menu_id')
+    
+    @expose()
+    def quickmenu(self):
+        return self.user_action('menu_id')
 
     def _cp_on_error(self, *args, **kw):
         message = self.errorpage.render()

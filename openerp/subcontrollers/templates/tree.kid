@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
 <head>
     <title>${tree.string}</title>
+    
     <script type="text/javascript">
 
         function submit_form(action, src, data, target){
@@ -35,6 +36,7 @@
         }
 
     </script>
+    <base target="_blank"/>
 </head>
 <body>
 
@@ -51,7 +53,8 @@
                                 </td>
                                 <td width="100%" py:content="tree.string">Tree Title</td>
                                 <td nowrap="nowrap">
-                                    <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
+                                    <button py:if="model != 'ir.ui.menu'" type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
+      								<button py:if="model == 'ir.ui.menu'" type="button" title="${_('Close')}" onclick="parent.quickshow.hide();">Close</button>                              
                                 </td>
                                 <td align="center" valign="middle" width="16">
                                     <a target="new" href="${tg.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
