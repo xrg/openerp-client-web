@@ -82,13 +82,15 @@ class Tree(controllers.Controller, TinyResource):
                     tool['icon'] = False
                     
         show_header_footer = True
-        if model == 'ir.ui.menu':
-            show_header_footer=False
+        quickmenu = False
+        if params.context.get('quickmenu'):
+            quickmenu = True
+            show_header_footer = False
             
-        return dict(tree=tree, model=model, show_header_footer=show_header_footer)
+        return dict(tree=tree, quickmenu=quickmenu, model=model, show_header_footer=show_header_footer)
 
     @expose()
-    def default(self, id, model, view_id, domain):
+    def default(self, id, model, view_id, domain, context):
         params = TinyDict()
 
         try:
@@ -100,7 +102,7 @@ class Tree(controllers.Controller, TinyResource):
         params.view_ids = [view_id]
         params.model = model
         params.domain = domain
-        params.context = {}
+        params.context = context or {}
 
         return self.create(params)
 
@@ -188,7 +190,7 @@ class Tree(controllers.Controller, TinyResource):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = tg_url('/tree/open', model=model, id=record['id'])
+            record['action'] = tg_url('/tree/open', model=model, id=record['id'], context=ctx)
             record['target'] = None
 
             record['icon'] = None

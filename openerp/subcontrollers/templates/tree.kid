@@ -32,11 +32,12 @@
                     id : id, 
                     model : $('_terp_model').value,
                     view_id : $('_terp_view_id').value,
-                    domain: $('_terp_domain').value});
+                    domain: $('_terp_domain').value,
+                    context: $('_terp_context').value});
         }
 
     </script>
-    <base target="_blank"/>
+    <base py:if="quickmenu" target="_blank"/>
 </head>
 <body>
 
@@ -53,8 +54,8 @@
                                 </td>
                                 <td width="100%" py:content="tree.string">Tree Title</td>
                                 <td nowrap="nowrap">
-                                    <button py:if="model != 'ir.ui.menu'" type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
-      								<button py:if="model == 'ir.ui.menu'" type="button" title="${_('Close')}" onclick="parent.quickshow.hide();">Close</button>                              
+                                    <button py:if="not quickmenu" type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
+      								<button py:if="model == 'ir.ui.menu' and quickmenu" type="button" title="${_('Close')}" onclick="parent.quickshow.hide();">Close</button>                              
                                 </td>
                                 <td align="center" valign="middle" width="16">
                                     <a target="new" href="${tg.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>

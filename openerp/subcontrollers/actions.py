@@ -95,7 +95,8 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
         return Form().create(params)
 
     elif view_type == 'tree':
-        params.show_header_footer = getattr(cherrypy.request, 'show_header_footer', True)
+        
+        params.context['quickmenu'] = getattr(cherrypy.request, 'quickmenu', False)
         return Tree().create(params)
 
     else:

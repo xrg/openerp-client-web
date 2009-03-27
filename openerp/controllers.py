@@ -103,6 +103,7 @@ class Root(controllers.RootController, TinyResource):
     
     @expose()
     def quickmenu(self):
+        cherrypy.request.quickmenu = True
         return self.user_action('menu_id')
 
     def _cp_on_error(self, *args, **kw):
