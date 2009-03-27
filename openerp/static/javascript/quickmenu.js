@@ -40,7 +40,6 @@ QuickMenu.prototype = {
 		
 		this.layer = $('quick_layer');
 		this.box = $('quick_menu');
-		this.header = elementDimensions('header');
 		
 		if (!this.layer) {
             this.layer = DIV({id: 'quick_layer', 
@@ -56,9 +55,16 @@ QuickMenu.prototype = {
         }
 
         if (!this.box) {
+        	
+        	var header_size = elementDimensions('header');
+        	
         	this.box = document.createElement("iframe");
         	this.box.style.position = 'absolute';
-        	this.box.style.top = (this.header.h - 4)  + 'px';
+        	
+        	if(header_size) {
+        		this.box.style.top = (header_size.h - 4)  + 'px';
+        	}
+        	
         	this.box.style.display = 'none';
         	this.box.style.zIndex = 2;
         	this.box.style.background = '#FFFFFF';

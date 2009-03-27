@@ -960,10 +960,14 @@ function show_menu(evt) {
 //  quickshow.height = 550;
 	quickshow.show(evt);
 }
+
 MochiKit.DOM.addLoadEvent(function(){
 	var menu = $('menu_header_menu');
+	
 	quickshow = new QuickMenu();
-	MochiKit.Signal.connect(menu, 'onclick', show_menu);
+	if (menu) {
+		MochiKit.Signal.connect(menu, 'onclick', show_menu);
+	}
 });
 
 
