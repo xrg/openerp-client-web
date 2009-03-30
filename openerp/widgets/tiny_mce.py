@@ -30,7 +30,7 @@
 from turbogears.widgets import JSLink 
 
 from interface import TinyField
-import validators as tiny_validators
+from openerp import validators as tiny_validators
 
 class TinyMCE(TinyField):
 

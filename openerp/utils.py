@@ -30,8 +30,7 @@
 import re
 import cherrypy
 
-from turbogears import validators as tg_validators
-from openerp.widgets import validators as tw_validators
+from openerp import validators as tw_validators
 
 def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
@@ -195,9 +194,9 @@ _VALIDATORS = {
 	'picture': lambda *a: tw_validators.Picture(),
 }
 
-class TinyFormError(tg_validators.Invalid):
+class TinyFormError(tw_validators.Invalid):
     def __init__(self, field, msg, value):
-        tg_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
+        tw_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
         self.field = field
                
 class TinyForm(object):
@@ -246,7 +245,7 @@ class TinyForm(object):
                 else:
                     value = v.from_python(value, None)
 
-            except tg_validators.Invalid, e:
+            except tw_validators.Invalid, e:
                 if form:
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
             

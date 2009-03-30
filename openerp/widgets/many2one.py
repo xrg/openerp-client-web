@@ -35,7 +35,7 @@ from openerp import common
 from interface import TinyField
 from form import Form
 
-import validators as tiny_validators
+from openerp import validators as tiny_validators
 
 def get_name(model, id):
     id = (id or False) and int(id)

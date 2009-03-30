@@ -38,7 +38,6 @@ turbogears.i18n.tg_gettext.install()
 
 from turbogears import expose
 from turbogears import controllers
-from turbogears import validators as tg_validators
 from turbogears import widgets as tg_widgets
 
 import cherrypy

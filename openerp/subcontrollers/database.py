@@ -38,11 +38,12 @@ import pkg_resources
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
-from turbogears import validators, validate, error_handler
+from turbogears import validate, error_handler
 from turbogears import redirect
 
 from openerp import rpc
 from openerp import common
+from openerp import validators
 
 
 def get_lang_list():

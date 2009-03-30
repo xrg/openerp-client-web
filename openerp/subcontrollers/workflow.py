@@ -30,13 +30,10 @@
 from turbogears import controllers
 from turbogears import expose
 from turbogears import redirect
-#from turbogears import widgets
-#from turbogears import validators
 from turbogears import validate
 from turbogears import flash
 
 from turbogears import widgets as tg_widgets
-from turbogears import validators as tg_validators
 
 import pkg_resources
 import cherrypy

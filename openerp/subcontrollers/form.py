@@ -33,7 +33,6 @@ import base64
 from turbogears import expose
 from turbogears import widgets
 from turbogears import controllers
-from turbogears import validators
 from turbogears import validate
 from turbogears import redirect
 from turbogears import error_handler
@@ -45,6 +44,7 @@ from openerp import rpc
 from openerp import tools
 from openerp import common
 from openerp import cache
+from openerp import validators
 
 from openerp import widgets as tw
 from openerp.tinyres import TinyResource

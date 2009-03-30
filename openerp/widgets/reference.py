@@ -34,7 +34,7 @@ from form import Form
 from listgrid import List
 
 from openerp import rpc
-import validators as tiny_validators
+from openerp import validators as tiny_validators
 
 import many2one
 

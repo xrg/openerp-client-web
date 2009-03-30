@@ -52,7 +52,7 @@ from interface import TinyInputWidget
 from interface import TinyCompoundWidget
 from interface import ConcurrencyInfo
 
-import validators as tiny_validators
+from openerp import validators as tiny_validators
 
 class Frame(TinyCompoundWidget):
     """Frame widget layouts the widgets in a table.

@@ -42,6 +42,8 @@ from openerp import tools
 from openerp import format
 from openerp import icons
 
+from turbogears.validators import *
+
 class String(tg.validators.String):
     if_empty = False
 

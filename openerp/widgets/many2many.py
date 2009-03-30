@@ -40,7 +40,7 @@ from openerp import cache
 from screen import Screen
 from openerp.utils import TinyDict
 
-import validators as tiny_validators
+from openerp import validators as tiny_validators
 
 class M2M(TinyField, tg.widgets.CompoundWidget):
     """many2many widget

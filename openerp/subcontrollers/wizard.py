@@ -33,7 +33,6 @@ from turbogears import expose
 from turbogears import redirect
 from turbogears import widgets
 from turbogears import controllers
-from turbogears import validators
 from turbogears import validate
 
 import cherrypy

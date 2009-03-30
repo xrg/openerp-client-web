@@ -29,7 +29,6 @@
 
 from turbogears import expose
 from turbogears import widgets
-from turbogears import validators
 from turbogears import validate
 from turbogears import error_handler
 from turbogears import exception_handler
