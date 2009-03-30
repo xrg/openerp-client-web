@@ -37,7 +37,6 @@
         }
 
     </script>
-    <base py:if="quickmenu" target="_blank"/>
 </head>
 <body>
 

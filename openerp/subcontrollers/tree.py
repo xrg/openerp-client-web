@@ -192,7 +192,10 @@ class Tree(controllers.Controller, TinyResource):
 
             record['id'] = item.pop('id')
             record['action'] = tg_url('/tree/open', model=model, id=record['id'])
-            record['target'] = None
+            if ctx.get('quickmenu'):
+                record['target'] = '_blank'
+            else:
+                record['target'] = None
 
             record['icon'] = None
 
@@ -202,6 +205,7 @@ class Tree(controllers.Controller, TinyResource):
 
                 if icon == 'STOCK_OPEN':
                     record['action'] = None
+                    record['target'] = None
 
             record['children'] = []
 
