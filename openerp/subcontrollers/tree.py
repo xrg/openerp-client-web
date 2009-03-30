@@ -83,6 +83,7 @@ class Tree(controllers.Controller, TinyResource):
                     
         show_header_footer = True
         quickmenu = False
+        
         if params.context.get('quickmenu'):
             quickmenu = True
             show_header_footer = False
@@ -190,7 +191,7 @@ class Tree(controllers.Controller, TinyResource):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = tg_url('/tree/open', model=model, id=record['id'], context=ctx)
+            record['action'] = tg_url('/tree/open', model=model, id=record['id'])
             record['target'] = None
 
             record['icon'] = None
