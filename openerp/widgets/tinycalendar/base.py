@@ -323,16 +323,18 @@ class ICalendar(interface.TinyCompoundWidget):
             n = 0
             h = ends
             
-            if ends == self.day_length: span = 1
-            
-            if ends > self.day_length:
+            if ends == self.day_length: 
+                n += 1
+
+            elif ends > self.day_length:
                 n = ends / self.day_length
                 h = ends % self.day_length
             
                 n = int(math.floor(n))
-            
-                if n > 0: span = n + 1
-            
+
+                if h > 0: n += 1
+
+            span = n
             ends = time.localtime(time.mktime(starts) + (h * 60 * 60) + (n * 24 * 60 * 60))
         
         if starts and self.date_stop:
