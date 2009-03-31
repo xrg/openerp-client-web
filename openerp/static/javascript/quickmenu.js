@@ -72,7 +72,7 @@ QuickMenu.prototype = {
         	this.box.id = 'quick_menu';
         	this.box.scrolling = 'no';
         	this.box.src = '/quickmenu';
-        	this.box.frameborder = 1;
+        	this.box.frameborder = 0;
         	
             appendChildNodes(document.body, this.box);
         }
@@ -101,14 +101,15 @@ QuickMenu.prototype = {
 //        setElementPosition(this.box, {x: x, y: y});
 
         showElement(this.layer);
-        showElement(this.box);
+        MochiKit.Visual.blindDown(this.box, {duration: '0.7'});
 
         MochiKit.Signal.signal(this, "show", this);
 		
 	},
 	
 	hide : function(evt) {
-		hideElement(this.box);
+		
+		MochiKit.Visual.blindUp(this.box, {duration: '0.7'});
         hideElement(this.layer);
 	}
 }
