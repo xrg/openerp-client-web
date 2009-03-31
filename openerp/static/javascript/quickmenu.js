@@ -35,11 +35,12 @@ QuickMenu.prototype = {
 	
 	__init__ : function(params){
         this.params = MochiKit.Base.update({
-            title: null,        // title
+            title: null       // title
         }, params);
 		
-		this.layer = $('quick_layer');
-		this.box = $('quick_menu');
+		
+		this.layer = MochiKit.DOM.getElement('quick_layer');
+		this.box = MochiKit.DOM.getElement('quick_menu');
 		
 		if (!this.layer) {
             this.layer = DIV({id: 'quick_layer', 

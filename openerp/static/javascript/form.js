@@ -962,7 +962,7 @@ function show_menu(evt) {
 }
 
 MochiKit.DOM.addLoadEvent(function(){
-	var menu = $('menu_header_menu');
+	var menu = MochiKit.DOM.getElement('menu_header_menu');
 	
 	quickshow = new QuickMenu();
 	if (menu) {
