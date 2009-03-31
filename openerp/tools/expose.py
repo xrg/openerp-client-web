@@ -28,14 +28,12 @@
 ###############################################################################
 
 import os
-import types
 
 import cherrypy
 import simplejson
 
 from mako.template import Template
-
-from openerp.tools.tools import find_resource
+from mako.lookup import TemplateLookup
 
 
 __all__ = ['find_resource', 'load_template', 'expose']
@@ -55,13 +53,18 @@ def load_template(template, module=None):
 
     if not template:
         return template
-
+    
     if module:
         template = find_resource(module, template)
     else:
         template = os.path.abspath(template)
-
-    return Template(filename=template)
+        
+    dirname = os.path.dirname(template)
+    template = os.path.basename(template)
+    
+    #lookup = TemplateLookup(directories=[dirname], module_directory=dirname)
+    lookup = TemplateLookup(directories=[dirname])
+    return lookup.get_template(template)
 
 
 def expose(format='html', template=None, content_type='text/html', allow_json=False):
@@ -95,4 +98,3 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
 
 
 # vim: ts=4 sts=4 sw=4 si et
-
