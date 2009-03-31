@@ -30,8 +30,6 @@
 import xml
 import random
 
-from xml import xpath
-
 # xpath module replaces __builtins__['_'], which breaks TG i18n
 import turbogears
 turbogears.i18n.tg_gettext.install()
@@ -145,39 +143,6 @@ class Preview(Form):
                                        '_terp_view_mode' : [view_type]})
         return self.create(params)
 
-def xml_locate(expr, ref):
-    """Simple xpath locator.
-
-    >>> xml_locate("/form[1]/field[2]", doc)
-    >>> xml_locate("/form[1]", doc)
-
-    @param expr: simple xpath with tag name and index
-    @param ref: reference node
-
-    @return: list of nodes
-    """
-    
-    if '/' not in expr:
-        name, index = expr.split('[')
-        index = int(index.replace(']', ''))
-        
-        nodes = [n for n in ref.childNodes if n.localName == name]
-        try:
-            return nodes[index-1]
-        except Exception, e:
-            return []
-    
-    parts = expr.split('/')
-    for part in parts:
-        if part in ('', '.'):
-#            for node in ref.childNodes:
-#               if node.nodeType == node.ELEMENT_NODE:
-#                   ref = node
-            continue
-        ref = xml_locate(part, ref)
-
-    return [ref]
-
 def xml_getElementsByTagAndName(tag, name, ref):
     """Convenient function to locate tags with Tag name and Name attribute.
 
@@ -199,10 +164,10 @@ def _get_model(node, parent_model):
         if pnode.localName == 'field':
         
             ch = []
-            ch += xml_locate('./form[1]', pnode)
-            ch += xml_locate('./tree[1]', pnode)
-            ch += xml_locate('./graph[1]', pnode)
-            ch += xml_locate('./calendar[1]', pnode)
+            ch += tools.xml_locate('./form[1]', pnode)
+            ch += tools.xml_locate('./tree[1]', pnode)
+            ch += tools.xml_locate('./graph[1]', pnode)
+            ch += tools.xml_locate('./calendar[1]', pnode)
             
             if ch:
                 parents += [pnode.getAttribute('name')]
@@ -277,7 +242,7 @@ class ViewEd(controllers.Controller, TinyResource):
             def _find(node, node2):
                 # Check if xpath query or normal inherit (with field matching)
                 if node2.nodeType==node2.ELEMENT_NODE and node2.localName=='xpath':
-                    res = xml_locate(node2.getAttribute('expr'), node)
+                    res = tools.xml_locate(node2.getAttribute('expr'), node)
                     return res and res[0]
                 else:
                     if node.nodeType==node.ELEMENT_NODE and node.localName==node2.localName:
@@ -417,7 +382,7 @@ class ViewEd(controllers.Controller, TinyResource):
         res = proxy.read([view_id], ['model', 'arch'])[0]
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-        field = xml_locate(xpath_expr, doc)[0]
+        field = tools.xml_locate(xpath_expr, doc)[0]
         
         attrs = tools.node_attributes(field)
         editors = []
@@ -467,7 +432,7 @@ class ViewEd(controllers.Controller, TinyResource):
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))        
         model = res['model']
         
-        field_node = xml_locate(xpath_expr, doc)[0]
+        field_node = tools.xml_locate(xpath_expr, doc)[0]
         model = _get_model(field_node, parent_model=model)
         
         # get the fields
@@ -503,7 +468,7 @@ class ViewEd(controllers.Controller, TinyResource):
         if view_id:
             
             doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-            node = xml_locate(xpath_expr, doc)[0]
+            node = tools.xml_locate(xpath_expr, doc)[0]
             new_node = doc.createElement('view')
             
             if node.localName == 'field':
@@ -569,7 +534,7 @@ class ViewEd(controllers.Controller, TinyResource):
         view_type = res['type']
         
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-        node = xml_locate(xpath_expr, doc)[0]
+        node = tools.xml_locate(xpath_expr, doc)[0]
 
         new_node = None
         record = None
@@ -612,7 +577,7 @@ class ViewEd(controllers.Controller, TinyResource):
             
             refNode = None
             try:
-                refNode = xml_locate(kw['xpath_ref'], doc)[0]
+                refNode = tools.xml_locate(kw['xpath_ref'], doc)[0]
             except:
                 pass
                             
@@ -656,7 +621,7 @@ class ViewEd(controllers.Controller, TinyResource):
         data = proxy.read([view_id])[0]
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
-        pnode = xml_locate(dst, doc)[0]
+        pnode = tools.xml_locate(dst, doc)[0]
         src = xml_getElementsByTagAndName('*', src, doc)[0]
         
         if ref: ref = xml_getElementsByTagAndName('*', ref, doc)[0]
