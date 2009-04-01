@@ -69,6 +69,7 @@ QuickMenu.prototype = {
         	this.box.style.display = 'none';
         	this.box.style.zIndex = 2;
         	this.box.style.background = '#FFFFFF';
+        	this.box.style.border = "none";
         	
         	this.box.id = 'quick_menu';
         	this.box.scrolling = 'no';
@@ -86,7 +87,7 @@ QuickMenu.prototype = {
 		
         var w = document.body.clientWidth;
         var h = document.body.clientHeight;
-		w = w - 2;
+		w = w;
         MochiKit.DOM.setElementDimensions(this.box, {w: w, h: h});
 		
         var vdh = window.innerHeight || window.screen.availHeight;
