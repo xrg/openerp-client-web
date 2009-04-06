@@ -278,7 +278,8 @@ var form_setReadonly = function(container, field, readonly) {
     }
     
     if (field.type == 'hidden' && kind == 'many2one') {
-        form_setReadonly(container, getElement(field.name + '_text'), readonly);
+        //form_setReadonly(container, getElement(field.name + '_text'), readonly);
+        return ManyToOne(field).setReadonly(readonly);
     }
     
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
