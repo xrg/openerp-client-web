@@ -525,7 +525,7 @@ var onChange = function(name) {
     var callback = getNodeAttribute(caller, 'callback');
     var change_default = getNodeAttribute(caller, 'change_default');
     
-    if (!(callback || change_default)) {
+    if (!(callback || change_default) || caller.__lock_onchange) {
         return;
     }
     
@@ -570,7 +570,10 @@ var onChange = function(name) {
             if (!fld) continue;
 
             value = values[k];
-            value = value === false || value === null ? '' : value
+            value = value === false || value === null ? '' : value;
+
+            // prevent recursive onchange
+            fld.__lock_onchange = true;
 
             if ($(prefix + k + '_id')){
                 fld = $(prefix + k + '_id');
@@ -587,16 +590,10 @@ var onChange = function(name) {
                 }
 
                 if (kind == 'many2one'){
-                    //getName(fld);
                     fld.value = value[0] || '';
                     try {
                         $(prefix + k + '_text').value = value[1] || '';
-                        ManyToOne.change_icon(fld);
                     }catch(e){}
-                }
-
-                if (kind == 'many2many'){
-                    fld.onchange();
                 }
 
                 if (kind == 'boolean') {
@@ -605,7 +602,11 @@ var onChange = function(name) {
                 
                 // should be saved
                 fld.disabled = false;
+
+                MochiKit.Signal.signal(fld, 'onchange');
             }
+
+            fld.__lock_onchange = false;
         }
 
         if (obj.warning && obj.warning.message) {
