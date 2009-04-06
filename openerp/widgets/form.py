@@ -438,7 +438,13 @@ class Selection(TinyField):
         if attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
             try:
-                ids = proxy.search(attrs.get('domain') or [])
+                domain = attrs.get('domain', [])
+                if isinstance(domain, (str, unicode)):
+                    try:
+                        domain = eval(domain)
+                    except:
+                        domain = []
+                ids = proxy.search(domain)
                 ctx = rpc.session.context.copy()
                 ctx.update(attrs.get('context', {}))
                 self.options = proxy.name_get(ids, ctx)
