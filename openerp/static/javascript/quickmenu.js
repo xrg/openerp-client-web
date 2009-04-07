@@ -110,9 +110,13 @@ QuickMenu.prototype = {
 	},
 	
 	hide : function(evt) {
+
+                var self = this;
 		
-		MochiKit.Visual.blindUp(this.box, {duration: '0.7'});
-        hideElement(this.layer);
+		MochiKit.Visual.blindUp(this.box, {duration: '0.7', afterFinish: function(){
+                            hideElement(self.layer);
+                        }
+                });
 	}
 }
 
