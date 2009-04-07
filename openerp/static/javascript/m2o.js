@@ -72,6 +72,8 @@ ManyToOne.prototype.__init__ = function(name){
     if (this.reference) {
         connect(this.reference, 'onchange', this, this.on_reference_changed);
     }
+    
+    this.is_inline = name.indexOf('_terp_listfields/') == 0;
 
     this.field._m2o = this;
 
@@ -172,6 +174,17 @@ ManyToOne.prototype.change_icon = function(evt){
 
     if (!this.field.value) {
         this.open_img.style.cursor = '';
+    }
+    
+    if (this.is_inline) {
+    
+        if (this.field.value) {
+            this.select_img.parentNode.style.display = 'none';
+            this.open_img.parentNode.style.display = '';
+        } else {
+            this.select_img.parentNode.style.display = '';
+            this.open_img.parentNode.style.display = 'none';
+        }
     }
 }
 

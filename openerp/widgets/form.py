@@ -271,8 +271,7 @@ class Page(Frame):
     def __init__(self, attrs, children):
         super(Page, self).__init__(attrs, children)
         if self.invisible:
-            attributes = self.attributes.setdefault('invisible', [])
-            attributes += [1]
+            self.attributes = {'invisible': [1]}
 
 class Separator(TinyField):
     """Separator widget.

@@ -128,6 +128,11 @@ class List(TinyCompoundWidget):
             self.min_rows = int(attrs.get('min_rows'))
         except:
             pass
+        
+        try:
+            self.limit = int(attrs.get('limit'))
+        except:
+            pass
 
         self.colors = {}
         for color_spec in attrs.get('colors', '').split(';'):
