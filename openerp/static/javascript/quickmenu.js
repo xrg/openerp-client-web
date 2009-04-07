@@ -38,7 +38,6 @@ QuickMenu.prototype = {
             title: null       // title
         }, params);
 		
-		
 		this.layer = MochiKit.DOM.getElement('quick_layer');
 		this.box = MochiKit.DOM.getElement('quick_menu');
 		
@@ -72,7 +71,7 @@ QuickMenu.prototype = {
         	this.box.style.border = "none";
         	
         	this.box.id = 'quick_menu';
-        	this.box.scrolling = 'no';
+        	this.box.scrolling = 'auto';
         	this.box.src = '/quickmenu';
         	this.box.frameborder = 0;
         	
@@ -82,15 +81,16 @@ QuickMenu.prototype = {
 	},
 	
 	show : function(evt) {
+		var header_size = elementDimensions('header');
 		
 		setElementDimensions(this.layer, elementDimensions(document.body));
 		
-        var w = document.body.clientWidth;
-        var h = document.body.clientHeight;
-		w = w;
+        var w = 500;	//document.body.clientWidth;
+        var h = window.innerHeight - (header_size.h - 4);		//document.body.clientHeight;
+        
         MochiKit.DOM.setElementDimensions(this.box, {w: w, h: h});
 		
-        var vdh = window.innerHeight || window.screen.availHeight;
+//        var vdh = window.innerHeight || window.screen.availHeight;
 //        var vdw = window.innerWidth || window.screen.availWidth;
 //     
 //        var x = (vdw / 2) - (w / 2);
@@ -114,5 +114,10 @@ QuickMenu.prototype = {
 		MochiKit.Visual.blindUp(this.box, {duration: '0.7'});
         hideElement(this.layer);
 	}
+}
+
+function quick_open(url, ref_window) {
+	window.open(url);
+	ref_window.parent.quickshow.hide();
 }
 	

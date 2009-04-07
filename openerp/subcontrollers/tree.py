@@ -193,7 +193,7 @@ class Tree(controllers.Controller, TinyResource):
             record['id'] = item.pop('id')
             record['action'] = tg_url('/tree/open', model=model, id=record['id'])
             if ctx.get('quickmenu'):
-                record['target'] = '_blank'
+                record['action'] = "javascript: quick_open('%s', window);" % (tg_url('/tree/open', model=model, id=record['id']))
             else:
                 record['target'] = None
 
