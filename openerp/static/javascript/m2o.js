@@ -240,13 +240,13 @@ ManyToOne.prototype.get_matched = function(){
     var do_get_matched = function(relation, text, domain, context){
         
         text = m2o.field.value ? '' : text;
-
+        
         var req2 = Ajax.JSON.post('/search/get_matched', {model: relation, text: text, 
                                                          _terp_domain: domain, 
                                                          _terp_context: context});
         
         req2.addCallback(function(obj){
-            if (obj.values.length == 1) {
+            if (text && obj.values.length == 1) {
                 val = obj.values[0];
                 m2o.field.value = val[0];
                 m2o.text.value = val[1];
