@@ -81,6 +81,10 @@ ManyToOne.prototype.__init__ = function(name){
 }
 
 ManyToOne.prototype.select = function(evt){
+	
+	if (this.field.disabled) {
+		return;
+	}	
     if(this.field_class.indexOf('readonlyfield') == -1) {
         this.get_matched();
     }
@@ -236,7 +240,6 @@ ManyToOne.prototype.get_matched = function(){
     }
 
     var m2o = this;
-
     var do_get_matched = function(relation, text, domain, context){
         
         text = m2o.field.value ? '' : text;
