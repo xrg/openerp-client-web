@@ -599,9 +599,6 @@ var onChange = function(name) {
                 if (kind == 'boolean') {
                     $(prefix + k + '_checkbox_').checked = value || false;
                 }
-                
-                // should be saved
-                fld.disabled = false;
 
                 MochiKit.Signal.signal(fld, 'onchange');
             }
