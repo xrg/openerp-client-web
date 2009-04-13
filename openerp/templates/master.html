@@ -1,11 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<?python import sitetemplate ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="sitetemplate">
-
-<head py:match="item.tag=='{http://www.w3.org/1999/xhtml}head'" py:attrs="item.items()">
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
-    <meta py:replace="item[:]"/>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<% show_header_footer=True %>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
     <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css/menu.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css/tips.css" rel="stylesheet" type="text/css"/>
@@ -31,33 +29,44 @@
         <link href="/static/css/style-ie.css" rel="stylesheet" type="text/css"/>
     <![endif]-->
 
-    <title py:replace="''">Your title goes here</title>
+    <script type="text/javascript" src="/static/javascript/MochiKit/MochiKit.js"></script>
+    <script type="text/javascript" src="/static/javascript/MochiKit/DragAndDrop.js"></script>
     <script type="text/javascript" src="/static/javascript/master.js"></script>
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
     <script type="text/javascript" src="/static/javascript/tips.js"></script>
+    <script type="text/javascript" src="/static/javascript/i18n/i18n.js"></script>
+    <script type="text/javascript" src="/static/javascript/i18n/en_US.js"></script>
+    
+    % for resource in widget_resources.get('head', []):
+    ${resource.display()}
+    % endfor
+
+    ${self.header()}
+
 </head>
 
-<body py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'" py:attrs="item.items()">
+<body>
 
-<?python
+<%
 # put in try block to prevent improper redirection on connection refuse error
 try:
-    shortcuts = tg.root.shortcuts.my()
-    requests, requests_message = tg.root.requests.my()
+    shortcuts = cp.root.shortcuts.my()
+    requests, requests_message = cp.root.requests.my()
 except:
     shortcuts = []
     requests = []
     requests_message = None
-?>
+%>
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
-    <tr py:if="value_of('show_header_footer', True)">
+    % if show_header_footer:
+    <tr>
            <td>
             <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td rowspan="2">
-                        <img src="/static/images/openerp_big.png" alt="${_('OpenERP')}" border="0" width="200px" height="60px" py:replace="XML(tg.root.get_logo())"/>
+                        <img src="/static/images/openerp_big.png" alt="${_('OpenERP')}" border="0" width="200px" height="60px"/>
                     </td>
                     <td align="right" valign="top" nowrap="nowrap" height="24">
                         <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
@@ -81,9 +90,11 @@ except:
                     </td>
                 </tr>
                 <tr>
-                    <td align="right" valign="middle" style="padding-right: 4px;" py:if="rpc.session.is_logged()">
-                        Requests: <a href="${tg.query('/requests', ids=requests)}">${requests_message}</a>
+                    % if rpc.session.is_logged():
+                    <td align="right" valign="middle" style="padding-right: 4px;">
+                        Requests: <a href="${py.url('/requests', ids=requests)}">${requests_message}</a>
                     </td>
+                    % endif
                 </tr>
                 <tr>
                     <td colspan="2" nowrap="nowrap">
@@ -97,29 +108,43 @@ except:
                                     <a href="/shortcuts">SHORTCUTS</a>
                                 </td>
                                 <td width="26" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
-                                <td py:if="rpc.session.is_logged()" nowrap="nowrap">
+                                % if rpc.session.is_logged():
+                                <td nowrap="nowrap">
                                     <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
                                         <tr>
-                                            <td py:for="i, sc in enumerate(shortcuts)" py:if="i&lt;6" nowrap="nowrap">
-                                                <a href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                            % for i, sc in enumerate(shortcuts):
+                                                % if i<6:
+                                            <td nowrap="nowrap">
+                                                <a href="${('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
                                             </td>
-                                            <td py:if="len(shortcuts) &gt; 6" id="shortcuts_menu" nowrap="nowrap">
+                                                % endif
+                                            % endfor
+                                            % if len(shortcuts)>6:
+                                            <td id="shortcuts_menu" nowrap="nowrap">
                                                 <a href="javascript: void(0)">>></a>
                                                 <div class="submenu" id="shortcuts_submenu">
-                                                    <a py:for="sc in shortcuts[6:]" href="${tg.query('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                                    % for sc in shortcuts[6:]:
+                                                    <a href="${('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                                    % endfor
                                                 </div>
                                             </td>
+                                            % endif
                                         </tr>
                                     </table>
-                                    <script type="text/javascript" py:if="len(shortcuts) &gt; 6">
+                                    % if len(shortcuts)>6:
+                                    <script type="text/javascript">
                                         new Menu('shortcuts_menu', 'shortcuts_submenu');
                                     </script>
+                                    % endif
                                 </td>
+                                % endif
                                 <td>
                                     &nbsp;
                                 </td>
                                 <td align="right">
-                                    <a  py:if="tg.root.shortcuts.can_create()" href="${tg.query('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
+                                    % if cp.root.shortcuts.can_create():
+                                    <a href="${('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
+                                    % endif
                                 </td>
                             </tr>
                         </table>
@@ -129,12 +154,14 @@ except:
             </table>
         </td>
     </tr>
+    % endif
     <tr>
         <td>
-            <div py:replace="[item.text]+item[:]"/>
+            ${self.content()}
         </td>
     </tr>
-    <tr py:if="value_of('show_header_footer', True)">
+    % if show_header_footer:
+    <tr>
         <td>
             <div id="footer">
             Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More Information on <a href="http://openerp.com">http://openerp.com</a>.<br/>
@@ -143,6 +170,7 @@ except:
             </div>
         </td>
     </tr>
+    % endif
 </table>
 
 </body>

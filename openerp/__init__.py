@@ -32,6 +32,7 @@ def ustr(value):
     return unicode(value, getlocale()[1])
 
 __builtins__['ustr'] = ustr
+__builtins__['_'] = lambda v: v #TODO: implement lazy gettext
 
 # vim: ts=4 sts=4 sw=4 si et
 

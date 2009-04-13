@@ -35,37 +35,20 @@ For more information on TG controllers, please see the TG docs.
 import os
 import re
 
-from turbogears import controllers
-from turbogears import expose
-from turbogears import redirect
-from turbogears import config
-from turbogears import url as tg_url
+from openerp.tools import expose
+from openerp.tools import redirect
+from openerp.tools import url
 
 import cherrypy
 
 from openerp import rpc
 from openerp import common
-from openerp import stdvars
 
 from openerp import subcontrollers
 from openerp import cache
 
 from openerp.tinyres import TinyResource, unsecured
 from openerp.tinyres import login as tiny_login
-
-import pkg_resources
-from turbogears.widgets import register_static_directory
-
-treegrid_static_dir = pkg_resources.resource_filename("openerp",  "static")
-register_static_directory("openerp", treegrid_static_dir)
-
-config.update({'i18n.gettext' : cache.gettext})
-
-# initialize the rpc session
-host = config.get('host', path="openerp")
-port = config.get('port', path="openerp")
-protocol = config.get('protocol', path="openerp")
-rpc.session = rpc.RPCSession(host, port, protocol, storage=cherrypy.session)
 
 class Root(controllers.RootController, TinyResource):
     """Turbogears root controller, see TG docs for more info.
@@ -110,7 +93,7 @@ class Root(controllers.RootController, TinyResource):
     @unsecured
     def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
 
-        location = tg_url(location or '/', kw or {})
+        location = url(location or '/', kw or {})
 
         if db and user == "anonymous":
             if rpc.session.login(db, 'anonymous', password):

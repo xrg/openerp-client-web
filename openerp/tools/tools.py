@@ -31,14 +31,6 @@ import os
 import time
 import datetime as DT
 
-from xml import xpath
-
-# xpath module replaces __builtins__['_'], which breaks TG i18n
-import turbogears
-turbogears.i18n.tg_gettext.install()
-
-import turbogears as tg
-
 from openerp import rpc
 
 def expr_eval(string, context={}):

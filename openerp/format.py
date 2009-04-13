@@ -31,8 +31,6 @@ import re
 import time
 import datetime as DT
 
-import turbogears as tg
-
 from openerp import rpc
 
 DT_SERVER_FORMATS = {
@@ -54,7 +52,7 @@ def get_datetime_format(kind="datetime"):
     fmt = "%H:%M:%S"
     
     if kind != "time":
-        fmt = tg.i18n.format.get_date_format("short", rpc.session.locale).replace("%y", "%Y")
+        fmt = DT_SERVER_FORMATS['date'] #TODO: tg.i18n.format.get_date_format("short", rpc.session.locale).replace("%y", "%Y")
     
     if kind == "datetime":
         fmt += " %H:%M:%S"
@@ -163,7 +161,7 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
     return time.strftime(server_format, value)
 
 def format_decimal(value, digits=2):
-    return tg.i18n.format_decimal(value or 0.0, digits)
+    return value #TODO: tg.i18n.format_decimal(value or 0.0, digits)
 
 def parse_decimal(value):
     
@@ -174,7 +172,7 @@ def parse_decimal(value):
         #deal with ' ' instead of u'\xa0' (SP instead of NBSP as grouping char)
         value = value.replace(' ', '')
         try:
-            value = tg.i18n.format.parse_decimal(value)
+            value = value #TODO: tg.i18n.format.parse_decimal(value)
         except ValueError, e:
             pass
 

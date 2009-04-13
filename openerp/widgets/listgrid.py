@@ -359,8 +359,6 @@ class List(TinyCompoundWidget):
         
         return headers, hiddens, data, field_total, buttons
 
-from openerp.stdvars import tg_query
-
 class Char(widgets.Widget):
     
     template = """
@@ -420,7 +418,7 @@ class M2O(Char):
         return ''
 
     def get_link(self):
-        return tg_query('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+        return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
 
 class O2M(Char):
 

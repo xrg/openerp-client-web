@@ -28,6 +28,8 @@
 ###############################################################################
 
 import os
+import re
+import types
 
 import cherrypy
 import simplejson
@@ -35,8 +37,9 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
+from openerp.tools import utils
 
-__all__ = ['find_resource', 'load_template', 'expose']
+__all__ = ['find_resource', 'load_template', 'renderer', 'expose']
 
 
 def find_resource(package_or_module, *names):
@@ -49,45 +52,142 @@ def find_resource(package_or_module, *names):
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
 
+#TODO: @cache.memoize(1000)
 def load_template(template, module=None):
 
     if not template:
         return template
-    
-    if module:
-        template = find_resource(module, template)
-    else:
-        template = os.path.abspath(template)
         
-    dirname = os.path.dirname(template)
-    template = os.path.basename(template)
+    if re.match('(.+)\.(html|mako)\s*$', template):
+        
+        if module:
+            template = find_resource(module, template)
+        else:
+            template = os.path.abspath(template)
+
+        dirname = os.path.dirname(template)
+        basename = os.path.basename(template)
     
-    #lookup = TemplateLookup(directories=[dirname], module_directory=dirname)
-    lookup = TemplateLookup(directories=[dirname])
-    return lookup.get_template(template)
+        #lookup = TemplateLookup(directories=[dirname], module_directory=dirname)
+        lookup = TemplateLookup(directories=[dirname])
+        return lookup.get_template(basename)
+        
+    else:
+        return Template(template)
+    
+    
+def _config(key, section, default=None):
+    return cherrypy.request.app.config.get(section, {}).get(key, default)
+
+class _Provider(dict):
+    
+    def __getattr__(self, name):
+        if name in self:
+            return self[name]
+        return super(Bunch, self).__getattribute__(name)
+    
+    def __setattr__(self, name, value):
+        raise AttributeError
+
+_var_providers = {}
+
+def register_template_vars(callback, prefix='oo'):
+    providers = _var_providers.setdefault(prefix, [])
+    providers.append(callback)
+    
+def _cp_vars():
+    
+    return {
+        'session': cherrypy.session,
+        'request': cherrypy.request,
+        'config': _config,
+    }
+    
+def _py_vars():
+    
+    return {
+        'url': utils.url,
+        'attrs': utils.attrs,
+        'attr_if': utils.attr_if,
+        'checker': lambda e: utils.attr_if('checked', e),
+        'selector': lambda e: utils.attr_if('selected', e),        
+        'readonly': lambda e: utils.attr_if('readonly', e),
+        'disabled': lambda e: utils.attr_if('disabled', e),
+    }
+    
+def _root_vars():
+    return {
+        'rpc': rpc,
+    }
+    
+register_template_vars(_cp_vars, 'cp')
+register_template_vars(_py_vars, 'py')
+register_template_vars(_root_vars, None)
 
 
+def renderer(template, module=None):
+    
+    tmpl = load_template(template, module)
+    
+    def wrapper(**kw):
+        
+        if not tmpl:
+            return
+        
+        _vars = {}
+        for prefix, cbs in _var_providers.iteritems():
+            if prefix:
+                provider = _Provider()
+                for cb in cbs:
+                    provider.update(cb())
+                _vars[prefix] = provider
+            else:
+                _vars.update(cb())
+        
+        kw = kw.copy()
+        kw.update(_vars)
+        
+        #TODO: encoding utf-8
+        return tmpl.render(**kw)
+    
+    return wrapper
+
+
+def __exec_func(func, args, kw):
+    try:
+        return func(*args, **kw)
+    except Exception, e:
+        handler = getattr(func, '_exception_handler', None)
+        if callable(handler):
+            return handler(e, args, kw)
+        raise
+    
 def expose(format='html', template=None, content_type='text/html', allow_json=False):
-
-    if format == 'json':
-        content_type = 'text/javascript'
 
     def expose_wrapper(func):
 
         def func_wrapper(*args, **kw):
             
-            tmpl = load_template(template, func.__module__)
             res = func(*args, **kw)
-
-            cherrypy.response.headers['content-type'] = content_type
-
+            
             if format == 'json' or (allow_json and 'allow_json' in cherrypy.requests.params):
+                cherrypy.response.headers['content-type'] = 'text/javascript'
                 return simplejson.dumps(res)
+            
+            cherrypy.response.headers['content-type'] = content_type
+            
+            if template:
+                
+                from openerp.widgets.resource import merge_resources
+                
+                res['widget_resources'] = _resources = {}
+                for k, w in res.iteritems():
+                    if hasattr(w, 'retrieve_resources') and w.is_root:
+                        _resources = merge_resources(_resources, w.retrieve_resources())
 
-            if tmpl:
-                res = tmpl.render(**res)
-
-            return str(res)
+                return renderer(template, func.__module__)(**res)
+            
+            return unicode(res, 'utf-8')
 
         func_wrapper.func_name = func.func_name
         func_wrapper.exposed = True
@@ -98,3 +198,4 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
 
 
 # vim: ts=4 sts=4 sw=4 si et
+

@@ -36,15 +36,13 @@ import math
 import base64
 import locale
 
-import turbogears as tg
-
-from openerp import tools
 from openerp import format
 from openerp import icons
 
-from turbogears.validators import *
+from formencode.validators import *
 
-class String(tg.validators.String):
+
+class String(FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -56,7 +54,7 @@ class String(tg.validators.String):
     def _from_python(self, value, state):
         return ustr(value or '')
 
-class Bool(tg.validators.FancyValidator):
+class Bool(FancyValidator):
     values = ['1', 'true']
 
     if_empty = False
@@ -71,10 +69,10 @@ class Bool(tg.validators.FancyValidator):
     def _from_python(self, value, state):
         return (value or '') and 1
 
-class Int(tg.validators.Int):
+class Int(Int):
     if_empty = False
 
-class Float(tg.validators.Number):
+class Float(Number):
     if_empty = False
     digit = 2
 
@@ -86,7 +84,7 @@ class Float(tg.validators.Number):
             value = format.parse_decimal(value)
         except ValueError:
             pass
-        return tg.validators.validators.Number.to_python(value, state)
+        return Number.to_python(value, state)
 
 class FloatTime(Float):
     
@@ -110,7 +108,7 @@ class FloatTime(Float):
         
         return 0.0
     
-class DateTime(tg.validators.DateTimeConverter):
+class DateTime(DateConverter):
     if_empty = False
     kind = "datetime"
     
@@ -128,7 +126,7 @@ class DateTime(tg.validators.DateTimeConverter):
     def _from_python(self, value, state):
         return format.format_datetime(value, kind=self.kind)
 
-class Selection(tg.validators.FancyValidator):
+class Selection(FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -143,7 +141,7 @@ class Selection(tg.validators.FancyValidator):
 
         return value
 
-class Reference(tg.validators.FancyValidator):
+class Reference(FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -157,7 +155,7 @@ class Reference(tg.validators.FancyValidator):
 
         return False
 
-class Binary(tg.validators.FancyValidator):
+class Binary(FancyValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -165,11 +163,11 @@ class Binary(tg.validators.FancyValidator):
             if value.filename:
                 return base64.encodestring(value.file.read())
             elif self.not_empty:
-                raise tg.validators.Invalid(_('Please select a file.'), value, state)
+                raise Invalid(_('Please select a file.'), value, state)
 
         return self.if_empty
 
-class URL(tg.validators.URL):
+class URL(URL):
 
     if_empty = False
     require_tld = False
@@ -189,13 +187,13 @@ class URL(tg.validators.URL):
     def _from_python(self, value, state):
         return value or ''
 
-class Email(tg.validators.Email):
+class Email(Email):
     if_empty = False
 
     def _from_python(self, value, state):
         return value or ''
 
-class many2many(tg.validators.FancyValidator):
+class many2many(FancyValidator):
 
     if_empty = [(6, 0, [])]
 
@@ -209,7 +207,7 @@ class many2many(tg.validators.FancyValidator):
 
         return [(6, 0, [int(id) for id in value if id])]
 
-class many2one(tg.validators.FancyValidator):
+class many2one(FancyValidator):
 
     if_empty = False
 
@@ -229,7 +227,7 @@ class many2one(tg.validators.FancyValidator):
         return value
 
 
-class Picture(tg.validators.FancyValidator):
+class Picture(FancyValidator):
     if_empty = False
 
     def _from_python(self, value, state):

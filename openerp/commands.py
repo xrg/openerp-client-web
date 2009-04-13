@@ -7,34 +7,34 @@ import optparse
 
 from os.path import join, dirname, exists
 
-# ubuntu 8.04 has obsoleted `pyxml` package and installs here.
-# the path needs to be updated before any `import xml`
-_oldxml = '/usr/lib/python%s/site-packages/oldxml' % sys.version[:3]
-if exists(_oldxml):
-    sys.path.append(_oldxml)
-
-import pkg_resources
-try:
-    pkg_resources.require("TurboGears >= 1.0.7, < 1.1b1")
-except pkg_resources.VersionConflict, e:
-    print "Error: TurboGears >= 1.0.7, < 1.1b1 required."
-    sys.exit(0)
-
-import turbogears
 import cherrypy
-
-cherrypy.lowercase_api = True
+from cherrypy._cpconfig import as_dict
+from formencode import NestedVariables
 
 from openerp import release
+from openerp import rpc
+
+__all__ = ['start']
+
+
+def nestedvars_tool():
+    if hasattr(cherrypy.request, 'params'):
+        cherrypy.request.params = NestedVariables.to_python(cherrypy.request.params or {})
+
+cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
+cherrypy.lowercase_api = True
+
 
 class ConfigurationError(Exception):
     pass
+
 
 def get_config_file():
     setupdir = dirname(dirname(__file__))
     if exists(join(setupdir, "setup.py")):
         return join(setupdir, "dev.cfg")
     return None
+
 
 def start():
     """Start the CherryPy application server."""
@@ -45,25 +45,43 @@ def start():
 
     configfile = opt.config
 
-    if configfile is None:
-        try:
-            configfile = pkg_resources.resource_filename(
-                    pkg_resources.Requirement.parse("openerp-web"), "config/default.cfg")
-        except pkg_resources.DistributionNotFound:
-            raise ConfigurationError(_("Could not find default configuration."))
-
     if not exists(configfile):
         raise ConfigurationError(_("Could not find configuration file: %s") % configfile)
 
-    turbogears.update_config(configfile=configfile, modulename="openerp.config")
-    
-    # save the name of the configfile (TODO: config editor)
-    import openerp
-    openerp.CONFIG_FILE = configfile
-    
-    from openerp.controllers import Root
 
-    turbogears.start_server(Root())
+    cherrypy.config.update({
+        'tools.sessions.on':  True,
+        'tools.nestedvars.on':  True
+    })
+
+    app_config = as_dict(configfile)
+    cherrypy.config.update(app_config.pop('global', {}))
+
+    static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+    app_config.update({'/static': {
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': static_dir
+    }})
+
+    from openerp.controllers.root import Root
+    app = cherrypy.tree.mount(Root(), '/', app_config)
+
+    import pkg_resources
+    from openerp.widgets.resource import register_resource_directory
+
+    static = pkg_resources.resource_filename("openerp", "static")
+    register_resource_directory(app, "openerp", static)
+
+    # initialize the rpc session
+    host = app.config['openerp'].get('host')
+    port = app.config['openerp'].get('port')
+    protocol = app.config['openerp'].get('protocol')
+
+    #TODO: rpc.session = rpc.RPCSession(host, port, protocol, storage=cherrypy.session)
+    rpc.session = rpc.RPCSession(host, port, protocol, storage=dict())
+
+    cherrypy.engine.start()
+    cherrypy.engine.block()
     
 # vim: ts=4 sts=4 sw=4 si et
 

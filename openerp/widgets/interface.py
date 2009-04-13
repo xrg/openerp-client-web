@@ -28,9 +28,15 @@
 ###############################################################################
 
 import cherrypy
-import turbogears as tg
 
 from openerp import tools
+
+from openerp.widgets.base import Widget
+from openerp.widgets.base import InputWidget
+
+
+__all__ = ['TinyWidget', 'TinyInputWidget', 'TinyCompoundWidget', 'ConcurrencyInfo']
+
 
 _attrs_boolean = {
     'select': False,
@@ -50,10 +56,29 @@ def _boolean_attr(attrs, name):
     
     return (attrs.get(name) and True) or _attrs_boolean.get(name)
 
-class TinyWidget(object):
-    """Widget interface, every widget class should implement
-    this class.
-    """
+class _Interface(object):
+
+    params = [
+        'colspan',
+        'rowspan',
+        'string',
+        'nolabel',
+        'select',
+        'required',
+        'readonly',
+        'help',
+        'editable',
+        'translatable',
+        'visible',
+        'inline',
+        'name',
+        'model',
+        'states',
+        'callback',
+        'change_default',
+        'onchange',
+        'kind',
+    ]
 
     colspan = 1
     rowspan = 1
@@ -76,21 +101,16 @@ class TinyWidget(object):
     onchange = 'onChange(this)'
     kind=None
     
-    field_class = None
-
-    def __init__(self, attrs={}):
-        self.string = attrs.get("string", None)
-        self.model = attrs.get("model", None)
+    def __init__(self, **attrs):
 
         prefix = attrs.get('prefix', '')
-        self.name = prefix + (prefix and '/' or '') + attrs.get('name', '')
+        self._id = prefix + (prefix and '/' or '') + attrs.get('name', '')
 
-        self.states = attrs.get('states', None)
         if isinstance(self.states, basestring):
             self.states = self.states.split(',')
 
-        self.colspan = int(attrs.get('colspan', 1))
-        self.rowspan = int(attrs.get('rowspan', 1))
+        self.colspan = int(self.colspan)
+        self.rowspan = int(self.rowspan)
         
         self.select = _boolean_attr(attrs, 'select')
         self.nolabel = _boolean_attr(attrs, 'nolabel')
@@ -98,23 +118,19 @@ class TinyWidget(object):
         self.readonly = _boolean_attr(attrs, 'readonly')
 
         self.visible = True
-        self.inline = attrs.get('inline');
-        
+
         try:
             visval = attrs.get('invisible', 'False')
             ctx = attrs.get('context', {})
             self.invisible = eval(visval, {'context': ctx})
         except:
             pass
-        
-        self.help = attrs.get('help')
-        self.editable = attrs.get('editable', True)
+
         self.translatable = attrs.get('translate', False)
 
         self.set_state(attrs.get('state', 'draft'))
 
         self.callback = attrs.get('on_change', None)
-        self.change_default = attrs.get('change_default', False)
         self.kind = attrs.get('type', None)
 
         self.attributes = attrs.get('attrs', {})
@@ -134,13 +150,21 @@ class TinyWidget(object):
             if 'value' in attrs:
                 self.default = attrs['value']
 
-class TinyInputWidget(TinyWidget):
-    """Interface for Field widgets, every InputField widget should
-    implement this class
-    """
+class TinyWidget(Widget, _Interface):
 
-    def __init__(self, attrs={}):
-        TinyWidget.__init__(self, attrs)
+    def __init__(self, **attrs):
+
+        Widget.__init__(self, **attrs)
+        _Interface.__init__(self, **attrs)
+
+
+class TinyInputWidget(InputWidget, _Interface):
+
+    def __init__(self, **attrs):
+        InputWidget.__init__(self, **attrs)
+        _Interface(self, **attrs)
+
+        self._name = self._id
         self._validator = None
 
     def get_validator(self):
@@ -187,7 +211,7 @@ class TinyInputWidget(TinyWidget):
         return self.get_value()
     
     def update_params(self, d):
-        super(TinyInputWidget, self).update_params(d)
+        InputWidget.update_params(self, d)
 
         attrs = d['attrs'] = {}
 
@@ -195,41 +219,37 @@ class TinyInputWidget(TinyWidget):
         attrs['callback'] = self.callback or None
         attrs['onchange'] = self.onchange
 
-        # name as field_id
-        d['field_id'] = self.name
         d['kind'] = self.kind
         d['editable'] = self.editable
         d['inline'] = self.inline
 
         if self.readonly:
-            d['field_class'] = " ".join([d['field_class'], "readonlyfield"])
+            d.setdefault('css_classes', []).append("readonlyfield")
             attrs['disabled'] = 'disabled'
 
         if self.required and 'requiredfield' not in d['field_class'].split(' '):
-            d['field_class'] = " ".join([d['field_class'], "requiredfield"])
+            d.setdefault('css_classes', []).append("requiredfield")
 
         if self.translatable and 'translatable' not in d['field_class'].split(' '):
-            d['field_class'] = " ".join([d['field_class'], "translatable"])
+            d.setdefault('css_classes', []).append("translatable")
 
         if hasattr(self, 'error') and self.error:
-            d['field_class'] = " ".join([d['field_class'], "errorfield"])
+            d.setdefault('css_classes', []).append("errorfield")
 
-class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
 
-    def __init__(self, attrs={}):
-        TinyInputWidget.__init__(self, attrs)
-        tg.widgets.CompoundWidget.__init__(self, name=self.name or None)
+class TinyCompoundWidget(TinyInputWidget):
 
     def get_widgets_by_name(self, name, kind=tg.widgets.Widget, parent=None):
+
         result = []
         parent = parent or self
 
-        for wid in parent.iter_member_widgets():
+        for wid in parent.children:
 
             if wid.name == name and isinstance(wid, kind):
                 result.append(wid)
 
-            if isinstance(wid, tg.widgets.CompoundWidget):
+            if wid.children:
                 result += self.get_widgets_by_name(name, kind=kind, parent=wid)
 
         return result
@@ -248,20 +268,21 @@ class TinyCompoundWidget(TinyInputWidget, tg.widgets.CompoundWidget):
         cherrypy.request.terp_concurrency_info = info
 
     def update_params(self, d):
-        tg.widgets.CompoundWidget.update_params(self, d)
+        TinyInputWidget.update_params(self, d)
         d['editable'] = self.editable
-        
-class TinyField(TinyInputWidget, tg.widgets.FormField):
 
-    def __init__(self, attrs):
-        TinyInputWidget.__init__(self, attrs)
-        tg.widgets.FormField.__init__(self, name=self.name)
 
 class ConcurrencyInfo(TinyCompoundWidget):
-    template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="" py:if="ids and model in info">
-        <input type="hidden" py:if="id in info[model]" py:for="id in ids"
-            name="_terp_concurrency_info" value="('$model,$id', '${info[model][id]}')"/>
-    </span>"""
+
+    template="""
+    % if ids and model in info:
+        % for id in ids:
+            % if id in info[model]:
+                <input type="hidden" name="_terp_concurrency_info" value="('${model},${id}', '${info[model][id]}')"/>
+            % endif
+        % endfor
+    % endif
+    """
 
     params = ['ids', 'model', 'info']
 
@@ -275,5 +296,4 @@ class ConcurrencyInfo(TinyCompoundWidget):
     info = property(_get_concurrency_info)
 
 # vim: ts=4 sts=4 sw=4 si et
-
 

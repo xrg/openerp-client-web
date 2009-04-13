@@ -1,47 +1,48 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="master.kid">
+<%inherit file="master.html"/>
 
-<head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+<%def name="header()">
     <title>Login</title>
-</head>
+</%def>
 
-<body>
+<%def name="content()">
     <div class="view">
 
         <br/>
 
         <center>
-            <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}" py:replace="XML(tg.root.developped_by())"/>
+            <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}"/>
         </center>
 
         <br/>
 
         <form action="${target}" method="post" name="loginform">
-            <input type="hidden" py:for="key, value in origArgs.items()" name="${key}" value="${str(value)}"/>
+            % for key, value in origArgs.items():
+            <input type="hidden" name="${key}" value="${str(value)}"/>
+            % endfor
             <input type="hidden" name="login_action" value="login"/>
         
             <div class="box2 welcome">Welcome to OpenERP</div>
 
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
-                    <tr py:if="dblist is not None">
+                    % if dblist is not None:
+                    <tr>
                         <td class="label">
                             <span>Server:</span>
-                            <input py:if="dblist is None" type="hidden" name="db" value="$db"/>
                         </td>
-                        <td py:content="url"/>
+                        <td>${url}</td>
                     </tr>
-                    <tr py:if="dblist is not None">
+                    <tr>
                         <td class="label">Database:</td>
                         <td>
                             <select name="db" style="width: 302px;">
-                                <span py:if="dblist and (dblist is not -1)" py:strip="">
-                                    <option py:for="v in dblist or []" value="$v" py:content="v" selected="${tg.selector(v==db)}">dbname</option>
-                                </span>
+                                % for v in dblist or []:
+                                <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
+                                % endfor
                             </select>
                         </td>
                     </tr>
+                    % endif
 
                     <tr>
                         <td class="label">User:</td>
@@ -55,7 +56,9 @@
                     <tr>
                         <td></td>
                         <td align="right">
-                            <button py:if="tg.config('dbbutton.visible', path='openerp-web')" type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='/database'">Databases</button>
+                            % if cp.config('dbbutton.visible', 'openerp-web'):
+                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='/database'">Databases</button>
+                            % endif
                             <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
                         </td>
                     </tr>
@@ -63,9 +66,8 @@
             </div>            
         </form>
 
-        <div class="box2 message" id="message" py:if="message" py:content="message"/>
+        % if message:
+        <div class="box2 message" id="message">${message}</div>
+        % endif
     </div>
-</body>
-
-</html>
-
+</%def>
