@@ -736,7 +736,7 @@ class Form(TinyCompoundWidget):
 
         if ids:
             values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
-            self.id = ids[0]
+            self.record_id = ids[0]
             self._update_concurrency_info(self.model, [values])
 
         elif 'datas' in view: # wizard data
@@ -902,7 +902,7 @@ class Form(TinyCompoundWidget):
         kind = attrs.get('type', 'char')
 
         if kind == 'image':
-            attrs['id'] = self.id
+            attrs['record_id'] = self.record_id
         
         # suppress by container's readonly property 
         if self.readonly:
