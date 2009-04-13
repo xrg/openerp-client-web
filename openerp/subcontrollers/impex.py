@@ -208,7 +208,7 @@ class ImpEx(controllers.Controller, TinyResource):
 
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
-
+            
             if is_importing and (value['type'] not in ('reference',)) and (not value.get('readonly', False) \
                         or not dict(value.get('states', {}).get('draft', [('readonly', True)])).get('readonly', True)):
 
@@ -223,17 +223,17 @@ class ImpEx(controllers.Controller, TinyResource):
                 records += [record]
 
             elif not is_importing:
-                if ids:
-                    record['id'] = ids[i]
-                else:
-                    record['id'] = id
+#                if ids:
+#                    record['id'] = ids[i]
+#                else:
+                record['id'] = id
 
                 record['items'] = {'name' : nm}
                 record['action'] = 'javascript: void(0)'
                 record['target'] = None
                 record['icon'] = None
                 record['children'] = []
-
+                
                 records += [record]
 
             if len(nm.split('/')) < 3 and value.get('relation', False):
