@@ -1,9 +1,10 @@
-<div xmlns:py="http://purl.org/kid/ns#" class="dashbar" id="${name}">
-    <div class="dashlet" id="dashlet_${dashlet.name}" py:for="dashlet in children">
+<div class="dashbar" id="${name}">
+    % for dashlet in children:
+    <div class="dashlet" id="dashlet_${dashlet.name}">
         <div class="dashlet-title">
             <table>
                 <tr>
-                    <td width="100%" py:content="dashlet.string"></td>
+                    <td width="100%">${dashlet.string}</td>
                     <td>
                         <img class="dashlet-button" 
                              src="/static/images/stock/gtk-zoom-in.png" 
@@ -12,6 +13,8 @@
                 </tr>
             </table>
         </div>
-        <div class="dashlet-content" py:content="dashlet.display(value_for(dashlet), **params_for(dashlet))"/>
+        <div class="dashlet-content">${display_child(dashlet)}</div>
     </div>
+    % endfor
 </div>
+

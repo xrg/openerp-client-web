@@ -492,18 +492,17 @@ class DateTime(TinyInputWidget):
         self._default = value or False
         
 
-class Binary(TinyField):
-    template = "openerp.widgets.templates.binary"
+class Binary(TinyInputWidget):
+    template = "templates/binary.mako"
     params = ["name", "text", "readonly", "filename"]
     
     text = None
     file_upload = True
 
-    def __init__(self, attrs={}):
-        super(Binary, self).__init__(attrs)
-        self.filename = attrs.get('filename', '')
-        self.validator = tiny_validators.Binary()
-        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % self.filename
+    def __init__(self, **attrs):
+        super(Binary, self).__init__(**attrs)
+        self.validator = validators.Binary()
+        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % (self.filename or '')
 
     def set_value(self, value):
         #XXX: server bug work-arround
@@ -512,25 +511,25 @@ class Binary(TinyField):
         except:
             self.text = value or ''
 
-class URL(TinyField):
-    template = "openerp.widgets.templates.url"
+class URL(TinyInputWidget):
+    template = "templates/url.mako"
 
-    def __init__(self, attrs={}):
-        super(URL, self).__init__(attrs)
-        self.validator = tiny_validators.URL()
+    def __init__(self, **attrs):
+        super(URL, self).__init__(**attrs)
+        self.validator = validators.URL()
 
     def set_value(self, value):
         if value:
             super(URL, self).set_value(value)
 
-class Hidden(TinyField):
-    template = "openerp.widgets.templates.hidden"
+class Hidden(TinyInputWidget):
+    template = "templates/hidden.mako"
     wid = None
     params = ['relation']
 
-    def __init__(self, attrs={}):
-        super(Hidden, self).__init__(attrs)
-        self.wid = WIDGETS[self.kind](attrs)
+    def __init__(self, **attrs):
+        super(Hidden, self).__init__(**attrs)
+        self.wid = WIDGETS[self.kind](**attrs)
         self.validator = self.wid.validator
         self.relation = attrs.get('relation') or None
 
@@ -538,187 +537,184 @@ class Hidden(TinyField):
         self.wid.set_value(value)
         self.default = self.wid.default
 
-class Button(TinyField):
-    """Button widget
+class Button(TinyInputWidget):
 
-    @todo: use states
-    @todo: actions
-    """
-
-    template = "openerp.widgets.templates.button"
-    params = ["name", "string", "model", "btype", "id", "confirm", "icon", "target"]
+    template = "templates/button.mako"
+    params = ["btype", "record_id", "confirm", "icon", "target"]
 
     visible = True
+    target = 'current'
 
-    def __init__(self, current_model, id=None, attrs={}):
+    def __init__(self, **attrs):
 
-        TinyField.__init__(self, attrs)
+        super(Button, self).__init__(**attrs)
 
         # remove mnemonic
         self.string = re.sub('_(?!_)', '', self.string or '')
 
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
-        self.confirm = attrs.get('confirm', None)
-
-        self.model = current_model
-        self.id = id
 
         self.nolabel = True
         self.readonly = False
-        self.target = attrs.get('target', 'current')
         
-        if 'icon' in attrs:
-            self.icon = icons.get_icon(attrs['icon'])
+        if self.icon:
+            self.icon = icons.get_icon(self.icon)
 
     def set_state(self, state):
         if self.states:
             self.visible = state in self.states
 
-class Picture(TinyField):
-    template = '<img alt="picture" id="${field_id}" kind="${kind}" src="${value}" />'
-
-    def __init__(self, attrs={}):
-        super(Picture, self).__init__(attrs)
-        self.validator = tiny_validators.Picture()
-
-class Image(TinyField):
-
+class Picture(TinyInputWidget):
     template = """
-        <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-            <img py:if="stock" align="left" src="${src}" width="${width}" height="${height}"/>
-            <img py:if="not stock and id and editable" id="${field}" border='1' alt="Click here to add new image." align="left" src="${src}" width="${width}" height="${height}" onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
-            <img py:if="not stock and id and not editable" id="${field}" border='1' align="left" src="${src}" width="${width}" height="${height}"/>
-            <input py:if="not stock and not id and editable" type="file" class="${field_class}" id="${name}" py:attrs="attrs" name="${name}"/>
-        </span>
-        """
+    <img alt="picture" id="${name}" kind="${kind}" src="${value}"/>
+    """
 
-    params = ["src", "width", "height", "model", "id", "field", "stock"]
+    def __init__(self, **attrs):
+        super(Picture, self).__init__(**attrs)
+        self.validator = validators.Picture()
+
+class Image(TinyInputWidget):
+
+    template = "template/image.mako"
+
+    params = ["src", "width", "height", "model", "record_id", "field", "stock"]
     src = ""
     width = 32
     height = 32
-    id = None
+    record_id = False
     field = ''
     stock = True
 
-    def __init__(self, attrs={}):
+    def __init__(self, **attrs):
         icon = attrs.get('name')
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
-        TinyField.__init__(self, attrs)
+        super(Image, self).__init__(**attrs)
         
         self.filename = attrs.get('filename', '')
         
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
-            self.src = '/image/get_image?model=%s&id=%s&field=%s' % (attrs['model'], attrs['id'], self.field)
-            self.height = attrs.get('img_height', attrs.get('height', 160))
-            self.width = attrs.get('img_width', attrs.get('width', 200))
-            self.id = attrs['id']
-            self.validator = tiny_validators.Binary()
+            self.src = tools.url('/image/get_image', model=self.model, id=self.record_id, field=self.field)
+            self.height = attrs.get('height', 200)
+            self.width = attrs.get('width', 200)
+            self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
     
 class Group(TinyCompoundWidget):
-    template = """
-    <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-        <fieldset py:if="string">
-            <legend py:content="string" />
-            ${frame.display(value_for(frame), **params_for(frame))}
-        </fieldset>
-        <span py:replace="frame.display()" py:if="not string"/>
-    </span>
-    """
-
-    params = ["string"]
-    member_widgets = ["frame"]
+    template = "templates/group.mako"
+    
+    params = ["string", "frame"]
     frame = None
-
-    def __init__(self, attrs, children):
-        TinyCompoundWidget.__init__(self, attrs)
-
-        self.frame = Frame(attrs, children)
+    
+    def __init__(self, **attrs):
+        
+        attrs_ = attrs.copy()
+        attrs_.pop('children', None)
+        
+        super(Group, self).__init__(**attrs_)
+        
+        self.frame = Frame(**attrs)
+        self.children = [self.frame]
+        
         self.nolabel = True
+
 
 class Dashbar(TinyCompoundWidget):
     
-    template = "openerp.widgets.templates.dashbar"
-    member_widgets = ["children"]
+    template = "templates/dashbar.mako"
     
-    javascript = [tg.widgets.JSLink("openerp", "javascript/dashboard.js")]
+    javascript = [JSLink("openerp", "javascript/dashboard.js")]
+    css = [CSSLink('openerp', 'css/dashboard.css')]
 
-    css = [tg.widgets.CSSLink('openerp', 'css/dashboard.css')]
-
-    def __init__(self, attrs, children):
-        TinyCompoundWidget.__init__(self, attrs)
-        
-        self.children = children
 
 class HPaned(TinyCompoundWidget):
 
     template = """
-    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="hpaned">
+    <table width="100%" class="hpaned">
         <tr>
-            <td valign="top" py:for="child in children">
-                <span py:replace="child.display(value_for(child), **params_for(child))"/>
+            % for child in children:
+            <td valign="top">
+                ${display_child(child)}
             </td>
+            % endfor
         </tr>
     </table>
     """
 
-    member_widgets = ["children"]
-
-    def __init__(self, attrs, children):
-        super(HPaned, self).__init__(attrs)
-        self.children = children
+    def __init__(self, **attrs):
+        super(HPaned, self).__init__(**attrs)
         self.nolabel = True
+
 
 class VPaned(TinyCompoundWidget):
 
     template = """
-    <table xmlns:py="http://purl.org/kid/ns#" width="100%" class="vpaned">
-        <tr py:for="child in children">
+    <table width="100%" class="vpaned">
+        % for child in children:
+        <tr>
             <td valign="top">
-                <span py:replace="child.display(value_for(child), **params_for(child))"/>
+                ${display_child(child)}
             </td>
         </tr>
+        % endfor
     </table>
     """
 
-    member_widgets = ["children"]
-
-    def __init__(self, attrs, children):
-        super(VPaned, self).__init__(attrs)
-        self.children = children
+    def __init__(self, **attrs):
+        super(VPaned, self).__init__(**attrs)
         self.nolabel = True
+        
 
 class Form(TinyCompoundWidget):
     """A generic form widget
     """
 
-    template = """<span xmlns:py="http://purl.org/kid/ns#" py:if="frame">
+    template = """
+    % if frame:
         ${concurrency_info.display()}
-        <span py:replace="frame.display(value_for(frame), **params_for(frame))"/>
-    </span>"""
+        ${display_child(frame)}
+    % endif
+    """
 
-    params = ['id', 'model']
-    member_widgets = ['frame', 'concurrency_info']
-
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
-        super(Form, self).__init__()
-
-        fields = view['fields']
+    params = ['record_id', 'frame', 'concurrency_info']
+    
+    frame = None
+    concurrency_info = None
+    
+    prefix = None
+    model = None
+    view = None
+    ids = None
+    domain = None
+    context = None
+    
+    nodefault = False
+    nolinks = 1
+    
+    #def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
+    def __init__(self, **attrs):
+        
+        view = attrs['view']
+        model = attrs['model']
+        prefix = attrs['prefix']
+        
+        context = attrs.get('context', {})
+        domain = attrs.get('domain', [])
+        
+        super(Form, self).__init__(**attrs)
+        
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
+        fields = view['fields']
         
-        self.string = attrs.get('string', '')
+        self.string = self.string or ''
         self.link = attrs.get('link', nolinks)
 
-        self.id = None
-        self.model = model
-        self.editable = editable
-        self.readonly = readonly
+        self.record_id = None
         self.context = context or {}
 
         proxy = rpc.RPCProxy(model)
@@ -751,7 +747,7 @@ class Form(TinyCompoundWidget):
 
             values.update(view['datas'])
 
-        elif not nodefault: # default
+        elif not self.nodefault: # default
             defaults = proxy.default_get(fields.keys(), ctx)
 
         elif 'state' in fields: # if nodefault and state get state only
@@ -771,7 +767,7 @@ class Form(TinyCompoundWidget):
 
         self.view_fields = []
         self.frame = self.parse(prefix, dom, fields, values)[0]
-        self.concurrency_info = ConcurrencyInfo(self.model, [self.id])
+        self.concurrency_info = ConcurrencyInfo(self.model, [self.record_id])
         
         # We should generate hidden fields for fields which are not in view, as
         # the values of such fields might be used during `onchange` 
@@ -803,37 +799,37 @@ class Form(TinyCompoundWidget):
             attrs['state'] = self.state
             
             if node.localName=='image':
-                views += [Image(attrs)]
+                views += [Image(**attrs)]
 
             elif node.localName=='separator':
-                views += [Separator(attrs)]
+                views += [Separator(**attrs)]
 
             elif node.localName=='label':
-                views += [Label(attrs)]
+                views += [Label(**attrs)]
 
             elif node.localName=='newline':
-                views += [NewLine(attrs)]
+                views += [NewLine(**attrs)]
 
             elif node.localName=='button':
-                views += [Button(self.model, self.id, attrs)]
+                views += [Button(model=self.model, record_id=self.record_id, **attrs)]
 
             elif node.localName == 'form':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Frame(attrs, n)]
+                views += [Frame(children=n, **attrs)]
 
             elif node.localName == 'notebook':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                nb = Notebook(attrs, n)
+                nb = Notebook(children=n, **attrs)
                 nb.name = prefix.replace('/', '_') + '_notebook'
                 views += [nb]
 
             elif node.localName == 'page':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Page(attrs, n)]
+                views += [Page(children=n, **attrs)]
 
             elif node.localName=='group':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Group(attrs, n)]
+                views += [Group(children=n, **attrs)]
 
             elif node.localName == 'field':
                 name = attrs['name']
@@ -867,19 +863,19 @@ class Form(TinyCompoundWidget):
 
             elif node.localName=='hpaned':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [HPaned(attrs, n)]
+                views += [HPaned(children=n, **attrs)]
 
             elif node.localName=='vpaned':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [VPaned(attrs, n)]
+                views += [VPaned(children=n, **attrs)]
 
             elif node.localName in ('child1', 'child2'):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 attrs['name'] = tools.get_node_xpath(node)
-                views += [Dashbar(attrs, n)]
+                views += [Dashbar(children=n, **attrs)]
 
             elif node.localName=='action':
-                views += [Action(attrs)]
+                views += [Action(**attrs)]
                 cherrypy.request._terp_dashboard = True
 
         return views
@@ -912,10 +908,10 @@ class Form(TinyCompoundWidget):
         if self.readonly:
             attrs['readonly'] = True
             
-        field = WIDGETS[kind](attrs)
+        field = WIDGETS[kind](**attrs)
         
         if isinstance(field, TinyInputWidget):
-            field.set_value(value)        
+            field.set_value(value)    
         
         # update the record data
         cherrypy.request.terp_record[name] =  field.get_value()
