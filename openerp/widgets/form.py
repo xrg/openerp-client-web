@@ -479,7 +479,7 @@ class DateTime(TinyInputWidget):
         
         self.javascript = [JSLink("openerp", "calendar/calendar.js"),
                            JSLink("openerp", "calendar/calendar-setup.js"),
-                           JSLink("openerp", "calendar/lang/calendar-en.js"))
+                           JSLink("openerp", "calendar/lang/calendar-en.js")]
                            
         self.css = [CSSLink("openerp", "calendar/%s.css" % self.skin)]
         

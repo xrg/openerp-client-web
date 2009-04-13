@@ -179,7 +179,7 @@ class TinyInputWidget(InputWidget, _Interface):
         #if self._validator:
         #    self._validator.not_empty = (self.required or False) and True
         #elif self.required:
-        #    self._validator = tg.validators.NotEmpty()
+        #    self._validator = validators.NotEmpty()
 
         return self._validator
 
@@ -245,7 +245,7 @@ class TinyInputWidget(InputWidget, _Interface):
 
 class TinyCompoundWidget(TinyInputWidget):
 
-    def get_widgets_by_name(self, name, kind=tg.widgets.Widget, parent=None):
+    def get_widgets_by_name(self, name, kind=Widget, parent=None):
 
         result = []
         parent = parent or self
