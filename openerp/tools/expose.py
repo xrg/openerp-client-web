@@ -152,16 +152,7 @@ def renderer(template, module=None):
     
     return wrapper
 
-
-def __exec_func(func, args, kw):
-    try:
-        return func(*args, **kw)
-    except Exception, e:
-        handler = getattr(func, '_exception_handler', None)
-        if callable(handler):
-            return handler(e, args, kw)
-        raise
-    
+   
 def expose(format='html', template=None, content_type='text/html', allow_json=False):
 
     def expose_wrapper(func):
@@ -175,6 +166,8 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
                 return simplejson.dumps(res)
             
             cherrypy.response.headers['content-type'] = content_type
+            
+            template = kw.get('cp_template') or template
             
             if template:
                 

@@ -27,11 +27,6 @@
 #
 ###############################################################################
 
-"""
-This module implementes the RootController of the TurboGears application.
-For more information on TG controllers, please see the TG docs.
-"""
-
 import os
 import re
 
@@ -51,8 +46,6 @@ from openerp.tinyres import TinyResource, unsecured
 from openerp.tinyres import login as tiny_login
 
 class Root(TinyResource):
-    """Turbogears root controller, see TG docs for more info.
-    """
 
     def user_action(self, id='action_id'):
         """Perform default user action.
@@ -101,7 +94,7 @@ class Root(TinyResource):
 
         if style in ('ajax', 'ajax_small'):
             return dict(db=db, user=user, password=password, location=location, style=style,
-                    show_header_footer=False, tg_template="openerp.templates.login_ajax")
+                    show_header_footer=False, cp_template="templates/login_ajax.mako")
 
         return tiny_login(target=location, db=db, user=user, password=password, action="login")
 
@@ -154,7 +147,7 @@ class Root(TinyResource):
         rpc.session.logout()
         raise redirect('/')
 
-    @expose(template="openerp.templates.about")
+    @expose(template="templates/about.mako")
     @unsecured
     def about(self):
         from openerp import release

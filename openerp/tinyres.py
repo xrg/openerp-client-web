@@ -35,15 +35,15 @@ import time
 import types
 import re
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import config
-
 import cherrypy
-import rpc
 import pkg_resources
 
-@expose(template="openerp.templates.login")
+from openerp import rpc
+from openerp.tools import expose
+from openerp.tools import redirect
+
+
+@expose(template="templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
     
     url = rpc.session.get_url()
@@ -54,7 +54,7 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
         dblist = []
         message = _("Could not connect to server!")
 
-    if config.get('dblist.filter', path='openerp-web'):
+    if cherrypy.root.app.config['openerp-web'].get('dblist.filter'):
 
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
@@ -112,8 +112,8 @@ def secured(fn):
 
             # get some settings from cookies
             try:
-                db = cherrypy.request.simple_cookie['terp_db'].value
-                user = cherrypy.request.simple_cookie['terp_user'].value
+                db = cherrypy.request.cookie['terp_db'].value
+                user = cherrypy.request.cookie['terp_user'].value
             except:
                 pass
 
@@ -132,10 +132,10 @@ def secured(fn):
 
             # Authorized. Set db, user name in cookies
             expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
-            cherrypy.response.simple_cookie['terp_db'] = db
-            cherrypy.response.simple_cookie['terp_user'] = user.encode('utf-8')
-            cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
-            cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
+            cherrypy.response.cookie['terp_db'] = db
+            cherrypy.response.cookie['terp_user'] = user.encode('utf-8')
+            cherrypy.response.cookie['terp_db']['expires'] = expiration_time;
+            cherrypy.response.cookie['terp_user']['expires'] = expiration_time;
 
             # User is now logged in, so show the content
             clear_login_fields(kw)
