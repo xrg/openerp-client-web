@@ -152,6 +152,9 @@ class _Interface(object):
 
 class TinyWidget(Widget, _Interface):
 
+    def __new__(cls, **attrs):
+        return super(TinyWidget, cls).__new__(cls, **attrs)
+    
     def __init__(self, **attrs):
 
         Widget.__init__(self, **attrs)
@@ -159,6 +162,9 @@ class TinyWidget(Widget, _Interface):
 
 
 class TinyInputWidget(InputWidget, _Interface):
+    
+    def __new__(cls, **attrs):
+        return super(TinyInputWidget, cls).__new__(cls, **attrs)
 
     def __init__(self, **attrs):
         InputWidget.__init__(self, **attrs)
