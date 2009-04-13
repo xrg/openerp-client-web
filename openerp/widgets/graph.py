@@ -34,14 +34,14 @@ import locale
 import xml.dom.minidom
 import urllib
 
-import turbogears as tg
-
 from openerp import rpc
 from openerp import tools
 from openerp import common
 from openerp import cache
 
 from interface import TinyCompoundWidget
+from resource import JSSource
+
 
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -55,22 +55,31 @@ if not hasattr(locale, 'D_FMT'):
 
 class Graph(TinyCompoundWidget):
 
-    template = "openerp.widgets.templates.graph"
-    javascript = [tg.widgets.JSSource("""
+    template = "templates/graph.mako"
+    javascript = [JSSource("""
     var onChartClick = function(path) {
         window.location.href = path;
     }
     """)]
                   
     params = ['url', 'width', 'height']
+    width = 500
+    height = 350
     
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
-       
-        self.name = 'graph_%s' % (random.randint(0,10000)) 
+    #def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
+    def __init__(self, **attrs):
         
-        self.width = width
-        self.height = height
-
+        ids = attrs.get('ids', [])
+        model = attrs['model']
+        view_id = attrs.get('view_id', False)
+        
+        domain = attrs.get('domain', [])
+        context = attrs.get('context', {})
+        
+        super(Graph, self).__init__(**attrs)
+        
+        self._name = 'graph_%s' % (random.randint(0,10000)) 
+        
         ctx = rpc.session.context.copy()
         ctx.update(context or {})
         
@@ -80,14 +89,13 @@ class Graph(TinyCompoundWidget):
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
 
-        self.string = attrs.get('string', '')
         chart_type = attrs.get('type', 'pie')
         
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
 
-        self.url = tg.url("/graph/"+chart_type, {
+        self.url = tools.url("/graph", chart_type, **{
             '_terp_model': model,
             '_terp_view_id': view_id,
             '_terp_ids': ustr(ids),
@@ -95,6 +103,7 @@ class Graph(TinyCompoundWidget):
             '_terp_context': ustr(context or {})})
 
         self.url = urllib.quote(self.url)
+
 
 class GraphData(object):
     

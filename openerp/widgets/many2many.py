@@ -27,10 +27,10 @@
 #
 ###############################################################################
 
-import turbogears as tg
 import cherrypy
 
-from interface import TinyField
+from interface import TinyCompoundWidget
+
 from form import Form
 from listgrid import List
 
@@ -40,25 +40,20 @@ from openerp import cache
 from screen import Screen
 from openerp.utils import TinyDict
 
-from openerp import validators as tiny_validators
+from openerp import validators
 
-class M2M(TinyField, tg.widgets.CompoundWidget):
-    """many2many widget
-    """
+class M2M(TinyCompoundWidget):
 
-    template = "openerp.widgets.templates.many2many"
-    params = ['relation', 'domain', 'context']
+    template = "templates/many2many.mako"
+    params = ['relation', 'domain', 'context', 'screen']
 
     relation = None
     domain = []
     context = {}
 
-    member_widgets = ['screen']
-
-    def __init__(self, attrs={}):
-        super(M2M, self).__init__(attrs)
-        tg.widgets.CompoundWidget.__init__(self)
-
+    def __init__(self, **attrs):
+        super(M2M, self).__init__(**attrs)
+        
         ids = []
         params = getattr(cherrypy.request, 'terp_params', None)
         if not params:
@@ -145,7 +140,9 @@ class M2M(TinyField, tg.widgets.CompoundWidget):
         self.screen.widget.checkbox_name = False
         self.screen.widget.m2m = True
 
-        self.validator = tiny_validators.many2many()
+        self.validator = validators.many2many()
+        
+        self.children = [self.screen]
 
     def set_value(self, value):
 

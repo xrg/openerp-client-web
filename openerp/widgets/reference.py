@@ -27,30 +27,29 @@
 #
 ###############################################################################
 
-import turbogears as tg
+from interface import TinyInputWidget
 
-from interface import TinyField
 from form import Form
 from listgrid import List
 
 from openerp import rpc
-from openerp import validators as tiny_validators
+from openerp import validators as validators
 
 import many2one
 
-class Reference(TinyField):
+class Reference(TinyInputWidget):
 
-    template = "openerp.widgets.templates.reference"
+    template = "templates/reference.mako"
     params = ['options','domain','context', "text", "relation"]
 
     options = []
 
-    def __init__(self, attrs={}):
-        super(Reference, self).__init__(attrs)
+    def __init__(self, **attrs):
+        super(Reference, self).__init__(**attrs)
         self.options = attrs.get('selection', [])
         self.domain = []
         self.context = {}
-        self.validator = tiny_validators.Reference()
+        self.validator = validators.Reference()
         self.onchange = None # override onchange in js code
 
     def set_value(self, value):

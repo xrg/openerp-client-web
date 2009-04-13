@@ -27,15 +27,13 @@
 #
 ###############################################################################
 
-import turbogears as tg
-
 from openerp import rpc
 from openerp import common
 
-from interface import TinyField
+from interface import TinyInputWidget
 from form import Form
 
-from openerp import validators as tiny_validators
+from openerp import validators
 
 def get_name(model, id):
     id = (id or False) and int(id)
@@ -54,17 +52,17 @@ def get_name(model, id):
 
     return name
 
-class M2O(TinyField):
-    template = "openerp.widgets.templates.many2one"
+class M2O(TinyInputWidget):
+    template = "templates/many2one.mako"
     params=['relation', 'text', 'domain', 'context', 'link', 'readonly']
 
     domain = []
     context = {}
     link = 1
 
-    def __init__(self, attrs={}):
+    def __init__(self, **attrs):
 
-        super(M2O, self).__init__(attrs)
+        super(M2O, self).__init__(**attrs)
         self.relation = attrs.get('relation', '')
 
         self.domain = attrs.get('domain', [])
@@ -72,7 +70,7 @@ class M2O(TinyField):
         self.link = attrs.get('link')
         self.onchange = None # override onchange in js code
 
-        self.validator = tiny_validators.many2one()
+        self.validator = validators.many2one()
 
     def set_value(self, value):
         

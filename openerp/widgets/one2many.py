@@ -29,7 +29,6 @@
 
 import time
 
-import turbogears as tg
 import cherrypy
 
 from openerp import tools
@@ -42,18 +41,16 @@ from screen import Screen
 class O2M(TinyCompoundWidget):
     """One2Many widget
     """
-    template = "openerp.widgets.templates.one2many"
-    params = ['string', 'id', 'readonly', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx']
-
-    member_widgets = ['screen']
+    template = "templates/one2many.mako"
+    params = ['record_id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'screen']
     
     form = None
 
-    def __init__(self, attrs={}):
+    def __init__(self, **attrs):
         #FIXME: validation error in `Pricelist Version`
         attrs['required'] = False
 
-        super(O2M, self).__init__(attrs)
+        super(O2M, self).__init__(**attrs)
         
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
         self.default_get_ctx = attrs.get('default_get', {})
@@ -145,7 +142,9 @@ class O2M(TinyCompoundWidget):
                              selectable=0, nolinks=self.link)
         self.id = id
         self.ids = ids
-
+        
+        self.children = [self.screen]
+        
         if view_type == 'tree':
             #self.screen.widget.pageable=False
             self.id = None
