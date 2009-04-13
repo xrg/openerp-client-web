@@ -477,11 +477,11 @@ class DateTime(TinyInputWidget):
         super(DateTime, self).__init__(**attrs)
         self.format = format.get_datetime_format(attrs['type'])
         
-        self.javascript = [JSLink("openerp", "javascript/calendar/calendar.js"),
-                           JSLink("openerp", "javascript/calendar/calendar-setup.js"),
-                           JSLink("openerp", "javascript/calendar/lang/calendar-en.js"))
+        self.javascript = [JSLink("openerp", "calendar/calendar.js"),
+                           JSLink("openerp", "calendar/calendar-setup.js"),
+                           JSLink("openerp", "calendar/lang/calendar-en.js"))
                            
-        self.css = [CSSLink("openerp", "javascript/calendar/%s.css" % self.skin)]
+        self.css = [CSSLink("openerp", "calendar/%s.css" % self.skin)]
         
         if attrs['type'] == 'date':
             self.picker_shows_time = False
