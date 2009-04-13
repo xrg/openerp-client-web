@@ -1,19 +1,28 @@
-<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <input py:if="editable" py:attrs="attrs"
+% if editable:
+    <input ${py.attrs(attrs)}
         type="hidden" 
         kind="${kind}" 
         name="${name}" 
         id="${name}" 
         value="${value}"/>
-    <input py:if="editable" py:attrs="attrs" 
+% endif
+
+% if editable:
+    <input ${py.attrs(attrs)}
         type="checkbox" 
         kind="${kind}" 
         class="checkbox"
         id="${name}_checkbox_" 
         checked="${(value or None) and 1}" 
         onclick="onBooleanClicked('${name}')"/>
-    <span py:if="editable and error" class="fielderror" py:content="error"/>
-    <input py:if="not editable" 
+% endif
+
+% if editable and error:
+    <span class="fielderror">${error}</span>
+% endif
+
+% if not editable:
+    <input
         type="checkbox"
         kind="${kind}"
         class="checkbox" 
@@ -21,4 +30,5 @@
         value="${value}" 
         checked="${(value or None) and 1}" 
         disabled="disabled"/>
-</span>
+% endif
+

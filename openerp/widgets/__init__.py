@@ -1,3 +1,6 @@
+from openerp.widgets.base import *
+from openerp.widgets.resource import *
+
 import form
 import graph
 import listgrid

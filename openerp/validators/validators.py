@@ -42,6 +42,10 @@ from openerp import icons
 from formencode.validators import *
 
 
+class DefaultValidator(FancyValidator):
+    pass
+
+
 class String(FancyValidator):
     if_empty = False
 

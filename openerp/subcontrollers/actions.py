@@ -34,9 +34,8 @@ import time
 import datetime
 import base64
 
-from turbogears import controllers
-from turbogears import expose
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import redirect
 
 import cherrypy
 

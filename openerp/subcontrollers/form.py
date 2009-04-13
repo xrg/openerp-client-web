@@ -30,13 +30,11 @@
 import re
 import base64
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import controllers
-from turbogears import validate
-from turbogears import redirect
-from turbogears import error_handler
-from turbogears import exception_handler
+from openerp.tools import expose
+from openerp.tools import validate
+from openerp.tools import redirect
+from openerp.tools import error_handler
+from openerp.tools import exception_handler
 
 import cherrypy
 
@@ -47,6 +45,7 @@ from openerp import cache
 from openerp import validators
 
 from openerp import widgets as tw
+
 from openerp.tinyres import TinyResource
 
 from openerp.utils import TinyDict
@@ -176,7 +175,7 @@ def default_exception_handler(self, tg_exceptions=None, **kw):
     # let _cp_on_error handle the exception
     raise tg_exceptions
 
-class Form(controllers.Controller, TinyResource):
+class Form(TinyResource):
 
     path = '/form'    # mapping from root
 
@@ -191,7 +190,7 @@ class Form(controllers.Controller, TinyResource):
 
         return tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
-    @expose(template="openerp.subcontrollers.templates.form")
+    @expose(template="templates/form.mako")
     def create(self, params, tg_errors=None):
 
         params.view_type = params.view_type or params.view_mode[0]

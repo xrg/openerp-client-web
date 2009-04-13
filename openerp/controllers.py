@@ -50,7 +50,7 @@ from openerp import cache
 from openerp.tinyres import TinyResource, unsecured
 from openerp.tinyres import login as tiny_login
 
-class Root(controllers.RootController, TinyResource):
+class Root(TinyResource):
     """Turbogears root controller, see TG docs for more info.
     """
 
@@ -83,11 +83,6 @@ class Root(controllers.RootController, TinyResource):
         """Main menu page, loads the view defined by `menu_id`.
         """
         return self.user_action('menu_id')
-
-    def _cp_on_error(self, *args, **kw):
-        message = self.errorpage.render()
-        cherrypy.response.headers['Content-Type'] = 'text/html'
-        cherrypy.response.body = [message]
 
     @expose(allow_json=True)
     @unsecured

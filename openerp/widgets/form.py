@@ -36,7 +36,6 @@ import re
 import time
 import xml.dom.minidom
 
-import turbogears as tg
 import cherrypy
 
 from openerp import icons
@@ -47,49 +46,42 @@ from openerp import rpc
 
 from openerp.utils import TinyDict
 
-from interface import TinyField
 from interface import TinyInputWidget
 from interface import TinyCompoundWidget
 from interface import ConcurrencyInfo
 
-from openerp import validators as tiny_validators
+from resource import JSLink, JSSource, CSSLink
+
+from openerp import validators
 
 class Frame(TinyCompoundWidget):
     """Frame widget layouts the widgets in a table.
     """
 
-    template = "openerp.widgets.templates.frame"
+    template = "templates/frame.mako"
 
-    params = ['table']
-    member_widgets = ['children', 'hiddens']
-
+    params = ['table', 'hiddens']
+    
     hiddens = None
-    table = []
-
-    def __init__(self, attrs, children):
-        """Create new instance of Frame widget."
-
-        @param attrs: attributes
-        @param children: child widgets
-
-        @return: an instance of Frame widget
-        """
-
-        super(Frame, self).__init__(attrs)
-
+    table = None
+    
+    def __init__(self, **attrs):
+        
+        super(Frame, self).__init__(**attrs)
+        
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
 
         self.x = 0
         self.y = 0
-
+        
+        self.hiddens = []
+        self.table = []
+        
         self.add_row()
 
-        self.children = children
-        self.hiddens = []
-
-        for child in children:
-
+        for child in self.children:
+            
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
@@ -167,7 +159,7 @@ class Frame(TinyCompoundWidget):
             return
 
         if isinstance(widget, TinyCompoundWidget) and not widget.validator:
-            for w in widget.iter_member_widgets():
+            for w in widget.children:
                 self._add_validator(w)
 
         elif widget.validator:
@@ -245,67 +237,67 @@ class Notebook(TinyCompoundWidget):
     page of the the Notebook.
     """
 
-    template = "openerp.widgets.templates.notebook"
+    template = "templates/notebook.mako"
 
-    member_widgets = ["children"]
-    javascript = [tg.widgets.JSLink("openerp", "javascript/tabber/tabber_cookie.js"),
-                  tg.widgets.JSSource("""
+    javascript = [JSLink("openerp", "javascript/tabber/tabber_cookie.js"),
+                  JSSource("""
                                if (typeof(tabberOptions) == "undefined")
                                    var tabberOptions = {};
                                tabberOptions['onLoad'] = tabber_onload;
                                tabberOptions['onClick'] = tabber_onclick;
                                tabberOptions['cookie'] = 'TGTabber';
                                tabberOptions['manualStartup'] = true;"""),
-                  tg.widgets.JSLink("openerp", "javascript/tabber/tabber.js")]
+                  JSLink("openerp", "javascript/tabber/tabber.js")]
     
-    css = [tg.widgets.CSSLink('openerp', 'css/tabs.css')]
+    css = [CSSLink('openerp', 'css/tabs.css')]
 
-    def __init__(self, attrs, children):
-        super(Notebook, self).__init__(attrs)
-        self.children = children
+    def __init__(self, **attrs):
+        super(Notebook, self).__init__(**attrs)
         self.nolabel = True
-
         self.colspan = attrs.get('colspan', 3)
 
-class Page(Frame):
-    def __init__(self, attrs, children):
-        super(Page, self).__init__(attrs, children)
-        if self.invisible:
-            attributes = self.attributes.setdefault('invisible', [])
-            attributes += [1]
 
-class Separator(TinyField):
+class Page(Frame):
+    def __init__(self, **attrs):
+        super(Page, self).__init__(**attrs)
+        if self.invisible:
+            self.attributes = "{'invisible': [1]}"
+            
+
+class Separator(TinyInputWidget):
     """Separator widget.
     """
 
     params = ['string']
-    template = "openerp.widgets.templates.separator"
+    template = "templates/separator.mako"
 
-    def __init__(self, attrs={}):
-        super(Separator, self).__init__(attrs)
-
+    def __init__(self, **attrs):
+        super(Separator, self).__init__(**attrs)
+        
         self.colspan = int(attrs.get('colspan', 4))
         self.rowspan = 1
         self.nolabel = True
 
-class NewLine(TinyField):
+
+class NewLine(TinyInputWidget):
     """NewLine widget just tells the Frame widget to start new row during
     layout process.
     """
-    template = """ <span/> """
+    template = "<span/>"
 
-class Label(TinyField):
+
+class Label(TinyInputWidget):
 
     template = """
-        <div xmlns:py="http://purl.org/kid/ns#" style="text-align: $align; width: 100%;">
-            ${field_value}
-        </div>"""
+    <div style="text-align: $align; width: 100%;">
+        ${field_value}
+    </div>"""
 
     params = ["field_value", "align"]
 
-    def __init__(self, attrs={}):
-        super(Label, self).__init__(attrs)
-
+    def __init__(self, **attrs):
+        super(Label, self).__init__(**attrs)
+        
         self.nolabel = True
         self.field_value = self.string
         self.align = 'center'
@@ -327,65 +319,69 @@ class Label(TinyField):
     def set_value(self, value):
         self.field_value = unicode(value or '', 'utf-8')
 
-class Char(TinyField):
-    template = "openerp.widgets.templates.char"
+class Char(TinyInputWidget):
+    
+    template = "templates/char.mako"
     params = ['password', 'size']
 
-    def __init__(self, attrs={}):
-        super(Char, self).__init__(attrs)
-        self.validator = tiny_validators.String()
-        self.password = attrs.get('password', False)
-        self.size = attrs.get('size')
-
+    def __init__(self, **attrs):
+        super(Char, self).__init__(**attrs)
+        self.validator = validators.String()
+        
     def set_value(self, value):
         self.default = value
 
-class Email(TinyField):
-    template = "openerp.widgets.templates.email"
 
-    def __init__(self, attrs={}):
-        super(Email, self).__init__(attrs)
-        self.validator = tiny_validators.Email()
+class Email(TinyInputWidget):
+    template = "templates/email.mako"
+
+    def __init__(self, **attrs):
+        super(Email, self).__init__(**attrs)
+        self.validator = validators.Email()
 
     def set_value(self, value):
         if value:
             self.default = value
 
-class Text(TinyField):
-    template = "openerp.widgets.templates.text"
+
+class Text(TinyInputWidget):
+    template = "templates/text.mako"
     
-    def __init__(self, attrs={}):
-        super(Text, self).__init__(attrs)
-        self.validator = tiny_validators.String()
+    def __init__(self, **attrs):
+        super(Text, self).__init__(**attrs)
+        self.validator = validators.String()
 
     def set_value(self, value):
         self.default = value
+        
 
-class Integer(TinyField):
-    template = "openerp.widgets.templates.integer"
+class Integer(TinyInputWidget):
+    template = "templates/integer.mako"
 
-    def __init__(self, attrs={}):
-        super(Integer, self).__init__(attrs)
-        self.validator = tiny_validators.Int()
+    def __init__(self, **attrs):
+        super(Integer, self).__init__(**attrs)
+        self.validator = validators.Int()
 
     def set_value(self, value):
         self.default = value or 0
 
-class Boolean(TinyField):
-    template = "openerp.widgets.templates.boolean"
 
-    def __init__(self, attrs={}):
-        super(Boolean, self).__init__(attrs)
-        self.validator = tiny_validators.Bool()
+class Boolean(TinyInputWidget):
+    template = "templates/boolean.mako"
+
+    def __init__(self, **attrs):
+        super(Boolean, self).__init__(**attrs)
+        self.validator = validators.Bool()
 
     def set_value(self, value):
         self.default = value or ''
+        
 
-class Float(TinyField):
-    template = "openerp.widgets.templates.float"
+class Float(TinyInputWidget):
+    template = "templates/float.mako"
 
-    def __init__(self, attrs={}):
-        super(Float, self).__init__(attrs)
+    def __init__(self, **attrs):
+        super(Float, self).__init__(**attrs)
 
         digits = attrs.get('digits', (16,2))
         if isinstance(digits, basestring):
@@ -393,7 +389,7 @@ class Float(TinyField):
 
         integer, digit = digits
 
-        self.validator = tiny_validators.Float(digit=digit)
+        self.validator = validators.Float(digit=digit)
 
 #        if not self.default:
 #            self.default = 0.0
@@ -401,38 +397,41 @@ class Float(TinyField):
     def set_value(self, value):
         self.default = value
 
-class FloatTime(TinyField):
-    template = "openerp.widgets.templates.floattime"
 
-    def __init__(self, attrs={}):
-        super(FloatTime, self).__init__(attrs)
-        self.validator = tiny_validators.FloatTime()
+class FloatTime(TinyInputWidget):
+    template = "templates/floattime.mako"
+
+    def __init__(self, **attrs):
+        super(FloatTime, self).__init__(**attrs)
+        self.validator = validators.FloatTime()
 
     def set_value(self, value):
         self.default = value
         
-class ProgressBar(TinyField):
-    template = "openerp.widgets.templates.progressbar"
+        
+class ProgressBar(TinyInputWidget):
+    template = "templates/progressbar.mako"
     
-    def __init__(self, attrs={}):
-        super(ProgressBar, self).__init__(attrs)
+    def __init__(self, **attrs):
+        super(ProgressBar, self).__init__(**attrs)
         
         if attrs.get('type2') is 'float':
-            self.validator = tiny_validators.Float()
+            self.validator = validators.Float()
         else:
-            self.validator = tiny_validators.Int()
+            self.validator = validators.Int()
             
     def set_value(self, value):
         self.default = value or 0.00
 
-class Selection(TinyField):
-    template = "openerp.widgets.templates.selection"
+
+class Selection(TinyInputWidget):
+    template = "templates/selection.mako"
 
     params = ['options']
     options = []
 
-    def __init__(self, attrs={}):
-        super(Selection, self).__init__(attrs)
+    def __init__(self, **attrs):
+        super(Selection, self).__init__(**attrs)
         
         # m2o as selection
         if attrs.get('relation') and attrs.get('widget') == 'selection':
@@ -450,9 +449,9 @@ class Selection(TinyField):
         # determine the actual type
         if self.options and isinstance(self.options[0][0], basestring):
             self.kind = 'char'
-            self.validator = tiny_validators.String()
+            self.validator = validators.String()
         else:
-            self.validator = tiny_validators.Selection()
+            self.validator = validators.Selection()
 
     def set_value(self, value):
 
@@ -464,28 +463,34 @@ class Selection(TinyField):
             
         super(Selection, self).set_value(value)
 
-class DateTime(TinyInputWidget, tg.widgets.CalendarDatePicker):
-    template = "openerp.widgets.templates.datetime"
+class DateTime(TinyInputWidget):
+    
+    template = "templates/datetime.mako"
 
-    params = ["format"]
+    params = ["format", "strdate", "picker_shows_time"]
 
     format = '%Y-%m-%d %H:%M:%S'
+    strdate = None
     picker_shows_time = True
-    button_text = 'Select'
     
-    def __init__(self, attrs={}):
-        TinyInputWidget.__init__(self, attrs)
-        tg.widgets.CalendarDatePicker.__init__(self, name=self.name, not_empty=False, skin="skins/aqua/theme")
-        
+    def __init__(self, **attrs):
+        super(DateTime, self).__init__(**attrs)
         self.format = format.get_datetime_format(attrs['type'])
-
+        
+        self.javascript = [JSLink("openerp", "javascript/calendar/calendar.js"),
+                           JSLink("openerp", "javascript/calendar/calendar-setup.js"),
+                           JSLink("openerp", "javascript/calendar/lang/calendar-en.js"))
+                           
+        self.css = [CSSLink("openerp", "javascript/calendar/%s.css" % self.skin)]
+        
         if attrs['type'] == 'date':
             self.picker_shows_time = False
 
-        self.validator = tiny_validators.DateTime(kind=attrs['type'])
+        self.validator = validators.DateTime(kind=attrs['type'])
 
     def set_value(self, value):
         self._default = value or False
+        
 
 class Binary(TinyField):
     template = "openerp.widgets.templates.binary"

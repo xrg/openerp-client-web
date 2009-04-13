@@ -35,7 +35,6 @@ import cPickle
 import cherrypy
 
 from gettext import translation
-from turbogears.i18n import tg_gettext
 
 import rpc
 
@@ -131,7 +130,7 @@ def __load_translatables():
 
     return result.keys()
 
-__TRANSLATABLES = __load_translatables()
+#TODO: __TRANSLATABLES = __load_translatables()
 
 # vim: ts=4 sts=4 sw=4 si et
 
