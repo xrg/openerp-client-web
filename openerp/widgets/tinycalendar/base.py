@@ -94,7 +94,7 @@ class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
         self.description = description
         self.color = color
 
-class ICalendar(interface.TinyCompoundWidget):
+class ICalendar(interface.TinyWidget):
     """ Base Calendar calss
     """
     

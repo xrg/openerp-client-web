@@ -39,7 +39,7 @@ from openerp import tools
 from openerp import common
 from openerp import cache
 
-from interface import TinyCompoundWidget
+from interface import TinyWidget
 from resource import JSSource
 
 
@@ -53,7 +53,7 @@ if not hasattr(locale, 'nl_langinfo'):
 if not hasattr(locale, 'D_FMT'):
     locale.D_FMT = None
 
-class Graph(TinyCompoundWidget):
+class Graph(TinyWidget):
 
     template = "templates/graph.mako"
     javascript = [JSSource("""

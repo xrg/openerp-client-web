@@ -32,10 +32,9 @@ import cherrypy
 from openerp import tools
 
 from openerp.widgets.base import Widget
-from openerp.widgets.base import InputWidget
+from openerp.validators import DefaultValidator
 
-
-__all__ = ['TinyWidget', 'TinyInputWidget', 'TinyCompoundWidget', 'ConcurrencyInfo']
+__all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo']
 
 
 _attrs_boolean = {
@@ -56,7 +55,7 @@ def _boolean_attr(attrs, name):
     
     return (attrs.get(name) and True) or _attrs_boolean.get(name)
 
-class _Interface(object):
+class TinyWidget(Widget):
 
     params = [
         'colspan',
@@ -100,11 +99,15 @@ class _Interface(object):
     change_default = None
     onchange = 'onChange(this)'
     kind=None
+
+    validator = None
     
     def __init__(self, **attrs):
 
+        super(TinyWidget, self).__init__(**attrs)
+
         prefix = attrs.get('prefix', '')
-        self._id = prefix + (prefix and '/' or '') + attrs.get('name', '')
+        self._name = prefix + (prefix and '/' or '') + attrs.get('name', '')
 
         if isinstance(self.states, basestring):
             self.states = self.states.split(',')
@@ -150,43 +153,25 @@ class _Interface(object):
             if 'value' in attrs:
                 self.default = attrs['value']
 
-class TinyWidget(Widget, _Interface):
+    def get_widgets_by_name(self, name, kind=Widget, parent=None):
 
-    def __new__(cls, **attrs):
-        return super(TinyWidget, cls).__new__(cls, **attrs)
-    
-    def __init__(self, **attrs):
+        result = []
+        parent = parent or self
 
-        Widget.__init__(self, **attrs)
-        _Interface.__init__(self, **attrs)
+        for wid in parent.children:
+
+            if wid.name == name and isinstance(wid, kind):
+                result.append(wid)
+
+            if wid.children:
+                result += self.get_widgets_by_name(name, kind=kind, parent=wid)
+
+        return result
 
 
-class TinyInputWidget(InputWidget, _Interface):
-    
-    def __new__(cls, **attrs):
-        return super(TinyInputWidget, cls).__new__(cls, **attrs)
+class TinyInputWidget(TinyWidget):
 
-    def __init__(self, **attrs):
-        InputWidget.__init__(self, **attrs)
-        _Interface(self, **attrs)
-
-        self._name = self._id
-        self._validator = None
-
-    def get_validator(self):
-
-        # required fields are now validated at client side
-        #if self._validator:
-        #    self._validator.not_empty = (self.required or False) and True
-        #elif self.required:
-        #    self._validator = validators.NotEmpty()
-
-        return self._validator
-
-    def set_validator(self, value):
-        self._validator = value
-
-    validator = property(get_validator, set_validator)
+    validator = DefaultValidator
 
     def get_value(self):
         """Get the value of the field.
@@ -217,7 +202,7 @@ class TinyInputWidget(InputWidget, _Interface):
         return self.get_value()
     
     def update_params(self, d):
-        InputWidget.update_params(self, d)
+        super(TinyInputWidget, self).update_params(d)
 
         attrs = d['attrs'] = {}
 
@@ -239,26 +224,6 @@ class TinyInputWidget(InputWidget, _Interface):
         if self.translatable and 'translatable' not in d['field_class'].split(' '):
             d.setdefault('css_classes', []).append("translatable")
 
-        if hasattr(self, 'error') and self.error:
-            d.setdefault('css_classes', []).append("errorfield")
-
-
-class TinyCompoundWidget(TinyInputWidget):
-
-    def get_widgets_by_name(self, name, kind=Widget, parent=None):
-
-        result = []
-        parent = parent or self
-
-        for wid in parent.children:
-
-            if wid.name == name and isinstance(wid, kind):
-                result.append(wid)
-
-            if wid.children:
-                result += self.get_widgets_by_name(name, kind=kind, parent=wid)
-
-        return result
 
     def get_last_update_info(resource, values):
         result = {}
@@ -273,12 +238,8 @@ class TinyCompoundWidget(TinyInputWidget):
             vals[item['id']] = item.pop('__last_update', '')
         cherrypy.request.terp_concurrency_info = info
 
-    def update_params(self, d):
-        TinyInputWidget.update_params(self, d)
-        d['editable'] = self.editable
 
-
-class ConcurrencyInfo(TinyCompoundWidget):
+class ConcurrencyInfo(TinyInputWidget):
 
     template="""
     % if ids and model in info:

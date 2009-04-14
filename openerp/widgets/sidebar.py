@@ -34,9 +34,9 @@ from openerp import tools
 from openerp.utils import TinyDict
 
 from screen import Screen
-from interface import TinyCompoundWidget
+from interface import TinyWidget
 
-class Sidebar(TinyCompoundWidget):
+class Sidebar(TinyWidget):
 
     template = "openerp.widgets.templates.sidebar"
     params = ['reports', 'actions', 'relates', 'attachments']

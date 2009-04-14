@@ -34,7 +34,7 @@ from openerp import tools
 from openerp import rpc
 from openerp import cache
 
-from interface import TinyCompoundWidget
+from interface import TinyInputWidget
 
 import form
 import graph
@@ -42,7 +42,7 @@ import listgrid
 
 import tinycalendar
 
-class Screen(TinyCompoundWidget):
+class Screen(TinyInputWidget):
 
     template = """
     <span xmlns:py="http://purl.org/kid/ns#" py:strip="">

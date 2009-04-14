@@ -35,10 +35,10 @@ from openerp import tools
 from openerp import rpc
 from openerp.utils import TinyDict
 
-from interface import TinyCompoundWidget
+from interface import TinyInputWidget
 from screen import Screen
 
-class O2M(TinyCompoundWidget):
+class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "templates/one2many.mako"

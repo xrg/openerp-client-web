@@ -47,14 +47,13 @@ from openerp import rpc
 from openerp.utils import TinyDict
 
 from interface import TinyInputWidget
-from interface import TinyCompoundWidget
 from interface import ConcurrencyInfo
 
 from resource import JSLink, JSSource, CSSLink
 
 from openerp import validators
 
-class Frame(TinyCompoundWidget):
+class Frame(TinyInputWidget):
     """Frame widget layouts the widgets in a table.
     """
 
@@ -155,14 +154,12 @@ class Frame(TinyCompoundWidget):
 
     def _add_validator(self, widget):
 
-        if not isinstance(widget, TinyInputWidget) or not widget.name or widget.readonly or widget.name.startswith('_terp_listfields'):
+        if not isinstance(widget, TinyInputWidget) or \
+                not widget.name or widget.readonly or \
+                widget.name.startswith('_terp_listfields'):
             return
-
-        if isinstance(widget, TinyCompoundWidget) and not widget.validator:
-            for w in widget.children:
-                self._add_validator(w)
-
-        elif widget.validator:
+        
+        if widget.validator:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields += [widget]
 
@@ -232,7 +229,7 @@ class Frame(TinyCompoundWidget):
 
         self.hiddens += [widget]
         
-class Notebook(TinyCompoundWidget):
+class Notebook(TinyInputWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
     """
@@ -603,7 +600,7 @@ class Image(TinyInputWidget):
         else:
             self.src =  icons.get_icon(icon)
     
-class Group(TinyCompoundWidget):
+class Group(TinyInputWidget):
     template = "templates/group.mako"
     
     params = ["string", "frame"]
@@ -622,7 +619,7 @@ class Group(TinyCompoundWidget):
         self.nolabel = True
 
 
-class Dashbar(TinyCompoundWidget):
+class Dashbar(TinyInputWidget):
     
     template = "templates/dashbar.mako"
     
@@ -630,7 +627,7 @@ class Dashbar(TinyCompoundWidget):
     css = [CSSLink('openerp', 'css/dashboard.css')]
 
 
-class HPaned(TinyCompoundWidget):
+class HPaned(TinyInputWidget):
 
     template = """
     <table width="100%" class="hpaned">
@@ -649,7 +646,7 @@ class HPaned(TinyCompoundWidget):
         self.nolabel = True
 
 
-class VPaned(TinyCompoundWidget):
+class VPaned(TinyInputWidget):
 
     template = """
     <table width="100%" class="vpaned">
@@ -668,7 +665,7 @@ class VPaned(TinyCompoundWidget):
         self.nolabel = True
         
 
-class Form(TinyCompoundWidget):
+class Form(TinyInputWidget):
     """A generic form widget
     """
 

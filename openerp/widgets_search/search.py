@@ -41,7 +41,6 @@ from openerp import tools
 from openerp import cache
 
 from openerp.widgets.interface import TinyInputWidget
-from openerp.widgets.interface import TinyCompoundWidget
 
 from openerp.widgets.form import Char
 from openerp.widgets.form import Form
@@ -54,7 +53,7 @@ from openerp.widgets.form import Integer
 from openerp.widgets.form import Selection
 from openerp.widgets.form import Notebook
 
-class RangeWidget(TinyCompoundWidget):
+class RangeWidget(TinyInputWidget):
     template = "openerp.widgets_search.templates.rangewid"
 
     params = ["field_value"]
@@ -90,7 +89,7 @@ class RangeWidget(TinyCompoundWidget):
         self.from_field.set_value(start)
         self.to_field.set_value(end)
 
-class Search(TinyCompoundWidget):
+class Search(TinyInputWidget):
     template = "openerp.widgets_search.templates.search"
     params = ['fields_type']
     member_widgets = ['_notebook', 'basic', 'advance']

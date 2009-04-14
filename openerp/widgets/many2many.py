@@ -29,7 +29,7 @@
 
 import cherrypy
 
-from interface import TinyCompoundWidget
+from interface import TinyInputWidget
 
 from form import Form
 from listgrid import List
@@ -42,7 +42,7 @@ from openerp.utils import TinyDict
 
 from openerp import validators
 
-class M2M(TinyCompoundWidget):
+class M2M(TinyInputWidget):
 
     template = "templates/many2many.mako"
     params = ['relation', 'domain', 'context', 'screen']

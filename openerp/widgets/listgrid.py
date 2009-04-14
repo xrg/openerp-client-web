@@ -45,11 +45,11 @@ import form
 
 from pager import Pager
 
-from interface import TinyField
-from interface import TinyCompoundWidget
+from interface import TinyWidget
+from interface import TinyInputWidget
 from interface import ConcurrencyInfo
 
-class List(TinyCompoundWidget):
+class List(TinyWidget):
 
     template = "openerp.widgets.templates.listgrid"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
@@ -504,7 +504,7 @@ class Boolean(Char):
         else:
             return _('No')
         
-class Button(TinyField):
+class Button(TinyInputWidget):
     
     icon = None
     action = None

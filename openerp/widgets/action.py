@@ -37,10 +37,10 @@ from openerp import tools
 from openerp import rpc
 
 import screen
-from interface import TinyCompoundWidget
+from interface import TinyInputWidget
 from openerp.utils import TinyDict
 
-class Action(TinyCompoundWidget):
+class Action(TinyInputWidget):
     template = """
     <span xmlns:py="http://purl.org/kid/ns#" py:if="screen" py:replace="screen.display()"/>
     """
