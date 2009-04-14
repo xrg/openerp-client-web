@@ -11,7 +11,7 @@
         src="${src}" 
         width="${width}" 
         height="${height}" 
-        onclick="openWindow(getURL('/image', {model: '${model}', id: ${record_id}, field : '${field}'}), {width: 500, height: 300});"/>
+        onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
 % endif
 
 % if not stock and id and not editable:

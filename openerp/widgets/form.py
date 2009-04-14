@@ -537,7 +537,7 @@ class Hidden(TinyInputWidget):
 class Button(TinyInputWidget):
 
     template = "templates/button.mako"
-    params = ["btype", "record_id", "confirm", "icon", "target"]
+    params = ["btype", "id", "confirm", "icon", "target"]
 
     visible = True
     target = 'current'
@@ -574,11 +574,10 @@ class Image(TinyInputWidget):
 
     template = "template/image.mako"
 
-    params = ["src", "width", "height", "model", "record_id", "field", "stock"]
+    params = ["src", "width", "height", "model", "id", "field", "stock"]
     src = ""
     width = 32
     height = 32
-    record_id = False
     field = ''
     stock = True
 
@@ -593,7 +592,7 @@ class Image(TinyInputWidget):
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
-            self.src = tools.url('/image/get_image', model=self.model, id=self.record_id, field=self.field)
+            self.src = tools.url('/image/get_image', model=self.model, id=self.id, field=self.field)
             self.height = attrs.get('height', 200)
             self.width = attrs.get('width', 200)
             self.validator = validators.Binary()
@@ -676,7 +675,7 @@ class Form(TinyInputWidget):
     % endif
     """
 
-    params = ['record_id', 'frame', 'concurrency_info']
+    params = ['id', 'frame', 'concurrency_info']
     
     frame = None
     concurrency_info = None
@@ -711,7 +710,7 @@ class Form(TinyInputWidget):
         self.string = self.string or ''
         self.link = attrs.get('link', nolinks)
 
-        self.record_id = None
+        self.id = None
         self.context = context or {}
 
         proxy = rpc.RPCProxy(model)
@@ -733,7 +732,7 @@ class Form(TinyInputWidget):
 
         if ids:
             values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
-            self.record_id = ids[0]
+            self.id = ids[0]
             self._update_concurrency_info(self.model, [values])
 
         elif 'datas' in view: # wizard data
@@ -764,7 +763,7 @@ class Form(TinyInputWidget):
 
         self.view_fields = []
         self.frame = self.parse(prefix, dom, fields, values)[0]
-        self.concurrency_info = ConcurrencyInfo(self.model, [self.record_id])
+        self.concurrency_info = ConcurrencyInfo(self.model, [self.id])
         
         # We should generate hidden fields for fields which are not in view, as
         # the values of such fields might be used during `onchange` 
@@ -808,7 +807,7 @@ class Form(TinyInputWidget):
                 views += [NewLine(**attrs)]
 
             elif node.localName=='button':
-                views += [Button(model=self.model, record_id=self.record_id, **attrs)]
+                views += [Button(model=self.model, id=self.id, **attrs)]
 
             elif node.localName == 'form':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
@@ -899,7 +898,7 @@ class Form(TinyInputWidget):
         kind = attrs.get('type', 'char')
 
         if kind == 'image':
-            attrs['record_id'] = self.record_id
+            attrs['id'] = self.id
         
         # suppress by container's readonly property 
         if self.readonly:

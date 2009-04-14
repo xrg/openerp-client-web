@@ -512,14 +512,14 @@ class Button(TinyInputWidget):
     parent = None
     btype = None
     
-    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm', 'width', 'context']
+    params = ['string', 'icon', 'visible', 'id', 'parent', 'btype', 'confirm', 'width', 'context']
     
     template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
     <button py:if="visible and not icon" type="button" py:content="string" 
         context="${ustr(context)}" py:attrs="attrs" style="min-width: ${width}px;"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
     <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
     <span py:if="not visible and not icon">&nbsp;</span>
 </span>"""
     
@@ -543,7 +543,7 @@ class Button(TinyInputWidget):
 
     def params_from(self, data):
         
-        record_id = data.get('id')
+        id = data.get('id')
         visible = True
 
         if self.states:
@@ -551,7 +551,7 @@ class Button(TinyInputWidget):
             state = ((state or False) and state.value) or 'draft'
             visible = state in self.states
 
-        return dict(record_id=record_id, visible=visible)
+        return dict(id=id, visible=visible)
 
 CELLTYPES = {
         'char':Char,
