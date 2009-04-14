@@ -1,8 +1,9 @@
-from turbogears import startup
-from turbogears.i18n import tg_gettext
+#from turbogears.i18n import tg_gettext
 
-from turbogears.widgets import Widget
-from turbogears.widgets import JSLink
+#TODO: implement i18n supprt using babel
+
+from base import Widget
+from resource import JSLink
 
 def _get_locale():
     lang = tg_gettext.get_locale()
@@ -16,9 +17,9 @@ def _get_locale():
 class JSCatelog(JSLink):
     def update_params(self, d):
         super(JSCatelog, self).update_params(d)
-        lang = _get_locale()
-        if tg_gettext.is_locale_supported(lang):
-            d["link"] = "/%sstatic/javascript/i18n/%s.js" % (startup.webpath, lang)
+        #lang = _get_locale()
+        #if tg_gettext.is_locale_supported(lang):
+        #    d["link"] = "/%sstatic/javascript/i18n/%s.js" % (startup.webpath, lang)
 
 class JSI18n(Widget):
     javascript = [JSLink('openerp', 'javascript/i18n/i18n.js'),
@@ -31,7 +32,7 @@ js_i18n = JSI18n()
 
 import os
 import pkg_resources
-from turbojson import jsonify
+#from turbojson import jsonify
 
 def __generate_catalog(locale):
 
@@ -70,7 +71,7 @@ def __generate_catalogs():
     for lang in os.listdir(tg_gettext.get_locale_dir()):
         __generate_catalog(lang)
 
-__generate_catalogs()
+#TODO: __generate_catalogs()
 
 # vim: ts=4 sts=4 sw=4 si et
 
