@@ -33,14 +33,14 @@ import datetime
 import xml.dom.minidom
 
 import cherrypy
-import turbogears as tg
 
 from openerp import rpc
 from openerp import tools
 from openerp import format
 from openerp.utils import TinyDict
 
-from openerp.widgets import interface
+from openerp.widgets.interface import TinyWidget
+from openerp.widgets.resource import JSLink, CSSLink
 
 from utils import Day
 from utils import parse_datetime
@@ -58,11 +58,10 @@ def choice_colors(n):
         return COLOR_PALETTE[:n]
     return []
 
-class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
+class TinyEvent(TinyWidget):
     
-    template = """<div xmlns:py="http://purl.org/kid/ns#" class="calEvent" style="background-color: ${color}"
-    starts="${str(starts)}" ends="${str(ends)}" record_id="${record_id}" py:content="title" title="${description}">
-    </div>
+    template = """<div class="calEvent" style="background-color: ${color}"
+    starts="${str(starts)}" ends="${str(ends)}" record_id="${record_id}" title="${description}">${title}</div>
     """
 
     params = ['starts', 'ends', 'title', 'description', 'color', 'record_id']
@@ -78,7 +77,18 @@ class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
     record = {}
     record_id = False
     
+    def __new__(cls, record, starts, ends, title='', description='', dayspan=0, color=None):
+        return super(TinyEvent, cls).__new__(cls, record=record, 
+                                                  starts=starts,
+                                                  ends=ends,
+                                                  title=title,
+                                                  description=discription,
+                                                  dayspan=dayspan,
+                                                  color=color)
+                                                  
     def __init__(self, record, starts, ends, title='', description='', dayspan=0, color=None):
+        
+        super(TinyEvent, self).__init__()
         
         self.record = record
         self.record_id = record['id']
@@ -94,7 +104,7 @@ class TinyEvent(tg.widgets.Widget, interface.TinyWidget):
         self.description = description
         self.color = color
 
-class ICalendar(interface.TinyWidget):
+class ICalendar(TinyWidget):
     """ Base Calendar calss
     """
     
@@ -108,15 +118,26 @@ class ICalendar(interface.TinyWidget):
     selected_day = None    
     date_format = '%Y-%m-%d'
     
-    member_widgets = ['concurrency_info']
-    css = [tg.widgets.CSSLink('openerp', 'tinycalendar/css/calendar.css')]
-    javascript = [tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_date.js'),
-                  tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_utils.js'),
-                  tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_box.js'),
-                  tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_month.js'),
-                  tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_week.js')]
+    params = ['concurrency_info']
+    
+    css = [CSSLink('openerp', 'tinycalendar/css/calendar.css')]
+    javascript = [JSLink('openerp', 'tinycalendar/javascript/calendar_date.js'),
+                  JSLink('openerp', 'tinycalendar/javascript/calendar_utils.js'),
+                  JSLink('openerp', 'tinycalendar/javascript/calendar_box.js'),
+                  JSLink('openerp', 'tinycalendar/javascript/calendar_month.js'),
+                  JSLink('openerp', 'tinycalendar/javascript/calendar_week.js')]
 
+    def __new__(cls, model, ids, view, domain=[], context={}, options=None):
+        return super(ICalendar, cls).__new__(cls, model=model, 
+                                                  ids=ids, 
+                                                  view=view,
+                                                  domain=domain,
+                                                  context=context,
+                                                  options=options)
+                                                  
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
+        
+        super(ICalendar, self).__init__()
         
         self.info_fields = []
         self.fields = []
