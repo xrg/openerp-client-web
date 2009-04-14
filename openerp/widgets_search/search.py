@@ -34,7 +34,6 @@ several widget components.
 import xml.dom.minidom
 
 import cherrypy
-import turbogears as tg
 
 from openerp import rpc
 from openerp import tools
@@ -54,13 +53,13 @@ from openerp.widgets.form import Selection
 from openerp.widgets.form import Notebook
 
 class RangeWidget(TinyInputWidget):
-    template = "openerp.widgets_search.templates.rangewid"
+    template = "templates/rangewid.mako"
 
     params = ["field_value"]
-    member_widgets = ["from_field", "to_field"]
+    members = ["from_field", "to_field"]
 
-    def __init__(self, attrs):
-        super(RangeWidget, self).__init__(attrs)
+    def __init__(self, **attrs):
+        super(RangeWidget, self).__init__(**attrs)
 
         kind = attrs.get('type', 'integer')
 
@@ -81,7 +80,7 @@ class RangeWidget(TinyInputWidget):
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
-
+        
     def set_value(self, value):
         start = value.get('from', '')
         end = value.get('to', '')
@@ -90,20 +89,18 @@ class RangeWidget(TinyInputWidget):
         self.to_field.set_value(end)
 
 class Search(TinyInputWidget):
-    template = "openerp.widgets_search.templates.search"
+    template = "templates/search.mako"
     params = ['fields_type']
-    member_widgets = ['_notebook', 'basic', 'advance']
+    members = ['_notebook', 'basic', 'advance']
 
-    _notebook = Notebook({}, [])
+    _notebook = Notebook()
 
     def __init__(self, model, domain=[], context={}, values={}):
 
-        super(Search, self).__init__({})
+        super(Search, self).__init__(model=model)
 
-        self.model         = model
-
-        self.domain        = domain
-        self.context       = context
+        self.domain = domain or []
+        self.context = context or {}
 
         ctx = rpc.session.context.copy()
         view = cache.fields_view_get(self.model, False, 'form', ctx, True)

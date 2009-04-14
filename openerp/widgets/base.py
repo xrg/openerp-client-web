@@ -153,8 +153,11 @@ class Widget(object):
     params = {
         'ident': 'The identified of this widget',
         'name': 'The name of this widget',
-        'css_class': 'Main CSS class for this widget'
+        'css_class': 'Main CSS class for this widget',
+        'css_classes': 'List of all CSS classes',
         }
+        
+    members = []
 
     default = None
     strip_name = False
@@ -164,62 +167,64 @@ class Widget(object):
     _is_initialized = False
     _is_locked = False
     
-    def __new__(cls, name=None, parent=None, children=[], **kw):
-        
-        obj = object.__new__(cls, name=name, parent=parent, children=children, **kw)
+    def __init__(self, name=None, parent=None, children=[], **kw):
         
         # set each keyword args as attribute
         for k, v in kw.iteritems():
             if not k.startswith('_'):
                 try:
-                    setattr(obj, k, v)
+                    setattr(self, k, v)
                 except AttributeError, e:
                     #skip setting the value of a read only property
                     pass
 
-        obj._name = name
-        obj.orig_kw = kw.copy()
+        self._name = name
+        self.orig_kw = kw.copy()
         
-        for param in cls.params:
-            if not hasattr(obj, param):
-                setattr(obj, param, None)
+        for param in self.__class__.params:
+            if not hasattr(self, param):
+                setattr(self, param, None)
                 
+        for member in self.__class__.members:
+            if not hasattr(self, member):
+                setattr(self, member, None)
+
         # attache parent
         if parent is not None:
             if parent._is_initialized:
                 raise WidgetInitialized
-            obj.parent = weakref.proxy(parent)
-            obj.parent.children.add(obj)
+            self.parent = weakref.proxy(parent)
+            self.parent.children.add(self)
         
         # copy mutable class attributes
         for name in ['children', 'css', 'javascript']:
-            attr = getattr(obj, name, [])
-            setattr(obj, name, copy.copy(attr))
-            
-        children = children or obj.children or []
+            attr = getattr(self.__class__, name, [])
+            setattr(self, name, copy.copy(attr))
+    
+        children = children or self.children or []
         
         # override children if given
-        obj.c = obj.children = WidgetBunch()
+        self.c = self.children = WidgetBunch()
         for child in children:
-            obj._append_child(child)
+            self._append_child(child)
 
-        obj._resources = OrderedSet()
+        #also append widgets listed in members
+        for member in self.members:
+            child = getattr(self, member)
+            self._append_child(child)
+ 
+        self._resources = OrderedSet()
 
         # Set default css class for the widget
-        if not getattr(obj, 'css_class', None):
-            obj.css_class = obj.__class__.__name__.lower()
+        if not getattr(self, 'css_class', None):
+            self.css_class = self.__class__.__name__.lower()
 
-        return obj
-    
     def _collect_resources(self):
         """picks up resources from self and all children"""
         oset = self._resources
         oset.add_all(chain(*[c._resources for c in self.css]))
         oset.add_all(chain(*[c._resources for c in self.javascript]))
         oset.add_all(chain(*[c._resources for c in self.children]))
-    
-    def __init__(self, name=None, parent=None, children=[], **kw):
-        pass
 
     def post_init(self, *args, **kw):
         #TODO: generate validation schema for input widgets  
@@ -325,8 +330,8 @@ class Widget(object):
     
     def update_params(self, d):
         
-        # Populate dict with attrs from self listed at params
-        for k in ifilterfalse(d.__contains__, self.params):
+        # Populate dict with attrs from self listed at params and members
+        for k in ifilterfalse(d.__contains__, chain(self.params, self.members)):
             attr = getattr(self, k, None)
             if attr is not None:
                 if isinstance(attr, (list, dict)):
@@ -491,7 +496,10 @@ class Widget(object):
     @only_if_uninitialized
     def _append_child(self, obj):
         """Append an object as a child"""
-        if isinstance(obj, Widget):
+        if isinstance(obj, list):
+            for o in obj:
+                self._append_child(o)
+        elif isinstance(obj, Widget):
             a = obj._append_to(self)
         elif isinstance(obj, Child):
             obj(self)

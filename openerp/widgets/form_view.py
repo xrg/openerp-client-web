@@ -34,26 +34,25 @@ from openerp.widgets_search.search import Search
 from screen import Screen
 from sidebar import Sidebar
 
-from interface import Form
-from resource import JSLink, location
+from base import Form
+from resource import JSLink, locations
 
 class ViewForm(Form):
 
     template = "templates/viewform.mako"
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'screen', 'search', 'sidebar']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
+    members = ['screen', 'search', 'sidebar']
     
-    javascript = [JSLink("openerp", "javascript/form.js", location=location.bodytop),
-                  JSLink("openerp", "javascript/form_state.js", location=location.bodytop),
-                  JSLink("openerp", "javascript/m2o.js", location=location.bodytop),
-                  JSLink("openerp", "javascript/m2m.js", location=location.bodytop),
-                  JSLink("openerp", "javascript/o2m.js", location=location.bodytop),
-                  JSLink("openerp", "javascript/textarea.js", location=location.bodytop),
-                  JSLink("openerp", "javascript/binary.js", location=location.bodytop)]
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/o2m.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/textarea.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/binary.js", location=locations.bodytop)]
 
-    def __init__(self, **kw):
-        
-        params = kw.pop('params')
+    def __init__(self, params, **kw):
         
         super(ViewForm, self).__init__(**kw)
         
@@ -98,17 +97,9 @@ class ViewForm(Form):
         
         self.search_domain = params.search_domain
         self.search_data = params.search_data
-        
-        self.children = c = []
-        if self.search: c.append(self.search)
-        c.append(self.screen)
-        c.append(self.sidebar)
-        
-        c.extend(cherrypy.request.terp_fields or [])
-        c.extend(self.hidden_fields or [])
-        
+                
         #self.fields = cherrypy.request.terp_fields
-        
-# vim: ts=4 sts=4 sw=4 si et
 
+
+# vim: ts=4 sts=4 sw=4 si et
 

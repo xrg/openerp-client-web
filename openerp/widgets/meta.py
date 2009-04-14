@@ -11,6 +11,7 @@ class WidgetType(type):
         _update_list_attr(bases, attrs, 'css')
         
         params = _update_list_attr(bases, attrs, 'params')
+        members = _update_list_attr(bases, attrs, 'members')
         children = _update_list_attr(bases, attrs, 'children')
         
         if '__init__' in attrs:

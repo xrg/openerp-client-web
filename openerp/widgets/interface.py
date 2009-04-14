@@ -102,9 +102,6 @@ class TinyWidget(Widget):
 
     validator = None
     
-    def __new__(cls, **attrs):
-        return super(TinyWidget, cls).__new__(cls, **attrs)
-    
     def __init__(self, **attrs):
 
         super(TinyWidget, self).__init__(**attrs)
