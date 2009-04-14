@@ -1,7 +1,6 @@
-<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-<span  id="${field_id}"/>
+<span id="${name}"/>
     <script type="text/javascript">
-        var ${field_id} = new TreeGrid('${field_id}');
+        var ${name} = new TreeGrid('${name}');
         
         ${field_id}.options.showheaders = ${(showheaders and 'true') or 'false'};
         ${field_id}.options.onselect = ${onselection or 'null'};
@@ -16,3 +15,4 @@
         ${field_id}.render();
     </script>
 </span>
+

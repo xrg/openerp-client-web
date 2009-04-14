@@ -34,11 +34,11 @@ import cherrypy
 from base64 import b64encode, b64decode
 from StringIO import StringIO
 
-import turbogears as tg
-
 import wikimarkup
 
 from form import Text
+from resource import JSLink, CSSLink
+
 from openerp import rpc
 
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
@@ -170,18 +170,14 @@ def wiki2html(text, showToc, id):
     return p.parse(text, id)
 
 class WikiWidget(Text):
-    template = "openerp.widgets.templates.wiki"
+    template = "templates/wiki.mako"
     
     params = ["data"]
-    css = [tg.widgets.CSSLink('openerp', 'css/wiki.css')]
-    javascript = [tg.widgets.JSLink("openerp", "javascript/textarea.js")]
+    css = [CSSLink('openerp', 'css/wiki.css')]
+    javascript = [JSLink("openerp", "javascript/textarea.js")]
 
     data = None
-    
-    def __init__(self, attrs):
-        super(WikiWidget, self).__init__(attrs)
-        self.data = None
-
+            
     def set_value(self, value):
         super(WikiWidget, self).set_value(value)
         

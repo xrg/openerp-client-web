@@ -1,8 +1,11 @@
-<table xmlns:py="http://purl.org/kid/ns#" border="0" cellpadding="0" py:if="reports or actions or relates or attachments">
+<%page expression_filter="h"/> <!-- XXX -->
+% if reports or actions or relates or attachments:
+<table border="0" cellpadding="0">
     <tr>
         <td id="sidebar_pane" width="163" valign="top" style="padding-left: 2px">
             <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
-                <tr py:if="reports">
+                % if reports:
+                <tr>
                     <td>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
                             <tr>
@@ -19,15 +22,19 @@
                                 </td>
                             </tr>
     
-                            <tr py:for="item in reports" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                            % for item in reports:
+                            <tr data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
                             </tr>
+                            % endfor
                         </table>
                     </td>
                 </tr>
-                <tr py:if="actions">
+                % endif
+                % if actions:
+                <tr>
                     <td>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
                             <tr>
@@ -43,15 +50,19 @@
                                     </table>
                                 </td>
                             </tr>
-                            <tr py:for="item in actions" data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                            % for item in actions:
+                            <tr data="${str(item)}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
                             </tr>
+                            % endfor
                         </table>
                     </td>
                 </tr>
-                <tr py:if="relates">
+                % endif
+                % if relates:
+                <tr>
                     <td>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
                             <tr>
@@ -67,16 +78,20 @@
                                     </table>
                                 </td>
                             </tr>
-                            <tr py:for="item in relates" data="${str(item)}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'), '${item.get('target', '')}')">
+                            % for item in relates:
+                            <tr data="${str(item)}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'), '${item.get('target', '')}')">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
                             </tr>
+                            % endfor
                         </table>
                     </td>
                 </tr>
+                % endif
                 
-                <tr py:if="attachments">
+                % if attachments:
+                <tr>
                     <td>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
                             <tr>
@@ -92,14 +107,19 @@
                                     </table>
                                 </td>
                             </tr>
-                            <tr py:for="item in attachments" data="${str(item)}">
-                                <td py:if="item[1]">
+                            % for item in attachments:
+                            <tr data="${str(item)}">
+                                % if item[1]:
+                                <td>
                                     <a href="/attachment/save_as/${item[1]}?record=${item[0]}">${item[1]}</a>
                                 </td>
+                                % endif
                             </tr>
+                            % endfor
                         </table>
                     </td>
                 </tr>
+                % endif
                 
             </table>
         </td>
@@ -109,3 +129,5 @@
         </td>
     </tr>
 </table>
+% endif
+

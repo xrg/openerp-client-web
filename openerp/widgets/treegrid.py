@@ -27,62 +27,70 @@
 #
 ###############################################################################
 
-from turbojson import jsonify
+import simplejson
 
-import turbogears
+from interface import TinyWidget
+from resource import CSSLink, JSLink
 
-from turbogears import widgets
-from interface import TinyField
 
-class TreeGrid(TinyField):
+class TreeGrid(TinyWidget):
 
-    template = "openerp.widgets.templates.treegrid"
+    template = "templates/treegrid.mako"
     params = ['headers', 'showheaders', 'expandall', 'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
 
-    css = [widgets.CSSLink("openerp", "css/treegrid.css")]
-    javascript = [widgets.JSLink("openerp", "javascript/treegrid.js")]
-
-    def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
-        attrs = dict(name=name, model=model, url=url)
-        super(TreeGrid, self).__init__(attrs)
+    css = [CSSLink("openerp", "css/treegrid.css")]
+    javascript = [JSLink("openerp", "javascript/treegrid.js")]
+    
+    ids = None
+    domain = None
+    context = None
+    field_parent = None
+    
+    #def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
+    def __init__(self, **attrs):
         
-        self.ids = ids
-        self.model = model
+        name = attrs['name']
+        model = attrs['model']
+        headers = attrs['headers']
+        url = attrs['url']
         
-        self.headers = jsonify.encode(headers)
+        super(TreeGrid, self).__init__(**attrs)
+        
+        self.ids = self.ids or []
+        self.domain = self.domain or []
+        self.context = self.context or {}
+        
+        self.headers = simplejson.dumps(headers)
         
         fields = [field['name'] for field in headers]
         icon_name = headers[0].get('icon')
         
-        self.url = url
-        self.url_params = dict(model=model, 
-                                ids=ids,
-                                fields=ustr(fields), 
-                                domain=ustr(domain), 
-                                context=ustr(context), 
-                                field_parent=field_parent,
-                                icon_name=icon_name)
+        url_params = attrs.copy()
         
-        self.url_params.update(kw)
+        url_params.pop('name', None)
+        url_params.pop('headers', None)
+        url_params.pop('url', None)
         
+        url_params['domain'] = ustr(self.domain)
+        url_params['context'] = ustr(self.context)
+        url_params['fields'] = ustr(fields)
+        url_params['icon_name'] = icon_name
+                
         def _jsonify(obj):
             
             for k, v in obj.items():
                 if isinstance(v, dict):
                     obj[k] = _jsonify(v)
             
-            return jsonify.encode(obj)
+            return simplejson.dumps(obj)
+        
+        self.url_params = _jsonify(url_params)
                 
-        self.url_params = _jsonify(self.url_params)
-        
-        self.domain = domain
-        self.context = context
-        
-        self.showheaders = kw.get('showheaders', 1)
-        self.onselection = kw.get('onselection')
-        self.onbuttonclick = kw.get('onbuttonclick')
-        self.onheaderclick = kw.get('onheaderclick')
-        self.expandall = kw.get('expandall', 0)
+        self.showheaders = attrs.get('showheaders', 1)
+        self.onselection = attrs.get('onselection')
+        self.onbuttonclick = attrs.get('onbuttonclick')
+        self.onheaderclick = attrs.get('onheaderclick')
+        self.expandall = attrs.get('expandall', 0)
         
 # vim: ts=4 sts=4 sw=4 si et
 

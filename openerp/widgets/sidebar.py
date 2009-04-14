@@ -27,21 +27,22 @@
 #
 ###############################################################################
 
-from turbogears import widgets
-
 from openerp import rpc
 from openerp import tools
+
 from openerp.utils import TinyDict
 
 from screen import Screen
+
 from interface import TinyWidget
+from resource import JSSource
 
 class Sidebar(TinyWidget):
 
-    template = "openerp.widgets.templates.sidebar"
+    template = "templates/sidebar.mako"
     params = ['reports', 'actions', 'relates', 'attachments']
     
-    javascript = [widgets.JSSource("""
+    javascript = [JSSource("""
         function toggle_sidebar(forced) {
         
             var sb = MochiKit.DOM.getElement('sidebar');
@@ -65,16 +66,21 @@ class Sidebar(TinyWidget):
         });    
     """)]
     
-    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}):
+    id = None
+    toolbar = None
+    multi = True
+    view_type = 'form'
+    is_tree = False
+    context = None
+    
+    def __init__(self, **attrs):
         
-        super(Sidebar, self).__init__()
+        model = attrs['model']
         
-        self.model = model
-        self.multi = multi
-        self.context = context
-        self.view_type = view_type
+        super(Sidebar, self).__init__(**attrs)
         
-        toolbar = toolbar or {}
+        self.context = self.context or {}
+        self.toolbar = self.toolbar or {}
         
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
@@ -111,7 +117,7 @@ class Sidebar(TinyWidget):
         
         
         if self.view_type == 'form':
-            id = int(id)
+            id = int(self.id)
             params = TinyDict()
             params.model = 'ir.attachment'
             params.view_mode = ['tree', 'form']

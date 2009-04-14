@@ -27,19 +27,19 @@
 #
 ###############################################################################
 
-from turbogears.widgets import JSLink 
+from resource import JSLink 
+from interface import TinyInputWidget
 
-from interface import TinyField
-from openerp import validators as tiny_validators
+from openerp import validators
 
-class TinyMCE(TinyField):
-
-    template = "openerp.widgets.templates.tiny_mce"
+class TinyMCE(TinyInputWidget):
+    
+    template = "templates/tiny_mce.mako"
     javascript = [JSLink("openerp", "tiny_mce/tiny_mce.js")]
 
-    def __init__(self, attrs={}):
-        super(TinyMCE, self).__init__(attrs)
-        self.validator = tiny_validators.String()
+    def __init__(self, **attrs):
+        super(TinyMCE, self).__init__(**attrs)
+        self.validator = validators.String()
         
     def set_value(self, value):
         super(TinyMCE, self).set_value(value)

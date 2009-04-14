@@ -27,16 +27,15 @@
 #
 ###############################################################################
 
-from turbogears import widgets
+from interface import TinyWidget
+from resource import CSSLink
 
-from interface import TinyCompoundWidget
+class Pager(TinyWidget):
 
-class Pager(TinyCompoundWidget):
-
-    template = "openerp.widgets.templates.pager"
+    template = "templates/pager.mako"
     params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id']
 
-    css = [widgets.CSSLink('openerp', 'css/pager.css')]
+    css = [CSSLink('openerp', 'css/pager.css')]
 
     offset = 0
     limit = 20
@@ -44,23 +43,21 @@ class Pager(TinyCompoundWidget):
 
     page_info = None
     pager_id = 1
-
-    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
-
-        super(Pager, self).__init__()
-
-        self.limit = limit or 20
-        self.offset = offset or 0
-        self.count = count
-
-        self.id = id or False
-        self.ids = ids or []
+    
+    id = False
+    ids = None
+    view_type = 'tree'
+    
+    def __init__(self, **attrs):
+        super(Pager, self).__init__(**attrs)
+        
+        self.ids = self.ids or []
         
         if len(self.ids) > self.limit:
             self.ids = self.ids[self.offset:]
             self.ids = self.ids[:min(self.limit, len(self.ids))]
 
-        if view_type == 'form':
+        if self.view_type == 'form':
 
             index = 0
             if self.id in self.ids:
