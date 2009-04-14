@@ -541,6 +541,7 @@ var onChange = function(name) {
     params['_terp_model'] = model;
     params['_terp_context'] = context;
     params['_terp_value'] = caller.value;
+    params['_terp_id'] = $('_terp_id').value;
     
     var req = Ajax.JSON.post(callback ? '/form/on_change' : '/form/change_default_get', params);
 

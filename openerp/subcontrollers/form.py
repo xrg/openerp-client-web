@@ -883,6 +883,7 @@ class Form(controllers.Controller, TinyResource):
         caller = data.pop('_terp_caller')
         model = data.pop('_terp_model')
         context = data.pop('_terp_context')
+        id = data.pop('_terp_id')
 
         try:
             context = eval(context) # convert to python dict
@@ -931,6 +932,9 @@ class Form(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
 
         ids = ctx.id and [ctx.id] or []
+        
+        if not ids:
+            ids = id and [int(id)]
 
         try:
             response = getattr(proxy, func_name)(ids, *args)
