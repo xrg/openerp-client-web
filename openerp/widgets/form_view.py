@@ -28,28 +28,33 @@
 ###############################################################################
 
 import cherrypy
-import turbogears as tg
 
 from openerp.widgets_search.search import Search
 
 from screen import Screen
 from sidebar import Sidebar
 
-class ViewForm(tg.widgets.Form):
+from interface import Form
+from resource import JSLink, location
 
-    template = "openerp.widgets.templates.viewform"
+class ViewForm(Form):
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
-    member_widgets = ['screen', 'search', 'sidebar']    
-    javascript = [tg.widgets.JSLink("openerp", "javascript/form.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/form_state.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/m2o.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/m2m.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/o2m.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/textarea.js", location=tg.widgets.js_location.bodytop),
-                  tg.widgets.JSLink("openerp", "javascript/binary.js", location=tg.widgets.js_location.bodytop)]
+    template = "templates/viewform.mako"
 
-    def __init__(self, params, **kw):
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'screen', 'search', 'sidebar']
+    
+    javascript = [JSLink("openerp", "javascript/form.js", location=location.bodytop),
+                  JSLink("openerp", "javascript/form_state.js", location=location.bodytop),
+                  JSLink("openerp", "javascript/m2o.js", location=location.bodytop),
+                  JSLink("openerp", "javascript/m2m.js", location=location.bodytop),
+                  JSLink("openerp", "javascript/o2m.js", location=location.bodytop),
+                  JSLink("openerp", "javascript/textarea.js", location=location.bodytop),
+                  JSLink("openerp", "javascript/binary.js", location=location.bodytop)]
+
+    def __init__(self, **kw):
+        
+        params = kw.pop('params')
+        
         super(ViewForm, self).__init__(**kw)
         
         # save reference of params dictionary in requeste
@@ -94,7 +99,15 @@ class ViewForm(tg.widgets.Form):
         self.search_domain = params.search_domain
         self.search_data = params.search_data
         
-        self.fields = cherrypy.request.terp_fields
+        self.children = c = []
+        if self.search: c.append(self.search)
+        c.append(self.screen)
+        c.append(self.sidebar)
+        
+        c.extend(cherrypy.request.terp_fields or [])
+        c.extend(self.hidden_fields or [])
+        
+        #self.fields = cherrypy.request.terp_fields
         
 # vim: ts=4 sts=4 sw=4 si et
 

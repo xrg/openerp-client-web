@@ -27,7 +27,6 @@
 #
 ###############################################################################
 
-import turbogears as tg
 import cherrypy
 
 from openerp import tools
@@ -45,7 +44,6 @@ import tinycalendar
 class Screen(TinyInputWidget):
 
     template = """
-    <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
         <input type="hidden" id="${name}_terp_model" name="${name}_terp_model" value="${model}"/>
         <input type="hidden" id="${name}_terp_state" name="${name}_terp_state" value="${state}"/>
         <input type="hidden" id="${name}_terp_id" name="${name}_terp_id" value="${str(id)}"/>
@@ -55,29 +53,37 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_view_type" name="${name}_terp_view_type" value="${str(view_type)}"/>
         <input type="hidden" id="${name}_terp_view_id" name="${name}_terp_view_id" value="${str(view_id)}"/>
         <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
-        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context)}"/>
+        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context_)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
 
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
 
-        <span py:if="widget" py:replace="widget.display(value_for(widget), **params_for(widget))"/>
-    </span>
+        % if widget:
+            ${display_child(widget)}
+        % endif
     """
 
-    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
-
-    member_widgets = ['widget']
+    params = ['state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count', 'widget']
     widget = None
+    
+    def __new__(cls, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
+        return super(Screen, cls).__new__(cls, params=params, 
+                                               prefix=prefix,
+                                               name=name,
+                                               views_preloaded=views_preloaded,
+                                               hastoolbar=hastoolbar,
+                                               editable=editable,
+                                               readonly=readonly)
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
-
+         
         # get params dictionary
         params = params or cherrypy.request.terp_params
         prefix = prefix or (params.prefix or '')
 
-        super(Screen, self).__init__(dict(prefix=prefix, name=name))
+        super(Screen, self).__init__(prefix=prefix, name=name)
 
         self.model         = params.model
         self.state         = params.state or None
@@ -207,6 +213,8 @@ class Screen(TinyInputWidget):
 
         self.toolbar = toolbar or None
         self.hastoolbar = (toolbar or False) and True
+        
+        self.children = [self.widget]
         
 # vim: ts=4 sts=4 sw=4 si et
 

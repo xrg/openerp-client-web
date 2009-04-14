@@ -526,8 +526,15 @@ class Widget(object):
         return "%s(%r, children=%r, **%r)" % (
             name, self._name, self.children, self.orig_kw
         )
-
-
+        
+class Form(Widget):
+    params = ['action', 'hidden_fields']
+    hidden_fields = []
+    
+    def post_init(self, *args, **kw):
+        self.children = self.children + self.hidden_fields
+        
+        
 import re
 
 _id_RE = re.compile(r'(\w+)+(?:-(\d))*')
