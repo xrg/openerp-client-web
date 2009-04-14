@@ -65,18 +65,9 @@ class Screen(TinyInputWidget):
         % endif
     """
 
-    params = ['state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count', 'widget']
-    widget = None
+    params = ['state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
+    members = ['widget']
     
-    def __new__(cls, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
-        return super(Screen, cls).__new__(cls, params=params, 
-                                               prefix=prefix,
-                                               name=name,
-                                               views_preloaded=views_preloaded,
-                                               hastoolbar=hastoolbar,
-                                               editable=editable,
-                                               readonly=readonly)
-
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
          
         # get params dictionary
@@ -213,8 +204,6 @@ class Screen(TinyInputWidget):
 
         self.toolbar = toolbar or None
         self.hastoolbar = (toolbar or False) and True
-        
-        self.children = [self.widget]
         
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -45,7 +45,8 @@ from openerp import validators
 class M2M(TinyInputWidget):
 
     template = "templates/many2many.mako"
-    params = ['relation', 'domain', 'context', 'screen']
+    params = ['relation', 'domain', 'context']
+    members = ['screen']
 
     relation = None
     domain = []
@@ -142,8 +143,6 @@ class M2M(TinyInputWidget):
 
         self.validator = validators.many2many()
         
-        self.children = [self.screen]
-
     def set_value(self, value):
 
         ids = value

@@ -42,16 +42,17 @@ from openerp.utils import TinyDict
 
 class Action(TinyInputWidget):
     template = """
-    <span xmlns:py="http://purl.org/kid/ns#" py:if="screen" py:replace="screen.display()"/>
+    % if screen:
+        ${display_child(screen)}
+    % endif
     """
 
     params = ['string']
-    member_widgets = ['screen']
+    members = ['screen']
 
-    screen = None
-
-    def __init__(self, attrs={}):
-        super(Action, self).__init__(attrs)
+    def __init__(self, **attrs):
+        
+        super(Action, self).__init__(**attrs)
         self.nolabel = True
 
         self.act_id=attrs['name']

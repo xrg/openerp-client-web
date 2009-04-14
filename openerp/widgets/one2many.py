@@ -42,7 +42,8 @@ class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "templates/one2many.mako"
-    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'screen']
+    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx']
+    members = ['screen']
     
     form = None
 
@@ -142,9 +143,7 @@ class O2M(TinyInputWidget):
                              selectable=0, nolinks=self.link)
         self.id = id
         self.ids = ids
-        
-        self.children = [self.screen]
-        
+                
         if view_type == 'tree':
             #self.screen.widget.pageable=False
             self.id = None

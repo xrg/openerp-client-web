@@ -59,9 +59,9 @@ class Frame(TinyInputWidget):
 
     template = "templates/frame.mako"
 
-    params = ['table', 'hiddens']
+    params = ['table']
+    members = ['hiddens']
     
-    hiddens = None
     table = None
     
     def __init__(self, **attrs):
@@ -238,12 +238,12 @@ class Notebook(TinyInputWidget):
 
     javascript = [JSLink("openerp", "javascript/tabber/tabber_cookie.js"),
                   JSSource("""
-                               if (typeof(tabberOptions) == "undefined")
-                                   var tabberOptions = {};
-                               tabberOptions['onLoad'] = tabber_onload;
-                               tabberOptions['onClick'] = tabber_onclick;
-                               tabberOptions['cookie'] = 'TGTabber';
-                               tabberOptions['manualStartup'] = true;"""),
+                  if (typeof(tabberOptions) == "undefined")
+                      var tabberOptions = {};
+                  tabberOptions['onLoad'] = tabber_onload;
+                  tabberOptions['onClick'] = tabber_onclick;
+                  tabberOptions['cookie'] = 'TGTabber';
+                  tabberOptions['manualStartup'] = true;"""),
                   JSLink("openerp", "javascript/tabber/tabber.js")]
     
     css = [CSSLink('openerp', 'css/tabs.css')]
@@ -521,6 +521,7 @@ class URL(TinyInputWidget):
 
 class Hidden(TinyInputWidget):
     template = "templates/hidden.mako"
+    
     wid = None
     params = ['relation']
 
@@ -602,19 +603,13 @@ class Image(TinyInputWidget):
 class Group(TinyInputWidget):
     template = "templates/group.mako"
     
-    params = ["string", "frame"]
-    frame = None
+    params = ["string"]
+    members = ["frame"]
     
-    def __init__(self, **attrs):
-        
-        attrs_ = attrs.copy()
-        attrs_.pop('children', None)
-        
+    def __init__(self, **attrs):        
         super(Group, self).__init__(**attrs_)
         
-        self.frame = Frame(**attrs)
-        self.children = [self.frame]
-        
+        self.frame = Frame(**attrs)]
         self.nolabel = True
 
 
@@ -675,32 +670,12 @@ class Form(TinyInputWidget):
     % endif
     """
 
-    params = ['id', 'frame', 'concurrency_info']
-    
-    frame = None
-    concurrency_info = None
-    
-    prefix = None
-    model = None
-    view = None
-    ids = None
-    domain = None
-    context = None
-    
-    nodefault = False
-    nolinks = 1
-    
-    #def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
-    def __init__(self, **attrs):
+    params = ['id']
+    members = ['frame', 'concurrency_info']
         
-        view = attrs['view']
-        model = attrs['model']
-        prefix = attrs['prefix']
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
         
-        context = attrs.get('context', {})
-        domain = attrs.get('domain', [])
-        
-        super(Form, self).__init__(**attrs)
+        super(Form, self).__init__(prefix=prefix, model=model, editable=editable, readonly=readonly, nodefault=nodefault)
         
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]

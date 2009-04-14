@@ -76,16 +76,7 @@ class TinyEvent(TinyWidget):
 
     record = {}
     record_id = False
-    
-    def __new__(cls, record, starts, ends, title='', description='', dayspan=0, color=None):
-        return super(TinyEvent, cls).__new__(cls, record=record, 
-                                                  starts=starts,
-                                                  ends=ends,
-                                                  title=title,
-                                                  description=discription,
-                                                  dayspan=dayspan,
-                                                  color=color)
-                                                  
+                                                     
     def __init__(self, record, starts, ends, title='', description='', dayspan=0, color=None):
         
         super(TinyEvent, self).__init__()
@@ -118,7 +109,7 @@ class ICalendar(TinyWidget):
     selected_day = None    
     date_format = '%Y-%m-%d'
     
-    params = ['concurrency_info']
+    members = ['concurrency_info']
     
     css = [CSSLink('openerp', 'tinycalendar/css/calendar.css')]
     javascript = [JSLink('openerp', 'tinycalendar/javascript/calendar_date.js'),
@@ -126,15 +117,7 @@ class ICalendar(TinyWidget):
                   JSLink('openerp', 'tinycalendar/javascript/calendar_box.js'),
                   JSLink('openerp', 'tinycalendar/javascript/calendar_month.js'),
                   JSLink('openerp', 'tinycalendar/javascript/calendar_week.js')]
-
-    def __new__(cls, model, ids, view, domain=[], context={}, options=None):
-        return super(ICalendar, cls).__new__(cls, model=model, 
-                                                  ids=ids, 
-                                                  view=view,
-                                                  domain=domain,
-                                                  context=context,
-                                                  options=options)
-                                                  
+                                                 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
         
         super(ICalendar, self).__init__()

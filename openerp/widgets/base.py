@@ -496,13 +496,16 @@ class Widget(object):
     @only_if_uninitialized
     def _append_child(self, obj):
         """Append an object as a child"""
-        if isinstance(obj, list):
-            for o in obj:
-                self._append_child(o)
-        elif isinstance(obj, Widget):
+        if isinstance(obj, Widget):
             a = obj._append_to(self)
         elif isinstance(obj, Child):
             obj(self)
+        elif isinstance(obj, list):
+            for o in obj:
+                self._append_child(o)
+        elif isinstance(obj, dict):
+            for n, o in obj.iteritems():
+                self._append_child(o)
         else:
             raise ValueError("Can only append Widgets or Childs, not %r" % obj)
 
@@ -536,13 +539,14 @@ class Widget(object):
         )
         
 class Form(Widget):
+    
     params = ['action', 'hidden_fields']
+    members = ['hidden_fields']
+    
     hidden_fields = []
     
-    def post_init(self, *args, **kw):
-        self.children = self.children + self.hidden_fields
-        
-        
+
+
 import re
 
 _id_RE = re.compile(r'(\w+)+(?:-(\d))*')

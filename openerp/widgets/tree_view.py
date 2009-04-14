@@ -44,24 +44,16 @@ import treegrid
 class ViewTree(Form):
     
     template = "templates/viewtree.mako"
-    params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar', 'tree', 'sidebar']
+    params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
+    members = ['tree', 'sidebar']
     
-    def __init__(self, **attrs):
-        
-        view = attrs['view']
-        model = attrs['model']
-        res_id = attrs.get('res_id', False)
-        
-        attrs = attrs.copy()
-        attrs['name'] = 'view_tree'
-        
-        super(ViewTree, self).__init__(**attrs)
-        
+    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
+        super(ViewTree, self).__init__(name='view_tree', action=action)
+
         self.model = view['model']
-        self.domain = self.domain or []
-        self.domain2 = self.domain or []
-        self.context = self.context or {}
-        
+        self.domain2 = domain or []
+        self.context = context or {}
+
         self.domain = []
         
         self.field_parent = view.get("field_parent") or None

@@ -40,26 +40,14 @@ class TreeGrid(TinyWidget):
 
     css = [CSSLink("openerp", "css/treegrid.css")]
     javascript = [JSLink("openerp", "javascript/treegrid.js")]
-    
-    ids = None
-    domain = None
-    context = None
-    field_parent = None
-    
-    #def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
-    def __init__(self, **attrs):
+
+    def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
         
-        name = attrs['name']
-        model = attrs['model']
-        headers = attrs['headers']
-        url = attrs['url']
+        super(TreeGrid, self).__init__(name=name, model=model, url=url)
         
-        super(TreeGrid, self).__init__(**attrs)
-        
-        self.ids = self.ids or []
-        self.domain = self.domain or []
-        self.context = self.context or {}
-        
+        self.ids = ids or []
+        self.domain = domain or []
+        self.context = context or {}        
         self.headers = simplejson.dumps(headers)
         
         fields = [field['name'] for field in headers]

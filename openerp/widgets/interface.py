@@ -254,13 +254,12 @@ class ConcurrencyInfo(TinyInputWidget):
     params = ['ids', 'model', 'info']
 
     def __init__(self, model, ids):
-        self.ids = ids
-        self.model = model
-
-    def _get_concurrency_info(self):
+        super(ConcurrencyInfo, self).__init__(model=model, ids=ids)
+    
+    @property
+    def info(self):
         return getattr(cherrypy.request, 'terp_concurrency_info', {})
 
-    info = property(_get_concurrency_info)
 
 # vim: ts=4 sts=4 sw=4 si et
 

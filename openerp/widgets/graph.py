@@ -66,19 +66,10 @@ class Graph(TinyWidget):
     width = 500
     height = 350
     
-    #def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
-    def __init__(self, **attrs):
+    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
         
-        ids = attrs.get('ids', [])
-        model = attrs['model']
-        view_id = attrs.get('view_id', False)
-        
-        domain = attrs.get('domain', [])
-        context = attrs.get('context', {})
-        
-        super(Graph, self).__init__(**attrs)
-        
-        self._name = 'graph_%s' % (random.randint(0,10000)) 
+        name = 'graph_%s' % (random.randint(0,10000)) 
+        super(Graph, self).__init__(name=name, model=model, width=width, height=height)
         
         ctx = rpc.session.context.copy()
         ctx.update(context or {})

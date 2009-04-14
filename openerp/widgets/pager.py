@@ -44,14 +44,12 @@ class Pager(TinyWidget):
     page_info = None
     pager_id = 1
     
-    id = False
-    ids = None
-    view_type = 'tree'
-    
-    def __init__(self, **attrs):
-        super(Pager, self).__init__(**attrs)
+    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
+        super(Pager, self).__init__(offset=offset, limit=limit, count=count)
         
-        self.ids = self.ids or []
+        self.id = id
+        self.ids = ids or []
+        self.view_type = view_type
         
         if len(self.ids) > self.limit:
             self.ids = self.ids[self.offset:]

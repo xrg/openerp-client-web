@@ -53,8 +53,9 @@ class List(TinyWidget):
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 
-              'pager', 'buttons', 'concurrency_info']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
+              
+    members = ['pager', 'buttons', 'editors', 'concurrency_info']
 
     pager = None
     field_total = {}
@@ -79,15 +80,7 @@ class List(TinyWidget):
     css = [CSSLink('openerp', 'css/listgrid.css')]
     javascript = [JSLink('openerp', 'javascript/listgrid.js'),
                   JSLink('openerp', 'javascript/sortablegrid.js')]
-
-    def __new__(cls, name, model, view, ids=[], domain=[], context={}, **kw):
-        return super(List, cls).__new__(cls, name=name, 
-                                             model=model,
-                                             view=view,
-                                             ids=ids,
-                                             domain=domain,
-                                             context=context, **kw)
-    
+   
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         super(List, self).__init__(name=name, model=model, ids=ids)
@@ -199,15 +192,11 @@ class List(TinyWidget):
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 self.editors[f] = form.Hidden(fa)
-
-            self.children = self.editors.values()
-                    
+                                    
         # limit the data
         if self.pageable and len(self.data) > self.limit:
             self.data = self.data[self.offset:]
             self.data = self.data[:min(self.limit, len(self.data))]
-            
-        self.children = self.children + [self.pager, self.buttons, self.concurrency_info]
 
     def do_sum(self, data, field):
         sum = 0.0
