@@ -876,14 +876,12 @@ class Form(controllers.Controller, TinyResource):
     
     @expose('json')
     def on_change(self, **kw):
-        
         data = kw.copy()
         
         callback = data.pop('_terp_callback')
         caller = data.pop('_terp_caller')
         model = data.pop('_terp_model')
         context = data.pop('_terp_context')
-        id = data.pop('_terp_id')
 
         try:
             context = eval(context) # convert to python dict
@@ -933,9 +931,6 @@ class Form(controllers.Controller, TinyResource):
 
         ids = ctx.id and [ctx.id] or []
         
-        if not ids:
-            ids = id and [int(id)]
-
         try:
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:

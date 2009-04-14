@@ -535,13 +535,14 @@ var onChange = function(name) {
     var params = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
     var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
+    var id = is_list ? $(prefix.slice(17) + '_terp_id').value : $(prefix + '_terp_id').value;
 
     params['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
     params['_terp_callback'] = callback;
     params['_terp_model'] = model;
     params['_terp_context'] = context;
     params['_terp_value'] = caller.value;
-    params['_terp_id'] = $('_terp_id').value;
+    params['id'] = id;
     
     var req = Ajax.JSON.post(callback ? '/form/on_change' : '/form/change_default_get', params);
 
