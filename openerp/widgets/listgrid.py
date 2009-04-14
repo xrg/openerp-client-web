@@ -32,9 +32,6 @@ import math
 import locale
 import xml.dom.minidom
 
-from turbogears import widgets
-from turbogears import i18n
-
 from openerp import rpc
 from openerp import tools
 from openerp import icons
@@ -49,17 +46,17 @@ from interface import TinyWidget
 from interface import TinyInputWidget
 from interface import ConcurrencyInfo
 
+from resource import CSSLink, JSLink
+
 class List(TinyWidget):
 
-    template = "openerp.widgets.templates.listgrid"
+    template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
-    
-    member_widgets = ['pager', 'children', 'buttons', 'concurrency_info']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 
+              'pager', 'buttons', 'concurrency_info']
 
     pager = None
-    children = []
     field_total = {}
     editors = {}
     hiddens = []
@@ -79,22 +76,28 @@ class List(TinyWidget):
     checkbox_name = True
     min_rows = 5
 
-    css = [widgets.CSSLink('openerp', 'css/listgrid.css')]
-    javascript = [widgets.JSLink('openerp', 'javascript/listgrid.js'),
-                  widgets.JSLink('openerp', 'javascript/sortablegrid.js')]
+    css = [CSSLink('openerp', 'css/listgrid.css')]
+    javascript = [JSLink('openerp', 'javascript/listgrid.js'),
+                  JSLink('openerp', 'javascript/sortablegrid.js')]
 
+    def __new__(cls, name, model, view, ids=[], domain=[], context={}, **kw):
+        return super(List, cls).__new__(cls, name=name, 
+                                             model=model,
+                                             view=view,
+                                             ids=ids,
+                                             domain=domain,
+                                             context=context, **kw)
+    
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
-        super(List, self).__init__()
-        self.name = name
-        self.model = model
-        self.ids = ids
+        super(List, self).__init__(name=name, model=model, ids=ids)
+        
         self.context = context or {}
         self.domain = domain or []
 
         if name.endswith('/'):
-            self.name = name[:-1]
-
+            self._name = name[:-1]
+            
         if name != '_terp_list':
             self.source = self.name.replace('/', '/') or None
 
@@ -203,6 +206,8 @@ class List(TinyWidget):
         if self.pageable and len(self.data) > self.limit:
             self.data = self.data[self.offset:]
             self.data = self.data[:min(self.limit, len(self.data))]
+            
+        self.children = self.children + [self.pager, self.buttons, self.concurrency_info]
 
     def do_sum(self, data, field):
         sum = 0.0
@@ -359,18 +364,20 @@ class List(TinyWidget):
         
         return headers, hiddens, data, field_total, buttons
 
-class Char(widgets.Widget):
+class Char(TinyWidget):
     
     template = """
         <span xmlns:py="http://purl.org/kid/ns#" py:content="text"/>
     """
     
-    params = ['text', 'link']
+    params = ['text', 'link', 'value']
 
-    def __init__(self, attrs={}, value=False):
+    def __init__(self, **attrs):
+        
+        super(Char, self).__init__(**attrs)
+        
         self.attrs = attrs
-        self.value = value
-
+        
         self.text = self.get_text()
         self.link = self.get_link()
 
@@ -403,14 +410,13 @@ class M2O(Char):
         </span>
     """
     
-    def __init__(self, attrs={}, value=False):
+    def __init__(self, **attrs):
+        super(M2O, self).__init__(**attrs)
 
-        if isinstance(value, int):
+        if isinstance(self.value, int):
             from many2one import get_name as _m2o_get_name
-            value = value, _m2o_get_name(attrs['relation'], value)
-
-        super(M2O, self).__init__(attrs, value)
-
+            self.value = value, _m2o_get_name(attrs['relation'], value)
+            
     def get_text(self):
         if self.value and len(self.value) > 0:
             return self.value[-1]
@@ -474,7 +480,7 @@ class Int(Char):
 class ProgressBar(Char):
     
     template = """
-        <div xmlns:py="http://purl.org/kid/ns#" style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
+        <div style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
             <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${text}%; height: 100%;"></div>
             <div style="position: absolute; top:0px; left: 0px; width: 100%; height: 100%; text-align: center">${text}%</div>
         </div>
@@ -512,19 +518,27 @@ class Button(TinyInputWidget):
     parent = None
     btype = None
     
-    params = ['string', 'icon', 'visible', 'id', 'parent', 'btype', 'confirm', 'width', 'context']
+    params = ['icon', 'visible', 'id', 'parent', 'btype', 'confirm', 'width', 'context']
     
-    template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <button py:if="visible and not icon" type="button" py:content="string" 
-        context="${ustr(context)}" py:attrs="attrs" style="min-width: ${width}px;"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
-    <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
-    <span py:if="not visible and not icon">&nbsp;</span>
-</span>"""
+    template="""
+    % if visible and not icon:
+    <button type="button"
+        context="${ustr(context)}" ${py.attrs(attrs)} style="min-width: ${width}px;"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))">
+        ${string}
+    </button>
+    % endif
+    % if visible and icon:
+    <img height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" ${py.attrs(attrs)}
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
+    % endif
+    % if not visible and not icon:
+    <span>&nbsp;</span>
+    % endif
+    """
     
-    def __init__(self, attrs={}):
-        super(Button, self).__init__(attrs)
+    def __init__(self, **attrs):
+        super(Button, self).__init__(**attrs)
         
         self.states = attrs.get('states', "draft").split(',')
         self.btype = attrs.get('type', "workflow")
