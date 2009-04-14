@@ -609,7 +609,7 @@ class Group(TinyInputWidget):
     def __init__(self, **attrs):        
         super(Group, self).__init__(**attrs_)
         
-        self.frame = Frame(**attrs)]
+        self.frame = Frame(**attrs)
         self.nolabel = True
 
 
