@@ -27,9 +27,8 @@
 #
 ###############################################################################
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import controllers
+from openerp.tools import expose
+from openerp.tools import redirect
 
 import cherrypy
 
@@ -39,7 +38,7 @@ from openerp import common
 
 from openerp.tinyres import TinyResource
 
-class Requests(controllers.Controller, TinyResource):
+class Requests(TinyResource):
     
     def my(self):
 

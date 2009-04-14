@@ -37,6 +37,7 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
+from openerp import rpc
 from openerp.tools import utils
 
 __all__ = ['find_resource', 'load_template', 'renderer', 'expose']
@@ -84,7 +85,7 @@ class _Provider(dict):
     def __getattr__(self, name):
         if name in self:
             return self[name]
-        return super(Bunch, self).__getattribute__(name)
+        return super(_Provider, self).__getattribute__(name)
     
     def __setattr__(self, name, value):
         raise AttributeError
@@ -101,6 +102,7 @@ def _cp_vars():
         'session': cherrypy.session,
         'request': cherrypy.request,
         'config': _config,
+        'root': cherrypy.request.app.root,
     }
     
 def _py_vars():
@@ -142,7 +144,8 @@ def renderer(template, module=None):
                     provider.update(cb())
                 _vars[prefix] = provider
             else:
-                _vars.update(cb())
+                for cb in cbs:
+                    _vars.update(cb())
         
         kw = kw.copy()
         kw.update(_vars)
@@ -167,9 +170,8 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
             
             cherrypy.response.headers['content-type'] = content_type
             
-            template = kw.get('cp_template') or template
-            
-            if template:
+            tmpl = kw.get('cp_template', template)
+            if tmpl:
                 
                 from openerp.widgets.resource import merge_resources
                 
@@ -178,7 +180,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
                     if hasattr(w, 'retrieve_resources') and w.is_root:
                         _resources = merge_resources(_resources, w.retrieve_resources())
 
-                return renderer(template, func.__module__)(**res)
+                return renderer(tmpl, func.__module__)(**res)
             
             return unicode(res, 'utf-8')
 

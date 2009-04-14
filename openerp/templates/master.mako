@@ -115,7 +115,7 @@ except:
                                             % for i, sc in enumerate(shortcuts):
                                                 % if i<6:
                                             <td nowrap="nowrap">
-                                                <a href="${('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                                <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
                                             </td>
                                                 % endif
                                             % endfor
@@ -124,7 +124,7 @@ except:
                                                 <a href="javascript: void(0)">>></a>
                                                 <div class="submenu" id="shortcuts_submenu">
                                                     % for sc in shortcuts[6:]:
-                                                    <a href="${('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                                                    <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
                                                     % endfor
                                                 </div>
                                             </td>
@@ -143,7 +143,7 @@ except:
                                 </td>
                                 <td align="right">
                                     % if cp.root.shortcuts.can_create():
-                                    <a href="${('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
+                                    <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
                                     % endif
                                 </td>
                             </tr>

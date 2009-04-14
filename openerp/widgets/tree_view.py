@@ -37,7 +37,7 @@ from openerp import cache
 
 from sidebar import Sidebar
 
-from interface import Form
+from base import Form
 
 import treegrid
 
@@ -102,13 +102,11 @@ class ViewTree(Form):
                                       ids=ids or 0,
                                       domain=self.domain, 
                                       context=self.context, 
-                                      field_parent=self.field_parent)
+                                      field_parent=self.field_parent,
+                                      onselection="onSelection",
+                                      onheaderclick="onHeaderClick")
         self.id = id
         self.ids = ids
-
-        #register callbacks
-        self.tree.onselection = "onSelection"
-        self.tree.onheaderclick = "onHeaderClick"
         
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
@@ -119,7 +117,6 @@ class ViewTree(Form):
         if self.context and '_view_name' in self.context:
             self.string = self.context.pop('_view_name')
             
-        self.children = [self.tree, self.sidebar] + self.hidden_fields
         
     def parse(self, root, fields=None):
 

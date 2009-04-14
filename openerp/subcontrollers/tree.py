@@ -35,10 +35,8 @@ This module implementes heirarchical tree view for a tiny model having
 import time
 import xml.dom.minidom
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import controllers
-from turbogears import url as tg_url
+from openerp.tools import expose
+from openerp.tools import url
 
 from openerp import rpc
 from openerp import icons
@@ -54,9 +52,9 @@ from openerp.utils import TinyDict
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-class Tree(controllers.Controller, TinyResource):
+class Tree(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.tree")
+    @expose(template="templates/tree.mako")
     def create(self, params):
 
         view_id = (params.view_ids or False) and params.view_ids[0]
@@ -184,7 +182,7 @@ class Tree(controllers.Controller, TinyResource):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = tg_url('/tree/open', model=model, id=record['id'])
+            record['action'] = url('/tree/open', model=model, id=record['id'])
             record['target'] = None
 
             record['icon'] = None

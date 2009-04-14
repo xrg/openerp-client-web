@@ -63,7 +63,7 @@ def start():
         'tools.staticdir.dir': static_dir
     }})
 
-    from openerp.controllers.root import Root
+    from openerp.controllers import Root
     app = cherrypy.tree.mount(Root(), '/', app_config)
 
     import pkg_resources

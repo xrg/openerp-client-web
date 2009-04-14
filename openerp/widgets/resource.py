@@ -19,6 +19,10 @@ class Resource(Widget):
     def post_init(self, *args, **kw):
         self._resources.add(self)
         
+    @property
+    def name(self):
+        return None
+        
 
 class Link(Resource):
     
@@ -64,7 +68,7 @@ class CSSLink(Link):
     }
     
     template = """\
-    <link rel="stylesheet" type="text/css" href="${link}" media="${media}"/>\
+    <link rel="stylesheet" type="text/css" href="${link}" ${py.attrs(media=media)}/>\
     """
 
 

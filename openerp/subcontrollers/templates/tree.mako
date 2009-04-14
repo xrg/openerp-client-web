@@ -1,7 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>${tree.string}</title>
     <script type="text/javascript">
 
@@ -35,9 +34,9 @@
         }
 
     </script>
-</head>
-<body>
+</%def>
 
+<%def name="content()">
 <table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td width="100%" valign="top">
@@ -49,19 +48,20 @@
                                 <td width="32px" align="center">
                                     <img src="/static/images/stock/gtk-find.png"/>
                                 </td>
-                                <td width="100%" py:content="tree.string">Tree Title</td>
+                                <td width="100%">${tree.string}</td>
                                 <td nowrap="nowrap">
                                     <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
                                 </td>
                                 <td align="center" valign="middle" width="16">
-                                    <a target="new" href="${tg.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
+                                    <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
                                 </td>
                             </tr>
                          </table>
                      </td>
                  </tr>
                  <tr>
-                    <td py:if="tree.toolbar" class="treebar" valign="top" style="padding-right: 4px">
+                    % if tree.toolbar:
+                    <td class="treebar" valign="top" style="padding-right: 4px">
                         <table width="100%" cellpadding="0" cellspacing="0" class="tree-grid">
                             <thead>
                                 <tr class="header">
@@ -69,26 +69,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr py:for="tool in tree.toolbar" class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="button_click('${tool['id']}')">
+                                % for tool in tree.toolbar:
+                                <tr class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="button_click('${tool['id']}')">
                                     <td>
                                         <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
                                             <tr>
-                                                <td py:if="tool['icon']"><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
+                                                % if tool['icon']:
+                                                <td><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
+                                                % endif
                                                 <td>${tool['name']}</td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
+                                % endfor
                             </tbody>
                         </table>
-                    </td>     
-                    <td width="100%" valign="top" py:content="tree.display()">Tree View</td>          
+                    </td>
+                    % endif
+                    <td width="100%" valign="top">${tree.display()}</td>
                  </tr>
             </table>
         </td>
-        <td py:if="tree.sidebar" width="163" valign="top">${tree.sidebar.display()}</td>      
+        % if tree.sidebar:
+        <td width="163" valign="top">${tree.sidebar.display()}</td>
+        % endif
     </tr>
 </table>
+</%def>
 
-</body>
-</html>

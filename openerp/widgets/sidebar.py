@@ -66,7 +66,7 @@ class Sidebar(TinyWidget):
         });    
     """)]
     
-    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}):
+    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}, **kw):
         
         super(Sidebar, self).__init__(model=model)
         

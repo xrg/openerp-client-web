@@ -27,9 +27,7 @@
 #
 ###############################################################################
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -40,9 +38,9 @@ from openerp import common
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 
-class Selection(controllers.Controller, TinyResource):
+class Selection(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.selection")
+    @expose(template="templates/selection.mako")
     def create(self, values, **data):
         return dict(values=values, data=data)
 

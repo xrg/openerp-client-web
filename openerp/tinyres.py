@@ -54,7 +54,7 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
         dblist = []
         message = _("Could not connect to server!")
 
-    if cherrypy.root.app.config['openerp-web'].get('dblist.filter'):
+    if cherrypy.request.app.config['openerp-web'].get('dblist.filter'):
 
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
@@ -127,7 +127,7 @@ def secured(fn):
                 if action == 'login':
                     message = _("Bad username or password!")
 
-                return login(cherrypy.request.path, message=message, 
+                return login(cherrypy.request.path_info, message=message, 
                         db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies

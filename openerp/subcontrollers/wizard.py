@@ -29,11 +29,9 @@
 
 import re
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import widgets
-from turbogears import controllers
-from turbogears import validate
+from openerp.tools import expose
+from openerp.tools import redirect
+from openerp.tools import validate
 
 import cherrypy
 
@@ -45,9 +43,9 @@ from openerp import widgets as tw
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 
-import form
+#TODO: import form
 
-class Wizard(controllers.Controller, TinyResource):
+class Wizard(TinyResource):
 
     def execute(self, params):
         
@@ -138,7 +136,7 @@ class Wizard(controllers.Controller, TinyResource):
 
         raise redirect('/wizard/end')
 
-    @expose(template="openerp.subcontrollers.templates.wizard")
+    @expose(template="templates/wizard.mako")
     def create(self, params, tg_errors=None):
 
         if tg_errors:

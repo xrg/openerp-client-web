@@ -1,4 +1,4 @@
-<%inherit file="master.html"/>
+<%inherit file="master.mako"/>
 
 <%def name="header()">
     <title>Login</title>

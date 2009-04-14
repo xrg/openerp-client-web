@@ -43,42 +43,43 @@ class TreeGrid(TinyWidget):
 
     def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
         
-        super(TreeGrid, self).__init__(name=name, model=model, url=url)
+        super(TreeGrid, self).__init__(name=name, model=model, url=url, **kw)
         
         self.ids = ids or []
         self.domain = domain or []
-        self.context = context or {}        
+        self.context = context or {}
         self.headers = simplejson.dumps(headers)
         
         fields = [field['name'] for field in headers]
         icon_name = headers[0].get('icon')
-        
-        url_params = attrs.copy()
-        
-        url_params.pop('name', None)
-        url_params.pop('headers', None)
-        url_params.pop('url', None)
-        
-        url_params['domain'] = ustr(self.domain)
-        url_params['context'] = ustr(self.context)
-        url_params['fields'] = ustr(fields)
-        url_params['icon_name'] = icon_name
                 
+        params = dict(model=model, 
+                          ids=ids,
+                          fields=ustr(fields),
+                          domain=ustr(domain), 
+                          context=ustr(context), 
+                          field_parent=field_parent,
+                          icon_name=icon_name)
+                          
+        params.update(**kw)
+        params.pop('children', None)
+        params.pop('parent', None)
+        
+        self.showheaders = params.pop('showheaders', 1)
+        self.onselection = params.pop('onselection', '')
+        self.onbuttonclick = params.pop('onbuttonclick', '')
+        self.onheaderclick = params.pop('onheaderclick', '')
+        self.expandall = params.pop('expandall', 0)
+        
         def _jsonify(obj):
             
             for k, v in obj.items():
                 if isinstance(v, dict):
                     obj[k] = _jsonify(v)
-            
+                    
             return simplejson.dumps(obj)
         
-        self.url_params = _jsonify(url_params)
-                
-        self.showheaders = attrs.get('showheaders', 1)
-        self.onselection = attrs.get('onselection')
-        self.onbuttonclick = attrs.get('onbuttonclick')
-        self.onheaderclick = attrs.get('onheaderclick')
-        self.expandall = attrs.get('expandall', 0)
+        self.url_params = _jsonify(params)
         
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -122,17 +122,17 @@ class Child(object):
         'bar'
 
     """
-    __slots__ = ("widget_class", "name", "children", "kw")
+    __slots__ = ("widget_class", "args", "kw")
 
-    def __init__(self, widget_class, name=None, children=[], **kw):
-        self.widget_class, self.name  = widget_class, name, 
-        self.children, self.kw = children, kw
+    def __init__(self, widget_class, *args, **kw):
+        self.widget_class = widget_class
+        self.args = args
+        self.kw = kw
 
-    def __call__(self, parent=None, **kw):
+    def __call__(self, **kw):
         kw_ = self.kw.copy()
-        kw_.update(name=self.name, parent=parent, children=self.children)
         kw_.update(kw)
-        return self.widget_class(**kw_)
+        return self.widget_class(*self.args, **kw_)
     
 
 class Widget(object):
@@ -167,6 +167,12 @@ class Widget(object):
     _is_initialized = False
     _is_locked = False
     
+    def __new__(cls, *args, **kw):
+        obj = object.__new__(cls)
+        obj.orig_args = args[:]
+        obj.orig_kw = kw.copy()
+        return obj
+    
     def __init__(self, name=None, parent=None, children=[], **kw):
         
         # set each keyword args as attribute
@@ -179,7 +185,6 @@ class Widget(object):
                     pass
 
         self._name = name
-        self.orig_kw = kw.copy()
         
         for param in self.__class__.params:
             if not hasattr(self, param):
@@ -207,11 +212,6 @@ class Widget(object):
         self.c = self.children = WidgetBunch()
         for child in children:
             self._append_child(child)
-
-        #also append widgets listed in members
-        for member in self.members:
-            child = getattr(self, member)
-            self._append_child(child)
  
         self._resources = OrderedSet()
 
@@ -225,9 +225,14 @@ class Widget(object):
         oset.add_all(chain(*[c._resources for c in self.css]))
         oset.add_all(chain(*[c._resources for c in self.javascript]))
         oset.add_all(chain(*[c._resources for c in self.children]))
-
+        
     def post_init(self, *args, **kw):
-        #TODO: generate validation schema for input widgets  
+        
+        #append widgets listed in members
+        for member in self.members:
+            child = getattr(self, member)
+            self._append_child(child)
+            
         self._collect_resources()
         self._generate_schema()
         self._is_initialized = True
@@ -399,6 +404,7 @@ class Widget(object):
         resources = dict((k, OrderedSet()) for k in locations)
         for r in self._resources:
             resources[r.location].add(r)
+        
         return resources
             
     @only_if_initialized
@@ -419,7 +425,7 @@ class Widget(object):
             ('foo', 3)
         """
         return Child(
-            self.__class__, self._name, children=self.children, **self.orig_kw
+            self.__class__, *self.orig_args, **self.orig_kw
             )(*args, **kw)
 
 
@@ -496,6 +502,10 @@ class Widget(object):
     @only_if_uninitialized
     def _append_child(self, obj):
         """Append an object as a child"""
+        
+        if obj is None:
+            return
+        
         if isinstance(obj, Widget):
             a = obj._append_to(self)
         elif isinstance(obj, Child):
@@ -511,7 +521,7 @@ class Widget(object):
 
     @only_if_initialized
     def _append_to(self, parent=None):
-        return self.clone(parent)
+        return self.clone(parent=parent)
     
     @only_if_unlocked
     def __setattr__(self, name, value):
