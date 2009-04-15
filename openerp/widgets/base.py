@@ -103,38 +103,6 @@ class WidgetBunch(OrderedSet):
         return repr(self._items)
 
 
-class Child(object):
-    """
-    Prepares a Widget to being attached to a parent Widget.
-
-    Creates a Widget instance with supplied arguments to the constructor when
-    called (optionally overriding default arguments).
-
-        >>> c = Child(Widget, 'foo')
-        >>> w = c()
-        >>> w.name
-        'foo'
-
-    Parameters can be overriden when called.
-
-        >>> w = c(name='bar')
-        >>> w.name
-        'bar'
-
-    """
-    __slots__ = ("widget_class", "args", "kw")
-
-    def __init__(self, widget_class, *args, **kw):
-        self.widget_class = widget_class
-        self.args = args
-        self.kw = kw
-
-    def __call__(self, **kw):
-        kw_ = self.kw.copy()
-        kw_.update(kw)
-        return self.widget_class(*self.args, **kw_)
-
-
 class Widget(object):
 
     __metaclass__ = WidgetType
@@ -234,9 +202,9 @@ class Widget(object):
             self._append_child(child)
 
         self._collect_resources()
-        self._generate_schema()
+        #self._generate_schema()
         self._is_initialized = True
-        self._is_locked = True
+        self._is_locked = False
 
     @property
     def ident(self):
@@ -278,7 +246,8 @@ class Widget(object):
 
     def render(self, value=None, **kw):
         kw = self.prepare_dict(value, kw)
-        return tools.renderer(self.template, self.__module__)(**kw)
+        output = tools.renderer(self.template, self.__module__)(**kw)
+        return output
 
     __call__ = display = render
 
@@ -347,7 +316,7 @@ class Widget(object):
                     #log.debug("Autocalling param '%s'", k)
                     attr = attr()
             d[k] = attr
-
+            
         if d.get('error'):
             d['css_classes'].append("has_error")
 
@@ -406,28 +375,6 @@ class Widget(object):
             resources[r.location].add(r)
 
         return resources
-
-    @only_if_initialized
-    def clone(self, *args, **kw):
-        """
-        Returns a cloned version of the widget instance, optionally
-        overriding initialization parameters.
-
-        This is the only way to safely "modify" a widget instance.
-
-        Example::
-
-            >>> w = Widget('foo', a=2)
-            >>> w.id, w.a
-            ('foo', 2)
-            >>> w2 = w.clone(a=3)
-            >>> w2.id, w2.a
-            ('foo', 3)
-        """
-        return Child(
-            self.__class__, *self.orig_args, **self.orig_kw
-            )(*args, **kw)
-
 
     def validate(self, value, state=None):
         """Validate value using validator if widget has one. If validation fails
@@ -507,9 +454,8 @@ class Widget(object):
             return
 
         if isinstance(obj, Widget):
-            a = obj._append_to(self)
-        elif isinstance(obj, Child):
-            obj(self)
+            self.children.append(obj)
+            obj.parent = self
         elif isinstance(obj, list):
             for o in obj:
                 self._append_child(o)
@@ -518,10 +464,6 @@ class Widget(object):
                 self._append_child(o)
         else:
             raise ValueError("Can only append Widgets or Childs, not %r" % obj)
-
-    @only_if_initialized
-    def _append_to(self, parent=None):
-        return self.clone(parent=parent)
 
     @only_if_unlocked
     def __setattr__(self, name, value):
@@ -620,7 +562,7 @@ def _has_child_validators(widget):
 def _copy_schema(schema):
     """
     Does a deep copy of a Schema instance
-    """
+    """    
     new_schema = copy.copy(schema)
     new_schema.pre_validators = copy.copy(schema.pre_validators)
     new_schema.chained_validators = copy.copy(schema.chained_validators)
@@ -672,6 +614,7 @@ def merge_schemas(to_schema, from_schema, inplace=False):
     Recursively merges from_schema into to_schema taking care of leaving
     to_schema intact if inplace is False (default).
     """
+        
     if not inplace:
         to_schema = _copy_schema(to_schema)
 

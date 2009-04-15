@@ -35,11 +35,17 @@ def _update_list_attr(bases, attrs, name):
     return res
 
 
+import threading
+from new import instancemethod
+
 def post_init(func):
 
     def wrapper(self, *args, **kw):
 
+        self.display = instancemethod(lockwidget, self, self.__class__)
+        
         if not hasattr(self, '__initstack'):
+            self._displaylock = threading.Lock()
             self.__initstack = []
         else:
             self.__initstack.append(1)
@@ -60,4 +66,16 @@ def post_init(func):
         return res
 
     return wrapper
+
+def lockwidget(self, *args, **kw):
+    "Sets this widget as locked the first time it's displayed."
+    gotlock = self._displaylock.acquire(False)
+    if gotlock:
+        del self.display
+        self._locked = True
+    output = self.__class__.display(self, *args, **kw)
+    if gotlock:
+        self._displaylock.release()
+    return output
+
 
