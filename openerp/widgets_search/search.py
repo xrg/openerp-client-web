@@ -71,8 +71,8 @@ class RangeWidget(TinyInputWidget):
         from_attrs['name'] = fname + '/from'
         to_attrs['name'] = fname + '/to'
 
-        self.from_field = RANGE_WIDGETS[kind](from_attrs)
-        self.to_field = RANGE_WIDGETS[kind](to_attrs)
+        self.from_field = RANGE_WIDGETS[kind](**from_attrs)
+        self.to_field = RANGE_WIDGETS[kind](**to_attrs)
 
         self.from_field.validator.if_invalid = False
         self.to_field.validator.if_invalid = False
@@ -187,7 +187,7 @@ class Search(TinyInputWidget):
 
                 self.fields_type[name] = kind
 
-                field = WIDGETS[kind](attrs=fields[name])
+                field = WIDGETS[kind](**fields[name])
                 field.onchange = None
                 field.callback = None
 
