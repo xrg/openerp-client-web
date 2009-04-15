@@ -57,7 +57,8 @@ def find_resource(package_or_module, *names):
                 fromlist=package_or_module.split('.'))
 
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
-    
+
+
 #TODO: @cache.memoize(1000)
 def load_template(template, module=None):
 
@@ -76,9 +77,12 @@ def load_template(template, module=None):
 
         dirname = os.path.dirname(template)
         basename = os.path.basename(template)
-    
-        #lookup = TemplateLookup(directories=[dirname], module_directory=dirname)
-        lookup = TemplateLookup(directories=[dirname], default_filters=filters, imports=imports)
+        
+        lookup = TemplateLookup(directories=[dirname], 
+                                default_filters=filters, 
+                                imports=imports, 
+                                module_directory=dirname)
+                                
         return lookup.get_template(basename)
         
     else:
