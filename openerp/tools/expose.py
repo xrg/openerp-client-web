@@ -43,6 +43,12 @@ from openerp.tools import utils
 __all__ = ['find_resource', 'load_template', 'renderer', 'expose']
 
 
+def to_blank(value):
+    if value is None:
+        return ""
+    return value
+
+
 def find_resource(package_or_module, *names):
 
     ref = package_or_module
@@ -51,13 +57,15 @@ def find_resource(package_or_module, *names):
                 fromlist=package_or_module.split('.'))
 
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
-
-
+    
 #TODO: @cache.memoize(1000)
 def load_template(template, module=None):
 
     if not template:
         return template
+    
+    filters = ["to_blank", "unicode"]
+    imports = ["from openerp.tools.expose import to_blank"]
         
     if re.match('(.+)\.(html|mako)\s*$', template):
         
@@ -70,15 +78,16 @@ def load_template(template, module=None):
         basename = os.path.basename(template)
     
         #lookup = TemplateLookup(directories=[dirname], module_directory=dirname)
-        lookup = TemplateLookup(directories=[dirname])
+        lookup = TemplateLookup(directories=[dirname], default_filters=filters, imports=imports)
         return lookup.get_template(basename)
         
     else:
-        return Template(template)
+        return Template(template, default_filters=filters, imports=imports)
     
     
 def _config(key, section, default=None):
     return cherrypy.request.app.config.get(section, {}).get(key, default)
+
 
 class _Provider(dict):
     
@@ -151,7 +160,7 @@ def renderer(template, module=None):
         kw.update(_vars)
         
         #TODO: encoding utf-8
-        return tmpl.render(**kw)
+        return tmpl.render_unicode(**kw)
     
     return wrapper
 
@@ -182,7 +191,9 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
 
                 return renderer(tmpl, func.__module__)(**res)
             
-            return unicode(res, 'utf-8')
+            if not isinstance(res, unicode):
+                return unicode(res, 'utf-8')
+            return res
 
         func_wrapper.func_name = func.func_name
         func_wrapper.exposed = True
