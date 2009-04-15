@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -91,16 +91,16 @@ class Float(Number):
         return Number.to_python(value, state)
 
 class FloatTime(Float):
-    
+
     if_empty = False
-    
+
     def _from_python(self, value, state):
         val = value or 0.0
         t = '%02d:%02d' % (math.floor(abs(val)),round(abs(val)%1+0.01,2) * 60)
         if val < 0:
             t = '-' + t
         return t
-    
+
     def _to_python(self, value, state):
         try:
             if value and ':' in value:
@@ -109,18 +109,18 @@ class FloatTime(Float):
                 return locale.atof(value)
         except:
             pass
-        
+
         return 0.0
-    
+
 class DateTime(DateConverter):
     if_empty = False
     kind = "datetime"
-    
+
     def __init__(self, kind="datetime", allow_empty = None, *args, **kwargs):
-        super(DateTime, self).__init__(allow_empty=allow_empty, *args, **kwargs)       
+        super(DateTime, self).__init__(allow_empty=allow_empty, *args, **kwargs)
         self.format = format.get_datetime_format(kind)
         self.kind = kind
-    
+
     def _to_python(self, value, state):
         # do validation
         res = super(DateTime, self)._to_python(value, state)

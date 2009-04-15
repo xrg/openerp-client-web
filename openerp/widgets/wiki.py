@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -48,7 +48,7 @@ _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
 _edit = re.compile(r'edit:(.*)\|(.*)', re.UNICODE)
 
 class WikiParser(wikimarkup.Parser):
-    
+
     def parse(self, text, id):
         text = text.replace('&nbsp;', 'n-b-s-p')
         text = text.replace('&amp;', 'n-a-m-p')
@@ -57,10 +57,10 @@ class WikiParser(wikimarkup.Parser):
         text = text.replace('n-a-m-p', '&amp;')
         text = text.replace('<code>', '<pre>')
         text = text.replace('</code>', '</pre>')
-        
+
         text = wikimarkup.to_unicode(text)
         text = self.strip(text)
-        
+
         text = super(WikiParser, self).parse(text)
         text = self.addImage(text, id)
         text = self.attachDoc(text, id)
@@ -80,12 +80,12 @@ class WikiParser(wikimarkup.Parser):
             for entry in data['entries']:
                 values += "<h3><a href='%s'> %s </a></h3><br/>" % (entry.link, entry.title)
                 values += "%s <br/>" % (entry.summary)
-            
+
             return values
-        
+
         bits = _rss.sub(addrss, text)
         return bits
-    
+
     def attachDoc(self, text, id):
         def document(path):
             file = path.group().replace('attach:','')
@@ -97,11 +97,11 @@ class WikiParser(wikimarkup.Parser):
                 if len(ids) > 0:
                     return "<a href='/wiki/getfile?file=%s&amp;id=%d'>%s</a>" % (file, id, file)
                 else:
-                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}), 
+                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
         bits = _attach.sub(document, text)
         return bits
-    
+
     def addImage(self, text, id):
         def image(path):
             file = path.group().replace('img:','')
@@ -113,12 +113,12 @@ class WikiParser(wikimarkup.Parser):
                 if len(ids) > 0:
                     return "<img src='/wiki/getImage?file=%s&amp;id=%d'/>" % (file, id)
                 else:
-                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}), 
+                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
                 #"[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
-        bits = _image.sub(image, text) 
+        bits = _image.sub(image, text)
         return bits
-    
+
     def recordLink(self, text):
         def record(path):
             record = path.group().replace('edit:','').split("|")
@@ -137,10 +137,10 @@ class WikiParser(wikimarkup.Parser):
                 except:
                     id = 0
             return "[[/form/edit?model=%s&amp;id=%d | %s]]" % (model, id, label)
-        
-        bits = _edit.sub(record, text) 
+
+        bits = _edit.sub(record, text)
         return bits
-    
+
     def addInternalLinks(self, text):
         from openerp import rpc
         proxy = rpc.RPCProxy('wiki.wiki')
@@ -159,10 +159,10 @@ class WikiParser(wikimarkup.Parser):
                     link_str = "<a href='%s'>%s</a>" % (link[0], link[1])
                 elif len(link) == 1:
                     link_str = "<a href='/form/edit?model=wiki.wiki&amp;id=False'>%s</a>" % (link[0])
-                    
+
             return link_str
-        
-        bits = _internalLinks.sub(link, text) 
+
+        bits = _internalLinks.sub(link, text)
         return bits
 
 def wiki2html(text, showToc, id):
@@ -171,16 +171,16 @@ def wiki2html(text, showToc, id):
 
 class WikiWidget(Text):
     template = "templates/wiki.mako"
-    
+
     params = ["data"]
     css = [CSSLink('openerp', 'css/wiki.css')]
     javascript = [JSLink("openerp", "javascript/textarea.js")]
 
     data = None
-            
+
     def set_value(self, value):
         super(WikiWidget, self).set_value(value)
-        
+
         if value:
             toc = True
             id = False
@@ -190,8 +190,8 @@ class WikiWidget(Text):
                     proxy = rpc.RPCProxy('wiki.wiki')
                     toc = proxy.read([params.id], ['toc'])[0]['toc']
                     id = params.id
-                    
+
             text = value+'\n\n'
             html = wiki2html(text, toc, id)
-            
+
             self.data = html

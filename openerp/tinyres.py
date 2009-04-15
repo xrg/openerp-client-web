@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -46,7 +46,7 @@ from openerp.tools import redirect
 
 @expose(template="templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
-    
+
     url = rpc.session.get_url()
     url = str(url[:-1])
 
@@ -60,11 +60,11 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
 
-        base = re.split('\.|:|/', host)[0]                
-        base = base + '_'                
+        base = re.split('\.|:|/', host)[0]
+        base = base + '_'
         dblist = [d for d in dblist if d.startswith(base)]
 
-    return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password, 
+    return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password,
             action=action, message=message, origArgs=origArgs)
 
 def secured(fn):
@@ -128,7 +128,7 @@ def secured(fn):
                 if action == 'login':
                     message = _("Bad username or password!")
 
-                return login(cherrypy.request.path_info, message=message, 
+                return login(cherrypy.request.path_info, message=message,
                         db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies
@@ -141,17 +141,17 @@ def secured(fn):
             # User is now logged in, so show the content
             clear_login_fields(kw)
             return fn(*args, **kw)
-        
+
     return tools.decorated(wrapper, fn, secured=True)
 
 
 def unsecured(fn):
     """A Decorator to make a TinyResource controller method unsecured.
     """
-    
+
     def wrapper(*args, **kw):
         return fn(*args, **kw)
-    
+
     return tools.decorated(wrapper, fn, secured=False)
 
 

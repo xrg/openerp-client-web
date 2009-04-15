@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -49,8 +49,8 @@ def _make_dict(data, is_params=False):
         #XXX: safari 3.0 submits selection field even if no `name` attribute
         if not name:
             continue
-        
-        if isinstance(name, basestring) and '/' in name:        
+
+        if isinstance(name, basestring) and '/' in name:
             names = name.split('/')
             res.setdefault(names[0], (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
         else:
@@ -80,7 +80,7 @@ class TinyDict(dict):
 
     def __init__(self, **kwargs):
         super(TinyDict, self).__init__()
-        
+
         for k, v in kwargs.items():
             if (isinstance(v, dict) and not isinstance(v, TinyDict)):
                 v = TinyDict(**v)
@@ -108,17 +108,17 @@ class TinyDict(dict):
     def __setattr__(self, name, value):
         name = '_terp_%s' % name
         value = self._eval(value)
-        
+
         self[name] = value
 
     def __getattr__(self, name):
         nm = '_terp_%s' % name
         return self.get(nm, self.get(name, None))
-    
+
     def __setitem__(self, name, value):
         value = self._eval(value)
         super(TinyDict, self).__setitem__(name, value)
-        
+
     def chain_get(self, name, default=None):
         names = re.split('\.|/', ustr(name))
         value = super(TinyDict, self).get(names[0], default)
@@ -149,7 +149,7 @@ class TinyDict(dict):
                 data[n] = v
 
         return _make_dict(params, True), _make_dict(data, False)
-    
+
     def make_plain(self, prefix=''):
 
         res = {}
@@ -175,7 +175,7 @@ class TinyDict(dict):
 
 _VALIDATORS = {
     'date': lambda *a: tw_validators.DateTime(kind="date"),
-    'time': lambda *a: tw_validators.DateTime(kind="time"),  
+    'time': lambda *a: tw_validators.DateTime(kind="time"),
     'datetime': lambda *a: tw_validators.DateTime(kind="datetime"),
     'float_time': lambda *a: tw_validators.FloatTime(),
     'float': lambda *a: tw_validators.Float(),
@@ -198,18 +198,18 @@ class TinyFormError(tw_validators.Invalid):
     def __init__(self, field, msg, value):
         tw_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
         self.field = field
-               
+
 class TinyForm(object):
     """An utility class to convert:
-    
+
         1. local form data to the server data (throws exception if any)
         2. server data to the local data
-    
+
     Using validators.
     """
 
     def __init__(self, **kwargs):
-        
+
         self.data = {}
         for k, v in kwargs.items():
             if '_terp_' not in k:
@@ -218,27 +218,27 @@ class TinyForm(object):
                 except:
                     pass
                 self.data['_terp_form/' + k] = v
-                
+
     def _convert(self, form=True):
-        
+
         kw = {}
         for name, attrs in self.data.items():
-            
+
             if not isinstance(attrs, dict):
                 kw[name] = attrs
                 continue
-            
+
             kind = attrs.get('type', 'char')
             value = attrs.get('value')
-            
+
             required = attrs.get('required', False)
 
             if kind not in _VALIDATORS:
                 kind = 'char'
-                
+
             v = _VALIDATORS[kind]()
             v.not_empty = (required or False) and True
-            
+
             try:
                 if form:
                     value = v.to_python(value, None)
@@ -248,42 +248,42 @@ class TinyForm(object):
             except tw_validators.Invalid, e:
                 if form:
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
-            
+
             kw[name] = value
-        
+
         # Prevent auto conversion from TinyDict
         _eval = TinyDict._eval
         TinyDict._eval = lambda self, v: v
-        
+
         try:
             params, data = TinyDict.split(kw)
             params = params.form or {}
-            
+
             return TinyDict(**params)
-        
+
         finally:
             TinyDict._eval = _eval
-    
+
     def from_python(self):
         return self._convert(False)
-    
+
     def to_python(self):
         return self._convert(True)
 
 if __name__ == "__main__":
-    
+
     kw = {'_terp_view_ids': "[False, 45]",
           'view_ids/_terp_view_ids': '[False, False]',
           'view_ids/child/_terp_view_ids': '[112, 111]'
     }
-    
+
     params, data = TinyDict.split(kw)
-    
+
     params.domain = "[1]"
     params.setdefault('domain', 'something...')
     params.context = "{}"
     params['context'] = "{'id': False}"
-    
+
     print params
     print params.view_ids
     print params.chain_get('view_ids')

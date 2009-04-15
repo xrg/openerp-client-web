@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -51,19 +51,19 @@ def node_attributes(node):
     for i in range(attrs.length):
         result[str(attrs.item(i).localName)] = attrs.item(i).nodeValue
     return result
-    
+
 def simple_xpath(expr, ref):
-    
+
     if '/' not in expr:
         name, index = expr.split('[')
         index = int(index.replace(']', ''))
-        
+
         nodes = [n for n in ref.childNodes if n.localName == name]
         try:
             return nodes[index-1]
         except Exception, e:
             return nodes
-    
+
     parts = expr.split('/')
     for part in parts:
         if not part or '.' in part:
@@ -80,10 +80,10 @@ def get_node_xpath(node):
     pn = node.parentNode
     xp = '/' + node.localName
     root = xp + '[1]'
-    
+
     if pn and pn.localName and pn.localName != 'view':
         xp = get_node_xpath(pn) + xp
-        
+
     nodes = simple_xpath(root, node.parentNode)
     xp += '[%s]' % (nodes.index(node) + 1)
 
@@ -113,7 +113,7 @@ def context_with_concurrency_info(context, concurrency_info):
 
 
 def decorated(wrapper, func, **attrs):
-    """Update decorated wrapper of the func with given attrs 
+    """Update decorated wrapper of the func with given attrs
     and make sure to keep original metadata.
     """
 

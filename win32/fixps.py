@@ -7,7 +7,7 @@ MY_DIR = os.path.dirname(os.path.abspath(__file__))
 pat = re.compile('^#!.*$', re.M)
 
 for f in os.listdir(MY_DIR):
-    
+
     if not f.endswith('.py') or f.endswith('.pyw') or f == 'fixps.py':
         continue
 

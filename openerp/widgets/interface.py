@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -52,7 +52,7 @@ def _boolean_attr(attrs, name):
     val = attrs.get(name)
     if isinstance(val, basestring) and val.lower() in ('false', 'none', '0'):
         return False
-    
+
     return (attrs.get(name) and True) or _attrs_boolean.get(name)
 
 class TinyWidget(Widget):
@@ -99,7 +99,7 @@ class TinyWidget(Widget):
     kind=None
 
     validator = None
-        
+
     def __init__(self, **attrs):
 
         super(TinyWidget, self).__init__(**attrs)
@@ -112,7 +112,7 @@ class TinyWidget(Widget):
 
         self.colspan = int(self.colspan)
         self.rowspan = int(self.rowspan)
-        
+
         self.select = _boolean_attr(attrs, 'select')
         self.nolabel = _boolean_attr(attrs, 'nolabel')
         self.required = _boolean_attr(attrs, 'required')
@@ -165,7 +165,7 @@ class TinyWidget(Widget):
                 result += self.get_widgets_by_name(name, kind=kind, parent=wid)
 
         return result
-    
+
     @property
     def name(self):
         return self._name
@@ -191,18 +191,18 @@ class TinyInputWidget(TinyWidget):
             value = ustr(value)
 
         self.default = value
-        
+
     def get_display_value(self):
         """Get the display value of the field.
         """
-        
+
         try:
             return self.validator.from_python(self.default)
         except:
             pass
-        
+
         return self.get_value()
-    
+
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
 
@@ -257,7 +257,7 @@ class ConcurrencyInfo(TinyInputWidget):
 
     def __init__(self, model, ids):
         super(ConcurrencyInfo, self).__init__(model=model, ids=ids)
-    
+
     @property
     def info(self):
         return getattr(cherrypy.request, 'terp_concurrency_info', {})

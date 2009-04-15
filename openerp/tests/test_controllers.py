@@ -13,7 +13,7 @@ class TestPages(unittest.TestCase):
 
     def tearDown(self):
         """Tests for apps using identity need to stop CP/TG after each test to
-        stop the VisitManager thread. 
+        stop the VisitManager thread.
         See http://trac.turbogears.org/turbogears/ticket/1217 for details.
         """
         turbogears.startup.stopTurboGears()
@@ -27,6 +27,6 @@ class TestPages(unittest.TestCase):
     def test_indextitle(self):
         "The indexpage should have the right title"
         testutil.createRequest("/")
-        response = cherrypy.response.body[0].lower() 
+        response = cherrypy.response.body[0].lower()
         assert "<title>welcome to turbogears</title>" in response
 

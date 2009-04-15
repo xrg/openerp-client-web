@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -48,26 +48,26 @@ from form import default_error_handler
 from form import default_exception_handler
 
 class OpenM2M(Form):
-    
+
     path = '/openm2m'
-    
+
     @expose(template="openerp.subcontrollers.templates.openm2m")
     def create(self, params, tg_errors=None):
-        
+
         params.editable = params.get('_terp_editable', True)
         form = self.create_form(params, tg_errors)
-        
+
         form.hidden_fields = [widgets.HiddenField(name='_terp_m2m', default=params.m2o)]
 
         return dict(form=form, params=params, show_header_footer=False)
-    
+
     @expose()
     @validate(form=get_validation_schema)
     @error_handler(default_error_handler)
     @exception_handler(default_exception_handler)
     def save(self, terp_save_only=False, **kw):
         params, data = TinyDict.split(kw)
-        
+
         # remember the current page (tab) of notebooks
         cherrypy.session['remember_notebooks'] = True
 
@@ -103,21 +103,21 @@ class OpenM2M(Form):
 
         if not current and not button:
             params.load_counter = 2
-            
+
         return self.create(params)
-    
-    @expose()    
+
+    @expose()
     def new(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         if not params.model:
             params.update(kw)
-            
+
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
-        
+
         params.editable = params.get('_terp_editable', True)
-        
+
         return self.create(params)
-    
-    
+
+

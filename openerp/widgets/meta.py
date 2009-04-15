@@ -4,16 +4,16 @@ from utils import OrderedSet
 
 
 class WidgetType(type):
-    
+
     def __new__(cls, name, bases, attrs):
-        
+
         _update_list_attr(bases, attrs, 'javascript')
         _update_list_attr(bases, attrs, 'css')
-        
+
         params = _update_list_attr(bases, attrs, 'params')
         members = _update_list_attr(bases, attrs, 'members')
         children = _update_list_attr(bases, attrs, 'children')
-        
+
         if '__init__' in attrs:
             attrs['__init__'] = post_init(attrs['__init__'])
 
@@ -21,7 +21,7 @@ class WidgetType(type):
 
 
 def _update_list_attr(bases, attrs, name):
-    
+
     res = []
     for base in bases:
         attr = getattr(base, name, [])
@@ -29,16 +29,16 @@ def _update_list_attr(bases, attrs, name):
 
     attr = attrs.get(name, [])
     res.extend(attr)
-    
+
     res = attrs[name] = list(OrderedSet(res))
-    
+
     return res
 
 
 def post_init(func):
-    
+
     def wrapper(self, *args, **kw):
-        
+
         if not hasattr(self, '__initstack'):
             self.__initstack = []
         else:
@@ -49,7 +49,7 @@ def post_init(func):
             self.__initstack.pop()
         except IndexError:
             del self.__initstack
-                        
+
             bases = list(inspect.getmro(self.__class__))
             for base in bases:
                 try:
@@ -58,6 +58,6 @@ def post_init(func):
                     pass
 
         return res
-    
+
     return wrapper
 

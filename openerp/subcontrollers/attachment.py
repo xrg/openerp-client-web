@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -47,7 +47,7 @@ class Attachment(controllers.Controller, TinyResource):
     def index(self, model, id):
 
         id = int(id)
-        
+
         if id:
             ctx = {}
             ctx.update(rpc.session.context.copy())
@@ -58,23 +58,23 @@ class Attachment(controllers.Controller, TinyResource):
             ctx['default_res_model'] = model
             ctx['default_res_id'] = id
             action['context'] = ctx
-            
-            return actions.execute(action) 
+
+            return actions.execute(action)
         else:
             raise common.message(_('No record selected! You can only attach to existing record...'))
-        
+
         return True
-    
+
     @expose(content_type="application/octet-stream")
     def save_as(self, fname=None, record=False, **kw):
         record = int(record)
         proxy = rpc.RPCProxy('ir.attachment')
-        
+
         data = proxy.read([record], [], rpc.session.context)
         if len(data) and not data[0]['link'] and data[0]['datas']:
             return base64.decodestring(data[0]['datas'])
         else:
-            return '' 
+            return ''
 
 # vim: ts=4 sts=4 sw=4 si et
 

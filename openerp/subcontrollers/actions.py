@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -50,7 +50,7 @@ from selection import Selection
 
 from openerp.utils import TinyDict
 
-def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={}, 
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
                    mode='form,tree', name=None, target=None, limit=None):
     """Performs `actions.act_window` action.
 
@@ -66,17 +66,17 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     """
 
     params = TinyDict()
-    
+
     params.model = model
     params.ids = res_id
     params.view_ids = view_ids
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
-    
+
     if name:
         params.context['_view_name'] = name
-        
+
     if target:
         params.context['_terp_target'] = target
 
@@ -122,7 +122,7 @@ PRINT_FORMATS = {
 }
 
 def _print_data(data):
-    
+
     if 'result' not in data:
         raise common.message(_('Error no report'))
 
@@ -166,11 +166,11 @@ def execute_report(name, **data):
                 attempt += 1
             if attempt>200:
                 raise common.message(_('Printing aborted, too long delay!'))
-        
+
         # report name
         report_name = 'report'
         report_type = val['format']
-        
+
         if name != 'custom':
             proxy = rpc.RPCProxy('ir.actions.report.xml')
             res = proxy.search([('report_name','=', name)])
@@ -179,7 +179,7 @@ def execute_report(name, **data):
 
         report_name = report_name.replace('Print ', '')
         cherrypy.response.headers['Content-Disposition'] = 'filename="' + report_name + '.' + report_type + '"';
-        
+
         return _print_data(val)
 
     except rpc.RPCException, e:
@@ -198,7 +198,7 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return
-    
+
     if action['type'] == 'ir.actions.act_window_close':
         return """<html>
         <head>
@@ -216,14 +216,14 @@ def execute(action, **data):
         <body></body>
         </html>
         """
-    
+
     elif action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
             data[key] = action.get(key, data.get(key, None))
-        
+
         if not data.get('limit'):
             data['limit'] = 80
-        
+
         view_ids=False
         if action.get('views', []):
             if isinstance(action['views'], list):
@@ -265,14 +265,14 @@ def execute(action, **data):
         return res
 
     elif action['type']=='ir.actions.server':
-        
+
         ctx = data.get('context', {}).copy()
         ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
-        
+
         res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
         if res:
             return execute(res, **data)
-            
+
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
             del data['window']
@@ -294,10 +294,10 @@ def execute(action, **data):
 
 def execute_url(**data):
     url = data.get('url') or ''
-        
+
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported!'))
-    
+
     raise redirect(url)
 
 def get_action_type(act_id):
@@ -325,7 +325,7 @@ def execute_by_id(act_id, type=None, **data):
 
     if type==None:
         type = get_action_type(act_id)
-	
+
     res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
     return execute(res, **data)
 

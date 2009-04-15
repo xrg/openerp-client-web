@@ -29,7 +29,7 @@ import servicemanager
 EXECUTABLE = ["python.exe", "python25\Scripts\start-openerp-web-script.py", "--config", "conf\openerp-web.cfg"]
 
 class TinyService(win32serviceutil.ServiceFramework):
-    
+
     _svc_name_ = "openerp-web"
     _svc_display_name_ = "OpenERP Web"
 
@@ -44,7 +44,7 @@ class TinyService(win32serviceutil.ServiceFramework):
 
         # a reference to the server's process
         self.proc = None
-        
+
         # info if the service terminates correctly or if the server crashed
         self.stopping = False
 
@@ -71,16 +71,16 @@ class TinyService(win32serviceutil.ServiceFramework):
         self.stopping = True
 
     def SvcDoRun(self):
-    
+
         # Start the service itself
         self.StartService()
 
         # start the loop waiting for the Service Manager's stop signal
         thread.start_new_thread(self.StartControl, (self.hWaitStop,))
-    
+
         # Log a info message that the server is running
         servicemanager.LogInfoMsg(TinyService._svc_display_name_ + " is up and running.")
-    
+
         # verification if the server is really running, else quit with an error
         self.proc.wait()
 

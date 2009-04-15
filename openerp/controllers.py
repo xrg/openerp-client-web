@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -100,45 +100,45 @@ class Root(TinyResource):
 
     @expose()
     @unsecured
-    def get_logo(self):          
-        
+    def get_logo(self):
+
         comp_url = config.get('company.url', path='openerp-web') or None
-        
+
         res="""<img src="/static/images/openerp_big.png" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
                     <map name="logo_map">
                         <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
                         <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
                     </map>"""%(dict(alt=_('OpenERP')))
-                    
+
         if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/> 
+                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
                             </a> """
             else:
                  res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
         return res
-    
+
     @expose()
     @unsecured
     def developped_by(self):
         comp_url = config.get('company.url', path='openerp-web') or None
-        
+
         res="""<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
                     <map name="devby_map">
                         <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
                         <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
                     </map>"""%(dict(alt=_('Developped by Axelor and Tiny')))
-                    
+
         if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/> 
+                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
                             </a> """
             else:
                  res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
         return res
-    
+
     @expose()
     @unsecured
     def logout(self):
@@ -164,8 +164,8 @@ class Root(TinyResource):
     shortcuts = subcontrollers.shortcuts.Shortcuts()
     requests = subcontrollers.requests.Requests()
     #openm2o = subcontrollers.openm2o.OpenM2O()
-    #openo2m = subcontrollers.openo2m.OpenO2M() 
-    #openm2m = subcontrollers.openm2m.OpenM2M()   
+    #openo2m = subcontrollers.openo2m.OpenO2M()
+    #openm2m = subcontrollers.openm2m.OpenM2M()
     #listgrid = subcontrollers.listgrid.List()
     #attachment = subcontrollers.attachment.Attachment()
     #translator = subcontrollers.translator.Translator()
@@ -174,7 +174,7 @@ class Root(TinyResource):
     #calendar = subcontrollers.tinycalendar.TinyCalendar()
     #calpopup = subcontrollers.tinycalendar.CalendarPopup()
     #viewlog = subcontrollers.view_log.View_Log()
-    #image = subcontrollers.image.Image()    
+    #image = subcontrollers.image.Image()
     #database = subcontrollers.database.Database()
     #viewed = subcontrollers.viewed.ViewEd()
     #viewlist = subcontrollers.viewlist.ViewList()

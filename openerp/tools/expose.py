@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -66,12 +66,12 @@ def load_template(template, module=None):
 
     if not template:
         return template
-    
+
     filters = ["to_blank", "unicode"]
     imports = ["from openerp.tools.expose import to_blank"]
-        
+
     if re.match('(.+)\.(html|mako)\s*$', template):
-        
+
         if module:
             template = find_resource(module, template)
         else:
@@ -79,29 +79,29 @@ def load_template(template, module=None):
 
         dirname = os.path.dirname(template)
         basename = os.path.basename(template)
-        
-        lookup = TemplateLookup(directories=[dirname], 
-                                default_filters=filters, 
-                                imports=imports, 
+
+        lookup = TemplateLookup(directories=[dirname],
+                                default_filters=filters,
+                                imports=imports,
                                 module_directory=dirname)
-                                
+
         return lookup.get_template(basename)
-        
+
     else:
         return Template(template, default_filters=filters, imports=imports)
-    
-    
+
+
 def _config(key, section, default=None):
     return cherrypy.request.app.config.get(section, {}).get(key, default)
 
 
 class _Provider(dict):
-    
+
     def __getattr__(self, name):
         if name in self:
             return self[name]
         return super(_Provider, self).__getattribute__(name)
-    
+
     def __setattr__(self, name, value):
         raise AttributeError
 
@@ -110,47 +110,47 @@ _var_providers = {}
 def register_template_vars(callback, prefix='oo'):
     providers = _var_providers.setdefault(prefix, [])
     providers.append(callback)
-    
+
 def _cp_vars():
-    
+
     return {
         'session': cherrypy.session,
         'request': cherrypy.request,
         'config': _config,
         'root': cherrypy.request.app.root,
     }
-    
+
 def _py_vars():
-    
+
     return {
         'url': utils.url,
         'attrs': utils.attrs,
         'attr_if': utils.attr_if,
         'checker': lambda e: utils.attr_if('checked', e),
-        'selector': lambda e: utils.attr_if('selected', e),        
+        'selector': lambda e: utils.attr_if('selected', e),
         'readonly': lambda e: utils.attr_if('readonly', e),
         'disabled': lambda e: utils.attr_if('disabled', e),
     }
-    
+
 def _root_vars():
     return {
         'rpc': rpc,
     }
-    
+
 register_template_vars(_cp_vars, 'cp')
 register_template_vars(_py_vars, 'py')
 register_template_vars(_root_vars, None)
 
 
 def renderer(template, module=None):
-    
+
     tmpl = load_template(template, module)
-    
+
     def wrapper(**kw):
-        
+
         if not tmpl:
             return
-        
+
         _vars = {}
         for prefix, cbs in _var_providers.iteritems():
             if prefix:
@@ -161,45 +161,45 @@ def renderer(template, module=None):
             else:
                 for cb in cbs:
                     _vars.update(cb())
-        
+
         kw = kw.copy()
         kw.update(_vars)
-        
+
         return tmpl.render_unicode(**kw)
-    
+
     return wrapper
 
-   
+
 def expose(format='html', template=None, content_type='text/html', allow_json=False):
 
     def expose_wrapper(func):
 
         def func_wrapper(*args, **kw):
-            
+
             res = func(*args, **kw)
-            
+
             if format == 'json' or (allow_json and 'allow_json' in cherrypy.requests.params):
                 cherrypy.response.headers['content-type'] = 'text/javascript'
                 return simplejson.dumps(res)
-            
+
             cherrypy.response.headers['content-type'] = content_type
-            
+
             tmpl = kw.get('cp_template', template)
             if tmpl:
-                
+
                 from openerp.widgets.resource import merge_resources
-                
+
                 res['widget_resources'] = _resources = {}
                 for k, w in res.iteritems():
                     if hasattr(w, 'retrieve_resources') and w.is_root:
                         _resources = merge_resources(_resources, w.retrieve_resources())
 
                 return renderer(tmpl, func.__module__)(**res)
-            
+
             if not isinstance(res, unicode):
                 return unicode(res, 'utf-8')
             return res
-        
+
         return tools.decorated(func_wrapper, func, exposed=True)
 
     return expose_wrapper

@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -80,7 +80,7 @@ class RangeWidget(TinyInputWidget):
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
-        
+
     def set_value(self, value):
         start = value.get('from', '')
         end = value.get('to', '')
@@ -179,7 +179,7 @@ class Search(TinyInputWidget):
                     print "-"*30,"\n malformed tag for:", attrs
                     print "-"*30
                     raise
-                
+
                 kind = fields[name]['type']
 
                 if kind not in WIDGETS:

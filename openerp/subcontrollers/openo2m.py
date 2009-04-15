@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -48,13 +48,13 @@ from form import default_error_handler
 from form import default_exception_handler
 
 class OpenO2M(Form):
-    
+
     path = '/openo2m'    # mapping from root
-    
+
     def create_form(self, params, tg_errors=None):
-        
+
         params.id = params.o2m_id
-        params.model = params.o2m_model        
+        params.model = params.o2m_model
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
 
@@ -75,31 +75,31 @@ class OpenO2M(Form):
         ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
         p, ctx = TinyDict.split(ctx)
-        
+
         params.context = ctx or {}
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
         form.hidden_fields = [widgets.HiddenField(name='_terp_parent_model', default=params.parent_model),
                               widgets.HiddenField(name='_terp_parent_id', default=params.parent_id),
                               widgets.HiddenField(name='_terp_parent_context', default=ustr(params.parent_context)),
-                              widgets.HiddenField(name='_terp_o2m', default=params.o2m),                              
+                              widgets.HiddenField(name='_terp_o2m', default=params.o2m),
                               widgets.HiddenField(name='_terp_o2m_id', default=params.id or None),
                               widgets.HiddenField(name='_terp_o2m_model', default=params.o2m_model),
                               widgets.HiddenField(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
                               widgets.HiddenField(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
         return form
-    
+
     @expose(template="openerp.subcontrollers.templates.openo2m")
     def create(self, params, tg_errors=None):
 
         if tg_errors:
             form = cherrypy.request.terp_form
         else:
-            form = self.create_form(params, tg_errors)        
-                
+            form = self.create_form(params, tg_errors)
+
         return dict(form=form, params=params, show_header_footer=False)
-    
+
     @expose()
     @validate(form=get_validation_schema)
     @error_handler(default_error_handler)
@@ -142,7 +142,7 @@ class OpenO2M(Form):
             params.o2m_id = current.id
 
         return self.create(params)
-    
+
     @expose()
     def edit(self, **kw):
         params, data = TinyDict.split(kw)

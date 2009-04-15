@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -48,7 +48,7 @@ from openerp.utils import TinyDict
 class Wizard(TinyResource):
 
     def execute(self, params):
-        
+
         action = params.name
         model = params.model
         state = params.state
@@ -86,16 +86,16 @@ class Wizard(TinyResource):
             if res['type']=='form':
                 params.is_wizard = True
                 form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
-                
+
                 fields = res['fields']
                 form_values = {}
-                
+
                 for f in fields:
                     if 'value' in fields[f]:
                         form_values[f] = fields[f]['value']
 
                 form_values.update(datas['form'])
-                
+
                 datas['form'] = form_values
 
                 res['datas'].update(datas['form'])
@@ -109,7 +109,7 @@ class Wizard(TinyResource):
                 buttons = res.get('state', [])
                 buttons = [(b[0], re.sub('_(?!_)', '', b[1])) for b in buttons] # remove mnemonic
                 params.state = state
-                
+
                 return dict(form=form, buttons=buttons)
 
             elif res['type']=='action':
@@ -123,7 +123,7 @@ class Wizard(TinyResource):
 
             elif res['type']=='print':
                 from openerp.subcontrollers import actions
-                
+
                 datas['report_id'] = res.get('report_id', False)
                 if res.get('get_id_from_action', False):
                     backup_ids = datas['ids']
@@ -182,7 +182,7 @@ class Wizard(TinyResource):
         cherrypy.request.terp_validators = {}
 
         res = self.execute(params)
-        
+
         form = res['form']
         buttons = res.get('buttons', [])
 
@@ -201,13 +201,13 @@ class Wizard(TinyResource):
     @expose()
     @validate(form=get_validation_schema)
     def report(self, tg_errors=None, tg_exceptions=None, **kw):
-        
+
         if tg_exceptions:
             raise tg_exceptions
 
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
-        
+
         if tg_errors:
             return self.create(params, tg_errors=tg_errors)
 
@@ -222,8 +222,8 @@ class Wizard(TinyResource):
 
         params, datas = TinyDict.split(kw)
         params.datas['form'].update(datas)
-        
+
         return self.create(params, tg_errors=tg_errors)
-    
+
 # vim: ts=4 sts=4 sw=4 si et
 

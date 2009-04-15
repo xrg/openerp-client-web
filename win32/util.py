@@ -14,7 +14,7 @@ def _reporthook(numblocks, blocksize, filesize, url=None):
     sys.stdout.write("%-66s%3d%%" % (base, percent))
 
 def download(url, dst=None):
-    
+
     if not dst:
         dst = url.split('/')[-1]
 

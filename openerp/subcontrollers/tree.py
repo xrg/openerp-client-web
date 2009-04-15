@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -78,7 +78,7 @@ class Tree(TinyResource):
                     tool['icon'] = icons.get_icon(tool['icon'])
                 else:
                     tool['icon'] = False
-                    
+
         return dict(tree=tree)
 
     @expose()
@@ -111,7 +111,7 @@ class Tree(TinyResource):
     def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], context={}, sort_by=None, sort_order="asc"):
 
         ids = ids or []
-        
+
         if isinstance(ids, basestring):
             ids = [int(id) for id in ids.split(',')]
 
@@ -120,7 +120,7 @@ class Tree(TinyResource):
 
         if isinstance(domain, basestring):
             domain = eval(domain)
-            
+
         if isinstance(context, basestring):
             context = eval(context)
 
@@ -128,7 +128,7 @@ class Tree(TinyResource):
             fields.append(field_parent)
 
         proxy = rpc.RPCProxy(model)
-        
+
         ctx = context or {}
         ctx.update(rpc.session.context.copy())
 
@@ -230,7 +230,7 @@ class Tree(TinyResource):
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         action = params.data
 
         if not action:
@@ -240,7 +240,7 @@ class Tree(TinyResource):
 
         ids = params.selection or []
         id = (ids or False) and ids[0]
-        
+
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
     @expose()

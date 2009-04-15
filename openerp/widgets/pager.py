@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -43,14 +43,14 @@ class Pager(TinyWidget):
 
     page_info = None
     pager_id = 1
-    
+
     def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
         super(Pager, self).__init__(offset=offset, limit=limit, count=count)
-        
+
         self.id = id
         self.ids = ids or []
         self.view_type = view_type
-        
+
         if len(self.ids) > self.limit:
             self.ids = self.ids[self.offset:]
             self.ids = self.ids[:min(self.limit, len(self.ids))]
@@ -68,7 +68,7 @@ class Pager(TinyWidget):
 
         else:
             index = (self.count or 0) and self.offset + 1
-            
+
             o = self.offset + len(self.ids)
             o = min(self.count, o)
 

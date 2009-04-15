@@ -81,29 +81,29 @@ def start():
 
     cherrypy.engine.start()
     cherrypy.engine.block()
-    
-    
+
+
 class CPSessionWrapper(object):
-    
+
     def __setattr__(self, name, value):
         cherrypy.session[name] = value
-        
+
     def __getattr__(self, name):
         return cherrypy.session.get(name)
-    
+
     def __delattr__(self, name):
         if name in cherrypy.session:
             del cherrypy.session[name]
-    
+
     __getitem__ = __getattr__
     __setitem__ = __setattr__
-    
+
     def get(self, name, default=None):
         return cherrypy.session.get(name, default)
-    
+
     def clear(self):
         cherrypy.session.clear()
-        
-        
+
+
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -24,7 +24,7 @@ class WidgetException(RuntimeError):
 
     def __str__(self):
         return self.msg
-    
+
 
 class WidgetUnlocked(WidgetException, AttributeError):
     msg = ("The widget is not locked. This method needs to wait until the "
@@ -52,32 +52,32 @@ only_if_unlocked = only_if('_is_locked', False, WidgetLocked)
 
 class WidgetBunch(OrderedSet):
     """
-    An ordered collection of widgets. 
+    An ordered collection of widgets.
     """
-    
+
     def __init__(self, iterable=[]):
         self._widgets = {}
         super(WidgetBunch, self).__init__(iterable)
-        
+
     def __getattr__(self, name):
         try:
             return super(WidgetBunch, self).__getattribute__(name)
         except:
             pass
         return self._widgets[name]
-               
+
     def __getitem__(self, name):
         return self._widgets[name]
-            
+
     def add(self, value):
         if not isinstance(value, Widget):
             raise TypeError
         super(WidgetBunch, self).add(value)
         if value in self:
             self._widgets[value._name] = value
-            
+
     append = add
-    
+
     def retrieve_resources(self):
         from resource import merge_resources, locations
         resources = dict((k, OrderedSet()) for k in locations)
@@ -109,7 +109,7 @@ class Child(object):
 
     Creates a Widget instance with supplied arguments to the constructor when
     called (optionally overriding default arguments).
-    
+
         >>> c = Child(Widget, 'foo')
         >>> w = c()
         >>> w.name
@@ -133,48 +133,48 @@ class Child(object):
         kw_ = self.kw.copy()
         kw_.update(kw)
         return self.widget_class(*self.args, **kw_)
-    
+
 
 class Widget(object):
-    
+
     __metaclass__ = WidgetType
-    
+
     template = None
-    
+
     css = []
     javascript = []
-    
+
     css_class = None
     css_classes = []
-    
+
     parent = None
     children = []
-    
+
     params = {
         'ident': 'The identified of this widget',
         'name': 'The name of this widget',
         'css_class': 'Main CSS class for this widget',
         'css_classes': 'List of all CSS classes',
         }
-        
+
     members = []
 
     default = None
     strip_name = False
 
     validator = DefaultValidator
-    
+
     _is_initialized = False
     _is_locked = False
-    
+
     def __new__(cls, *args, **kw):
         obj = object.__new__(cls)
         obj.orig_args = args[:]
         obj.orig_kw = kw.copy()
         return obj
-    
+
     def __init__(self, name=None, parent=None, children=[], **kw):
-        
+
         # set each keyword args as attribute
         for k, v in kw.iteritems():
             if not k.startswith('_'):
@@ -185,11 +185,11 @@ class Widget(object):
                     pass
 
         self._name = name
-        
+
         for param in self.__class__.params:
             if not hasattr(self, param):
                 setattr(self, param, None)
-                
+
         for member in self.__class__.members:
             if not hasattr(self, member):
                 setattr(self, member, None)
@@ -200,19 +200,19 @@ class Widget(object):
                 raise WidgetInitialized
             self.parent = weakref.proxy(parent)
             self.parent.children.add(self)
-        
+
         # copy mutable class attributes
         for name in ['children', 'css', 'javascript']:
             attr = getattr(self.__class__, name, [])
             setattr(self, name, copy.copy(attr))
-    
+
         children = children or self.children or []
-        
+
         # override children if given
         self.c = self.children = WidgetBunch()
         for child in children:
             self._append_child(child)
- 
+
         self._resources = OrderedSet()
 
         # Set default css class for the widget
@@ -225,19 +225,19 @@ class Widget(object):
         oset.add_all(chain(*[c._resources for c in self.css]))
         oset.add_all(chain(*[c._resources for c in self.javascript]))
         oset.add_all(chain(*[c._resources for c in self.children]))
-        
+
     def post_init(self, *args, **kw):
-        
+
         #append widgets listed in members
         for member in self.members:
             child = getattr(self, member)
             self._append_child(child)
-            
+
         self._collect_resources()
         self._generate_schema()
         self._is_initialized = True
         self._is_locked = True
-    
+
     @property
     def ident(self):
         """
@@ -259,7 +259,7 @@ class Widget(object):
         return '_'.join(reversed(
             [w._name for w in self.path if w._name]
             )) or None
-        
+
     @property
     def name(self):
         names = [w._name for w in self.path if not w.strip_name and w._name]
@@ -271,7 +271,7 @@ class Widget(object):
         while item:
             yield item
             item = item.parent
-            
+
     @property
     def is_root(self):
         return self.parent is None
@@ -279,16 +279,16 @@ class Widget(object):
     def render(self, value=None, **kw):
         kw = self.prepare_dict(value, kw)
         return tools.renderer(self.template, self.__module__)(**kw)
-    
+
     __call__ = display = render
-    
+
     def get_default(self):
         if callable(self.default):
             return self.default()
         return self.default
-    
+
     def prepare_dict(self, value, d):
-                        
+
         if value is None:
             value = self.get_default()
 
@@ -305,7 +305,7 @@ class Widget(object):
                 self.propagate_errors(d, error)
             if self.is_root:
                 value = getattr(cherrypy.request, 'validation_value', value)
-        
+
         d['error_for'] = self._child_error_getter(d['error'])
 
         # Move args passed to child widgets into child_params
@@ -313,28 +313,28 @@ class Widget(object):
         for k in d.keys():
             if '.' in k:# or '-' in k:
                 child_params[k.lstrip('.')] = d.pop(k)
-        
+
         d['value_for'] = self._child_value_getter(value)
         d['params_for'] = self._child_params_getter(child_params)
-                
+
         d['value'] = value
         d['c'] = d['children'] = self.children
-        
+
         self.update_params(d)
-        
+
         # reset the getters here so update_params has a chance to alter
         # the arguments to children and the value
         d['params_for'] = self._child_params_getter(d['child_params'])
         d['value_for'] = self._child_value_getter(d.get('value'))
         d['display_child'] = self._child_display_getter(d['value_for'], d['params_for'])
-        
+
         # Compute the final css_class string
         d['css_class']= ' '.join(set([d['css_class'] or ''] + d['css_classes']))
-        
+
         return d
-    
+
     def update_params(self, d):
-        
+
         # Populate dict with attrs from self listed at params and members
         for k in ifilterfalse(d.__contains__, chain(self.params, self.members)):
             attr = getattr(self, k, None)
@@ -349,7 +349,7 @@ class Widget(object):
             d[k] = attr
 
         if d.get('error'):
-            d['css_classes'].append("has_error")   
+            d['css_classes'].append("has_error")
 
     def propagate_errors(self, parent_kw, parent_error):
         child_params = parent_kw.setdefault('child_params',{})
@@ -404,9 +404,9 @@ class Widget(object):
         resources = dict((k, OrderedSet()) for k in locations)
         for r in self._resources:
             resources[r.location].add(r)
-        
+
         return resources
-            
+
     @only_if_initialized
     def clone(self, *args, **kw):
         """
@@ -455,19 +455,19 @@ class Widget(object):
         return value
 
     def _child_value_getter(self, value):
-        
+
         def getter(item):
             if isinstance(value, dict) and isinstance(item, Widget):
                 return value.get(item._name)
             return None
 
         return getter
-    
+
     def _child_params_getter(self, params):
-        
+
         if isinstance(params, dict):
             params = unflatten_args(params)
-                    
+
         def getter(item):
             if isinstance(params, dict) and isinstance(item, Widget):
                 item = item._name
@@ -475,9 +475,9 @@ class Widget(object):
                 return params[item]
             except:
                 return {}
-        
+
         return getter
-    
+
     def _child_display_getter(self, value_for, params_for):
         def getter(widget, **kw):
             if isinstance(widget, (basestring, int)):
@@ -493,7 +493,7 @@ class Widget(object):
                 if error and error.error_dict:
                     if isinstance(child, Widget):
                         child = child._name
-                    return error.error_dict[child] 
+                    return error.error_dict[child]
             except IndexError, KeyError:
                 pass
             return None
@@ -502,10 +502,10 @@ class Widget(object):
     @only_if_uninitialized
     def _append_child(self, obj):
         """Append an object as a child"""
-        
+
         if obj is None:
             return
-        
+
         if isinstance(obj, Widget):
             a = obj._append_to(self)
         elif isinstance(obj, Child):
@@ -522,39 +522,39 @@ class Widget(object):
     @only_if_initialized
     def _append_to(self, parent=None):
         return self.clone(parent=parent)
-    
+
     @only_if_unlocked
     def __setattr__(self, name, value):
         super(Widget, self).__setattr__(name, value)
-    
+
     @only_if_unlocked
     def __delattr__(self, name):
         super(Widget, self).__delattr__(name)
-        
+
     def __ne__(self, other):
         return not (self == other)
-    
+
     def __eq__(self, other):
         return (
-            (getattr(other, '__class__', None) is self.__class__) and 
+            (getattr(other, '__class__', None) is self.__class__) and
               # Check _name so ancestors are not taken into account
-              (other._name == self._name) and 
+              (other._name == self._name) and
               (other.children == self.children) and (other.orig_kw == self.orig_kw)
             )
-        
+
     def __repr__(self):
         name = self.__class__.__name__
         return "%s(%r, children=%r, **%r)" % (
             name, self._name, self.children, self.orig_kw
         )
-        
+
 class Form(Widget):
-    
+
     params = ['action', 'hidden_fields']
     members = ['hidden_fields']
-    
+
     hidden_fields = []
-    
+
 
 
 import re
@@ -632,13 +632,13 @@ def _copy_schema(schema):
         fields[k] = v
     new_schema.fields = fields
     return new_schema
-    
+
 def _update_schema(schema, children):
     """
     Extends a Schema with validators from children. Does not clobber the ones
     declared in the Schema.
     """
-    for w in ifilter(_has_validator, children): 
+    for w in ifilter(_has_validator, children):
         _add_field_to_schema(schema, w._name, w.validator)
     return schema
 
@@ -648,7 +648,7 @@ def _add_field_to_schema(schema, name, validator):
         if isinstance(validator, Schema):
             # Schema instance, might need to merge 'em...
             if name in schema.fields:
-                assert (isinstance(schema.fields[name], Schema), 
+                assert (isinstance(schema.fields[name], Schema),
                         "Validator for '%s' should be a Schema subclass" % name)
                 validator = merge_schemas(schema.fields[name], validator)
             schema.add_field(name, validator)
@@ -661,14 +661,14 @@ def _add_field_to_schema(schema, name, validator):
 def _can_add_field(schema, field_name):
     """
     Checks if we can safely add a field. Makes sure we're not overriding
-    any field in the Schema. DefaultValidators are ok to override. 
+    any field in the Schema. DefaultValidators are ok to override.
     """
     current_field = schema.fields.get(field_name)
     return bool(current_field is None or
                 isinstance(current_field, DefaultValidator))
 
 def merge_schemas(to_schema, from_schema, inplace=False):
-    """ 
+    """
     Recursively merges from_schema into to_schema taking care of leaving
     to_schema intact if inplace is False (default).
     """
@@ -689,7 +689,7 @@ def merge_schemas(to_schema, from_schema, inplace=False):
     can_add = lambda f: f[0] not in seen and _can_add_field(to_schema, f[0])
     for field in ifilter(can_add, from_schema.fields.iteritems()):
         to_schema.add_field(*field)
-                
+
     return to_schema
 
 class VariableDecoder(NestedVariables):
@@ -697,10 +697,10 @@ class VariableDecoder(NestedVariables):
 
 
 if __name__ == "__main__":
-    
+
     w = Widget("A", children=[
             Widget("B", children=[])
             ])
-            
+
     print w.c.B.name
     print w.c.B.ident

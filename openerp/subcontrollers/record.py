@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -38,20 +38,20 @@ from openerp.widgets.interface import TinyField
 from form import Form
 
 class Record(dict):
-    
+
     def __init__(self, params):
-        
+
         self.params = TinyDict(**params.copy())
         self.params.view_type = 'form'
-        
+
         form = Form().create_form(self.params)
-        
+
         record = self._make_record(form)
         self.clear()
-        
+
         self.update(record.copy())
         self['id'] = params.id or False
-             
+
     def _make_record(self, parent=None):
         parent = parent or self
 
@@ -62,15 +62,15 @@ class Record(dict):
 
             elif isinstance(wid, CompoundWidget):
                 self._make_record(wid)
-    
+
         params, data = TinyDict.split(self)
         return data
-    
+
     def expr_eval(self, expr, source=None):
-        
+
         if not isinstance(expr, basestring):
             return expr
-        
+
         d = {}
         for name, value in self.items():
             d[name] = value

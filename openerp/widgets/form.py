@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -61,26 +61,26 @@ class Frame(TinyInputWidget):
 
     params = ['table']
     members = ['hiddens']
-    
+
     table = None
-    
+
     def __init__(self, **attrs):
-        
+
         super(Frame, self).__init__(**attrs)
-        
+
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
 
         self.x = 0
         self.y = 0
-        
+
         self.hiddens = []
         self.table = []
-        
+
         self.add_row()
 
         for child in self.children:
-            
+
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
@@ -158,7 +158,7 @@ class Frame(TinyInputWidget):
                 not widget.name or widget.readonly or \
                 widget.name.startswith('_terp_listfields'):
             return
-        
+
         if widget.validator:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields += [widget]
@@ -193,7 +193,7 @@ class Frame(TinyInputWidget):
 
         if not hasattr(widget, 'visible'):
             widget.visible = True
-        
+
         # state change
         if getattr(widget, 'states', False):
 
@@ -212,23 +212,23 @@ class Frame(TinyInputWidget):
 
         if isinstance(widget, (Group, Notebook, O2M, M2M)):
             attrs['valign'] = 'top'
-            
+
         # attr change
         if getattr(widget, 'attributes', False):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name
-            
+
         td = [attrs, widget]
         tr.append(td)
 
         self.x += colspan + a
-        
+
     def add_hidden(self, widget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
 
         self.hiddens += [widget]
-        
+
 class Notebook(TinyInputWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
@@ -245,7 +245,7 @@ class Notebook(TinyInputWidget):
                   tabberOptions['cookie'] = 'TGTabber';
                   tabberOptions['manualStartup'] = true;"""),
                   JSLink("openerp", "javascript/tabber/tabber.js")]
-    
+
     css = [CSSLink('openerp', 'css/tabs.css')]
 
     def __init__(self, **attrs):
@@ -259,7 +259,7 @@ class Page(Frame):
         super(Page, self).__init__(**attrs)
         if self.invisible:
             self.attributes = "{'invisible': [1]}"
-            
+
 
 class Separator(TinyInputWidget):
     """Separator widget.
@@ -270,7 +270,7 @@ class Separator(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
-        
+
         self.colspan = int(attrs.get('colspan', 4))
         self.rowspan = 1
         self.nolabel = True
@@ -294,37 +294,37 @@ class Label(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Label, self).__init__(**attrs)
-        
+
         self.nolabel = True
         self.field_value = self.string
         self.align = 'center'
-        
+
         align = attrs.get('align', 0.5)
         if isinstance(align, basestring):
             try:
                 align = eval(align)
             except:
                 align = 0.5
-        
+
         if align == 0.0:
             self.align = 'left'
         if align == 0.5:
             self.align = 'center'
         if align == 1.0:
             self.align = 'right'
-        
+
     def set_value(self, value):
         self.field_value = unicode(value or '', 'utf-8')
 
 class Char(TinyInputWidget):
-    
+
     template = "templates/char.mako"
     params = ['password', 'size']
 
     def __init__(self, **attrs):
         super(Char, self).__init__(**attrs)
         self.validator = validators.String()
-        
+
     def set_value(self, value):
         self.default = value
 
@@ -343,14 +343,14 @@ class Email(TinyInputWidget):
 
 class Text(TinyInputWidget):
     template = "templates/text.mako"
-    
+
     def __init__(self, **attrs):
         super(Text, self).__init__(**attrs)
         self.validator = validators.String()
 
     def set_value(self, value):
         self.default = value
-        
+
 
 class Integer(TinyInputWidget):
     template = "templates/integer.mako"
@@ -372,7 +372,7 @@ class Boolean(TinyInputWidget):
 
     def set_value(self, value):
         self.default = value or ''
-        
+
 
 class Float(TinyInputWidget):
     template = "templates/float.mako"
@@ -404,19 +404,19 @@ class FloatTime(TinyInputWidget):
 
     def set_value(self, value):
         self.default = value
-        
-        
+
+
 class ProgressBar(TinyInputWidget):
     template = "templates/progressbar.mako"
-    
+
     def __init__(self, **attrs):
         super(ProgressBar, self).__init__(**attrs)
-        
+
         if attrs.get('type2') is 'float':
             self.validator = validators.Float()
         else:
             self.validator = validators.Int()
-            
+
     def set_value(self, value):
         self.default = value or 0.00
 
@@ -429,7 +429,7 @@ class Selection(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Selection, self).__init__(**attrs)
-        
+
         # m2o as selection
         if attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
@@ -457,11 +457,11 @@ class Selection(TinyInputWidget):
 
         if self.options and value not in dict(self.options):
             value = None
-            
+
         super(Selection, self).set_value(value)
 
 class DateTime(TinyInputWidget):
-    
+
     template = "templates/datetime.mako"
 
     params = ["format", "strdate", "picker_shows_time"]
@@ -469,17 +469,17 @@ class DateTime(TinyInputWidget):
     format = '%Y-%m-%d %H:%M:%S'
     strdate = None
     picker_shows_time = True
-    
+
     def __init__(self, **attrs):
         super(DateTime, self).__init__(**attrs)
         self.format = format.get_datetime_format(attrs['type'])
-        
+
         self.javascript = [JSLink("openerp", "calendar/calendar.js"),
                            JSLink("openerp", "calendar/calendar-setup.js"),
                            JSLink("openerp", "calendar/lang/calendar-en.js")]
-                           
+
         self.css = [CSSLink("openerp", "calendar/%s.css" % self.skin)]
-        
+
         if attrs['type'] == 'date':
             self.picker_shows_time = False
 
@@ -487,12 +487,12 @@ class DateTime(TinyInputWidget):
 
     def set_value(self, value):
         self._default = value or False
-        
+
 
 class Binary(TinyInputWidget):
     template = "templates/binary.mako"
     params = ["name", "text", "readonly", "filename"]
-    
+
     text = None
     file_upload = True
 
@@ -521,7 +521,7 @@ class URL(TinyInputWidget):
 
 class Hidden(TinyInputWidget):
     template = "templates/hidden.mako"
-    
+
     wid = None
     params = ['relation']
 
@@ -554,7 +554,7 @@ class Button(TinyInputWidget):
 
         self.nolabel = True
         self.readonly = False
-        
+
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
@@ -587,9 +587,9 @@ class Image(TinyInputWidget):
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
         super(Image, self).__init__(**attrs)
-        
+
         self.filename = attrs.get('filename', '')
-        
+
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
@@ -599,24 +599,24 @@ class Image(TinyInputWidget):
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
-    
+
 class Group(TinyInputWidget):
     template = "templates/group.mako"
-    
+
     params = ["string"]
     members = ["frame"]
-    
-    def __init__(self, **attrs):        
+
+    def __init__(self, **attrs):
         super(Group, self).__init__(**attrs_)
-        
+
         self.frame = Frame(**attrs)
         self.nolabel = True
 
 
 class Dashbar(TinyInputWidget):
-    
+
     template = "templates/dashbar.mako"
-    
+
     javascript = [JSLink("openerp", "javascript/dashboard.js")]
     css = [CSSLink('openerp', 'css/dashboard.css')]
 
@@ -657,7 +657,7 @@ class VPaned(TinyInputWidget):
     def __init__(self, **attrs):
         super(VPaned, self).__init__(**attrs)
         self.nolabel = True
-        
+
 
 class Form(TinyInputWidget):
     """A generic form widget
@@ -672,16 +672,16 @@ class Form(TinyInputWidget):
 
     params = ['id']
     members = ['frame', 'concurrency_info']
-        
+
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
-        
+
         super(Form, self).__init__(prefix=prefix, model=model, editable=editable, readonly=readonly, nodefault=nodefault)
-        
+
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         fields = view['fields']
-        
+
         self.string = self.string or ''
         self.link = attrs.get('link', nolinks)
 
@@ -729,30 +729,30 @@ class Form(TinyInputWidget):
 
         for k, v in defaults.items():
             values.setdefault(k, v)
-            
+
         self.state = values.get('state', values.get('x_state'))
 
         # store current record values in request object (see, self.parse & O2M default_get_ctx)
-        if not hasattr(cherrypy.request, 'terp_record'): 
+        if not hasattr(cherrypy.request, 'terp_record'):
             cherrypy.request.terp_record = TinyDict()
 
         self.view_fields = []
         self.frame = self.parse(prefix, dom, fields, values)[0]
         self.concurrency_info = ConcurrencyInfo(self.model, [self.id])
-        
+
         # We should generate hidden fields for fields which are not in view, as
-        # the values of such fields might be used during `onchange` 
+        # the values of such fields might be used during `onchange`
         for name, attrs in fields.items():
             if name not in self.view_fields:
-                
+
                 kind = attrs.get('type', 'char')
                 if kind not in WIDGETS:
                     continue
-                
+
                 attrs['prefix'] = prefix
                 attrs['name'] = name
                 attrs['readonly'] = True # always make them readonly
-                
+
                 field = self._make_field_widget(attrs, values.get(name))
                 self.frame.add_hidden(field)
 
@@ -768,7 +768,7 @@ class Form(TinyInputWidget):
             attrs = tools.node_attributes(node)
             attrs['prefix'] = prefix
             attrs['state'] = self.state
-            
+
             if node.localName=='image':
                 views += [Image(**attrs)]
 
@@ -811,12 +811,12 @@ class Form(TinyInputWidget):
                     print "-"*30,"\n malformed tag for:", attrs
                     print "-"*30
                     raise
-                
+
                 kind = fields[name]['type']
-                
+
                 if kind not in WIDGETS:
                     continue
-                
+
                 if kind in ('text', 'text_tag') and attrs.get('html'):
                     kind = 'text_html'
 
@@ -828,7 +828,7 @@ class Form(TinyInputWidget):
                     raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
                 self.view_fields.append(name)
-                
+
                 field = self._make_field_widget(fields[name], values.get(name))
                 views += [field]
 
@@ -850,7 +850,7 @@ class Form(TinyInputWidget):
                 cherrypy.request._terp_dashboard = True
 
         return views
-    
+
     def _make_field_widget(self, attrs, value=False):
 
         attrs['editable'] = self.editable
@@ -859,7 +859,7 @@ class Form(TinyInputWidget):
         attrs.setdefault('context', self.context)
         attrs.setdefault('model', self.model)
         attrs.setdefault('state', self.state)
-        
+
         if attrs.get('widget', False):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
@@ -874,19 +874,19 @@ class Form(TinyInputWidget):
 
         if kind == 'image':
             attrs['id'] = self.id
-        
-        # suppress by container's readonly property 
+
+        # suppress by container's readonly property
         if self.readonly:
             attrs['readonly'] = True
-            
+
         field = WIDGETS[kind](**attrs)
-        
+
         if isinstance(field, TinyInputWidget):
-            field.set_value(value)    
-        
+            field.set_value(value)
+
         # update the record data
         cherrypy.request.terp_record[name] =  field.get_value()
-        
+
         return field
 
 
@@ -924,7 +924,7 @@ WIDGETS = {
     'email' : Email,
     'url' : URL,
     'image' : Image,
-    'progressbar' : ProgressBar,    
+    'progressbar' : ProgressBar,
 }
 
 # vim: ts=4 sts=4 sw=4 si et
