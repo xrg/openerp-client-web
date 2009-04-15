@@ -130,11 +130,11 @@ class Widget(object):
     default = None
     strip_name = False
 
-    validator = DefaultValidator
+    validator = DefaultValidator()
 
     _is_initialized = False
     _is_locked = False
-
+    
     def __new__(cls, *args, **kw):
         obj = object.__new__(cls)
         obj.orig_args = args[:]
@@ -202,31 +202,8 @@ class Widget(object):
             self._append_child(child)
 
         self._collect_resources()
-        #TODO: self._generate_schema()
         self._is_initialized = True
         self._is_locked = False
-
-    @property
-    def ident(self):
-        """
-        The calculated id of the widget. This string will provide a unique
-        id for each widget in the tree in a format which allows to re-recreate
-        the nested structure.
-        Example::
-
-            >>> A = Widget("A", children=[
-            ...     Widget("B", children=[
-            ...         Widget("C")
-            ...         ])
-            ...     ])
-            ...
-            >>> C = A.c.B.c.C
-            >>> C.ident
-            'A_B_C'
-        """
-        return '_'.join(reversed(
-            [w._name for w in self.path if w._name]
-            )) or None
 
     @property
     def name(self):
@@ -258,9 +235,6 @@ class Widget(object):
 
     def prepare_dict(self, value, d):
 
-        if value is None:
-            value = self.get_default()
-
         value = self.adjust_value(value)
 
         error = getattr(cherrypy.request, 'validation_exception', None)
@@ -270,37 +244,43 @@ class Widget(object):
             error = d.setdefault('error', None)
 
         if error:
-            if self.children:
-                self.propagate_errors(d, error)
             if self.is_root:
                 value = getattr(cherrypy.request, 'validation_value', value)
-
-        d['error_for'] = self._child_error_getter(d['error'])
-
-        # Move args passed to child widgets into child_params
-        child_params = d.setdefault('child_params', {})
-        for k in d.keys():
-            if '.' in k:# or '-' in k:
-                child_params[k.lstrip('.')] = d.pop(k)
-
-        d['value_for'] = self._child_value_getter(value)
-        d['params_for'] = self._child_params_getter(child_params)
-
+                
         d['value'] = value
         d['c'] = d['children'] = self.children
 
         self.update_params(d)
-
-        # reset the getters here so update_params has a chance to alter
-        # the arguments to children and the value
-        d['params_for'] = self._child_params_getter(d['child_params'])
-        d['value_for'] = self._child_value_getter(d.get('value'))
-        d['display_child'] = self._child_display_getter(d['value_for'], d['params_for'])
-
+        
+        d['value_for'] = lambda f: self.value_for(f, d['value'])
+        d['params_for'] = lambda f: self.params_for(f, **d)
+        d['display_child'] = lambda f: self.display_child(f, **d)
+        
         # Compute the final css_class string
         d['css_class']= ' '.join(set([d['css_class'] or ''] + d['css_classes']))
 
         return d
+    
+    def value_for(self, item, value):
+        name = getattr(item, "name", item)
+        if isinstance(value, dict):
+            return value.get(name)
+        else:
+            return None
+    
+    def params_for(self, item, **params):
+        name = getattr(item, "name", item)
+        item_params = {}
+        for k, v in params.iteritems():
+            if isinstance(v, dict):
+                if name in v:
+                    item_params[k] = v[name]
+        return item_params
+    
+    def display_child(self, item, **params):
+        v = self.value_for(item, params.get('value'))
+        d = self.params_for(item, **params)
+        return item.display(v, **d)
 
     def update_params(self, d):
 
@@ -319,49 +299,6 @@ class Widget(object):
             
         if d.get('error'):
             d['css_classes'].append("has_error")
-
-    def propagate_errors(self, parent_kw, parent_error):
-        child_params = parent_kw.setdefault('child_params',{})
-        if parent_error.error_dict:
-            if self.strip_name:
-                for c in self.children:
-                    for subc in c.children:
-                        if hasattr(subc, '_name'):
-                            try:
-                                e = parent_error.error_dict.pop(subc._name)
-                            except KeyError:
-                                continue
-                            if c._name not in parent_error.error_dict:
-                                inv = Invalid("some error", {}, e.state, error_dict={})
-                                parent_error.error_dict[c._name] = inv
-                            child_errors = parent_error.error_dict[c._name].error_dict
-                            child_errors[subc._name] = e
-            for k,v in parent_error.error_dict.iteritems():
-                child_params.setdefault(k, {})['error'] = v
-
-    def _generate_schema(self):
-        """If the widget has children this method generates a `Schema` to validate
-        including the validators from all children once these are all known.
-        """
-        if _has_child_validators(self):
-            if isinstance(self.validator, Schema):
-                #log.debug("Extending Schema for %r", self)
-                self.validator = _update_schema(_copy_schema(self.validator),
-                                                self.children)
-            elif isclass(self.validator) and issubclass(self.validator, Schema):
-                #log.debug("Instantiating Schema class for %r", self)
-                self.validator = _update_schema(self.validator(), self.children)
-            elif self.validator is DefaultValidator:
-                self.validator = _update_schema(Schema(), self.children)
-
-            if self.is_root and hasattr(self.validator, 'pre_validators'):
-                #XXX: Maybe add VariableDecoder to every Schema??
-                #log.debug("Appending decoder to %r", self)
-                self.validator.pre_validators.insert(0, VariableDecoder)
-            for c in self.children:
-                if c.strip_name:
-                    v = self.validator.fields.pop(c._name)
-                    merge_schemas(self.validator, v, True)
 
     @only_if_initialized
     def retrieve_resources(self):
@@ -391,6 +328,10 @@ class Widget(object):
         """Adjusts the python value sent to :meth:`Widget.display` with
         the validator so it can be rendered in the template.
         """
+        
+        if value is None:
+            value = self.get_default()
+            
         validator = validator or self.validator
         if validator and not isinstance(self.validator, Schema):
             try:
@@ -400,51 +341,6 @@ class Widget(object):
                 # properly
                 pass
         return value
-
-    def _child_value_getter(self, value):
-
-        def getter(item):
-            if isinstance(value, dict) and isinstance(item, Widget):
-                return value.get(item._name)
-            return None
-
-        return getter
-
-    def _child_params_getter(self, params):
-
-        if isinstance(params, dict):
-            params = unflatten_args(params)
-
-        def getter(item):
-            if isinstance(params, dict) and isinstance(item, Widget):
-                item = item._name
-            try:
-                return params[item]
-            except:
-                return {}
-
-        return getter
-
-    def _child_display_getter(self, value_for, params_for):
-        def getter(widget, **kw):
-            if isinstance(widget, (basestring, int)):
-                widget = self.children[widget]
-            child_kw = params_for(widget)
-            child_kw.update(kw)
-            return widget.display(value_for(widget), **child_kw)
-        return getter
-
-    def _child_error_getter(self, error):
-        def getter(child):
-            try:
-                if error and error.error_dict:
-                    if isinstance(child, Widget):
-                        child = child._name
-                    return error.error_dict[child]
-            except IndexError, KeyError:
-                pass
-            return None
-        return getter
 
     @only_if_uninitialized
     def _append_child(self, obj):
@@ -496,147 +392,6 @@ class Form(Widget):
     members = ['hidden_fields']
 
     hidden_fields = []
-
-
-
-import re
-
-_id_RE = re.compile(r'(\w+)+(?:-(\d))*')
-def unflatten_args(child_args):
-    new = {}
-    for k,v in child_args.iteritems():
-        splitted = k.split('.',1)
-        id = splitted[0]
-        if len(splitted) == 2:
-            rest = splitted[1]
-            if not id:
-                new[rest] = v
-                continue
-            for_id = new.setdefault(id, {})
-            for_id.setdefault('child_params', {})[rest] = v
-        else:
-            for_id = new.setdefault(id,{})
-            for key, val  in v.iteritems():
-                for_id.setdefault(key,val)
-
-    convert = set()
-    for k,v in new.items():
-        m = _id_RE.match(k)
-        if not m:
-            raise ValueError(
-                "%r is not a valid id to reference a child" % k
-                )
-        id, n = m.groups()
-        if n is not None:
-            new.pop(k,None)
-            convert.add(id)
-            for_id = new.setdefault(id, {})
-            for_id[int(n)] = v
-
-    for k in convert:
-        for_k = new[k]
-        l = []
-        for n in count():
-            l.append(for_k.pop(n, {}))
-            if not for_k: break
-        new[k] = {'child_params':l}
-    return new
-
-
-#------------------------------------------------------------------------------
-# Automatic validator generation functions.
-#------------------------------------------------------------------------------
-def _has_validator(w):
-    try:
-        return w.validator is not None
-    except AttributeError:
-        return False
-
-
-def _has_child_validators(widget):
-    for w in widget.children:
-        if _has_validator(w): return True
-    return False
-
-
-def _copy_schema(schema):
-    """
-    Does a deep copy of a Schema instance
-    """    
-    new_schema = copy.copy(schema)
-    new_schema.pre_validators = copy.copy(schema.pre_validators)
-    new_schema.chained_validators = copy.copy(schema.chained_validators)
-    new_schema.order = copy.copy(schema.order)
-    fields = {}
-    for k, v in schema.fields.iteritems():
-        if isinstance(v, Schema):
-            v = _copy_schema(v)
-        fields[k] = v
-    new_schema.fields = fields
-    return new_schema
-
-def _update_schema(schema, children):
-    """
-    Extends a Schema with validators from children. Does not clobber the ones
-    declared in the Schema.
-    """
-    for w in ifilter(_has_validator, children):
-        _add_field_to_schema(schema, w._name, w.validator)
-    return schema
-
-def _add_field_to_schema(schema, name, validator):
-    """ Adds a validator if any to the given schema """
-    if validator is not None:
-        if isinstance(validator, Schema):
-            # Schema instance, might need to merge 'em...
-            if name in schema.fields:
-                assert (isinstance(schema.fields[name], Schema),
-                        "Validator for '%s' should be a Schema subclass" % name)
-                validator = merge_schemas(schema.fields[name], validator)
-            schema.add_field(name, validator)
-        elif _can_add_field(schema, name):
-            # Non-schema validator, add it if we can...
-            schema.add_field(name, validator)
-    elif _can_add_field(schema, name):
-        schema.add_field(name, DefaultValidator)
-
-def _can_add_field(schema, field_name):
-    """
-    Checks if we can safely add a field. Makes sure we're not overriding
-    any field in the Schema. DefaultValidators are ok to override.
-    """
-    current_field = schema.fields.get(field_name)
-    return bool(current_field is None or
-                isinstance(current_field, DefaultValidator))
-
-def merge_schemas(to_schema, from_schema, inplace=False):
-    """
-    Recursively merges from_schema into to_schema taking care of leaving
-    to_schema intact if inplace is False (default).
-    """
-        
-    if not inplace:
-        to_schema = _copy_schema(to_schema)
-
-    # Recursively merge child schemas
-    is_schema = lambda f: isinstance(f[1], Schema)
-    seen = set()
-    for k, v in ifilter(is_schema, to_schema.fields.iteritems()):
-        seen.add(k)
-        from_field = from_schema.fields.get(k)
-        if from_field:
-            v = merge_schemas(v, from_field)
-            to_schema.add_field(k, v)
-
-    # Add remaining fields if we can
-    can_add = lambda f: f[0] not in seen and _can_add_field(to_schema, f[0])
-    for field in ifilter(can_add, from_schema.fields.iteritems()):
-        to_schema.add_field(*field)
-
-    return to_schema
-
-class VariableDecoder(NestedVariables):
-    pass
 
 
 if __name__ == "__main__":
