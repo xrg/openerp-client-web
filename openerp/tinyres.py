@@ -39,9 +39,10 @@ import cherrypy
 import pkg_resources
 
 from openerp import rpc
+from openerp import tools
+
 from openerp.tools import expose
 from openerp.tools import redirect
-
 
 @expose(template="templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
@@ -140,33 +141,19 @@ def secured(fn):
             # User is now logged in, so show the content
             clear_login_fields(kw)
             return fn(*args, **kw)
+        
+    return tools.decorated(wrapper, fn, secured=True)
 
-    # restore the original values
-    wrapper.__name__ = fn.__name__
-    wrapper.__doc__ = fn.__doc__
-    wrapper.__dict__ = fn.__dict__.copy()
-    wrapper.__module__ = fn.__module__
-
-    wrapper.secured = True
-
-    return wrapper
 
 def unsecured(fn):
     """A Decorator to make a TinyResource controller method unsecured.
     """
-
+    
     def wrapper(*args, **kw):
         return fn(*args, **kw)
+    
+    return tools.decorated(wrapper, fn, secured=False)
 
-    # restore the original values
-    wrapper.__name__ = fn.__name__
-    wrapper.__doc__ = fn.__doc__
-    wrapper.__dict__ = fn.__dict__.copy()
-    wrapper.__module__ = fn.__module__
-
-    wrapper.secured = False
-
-    return wrapper
 
 class TinyResource(object):
     """Provides a convenient way to secure entire TG controller

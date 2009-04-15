@@ -1,6 +1,11 @@
 
 import cherrypy
 
+from openerp.tools import tools
+
+__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if"]
+
+
 def check_request_exists():
     try:
         cherrypy.request._test_request_exists = 1
@@ -65,14 +70,14 @@ from openerp.validators import Invalid
 
 def validate(form=None, validators=None):
     
-    def entangle(func):
+    def validate_wrapper(func):
         
         if callable(form) and not hasattr(form, "validate"):
             init_form = lambda self: form(self)            
         else:
             init_form = lambda self: form
 
-        def validate(*args, **kw):
+        def func_wrapper(*args, **kw):
             
             # do not validate a second time if already validated
             if hasattr(cherrypy.request, 'validation_state'):
@@ -118,15 +123,16 @@ def validate(form=None, validators=None):
 
             args, kw = from_kw(func, args, kw)
             return func(*args, **kw)
-
-        return validate
-    return entangle
+        
+        return tools.decorated(func_wrapper, func)
+    
+    return validate_wrapper
 
 def error_handler(handler):
     
     def wrapper(func):
         
-        def wrapper_(*args, **kw):
+        def func_wrapper(*args, **kw):
             
             tg_errors = getattr(cherrypy.request, 'validation_errors', None)
             if tg_errors:
@@ -135,7 +141,7 @@ def error_handler(handler):
                      
             return func(*args, **kw)
         
-        return wrapper_
+        return tools.decorated(func_wrapper, func)
     
     return wrapper
 

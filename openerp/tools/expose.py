@@ -39,8 +39,10 @@ from mako.lookup import TemplateLookup
 
 from openerp import rpc
 from openerp.tools import utils
+from openerp.tools import tools
 
-__all__ = ['find_resource', 'load_template', 'renderer', 'expose']
+__all__ = ['find_resource', 'load_template', 'renderer', 'expose',
+           'register_template_vars']
 
 
 def to_blank(value):
@@ -197,11 +199,8 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
             if not isinstance(res, unicode):
                 return unicode(res, 'utf-8')
             return res
-
-        func_wrapper.func_name = func.func_name
-        func_wrapper.exposed = True
-
-        return func_wrapper
+        
+        return tools.decorated(func_wrapper, func, exposed=True)
 
     return expose_wrapper
 
