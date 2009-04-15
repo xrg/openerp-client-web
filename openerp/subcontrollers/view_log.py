@@ -30,8 +30,7 @@
 import os
 import copy
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -45,9 +44,9 @@ from openerp.utils import TinyDict
 
 import openerp.widgets as tw
 
-class View_Log(controllers.Controller, TinyResource):
+class View_Log(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.view_log")
+    @expose(template="templates/view_log.mako")
     def index(self, **kw):
         params, data = TinyDict.split(kw)
 

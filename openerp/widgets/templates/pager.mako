@@ -34,11 +34,11 @@
             </td>
             <td>
                 <select id='_${name+str(pager_id)}_limit' onchange="$('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=$('_${name+str(pager_id)}_limit').value; pager_action('filter', '${name}')">
-                    <option value="20" ${py.selector("selected",limit==20)}>20</option>
-                    <option value="40" ${py.selector("selected",limit==40)}>40</option>
-                    <option value="60" ${py.selector("selected",limit==60)}>60</option>
-                    <option value="80" ${py.selector("selected",limit==80)}>80</option>
-                    <option value="100" ${py.selector("selected",limit==100)}>100</option>
+                    <option value="20" ${py.selector(limit==20)}>20</option>
+                    <option value="40" ${py.selector(limit==40)}>40</option>
+                    <option value="60" ${py.selector(limit==60)}>60</option>
+                    <option value="80" ${py.selector(limit==80)}>80</option>
+                    <option value="100" ${py.selector(limit==100)}>100</option>
                 </select>
             </td>
         </tr>

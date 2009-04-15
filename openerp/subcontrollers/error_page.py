@@ -30,9 +30,7 @@
 import sys
 import cgitb
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -42,13 +40,13 @@ from openerp import common
 
 import openerp.widgets as tw
 
-class ErrorPage(controllers.Controller):
+class ErrorPage(object):
 
-    nb = tw.form.Notebook({}, [])
+    nb = tw.form.Notebook()
 
     @expose()
     def index(self, *args, **kw):
-        raise redirect('/')
+        raise tools.redirect('/')
 
     def render(self):
         etype, value, tb = sys.exc_info()
@@ -58,7 +56,7 @@ class ErrorPage(controllers.Controller):
 
         return self.__render(value)
 
-    @expose(template="openerp.subcontrollers.templates.error_page")
+    @expose(template="templates/error_page.mako")
     def __render(self, value):
         title=value.title
         error=value.message

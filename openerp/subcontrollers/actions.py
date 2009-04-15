@@ -34,9 +34,6 @@ import time
 import datetime
 import base64
 
-from openerp.tools import expose
-from openerp.tools import redirect
-
 import cherrypy
 
 from openerp import rpc
@@ -298,7 +295,7 @@ def execute_url(**data):
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported!'))
 
-    raise redirect(url)
+    raise tools.redirect(url)
 
 def get_action_type(act_id):
     """Get the action type for the given action id.

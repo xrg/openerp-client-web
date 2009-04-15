@@ -30,8 +30,7 @@
 import os
 import time
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -46,9 +45,9 @@ from openerp.utils import TinyForm
 
 import openerp.widgets as tw
 
-class FieldPref(controllers.Controller, TinyResource):
+class FieldPref(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.fieldpref")
+    @expose(template="templates/fieldpref.mako")
     def index(self, **kw): #_terp_model, _terp_field, _terp_deps
 
         click_ok = None
@@ -82,7 +81,7 @@ class FieldPref(controllers.Controller, TinyResource):
 
         return dict(text=text, deps=str(deps))
 
-    @expose(template="openerp.subcontrollers.templates.fieldpref")
+    @expose(template="templates/fieldpref.mako")
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 

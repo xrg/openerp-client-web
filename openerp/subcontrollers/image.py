@@ -29,17 +29,17 @@
 
 import base64
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import controllers
+from openerp.tools import expose
+from openerp.tools import redirect
+
 import cherrypy
 
 from openerp import rpc
 from openerp.tinyres import TinyResource
 
-class Image(controllers.Controller, TinyResource):
+class Image(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.image")
+    @expose(template="templates/image.mako")
     def index(self, **kw):
 
         saved = kw.get('saved') or None
@@ -64,7 +64,7 @@ class Image(controllers.Controller, TinyResource):
         else:
             return ''
 
-    @expose(template="openerp.subcontrollers.templates.image")
+    @expose(template="templates/image.mako")
     def add(self, upimage,  **kw):
 
         saved = kw.get('saved') or None
@@ -87,7 +87,7 @@ class Image(controllers.Controller, TinyResource):
 
         return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
 
-    @expose(template="openerp.subcontrollers.templates.image")
+    @expose(template="templates/image.mako")
     def delete(self, **kw):
 
         saved = None

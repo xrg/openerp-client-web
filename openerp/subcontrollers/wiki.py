@@ -29,12 +29,12 @@
 
 import os
 import base64
+
 import cherrypy
-import kid
-from turbogears import expose
-from turbogears import controllers
-from turbogears import redirect
-from turbogears import validate
+
+from openerp.tools import expose
+from openerp.tools import redirect
+from openerp.tools import validate
 
 from openerp import rpc
 from openerp.tinyres import TinyResource
@@ -51,7 +51,7 @@ FILE_FORMATS = {
      'html': 'text/html',
 }
 
-class WikiView(controllers.Controller, TinyResource):
+class WikiView(TinyResource):
     path = '/wiki'
     @expose(content_type='application/octet')
     def getImage(self, *kw, **kws):

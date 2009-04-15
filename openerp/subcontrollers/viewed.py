@@ -30,15 +30,7 @@
 import xml
 import random
 
-from xml import xpath
-
-# xpath module replaces __builtins__['_'], which breaks TG i18n
-import turbogears
-turbogears.i18n.tg_gettext.install()
-
-from turbogears import expose
-from turbogears import controllers
-from turbogears import widgets as tg_widgets
+from openerp.tools import expose
 
 import cherrypy
 
@@ -49,7 +41,6 @@ from openerp import icons
 from openerp import cache
 
 from openerp.utils import TinyDict
-
 from openerp.tinyres import TinyResource
 
 import openerp.widgets as tw
@@ -67,13 +58,13 @@ class NewField(Form):
         field.set_value(params.model_id or False)
 
         # generate model_id field
-        form.hidden_fields = [tg_widgets.HiddenField(name='model_id', default=params.model_id)]
+        form.hidden_fields = [tw.form.Hidden(name='model_id', default=params.model_id)]
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['model_id'] = tw.validators.Int()
 
         return form
 
-    @expose(template="openerp.subcontrollers.templates.viewed_new")
+    @expose(template="templates/viewed_new.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = True
@@ -99,7 +90,7 @@ class NewModel(Form):
 
     path = '/viewed/new_model'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.viewed_new_model")
+    @expose(template="templates/viewed_new_model.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = True
@@ -130,7 +121,7 @@ class Preview(Form):
 
     path = '/viewed/preview'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.viewed_preview")
+    @expose(template="templates/viewed_preview.mako")
     def create(self, params, tg_errors=None):
         form = self.create_form(params, tg_errors)
         return dict(form=form, show_header_footer=False)
@@ -232,13 +223,13 @@ def _get_field_attrs(node, parent_model):
 
     return field
 
-class ViewEd(controllers.Controller, TinyResource):
+class ViewEd(TinyResource):
 
     new_field = NewField()
     new_model = NewModel()
     preview = Preview()
 
-    @expose(template="openerp.subcontrollers.templates.viewed")
+    @expose(template="templates/viewed.mako")
     def default(self, view_id):
 
         try:
@@ -408,7 +399,7 @@ class ViewEd(controllers.Controller, TinyResource):
 
         return dict(records=records)
 
-    @expose(template="openerp.subcontrollers.templates.viewed_edit")
+    @expose(template="templates/viewed_edit.mako")
     def edit(self, view_id, xpath_expr):
         view_id = int(view_id)
 
@@ -456,7 +447,7 @@ class ViewEd(controllers.Controller, TinyResource):
 
         return dict(view_id=view_id, xpath_expr=xpath_expr, editors=editors)
 
-    @expose(template="openerp.subcontrollers.templates.viewed_add")
+    @expose(template="templates/viewed_add.mako")
     def add(self, view_id, xpath_expr):
         view_id = int(view_id)
 
@@ -926,6 +917,4 @@ def get_property_widget(name, value=None):
     return wid(name=name, default=value)
 
 # vim: ts=4 sts=4 sw=4 si et
-
-
 

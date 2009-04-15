@@ -48,12 +48,13 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_state" name="${name}_terp_state" value="${state}"/>
         <input type="hidden" id="${name}_terp_id" name="${name}_terp_id" value="${str(id)}"/>
         <input type="hidden" id="${name}_terp_ids" name="${name}_terp_ids" value="${str(ids)}"/>
+        
         <input type="hidden" id="${name}_terp_view_ids" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" id="${name}_terp_view_mode" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
         <input type="hidden" id="${name}_terp_view_type" name="${name}_terp_view_type" value="${str(view_type)}"/>
         <input type="hidden" id="${name}_terp_view_id" name="${name}_terp_view_id" value="${str(view_id)}"/>
         <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
-        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context_)}"/>
+        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(ctx)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
 
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
@@ -65,7 +66,7 @@ class Screen(TinyInputWidget):
         % endif
     """
 
-    params = ['state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
+    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
     members = ['widget']
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
@@ -127,9 +128,7 @@ class Screen(TinyInputWidget):
 
     def add_view_id(self, view_id, view_type):
         self.view_id = view_id
-
-        self.view_id = view_id
-
+        
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:

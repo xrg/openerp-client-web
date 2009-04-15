@@ -1,10 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
-    <title>Select action</title>
-</head>
-<body>
+<%inherit file="../../templates/master.mako"/>
 
+<%def name="header()">
+    <title>Select action</title>
+</%def>
+
+<%def name="content()">
 <div class="view">
 
 <script type="text/javascript">
@@ -33,10 +33,12 @@
         <div class="spacer"></div>
 
             <table width="100%" border="0" class="fields">
-                <tr py:for="key, value in values.items()">
+                % for key, value in values.items():
+                <tr>
                     <td width="25px"><input type="radio" id="_terp_action" name="_terp_action" value="${ustr(value)}"/></td>
-                    <td py:content="key"></td>
+                    <td>${key}</td>
                 </tr>
+                % endfor
             </table>
 
         <div class="spacer"></div>
@@ -58,6 +60,4 @@
 </form>
 
 </div>
-
-</body>
-</html>
+</%def>

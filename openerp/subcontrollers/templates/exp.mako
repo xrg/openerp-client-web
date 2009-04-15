@@ -1,6 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>Export Data</title>
     <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
@@ -153,9 +153,9 @@
             form.submit();
         }
     </script>
-</head>
-<body>
+</%def>
 
+<%def name="content()">
     <form id='view_form' action="/impex/export_data" method="post" onsubmit="return false;">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
@@ -176,16 +176,18 @@
                 </table>
             </td>
         </tr>        
-        <tr py:if="new_list.ids">
+        % if new_list.ids:
+        <tr>
             <td>
-                <div id='exported_list' py:content="new_list.display()" style="overflow: auto;"/>
+                <div id='exported_list' style="overflow: auto;">${new_list.display()}</div>
             </td>
         </tr>
-        <tr py:if="new_list.ids">
+        <tr>
             <td class="toolbar">
                 <button type="button" onclick="delete_listname(form);">Delete</button>
             </td>
         </tr>
+        % endif
         <tr>
             <td>
                 <table class="fields-selector" cellspacing="5" border="0">
@@ -196,7 +198,7 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
-                            <div py:content="tree.display()" style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;"/>
+                            <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
                             <button type="button" onclick="add_fields()">Add</button><br/>
@@ -267,6 +269,4 @@
         </tr>
     </table>
 </form>
-
-</body>
-</html>
+</%def>

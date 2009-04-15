@@ -37,19 +37,20 @@ class Pager(TinyWidget):
 
     css = [CSSLink('openerp', 'css/pager.css')]
 
-    offset = 0
-    limit = 20
-    count = 0
-
     page_info = None
     pager_id = 1
 
     def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
-        super(Pager, self).__init__(offset=offset, limit=limit, count=count)
+        
+        super(Pager, self).__init__()
 
         self.id = id
         self.ids = ids or []
         self.view_type = view_type
+        
+        self.offset = offset or 0
+        self.limit = limit or 20
+        self.count = count or 0
 
         if len(self.ids) > self.limit:
             self.ids = self.ids[self.offset:]
@@ -68,7 +69,7 @@ class Pager(TinyWidget):
 
         else:
             index = (self.count or 0) and self.offset + 1
-
+            
             o = self.offset + len(self.ids)
             o = min(self.count, o)
 

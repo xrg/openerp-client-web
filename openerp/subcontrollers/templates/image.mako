@@ -1,6 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>Image</title>
     <script type="text/javascript">
 
@@ -22,8 +22,9 @@
         });
 
     </script>
-</head>
-<body>
+</%def>
+
+<%def name="content()">
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
@@ -71,5 +72,4 @@
             </td>
         </tr>
     </table>
-</body>
-</html>
+</%def>

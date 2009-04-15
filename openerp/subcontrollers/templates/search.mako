@@ -1,6 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
@@ -44,13 +44,14 @@
 
     </script>
 
-    <script type="text/javascript" py:if="params.selectable == 1">
+    % if params.selectable == 1:
+    <script type="text/javascript">
 
         function do_select(id){
             if (!id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
 
-                if (ids.length &lt; 1)
+                if (ids.length<1)
                     return;
 
                 id = ids[0];
@@ -83,8 +84,8 @@
             window.location.href = act;
         }
     </script>
-
-    <script type="text/javascript" py:if="params.selectable == 2">
+    % elif params.selectable == 2:
+    <script type="text/javascript">
 
         function do_select(id) {
 
@@ -125,9 +126,10 @@
             window.location.href = act;
         }
     </script>
-</head>
+    % endif
+</%def>
 
-<body>
+<%def name="content()">
 <div class="view">
     <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
@@ -149,7 +151,7 @@
                 </td>
             </tr>
             <tr>
-                <td py:content="form.search.display()">Search View</td>
+                <td>${form.search.display()}</td>
             </tr>
             <tr>
                 <td class="toolbar">
@@ -168,11 +170,9 @@
                 </td>
             </tr>
             <tr>
-                <td py:content="form.screen.display()">Screen View</td>
+                <td>${form.screen.display()}</td>
             </tr>
         </table>
     </form>
 </div>
-
-</body>
-</html>
+</%def>

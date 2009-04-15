@@ -149,14 +149,24 @@ def exception_handler(*args, **kw):
     return lambda f: f
 
 
-def attrs(**kw):
+def attrs(*args, **kw):
+    
+    kv = {}
+    
+    if len(args):
+        if isinstance(args[0], dict):
+            kv = args[0].copy()
+        else:
+            raise TypeError
+        
+    kv.update(kw)
 
     alias = {
         'css_class': 'class',
     }
 
     result = []
-    for name, value in kw.iteritems():
+    for name, value in kv.iteritems():
         if callable(value):
             value = value()
         if value is not None:

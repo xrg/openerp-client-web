@@ -59,6 +59,10 @@ except:
     requests_message = None
 %>
 
+% for resource in widget_resources.get('bodytop', []):
+    ${resource.display()}
+% endfor
+
 <table id="container" border="0" cellpadding="0" cellspacing="0">
     % if show_header_footer:
     <tr>

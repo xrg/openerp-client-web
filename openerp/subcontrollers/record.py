@@ -29,13 +29,14 @@
 
 import time
 
-from turbogears.widgets import CompoundWidget
+from openerp.widgets import TinyWidget
+from openerp.widgets import TinyInputWidget
 
 from openerp import tools
 from openerp.utils import TinyDict
-from openerp.widgets.interface import TinyField
 
 from form import Form
+
 
 class Record(dict):
 
@@ -57,10 +58,10 @@ class Record(dict):
 
         for wid in parent.iter_member_widgets():
 
-            if isinstance(wid, TinyField) and wid.name and not wid.name.endswith('/'):
+            if isinstance(wid, TinyInputWidget) and wid.name and not wid.name.endswith('/'):
                 self[wid.name] = wid.get_value()
 
-            elif isinstance(wid, CompoundWidget):
+            elif isinstance(wid, TinyWidget) and len(wid.children):
                 self._make_record(wid)
 
         params, data = TinyDict.split(self)
@@ -84,4 +85,3 @@ class Record(dict):
         return val
 
 # vim: ts=4 sts=4 sw=4 si et
-

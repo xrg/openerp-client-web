@@ -5,7 +5,7 @@
                 <input type="text" 
                        kind="${kind}" 
                        name='${name}' 
-                       id ='${field_id}' 
+                       id ='${name}' 
                        value="${value}" 
                        class="${css_class}"
                        ${py.attrs(attrs)}/>
@@ -14,7 +14,7 @@
                 <img width="16" height="16" alt="${_('Go!')}" 
                      src="/static/images/stock/gtk-jump-to.png" 
                      style="cursor: pointer;" 
-                     onclick="if (validate_email($('${field_id}').value)) window.open('mailto:' + $('${field_id}').value).close();"/>
+                     onclick="if (validate_email($('${name}').value)) window.open('mailto:' + $('${name}').value).close();"/>
             </td>
         </tr>
     </table>

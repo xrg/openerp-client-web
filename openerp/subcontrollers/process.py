@@ -27,9 +27,8 @@
 #
 ###############################################################################
 
-from turbogears import controllers
-from turbogears import expose
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import redirect
 
 import cherrypy
 
@@ -47,7 +46,7 @@ class ResourcePopup(form.Form):
 
     path = '/process/resource'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.process_open")
+    @expose(template="templates/process_open.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
 
@@ -57,11 +56,11 @@ class ResourcePopup(form.Form):
         form = self.create_form(params, tg_errors)
         return dict(form=form, params=params, show_header_footer=False)
 
-class Process(controllers.Controller, TinyResource):
+class Process(TinyResource):
 
     resource = ResourcePopup()
 
-    @expose(template="openerp.subcontrollers.templates.process")
+    @expose(template="templates/process.mako")
     def default(self, id=False, res_model=None, res_id=False):
 
         id = (id or False) and int(id)

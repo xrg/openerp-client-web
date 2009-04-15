@@ -2,7 +2,7 @@
     <input type="${password and 'password' or 'text'}" \
            kind="${kind}" 
            name='${name}' 
-           id='${field_id}' 
+           id='${name}' 
            value="${value}" 
            maxlength="${size}" 
            class="${css_class}"

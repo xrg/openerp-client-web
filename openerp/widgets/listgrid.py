@@ -170,7 +170,7 @@ class List(TinyWidget):
 
         if self.pageable:
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
-            self.pager.name = self.name
+            self.pager._name = self.name
 
         # make editors
         if self.editable and attrs.get('editable') in ('top', 'bottom'):
@@ -330,8 +330,7 @@ class List(TinyWidget):
                     for i, row in enumerate(data):
 
                         row_value = values[i]
-
-                        cell = CELLTYPES[kind](attrs=fields[name], value=row_value.get(name, False))
+                        cell = CELLTYPES[kind](value=row_value.get(name, False), **fields[name])
 
                         for color, expr in self.colors.items():
                             try:
@@ -365,7 +364,7 @@ class Char(TinyWidget):
 
         super(Char, self).__init__(**attrs)
 
-        self.attrs = attrs
+        self.attrs = attrs.copy()
 
         self.text = self.get_text()
         self.link = self.get_link()
@@ -404,7 +403,7 @@ class M2O(Char):
 
         if isinstance(self.value, int):
             from many2one import get_name as _m2o_get_name
-            self.value = value, _m2o_get_name(attrs['relation'], value)
+            self.value = self.value, _m2o_get_name(attrs['relation'], self.value)
 
     def get_text(self):
         if self.value and len(self.value) > 0:

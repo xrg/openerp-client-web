@@ -36,9 +36,8 @@ import xml.dom.minidom
 import csv
 import StringIO
 
-from turbogears import expose
-from turbogears import controllers
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import redirect
 
 import cherrypy
 
@@ -119,9 +118,9 @@ def _fields_get_all(model, views):
 
     return fields
 
-class ImpEx(controllers.Controller, TinyResource):
+class ImpEx(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.exp")
+    @expose(template="templates/exp.mako")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -352,7 +351,7 @@ class ImpEx(controllers.Controller, TinyResource):
             pass
         return export_csv(params.fields2, result, add_names)
 
-    @expose(template="openerp.subcontrollers.templates.imp")
+    @expose(template="templates/imp.mako")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -451,6 +450,7 @@ class ImpEx(controllers.Controller, TinyResource):
             raise common.message(unicode(error))
 
         return self.imp(**kw)
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

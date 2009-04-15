@@ -27,22 +27,19 @@
 #
 ###############################################################################
 
-from turbogears import controllers
-from turbogears import expose
-from turbogears import redirect
-from turbogears import validate
-from turbogears import flash
-
-from turbogears import widgets as tg_widgets
+from openerp.tools import expose
+from openerp.tools import redirect
+from openerp.tools import validate
 
 import pkg_resources
 import cherrypy
 
 from openerp import rpc
-#from openerp import cache
 from openerp import common
+
 from openerp.utils import TinyDict
 from openerp.tinyres import TinyResource
+
 from openerp import widgets as tw
 
 from form import Form
@@ -54,7 +51,7 @@ class State(Form):
 
     path = '/workflow/state'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.wkf_popup")
+    @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
         params.path = self.path
@@ -69,7 +66,7 @@ class State(Form):
         field.set_value(params.wkf_id or False)
         field.readonly = True
 
-        form.hidden_fields = [tg_widgets.HiddenField(name='wkf_id', default=params.wkf_id)]
+        form.hidden_fields = [tw.form.Hidden(name='wkf_id', default=params.wkf_id)]
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['wkf_id'] = tw.validators.Int()
 
@@ -123,7 +120,7 @@ class Connector(Form):
 
     path = '/workflow/connector'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.wkf_popup")
+    @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
         params.path = self.path
@@ -142,8 +139,8 @@ class Connector(Form):
         field_act_to.set_value(params.end or False)
         field_act_to.readonly = True
 
-        form.hidden_fields = [tg_widgets.HiddenField(name='act_from', default=params.start),
-                            tg_widgets.HiddenField(name='act_to', default=params.end)]
+        form.hidden_fields = [tw.widgets.Hidden(name='act_from', default=params.start),
+                              tw.widgets.Hidden(name='act_to', default=params.end)]
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['act_from'] = tw.validators.Int()
@@ -210,7 +207,7 @@ class Workflow(Form):
 
     path = '/workflow'
 
-    @expose(template="openerp.subcontrollers.templates.workflow")
+    @expose(template="templates/workflow.mako")
     def index(self, model, id=None):
 
         proxy = rpc.RPCProxy("workflow")
@@ -275,9 +272,9 @@ class Workflow(Form):
     connector = Connector()
 
 
-class WorkflowList(controllers.Controller, TinyResource):
+class WorkflowList(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.wkf_list")
+    @expose(template="templates/wkf_list.mako")
     def index(self, model, active=False):
 
         params = TinyDict()

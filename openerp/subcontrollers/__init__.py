@@ -1,6 +1,6 @@
 import actions
 
-#import form
+import form
 import tree
 #import graph
 import wizard

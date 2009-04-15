@@ -29,8 +29,7 @@
 
 import cherrypy
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 from openerp import rpc
 from openerp import tools
@@ -45,7 +44,7 @@ import openerp.widgets as tw
 import form
 import search
 
-class List(controllers.Controller, TinyResource):
+class List(TinyResource):
 
     @expose('json')
     def save(self, **kw):

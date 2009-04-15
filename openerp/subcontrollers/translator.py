@@ -30,8 +30,7 @@
 import os
 import copy
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -52,9 +51,9 @@ def adapt_context(val):
     else:
         return val
 
-class Translator(controllers.Controller, TinyResource):
+class Translator(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.translator")
+    @expose(template="templates/translator.mako")
     def index(self, translate='fields', **kw):
         params, data = TinyDict.split(kw)
 

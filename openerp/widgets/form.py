@@ -265,7 +265,6 @@ class Separator(TinyInputWidget):
     """Separator widget.
     """
 
-    params = ['string']
     template = "templates/separator.mako"
 
     def __init__(self, **attrs):
@@ -478,7 +477,7 @@ class DateTime(TinyInputWidget):
                            JSLink("openerp", "calendar/calendar-setup.js"),
                            JSLink("openerp", "calendar/lang/calendar-en.js")]
 
-        self.css = [CSSLink("openerp", "calendar/%s.css" % self.skin)]
+        self.css = [CSSLink("openerp", "calendar/calendar-blue.css")]
 
         if attrs['type'] == 'date':
             self.picker_shows_time = False
@@ -603,11 +602,10 @@ class Image(TinyInputWidget):
 class Group(TinyInputWidget):
     template = "templates/group.mako"
 
-    params = ["string"]
     members = ["frame"]
 
     def __init__(self, **attrs):
-        super(Group, self).__init__(**attrs_)
+        super(Group, self).__init__(**attrs)
 
         self.frame = Frame(**attrs)
         self.nolabel = True
@@ -684,7 +682,7 @@ class Form(TinyInputWidget):
 
         self.string = self.string or ''
         self.link = attrs.get('link', nolinks)
-
+        
         self.id = None
         self.context = context or {}
 
@@ -791,7 +789,7 @@ class Form(TinyInputWidget):
             elif node.localName == 'notebook':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
-                nb.name = prefix.replace('/', '_') + '_notebook'
+                nb._name = prefix.replace('/', '_') + '_notebook'
                 views += [nb]
 
             elif node.localName == 'page':

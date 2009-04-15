@@ -27,11 +27,10 @@
 #
 ###############################################################################
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import validate
-from turbogears import error_handler
-from turbogears import exception_handler
+from openerp.tools import expose
+from openerp.tools import validate
+from openerp.tools import error_handler
+from openerp.tools import exception_handler
 
 import cherrypy
 
@@ -66,7 +65,7 @@ class OpenO2M(Form):
 
         # save view_params for later phazes
         vp = vp.make_plain('_terp_view_params/')
-        hiddens = map(lambda x: widgets.HiddenField(name=x, default=ustr(vp[x])), vp)
+        hiddens = map(lambda x: tw.form.Hidden(name=x, default=ustr(vp[x])), vp)
 
         params.prefix = params.o2m
         params.views = wid.view
@@ -79,18 +78,18 @@ class OpenO2M(Form):
         params.context = ctx or {}
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
-        form.hidden_fields = [widgets.HiddenField(name='_terp_parent_model', default=params.parent_model),
-                              widgets.HiddenField(name='_terp_parent_id', default=params.parent_id),
-                              widgets.HiddenField(name='_terp_parent_context', default=ustr(params.parent_context)),
-                              widgets.HiddenField(name='_terp_o2m', default=params.o2m),
-                              widgets.HiddenField(name='_terp_o2m_id', default=params.id or None),
-                              widgets.HiddenField(name='_terp_o2m_model', default=params.o2m_model),
-                              widgets.HiddenField(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
-                              widgets.HiddenField(name=params.prefix + '/__id', default=params.id or None)] + hiddens
+        form.hidden_fields = [tw.form.Hidden(name='_terp_parent_model', default=params.parent_model),
+                              tw.form.Hidden(name='_terp_parent_id', default=params.parent_id),
+                              tw.form.Hidden(name='_terp_parent_context', default=ustr(params.parent_context)),
+                              tw.form.Hidden(name='_terp_o2m', default=params.o2m),
+                              tw.form.Hidden(name='_terp_o2m_id', default=params.id or None),
+                              tw.form.Hidden(name='_terp_o2m_model', default=params.o2m_model),
+                              tw.form.Hidden(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
+                              tw.form.Hidden(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
         return form
 
-    @expose(template="openerp.subcontrollers.templates.openo2m")
+    @expose(template="templates/openo2m.mako")
     def create(self, params, tg_errors=None):
 
         if tg_errors:

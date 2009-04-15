@@ -202,7 +202,7 @@ class Widget(object):
             self._append_child(child)
 
         self._collect_resources()
-        #self._generate_schema()
+        #TODO: self._generate_schema()
         self._is_initialized = True
         self._is_locked = False
 

@@ -164,6 +164,10 @@ def renderer(template, module=None):
 
         kw = kw.copy()
         kw.update(_vars)
+        
+        # XXX mako overrides 'context' template variable...
+        if 'context' in kw:
+            kw['ctx'] = kw.pop('context')
 
         return tmpl.render_unicode(**kw)
 

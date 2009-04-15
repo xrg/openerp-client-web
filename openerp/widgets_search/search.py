@@ -119,8 +119,8 @@ class Search(TinyInputWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         self.parse(dom, view['fields'], values)
 
-        self.basic = Frame({}, [w for w in self.widgets if not w.adv])
-        self.advance = Frame({}, self.widgets)
+        self.basic = Frame(children=[w for w in self.widgets if not w.adv])
+        self.advance = Frame(children=self.widgets)
 
     def parse(self, root=None, fields=None, values={}):
 

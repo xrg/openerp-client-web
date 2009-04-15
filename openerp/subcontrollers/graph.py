@@ -34,8 +34,7 @@ import pkg_resources
 
 from StringIO import StringIO
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -49,7 +48,7 @@ from openerp.utils import TinyDict
 from openerp.widgets.graph import BarChart
 from openerp.widgets.graph import PieChart
 
-class Graph(controllers.Controller, TinyResource):
+class Graph(TinyResource):
 
     @expose('json')
     def pie(self, **kw):

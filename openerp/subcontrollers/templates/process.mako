@@ -1,7 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" py:replace="''"/>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>Process</title>
 
     <link type="text/css" rel="stylesheet" href="/static/workflow/css/process_box.css"/>
@@ -21,7 +20,8 @@
         }
     </script>
 
-    <script type="text/javascript" py:if="selection">
+    % if selection:
+    <script type="text/javascript">
         var select_workflow = function() {
             var id = parseInt(getElement('select_workflow').value) || null;
             var res_model = getElement('res_model').value || null;
@@ -29,8 +29,8 @@
             window.location.href = getURL("/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
-
-    <script type="text/javascript" py:if="not selection">
+    % else:
+    <script type="text/javascript">
         MochiKit.DOM.addLoadEvent(function(evt){
     
             var id = parseInt(getElement('id').value) || 0;
@@ -44,23 +44,26 @@
 
         });
     </script>
-</head>
+    % endif
+</%def>
 
-<body>
-
-<div py:if="selection" class="view">
-    <input type="hidden" id="res_model" value="$res_model"/>
-    <input type="hidden" id="res_id" value="$res_id"/>
+<%def name="content()">
+% if selection:
+<div class="view">
+    <input type="hidden" id="res_model" value="${res_model}"/>
+    <input type="hidden" id="res_id" value="${res_id}"/>
     <fieldset>
         <legend><b>Select Process</b></legend>
         <select id="select_workflow" name="select_workflow" style="min-width: 150px">
-            <option value="${val}" py:content="text" py:for="val, text in selection"/>
+            % for val, text in selection:
+            <option value="${val}">${text}</option>
+            % endfor
         </select>
         <button class="button" type="button" onclick="select_workflow()">Select</button>
     </fieldset>
 </div>
-
-<table py:if="not selection" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+% else:
+<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td width="100%" valign="top">
             <table width="100%" class="titlebar">
@@ -68,7 +71,7 @@
                     <td width="32px" align="center">
                         <img src="/static/images/stock/gtk-refresh.png"/>
                     </td>
-                    <td width="100%" py:content="title" id="process_title">Title</td>
+                    <td width="100%" id="process_title">${title}</td>
                     <td nowrap="nowrap">
                         <img class="button" title="${_('Help')}" src="/static/images/stock/gtk-help.png" width="16" height="16"
                         onclick="context_help()"/>
@@ -79,18 +82,17 @@
     </tr>
     <tr>
         <td align="center">
-            <input type="hidden" id="id" value="$id"/>
-            <input type="hidden" id="res_model" value="$res_model"/>
-            <input type="hidden" id="res_id" value="$res_id"/>
+            <input type="hidden" id="id" value="${id}"/>
+            <input type="hidden" id="res_model" value="${res_model}"/>
+            <input type="hidden" id="res_id" value="${res_id}"/>
             <div id="process_canvas"></div>
         </td>
     </tr>
     <tr>
         <td class="dimmed-text">
-            [<a target="_blank" href="${tg.url('/form/edit', model='process.process', id=id)}">Customize</a>]
+            [<a target="_blank" href="${py.url('/form/edit', model='process.process', id=id)}">Customize</a>]
         </td>
     </tr>
 </table>
-
-</body>
-</html>
+%endif
+</%def>

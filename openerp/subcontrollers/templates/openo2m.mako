@@ -1,6 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%! show_header_footer=False %>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>${form.screen.string} </title>
 
     <script type="text/javascript">
@@ -8,13 +9,13 @@
     </script>
 
     <script type="text/javascript">
-        
+
         function do_select(id, src) {
             viewRecord(id, src);
         }
 
         MochiKit.DOM.addLoadEvent(function (evt){
-        
+
             var pwin = window.opener;
             var pform = pwin.document.forms['view_form'];
 
@@ -24,8 +25,8 @@
             var required_attrs = ['id', 'name', 'value', 'kind', 'class', 'domain', 'context', 'relation'];
 
             MochiKit.Iter.forEach(pform.elements, function(e){
-            
-                if (e.name &amp;&amp; e.type != 'button' &amp;&amp; e.name.indexOf('${params.o2m}') != 0){
+
+                if (e.name && e.type != 'button' && e.name.indexOf('${params.o2m}') != 0){
 
                     var attrs = {}
                     MochiKit.Iter.forEach(required_attrs, function(n){
@@ -55,12 +56,11 @@
             }
 
         });
-        
+
     </script>
+</%def>
 
-</head>
-<body>
-
+<%def name="content()">
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
@@ -70,13 +70,13 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%" py:content="form.screen.string">Form Title</td>
+                        <td width="100%">${form.screen.string}</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td py:content="form.display()">Form View</td>
+            <td>${form.display()}</td>
         </tr>
         <tr>
             <td>
@@ -87,7 +87,9 @@
                             </td>
                             <td>
                                 <button type="button" onclick="window.close()">Close</button>
-                                <button py:if="form.screen.editable" type="button" onclick="submit_form('save')">Save</button>
+                                % if form.screen.editable:
+                                <button type="button" onclick="submit_form('save')">Save</button>
+                                % endif
                             </td>
                         </tr>
                     </table>
@@ -95,6 +97,4 @@
             </td>
         </tr>
     </table>
-
-</body>
-</html>
+</%def>

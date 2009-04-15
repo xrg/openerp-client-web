@@ -1,7 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" py:replace="''"/>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
 <title>Graph</title>
  <!--meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"-->
     <title></title>  
@@ -37,10 +36,9 @@
     	});
         
     </script>
-</head>
+</%def>
 
-<body>
-
+<%def name="content()">
     <table class="view" border="0">
         <tr>
             <td colspan="2">
@@ -49,7 +47,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-refresh.png"/>
                         </td>
-                        <td width="100%" py:content="_('Workflow (%s)' % wkf['name'])">Workflow</td>
+                        <td width="100%">${_('Workflow (%s)' % wkf['name'])}</td>
                     </tr>
                 </table>
                 <input type="hidden" id="wkf_id" value="${wkf['id']}"/>
@@ -84,5 +82,4 @@
             </td>
         </tr>
     </table>
-</body>
-</html>
+</%def>

@@ -154,7 +154,7 @@ class Root(TinyResource):
         version = _("Version %s-%s") % (release.version, release.release)
         return dict(version=version)
 
-    #form = subcontrollers.form.Form()
+    form = subcontrollers.form.Form()
     tree = subcontrollers.tree.Tree()
     #graph = subcontrollers.graph.Graph()
     wizard = subcontrollers.wizard.Wizard()

@@ -68,13 +68,13 @@ class Sidebar(TinyWidget):
 
     def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}, **kw):
 
-        super(Sidebar, self).__init__(model=model)
+        super(Sidebar, self).__init__(model=model, id=id)
 
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type
 
-        toobar = toolbar or {}
+        toolbar = toolbar or {}
 
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])

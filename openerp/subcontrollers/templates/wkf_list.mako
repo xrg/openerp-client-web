@@ -1,7 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
-    <title>Manage Workflows ($model)</title>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
+    <title>Manage Workflows (${model})</title>
     <script type="text/javascript">
     
         function do_select(id, src){
@@ -91,14 +91,14 @@
                 return;
             
             try {
-                do_select(parseInt('$active'), '_terp_list');
+                do_select(parseInt('${active}'), '_terp_list');
             } catch(e){}
         });
         
     </script>
-</head>
-<body>
+</%def>
 
+<%def name="content()">
     <table id="view_list" class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
@@ -107,13 +107,13 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-find.png"/>
                         </td>
-                        <td width="100%">Manage Workflows ($model)</td>
+                        <td width="100%">Manage Workflows (${model})</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td py:content="screen.display()">List View</td>
+            <td>${screen.display()}</td>
         </tr>
         <tr>
             <td>
@@ -145,7 +145,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">Create a Workflow ($model)</td>
+                        <td width="100%">Create a Workflow (${model})</td>
                     </tr>
                 </table>
             </td>
@@ -153,7 +153,7 @@
         <tr>
             <td>
                 <form id="view_form" action="/workflowlist/create">
-                    <input type="hidden" id="model" name="model" value="$model"/>
+                    <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>
                             <td class="label">Workflow Name:</td>
@@ -187,6 +187,4 @@
             </td>
         </tr>
     </table>
-
-</body>
-</html>
+</%def>

@@ -27,11 +27,10 @@
 #
 ###############################################################################
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import validate
-from turbogears import error_handler
-from turbogears import exception_handler
+from openerp.tools import expose
+from openerp.tools import validate
+from openerp.tools import error_handler
+from openerp.tools import exception_handler
 
 import cherrypy
 
@@ -51,13 +50,13 @@ class OpenM2O(Form):
 
     path = '/openm2o'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.openm2o")
+    @expose(template="templates/openm2o.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = params.get('_terp_editable', True)
         form = self.create_form(params, tg_errors)
 
-        form.hidden_fields = [widgets.HiddenField(name='_terp_m2o', default=params.m2o)]
+        form.hidden_fields = [tw.form.Hidden(name='_terp_m2o', default=params.m2o)]
 
         return dict(form=form, params=params, show_header_footer=False)
 

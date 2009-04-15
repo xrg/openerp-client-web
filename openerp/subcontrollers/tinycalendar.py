@@ -30,8 +30,7 @@
 import time
 import math
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -267,11 +266,11 @@ class CalendarPopup(Form):
 
     path = '/calpopup'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.calpopup")
+    @expose(template="templates/calpopup.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
 
-        if params.id and cherrypy.request.path == '/calpopup/view':
+        if params.id and cherrypy.request.path_info == '/calpopup/view':
             params.load_counter = 2
 
         form = self.create_form(params, tg_errors)

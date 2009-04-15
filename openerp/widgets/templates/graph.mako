@@ -37,12 +37,12 @@
 
             % if chart_type=='bar':
         	<script type="text/javascript">
-                new BarChart('${chart_name}', "${utils.url('/graph/bar', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context_))}");
+                new BarChart('${chart_name}', "${py.url('/graph/bar', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(ctx))}");
             </script>
             % endif
             % if chart_type=='pie':
             <script type="text/javascript">
-                new PieChart('${chart_name}', "${utils.url('/graph/pie', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(context_))}");
+                new PieChart('${chart_name}', "${py.url('/graph/pie', _terp_model=model, _terp_view_id=view_id, _terp_ids=ustr(ids), _terp_domain=ustr(domain), _terp_context=ustr(ctx))}");
             </script>
             % endif
         </td>

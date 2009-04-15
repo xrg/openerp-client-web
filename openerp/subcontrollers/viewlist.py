@@ -30,9 +30,8 @@
 import os
 import base64
 
-from turbogears import expose
-from turbogears import controllers
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import redirect
 
 from openerp import rpc
 from openerp.tinyres import TinyResource
@@ -40,9 +39,9 @@ from openerp.utils import TinyDict
 
 import openerp.widgets as tw
 
-class ViewList(controllers.Controller, TinyResource):
+class ViewList(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.viewlist")
+    @expose(template="templates/viewlist.mako")
     def index(self, model):
 
         params = TinyDict()

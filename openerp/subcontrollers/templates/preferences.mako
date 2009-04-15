@@ -1,12 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>${params.string}</title>
     <script type="text/javascript">
         var form_controller = '/pref';
     </script>
-</head>
-<body>
+</%def>
+
+<%def name="content()">
     <div class="view">
         <form name="view_form" id="view_form" action="/pref/ok" method="post">
             <table align="center">
@@ -14,7 +15,7 @@
                     <td class="toolbar welcome">${params.string}</td>
                 </tr>
                 <tr>
-                    <td py:content="form.display()"></td>
+                    <td>${form.display()}</td>
                 </tr>
                 <td class="toolbar" align="right">
                     <button type='button' style="width: 80px" onclick="window.location.href='/'">Cancel</button>
@@ -23,5 +24,4 @@
             </table>
         </form>
     </div>
-</body>
-</html>
+</%def>

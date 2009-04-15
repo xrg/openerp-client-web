@@ -61,7 +61,7 @@ class Shortcuts(TinyResource):
     def can_create(self):
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
-                cherrypy.request.path == '/tree/open' and
+                cherrypy.request.path_info == '/tree/open' and
                 cherrypy.request.params.get('model') == 'ir.ui.menu')
 
     @expose()

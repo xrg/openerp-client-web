@@ -7,7 +7,7 @@
 
     <script type="text/javascript">
         if (!window.browser.isWebKit) {
-            new ResizableTextarea('${field_id}');
+            new ResizableTextarea('${name}');
         }
     </script>
 % endif

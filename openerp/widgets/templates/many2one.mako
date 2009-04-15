@@ -9,7 +9,7 @@
                     class="${css_class}"                     
                     kind="${kind}" 
                     domain="${ustr(domain)}" 
-                    context="${ustr(context_)}" 
+                    context="${ustr(ctx)}" 
                     relation="${relation}"/>
                 <input type="text" ${py.attrs(attrs)}
                     id='${name}_text' 
@@ -77,7 +77,7 @@
 % if not editable and not link == '0':
     <span>
         <span kind="${kind}" id="${name}" value="${value}">
-            <a href="${utils.query('/form/view', model=relation, id=value)}">${text}</a>
+            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>
 % endif

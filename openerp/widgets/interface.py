@@ -170,6 +170,18 @@ class TinyWidget(Widget):
     def name(self):
         return self._name
 
+    def get_last_update_info(resource, values):
+        result = {}
+        for item in values:
+            result["%s,%s" % (resource, item['id'])] = item.pop('__last_update', '')
+        return result
+
+    def _update_concurrency_info(self, resource, records):
+        info = getattr(cherrypy.request, 'terp_concurrency_info', {})
+        vals = info.setdefault(resource, {})
+        for item in records:
+            vals[item['id']] = item.pop('__last_update', '')
+        cherrypy.request.terp_concurrency_info = info
 
 class TinyInputWidget(TinyWidget):
 
@@ -225,20 +237,6 @@ class TinyInputWidget(TinyWidget):
 
         if self.translatable and 'translatable' not in d['css_classes']:
             d.setdefault('css_classes', []).append("translatable")
-
-
-    def get_last_update_info(resource, values):
-        result = {}
-        for item in values:
-            result["%s,%s" % (resource, item['id'])] = item.pop('__last_update', '')
-        return result
-
-    def _update_concurrency_info(self, resource, records):
-        info = getattr(cherrypy.request, 'terp_concurrency_info', {})
-        vals = info.setdefault(resource, {})
-        for item in records:
-            vals[item['id']] = item.pop('__last_update', '')
-        cherrypy.request.terp_concurrency_info = info
 
 
 class ConcurrencyInfo(TinyInputWidget):

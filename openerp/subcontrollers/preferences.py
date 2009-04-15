@@ -30,9 +30,8 @@
 import re
 import time
 
-from turbogears import expose
-from turbogears import controllers
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import redirect
 
 import cherrypy
 
@@ -44,7 +43,7 @@ from form import Form
 
 class Preferences(Form):
 
-    @expose(template="openerp.subcontrollers.templates.preferences")
+    @expose(template="templates/preferences.mako")
     def create(self):
 
         tg_errors = None

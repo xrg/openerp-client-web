@@ -8,13 +8,13 @@
                     name='${name}' 
                     id ='${name}' 
                     value="${value}" 
-                    class="${css_class}" ${utils.make_attrs(attrs)}/>
+                    class="${css_class}" ${py.attrs(attrs)}/>
             </td>
             <td width="16" style="padding-left: 2px">
                 <img width="16" height="16" alt="${_('Go!')}" 
                     src="/static/images/stock/gtk-jump-to.png" 
                     style="cursor: pointer;" 
-                    onclick="open_url($('${field_id}').value);"/>
+                    onclick="open_url($('${name}').value);"/>
             </td>
          </tr>
      </table>

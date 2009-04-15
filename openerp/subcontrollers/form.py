@@ -1012,9 +1012,9 @@ class Form(TinyResource):
         return dict(value=value)
 
     def reset_notebooks(self):
-        for name in cherrypy.request.simple_cookie.keys():
+        for name in cherrypy.request.cookie.keys():
             if name.endswith('_notebookTGTabber'):
-                cherrypy.response.simple_cookie[name] = 0
+                cherrypy.response.cookie[name] = 0
 
     @expose('json')
     def change_default_get(self, **kw):
@@ -1035,5 +1035,6 @@ class Form(TinyResource):
             data[fname] = value
 
         return dict(values=data)
-# vim: ts=4 sts=4 sw=4 si et
 
+
+# vim: ts=4 sts=4 sw=4 si et

@@ -30,8 +30,7 @@
 import os
 import base64
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 from openerp import rpc
 from openerp.tinyres import TinyResource
@@ -41,7 +40,7 @@ from openerp import common
 
 import openerp.widgets as tw
 
-class Attachment(controllers.Controller, TinyResource):
+class Attachment(TinyResource):
 
     @expose()
     def index(self, model, id):

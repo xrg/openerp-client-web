@@ -33,11 +33,7 @@ list view of the given model.
 """
 import cherrypy
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import redirect
-from turbogears import controllers
-from turbogears import validate
+from openerp.tools import expose
 
 from openerp import rpc
 from openerp import tools
@@ -58,7 +54,7 @@ class Search(Form):
 
     path = '/search'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.search")
+    @expose(template="templates/search.mako")
     def create(self, params, tg_errors=None):
 
         params.view_mode = ['tree', 'form']

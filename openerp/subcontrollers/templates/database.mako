@@ -1,8 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
+<%inherit file="../../templates/master.mako"/>
 
-<head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+<%def name="header()">
     <title>${form.string}</title>
 
     <script type="text/javascript" src="/static/javascript/waitbox.js"></script>
@@ -74,10 +72,9 @@
         }
 
     </script>
+</%def>
 
-</head>
-
-<body>
+<%def name="content()">
     <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td valign="top">
@@ -90,23 +87,23 @@
                         <td nowrap="nowrap">
                             <button type="button" 
                                 title="${_('Create new database')}"
-                                disabled="${tg.selector(form.name=='create')}"
+                                ${py.selector("disabled",form.name=='create')}
                                 onclick="dbView('create')">Create</button>
                             <button type="button" 
                                 title="${_('Drop database')}"
-                                disabled="${tg.selector(form.name=='drop')}"
+                                ${py.selector("disabled",form.name=='drop')}
                                 onclick="dbView('drop')">Drop</button>
                             <button type="button" 
                                 title="${_('Backup database')}"
-                                disabled="${tg.selector(form.name=='backup')}"
+                                ${py.selector("disabled",form.name=='backup')}
                                 onclick="dbView('backup')">Backup</button>
                             <button type="button" 
                                 title="${_('Restore database')}"
-                                disabled="${tg.selector(form.name=='restore')}"
+                                ${py.selector("disabled",form.name=='restore')}
                                 onclick="dbView('restore')">Restore</button>
                             <button type="button" 
                                 title="${_('Change Administrator Password')}"
-                                disabled="${tg.selector(form.name=='password')}"
+                                ${py.selector("disabled",form.name=='password')}
                                 onclick="dbView('password')">Password</button>
                         </td>
                     </tr>
@@ -114,9 +111,7 @@
             </td>
         </tr>
         <tr>
-            <td valign="top" align="center" py:content="form.display()"></td>
+            <td valign="top" align="center">${form.display()}</td>
         </tr>
     </table>
-</body>
-</html>
-
+</%def>

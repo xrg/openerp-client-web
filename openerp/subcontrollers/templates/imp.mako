@@ -1,6 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>Import Data</title>
     <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
@@ -121,9 +121,9 @@
         }
 
     </script>
-</head>
-<body>
+</%def>
 
+<%def name="content()">
 <form action="/impex/import_data" method="post" enctype="multipart/form-data">
 
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
@@ -154,7 +154,7 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="300px">
-                            <div py:content="tree.display()" style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;"/>
+                            <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
                             <button type="button" onclick="add_fields()">Add</button><br/>
@@ -165,7 +165,9 @@
                         </td>
                         <td class="fields-selector-right" height="300px">
                             <select name="fields" id="fields" multiple="multiple">
-                                <option py:for="f in value_of('fields', [])" py:content="f[1]" value="${f[0]}"></option>
+                                % for f in value_of('fields', []):
+                                <option value="${f[0]}">${f[1]}</option>
+                                % endfor
                             </select>
                         </td>
                     </tr>
@@ -223,6 +225,4 @@
 </form>
 
 <iframe name="detector" id="detector" style="display: none;" src="about:blank" onload="on_detector(this)"/>
-
-</body>
-</html>
+</%def>

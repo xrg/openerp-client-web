@@ -1,6 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
-<head>
+<%inherit file="../../templates/master.mako"/>
+
+<%def name="header()">
     <title>Field Preferences</title>
     
     <script type="text/javascript">
@@ -9,10 +9,9 @@
                 window.close();
         });
     </script>
-    
-</head>
-<body>
+</%def>
 
+<%def name="content()">
 <form action="/fieldpref/save" method="post">
 
     <input id="_terp_model" name="_terp_model" value="${model}" type="hidden"/>
@@ -45,7 +44,7 @@
                         </tr>
                         <tr>
                             <td class="label">Domain:</td>
-                            <td class="item"><input type="text" disabled="disabled" value="$model"/></td>
+                            <td class="item"><input type="text" disabled="disabled" value="${model}"/></td>
                         </tr>
                         <tr>
                             <td class="label">Default Value:</td>
@@ -73,13 +72,16 @@
                                 <fieldset>
                                     <legend><strong>Value applicable if:</strong></legend>
                                     <table border="0">
-                                        <tr py:if="not deps"><td align="center">Always applicable!</td></tr>
-                                        <tr py:if="deps">
+                                        % if not deps:
+                                        <tr><td align="center">Always applicable!</td></tr>
+                                        % else:
+                                        <tr>
                                             <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
-                                            <span py:for="n, n, v, v in deps" py:strip="">
+                                            % for n, n, v, v in deps:
                                                 <td><input type="checkbox" class="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
-                                            </span>
+                                            % endfor
                                         </tr>
+                                        % endif
                                     </table>
                                 </fieldset>
                             </td>
@@ -104,6 +106,4 @@
         </tr>
     </table>
 </form>
-
-</body>
-</html>
+</%def>

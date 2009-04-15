@@ -1,8 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" py:extends="../../templates/master.kid">
+<%inherit file="../../templates/master.mako"/>
 
-<head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+<%def name="header()">
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
@@ -33,17 +31,18 @@
             });
         }
     </script>
- </head>
+</%def>
 
-<body>
-
+<%def name="content()">
      <table class="view" border="0" width="100%">
-        <tr py:if="maintenance">
+        % if maintenance:
+        <tr>
             <td valign="top">
 <form id="view_form" onsubmit="return false;">
                 <div class='tabber' id="error_page_notebook">
                     <div class='tabbertab' title="Maintenance">
-                            <pre py:if="maintenance['status'] == 'none'">
+                            % if maintenance['status'] == 'none':
+                            <pre>
 <b>An unknown error has been reported.</b><br/>
 
 <b>You do not have a valid Open ERP maintenance contract !</b><br/><br/>
@@ -65,7 +64,8 @@ The maintenance program offers you:
 You can use the link bellow for more information. The detail of the error
 is displayed on the second tab.
                             </pre>
-                            <pre py:if="maintenance['status'] == 'partial'">
+                            % elif maintenance['status'] == 'partial':
+                            <pre>
 <b>An unknown error has been reported.</b><br/><br/>
 
 Your maintenance contract does not cover all modules installed in your system !
@@ -79,11 +79,14 @@ automatically for all futur stable versions of Open ERP at no extra cost.
 
 Here is the list of modules not covered by your maintenance contract:
 
-<span py:strip="" py:for="mod in maintenance['uncovered_modules']" py:content="' * %s\n' % mod"/>
+% for mod in maintenance['uncovered_modules']:
+${' * %s\n' % mod}
+% endfor
 You can use the link bellow for more information. The detail of the error
 is displayed on the second tab.
                             </pre>
-                            <div py:if="maintenance['status'] == 'full'">
+                            % elif maintenance['status'] == 'full':
+                            <div>
                                 <table width="100%">
                                     <tr>
                                         <td colspan="2" align="center">
@@ -117,9 +120,10 @@ is displayed on the second tab.
                                     </tr>
                                 </table>
                             </div>
+                            % endif
                     </div>
                     <div class='tabbertab' title="Application Error!">
-                        <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20" py:content="error"/>
+                        <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20">${error}</textarea>
                         <script type="text/javascript">
                             new ResizableTextarea('error');
                         </script>
@@ -132,17 +136,17 @@ is displayed on the second tab.
 </form>
             </td>
         </tr>
-        <tr py:if="not maintenance">
+        % else:
             <td valign="top">
                 <table border="0" cellpadding="0" cellspacing="0" align="center">
                     <tr><td height="15px"/></tr>
                     <tr>
-                        <td class="errorbox welcome" py:content="title"></td>
+                        <td class="errorbox welcome">${title}</td>
                     </tr>
                     <tr><td height="5px"/></tr>
                     <tr>
                         <td class="errorbox" style="padding: 30px;">
-                            <pre py:content="error"/>
+                            <pre>${error}</pre>
                         </td>
                     </tr>
                     <tr><td height="5px"/></tr>
@@ -154,8 +158,6 @@ is displayed on the second tab.
                 </table>
             </td>
         </tr>
+        % endif
     </table>
-
-</body>
-
-</html>
+</%def>

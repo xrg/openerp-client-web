@@ -5,7 +5,7 @@
         name='${name}' 
         id ='${name}' 
         value="${value}" 
-        class="${css_class}" ${utils.make_attrs(attrs)}/>
+        class="${css_class}" ${py.attrs(attrs)}/>
 % endif
 
 % if editable and error:
