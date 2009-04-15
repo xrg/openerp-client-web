@@ -163,7 +163,6 @@ def renderer(template, module=None):
         kw = kw.copy()
         kw.update(_vars)
         
-        #TODO: encoding utf-8
         return tmpl.render_unicode(**kw)
     
     return wrapper
