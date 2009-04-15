@@ -179,9 +179,10 @@ def _get_model(node, parent_model):
     for parent in parents:
         
         proxy = rpc.RPCProxy(parent_model)
-        field = proxy.fields_get([parent])[parent]
+        field = proxy.fields_get([parent])
         
-        parent_model = field['relation']
+        if field:
+            parent_model = field[parent]['relation']
         
     return parent_model
 
@@ -194,7 +195,10 @@ def _get_field_attrs(node, parent_model):
     
     name = node.getAttribute('name')
     proxy = rpc.RPCProxy(model)
-    field = proxy.fields_get([name])[name]
+    field = proxy.fields_get([name])
+    
+    if field:
+         field = field[name]
     
     return field
 
