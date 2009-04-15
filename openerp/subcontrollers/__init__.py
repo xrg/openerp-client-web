@@ -4,7 +4,7 @@ import form
 import tree
 #import graph
 import wizard
-#import search
+import search
 #import preferences
 import selection
 import shortcuts
@@ -12,7 +12,7 @@ import requests
 #import openm2o
 #import openo2m
 #import openm2m
-#import listgrid
+import listgrid
 #import attachment
 #import translator
 #import impex
