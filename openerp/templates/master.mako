@@ -31,6 +31,8 @@
 
     <script type="text/javascript" src="/static/javascript/MochiKit/MochiKit.js"></script>
     <script type="text/javascript" src="/static/javascript/MochiKit/DragAndDrop.js"></script>
+    <script type="text/javascript" src="/static/javascript/MochiKit/Resizable.js"></script>
+    <script type="text/javascript" src="/static/javascript/MochiKit/Sortable.js"></script>
     <script type="text/javascript" src="/static/javascript/master.js"></script>
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>

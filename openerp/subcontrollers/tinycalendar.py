@@ -111,7 +111,7 @@ class TinyCalendar(Form):
 
         return dict(error=error)
 
-    @expose()
+    @expose('json')
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -157,7 +157,7 @@ class TinyCalendar(Form):
 
         return dict(error=error, info=info)
 
-    @expose()
+    @expose('json')
     def duplicate(self, **kw):
         params, data = TinyDict.split(kw)
 
