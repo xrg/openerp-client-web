@@ -43,7 +43,9 @@ from openerp import widgets as tw
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 
-#TODO: import form
+from openerp import validators
+
+import form
 
 class Wizard(TinyResource):
 
@@ -102,9 +104,9 @@ class Wizard(TinyResource):
                 form.screen.add_view(res)
 
                 # store datas in _terp_datas
-                form.hidden_fields = [widgets.HiddenField(name='_terp_datas', default=ustr(datas)),
-                                      widgets.HiddenField(name='_terp_state2', default=state),
-                                      widgets.HiddenField(name='_terp_wiz_id', default=wiz_id)]
+                form.hidden_fields = [tw.form.Hidden(name='_terp_datas', default=ustr(datas)),
+                                      tw.form.Hidden(name='_terp_state2', default=state),
+                                      tw.form.Hidden(name='_terp_wiz_id', default=wiz_id)]
 
                 buttons = res.get('state', [])
                 buttons = [(b[0], re.sub('_(?!_)', '', b[1])) for b in buttons] # remove mnemonic

@@ -23,6 +23,6 @@
 % endif
 
 % if not editable and value:
-    <div kind="${kind}" id="${name}" class="${css_class}">${data | 'h'}</div>
+    <div kind="${kind}" id="${name}" class="${css_class}">${data}</div>
 % endif
 
