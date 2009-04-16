@@ -5,7 +5,7 @@ import tree
 #import graph
 import wizard
 import search
-#import preferences
+import preferences
 import selection
 import shortcuts
 import requests
@@ -13,9 +13,9 @@ import requests
 #import openo2m
 #import openm2m
 import listgrid
-#import attachment
-#import translator
-#import impex
+import attachment
+import translator
+import impex
 #import fieldpref
 #import tinycalendar
 #import view_log

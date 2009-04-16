@@ -1,5 +1,5 @@
 <%inherit file="../../templates/master.mako"/>
-
+<%! show_header_footer = False %>
 <%def name="header()">
     <title>Add Translations</title>
     <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
@@ -32,10 +32,10 @@
                             <td class="label">Add Translation for: </td>
                             <td>
                                 <select name="translate" onchange="window.location.href=getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
-                                    <option value="fields" ${py.selector("selected",translate=='fields')}>Fields</option>
-                                    <option value="labels" ${py.selector("selected",translate=='labels')}>Labels</option>
-                                    <option value="relates" ${py.selector("selected",translate=='relates')}>Relates</option>
-                                    <option value="view" ${py.selector("selected",translate=='view')}>View</option>
+                                    <option value="fields" ${py.selector(translate=='fields')}>Fields</option>
+                                    <option value="labels" ${py.selector(translate=='labels')}>Labels</option>
+                                    <option value="relates" ${py.selector(translate=='relates')}>Relates</option>
+                                    <option value="view" ${py.selector(translate=='view')}>View</option>
                                 </select>
                             </td>
                             <td width="100%">&nbsp;</td>
@@ -77,14 +77,14 @@
             </td>
         </tr>
         % else:
-            % for n, data in view:
+            % for n, data_ in view:
         <tr>
             <td>
                 <table width="100%">
                     <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
                     <tr><th colspan="2" align="center">${[l for l in langs if l['code'] == n][0]['name']} (${n})</th></tr>
                     <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
-                    % for d in data:
+                    % for d in data_:
                     <tr>
                         <td style="width: 50%; text-align: right">${d['src']} = </td>
                         <td style="width: 50%">

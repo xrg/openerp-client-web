@@ -151,7 +151,7 @@ class ImpEx(TinyResource):
 
         return dict(new_list=new_list, model=params.model, ids=params.ids,
                     search_domain=params.search_domain, source=params.source,
-                    tree=tree, show_header_footer=False)
+                    tree=tree)
 
     @expose()
     def save_exp(self, **kw):
@@ -371,7 +371,7 @@ class ImpEx(TinyResource):
 
         tree.show_headers = False
 
-        return dict(model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}), show_header_footer=False)
+        return dict(model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}))
 
     @expose()
     def detect_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, **kw):

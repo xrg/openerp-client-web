@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<% show_header_footer=True %>
+<%! show_header_footer=True %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -64,7 +64,7 @@ except:
 % endfor
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
-    % if show_header_footer:
+    % if self.attr.show_header_footer:
     <tr>
            <td>
             <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
@@ -164,7 +164,7 @@ except:
             ${self.content()}
         </td>
     </tr>
-    % if show_header_footer:
+    % if self.attr.show_header_footer:
     <tr>
         <td>
             <div id="footer">

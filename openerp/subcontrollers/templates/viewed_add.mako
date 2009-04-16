@@ -7,7 +7,7 @@
             <td class="item" width="100">
                 <select id="node" name="node" onchange="toggleFields(this)">
                     % for node in nodes:
-                    <option value="${node}" ${py.selector("selected",node=='field')}>${node}</option>
+                    <option value="${node}" ${py.selector(node=='field')}>${node}</option>
                     % endfor
                 </select>
             </td>

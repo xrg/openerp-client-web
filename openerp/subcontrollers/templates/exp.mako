@@ -1,3 +1,5 @@
+<%! show_header_footer = False %>
+
 <%inherit file="../../templates/master.mako"/>
 
 <%def name="header()">
@@ -37,7 +39,7 @@
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = ${tree.field_id};
+            var tree = ${tree.name};
             
             var fields = tree.selection;
             var select = $('fields');

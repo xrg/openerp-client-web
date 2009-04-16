@@ -87,23 +87,23 @@
                         <td nowrap="nowrap">
                             <button type="button" 
                                 title="${_('Create new database')}"
-                                ${py.selector("disabled",form.name=='create')}
+                                ${py.disabled(form.name=='create')}
                                 onclick="dbView('create')">Create</button>
                             <button type="button" 
                                 title="${_('Drop database')}"
-                                ${py.selector("disabled",form.name=='drop')}
+                                ${py.disabled(form.name=='drop')}
                                 onclick="dbView('drop')">Drop</button>
                             <button type="button" 
                                 title="${_('Backup database')}"
-                                ${py.selector("disabled",form.name=='backup')}
+                                ${py.disabled(form.name=='backup')}
                                 onclick="dbView('backup')">Backup</button>
                             <button type="button" 
                                 title="${_('Restore database')}"
-                                ${py.selector("disabled",form.name=='restore')}
+                                ${py.disabled(form.name=='restore')}
                                 onclick="dbView('restore')">Restore</button>
                             <button type="button" 
                                 title="${_('Change Administrator Password')}"
-                                ${py.selector("disabled",form.name=='password')}
+                                ${py.disabled(form.name=='password')}
                                 onclick="dbView('password')">Password</button>
                         </td>
                     </tr>
