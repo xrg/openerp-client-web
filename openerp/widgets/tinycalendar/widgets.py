@@ -119,7 +119,7 @@ class MonthCalendar(TinyCalendar):
 
     template = 'templates/month.mako'
     params = ['month', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    members = ['minical', 'groupbox', 'use_search']
+    members = ['minical', 'groupbox']
 
     month = None
     events = {}
@@ -147,7 +147,7 @@ class MonthCalendar(TinyCalendar):
 class WeekCalendar(TinyCalendar):
     template = 'templates/week.mako'
     params = ['week', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    members = ['minical', 'groupbox', 'use_search']
+    members = ['minical', 'groupbox']
 
     week = None
     events = {}
@@ -175,7 +175,7 @@ class WeekCalendar(TinyCalendar):
 class DayCalendar(TinyCalendar):
     template = 'templates/day.mako'
     params = ['day', 'events', 'calendar_fields', 'date_format']
-    members = ['minical', 'groupbox', 'use_search']
+    members = ['minical', 'groupbox']
 
     day = None
     events = {}
@@ -204,7 +204,7 @@ class GanttCalendar(ICalendar):
 
     params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format',
               'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
-    members = ['groupbox', 'use_search']
+    members = ['groupbox']
 
     level = None
     groups = None

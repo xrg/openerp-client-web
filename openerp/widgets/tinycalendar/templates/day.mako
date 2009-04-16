@@ -5,7 +5,7 @@
         <table width="100%" class="toolbar">
             <tr>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('${day.prev().isoformat()}')"/></td>
-                <td nowrap="nowrap"><button type="button" title="${_('Today...')}" ${py.selector("disabled",day == day.today())} onclick="getCalendar('${day.today().isoformat()}', 'day')">Today</button></td>
+                <td nowrap="nowrap"><button type="button" title="${_('Today...')}" ${py.disabled(day == day.today())} onclick="getCalendar('${day.today().isoformat()}', 'day')">Today</button></td>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${day.next().isoformat()}')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${ustr(day)}</strong></td>
                 <td nowrap="nowrap">

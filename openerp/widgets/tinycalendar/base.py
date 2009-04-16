@@ -40,6 +40,8 @@ from openerp import format
 from openerp.utils import TinyDict
 
 from openerp.widgets.interface import TinyWidget
+from openerp.widgets.interface import ConcurrencyInfo
+
 from openerp.widgets.resource import JSLink, CSSLink
 
 from utils import Day
@@ -259,7 +261,7 @@ class ICalendar(TinyWidget):
         ids = proxy.search(domain, 0, 0, order_by, ctx)
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
         self._update_concurrency_info(self.model, result)
-        self.concurrency_info = interface.ConcurrencyInfo(self.model, ids)
+        self.concurrency_info = ConcurrencyInfo(self.model, ids)
 
         if self.color_field:
 

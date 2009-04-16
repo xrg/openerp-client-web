@@ -182,7 +182,7 @@ class List(TinyWidget):
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 fa['inline'] = True
-                self.editors[f] = form.WIDGETS[k](fa)
+                self.editors[f] = form.WIDGETS[k](**fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
@@ -191,7 +191,7 @@ class List(TinyWidget):
                     k = 'char'
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
-                self.editors[f] = form.Hidden(fa)
+                self.editors[f] = form.Hidden(**fa)
 
         # limit the data
         if self.pageable and len(self.data) > self.limit:
@@ -276,7 +276,7 @@ class List(TinyWidget):
 
             if node.nodeName == 'button':
                 attrs = tools.node_attributes(node)
-                buttons += [Button(attrs)]
+                buttons += [Button(**attrs)]
 
             elif node.nodeName == 'field':
                 attrs = tools.node_attributes(node)

@@ -1,7 +1,7 @@
 <button ${py.attrs(attrs)} 
     type="button" 
     id="${name}" 
-    onclick="buttonClicked('${name}', '${btype}', '${model}', '${record_id}', '${confirm}', '${target}');">
+    onclick="buttonClicked('${name}', '${btype}', '${model}', '${id}', '${confirm}', '${target}');">
     <table align="center" cellspacing="0">
         <tr>
             % if icon:
