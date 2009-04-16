@@ -354,8 +354,8 @@ class List(TinyWidget):
 
 class Char(TinyWidget):
 
-    template = """
-        <span xmlns:py="http://purl.org/kid/ns#" py:content="text"/>
+    template = """\
+    <span>${text}</span>
     """
 
     params = ['text', 'link', 'value']
@@ -392,8 +392,8 @@ class Char(TinyWidget):
 
 class M2O(Char):
 
-    template = """
-        <span xmlns:py="http://purl.org/kid/ns#">
+    template = """\
+        <span>
             <a href="${link}">${text}</a>
         </span>
     """
