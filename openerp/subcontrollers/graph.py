@@ -27,20 +27,9 @@
 #
 ###############################################################################
 
-import os
-import time
-import math
-import pkg_resources
-
-from StringIO import StringIO
-
-from openerp.tools import expose
-
 import cherrypy
 
-from openerp import rpc
-from openerp import tools
-from openerp import common
+from openerp.tools import expose
 
 from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
@@ -49,7 +38,7 @@ from openerp.widgets.graph import BarChart
 from openerp.widgets.graph import PieChart
 
 class Graph(TinyResource):
-
+    
     @expose('json')
     def pie(self, **kw):
 

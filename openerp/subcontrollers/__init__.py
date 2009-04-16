@@ -2,7 +2,7 @@ import actions
 
 import form
 import tree
-#import graph
+import graph
 import wizard
 import search
 import preferences
