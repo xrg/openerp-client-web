@@ -1,6 +1,5 @@
-<%! show_header_footer=False %>
 <%inherit file="../../templates/master.mako"/>
-
+<%! show_header_footer=False %>
 <%def name="header()">
     <title>${form.screen.string} </title>
 

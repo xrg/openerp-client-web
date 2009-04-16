@@ -521,18 +521,19 @@ class URL(TinyInputWidget):
 class Hidden(TinyInputWidget):
     template = "templates/hidden.mako"
 
-    wid = None
     params = ['relation']
+    members = ['widget']
 
     def __init__(self, **attrs):
         super(Hidden, self).__init__(**attrs)
-        self.wid = WIDGETS[self.kind](**attrs)
-        self.validator = self.wid.validator
+        kind = self.kind or 'text'
+        self.widget = WIDGETS[kind](**attrs)
+        self.validator = self.widget.validator
         self.relation = attrs.get('relation') or None
 
     def set_value(self, value):
-        self.wid.set_value(value)
-        self.default = self.wid.default
+        self.widget.set_value(value)
+        self.default = self.widget.default
 
 class Button(TinyInputWidget):
 

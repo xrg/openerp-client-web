@@ -9,9 +9,9 @@ import preferences
 import selection
 import shortcuts
 import requests
-#import openm2o
-#import openo2m
-#import openm2m
+import openm2o
+import openo2m
+import openm2m
 import listgrid
 import attachment
 import translator
