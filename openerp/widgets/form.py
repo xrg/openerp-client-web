@@ -573,7 +573,7 @@ class Picture(TinyInputWidget):
 
 class Image(TinyInputWidget):
 
-    template = "template/image.mako"
+    template = "templates/image.mako"
 
     params = ["src", "width", "height", "model", "id", "field", "stock"]
     src = ""

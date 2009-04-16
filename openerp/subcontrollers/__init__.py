@@ -19,7 +19,7 @@ import impex
 import fieldpref
 import tinycalendar
 import view_log
-#import image
+import image
 #import database
 #import viewed
 #import viewlist

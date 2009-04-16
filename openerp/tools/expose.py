@@ -198,8 +198,10 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
 
                 return renderer(tmpl, func.__module__)(**res)
 
-            if not isinstance(res, unicode):
-                return unicode(res, 'utf-8')
+            if not isinstance(res, basestring):
+                #TODO: convert to json?
+                return str(res)
+            
             return res
 
         return utils.decorated(func_wrapper, func, exposed=True)
