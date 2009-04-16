@@ -681,7 +681,7 @@ class Form(TinyInputWidget):
         attrs = tools.node_attributes(root)
         fields = view['fields']
 
-        self.string = self.string or ''
+        self.string = attrs.get('string', '')
         self.link = attrs.get('link', nolinks)
         
         self.id = None
