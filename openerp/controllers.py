@@ -45,7 +45,18 @@ from openerp import cache
 from openerp.tinyres import TinyResource, unsecured
 from openerp.tinyres import login as tiny_login
 
+
+def _cp_on_error():
+    errorpage = subcontrollers.error_page.ErrorPage()
+    message = errorpage.render()
+    cherrypy.response.status = 500
+    #cherrypy.response.headers['Content-Type'] = 'text/html'
+    cherrypy.response.body = [message]
+
 class Root(TinyResource):
+    
+    _cp_config = {'request.error_response': _cp_on_error}
+
 
     def user_action(self, id='action_id'):
         """Perform default user action.
@@ -182,7 +193,7 @@ class Root(TinyResource):
     workflowlist = subcontrollers.workflow.WorkflowList()
     process = subcontrollers.process.Process()
     wiki = subcontrollers.wiki.WikiView()
-    #errorpage = subcontrollers.error_page.ErrorPage()
+    
 
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -26,7 +26,7 @@ import image
 import workflow
 import process
 import wiki
-#import error_page
+import error_page
 
 # vim: ts=4 sts=4 sw=4 si et
 
