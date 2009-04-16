@@ -119,7 +119,6 @@ class Widget(object):
     children = []
 
     params = {
-        'ident': 'The identified of this widget',
         'name': 'The name of this widget',
         'css_class': 'Main CSS class for this widget',
         'css_classes': 'List of all CSS classes',
@@ -278,7 +277,7 @@ class Widget(object):
         return item_params
     
     def display_child(self, item, **params):
-        v = self.value_for(item, params.get('value'))
+        v = self.value_for(item, params.pop('value', None))
         d = self.params_for(item, **params)
         return item.display(v, **d)
 
@@ -401,4 +400,3 @@ if __name__ == "__main__":
             ])
 
     print w.c.B.name
-    print w.c.B.ident

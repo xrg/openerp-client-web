@@ -112,23 +112,5 @@ def context_with_concurrency_info(context, concurrency_info):
     return ctx
 
 
-def decorated(wrapper, func, **attrs):
-    """Update decorated wrapper of the func with given attrs
-    and make sure to keep original metadata.
-    """
-
-    wrapper.__name__ = func.__name__
-    wrapper.__doc__ = func.__doc__
-    wrapper.__dict__ = func.__dict__.copy()
-    wrapper.__module__ = func.__module__
-
-    for k, v in attrs.iteritems():
-        try:
-            setattr(wrapper, k, v)
-        except:
-            pass
-
-    return wrapper
-
 # vim: ts=4 sts=4 sw=4 si et
 

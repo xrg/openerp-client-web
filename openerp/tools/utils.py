@@ -1,9 +1,10 @@
 
 import cherrypy
 
-from openerp.tools import tools
+from openerp.validators import Invalid
 
-__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if"]
+
+__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if", "decorated"]
 
 
 def check_request_exists():
@@ -66,7 +67,6 @@ def from_kw(func, args, kw):
 
     return newargs, kw
 
-from openerp.validators import Invalid
 
 def validate(form=None, validators=None):
 
@@ -124,7 +124,7 @@ def validate(form=None, validators=None):
             args, kw = from_kw(func, args, kw)
             return func(*args, **kw)
 
-        return tools.decorated(func_wrapper, func)
+        return decorated(func_wrapper, func)
 
     return validate_wrapper
 
@@ -141,7 +141,7 @@ def error_handler(handler):
 
             return func(*args, **kw)
 
-        return tools.decorated(func_wrapper, func)
+        return decorated(func_wrapper, func)
 
     return wrapper
 
@@ -177,4 +177,22 @@ def attrs(*args, **kw):
 def attr_if(name, expression):
     return (expression or '') and '%s="%s"' % (name, name)
 
+
+def decorated(wrapper, func, **attrs):
+    """Update decorated wrapper of the func with given attrs
+    and make sure to keep original metadata.
+    """
+
+    wrapper.__name__ = func.__name__
+    wrapper.__doc__ = func.__doc__
+    wrapper.__dict__ = func.__dict__.copy()
+    wrapper.__module__ = func.__module__
+
+    for k, v in attrs.iteritems():
+        try:
+            setattr(wrapper, k, v)
+        except:
+            pass
+
+    return wrapper
 

@@ -49,7 +49,7 @@ class Link(Resource):
 class JSLink(Link):
 
     template = """\
-    <script type="text/javascript" src="${link}" charset="${charset}" defer="${defer and 'defer' or ''}"></script>\
+    <script type="text/javascript" src="${link}" ${py.attrs(charset=charset, defer=defer)}></script>\
     """
 
     params = {
@@ -58,7 +58,7 @@ class JSLink(Link):
     }
 
     charset = None
-    defer = False
+    defer = None
 
 
 class CSSLink(Link):
@@ -92,23 +92,21 @@ class JSSource(Source):
     """A JavaScript source snippet."""
 
     template = """\
-    <script type="text/javascript" defer="${defer and 'defer' or None}">
+    <script type="text/javascript" ${py.attrs(defer=defer)}>
         ${src}
     </script>\
     """
 
-    params_doc = {
+    params = {
         'defer': 'If true, browser may defer execution of the script'
     }
-
-    defer = False
 
 
 class CSSSource(Source):
     """A CSS source snippet."""
 
     template = """\
-    <style type="text/css" media="${media}">
+    <style type="text/css" ${py.attrs(media=media)}>
         ${src}
     </style>\
     """

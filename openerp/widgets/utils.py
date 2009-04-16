@@ -1,5 +1,6 @@
 import collections
 
+from openerp import tools
 
 def only_if(attribute, value=None, exc=Exception):
 
@@ -14,9 +15,7 @@ def only_if(attribute, value=None, exc=Exception):
                 return func(self, *args, **kw)
             raise exc
 
-        wrapper.func_name = func.func_name
-        wrapper.__dict__ = func.__dict__.copy()
-        return wrapper
+        return tools.decorated(wrapper, func)
 
     return func_wrapper
 

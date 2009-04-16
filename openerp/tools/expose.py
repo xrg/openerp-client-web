@@ -39,7 +39,6 @@ from mako.lookup import TemplateLookup
 
 from openerp import rpc
 from openerp.tools import utils
-from openerp.tools import tools
 
 __all__ = ['find_resource', 'load_template', 'renderer', 'expose',
            'register_template_vars']
@@ -61,7 +60,6 @@ def find_resource(package_or_module, *names):
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
 
-#TODO: @cache.memoize(1000)
 def load_template(template, module=None):
 
     if not template:
@@ -204,7 +202,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
                 return unicode(res, 'utf-8')
             return res
 
-        return tools.decorated(func_wrapper, func, exposed=True)
+        return utils.decorated(func_wrapper, func, exposed=True)
 
     return expose_wrapper
 
