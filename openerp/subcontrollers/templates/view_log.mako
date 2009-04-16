@@ -1,6 +1,5 @@
-<%! show_header_footer=False %>
 <%inherit file="../../templates/master.mako"/>
-
+<%! show_header_footer = False %>
 <%def name="header()">
     <title>Information</title>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>

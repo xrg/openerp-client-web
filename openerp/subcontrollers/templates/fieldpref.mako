@@ -1,5 +1,5 @@
 <%inherit file="../../templates/master.mako"/>
-
+<%! show_header_footer = False %>
 <%def name="header()">
     <title>Field Preferences</title>
     
@@ -76,7 +76,7 @@
                                         <tr><td align="center">Always applicable!</td></tr>
                                         % else:
                                         <tr>
-                                            <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
+                                            ##<!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
                                             % for n, n, v, v in deps:
                                                 <td><input type="checkbox" class="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
                                             % endfor

@@ -16,9 +16,9 @@ import listgrid
 import attachment
 import translator
 import impex
-#import fieldpref
+import fieldpref
 #import tinycalendar
-#import view_log
+import view_log
 #import image
 #import database
 #import viewed
