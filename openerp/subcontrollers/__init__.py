@@ -23,8 +23,8 @@ import image
 #import database
 #import viewed
 #import viewlist
-#import workflow
-#import process
+import workflow
+import process
 #import wiki
 #import error_page
 

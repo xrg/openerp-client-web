@@ -178,9 +178,9 @@ class Root(TinyResource):
     #database = subcontrollers.database.Database()
     #viewed = subcontrollers.viewed.ViewEd()
     #viewlist = subcontrollers.viewlist.ViewList()
-    #workflow = subcontrollers.workflow.Workflow()
-    #workflowlist = subcontrollers.workflow.WorkflowList()
-    #process = subcontrollers.process.Process()
+    workflow = subcontrollers.workflow.Workflow()
+    workflowlist = subcontrollers.workflow.WorkflowList()
+    process = subcontrollers.process.Process()
     #wiki = subcontrollers.wiki.WikiView()
     #errorpage = subcontrollers.error_page.ErrorPage()
 
