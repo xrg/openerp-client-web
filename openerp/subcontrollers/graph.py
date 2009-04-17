@@ -26,7 +26,7 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import base64
 import cherrypy
 
 from openerp.tools import expose
@@ -40,7 +40,10 @@ from openerp.widgets.graph import PieChart
 class Graph(TinyResource):
     
     @expose('json')
-    def pie(self, **kw):
+    def pie(self, args):
+        
+        kw = base64.decodestring(args)
+        kw = eval(kw)
 
         params, data = TinyDict.split(kw)
         data = PieChart(params.model, params.view_id, params.ids, params.domain, params.context)
@@ -48,8 +51,11 @@ class Graph(TinyResource):
         return data.get_data()
 
     @expose('json')
-    def bar(self, **kw):
-
+    def bar(self, args):
+        
+        kw = base64.decodestring(args)
+        kw = eval(kw)
+        
         params, data = TinyDict.split(kw)
         data = BarChart(params.model, params.view_id, params.ids, params.domain, params.context)
 

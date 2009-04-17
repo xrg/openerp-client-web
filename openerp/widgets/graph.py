@@ -32,6 +32,8 @@ import time
 import random
 import locale
 import xml.dom.minidom
+import base64
+
 import urllib
 
 from openerp import rpc
@@ -86,16 +88,15 @@ class Graph(TinyWidget):
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
 
-        qs = tools.url({
+        args = base64.encodestring(ustr({
             '_terp_model': model,
             '_terp_view_id': view_id,
             '_terp_ids': ustr(ids),
             '_terp_domain': ustr(domain),
-            '_terp_context': ustr(context or {})})
-
-        self.url = tools.url("/graph", chart_type) + '?' + urllib.quote(qs);
+            '_terp_context': ustr(context or {})}))
+            
+        self.url = tools.url("/graph", chart_type, args=args)
         
-
 class GraphData(object):
 
     def __init__(self, model, view_id=False, ids=[], domain=[], context={}):

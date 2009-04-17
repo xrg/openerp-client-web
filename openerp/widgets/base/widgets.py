@@ -198,9 +198,7 @@ class Form(FormField):
     method = "POST"
     submit_text = "Submit"
     form_attrs = {}
-    
-    strip_name = True
-    
+        
     def __init__(self, name=None, **kw):
         super(Form, self).__init__(name=name, **kw)
         
