@@ -63,18 +63,18 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
 
         base = re.split('\.|:|/', host)[0]
         
-        if db_val == 1:
+        if db_val == 'NONE':
             dblist = dblist
         
-        if db_val == 2:
+        if db_val == 'EXACT':
             base = base                            
             dblist = [d for d in dblist if d == base]
         
-        if db_val == 3:
+        if db_val == 'UNDERSCORE':
             base = base + '_'                            
             dblist = [d for d in dblist if d.startswith(base)]
 
-        if db_val == 4:
+        if db_val == 'BOTH':
             dblist = [d for d in dblist if d.startswith(base + '_') or d == base]
 
     return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password, 
