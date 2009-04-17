@@ -186,6 +186,9 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
 
             cherrypy.response.headers['content-type'] = content_type
 
+            if isinstance(res, basestring):
+                return res
+
             tmpl = kw.get('cp_template', template)
             if tmpl:
 
