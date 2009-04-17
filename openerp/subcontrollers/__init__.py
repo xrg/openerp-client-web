@@ -21,8 +21,8 @@ import tinycalendar
 import view_log
 import image
 #import database
-#import viewed
-#import viewlist
+import viewed
+import viewlist
 import workflow
 import process
 import wiki

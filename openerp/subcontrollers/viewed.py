@@ -807,7 +807,7 @@ _CHILDREN = {
     'separator': [],
 }
 
-class SelectProperty(tg_widgets.SingleSelectField):
+class SelectProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
 
@@ -817,7 +817,7 @@ class SelectProperty(tg_widgets.SingleSelectField):
 
         super(SelectProperty, self).__init__(name=name, options=options, default=default)
 
-class PositionProperty(tg_widgets.SingleSelectField):
+class PositionProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
 
@@ -829,7 +829,7 @@ class PositionProperty(tg_widgets.SingleSelectField):
 
         super(PositionProperty, self).__init__(name=name, options=options, default=default)
 
-class WidgetProperty(tg_widgets.SingleSelectField):
+class WidgetProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
 
@@ -839,13 +839,15 @@ class WidgetProperty(tg_widgets.SingleSelectField):
 
         super(WidgetProperty, self).__init__(name=name, options=options, default=default)
 
-class BooleanProperty(tg_widgets.CheckBox):
+class BooleanProperty(tw.CheckBox):
 
     def __init__(self, name, default=None):
         super(BooleanProperty, self).__init__(name=name, attrs=dict(value=1, checked=default))
         self.field_class = "checkbox"
 
-class GroupsProperty(tg_widgets.MultipleSelectField):
+class GroupsProperty(tw.SelectField):
+    
+    multiple = True
 
     def __init__(self, name, default=None):
 
@@ -870,25 +872,25 @@ class ActionProperty(tw.many2one.M2O):
         super(ActionProperty, self).__init__(attrs)
         self.set_value(default or False)
 
-class IconProperty(tg_widgets.SingleSelectField):
+class IconProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', '')] + icons.icons
         super(IconProperty, self).__init__(name=name, options=options, default=default)
 
-class ButtonTargetProperty(tg_widgets.SingleSelectField):
+class ButtonTargetProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('new', _('New Window'))]
         super(ButtonTargetProperty, self).__init__(name=name, options=options, default=default)
 
-class ButtonTypeProperty(tg_widgets.SingleSelectField):
+class ButtonTypeProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('action', 'Action'), ('object', 'Object'), ('workflow', 'Workflow'), ('server_action', 'Server Action')]
         super(ButtonTypeProperty, self).__init__(name=name, options=options, default=default)
 
-class ButtonSpecialProperty(tg_widgets.SingleSelectField):
+class ButtonSpecialProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('sale', _('Save Button')), ('cancel', _('Cancel Button'))]
@@ -913,7 +915,7 @@ _PROPERTY_WIDGETS_BUTTON = {
 }
 
 def get_property_widget(name, value=None):
-    wid = _PROPERTY_WIDGETS.get(name, tg_widgets.TextField)
+    wid = _PROPERTY_WIDGETS.get(name, tw.TextField)
     return wid(name=name, default=value)
 
 # vim: ts=4 sts=4 sw=4 si et

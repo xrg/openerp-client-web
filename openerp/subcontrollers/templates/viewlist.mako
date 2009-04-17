@@ -1,5 +1,5 @@
 <%inherit file="../../templates/master.mako"/>
-
+<%! show_header_footer = False %>
 <%def name="header()">
     <title>Manage Views (${model})</title>
     <script type="text/javascript">

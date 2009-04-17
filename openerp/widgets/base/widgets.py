@@ -117,7 +117,7 @@ class TextArea(Input):
     cols = 50
 
 
-class SelectionField(Input):
+class SelectField(Input):
     
     template = """\
     <select ${py.attrs(attrs)}>
@@ -146,17 +146,21 @@ class SelectionField(Input):
         result = []
         
         for opt in options:
-
-            if isinstance(opt[1][1], (list, tuple)):
+            
+            if not isinstance(opt, (list, tuple)):
+                result.append([None, [(opt, opt)]])
+            
+            elif len(opt) == 2 and isinstance(opt[1][1], (list, tuple)):
                 result.append(opt)
-            else:
+                
+            elif len(opt) == 2:
                 result.append([None, [opt]])
         
         return result
     
     
     def update_params(self, d):
-        super(SelectionField, self).update_params(d)
+        super(SelectField, self).update_params(d)
         if callable(self.options):
             d['options'] = self.options()
         d['grouped_options'] = self._get_options(d['options'])
