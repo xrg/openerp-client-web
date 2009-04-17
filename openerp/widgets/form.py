@@ -574,25 +574,19 @@ class Button(TinyField):
         if self.states:
             self.visible = state in self.states
 
-class Picture(TinyField):
-    template = '<img alt="picture" id="${field_id}" kind="${kind}" src="${value}" />'
-
-    def __init__(self, attrs={}):
-        super(Picture, self).__init__(attrs)
-        self.validator = tiny_validators.Picture()
-
 class Image(TinyField):
 
     template = """
         <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
             <img py:if="stock" align="left" src="${src}" width="${width}" height="${height}"/>
-            <img py:if="not stock and id and editable" id="${field}" border='1' alt="Click here to add new image." align="left" src="${src}" width="${width}" height="${height}" onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
+            <img py:if="not stock and id and editable and type=='picture'" id="${field}" border='1' align="left" src="${src}" width="${width}" height="${height}"/>
+            <img py:if="not stock and id and editable and type=='image'" id="${field}" border='1' alt="Click here to add new image." align="left" src="${src}" width="${width}" height="${height}" onclick="openWindow(getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
             <img py:if="not stock and id and not editable" id="${field}" border='1' align="left" src="${src}" width="${width}" height="${height}"/>
             <input py:if="not stock and not id and editable" type="file" class="${field_class}" id="${name}" py:attrs="attrs" name="${name}"/>
         </span>
         """
 
-    params = ["src", "width", "height", "model", "id", "field", "stock"]
+    params = ["src", "width", "height", "model", "id", "field", "stock", "type"]
     src = ""
     width = 32
     height = 32
@@ -607,14 +601,16 @@ class Image(TinyField):
         TinyField.__init__(self, attrs)
         
         self.filename = attrs.get('filename', '')
+        self.type = attrs['type']
+        self.id = attrs.get('id')
         
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
-            self.src = '/image/get_image?model=%s&id=%s&field=%s' % (attrs['model'], attrs['id'], self.field)
+            self.src = '/image/get_image?model=%s&id=%s&field=%s' % (attrs['model'], self.id, self.field)
             self.height = attrs.get('img_height', attrs.get('height', 160))
             self.width = attrs.get('img_width', attrs.get('width', 200))
-            self.id = attrs['id']
+            self.id = self.id
             self.validator = tiny_validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
@@ -904,8 +900,8 @@ class Form(TinyCompoundWidget):
 
         name = attrs['name']
         kind = attrs.get('type', 'char')
-
-        if kind == 'image':
+             
+        if kind == 'image' or kind == 'picture':
             attrs['id'] = self.id
         
         # suppress by container's readonly property 
@@ -944,7 +940,7 @@ WIDGETS = {
     'button': Button,
     'reference': Reference,
     'binary': Binary,
-    'picture': Picture,
+    'picture': Image,
     'text': Text,
     'text_tag': Text,
     'text_html': TinyMCE,
