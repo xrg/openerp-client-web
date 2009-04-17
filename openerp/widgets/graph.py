@@ -86,14 +86,15 @@ class Graph(TinyWidget):
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
 
-        self.url = tools.url("/graph", chart_type, **{
+        qs = tools.url({
             '_terp_model': model,
             '_terp_view_id': view_id,
             '_terp_ids': ustr(ids),
             '_terp_domain': ustr(domain),
             '_terp_context': ustr(context or {})})
 
-        self.url = urllib.quote(self.url)
+        self.url = tools.url("/graph", chart_type) + '?' + urllib.quote(qs);
+        
 
 class GraphData(object):
 

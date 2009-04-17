@@ -24,13 +24,19 @@ def url(*args, **kw):
     >>> "/my/path?a=100&b=100"
 
     """
-    result = []
-    for k, v in kw.items():
-        result += ['%s=%s'%(k, v)]
-
-    path = '/'.join([str(a) for a in args])
-    path = ((path or '') and path + '?') + '&'.join(result)
-
+    
+    if not kw and isinstance(args[-1], dict):
+        kw = args[-1]
+        args = args[:-1]
+    
+    path = '/'.join(map(str, args))
+    query = '&'.join(map(lambda a: '%s=%s' % (a[0], a[1]), kw.items()))
+    
+    if path and query:
+        path = path + '?' + query
+    elif query:
+        path = query
+    
     if path.startswith('/'):
         webpath = (cherrypy.config.get('server.webpath') or '').rstrip('/')
         if check_request_exists():
