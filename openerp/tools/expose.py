@@ -199,7 +199,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
                     if hasattr(w, 'retrieve_resources') and w.is_root:
                         _resources = merge_resources(_resources, w.retrieve_resources())
 
-                return renderer(tmpl, func.__module__)(**res)
+                return renderer(tmpl, func.__module__)(**res).encode("utf-8")
 
             if not isinstance(res, basestring):
                 #TODO: convert to json?

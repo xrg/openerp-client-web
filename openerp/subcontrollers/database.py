@@ -35,14 +35,13 @@ import xmlrpclib
 import cherrypy
 import pkg_resources
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import controllers
-from turbogears import validate, error_handler
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import validate, error_handler
+from openerp.tools import redirect
 
 from openerp import rpc
 from openerp import common
+from openerp import widgets
 from openerp import validators
 
 
@@ -60,7 +59,7 @@ def get_db_list():
     except:
         return []
 
-class FormCreate(widgets.TableForm):
+class FormCreate(widgets.Form):
     name = "create"
     string = _('Create new database')
     action = '/database/do_create'
@@ -69,30 +68,30 @@ class FormCreate(widgets.TableForm):
     fields = [widgets.PasswordField(name='password', label=_('Super admin password:'), validator=validators.NotEmpty()),
               widgets.TextField(name='dbname', label=_('New database name:'), validator=validators.NotEmpty()),
               widgets.CheckBox(name='demo_data', label=_('Load Demonstration data:'), default=True, validator=validators.Bool(if_empty=False)),
-              widgets.SingleSelectField(name='language', options=get_lang_list, validator=validators.String(), label=_('Default Language:')),
+              widgets.SelectField(name='language', options=get_lang_list, validator=validators.String(), label=_('Default Language:')),
               widgets.PasswordField(name='admin_password', label=_('Administrator password:'), validator=validators.NotEmpty()),
-              widgets.PasswordField(name='confirm_password', label=_('Confirm password:'), validator=validators.NotEmpty())]
-
+              widgets.PasswordField(name='confirm_password', label=_('Confirm password:'), validator=validators.NotEmpty())
+              ]
     validator = validators.Schema(chained_validators=[validators.FieldsMatch("admin_password","confirm_password")])
 
-class FormDrop(widgets.TableForm):
+class FormDrop(widgets.Form):
     name = "drop"
     string = _('Drop database')
     action = '/database/do_drop'
     submit_text = _('OK')
     form_attrs = {'onsubmit': 'return window.confirm("%s")' % _("Do you really want to drop the selected database?")}
-    fields = [widgets.SingleSelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
+    fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
-class FormBackup(widgets.TableForm):
+class FormBackup(widgets.Form):
     name = "backup"
     string = _('Backup database')
     action = '/database/do_backup'
     submit_text = _('OK')
-    fields = [widgets.SingleSelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
+    fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
-class FormRestore(widgets.TableForm):
+class FormRestore(widgets.Form):
     name = "restore"
     string = _('Restore database')
     action = '/database/do_restore'
@@ -101,7 +100,7 @@ class FormRestore(widgets.TableForm):
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty()),
               widgets.TextField(name='dbname', label=_('New database name:'), validator=validators.NotEmpty())]
 
-class FormPassword(widgets.TableForm):
+class FormPassword(widgets.Form):
     name = "password"
     string = _('Change Administrator Password')
     action = '/database/do_password'
@@ -121,13 +120,13 @@ _FORMS = {
     'password': FormPassword()
 }
 
-class Database(controllers.Controller):
+class Database(object):
 
     @expose()
     def index(self, *args, **kw):
         raise redirect('/database/create')
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def create(self, tg_errors=None, **kw):
         form = _FORMS['create']
         return dict(form=form)
@@ -175,7 +174,7 @@ class Database(controllers.Controller):
             raise redirect('/')
         raise redirect('/login', db=dbname)
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def drop(self, tg_errors=None, **kw):
         form = _FORMS['drop']
         return dict(form=form)
@@ -194,7 +193,7 @@ class Database(controllers.Controller):
 
         raise redirect("/database/drop")
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def backup(self, tg_errors=None, **kw):
         form = _FORMS['backup']
         return dict(form=form)
@@ -214,7 +213,7 @@ class Database(controllers.Controller):
 
         raise redirect('/login')
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def restore(self, tg_errors=None, **kw):
         form = _FORMS['restore']
         return dict(form=form)
@@ -234,7 +233,7 @@ class Database(controllers.Controller):
 
         raise redirect('/login', db=dbname)
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def password(self, tg_errors=None, **kw):
         form = _FORMS['password']
         return dict(form=form)

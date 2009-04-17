@@ -170,7 +170,7 @@ class SelectField(Input):
 class Form(FormField):
     
     template = """\
-    <form ${py.attrs(id=field_id, name=name, action=action, method=method)}>
+    <form ${py.attrs(attrs)}>
         % for child in hidden_fields:
         ${display_child(child)}
         % endfor
@@ -183,23 +183,26 @@ class Form(FormField):
             % endfor
             <tr>
                 <td>&nbsp;</td>
-                <td><input type="submit" value="${submit}"/></td>
+                <td><input type="submit" value="${submit_text}"/></td>
             </tr>
         </table>
     </form>
     """
 
-    params = ['action', 'method', 'hidden_fields', 'submit']
+    params = ['action', 'method', 'hidden_fields', 'submit_text']
     members = ['hidden_fields', 'fields']
 
     hidden_fields = []
     fields = []
     
-    submit = "Submit"
+    method = "POST"
+    submit_text = "Submit"
+    form_attrs = {}
+    
     strip_name = True
     
-    def __init__(self, name=None, method="GET", action=None, **kw):
-        super(Form, self).__init__(name=name, method=method, action=action, **kw)
+    def __init__(self, name=None, **kw):
+        super(Form, self).__init__(name=name, **kw)
         
     def post_init(self, *args, **kw):
         for name in self.members:
@@ -213,6 +216,11 @@ class Form(FormField):
     def update_params(self, d):
         super(Form, self).update_params(d)
         d['label_for'] = self.label_for
+        attrs = d.setdefault('attrs', {})
         
-
+        attrs['id'] = self.name
+        attrs['name'] = self.name
+        attrs['action'] = self.action
+        attrs['method'] = self.method
+        attrs.update(self.form_attrs)
         

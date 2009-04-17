@@ -186,7 +186,7 @@ class Root(TinyResource):
     calpopup = subcontrollers.tinycalendar.CalendarPopup()
     viewlog = subcontrollers.view_log.View_Log()
     image = subcontrollers.image.Image()
-    #database = subcontrollers.database.Database()
+    database = subcontrollers.database.Database()
     viewed = subcontrollers.viewed.ViewEd()
     viewlist = subcontrollers.viewlist.ViewList()
     workflow = subcontrollers.workflow.Workflow()
