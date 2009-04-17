@@ -601,7 +601,7 @@ class Image(TinyField):
         TinyField.__init__(self, attrs)
         
         self.filename = attrs.get('filename', '')
-        self.type = attrs['type']
+        self.type = attrs.get('type')
         self.id = attrs.get('id')
         
         if 'widget' in attrs:
