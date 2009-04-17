@@ -46,7 +46,7 @@ from interface import TinyWidget
 from interface import TinyInputWidget
 from interface import ConcurrencyInfo
 
-from resource import CSSLink, JSLink
+from base import CSSLink, JSLink
 
 class List(TinyWidget):
 

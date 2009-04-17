@@ -49,7 +49,7 @@ from openerp.utils import TinyDict
 from interface import TinyInputWidget
 from interface import ConcurrencyInfo
 
-from resource import JSLink, JSSource, CSSLink
+from base import JSLink, JSSource, CSSLink
 
 from openerp import validators
 

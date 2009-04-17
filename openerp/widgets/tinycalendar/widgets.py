@@ -38,8 +38,8 @@ from openerp import rpc
 from openerp import tools
 from openerp.utils import TinyDict
 
+from openerp.widgets import JSLink, CSSLink
 from openerp.widgets.interface import TinyWidget
-from openerp.widgets.resource import JSLink, CSSLink
 
 from base import ICalendar
 from base import TinyCalendar

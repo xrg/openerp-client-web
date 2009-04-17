@@ -3,7 +3,7 @@
 #TODO: implement i18n supprt using babel
 
 from base import Widget
-from resource import JSLink
+from base import JSLink
 
 def _get_locale():
     lang = tg_gettext.get_locale()

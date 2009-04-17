@@ -27,8 +27,9 @@
 #
 ###############################################################################
 
+from base import CSSLink
 from interface import TinyWidget
-from resource import CSSLink
+
 
 class Pager(TinyWidget):
 

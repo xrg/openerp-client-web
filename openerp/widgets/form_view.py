@@ -34,8 +34,7 @@ from openerp.widgets_search.search import Search
 from screen import Screen
 from sidebar import Sidebar
 
-from base import Form
-from resource import JSLink, locations
+from base import Form, JSLink, locations
 
 class ViewForm(Form):
 

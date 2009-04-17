@@ -42,7 +42,7 @@ from openerp.utils import TinyDict
 from openerp.widgets.interface import TinyWidget
 from openerp.widgets.interface import ConcurrencyInfo
 
-from openerp.widgets.resource import JSLink, CSSLink
+from openerp.widgets import JSLink, CSSLink
 
 from utils import Day
 from utils import parse_datetime

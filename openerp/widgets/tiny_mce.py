@@ -27,7 +27,7 @@
 #
 ###############################################################################
 
-from resource import JSLink
+from base import JSLink
 from interface import TinyInputWidget
 
 from openerp import validators

@@ -4,9 +4,9 @@ from itertools import izip, chain, imap
 
 import cherrypy
 
-from openerp.widgets.base import Widget
-from openerp.widgets.utils import OrderedSet
-from openerp.widgets.utils import Enum
+from base import Widget
+from utils import OrderedSet
+from utils import Enum
 
 
 locations = Enum(["head", "bodytop", "bodybottom"])

@@ -67,7 +67,7 @@ def start():
     app = cherrypy.tree.mount(Root(), '/', app_config)
 
     import pkg_resources
-    from openerp.widgets.resource import register_resource_directory
+    from openerp.widgets import register_resource_directory
 
     static = pkg_resources.resource_filename("openerp", "static")
     register_resource_directory(app, "openerp", static)

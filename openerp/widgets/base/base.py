@@ -12,9 +12,9 @@ from openerp import tools
 from openerp.validators import *
 from formencode.variabledecode import NestedVariables, variable_decode
 
-from openerp.widgets.meta import WidgetType
-from openerp.widgets.utils import OrderedSet
-from openerp.widgets.utils import only_if
+from meta import WidgetType
+from utils import OrderedSet
+from utils import only_if
 
 
 class WidgetException(RuntimeError):
@@ -384,13 +384,6 @@ class Widget(object):
         return "%s(%r, children=%r, **%r)" % (
             name, self._name, self.children, self.orig_kw
         )
-
-class Form(Widget):
-
-    params = ['action', 'hidden_fields']
-    members = ['hidden_fields']
-
-    hidden_fields = []
 
 
 if __name__ == "__main__":

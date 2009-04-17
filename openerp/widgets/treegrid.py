@@ -29,8 +29,8 @@
 
 import simplejson
 
+from base import CSSLink, JSLink
 from interface import TinyWidget
-from resource import CSSLink, JSLink
 
 
 class TreeGrid(TinyWidget):

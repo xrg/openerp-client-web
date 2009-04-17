@@ -36,8 +36,8 @@ from StringIO import StringIO
 
 import wikimarkup
 
-from form import Text
-from resource import JSLink, CSSLink
+from openerp.widgets import JSLink, CSSLink
+from openerp.widgets.form import Text
 
 from openerp import rpc
 

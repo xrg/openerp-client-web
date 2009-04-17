@@ -1,5 +1,4 @@
 from openerp.widgets.base import *
-from openerp.widgets.resource import *
 from openerp.widgets.interface import *
 
 import form

@@ -39,8 +39,8 @@ from openerp import tools
 from openerp import common
 from openerp import cache
 
+from base import JSSource
 from interface import TinyWidget
-from resource import JSSource
 
 
 DT_FORMAT = '%Y-%m-%d'

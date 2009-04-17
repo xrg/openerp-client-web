@@ -34,8 +34,9 @@ from openerp.utils import TinyDict
 
 from screen import Screen
 
+from base import JSSource
 from interface import TinyWidget
-from resource import JSSource
+
 
 class Sidebar(TinyWidget):
 

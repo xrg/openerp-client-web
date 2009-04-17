@@ -192,7 +192,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
             tmpl = kw.get('cp_template', template)
             if tmpl:
 
-                from openerp.widgets.resource import merge_resources
+                from openerp.widgets import merge_resources
 
                 res['widget_resources'] = _resources = {}
                 for k, w in res.iteritems():
