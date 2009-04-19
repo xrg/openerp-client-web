@@ -6,33 +6,29 @@ from utils import OrderedSet
 class WidgetType(type):
 
     def __new__(cls, name, bases, attrs):
-
-        _update_list_attr(bases, attrs, 'javascript')
-        _update_list_attr(bases, attrs, 'css')
-
-        params = _update_list_attr(bases, attrs, 'params')
-        members = _update_list_attr(bases, attrs, 'members')
-        children = _update_list_attr(bases, attrs, 'children')
+        
+        attrs['_cls_children'] = _from_bases(bases, 'children', [])
+        #_frozenset_from_bases(attrs, bases, 'javascript')
+        #_frozenset_from_bases(attrs, bases, 'css')
+        _frozenset_from_bases(attrs, bases, 'params')
+        _frozenset_from_bases(attrs, bases, 'members')
 
         if '__init__' in attrs:
             attrs['__init__'] = post_init(attrs['__init__'])
 
         return super(WidgetType, cls).__new__(cls, name, bases, attrs)
-
-
-def _update_list_attr(bases, attrs, name):
-
-    res = []
+    
+def _from_bases(bases, name, default=None):
     for base in bases:
-        attr = getattr(base, name, [])
-        res.extend(attr)
+        if hasattr(base, name):
+            return getattr(base, name)
+    return default
 
-    attr = attrs.get(name, [])
-    res.extend(attr)
-
-    res = attrs[name] = list(OrderedSet(res))
-
-    return res
+def _frozenset_from_bases(attrs, bases, name):
+    items = set(attrs.pop(name, []))
+    [items.update(getattr(b, name)) for b in bases if hasattr(b, name)]
+    fs = attrs[name] = frozenset(items)
+    return fs
 
 
 import threading
@@ -55,6 +51,8 @@ def post_init(func):
             self.__initstack.pop()
         except IndexError:
             del self.__initstack
+
+            self._post_init_prepare_members(*args, **kw)
 
             bases = list(inspect.getmro(self.__class__))
             for base in bases:

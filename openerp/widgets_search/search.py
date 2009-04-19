@@ -93,7 +93,7 @@ class Search(TinyInputWidget):
     params = ['fields_type']
     members = ['_notebook', 'basic', 'advance']
 
-    _notebook = Notebook()
+    _notebook = Notebook(name="search_notebook")
 
     def __init__(self, model, domain=[], context={}, values={}):
 

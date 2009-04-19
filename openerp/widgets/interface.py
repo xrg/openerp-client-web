@@ -32,7 +32,7 @@ import cherrypy
 from openerp import tools
 
 from openerp.widgets.base import Widget
-from openerp.validators import DefaultValidator
+from openerp.widgets.base import InputWidget
 
 __all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo']
 
@@ -55,6 +55,7 @@ def _boolean_attr(attrs, name):
 
     return (attrs.get(name) and True) or _attrs_boolean.get(name)
 
+
 class TinyWidget(Widget):
 
     params = [
@@ -62,43 +63,16 @@ class TinyWidget(Widget):
         'rowspan',
         'string',
         'nolabel',
-        'select',
-        'required',
-        'readonly',
-        'help',
-        'editable',
-        'translatable',
         'visible',
-        'inline',
         'model',
-        'states',
-        'callback',
-        'change_default',
-        'onchange',
-        'kind',
     ]
 
     colspan = 1
     rowspan = 1
     string = None
     nolabel = False
-    select = False
-    required = False
-    readonly = False
-    help = None
-    editable = True
-    translatable = False
     visible = True
-    inline = False
-
     model = None
-    states = None
-    callback = None
-    change_default = None
-    onchange = 'onChange(this)'
-    kind=None
-
-    validator = None
 
     def __init__(self, **attrs):
 
@@ -107,16 +81,9 @@ class TinyWidget(Widget):
         prefix = attrs.get('prefix', '')
         self._name = prefix + (prefix and '/' or '') + attrs.get('name', '')
 
-        if isinstance(self.states, basestring):
-            self.states = self.states.split(',')
-
         self.colspan = int(self.colspan)
         self.rowspan = int(self.rowspan)
-
-        self.select = _boolean_attr(attrs, 'select')
         self.nolabel = _boolean_attr(attrs, 'nolabel')
-        self.required = _boolean_attr(attrs, 'required')
-        self.readonly = _boolean_attr(attrs, 'readonly')
 
         self.visible = True
 
@@ -127,29 +94,7 @@ class TinyWidget(Widget):
         except:
             pass
 
-        self.translatable = attrs.get('translate', False)
-
-        self.set_state(attrs.get('state', 'draft'))
-
-        self.callback = attrs.get('on_change', None)
-        self.kind = attrs.get('type', None)
-
         self.attributes = attrs.get('attrs', {})
-
-    def set_state(self, state):
-
-        if isinstance(self.states, dict) and state in self.states:
-
-            attrs = dict(self.states[state])
-
-            if 'readonly' in attrs:
-                self.readonly = attrs['readonly']
-
-            if 'required' in attrs:
-                self.required = attrs['required']
-
-            if 'value' in attrs:
-                self.default = attrs['value']
 
     def get_widgets_by_name(self, name, kind=Widget, parent=None):
 
@@ -183,9 +128,71 @@ class TinyWidget(Widget):
             vals[item['id']] = item.pop('__last_update', '')
         cherrypy.request.terp_concurrency_info = info
 
-class TinyInputWidget(TinyWidget):
 
-    validator = DefaultValidator
+class TinyInputWidget(TinyWidget, InputWidget):
+    
+    params = [
+        'select',
+        'required',
+        'readonly',
+        'help',
+        'editable',
+        'translatable',
+        'inline',
+        'states',
+        'callback',
+        'change_default',
+        'onchange',
+        'kind',
+    ]
+
+    select = False
+    required = False
+    readonly = False
+    help = None
+    editable = True
+    translatable = False
+    inline = False
+
+    states = None
+    callback = None
+    change_default = None
+    onchange = 'onChange(this)'
+    kind=None
+
+    def __init__(self, **attrs):
+
+        TinyWidget.__init__(self, **attrs)
+        InputWidget.__init__(self, **attrs)
+
+        if isinstance(self.states, basestring):
+            self.states = self.states.split(',')
+
+        self.select = _boolean_attr(attrs, 'select')
+        self.required = _boolean_attr(attrs, 'required')
+        self.readonly = _boolean_attr(attrs, 'readonly')
+
+        self.translatable = attrs.get('translate', False)
+
+        self.set_state(attrs.get('state', 'draft'))
+
+        self.callback = attrs.get('on_change', None)
+        self.kind = attrs.get('type', None)
+
+    def set_state(self, state):
+
+        if isinstance(self.states, dict) and state in self.states:
+
+            attrs = dict(self.states[state])
+
+            if 'readonly' in attrs:
+                self.readonly = attrs['readonly']
+
+            if 'required' in attrs:
+                self.required = attrs['required']
+
+            if 'value' in attrs:
+                self.default = attrs['value']
 
     def get_value(self):
         """Get the value of the field.

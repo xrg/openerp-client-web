@@ -40,7 +40,8 @@ from openerp import format
 from openerp import icons
 
 from formencode.validators import *
-from formencode import Schema
+from formencode.schema import Schema
+from formencode.foreach import ForEach
 
 class DefaultValidator(FancyValidator):
     pass
