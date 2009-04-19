@@ -543,7 +543,8 @@ class InputWidget(Widget):
         """
         Takes care of post-initialization of InputWidgets.
         """
-        self.generate_schema()
+        #TODO: self.generate_schema()
+        pass
 
     def generate_schema(self):
         """
