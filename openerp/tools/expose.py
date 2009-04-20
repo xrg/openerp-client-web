@@ -196,8 +196,9 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
             if tmpl:
 
                 from openerp.widgets import merge_resources
+                from openerp.widgets import js_i18n
 
-                res['widget_resources'] = _resources = {}
+                res['widget_resources'] = _resources = merge_resources({}, js_i18n.retrieve_resources())
                 for k, w in res.iteritems():
                     if hasattr(w, 'retrieve_resources') and w.is_root:
                         _resources = merge_resources(_resources, w.retrieve_resources())

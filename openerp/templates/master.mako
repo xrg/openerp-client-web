@@ -33,8 +33,6 @@
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
     <script type="text/javascript" src="/static/javascript/tips.js"></script>
-    <script type="text/javascript" src="/static/javascript/i18n/i18n.js"></script>
-    <script type="text/javascript" src="/static/javascript/i18n/en_US.js"></script>
     
     % for resource in widget_resources.get('head', []):
     ${resource.display()}

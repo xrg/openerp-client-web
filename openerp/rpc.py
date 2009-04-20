@@ -370,7 +370,7 @@ class RPCSession(object):
                 raise common.warning(_('You select a timezone but OpenERP could not find pytz library!\nThe timezone functionality will be disable.'))
 
         # set locale in session
-        self.locale = "fr" #self.context.get('lang')
+        self.locale = self.context.get('lang')
 
     def __convert(self, result):
 

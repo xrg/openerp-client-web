@@ -74,7 +74,8 @@ def get_locale(locale=None):
         return locale
     
     try:
-        locale = cherrypy.session.locale
+        from openerp import rpc
+        locale = rpc.session.locale
         if locale: return locale
     except:
         pass

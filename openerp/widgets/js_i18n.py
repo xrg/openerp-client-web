@@ -17,6 +17,7 @@ class JSCatelog(JSLink):
     def update_params(self, d):
         super(JSCatelog, self).update_params(d)
         lang = _get_locale()
+        print "XXXXXXXXXXX", lang, i18n.is_locale_supported(lang)
         if i18n.is_locale_supported(lang):
             d["link"] = tools.url("/static/javascript/i18n/%s.js" % (lang))
 

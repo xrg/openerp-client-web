@@ -29,7 +29,7 @@ Licenced under the terms of <a href="/LICENSE.txt">OpenERP Public License (OEPL)
             </td>
         </tr>
         <tr>
-            <td width="100%" class="titlebar">About OpenERP</td>
+            <td width="100%" class="titlebar">${_("About OpenERP")}</td>
         </tr>
         <tr>
             <td>
