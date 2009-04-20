@@ -1,5 +1,7 @@
 import inspect
 
+from openerp.tools import load_template
+
 from utils import OrderedSet
 
 
@@ -12,6 +14,9 @@ class WidgetType(type):
         #_frozenset_from_bases(attrs, bases, 'css')
         _frozenset_from_bases(attrs, bases, 'params')
         _frozenset_from_bases(attrs, bases, 'members')
+        
+        if attrs.get('template'):
+            attrs['template_c'] = load_template(attrs['template'], attrs['__module__'])
 
         if '__init__' in attrs:
             attrs['__init__'] = post_init(attrs['__init__'])

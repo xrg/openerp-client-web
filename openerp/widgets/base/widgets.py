@@ -161,7 +161,7 @@ class RadioButton(Input):
 class TextArea(Input):
 
     template = """\
-    <textarea ${py.attrs(attrs) class="${css_class}"
+    <textarea ${py.attrs(attrs)} class="${css_class}"
         rows="${rows}" cols="${cols}">${value}</textarea>
     """
 

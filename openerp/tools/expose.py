@@ -62,7 +62,7 @@ def find_resource(package_or_module, *names):
 
 def load_template(template, module=None):
 
-    if not template:
+    if not isinstance(template, basestring):
         return template
 
     filters = ["content"]
@@ -142,8 +142,10 @@ register_template_vars(_root_vars, None)
 
 
 def renderer(template, module=None):
-
+    
     tmpl = load_template(template, module)
+    
+    assert isinstance(tmpl, Template), "Invalid template..."
 
     def wrapper(**kw):
 
