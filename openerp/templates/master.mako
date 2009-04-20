@@ -31,7 +31,6 @@
     <script type="text/javascript" src="/static/javascript/MochiKit/Sortable.js"></script>
     <script type="text/javascript" src="/static/javascript/master.js"></script>
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
-    <script type="text/javascript" src="/static/javascript/quickmenu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
     <script type="text/javascript" src="/static/javascript/tips.js"></script>
     <script type="text/javascript" src="/static/javascript/i18n/i18n.js"></script>
@@ -105,7 +104,7 @@ except:
                         <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                             <tr>
                                 <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                                    <a href="javascript: void(0)">MAIN MENU</a>
+                                    <a href="/menu">MAIN MENU</a>
                                 </td>
                                 <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
                                     <a href="/shortcuts">SHORTCUTS</a>
