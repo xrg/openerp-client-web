@@ -130,7 +130,7 @@ class TinyWidget(Widget):
 
 
 class TinyInputWidget(TinyWidget, InputWidget):
-    
+
     params = [
         'select',
         'required',

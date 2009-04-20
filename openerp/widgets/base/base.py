@@ -131,7 +131,7 @@ class Widget(object):
 
     _is_initialized = False
     _is_locked = False
-    
+
     def __init__(self, name=None, parent=None, children=[], **kw):
 
         # set each keyword args as attribute
@@ -151,14 +151,14 @@ class Widget(object):
                 raise WidgetInitialized
             self.parent = weakref.proxy(parent)
             self.parent.children.add(self)
-            
-        # Append children passed as args or defined in the class, former 
+
+        # Append children passed as args or defined in the class, former
         # override later
         self.c = self.children = WidgetBunch()
         if not [self._append_child(c) for c in children]:
             [obj._append_child(c) for c in self.__class__._cls_children]
-            
-        # Copy mutable attrs from __class__ into self, if not found in self 
+
+        # Copy mutable attrs from __class__ into self, if not found in self
         # set to None
         for name in chain(self.__class__.params, self.__class__.members, ['css', 'javascript']):
             try:
@@ -215,7 +215,7 @@ class Widget(object):
     @property
     def is_root(self):
         return self.parent is None
-    
+
     @property
     def children_deep(self):
         return self.children
@@ -243,20 +243,20 @@ class Widget(object):
         if value is None:
             value = self.get_default()
         d['value'] = value
-                            
+
         # Move args passed to child widgets into child_args
         child_args = d.setdefault('child_args', {})
         for k in d.keys():
             if '.' in k:# or '-' in k:
                 child_args[k.lstrip('.')] = d.pop(k)
-        
+
         d['args_for'] = self._get_child_args_getter(child_args)
-        d['value_for'] = self._get_child_value_getter(d['value'])        
+        d['value_for'] = self._get_child_value_getter(d['value'])
         d['c'] = d['children'] = self.children
 
         d = make_bunch(d)
         self.update_params(d)
-        
+
         # Compute the final css_class string
         d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
 
@@ -270,7 +270,7 @@ class Widget(object):
                                                    d['args_for'])
 
         return d
-    
+
     def _get_child_value_getter(self, value):
         def value_getter(child_id):
             if value:
@@ -286,7 +286,7 @@ class Widget(object):
         if isinstance(child_args, dict):
             child_args = unflatten_args(child_args)
         def args_getter(child_id):
-            if (isinstance(child_id, Widget) and 
+            if (isinstance(child_id, Widget) and
                 isinstance(child_args, dict)
             ):
                 child_id = child_id._name
@@ -295,7 +295,7 @@ class Widget(object):
             except (IndexError, KeyError, TypeError):
                 return {}
         return args_getter
-    
+
     @staticmethod
     def _child_displayer(children, value_for, args_for):
         def display_child(widget, **kw):
@@ -434,10 +434,10 @@ class InputWidget(Widget):
         """Adjusts the python value sent to :meth:`Widget.display` with
         the validator so it can be rendered in the template.
         """
-        
+
         if value is None:
             value = self.get_default()
-            
+
         validator = validator or self.validator
         if validator and not isinstance(self.validator, Schema):
             # Does not adjust_value with Schema because it will recursively
@@ -493,12 +493,12 @@ class InputWidget(Widget):
             d['error'] = d.setdefault('error', None)
 
         if not isinstance(self.validator, (ForEach,Schema)):
-            # Need to coerce value in case the form is being redisplayed with 
+            # Need to coerce value in case the form is being redisplayed with
             # uncoereced value so update_params always deals with python
             # values. Skip this step if validator will recursively validate
             # because that step will be handled by child widgets.
             value = self.safe_validate(value)
-        
+
         # Propagate values to grand-children with a name stripping parent
         for c in self.children:
             if getattr(c, 'strip_name', False):
@@ -512,7 +512,7 @@ class InputWidget(Widget):
                             value.setdefault(c._name, {})[subc._name] = v
 
         d['error_for'] = self._get_child_error_getter(d['error'])
-        
+
         d = super(InputWidget, self).prepare_dict(value, d)
 
         d['field_for'] = _field_getter(self.c)

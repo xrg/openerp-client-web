@@ -94,9 +94,9 @@ class Graph(TinyWidget):
             '_terp_ids': ustr(ids),
             '_terp_domain': ustr(domain),
             '_terp_context': ustr(context or {})}))
-            
+
         self.url = tools.url("/graph", chart_type, args=args)
-        
+
 class GraphData(object):
 
     def __init__(self, model, view_id=False, ids=[], domain=[], context={}):

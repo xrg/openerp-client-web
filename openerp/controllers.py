@@ -54,7 +54,7 @@ def _cp_on_error():
     cherrypy.response.body = [message]
 
 class Root(TinyResource):
-    
+
     _cp_config = {'request.error_response': _cp_on_error}
 
 
@@ -193,7 +193,7 @@ class Root(TinyResource):
     workflowlist = subcontrollers.workflow.WorkflowList()
     process = subcontrollers.process.Process()
     wiki = subcontrollers.wiki.WikiView()
-    
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

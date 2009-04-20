@@ -162,7 +162,7 @@ def renderer(template, module=None):
 
         kw = kw.copy()
         kw.update(_vars)
-        
+
         # XXX mako overrides 'context' template variable...
         if 'context' in kw:
             kw['ctx'] = kw.pop('context')
@@ -204,7 +204,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
             if not isinstance(res, basestring):
                 #TODO: convert to json?
                 return str(res)
-            
+
             return res
 
         return utils.decorated(func_wrapper, func, exposed=True)

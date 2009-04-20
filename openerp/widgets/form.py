@@ -683,7 +683,7 @@ class Form(TinyInputWidget):
 
         self.string = attrs.get('string', '')
         self.link = attrs.get('link', nolinks)
-        
+
         self.id = None
         self.context = context or {}
 

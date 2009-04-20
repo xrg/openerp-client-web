@@ -48,7 +48,7 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_state" name="${name}_terp_state" value="${state}"/>
         <input type="hidden" id="${name}_terp_id" name="${name}_terp_id" value="${str(id)}"/>
         <input type="hidden" id="${name}_terp_ids" name="${name}_terp_ids" value="${str(ids)}"/>
-        
+
         <input type="hidden" id="${name}_terp_view_ids" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" id="${name}_terp_view_mode" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
         <input type="hidden" id="${name}_terp_view_type" name="${name}_terp_view_type" value="${str(view_type)}"/>
@@ -128,7 +128,7 @@ class Screen(TinyInputWidget):
 
     def add_view_id(self, view_id, view_type):
         self.view_id = view_id
-        
+
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:

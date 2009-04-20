@@ -38,10 +38,10 @@ from openerp.widgets.graph import BarChart
 from openerp.widgets.graph import PieChart
 
 class Graph(TinyResource):
-    
+
     @expose('json')
     def pie(self, args):
-        
+
         kw = base64.decodestring(args)
         kw = eval(kw)
 
@@ -52,10 +52,10 @@ class Graph(TinyResource):
 
     @expose('json')
     def bar(self, args):
-        
+
         kw = base64.decodestring(args)
         kw = eval(kw)
-        
+
         params, data = TinyDict.split(kw)
         data = BarChart(params.model, params.view_id, params.ids, params.domain, params.context)
 

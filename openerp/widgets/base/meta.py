@@ -6,7 +6,7 @@ from utils import OrderedSet
 class WidgetType(type):
 
     def __new__(cls, name, bases, attrs):
-        
+
         attrs['_cls_children'] = _from_bases(bases, 'children', [])
         #_frozenset_from_bases(attrs, bases, 'javascript')
         #_frozenset_from_bases(attrs, bases, 'css')
@@ -17,7 +17,7 @@ class WidgetType(type):
             attrs['__init__'] = post_init(attrs['__init__'])
 
         return super(WidgetType, cls).__new__(cls, name, bases, attrs)
-    
+
 def _from_bases(bases, name, default=None):
     for base in bases:
         if hasattr(base, name):
@@ -39,7 +39,7 @@ def post_init(func):
     def wrapper(self, *args, **kw):
 
         self.display = instancemethod(lockwidget, self, self.__class__)
-        
+
         if not hasattr(self, '__initstack'):
             self._displaylock = threading.Lock()
             self.__initstack = []

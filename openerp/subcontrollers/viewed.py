@@ -846,7 +846,7 @@ class BooleanProperty(tw.CheckBox):
         self.field_class = "checkbox"
 
 class GroupsProperty(tw.SelectField):
-    
+
     multiple = True
 
     def __init__(self, name, default=None):
