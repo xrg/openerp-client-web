@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -29,8 +29,7 @@
 
 import cherrypy
 
-from turbogears import expose
-from turbogears import controllers
+from openerp.tools import expose
 
 from openerp import rpc
 from openerp import tools
@@ -46,12 +45,12 @@ import form
 import search
 import wizard
 
-class List(controllers.Controller, TinyResource):
+class List(TinyResource):
 
     @expose('json')
     def save(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         error = None
         error_field = None
 
@@ -76,10 +75,10 @@ class List(controllers.Controller, TinyResource):
             if model != params.model:
                 source = params.source
                 data = frm.chain_get(source)
-                
+
                 if '__id' in data: data.pop('__id')
                 if 'id' in data: data.pop('id')
-                
+
                 fld = source.split('/')[-1]
                 data = {fld : [(id and 1, id, data.copy())]}
                 proxy.write([params.parent.id], data, ctx)
@@ -100,7 +99,7 @@ class List(controllers.Controller, TinyResource):
                 else:
                     id = proxy.create(data, params.parent.context or {})
                     ids = [id] + ids
-                
+
         except TinyFormError, e:
             error_field = e.field
             error = ustr(e)
@@ -117,13 +116,13 @@ class List(controllers.Controller, TinyResource):
         if params.ids:
             try:
                 ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
-                if isinstance(params.ids, list):                    
+                if isinstance(params.ids, list):
                     res = proxy.unlink(params.ids, ctx)
                 else:
                     res = proxy.unlink([params.ids], ctx)
             except Exception, e:
                 error = ustr(e)
-                
+
         return dict(error=error)
 
     @expose('json')
@@ -155,7 +154,7 @@ class List(controllers.Controller, TinyResource):
         wid = frm.screen.get_widgets_by_name(source, kind=tw.listgrid.List)[0]
         ids = wid.ids
         count = wid.count
-        
+
         if params.edit_inline:
             wid.edit_inline = params.edit_inline
 
@@ -166,59 +165,59 @@ class List(controllers.Controller, TinyResource):
                     info['%s,%s' % (m, i)] = d
 
         return dict(ids=ids, count=count, view=ustr(wid.render()), info=info)
-    
+
     @expose('json')
     def button_action(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         error = None
         reload = (params.context or {}).get('reload', False)
 
         name = params.button_name
         btype = params.button_type
-        
+
         id = params.id
         model = params.model
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
-        
+
         try:
-    
+
             if btype == 'workflow':
                 rpc.session.execute('object', 'exec_workflow', model, name, id)
-    
+
             elif btype == 'object':
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
                 rpc.session.execute('object', 'execute', model, name, ids, ctx)
-    
+
             elif btype == 'action':
                 from openerp.subcontrollers import actions
-    
+
                 action_id = int(name)
                 action_type = actions.get_action_type(action_id)
-    
+
                 if action_type == 'ir.actions.wizard':
                     cherrypy.session['wizard_parent_form'] = '/form'
                     cherrypy.session['wizard_parent_params'] = params
-    
+
                 res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
                 if res:
                     raise "Button action has returned another view..."
-    
+
             else:
                 raise 'Unallowed button type'
         except Exception, e:
             error = ustr(e)
-            
+
         return dict(error=error, reload=reload)
-    
+
     @expose('json')
     def moveUp(self, **kw):
 
         params, data = TinyDict.split(kw)
-        
+
         id = params.id
         ids = params.ids or []
 
@@ -229,20 +228,20 @@ class List(controllers.Controller, TinyResource):
         ctx = rpc.session.context.copy()
 
         prev_id = ids[ids.index(id)-1]
-        
+
         try:
             res = proxy.read([id, prev_id], ['sequence'], ctx)
             records = dict([(r['id'], r['sequence']) for r in res])
             cur_seq = records[id]
             prev_seq = records[prev_id]
-            
+
             if cur_seq == prev_seq:
                 proxy.write([prev_id], {'sequence': cur_seq + 1}, ctx)
                 proxy.write([id], {'sequence': prev_seq}, ctx)
             else:
                 proxy.write([id], {'sequence': prev_seq}, ctx)
                 proxy.write([prev_id], {'sequence': cur_seq}, ctx)
-        
+
             return dict()
         except Exception, e:
             return dict(error=str(e))
@@ -268,17 +267,17 @@ class List(controllers.Controller, TinyResource):
 
             cur_seq = records[id]
             next_seq = records[next_id]
-            
+
             if cur_seq == next_seq:
                 proxy.write([next_id], {'sequence': cur_seq + 1}, ctx)
-                proxy.write([id], {'sequence': next_seq}, ctx) 
+                proxy.write([id], {'sequence': next_seq}, ctx)
             else:
                 proxy.write([id], {'sequence': next_seq}, ctx)
                 proxy.write([next_id], {'sequence': cur_seq}, ctx)
-        
+
             return dict()
         except Exception, e:
             return dict(error=str(e))
-        
+
 # vim: ts=4 sts=4 sw=4 si et
 

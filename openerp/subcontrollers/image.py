@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -29,19 +29,19 @@
 
 import base64
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import controllers
+from openerp.tools import expose
+from openerp.tools import redirect
+
 import cherrypy
 
 from openerp import rpc
 from openerp.tinyres import TinyResource
 
-class Image(controllers.Controller, TinyResource):
+class Image(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.image")
+    @expose(template="templates/image.mako")
     def index(self, **kw):
-       
+
         saved = kw.get('saved') or None
         model = kw.get('model')
         id = kw.get('id')
@@ -58,17 +58,17 @@ class Image(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
         res = proxy.read([id], [field])[0]
         res = res.get(field)
-        
+
         if res:
             return base64.decodestring(res)
         else:
             return ''
 
-    @expose(template="openerp.subcontrollers.templates.image")
+    @expose(template="templates/image.mako")
     def add(self, upimage,  **kw):
 
         saved = kw.get('saved') or None
-        
+
         datas = upimage.file.read()
 
         model = kw.get('model')
@@ -81,13 +81,13 @@ class Image(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy(model)
         res = proxy.write([id], data)
-        
+
         if res:
             saved = 1
-        
+
         return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
 
-    @expose(template="openerp.subcontrollers.templates.image")
+    @expose(template="templates/image.mako")
     def delete(self, **kw):
 
         saved = None
@@ -111,10 +111,10 @@ class Image(controllers.Controller, TinyResource):
         res = proxy.read([id], [field])[0]
 
         res = res.get(field)
-        
+
         if not res:
             raise redirect('/image', **kw)
-        
+
         return base64.decodestring(res)
 
     @expose()

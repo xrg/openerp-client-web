@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -32,9 +32,6 @@ import math
 import locale
 import xml.dom.minidom
 
-from turbogears import widgets
-from turbogears import i18n
-
 from openerp import rpc
 from openerp import tools
 from openerp import icons
@@ -45,21 +42,22 @@ import form
 
 from pager import Pager
 
-from interface import TinyField
-from interface import TinyCompoundWidget
+from interface import TinyWidget
+from interface import TinyInputWidget
 from interface import ConcurrencyInfo
 
-class List(TinyCompoundWidget):
+from base import CSSLink, JSLink
 
-    template = "openerp.widgets.templates.listgrid"
+class List(TinyWidget):
+
+    template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
-              'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 
+              'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
-    
-    member_widgets = ['pager', 'children', 'buttons', 'concurrency_info']
+
+    members = ['pager', 'buttons', 'editors', 'concurrency_info']
 
     pager = None
-    children = []
     field_total = {}
     editors = {}
     hiddens = []
@@ -79,21 +77,19 @@ class List(TinyCompoundWidget):
     checkbox_name = True
     min_rows = 5
 
-    css = [widgets.CSSLink('openerp', 'css/listgrid.css')]
-    javascript = [widgets.JSLink('openerp', 'javascript/listgrid.js'),
-                  widgets.JSLink('openerp', 'javascript/sortablegrid.js')]
+    css = [CSSLink('openerp', 'css/listgrid.css')]
+    javascript = [JSLink('openerp', 'javascript/listgrid.js'),
+                  JSLink('openerp', 'javascript/sortablegrid.js')]
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
-        super(List, self).__init__()
-        self.name = name
-        self.model = model
-        self.ids = ids
+        super(List, self).__init__(name=name, model=model, ids=ids)
+
         self.context = context or {}
         self.domain = domain or []
 
         if name.endswith('/'):
-            self.name = name[:-1]
+            self._name = name[:-1]
 
         if name != '_terp_list':
             self.source = self.name.replace('/', '/') or None
@@ -128,7 +124,7 @@ class List(TinyCompoundWidget):
             self.min_rows = int(attrs.get('min_rows'))
         except:
             pass
-        
+
         try:
             self.limit = int(attrs.get('limit'))
         except:
@@ -167,7 +163,7 @@ class List(TinyCompoundWidget):
             self.ids = ids
 
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
-        
+
         for k, v in self.field_total.items():
             self.field_total[k][1] = self.do_sum(self.data, k)
 
@@ -179,7 +175,7 @@ class List(TinyCompoundWidget):
 
         if self.pageable:
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
-            self.pager.name = self.name
+            self.pager._name = self.name
 
         # make editors
         if self.editable and attrs.get('editable') in ('top', 'bottom'):
@@ -191,7 +187,7 @@ class List(TinyCompoundWidget):
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 fa['inline'] = True
-                self.editors[f] = form.WIDGETS[k](fa)
+                self.editors[f] = form.WIDGETS[k](**fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
@@ -200,10 +196,8 @@ class List(TinyCompoundWidget):
                     k = 'char'
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
-                self.editors[f] = form.Hidden(fa)
+                self.editors[f] = form.Hidden(**fa)
 
-            self.children = self.editors.values()
-                    
         # limit the data
         if self.pageable and len(self.data) > self.limit:
             self.data = self.data[self.offset:]
@@ -284,11 +278,11 @@ class List(TinyCompoundWidget):
         myfields = [] # check for duplicate fields
 
         for node in root.childNodes:
-            
+
             if node.nodeName == 'button':
                 attrs = tools.node_attributes(node)
-                buttons += [Button(attrs)]
-                
+                buttons += [Button(**attrs)]
+
             elif node.nodeName == 'field':
                 attrs = tools.node_attributes(node)
 
@@ -304,33 +298,33 @@ class List(TinyCompoundWidget):
                         raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
 
                     myfields.append(name)
-                    
+
                     if attrs.get('widget', False):
                         if attrs['widget']=='one2many_list':
                             attrs['widget']='one2many'
                         attrs['type'] = attrs['widget']
-                    
+
                     try:
                         fields[name].update(attrs)
                     except:
                         print "-"*30,"\n malformed tag for:", attrs
                         print "-"*30
                         raise
-                
+
                     kind = fields[name]['type']
 
                     if kind not in CELLTYPES:
                         kind = 'char'
 
                     fields[name].update(attrs)
-                    
+
                     invisible = False
                     try:
                         visval = fields[name].get('invisible', 'False')
                         invisible = eval(visval, {'context': self.context})
                     except:
                         pass
-                    
+
                     if invisible:
                         hiddens += [(name, fields[name])]
                         continue
@@ -341,8 +335,7 @@ class List(TinyCompoundWidget):
                     for i, row in enumerate(data):
 
                         row_value = values[i]
-
-                        cell = CELLTYPES[kind](attrs=fields[name], value=row_value.get(name, False))
+                        cell = CELLTYPES[kind](value=row_value.get(name, False), **fields[name])
 
                         for color, expr in self.colors.items():
                             try:
@@ -361,22 +354,22 @@ class List(TinyCompoundWidget):
                         row[name] = cell
 
                     headers += [(name, fields[name])]
-        
+
         return headers, hiddens, data, field_total, buttons
 
-from openerp.stdvars import tg_query
+class Char(TinyWidget):
 
-class Char(widgets.Widget):
-    
-    template = """
-        <span xmlns:py="http://purl.org/kid/ns#" py:content="text"/>
+    template = """\
+    <span>${text}</span>
     """
-    
-    params = ['text', 'link']
 
-    def __init__(self, attrs={}, value=False):
-        self.attrs = attrs
-        self.value = value
+    params = ['text', 'link', 'value']
+
+    def __init__(self, **attrs):
+
+        super(Char, self).__init__(**attrs)
+
+        self.attrs = attrs.copy()
 
         self.text = self.get_text()
         self.link = self.get_link()
@@ -389,13 +382,13 @@ class Char(widgets.Widget):
 
     def get_link(self):
         return None
-    
+
     def get_sortable_text(self):
-        """ If returns anything other then None, the return value will be 
+        """ If returns anything other then None, the return value will be
         used to sort the listgrid. Useful for localized data.
         """
         return None
-    
+
     def __unicode__(self):
         return ustr(self.text)
 
@@ -403,20 +396,19 @@ class Char(widgets.Widget):
         return ustr(self.text)
 
 class M2O(Char):
-    
-    template = """
-        <span xmlns:py="http://purl.org/kid/ns#">
+
+    template = """\
+        <span>
             <a href="${link}">${text}</a>
         </span>
     """
-    
-    def __init__(self, attrs={}, value=False):
 
-        if isinstance(value, int):
+    def __init__(self, **attrs):
+        super(M2O, self).__init__(**attrs)
+
+        if isinstance(self.value, int):
             from many2one import get_name as _m2o_get_name
-            value = value, _m2o_get_name(attrs['relation'], value)
-
-        super(M2O, self).__init__(attrs, value)
+            self.value = self.value, _m2o_get_name(attrs['relation'], self.value)
 
     def get_text(self):
         if self.value and len(self.value) > 0:
@@ -425,7 +417,7 @@ class M2O(Char):
         return ''
 
     def get_link(self):
-        return tg_query('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+        return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
 
 class O2M(Char):
 
@@ -456,10 +448,10 @@ class Float(Char):
 
         integer, digit = digits
         return format.format_decimal(self.value or 0.0, digit)
-    
+
     def get_sortable_text(self):
         return ustr(self.value or '0.0')
-        
+
 class FloatTime(Char):
 
     def get_text(self):
@@ -467,7 +459,7 @@ class FloatTime(Char):
         t = '%02d:%02d' % (math.floor(abs(val)),round(abs(val)%1+0.01,2) * 60)
         if val < 0:
             t = '-' + t
-            
+
         return t
 
 class Int(Char):
@@ -479,14 +471,14 @@ class Int(Char):
         return 0
 
 class ProgressBar(Char):
-    
+
     template = """
-        <div xmlns:py="http://purl.org/kid/ns#" style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
+        <div style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
             <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${text}%; height: 100%;"></div>
             <div style="position: absolute; top:0px; left: 0px; width: 100%; height: 100%; text-align: center">${text}%</div>
         </div>
     """
-    
+
     def get_text(self):
         if isinstance(self.value, float):
             self.value = '%.2f' % (self.value)
@@ -496,10 +488,10 @@ class ProgressBar(Char):
             return self.value
 
 class DateTime(Char):
-    
+
     def get_text(self):
         return format.format_datetime(self.value, kind=self.attrs.get('type', 'datetime'))
-    
+
     def get_sortable_text(self):
         return ustr(self.value or '')
 
@@ -510,33 +502,41 @@ class Boolean(Char):
             return _('Yes')
         else:
             return _('No')
-        
-class Button(TinyField):
-    
+
+class Button(TinyInputWidget):
+
     icon = None
     action = None
     record = None
     parent = None
     btype = None
-    
-    params = ['string', 'icon', 'visible', 'record_id', 'parent', 'btype', 'confirm', 'width', 'context']
-    
-    template="""<span xmlns:py="http://purl.org/kid/ns#" py:strip="">
-    <button py:if="visible and not icon" type="button" py:content="string" 
-        context="${ustr(context)}" py:attrs="attrs" style="min-width: ${width}px;"
+
+    params = ['icon', 'visible', 'id', 'parent', 'btype', 'confirm', 'width', 'context']
+
+    template="""
+    % if visible and not icon:
+    <button type="button"
+        context="${ustr(context)}" ${py.attrs(attrs)} style="min-width: ${width}px;"
+        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))">
+        ${string}
+    </button>
+    % endif
+    % if visible and icon:
+    <img height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" ${py.attrs(attrs)}
         onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
-    <img py:if="visible and icon" height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" py:attrs="attrs"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
-    <span py:if="not visible and not icon">&nbsp;</span>
-</span>"""
-    
-    def __init__(self, attrs={}):
-        super(Button, self).__init__(attrs)
-        
+    % endif
+    % if not visible and not icon:
+    <span>&nbsp;</span>
+    % endif
+    """
+
+    def __init__(self, **attrs):
+        super(Button, self).__init__(**attrs)
+
         self.states = attrs.get('states', "draft").split(',')
         self.btype = attrs.get('type', "workflow")
         self.icon = attrs.get('icon')
-        
+
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
@@ -549,8 +549,8 @@ class Button(TinyField):
         self.width = attrs.get('width', 16)
 
     def params_from(self, data):
-        
-        record_id = data.get('id')
+
+        id = data.get('id')
         visible = True
 
         if self.states:
@@ -558,7 +558,7 @@ class Button(TinyField):
             state = ((state or False) and state.value) or 'draft'
             visible = state in self.states
 
-        return dict(record_id=record_id, visible=visible)
+        return dict(id=id, visible=visible)
 
 CELLTYPES = {
         'char':Char,

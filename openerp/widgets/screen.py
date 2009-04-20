@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -27,14 +27,13 @@
 #
 ###############################################################################
 
-import turbogears as tg
 import cherrypy
 
 from openerp import tools
 from openerp import rpc
 from openerp import cache
 
-from interface import TinyCompoundWidget
+from interface import TinyInputWidget
 
 import form
 import graph
@@ -42,34 +41,33 @@ import listgrid
 
 import tinycalendar
 
-class Screen(TinyCompoundWidget):
+class Screen(TinyInputWidget):
 
     template = """
-    <span xmlns:py="http://purl.org/kid/ns#" py:strip="">
         <input type="hidden" id="${name}_terp_model" name="${name}_terp_model" value="${model}"/>
         <input type="hidden" id="${name}_terp_state" name="${name}_terp_state" value="${state}"/>
         <input type="hidden" id="${name}_terp_id" name="${name}_terp_id" value="${str(id)}"/>
         <input type="hidden" id="${name}_terp_ids" name="${name}_terp_ids" value="${str(ids)}"/>
+
         <input type="hidden" id="${name}_terp_view_ids" name="${name}_terp_view_ids" value="${str(view_ids)}"/>
         <input type="hidden" id="${name}_terp_view_mode" name="${name}_terp_view_mode" value="${str(view_mode)}"/>
         <input type="hidden" id="${name}_terp_view_type" name="${name}_terp_view_type" value="${str(view_type)}"/>
         <input type="hidden" id="${name}_terp_view_id" name="${name}_terp_view_id" value="${str(view_id)}"/>
         <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${str(domain)}"/>
-        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(context)}"/>
+        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${str(ctx)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
 
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
 
-        <span py:if="widget" py:replace="widget.display(value_for(widget), **params_for(widget))"/>
-    </span>
+        % if widget:
+            ${display_child(widget)}
+        % endif
     """
 
     params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
-
-    member_widgets = ['widget']
-    widget = None
+    members = ['widget']
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
 
@@ -77,7 +75,7 @@ class Screen(TinyCompoundWidget):
         params = params or cherrypy.request.terp_params
         prefix = prefix or (params.prefix or '')
 
-        super(Screen, self).__init__(dict(prefix=prefix, name=name))
+        super(Screen, self).__init__(prefix=prefix, name=name)
 
         self.model         = params.model
         self.state         = params.state or None
@@ -95,7 +93,7 @@ class Screen(TinyCompoundWidget):
 
         if not self.view_type and params.view_mode:
             self.view_type = params.view_mode[0]
-            
+
         if self.view_ids and self.view_type in self.view_mode:
             idx = self.view_mode.index(self.view_type)
             self.view_id = self.view_ids[idx]
@@ -106,7 +104,7 @@ class Screen(TinyCompoundWidget):
 
         self.offset        = params.offset
         self.limit         = params.limit
-        self.count         = params.count       
+        self.count         = params.count
 
         if (self.ids or self.id) and self.count == 0:
             self.count = rpc.RPCProxy(self.model).search_count(self.domain)
@@ -131,8 +129,6 @@ class Screen(TinyCompoundWidget):
     def add_view_id(self, view_id, view_type):
         self.view_id = view_id
 
-        self.view_id = view_id
-        
         if view_type in self.views_preloaded:
             view = self.views_preloaded[view_type]
         else:
@@ -156,7 +152,7 @@ class Screen(TinyCompoundWidget):
                                     editable=self.editable,
                                     readonly=self.readonly,
                                     nodefault=self.nodefault, nolinks=self.link)
-            
+
             if not self.is_wizard and self.ids is None:
                 proxy = rpc.RPCProxy(self.model)
                 self.ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
@@ -178,26 +174,26 @@ class Screen(TinyCompoundWidget):
             self.count = self.widget.count
 
         elif view_type == 'graph':
-            self.widget = graph.Graph(model=self.model, 
-                                      view_id=view.get('view_id', False), 
-                                      ids=self.ids, domain=self.domain, 
+            self.widget = graph.Graph(model=self.model,
+                                      view_id=view.get('view_id', False),
+                                      ids=self.ids, domain=self.domain,
                                       context=self.context)
             self.ids = self.widget.ids
 
         elif view_type == 'calendar':
-            self.widget = tinycalendar.get_calendar(view=view, 
-                                                    model=self.model, 
-                                                    ids=self.ids, 
-                                                    domain=self.domain, 
-                                                    context=self.context, 
+            self.widget = tinycalendar.get_calendar(view=view,
+                                                    model=self.model,
+                                                    ids=self.ids,
+                                                    domain=self.domain,
+                                                    context=self.context,
                                                     options=self.kalendar)
-            
+
         elif view_type == 'gantt':
-            self.widget = tinycalendar.GanttCalendar(model=self.model, 
-                                                     view=view, 
-                                                     ids=self.ids, 
-                                                     domain=self.domain, 
-                                                     context=self.context, 
+            self.widget = tinycalendar.GanttCalendar(model=self.model,
+                                                     view=view,
+                                                     ids=self.ids,
+                                                     domain=self.domain,
+                                                     context=self.context,
                                                      options=self.kalendar)
 
         self.string = (self.widget or '') and self.widget.string
@@ -208,6 +204,6 @@ class Screen(TinyCompoundWidget):
 
         self.toolbar = toolbar or None
         self.hastoolbar = (toolbar or False) and True
-        
+
 # vim: ts=4 sts=4 sw=4 si et
 

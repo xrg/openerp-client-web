@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -33,12 +33,7 @@ list view of the given model.
 """
 import cherrypy
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import redirect
-from turbogears import controllers
-from turbogears import validators
-from turbogears import validate
+from openerp.tools import expose
 
 from openerp import rpc
 from openerp import tools
@@ -59,7 +54,7 @@ class Search(Form):
 
     path = '/search'    # mapping from root
 
-    @expose(template="openerp.subcontrollers.templates.search")
+    @expose(template="templates/search.mako")
     def create(self, params, tg_errors=None):
 
         params.view_mode = ['tree', 'form']
@@ -113,7 +108,7 @@ class Search(Form):
     @expose('json')
     def eval_domain_and_context(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         domain = params.domain
         context = params.context
 
@@ -141,13 +136,13 @@ class Search(Form):
         ctx['active_id'] = params.parent_id or False
 
         if isinstance(domain, basestring):
-            domain = tools.expr_eval(domain, ctx)  
-        
+            domain = tools.expr_eval(domain, ctx)
+
         if isinstance(context, basestring):
             if not context.startswith('{'):
                 context = "dict(%s)"%context
                 ctx['dict'] = dict # required
-            
+
             context = tools.expr_eval(context, ctx)
 
 #           Fixed many2one pop up in listgrid when value is None.
@@ -177,13 +172,13 @@ class Search(Form):
 
         domain = params.domain or []
         context = params.context or {}
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(context)
 
         proxy = rpc.RPCProxy(model)
         values = proxy.name_search(text, domain, 'ilike', ctx)
-        
+
         return dict(values=values)
 
 

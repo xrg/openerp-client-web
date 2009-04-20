@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -35,10 +35,8 @@ This module implementes heirarchical tree view for a tiny model having
 import time
 import xml.dom.minidom
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import controllers
-from turbogears import url as tg_url
+from openerp.tools import expose
+from openerp.tools import url
 
 from openerp import rpc
 from openerp import icons
@@ -54,9 +52,9 @@ from openerp.utils import TinyDict
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-class Tree(controllers.Controller, TinyResource):
+class Tree(TinyResource):
 
-    @expose(template="openerp.subcontrollers.templates.tree")
+    @expose(template="templates/tree.mako")
     def create(self, params):
 
         view_id = (params.view_ids or False) and params.view_ids[0]
@@ -80,15 +78,8 @@ class Tree(controllers.Controller, TinyResource):
                     tool['icon'] = icons.get_icon(tool['icon'])
                 else:
                     tool['icon'] = False
-                    
-        show_header_footer = True
-        quickmenu = False
-        
-        if params.context.get('quickmenu'):
-            quickmenu = True
-            show_header_footer = False
-            
-        return dict(tree=tree, quickmenu=quickmenu, model=model, show_header_footer=show_header_footer)
+
+        return dict(tree=tree, model=model)
 
     @expose()
     def default(self, id, model, view_id, domain, context):
@@ -120,7 +111,7 @@ class Tree(controllers.Controller, TinyResource):
     def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], context={}, sort_by=None, sort_order="asc"):
 
         ids = ids or []
-        
+
         if isinstance(ids, basestring):
             ids = [int(id) for id in ids.split(',')]
 
@@ -129,7 +120,7 @@ class Tree(controllers.Controller, TinyResource):
 
         if isinstance(domain, basestring):
             domain = eval(domain)
-            
+
         if isinstance(context, basestring):
             context = eval(context)
 
@@ -137,7 +128,7 @@ class Tree(controllers.Controller, TinyResource):
             fields.append(field_parent)
 
         proxy = rpc.RPCProxy(model)
-        
+
         ctx = context or {}
         ctx.update(rpc.session.context.copy())
 
@@ -191,11 +182,8 @@ class Tree(controllers.Controller, TinyResource):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = tg_url('/tree/open', model=model, id=record['id'])
-            if ctx.get('quickmenu'):
-                record['action'] = "javascript: quick_open('%s', window);" % (tg_url('/tree/open', model=model, id=record['id']))
-            else:
-                record['target'] = None
+            record['action'] = url('/tree/open', model=model, id=record['id'])
+            record['target'] = None
 
             record['icon'] = None
 
@@ -243,7 +231,7 @@ class Tree(controllers.Controller, TinyResource):
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         action = params.data
 
         if not action:
@@ -253,7 +241,7 @@ class Tree(controllers.Controller, TinyResource):
 
         ids = params.selection or []
         id = (ids or False) and ids[0]
-        
+
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
     @expose()

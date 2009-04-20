@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -32,7 +32,7 @@ import datetime
 import calendar
 
 DAY_NAMES = [_('Monday'),
-             _('Tuesday'),             
+             _('Tuesday'),
              _('Wednesday'),
              _('Thursday'),
              _('Friday'),
@@ -59,9 +59,9 @@ DT_FORMAT_INFO = {'datetime' : ('%Y-%m-%d %H:%M:%S', datetime.datetime, 0, 6),
 
 def parse_datetime(string):
     """Parse given string to `datetime, date or time` object. The string value
-    should be in ISO format. 
+    should be in ISO format.
     """
-    
+
     if not isinstance(string, basestring):
         raise TypeError('expected string or buffer')
 
@@ -73,7 +73,7 @@ def parse_datetime(string):
         kind = 'date'
     elif ':' in string:
         kind = 'time'
-        
+
     fmt, obj, i, j = DT_FORMAT_INFO[kind]
     return obj(*time.strptime(string, fmt)[i:j])
 
@@ -81,7 +81,7 @@ class Day(datetime.date):
 
     def __init__(self, year, month, day):
         datetime.date.__init__(self, year, month, day)
-        
+
     def week(self):
         return Week(self)
 
@@ -90,7 +90,7 @@ class Day(datetime.date):
 
     def name(self):
         return DAY_NAMES[calendar.weekday(self.year, self.month, self.day)]
-    
+
     week = property(week)
     month2 = property(month2)
     name = property(name)
@@ -100,13 +100,13 @@ class Day(datetime.date):
 
     def prev(self):
         return self - 1
-    
+
     def __add__(self, value):
         return self.fromordinal(self.toordinal() + value)
 
     def __sub__(self, value):
         return self.fromordinal(self.toordinal() - value)
-    
+
     def __unicode__(self):
         return '%s %d, %s' % (unicode(MONTH_NAMES[self.month]), self.day, self.year)
 
@@ -160,13 +160,13 @@ class Week(object):
 
     def __getitem__(self, index):
         return self.days[index]
-    
+
     def __iter__(self):
         return iter(self.days)
 
     def __hash__(self):
         return hash((self.days[0], self.days[-1]))
-    
+
     def __unicode__(self):
         return '%s - %s' % (unicode(self.days[0]), unicode(self.days[-1]))
 
@@ -179,10 +179,10 @@ class Week(object):
 class Month(object):
     """ A calendar month with 42 days (6 weeks with dates from prev/next months)
     """
-    
+
     DAY_NAMES = DAY_NAMES
     MONTH_NAMES = MONTH_NAMES
-    
+
     def __init__(self, year, month):
 
         self.year = year
@@ -251,16 +251,16 @@ class Month(object):
             m = 12
 
         return Month(y, m)
-    
+
     def __getitem__(self, index):
-        return self.days[index]    
+        return self.days[index]
 
     def __iter__(self):
         return iter(self.days)
 
     def __hash__(self):
         return hash((self.year, self.month))
-    
+
     def __unicode__(self):
         return '%s %d' % (unicode(self.name), self.year)
 
@@ -300,7 +300,7 @@ class Year(object):
             w = w.next()
 
         return self.__weeks
-        
+
     def days(self):
         if self.__days:
             return self.__days

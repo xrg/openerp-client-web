@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -35,17 +35,18 @@ import time
 import types
 import re
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import config
-
 import cherrypy
-import rpc
 import pkg_resources
 
-@expose(template="openerp.templates.login")
+from openerp import rpc
+from openerp import tools
+
+from openerp.tools import expose
+from openerp.tools import redirect
+
+@expose(template="templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
-    
+
     url = rpc.session.get_url()
     url = str(url[:-1])
 
@@ -53,31 +54,30 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
     if dblist == -1:
         dblist = []
         message = _("Could not connect to server!")
+        
+    dbfilter = cherrypy.request.app.config['openerp-web'].get('dblist.filter')    
+    if dbfilter:
 
-    if config.get('dblist.filter', path='openerp-web'):
-        
-        db_val = config.get('dblist.filter', path='openerp-web')
-        
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
 
         base = re.split('\.|:|/', host)[0]
-        
-        if db_val == 'NONE':
+
+        if dbfilter == 'NONE':
             dblist = dblist
-        
-        if db_val == 'EXACT':
-            base = base                            
+
+        if dbfilter == 'EXACT':
+            base = base
             dblist = [d for d in dblist if d == base]
-        
-        if db_val == 'UNDERSCORE':
-            base = base + '_'                            
+
+        if dbfilter == 'UNDERSCORE':
+            base = base + '_'
             dblist = [d for d in dblist if d.startswith(base)]
 
-        if db_val == 'BOTH':
+        if dbfilter == 'BOTH':
             dblist = [d for d in dblist if d.startswith(base + '_') or d == base]
 
-    return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password, 
+    return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password,
             action=action, message=message, origArgs=origArgs)
 
 def secured(fn):
@@ -126,8 +126,8 @@ def secured(fn):
 
             # get some settings from cookies
             try:
-                db = cherrypy.request.simple_cookie['terp_db'].value
-                user = cherrypy.request.simple_cookie['terp_user'].value
+                db = cherrypy.request.cookie['terp_db'].value
+                user = cherrypy.request.cookie['terp_user'].value
             except:
                 pass
 
@@ -141,29 +141,22 @@ def secured(fn):
                 if action == 'login':
                     message = _("Bad username or password!")
 
-                return login(cherrypy.request.path, message=message, 
+                return login(cherrypy.request.path_info, message=message,
                         db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies
             expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
-            cherrypy.response.simple_cookie['terp_db'] = db
-            cherrypy.response.simple_cookie['terp_user'] = user.encode('utf-8')
-            cherrypy.response.simple_cookie['terp_db']['expires'] = expiration_time;
-            cherrypy.response.simple_cookie['terp_user']['expires'] = expiration_time;
+            cherrypy.response.cookie['terp_db'] = db
+            cherrypy.response.cookie['terp_user'] = user.encode('utf-8')
+            cherrypy.response.cookie['terp_db']['expires'] = expiration_time;
+            cherrypy.response.cookie['terp_user']['expires'] = expiration_time;
 
             # User is now logged in, so show the content
             clear_login_fields(kw)
             return fn(*args, **kw)
 
-    # restore the original values
-    wrapper.__name__ = fn.__name__
-    wrapper.__doc__ = fn.__doc__
-    wrapper.__dict__ = fn.__dict__.copy()
-    wrapper.__module__ = fn.__module__
+    return tools.decorated(wrapper, fn, secured=True)
 
-    wrapper.secured = True
-
-    return wrapper
 
 def unsecured(fn):
     """A Decorator to make a TinyResource controller method unsecured.
@@ -172,15 +165,8 @@ def unsecured(fn):
     def wrapper(*args, **kw):
         return fn(*args, **kw)
 
-    # restore the original values
-    wrapper.__name__ = fn.__name__
-    wrapper.__doc__ = fn.__doc__
-    wrapper.__dict__ = fn.__dict__.copy()
-    wrapper.__module__ = fn.__module__
+    return tools.decorated(wrapper, fn, secured=False)
 
-    wrapper.secured = False
-
-    return wrapper
 
 class TinyResource(object):
     """Provides a convenient way to secure entire TG controller

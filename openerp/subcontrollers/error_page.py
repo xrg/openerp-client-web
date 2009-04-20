@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -30,9 +30,7 @@
 import sys
 import cgitb
 
-from turbogears import expose
-from turbogears import redirect
-from turbogears import controllers
+from openerp.tools import expose
 
 import cherrypy
 
@@ -42,13 +40,13 @@ from openerp import common
 
 import openerp.widgets as tw
 
-class ErrorPage(controllers.Controller):
+class ErrorPage(object):
 
-    nb = tw.form.Notebook({}, [])
+    nb = tw.form.Notebook()
 
     @expose()
     def index(self, *args, **kw):
-        raise redirect('/')
+        raise tools.redirect('/')
 
     def render(self):
         etype, value, tb = sys.exc_info()
@@ -58,7 +56,7 @@ class ErrorPage(controllers.Controller):
 
         return self.__render(value)
 
-    @expose(template="openerp.subcontrollers.templates.error_page")
+    @expose(template="templates/error_page.mako")
     def __render(self, value):
         title=value.title
         error=value.message
@@ -67,8 +65,8 @@ class ErrorPage(controllers.Controller):
         if isinstance(value, common.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
-        
-        
+
+
         show_header_footer = cherrypy.request.params.get('_terp_header_footer')
 
         return dict(title=title, error=error, maintenance=maintenance, nb=self.nb, show_header_footer=show_header_footer)

@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -35,14 +35,14 @@ import xmlrpclib
 import cherrypy
 import pkg_resources
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import controllers
-from turbogears import validators, validate, error_handler
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import validate, error_handler
+from openerp.tools import redirect
 
 from openerp import rpc
 from openerp import common
+from openerp import widgets
+from openerp import validators
 
 
 def get_lang_list():
@@ -59,39 +59,49 @@ def get_db_list():
     except:
         return []
 
-class FormCreate(widgets.TableForm):
+class DBForm(widgets.Form):
+    strip_name = True
+
+    def post_init(self, *args, **kw):
+        if self.validator is validators.DefaultValidator:
+            self.validator = validators.Schema()
+        for f in self.fields:
+            self.validator.add_field(f.name, f.validator)
+
+class FormCreate(DBForm):
     name = "create"
     string = _('Create new database')
     action = '/database/do_create'
     submit_text = _('OK')
+    strip_name = True
     form_attrs = {'onsubmit': 'return on_create()'}
     fields = [widgets.PasswordField(name='password', label=_('Super admin password:'), validator=validators.NotEmpty()),
               widgets.TextField(name='dbname', label=_('New database name:'), validator=validators.NotEmpty()),
               widgets.CheckBox(name='demo_data', label=_('Load Demonstration data:'), default=True, validator=validators.Bool(if_empty=False)),
-              widgets.SingleSelectField(name='language', options=get_lang_list, validator=validators.String(), label=_('Default Language:')),
+              widgets.SelectField(name='language', options=get_lang_list, validator=validators.String(), label=_('Default Language:')),
               widgets.PasswordField(name='admin_password', label=_('Administrator password:'), validator=validators.NotEmpty()),
-              widgets.PasswordField(name='confirm_password', label=_('Confirm password:'), validator=validators.NotEmpty())]
-
+              widgets.PasswordField(name='confirm_password', label=_('Confirm password:'), validator=validators.NotEmpty())
+              ]
     validator = validators.Schema(chained_validators=[validators.FieldsMatch("admin_password","confirm_password")])
 
-class FormDrop(widgets.TableForm):
+class FormDrop(DBForm):
     name = "drop"
     string = _('Drop database')
     action = '/database/do_drop'
     submit_text = _('OK')
     form_attrs = {'onsubmit': 'return window.confirm("%s")' % _("Do you really want to drop the selected database?")}
-    fields = [widgets.SingleSelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
+    fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
-class FormBackup(widgets.TableForm):
+class FormBackup(DBForm):
     name = "backup"
     string = _('Backup database')
     action = '/database/do_backup'
     submit_text = _('OK')
-    fields = [widgets.SingleSelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
+    fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
-class FormRestore(widgets.TableForm):
+class FormRestore(DBForm):
     name = "restore"
     string = _('Restore database')
     action = '/database/do_restore'
@@ -100,7 +110,7 @@ class FormRestore(widgets.TableForm):
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty()),
               widgets.TextField(name='dbname', label=_('New database name:'), validator=validators.NotEmpty())]
 
-class FormPassword(widgets.TableForm):
+class FormPassword(DBForm):
     name = "password"
     string = _('Change Administrator Password')
     action = '/database/do_password'
@@ -120,20 +130,20 @@ _FORMS = {
     'password': FormPassword()
 }
 
-class Database(controllers.Controller):
+class Database(object):
 
     @expose()
     def index(self, *args, **kw):
         raise redirect('/database/create')
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def create(self, tg_errors=None, **kw):
         form = _FORMS['create']
         return dict(form=form)
 
     @expose()
     @validate(form=_FORMS['create'])
-    @error_handler(create)    
+    @error_handler(create)
     def do_create(self, password, dbname, admin_password, confirm_password, demo_data=False, language=None, **kw):
 
         if not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', dbname):
@@ -163,7 +173,7 @@ class Database(controllers.Controller):
             if e.args == ('DbExist',):
                 raise common.warning(_("Could not create database."), _('Database already exists!'))
             elif e.args == ('DbFailed'):
-                raise common.warning(_("The server crashed during installation.\nWe suggest you to drop this database."), 
+                raise common.warning(_("The server crashed during installation.\nWe suggest you to drop this database."),
                                      _("Error during database creation!"))
             elif getattr(e, 'faultCode', False) == 'AccessDenied':
                 raise common.warning(_('Bad database administrator password!'), _("Could not create database."))
@@ -174,14 +184,14 @@ class Database(controllers.Controller):
             raise redirect('/')
         raise redirect('/login', db=dbname)
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def drop(self, tg_errors=None, **kw):
         form = _FORMS['drop']
         return dict(form=form)
 
     @expose()
     @validate(form=_FORMS['drop'])
-    @error_handler(drop)    
+    @error_handler(drop)
     def do_drop(self, dbname, password, **kw):
         try:
             rpc.session.execute_db('drop', password, dbname)
@@ -193,14 +203,14 @@ class Database(controllers.Controller):
 
         raise redirect("/database/drop")
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def backup(self, tg_errors=None, **kw):
         form = _FORMS['backup']
         return dict(form=form)
 
     @expose()
     @validate(form=_FORMS['backup'])
-    @error_handler(backup)    
+    @error_handler(backup)
     def do_backup(self, dbname, password, **kw):
         try:
             res = rpc.session.execute_db('dump', password, dbname)
@@ -213,14 +223,14 @@ class Database(controllers.Controller):
 
         raise redirect('/login')
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def restore(self, tg_errors=None, **kw):
         form = _FORMS['restore']
         return dict(form=form)
 
     @expose()
     @validate(form=_FORMS['restore'])
-    @error_handler(restore)    
+    @error_handler(restore)
     def do_restore(self, filename, password, dbname, **kw):
         try:
             data = base64.encodestring(filename.file.read())
@@ -233,7 +243,7 @@ class Database(controllers.Controller):
 
         raise redirect('/login', db=dbname)
 
-    @expose(template="openerp.subcontrollers.templates.database")
+    @expose(template="templates/database.mako")
     def password(self, tg_errors=None, **kw):
         form = _FORMS['password']
         return dict(form=form)

@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -35,7 +35,6 @@ import cPickle
 import cherrypy
 
 from gettext import translation
-from turbogears.i18n import tg_gettext
 
 import rpc
 
@@ -56,7 +55,7 @@ def memoize(limit=100, force=False):
 
         queue = []
         store = {}
-        
+
         __cache_references.append((queue, store))
 
         def func_wrapper(*args, **kwargs):
@@ -120,7 +119,7 @@ def __load_translatables():
         from turbogears import config
         config.update({'package': 'openerp'})
         localedir = tg_gettext.get_locale_dir()
-    
+
     result = {}
     for lang in os.listdir(localedir):
         try:
@@ -131,7 +130,7 @@ def __load_translatables():
 
     return result.keys()
 
-__TRANSLATABLES = __load_translatables()
+#TODO: __TRANSLATABLES = __load_translatables()
 
 # vim: ts=4 sts=4 sw=4 si et
 

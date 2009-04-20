@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -30,14 +30,11 @@
 import re
 import base64
 
-from turbogears import expose
-from turbogears import widgets
-from turbogears import controllers
-from turbogears import validators
-from turbogears import validate
-from turbogears import redirect
-from turbogears import error_handler
-from turbogears import exception_handler
+from openerp.tools import expose
+from openerp.tools import validate
+from openerp.tools import redirect
+from openerp.tools import error_handler
+from openerp.tools import exception_handler
 
 import cherrypy
 
@@ -45,8 +42,10 @@ from openerp import rpc
 from openerp import tools
 from openerp import common
 from openerp import cache
+from openerp import validators
 
 from openerp import widgets as tw
+
 from openerp.tinyres import TinyResource
 
 from openerp.utils import TinyDict
@@ -128,7 +127,7 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
                 search_domain=search_domain, search_data=search_data)
 
 def get_validation_schema(self):
-    """Generate validation schema for the given Form instance. Should be used 
+    """Generate validation schema for the given Form instance. Should be used
     to validate form inputs with @validate decorator.
 
     @param self: and instance of Form
@@ -145,7 +144,7 @@ def get_validation_schema(self):
 
     cherrypy.request.terp_validators = {}
     params.nodefault = True
-        
+
     form = self.create_form(params)
     cherrypy.request.terp_form = form
 
@@ -176,7 +175,7 @@ def default_exception_handler(self, tg_exceptions=None, **kw):
     # let _cp_on_error handle the exception
     raise tg_exceptions
 
-class Form(controllers.Controller, TinyResource):
+class Form(TinyResource):
 
     path = '/form'    # mapping from root
 
@@ -191,7 +190,7 @@ class Form(controllers.Controller, TinyResource):
 
         return tw.form_view.ViewForm(params, name="view_form", action="/form/save")
 
-    @expose(template="openerp.subcontrollers.templates.form")
+    @expose(template="templates/form.mako")
     def create(self, params, tg_errors=None):
 
         params.view_type = params.view_type or params.view_mode[0]
@@ -214,7 +213,7 @@ class Form(controllers.Controller, TinyResource):
 
         buttons = TinyDict()    # toolbar
         links = TinyDict()      # bottom links (customise view, ...)
-        
+
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
@@ -237,14 +236,14 @@ class Form(controllers.Controller, TinyResource):
         if cache.can_write('ir.ui.view'):
             links.view_manager = True
             links.workflow_manager = False
-        
+
             proxy = rpc.RPCProxy('workflow')
             wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
             links.workflow_manager = (wkf_ids or False) and wkf_ids[0]
 
         pager = None
         if buttons.pager:
-            pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset, 
+            pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
         return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path, show_header_footer=target!='new')
@@ -257,7 +256,7 @@ class Form(controllers.Controller, TinyResource):
         return cpt > 0
 
     @expose()
-    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'], 
+    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
              source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
 
         params, data = TinyDict.split({'_terp_model': model,
@@ -278,10 +277,10 @@ class Form(controllers.Controller, TinyResource):
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
-            
+
         if params.view_type == 'tree':
             params.view_type = 'form'
-            
+
         if not params.ids:
             params.count = 0
             params.offset = 0
@@ -295,7 +294,7 @@ class Form(controllers.Controller, TinyResource):
         return self.create(params)
 
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], 
+    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
             domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
@@ -314,10 +313,10 @@ class Form(controllers.Controller, TinyResource):
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
-            
+
         if params.view_type == 'tree':
             params.view_type = 'form'
-            
+
         if not params.ids:
             params.count = 1
             params.offset = 0
@@ -433,7 +432,7 @@ class Form(controllers.Controller, TinyResource):
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
-        
+
         if btype == 'cancel':
             if name:
                 button.btype = "object"
@@ -457,7 +456,7 @@ class Form(controllers.Controller, TinyResource):
         </head>
         <body></body>
         </html>"""
-        
+
         elif btype == 'save':
             params.id = False
 
@@ -486,8 +485,8 @@ class Form(controllers.Controller, TinyResource):
                 cherrypy.session['wizard_parent_form'] = self.path
                 cherrypy.session['wizard_parent_params'] = params
 
-            res = actions.execute_by_id(action_id, type=action_type, 
-                                        model=model, id=id, ids=ids, 
+            res = actions.execute_by_id(action_id, type=action_type,
+                                        model=model, id=id, ids=ids,
                                         context=params.context or {})
             if res:
                 return res
@@ -500,14 +499,14 @@ class Form(controllers.Controller, TinyResource):
     @expose()
     def duplicate(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         id = params.id
         ctx = params.context
         model = params.model
-        
+
         proxy = rpc.RPCProxy(model)
         new_id = proxy.copy(id, {}, ctx)
-        
+
         if new_id:
             params.id = new_id
             params.ids += [int(new_id)]
@@ -572,7 +571,7 @@ class Form(controllers.Controller, TinyResource):
     @expose(content_type='application/octet-stream')
     def save_binary_data(self, _fname='file.dat', **kw):
         params, data = TinyDict.split(kw)
-        
+
         cherrypy.response.headers['Content-Disposition'] = 'filename="%s"' % _fname;
 
         if params.datas:
@@ -609,16 +608,16 @@ class Form(controllers.Controller, TinyResource):
         l = params.limit or 20
         o = params.offset or 0
         c = params.count or 0
-        
+
         id = params.id or False
         ids = params.ids or []
-        
+
         filter_action = params.filter_action
-        
+
         if ids and filter_action == 'FIRST':
             o = 0
             id = ids[0]
-            
+
         if ids and filter_action == 'LAST':
             o = c - c % l
             id = ids[-1]
@@ -640,27 +639,27 @@ class Form(controllers.Controller, TinyResource):
             cherrypy.session['remember_notebooks'] = True
 
         if params.offset != o:
-    
-            domain = params.domain    
+
+            domain = params.domain
             if params.search_domain is not None:
                 domain = params.search_domain
                 data = params.search_data
-                
+
             res = search(params.model, o, l, domain=domain, data=data)
-            
+
             o = res['offset']
             l = res['limit']
             c = res['count']
-            
+
             params.search_domain = res['search_domain']
             params.search_data = res['search_data']
-            
+
             ids = res['ids']
             id = False
-            
+
             if ids and filter_action in ('FIRST', 'NEXT'):
                 id = ids[0]
-            
+
             if ids and filter_action in ('LAST', 'PREV'):
                 id = ids[-1]
 
@@ -669,9 +668,9 @@ class Form(controllers.Controller, TinyResource):
         params.offset = o
         params.limit = l
         params.count = c
-        
+
         return self.create(params)
-    
+
     @expose()
     def find(self, **kw):
         kw['_terp_offset'] = None
@@ -762,15 +761,15 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def switch(self, **kw):
-        params, data = TinyDict.split(kw)  
-        
+        params, data = TinyDict.split(kw)
+
         # switch the view
         params.view_type = params.source_view_type
         return self.create(params)
 
     @expose()
     def switch_o2m(self, **kw):
-        
+
         params, data = TinyDict.split(kw)
         current = params.chain_get(params.source or '') or params
 
@@ -779,15 +778,15 @@ class Form(controllers.Controller, TinyResource):
         current.ids = current.ids or []
         if not current.id and current.ids:
             current.id = current.ids[0]
-                   
+
         try:
             frm = self.create_form(params)
             wid = frm.screen.get_widgets_by_name(params.source)[0]
         except Exception, e:
             return 'ERROR: ' + str(e)
-        
+
         return wid.render()
-        
+
     def do_action(self, name, adds={}, datas={}):
         params, data = TinyDict.split(datas)
 
@@ -811,8 +810,8 @@ class Form(controllers.Controller, TinyResource):
 
     @expose()
     def report(self, **kw):
-        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list', 
-                                                                           'name': _('Print Screen'), 
+        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list',
+                                                                           'name': _('Print Screen'),
                                                                            'type':'ir.actions.report.xml'}}, datas=kw)
 
     @expose()
@@ -831,12 +830,12 @@ class Form(controllers.Controller, TinyResource):
         if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the sidebar button!'))
 
-        from openerp.subcontrollers import actions        
+        from openerp.subcontrollers import actions
         from openerp.subcontrollers import record
 
         id = params.id or False
         ids = params.selection or []
-        
+
         if not ids and id:
             ids = [id]
 
@@ -845,24 +844,24 @@ class Form(controllers.Controller, TinyResource):
 
         params.ids = ids
         params.id = id
-        
+
         domain = action.get('domain')
         context = action.get('context')
-        
+
         ctx = {'active_id': id, 'active_ids': ids}
         rec = None
         if domain:
             if not rec: rec = record.Record(params)
             rec.update(ctx)
             domain = rec.expr_eval(domain, rec)
-            
+
             action['domain'] = domain
-            
+
         if context:
             if not rec: rec = record.Record(params)
             rec.update(ctx)
             context = rec.expr_eval(context, rec)
-            
+
             action['context'] = context
 
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
@@ -873,11 +872,12 @@ class Form(controllers.Controller, TinyResource):
         current = params.chain_get(str(params.source) or '') or params
 
         return self.create(current)
-    
+
     @expose('json')
     def on_change(self, **kw):
+
         data = kw.copy()
-        
+
         callback = data.pop('_terp_callback')
         caller = data.pop('_terp_caller')
         model = data.pop('_terp_model')
@@ -887,12 +887,12 @@ class Form(controllers.Controller, TinyResource):
             context = eval(context) # convert to python dict
         except:
             context = {}
-        
+
         match = re.match('^(.*?)\((.*)\)$', callback)
-        
+
         if not match:
             raise common.error(_('Application Error!'), _('Wrong on_change trigger: %s') % callback)
-        
+
         for k, v in data.items():
             try:
                 data[k] = eval(v)
@@ -930,7 +930,7 @@ class Form(controllers.Controller, TinyResource):
         proxy = rpc.RPCProxy(model)
 
         ids = ctx.id and [ctx.id] or []
-        
+
         try:
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:
@@ -940,7 +940,7 @@ class Form(controllers.Controller, TinyResource):
             response['value'] = {}
 
         result.update(response)
-        
+
         # apply validators (transform values from python)
         values = result['value']
         values2 = {}
@@ -959,7 +959,7 @@ class Form(controllers.Controller, TinyResource):
         for k, v in values2.items():
             kind = v.get('type')
             relation = v.get('relation')
-            
+
             if relation and kind in ('many2one', 'reference') and values.get(k):
                 values[k] = [values[k], tw.many2one.get_name(relation, values[k])]
 
@@ -995,8 +995,8 @@ class Form(controllers.Controller, TinyResource):
             for x in res:
                 act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
-                relates += [{'text': '... '+x['name'], 
-                             'action': act and "do_relate(%s, '%s', '%s', this)" %(x['id'], field, relation), 
+                relates += [{'text': '... '+x['name'],
+                             'action': act and "do_relate(%s, '%s', '%s', this)" %(x['id'], field, relation),
                              'data': "%s"%str(x)}]
 
         return dict(defaults=defaults, actions=actions, relates=relates)
@@ -1012,9 +1012,9 @@ class Form(controllers.Controller, TinyResource):
         return dict(value=value)
 
     def reset_notebooks(self):
-        for name in cherrypy.request.simple_cookie.keys():
+        for name in cherrypy.request.cookie.keys():
             if name.endswith('_notebookTGTabber'):
-                cherrypy.response.simple_cookie[name] = 0
+                cherrypy.response.cookie[name] = 0
 
     @expose('json')
     def change_default_get(self, **kw):
@@ -1029,11 +1029,12 @@ class Form(controllers.Controller, TinyResource):
 
         proxy = rpc.RPCProxy('ir.values')
         values = proxy.get('default', '%s=%s' % (field, value), [(model, False)], False, ctx)
-        
+
         data = {}
         for index, fname, value in values:
             data[fname] = value
-       
+
         return dict(values=data)
+
+
 # vim: ts=4 sts=4 sw=4 si et
-                

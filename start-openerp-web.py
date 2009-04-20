@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 """Start script for the openerp-web TurboGears project.
 
-This script is only needed during development for running from the project 
+This script is only needed during development for running from the project
 directory. When the project is installed, easy_install will create a
 proper start script.
 """

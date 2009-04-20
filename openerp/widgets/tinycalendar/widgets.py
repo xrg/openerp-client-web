@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -33,13 +33,13 @@ import calendar
 import xml.dom.minidom
 
 import cherrypy
-import turbogears as tg
 
 from openerp import rpc
 from openerp import tools
 from openerp.utils import TinyDict
 
-from openerp.widgets import interface
+from openerp.widgets import JSLink, CSSLink
+from openerp.widgets.interface import TinyWidget
 
 from base import ICalendar
 from base import TinyCalendar
@@ -49,49 +49,53 @@ from utils import Week
 from utils import Month
 from utils import Year
 
-class MiniCalendar(tg.widgets.CompoundWidget, interface.TinyWidget):
-    template = 'openerp.widgets.tinycalendar.templates.mini'
+class MiniCalendar(TinyWidget):
+    template = 'templates/mini.mako'
     params = ['selected_day', 'month', 'forweek', 'highlight']
-    
+
     month = None
     selected_day = None
     forweek = False
     highlight = True
-        
-    def __init__(self, selected_day, forweek=False, highlight=True):        
+
+    def __init__(self, selected_day, forweek=False, highlight=True):
+
+        super(MiniCalendar, self).__init__()
+
         self.month = Month(selected_day.year, selected_day.month)
         self.selected_day = selected_day
         self.forweek = forweek
         self.highlight = highlight
-        
-class GroupBox(tg.widgets.CompoundWidget, interface.TinyWidget):
-    template = 'openerp.widgets.tinycalendar.templates.groups'
+
+class GroupBox(TinyWidget):
+    template = 'templates/groups.mako'
     params = ["colors", "color_values", "title"]
-        
+
     colors = {}
     color_values = []
     title = None
     action = None
-        
+
     def __init__(self, colors, color_values, selected_day, title=None, mode='month'):
+        super(GroupBox, self).__init__()
         self.colors = colors
         self.color_values = color_values
         self.title = title
-        
+
 def get_calendar(model, view, ids=None, domain=[], context={}, options=None):
-        
+
     mode = (options or None) and options.mode
     if not mode:
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         attrs = tools.node_attributes(dom.childNodes[0])
         mode = attrs.get('mode')
-    
+
     if mode == 'day':
         return DayCalendar(model, view, ids, domain, context, options)
-        
+
     if mode == 'week':
         return WeekCalendar(model, view, ids, domain, context, options)
-    
+
     return MonthCalendar(model, view, ids, domain, context, options)
 
 def _get_selection_day(day, selected, mode):
@@ -113,20 +117,17 @@ def _get_selection_day(day, selected, mode):
 
 class MonthCalendar(TinyCalendar):
 
-    template = 'openerp.widgets.tinycalendar.templates.month'
+    template = 'templates/month.mako'
     params = ['month', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox', 'use_search']    
+    members = ['minical', 'groupbox']
 
     month = None
     events = {}
-    
-    minical = None
-    groupbox = None    
 
     def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
-        
-        TinyCalendar.__init__(self, model, ids, view, domain, context, options)                
-        
+
+        TinyCalendar.__init__(self, model, ids, view, domain, context, options)
+
         y, m = time.localtime()[:2]
         if options:
             y = options.year
@@ -137,71 +138,73 @@ class MonthCalendar(TinyCalendar):
 
         self.selected_day = _get_selection_day(Day(y, m, 1), self.selected_day, 'month')
 
-        self.minical = MiniCalendar(self.selected_day)            
-        self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day, 
-                title=(self.color_field or None) and self.fields[self.color_field]['string'], 
+        self.minical = MiniCalendar(self.selected_day)
+        self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day,
+                title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='month')
 
-            
+
 class WeekCalendar(TinyCalendar):
-    template = 'openerp.widgets.tinycalendar.templates.week'
+    template = 'templates/week.mako'
     params = ['week', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox', 'use_search']
-    
+    members = ['minical', 'groupbox']
+
     week = None
     events = {}
-    
+
     minical = None
-         
-    def __init__(self, model, view, ids=None, domain=[], context={}, options=None):            
+
+    def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
         TinyCalendar.__init__(self, model, ids, view, domain, context, options)
 
         y, m, d = time.localtime()[:3]
         if options:
             y, m, d = options.date1[:3]
-        
+
         self.week = Week(Day(y, m, d))
         self.events = self.get_events(self.week.days)
 
         self.selected_day = _get_selection_day(Day(y, m, d), self.selected_day, 'week')
 
         self.minical = MiniCalendar(self.week[0], True)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.week[0], 
-                title=(self.color_field or None) and self.fields[self.color_field]['string'], 
+        self.groupbox = GroupBox(self.colors, self.color_values, self.week[0],
+                title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='week')
 
+
 class DayCalendar(TinyCalendar):
-    template = 'openerp.widgets.tinycalendar.templates.day'
+    template = 'templates/day.mako'
     params = ['day', 'events', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox', 'use_search']
-    
+    members = ['minical', 'groupbox']
+
     day = None
     events = {}
-    
+
     minical = None
-         
-    def __init__(self, model, view, ids=None, domain=[], context={}, options=None):            
+
+    def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
         TinyCalendar.__init__(self, model, ids, view, domain, context, options)
-        
+
         y, m, d = time.localtime()[:3]
         if options:
             y, m, d = options.date1[:3]
-                     
+
         self.day = Day(y,m,d)
 
-        self.events = self.get_events([self.day])        
+        self.events = self.get_events([self.day])
         self.minical = MiniCalendar(self.day)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.day, 
-                title=(self.color_field or None) and self.fields[self.color_field]['string'], 
+        self.groupbox = GroupBox(self.colors, self.color_values, self.day,
+                title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='day')
 
-class GanttCalendar(ICalendar):
-    
-    template = 'openerp.widgets.tinycalendar.templates.gantt'
 
-    params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format', 
+class GanttCalendar(ICalendar):
+
+    template = 'templates/gantt.mako'
+
+    params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format',
               'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
-    member_widgets = ['groupbox', 'use_search', 'extra_css', 'extra_javascript']
+    members = ['groupbox']
 
     level = None
     groups = None
@@ -211,8 +214,8 @@ class GanttCalendar(ICalendar):
     subheaders = None
     mode = 'week'
 
-    extra_css = [tg.widgets.CSSLink('openerp', 'tinycalendar/css/calendar_gantt.css')]
-    extra_javascript = [tg.widgets.JSLink('openerp', 'tinycalendar/javascript/calendar_gantt.js')]
+    css = [CSSLink('openerp', 'tinycalendar/css/calendar_gantt.css')]
+    javascript = [JSLink('openerp', 'tinycalendar/javascript/calendar_gantt.js')]
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 
@@ -286,7 +289,7 @@ class GanttCalendar(ICalendar):
             self.days = days
             self.title = _("%s, Qtr %s") % (y, q)
             self.selected_day = _get_selection_day(day, self.selected_day, '3months')
-            
+
             headers = []
             headers += [w for w in mp.weeks]
             headers += [w for w in mt.weeks]
@@ -349,17 +352,17 @@ class GanttCalendar(ICalendar):
 
         self.events = self.get_events(self.days)
         self.groups = self.get_groups(self.events)
-        self.groupbox = GroupBox(self.colors, self.color_values, day, 
+        self.groupbox = GroupBox(self.colors, self.color_values, day,
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
 
     def parse(self, root, fields):
-        
+
         info_fields = []
         attrs = tools.node_attributes(root)
 
         for node in root.childNodes:
             attrs = tools.node_attributes(node)
-            
+
             if node.localName == 'field':
                 info_fields += [attrs['name']]
 

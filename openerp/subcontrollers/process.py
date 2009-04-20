@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -27,9 +27,8 @@
 #
 ###############################################################################
 
-from turbogears import controllers
-from turbogears import expose
-from turbogears import redirect
+from openerp.tools import expose
+from openerp.tools import redirect
 
 import cherrypy
 
@@ -44,24 +43,24 @@ import form
 import actions
 
 class ResourcePopup(form.Form):
-    
+
     path = '/process/resource'    # mapping from root
-    
-    @expose(template="openerp.subcontrollers.templates.process_open")
+
+    @expose(template="templates/process_open.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
 
         if params.id and cherrypy.request.path == self.path + '/view':
             params.load_counter = 2
 
-        form = self.create_form(params, tg_errors)       
-        return dict(form=form, params=params, show_header_footer=False)   
+        form = self.create_form(params, tg_errors)
+        return dict(form=form, params=params, show_header_footer=False)
 
-class Process(controllers.Controller, TinyResource):
+class Process(TinyResource):
 
     resource = ResourcePopup()
-    
-    @expose(template="openerp.subcontrollers.templates.process")
+
+    @expose(template="templates/process.mako")
     def default(self, id=False, res_model=None, res_id=False):
 
         id = (id or False) and int(id)
@@ -84,7 +83,7 @@ class Process(controllers.Controller, TinyResource):
                 selection = None
 
         return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
-    
+
     @expose('json')
     def get(self, id, res_model=None, res_id=False):
 
@@ -112,7 +111,7 @@ class Process(controllers.Controller, TinyResource):
 
             perm['text'] = _("Last modified by:")
             perm['value'] = perm.get('write_uid') or perm.get('create_uid')
-            if perm['value']: 
+            if perm['value']:
                 perm['value'] =  '%s (%s)' % (perm['value'][1], perm.get('date') or 'N/A')
             else:
                 perm['value'] = 'N/A'
@@ -131,14 +130,14 @@ class Process(controllers.Controller, TinyResource):
     @expose('json')
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         button = TinyDict()
-        
+
         button.model = params.model
         button.id = params.id
         button.name = params.action
         button.btype = params.kind
-        
+
         params.button = button
 
         fobj = form.Form()
