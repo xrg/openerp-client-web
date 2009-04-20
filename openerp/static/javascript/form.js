@@ -955,21 +955,5 @@ function open_url(site){
     }
 }
 
-function show_menu(evt) {
-//	quickshow.width = 550;
-//  quickshow.height = 550;
-	quickshow.show(evt);
-}
-
-MochiKit.DOM.addLoadEvent(function(){
-	var menu = MochiKit.DOM.getElement('menu_header_menu');
-	
-	quickshow = new QuickMenu();
-	if (menu) {
-		MochiKit.Signal.connect(menu, 'onclick', show_menu);
-	}
-});
-
-
 // vim: ts=4 sts=4 sw=4 si et
 
