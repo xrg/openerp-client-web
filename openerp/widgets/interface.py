@@ -162,8 +162,7 @@ class TinyInputWidget(TinyWidget, InputWidget):
 
     def __init__(self, **attrs):
 
-        TinyWidget.__init__(self, **attrs)
-        InputWidget.__init__(self, **attrs)
+        super(TinyInputWidget, self).__init__(**attrs)
 
         if isinstance(self.states, basestring):
             self.states = self.states.split(',')
