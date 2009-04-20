@@ -8,8 +8,8 @@
                     value="${value or None}" 
                     class="${css_class}"                     
                     kind="${kind}" 
-                    domain="${ustr(domain)}" 
-                    context="${ustr(ctx)}" 
+                    domain="${domain}" 
+                    context="${ctx}" 
                     relation="${relation}"/>
                 <input type="text" ${py.attrs(attrs)}
                     id='${name}_text' 

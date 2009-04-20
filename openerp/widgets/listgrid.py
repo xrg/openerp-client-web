@@ -516,13 +516,13 @@ class Button(TinyInputWidget):
     template="""
     % if visible and not icon:
     <button type="button"
-        context="${ustr(context)}" ${py.attrs(attrs)} style="min-width: ${width}px;"
+        context="${context}" ${py.attrs(attrs)} style="min-width: ${width}px;"
         onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))">
         ${string}
     </button>
     % endif
     % if visible and icon:
-    <img height="16" width="16" class="listImage" src="${icon}" context="${ustr(context)}" ${py.attrs(attrs)}
+    <img height="16" width="16" class="listImage" src="${icon}" context="${context}" ${py.attrs(attrs)}
         onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
     % endif
     % if not visible and not icon:

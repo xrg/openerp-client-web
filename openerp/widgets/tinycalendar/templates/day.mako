@@ -7,7 +7,7 @@
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('${day.prev().isoformat()}')"/></td>
                 <td nowrap="nowrap"><button type="button" title="${_('Today...')}" ${py.disabled(day == day.today())} onclick="getCalendar('${day.today().isoformat()}', 'day')">Today</button></td>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${day.next().isoformat()}')"/></td>
-                <td nowrap="nowrap" width="100%"><strong>${ustr(day)}</strong></td>
+                <td nowrap="nowrap" width="100%"><strong>${day}</strong></td>
                 <td nowrap="nowrap">
                     <button type="button" title="${_('Day Calendar...')}" disabled="disabled">Day</button>
                     <button type="button" title="${_('Week Calendar...')}" onclick="getCalendar(null, 'week')">Week</button>
@@ -17,7 +17,7 @@
         </table>
         <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${day.isoformat()}"/>
         <input type="hidden" id="_terp_selected_mode" name="_terp_selected_mode" value="day"/>
-        <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${ustr(calendar_fields)}"/>
+        <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${calendar_fields}"/>
         % if concurrency_info:
             ${concurrency_info.display()}
         % endif

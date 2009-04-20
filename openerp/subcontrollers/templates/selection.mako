@@ -22,7 +22,7 @@
 
 <form id="selection" action="/selection/action" onsubmit="return onSubmit()">
 
-    <input type="hidden" name="_terp_data" value="${ustr(data)}" />
+    <input type="hidden" name="_terp_data" value="${data}" />
 
     <div class="header">
 
@@ -35,7 +35,7 @@
             <table width="100%" border="0" class="fields">
                 % for key, value in values.items():
                 <tr>
-                    <td width="25px"><input type="radio" id="_terp_action" name="_terp_action" value="${ustr(value)}"/></td>
+                    <td width="25px"><input type="radio" id="_terp_action" name="_terp_action" value="${value}"/></td>
                     <td>${key}</td>
                 </tr>
                 % endfor

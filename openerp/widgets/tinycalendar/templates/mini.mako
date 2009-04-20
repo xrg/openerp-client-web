@@ -3,7 +3,7 @@
         <tr class="calMiniHeader">
             <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getMiniCalendar('${py.url('/calendar/mini', year=month.prev().year, month=month.prev().month, forweek=forweek)}')"/></td>
             <td nowrap="nowrap" width="100%" align="center" colspan="5">
-               <strong><a href="javascript: void(0)" onclick="getCalendar('${month.year}-${month.month}-01', 'month'); return false;">${ustr(month)}</a></strong>
+               <strong><a href="javascript: void(0)" onclick="getCalendar('${month.year}-${month.month}-01', 'month'); return false;">${month}</a></strong>
             </td>
             <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getMiniCalendar('${py.url('/calendar/mini', year=month.next().year, month=month.next().month, forweek=forweek)}')"/></td>
         </tr>
