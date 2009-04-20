@@ -235,11 +235,7 @@ class TinyInputWidget(TinyWidget, InputWidget):
         d['inline'] = self.inline
 
         if self.readonly:
-            d.setdefault('css_classes', []).append("readonlyfield")
             attrs['disabled'] = 'disabled'
-
-        if self.required and 'requiredfield' not in d['css_classes']:
-            d.setdefault('css_classes', []).append("requiredfield")
 
         if self.translatable and 'translatable' not in d['css_classes']:
             d.setdefault('css_classes', []).append("translatable")

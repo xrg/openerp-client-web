@@ -59,11 +59,21 @@ def get_db_list():
     except:
         return []
 
-class FormCreate(widgets.Form):
+class DBForm(widgets.Form):
+    strip_name = True
+
+    def post_init(self, *args, **kw):
+        if self.validator is validators.DefaultValidator:
+            self.validator = validators.Schema()
+        for f in self.fields:
+            self.validator.add_field(f.name, f.validator)
+
+class FormCreate(DBForm):
     name = "create"
     string = _('Create new database')
     action = '/database/do_create'
     submit_text = _('OK')
+    strip_name = True
     form_attrs = {'onsubmit': 'return on_create()'}
     fields = [widgets.PasswordField(name='password', label=_('Super admin password:'), validator=validators.NotEmpty()),
               widgets.TextField(name='dbname', label=_('New database name:'), validator=validators.NotEmpty()),
@@ -74,7 +84,7 @@ class FormCreate(widgets.Form):
               ]
     validator = validators.Schema(chained_validators=[validators.FieldsMatch("admin_password","confirm_password")])
 
-class FormDrop(widgets.Form):
+class FormDrop(DBForm):
     name = "drop"
     string = _('Drop database')
     action = '/database/do_drop'
@@ -83,7 +93,7 @@ class FormDrop(widgets.Form):
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
-class FormBackup(widgets.Form):
+class FormBackup(DBForm):
     name = "backup"
     string = _('Backup database')
     action = '/database/do_backup'
@@ -91,7 +101,7 @@ class FormBackup(widgets.Form):
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
-class FormRestore(widgets.Form):
+class FormRestore(DBForm):
     name = "restore"
     string = _('Restore database')
     action = '/database/do_restore'
@@ -100,7 +110,7 @@ class FormRestore(widgets.Form):
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty()),
               widgets.TextField(name='dbname', label=_('New database name:'), validator=validators.NotEmpty())]
 
-class FormPassword(widgets.Form):
+class FormPassword(DBForm):
     name = "password"
     string = _('Change Administrator Password')
     action = '/database/do_password'

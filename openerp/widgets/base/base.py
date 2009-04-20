@@ -385,15 +385,40 @@ class InputWidget(Widget):
                       "the name of this widget will not be included in the "\
                       "fully-qualified names of the widgets in this subtree. "\
                       "This is useful to 'flatten-out' nested structures. "\
-                      "This parameter can only be set during initialization."
+                      "This parameter can only be set during initialization.",
+        'required': "Whether the field value is required.",
+        'readonly': "Whether the field is readonly.",
+        'disabled': "Whether the field is disabled.",
     }
 
     validator = DefaultValidator
+
     strip_name = False
+    required = False
+    readonly = False
+    disabled = False
 
     def __init__(self, name=None, parent=None, children=[], **kw):
         super(InputWidget, self).__init__(name=name, parent=parent, children=children, **kw)
-        
+
+    @property
+    def is_required(self):
+        if self.required:
+            return True
+        try:
+            self.validator.to_python('', None)
+        except:
+            return True
+        return False
+
+    @property
+    def is_disabled(self):
+        return self.disabled
+
+    @property
+    def is_readonly(self):
+        return self.readonly
+
     def validate(self, value, state=None):
         """Validate value using validator if widget has one. If validation fails
         a formencode.Invalid exception will be raised.
@@ -459,10 +484,11 @@ class InputWidget(Widget):
 
         if error:
             value = getattr(cherrypy.request, 'validation_value', None)
-            if not self.is_root:
+            if self.is_root:
+                d['error'] = d.setdefault('error', error)
+            else:
+                d['error'] = d.setdefault('error', error.error_dict.get(self._name, None))
                 value = value.get(self._name, None)
-
-            d['error'] = d.setdefault('error', error.error_dict.get(self._name, None))
         else:
             d['error'] = d.setdefault('error', None)
 
@@ -505,6 +531,14 @@ class InputWidget(Widget):
 
     def update_params(self, d):
         super(InputWidget, self).update_params(d)
+
+        if not self.strip_name and self.is_required:
+            d.css_classes.append('requiredfield')
+        if not self.strip_name and  self.is_readonly:
+            d.css_classes.append('readonlyfield')
+        if  not self.strip_name and self.is_disabled:
+            d.css_classes.append('disabledfield')
+
         if d.error:
             d.css_classes.append("has_error")
 

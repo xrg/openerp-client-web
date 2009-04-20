@@ -7,28 +7,28 @@
     <link rel="stylesheet" type="text/css" href="/static/css/waitbox.css"/>
 
     <style type="text/css">
-        .tableform table {
+        form table {
             margin-top: 20px;
             padding: 5px;
             border: 4px double #c0c0c0;
         }
 
-        .tableform th {
+        form th {
             padding: 0 4px;
             text-align: right;
             white-space: nowrap;
             font-weight: normal;
         }
 
-        .tableform select {
+        form select {
             min-width: 100px;
         }
 
-        .tableform .submitbutton td {
+        .submitbutton td {
             text-align: right;
         }
 
-        .tableform .submitbutton {
+        .submitbutton {
             border: solid 1px #888888;
             background: url(/static/images/button_bg.png) repeat-x left top;
             color: #000;
@@ -38,15 +38,15 @@
             min-width: 80px;
         }
 
-        .tableform .submitbutton:hover {
+        .submitbutton:hover {
             background: url(/static/images/button_bg2.png) repeat-x left top;
         }
 
-        .tableform .requiredfield {
+        .fieldcol .requiredfield {
             background-color: #CCD9FF;
         }
 
-        .tableform .fielderror {
+        .fielderror {
             color: red;
         }
 
