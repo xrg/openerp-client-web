@@ -392,7 +392,7 @@ class BarChart(GraphData):
 
         for i, x in enumerate(axis[1:]):
             for dom in domain:
-                u = tg.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                u = tools.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
                 url.append(u)  # urllib.quote_plus(u))
