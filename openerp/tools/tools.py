@@ -52,8 +52,18 @@ def node_attributes(node):
         result[str(attrs.item(i).localName)] = attrs.item(i).nodeValue
     return result
 
-def simple_xpath(expr, ref):
+def xml_locate(expr, ref):
+    """Simple xpath locator.
 
+    >>> xml_locate("/form[1]/field[2]", doc)
+    >>> xml_locate("/form[1]", doc)
+
+    @param expr: simple xpath with tag name and index
+    @param ref: reference node
+
+    @return: list of nodes
+    """
+    
     if '/' not in expr:
         name, index = expr.split('[')
         index = int(index.replace(']', ''))
@@ -62,16 +72,16 @@ def simple_xpath(expr, ref):
         try:
             return nodes[index-1]
         except Exception, e:
-            return nodes
-
+            return []
+    
     parts = expr.split('/')
     for part in parts:
-        if not part or '.' in part:
+        if part in ('', '.'):
 #            for node in ref.childNodes:
 #               if node.nodeType == node.ELEMENT_NODE:
 #                   ref = node
             continue
-        ref = simple_xpath(part, ref)
+        ref = xml_locate(part, ref)
 
     return [ref]
 
@@ -83,8 +93,8 @@ def get_node_xpath(node):
 
     if pn and pn.localName and pn.localName != 'view':
         xp = get_node_xpath(pn) + xp
-
-    nodes = simple_xpath(root, node.parentNode)
+        
+    nodes = xml_locate(root, node.parentNode)
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
