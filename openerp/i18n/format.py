@@ -36,6 +36,7 @@ from babel import numbers
 from babel.support import Format
 
 from openerp import rpc
+from openerp.i18n.utils import get_locale
 
 __all__ = ['get_datetime_format', 'format_datetime', 'parse_datetime', 'format_decimal', 'parse_decimal']
 
@@ -58,7 +59,7 @@ def get_datetime_format(kind="datetime"):
     fmt = "%H:%M:%S"
 
     if kind != "time":
-        fmt = DT_SERVER_FORMATS['date'] #TODO: tg.i18n.format.get_date_format("short", rpc.session.locale).replace("%y", "%Y")
+        fmt =  DT_SERVER_FORMATS[kind]#dates.get_date_format("short", locale=get_locale()).pattern.replace("%y", "%Y")
 
     if kind == "datetime":
         fmt += " %H:%M:%S"
@@ -79,7 +80,7 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     server_format = DT_SERVER_FORMATS[kind]
     local_format = get_datetime_format(kind)
-
+    
     if not value:
         return ''
 
@@ -167,7 +168,13 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
     return time.strftime(server_format, value)
 
 def format_decimal(value, digits=2):
-    return value #TODO: tg.i18n.format_decimal(value or 0.0, digits)
+    locale = get_locale()
+    v = ("%%.%df" % digits) % value
+    if digits == 0:
+        return numbers.format_number(value, locale=locale)
+    num, decimals = v.split(".", 1)
+    return numbers.format_decimal(value, locale=locale) + unicode(
+        numbers.get_decimal_symbol(locale) + decimals)
 
 def parse_decimal(value):
 
@@ -178,7 +185,7 @@ def parse_decimal(value):
         #deal with ' ' instead of u'\xa0' (SP instead of NBSP as grouping char)
         value = value.replace(' ', '')
         try:
-            value = value #TODO: tg.i18n.format.parse_decimal(value)
+            value = numbers.parse_decimal(value, locale=get_locale())
         except ValueError, e:
             pass
 
