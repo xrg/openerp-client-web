@@ -1,7 +1,7 @@
 % if editable:
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td>
+            <td width="30%">
                 <input type="hidden" id='${name}' name='${name}' value="${value or None}" class="${css_class}" ${py.attrs(attrs)} kind="${kind}" domain="${domain}" context="${ctx}" relation="${relation}"/>
                 <select id="${name}_reference" name='${name}'>
                     <option value=""></option>

@@ -525,7 +525,7 @@ var onChange = function(name) {
     var callback = getNodeAttribute(caller, 'callback');
     var change_default = getNodeAttribute(caller, 'change_default');
     
-    if (!(callback || change_default)) {
+    if (!(callback || change_default) || caller.__lock_onchange) {
         return;
     }
     
@@ -535,12 +535,14 @@ var onChange = function(name) {
     var params = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
     var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
+    var id = is_list ? $(prefix.slice(17) + '_terp_id').value : $(prefix + '_terp_id').value;
 
     params['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
     params['_terp_callback'] = callback;
     params['_terp_model'] = model;
     params['_terp_context'] = context;
     params['_terp_value'] = caller.value;
+    params['id'] = id;
     
     var req = Ajax.JSON.post(callback ? '/form/on_change' : '/form/change_default_get', params);
 
@@ -570,7 +572,10 @@ var onChange = function(name) {
             if (!fld) continue;
 
             value = values[k];
-            value = value === false || value === null ? '' : value
+            value = value === false || value === null ? '' : value;
+
+            // prevent recursive onchange
+            fld.__lock_onchange = true;
 
             if ($(prefix + k + '_id')){
                 fld = $(prefix + k + '_id');
@@ -587,25 +592,20 @@ var onChange = function(name) {
                 }
 
                 if (kind == 'many2one'){
-                    //getName(fld);
                     fld.value = value[0] || '';
                     try {
                         $(prefix + k + '_text').value = value[1] || '';
-                        ManyToOne.change_icon(fld);
                     }catch(e){}
-                }
-
-                if (kind == 'many2many'){
-                    fld.onchange();
                 }
 
                 if (kind == 'boolean') {
                     $(prefix + k + '_checkbox_').checked = value || false;
                 }
-                
-                // should be saved
-                fld.disabled = false;
+
+                MochiKit.Signal.signal(fld, 'onchange');
             }
+
+            fld.__lock_onchange = false;
         }
 
         if (obj.warning && obj.warning.message) {
@@ -950,10 +950,26 @@ function open_url(site){
     else
         web_site = site;
 
-    if(site.length > 0) {        
+    if(site.length > 0) {
         window.open(web_site);
     }
 }
+
+function show_menu(evt) {
+//	quickshow.width = 550;
+//  quickshow.height = 550;
+	quickshow.show(evt);
+}
+
+MochiKit.DOM.addLoadEvent(function(){
+	var menu = MochiKit.DOM.getElement('menu_header_menu');
+	
+	quickshow = new QuickMenu();
+	if (menu) {
+		MochiKit.Signal.connect(menu, 'onclick', show_menu);
+	}
+});
+
 
 // vim: ts=4 sts=4 sw=4 si et
 

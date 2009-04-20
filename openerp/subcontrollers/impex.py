@@ -222,10 +222,10 @@ class ImpEx(TinyResource):
                 records += [record]
 
             elif not is_importing:
-                if ids:
-                    record['id'] = ids[i]
-                else:
-                    record['id'] = id
+#                if ids:
+#                    record['id'] = ids[i]
+#                else:
+                record['id'] = id
 
                 record['items'] = {'name' : nm}
                 record['action'] = 'javascript: void(0)'

@@ -170,6 +170,7 @@ class Screen(TinyInputWidget):
                                         offset=self.offset, limit=self.limit, count=self.count, nolinks=self.link)
 
             self.ids = self.widget.ids
+            self.limit = self.widget.limit
             self.count = self.widget.count
 
         elif view_type == 'graph':

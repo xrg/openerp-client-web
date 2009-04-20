@@ -1,11 +1,16 @@
 <form method="post" id="${name}" name="${name}" action="${action}" enctype="multipart/form-data">
 
-    <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(search_domain)}"/>
-    <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${ustr(search_data)}"/>
+    <div>
+        <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${ustr(search_domain)}"/>
+        <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${ustr(search_data)}"/>
+    % if show_header_footer:
+        <input type="hidden" id="_terp_header_footer" name="_terp_header_footer" value="1" py:if="value_o
+    % endif
 
-% for field in hidden_fields:
-    ${display_child(field)}
-% endfor
+    % for field in hidden_fields:
+        ${display_child(field)}
+    % endfor
+    </div>
 
 % if screen:
     <table border="0" cellpadding="0" cellspacing="0" width="100%">

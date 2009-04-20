@@ -189,10 +189,10 @@ def _get_model(node, parent_model):
         if pnode.localName == 'field':
 
             ch = []
-            ch += xml_locate('./form[1]', pnode)
-            ch += xml_locate('./tree[1]', pnode)
-            ch += xml_locate('./graph[1]', pnode)
-            ch += xml_locate('./calendar[1]', pnode)
+            ch += tools.xml_locate('./form[1]', pnode)
+            ch += tools.xml_locate('./tree[1]', pnode)
+            ch += tools.xml_locate('./graph[1]', pnode)
+            ch += tools.xml_locate('./calendar[1]', pnode)
 
             if ch:
                 parents += [pnode.getAttribute('name')]
@@ -204,9 +204,10 @@ def _get_model(node, parent_model):
     for parent in parents:
 
         proxy = rpc.RPCProxy(parent_model)
-        field = proxy.fields_get([parent])[parent]
+        field = proxy.fields_get([parent])
 
-        parent_model = field['relation']
+        if field:
+            parent_model = field[parent]['relation']
 
     return parent_model
 
@@ -219,7 +220,10 @@ def _get_field_attrs(node, parent_model):
 
     name = node.getAttribute('name')
     proxy = rpc.RPCProxy(model)
-    field = proxy.fields_get([name])[name]
+    field = proxy.fields_get([name])
+
+    if field:
+         field = field[name]
 
     return field
 
@@ -267,7 +271,7 @@ class ViewEd(TinyResource):
             def _find(node, node2):
                 # Check if xpath query or normal inherit (with field matching)
                 if node2.nodeType==node2.ELEMENT_NODE and node2.localName=='xpath':
-                    res = xml_locate(node2.getAttribute('expr'), node)
+                    res = tools.xml_locate(node2.getAttribute('expr'), node)
                     return res and res[0]
                 else:
                     if node.nodeType==node.ELEMENT_NODE and node.localName==node2.localName:
@@ -407,7 +411,7 @@ class ViewEd(TinyResource):
         res = proxy.read([view_id], ['model', 'arch'])[0]
 
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-        field = xml_locate(xpath_expr, doc)[0]
+        field = tools.xml_locate(xpath_expr, doc)[0]
 
         attrs = tools.node_attributes(field)
         editors = []
@@ -457,7 +461,7 @@ class ViewEd(TinyResource):
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
         model = res['model']
 
-        field_node = xml_locate(xpath_expr, doc)[0]
+        field_node = tools.xml_locate(xpath_expr, doc)[0]
         model = _get_model(field_node, parent_model=model)
 
         # get the fields
@@ -493,7 +497,7 @@ class ViewEd(TinyResource):
         if view_id:
 
             doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-            node = xml_locate(xpath_expr, doc)[0]
+            node = tools.xml_locate(xpath_expr, doc)[0]
             new_node = doc.createElement('view')
 
             if node.localName == 'field':
@@ -559,7 +563,7 @@ class ViewEd(TinyResource):
         view_type = res['type']
 
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-        node = xml_locate(xpath_expr, doc)[0]
+        node = tools.xml_locate(xpath_expr, doc)[0]
 
         new_node = None
         record = None
@@ -602,7 +606,7 @@ class ViewEd(TinyResource):
 
             refNode = None
             try:
-                refNode = xml_locate(kw['xpath_ref'], doc)[0]
+                refNode = tools.xml_locate(kw['xpath_ref'], doc)[0]
             except:
                 pass
 
@@ -646,7 +650,7 @@ class ViewEd(TinyResource):
         data = proxy.read([view_id])[0]
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
-        pnode = xml_locate(dst, doc)[0]
+        pnode = tools.xml_locate(dst, doc)[0]
         src = xml_getElementsByTagAndName('*', src, doc)[0]
 
         if ref: ref = xml_getElementsByTagAndName('*', ref, doc)[0]
@@ -748,7 +752,7 @@ _PROPERTIES = {
     'child1' : ['groups'],
     'child2' : ['groups'],
     'action' : ['name', 'string', 'colspan', 'groups'],
-    'tree' : ['string', 'colors', 'editable', 'link', 'min_rows'],
+    'tree' : ['string', 'colors', 'editable', 'link', 'limit', 'min_rows'],
     'graph' : ['string', 'type'],
     'calendar' : ['string', 'date_start', 'date_stop', 'date_delay', 'day_length', 'color', 'mode'],
     'view' : [],

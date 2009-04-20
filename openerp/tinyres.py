@@ -54,15 +54,28 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
     if dblist == -1:
         dblist = []
         message = _("Could not connect to server!")
-
-    if cherrypy.request.app.config['openerp-web'].get('dblist.filter'):
+        
+    dbfilter = cherrypy.request.app.config['openerp-web'].get('dblist.filter')    
+    if dbfilter:
 
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
 
         base = re.split('\.|:|/', host)[0]
-        base = base + '_'
-        dblist = [d for d in dblist if d.startswith(base)]
+
+        if dbfilter == 'NONE':
+            dblist = dblist
+
+        if dbfilter == 'EXACT':
+            base = base
+            dblist = [d for d in dblist if d == base]
+
+        if dbfilter == 'UNDERSCORE':
+            base = base + '_'
+            dblist = [d for d in dblist if d.startswith(base)]
+
+        if dbfilter == 'BOTH':
+            dblist = [d for d in dblist if d.startswith(base + '_') or d == base]
 
     return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password,
             action=action, message=message, origArgs=origArgs)

@@ -27,7 +27,23 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+
 var ManyToOne = function(name){
+    
+    var elem = getElement(name);
+    if (elem._m2o) {
+        return elem._m2o;
+    }
+
+    var cls = arguments.callee;
+    if (!(this instanceof cls)) {
+        return new cls(name);
+    }
+
+    this.__init__(name);
+}
+
+ManyToOne.prototype.__init__ = function(name){
     
     this.name = name;
 
@@ -56,11 +72,19 @@ var ManyToOne = function(name){
     if (this.reference) {
         connect(this.reference, 'onchange', this, this.on_reference_changed);
     }
+    
+    this.is_inline = name.indexOf('_terp_listfields/') == 0;
+
+    this.field._m2o = this;
 
     this.change_icon();
 }
 
 ManyToOne.prototype.select = function(evt){
+	
+	if (this.field.disabled) {
+		return;
+	}	
     if(this.field_class.indexOf('readonlyfield') == -1) {
         this.get_matched();
     }
@@ -149,11 +173,22 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 }
 
 ManyToOne.prototype.change_icon = function(evt){
-    if (this.open_img) {
-        this.open_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
-        if (!this.field.value) {
-            this.open_img.style.cursor = '';
-        } 
+
+    this.open_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
+
+    if (!this.field.value) {
+        this.open_img.style.cursor = '';
+    }
+    
+    if (this.is_inline) {
+    
+        if (this.field.value) {
+            this.select_img.parentNode.style.display = 'none';
+            this.open_img.parentNode.style.display = '';
+        } else {
+            this.select_img.parentNode.style.display = '';
+            this.open_img.parentNode.style.display = 'none';
+        }
     }
 }
 
@@ -205,17 +240,16 @@ ManyToOne.prototype.get_matched = function(){
     }
 
     var m2o = this;
-
     var do_get_matched = function(relation, text, domain, context){
         
         text = m2o.field.value ? '' : text;
-
+        
         var req2 = Ajax.JSON.post('/search/get_matched', {model: relation, text: text, 
                                                          _terp_domain: domain, 
                                                          _terp_context: context});
         
         req2.addCallback(function(obj){
-            if (obj.values.length == 1) {
+            if (text && obj.values.length == 1) {
                 val = obj.values[0];
                 m2o.field.value = val[0];
                 m2o.text.value = val[1];
@@ -236,21 +270,19 @@ ManyToOne.prototype.get_matched = function(){
     });
 }
 
-ManyToOne.change_icon = function(field) {
-    if(this.select_img)
-        this.select_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
-}
+ManyToOne.prototype.setReadonly = function(readonly) {
 
-// To set the widget and fields readonly based on flag.
-ManyToOne.set_readonly = function(flag) {
-    if(flag) {
-        this.select_img.src = '/static/images/stock-disabled/gtk-find.png';
-        this.open_img.src = '/static/images/stock-disabled/gtk-open.png';
-        this.field_class = this.field_class + ' readonlyfield';
-    }
-    else {
-        this.select_img.src = '/static/images/stock/gtk-find.png';
-        this.open_img.src = '/static/images/stock/gtk-open.png';
+    this.field.readOnly = readonly;
+    this.field.disabled = readonly;
+    this.text.readOnly = readonly;
+    this.text.disabled = readonly;
+
+    if (readonly) {
+        MochiKit.DOM.addElementClass(this.field, 'readonlyfield');
+        MochiKit.DOM.addElementClass(this.text, 'readonlyfield');
+    } else {
+        MochiKit.DOM.removeElementClass(this.field, 'readonlyfield');
+        MochiKit.DOM.removeElementClass(this.text, 'readonlyfield');
     }
 }
 

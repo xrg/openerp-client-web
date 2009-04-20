@@ -79,10 +79,17 @@ class Tree(TinyResource):
                 else:
                     tool['icon'] = False
 
-        return dict(tree=tree)
+        show_header_footer = True
+        quickmenu = False
+
+        if params.context.get('quickmenu'):
+            quickmenu = True
+            show_header_footer = False
+
+        return dict(tree=tree, quickmenu=quickmenu, model=model, show_header_footer=show_header_footer)
 
     @expose()
-    def default(self, id, model, view_id, domain):
+    def default(self, id, model, view_id, domain, context):
         params = TinyDict()
 
         try:
@@ -94,7 +101,7 @@ class Tree(TinyResource):
         params.view_ids = [view_id]
         params.model = model
         params.domain = domain
-        params.context = {}
+        params.context = context or {}
 
         return self.create(params)
 
@@ -183,7 +190,10 @@ class Tree(TinyResource):
 
             record['id'] = item.pop('id')
             record['action'] = url('/tree/open', model=model, id=record['id'])
-            record['target'] = None
+            if ctx.get('quickmenu'):
+                record['action'] = "javascript: quick_open('%s', window);" % (url('/tree/open', model=model, id=record['id']))
+            else:
+                record['target'] = None
 
             record['icon'] = None
 
@@ -193,6 +203,7 @@ class Tree(TinyResource):
 
                 if icon == 'STOCK_OPEN':
                     record['action'] = None
+                    record['target'] = None
 
             record['children'] = []
 

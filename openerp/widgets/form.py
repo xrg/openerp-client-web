@@ -433,7 +433,13 @@ class Selection(TinyInputWidget):
         if attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
             try:
-                ids = proxy.search(attrs.get('domain') or [])
+                domain = attrs.get('domain', [])
+                if isinstance(domain, (str, unicode)):
+                    try:
+                        domain = eval(domain)
+                    except:
+                        domain = []
+                ids = proxy.search(domain)
                 ctx = rpc.session.context.copy()
                 ctx.update(attrs.get('context', {}))
                 self.options = proxy.name_get(ids, ctx)
@@ -562,15 +568,6 @@ class Button(TinyInputWidget):
         if self.states:
             self.visible = state in self.states
 
-class Picture(TinyInputWidget):
-    template = """
-    <img alt="picture" id="${name}" kind="${kind}" src="${value}"/>
-    """
-
-    def __init__(self, **attrs):
-        super(Picture, self).__init__(**attrs)
-        self.validator = validators.Picture()
-
 class Image(TinyInputWidget):
 
     template = "templates/image.mako"
@@ -594,8 +591,8 @@ class Image(TinyInputWidget):
             self.stock = False
             self.field = self.name.split('/')[-1]
             self.src = tools.url('/image/get_image', model=self.model, id=self.id, field=self.field)
-            self.height = attrs.get('height', 200)
-            self.width = attrs.get('width', 200)
+            self.height = attrs.get('img_height', attrs.get('height', 160))
+            self.width = attrs.get('img_width', attrs.get('width', 200))
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
@@ -871,7 +868,7 @@ class Form(TinyInputWidget):
         name = attrs['name']
         kind = attrs.get('type', 'char')
 
-        if kind == 'image':
+        if kind == 'image' or kind == 'picture':
             attrs['id'] = self.id
 
         # suppress by container's readonly property
@@ -910,7 +907,7 @@ WIDGETS = {
     'button': Button,
     'reference': Reference,
     'binary': Binary,
-    'picture': Picture,
+    'picture': Image,
     'text': Text,
     'text_tag': Text,
     'text_html': TinyMCE,

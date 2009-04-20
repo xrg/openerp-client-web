@@ -88,6 +88,11 @@ class Root(TinyResource):
         """
         return self.user_action('menu_id')
 
+    @expose()
+    def quickmenu(self):
+        cherrypy.request.quickmenu = True
+        return self.user_action('menu_id')
+
     @expose(allow_json=True)
     @unsecured
     def login(self, db=None, user=None, password=None, style=None, location=None, **kw):

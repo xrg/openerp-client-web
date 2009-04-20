@@ -125,6 +125,11 @@ class List(TinyWidget):
         except:
             pass
 
+        try:
+            self.limit = int(attrs.get('limit'))
+        except:
+            pass
+
         self.colors = {}
         for color_spec in attrs.get('colors', '').split(';'):
             if color_spec:

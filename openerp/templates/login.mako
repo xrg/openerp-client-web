@@ -17,7 +17,7 @@
 
         <form action="${target}" method="post" name="loginform">
             % for key, value in origArgs.items():
-            <input type="hidden" name="${key}" value="${str(value)}"/>
+            <input type="hidden" name="${key}" value="${value}"/>
             % endfor
             <input type="hidden" name="login_action" value="login"/>
         

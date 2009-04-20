@@ -54,7 +54,7 @@ class O2M(TinyInputWidget):
         super(O2M, self).__init__(**attrs)
 
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
-        self.default_get_ctx = attrs.get('default_get', {})
+        self.default_get_ctx = attrs.get('default_get', {}) or attrs.get('context', {})
 
 #        self.colspan = 4
 #        self.nolabel = True

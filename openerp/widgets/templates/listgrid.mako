@@ -174,7 +174,7 @@
                              % if 'sum' in field_attrs:
                                  % for key, val in field_total.items():
                                      % if field == key:
-                                     <span style="border: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
+                                     <span style="border-top: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
                                      % endif
                                  % endfor
                              % endif

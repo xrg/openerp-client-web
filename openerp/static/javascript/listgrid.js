@@ -111,32 +111,21 @@ ListView.prototype = {
     },
 
     makeArgs: function(){
+        
         var args = {};
-        var names = this.name.split('/');
+        var name = '/' + this.name;
+        var names = name.split('/');
 
-        var values = ['id', 'ids', 'model', 'view_ids', 'view_mode', 'view_type', 
-                      'domain', 'context', 'offset', 'limit', 'editable', 'selectable'];
+        var prefix = '';
 
-        forEach(values, function(val){
-            var key = '_terp_' + val;
-            var elem = getElement(key);
+        while(names.length) {
+            
+            var name = names.shift();
+            prefix = prefix + (name ? name + '/' : '');
 
-            if (elem) args[key] = elem.value;
-        });
-
-        for(var i=0; i<names.length; i++){
-
-            var name = names[i];
-            var prefix = names.slice(0, i).join('/');
-
-            prefix = prefix ? prefix + '/' + name : name;
-            prefix = prefix + '/';
-
-            forEach(values, function(val){
-                var key = prefix + '_terp_' + val;
-                var elem = getElement(key);
-
-                if (elem) args[key] = elem.value;
+            var items = $$('[name^=' + prefix + '_terp_]');
+            forEach(items, function(item){
+                args[item.name] = item.value;
             });
         }
 
@@ -492,7 +481,7 @@ MochiKit.Base.update(ListView.prototype, {
             var _terp_count = $(self.name + '/_terp_count') || $('_terp_count');
             
             if(obj.ids) {
-                _terp_id.value = obj.ids[0];
+                _terp_id.value = obj.ids.length ? obj.ids[0] : 'False';
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
                 _terp_count.value = obj.count;
             }

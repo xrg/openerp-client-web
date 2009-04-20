@@ -53,7 +53,11 @@ var form_hookOnChange = function() {
     for(var name in fields) {
         var field = getElement(name);
         if (field && field.value && getNodeAttribute(field, 'callback')) {
-            MochiKit.Signal.signal(field, 'onchange');
+            if (field.onchange) {
+                field.onchange();
+            } else {
+                MochiKit.Signal.signal(field, 'onchange');
+            }
         }
     }
 }
@@ -274,7 +278,8 @@ var form_setReadonly = function(container, field, readonly) {
     }
     
     if (field.type == 'hidden' && kind == 'many2one') {
-        form_setReadonly(container, getElement(field.name + '_text'), readonly);
+        //form_setReadonly(container, getElement(field.name + '_text'), readonly);
+        return ManyToOne(field).setReadonly(readonly);
     }
     
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
