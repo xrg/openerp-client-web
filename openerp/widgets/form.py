@@ -40,10 +40,10 @@ import cherrypy
 
 from openerp import icons
 from openerp import tools
-from openerp import format
 from openerp import common
 from openerp import rpc
 
+from openerp.i18n import format
 from openerp.utils import TinyDict
 
 from interface import TinyInputWidget

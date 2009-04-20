@@ -4,7 +4,7 @@ import cherrypy
 from openerp.validators import Invalid
 
 
-__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if", "decorated"]
+__all__ = ["check_request_exists", "url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if", "decorated"]
 
 
 def check_request_exists():

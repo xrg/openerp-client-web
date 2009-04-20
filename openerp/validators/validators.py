@@ -36,8 +36,8 @@ import math
 import base64
 import locale
 
-from openerp import format
 from openerp import icons
+from openerp.i18n import format
 
 from formencode.validators import *
 from formencode.schema import Schema

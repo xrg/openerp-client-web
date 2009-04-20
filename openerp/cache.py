@@ -36,6 +36,7 @@ import cherrypy
 
 from gettext import translation
 
+import i18n
 import rpc
 
 __cache_references = []
@@ -100,37 +101,6 @@ def __can_write(model, sid):
 
 def can_write(model):
     return __can_write(model, sid=cherrypy.session.id)
-
-@memoize(10000, True)
-def _gettext(key, locale, domain):
-    return tg_gettext.tg_gettext(key, locale, domain)
-
-def gettext(key, locale=None, domain=None):
-    if key in __TRANSLATABLES:
-        return _gettext(key, locale or tg_gettext.get_locale(), 'messages')
-    return key
-
-def __load_translatables():
-
-    localedir = tg_gettext.get_locale_dir()
-
-    #XXX: TG bug #1631
-    if not localedir:
-        from turbogears import config
-        config.update({'package': 'openerp'})
-        localedir = tg_gettext.get_locale_dir()
-
-    result = {}
-    for lang in os.listdir(localedir):
-        try:
-            t = translation(domain='messages', localedir=localedir, languages=[lang])
-            result.update(t._catalog)
-        except:
-            pass
-
-    return result.keys()
-
-#TODO: __TRANSLATABLES = __load_translatables()
 
 # vim: ts=4 sts=4 sw=4 si et
 

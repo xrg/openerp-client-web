@@ -35,8 +35,9 @@ import xml.dom.minidom
 from openerp import rpc
 from openerp import tools
 from openerp import icons
-from openerp import format
 from openerp import common
+
+from openerp.i18n import format
 
 import form
 

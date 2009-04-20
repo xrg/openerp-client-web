@@ -7,11 +7,6 @@ import optparse
 
 from os.path import join, dirname, exists
 
-libdir = join(dirname(dirname(os.path.abspath(__file__))), 'lib')
-if os.path.exists(libdir) and libdir not in sys.path:
-    sys.path.insert(0, libdir)
-del libdir
-
 import cherrypy
 from cherrypy._cpconfig import as_dict
 from formencode import NestedVariables

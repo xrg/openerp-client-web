@@ -34,8 +34,8 @@ import cherrypy
 
 from openerp import rpc
 from openerp import common
-from openerp import format
 
+from openerp.i18n import format
 from openerp.utils import TinyDict
 from openerp.tinyres import TinyResource
 

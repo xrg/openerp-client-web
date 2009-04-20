@@ -1,3 +1,15 @@
+import os
+import sys
+
+libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib')
+if os.path.exists(libdir) and libdir not in sys.path:
+    sys.path.insert(0, libdir)
+
+del os
+del sys
+del libdir
+
+
 def ustr(value):
     """This method is similar to the builtin `str` method, except
     it will return Unicode string.
@@ -31,8 +43,11 @@ def ustr(value):
     from locale import getlocale
     return unicode(value, getlocale()[1])
 
+from i18n import gettext
+
+__builtins__['_'] = gettext
 __builtins__['ustr'] = ustr
-__builtins__['_'] = lambda v: v #TODO: implement lazy gettext
+
 
 # vim: ts=4 sts=4 sw=4 si et
 
