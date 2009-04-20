@@ -44,10 +44,10 @@ __all__ = ['find_resource', 'load_template', 'renderer', 'expose',
            'register_template_vars']
 
 
-def to_blank(value):
+def content(value):
     if value is None:
         return ""
-    return value
+    return unicode(value)
 
 
 def find_resource(package_or_module, *names):
@@ -65,8 +65,8 @@ def load_template(template, module=None):
     if not template:
         return template
 
-    filters = ["to_blank", "unicode"]
-    imports = ["from openerp.tools.expose import to_blank"]
+    filters = ["content"]
+    imports = ["from openerp.tools.expose import content"]
 
     if re.match('(.+)\.(html|mako)\s*$', template):
 
@@ -124,6 +124,7 @@ def _py_vars():
         'url': utils.url,
         'attrs': utils.attrs,
         'attr_if': utils.attr_if,
+        'content': content,
         'checker': lambda e: utils.attr_if('checked', e),
         'selector': lambda e: utils.attr_if('selected', e),
         'readonly': lambda e: utils.attr_if('readonly', e),
