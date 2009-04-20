@@ -13,7 +13,7 @@
         kind="${kind}" 
         class="checkbox"
         id="${name}_checkbox_" 
-        ${py.checked(value)}
+        ${py.checker(value)}
         onclick="onBooleanClicked('${name}')"/>
 % endif
 
@@ -28,7 +28,7 @@
         class="checkbox" 
         id="${name}" 
         value="${value}" 
-        ${py.checked(value)}
+        ${py.checker(value)}
         disabled="disabled"/>
 % endif
 
