@@ -164,11 +164,6 @@ def default_error_handler(self, tg_errors=None, **kw):
     @param tg_errors: errors
     """
     params, data = TinyDict.split(kw)
-    
-    print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-    print tg_errors
-    print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-    
     return self.create(params, tg_errors=tg_errors)
 
 def default_exception_handler(self, tg_exceptions=None, **kw):

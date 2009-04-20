@@ -455,17 +455,16 @@ class InputWidget(Widget):
         if value is None:
             value = self.get_default()
 
-        if self.is_root:
-            error = d.setdefault('error', getattr(cherrypy.request, 'validation_exception', None))
-        else:
-            error = d.setdefault('error', None)
-            
+        error = getattr(cherrypy.request, 'validation_exception', None)
+
         if error:
-            if self.children:
-                self.propagate_errors(d, error)
-                
-            if self.is_root:
-                value = getattr(cherrypy.request, 'validation_value', None)
+            value = getattr(cherrypy.request, 'validation_value', None)
+            if not self.is_root:
+                value = value.get(self._name, None)
+
+            d['error'] = d.setdefault('error', error.error_dict.get(self._name, None))
+        else:
+            d['error'] = d.setdefault('error', None)
 
         if not isinstance(self.validator, (ForEach,Schema)):
             # Need to coerce value in case the form is being redisplayed with 
@@ -509,25 +508,6 @@ class InputWidget(Widget):
         if d.error:
             d.css_classes.append("has_error")
 
-    def propagate_errors(self, parent_kw, parent_error):
-        child_args = parent_kw.setdefault('child_args',{})
-        if parent_error.error_dict:
-            if self.strip_name:
-                for c in self.children:
-                    for subc in c.children:
-                        if hasattr(subc, '_name'):
-                            try:
-                                e = parent_error.error_dict.pop(subc._name)
-                            except KeyError:
-                                continue
-                            if c._name not in parent_error.error_dict:
-                                inv = Invalid("some error", {}, e.state, error_dict={})
-                                parent_error.error_dict[c._name] = inv
-                            child_errors = parent_error.error_dict[c._name].error_dict
-                            child_errors[subc._name] = e
-            for k,v in parent_error.error_dict.iteritems():
-                child_args.setdefault(k, {})['error'] = v
-
     def _get_child_error_getter(self, error):
         def error_getter(child_id):
             try:
@@ -539,140 +519,6 @@ class InputWidget(Widget):
             return None
         return error_getter
 
-    def post_init(self, *args, **kw):
-        """
-        Takes care of post-initialization of InputWidgets.
-        """
-        #TODO: self.generate_schema()
-        pass
-
-    def generate_schema(self):
-        """
-        If the widget has children this method generates a `Schema` to validate
-        including the validators from all children once these are all known.
-        """
-        if _has_child_validators(self):
-            
-            # filter out non input children
-            children = self.ifilter_children(lambda f: isinstance(f, InputWidget))
-
-            if isinstance(self.validator, Schema):
-                #log.debug("Extending Schema for %r", self)
-                self.validator = _update_schema(_copy_schema(self.validator), children)
-
-            elif isclass(self.validator) and issubclass(self.validator, Schema):
-                #log.debug("Instantiating Schema class for %r", self)
-                self.validator = _update_schema(self.validator(), children)
-
-            elif self.validator is DefaultValidator:
-                self.validator = _update_schema(Schema(), children)
-
-            if self.is_root and hasattr(self.validator, 'pre_validators'):
-                #XXX: Maybe add VariableDecoder to every Schema??
-                #log.debug("Appending decoder to %r", self)
-                self.validator.pre_validators.insert(0, VariableDecoder)
-
-            for c in children:
-                if c.strip_name:
-                    v = self.validator.fields.pop(c._name)
-                    merge_schemas(self.validator, v, True)
-
-
-#------------------------------------------------------------------------------
-# Automatic validator generation functions.
-#------------------------------------------------------------------------------
-
-
-def _has_validator(w):
-    try:
-        return w.validator is not None
-    except AttributeError:
-        return False
-
-
-def _has_child_validators(widget):
-    for w in widget.children:
-        if _has_validator(w): return True
-    return False
-
-
-
-def _copy_schema(schema):
-    """
-    Does a deep copy of a Schema instance
-    """
-    new_schema = copy.copy(schema)
-    new_schema.pre_validators = copy.copy(schema.pre_validators)
-    new_schema.chained_validators = copy.copy(schema.chained_validators)
-    new_schema.order = copy.copy(schema.order)
-    fields = {}
-    for k, v in schema.fields.iteritems():
-        if isinstance(v, Schema):
-            v = _copy_schema(v)
-        fields[k] = v
-    new_schema.fields = fields
-    return new_schema
-    
-def _update_schema(schema, children):
-    """
-    Extends a Schema with validators from children. Does not clobber the ones
-    declared in the Schema.
-    """
-    for w in ifilter(_has_validator, children): 
-        _add_field_to_schema(schema, w._name, w.validator)
-    return schema
-
-def _add_field_to_schema(schema, name, validator):
-    """ Adds a validator if any to the given schema """
-    if validator is not None:
-        if isinstance(validator, Schema):
-            # Schema instance, might need to merge 'em...
-            if name in schema.fields:
-                assert isinstance(schema.fields[name], Schema), "Validator for '%s' should be a Schema subclass" % name
-                validator = merge_schemas(schema.fields[name], validator)
-            schema.add_field(name, validator)
-        elif _can_add_field(schema, name):
-            # Non-schema validator, add it if we can...
-            schema.add_field(name, validator)
-    elif _can_add_field(schema, name):
-        schema.add_field(name, DefaultValidator)
-
-def _can_add_field(schema, field_name):
-    """
-    Checks if we can safely add a field. Makes sure we're not overriding
-    any field in the Schema. DefaultValidators are ok to override. 
-    """
-    current_field = schema.fields.get(field_name)
-    return bool(current_field is None or
-                isinstance(current_field, DefaultValidator))
-
-def merge_schemas(to_schema, from_schema, inplace=False):
-    """ 
-    Recursively merges from_schema into to_schema taking care of leaving
-    to_schema intact if inplace is False (default).
-    """
-    if not inplace:
-        to_schema = _copy_schema(to_schema)
-
-    # Recursively merge child schemas
-    is_schema = lambda f: isinstance(f[1], Schema)
-    seen = set()
-    for k, v in ifilter(is_schema, to_schema.fields.iteritems()):
-        seen.add(k)
-        from_field = from_schema.fields.get(k)
-        if from_field:
-            v = merge_schemas(v, from_field)
-            to_schema.add_field(k, v)
-
-    # Add remaining fields if we can
-    can_add = lambda f: f[0] not in seen and _can_add_field(to_schema, f[0])
-    for field in ifilter(can_add, from_schema.fields.iteritems()):
-        to_schema.add_field(*field)
-                
-    return to_schema
-
-class VariableDecoder(NestedVariables):
-    pass
 
 def _field_getter(children):
     return lambda name: children[name]
