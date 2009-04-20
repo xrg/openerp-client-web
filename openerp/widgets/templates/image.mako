@@ -23,6 +23,6 @@
 % endif
 
 % if not stock and not id and editable:
-    <input type="file" class="${field_class}" id="${name}" ${py.attrs(attrs)} name="${name}"/>
+    <input type="file" class="${css_class}" id="${name}" ${py.attrs(attrs)} name="${name}"/>
 % endif
 
