@@ -81,14 +81,14 @@ def __fields_view_get(model, view_id, view_type, context, hastoolbar, uid):
     return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
 
 def fields_view_get(model, view_id, view_type, context, hastoolbar=False):
-    return __fields_view_get(model, view_id, view_type, context, hastoolbar=hastoolbar, uid=rpc.session.id)
+    return __fields_view_get(model, view_id, view_type, context, hastoolbar=hastoolbar, uid=rpc.session.uid)
 
 @memoize(1000)
 def __fields_get(model, fields, context, uid):
     return rpc.RPCProxy(model).fields_get(fields, context)
 
 def fields_get(model, fields, context):
-    return __fields_get(model, fields, context, uid=rpc.session.id)
+    return __fields_get(model, fields, context, uid=rpc.session.uid)
 
 @memoize(1000)
 def __can_write(model, uid):
@@ -100,7 +100,7 @@ def __can_write(model, uid):
     return False
 
 def can_write(model):
-    return __can_write(model, uid=rpc.session.id)
+    return __can_write(model, uid=rpc.session.uid)
 
 # vim: ts=4 sts=4 sw=4 si et
 
