@@ -203,7 +203,7 @@ var copyCalendarRecord = function(record_id){
         '_terp_context': $('_terp_context').value
     }
 
-    return Ajax.post('/calpopup/duplicate', params);
+    return Ajax.post('/calendar/duplicate', params);
 }
 
 // vim: ts=4 sts=4 sw=4 si et

@@ -172,11 +172,6 @@ class TinyCalendar(Form):
         except Exception, e:
             pass
 
-        if new_id:
-            params.id = new_id
-            params.ids += [int(new_id)]
-            params.count += 1
-
         return dict(id=new_id)
 
     def _get_gantt_records(self, model, ids=None, group=None):

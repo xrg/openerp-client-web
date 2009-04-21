@@ -33,6 +33,7 @@ This module defines validators.
 import re
 import cgi
 import math
+import time
 import base64
 import locale
 
@@ -136,23 +137,27 @@ class FloatTime(Float):
 
         return 0.0
 
-class DateTime(DateConverter):
+class DateTime(FancyValidator):
     if_empty = False
     kind = "datetime"
 
-    def __init__(self, kind="datetime", allow_empty=None, *args, **kwargs):
-        super(DateTime, self).__init__(allow_empty=allow_empty, *args, **kwargs)
+    def __init__(self, kind="datetime", *args, **kwargs):
+        super(DateTime, self).__init__(*args, **kwargs)
         self.format = format.get_datetime_format(kind)
         self.kind = kind
 
     def _to_python(self, value, state):
         # do validation
-        res = super(DateTime, self)._to_python(value, state)
+        try:
+            res = time.strptime(value, self.format)
+        except ValueError:
+            raise Invalid(_('Invalid datetime format'), value, state)
         # return str instead of real datetime object
         return format.parse_datetime(value, kind=self.kind)
 
     def _from_python(self, value, state):
         return format.format_datetime(value, kind=self.kind)
+
 
 class Selection(FancyValidator):
     if_empty = False
