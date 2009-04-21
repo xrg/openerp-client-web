@@ -80,8 +80,7 @@ def load_template(template, module=None):
 
         lookup = TemplateLookup(directories=[dirname],
                                 default_filters=filters,
-                                imports=imports,
-                                module_directory=dirname)
+                                imports=imports)#,module_directory=dirname)
 
         return lookup.get_template(basename)
 
@@ -191,10 +190,14 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
 
             if isinstance(res, basestring):
                 return res
-
-            tmpl = kw.get('cp_template', template)
-            if tmpl:
-
+            
+            template_c = kw.get('cp_template', getattr(func, "template_c", template))
+            
+            if template_c:
+                
+                if not isinstance(template_c, Template):
+                    func.template_c = template_c = load_template(template_c, func.__module__)
+                    
                 from openerp.widgets import merge_resources
                 from openerp.widgets import js_i18n
 
@@ -203,7 +206,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
                     if hasattr(w, 'retrieve_resources') and w.is_root:
                         _resources = merge_resources(_resources, w.retrieve_resources())
 
-                return renderer(tmpl, func.__module__)(**res).encode("utf-8")
+                return renderer(template_c)(**res).encode("utf-8")
 
             if not isinstance(res, basestring):
                 #TODO: convert to json?
