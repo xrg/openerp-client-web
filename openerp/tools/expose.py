@@ -177,6 +177,8 @@ def renderer(template, module=None):
 def expose(format='html', template=None, content_type='text/html', allow_json=False):
 
     def expose_wrapper(func):
+        
+        template_c = load_template(template, func.__module__)
 
         def func_wrapper(*args, **kw):
 
@@ -191,13 +193,9 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
             if isinstance(res, basestring):
                 return res
             
-            template_c = kw.get('cp_template', getattr(func, "template_c", template))
-            
-            if template_c:
+            _template = load_template(kw.get('cp_template'), func.__module__) or template_c
+            if _template:
                 
-                if not isinstance(template_c, Template):
-                    func.template_c = template_c = load_template(template_c, func.__module__)
-                    
                 from openerp.widgets import merge_resources
                 from openerp.widgets import js_i18n
 
@@ -206,7 +204,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
                     if hasattr(w, 'retrieve_resources') and w.is_root:
                         _resources = merge_resources(_resources, w.retrieve_resources())
 
-                return renderer(template_c)(**res).encode("utf-8")
+                return renderer(_template)(**res).encode("utf-8")
 
             if not isinstance(res, basestring):
                 #TODO: convert to json?
