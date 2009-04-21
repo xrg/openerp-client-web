@@ -4,16 +4,7 @@ import cherrypy
 from openerp.validators import Invalid
 
 
-__all__ = ["check_request_exists", "url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if", "decorated"]
-
-
-def check_request_exists():
-    try:
-        cherrypy.request._test_request_exists = 1
-        del cherrypy.request._test_request_exists
-        return True
-    except:
-        return False
+__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if", "decorated"]
 
 
 def url(*args, **kw):
@@ -39,7 +30,7 @@ def url(*args, **kw):
 
     if path.startswith('/'):
         webpath = (cherrypy.config.get('server.webpath') or '').rstrip('/')
-        if check_request_exists():
+        if cherrypy.request.app:
             path = cherrypy.request.app.script_name + path
         path = webpath + path
 
