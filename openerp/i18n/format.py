@@ -46,6 +46,13 @@ DT_SERVER_FORMATS = {
   'time' : '%H:%M:%S'
 }
 
+__pat = re.compile("\%\(([dMy]+)\)s")
+__sub = {'d': '%d', 'M': '%m', 'y': '%Y'}
+def _to_posix_format(format):
+    """Convert LDML format string to posix format string.
+    """
+    return __pat.sub(lambda m: __sub[m.group(1)[0]], format)
+
 def get_datetime_format(kind="datetime"):
     """Get local datetime format.
 
@@ -59,7 +66,8 @@ def get_datetime_format(kind="datetime"):
     fmt = "%H:%M:%S"
 
     if kind != "time":
-        fmt =  DT_SERVER_FORMATS[kind]#dates.get_date_format("short", locale=get_locale()).pattern.replace("%y", "%Y")
+        fmt =  dates.get_date_format("short", locale=get_locale()).format
+        fmt = _to_posix_format(fmt)
 
     if kind == "datetime":
         fmt += " %H:%M:%S"

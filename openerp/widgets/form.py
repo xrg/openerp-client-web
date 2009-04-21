@@ -491,7 +491,7 @@ class DateTime(TinyInputWidget):
         self.validator = validators.DateTime(kind=attrs['type'])
 
     def set_value(self, value):
-        self._default = value or False
+        super(DateTime, self).set_value(value or False)
 
 
 class Binary(TinyInputWidget):

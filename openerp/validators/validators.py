@@ -140,7 +140,7 @@ class DateTime(DateConverter):
     if_empty = False
     kind = "datetime"
 
-    def __init__(self, kind="datetime", allow_empty = None, *args, **kwargs):
+    def __init__(self, kind="datetime", allow_empty=None, *args, **kwargs):
         super(DateTime, self).__init__(allow_empty=allow_empty, *args, **kwargs)
         self.format = format.get_datetime_format(kind)
         self.kind = kind
@@ -152,6 +152,7 @@ class DateTime(DateConverter):
         return format.parse_datetime(value, kind=self.kind)
 
     def _from_python(self, value, state):
+        print "XXXXX", value, "=", format.format_datetime(value, kind=self.kind)
         return format.format_datetime(value, kind=self.kind)
 
 class Selection(FancyValidator):

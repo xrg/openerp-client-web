@@ -8,7 +8,7 @@
                     id="${name}" 
                     class="${css_class}" 
                     name="${name}" 
-                    value="${strdate or None}" ${py.attrs(attrs)}/>
+                    value="${value}" ${py.attrs(attrs)}/>
                 % if error:
                 <span class="fielderror">${error}</span>
                 % endif
@@ -32,6 +32,6 @@
         </tr>
     </table>
 % elif strdate:
-    <span kind="${kind}" id="${name}" value="${value}">${strdate}</span>
+    <span kind="${kind}" id="${name}" value="${value}">${value}</span>
 % endif
 
