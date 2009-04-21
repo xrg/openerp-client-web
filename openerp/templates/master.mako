@@ -78,12 +78,14 @@ except:
                                 <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
                                     <div style="width: 26px;"/>
                                 </td>
-                                <td class="menu_connection_welcome" nowrap="norwap">Welcome <span>${rpc.session.user_name or 'guest'}</span></td>
+                                <td class="menu_connection_welcome" nowrap="norwap">
+                                    ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
+                                </td>
                                 <td class="menu_connection_links" nowrap="norwap">
-                                    <a href="/">Home</a>
-                                    <a href="/pref/create/">Preferences</a>
-                                    <a href="/about">About</a>
-                                    <a href="/logout">Logout</a>
+                                    <a href="/">${_("Home")}</a>
+                                    <a href="/pref/create/">${_("Preferences")}</a>
+                                    <a href="/about">${_("About")}</a>
+                                    <a href="/logout">${_("Logout")}</a>
                                 </td>
                             </tr>
                         </table>
@@ -92,7 +94,7 @@ except:
                 <tr>
                     % if rpc.session.is_logged():
                     <td align="right" valign="middle" style="padding-right: 4px;">
-                        Requests: <a href="${py.url('/requests', ids=requests)}">${requests_message}</a>
+                        ${_("Requests:")} <a href="${py.url('/requests', ids=requests)}">${requests_message}</a>
                     </td>
                     % endif
                 </tr>
@@ -102,10 +104,10 @@ except:
                         <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                             <tr>
                                 <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                                    <a href="/menu">MAIN MENU</a>
+                                    <a href="/menu">${_("MAIN MENU")}</a>
                                 </td>
                                 <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
-                                    <a href="/shortcuts">SHORTCUTS</a>
+                                    <a href="/shortcuts">${_("SHORTCUTS")}</a>
                                 </td>
                                 <td width="26" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
                                 % if rpc.session.is_logged():
@@ -164,9 +166,14 @@ except:
     <tr>
         <td>
             <div id="footer">
-            Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More Information on <a href="http://openerp.com">http://openerp.com</a>.<br/>
-            The web client is developed by Axelor (<a href="http://axelor.com">http://axelor.com</a>) and Tiny (<a href="http://tiny.be">http://tiny.be</a>)<br/>
-            Running Server: <span>${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} - database: ${rpc.session.db or 'N/A'}</span><br/>
+${_("Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.")}
+${_("More Information on %s") % ("""<a href="http://openerp.com">http://openerp.com</a>.""")}
+<br/>
+${_("The web client is developed by %(axelor)s and %(tiny)s.", 
+    tiny="""Tiny (<a href="http://tiny.be">http://tiny.be</a>)""",
+    axelor="""Axelor (<a href="http://axelor.com">http://axelor.com</a>)""")}
+<br/>
+${_("Running Server:")} <span>${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} - database: ${rpc.session.db or 'N/A'}</span><br/>
             </div>
         </td>
     </tr>
