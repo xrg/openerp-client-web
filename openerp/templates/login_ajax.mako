@@ -69,20 +69,20 @@
             % if style=='ajax_small':
             <table align="center" border="0">
                 <tr>
-                    <td><strong>User:</strong></td>
+                    <td><strong>${_("User:")}</strong></td>
                 </tr>
                 <tr>
                     <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
                 </tr>
                 <tr>
-                    <td><strong>Password:</strong></td>
+                    <td><strong>${_("Password:")}</strong></td>
                 </tr>
                 <tr>
                     <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
                 </tr>
                 <tr>
                     <td>
-                        <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
+                        <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
                     </td>
                 </tr>
             </table>
@@ -91,24 +91,24 @@
             % if style=='ajax':
             <table align="center" cellspacing="2px" border="0">
                 <tr>
-                    <td class="label">User:</td>
+                    <td class="label">${_("User:")}</td>
                     <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
                 </tr>
                 <tr>
-                    <td class="label">Password:</td>
+                    <td class="label">${_("Password:")}</td>
                     <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
                     <td align="right">
-                        <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
+                        <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
                     </td>
                 </tr>
             </table> 
             % endif
 
         </form>
-        <div id="message" style="display: none; color: red; text-align: center;">Bad username or password!</div>
+        <div id="message" style="display: none; color: red; text-align: center;">${_("Bad username or password!")}</div>
 
     </div>
 </%def>

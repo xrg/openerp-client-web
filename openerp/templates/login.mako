@@ -1,7 +1,7 @@
 <%inherit file="master.mako"/>
 
 <%def name="header()">
-    <title>Login</title>
+    <title>${_("Login")}</title>
 </%def>
 
 <%def name="content()">
@@ -21,19 +21,19 @@
             % endfor
             <input type="hidden" name="login_action" value="login"/>
         
-            <div class="box2 welcome">Welcome to OpenERP</div>
+            <div class="box2 welcome">${_("Welcome to OpenERP")}</div>
 
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
                     % if dblist is not None:
                     <tr>
                         <td class="label">
-                            <span>Server:</span>
+                            <span>${_("Server:")}</span>
                         </td>
                         <td>${url}</td>
                     </tr>
                     <tr>
-                        <td class="label">Database:</td>
+                        <td class="label">${_("Database:")}</td>
                         <td>
                             <select name="db" style="width: 302px;">
                                 % for v in dblist or []:
@@ -45,21 +45,21 @@
                     % endif
 
                     <tr>
-                        <td class="label">User:</td>
+                        <td class="label">${_("User:")}</td>
                         <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
                     </tr>
                     
                     <tr>
-                        <td class="label">Password:</td>
+                        <td class="label">${_("Password:")}</td>
                         <td><input type="password" value="${password}" id="password" name="password" style="width: 300px;"/></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td align="right">
                             % if cp.config('dbbutton.visible', 'openerp-web'):
-                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='/database'">Databases</button>
+                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='/database'">${_("Databases")}</button>
                             % endif
-                            <button type="submit" style="width: 80px; white-space: nowrap">Login</button>
+                            <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
                         </td>
                     </tr>
                 </table>                
