@@ -152,7 +152,6 @@ class DateTime(DateConverter):
         return format.parse_datetime(value, kind=self.kind)
 
     def _from_python(self, value, state):
-        print "XXXXX", value, "=", format.format_datetime(value, kind=self.kind)
         return format.format_datetime(value, kind=self.kind)
 
 class Selection(FancyValidator):
