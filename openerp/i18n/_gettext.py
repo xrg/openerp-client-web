@@ -1,5 +1,6 @@
 import os
 import sys
+import string
 
 from gettext import translation
 
@@ -10,7 +11,7 @@ import cherrypy
 from openerp.i18n.utils import get_locale
 
 
-__all__ = ['get_locale_dir', 'is_locale_supported', 'get_catalog', 'gettext']
+__all__ = ['get_locale_dir', 'is_locale_supported', 'get_catalog', 'gettext', 'install']
 
 
 _locale_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "locales"))
@@ -104,12 +105,19 @@ def lazify(func):
 _lazy_gettext = lazify(_gettext)
 
 def gettext(key, locale=None, domain=None):
+    if cherrypy.request.app:
+        return _gettext(key, locale, domain)
+    return _lazy_gettext(key, locale, domain)
 
-    try:
-        cherrypy.request._test_exists = 1
-        del cherrypy.request._test_exists        
-        return _lazy_gettext(key, locale, domain)
-    except:
-        pass
-    return _gettext(key, locale, domain)
+def gettext2(key, locale=None, domain=None, **kw):
+    value = gettext(key, locale, domain)
+    if kw:
+        try:
+            return value % kw or None
+        except:
+            pass
+    return value
+    
+def install():
+    __builtins__['_'] = gettext2
 

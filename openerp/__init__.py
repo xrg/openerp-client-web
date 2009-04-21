@@ -43,10 +43,10 @@ def ustr(value):
     from locale import getlocale
     return unicode(value, getlocale()[1])
 
-from i18n import gettext
-
-__builtins__['_'] = gettext
 __builtins__['ustr'] = ustr
+
+import i18n
+i18n.install()
 
 
 # vim: ts=4 sts=4 sw=4 si et

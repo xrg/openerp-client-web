@@ -1,2 +1,0 @@
-db_module=openerp.model
-history_dir=$base/openerp/sqlobject-history
