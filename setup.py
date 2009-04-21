@@ -1,18 +1,5 @@
 import os, sys
 
-# ubuntu 8.04 has obsoleted `pyxml` package and installs here.
-# the path needs to be updated before any `import xml`
-_oldxml = '/usr/lib/python%s/site-packages/oldxml' % sys.version[:3]
-if os.path.exists(_oldxml):
-    sys.path.append(_oldxml)
-
-# Check for PyXML as it's not compatible with pkg_resources on some systems
-try:
-    exec("import xml.xpath")
-except ImportError:
-    print 'Error: python-xml >= 0.8.4 (PyXML, XML Tools for python) is required.'
-    sys.exit(1)
-
 from setuptools import setup, find_packages
 from fnmatch import fnmatchcase
 from distutils.util import convert_path
@@ -129,7 +116,11 @@ setup(
     license = license,
 
     install_requires=[
-        "TurboGears >= 1.0.7, < 1.1b1",
+        "CherryPy >= 3.1.2",
+        "Mako >= 0.2.4",
+        "Babel >= 0.9.4",
+        "FormEncode >= 1.2.2",
+        "simplejson >= 2.0.9",
         "pyparsing >= 1.5.0"
     ],
 
@@ -146,8 +137,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Framework :: TurboGears',
-        'Framework :: TurboGears :: Applications',
+        'Framework :: CherryPy',
+        'Framework :: CherryPy :: Applications',
         ],
     test_suite = 'nose.collector',
     entry_points = {
