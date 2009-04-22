@@ -37,7 +37,7 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td><button type="button" title="${_('Create a new inherited view')}" onclick="onInherit('${model}')">Inherited View</button></td>
+                            <td><button type="button" title="${_('Create a new inherited view')}" onclick="onInherit('${model}')">${_("Inherited View")}</button></td>
                             <td width="100%">&nbsp;</td>
                             <td><button type="button" onclick="onPreview()">${_("Preview")}</button></td>
                             <td><button type="button" onclick="onClose()">${_("Close")}</button></td>

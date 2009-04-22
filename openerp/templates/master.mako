@@ -141,7 +141,7 @@ except:
                                 </td>
                                 <td align="right">
                                     % if cp.root.shortcuts.can_create():
-                                    <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">[ADD]</a>
+                                    <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">${_("[ADD]")}</a>
                                     % endif
                                 </td>
                             </tr>
