@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
-    <title>${_("Manage Views (%s)") % (mode)}</title>
+    <title>${_("Manage Views (%s)") % (model)}</title>
     <script type="text/javascript">
     
         function do_select(id, src){
