@@ -7,21 +7,18 @@ from openerp.validators import Invalid
 __all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if", "decorated"]
 
 
-def url(*args, **kw):
-    """Returns url from the provided arguments...
-    for example:
+def url(_cppath, _cpparams=None, **kw):
+    
+    path = _cppath
+    if not isinstance(_cppath, basestring):
+        path = "/".join(list(_cppath))
 
-    >>> print url('/my', 'path', a=100, b=100)
-    >>> "/my/path?a=100&b=100"
-
-    """
-
-    if not kw and isinstance(args[-1], dict):
-        kw = args[-1]
-        args = args[:-1]
-
-    path = '/'.join(map(str, args))
-    query = '&'.join(map(lambda a: '%s=%s' % (a[0], a[1]), kw.items()))
+    params = _cpparams or {}
+    if isinstance(_cpparams, list):
+        params = dict(_cpparams)
+    params.update(kw)
+    
+    query = '&'.join(map(lambda a: '%s=%s' % (a[0], a[1]), params.items()))
 
     if path and query:
         path = path + '?' + query
@@ -37,8 +34,8 @@ def url(*args, **kw):
     return path
 
 
-def redirect(*args, **kw):
-    return cherrypy.HTTPRedirect(url(*args, **kw))
+def redirect(_cppath, _cpparams=None, **kw):
+    return cherrypy.HTTPRedirect(url(_cppath, _cpparams, **kw))
 
 
 from itertools import izip, islice
