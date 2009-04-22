@@ -3,7 +3,7 @@
            kind="${kind}" 
            name='${name}' 
            id='${name}' 
-           value="${value}" 
+           value="${value | h}" 
            maxlength="${size}" 
            class="${css_class}"
            ${py.attrs(attrs)}/>

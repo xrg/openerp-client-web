@@ -15,7 +15,7 @@
 % if editable and inline:
 <input id ="${name}" name="${name}"
     type="text" class="${css_class}" kind="${kind}"
-    value="${value or None}"
+    value="${value | h}"
     ${py.attrs(attrs)}/>
 % endif
 

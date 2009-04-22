@@ -1,4 +1,4 @@
-<%inherit file="../../templates/master.mako"/>
+s<%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
     <title>${_("Field Preferences")}</title>
@@ -18,7 +18,7 @@
     <input id="_terp_model" name="_terp_field/name" value="${field['name']}" type="hidden"/>
     <input id="_terp_model" name="_terp_field/value" value="${field['value']}" type="hidden"/>
     <input id="_terp_model" name="_terp_field/string" value="${field['string']}" type="hidden"/>
-    <input id="_terp_model" name="_terp_deps2" value="${str(deps)}" type="hidden"/>
+    <input id="_terp_model" name="_terp_deps2" value="${deps | h}" type="hidden"/>
     <input id="click_ok" name="click_ok" value="${click_ok}" type="hidden"/>
 
     <table class="view" cellspacing="5" border="0" width="100%">

@@ -22,7 +22,7 @@
 
 <form id="selection" action="/selection/action" onsubmit="return onSubmit()">
 
-    <input type="hidden" name="_terp_data" value="${data}" />
+    <input type="hidden" name="_terp_data" value="${data | h}" />
 
     <div class="header">
 

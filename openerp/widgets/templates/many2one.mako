@@ -5,7 +5,7 @@
                 <input type="hidden" ${py.attrs(attrs)}
                     id='${name}' 
                     name='${name}' 
-                    value="${value or None}" 
+                    value="${value}" 
                     class="${css_class}"                     
                     kind="${kind}" 
                     domain="${domain | h}" 
@@ -13,8 +13,8 @@
                     relation="${relation}"/>
                 <input type="text" ${py.attrs(attrs)}
                     id='${name}_text' 
-                    value="${text}" 
-                    class="${css_class}"                     
+                    value="${text | h}" 
+                    class="${css_class}"
                     kind="${kind}" 
                     relation="${relation}"/>
                 % if error:
