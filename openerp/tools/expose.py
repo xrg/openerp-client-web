@@ -197,9 +197,13 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
             if _template:
                 
                 from openerp.widgets import merge_resources
+                from openerp.widgets import mochikit
                 from openerp.widgets import js_i18n
 
-                res['widget_resources'] = _resources = merge_resources({}, js_i18n.retrieve_resources())
+                res['widget_resources'] = _resources = {}
+                _resources = merge_resources(_resources, mochikit.retrieve_resources())
+                _resources = merge_resources(_resources, js_i18n.retrieve_resources())
+                
                 for k, w in res.iteritems():
                     if hasattr(w, 'retrieve_resources') and w.is_root:
                         _resources = merge_resources(_resources, w.retrieve_resources())
@@ -207,8 +211,7 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
                 return renderer(_template)(**res).encode("utf-8")
 
             if not isinstance(res, basestring):
-                #TODO: convert to json?
-                return str(res)
+                return unicode(res).encode("utf-8")
 
             return res
 
