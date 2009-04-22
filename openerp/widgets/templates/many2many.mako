@@ -6,8 +6,8 @@
                 <tr>
                     <td>
                         % if inline:
-                        <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' value="${str(screen.ids)}" ${py.attrs(attrs)} relation="${relation}"/>
-                        <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${str(screen.ids)}"/>
+                        <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' value="${screen.ids}" ${py.attrs(attrs)} relation="${relation}"/>
+                        <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${screen.ids}"/>
                         <input type="text" class="${css_class}" value="(${len(screen.ids or [])})" readonly="0" id='${name}_set' kind="${kind}" ${py.attrs(attrs)} style="width: 100%; text-align: center;"/>
                         % else:
                         <input type="text" class="${css_class}" id='${name}_set' kind="${kind}" ${py.attrs(attrs)} style="width: 100%;"/>
@@ -18,7 +18,7 @@
                     </td>
                     <td width="4px"><div class="spacer"/></td>
                     <td width="32" style="padding-left: 2px;">
-                        <button type="button" id='_${name}_button1' ${py.attrs(attrs)} domain="${domain}" context="${ctx}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, getElement('${name}_set').value);">
+                        <button type="button" id='_${name}_button1' ${py.attrs(attrs)} domain="${domain | h}" context="${ctx | h}" onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, getElement('${name}_set').value);">
                             <img width="16" height="16" src="/static/images/stock/gtk-add.png"/>
                         </button>
                     </td>
@@ -41,7 +41,7 @@
     	<td id='${name}_container'>
             ${screen.display()}
             <!-- IMP: IE problem, $('some_name') returns field with name="some_id" instead of id="some_id" -->
-            <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' name="${name}" value="${str(screen.ids)}" ${py.attrs(attrs)} relation="${relation}"/>
+            <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' name="${name}" value="${screen.ids}" ${py.attrs(attrs)} relation="${relation}"/>
         </td>
         % endif
     </tr>

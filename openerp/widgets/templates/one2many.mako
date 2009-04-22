@@ -57,7 +57,7 @@
         % if screen:
         <td>
             <input type="hidden" name="${name}/__id" id="${name}/__id" value="${id}"/>
-            <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${default_get_ctx}"/>
+            <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${default_get_ctx | h}"/>
             ${screen.display()}
         </td>
         % endif
