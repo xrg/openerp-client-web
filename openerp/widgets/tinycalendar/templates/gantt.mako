@@ -9,7 +9,7 @@
                 </td>
                 <td nowrap="nowrap">
                     <button type="button" title="${_('Today...')}" 
-                        onclick="getCalendar('${days[0].today().isoformat()}', 'day')">Today</button>
+                        onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</button>
                 </td>
                 <td nowrap="nowrap">
                     <img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" 
@@ -88,7 +88,7 @@
                             checked="${(use_search or None) and 'checked'}" 
                             onclick="getCalendar()"/>
                     </td>
-                    <td>Apply search filter</td>
+                    <td>${_("Apply search filter")}</td>
                 </tr>
             </table>
         </div>

@@ -1,17 +1,17 @@
 <table border="0" id="calContainer" width="100%">
 <tr>
-    <td style="width: 200px"><div id="calLoading">Loading...</div></td>
+    <td style="width: 200px"><div id="calLoading">${_("Loading...")}</div></td>
     <td id="calNavigation">
         <table width="100%" class="toolbar">
             <tr>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-back.png" onclick="getCalendar('${week.prev()[0].isoformat()}')"/></td>
-                <td nowrap="nowrap"><button type="button" title="${_('Today...')}" onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">Today</button></td>
+                <td nowrap="nowrap"><button type="button" title="${_('Today...')}" onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</button></td>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${week.next()[0].isoformat()}')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${week}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="${_('Day Calendar...')}" onclick="getCalendar(null, 'day')">Day</button>
-                    <button type="button" title="${_('Week Calendar...')}" disabled="disabled">Week</button>
-                    <button type="button" title="${_('Month Calendar...')}" onclick="getCalendar(null, 'month')">Month</button>
+                    <button type="button" title="${_('Day Calendar...')}" onclick="getCalendar(null, 'day')">${_("Day")}</button>
+                    <button type="button" title="${_('Week Calendar...')}" disabled="disabled">${_("Week")}</button>
+                    <button type="button" title="${_('Month Calendar...')}" onclick="getCalendar(null, 'month')">${_("Month")}</button>
                 </td>
             </tr>
         </table>
@@ -31,7 +31,7 @@
             <table border="0">
                 <tr>
                     <td><input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" checked="${(use_search or None) and 'checked'}" onclick="getCalendar()"/></td>
-                    <td>Apply search filter</td>
+                    <td>${_("Apply search filter")}</td>
                 </tr>
             </table>
         </div>
