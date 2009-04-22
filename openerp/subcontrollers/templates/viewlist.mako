@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
-    <title>Manage Views (${model})</title>
+    <title>${_("Manage Views (%s)") % (mode)}</title>
     <script type="text/javascript">
     
         function do_select(id, src){
@@ -107,7 +107,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-find.png"/>
                         </td>
-                        <td width="100%">${_("Manage Views %s") % (model)}</td>
+                        <td width="100%">${_("Manage Views (%s)") % (model)}</td>
                     </tr>
                 </table>
             </td>
@@ -144,7 +144,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">${_("Create a view %s") % (model)}</td>
+                        <td width="100%">${_("Create a view (%s)") % (model)}</td>
                     </tr>
                 </table>
             </td>
