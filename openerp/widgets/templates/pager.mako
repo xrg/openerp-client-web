@@ -3,12 +3,12 @@
         % if prev:
         <a href="javascript: void(0)" onclick="pager_action('first', '${name}'); return false;">
         % endif
-        <span>&lt;&lt; First</span>
+        <span>${_("<< First")}</span>
         % if prev:
         </a>
         <a href="javascript: void(0)" onclick="pager_action('previous', '${name}'); return false;">
         % endif
-        <span>&lt; Previous</span>
+        <span>${_("< Previous")}</span>
         % if prev:
         </a>
         % endif
@@ -16,12 +16,12 @@
         % if next:
         <a href="javascript: void(0)" onclick="pager_action('next', '${name}'); return false;">
         % endif
-        <span>Next &gt;</span>
+        <span>${_("Next >")}</span>
         % if next:
         </a>
         <a href="javascript: void(0)" onclick="pager_action('last', '${name}'); return false;">
         % endif
-        <span>Last &gt;&gt;</span>
+        <span>${_("Last >>")}</span>
         % if next:
         </a>
         % endif
@@ -30,7 +30,7 @@
     <table id="_${name+str(pager_id)}_limit_span" style="display: none" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td align="right">
-                <a href="javascript: void(0)" onclick="$('_${name+str(pager_id)}_limit_span').style.display='none'; $('_${name+str(pager_id)}_link_span').style.display=''">Change Limit:</a>&nbsp;
+                <a href="javascript: void(0)" onclick="$('_${name+str(pager_id)}_limit_span').style.display='none'; $('_${name+str(pager_id)}_link_span').style.display=''">${_("Change Limit:")}</a>&nbsp;
             </td>
             <td>
                 <select id='_${name+str(pager_id)}_limit' onchange="$('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=$('_${name+str(pager_id)}_limit').value; pager_action('filter', '${name}')">

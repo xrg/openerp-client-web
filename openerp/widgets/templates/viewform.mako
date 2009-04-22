@@ -22,22 +22,22 @@
             <td style="padding: 3px; padding-top: 0px">
                 <div class="toolbar">
                     <button type="submit" title="${_('Filter records.')}" 
-                        onclick="setNodeAttribute(form, 'action', ''); submit_search_form('find')">Filter</button>
+                        onclick="setNodeAttribute(form, 'action', ''); submit_search_form('find')">${_("Filter")}</button>
                     % if screen.editable and screen.view_type in ('form', 'tree'):
                     <button type="button" title="${_('Delete selected records.')}"
-                        onclick="new ListView('_terp_list').remove()">Delete</button>
+                        onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>
                     % endif
                     % if screen.editable and screen.view_type in ('form', 'tree'):
                     <button type="button" title="${_('Edit selected records.')}"
-                        onclick="editSelectedRecord()">Edit</button>
+                        onclick="editSelectedRecord()">${_("Edit")}</button>
                     % endif
                     % if screen.editable and not (screen.view_type=='tree' and screen.widget.editors):
                     <button type="button" title="${_('Create new record.')}" 
-                        onclick="editRecord(null)">New</button>
+                        onclick="editRecord(null)">${_("New")}</button>
                     % endif
                     % if screen.editable and (screen.view_type=='tree' and screen.widget.editors):
                     <button type="button" title="${_('Create new record.')}" 
-                        onclick="new ListView('_terp_list').create()">New</button>
+                        onclick="new ListView('_terp_list').create()">${_("New")}</button>
                     % endif
                 </div>
             </td>

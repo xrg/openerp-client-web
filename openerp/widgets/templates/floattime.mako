@@ -9,7 +9,7 @@
 % endif
 
 % if editable and error:
-    <span class="fielderror">error</span>
+    <span class="fielderror">${error}</span>
 % endif
 
 % if not editable:
