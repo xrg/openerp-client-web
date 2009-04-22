@@ -62,6 +62,16 @@ def start():
         'tools.staticdir.on': True,
         'tools.staticdir.dir': static_dir
     }})
+    
+    app_config.update({'/favicon.ico': {
+        'tools.staticfile.on': True,
+        'tools.staticfile.filename': static_dir + "/images/favicon.ico"
+    }})
+
+    app_config.update({'/LICENSE.txt': {
+        'tools.staticfile.on': True,
+        'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
+    }})
 
     from openerp.controllers import Root
     app = cherrypy.tree.mount(Root(), '/', app_config)
