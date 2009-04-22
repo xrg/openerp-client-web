@@ -1,7 +1,7 @@
 % if editable and not inline:
 <textarea rows="6" id ="${name}" name="${name}" 
     class="${css_class}" kind="${kind}"
-    ${py.attrs(attrs)}>${value}</textarea>
+    ${py.attrs(attrs)}>${value | h}</textarea>
 % endif
 
 % if editable and not inline:

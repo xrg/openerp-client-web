@@ -1,6 +1,6 @@
 <textarea id="${name}" name="${name}" kind="${kind}"
     class="${css_class}" style="width: 100%;"
-    ${py.attrs(attrs)}>${value}</textarea>
+    ${py.attrs(attrs)}>${value | h}</textarea>
 % if editable and error:
 <span class="fielderror">${error}</span>
 % endif

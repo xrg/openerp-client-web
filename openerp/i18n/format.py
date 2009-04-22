@@ -181,7 +181,7 @@ def format_decimal(value, digits=2):
     if digits == 0:
         return numbers.format_number(value, locale=locale)
     num, decimals = v.split(".", 1)
-    return numbers.format_decimal(value, locale=locale) + unicode(
+    return numbers.format_number(int(num), locale=locale) + unicode(
         numbers.get_decimal_symbol(locale) + decimals)
 
 def parse_decimal(value):
