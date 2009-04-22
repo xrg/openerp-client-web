@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 
 <%def name="header()">
-    <title>Process</title>
+    <title>${_("Process")}</title>
 
     <link type="text/css" rel="stylesheet" href="/static/workflow/css/process_box.css"/>
     <link type="text/css" rel="stylesheet" href="/static/workflow/css/process.css"/>
@@ -53,13 +53,13 @@
     <input type="hidden" id="res_model" value="${res_model}"/>
     <input type="hidden" id="res_id" value="${res_id}"/>
     <fieldset>
-        <legend><b>Select Process</b></legend>
+        <legend><b>${_("Select Process")}</b></legend>
         <select id="select_workflow" name="select_workflow" style="min-width: 150px">
             % for val, text in selection:
             <option value="${val}">${text}</option>
             % endfor
         </select>
-        <button class="button" type="button" onclick="select_workflow()">Select</button>
+        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
     </fieldset>
 </div>
 % else:
@@ -90,7 +90,7 @@
     </tr>
     <tr>
         <td class="dimmed-text">
-            [<a target="_blank" href="${py.url('/form/edit', model='process.process', id=id)}">Customize</a>]
+            [<a target="_blank" href="${py.url('/form/edit', model='process.process', id=id)}">${_("Customize")}</a>]
         </td>
     </tr>
 </table>

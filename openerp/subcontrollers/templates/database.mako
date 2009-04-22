@@ -88,23 +88,23 @@
                             <button type="button" 
                                 title="${_('Create new database')}"
                                 ${py.disabled(form.name=='create')}
-                                onclick="dbView('create')">Create</button>
+                                onclick="dbView('create')">${_("Create")}</button>
                             <button type="button" 
                                 title="${_('Drop database')}"
                                 ${py.disabled(form.name=='drop')}
-                                onclick="dbView('drop')">Drop</button>
+                                onclick="dbView('drop')">${_("Drop")}</button>
                             <button type="button" 
                                 title="${_('Backup database')}"
                                 ${py.disabled(form.name=='backup')}
-                                onclick="dbView('backup')">Backup</button>
+                                onclick="dbView('backup')">${_("Backup")}</button>
                             <button type="button" 
                                 title="${_('Restore database')}"
                                 ${py.disabled(form.name=='restore')}
-                                onclick="dbView('restore')">Restore</button>
+                                onclick="dbView('restore')">${_("Restore")}</button>
                             <button type="button" 
                                 title="${_('Change Administrator Password')}"
                                 ${py.disabled(form.name=='password')}
-                                onclick="dbView('password')">Password</button>
+                                onclick="dbView('password')">${_("Password")}</button>
                         </td>
                     </tr>
                 </table>

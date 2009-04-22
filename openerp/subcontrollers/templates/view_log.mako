@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
-    <title>Information</title>
+    <title>${_("Information")}</title>
     <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
 </%def>
 
@@ -11,7 +11,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="100%">Information</td>
+                        <td width="100%">${_("Information")}</td>
                     </tr>
                 </table>
             </td>
@@ -45,7 +45,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">OK</button>
+                                <button type="button" onclick="window.close()">${_("OK")}</button>
                             </td>
                         </tr>
                     </table>

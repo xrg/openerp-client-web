@@ -173,7 +173,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-go-up.png"/>
                         </td>
-                        <td width="100%">Export Data</td>
+                        <td width="100%">${_("Export Data")}</td>
                     </tr>
                 </table>
             </td>
@@ -186,7 +186,7 @@
         </tr>
         <tr>
             <td class="toolbar">
-                <button type="button" onclick="delete_listname(form);">Delete</button>
+                <button type="button" onclick="delete_listname(form);">${_("Delete")}</button>
             </td>
         </tr>
         % endif
@@ -194,19 +194,19 @@
             <td>
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
-                        <th class="fields-selector-left">All fields</th>
+                        <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
-                        <th class="fields-selector-right">Fields to export</th>
+                        <th class="fields-selector-right">${_("Fields to export")}</th>
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
                             <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">Add</button><br/>
-                            <button type="button" onclick="del_fields()">Remove</button><br/>
-                            <button type="button" onclick="del_fields(true)">Nothing</button><br/><br/>
-                            <button type="button" onclick="open_savelist('savelist')">Save List</button>
+                            <button type="button" onclick="add_fields()">${_("Add")}</button><br/>
+                            <button type="button" onclick="del_fields()">${_("Remove")}</button><br/>
+                            <button type="button" onclick="del_fields(true)">${_("Nothing")}</button><br/><br/>
+                            <button type="button" onclick="open_savelist('savelist')">${_("Save List")}</button>
                         </td>
                         <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
@@ -219,15 +219,15 @@
             <td>            
                 <div id="savelist" style="display: none">
                     <fieldset>
-                        <legend>Save List</legend>
+                        <legend>${_("Save List")}</legend>
                         <table>
                             <tr>                           
-                                <td class="label">Name of This Export:</td>                            
+                                <td class="label">${_("Name of This Export:")}</td>                            
                                 <td>
                                     <input type="text" id="savelist_name" name="savelist_name"/>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="save_export()">OK</button>
+                                    <button type="button" onclick="save_export()">${_("OK")}</button>
                                 </td>
                             </tr>
                         </table>
@@ -238,19 +238,19 @@
         <tr>
             <td>
                 <fieldset>
-                    <legend>Options</legend>
+                    <legend>${_("Options")}</legend>
                     <table>
                         <tr>
                             <td>
                                 <select id="export_as" name="export_as">
-                                    <option value="csv">Export as CSV</option>
-                                    <option value="xls">Export as Excel</option>
+                                    <option value="csv">${_("Export as CSV")}</option>
+                                    <option value="xls">${_("Export as Excel")}</option>
                                 </select>
                             </td>
                             <td>
                                 <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
                             </td>
-                            <td>Add field names</td>
+                            <td>${_("Add field names")}</td>
                         </tr>
                     </table>
                 </fieldset>
@@ -262,8 +262,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="do_export(form)">Export</button></td>
-                            <td><button type="button" onclick="window.close()">Close</button></td>
+                            <td><button type="button" onclick="do_export(form)">${_("Export")}</button></td>
+                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
                         </tr>
                     </table>
                 </div>

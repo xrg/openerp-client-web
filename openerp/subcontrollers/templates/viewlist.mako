@@ -107,7 +107,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-find.png"/>
                         </td>
-                        <td width="100%">Manage Views (${model})</td>
+                        <td width="100%">${_("Manage Views %s") % (model)}</td>
                     </tr>
                 </table>
             </td>
@@ -121,13 +121,13 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="onNew()">New</button>
-                                <button type="button" onclick="onEdit()">Edit</button>
-                                <button type="button" onclick="onRemove()">Remove</button>
+                                <button type="button" onclick="onNew()">${_("New")}</button>
+                                <button type="button" onclick="onEdit()">${_("Edit")}</button>
+                                <button type="button" onclick="onRemove()">${_("Remove")}</button>
                             </td>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doClose()">Close</button>
+                                <button type="button" onclick="doClose()">${_("Close")}</button>
                             </td>
                         </tr>
                     </table>
@@ -144,7 +144,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">Create a view (${model})</td>
+                        <td width="100%">${_("Create a view %s") % (model)}</td>
                     </tr>
                 </table>
             </td>
@@ -155,11 +155,11 @@
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>
-                            <td class="label">View Name:</td>
+                            <td class="label">${_("View Name:")}</td>
                             <td class="item"><input type="text" id="name" name="name" class="requiredfield"/></td>
                         </tr>
                         <tr>
-                            <td class="label">View Type:</td>
+                            <td class="label">${_("View Type:")}</td>
                             <td class="item">
                                 <select id="type" name="type" class="requiredfield">
                                     <option value="form">Form</option>
@@ -170,7 +170,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="label">Priority:</td>
+                            <td class="label">${_("Priority:")}</td>
                             <td class="item"><input type="text" id="priority" name="priority" value="16" class="requiredfield"/></td>
                         </tr>
                     </table>
@@ -184,8 +184,8 @@
                         <tr>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doCreate()">Save</button>
-                                <button type="button" onclick="doCancel()">Cancel</button>
+                                <button type="button" onclick="doCreate()">${_("Save")}</button>
+                                <button type="button" onclick="doCancel()">${_("Cancel")}</button>
                             </td>
                         </tr>
                     </table>

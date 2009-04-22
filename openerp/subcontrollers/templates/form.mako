@@ -42,31 +42,31 @@
                                             type="button" 
                                             title="${_('Tree View...')}" 
                                             ${py.attr_if("disabled",not buttons.search)}
-                                            onclick="switchView('tree')">Search</button>
+                                            onclick="switchView('tree')">${_("Search")}</button>
                                         <button 
                                             type="button" 
                                             title="${_('Form View...')}" 
                                             ${py.attr_if("disabled",not buttons.form)}
-                                            onclick="switchView('form')">Form</button>
+                                            onclick="switchView('form')">${_("Form")}</button>
                                         <button 
                                             type="button" 
                                             title="${_('Calendar View...')}" 
                                             ${py.attr_if("disabled",not buttons.calendar)}
-                                            onclick="switchView('calendar')">Calendar</button>
+                                            onclick="switchView('calendar')">${_("Calendar")}</button>
                                         <button 
                                             type="button" 
                                             title="${_('Gantt View...')}"
                                             ${py.attr_if("disabled",not buttons.gantt)}
-                                            onclick="switchView('gantt')">Gantt</button>
+                                            onclick="switchView('gantt')">${_("Gantt")}</button>
                                         <button 
                                             type="button" 
                                             title="${_('Graph View...')}" 
                                             ${py.attr_if("disabled",not buttons.graph)}
-                                            onclick="switchView('graph')">Graph</button>
+                                            onclick="switchView('graph')">${_("Graph")}</button>
                                         <button 
                                             type="button" 
                                             title="${_('Corporate Intelligence...')}"
-                                            onclick="show_process_view()">Process</button>
+                                            onclick="show_process_view()">${_("Process")}</button>
                                     </td>
                                     % endif
                                     % if buttons.can_attach and not buttons.has_attach:
@@ -125,41 +125,41 @@
                                             <button 
                                                 type="button" 
                                                 title="${_('Create a new resource')}" 
-                                                onclick="editRecord(null)">New</button>
+                                                onclick="editRecord(null)">${_("New")}</button>
                                             % endif
                                             % if buttons.edit:
                                             <button 
                                                 type="button" 
                                                 title="${_('Edit this resource')}" 
-                                                onclick="editRecord(${form.screen.id or 'null'})">Edit</button>
+                                                onclick="editRecord(${form.screen.id or 'null'})">${_("Edit")}</button>
                                             % endif
                                             % if buttons.save:
                                             <button 
                                                 type="button" 
                                                 title="${_('Save this resource')}"
-                                                onclick="submit_form('save')">Save</button>
+                                                onclick="submit_form('save')">${_("Save")}</button>
                                             <button 
                                                 type="button" 
-                                                title="${_('Save &amp; Edit this resource')}" 
-                                                onclick="submit_form('save_and_edit')">Save &amp; Edit</button>
+                                                title="${_('Save & Edit this resource')}" 
+                                                onclick="submit_form('save_and_edit')">${_("Save & Edit")}</button>
                                             % endif
                                             % if buttons.edit:
                                             <button 
                                                 type="button" 
                                                 title="${_('Duplicate this resource')}"
-                                                onclick="submit_form('duplicate')">Duplicate</button>
+                                                onclick="submit_form('duplicate')">${_("Duplicate")}</button>
                                             % endif
                                             % if buttons.delete:
                                             <button 
                                                 type="button"
                                                 title="${_('Delete this resource')}" 
-                                                onclick="submit_form('delete')">Delete</button>
+                                                onclick="submit_form('delete')">${_("Delete")}</button>
                                             % endif
                                             % if buttons.cancel:
                                             <button 
                                                 type="button" 
                                                 title="${_('Cancel editing the current resource')}" 
-                                                onclick="submit_form('cancel')">Cancel</button>
+                                                onclick="submit_form('cancel')">${_("Cancel")}</button>
                                             % endif
                                         </td>
                                         % if buttons.pager:
@@ -178,18 +178,18 @@
                     <tr>
                         <td class="dimmed-text">
                             [<a onmouseover="MochiKit.Visual.appear('customise_menu_', {from: 0, duration: 0.4});" 
-                                onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">Customise</a>]<br/>
+                                onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a>]<br/>
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
                                  onmouseover="showElement(this);" onmouseout="hideElement(this);">
                                 <a title="${_('Manage views of the current object')}" 
                                    onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
-                                   href="javascript: void(0)">Manage Views</a>
+                                   href="javascript: void(0)">${_("Manage Views")}</a>
                                 <a title="${_('Manage workflows of the current object')}" 
                                    onclick="openWindow('/workflowlist?model=${form.screen.model}&amp;active=${links.workflow_manager}', {height: 400})" 
-                                   href="javascript: void(0)">Manage Workflows</a>
+                                   href="javascript: void(0)">${_("Manage Workflows")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
                                    onclick="openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
-                                   href="javascript: void(0)">Customise Object</a>
+                                   href="javascript: void(0)">${_("Customise Object")}</a>
                             </div>
                         </td>
                     </tr>

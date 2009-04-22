@@ -54,8 +54,8 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">Close</button>                                
-                                <button type="button" onclick="submit_form('save');">Save</button>
+                                <button type="button" onclick="window.close()">${_("Close")}</button>                                
+                                <button type="button" onclick="submit_form('save');">${_("Save")}</button>
                             </td>
                         </tr>
                     </table>

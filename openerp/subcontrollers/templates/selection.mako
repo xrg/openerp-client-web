@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 
 <%def name="header()">
-    <title>Select action</title>
+    <title>${_("Select action")}</title>
 </%def>
 
 <%def name="content()">
@@ -27,7 +27,7 @@
     <div class="header">
 
         <div class="title">
-            Select your action
+            ${_("Select your action")}
         </div>
 
         <div class="spacer"></div>
@@ -49,8 +49,8 @@
                     <td width="100%">
                     </td>
                     <td>
-                        <button type="button" onclick="window.opener ? window.close() : history.back()">Cancel</button>
-                        <button type="submit">OK</button>
+                        <button type="button" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</button>
+                        <button type="submit">${_("OK")}</button>
                     </td>
                 </tr>
             </table>

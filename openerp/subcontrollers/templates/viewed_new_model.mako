@@ -42,12 +42,12 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="createNewModel()">New</button>
+                                <button type="button" onclick="createNewModel()">${_("New")}</button>
                             </td>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="window.close()">Close</button>
-                                <button type="button" onclick="submit_form('save_and_edit')">Save</button>
+                                <button type="button" onclick="window.close()">${_("Close")}</button>
+                                <button type="button" onclick="submit_form('save_and_edit')">${_("Save")}</button>
                             </td>
                         </tr>
                     </table>

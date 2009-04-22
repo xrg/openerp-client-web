@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
-    <title>Add Translations</title>
+    <title>${_("Add Translations")}</title>
     <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
 </%def>
@@ -19,7 +19,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/stock_translate.png"/>
                         </td>
-                        <td width="100%">Add Translation</td>
+                        <td width="100%">${_("Add Translation")}</td>
                     </tr>
                 </table>
             </td>
@@ -29,18 +29,18 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td class="label">Add Translation for: </td>
+                            <td class="label">${_("Add Translation for:")}</td>
                             <td>
                                 <select name="translate" onchange="window.location.href=getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
-                                    <option value="fields" ${py.selector(translate=='fields')}>Fields</option>
-                                    <option value="labels" ${py.selector(translate=='labels')}>Labels</option>
-                                    <option value="relates" ${py.selector(translate=='relates')}>Relates</option>
+                                    <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
+                                    <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
+                                    <option value="relates" ${py.selector(translate=='relates')}>${_("Relates")}</option>
                                     <option value="view" ${py.selector(translate=='view')}>View</option>
                                 </select>
                             </td>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="submit">Save</button></td>
-                            <td><button type="button" onclick="window.close()">Close</button></td>
+                            <td><button type="submit">${_("Save")}</button></td>
+                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
                         </tr>
                     </table>
                 </div>
@@ -52,7 +52,7 @@
                 <table class="grid" width="100%" cellpadding="0" cellspacing="0">
                     <tr class="grid-header">
                         % if translate=='fields':
-                        <td class="grid-cell" align="right">Field</td>
+                        <td class="grid-cell" align="right">${_("Field")}</td>
                         % endif
                         % for lang in langs:
                         <td class="grid-cell" width="${100 / len(langs)}%">${lang['name']}</td>
@@ -104,8 +104,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="submit">Save</button></td>
-                            <td><button type="button" onclick="window.close()">Close</button></td>
+                            <td><button type="submit">${_("Save")}</button></td>
+                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
                         </tr>
                     </table>
                 </div>

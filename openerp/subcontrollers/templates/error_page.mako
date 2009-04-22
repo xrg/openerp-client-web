@@ -40,13 +40,13 @@
             <td valign="top">
 <form id="view_form" onsubmit="return false;">
                 <div class='tabber' id="error_page_notebook">
-                    <div class='tabbertab' title="Maintenance">
+                    <div class='tabbertab' title="${_('Maintenance')}">
                             % if maintenance['status'] == 'none':
                             <pre>
-<b>An unknown error has been reported.</b><br/>
+<b>${_("An unknown error has been reported.")}</b><br/>
 
-<b>You do not have a valid Open ERP maintenance contract !</b><br/><br/>
-If you are using Open ERP in production, it is highly suggested to subscribe
+<b>${_("You do not have a valid Open ERP maintenance contract !")}</b><br/><br/>
+${_("""If you are using Open ERP in production, it is highly suggested to subscribe
 a maintenance program.
 
 The Open ERP maintenance contract provides you a bugfix guarantee and an
@@ -62,13 +62,13 @@ The maintenance program offers you:
 * Access to the customer portal.
 
 You can use the link bellow for more information. The detail of the error
-is displayed on the second tab.
+is displayed on the second tab.""")}
                             </pre>
                             % elif maintenance['status'] == 'partial':
                             <pre>
-<b>An unknown error has been reported.</b><br/><br/>
+<b>${_("An unknown error has been reported.")}</b><br/><br/>
 
-Your maintenance contract does not cover all modules installed in your system !
+${_("""Your maintenance contract does not cover all modules installed in your system !
 If you are using Open ERP in production, it is highly suggested to upgrade your
 contract.
 
@@ -77,25 +77,25 @@ can provide you an additional maintenance contract for these modules. After
 having reviewed your modules, our quality team will ensure they will migrate
 automatically for all futur stable versions of Open ERP at no extra cost.
 
-Here is the list of modules not covered by your maintenance contract:
+Here is the list of modules not covered by your maintenance contract:""")}
 
 % for mod in maintenance['uncovered_modules']:
 ${' * %s\n' % mod}
 % endfor
-You can use the link bellow for more information. The detail of the error
-is displayed on the second tab.
+${_("""You can use the link bellow for more information. The detail of the error
+is displayed on the second tab.""")}
                             </pre>
                             % elif maintenance['status'] == 'full':
                             <div>
                                 <table width="100%">
                                     <tr>
                                         <td colspan="2" align="center">
-                                            <strong>Maintenance contract.</strong><br/><br/>
-                                            <em>Your request will be sent to OpenERP and maintenance team will reply you shortly.</em>
+                                            <strong>${_("Maintenance contract.")}</strong><br/><br/>
+                                            <em>${_("Your request will be sent to OpenERP and maintenance team will reply you shortly.")}</em>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="label" width="5%" nowrap="nowrap">Explain what you did:</td>
+                                        <td class="label" width="5%" nowrap="nowrap">${_("Explain what you did:")}</td>
                                         <td class="item">
                                             <textarea id="explanation" class="text" rows="10"/>
                                             <script type="text/javascript">
@@ -104,7 +104,7 @@ is displayed on the second tab.
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="label">Other Comments:</td>
+                                        <td class="label">${_("Other Comments:")}</td>
                                         <td class="item">
                                             <textarea id="remarks" class="text" rows="10"/>
                                             <script type="text/javascript">
@@ -115,14 +115,14 @@ is displayed on the second tab.
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <button class="button" type="button" onclick="send_maintenance_request()">Send to Maintenance Team</button>
+                                            <button class="button" type="button" onclick="send_maintenance_request()">${_("Send to Maintenance Team")}</button>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
                             % endif
                     </div>
-                    <div class='tabbertab' title="Application Error!">
+                    <div class='tabbertab' title="${_('Application Error!')}">
                         <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20">${error}</textarea>
                         <script type="text/javascript">
                             new ResizableTextarea('error');

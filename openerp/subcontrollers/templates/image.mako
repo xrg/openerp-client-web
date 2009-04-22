@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
-    <title>Image</title>
+    <title>${_("Image")}</title>
     <script type="text/javascript">
 
         function do_delete(form, id, field){
@@ -33,7 +33,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">Image</td>
+                        <td width="100%">${_("Image")}</td>
                     </tr>
                 </table>
             </td>
@@ -48,7 +48,7 @@
                         <div class="toolbar">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
-                                <td class="label">Add Resource: </td>
+                                <td class="label">${_("Add Resource:")}</td>
                                 <td width="100%"><input type="file" id="upimage" name="upimage"/></td>
                             </tr>
                         </table>
@@ -58,12 +58,12 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
                                 <td width="100%">
-                                <button type="submit">Save</button>
-                                <button type="button" onclick="do_save(form, id)">Save As</button>
-                                <button type="button" onclick="do_delete(form, id, field)">Delete</button>
+                                <button type="submit">${_("Save")}</button>
+                                <button type="button" onclick="do_save(form, id)">${_("Save As")}</button>
+                                <button type="button" onclick="do_delete(form, id, field)">${_("Delete")}</button>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="window.close()">Close</button>
+                                    <button type="button" onclick="window.close()">${_("Close")}</button>
                                 </td>
                             </tr>
                         </table>

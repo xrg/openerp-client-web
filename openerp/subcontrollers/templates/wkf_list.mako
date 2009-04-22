@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
-    <title>Manage Workflows (${model})</title>
+    <title>${_("Manage Workflows %s") % (model)}</title>
     <script type="text/javascript">
     
         function do_select(id, src){
@@ -107,7 +107,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-find.png"/>
                         </td>
-                        <td width="100%">Manage Workflows (${model})</td>
+                        <td width="100%">${_("Manage Workflows %s") % (model)}</td>
                     </tr>
                 </table>
             </td>
@@ -121,14 +121,14 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="onNew()">New</button>
-                                <button type="button" onclick="onEdit()">Edit</button>
-                                <button type="button" onclick="onRemove()">Remove</button>
-                                <button type="button" onclick="onActivate()">Activate</button>
+                                <button type="button" onclick="onNew()">${_("New")}</button>
+                                <button type="button" onclick="onEdit()">${_("Edit")}</button>
+                                <button type="button" onclick="onRemove()">${_("Remove")}</button>
+                                <button type="button" onclick="onActivate()">${_("Activate")}</button>
                             </td>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doClose()">Close</button>
+                                <button type="button" onclick="doClose()">${_("Close")}</button>
                             </td>
                         </tr>
                     </table>
@@ -145,7 +145,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">Create a Workflow (${model})</td>
+                        <td width="100%">${_("Create a Workflow (%s)") % (model)}</td>
                     </tr>
                 </table>
             </td>
@@ -156,15 +156,15 @@
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>
-                            <td class="label">Workflow Name:</td>
+                            <td class="label">${_("Workflow Name:")}</td>
                             <td class="item"><input type="text" id="name" name="name" class="requiredfield"/></td>
                         </tr>
                         <tr>
-                            <td class="label">Resource Model:</td>
+                            <td class="label">${_("Resource Model:")}</td>
                             <td class="item"><input type="text" id="osv" name="osv" class="readonlyfield"/></td>
                         </tr>
                         <tr>
-                            <td class="label">On Create:</td>
+                            <td class="label">${_("On Create:")}</td>
                             <td class="item"><input id="on_create" name="on_create" class="checkbox" type="checkbox" checked=""/></td>                           
                         </tr>
                     </table>
@@ -178,8 +178,8 @@
                         <tr>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doCreate()">Save</button>
-                                <button type="button" onclick="doCancel()">Cancel</button>
+                                <button type="button" onclick="doCreate()">${_("Save")}</button>
+                                <button type="button" onclick="doCancel()">${_("Cancel")}</button>
                             </td>
                         </tr>
                     </table>

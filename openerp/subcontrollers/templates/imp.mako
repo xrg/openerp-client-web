@@ -141,7 +141,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-go-down.png"/>
                         </td>
-                        <td width="100%">Import Data</td>
+                        <td width="100%">${_("Import Data")}</td>
                     </tr>
                 </table>
             </td>
@@ -150,20 +150,20 @@
             <td>
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
-                        <th class="fields-selector-left">All fields</th>
+                        <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
-                        <th class="fields-selector-right">Fields to import</th>
+                        <th class="fields-selector-right">${_("Fields to import")}</th>
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="300px">
                             <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">Add</button><br/>
-                            <button type="button" onclick="del_fields()">Remove</button><br/>
-                            <button type="button" onclick="del_fields(true)">Nothing</button>
+                            <button type="button" onclick="add_fields()">${_("Add")}</button><br/>
+                            <button type="button" onclick="del_fields()">${_("Remove")}</button><br/>
+                            <button type="button" onclick="del_fields(true)">${_("Nothing")}</button>
                             <br/><br/>
-                            <button type="button" onclick="do_autodetect(form)">Auto Detect</button>
+                            <button type="button" onclick="do_autodetect(form)">${_("Auto Detect")}</button>
                         </td>
                         <td class="fields-selector-right" height="300px">
                             <select name="fields" id="fields" multiple="multiple">
@@ -179,7 +179,7 @@
         <tr>
             <td>
                 <fieldset>
-                    <legend>File to import</legend>
+                    <legend>${_("File to import")}</legend>
                     <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect(form)"/>
                 </fieldset>
             </td>
@@ -187,23 +187,23 @@
         <tr>
             <td>
                 <fieldset>
-                    <legend>Options</legend>
+                    <legend>${_("Options")}</legend>
                     <table>
                         <tr>
-                            <td class="label">Separator: </td>
+                            <td class="label">${_("Separator:")}</td>
                             <td><input type="text" name="csvsep" value=","/></td>
-                            <td class="label">Delimiter: </td>
+                            <td class="label">${_("Delimiter:")}</td>
                             <td><input type="text" name="csvdel" value='"'/></td>
                         </tr>
                         <tr>
-                            <td class="label">Encoding: </td>
+                            <td class="label">${_("Encoding:")}</td>
                             <td>
                                 <select name="csvcode">
                                     <option value="utf-8">UTF-8</option>
                                     <option value="latin1">Latin 1</option>
                                 </select>
                             </td>
-                            <td class="label">Lines to skip: </td>
+                            <td class="label">${_("Lines to skip:")}</td>
                             <td><input type="text" name="csvskip" value="1"/></td>
                         </tr>
                     </table>
@@ -216,8 +216,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="do_import(form)">Import</button></td>
-                            <td><button type="button" onclick="window.close()">Close</button></td>
+                            <td><button type="button" onclick="do_import(form)">${_("Import")}</button></td>
+                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
                         </tr>
                     </table>
                 </div>

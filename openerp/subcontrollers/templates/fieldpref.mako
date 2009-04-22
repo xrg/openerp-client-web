@@ -1,7 +1,7 @@
 <%inherit file="../../templates/master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
-    <title>Field Preferences</title>
+    <title>${_("Field Preferences")}</title>
     
     <script type="text/javascript">
         addLoadEvent(function(evt){            
@@ -29,7 +29,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">Field Preferences</td>
+                        <td width="100%">${_("Field Preferences")}</td>
                     </tr>
                 </table>
             </td>
@@ -39,15 +39,15 @@
                 <div class="box2">
                     <table border="0" width="100%" align="center">
                         <tr>
-                            <td class="label">Field Name:</td>
+                            <td class="label">${_("Field Name:")}</td>
                             <td class="item" width="100%"><input type="text" disabled="disabled" value="${field['string']}"/></td>
                         </tr>
                         <tr>
-                            <td class="label">Domain:</td>
+                            <td class="label">${_("Domain:")}</td>
                             <td class="item"><input type="text" disabled="disabled" value="${model}"/></td>
                         </tr>
                         <tr>
-                            <td class="label">Default Value:</td>
+                            <td class="label">${_("Default Value:")}</td>
                             <td class="item"><input type="text" disabled="disabled" value="${field['value']}"/></td>
                         </tr>
                     </table>
@@ -57,11 +57,17 @@
                         <tr>
                             <td colspan="2">
                                 <fieldset>
-                                    <legend><strong>Value applicable for:</strong></legend>
+                                    <legend><strong>${_("Value applicable for:")}</strong></legend>
                                     <table border="0">
                                         <tr>
-                                            <td class="item"><input type="radio" class="radio" name="_terp_you" value="True" checked="checked"/></td><td>Only for you</td>
-                                            <td class="item"><input type="radio" class="radio" name="_terp_you" value="False"/></td><td>For all</td>
+                                            <td class="item">
+                                                <input type="radio" class="radio" name="_terp_you" value="True" checked="checked"/>
+                                            </td>
+                                            <td>${_("Only for you")}</td>
+                                            <td class="item">
+                                                <input type="radio" class="radio" name="_terp_you" value="False"/>
+                                            </td>
+                                            <td>${_("For all")}</td>
                                         </tr>
                                     </table>
                                 </fieldset>
@@ -70,10 +76,10 @@
                         <tr>
                             <td colspan="2">
                                 <fieldset>
-                                    <legend><strong>Value applicable if:</strong></legend>
+                                    <legend><strong>${_("Value applicable if:")}</strong></legend>
                                     <table border="0">
                                         % if not deps:
-                                        <tr><td align="center">Always applicable!</td></tr>
+                                        <tr><td align="center">${_("Always applicable!")}</td></tr>
                                         % else:
                                         <tr>
                                             ##<!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
@@ -94,10 +100,10 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">Close</button>
+                                <button type="button" onclick="window.close()">${_("Close")}</button>
                             </td>
                             <td>
-                                <button type="submit">OK</button>
+                                <button type="submit">${_("OK")}</button>
                             </td>
                         </tr>
                     </table>

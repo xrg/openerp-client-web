@@ -51,7 +51,7 @@
                                 </td>
                                 <td width="100%">${tree.string}</td>
                                 <td nowrap="nowrap">
-                                <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">Switch</button>
+                                <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">${_("Switch")}</button>
                                 </td>
                                 <td align="center" valign="middle" width="16">
                                     <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
@@ -66,7 +66,7 @@
                         <table width="100%" cellpadding="0" cellspacing="0" class="tree-grid">
                             <thead>
                                 <tr class="header">
-                                    <th>Toolbar</th>
+                                    <th>${_("Toolbar")}</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -145,7 +145,7 @@
                             <td width="32px" align="center">
                                 <img src="/static/images/stock/gtk-find.png"/>
                             </td>
-                            <td width="100%">Search ${form.screen.string}</td>
+                            <td width="100%">${_("Search %(name)s", name=form.screen.string)}</td>
                         </tr>
                     </table>
                 </td>
@@ -158,12 +158,12 @@
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
-                                <button type="submit">Filter</button>
-                                <button type="button" onclick="do_create()">New</button>
-                                <button type="button" onclick="do_select()">Select</button>
+                                <button type="submit">${_("Filter")}</button>
+                                <button type="button" onclick="do_create()">${_("New")}</button>
+                                <button type="button" onclick="do_select()">${_("Select")}</button>
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">Close</button>
+                                <button type="button" onclick="window.close()">${_("Close")}</button>
                             </td>
                         </tr>
                     </table>

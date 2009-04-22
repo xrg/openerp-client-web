@@ -19,7 +19,7 @@
                         <td width="32px" align="center">
                             <img src="/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">View Editor (${view_id} - ${model})</td>
+                        <td width="100%">${_("View Editor %s - %s") % (view_id, model)}</td>
                     </tr>
                 </table>
                 <input type="hidden" id="view_model" value="${model}"/>
@@ -39,8 +39,8 @@
                         <tr>
                             <td><button type="button" title="${_('Create a new inherited view')}" onclick="onInherit('${model}')">Inherited View</button></td>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="onPreview()">Preview</button></td>
-                            <td><button type="button" onclick="onClose()">Close</button></td>
+                            <td><button type="button" onclick="onPreview()">${_("Preview")}</button></td>
+                            <td><button type="button" onclick="onClose()">${_("Close")}</button></td>
                         </tr>
                     </table>
                 </div>
