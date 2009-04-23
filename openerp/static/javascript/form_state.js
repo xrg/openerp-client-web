@@ -333,7 +333,7 @@ var form_setVisible = function(container, field, visible) {
         try {
             var label = getNodeAttribute(container, 'for');
             label = MochiKit.Selector.findChildElements(container.parentNode, ['td.label[for="' + label + '"]'])[0];
-            label.style.display = visible ? '' : 'none';
+            if (label) label.style.display = visible ? '' : 'none';
         }catch(e){}
     }
 }

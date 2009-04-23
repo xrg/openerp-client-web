@@ -56,23 +56,26 @@
 
                 id = ids[0];
             }
-
-            value_field = window.opener.document.getElementById('${params.source}');
-            text_field = window.opener.document.getElementById('${params.source}_text');
-
-            value_field.value = id;
             
-            if (text_field){
-                text_field.value = '';
-            }
+            with (window.opener) {
+                
+                var value_field = getElement('${params.source}');
+                var text_field = getElement('${params.source}_text');
+                
+                value_field.value = id;
+            
+                if (text_field){
+                    text_field.value = '';
+                }
 
-            if (!isUndefinedOrNull(value_field.onchange)){
-                window.opener.setTimeout("$('${params.source}').onchange()", 0);
-            }else{
-                window.opener.setTimeout("MochiKit.Signal.signal('${params.source}', 'onchange')", 0);
+                if (value_field.onchange){
+                    value_field.onchange();
+                }else{
+                    MochiKit.Signal.signal(value_field, 'onchange');
+                }
             }
-
-            window.setTimeout("window.close()", 5);
+            
+            window.close();
         }
 
         function do_create(){
