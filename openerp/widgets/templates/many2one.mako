@@ -2,21 +2,10 @@
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td>
-                <input type="hidden" ${py.attrs(attrs)}
-                    id='${name}' 
-                    name='${name}' 
-                    value="${value}" 
-                    class="${css_class}"                     
-                    kind="${kind}" 
-                    domain="${domain | h}" 
-                    context="${ctx | h}" 
-                    relation="${relation}"/>
-                <input type="text" ${py.attrs(attrs)}
-                    id='${name}_text' 
-                    value="${text | h}" 
-                    class="${css_class}"
-                    kind="${kind}" 
-                    relation="${relation}"/>
+                <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
+                    ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
+                <input type="text" id="${name}_text" class="${css_class}"
+                    ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
                 % if error:
                 <span class="fielderror">${error}</span>
                 % endif
@@ -65,19 +54,19 @@
 
 % if not editable and link:
     % if link=='1':
-        <span kind="${kind}" id="${name}" value="${value}">
-            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
+        <span id="${name}" ${py.attrs(kind=kind, value=value)}>
+            <a href="${py.url('/form/view', model=relation, id=value)}">${py.content(text)}</a>
         </span>
     % endif
     % if link=='0':
-        <span kind="${kind}" id="${name}" value="${value}">${text}</span>
+        <span id="${name}" ${py.attrs(kind=kind, value=value)}>${py.content(text)}</span>
     % endif
 % endif
 
 % if not editable and not link == '0':
     <span>
-        <span kind="${kind}" id="${name}" value="${value}">
-            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
+        <span id="${name}" ${py.attrs(kind=kind, value=value)}>
+            <a href="${py.url('/form/view', model=relation, id=value)}">${py.content(text)}</a>
         </span>
     </span>
 % endif

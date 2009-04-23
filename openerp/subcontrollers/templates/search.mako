@@ -134,8 +134,8 @@
     <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
-        <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain | h}"/>
-        <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data | h}"/>
+        <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" ${py.attrs(value=params.search_domain)}/>
+        <input type="hidden" id="_terp_search_data" name="_terp_search_data" ${py.attrs(value=params.search_data)}/>
 
         <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
             <tr>

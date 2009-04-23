@@ -1,19 +1,14 @@
 % if editable:
-    <input type="${password and 'password' or 'text'}" \
-           kind="${kind}" 
-           name='${name}' 
-           id='${name}' 
-           value="${value | h}" 
-           maxlength="${size}" 
-           class="${css_class}"
-           ${py.attrs(attrs)}/>
+    <input type="${password and 'password' or 'text'}"
+        id="${name}" name="${name}" class="${css_class}"
+        ${py.attrs(attrs, kind=kind, maxlength=size, value=value)}/>
     % if error:
     <span class="fielderror">${error}</span>
     % endif
 % endif
 
 % if not editable and not password:
-    <span kind="${kind}" id="${name}">${value}</span>
+    <span kind="${kind}" id="${name}">${py.content(value)}</span>
 % endif
 
 % if not editable and password and value:

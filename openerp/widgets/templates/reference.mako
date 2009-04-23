@@ -2,23 +2,24 @@
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td width="30%">
-                <input type="hidden" id='${name}' name='${name}' value="${value}" class="${css_class}" ${py.attrs(attrs)} kind="${kind}" domain="${domain | h}" context="${ctx | h}" relation="${relation}"/>
+                <input type="hidden" id='${name}' name='${name}' class="${css_class}"
+                    ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, value=value)}/>
                 <select id="${name}_reference" name='${name}'>
                     <option value=""></option>
                     % for (k, v) in options:
                         % if relation == k:
-                    <option value="${k}" selected="1">${v}</option>
+                    <option value="${py.content(k)}" selected="1">${py.content(v)}</option>
                         % endif
                     % endfor
                     % for (k, v) in options:
                         % if relation != k:
-                    <option value="${k}">${v}</option>
+                    <option value="${py.content(k)}">${py.content(v)}</option>
                         % endif
                     % endfor
                 </select>
             </td>
             <td>
-                <input type="text" id='${name}_text' value="${text | h}" class="${css_class}"  ${py.attrs(attrs)} kind="${kind}" relation="${relation}"/>
+                <input type="text" id='${name}_text' class="${css_class}" ${py.attrs(attrs, kind=kind, relation=relation, value=value)}/>
                 % if error:
                 <span class="fielderror">${error}</span>
                 % endif
@@ -47,6 +48,6 @@
         new ManyToOne('${name}');
     </script>    
 % else:
-    <span>'(%s) %s'%(dict(options).get(relation), text)</span>
+    <span>${py.content('(%s) %s' % (dict(options).get(relation), text))}</span>
 % endif
 

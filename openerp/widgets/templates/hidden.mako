@@ -1,8 +1,2 @@
-<input type="hidden" 
-       kind="${kind}" 
-       id="${name}"
-       name="${name}"
-       relation="${relation}" 
-       value="${value | h}" 
-       class="${css_class}" ${py.attrs(attrs)}/>
-
+<input type="hidden" id="${name}" name="${name}" class="${css_class}" 
+    ${py.attrs(attrs, kind=kind, relation=relation, value=value)}/>

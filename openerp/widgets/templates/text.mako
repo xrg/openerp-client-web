@@ -1,7 +1,6 @@
 % if editable and not inline:
-<textarea rows="6" id ="${name}" name="${name}" 
-    class="${css_class}" kind="${kind}"
-    ${py.attrs(attrs)}>${value | h}</textarea>
+<textarea rows="6" id ="${name}" name="${name}" class="${css_class}"
+    ${py.attrs(attrs, kind=kind)}>${py.content(value)}</textarea>
 % endif
 
 % if editable and not inline:
@@ -13,10 +12,8 @@
 % endif
 
 % if editable and inline:
-<input id ="${name}" name="${name}"
-    type="text" class="${css_class}" kind="${kind}"
-    value="${value | h}"
-    ${py.attrs(attrs)}/>
+<input id ="${name}" name="${name}" type="text" class="${css_class}"
+    ${py.attrs(attrs, kind=kind, value=value)}/>
 % endif
 
 % if editable and error:
@@ -26,7 +23,7 @@
 % if not editable and value:
 <span kind="${kind}" id="${name}">
     % for line in value.split('\n'):
-    <br>${line}</br>
+    <br>${py.content(line)}</br>
     % endfor
 </span>
 % endif

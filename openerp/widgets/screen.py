@@ -53,8 +53,8 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_view_mode" name="${name}_terp_view_mode" value="${view_mode}"/>
         <input type="hidden" id="${name}_terp_view_type" name="${name}_terp_view_type" value="${view_type}"/>
         <input type="hidden" id="${name}_terp_view_id" name="${name}_terp_view_id" value="${view_id}"/>
-        <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${domain | h}"/>
-        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${ctx | h}"/>
+        <input type="hidden" id="${name}_terp_domain" name="${name}_terp_domain" value="${py.content(domain)}"/>
+        <input type="hidden" id="${name}_terp_context" name="${name}_terp_context" value="${py.content(ctx)}"/>
         <input type="hidden" id="${name}_terp_editable" name="${name}_terp_editable" value="${editable}"/>
 
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
