@@ -27,9 +27,6 @@
 #
 ###############################################################################
 
-import time
-import datetime
-
 import cherrypy
 
 from openerp import icons
@@ -70,14 +67,12 @@ class Action(TinyInputWidget):
 
             if not self.action.get('domain', False):
                 self.action['domain']='[]'
-
-            self.context = {'active_id': False, 'active_ids': []}
-            self.context.update(eval(self.action.get('context', '{}'), self.context.copy()))
-
-            a = self.context.copy()
-            a['time'] = time
-            a['datetime'] = datetime
-            self.domain = tools.expr_eval(self.action['domain'], a)
+            
+            ctx = rpc.session.context.copy()
+            ctx.update({'active_id': False, 'active_ids': []})
+            
+            self.context = tools.expr_eval(self.action.get('context', '{}'), ctx)
+            self.domain = tools.expr_eval(self.action['domain'], ctx)
 
             views = dict(map(lambda x: (x[1], x[0]), self.action['views']))
             view_mode = self.action.get('view_mode', 'tree,form').split(',')
