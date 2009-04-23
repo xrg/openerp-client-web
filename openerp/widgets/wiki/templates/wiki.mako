@@ -1,10 +1,6 @@
 % if editable and not inline:
-    <textarea rows="10" 
-        id ="${name}"
-        name="${name}"
-        class="${css_class}" 
-        kind="${kind}" ${py.attrs(attrs)}>${value or ''}</textarea>
-
+    <textarea rows="10" id="${name}" name="${name}" class="${css_class}"
+        ${py.attrs(attrs, kind=kind)}>${py.content(value)}</textarea>
     <script type="text/javascript">
         if (!window.browser.isWebKit) {
             new ResizableTextarea('${name}');
@@ -13,9 +9,8 @@
 % endif
 
 % if editable and inline:
-    <input id="${name}" name="${name}"
-        type="text" class="${css_class}" kind="${kind}"  
-        value="${value or ''}" ${py.attrs(attrs)}/>
+    <input type="text" id="${name}" name="${name}" class="${css_class}"
+        ${py.attrs(attrs, kind=kind, value=value)}/>
 % endif
     
 % if editable and error:
@@ -23,6 +18,6 @@
 % endif
 
 % if not editable and value:
-    <div kind="${kind}" id="${name}" class="${css_class}">${data}</div>
+    <div kind="${kind}" id="${name}" class="${css_class}">${py.content(data)}</div>
 % endif
 

@@ -30,7 +30,7 @@
         <div id="calSearchOptions">
             <table border="0">
                 <tr>
-                    <td><input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" checked="${(use_search or None) and 'checked'}" onclick="getCalendar()"/></td>
+                    <td><input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" onclick="getCalendar()" ${py.checker(use_search)}/></td>
                     <td>${_("Apply search filter")}</td>
                 </tr>
             </table>

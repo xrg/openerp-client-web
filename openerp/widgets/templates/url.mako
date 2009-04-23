@@ -2,13 +2,8 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td>
-                <input 
-                    type="text" 
-                    kind="${kind}" 
-                    name='${name}' 
-                    id ='${name}' 
-                    value="${value}" 
-                    class="${css_class}" ${py.attrs(attrs)}/>
+                <input type="text" id="${name}" name="${name}" class="${css_class}"
+                    ${py.attrs(attrs, kind=kind, value=value)}/>
             </td>
             <td width="16" style="padding-left: 2px">
                 <img width="16" height="16" alt="${_('Go!')}" 
@@ -22,5 +17,5 @@
     <span class="fielderror">${error}</span>
     % endif
 % else:
-    <a href="${value}">${value}</a>
+    <a href="${py.content(value)}">${py.content(value)}</a>
 % endif

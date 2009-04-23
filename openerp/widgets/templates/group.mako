@@ -1,6 +1,6 @@
 % if string:
 <fieldset>
-    <legend>${"string"}</legend>
+    <legend>${string}</legend>
     ${display_child(frame)}
 </fieldset>
 % else:
