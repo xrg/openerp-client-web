@@ -79,7 +79,7 @@ class NewField(Form):
 
         form = self.create_form(params, tg_errors)
 
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     def edit(self, for_model, id=False):
@@ -99,7 +99,7 @@ class NewModel(Form):
 
         form = self.create_form(params, tg_errors)
 
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     def edit(self, model=None, id=False, **kw):
@@ -124,7 +124,7 @@ class Preview(Form):
     @expose(template="templates/viewed_preview.mako")
     def create(self, params, tg_errors=None):
         form = self.create_form(params, tg_errors)
-        return dict(form=form, show_header_footer=False)
+        return dict(form=form)
 
     @expose()
     def show(self, model, view_id, view_type):
@@ -263,7 +263,7 @@ class ViewEd(TinyResource):
         tree.onbuttonclick = 'onButtonClick'
         tree.expandall = True
 
-        return dict(view_id=view_id, view_type=view_type, model=model, tree=tree, show_header_footer=False)
+        return dict(view_id=view_id, view_type=view_type, model=model, tree=tree)
 
     def view_get(self, view_id=None):
 

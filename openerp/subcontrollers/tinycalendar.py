@@ -269,7 +269,7 @@ class CalendarPopup(Form):
             params.load_counter = 2
 
         form = self.create_form(params, tg_errors)
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     def get_defaults(self, **kw):

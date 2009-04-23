@@ -56,7 +56,7 @@ except:
 % endfor
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
-    % if self.attr.show_header_footer:
+    % if context.get('show_header_footer', self.attr.show_header_footer):
     <tr>
            <td>
             <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
@@ -158,7 +158,7 @@ except:
             ${self.content()}
         </td>
     </tr>
-    % if self.attr.show_header_footer:
+    % if context.get('show_header_footer', self.attr.show_header_footer):
     <tr>
         <td>
             <div id="footer">

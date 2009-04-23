@@ -97,7 +97,7 @@ class OpenO2M(Form):
         else:
             form = self.create_form(params, tg_errors)
 
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     @validate(form=get_validation_schema)

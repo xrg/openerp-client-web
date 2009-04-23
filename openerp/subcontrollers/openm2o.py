@@ -58,7 +58,7 @@ class OpenM2O(Form):
 
         form.hidden_fields = [tw.form.Hidden(name='_terp_m2o', default=params.m2o)]
 
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     @validate(form=get_validation_schema)

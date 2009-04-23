@@ -131,7 +131,7 @@ class Translator(TinyResource):
                 if values:
                     view += [(code, values)]
 
-        return dict(translate=translate, langs=langs, data=data, view=view, model=params.model, id=params.id, show_header_footer=False)
+        return dict(translate=translate, langs=langs, data=data, view=view, model=params.model, id=params.id)
 
     @expose()
     def save(self, translate='fields', **kw):

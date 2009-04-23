@@ -79,7 +79,7 @@ class View_Log(TinyResource):
         if not id:
             message = _("No resource is selected...")
 
-        return dict(tmp=tmp, todo=todo, message=message, show_header_footer=False)
+        return dict(tmp=tmp, todo=todo, message=message)
 
 # vim: ts=4 sts=4 sw=4 si et
 

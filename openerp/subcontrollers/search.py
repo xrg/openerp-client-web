@@ -71,7 +71,7 @@ class Search(Form):
         # don't show links in list view, except the do_select link
         form.screen.widget.show_links = 0
 
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     def new(self, model, source=None, kind=0, text=None, domain=[], context={}):

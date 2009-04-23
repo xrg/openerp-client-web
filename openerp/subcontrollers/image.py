@@ -47,7 +47,7 @@ class Image(TinyResource):
         id = kw.get('id')
         field = kw.get('field')
 
-        return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
+        return dict(model=model, saved=saved, id=id, field=field)
 
     @expose(content_type='application/octet')
     def get_image(self, **kw):
@@ -85,7 +85,7 @@ class Image(TinyResource):
         if res:
             saved = 1
 
-        return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
+        return dict(model=model, saved=saved, id=id, field=field)
 
     @expose(template="templates/image.mako")
     def delete(self, **kw):
@@ -98,7 +98,7 @@ class Image(TinyResource):
         proxy = rpc.RPCProxy(model)
         proxy.write([id], {field: False})
 
-        return dict(model=model, saved=saved, id=id, field=field, show_header_footer=False)
+        return dict(model=model, saved=saved, id=id, field=field)
 
     @expose(content_type='application/octet')
     def save_as(self, **kw):

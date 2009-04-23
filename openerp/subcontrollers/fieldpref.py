@@ -53,7 +53,7 @@ class FieldPref(TinyResource):
         click_ok = None
         params, data = TinyDict.split(kw)
 
-        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps, show_header_footer=False)
+        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps)
 
     @expose('json')
     def get(self, **kw):
@@ -101,7 +101,7 @@ class FieldPref(TinyResource):
         proxy = rpc.RPCProxy('ir.values')
         res = proxy.set('default', deps, field, [(model,False)], value, True, False, False, params.you or False, True)
 
-        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps2, should_close=True, show_header_footer=False)
+        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps2, should_close=True)
 
 # vim: ts=4 sts=4 sw=4 si et
 

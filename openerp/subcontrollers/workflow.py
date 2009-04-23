@@ -79,7 +79,7 @@ class State(Form):
         for w in hide:
             w.visible = False
 
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     def edit(self, **kw):
@@ -146,7 +146,7 @@ class Connector(Form):
         vals['act_from'] = tw.validators.Int()
         vals['act_to'] = tw.validators.Int()
 
-        return dict(form=form, params=params, show_header_footer=False)
+        return dict(form=form, params=params)
 
     @expose()
     def edit(self, **kw):
@@ -220,7 +220,7 @@ class Workflow(Form):
             raise common.message(_('No workflow associated!'))
 
         wkf = proxy.read(ids, [], rpc.session.context)[0]
-        return dict(wkf=wkf, show_header_footer=False)
+        return dict(wkf=wkf)
 
     @expose('json')
     def get_info(self, id, **kw):
@@ -286,7 +286,7 @@ class WorkflowList(TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
 
-        return dict(screen=screen, model=model, active=active, show_header_footer=False)
+        return dict(screen=screen, model=model, active=active)
 
     @expose()
     def create(self, model, **kw):

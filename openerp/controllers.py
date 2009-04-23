@@ -104,8 +104,8 @@ class Root(TinyResource):
             return dict(result=0)
 
         if style in ('ajax', 'ajax_small'):
-            return dict(db=db, user=user, password=password, location=location, style=style,
-                    show_header_footer=False, cp_template="templates/login_ajax.mako")
+            return dict(db=db, user=user, password=password, location=location, 
+                    style=style, cp_template="templates/login_ajax.mako")
 
         return tiny_login(target=location, db=db, user=user, password=password, action="login")
 

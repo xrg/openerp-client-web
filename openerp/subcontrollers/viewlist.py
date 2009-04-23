@@ -53,7 +53,7 @@ class ViewList(TinyResource):
         screen = tw.screen.Screen(params, selectable=1)
         screen.widget.pageable = False
 
-        return dict(screen=screen, model=model, show_header_footer=False)
+        return dict(screen=screen, model=model)
 
     @expose()
     def create(self, model, **kw):
