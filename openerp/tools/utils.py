@@ -159,6 +159,13 @@ def exception_handler(*args, **kw):
     return lambda f: f
 
 
+def config(key, section, default=None):
+    """
+    A handy function to access config values.
+    """
+    return cherrypy.request.app.config.get(section, {}).get(key, default)
+
+
 def to_unicode(value):
     """
     A Mako filter to return empty string if value is None else return unicode 

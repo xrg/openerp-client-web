@@ -82,13 +82,6 @@ def load_template(template, module=None):
         return Template(template, default_filters=filters, imports=imports)
 
 
-def config(key, section, default=None):
-    """
-    A handy function to access config values.
-    """
-    return cherrypy.request.app.config.get(section, {}).get(key, default)
-
-
 class _Provider(dict):
 
     def __getattr__(self, name):
@@ -113,7 +106,7 @@ def _cp_vars():
     return {
         'session': cherrypy.session,
         'request': cherrypy.request,
-        'config': _config,
+        'config': utils.config,
         'root': cherrypy.request.app.root,
     }
 
