@@ -36,7 +36,6 @@ import simplejson
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
-from mako.filters import html_escape
 
 from openerp import rpc
 from openerp.tools import utils
