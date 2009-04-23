@@ -4,7 +4,7 @@
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" ${py.attrs(value=search_domain)}/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" ${py.attrs(value=search_data)}/>
     % if show_header_footer:
-        <input type="hidden" id="_terp_header_footer" name="_terp_header_footer" value="1" py:if="value_o
+        <input type="hidden" id="_terp_header_footer" name="_terp_header_footer" value="1" py:if="value_of('show_header_footer', False)"/>
     % endif
 
     % for field in hidden_fields:

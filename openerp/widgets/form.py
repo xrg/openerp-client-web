@@ -772,6 +772,16 @@ class Form(TinyInputWidget):
                 views += [Separator(**attrs)]
 
             elif node.localName=='label':
+                text = attrs.get('string', '')
+                
+                if not text:
+                    for node in node.childNodes:
+                        if node.nodeType == node.TEXT_NODE:
+                            text += node.data
+                        else:
+                            text += node.toxml()
+                            
+                attrs['string'] = text
                 views += [Label(**attrs)]
 
             elif node.localName=='newline':
