@@ -1,3 +1,4 @@
+import os
 
 import cherrypy
 from mako.filters import html_escape
@@ -5,7 +6,8 @@ from mako.filters import html_escape
 from openerp.validators import Invalid
 
 
-__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", "attrs", "attr_if", "decorated"]
+__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", 
+           "attrs", "attr_if", "decorated"]
 
 
 def url(_cppath, _cpparams=None, **kw):
@@ -157,6 +159,24 @@ def exception_handler(*args, **kw):
     return lambda f: f
 
 
+def to_unicode(value):
+    """
+    A Mako filter to return empty string if value is None else return unicode 
+    string of the given value.
+    """
+    if value is None:
+        return ""
+    return unicode(value)
+
+
+def content(value):
+    """
+    A Mako filter that applies `to_unicode`, and `mako.filters.html_escape` filters
+    to the given value.
+    """
+    return html_escape(to_unicode(value))
+
+
 def attrs(*args, **kw):
 
     kv = {}
@@ -179,11 +199,11 @@ def attrs(*args, **kw):
             value = value()
         if value is not None:
             name = alias.get(name, name)
-            result.append('%s="%s"' % (name, html_escape(value)))
+            result.append('%s="%s"' % (name, content(value)))
     return " ".join(result)
 
 def attr_if(name, expression):
-    return (expression or '') and '%s="%s"' % (name, html_escape(name))
+    return (expression or '') and '%s="%s"' % (name, content(name))
 
 
 def decorated(wrapper, func, **attrs):

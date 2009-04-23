@@ -41,8 +41,8 @@ from mako.filters import html_escape
 from openerp import rpc
 from openerp.tools import utils
 
-__all__ = ['find_resource', 'load_template', 'renderer', 'expose',
-           'register_template_vars']
+
+__all__ = ['find_resource', 'load_template', 'renderer', 'expose', 'register_template_vars']
 
 
 def find_resource(package_or_module, *names):
@@ -55,30 +55,13 @@ def find_resource(package_or_module, *names):
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
 
-def blank(value):
-    """
-    A Mako filter to return empty string if value is None.
-    """
-    if value is None:
-        return ""
-    return value
-
-
-def content(value):
-    """
-    A Mako filter that applies `blank` and `mako.filters.html_escape` filters
-    to the given value.
-    """
-    return html_escape(blank(value))
-
-
 def load_template(template, module=None):
 
     if not isinstance(template, basestring):
         return template
 
-    filters = ["__blank", "unicode"]
-    imports = ["from openerp.tools.expose import blank as __blank"]
+    filters = ["__to_unicode"]
+    imports = ["from openerp.tools.utils import to_unicode as __to_unicode"]
     
     if re.match('(.+)\.(html|mako)\s*$', template):
 
@@ -142,7 +125,7 @@ def _py_vars():
         'url': utils.url,
         'attrs': utils.attrs,
         'attr_if': utils.attr_if,
-        'content': content,
+        'content': utils.content,
         'checker': lambda e: utils.attr_if('checked', e),
         'selector': lambda e: utils.attr_if('selected', e),
         'readonly': lambda e: utils.attr_if('readonly', e),
