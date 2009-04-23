@@ -257,7 +257,7 @@ class many2one(FancyValidator):
         if isinstance(value, (list, tuple)):
             value = (len(value) or False) and value[0]
 
-        return value
+        return value or ''
 
 
 class Picture(FancyValidator):
