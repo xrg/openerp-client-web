@@ -1,4 +1,3 @@
-<%page expression_filter="h"/> <!-- XXX -->
 % if reports or actions or relates or attachments:
 <table border="0" cellpadding="0">
     <tr>

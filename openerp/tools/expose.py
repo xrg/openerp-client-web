@@ -170,7 +170,7 @@ def renderer(template, module=None):
     return wrapper
 
 
-def expose(format='html', template=None, content_type='text/html', allow_json=False):
+def expose(format='html', template=None, content_type=None, allow_json=False):
 
     def expose_wrapper(func):
         
@@ -179,12 +179,13 @@ def expose(format='html', template=None, content_type='text/html', allow_json=Fa
         def func_wrapper(*args, **kw):
 
             res = func(*args, **kw)
-
+            
             if format == 'json' or (allow_json and 'allow_json' in cherrypy.requests.params):
-                cherrypy.response.headers['content-type'] = 'text/javascript'
+                cherrypy.response.headers['Content-Type'] = 'text/javascript'
                 return simplejson.dumps(res)
-
-            cherrypy.response.headers['content-type'] = content_type
+            
+            cherrypy.response.headers['Content-Type'] = content_type or \
+            cherrypy.response.headers.get('Content-Type', 'text/html')
 
             if isinstance(res, basestring):
                 return res
