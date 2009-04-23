@@ -1,5 +1,6 @@
 
 import cherrypy
+from mako.filters import html_escape
 
 from openerp.validators import Invalid
 
@@ -8,6 +9,19 @@ __all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", 
 
 
 def url(_cppath, _cpparams=None, **kw):
+    """
+    Returns absolute url for the given _cppath, _cpparams and kw.
+    
+    If _cppath is a list, path will be created joining them with '/'.
+    If _cpparams is given it should be a map or list of tuples to create a map.
+    
+    query string will be created from _cpparams and **kw.
+    
+    >>> url("/some/path", {"a": 1, "b": 2})
+    >>> /some/path?a=1&b=2
+    >>> url(["some", "path"], a=1, b=2)
+    >>> /some/path?a=1&b=2
+    """
     
     path = _cppath
     if not isinstance(_cppath, basestring):
@@ -165,11 +179,11 @@ def attrs(*args, **kw):
             value = value()
         if value is not None:
             name = alias.get(name, name)
-            result.append('%s="%s"' % (name, value))
+            result.append('%s="%s"' % (name, html_escape(value)))
     return " ".join(result)
 
 def attr_if(name, expression):
-    return (expression or '') and '%s="%s"' % (name, name)
+    return (expression or '') and '%s="%s"' % (name, html_escape(name))
 
 
 def decorated(wrapper, func, **attrs):

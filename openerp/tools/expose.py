@@ -36,18 +36,13 @@ import simplejson
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
+from mako.filters import html_escape
 
 from openerp import rpc
 from openerp.tools import utils
 
 __all__ = ['find_resource', 'load_template', 'renderer', 'expose',
            'register_template_vars']
-
-
-def content(value):
-    if value is None:
-        return ""
-    return unicode(value)
 
 
 def find_resource(package_or_module, *names):
@@ -60,14 +55,31 @@ def find_resource(package_or_module, *names):
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
 
+def blank(value):
+    """
+    A Mako filter to return empty string if value is None.
+    """
+    if value is None:
+        return ""
+    return value
+
+
+def content(value):
+    """
+    A Mako filter that applies `blank` and `mako.filters.html_escape` filters
+    to the given value.
+    """
+    return html_escape(blank(value))
+
+
 def load_template(template, module=None):
 
     if not isinstance(template, basestring):
         return template
 
-    filters = ["content"]
-    imports = ["from openerp.tools.expose import content"]
-
+    filters = ["__blank", "unicode"]
+    imports = ["from openerp.tools.expose import blank as __blank"]
+    
     if re.match('(.+)\.(html|mako)\s*$', template):
 
         if module:
@@ -80,7 +92,7 @@ def load_template(template, module=None):
 
         lookup = TemplateLookup(directories=[dirname],
                                 default_filters=filters,
-                                imports=imports)#,module_directory=dirname)
+                                imports=imports)#, module_directory=dirname)
 
         return lookup.get_template(basename)
 
@@ -88,7 +100,10 @@ def load_template(template, module=None):
         return Template(template, default_filters=filters, imports=imports)
 
 
-def _config(key, section, default=None):
+def config(key, section, default=None):
+    """
+    A handy function to access config values.
+    """
     return cherrypy.request.app.config.get(section, {}).get(key, default)
 
 
@@ -102,11 +117,14 @@ class _Provider(dict):
     def __setattr__(self, name, value):
         raise AttributeError
 
+
 _var_providers = {}
+
 
 def register_template_vars(callback, prefix='oo'):
     providers = _var_providers.setdefault(prefix, [])
     providers.append(callback)
+
 
 def _cp_vars():
 
@@ -116,6 +134,7 @@ def _cp_vars():
         'config': _config,
         'root': cherrypy.request.app.root,
     }
+
 
 def _py_vars():
 
@@ -130,10 +149,12 @@ def _py_vars():
         'disabled': lambda e: utils.attr_if('disabled', e),
     }
 
+
 def _root_vars():
     return {
         'rpc': rpc,
     }
+
 
 register_template_vars(_cp_vars, 'cp')
 register_template_vars(_py_vars, 'py')
