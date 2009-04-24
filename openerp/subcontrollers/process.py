@@ -50,7 +50,7 @@ class ResourcePopup(form.Form):
     def create(self, params, tg_errors=None):
         params.editable = True
 
-        if params.id and cherrypy.request.path == self.path + '/view':
+        if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
 
         form = self.create_form(params, tg_errors)

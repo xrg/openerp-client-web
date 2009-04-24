@@ -57,7 +57,7 @@ class State(Form):
         params.path = self.path
         params.function = 'create_state'
 
-        if params.id and cherrypy.request.path == self.path + '/view':
+        if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
 
         form = self.create_form(params, tg_errors)
@@ -126,7 +126,7 @@ class Connector(Form):
         params.path = self.path
         params.function = 'update_connection'
 
-        if params.id and cherrypy.request.path == self.path + '/view':
+        if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
 
         form = self.create_form(params, tg_errors)
@@ -139,8 +139,8 @@ class Connector(Form):
         field_act_to.set_value(params.end or False)
         field_act_to.readonly = True
 
-        form.hidden_fields = [tw.widgets.Hidden(name='act_from', default=params.start),
-                              tw.widgets.Hidden(name='act_to', default=params.end)]
+        form.hidden_fields = [tw.form.Hidden(name='act_from', default=params.start),
+                              tw.form.Hidden(name='act_to', default=params.end)]
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['act_from'] = tw.validators.Int()
