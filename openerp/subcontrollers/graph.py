@@ -42,7 +42,7 @@ class Graph(TinyResource):
     @expose('json')
     def pie(self, args):
 
-        kw = base64.decodestring(args)
+        kw = base64.urlsafe_b64decode(args + '=' * (4 - len(args) % 4))
         kw = eval(kw)
 
         params, data = TinyDict.split(kw)
@@ -53,7 +53,7 @@ class Graph(TinyResource):
     @expose('json')
     def bar(self, args):
 
-        kw = base64.decodestring(args)
+        kw = base64.urlsafe_b64decode(args + '=' * (4 - len(args) % 4))
         kw = eval(kw)
 
         params, data = TinyDict.split(kw)
