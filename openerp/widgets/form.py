@@ -230,7 +230,8 @@ class Frame(TinyInputWidget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
 
-        self.hiddens += [widget]
+        self.hiddens.append(widget)
+        #self.hiddens += [widget]
 
 class Notebook(TinyInputWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
