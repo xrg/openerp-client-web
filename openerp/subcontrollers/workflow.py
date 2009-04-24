@@ -129,6 +129,9 @@ class Connector(Form):
         if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
 
+        params.hidden_fields = [tw.form.Hidden(name='act_from', default=params.start),
+                                tw.form.Hidden(name='act_to', default=params.end)]
+
         form = self.create_form(params, tg_errors)
 
         field_act_from = form.screen.widget.get_widgets_by_name('act_from')[0]
@@ -138,9 +141,6 @@ class Connector(Form):
         field_act_to = form.screen.widget.get_widgets_by_name('act_to')[0]
         field_act_to.set_value(params.end or False)
         field_act_to.readonly = True
-
-        form.hidden_fields = [tw.form.Hidden(name='act_from', default=params.start),
-                              tw.form.Hidden(name='act_to', default=params.end)]
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['act_from'] = tw.validators.Int()

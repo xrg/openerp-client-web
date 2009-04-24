@@ -96,7 +96,10 @@ class ViewForm(Form):
 
         self.search_domain = params.search_domain
         self.search_data = params.search_data
-
+        
+        if params.hidden_fields:
+            self.hidden_fields = params.hidden_fields
+            
         #self.fields = cherrypy.request.terp_fields
 
 

@@ -52,13 +52,14 @@ class NewField(Form):
     path = '/viewed/new_field'    # mapping from root
 
     def create_form(self, params, tg_errors=None):
+        
+        # generate model_id field
+        params.hidden_fields = [tw.form.Hidden(name='model_id', default=params.model_id)]
         form = super(NewField, self).create_form(params, tg_errors)
 
         field = form.screen.widget.get_widgets_by_name('model_id')[0]
         field.set_value(params.model_id or False)
 
-        # generate model_id field
-        form.hidden_fields = [tw.form.Hidden(name='model_id', default=params.model_id)]
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['model_id'] = tw.validators.Int()
 

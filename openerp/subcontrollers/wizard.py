@@ -86,9 +86,7 @@ class Wizard(TinyResource):
                 res['datas'] = {}
 
             if res['type']=='form':
-                params.is_wizard = True
-                form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
-
+                
                 fields = res['fields']
                 form_values = {}
 
@@ -101,12 +99,18 @@ class Wizard(TinyResource):
                 datas['form'] = form_values
 
                 res['datas'].update(datas['form'])
-                form.screen.add_view(res)
-
-                # store datas in _terp_datas
-                form.hidden_fields = [tw.form.Hidden(name='_terp_datas', default=ustr(datas)),
-                                      tw.form.Hidden(name='_terp_state2', default=state),
-                                      tw.form.Hidden(name='_terp_wiz_id', default=wiz_id)]
+                
+                params.is_wizard = True
+                params.view_mode = ['form']
+                params.view_type = 'form'
+                params.views = {'form': res}
+                
+                # keep track of datas and some other required information
+                params.hidden_fields = [tw.form.Hidden(name='_terp_datas', default=ustr(datas)),
+                                        tw.form.Hidden(name='_terp_state2', default=state),
+                                        tw.form.Hidden(name='_terp_wiz_id', default=wiz_id)]
+                
+                form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
 
                 buttons = res.get('state', [])
                 buttons = [(b[0], re.sub('_(?!_)', '', b[1])) for b in buttons] # remove mnemonic

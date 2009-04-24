@@ -356,6 +356,8 @@ class Widget(object):
 
     @only_if_unlocked
     def __setattr__(self, name, value):
+        if name in chain(self.members, ['css', 'javascript', 'children']) and self._is_initialized:
+            raise WidgetInitialized
         super(Widget, self).__setattr__(name, value)
 
     @only_if_unlocked

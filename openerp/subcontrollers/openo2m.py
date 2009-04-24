@@ -76,17 +76,16 @@ class OpenO2M(Form):
         p, ctx = TinyDict.split(ctx)
 
         params.context = ctx or {}
+        params.hidden_fields = [tw.form.Hidden(name='_terp_parent_model', default=params.parent_model),
+                                tw.form.Hidden(name='_terp_parent_id', default=params.parent_id),
+                                tw.form.Hidden(name='_terp_parent_context', default=ustr(params.parent_context)),
+                                tw.form.Hidden(name='_terp_o2m', default=params.o2m),
+                                tw.form.Hidden(name='_terp_o2m_id', default=params.id or None),
+                                tw.form.Hidden(name='_terp_o2m_model', default=params.o2m_model),
+                                tw.form.Hidden(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
+                                tw.form.Hidden(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
-        form.hidden_fields = [tw.form.Hidden(name='_terp_parent_model', default=params.parent_model),
-                              tw.form.Hidden(name='_terp_parent_id', default=params.parent_id),
-                              tw.form.Hidden(name='_terp_parent_context', default=ustr(params.parent_context)),
-                              tw.form.Hidden(name='_terp_o2m', default=params.o2m),
-                              tw.form.Hidden(name='_terp_o2m_id', default=params.id or None),
-                              tw.form.Hidden(name='_terp_o2m_model', default=params.o2m_model),
-                              tw.form.Hidden(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
-                              tw.form.Hidden(name=params.prefix + '/__id', default=params.id or None)] + hiddens
-
         return form
 
     @expose(template="templates/openo2m.mako")

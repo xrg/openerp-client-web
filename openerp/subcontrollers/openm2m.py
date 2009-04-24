@@ -54,9 +54,8 @@ class OpenM2M(Form):
     def create(self, params, tg_errors=None):
 
         params.editable = params.get('_terp_editable', True)
+        params.hidden_fields = [tw.form.Hidden(name='_terp_m2m', default=params.m2o)]
         form = self.create_form(params, tg_errors)
-
-        form.hidden_fields = [tw.form.Hidden(name='_terp_m2m', default=params.m2o)]
 
         return dict(form=form, params=params)
 
