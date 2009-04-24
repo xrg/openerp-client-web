@@ -1,6 +1,6 @@
 % if editable and not inline:
     <textarea rows="10" id="${name}" name="${name}" class="${css_class}"
-        ${py.attrs(attrs, kind=kind)}>${py.content(value)}</textarea>
+        ${py.attrs(attrs, kind=kind)}>${value}</textarea>
     <script type="text/javascript">
         if (!window.browser.isWebKit) {
             new ResizableTextarea('${name}');
@@ -18,6 +18,6 @@
 % endif
 
 % if not editable and value:
-    <div kind="${kind}" id="${name}" class="${css_class}">${py.content(data)}</div>
+    <div kind="${kind}" id="${name}" class="${css_class}">${data}</div>
 % endif
 

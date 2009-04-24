@@ -17,6 +17,6 @@
     <span class="fielderror">${error}</span>
     % endif
 % else:
-    <a href="mailto: ${py.content(value)}">${py.content(value)}</a>
+    <a href="mailto: ${value}">${value}</a>
 % endif
 

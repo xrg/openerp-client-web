@@ -17,5 +17,5 @@
     <span class="fielderror">${error}</span>
     % endif
 % else:
-    <a href="${py.content(value)}">${py.content(value)}</a>
+    <a href="${value}">${value}</a>
 % endif

@@ -9,8 +9,8 @@
         
         ${name}.options.expandall = ${(expandall and 'true') or 'false'};
 
-        ${name}.setHeaders(${headers});
-        ${name}.setRecords('${url}', ${url_params});
+        ${name}.setHeaders(${headers|n});
+        ${name}.setRecords('${url}', ${url_params|n});
         
         ${name}.render();
     </script>

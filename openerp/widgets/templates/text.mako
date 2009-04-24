@@ -1,6 +1,6 @@
 % if editable and not inline:
 <textarea rows="6" id ="${name}" name="${name}" class="${css_class}"
-    ${py.attrs(attrs, kind=kind)}>${py.content(value)}</textarea>
+    ${py.attrs(attrs, kind=kind)}>${value}</textarea>
 % endif
 
 % if editable and not inline:
@@ -23,7 +23,7 @@
 % if not editable and value:
 <span kind="${kind}" id="${name}">
     % for line in value.split('\n'):
-    <br>${py.content(line)}</br>
+    <br>${line}</br>
     % endfor
 </span>
 % endif

@@ -18,17 +18,17 @@
             <td>
             <b>${version}</b>
 <p>
-${_("Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.")}<br/>
+${_("Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.")|n}<br/>
 ${_("OpenERP is a trademark of the Tiny Company.")}
 
 ${_("%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s.",
     ooweb="""<i>OpenERP Web</i>""",
     tiny="""<a target="_blank" href="http://tiny.be">Tiny</a>""",
-    axelor="""<a target="_blank" href="http://www.axelor.com/">Axelor</a>""")}
+    axelor="""<a target="_blank" href="http://www.axelor.com/">Axelor</a>""")|n}
 </p>
 
 <p>
-${_("Licenced under the terms of %(license)s", license="""<a href="/LICENSE.txt">OpenERP Public License (OEPL) v1.1</a>""")}
+${_("Licenced under the terms of %(license)s", license="""<a href="/LICENSE.txt">OpenERP Public License (OEPL) v1.1</a>""")|n}
 </p>
 
             </td>
@@ -43,7 +43,7 @@ ${_("""%(openerp)s is a free enterprise-scale software system that is designed t
 productivity and profit through data integration. It connects, improves and
 manages business processes in areas such as sales, finance, supply chain,
 project management, production, services, CRM, etc..
-""", openerp="""<a target="_blank" href="http://openerp.com">OpenERP</a>""")}
+""", openerp="""<a target="_blank" href="http://openerp.com">OpenERP</a>""")|n}
 </p>
 
 <p>

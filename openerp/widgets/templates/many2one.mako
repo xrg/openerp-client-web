@@ -55,18 +55,18 @@
 % if not editable and link:
     % if link=='1':
         <span id="${name}" ${py.attrs(kind=kind, value=value)}>
-            <a href="${py.url('/form/view', model=relation, id=value)}">${py.content(text)}</a>
+            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
         </span>
     % endif
     % if link=='0':
-        <span id="${name}" ${py.attrs(kind=kind, value=value)}>${py.content(text)}</span>
+        <span id="${name}" ${py.attrs(kind=kind, value=value)}>${text}</span>
     % endif
 % endif
 
 % if not editable and not link == '0':
     <span>
         <span id="${name}" ${py.attrs(kind=kind, value=value)}>
-            <a href="${py.url('/form/view', model=relation, id=value)}">${py.content(text)}</a>
+            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>
 % endif

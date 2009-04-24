@@ -160,28 +160,50 @@ def exception_handler(*args, **kw):
 
 
 def config(key, section, default=None):
-    """
-    A handy function to access config values.
+    """A handy function to access config values.
     """
     return cherrypy.request.app.config.get(section, {}).get(key, default)
 
 
-def to_unicode(value):
+class NoEscape(object):
+    """A special callable class to prevent appying `html_escape` filter 
+    by the default `content` filter.
     """
-    A Mako filter to return empty string if value is None else return unicode 
-    string of the given value.
-    """
-    if value is None:
-        return ""
-    return unicode(value)
+
+    def __init__(self, value):
+        self.value = value
+
+    def __call__(self, *args, **kw):
+        try:
+            return unicode(self.value(*args, **kw))
+        except:
+            pass
+        return unicode(self.value)
+    
+    def encode(self, encoding):
+        return self().encode(encoding)
+    
+    def __unicode__(self):
+        return self()
+    
+    def __str__(self):
+        return self()
 
 
 def content(value):
+    """A Mako filter to return unicode string according to the given value.
+    
+    If value is None return empty string.
+    If value is instance of NoEscape return unicode string.
+    If value is not None nor instance of NoEscape return unicode string applying `html_escape` filter.
     """
-    A Mako filter that applies `to_unicode`, and `mako.filters.html_escape` filters
-    to the given value.
-    """
-    return html_escape(to_unicode(value))
+    if value is None:
+        return ""
+
+    if isinstance(value, NoEscape):
+        return unicode(value)
+
+    return html_escape(unicode(value))
 
 
 def attrs(*args, **kw):
@@ -207,10 +229,12 @@ def attrs(*args, **kw):
         if value is not None:
             name = alias.get(name, name)
             result.append('%s="%s"' % (name, content(value)))
-    return " ".join(result)
+    
+    return NoEscape(" ".join(result))
+
 
 def attr_if(name, expression):
-    return (expression or '') and '%s="%s"' % (name, content(name))
+    return NoEscape((expression or '') and '%s="%s"' % (name, content(name)))
 
 
 def decorated(wrapper, func, **attrs):

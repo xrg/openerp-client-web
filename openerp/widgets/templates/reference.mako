@@ -8,12 +8,12 @@
                     <option value=""></option>
                     % for (k, v) in options:
                         % if relation == k:
-                    <option value="${py.content(k)}" selected="1">${py.content(v)}</option>
+                    <option value="${k}" selected="1">${v}</option>
                         % endif
                     % endfor
                     % for (k, v) in options:
                         % if relation != k:
-                    <option value="${py.content(k)}">${py.content(v)}</option>
+                    <option value="${k}">${v}</option>
                         % endif
                     % endfor
                 </select>
@@ -48,6 +48,6 @@
         new ManyToOne('${name}');
     </script>    
 % else:
-    <span>${py.content('(%s) %s' % (dict(options).get(relation), text))}</span>
+    <span>${'(%s) %s' % (dict(options).get(relation), text)}</span>
 % endif
 

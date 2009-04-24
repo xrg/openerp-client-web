@@ -22,7 +22,7 @@
                             </tr>
     
                             % for item in reports:
-                            <tr ${py.attrs(data=item)} onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                            <tr data="${item}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
@@ -50,7 +50,7 @@
                                 </td>
                             </tr>
                             % for item in actions:
-                            <tr ${py.attrs(data=item)} onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                            <tr data="${item}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
@@ -78,7 +78,7 @@
                                 </td>
                             </tr>
                             % for item in relates:
-                            <tr ${py.attrs(data=item)} onclick="submit_form('relate', null, getNodeAttribute(this, 'data'), '${item.get('target', '')}')">
+                            <tr data="${item}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'), '${item.get('target', '')}')">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
@@ -107,7 +107,7 @@
                                 </td>
                             </tr>
                             % for item in attachments:
-                            <tr ${py.attrs(data=item)}>
+                            <tr data="${item}">
                                 % if item[1]:
                                 <td>
                                     <a href="${py.url(['/attachment/save_as', item[1]], record=item[0])}">${item[1]}</a>

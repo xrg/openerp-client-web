@@ -81,17 +81,17 @@
                         </td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
-                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${py.content(data[field].get_sortable_text())}">
+                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
                             % if i==0:
                             <span>
-                                <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${py.content(data[field])}</a>
+                                <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
                             </span>
                             % endif
                             % if i and show_links:
                             ${data[field].display()}
                             % endif
                             % if i and not show_links:
-                            <span>${py.content(data[field])}</span>
+                            <span>${data[field]}</span>
                             % endif
                             % if editable and field == 'sequence':
                             <span class="selector">

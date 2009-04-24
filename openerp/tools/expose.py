@@ -59,8 +59,8 @@ def load_template(template, module=None):
     if not isinstance(template, basestring):
         return template
 
-    filters = ["__to_unicode"]
-    imports = ["from openerp.tools.utils import to_unicode as __to_unicode"]
+    filters = ["__content"]
+    imports = ["from openerp.tools.utils import content as __content"]
     
     if re.match('(.+)\.(html|mako)\s*$', template):
 
@@ -117,7 +117,6 @@ def _py_vars():
         'url': utils.url,
         'attrs': utils.attrs,
         'attr_if': utils.attr_if,
-        'content': utils.content,
         'checker': lambda e: utils.attr_if('checked', e),
         'selector': lambda e: utils.attr_if('selected', e),
         'readonly': lambda e: utils.attr_if('readonly', e),
@@ -165,7 +164,7 @@ def renderer(template, module=None):
         if 'context' in kw:
             kw['ctx'] = kw.pop('context')
 
-        return tmpl.render_unicode(**kw)
+        return utils.NoEscape(tmpl.render_unicode(**kw))
 
     return wrapper
 

@@ -93,7 +93,7 @@ class JSSource(Source):
 
     template = """\
     <script type="text/javascript" ${py.attrs(defer=defer)}>
-        ${src}
+        ${src|n}
     </script>\
     """
 
@@ -107,7 +107,7 @@ class CSSSource(Source):
 
     template = """\
     <style type="text/css" ${py.attrs(media=media)}>
-        ${src}
+        ${src|n}
     </style>\
     """
 
