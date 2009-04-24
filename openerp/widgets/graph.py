@@ -88,7 +88,7 @@ class Graph(TinyWidget):
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
 
-        args = base64.encodestring(ustr({
+        args = base64.urlsafe_b64encode(ustr({
             '_terp_model': model,
             '_terp_view_id': view_id,
             '_terp_ids': ustr(ids),
