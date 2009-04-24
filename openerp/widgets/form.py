@@ -32,6 +32,7 @@ This module implementes widget parser for form view, and
 several widget components.
 """
 
+import os
 import re
 import time
 import xml.dom.minidom
@@ -41,9 +42,11 @@ import cherrypy
 from openerp import icons
 from openerp import tools
 from openerp import common
+
 from openerp import rpc
 
 from openerp.i18n import format
+from openerp.i18n import get_locale
 from openerp.utils import TinyDict
 
 from interface import TinyInputWidget
@@ -465,9 +468,31 @@ class Selection(TinyInputWidget):
 
         super(Selection, self).set_value(value)
 
+class DTLink(JSLink):
+    
+    def update_params(self, d):
+        super(DTLink, self).update_params(d)
+        
+        lang = get_locale()
+        link = "calendar/lang/calendar-%s.js" % lang
+        
+        if os.path.exists(tools.find_resource("openerp", "static", link)):
+            d.link = tools.url(["/cp_widgets/openerp", link])
+        else:
+            lang = lang.split('_')[0]
+            link = "calendar/lang/calendar-%s.js" % lang
+            if os.path.exists(tools.find_resource("openerp", "static", link)):
+                d.link = tools.url(["/cp_widgets/openerp", link])
+
 class DateTime(TinyInputWidget):
 
     template = "templates/datetime.mako"
+    
+    javascript = [JSLink("openerp", "calendar/calendar.js"),
+                  JSLink("openerp", "calendar/calendar-setup.js"),
+                  DTLink("openerp", "calendar/lang/calendar-en.js")]
+                            
+    css = [CSSLink("openerp", "calendar/skins/aqua/theme.css")]
 
     params = ["format", "strdate", "picker_shows_time"]
 
@@ -478,12 +503,6 @@ class DateTime(TinyInputWidget):
     def __init__(self, **attrs):
         super(DateTime, self).__init__(**attrs)
         self.format = format.get_datetime_format(attrs['type'])
-
-        self.javascript = [JSLink("openerp", "calendar/calendar.js"),
-                           JSLink("openerp", "calendar/calendar-setup.js"),
-                           JSLink("openerp", "calendar/lang/calendar-en.js")]
-
-        self.css = [CSSLink("openerp", "calendar/calendar-blue.css")]
 
         if attrs['type'] == 'date':
             self.picker_shows_time = False
