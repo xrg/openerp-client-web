@@ -155,7 +155,7 @@ class Wizard(TinyResource):
             frm = cherrypy.session['wizard_parent_form']
             params = cherrypy.session['wizard_parent_params']
 
-            frm = eval('cherrypy.root' + frm.replace('/', '.'))
+            frm = eval('cherrypy.request.app.root' + frm.replace('/', '.'))
             return frm.create(params)
 
         return """<html>
