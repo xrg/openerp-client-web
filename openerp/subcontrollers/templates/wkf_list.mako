@@ -53,7 +53,7 @@
                 return;
             }
             
-            openWindow(getURL('/workflow', {model: getElement('model'), id:boxes[0].value }));
+            openWindow(getURL('/workflow', {model: getElement('model').value, id:boxes[0].value }));
         }
         
         function onRemove() {
