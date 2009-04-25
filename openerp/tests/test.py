@@ -23,7 +23,7 @@ def secured(fn):
     def wrapper(*args, **kw):
         if not rpc.session.is_logged():
             uid = rpc.session.login("test", "admin", "admin")
-            assert uid > 1, "Unable to login to 'test' database as 'admin'"
+            assert uid > 0, "Unable to login to 'test' database as 'admin'"
         return fn(*args, **kw)
     return tools.decorated(wrapper, fn, secured=True)
 
