@@ -51,8 +51,8 @@ def memoize(limit=100, force=False):
     def memoize_wrapper(func):
 
         # Don't use cache for development environment
-        if not force and cherrypy.config.get('server.environment') == 'development':
-            return func
+        #if not force and cherrypy.config.get('server.environment') == 'development':
+        #    return func
 
         queue = []
         store = {}

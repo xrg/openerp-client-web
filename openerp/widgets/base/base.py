@@ -103,6 +103,7 @@ class WidgetBunch(OrderedSet):
     def __repr__(self):
         return repr(self._items)
 
+#TODO (high): think again about members and __setattrs__
 
 class Widget(object):
 

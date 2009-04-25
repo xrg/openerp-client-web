@@ -25,6 +25,28 @@ cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
 cherrypy.lowercase_api = True
 
 
+class CPSessionWrapper(object):
+
+    def __setattr__(self, name, value):
+        cherrypy.session[name] = value
+
+    def __getattr__(self, name):
+        return cherrypy.session.get(name)
+
+    def __delattr__(self, name):
+        if name in cherrypy.session:
+            del cherrypy.session[name]
+
+    __getitem__ = __getattr__
+    __setitem__ = __setattr__
+
+    def get(self, name, default=None):
+        return cherrypy.session.get(name, default)
+
+    def clear(self):
+        cherrypy.session.clear()
+
+
 class ConfigurationError(Exception):
     pass
 
@@ -36,14 +58,7 @@ def get_config_file():
     return None
 
 
-def start():
-    """Start the CherryPy application server."""
-
-    parser = optparse.OptionParser(version="%s-%s" % (release.version, release.release))
-    parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
-    (opt, args) = parser.parse_args()
-
-    configfile = opt.config
+def setup_server(configfile):
 
     if not exists(configfile):
         raise ConfigurationError(_("Could not find configuration file: %s") % configfile)
@@ -89,30 +104,19 @@ def start():
 
     rpc.session = rpc.RPCSession(host, port, protocol, storage=CPSessionWrapper())
 
+
+def start():
+    """Start the CherryPy application server."""
+
+    parser = optparse.OptionParser(version="%s-%s" % (release.version, release.release))
+    parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
+    (opt, args) = parser.parse_args()
+
+    setup_server(opt.config)
+
     cherrypy.engine.start()
     cherrypy.engine.block()
 
-
-class CPSessionWrapper(object):
-
-    def __setattr__(self, name, value):
-        cherrypy.session[name] = value
-
-    def __getattr__(self, name):
-        return cherrypy.session.get(name)
-
-    def __delattr__(self, name):
-        if name in cherrypy.session:
-            del cherrypy.session[name]
-
-    __getitem__ = __getattr__
-    __setitem__ = __setattr__
-
-    def get(self, name, default=None):
-        return cherrypy.session.get(name, default)
-
-    def clear(self):
-        cherrypy.session.clear()
 
 
 # vim: ts=4 sts=4 sw=4 si et
