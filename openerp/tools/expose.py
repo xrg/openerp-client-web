@@ -179,7 +179,7 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
 
             res = func(*args, **kw)
             
-            if format == 'json' or (allow_json and 'allow_json' in cherrypy.requests.params):
+            if format == 'json' or (allow_json and 'allow_json' in cherrypy.request.params):
                 cherrypy.response.headers['Content-Type'] = 'text/javascript'
                 return simplejson.dumps(res)
             
