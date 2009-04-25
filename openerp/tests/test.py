@@ -22,10 +22,12 @@ def setup_server():
 def secured(fn):
     def wrapper(*args, **kw):
         if not rpc.session.is_logged():
-            rpc.session.login("t1", "admin", "admin")
+            uid = rpc.session.login("test", "admin", "admin")
+            assert uid > 1, "Unable to login to 'test' database as 'admin'"
         return fn(*args, **kw)
     return tools.decorated(wrapper, fn, secured=True)
 
+tinyres._old_secured = tinyres.secured
 tinyres.secured = secured
 
 
