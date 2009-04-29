@@ -101,7 +101,11 @@ class TinyCalendar(Form):
         params, data = TinyDict.split(kw)
 
         error = None
-        ctx = tools.context_with_concurrency_info(rpc.session.context, params.concurrency_info)
+        
+        ctx = rpc.session.context.copy()
+        ctx.update(params.context or {})
+        ctx = tools.context_with_concurrency_info(ctx, params.concurrency_info)
+        
         proxy = rpc.RPCProxy(params.model)
 
         try:

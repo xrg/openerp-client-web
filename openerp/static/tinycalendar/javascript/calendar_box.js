@@ -162,7 +162,8 @@ InfoBox.prototype = {
         var params = getFormParams('_terp_concurrency_info');
         MochiKit.Base.update(params, {
            '_terp_id': this.params.nRecordID,
-           '_terp_model': getElement('_terp_model').value 
+           '_terp_model': getElement('_terp_model').value,
+           '_terp_context': getElement('_terp_context').value
         });
 
         var req = Ajax.JSON.post('/calendar/delete', params);
