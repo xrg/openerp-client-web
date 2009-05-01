@@ -48,7 +48,7 @@ from selection import Selection
 from openerp.utils import TinyDict
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
-                   mode='form,tree', name=None, target=None, limit=None, auto_refresh=0):
+                   mode='form,tree', name=None, target=None, limit=None):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -70,7 +70,6 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
-    params.auto_refresh = auto_refresh
 
     if name:
         params.context['_view_name'] = name
@@ -216,14 +215,11 @@ def execute(action, **data):
         """
 
     elif action['type']=='ir.actions.act_window':
-        for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit', 'auto_refresh'):
+        for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
             data[key] = action.get(key, data.get(key, None))
             
         if not data.get('limit'):
             data['limit'] = 80
-            
-        if not data.get('auto_refresh'):
-            data['auto_refresh'] = 0
 
         view_ids=False
         if action.get('views', []):
@@ -262,8 +258,7 @@ def execute(action, **data):
                              ctx, data['view_mode'],
                              name=action.get('name'),
                              target=action.get('target'),
-                             limit=data.get('limit'),
-                             auto_refresh=data.get('auto_refresh'))
+                             limit=data.get('limit'))
         
         return res
 
