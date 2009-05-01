@@ -754,9 +754,9 @@ function makeContextMenu(id, kind, relation, val) {
 
             for(var r in obj.relates) {
                 var o = obj.relates[r];
-
+                
                 var a = SPAN({'class': o.action ? '' : 'disabled',
-                           'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : ''}, o.text);
+                           'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '', 'data': o.data}, o.text);
 
                 rows = rows.concat(a);
             }
@@ -876,10 +876,10 @@ function do_relate(action_id, field, relation, src) {
 
     var id = $(field).value;
     var data = getNodeAttribute(src, 'data');
-
+    
     var act = get_form_action('action');
     var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
-
+    
     window.open(getURL(act, params));
 }
 
