@@ -227,15 +227,15 @@ class Widget(object):
         """
         return ifilter(filter, self.children)
 
-    def render(self, value=None, **kw):
+    def display(self, value=None, **kw):
         kw = self.prepare_dict(value, kw)
         output = tools.renderer(self.template_c)(**kw)
         return output
     
-    def display(self, value=None, **kw):
-        return self.render(value, **kw)
+    def render(self, value=None, **kw):
+        return self.display(value, **kw)
     
-    __call__ = display
+    __call__ = render
 
     def get_default(self):
         if callable(self.default):
