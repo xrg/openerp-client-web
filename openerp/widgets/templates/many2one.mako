@@ -10,7 +10,6 @@
                 <span class="fielderror">${error}</span>
                 % endif
             </td>
-            % if not inline:
             <td width="16" style="padding-left: 2px">
                 <img id='${name}_open' 
                     width="16" 
@@ -21,7 +20,6 @@
                     style="cursor: pointer;" 
                     class="imgSelect"/>
             </td>
-            % endif
             <td width="16" style="padding-left: 2px">
                 % if readonly:
                 <img id='${name}_select'
