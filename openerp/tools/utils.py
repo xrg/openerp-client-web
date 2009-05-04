@@ -1,4 +1,5 @@
 import os
+import urllib
 
 import cherrypy
 from mako.filters import html_escape
@@ -6,15 +7,16 @@ from mako.filters import html_escape
 from openerp.validators import Invalid
 
 
-__all__ = ["url", "redirect", "validate", "error_handler", "exception_handler", 
+__all__ = ["url", "url_plus", "redirect", "validate", "error_handler", "exception_handler", 
            "attrs", "attr_if", "decorated"]
 
 
-def url(_cppath, _cpparams=None, **kw):
+def url(_cppath, _cpparams=None, _cpquote=False, **kw):
     """
     Returns absolute url for the given _cppath, _cpparams and kw.
     
     If _cppath is a list, path will be created joining them with '/'.
+    If _cpquote if True, url_quote the params/kw
     If _cpparams is given it should be a map or list of tuples to create a map.
     
     query string will be created from _cpparams and **kw.
@@ -34,7 +36,14 @@ def url(_cppath, _cpparams=None, **kw):
         params = dict(_cpparams)
     params.update(kw)
     
-    query = '&'.join(map(lambda a: '%s=%s' % (a[0], a[1]), params.items()))
+    kv = []
+    for k, v in params.iteritems():
+        if _cpquote and isinstance(k, basestring) and isinstance(v, basestring):
+            k = urllib.quote_plus(k)
+            v = urllib.quote_plus(v)
+        kv.append("%s=%s" % (k, v))
+
+    query = '&'.join(kv)
 
     if path and query:
         path = path + '?' + query
@@ -48,6 +57,10 @@ def url(_cppath, _cpparams=None, **kw):
         path = webpath + path
 
     return path
+
+
+def url_plus(_cppath, _cpparams=None, **kw):
+    return url(_cppath, _cpparams, True, **kw)
 
 
 def redirect(_cppath, _cpparams=None, **kw):
