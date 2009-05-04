@@ -495,7 +495,7 @@ class PieChart(GraphData):
         url = []
 
         for dom in domain:
-            u = tools.url('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+            u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
             url.append(u)
