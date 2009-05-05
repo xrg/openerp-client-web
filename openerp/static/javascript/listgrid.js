@@ -122,10 +122,14 @@ ListView.prototype = {
             
             var name = names.shift();
             prefix = prefix + (name ? name + '/' : '');
-
-            var items = $$('[name^=' + prefix + '_terp_]');
+            
+            var items = MochiKit.DOM.getElementsByTagAndClassName('input');
+            var patern = prefix + '_terp_';
+            
             forEach(items, function(item){
-                args[item.name] = item.value;
+                if(item.name.match("^"+ patern)== patern) {
+                	args[item.name] = item.value;
+                }
             });
         }
 

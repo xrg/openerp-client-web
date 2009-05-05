@@ -495,10 +495,9 @@ class DateTime(TinyInputWidget):
                             
     css = [CSSLink("openerp", "calendar/skins/aqua/theme.css")]
 
-    params = ["format", "strdate", "picker_shows_time"]
+    params = ["format", "picker_shows_time"]
 
     format = '%Y-%m-%d %H:%M:%S'
-    strdate = None
     picker_shows_time = True
 
     def __init__(self, **attrs):
