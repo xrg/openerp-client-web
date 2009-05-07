@@ -935,10 +935,13 @@ class Form(TinyResource):
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:
             return dict(error=ustr(e))
-
+        
+        if response is False: # response is False when creating new record for inherited view.
+            response = {}
+            
         if 'value' not in response:
             response['value'] = {}
-
+            
         result.update(response)
 
         # apply validators (transform values from python)
