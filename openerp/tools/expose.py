@@ -68,6 +68,9 @@ def load_template(template, module=None):
             template = find_resource(module, template)
         else:
             template = os.path.abspath(template)
+        
+        # ask autoreloader to check templates as well
+        cherrypy.engine.autoreload.files.add(template)
 
         dirname = os.path.dirname(template)
         basename = os.path.basename(template)
