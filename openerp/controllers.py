@@ -47,7 +47,7 @@ from openerp.tinyres import login as tiny_login
 
 
 def _cp_on_error():
-    errorpage = subcontrollers.error_page.ErrorPage()
+    errorpage = cherrypy.request.app.root.errorpage
     message = errorpage.render()
     cherrypy.response.status = 500
     #cherrypy.response.headers['Content-Type'] = 'text/html'
@@ -193,6 +193,7 @@ class Root(TinyResource):
     workflowlist = subcontrollers.workflow.WorkflowList()
     process = subcontrollers.process.Process()
     wiki = subcontrollers.wiki.WikiView()
+    errorpage = subcontrollers.error_page.ErrorPage()
 
 
 # vim: ts=4 sts=4 sw=4 si et

@@ -39,6 +39,7 @@ from openerp import tools
 from openerp import common
 
 import openerp.widgets as tw
+from openerp.utils import TinyDict
 
 class ErrorPage(object):
 
@@ -50,26 +51,40 @@ class ErrorPage(object):
 
     def render(self):
         etype, value, tb = sys.exc_info()
-
+        
+        if isinstance(value, common.Concurrency):
+            return self.__render(value)
+        
         if not isinstance(value, common.TinyException):
             return cgitb.html((etype, value, tb))
-
+        
         return self.__render(value)
 
     @expose(template="templates/error_page.mako")
     def __render(self, value):
+        
+        maintenance = None
+        all_params = None
+        concurrency = False
+        
         title=value.title
         error=value.message
-        maintenance = None
-
+                
+        if isinstance(value, common.Concurrency):
+            all_params = value.datas
+            concurrency = True
+                
         if isinstance(value, common.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
 
-
         show_header_footer = cherrypy.request.params.get('_terp_header_footer')
-
-        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb, show_header_footer=show_header_footer)
+        
+        return dict(title=title, error=error, 
+                    maintenance=maintenance, 
+                    nb=self.nb, 
+                    show_header_footer=show_header_footer,
+                    concurrency=concurrency, all_params=all_params)
 
     @expose('json')
     def submit(self, tb, explanation, remarks):
@@ -81,6 +96,27 @@ class ErrorPage(object):
                 return dict(error=_('Your problem could not be sent to the quality team!\nPlease report this error manually at %s') % ('http://openerp.com/report_bug.html'))
         except Exception, e:
             return dict(error=str(e))
+    
+    @expose('json')
+    def write_data(self, **kw):
+        
+        params, data = TinyDict.split(kw)
+
+        method = params.all_params[1]
+        
+        context = params.all_params[4]
+        resource = params.all_params[0]
+        id = params.all_params[2]
+        vals = params.all_params[3]
+        
+        CONCURRENCY_CHECK_FIELD = '__last_update'
+        
+        if CONCURRENCY_CHECK_FIELD in context:
+            del context[CONCURRENCY_CHECK_FIELD]
+        
+        res = rpc.session.execute('object', 'execute' , resource, method, id, vals, context)
+        
+        return dict(res=res)
 
 _ep = ErrorPage()
 

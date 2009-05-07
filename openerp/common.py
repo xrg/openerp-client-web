@@ -55,6 +55,19 @@ class TinyMessage(TinyException):
     def __init__(self, message, title=_("Information")):
         TinyException.__init__(self, message=message, title=title)
 
+class Concurrency(Exception):
+    
+    def __init__(self, message, title=None, datas=None):
+        self.title = title
+        self.datas = datas
+        self.message = message
+        
+    def __unicode__(self):
+        return ustr(self.title)
+
+    def __str__(self):
+        return self.title
+
 def error(title, msg, details=None):
     raise TinyError(message=msg, title=title or _("Error"))
 
@@ -66,6 +79,9 @@ def message(msg):
 
 def to_xml(s):
     return s.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
+
+def concurrency(message, title=None, datas=None):
+    return Concurrency(message, title, datas)
 
 # vim: ts=4 sts=4 sw=4 si et
 

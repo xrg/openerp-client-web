@@ -1,4 +1,5 @@
 <%inherit file="../../templates/master.mako"/>
+<%! show_header_footer = False %>
 
 <%def name="header()">
     <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
@@ -30,11 +31,34 @@
                 return history.length > 1 ? history.back() : window.close()
             });
         }
+		
+		var write_data = function() {
+		
+			var params = { 
+					_terp_all_params: getElement('_terp_all_params').value
+			}
+			
+			var req = Ajax.JSON.post('/errorpage/write_data', params);
+			
+			req.addCallback(function(obj){
+
+                if (obj.error) {
+                	alert('hi');
+                    return alert(obj.error);
+                }
+                
+                return history.length > 1 ? history.back() : window.close()
+            });
+		}
+		
     </script>
 </%def>
 
 <%def name="content()">
-     <table class="view" border="0" width="100%">
+	
+    <input type="hidden" id="_terp_all_params" name="_terp_all_params" value="${all_params}"/>
+    
+	<table class="view" border="0" width="100%">
         % if maintenance:
         <tr>
             <td valign="top">
@@ -136,8 +160,32 @@ is displayed on the second tab.""")}
 </form>
             </td>
         </tr>
-        % else:
+        % else:        	
             <td valign="top">
+            	% if concurrency:
+            	<table border="0" cellpadding="0" cellspacing="0" align="center">
+            		<tr><td height="15px"/></tr>
+					<tr>
+						<td class="errorbox" style="padding: 30px;">
+							<pre align="center">
+<b>${_("Write concurrency warning :")}</b><br/>
+${_("""This document has been modified while you were editing it.
+Choose:
+
+	- "Cancel" to cancel saving.
+	- "Write anyway" to save your current version.""")}
+			   				</pre>
+			   			</td>
+			   		</tr>
+			   		<tr><td height="5px"/></tr>
+			   		<tr>
+			   			<td class="errorbox" align="right">
+			   				<button type="button" onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</button>
+			   				<button type="button" onclick="write_data()">${_("Write Anyway")}</button>
+			   			</td>
+			   		</tr>
+			   	</table>
+			   	% else:
                 <table border="0" cellpadding="0" cellspacing="0" align="center">
                     <tr><td height="15px"/></tr>
                     <tr>
@@ -156,6 +204,7 @@ is displayed on the second tab.""")}
                         </td>
                     </tr>
                 </table>
+                % endif
             </td>
         </tr>
         % endif

@@ -398,7 +398,7 @@ class RPCSession(object):
             return result
 
     def execute(self, obj, method, *args):
-
+        
         if not self.is_logged():
             raise common.warning(_('Not logged...'), _('Authorization Error!'))
 
@@ -415,7 +415,10 @@ class RPCSession(object):
         except RPCException, err:
 
             if err.type in ('warning', 'UserError'):
-                raise common.warning(err.data)
+                if err.message in ('ConcurrencyException') and len(args) > 4:
+                    raise common.concurrency(err.message, err.data, args)
+                else:
+                    raise common.warning(err.data)
             else:
                 raise common.error(_('Application Error!'), err.backtrace)
 
