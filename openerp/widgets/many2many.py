@@ -152,6 +152,7 @@ class M2M(TinyInputWidget):
             ids = eval(ids)
 
         self.ids = ids
+        self.screen.ids = ids
 
     def get_value(self):
         return [(6, 0, self.ids or [])]
