@@ -505,26 +505,19 @@ class Boolean(Char):
             return _('No')
 
 class Button(TinyInputWidget):
-
-    icon = None
-    action = None
-    record = None
-    parent = None
-    btype = None
-
-    params = ['icon', 'visible', 'id', 'parent', 'btype', 'confirm', 'width', 'context']
+    
+    params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
 
     template="""
     % if visible and not icon:
-    <button type="button"
-        context="${context}" ${py.attrs(attrs)} style="min-width: ${width}px;"
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))">
+    <button type="button" ${py.attrs(attrs, context=ctx)} style="min-width: ${width}px;"
+        onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
         ${string}
     </button>
     % endif
     % if visible and icon:
-    <img height="16" width="16" class="listImage" src="${icon}" context="${context}" ${py.attrs(attrs)}
-        onclick="new ListView('${parent}').onButtonClick('${name}', '${btype}', ${record_id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
+    <img height="16" width="16" class="listImage" src="${icon}" context="${ctx}" ${py.attrs(attrs)}
+        onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
     % endif
     % if not visible and not icon:
     <span>&nbsp;</span>
@@ -560,6 +553,7 @@ class Button(TinyInputWidget):
             visible = state in self.states
 
         return dict(id=id, visible=visible)
+
 
 CELLTYPES = {
         'char':Char,

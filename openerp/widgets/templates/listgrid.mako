@@ -104,7 +104,7 @@
                         % if buttons:
                         <td class="grid-cell button" nowrap="nowrap">
                             % for button in buttons:
-                            ${button.display(parent=name, **button.params_from(data))}
+                            ${button.display(parent_grid=name, **button.params_from(data))}
                             % endfor
                         </td>
                         % endif
