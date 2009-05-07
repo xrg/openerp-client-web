@@ -72,7 +72,7 @@ class WidgetBunch(OrderedSet):
 
     def add(self, value):
         if not isinstance(value, Widget):
-            raise TypeError
+            raise TypeError    
         super(WidgetBunch, self).add(value)
         if value in self:
             self._widgets[value._name] = value
@@ -104,6 +104,10 @@ class WidgetBunch(OrderedSet):
         return repr(self._items)
 
 #TODO (high): think again about members and __setattrs__
+
+
+_serial_generator = count()
+
 
 class Widget(object):
 
@@ -145,6 +149,7 @@ class Widget(object):
                     pass
 
         self._name = name
+        self._serial = _serial_generator.next()
 
         # attache parent
         if parent is not None:
@@ -374,6 +379,7 @@ class Widget(object):
     def __eq__(self, other):
         return (
             (getattr(other, '__class__', None) is self.__class__) and
+              (other._serial == self._serial) and
               # Check _name so ancestors are not taken into account
               (other._name == self._name) and
               (other.children == self.children)
