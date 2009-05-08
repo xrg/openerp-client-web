@@ -119,7 +119,7 @@ class List(TinyWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
-
+        
         self.min_rows = 5
         try:
             self.min_rows = int(attrs.get('min_rows'))
@@ -510,13 +510,13 @@ class Button(TinyInputWidget):
 
     template="""
     % if visible and not icon:
-    <button type="button" ${py.attrs(attrs, context=ctx)} style="min-width: ${width}px;"
+    <button type="button" ${py.attrs(attrs, context=ctx)} title="${help}" style="min-width: ${width}px;"
         onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
         ${string}
     </button>
     % endif
     % if visible and icon:
-    <img height="16" width="16" class="listImage" src="${icon}" context="${ctx}" ${py.attrs(attrs)}
+    <img height="16" width="16" class="listImage" src="${icon}" title="${help}" context="${ctx}" ${py.attrs(attrs)}
         onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
     % endif
     % if not visible and not icon:
