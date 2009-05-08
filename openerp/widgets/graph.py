@@ -348,10 +348,11 @@ class BarChart(GraphData):
             mx = 0
             mn = 0
             tk = 2
-
-            for i,j in enumerate(values):
-                mx = max(mx, values[i])
-                mn = min(mn, values[i])
+            
+            if values:
+                values.sort()
+                mn = values[0]
+                mx = values[-1]
 
             if mx != 0:
                 if mx < 0:
@@ -359,13 +360,10 @@ class BarChart(GraphData):
                 else:
                     mx = mx + (10 - (mx % 10))
 
-            if mn != 0:
-                if mn < 0:
-                    mn = mn - (10 + mn % 10)
-                else:
-                    mn = mn + (10 - (mn % 10))
+            if mn < 0:
+                mn = 0
 
-            total = abs(mx) + abs(mn)
+            total = mx + mn
             tk = round(total/10)
 
 #            while (tk > 10):
