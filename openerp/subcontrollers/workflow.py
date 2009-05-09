@@ -60,13 +60,13 @@ class State(Form):
         if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
 
+        params.hidden_fields = [tw.form.Hidden(name='wkf_id', default=params.wkf_id)]
         form = self.create_form(params, tg_errors)
 
         field = form.screen.widget.get_widgets_by_name('wkf_id')[0]
         field.set_value(params.wkf_id or False)
         field.readonly = True
 
-        form.hidden_fields = [tw.form.Hidden(name='wkf_id', default=params.wkf_id)]
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['wkf_id'] = tw.validators.Int()
 
