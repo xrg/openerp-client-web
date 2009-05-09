@@ -112,6 +112,7 @@ class ICalendar(TinyWidget):
     selected_day = None
     date_format = '%Y-%m-%d'
 
+    params = ['use_search']
     members = ['concurrency_info']
 
     css = [CSSLink('openerp', 'tinycalendar/css/calendar.css')]

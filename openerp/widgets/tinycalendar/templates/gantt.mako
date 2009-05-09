@@ -77,8 +77,12 @@
                 % endfor
             </div>
         </div>
-
+    </td>
+</tr>
+<tr>
+    <td>        
         ${groupbox.display()}
+        
         <div id="calSearchOptions">
             <table border="0">
                 <tr>
@@ -92,7 +96,6 @@
                 </tr>
             </table>
         </div>
-
 
         <script type="text/javascript">
             CAL_INSTANCE = new GanttCalendar();
