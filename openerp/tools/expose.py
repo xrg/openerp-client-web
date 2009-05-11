@@ -192,7 +192,9 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
             if isinstance(res, basestring):
                 return res
             
-            _template = load_template(kw.get('cp_template'), func.__module__) or template_c
+            assert isinstance(res, dict), "Exposed method should return string or dict"
+            
+            _template = load_template(res.get('cp_template'), func.__module__) or template_c
             if _template:
                 
                 from openerp.widgets import merge_resources
