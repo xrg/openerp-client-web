@@ -70,8 +70,15 @@ def setup_server(configfile):
     })
 
     app_config = as_dict(configfile)
-    cherrypy.config.update(app_config.pop('global', {}))
-
+    
+    _global = app_config.pop('global', {})
+    _environ = _global.setdefault('server.environment', 'development')
+    
+    if _environ != 'development':
+        _global['environment'] = _environ
+        
+    cherrypy.config.update(_global)
+    
     static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
     app_config.update({'/static': {
         'tools.staticdir.on': True,
