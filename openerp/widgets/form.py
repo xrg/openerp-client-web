@@ -270,11 +270,13 @@ class Separator(TinyInputWidget):
     """
 
     template = "templates/separator.mako"
-
+    params = ["position"]
+    
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
 
         self.colspan = int(attrs.get('colspan', 4))
+        self.position = attrs.get('position', False)
         self.rowspan = 1
         self.nolabel = True
 
