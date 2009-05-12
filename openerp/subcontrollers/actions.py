@@ -304,12 +304,12 @@ def get_action_type(act_id):
     @param act_id: the action id
     @return: action type
     """
-    res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [act_id], ['type'], rpc.session.context)
+    res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', act_id, ['type'], rpc.session.context)
 
-    if not len(res):
+    if not (res and len(res)):
         raise common.message(_('Action not found!'))
 
-    return res[0]['type']
+    return res['type']
 
 def execute_by_id(act_id, type=None, **data):
     """Perforns the given action of type `type` with the provided data.
@@ -323,8 +323,8 @@ def execute_by_id(act_id, type=None, **data):
 
     if type==None:
         type = get_action_type(act_id)
-
-    res = rpc.session.execute('object', 'execute', type, 'read', [act_id], False, rpc.session.context)[0]
+	
+    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
     return execute(res, **data)
 
 def execute_by_keyword(keyword, adds={}, **data):

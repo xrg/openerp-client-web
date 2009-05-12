@@ -90,12 +90,15 @@ var form_hookStateChange = function() {
         var state = getElement(prefix + 'state') || getElement(prefix + 'x_state');
         if (state) {
             fields[state.id] = state;
-            MochiKit.Signal.connect(state, 'onchange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
+            MochiKit.Signal.connect(state, 'onStateChange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
+            MochiKit.Signal.connect(state, 'onchange', function(evt){
+                MochiKit.Signal.signal(field, 'onchange');
+            });
         }
     });
     
     for(var field in fields) {
-        MochiKit.Signal.signal(field, 'onchange');
+        MochiKit.Signal.signal(field, 'onStateChange');
     }
 }
 
@@ -173,14 +176,17 @@ var form_hookAttrChange = function() {
                 if (field && !expr_fields[field.id]) {
                     fields[field.id] = 1;
                     expr_fields[field.id] = 1;
-                    MochiKit.Signal.connect(field, 'onchange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
+                    MochiKit.Signal.connect(field, 'onAttrChange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
+                    MochiKit.Signal.connect(field, 'onchange', function(evt){
+                        MochiKit.Signal.signal(field, 'onAttrChange');
+                    });
                 }
             });
         }
     });
     
     for(var field in fields) {
-        MochiKit.Signal.signal(field, 'onchange');
+        MochiKit.Signal.signal(field, 'onAttrChange');
     }
 }
 
