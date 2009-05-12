@@ -188,28 +188,24 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
             
             cherrypy.response.headers['Content-Type'] = content_type or \
             cherrypy.response.headers.get('Content-Type', 'text/html')
-
-            if isinstance(res, basestring):
-                return res
             
-            assert isinstance(res, dict), "Exposed method should return string or dict"
-            
-            _template = load_template(res.get('cp_template'), func.__module__) or template_c
-            if _template:
+            if isinstance(res, dict):
+                _template = load_template(res.get('cp_template'), func.__module__) or template_c
                 
-                from openerp.widgets import merge_resources
-                from openerp.widgets import mochikit
-                from openerp.widgets import js_i18n
+                if _template:
+                    from openerp.widgets import merge_resources
+                    from openerp.widgets import mochikit
+                    from openerp.widgets import js_i18n
 
-                res['widget_resources'] = _resources = {}
-                _resources = merge_resources(_resources, mochikit.retrieve_resources())
-                _resources = merge_resources(_resources, js_i18n.retrieve_resources())
-                
-                for k, w in res.iteritems():
-                    if hasattr(w, 'retrieve_resources') and w.is_root:
-                        _resources = merge_resources(_resources, w.retrieve_resources())
+                    res['widget_resources'] = _resources = {}
+                    _resources = merge_resources(_resources, mochikit.retrieve_resources())
+                    _resources = merge_resources(_resources, js_i18n.retrieve_resources())
+                    
+                    for k, w in res.iteritems():
+                        if hasattr(w, 'retrieve_resources') and w.is_root:
+                            _resources = merge_resources(_resources, w.retrieve_resources())
 
-                return renderer(_template)(**res).encode("utf-8")
+                    return renderer(_template)(**res).encode("utf-8")
 
             if not isinstance(res, basestring):
                 return unicode(res).encode("utf-8")
