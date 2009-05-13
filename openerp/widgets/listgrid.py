@@ -29,6 +29,7 @@
 
 import time
 import math
+import copy
 import locale
 import xml.dom.minidom
 
@@ -162,7 +163,8 @@ class List(TinyWidget):
                 self.data_dict[item['id']] = item.copy()
 
             self.ids = ids
-
+            
+        self.values = copy.deepcopy(data)
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
         for k, v in self.field_total.items():

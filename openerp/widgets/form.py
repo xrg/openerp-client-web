@@ -758,6 +758,7 @@ class Form(TinyInputWidget):
 
         self.view_fields = []
         self.frame = self.parse(prefix, dom, fields, values)[0]
+        self.values = [values]
         self.concurrency_info = ConcurrencyInfo(self.model, [self.id])
 
         # We should generate hidden fields for fields which are not in view, as

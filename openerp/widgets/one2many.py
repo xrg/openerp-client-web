@@ -162,10 +162,8 @@ class O2M(TinyInputWidget):
 
         if not self.ids:
             return []
-
-        proxy = rpc.RPCProxy(self.model)
-        values = proxy.read(self.ids)
-
+        
+        values = getattr(self.screen.widget, 'values', [])
         return [(1, val['id'], val) for val in values]
 
 # vim: ts=4 sts=4 sw=4 si et
