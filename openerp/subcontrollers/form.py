@@ -227,7 +227,7 @@ class Form(TinyResource):
         buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
         buttons.gantt = 'gantt' in params.view_mode and mode != 'gantt'
         buttons.can_attach = id and mode == 'form'
-        buttons.has_attach = buttons.can_attach and self._has_attachments(params.model, id, mode)
+        buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
 
         target = params.context.get('_terp_target')
@@ -247,13 +247,6 @@ class Form(TinyResource):
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
         return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path, show_header_footer=target!='new')
-
-    def _has_attachments(self, model, id, mode):
-        if mode <> 'form':
-            return False
-        proxy = rpc.RPCProxy('ir.attachment')
-        cpt = proxy.search_count([('res_model', '=', model), ('res_id', '=', id)])
-        return cpt > 0
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
