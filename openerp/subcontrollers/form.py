@@ -235,11 +235,9 @@ class Form(TinyResource):
 
         if cache.can_write('ir.ui.view'):
             links.view_manager = True
-            links.workflow_manager = False
-
-            proxy = rpc.RPCProxy('workflow')
-            wkf_ids = proxy.search([('osv', '=', params.model)], 0, 0, 0, rpc.session.context)
-            links.workflow_manager = (wkf_ids or False) and wkf_ids[0]
+            
+        if cache.can_write('workflow'):
+            links.workflow_manager = True
 
         pager = None
         if buttons.pager:
