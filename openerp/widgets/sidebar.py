@@ -112,24 +112,15 @@ class Sidebar(TinyWidget):
 
 
         if self.view_type == 'form':
-            id = int(self.id)
-            params = TinyDict()
-            params.model = 'ir.attachment'
-            params.view_mode = ['tree', 'form']
-
-            params.domain = [('res_model', '=', model), ('res_id', '=', id)]
-            screen = Screen(params, selectable=1)
-            ids = screen.ids or []
-
+            
             proxy = rpc.RPCProxy('ir.attachment')
+            ids = proxy.search([('res_model', '=', model), ('res_id', '=', id)], 0, 0, 0, self.context)
+            
             if ids:
-                for i in ids:
-                    attach = []
-                    datas = proxy.read([i], ['datas_fname'])
-                    attach += [datas[0].get('id')]
-                    attach += [datas[0].get('datas_fname', '')]
-                    if datas[0].get('datas_fname'):
-                        self.attachments += [attach]
+                attach = []
+                datas = proxy.read(ids, ['datas_fname'])
+                self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
+                
 
 # vim: ts=4 sts=4 sw=4 si et
 
