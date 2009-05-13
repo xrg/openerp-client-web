@@ -61,14 +61,6 @@ def get_accept_languages(accept):
     return langs
 
 def get_locale(locale=None):
-    """
-    Returns user locale, using _get_locale or app-specific locale lookup function.
-    """
-    if not locale:
-        return _get_lacale()
-    return locale
-
-def get_locale(locale=None):
     
     if locale:
         return locale
