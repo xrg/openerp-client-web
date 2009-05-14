@@ -164,6 +164,8 @@ class Root(TinyResource):
         from openerp import release
         version = _("Version %s-%s") % (release.version, release.release)
         return dict(version=version)
+    
+    profile = profile.profiler
 
     form = subcontrollers.form.Form()
     tree = subcontrollers.tree.Tree()
