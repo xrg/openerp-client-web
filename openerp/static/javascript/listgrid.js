@@ -117,17 +117,17 @@ ListView.prototype = {
         var names = name.split('/');
 
         var prefix = '';
-
+        var items = MochiKit.DOM.getElementsByTagAndClassName('input');
+        
         while(names.length) {
             
             var name = names.shift();
             prefix = prefix + (name ? name + '/' : '');
             
-            var items = MochiKit.DOM.getElementsByTagAndClassName('input');
             var patern = prefix + '_terp_';
             
             forEach(items, function(item){
-                if(item.name.match("^"+ patern)== patern) {
+                if(item.name.match("^"+ patern) == patern && !item.name.match('^_terp_listfields/')) {
                 	args[item.name] = item.value;
                 }
             });
@@ -532,7 +532,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
             
             // call on_change for default values
-            if (editors.length) {
+            if (editors.length && edit_inline == -1) {
                 forEach(editors, function(e){
                     if (e.value && getNodeAttribute(e, 'callback')) {
                         MochiKit.Signal.signal(e, 'onchange');
