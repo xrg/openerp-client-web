@@ -11,16 +11,20 @@
             % if not attrs.get('disabled'):
             <td width="16" style="padding-left: 2px">
                 <img id="${name}_trigger" width="16" height="16" alt="${_('Select')}" 
-                src="/static/images/stock/stock_calendar.png" style="cursor: pointer;"/>
+                src="/static/images/stock/stock_calendar.png" class="${css_class}" style="cursor: pointer;"/>
             </td>
             % endif
             % if not attrs.get('disabled'):
             <script type="text/javascript">
+            
+                var x = $$('input.${css_class}'); x = x[x.length-1];
+                var y = $$('img.${css_class}'); y = y[y.length-1];
+            
                 Calendar.setup(
                 {
-                    inputField : "${name}",
+                    inputField : x,
                     ifFormat : "${format}",
-                    button : "${name}_trigger",
+                    button : y,
                     showsTime: ${str(picker_shows_time).lower()}
                 });
             </script>
