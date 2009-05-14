@@ -12,7 +12,7 @@ from cherrypy._cpconfig import as_dict
 from formencode import NestedVariables
 
 from openerp import release
-from openerp import rpc
+
 
 __all__ = ['start']
 
@@ -112,6 +112,7 @@ def setup_server(configfile):
     port = app.config['openerp'].get('port')
     protocol = app.config['openerp'].get('protocol')
 
+    from openerp import rpc
     rpc.session = rpc.RPCSession(host, port, protocol, storage=CPSessionWrapper())
 
 
