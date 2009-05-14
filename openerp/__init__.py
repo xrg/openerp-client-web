@@ -1,5 +1,6 @@
 import os
 import sys
+from locale import getlocale
 
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib')
 if os.path.exists(libdir) and libdir not in sys.path:
@@ -22,25 +23,23 @@ def ustr(value):
 
     if isinstance(value, unicode):
         return value
-
-    if hasattr(value, '__unicode__'):
+    
+    try: # first try without encoding
         return unicode(value)
-
-    if not isinstance(value, str):
-        value = str(value)
-
-    try: # first try utf-8
+    except:
+        pass
+    
+    try: # then try with utf-8
         return unicode(value, 'utf-8')
     except:
         pass
 
-    try: # then extened iso-8858
+    try: # then try with extened iso-8858
         return unicode(value, 'iso-8859-15')
     except:
         pass
 
     # else use default system locale
-    from locale import getlocale
     return unicode(value, getlocale()[1])
 
 __builtins__['ustr'] = ustr

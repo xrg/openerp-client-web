@@ -214,9 +214,9 @@ def content(value):
         return ""
 
     if isinstance(value, NoEscape):
-        return unicode(value)
+        return ustr(value)
 
-    return html_escape(unicode(value))
+    return html_escape(ustr(value))
 
 
 def attrs(*args, **kw):
