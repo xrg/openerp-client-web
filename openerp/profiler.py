@@ -86,7 +86,7 @@ def profile(name, arange=[], keys=[]):
     return wrapper
 
 if not prof_on:
-    def profile(name):
+    def profile(*args, **kw):
         return lambda f: f
 
 class ProfileViewer(object):
