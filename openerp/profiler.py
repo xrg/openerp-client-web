@@ -32,13 +32,14 @@ def to_kw(func, args, kw):
     return args[len(argnames)-len(defaults):], kw
 
 
-def profile(name, log=[]):
+def profile(name, log=[], cb=None):
     """
     Profile decorator.
     
     @param name: name for the profile (should be unique)og
     @param log: list of argument name to be logged, for var args give 
                 index value, will be logger in sequence
+    @param cb: callback to be used to log custom message then from args
     
     >>> @profile("my_say", log=[0, 2, 'something', 'format'])
     >>> def say(what, something, tosay, format=None, *args):
@@ -57,7 +58,10 @@ def profile(name, log=[]):
     formatter = logging.Formatter("%(percall)10.3f %(rpctime)10.3f %(efftime)10.3f -- %(message)s")
     handler.setFormatter(formatter)
     
-    def message(fn, args, kw):
+    def message(fn, *args, **kw):
+        
+        if callable(cb):
+            return "%s" % cb(*args, **kw)
         
         _a, kw = to_kw(fn, args, kw)
         
@@ -90,8 +94,8 @@ def profile(name, log=[]):
             rt2 = __PROFILES.get('rpc.execute', {}).get('tottime', 0.0)
             rt = rt2 - rt
             
-            dct = dict(percall=tt/nc, rpctime=rt, efftime=t-rt, tottime=tt)
-            logger.info(message(func, args, kw), extra=dct)
+            dct = dict(percall=t, rpctime=rt, efftime=t-rt, tottime=tt)
+            logger.info(message(func, *args, **kw), extra=dct)
             
             return res
         
@@ -130,7 +134,7 @@ class ProfileViewer(object):
         runs = self.statfiles()
         runs.sort()
         for i in runs:
-            yield "<a href='report?filename=%s' target='main'>%s</a><br />" % (i, i)
+            yield "<a href='report?filename=%s' target='main'>%s</a><br />" % (i, i[:-4])
         pass
     menu.exposed = True
     
