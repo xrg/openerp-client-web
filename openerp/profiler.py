@@ -5,6 +5,9 @@ import logging
 from os import mkdir
 from os.path import dirname, join, abspath, exists
 
+from itertools import izip, islice
+from inspect import getargspec
+
 import cherrypy
 from cherrypy.lib import profiler
 
@@ -16,22 +19,34 @@ if prof_on and not exists(prof_dir):
 
 __PROFILES = {}
 
+def to_kw(func, args, kw):
 
-def profile(name, arange=[], keys=[]):
+    argnames, defaults = getargspec(func)[::3]
+    defaults = defaults or []
+    
+    kw = kw.copy()
+
+    kv = zip(islice(argnames, 0, len(argnames) - len(defaults)), args)
+    kw.update(kv)
+
+    return args[len(argnames)-len(defaults):], kw
+
+
+def profile(name, log=[]):
     """
     Profile decorator.
     
-    @param name: name for the profile (should be unique)
-    @param arange: list argument indices to be used to log
-    @params keys: list of keys to be used to log
+    @param name: name for the profile (should be unique)og
+    @param log: list of argument name to be logged, for var args give 
+                index value, will be logger in sequence
     
-    >>> @profile("my_say", arange=[0,2], keys=['format'])
-    >>> def say(what, something, tosay, format=None):
+    >>> @profile("my_say", log=[0, 2, 'something', 'format'])
+    >>> def say(what, something, tosay, format=None, *args):
     >>>     ...
     """
     
     assert name not in __PROFILES, "duplicate profile name %s, should be unique." % name
-    
+        
     tinfo = __PROFILES.setdefault(name, {'ncalls': 0, 'tottime': 0.0})
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
@@ -42,22 +57,25 @@ def profile(name, arange=[], keys=[]):
     formatter = logging.Formatter("%(percall)10.3f %(rpctime)10.3f %(efftime)10.3f -- %(message)s")
     handler.setFormatter(formatter)
     
-    def message(args, kw):
+    def message(fn, args, kw):
+        
+        _a, kw = to_kw(fn, args, kw)
         
         res = []
-        for i in arange:
-            try:
-                res.append("%s" % (args[i]))
-            except:
-                pass
-        for k in keys:
-            res.append("%s=%s" % (k, kw.get(k)))
+        for n in log:
+            if isinstance(n, int):
+                try:
+                    res.append("%s" % args[n])
+                except:
+                    pass
+            else:
+                res.append("%s=%s" % (n, kw.get(n)))
         return ", ".join(res)
 
     def wrapper(func):
         
         def func_wrapper(*args, **kw):
-            
+                        
             rt = __PROFILES.get('rpc.execute', {}).get('tottime', 0.0)
             
             nc = tinfo['ncalls'] = tinfo['ncalls'] + 1
@@ -73,7 +91,7 @@ def profile(name, arange=[], keys=[]):
             rt = rt2 - rt
             
             dct = dict(percall=tt/nc, rpctime=rt, efftime=t-rt, tottime=tt)
-            logger.info(message(args, kw), extra=dct)
+            logger.info(message(func, args, kw), extra=dct)
             
             return res
         

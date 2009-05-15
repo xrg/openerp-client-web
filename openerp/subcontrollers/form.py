@@ -246,7 +246,7 @@ class Form(TinyResource):
 
         return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path, show_header_footer=target!='new')
 
-    @profile("form.edit", arange=[1, 2])
+    @profile("form.edit", log=['model', 'id'])
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
              source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
