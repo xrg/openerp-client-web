@@ -41,7 +41,7 @@ from openerp import rpc
 from openerp.tools import utils
 
 
-__all__ = ['find_resource', 'load_template', 'renderer', 'expose', 'register_template_vars']
+__all__ = ['find_resource', 'load_template', 'render_template', 'expose', 'register_template_vars']
 
 
 def find_resource(package_or_module, *names):
@@ -137,39 +137,40 @@ register_template_vars(_cp_vars, 'cp')
 register_template_vars(_py_vars, 'py')
 register_template_vars(_root_vars, None)
 
-
-def renderer(template, module=None):
+def _get_vars():
     
-    tmpl = load_template(template, module)
+    try:
+        return cherrypy.request._terp_template_vars
+    except:
+        pass
     
-    assert isinstance(tmpl, Template), "Invalid template..."
+    cherrypy.request._terp_template_vars = _vars = {}
+    
+    for prefix, cbs in _var_providers.iteritems():
+        if prefix:
+            provider = _Provider()
+            for cb in cbs:
+                provider.update(cb())
+            _vars[prefix] = provider
+        else:
+            for cb in cbs:
+                _vars.update(cb())
+    return _vars
 
-    def wrapper(**kw):
+def render_template(template, kw):
+    
+    assert isinstance(template, Template), "Invalid template..."
+    
+    _vars = _get_vars()
+    
+    kw = kw.copy()
+    kw.update(_vars)
 
-        if not tmpl:
-            return
-
-        _vars = {}
-        for prefix, cbs in _var_providers.iteritems():
-            if prefix:
-                provider = _Provider()
-                for cb in cbs:
-                    provider.update(cb())
-                _vars[prefix] = provider
-            else:
-                for cb in cbs:
-                    _vars.update(cb())
-
-        kw = kw.copy()
-        kw.update(_vars)
-
-        # XXX mako overrides 'context' template variable...
-        if 'context' in kw:
-            kw['ctx'] = kw.pop('context')
-
-        return utils.NoEscape(tmpl.render_unicode(**kw))
-
-    return wrapper
+    # XXX mako overrides 'context' template variable...
+    if 'context' in kw:
+        kw['ctx'] = kw.pop('context')
+        
+    return utils.NoEscape(template.render_unicode(**kw))
 
 
 def expose(format='html', template=None, content_type=None, allow_json=False):
@@ -205,8 +206,8 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                         if hasattr(w, 'retrieve_resources') and w.is_root:
                             _resources = merge_resources(_resources, w.retrieve_resources())
 
-                    return renderer(_template)(**res).encode("utf-8")
-
+                    return render_template(_template, res).encode("utf-8")
+                
             if not isinstance(res, basestring):
                 return unicode(res).encode("utf-8")
 

@@ -234,7 +234,7 @@ class Widget(object):
 
     def display(self, value=None, **kw):
         kw = self.prepare_dict(value, kw)
-        output = tools.renderer(self.template_c)(**kw)
+        output = tools.render_template(self.template_c, kw)
         return output
     
     def render(self, value=None, **kw):
