@@ -31,6 +31,7 @@ def to_kw(func, args, kw):
 
     return args[len(argnames)-len(defaults):], kw
 
+_RPCTIME = 0
 
 def profile(name, log=[], cb=None):
     """
@@ -46,16 +47,13 @@ def profile(name, log=[], cb=None):
     >>>     ...
     """
     
-    assert name not in __PROFILES, "duplicate profile name %s, should be unique." % name
-        
-    tinfo = __PROFILES.setdefault(name, {'ncalls': 0, 'tottime': 0.0})
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
     
     handler = logging.FileHandler(join(prof_dir, name + '.log'))
     logger.addHandler(handler)
     
-    formatter = logging.Formatter("%(percall)10.3f %(rpctime)10.3f %(efftime)10.3f -- %(message)s")
+    formatter = logging.Formatter("%(time)10.3f %(rpctime)10.3f %(efftime)10.3f -- %(message)s")
     handler.setFormatter(formatter)
     
     def message(fn, *args, **kw):
@@ -79,22 +77,24 @@ def profile(name, log=[], cb=None):
     def wrapper(func):
         
         def func_wrapper(*args, **kw):
-                        
-            rt = __PROFILES.get('rpc.execute', {}).get('tottime', 0.0)
             
-            nc = tinfo['ncalls'] = tinfo['ncalls'] + 1
+            global _RPCTIME
+            
+            rt = _RPCTIME
             
             t1 = time.time()
             res = func(*args, **kw)
             t2 = time.time()
             
             t = t2 - t1
-            tt = tinfo['tottime'] = tinfo['tottime'] + t
             
-            rt2 = __PROFILES.get('rpc.execute', {}).get('tottime', 0.0)
+            if name == "rpc.execute":
+                _RPCTIME += t
+                
+            rt2 = _RPCTIME
             rt = rt2 - rt
             
-            dct = dict(percall=t, rpctime=rt, efftime=t-rt, tottime=tt)
+            dct = dict(time=t, rpctime=rt, efftime=t-rt)
             logger.info(message(func, *args, **kw), extra=dct)
             
             return res
@@ -141,7 +141,7 @@ class ProfileViewer(object):
     def report(self, filename):
         import cherrypy
         cherrypy.response.headers['Content-Type'] = 'text/plain'
-        yield "%10s %10s %10s\n%s\n" % ('percall', 'rpctime', 'efftime', ('-' * 33))
+        yield "%10s %10s %10s\n%s\n" % ('time', 'rpctime', 'efftime', ('-' * 33))
         yield open(join(prof_dir, filename)).read()
     report.exposed = True
 
