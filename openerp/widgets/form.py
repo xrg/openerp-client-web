@@ -327,6 +327,10 @@ class Char(TinyInputWidget):
     params = ['password', 'size']
 
     def __init__(self, **attrs):
+        
+        if attrs.get('password'):
+            attrs.pop('invisible', None)
+        
         super(Char, self).__init__(**attrs)
         self.validator = validators.String()
 
