@@ -942,7 +942,7 @@ class Form(TinyResource):
         for k, v in values.items():
             key = ((prefix or '') and prefix + '/') + k
 
-            if key in data:
+            if key in data and key != 'id':
                 values2[k] = data[key]
                 values2[k]['value'] = v
             else:

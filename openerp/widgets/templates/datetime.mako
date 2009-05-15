@@ -19,12 +19,13 @@
             
                 var x = $$('input.${css_class}'); x = x[x.length-1];
                 var y = $$('img.${css_class}'); y = y[y.length-1];
-            
+            	var x_val = x ? x: "${name}";
+            	var y_val = y ? y: "${name}_trigger";
                 Calendar.setup(
                 {
-                    inputField : x,
+                    inputField : x_val,
                     ifFormat : "${format}",
-                    button : y,
+                    button : y_val,
                     showsTime: ${str(picker_shows_time).lower()}
                 });
             </script>
