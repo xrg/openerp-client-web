@@ -397,7 +397,7 @@ class RPCSession(object):
         else:
             return result
 
-    @profile("rpc.execute")
+    @profile("rpc.execute", arange=[3, 4])
     def execute(self, obj, method, *args):
         
         if not self.is_logged():

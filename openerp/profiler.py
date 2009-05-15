@@ -16,7 +16,19 @@ if prof_on and not exists(prof_dir):
 
 __PROFILES = {}
 
-def profile(name):
+
+def profile(name, arange=[], keys=[]):
+    """
+    Profile decorator.
+    
+    @param name: name for the profile (should be unique)
+    @param arange: list argument indices to be used to log
+    @params keys: list of keys to be used to log
+    
+    >>> @profile("my_say", arange=[0,2], keys=['format'])
+    >>> def say(what, something, tosay, format=None):
+    >>>     ...
+    """
     
     assert name not in __PROFILES, "duplicate profile name %s, should be unique." % name
     
@@ -27,8 +39,20 @@ def profile(name):
     handler = logging.FileHandler(join(prof_dir, name + '.log'))
     logger.addHandler(handler)
     
-    formatter = logging.Formatter("%(percall)10.3f %(rpctime)10.3f %(efftime)10.3f ;; %(message)s")
+    formatter = logging.Formatter("%(percall)10.3f %(rpctime)10.3f %(efftime)10.3f -- %(message)s")
     handler.setFormatter(formatter)
+    
+    def message(args, kw):
+        
+        res = []
+        for i in arange:
+            try:
+                res.append("%s" % (args[i]))
+            except:
+                pass
+        for k in keys:
+            res.append("%s=%s" % (k, kw.get(k)))
+        return ", ".join(res)
 
     def wrapper(func):
         
@@ -48,10 +72,8 @@ def profile(name):
             rt2 = __PROFILES.get('rpc.execute', {}).get('tottime', 0.0)
             rt = rt2 - rt
             
-            message = "%s, %s" % (args[1:], kw)
-            
             dct = dict(percall=tt/nc, rpctime=rt, efftime=t-rt, tottime=tt)
-            logger.info(message, extra=dct)
+            logger.info(message(args, kw), extra=dct)
             
             return res
         
