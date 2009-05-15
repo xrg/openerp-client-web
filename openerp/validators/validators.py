@@ -106,7 +106,7 @@ class Float(Number):
     digit = 2
 
     def _from_python(self, value, state):
-        return format.format_decimal(value or 0.0, self.digit)
+        return format.format_decimal(float(value) or 0.0, self.digit)
 
     def _to_python(self, value, state):
         try:
