@@ -157,6 +157,7 @@ def _get_vars():
                 _vars.update(cb())
     return _vars
 
+@profile("tools.render_template", cb=lambda template, kw: template.uri)
 def render_template(template, kw):
     
     assert isinstance(template, Template), "Invalid template..."
