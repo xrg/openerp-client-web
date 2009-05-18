@@ -208,7 +208,8 @@ def _get_model(node, parent_model):
         field = proxy.fields_get([parent])
 
         if field:
-            parent_model = field[parent]['relation']
+            if field[parent].get('relation'):
+                parent_model = field[parent]['relation']
 
     return parent_model
 
