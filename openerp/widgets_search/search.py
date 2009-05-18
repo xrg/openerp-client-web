@@ -172,6 +172,7 @@ class Search(TinyInputWidget):
                 attrs['visible'] = True
                 attrs['invisible'] = False
                 attrs['editable'] = True
+                attrs['attrs'] = None
 
                 try:
                     fields[name].update(attrs)
