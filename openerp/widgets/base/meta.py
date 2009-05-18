@@ -16,7 +16,8 @@ class WidgetType(type):
         _frozenset_from_bases(attrs, bases, 'members')
         
         if attrs.get('template'):
-            attrs['template_c'] = load_template(attrs['template'], attrs['__module__'])
+            attrs['template_c'] = tc = load_template(attrs['template'], attrs['__module__'])
+            tc._widget = name
 
         if '__init__' in attrs:
             attrs['__init__'] = post_init(attrs['__init__'])

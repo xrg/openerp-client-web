@@ -137,6 +137,7 @@ class Widget(object):
     _is_initialized = False
     _is_locked = False
 
+    @profile("widget.__init__", cb=lambda self, *args, **kw: type(self))
     def __init__(self, name=None, parent=None, children=[], **kw):
 
         # set each keyword args as attribute
@@ -232,6 +233,7 @@ class Widget(object):
         """
         return ifilter(filter, self.children)
 
+    @profile("widget.display", cb=lambda self, value=None, **kw: type(self))
     def display(self, value=None, **kw):
         kw = self.prepare_dict(value, kw)
         output = tools.render_template(self.template_c, kw)
