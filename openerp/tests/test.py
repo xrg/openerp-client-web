@@ -1,6 +1,8 @@
 import os
 import sys
 
+__builtins__['profile'] = lambda *args, **kw: lambda f: f
+
 from openerp import commands, rpc, tools, tinyres
 
 from cherrypy.test import test, helper
