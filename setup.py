@@ -99,7 +99,7 @@ if os.path.isdir('locales'):
     package_data.update(find_package_data(where='locales', exclude=('*.po',), only_in_packages=False))
 
 data_files = []
-for name in ('scripts', 'doc'):
+for name in ('config', 'scripts', 'doc'):
     data = find_package_data(where=name, package=name, exclude=('*~',), only_in_packages=False)
     data_files += [(name, [name + '/' + f for f in data[name]])]
 

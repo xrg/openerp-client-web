@@ -54,7 +54,7 @@ class ConfigurationError(Exception):
 def get_config_file():
     setupdir = dirname(dirname(__file__))
     if exists(join(setupdir, "setup.py")):
-        return join(setupdir, "openerp-web.cfg")
+        return join(setupdir, "config", "openerp-web.cfg")
     return None
 
 

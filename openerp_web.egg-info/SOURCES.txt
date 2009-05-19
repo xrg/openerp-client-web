@@ -1,7 +1,6 @@
 MANIFEST.in
-dev.cfg
 setup.py
-start-openerp-web.py
+config/openerp-web.cfg
 doc/ChangeLog
 doc/LICENSE.txt
 doc/README.txt
@@ -18,7 +17,7 @@ openerp/commands.py
 openerp/common.py
 openerp/controllers.py
 openerp/icons.py
-openerp/json.py
+openerp/profiler.py
 openerp/release.py
 openerp/rpc.py
 openerp/tiny_socket.py
@@ -773,6 +772,9 @@ openerp/templates/about.mako
 openerp/templates/login.mako
 openerp/templates/login_ajax.mako
 openerp/templates/master.mako
+openerp/tests/__init__.py
+openerp/tests/test.py
+openerp/tests/test_root_controller.py
 openerp/tools/__init__.py
 openerp/tools/expose.py
 openerp/tools/tools.py
@@ -840,7 +842,6 @@ openerp/widgets/tinycalendar/__init__.py
 openerp/widgets/tinycalendar/base.py
 openerp/widgets/tinycalendar/utils.py
 openerp/widgets/tinycalendar/widgets.py
-openerp/widgets/tinycalendar/templates/__init__.py
 openerp/widgets/tinycalendar/templates/day.mako
 openerp/widgets/tinycalendar/templates/gantt.mako
 openerp/widgets/tinycalendar/templates/groups.mako
@@ -855,7 +856,6 @@ openerp/widgets/wiki/templates/wiki.mako
 openerp/widgets/wiki/wikimarkup/__init__.py
 openerp/widgets_search/__init__.py
 openerp/widgets_search/search.py
-openerp/widgets_search/templates/__init__.py
 openerp/widgets_search/templates/rangewid.mako
 openerp/widgets_search/templates/search.mako
 openerp_web.egg-info/PKG-INFO
