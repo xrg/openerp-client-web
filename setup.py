@@ -130,7 +130,7 @@ setup(
     keywords = [
         # Use keywords if you'll be adding your package to the
         # Python Cheeseshop
-        'turbogears.app',
+        'cherrypy.app',
     ],
     classifiers = [
         'Development Status :: 5 - Production/Stable',
@@ -140,10 +140,9 @@ setup(
         'Framework :: CherryPy',
         'Framework :: CherryPy :: Applications',
         ],
-    test_suite = 'nose.collector',
     entry_points = {
         'console_scripts': [
-            'start-openerp-web = openerp.commands:start',
+            'openerp-web = openerp.commands:start',
         ],
     },
 
