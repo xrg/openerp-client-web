@@ -4,12 +4,12 @@
             <div class="tabber" id="search_view_notebook">
                 <div class="tabbertab" title="${_('Basic Search')}">
                     % if basic:
-                        ${display_child(basic)}
+                        ${display_member(basic)}
                     % endif
                 </div>
                 <div class="tabbertab" title="${_('Advanced Search')}">
                     % if advance:
-                        ${display_child(advance)}
+                        ${display_member(advance)}
                     % endif
                 </div>
             </div>

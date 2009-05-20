@@ -63,7 +63,7 @@ class Frame(TinyInputWidget):
     template = "templates/frame.mako"
 
     params = ['table']
-    members = ['hiddens']
+    member_widgets = ['hiddens', 'children']
 
     table = None
 
@@ -252,6 +252,8 @@ class Notebook(TinyInputWidget):
 
     css = [CSSLink('openerp', 'css/tabs.css')]
 
+    member_widgets = ['children']
+    
     def __init__(self, **attrs):
         super(Notebook, self).__init__(**attrs)
         self.nolabel = True
@@ -553,7 +555,7 @@ class Hidden(TinyInputWidget):
     template = "templates/hidden.mako"
 
     params = ['relation']
-    members = ['widget']
+    member_widgets = ['widget']
 
     def __init__(self, **attrs):
         super(Hidden, self).__init__(**attrs)
@@ -628,7 +630,7 @@ class Image(TinyInputWidget):
 class Group(TinyInputWidget):
     template = "templates/group.mako"
 
-    members = ["frame"]
+    member_widgets = ["frame"]
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
@@ -652,12 +654,14 @@ class HPaned(TinyInputWidget):
         <tr>
             % for child in children:
             <td valign="top">
-                ${display_child(child)}
+                ${display_member(child)}
             </td>
             % endfor
         </tr>
     </table>
     """
+    
+    member_widgets = ['children']
 
     def __init__(self, **attrs):
         super(HPaned, self).__init__(**attrs)
@@ -671,12 +675,14 @@ class VPaned(TinyInputWidget):
         % for child in children:
         <tr>
             <td valign="top">
-                ${display_child(child)}
+                ${display_member(child)}
             </td>
         </tr>
         % endfor
     </table>
     """
+    
+    member_widgets = ['children']
 
     def __init__(self, **attrs):
         super(VPaned, self).__init__(**attrs)
@@ -690,12 +696,12 @@ class Form(TinyInputWidget):
     template = """
     % if frame:
         ${concurrency_info.display()}
-        ${display_child(frame)}
+        ${display_member(frame)}
     % endif
     """
 
     params = ['id']
-    members = ['frame', 'concurrency_info']
+    member_widgets = ['frame', 'concurrency_info']
 
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
 

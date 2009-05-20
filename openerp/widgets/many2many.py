@@ -46,7 +46,7 @@ class M2M(TinyInputWidget):
 
     template = "templates/many2many.mako"
     params = ['relation', 'domain', 'context']
-    members = ['screen']
+    member_widgets = ['screen']
 
     relation = None
     domain = []

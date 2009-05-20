@@ -40,12 +40,12 @@ from openerp.utils import TinyDict
 class Action(TinyInputWidget):
     template = """
     % if screen:
-        ${display_child(screen)}
+        ${display_member(screen)}
     % endif
     """
 
     params = ['string']
-    members = ['screen']
+    member_widgets = ['screen']
 
     def __init__(self, **attrs):
 

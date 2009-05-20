@@ -41,7 +41,7 @@ class ViewForm(Form):
     template = "templates/viewform.mako"
 
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
-    members = ['screen', 'search', 'sidebar']
+    member_widgets = ['screen', 'search', 'sidebar']
 
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),

@@ -1,7 +1,7 @@
 <div class='tabber' id="${name}">
     % for page in children:
     <div class='tabbertab' ${py.attrs(title=page.string, attrs=page.attributes)}>
-        <div>${display_child(page)}</div>
+        <div>${display_member(page)}</div>
     </div>
     % endfor
 </div>

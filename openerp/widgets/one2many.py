@@ -43,7 +43,7 @@ class O2M(TinyInputWidget):
     """
     template = "templates/one2many.mako"
     params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx']
-    members = ['screen']
+    member_widgets = ['screen']
 
     form = None
 

@@ -165,7 +165,7 @@ def __cb_render_template(template, kw):
 @profile("tools.render_template", cb=__cb_render_template)
 def render_template(template, kw):
     
-    assert isinstance(template, Template), "Invalid template..."
+    #assert isinstance(template, Template), "Invalid template..."
     
     _vars = _get_vars()
     
@@ -200,17 +200,28 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                 _template = load_template(res.get('cp_template'), func.__module__) or template_c
                 
                 if _template:
-                    from openerp.widgets import merge_resources
+                    
+                    from openerp.widgets import Widget, OrderedSet
+                    
                     from openerp.widgets import mochikit
                     from openerp.widgets import js_i18n
-
-                    res['widget_resources'] = _resources = {}
-                    _resources = merge_resources(_resources, mochikit.retrieve_resources())
-                    _resources = merge_resources(_resources, js_i18n.retrieve_resources())
                     
-                    for k, w in res.iteritems():
-                        if hasattr(w, 'retrieve_resources') and w.is_root:
-                            _resources = merge_resources(_resources, w.retrieve_resources())
+                    res['widget_css'] = css = OrderedSet()
+                    res['widget_javascript'] = js = {}
+                    
+                    jset = js.setdefault('head', OrderedSet())
+                    jset.add_all(mochikit.retrieve_javascript())
+                    jset.add_all(js_i18n.retrieve_javascript())
+                                        
+                    for value in res.itervalues():
+                        
+                        if isinstance(value, Widget):
+                            css.add_all(value.retrieve_css())
+                        
+                        if isinstance(value, Widget):
+                            for script in value.retrieve_javascript():
+                                jset = js.setdefault(script.location or 'head', OrderedSet())
+                                jset.add(script)
 
                     return render_template(_template, res).encode("utf-8")
                 

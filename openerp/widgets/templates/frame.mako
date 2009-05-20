@@ -1,5 +1,5 @@
 % for w in hiddens:
-<div style="display: none;">${display_child(w)}</div>
+<div style="display: none;">${display_member(w)}</div>
 % endfor
 <table width="100%" border="0" class='fields'>
     % for row in table:
@@ -13,7 +13,7 @@
                 ${(widget or '') and widget + ':'}
             % endif
             % if not isinstance(widget, basestring) and widget.visible:
-            ${display_child(widget)}
+            ${display_member(widget)}
             % endif
         </td>
         % endfor

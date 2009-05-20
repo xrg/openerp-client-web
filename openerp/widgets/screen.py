@@ -62,12 +62,12 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
 
         % if widget:
-            ${display_child(widget)}
+            ${display_member(widget)}
         % endif
     """
 
     params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
-    members = ['widget']
+    member_widgets = ['widget']
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
 

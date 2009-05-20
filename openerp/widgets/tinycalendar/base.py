@@ -113,7 +113,7 @@ class ICalendar(TinyWidget):
     date_format = '%Y-%m-%d'
 
     params = ['use_search']
-    members = ['concurrency_info']
+    member_widgets = ['concurrency_info']
 
     css = [CSSLink('openerp', 'tinycalendar/css/calendar.css')]
     javascript = [JSLink('openerp', 'tinycalendar/javascript/calendar_date.js'),

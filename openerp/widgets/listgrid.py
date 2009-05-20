@@ -57,7 +57,7 @@ class List(TinyWidget):
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
 
-    members = ['pager', 'buttons', 'editors', 'concurrency_info']
+    member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
     pager = None
     field_total = {}

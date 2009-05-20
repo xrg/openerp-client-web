@@ -101,12 +101,12 @@ class TinyWidget(Widget):
         result = []
         parent = parent or self
 
-        for wid in parent.children:
+        for wid in parent.iter_member_widgets():
 
             if wid.name == name and isinstance(wid, kind):
                 result.append(wid)
 
-            if wid.children:
+            if getattr(wid, 'member_widgets', False):
                 result += self.get_widgets_by_name(name, kind=kind, parent=wid)
 
         return result

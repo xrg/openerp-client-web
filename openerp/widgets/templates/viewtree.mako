@@ -5,7 +5,7 @@
     <input type="hidden" id="_terp_view_id" name="_terp_view_id" value="${view_id}"/>
     
     % for field in hidden_fields:
-        ${display_child(field)}
+        ${display_member(field)}
     % endfor
     
     <script type="text/javascript">

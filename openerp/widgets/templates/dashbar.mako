@@ -13,7 +13,7 @@
                 </tr>
             </table>
         </div>
-        <div class="dashlet-content">${display_child(dashlet)}</div>
+        <div class="dashlet-content">${display_member(dashlet)}</div>
     </div>
     % endfor
 </div>

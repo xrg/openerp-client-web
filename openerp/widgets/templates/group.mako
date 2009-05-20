@@ -1,8 +1,8 @@
 % if string:
 <fieldset>
     <legend>${string}</legend>
-    ${display_child(frame)}
+    ${display_member(frame)}
 </fieldset>
 % else:
-${display_child(frame)}
+${display_member(frame)}
 % endif

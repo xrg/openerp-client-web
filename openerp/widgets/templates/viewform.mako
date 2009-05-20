@@ -8,7 +8,7 @@
     % endif
 
     % for field in hidden_fields:
-        ${display_child(field)}
+        ${display_member(field)}
     % endfor
     </div>
 
@@ -16,7 +16,7 @@
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         % if search:
         <tr>
-            <td valign="top">${display_child(search)}</td>
+            <td valign="top">${display_member(search)}</td>
         </tr>
         <tr>
             <td style="padding: 3px; padding-top: 0px">
@@ -44,7 +44,7 @@
         </tr>
         % endif
         <tr>
-            <td valign="top">${display_child(screen)}</td>
+            <td valign="top">${display_member(screen)}</td>
         </tr>
     </table>
 % endif

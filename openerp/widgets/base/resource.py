@@ -16,9 +16,6 @@ class Resource(Widget):
 
     location = locations.head
 
-    def post_init(self, *args, **kw):
-        self._resources.add(self)
-
     @property
     def name(self):
         return None
@@ -118,30 +115,6 @@ class CSSSource(Source):
 
     media = "all"
 
-
-def merge_resources(to, from_):
-    """
-    In-place merge all resources from ``from_`` into ``to``. Resources
-    from ``to_`` will come first in each resulting OrderedSet.
-    """
-    for k in locations:
-        from_location = from_.get(k)
-        if from_location:
-            to.setdefault(k, OrderedSet()).add_all(from_location)
-    return to
-
-
-def retrieve_resources(obj):
-    """Recursively retrieve resources from obj"""
-    ret = {}
-    if getattr(obj, 'retrieve_resources', None):
-        ret = obj.retrieve_resources()
-    elif getattr(obj, 'itervalues', None):
-        ret = retrieve_resources(obj.itervalues())
-    elif getattr(obj, '__iter__', None):
-        ret = reduce(merge_resources, imap(retrieve_resources, iter(obj)), {})
-    return ret
-
 def register_resource_directory(app, modulename, directory):
     """Set up an application wide static resource directory...
     """
@@ -153,4 +126,5 @@ def register_resource_directory(app, modulename, directory):
         'tools.staticdir.on': True,
         'tools.staticdir.dir': directory
     }})
+
 

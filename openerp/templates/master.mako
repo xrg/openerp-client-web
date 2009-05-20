@@ -4,6 +4,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
+% for css in widget_css:
+    ${css.display()}
+% endfor
+    
+% for js in widget_javascript.get('head', []):
+    ${js.display()}
+% endfor
+
     <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css/menu.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css/tips.css" rel="stylesheet" type="text/css"/>
@@ -24,11 +32,7 @@
     <!--[if IE]>
         <link href="/static/css/style-ie.css" rel="stylesheet" type="text/css"/>
     <![endif]-->
-    
-    % for resource in widget_resources.get('head', []):
-    ${resource.display()}
-    % endfor
-    
+        
     <script type="text/javascript" src="/static/javascript/master.js"></script>
     <script type="text/javascript" src="/static/javascript/menu.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax.js"></script>
@@ -51,8 +55,8 @@ except:
     requests_message = None
 %>
 
-% for resource in widget_resources.get('bodytop', []):
-    ${resource.display()}
+% for js in widget_javascript.get('bodytop', []):
+    ${js.display()}
 % endfor
 
 <table id="container" border="0" cellpadding="0" cellspacing="0">
@@ -175,6 +179,10 @@ ${_("Running Server:")} <span>${rpc.session.protocol}://${rpc.session.host}:${rp
     </tr>
     % endif
 </table>
+
+% for js in widget_javascript.get('bodybottom', []):
+    ${js.display()}
+% endfor
 
 </body>
 </html>

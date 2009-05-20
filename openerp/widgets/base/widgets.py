@@ -31,32 +31,24 @@ class FormField(InputWidget):
     These widgets can provide a validator that should validate and coerce the
     input they generate when submitted.
     """
-
+    
     params = {
         'label_text': 'The text to label the field',
         'help_text': 'Description of the field',
         'field_id': 'Identifier of the field, the id attribute',
         'attrs': 'Extra attributes for the outermost DOM node',
     }
-
+    
     attrs = {}
     file_upload = False
-
-    @property
-    def field_id(self):
-        name = self.name
-        if name:
-            return name.replace('.', '_')
-        return name
-
-    def __init__(self, name=None, parent=None, children=[], **kw):
-        super(FormField, self).__init__(name, parent, children, **kw)
+        
+    def __init__(self, name=None, **params):
+        super(FormField, self).__init__(name, **params)
         if self.label_text is None and self.name is not None:
             pos = self.name.rfind('.')
             name = self.name[pos+1:]
             self.label_text = name2label(name)
-
-    def post_init(self, *args, **kw):
+            
         self.attrs = make_bunch(self.attrs or {})
 
     def update_params(self, d):
@@ -71,7 +63,7 @@ class FormField(InputWidget):
 
 class Label(FormField):
     """A simple label for a form field."""
-
+    
     template = """
     <label id="${field_id}" class="${css_class}" ${py.attrs(attrs)}>${value}</label>"
     """
@@ -79,20 +71,21 @@ class Label(FormField):
 
 class Input(FormField):
     """A standard, form input field."""
-
+     
     template = """\
     <input type="${type}" ${py.attrs(attrs)} class="${css_class}"/>
     """
-
+    
     params = {
         'type': 'Input type',
     }
-
+    
     type = "text"
-
+    
     def update_params(self, d):
         super(Input, self).update_params(d)
-        self.update_attrs(d, "name", "value", id=self.field_id, title=self.help_text)
+        d.field_id = self.full_name.replace('.', '_')
+        self.update_attrs(d, "name", "value", id=d.field_id, title=self.help_text)
 
 
 class TextField(Input):
@@ -108,11 +101,11 @@ class TextField(Input):
 
 class PasswordField(Input):
     type = "password"
-
+    
 
 class HiddenField(Input):
     type = "hidden"
-
+    
 
 class FileField(Input):
     type = "file"
@@ -120,15 +113,15 @@ class FileField(Input):
 
 class Button(Input):
     type = "button"
-
+    
 
 class SubmitButton(Input):
     type = "submit"
-
+    
 
 class ResetButton(Input):
     type = "reset"
-
+    
 
 class ImageButton(Input):
     type = "image"
@@ -136,7 +129,7 @@ class ImageButton(Input):
               'width': 'Width of the image',
               'height': 'Height of the image',
               'alt': 'Alternate text for the image'}
-
+              
     def update_params(self, d):
         super(ImageButton, self).update_params(d)
         self.update_params(d, "width", "height", "src", "alt")
@@ -159,12 +152,12 @@ class RadioButton(Input):
 
 
 class TextArea(Input):
-
+    
     template = """\
     <textarea ${py.attrs(attrs)} class="${css_class}"
         rows="${rows}" cols="${cols}">${value}</textarea>
     """
-
+    
     params = {'rows': 'Number of rows to render',
               'cols' : 'Number of columns to render'}
     rows = 7
@@ -172,7 +165,7 @@ class TextArea(Input):
 
 
 class SelectField(Input):
-
+    
     template = """\
     <select ${py.attrs(attrs)} class="${css_class}">
     % for group, options in grouped_options:
@@ -188,13 +181,13 @@ class SelectField(Input):
     % endfor
     </select>
     """
-
+    
     params = {
         'options': 'A list of tuples with the options for the select field',
         'multiple': 'Whether it is a multi select box',
     }
     options = []
-
+    
     def _iterate_options(self, options):
         for option in options:
             if not isinstance(option, (tuple,list)):
@@ -245,15 +238,15 @@ class SelectField(Input):
 
         if self.multiple:
             d.attrs.multiple = "multiple"
-
+    
 class Form(FormField):
-
+    
     template = """\
     <form ${py.attrs(attrs)} class="${css_class}">
         % if hidden_fields:
         <div>
             % for child in hidden_fields:
-            ${display_child(child)}
+            ${display_member(child)}
             % endfor
         </div>
         % endif
@@ -268,7 +261,7 @@ class Form(FormField):
                     <label id="${child.name}.label" for="${child.name}" class="fieldlabel">${label}</label>
                 </td>
                 <td class="fieldcol">
-                    ${display_child(child)}
+                    ${display_member(child)}
                     % if error:
                     <span class="fielderror">${error}</span>
                     % endif
@@ -283,40 +276,37 @@ class Form(FormField):
     </form>
     """
 
-    params = ['action', 'method', 'hidden_fields', 'submit_text']
-    members = ['hidden_fields', 'fields']
-
+    params = ['action', 'method', 'submit_text']
+    member_widgets = ['hidden_fields', 'fields']
+    
     hidden_fields = []
     fields = []
-
+    
     method = "POST"
     submit_text = "Submit"
     form_attrs = {}
-
-    def __init__(self, name=None, parent=None, children=[], **kw):
-        super(Form, self).__init__(name, parent, children, **kw)
-
-    def post_init(self, *args, **kw):
-        for name in self.members:
-            member = getattr(self, name)
-            if isinstance(member, Widget) and member not in self.fields:
-                self.fields.append(member)
-        self.file_upload = self._has_file_upload()
-        if self.file_upload:
-            self.attrs.setdefault('enctype', 'multipart/form-data')
+    form = True
+    
+    def __init__(self, name=None, **params):
+        super(Form, self).__init__(name, **params)       
 
     def label_for(self, field):
         return getattr(field, "label_text", None) or getattr(field, "_name", None)
-
+    
     def update_params(self, d):
         super(Form, self).update_params(d)
+        
         d['label_for'] = self.label_for
         self.update_attrs(d, "name", "action", "method", id=self.name)
+        
+        if self.file_upload:
+            self.attrs.setdefault('enctype', 'multipart/form-data')
 
-    def _has_file_upload(self):
-        for field in self.ifilter_children(
-            lambda x: getattr(x, 'file_upload', False)
-        ):
-            return True
+    @property
+    def file_upload(self):
+        for field in self.iter_member_widgets():
+            if getattr(field, 'file_upload', False):
+                return True
         return False
+
 

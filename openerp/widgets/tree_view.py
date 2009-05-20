@@ -45,7 +45,7 @@ class ViewTree(Form):
 
     template = "templates/viewtree.mako"
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
-    members = ['tree', 'sidebar']
+    member_widgets = ['tree', 'sidebar']
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)

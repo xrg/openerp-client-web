@@ -1,8 +1,5 @@
-
 import copy
-import weakref
 
-from inspect import isclass
 from itertools import ifilter, count, chain, izip, ifilterfalse
 
 import cherrypy
@@ -10,107 +7,19 @@ import cherrypy
 from openerp import tools
 
 from openerp.validators import *
-from formencode.variabledecode import NestedVariables, variable_decode
 
 from meta import WidgetType
-from utils import unflatten_args
 from utils import OrderedSet
-from utils import only_if, make_bunch
+from utils import make_bunch
 
 
-class WidgetException(RuntimeError):
-    msg = "Widget error"
-    def __init__(self, msg=None):
-        self.msg = msg or self.msg
-
-    def __str__(self):
-        return self.msg
-
-
-class WidgetUnlocked(WidgetException, AttributeError):
-    msg = ("The widget is not locked. This method needs to wait until the "
-           "widget is fully locked in order to function properly")
-
-
-class WidgetLocked(WidgetException, AttributeError):
-    msg = ("The widget is locked. It's unthread-safe to alter it's attributes "
-           "after initialization.")
-
-
-class WidgetInitialized(WidgetException, AttributeError):
-    msg = ("The widget is already initialized, try doing it at the "
-           "constructor.")
-
-
-class WidgetUninitialized(WidgetException, AttributeError):
-    msg = ("The widget is uninitialized.")
-
-
-only_if_initialized = only_if('_is_initialized', True, WidgetUninitialized)
-only_if_uninitialized = only_if('_is_initialized', False, WidgetInitialized)
-only_if_unlocked = only_if('_is_locked', False, WidgetLocked)
-
-
-class WidgetBunch(OrderedSet):
-    """
-    An ordered collection of widgets.
-    """
-
-    def __init__(self, iterable=[]):
-        self._widgets = {}
-        super(WidgetBunch, self).__init__(iterable)
-
-    def __getattr__(self, name):
-        try:
-            return super(WidgetBunch, self).__getattribute__(name)
-        except:
-            pass
-        return self._widgets[name]
-
-    def __getitem__(self, name):
-        return self._widgets[name]
-
-    def add(self, value):
-        if not isinstance(value, Widget):
-            raise TypeError    
-        super(WidgetBunch, self).add(value)
-        if value in self:
-            self._widgets[value._name] = value
-
-    append = add
-
-    def retrieve_resources(self):
-        from resource import merge_resources, locations
-        resources = dict((k, OrderedSet()) for k in locations)
-        for w in self:
-            merge_resources(resources, w.retrieve_resources())
-        return resources
-
-    def __ne__(self, other):
-        return not (self==other)
-
-    def __eq__(self, other):
-        try:
-            if len(self) == len(other):
-                for a,b in izip(other, self):
-                    if a!=b:
-                        return False
-                return True
-        except TypeError:
-            pass
-        return False
-
-    def __repr__(self):
-        return repr(self._items)
-
-#TODO (high): think again about members and __setattrs__
+__all__ = ['Widget', 'InputWidget']
 
 
 _serial_generator = count()
 
-
 class Widget(object):
-
+    
     __metaclass__ = WidgetType
 
     template = None
@@ -121,27 +30,20 @@ class Widget(object):
     css_class = None
     css_classes = []
 
-    parent = None
-    children = []
-
     params = {
         'name': 'The Name for this Widget.',
         'css_class': 'Main CSS class for this widget',
         'css_classes': 'List of all CSS classes',
     }
-
-    members = []
-
+    
+    member_widgets = []
     default = None
 
-    _is_initialized = False
-    _is_locked = False
-
-    @profile("widget.__init__", cb=lambda self, *args, **kw: type(self))
-    def __init__(self, name=None, parent=None, children=[], **kw):
-
+    _locked = False
+    
+    def __init__(self, name=None, **params):
         # set each keyword args as attribute
-        for k, v in kw.iteritems():
+        for k, v in params.iteritems():
             if not k.startswith('_'):
                 try:
                     setattr(self, k, v)
@@ -151,23 +53,9 @@ class Widget(object):
 
         self._name = name
         self._serial = _serial_generator.next()
-
-        # attache parent
-        if parent is not None:
-            if parent._is_initialized:
-                raise WidgetInitialized
-            self.parent = weakref.proxy(parent)
-            self.parent.children.add(self)
-
-        # Append children passed as args or defined in the class, former
-        # override later
-        self.c = self.children = WidgetBunch()
-        if not [self._append_child(c) for c in children]:
-            [obj._append_child(c) for c in self.__class__._cls_children]
-
-        # Copy mutable attrs from __class__ into self, if not found in self
-        # set to None
-        for name in chain(self.__class__.params, self.__class__.members, ['css', 'javascript']):
+        
+        # params & member_widgets
+        for name in chain(self.__class__.params, self.__class__.member_widgets):
             try:
                 attr = getattr(self, name, None)
                 if isinstance(attr, (list, dict)):
@@ -181,200 +69,147 @@ class Widget(object):
         # Set default css class for the widget
         if not getattr(self, 'css_class', None):
             self.css_class = self.__class__.__name__.lower()
-
-    def _collect_resources(self):
-        """picks up resources from self and all children"""
-        oset = self._resources
-        oset.add_all(chain(*[c._resources for c in self.css]))
-        oset.add_all(chain(*[c._resources for c in self.javascript]))
-        oset.add_all(chain(*[c._resources for c in self.children]))
-
-    def _post_init_prepare_members(self, *args, **kw):
-        #append widgets listed in members
-        for member in self.members:
-            child = getattr(self, member)
-            self._append_child(child)
-
-    def post_init(self, *args, **kw):
-        self._collect_resources()
-        self._is_initialized = True
-        self._is_locked = False
-
+            
     @property
     def name(self):
-        names = [w._name for w in self.path if w._name]
-        return '.'.join(reversed(names)) or None
-
-    @property
-    def identifier(self):
-        name = self.name
-        if not name:
-            return name
-        return name.replace('.', '_')
-
-    @property
-    def path(self):
-        item = self
-        while item:
-            yield item
-            item = item.parent
-
-    @property
-    def is_root(self):
-        return self.parent is None
-
-    @property
-    def children_deep(self):
-        return self.children
-
-    def ifilter_children(self, filter):
-        """
-        Returns an iterator for all children applying a filter to them.
-        """
-        return ifilter(filter, self.children)
-
-    @profile("widget.display", cb=lambda self, value=None, **kw: type(self))
-    def display(self, value=None, **kw):
-        kw = self.prepare_dict(value, kw)
-        output = tools.render_template(self.template_c, kw)
-        return output
+        return self._name
     
-    def render(self, value=None, **kw):
-        return self.display(value, **kw)
-    
-    __call__ = render
-
-    def get_default(self):
-        if callable(self.default):
-            return self.default()
-        return self.default
-
-    def prepare_dict(self, value, d):
-
+    def adjust_value(self, value, **params):
+        """Adjust the value sent to the template on display."""
         if value is None:
-            value = self.get_default()
-        d['value'] = value
+            value = self.default
+            if callable(value):
+                value = value()
+        return value
+    
+    def iter_member_widgets(self):
+        """Iterates over all the widget's children
+        """
+        for member in self.__class__.member_widgets:
+            attr = getattr(self, member, None)
+            if isinstance(attr, list):
+                for widget in attr:
+                    yield widget
+            elif isinstance(attr, dict):
+                for name, widget in attr.iteritems():
+                    yield widget
+            elif attr is not None:
+                yield attr
+    
+    def value_for(self, item, value):
+        """
+        Get value for member widget.
 
-        # Move args passed to child widgets into child_args
-        child_args = d.setdefault('child_args', {})
-        for k in d.keys():
-            if '.' in k:# or '-' in k:
-                child_args[k.lstrip('.')] = d.pop(k)
+        Pick up the value for a given member_widget 'item' from the
+        value dict passed to this widget.
+        """
+        
+        if getattr(item, 'strip_name', False):
+            return value
+        
+        name = getattr(item, "name", item)
+        if isinstance(value, dict):
+            return value.get(name)
+        else:
+            return None
+    
+    def params_for(self, item, **params):
+        """
+        Get params for member widget.
 
-        d['args_for'] = self._get_child_args_getter(child_args)
-        d['value_for'] = self._get_child_value_getter(d['value'])
-        d['c'] = d['children'] = self.children
-
-        d = make_bunch(d)
-        self.update_params(d)
-
-        # Compute the final css_class string
-        d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
-
-        # reset the getters here so update_params has a chance to alter
-        # the arguments to children and the value
-        d['args_for'] = self._get_child_args_getter(d['child_args'])
-        d['value_for'] = self._get_child_value_getter(d.get('value'))
-        # Provide a shortcut to display a child field in the template
-        d['display_child'] = self._child_displayer(self.children,
-                                                   d['value_for'],
-                                                   d['args_for'])
-
-        return d
-
-    def _get_child_value_getter(self, value):
-        def value_getter(child_id):
-            if value:
-                if isinstance(child_id, Widget) and isinstance(value, dict):
-                    child_id = child_id._name
-                try:
-                    return value[child_id]
-                except (IndexError, KeyError, TypeError):
-                    None
-        return value_getter
-
-    def _get_child_args_getter(self, child_args):
-        if isinstance(child_args, dict):
-            child_args = unflatten_args(child_args)
-        def args_getter(child_id):
-            if (isinstance(child_id, Widget) and
-                isinstance(child_args, dict)
-            ):
-                child_id = child_id._name
-            try:
-                return child_args[child_id]
-            except (IndexError, KeyError, TypeError):
-                return {}
-        return args_getter
-
-    @staticmethod
-    def _child_displayer(children, value_for, args_for):
-        def display_child(widget, **kw):
-            if isinstance(widget, (basestring, int)):
-                widget = children[widget]
-            child_kw = args_for(widget)
-            child_kw.update(kw)
-            return widget.display(value_for(widget), **child_kw)
-        return display_child
-
-    def update_params(self, d):
-
-        # Populate dict with attrs from self listed at params and members
-        for k in ifilterfalse(d.__contains__, chain(self.params, self.members)):
+        Pick up the params for the given member_widget 'item' from
+        the params dict passed to this widget.
+        """
+        
+        if getattr(item, 'strip_name', False):
+            return params
+        
+        name = getattr(item, "name", item)
+        item_params = {}
+        for k, v in params.iteritems():
+            if isinstance(v, dict):
+                if name in v:
+                    item_params[k] = v[name]
+        return item_params
+    
+    def display_member(self, item, value, **params):
+        
+        if isinstance(item, basestring):
+            item = getattr(self, item, None)
+        
+        assert isinstance(item, Widget), "Invalid member widget."
+        
+        v = self.value_for(item, value)
+        d = self.params_for(item, **params)
+        return item.display(v, **d)
+    
+    def update_params(self, params):
+        
+        # Populate dict with attrs from self listed at params and member_widgets
+        for k in ifilterfalse(params.__contains__, chain(self.params, self.member_widgets)):
             attr = getattr(self, k, None)
             if attr is not None:
-                if isinstance(attr, (list, dict)):
-                    attr = copy.copy(attr)
-                # Variables that are callable with no args are automatically
-                # called here
-                elif not isinstance(attr, Widget) and callable(attr):
-                    #log.debug("Autocalling param '%s'", k)
+                if not isinstance(attr, Widget) and callable(attr):
                     attr = attr()
-            d[k] = attr
-
-    @only_if_initialized
-    def retrieve_resources(self):
+            params[k] = attr
+            
+        v = params['value']
+        d = params['member_widgets_params']
+        
+        params['value_for'] = lambda f: self.value_for(f, v)
+        params['params_for'] = lambda f: self.params_for(f, **d)
+        params['display_member'] = lambda f: self.display_member(f, v, **d)
+        
+        params.css_class = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
+        
+    def display(self, value=None, **params):
+                
+        params['member_widgets_params'] = params.copy()
+        
+        d = make_bunch(params)
+        d.value = self.adjust_value(value, **params)
+        
+        self.update_params(d)
+        return tools.render_template(self.template_c, d)
+    
+    def render(self, value=None, **params):
+        return self.display(value, **params)
+    
+    def retrieve_css(self):
         """
-        Returns a dict keyed by location with ordered collections of
-        resources from this widget and its children as values.
+        Return the needed CSS ressources.
+
+        Return a setlike instance with all the CSSLinks and CSSSources
+        the widget needs.
         """
-        from resource import locations
-        resources = dict((k, OrderedSet()) for k in locations)
-        for r in self._resources:
-            resources[r.location].add(r)
+        css = OrderedSet()
+        for cssitem in self.css:
+            css.add(cssitem)
+        for widget in self.iter_member_widgets():
+            for cssitem in widget.retrieve_css():
+                css.add(cssitem)
+        return css
+    
+    def retrieve_javascript(self):
+        """
+        Get JavaScript for the member widgets.
 
-        return resources
-
-    @only_if_uninitialized
-    def _append_child(self, obj):
-        """Append an object as a child"""
-
-        if obj is None:
-            return
-
-        if isinstance(obj, Widget):
-            self.children.append(obj)
-            obj.parent = self
-
-        elif isinstance(obj, list):
-            [self._append_child(o) for o in obj]
-
-        elif isinstance(obj, dict):
-            [self._append_child(o) for n, o in obj.iteritems()]
-
-        else:
-            raise ValueError("Can only append Widgets or Childs, not %r" % obj)
-
-    @only_if_unlocked
+        Retrieve the JavaScript for all the member widgets and
+        get an ordered union of them.
+        """
+        scripts = OrderedSet()
+        for script in self.javascript:
+            scripts.add(script)
+        for widget in self.iter_member_widgets():
+            for script in widget.retrieve_javascript():
+                scripts.add(script)
+        return scripts
+    
     def __setattr__(self, name, value):
-        if name in chain(self.members, ['css', 'javascript', 'children']) and self._is_initialized:
-            raise WidgetInitialized
-        super(Widget, self).__setattr__(name, value)
-
-    @only_if_unlocked
-    def __delattr__(self, name):
-        super(Widget, self).__delattr__(name)
-
+        if self._locked:
+            raise ValueError, "It is not threadsafe to modify widgets in a request"
+        return super(Widget, self).__setattr__(name, value)
+    
     def __ne__(self, other):
         return not (self == other)
 
@@ -382,38 +217,94 @@ class Widget(object):
         return (
             (getattr(other, '__class__', None) is self.__class__) and
               (other._serial == self._serial) and
-              # Check _name so ancestors are not taken into account
-              (other._name == self._name) and
-              (other.children == self.children)
+              (other._name == self._name)
             )
-
+    
     def __repr__(self):
-        name = self.__class__.__name__
-        return "%s(%r)" % (name, self._name)
+        return "%s(%s)" % (self.__class__.__name__, ', '.join(
+            ["%s=%r" % (var, getattr(self, var))
+                for var in ['name'] + list(self.__class__.params)]))
 
+
+def update_path(func):
+    
+    def append_to_path(widget):
+        req = cherrypy.request
+        try:
+            req._widgets_path = path = getattr(req, '_widgets_path', [])
+            if not path or path[-1] is not widget:
+                path.append(widget)
+                return True
+        except:
+            pass
+        return False
+    
+    def _update_path(self, *args, **kw):
+        update = append_to_path(self)
+        returnval = func(self, *args, **kw)
+        if update:            
+            try:
+                cherrypy.request._widgets_path.pop()
+            except:
+                pass
+        return returnval
+    return _update_path
+
+def get_path(widget):
+    return getattr(cherrypy.request, "_widgets_path", [widget])
+
+def build_name_from_path(path, seperator='.'):
+    name = []
+    for item in path:
+        if not getattr(item, 'strip_name', False):
+            name.append(item.name)
+    return seperator.join(name)
 
 class InputWidget(Widget):
-
+    
     params = {
-        'strip_name': "If this flag is True then "\
-                      "the name of this widget will not be included in the "\
-                      "fully-qualified names of the widgets in this subtree. "\
-                      "This is useful to 'flatten-out' nested structures. "\
-                      "This parameter can only be set during initialization.",
         'required': "Whether the field value is required.",
         'readonly': "Whether the field is readonly.",
         'disabled': "Whether the field is disabled.",
     }
-
+    
     validator = DefaultValidator
 
-    strip_name = False
     required = False
     readonly = False
     disabled = False
-
-    def __init__(self, name=None, parent=None, children=[], **kw):
-        super(InputWidget, self).__init__(name=name, parent=parent, children=children, **kw)
+    
+    strip_name = False
+    
+    def __init__(self, name=None, **params):
+        super(InputWidget, self).__init__(name, **params)
+    
+    @property
+    def path(self):
+        return get_path(self)[:]
+    
+    @property
+    def name_path(self):
+        if self.path and getattr(self.path[0], "form", False):
+            return self.path[1:]
+        else:
+            return self.path
+        
+    @property
+    def full_name(self):
+        return build_name_from_path(self.name_path)
+    
+    @property
+    def is_validated(self):
+        if self.path:
+            validated_form = getattr(cherrypy.request, "validated_form", None)
+            return self.path[0] is validated_form
+        else:
+            return False
+        
+    @property
+    def is_root(self):
+        return self.path[0] == self
 
     @property
     def is_required(self):
@@ -443,24 +334,22 @@ class InputWidget(Widget):
             except Invalid, error:
                 raise
         return value
-
-    def adjust_value(self, value, validator=None):
+    
+    def adjust_value(self, value, **params):
         """Adjusts the python value sent to :meth:`Widget.display` with
         the validator so it can be rendered in the template.
         """
 
-        if value is None:
-            value = self.get_default()
-
-        validator = validator or self.validator
-        if validator and not isinstance(self.validator, Schema):
+        value = super(InputWidget, self).adjust_value(value, **params)
+        
+        if self.validator and not isinstance(self.validator, Schema):
             # Does not adjust_value with Schema because it will recursively
             # call from_python on all sub-validators and that will send
             # strings through their update_params methods which expect
             # python values. adjust_value is called just before sending the
             # value to the template, not before.
             try:
-                value = validator.from_python(value)
+                value = self.validator.from_python(value)
             except Invalid, e:
                 # Ignore conversion errors so bad-input is redisplayed
                 # properly
@@ -471,103 +360,59 @@ class InputWidget(Widget):
         """Tries to coerce the value to python using the validator. If
         validation fails the original value will be returned unmodified."""
         try:
-            value = self.validate(value, use_request_local=False)
+            value = self.validate(value)
         except Exception:
             pass
         return value
-
-    @property
-    def children_deep(self):
-        out = []
-        for c in self.children:
-            if getattr(c, 'strip_name', False):
-                out += c.children_deep
-            else:
-                out.append(c)
-        return out
-
-    def prepare_dict(self, value, d):
-        """
-        Prepares the dict sent to the template with functions to access the
-        children's errors if any.
-        """
-        if value is None:
-            value = self.get_default()
-
-        error = getattr(cherrypy.request, 'validation_exception', None)
-
-        if error:
+    
+    def display(self, value=None, **params):
+        return super(InputWidget, self).display(value, **params)
+    display = update_path(display)
+    
+    def update_params(self, params):
+        
+        error = None
+        if self.is_validated:
+            error = getattr(cherrypy.request, 'validation_exception', None)
             value = getattr(cherrypy.request, 'validation_value', None)
             if self.is_root:
-                d['error'] = d.setdefault('error', error)
-            else:
-                d['error'] = d.setdefault('error', error.error_dict.get(self._name, None))
+                params['error'] = params.setdefault('error', error)
+            elif error:
+                params['error'] = params.setdefault('error', error.error_dict.get(self._name, None))
                 value = value.get(self._name, None)
+            params['value'] = value
         else:
-            d['error'] = d.setdefault('error', None)
+            params['error'] = params.setdefault('error', None)
+            
+        super(InputWidget, self).update_params(params)
+            
+        if not self.strip_name:
+            
+            if self.is_required:
+                params.css_classes.append('requiredfield')
+                
+            if self.is_readonly:
+                params.css_classes.append('readonlyfield')
+            
+            if self.is_disabled:
+                params.css_classes.append('disabledfield')
+                
+            if params.error:
+                params.css_classes.append('errorfield')
 
-        if not isinstance(self.validator, (ForEach,Schema)):
-            # Need to coerce value in case the form is being redisplayed with
-            # uncoereced value so update_params always deals with python
-            # values. Skip this step if validator will recursively validate
-            # because that step will be handled by child widgets.
-            value = self.safe_validate(value)
+        params['error_for'] = lambda f: self.error_for(f, params['error'])
+        
+        params.css_class = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
+        
+    def error_for(self, item, error):
+        
+        if getattr(item, "strip_name", False):
+            return error
 
-        # Propagate values to grand-children with a name stripping parent
-        for c in self.children:
-            if getattr(c, 'strip_name', False):
-                for subc in c.children_deep:
-                    if hasattr(subc, '_name'):
-                        try:
-                            v = value.pop(subc._name)
-                        except KeyError:
-                            pass
-                        else:
-                            value.setdefault(c._name, {})[subc._name] = v
+        try:
+            error.error_dict[item.name]
+        except:
+            pass
+        return None
 
-        d['error_for'] = self._get_child_error_getter(d['error'])
-
-        d = super(InputWidget, self).prepare_dict(value, d)
-
-        d['field_for'] = _field_getter(self.c)
-        # Adjust the value with the validator if present and the form is not
-        # being redisplayed because of errors *just before* sending  it to the
-        # template.
-        if not error:
-            d['value'] = self.adjust_value(d['value'])
-            # Rebind these getters with the adjusted value
-            d['value_for'] = self._get_child_value_getter(d.get('value'))
-            # Provide a shortcut to display a child field in the template
-            d['display_child'] = self._child_displayer(self.children,
-                                                        d['value_for'],
-                                                        d['args_for'])
-        return d
-
-    def update_params(self, d):
-        super(InputWidget, self).update_params(d)
-
-        if not self.strip_name and self.is_required:
-            d.css_classes.append('requiredfield')
-        if not self.strip_name and  self.is_readonly:
-            d.css_classes.append('readonlyfield')
-        if  not self.strip_name and self.is_disabled:
-            d.css_classes.append('disabledfield')
-
-        if d.error:
-            d.css_classes.append("has_error")
-
-    def _get_child_error_getter(self, error):
-        def error_getter(child_id):
-            try:
-                if error and error.error_dict:
-                    if isinstance(child_id, Widget):
-                        child_id = child_id._name
-                    return error.error_dict[child_id]
-            except (IndexError, KeyError): pass
-            return None
-        return error_getter
-
-
-def _field_getter(children):
-    return lambda name: children[name]
 

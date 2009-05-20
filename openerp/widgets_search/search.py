@@ -56,7 +56,7 @@ class RangeWidget(TinyInputWidget):
     template = "templates/rangewid.mako"
 
     params = ["field_value"]
-    members = ["from_field", "to_field"]
+    member_widgets = ["from_field", "to_field"]
 
     def __init__(self, **attrs):
         super(RangeWidget, self).__init__(**attrs)
@@ -91,7 +91,7 @@ class RangeWidget(TinyInputWidget):
 class Search(TinyInputWidget):
     template = "templates/search.mako"
     params = ['fields_type']
-    members = ['_notebook', 'basic', 'advance']
+    member_widgets = ['_notebook', 'basic', 'advance']
 
     _notebook = Notebook(name="search_notebook")
 
