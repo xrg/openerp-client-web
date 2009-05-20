@@ -646,6 +646,8 @@ class Dashbar(TinyInputWidget):
     javascript = [JSLink("openerp", "javascript/dashboard.js")]
     css = [CSSLink('openerp', 'css/dashboard.css')]
 
+    member_widgets = ['children']
+
 
 class HPaned(TinyInputWidget):
 
