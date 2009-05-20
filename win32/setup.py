@@ -5,6 +5,7 @@ from distutils.core import setup
 from distutils.core import Command
 from distutils.errors import *
 
+import fnmatch
 import util
 
 URLS = {
