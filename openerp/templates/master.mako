@@ -7,6 +7,11 @@
 % for css in widget_css:
     ${css.display()}
 % endfor
+
+    <script type="text/javascript" src="/static/javascript/MochiKit/MochiKit.js"></script>
+    <script type="text/javascript" src="/static/javascript/MochiKit/DragAndDrop.js"></script>
+    <script type="text/javascript" src="/static/javascript/MochiKit/Resizable.js"></script>
+    <script type="text/javascript" src="/static/javascript/MochiKit/Sortable.js"></script>
     
 % for js in widget_javascript.get('head', []):
     ${js.display()}

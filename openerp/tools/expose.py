@@ -53,7 +53,6 @@ def find_resource(package_or_module, *names):
 
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
-
 def load_template(template, module=None):
 
     if not isinstance(template, basestring):
@@ -161,11 +160,8 @@ def render_template(template, kw):
     
     assert isinstance(template, Template), "Invalid template..."
     
-    _vars = _get_vars()
+    kw.update(_get_vars())
     
-    kw = kw.copy()
-    kw.update(_vars)
-
     # XXX mako overrides 'context' template variable...
     if 'context' in kw:
         kw['ctx'] = kw.pop('context')
@@ -196,15 +192,12 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                 if _template:
                     
                     from openerp.widgets import Widget, OrderedSet
-                    
-                    from openerp.widgets import mochikit
                     from openerp.widgets import js_i18n
                     
                     res['widget_css'] = css = OrderedSet()
                     res['widget_javascript'] = js = {}
                     
                     jset = js.setdefault('head', OrderedSet())
-                    jset.add_all(mochikit.retrieve_javascript())
                     jset.add_all(js_i18n.retrieve_javascript())
                                         
                     for value in res.itervalues():
