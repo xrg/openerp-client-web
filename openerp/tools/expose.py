@@ -157,15 +157,9 @@ def _get_vars():
                 _vars.update(cb())
     return _vars
 
-def __cb_render_template(template, kw):
-    if not template.filename:
-        return getattr(template, '_widget', None)
-    return template.uri
-
-@profile("tools.render_template", cb=__cb_render_template)
 def render_template(template, kw):
     
-    #assert isinstance(template, Template), "Invalid template..."
+    assert isinstance(template, Template), "Invalid template..."
     
     _vars = _get_vars()
     

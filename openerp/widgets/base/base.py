@@ -38,8 +38,6 @@ class Widget(object):
     
     member_widgets = []
     default = None
-
-    _locked = False
     
     def __init__(self, name=None, **params):
         # set each keyword args as attribute
@@ -204,12 +202,7 @@ class Widget(object):
             for script in widget.retrieve_javascript():
                 scripts.add(script)
         return scripts
-    
-    def __setattr__(self, name, value):
-        if self._locked:
-            raise ValueError, "It is not threadsafe to modify widgets in a request"
-        return super(Widget, self).__setattr__(name, value)
-    
+       
     def __ne__(self, other):
         return not (self == other)
 
@@ -355,19 +348,6 @@ class InputWidget(Widget):
                 # properly
                 pass
         return value
-
-    def safe_validate(self, value):
-        """Tries to coerce the value to python using the validator. If
-        validation fails the original value will be returned unmodified."""
-        try:
-            value = self.validate(value)
-        except Exception:
-            pass
-        return value
-    
-    def display(self, value=None, **params):
-        return super(InputWidget, self).display(value, **params)
-    display = update_path(display)
     
     def update_params(self, params):
         
@@ -401,8 +381,7 @@ class InputWidget(Widget):
                 params.css_classes.append('errorfield')
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
-        
-        params.css_class = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
+        params['css_class'] = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
         
     def error_for(self, item, error):
         
