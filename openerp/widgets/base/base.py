@@ -152,7 +152,7 @@ class Widget(object):
             params[k] = attr
             
         v = params['value']
-        d = params['member_widgets_params']
+        d = params.get('member_widgets_params', {})
         
         params['value_for'] = lambda f: self.value_for(f, v)
         params['params_for'] = lambda f: self.params_for(f, **d)
@@ -161,8 +161,9 @@ class Widget(object):
         params.css_class = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
         
     def display(self, value=None, **params):
-                
-        params['member_widgets_params'] = params.copy()
+        
+        if self.member_widgets:
+            params['member_widgets_params'] = params.copy()
         
         d = make_bunch(params)
         d.value = self.adjust_value(value, **params)
