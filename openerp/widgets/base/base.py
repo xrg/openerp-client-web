@@ -152,7 +152,7 @@ class Widget(object):
             params[k] = attr
             
         v = params['value']
-        d = params.get('member_widgets_params', {})
+        d = params['member_widgets_params']
         
         params['value_for'] = lambda f: self.value_for(f, v)
         params['params_for'] = lambda f: self.params_for(f, **d)
@@ -162,8 +162,7 @@ class Widget(object):
         
     def display(self, value=None, **params):
         
-        if self.member_widgets:
-            params['member_widgets_params'] = params.copy()
+        params['member_widgets_params'] = params.copy()
         
         d = make_bunch(params)
         d.value = self.adjust_value(value, **params)
@@ -350,12 +349,17 @@ class InputWidget(Widget):
                 pass
         return value
     
+    def display(self, value=None, **params):
+        return super(InputWidget, self).display(value, **params)
+    display = update_path(display)
+    
     def update_params(self, params):
         
         error = None
         if self.is_validated:
             error = getattr(cherrypy.request, 'validation_exception', None)
             value = getattr(cherrypy.request, 'validation_value', None)
+                        
             if self.is_root:
                 params['error'] = params.setdefault('error', error)
             elif error:
