@@ -30,6 +30,7 @@
 import os
 import re
 import types
+import fnmatch
 
 import cherrypy
 import simplejson
@@ -53,13 +54,42 @@ def find_resource(package_or_module, *names):
 
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
+
+def find_resources(package_or_module, *patterns):
+    root = find_resource("openerp")
+    for path, dirs, files in os.walk(os.path.abspath(root)):
+        for pattern in patterns:
+            for filename in fnmatch.filter(files, pattern):
+                yield os.path.join(path, filename)
+                
+                
+# ask autoreloader to check mako templates and cfg files
+for res in find_resources("openerp", "*.mako", "*.cfg"):
+    cherrypy.engine.autoreload.files.add(res)
+
+
+filters = ["__content"]
+imports = ["from openerp.tools.utils import content as __content"]
+
+class TL(TemplateLookup):
+    
+    cache = {}
+    
+    def get_template(self, uri):
+        try:
+            return self.cache[str(uri)]
+        except Exception, e:
+            pass
+        self.cache[str(uri)] = res = super(TL, self).get_template(uri)
+        return res
+    
+template_lookup = TL(directories=["openerp"], default_filters=filters,
+                                imports=imports, module_directory="mako_modules")
+
 def load_template(template, module=None):
 
     if not isinstance(template, basestring):
         return template
-
-    filters = ["__content"]
-    imports = ["from openerp.tools.utils import content as __content"]
     
     if re.match('(.+)\.(html|mako)\s*$', template):
 
@@ -67,18 +97,11 @@ def load_template(template, module=None):
             template = find_resource(module, template)
         else:
             template = os.path.abspath(template)
+            
+        base = find_resource("openerp")
+        template = template.replace(base, '')
         
-        # ask autoreloader to check templates as well
-        cherrypy.engine.autoreload.files.add(template)
-
-        dirname = os.path.dirname(template)
-        basename = os.path.basename(template)
-
-        lookup = TemplateLookup(directories=[dirname],
-                                default_filters=filters,
-                                imports=imports)#, module_directory=dirname)
-
-        return lookup.get_template(basename)
+        return template_lookup.get_template(template)
 
     else:
         return Template(template, default_filters=filters, imports=imports)
@@ -187,8 +210,12 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
             cherrypy.response.headers.get('Content-Type', 'text/html')
             
             if isinstance(res, dict):
-                _template = load_template(res.get('cp_template'), func.__module__) or template_c
                 
+                try:
+                    _template = load_template(res['cp_template'], func.__module__)
+                except:
+                    _template = template_c
+                    
                 if _template:
                     
                     from openerp.widgets import Widget, OrderedSet
@@ -204,8 +231,6 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                         
                         if isinstance(value, Widget):
                             css.add_all(value.retrieve_css())
-                        
-                        if isinstance(value, Widget):
                             for script in value.retrieve_javascript():
                                 jset = js.setdefault(script.location or 'head', OrderedSet())
                                 jset.add(script)

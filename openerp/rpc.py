@@ -371,32 +371,7 @@ class RPCSession(object):
 
         # set locale in session
         self.locale = self.context.get('lang')
-
-    def __convert(self, result):
-
-        if isinstance(result, basestring):
-            # try to convert into unicode string
-            try:
-                return ustr(result)
-            except Exception, e:
-                return result
-
-        elif isinstance(result, list):
-            return [self.__convert(val) for val in result]
-
-        elif isinstance(result, tuple):
-            return tuple([self.__convert(val) for val in result])
-
-        elif isinstance(result, dict):
-            newres = {}
-            for key, val in result.items():
-                newres[key] = self.__convert(val)
-
-            return newres
-
-        else:
-            return result
-
+    
     @profile("rpc.execute", log=[3, 4])
     def execute(self, obj, method, *args):
         
@@ -408,7 +383,7 @@ class RPCSession(object):
             #print "TERP-CALLING:", obj, method, args
             result = self.gateway.execute(obj, method, *args)
             #print "TERP-RESULT:", result
-            return self.__convert(result)
+            return result
 
         except socket.error, (e1, e2):
             raise common.message(_('Connection refused!'))
