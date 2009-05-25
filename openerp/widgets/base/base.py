@@ -328,6 +328,16 @@ class InputWidget(Widget):
                 raise
         return value
     
+    def safe_validate(self, value): 
+        """Tries to coerce the value to python using the validator. If
+        validation fails the original value will be returned unmodified."""
+        
+        try:
+            value = self.validate(value)
+        except Exception:
+            pass
+        return value
+    
     def adjust_value(self, value, **params):
         """Adjusts the python value sent to :meth:`Widget.display` with
         the validator so it can be rendered in the template.
