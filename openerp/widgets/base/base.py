@@ -38,6 +38,7 @@ class Widget(object):
     
     member_widgets = []
     default = None
+    parent = None
     
     def __init__(self, name=None, **params):
         # set each keyword args as attribute
@@ -71,6 +72,21 @@ class Widget(object):
     @property
     def name(self):
         return self._name
+    
+    @property
+    def path(self):
+        item = self
+        while item:
+            yield item
+            item = item.parent
+            
+    @property
+    def root(self):
+        return list(self.path)[-1]
+    
+    @property
+    def is_root(self):
+        return self.parent is None
     
     def adjust_value(self, value, **params):
         """Adjust the value sent to the template on display."""
@@ -151,6 +167,9 @@ class Widget(object):
                     attr = attr()
             params[k] = attr
             
+        for w in self.iter_member_widgets():
+            w.parent = self
+            
         v = params['value']
         d = params['member_widgets_params']
         
@@ -168,6 +187,7 @@ class Widget(object):
         d.value = self.adjust_value(value, **params)
         
         self.update_params(d)
+        
         return tools.render_template(self.template_c, d)
     
     def render(self, value=None, **params):
@@ -214,44 +234,11 @@ class Widget(object):
             )
     
     def __repr__(self):
+        return self.__class__.__name__
         return "%s(%s)" % (self.__class__.__name__, ', '.join(
             ["%s=%r" % (var, getattr(self, var))
                 for var in ['name'] + list(self.__class__.params)]))
 
-
-def update_path(func):
-    
-    def append_to_path(widget):
-        req = cherrypy.request
-        try:
-            req._widgets_path = path = getattr(req, '_widgets_path', [])
-            if not path or path[-1] is not widget:
-                path.append(widget)
-                return True
-        except:
-            pass
-        return False
-    
-    def _update_path(self, *args, **kw):
-        update = append_to_path(self)
-        returnval = func(self, *args, **kw)
-        if update:            
-            try:
-                cherrypy.request._widgets_path.pop()
-            except:
-                pass
-        return returnval
-    return _update_path
-
-def get_path(widget):
-    return getattr(cherrypy.request, "_widgets_path", [widget])
-
-def build_name_from_path(path, seperator='.'):
-    name = []
-    for item in path:
-        if not getattr(item, 'strip_name', False):
-            name.append(item.name)
-    return seperator.join(name)
 
 class InputWidget(Widget):
     
@@ -273,31 +260,12 @@ class InputWidget(Widget):
         super(InputWidget, self).__init__(name, **params)
     
     @property
-    def path(self):
-        return get_path(self)[:]
-    
-    @property
-    def name_path(self):
-        if self.path and getattr(self.path[0], "form", False):
-            return self.path[1:]
-        else:
-            return self.path
-        
-    @property
-    def full_name(self):
-        return build_name_from_path(self.name_path)
-    
-    @property
     def is_validated(self):
-        if self.path:
-            validated_form = getattr(cherrypy.request, "validated_form", None)
-            return self.path[0] is validated_form
-        else:
-            return False
-        
-    @property
-    def is_root(self):
-        return self.path[0] == self
+        try:
+            return self.root is cherrypy.request.validated_form
+        except:
+            pass
+        return False
 
     @property
     def is_required(self):
@@ -358,10 +326,6 @@ class InputWidget(Widget):
                 # properly
                 pass
         return value
-    
-    def display(self, value=None, **params):
-        return super(InputWidget, self).display(value, **params)
-    display = update_path(display)
     
     def update_params(self, params):
         
