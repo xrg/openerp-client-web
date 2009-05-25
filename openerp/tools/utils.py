@@ -223,9 +223,9 @@ def attrs(*args, **kw):
 
     kv = {}
 
-    if len(args):
-        if isinstance(args[0], dict):
-            kv = args[0].copy()
+    for arg in args:
+        if isinstance(arg, dict):
+            kv.update(arg)
         else:
             raise TypeError
 

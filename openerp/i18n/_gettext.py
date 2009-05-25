@@ -19,11 +19,17 @@ _locale_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."
 def get_locale_dir():
     return _locale_dir
 
+_supported = {}
 def is_locale_supported(locale, domain=None):
+    try:
+        return _supported[str(locale)]
+    except:
+        pass
     domain = domain or "messages"
     localedir = get_locale_dir()
-    return localedir and os.path.exists(os.path.join(
+    _supported[str(locale)] = res = localedir and os.path.exists(os.path.join(
         localedir, locale, "LC_MESSAGES", "%s.mo" % domain))
+    return res
 
 _catalogs = {}
 
