@@ -92,7 +92,7 @@ var form_hookStateChange = function() {
             fields[state.id] = state;
             MochiKit.Signal.connect(state, 'onStateChange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
             MochiKit.Signal.connect(state, 'onchange', function(evt){
-                MochiKit.Signal.signal(field, 'onchange');
+                MochiKit.Signal.signal(field, 'onStateChange');
             });
         }
     });
