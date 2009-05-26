@@ -83,8 +83,9 @@ class TL(TemplateLookup):
         self.cache[str(uri)] = res = super(TL, self).get_template(uri)
         return res
     
-template_lookup = TL(directories=["openerp"], default_filters=filters,
-                                imports=imports, module_directory="mako_modules")
+template_lookup = TL(directories=[find_resource("openerp")], 
+                        default_filters=filters,
+                        imports=imports)#, module_directory="mako_modules")
 
 def load_template(template, module=None):
 
