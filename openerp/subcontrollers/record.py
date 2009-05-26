@@ -56,7 +56,7 @@ class Record(dict):
     def _make_record(self, parent=None):
         parent = parent or self
 
-        for wid in parent.children:
+        for wid in parent.member_widgets:
 
             if isinstance(wid, TinyInputWidget) and wid.name and not wid.name.endswith('/'):
                 self[wid.name] = wid.get_value()
