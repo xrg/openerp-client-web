@@ -258,6 +258,10 @@ class InputWidget(Widget):
     
     def __init__(self, name=None, **params):
         super(InputWidget, self).__init__(name, **params)
+        
+    @property
+    def full_name(self):
+        return ".".join(reversed([w.name for w in self.path if w.name and not getattr(w, 'strip_name', False)]))
     
     @property
     def is_validated(self):
