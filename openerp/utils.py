@@ -191,7 +191,7 @@ _VALIDATORS = {
     'many2one': lambda *a: tw_validators.many2one(),
     'email' : lambda *a: tw_validators.Email(),
     'url' : lambda *a: tw_validators.URL(),
-	'picture': lambda *a: tw_validators.Picture(),
+	'picture': lambda *a: tw_validators.Binary(),
 }
 
 class TinyFormError(tw_validators.Invalid):

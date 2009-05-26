@@ -260,26 +260,6 @@ class many2one(FancyValidator):
         return value or ''
 
 
-class Picture(FancyValidator):
-    if_empty = False
-
-    def _from_python(self, value, state):
-        if isinstance(value, tuple):
-            type, data = value
-        else:
-            type, data = 'jpeg', value
-
-        if type == 'stock':
-            stock, size = data
-            url = icons.get_icon(stock)
-        else:
-            url = 'data:image/%s;base64,%s' % (type, data)
-        return url
-
-
-
-
-
 # Let some FormEncode strings goes into message catalog.
 __email_messages = {
     'empty': _('Please enter an email address'),
