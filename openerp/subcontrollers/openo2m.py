@@ -86,6 +86,8 @@ class OpenO2M(Form):
                                 tw.form.Hidden(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
         form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
+        form.screen.string = wid.screen.string
+        
         return form
 
     @expose(template="templates/openo2m.mako")
