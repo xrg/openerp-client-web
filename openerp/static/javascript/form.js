@@ -252,6 +252,10 @@ var validate_required = function(form) {
             removeElementClass(elem2, 'errorfield');
         }
     }
+    
+    if (!result) {
+        alert(_("Invalid form, correct red fields !"));
+    }
 
     return result;
 }
