@@ -47,8 +47,10 @@ class Reference(TinyInputWidget):
     def __init__(self, **attrs):
         super(Reference, self).__init__(**attrs)
         self.options = attrs.get('selection', [])
-        self.domain = []
-        self.context = {}
+        
+        self.domain = attrs.get('domain', [])
+        self.context = attrs.get('context', {})
+
         self.validator = validators.Reference()
         self.onchange = None # override onchange in js code
 
