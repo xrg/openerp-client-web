@@ -619,8 +619,8 @@ class Image(TinyInputWidget):
             self.height = attrs.get('img_height', attrs.get('height', 160))
             self.width = attrs.get('img_width', attrs.get('width', 200))
             if (attrs.get('widget') == 'picture'):
-                self.height = ""
-                self.width = ""
+                self.height = '100%'
+                self.width = '100%'
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
