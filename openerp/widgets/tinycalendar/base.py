@@ -241,7 +241,7 @@ class ICalendar(TinyWidget):
                 import openerp.widgets as tw
                 atr = self.fields[self.color_field]
                 atr['required'] = False
-                wid = tw.form.WIDGETS[atr['type']](atr)
+                wid = tw.form.WIDGETS[atr['type']](**atr)
                 vals = self.color_values[:]
                 for i, v in enumerate(vals):
                     try:
