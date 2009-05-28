@@ -92,8 +92,14 @@ var set_binary_filename = function(src, filename){
     var target = getElement(prefix + filename);
 
     var fname = src.value || '';
-    fname = fname.split('/'); fname = fname.pop();
-
+    
+    if (/Windows NT/.test(window.navigator.userAgent)) {
+    	fname = fname.split('\\'); fname = fname.pop();	
+    }
+    else {
+    	fname = fname.split('/'); fname = fname.pop();
+    }
+    
     if (target) {
         target.value = fname;
     }
