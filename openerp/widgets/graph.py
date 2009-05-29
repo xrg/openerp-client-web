@@ -305,12 +305,17 @@ class GraphData(object):
         val = []
 
         if len(axis_group) > 1:
+            new_keys = []
+            for k in keys:
+                k = urllib.unquote_plus(k)
+                new_keys += [k]
+                
             for i in range(n):
                 datas = data_ax[i]
                 for y in range(len(axis_group)):
                     for field in axis[1:]:
-                        values[field] = [datas[x].get(axis_group[y],0.0) for x in keys]
-                for x in keys:
+                        values[field] = [datas[x].get(axis_group[y],0.0) for x in new_keys]
+                for x in new_keys:
                     for field in axis[1:]:
                         v = [datas[x].get(axis_group[y],0.0) for y in range(len(axis_group))]
                         val.append(v)
