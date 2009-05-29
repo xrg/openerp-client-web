@@ -133,6 +133,11 @@ class M2M(TinyInputWidget):
             selectable = 0
         else:
             selectable = 2
+            
+        try: # try to get original input values if creating validation form
+            current.ids = TinyDict(**cherrypy.request.terp_data).chain_get(self.name)
+        except:
+            pass
 
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=False, readonly=self.editable,
