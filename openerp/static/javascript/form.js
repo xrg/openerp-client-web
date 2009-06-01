@@ -429,11 +429,15 @@ var getFormData = function(extended) {
             return;
 
         // work arround to skip o2m values (list mode)
+        x = n.split('/')[0];
+        
         if(n.indexOf('/__id') != -1) {
-        	x = n.split('/')[0];
-        	val = getElement(x + '/_terp_ids').value;
-        	frm[x] = val;
-        	return;
+        	var view_type = getElement(x + '/_terp_view_type').value;
+        	if(view_type == 'tree') {
+        		val = getElement(x + '/_terp_ids').value;
+        		frm[x] = val;
+        		return;
+        	}
         }
 
         if (extended && n.indexOf('/__id') == -1) {
