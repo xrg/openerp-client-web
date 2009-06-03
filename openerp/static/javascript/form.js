@@ -157,12 +157,12 @@ var switch_O2M = function(view_type, src){
     
     var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];
-
+	
     var params = getFormParams();
     
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-
+	log(getElement('_terp_list') + "getElement('_terp_list')")
     if (getElement('_terp_list')){
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
@@ -542,8 +542,11 @@ var onChange = function(name) {
     }
     
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
-    var prefix =  caller.name.slice(0, caller.name.lastIndexOf('/')+1);
-
+    if (caller.name){
+    	var prefix =  caller.name.slice(0, caller.name.lastIndexOf('/')+1);}
+    else{
+		var prefix =  caller.id.slice(0, caller.id.lastIndexOf('/')+1);}
+		
     var params = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
     var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
