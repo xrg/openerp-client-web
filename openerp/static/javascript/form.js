@@ -534,11 +534,9 @@ var onChange = function(name) {
     }
     
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
-    if (caller.name){
-    	var prefix =  caller.name.slice(0, caller.name.lastIndexOf('/')+1);}
-    else{
-		var prefix =  caller.id.slice(0, caller.id.lastIndexOf('/')+1);}
-		
+    var prefix = caller.name || caller.id;
+    prefix = prefix.slice(0, prefix.lastIndexOf('/')+1);
+
     var params = getFormData(1);
     var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
     var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
