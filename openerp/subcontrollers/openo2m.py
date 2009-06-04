@@ -122,6 +122,7 @@ class OpenO2M(Form):
         id = proxy.write([params.parent_id], data, ctx)
 
         # perform button action
+        is_button_action = params.button
         if params.button:
             res = self.button_action(params)
             if res:
@@ -132,7 +133,7 @@ class OpenO2M(Form):
 
         params.load_counter = 1
 
-        if current and current.id and not params.button:
+        if current and current.id and not is_button_action:
             params.load_counter = 2
 
         # If new O2M action, get the newly created id
