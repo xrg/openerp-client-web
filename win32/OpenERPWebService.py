@@ -25,8 +25,8 @@ import win32process
 import servicemanager
 
 # The command itself
-#EXECUTABLE = ["start-openerp-web.exe", "--config", "conf\openerp-web.cfg"]
-EXECUTABLE = ["python.exe", "python25\Scripts\start-openerp-web-script.py", "--config", "conf\openerp-web.cfg"]
+#EXECUTABLE = ["openerp-web.exe", "--config", "conf\openerp-web.cfg"]
+EXECUTABLE = ["python.exe", "python25\Scripts\openerp-web-script.py", "--config", "conf\openerp-web.cfg"]
 
 class TinyService(win32serviceutil.ServiceFramework):
 

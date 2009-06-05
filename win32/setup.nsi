@@ -158,7 +158,7 @@ Section "OpenERP Web" SecOpenERPWeb
     File "OpenERPWebService.py"
 
     SetOutPath "$INSTDIR\conf"
-    File "/oname=openerp-web.cfg" "..\config\default.cfg"
+    File "/oname=openerp-web.cfg" "..\config\openerp-web.cfg"
 
     ;Store installation folder
     WriteRegStr HKLM "Software\OpenERP Web" "" $INSTDIR
