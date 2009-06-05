@@ -100,7 +100,7 @@ def load_template(template, module=None):
             template = os.path.abspath(template)
             
         base = find_resource("openerp")
-        template = template.replace(base, '')
+        template = template.replace(base, '').replace('\\', '/')
         
         return template_lookup.get_template(template)
 
