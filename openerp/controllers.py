@@ -94,7 +94,7 @@ class Root(TinyResource):
 
         location = url(location or '/', kw or {})
 
-        if db and db.startswith("anonymous") and user == "anonymous":
+        if db and user and user.startswith("anonymous"):
             if rpc.session.login(db, user, password):
                 raise redirect(location)
 
