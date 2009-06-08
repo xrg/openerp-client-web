@@ -20,7 +20,7 @@
         % endif
     </div>
     <div id="${name}_binary_buttons" style="white-space: nowrap; width: 150px;">
-        <span id='${name}_text_'>${value or text or ''}</span>
+        <span>${value or text or ''}</span>
         % if editable and not text:
         <button type="button" onclick="add_binary('${name}')">${_("Add")}</button>
         % endif
