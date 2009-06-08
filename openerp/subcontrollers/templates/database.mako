@@ -37,6 +37,10 @@
             white-space: nowrap;
             min-width: 80px;
         }
+        
+        td.labelcol {
+            text-align: right;
+        }
 
         .submitbutton:hover {
             background: url(/static/images/button_bg2.png) repeat-x left top;

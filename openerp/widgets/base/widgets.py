@@ -291,7 +291,7 @@ class Form(FormField):
         super(Form, self).__init__(name, **params)       
 
     def label_for(self, field):
-        return getattr(field, "label_text", None) or getattr(field, "_name", None)
+        return getattr(field, "label", None) or getattr(field, "_name", None)
     
     def update_params(self, d):
         super(Form, self).update_params(d)
