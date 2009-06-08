@@ -589,8 +589,20 @@ class Form(TinyResource):
             proxy.write([params.id], {params.field: False, params.fname: False}, ctx)
         else:
             proxy.write([params.id], {params.field: False}, ctx)
-
-        return self.create(params)
+            
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain)}
+                
+        raise redirect(self.path + '/edit', **args)
 
     @expose()
     @validate(form=get_validation_schema)

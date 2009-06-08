@@ -54,8 +54,6 @@ var clear_binary_data = function(src, filename) {
 
     var prefix = name.split('/'); name = prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
- 
-    getElement(name + '_text_').innerHTML = '';
     
     var act = get_form_action('clear_binary_data');
     act = getURL(act, {_terp_field: name,
