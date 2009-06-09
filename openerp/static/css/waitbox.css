@@ -38,10 +38,6 @@
     height: 70px;
     
     text-align: center;
-    
-    background-image: url("/static/images/progress.gif");
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 #WaitBox .WaitButtons {

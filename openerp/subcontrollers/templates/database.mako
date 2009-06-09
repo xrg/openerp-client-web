@@ -66,7 +66,7 @@
 
         var on_create = function() {
             MochiKit.Async.callLater(2, function(){
-                    WAITBOX.show();
+                WAITBOX.show();
             });
             return true;
         }
