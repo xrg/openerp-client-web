@@ -55,8 +55,13 @@ class FormField(InputWidget):
         super(FormField, self).update_params(d)
 
     def update_attrs(self, d, *args, **kw):
-        for name in args:
-            d.attrs.setdefault(name, d[name])
+        
+        for arg in args:
+            if isinstance(arg, dict):
+                d.attrs.update(arg)
+            else:
+                d.attrs.setdefault(arg, d[arg])
+                
         for name, value in kw.items():
             d.attrs[name] = value
 
@@ -297,6 +302,7 @@ class Form(FormField):
         super(Form, self).update_params(d)
         
         d['label_for'] = self.label_for
+        self.update_attrs(d, self.form_attrs)
         self.update_attrs(d, "name", "action", "method", id=self.name)
         
         if self.file_upload:
