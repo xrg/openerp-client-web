@@ -304,6 +304,10 @@ class InputWidget(Widget):
         """Tries to coerce the value to python using the validator. If
         validation fails the original value will be returned unmodified."""
         
+        # don't validate empty values
+        if value is None or (isinstance(value, basestring) and value.strip() == ""):
+            return value
+        
         try:
             value = self.validate(value)
         except Exception:
