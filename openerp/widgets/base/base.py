@@ -342,7 +342,10 @@ class InputWidget(Widget):
                 params['error'] = params.setdefault('error', error)
             elif error:
                 params['error'] = params.setdefault('error', error.error_dict.get(self._name, None))
-                value = value.get(self._name, None)
+                vv = value = value.get(self._name, None)
+                if not isinstance(self.validator, (ForEach, Schema)):
+                    value = self.safe_validate(value)
+                    
             params['value'] = value
         else:
             params['error'] = params.setdefault('error', None)
@@ -365,6 +368,10 @@ class InputWidget(Widget):
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
         params['css_class'] = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
+        
+        if not params['error']:
+            params['value'] = self.adjust_value(params.get('value'))
+            params['value_for'] = lambda f: self.value_for(f, params.get('value'))
         
     def error_for(self, item, error):
         

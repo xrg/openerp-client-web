@@ -911,7 +911,7 @@ class Form(TinyResource):
         if '/' in caller:
             prefix = caller.rsplit('/', 1)[0]
 
-        ctx = TinyForm(**kw).to_python()
+        ctx = TinyForm(**kw).to_python(safe=True)
         pctx = ctx
 
         if prefix:

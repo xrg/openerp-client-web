@@ -219,7 +219,7 @@ class TinyForm(object):
                     pass
                 self.data['_terp_form/' + k] = v
 
-    def _convert(self, form=True):
+    def _convert(self, form=True, safe=False):
 
         kw = {}
         for name, attrs in self.data.items():
@@ -246,7 +246,7 @@ class TinyForm(object):
                     value = v.from_python(value, None)
 
             except tw_validators.Invalid, e:
-                if form:
+                if form and not safe:
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
 
             kw[name] = value
@@ -267,8 +267,8 @@ class TinyForm(object):
     def from_python(self):
         return self._convert(False)
 
-    def to_python(self):
-        return self._convert(True)
+    def to_python(self, safe=False):
+        return self._convert(True, safe=safe)
 
 if __name__ == "__main__":
 
