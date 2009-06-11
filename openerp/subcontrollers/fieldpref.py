@@ -64,7 +64,7 @@ class FieldPref(TinyResource):
         prefix = '.'.join(field[:-1])
         field = field[-1]
 
-        pctx = TinyForm(**kw).to_python()
+        pctx = TinyForm(**kw).to_python(safe=True)
         ctx = pctx.chain_get(prefix) or pctx
 
         proxy = rpc.RPCProxy(params.model)

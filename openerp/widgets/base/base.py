@@ -304,6 +304,10 @@ class InputWidget(Widget):
         """Tries to coerce the value to python using the validator. If
         validation fails the original value will be returned unmodified."""
         
+        # don't validate empty values
+        if value is None or (isinstance(value, basestring) and value.strip() == ""):
+            return value
+        
         try:
             value = self.validate(value)
         except Exception:
@@ -314,6 +318,13 @@ class InputWidget(Widget):
         """Adjusts the python value sent to :meth:`Widget.display` with
         the validator so it can be rendered in the template.
         """
+        
+        iv = None
+        if self.is_validated:
+            iv = getattr(cherrypy.request, 'validation_value', {}).get(self._name)
+        
+        if iv is not None and not isinstance(self.validator, (ForEach, Schema)):
+            value = self.safe_validate(iv)
 
         value = super(InputWidget, self).adjust_value(value, **params)
         
@@ -342,8 +353,6 @@ class InputWidget(Widget):
                 params['error'] = params.setdefault('error', error)
             elif error:
                 params['error'] = params.setdefault('error', error.error_dict.get(self._name, None))
-                value = value.get(self._name, None)
-            params['value'] = value
         else:
             params['error'] = params.setdefault('error', None)
             

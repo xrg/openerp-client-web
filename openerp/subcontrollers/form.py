@@ -246,7 +246,7 @@ class Form(TinyResource):
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)#, show_header_footer=target!='new')
+        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path, show_header_footer=target!='new')
 
     @profile("form.edit", log=['model', 'id'])
     @expose()
@@ -589,8 +589,20 @@ class Form(TinyResource):
             proxy.write([params.id], {params.field: False, params.fname: False}, ctx)
         else:
             proxy.write([params.id], {params.field: False}, ctx)
-
-        return self.create(params)
+            
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain)}
+                
+        raise redirect(self.path + '/edit', **args)
 
     @expose()
     @validate(form=get_validation_schema)
@@ -899,7 +911,7 @@ class Form(TinyResource):
         if '/' in caller:
             prefix = caller.rsplit('/', 1)[0]
 
-        ctx = TinyForm(**kw).to_python()
+        ctx = TinyForm(**kw).to_python(safe=True)
         pctx = ctx
 
         if prefix:

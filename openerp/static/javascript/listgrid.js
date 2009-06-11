@@ -309,6 +309,10 @@ MochiKit.Base.update(ListView.prototype, {
                     return alert(obj.error);
                 }
 
+                if (obj.result && obj.result.url) {
+                    window.open(obj.result.url);
+                }
+
                 if (obj.reload) {
                     window.location.reload();
                 } else

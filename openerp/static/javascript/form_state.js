@@ -331,7 +331,8 @@ var form_setVisible = function(container, field, visible) {
         } else {
             var tab = tabber.tabs[idx];
             tab.li.style.display = 'none';
-            return tabber.tabHide(idx);
+            tabber.tabHide(idx);
+            return tabber.tabShow(0);
         }
 
     } else {

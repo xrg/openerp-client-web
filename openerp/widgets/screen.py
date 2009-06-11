@@ -175,6 +175,7 @@ class Screen(TinyInputWidget):
 
         elif view_type == 'graph':
             self.widget = graph.Graph(model=self.model,
+                                      view=view,
                                       view_id=view.get('view_id', False),
                                       ids=self.ids, domain=self.domain,
                                       context=self.context)
