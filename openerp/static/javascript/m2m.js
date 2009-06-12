@@ -138,7 +138,7 @@ Many2Many.prototype = {
             return MochiKit.Base.findIdentical(boxes, id) == -1;
         }, ids);
 
-        this.id.value = '[' + ids.join(',') + ']';
+        this.id.value = this.terp_ids.value = '[' + ids.join(',') + ']';
         this.onChange();
     },
 
