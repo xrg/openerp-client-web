@@ -321,7 +321,7 @@ class GraphData(object):
                         val.append(v)
                 stack_list += val
 
-        return values, domain, self.model, label_x, axis, axis_group, stack_list, keys
+        return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data
 
 class BarChart(GraphData):
 
@@ -344,6 +344,7 @@ class BarChart(GraphData):
             axis_group = res[5]
             stack_list = res[6]
             stack_labels = res[7]
+            axis_data = res[8]
         else:
             return res
 
@@ -402,7 +403,7 @@ class BarChart(GraphData):
             urls += [[url]]
 
         allvalues = []
-
+        
         for i, x in enumerate(axis[1:]):
             datas = []
             data = values[x]
@@ -414,7 +415,7 @@ class BarChart(GraphData):
                 datas.append(dt)
                 allvalues.append(d)
 
-            dataset.append({"text": axis[i+1],
+            dataset.append({"text": axis_data[x]['string'],
                             "type": "bar_3d",
                             "colour": ChartColors[i+3],
                             "values": datas,
