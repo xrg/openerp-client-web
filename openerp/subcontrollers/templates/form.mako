@@ -185,7 +185,7 @@
                                    onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
                                 <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="openWindow('/workflowlist?model=${form.screen.model}&amp;active=${links.workflow_manager}', {height: 400})" 
+                                   onclick="openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Workflows")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
                                    onclick="openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
