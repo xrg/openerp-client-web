@@ -119,7 +119,11 @@ Many2Many.prototype = {
 
     getValue: function(){
         var ids = this.hasList ? this.terp_ids.value : this.id.value;
-        return eval(ids) || [];
+        try {
+            return eval(ids);
+        } catch(e) {}
+        
+        return [];
     },
 
     remove: function() {
