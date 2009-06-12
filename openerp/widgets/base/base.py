@@ -57,8 +57,10 @@ class Widget(object):
         for name in chain(self.__class__.params, self.__class__.member_widgets):
             try:
                 attr = getattr(self, name, None)
-                if isinstance(attr, (list, dict)):
+                if isinstance(attr, list):
                     attr = copy.copy(attr)
+                elif isinstance(attr, dict):
+                    attr = attr.copy()
                 setattr(self, name, attr)
             except AttributeError, e:
                 pass
