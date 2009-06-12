@@ -33,6 +33,8 @@ import copy
 import locale
 import xml.dom.minidom
 
+import cherrypy
+
 from openerp import rpc
 from openerp import tools
 from openerp import icons
@@ -121,7 +123,13 @@ class List(TinyWidget):
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
         
-        self.min_rows = 5
+        # is relational field (M2M/O2M)
+        if self.source:
+            self.limit = cherrypy.request.app.config['openerp-web'].get('child.listgrid.limit', self.limit) 
+            self.min_rows = cherrypy.request.app.config['openerp-web'].get('child.listgrid.min_rows', 5)
+        else:
+            self.min_rows = 5
+
         try:
             self.min_rows = int(attrs.get('min_rows'))
         except:

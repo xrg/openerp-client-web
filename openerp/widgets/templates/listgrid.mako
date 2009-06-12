@@ -135,7 +135,7 @@
                     </tr>
                     % endif
 
-                    % for i in range(0, 4 - len(data)):
+                    % for i in range(0, min_rows - len(data)):
                     <tr class="grid-row">
                         % if selector:
                         <td width="1%" class="grid-cell selector">&nbsp;</td>
