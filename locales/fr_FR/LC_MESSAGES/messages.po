@@ -56,7 +56,7 @@ msgstr "Développée par Axelor et Tiny"
 #: openerp/controllers.py:165
 #, python-format
 msgid "Version %s-%s"
-msgstr ""
+msgstr "Version %s-%s"
 
 #: openerp/rpc.py:285 openerp/rpc.py:414
 msgid "Connection refused!"
@@ -123,8 +123,7 @@ msgstr "Pas d'action définie !"
 
 #: openerp/subcontrollers/attachment.py:63
 msgid "No record selected! You can only attach to existing record..."
-msgstr ""
-"Pas d'enregistrement sélectionné ! Vous pouvez seulement attacher un "
+msgstr "Pas d'enregistrement sélectionné ! Vous ne pouvez attacher qu'à un "
 "enregistrement préexistant..."
 
 #: openerp/subcontrollers/database.py:73
@@ -569,7 +568,7 @@ msgstr "Mot de passe"
 
 #: openerp/subcontrollers/templates/error_page.mako:67
 msgid "Maintenance"
-msgstr ""
+msgstr "Maintenance"
 
 #: openerp/subcontrollers/templates/error_page.mako:70
 #: openerp/subcontrollers/templates/error_page.mako:93
@@ -692,7 +691,7 @@ msgstr "Envoyer à l'équipe de maintenance"
 
 #: openerp/subcontrollers/templates/error_page.mako:171
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Alerte sur écriture concurrente :"
 
 #: openerp/subcontrollers/templates/error_page.mako:172
 msgid ""
@@ -702,6 +701,11 @@ msgid ""
 "\t- \"Cancel\" to cancel saving.\n"
 "\t- \"Write anyway\" to save your current version."
 msgstr ""
+"Ce document a été modifié alors que vous travailliez dessus.\n"
+"Sélectionnez:\n"
+"\n"
+"\t- \"Annuler\" pour annuler l'écriture.\n"
+"\t- \"Forcer l'écriture\" pour sauver votre version."
 
 #: openerp/subcontrollers/templates/error_page.mako:183
 #: openerp/subcontrollers/templates/form.mako:162
@@ -715,7 +719,7 @@ msgstr "Annuler"
 
 #: openerp/subcontrollers/templates/error_page.mako:184
 msgid "Write Anyway"
-msgstr ""
+msgstr "Forcer l'écriture"
 
 #: openerp/subcontrollers/templates/exp.mako:176
 msgid "Export Data"
@@ -1046,7 +1050,7 @@ msgstr "Personnaliser"
 #: openerp/subcontrollers/templates/search.mako:151
 #, python-format
 msgid "Search %(name)s"
-msgstr ""
+msgstr "Chercher %(name)s"
 
 #: openerp/subcontrollers/templates/search.mako:164
 #: openerp/widgets/templates/viewform.mako:25
@@ -1104,7 +1108,7 @@ msgstr "Barre d'outils"
 #: openerp/subcontrollers/templates/viewed.mako:22
 #, python-format
 msgid "View Editor %s - %s"
-msgstr ""
+msgstr "Editeur de vue %s - %s"
 
 #: openerp/subcontrollers/templates/viewed.mako:40
 msgid "Create a new inherited view"
@@ -1128,18 +1132,18 @@ msgstr "Nouveau Champ"
 
 #: openerp/subcontrollers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr "Position :"
+msgstr "Position:"
 
 #: openerp/subcontrollers/templates/viewlist.mako:4
 #: openerp/subcontrollers/templates/viewlist.mako:110
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Gérer les vues (%s)"
 
 #: openerp/subcontrollers/templates/viewlist.mako:147
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Créer une vue (%s)"
 
 #: openerp/subcontrollers/templates/viewlist.mako:158
 msgid "View Name:"
@@ -1157,7 +1161,7 @@ msgstr "Priorité :"
 #: openerp/subcontrollers/templates/wkf_list.mako:110
 #, python-format
 msgid "Manage Workflows %s"
-msgstr ""
+msgstr "Gérer les Workflows %s"
 
 #: openerp/subcontrollers/templates/wkf_list.mako:127
 msgid "Activate"
@@ -1166,7 +1170,7 @@ msgstr "Activer"
 #: openerp/subcontrollers/templates/wkf_list.mako:148
 #, python-format
 msgid "Create a Workflow (%s)"
-msgstr ""
+msgstr "Créer un Workflow (%s)"
 
 #: openerp/subcontrollers/templates/wkf_list.mako:159
 msgid "Workflow Name:"
@@ -1187,7 +1191,7 @@ msgstr "Diagramme de flux (workflow)"
 #: openerp/subcontrollers/templates/workflow.mako:50
 #, python-format
 msgid "Workflow (%s)"
-msgstr ""
+msgstr "Workflow (%s)"
 
 #: openerp/subcontrollers/templates/workflow.mako:64
 #: openerp/widgets/tinycalendar/templates/day.mako:3
@@ -1206,7 +1210,7 @@ msgstr "OpenERP Web"
 
 #: openerp/templates/about.mako:21
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-2009 Tiny ERP Pvt. Ltd. Tous droits réservés."
 
 #: openerp/templates/about.mako:22
 msgid "OpenERP is a trademark of the Tiny Company."
@@ -1215,12 +1219,12 @@ msgstr "OpenERP est une marque déposée par la société Tiny."
 #: openerp/templates/about.mako:24
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr ""
+msgstr "%(ooweb)s est développé collaborativement par %(tinys) et %(axelor)s."
 
 #: openerp/templates/about.mako:31
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr ""
+msgstr "Licencié sous les termes de %(licence)s"
 
 #: openerp/templates/about.mako:37
 msgid "About OpenERP"
@@ -1237,6 +1241,13 @@ msgid ""
 "\n"
 "project management, production, services, CRM, etc..\n"
 msgstr ""
+"%(openerp)s est un logiciel libre de gestion d'entreprise qui est développé "
+"pour améliorer\n"
+"la productivité par l'intégration des différentes données. Il connecte, améliore "
+"et\n"
+"gère les différents processus tels que les ventes, la finance, la logistique,"
+"\n"
+"la gestion de projets, la fabrication, les services, la CRM, etc.\n"
 
 #: openerp/templates/about.mako:50
 msgid ""
@@ -1258,6 +1269,8 @@ msgid ""
 "Depending on your needs, OpenERP is available through a web or "
 "application client."
 msgstr ""
+"En fonction de vos besoins, Open ERP est disponible depuis une "
+"interface web ou une interface applicative riche."
 
 #: openerp/templates/about.mako:62
 msgid "Links"
@@ -1336,7 +1349,7 @@ msgstr "Bases de données"
 #: openerp/templates/master.mako:87
 #, python-format
 msgid "Welcome %(user)s"
-msgstr ""
+msgstr "Bienvenue %(user)s"
 
 #: openerp/templates/master.mako:90
 msgid "Home"
@@ -1368,17 +1381,17 @@ msgstr "[AJOUTER]"
 
 #: openerp/templates/master.mako:174
 msgid "Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2007-2009 Tiny ERP Pvt. Ltd. Tous droits réservés."
 
 #: openerp/templates/master.mako:175
 #, python-format
 msgid "More Information on %s"
-msgstr ""
+msgstr "Plus d'informations sur %s"
 
 #: openerp/templates/master.mako:177
 #, python-format
 msgid "The web client is developed by %(axelor)s and %(tiny)s."
-msgstr ""
+msgstr "Le client web est développé par %(axelor)s et %(tiny)s."
 
 #: openerp/templates/master.mako:181
 msgid "Running Server:"
