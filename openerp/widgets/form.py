@@ -250,6 +250,7 @@ class Notebook(TinyInputWidget):
 
     css = [CSSLink('openerp', 'css/tabs.css')]
 
+    params = ['prefix']
     member_widgets = ['children']
     
     def __init__(self, **attrs):

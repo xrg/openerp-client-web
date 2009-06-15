@@ -324,15 +324,25 @@ var form_setVisible = function(container, field, visible) {
         var tabs = getElementsByTagAndClassName('div', 'tabbertab', container.parentNode);
         var idx = findIdentical(tabs, container);
         var tab = tabber.tabs[idx];
+        
+        var active = filter(function(t){
+            return !hasElementClass(t, 'tabbertabhide');
+        }, tabs);
+        
+        active = active ? active[0] : container;
+        active = findIdentical(tabs, active);
 
         if (visible) {            
             tab.li.style.display = '';
-            return tabber.tabShow(idx);
+            tabber.tabShow(idx);
+            tabber.tabShow(active);
         } else {
             var tab = tabber.tabs[idx];
             tab.li.style.display = 'none';
             tabber.tabHide(idx);
-            return tabber.tabShow(0);
+            if (idx == active) {
+                tabber.tabShow(0);
+            }
         }
 
     } else {
