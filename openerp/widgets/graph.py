@@ -299,12 +299,12 @@ class GraphData(object):
         values = {}
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
-
+            
         n = len(axis)-1
         stack_list = []
         val = []
-
-        if len(axis_group) > 1:
+        
+        if len(axis_group) > 1 and kind == 'bar':
             new_keys = []
             for k in keys:
                 k = urllib.unquote_plus(k)
@@ -314,13 +314,13 @@ class GraphData(object):
                 datas = data_ax[i]
                 for y in range(len(axis_group)):
                     for field in axis[1:]:
-                        values[field] = [datas[x].get(axis_group[y],0.0) for x in new_keys]
+                        values[field] = [datas[x].get(axis_group[y], 0.0) for x in new_keys]
                 for x in new_keys:
                     for field in axis[1:]:
-                        v = [datas[x].get(axis_group[y],0.0) for y in range(len(axis_group))]
+                        v = [datas[x].get(axis_group[y], 0.0) for y in range(len(axis_group))]
                         val.append(v)
                 stack_list += val
-
+                
         return values, domain, self.model, label_x, axis, axis_group, stack_list, keys
 
 class BarChart(GraphData):
@@ -348,7 +348,15 @@ class BarChart(GraphData):
             return res
 
         def minmx_ticks(values):
-
+            
+            x_data = []
+            
+            for st in stack_list:
+                range = 0
+                for s in st:
+                    range = range + s
+                x_data += [range]
+                
             yopts = {}
             mx = 0
             mn = 0
@@ -356,8 +364,12 @@ class BarChart(GraphData):
             
             if values:
                 values.sort()
-                mn = values[0]
-                mx = values[-1]
+                if x_data:
+                    x_data.sort()
+                    mx = x_data[-1]
+                else:
+                    mn = 0
+                    mx = values[-1]
 
             if mx != 0:
                 if mx < 0:
@@ -365,14 +377,8 @@ class BarChart(GraphData):
                 else:
                     mx = mx + (10 - (mx % 10))
 
-            if mn < 0:
-                mn = 0
-
             total = mx + mn
             tk = round(total/10)
-
-#            while (tk > 10):
-#                tk = round(tk/2)
 
             yopts['y_max'] = mx;
             yopts['y_min'] = mn;
@@ -382,7 +388,7 @@ class BarChart(GraphData):
 
         temp_lbl = []
         dataset = result.setdefault('dataset', [])
-        ChartColors = ['#4e9a06', '#204a87', '#5c3566', '#a40000', '#babdb6', '#2e3436', '#c4a000', '#ce5c00', '#8f5902'];
+        ChartColors = ['#204a87', '#8f5902', '#668ebc', '#8f5838', '#d248d0', '#085c83', '#2e3436', '#4e9a06', '#ce5c00'];
 
         for i in label_x:
             lbl = {}
@@ -427,7 +433,7 @@ class BarChart(GraphData):
             for i, x in enumerate(axis_group):
                 data = {}
                 data['text'] = x
-                data['colour'] = ChartColors[i]
+                data['colour'] = ChartColors[i+3]
                 all_keys.append(data)
 
             stack_val = []
@@ -439,7 +445,7 @@ class BarChart(GraphData):
                     stack["on-click"]= "function(){onChartClick('" + url[j] + "')}"
                     sval.append(stack)
                 stack_val.append(sval)
-
+                
             result = { "elements": [{"type": "bar_stack",
                                      "colours": [ col for col in ChartColors ],
                                      "values": [s for s in stack_val],
@@ -490,11 +496,11 @@ class PieChart(GraphData):
         else:
             return res
 
-        ChartColors = ['#204a87', '#8f5902', '#4e9a06', '#5c3566', '#a40000', '#c4a000', '#ce5c00','#babdb6', '#2e3436'];
+        ChartColors = ['#582912', '#668ebc', '#ce5c00', '#4e9a06', '#561258', '#085c83', '#204a87', '#8f5902', '#2e3436'];
 
         dataset = result.setdefault('dataset', [])
         value = values.values()[0]
-
+        
         url = []
 
         for dom in domain:
@@ -512,7 +518,7 @@ class PieChart(GraphData):
         for i, x in enumerate(label_x):
             val = {}
             val['value'] = value[i]
-            val['label'] = value[i]
+#            val['label'] = value[i]
             val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             val["tip"] = x + ' (' + str(round((100 * value[i])/total_val)) + '%)'
 
@@ -530,7 +536,7 @@ class PieChart(GraphData):
 
         result = {"elements": [d for d in dataset],
                   "bg_colour": "#FFFFFF"}
-
+        
         return result
 
 # vim: ts=4 sts=4 sw=4 si et
