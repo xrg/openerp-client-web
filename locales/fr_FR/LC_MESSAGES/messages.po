@@ -1,9 +1,10 @@
+
 msgid ""
 msgstr ""
-"Project-Id-Version: eTiny! 0.0.1\n"
+"Project-Id-Version: OpenERP Web 5.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-21 13:32+0000\n"
-"PO-Revision-Date: 2009-06-15 17:33+0530\n"
+"PO-Revision-Date: 2009-06-15 18:18+0530\n"
 "Last-Translator: Amit Mendapara <mendapara.amit@gmail.com>\n"
 "Language-Team: eTiny! Team\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -17,18 +18,15 @@ msgstr ""
 msgid "Could not find configuration file: %s"
 msgstr "Impossible de trouver le fichier de configuration: %s"
 
-#: openerp/common.py:45
-#: openerp/common.py:72
+#: openerp/common.py:45 openerp/common.py:72
 msgid "Error"
 msgstr "Erreur"
 
-#: openerp/common.py:50
-#: openerp/common.py:75
+#: openerp/common.py:50 openerp/common.py:75
 msgid "Warning"
 msgstr "Avertissement"
 
-#: openerp/common.py:55
-#: openerp/subcontrollers/templates/view_log.mako:4
+#: openerp/common.py:55 openerp/subcontrollers/templates/view_log.mako:4
 #: openerp/subcontrollers/templates/view_log.mako:14
 msgid "Information"
 msgstr "Information"
@@ -47,13 +45,11 @@ msgstr ""
 msgid "Access Denied!"
 msgstr "Accès interdit!"
 
-#: openerp/controllers.py:122
-#: openerp/templates/master.mako:74
+#: openerp/controllers.py:122 openerp/templates/master.mako:74
 msgid "OpenERP"
 msgstr "OpenERP"
 
-#: openerp/controllers.py:142
-#: openerp/templates/login.mako:13
+#: openerp/controllers.py:142 openerp/templates/login.mako:13
 msgid "Developped by Axelor and Tiny"
 msgstr "Développée par Axelor et Tiny"
 
@@ -62,8 +58,7 @@ msgstr "Développée par Axelor et Tiny"
 msgid "Version %s-%s"
 msgstr "Version %s-%s"
 
-#: openerp/rpc.py:285
-#: openerp/rpc.py:414
+#: openerp/rpc.py:285 openerp/rpc.py:414
 msgid "Connection refused!"
 msgstr "Connexion refusée !"
 
@@ -72,7 +67,8 @@ msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"Vous avez choisi un fuseau horaire mais OpenERP n'a pas pu trouver la bibliothèque pytz !\n"
+"Vous avez choisi un fuseau horaire mais OpenERP n'a pas pu trouver la "
+"bibliothèque pytz !\n"
 "La fonctionnalité va être désactivée."
 
 #: openerp/rpc.py:404
@@ -83,12 +79,9 @@ msgstr "Non connecté..."
 msgid "Authorization Error!"
 msgstr "Erreur d'autorisation !"
 
-#: openerp/rpc.py:424
-#: openerp/rpc.py:427
-#: openerp/subcontrollers/form.py:900
+#: openerp/rpc.py:424 openerp/rpc.py:427 openerp/subcontrollers/form.py:900
 #: openerp/subcontrollers/templates/error_page.mako:149
-#: openerp/widgets/form.py:872
-#: openerp/widgets/listgrid.py:309
+#: openerp/widgets/form.py:873 openerp/widgets/listgrid.py:309
 msgid "Application Error!"
 msgstr "Erreur applicative !"
 
@@ -96,10 +89,127 @@ msgstr "Erreur applicative !"
 msgid "Could not connect to server!"
 msgstr "Impossible de se connecter au serveur!"
 
-#: openerp/tinyres.py:142
-#: openerp/templates/login_ajax.mako:111
+#: openerp/tinyres.py:142 openerp/templates/login_ajax.mako:111
 msgid "Bad username or password!"
 msgstr "Utilisateur ou mot de passe incorrect !"
+
+#: openerp/static/javascript/form.js:257
+msgid "Invalid form, correct red fields !"
+msgstr ""
+
+#: openerp/static/javascript/form.js:269
+#: openerp/static/tinycalendar/javascript/calendar_box.js:158
+msgid "Do you really want to delete this record?"
+msgstr "Voulez-vous vraiment supprimer cet enregistrement?"
+
+#: openerp/static/javascript/form.js:288
+#: openerp/static/javascript/listgrid.js:411
+msgid "You must select at least one record."
+msgstr "Vous devez sélectionner au moins un enregistrement."
+
+#: openerp/static/javascript/form.js:300
+msgid "You must save this record to use the relate button!"
+msgstr ""
+"Vous devez sauvegarder cet enregistrement pour utiliser le bouton "
+"\"Associer\" !"
+
+#: openerp/static/javascript/listgrid.js:413
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Voulez-vous vraiment supprimer le(s) enregistrement(s) sélectionné(s)?"
+
+#: openerp/static/javascript/treegrid.js:101
+#: openerp/subcontrollers/templates/workflow.mako:64
+#: openerp/widgets/tinycalendar/templates/day.mako:3
+#: openerp/widgets/tinycalendar/templates/month.mako:3
+#: openerp/widgets/tinycalendar/templates/week.mako:3
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: openerp/static/javascript/viewed.js:71
+msgid "Do you really want to remove this node?"
+msgstr "Voulez-vous vraiment supprimer ce nœud?"
+
+#: openerp/static/javascript/viewed.js:337
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Voulez-vous vraiment créer une vue héritée ici ?"
+
+#: openerp/static/javascript/waitbox.js:49
+msgid "Please wait..."
+msgstr "Veuillez patienter..."
+
+#: openerp/static/javascript/waitbox.js:50
+msgid "This operation may take a while..."
+msgstr "Cette opération peut prendre un certain temps..."
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:48
+#: openerp/subcontrollers/templates/error_page.mako:183
+#: openerp/subcontrollers/templates/form.mako:162
+#: openerp/subcontrollers/templates/preferences.mako:21
+#: openerp/subcontrollers/templates/selection.mako:52
+#: openerp/subcontrollers/templates/viewlist.mako:188
+#: openerp/subcontrollers/templates/wkf_list.mako:182
+#: openerp/widgets/templates/listgrid.mako:60
+msgid "Cancel"
+msgstr "Annuler"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:49
+#: openerp/subcontrollers/templates/form.mako:134
+#: openerp/subcontrollers/templates/viewlist.mako:125
+#: openerp/subcontrollers/templates/wkf_list.mako:125
+#: openerp/widgets/templates/listgrid.mako:76
+#: openerp/widgets/templates/listgrid.mako:79
+#: openerp/widgets/templates/viewform.mako:32
+msgid "Edit"
+msgstr "Modifier"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:50
+#: openerp/subcontrollers/templates/form.mako:150
+msgid "Duplicate"
+msgstr "Dupliquer"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:51
+#: openerp/subcontrollers/templates/exp.mako:189
+#: openerp/subcontrollers/templates/form.mako:156
+#: openerp/subcontrollers/templates/image.mako:63
+#: openerp/widgets/templates/listgrid.mako:113
+#: openerp/widgets/templates/viewform.mako:28
+msgid "Delete"
+msgstr "Supprimer"
+
+#: openerp/static/workflow/javascript/process.js:190
+msgid "Notes:"
+msgstr "Remarques :"
+
+#: openerp/static/workflow/javascript/process.js:198
+msgid "Subflows:"
+msgstr "Sous-processus"
+
+#: openerp/static/workflow/javascript/process.js:202
+msgid "Related:"
+msgstr "Associé :"
+
+#: openerp/static/workflow/javascript/process.js:287
+#: openerp/subcontrollers/templates/process.mako:76
+msgid "Help"
+msgstr "Aide"
+
+#: openerp/static/workflow/javascript/process.js:291
+#: openerp/widgets/templates/many2one.mako:17
+#: openerp/widgets/templates/reference.mako:32
+msgid "Open"
+msgstr "Ouvrir"
+
+#: openerp/static/workflow/javascript/process.js:292
+msgid "Print"
+msgstr "Imprimer"
+
+#: openerp/static/workflow/javascript/process.js:299
+msgid "Print workflow"
+msgstr "Imprimer le workflow"
+
+#: openerp/static/workflow/javascript/process.js:305
+msgid "Documents"
+msgstr "Documents"
 
 #: openerp/subcontrollers/actions.py:97
 msgid "Invalid View!"
@@ -121,8 +231,7 @@ msgstr "Impression annulée, délai dépassé !"
 msgid "Relative URLs are not supported!"
 msgstr "Les URLs relatives ne sont pas supportées !"
 
-#: openerp/subcontrollers/actions.py:310
-#: openerp/widgets/action.py:58
+#: openerp/subcontrollers/actions.py:310 openerp/widgets/action.py:58
 msgid "Action not found!"
 msgstr "Action non trouvée !"
 
@@ -132,15 +241,16 @@ msgstr "Pas d'action définie !"
 
 #: openerp/subcontrollers/attachment.py:63
 msgid "No record selected! You can only attach to existing record..."
-msgstr "Pas d'enregistrement sélectionné ! Vous ne pouvez attacher qu'à un enregistrement préexistant..."
+msgstr ""
+"Pas d'enregistrement sélectionné ! Vous pouvez seulement attacher un "
+"enregistrement préexistant..."
 
 #: openerp/subcontrollers/database.py:73
 #: openerp/subcontrollers/templates/database.mako:93
 msgid "Create new database"
 msgstr "Créer nouvelle base de données"
 
-#: openerp/subcontrollers/database.py:75
-#: openerp/subcontrollers/database.py:91
+#: openerp/subcontrollers/database.py:75 openerp/subcontrollers/database.py:91
 #: openerp/subcontrollers/database.py:100
 #: openerp/subcontrollers/database.py:108
 #: openerp/subcontrollers/database.py:117
@@ -155,8 +265,7 @@ msgstr "OK"
 msgid "Super admin password:"
 msgstr "Mot de passe super administrateur :"
 
-#: openerp/subcontrollers/database.py:79
-#: openerp/subcontrollers/database.py:111
+#: openerp/subcontrollers/database.py:79 openerp/subcontrollers/database.py:111
 msgid "New database name:"
 msgstr "Nom de la nouvelle base de données :"
 
@@ -185,18 +294,14 @@ msgstr "Supprimer la base de données"
 msgid "Do you really want to drop the selected database?"
 msgstr "Voulez-vous vraiment supprimer la base de donnée sélectionnée?"
 
-#: openerp/subcontrollers/database.py:93
-#: openerp/subcontrollers/database.py:101
+#: openerp/subcontrollers/database.py:93 openerp/subcontrollers/database.py:101
 #: openerp/templates/login.mako:36
 msgid "Database:"
 msgstr "Base de données :"
 
-#: openerp/subcontrollers/database.py:94
-#: openerp/subcontrollers/database.py:102
-#: openerp/subcontrollers/database.py:110
-#: openerp/templates/login.mako:53
-#: openerp/templates/login_ajax.mako:78
-#: openerp/templates/login_ajax.mako:98
+#: openerp/subcontrollers/database.py:94 openerp/subcontrollers/database.py:102
+#: openerp/subcontrollers/database.py:110 openerp/templates/login.mako:53
+#: openerp/templates/login_ajax.mako:78 openerp/templates/login_ajax.mako:98
 msgid "Password:"
 msgstr "Mot de passe :"
 
@@ -236,7 +341,8 @@ msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
 msgstr ""
-"Le nom de base de donnée doit avoir seulement les caractères normaux ou \"_\".\n"
+"Le nom de base de donnée doit avoir seulement les caractères normaux ou "
+"\"_\".\n"
 "Vous devez éviter tous les accents, l'espace ou les caractères speciaux."
 
 #: openerp/subcontrollers/database.py:150
@@ -324,8 +430,7 @@ msgstr ""
 msgid "Invalid button type"
 msgstr "Type de bouton non valide"
 
-#: openerp/subcontrollers/form.py:815
-#: openerp/subcontrollers/tree.py:225
+#: openerp/subcontrollers/form.py:815 openerp/subcontrollers/tree.py:225
 msgid "No record selected!"
 msgstr "Pas d'enregistrement sélectionné !"
 
@@ -335,7 +440,9 @@ msgstr "Capture d'écran"
 
 #: openerp/subcontrollers/form.py:837
 msgid "You must save this record to use the sidebar button!"
-msgstr "Vous devez sauvegarder cet enregistrement pour utiliser la barre latérale !"
+msgstr ""
+"Vous devez sauvegarder cet enregistrement pour utiliser la barre latérale"
+" !"
 
 #: openerp/subcontrollers/form.py:900
 #, python-format
@@ -401,8 +508,7 @@ msgstr ""
 msgid "Parent record doesn't exists..."
 msgstr "L'enregistrement parent n'existe pas..."
 
-#: openerp/subcontrollers/preferences.py:69
-#: openerp/templates/master.mako:91
+#: openerp/subcontrollers/preferences.py:69 openerp/templates/master.mako:91
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -594,12 +700,14 @@ msgstr "Vous n'avez pas de contrat de maintenance Open ERP valide !"
 
 #: openerp/subcontrollers/templates/error_page.mako:73
 msgid ""
-"If you are using Open ERP in production, it is highly suggested to subscribe\n"
+"If you are using Open ERP in production, it is highly suggested to "
+"subscribe\n"
 "a maintenance program.\n"
 "\n"
 "The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
 "automatic migration system so that we can fix your problems within a few\n"
-"hours. If you had a maintenance contract, this error would have been sent\n"
+"hours. If you had a maintenance contract, this error would have been sent"
+"\n"
 "to the quality team of the Open ERP editor.\n"
 "\n"
 "The maintenance program offers you:\n"
@@ -609,13 +717,19 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 "\n"
-"You can use the link bellow for more information. The detail of the error\n"
+"You can use the link bellow for more information. The detail of the error"
+"\n"
 "is displayed on the second tab."
 msgstr ""
-"Si vous utilisez Open ERP en production. il est vivement recommandé de souscrire\n"
+"Si vous utilisez Open ERP en production. il est vivement recommandé de "
+"souscrire\n"
 "un contrat de maintenance.\n"
 "\n"
-"Le contrat de maintenance Open ERP vous donne droit à une garantie de correction des bugs et au système de migration automatique, ainsi nous pouvons corriger votre problème en quelques heures. Si vous aviez un contrat de maintenance, cette erreur aurait été envoyée à l'équipe Qualité de l'éditeur Open ERP.\n"
+"Le contrat de maintenance Open ERP vous donne droit à une garantie de "
+"correction des bugs et au système de migration automatique, ainsi nous "
+"pouvons corriger votre problème en quelques heures. Si vous aviez un "
+"contrat de maintenance, cette erreur aurait été envoyée à l'équipe "
+"Qualité de l'éditeur Open ERP.\n"
 "\n"
 "Le programme de maintenance vous offre:\n"
 "\n"
@@ -625,34 +739,49 @@ msgstr ""
 "* des alertes sécurité par courriel et une migration automatique\n"
 "* l'accès au portail client\n"
 "\n"
-"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. Le détail de l'erreur est affiché dans le second onglet."
+"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. "
+"Le détail de l'erreur est affiché dans le second onglet."
 
 #: openerp/subcontrollers/templates/error_page.mako:95
 msgid ""
-"Your maintenance contract does not cover all modules installed in your system !\n"
-"If you are using Open ERP in production, it is highly suggested to upgrade your\n"
+"Your maintenance contract does not cover all modules installed in your "
+"system !\n"
+"If you are using Open ERP in production, it is highly suggested to "
+"upgrade your\n"
 "contract.\n"
 "\n"
-"If you have developped your own modules or installed third party module, we\n"
-"can provide you an additional maintenance contract for these modules. After\n"
-"having reviewed your modules, our quality team will ensure they will migrate\n"
-"automatically for all futur stable versions of Open ERP at no extra cost.\n"
+"If you have developped your own modules or installed third party module, "
+"we\n"
+"can provide you an additional maintenance contract for these modules. "
+"After\n"
+"having reviewed your modules, our quality team will ensure they will "
+"migrate\n"
+"automatically for all futur stable versions of Open ERP at no extra cost."
+"\n"
 "\n"
 "Here is the list of modules not covered by your maintenance contract:"
 msgstr ""
-"Votre contrat de maintenance ne couvre pas tous les modules installés sur votre système !\n"
-"Si vous utilisez Open ERP en production, il est hautement conseillé de mettre votre contrat à niveau.\n"
+"Votre contrat de maintenance ne couvre pas tous les modules installés sur"
+" votre système !\n"
+"Si vous utilisez Open ERP en production, il est hautement conseillé de "
+"mettre votre contrat à niveau.\n"
 "\n"
-"Si vous avez développé vos propres modules ou installé des modules tiers, nous pouvons vous mettre à disposition un contrat de maintenance additionel pour ces modules. Après avoir auditionné vos modules, notre équipe Qualité s'assurera qu'ils migreront automatiquement pour toutes les futures versions stables d'Open ERP sans coût additionel.\n"
+"Si vous avez développé vos propres modules ou installé des modules tiers,"
+" nous pouvons vous mettre à disposition un contrat de maintenance "
+"additionel pour ces modules. Après avoir auditionné vos modules, notre "
+"équipe Qualité s'assurera qu'ils migreront automatiquement pour toutes "
+"les futures versions stables d'Open ERP sans coût additionel.\n"
 "\n"
 "Voici la liste des modules non couverts par votre contrat de maintenance:"
 
 #: openerp/subcontrollers/templates/error_page.mako:109
 msgid ""
-"You can use the link bellow for more information. The detail of the error\n"
+"You can use the link bellow for more information. The detail of the error"
+"\n"
 "is displayed on the second tab."
 msgstr ""
-"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. Le détail de l'erreur\n"
+"Vous pouvez utiliser le lien ci-dessous por obtenir plus d'informations. "
+"Le détail de l'erreur\n"
 "est affiché dans le second onglet."
 
 #: openerp/subcontrollers/templates/error_page.mako:117
@@ -660,8 +789,12 @@ msgid "Maintenance contract."
 msgstr "Contrat de maintenance"
 
 #: openerp/subcontrollers/templates/error_page.mako:118
-msgid "Your request will be sent to OpenERP and maintenance team will reply you shortly."
-msgstr "Votre requête sera envoyée à Open ERP et l'équipe de maintenance vous répondra sous peu."
+msgid ""
+"Your request will be sent to OpenERP and maintenance team will reply you "
+"shortly."
+msgstr ""
+"Votre requête sera envoyée à Open ERP et l'équipe de maintenance vous "
+"répondra sous peu."
 
 #: openerp/subcontrollers/templates/error_page.mako:122
 msgid "Explain what you did:"
@@ -693,16 +826,6 @@ msgstr ""
 "\t- \"Annuler\" pour annuler l'écriture.\n"
 "\t- \"Forcer l'écriture\" pour sauver votre version."
 
-#: openerp/subcontrollers/templates/error_page.mako:183
-#: openerp/subcontrollers/templates/form.mako:162
-#: openerp/subcontrollers/templates/preferences.mako:21
-#: openerp/subcontrollers/templates/selection.mako:52
-#: openerp/subcontrollers/templates/viewlist.mako:188
-#: openerp/subcontrollers/templates/wkf_list.mako:182
-#: openerp/widgets/templates/listgrid.mako:60
-msgid "Cancel"
-msgstr "Annuler"
-
 #: openerp/subcontrollers/templates/error_page.mako:184
 msgid "Write Anyway"
 msgstr "Forcer l'écriture"
@@ -710,14 +833,6 @@ msgstr "Forcer l'écriture"
 #: openerp/subcontrollers/templates/exp.mako:176
 msgid "Export Data"
 msgstr "Export des données"
-
-#: openerp/subcontrollers/templates/exp.mako:189
-#: openerp/subcontrollers/templates/form.mako:156
-#: openerp/subcontrollers/templates/image.mako:63
-#: openerp/widgets/templates/listgrid.mako:113
-#: openerp/widgets/templates/viewform.mako:28
-msgid "Delete"
-msgstr "Supprimer"
 
 #: openerp/subcontrollers/templates/exp.mako:197
 #: openerp/subcontrollers/templates/imp.mako:153
@@ -890,8 +1005,7 @@ msgstr "Créer une nouvelle ressource"
 #: openerp/subcontrollers/templates/viewed_new_model.mako:45
 #: openerp/subcontrollers/templates/viewlist.mako:124
 #: openerp/subcontrollers/templates/wkf_list.mako:124
-#: openerp/widgets/one2many.py:56
-#: openerp/widgets/templates/viewform.mako:36
+#: openerp/widgets/one2many.py:56 openerp/widgets/templates/viewform.mako:36
 #: openerp/widgets/templates/viewform.mako:40
 msgid "New"
 msgstr "Nouveau"
@@ -899,15 +1013,6 @@ msgstr "Nouveau"
 #: openerp/subcontrollers/templates/form.mako:133
 msgid "Edit this resource"
 msgstr "Modifier cette ressource"
-
-#: openerp/subcontrollers/templates/form.mako:134
-#: openerp/subcontrollers/templates/viewlist.mako:125
-#: openerp/subcontrollers/templates/wkf_list.mako:125
-#: openerp/widgets/templates/listgrid.mako:76
-#: openerp/widgets/templates/listgrid.mako:79
-#: openerp/widgets/templates/viewform.mako:32
-msgid "Edit"
-msgstr "Modifier"
 
 #: openerp/subcontrollers/templates/form.mako:139
 msgid "Save this resource"
@@ -924,10 +1029,6 @@ msgstr "Enregistrer et Modifier"
 #: openerp/subcontrollers/templates/form.mako:149
 msgid "Duplicate this resource"
 msgstr "Dupliquez cette ressource"
-
-#: openerp/subcontrollers/templates/form.mako:150
-msgid "Duplicate"
-msgstr "Dupliquer"
 
 #: openerp/subcontrollers/templates/form.mako:155
 msgid "Delete this resource"
@@ -1026,10 +1127,6 @@ msgstr "Sélectionnez le processus"
 msgid "Select"
 msgstr "Sélectionner"
 
-#: openerp/subcontrollers/templates/process.mako:76
-msgid "Help"
-msgstr "Aide"
-
 #: openerp/subcontrollers/templates/process.mako:93
 msgid "Customize"
 msgstr "Personnaliser"
@@ -1119,7 +1216,7 @@ msgstr "Nouveau Champ"
 
 #: openerp/subcontrollers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr "Position:"
+msgstr "Position :"
 
 #: openerp/subcontrollers/templates/viewlist.mako:4
 #: openerp/subcontrollers/templates/viewlist.mako:110
@@ -1180,13 +1277,6 @@ msgstr "Diagramme de flux (workflow)"
 msgid "Workflow (%s)"
 msgstr "Workflow (%s)"
 
-#: openerp/subcontrollers/templates/workflow.mako:64
-#: openerp/widgets/tinycalendar/templates/day.mako:3
-#: openerp/widgets/tinycalendar/templates/month.mako:3
-#: openerp/widgets/tinycalendar/templates/week.mako:3
-msgid "Loading..."
-msgstr "Chargement..."
-
 #: openerp/templates/about.mako:4
 msgid "About the OpenERP Web"
 msgstr "À propos d'OpenERP Web"
@@ -1220,31 +1310,44 @@ msgstr "À propos d'OpenERP"
 #: openerp/templates/about.mako:42
 #, python-format
 msgid ""
-"%(openerp)s is a free enterprise-scale software system that is designed to boost\n"
-"productivity and profit through data integration. It connects, improves and\n"
-"manages business processes in areas such as sales, finance, supply chain,\n"
+"%(openerp)s is a free enterprise-scale software system that is designed "
+"to boost\n"
+"productivity and profit through data integration. It connects, improves "
+"and\n"
+"manages business processes in areas such as sales, finance, supply chain,"
+"\n"
 "project management, production, services, CRM, etc..\n"
 msgstr ""
-"%(openerp)s est un logiciel libre de gestion d'entreprise qui est développé pour améliorer\n"
-"la productivité par l'intégration des différentes données. Il connecte, améliore et\n"
-"gère les différents processus tels que les ventes, la finance, la logistique,\n"
+"%(openerp)s est un logiciel libre de gestion d'entreprise qui est "
+"développé pour améliorer\n"
+"la productivité par l'intégration des différentes données. Il connecte, "
+"améliore et\n"
+"gère les différents processus tels que les ventes, la finance, la "
+"logistique,\n"
 "la gestion de projets, la fabrication, les services, la CRM, etc.\n"
 
 #: openerp/templates/about.mako:50
 msgid ""
-"The system is platform-independent, and can be installed on Windows, Mac OS X,\n"
-"and various Linux and other Unix-based distributions. Its architecture enables\n"
+"The system is platform-independent, and can be installed on Windows, Mac "
+"OS X,\n"
+"and various Linux and other Unix-based distributions. Its architecture "
+"enables\n"
 "new functionality to be rapidly created, modifications to be made to a\n"
 "production system and migration to a new version to be straightforward."
 msgstr ""
 "Le système peut être installé sur Windows, Mac OS X, \n"
 "et différents distributions de Linux et Unix. Son architecture permets \n"
-"la création rapide de la nouvelle fonctionalité, les modifications à faire au \n"
+"la création rapide de la nouvelle fonctionalité, les modifications à "
+"faire au \n"
 "système de production et la simple migration de la nouvelle version."
 
 #: openerp/templates/about.mako:57
-msgid "Depending on your needs, OpenERP is available through a web or application client."
-msgstr "En fonction de vos besoins, Open ERP est disponible depuis une interface web ou une interface applicative riche."
+msgid ""
+"Depending on your needs, OpenERP is available through a web or "
+"application client."
+msgstr ""
+"En fonction de vos besoins, Open ERP est disponible depuis une interface "
+"web ou une interface applicative riche."
 
 #: openerp/templates/about.mako:62
 msgid "Links"
@@ -1298,10 +1401,8 @@ msgstr "Formations"
 msgid "Services"
 msgstr "Services"
 
-#: openerp/templates/login.mako:4
-#: openerp/templates/login.mako:62
-#: openerp/templates/login_ajax.mako:85
-#: openerp/templates/login_ajax.mako:104
+#: openerp/templates/login.mako:4 openerp/templates/login.mako:62
+#: openerp/templates/login_ajax.mako:85 openerp/templates/login_ajax.mako:104
 msgid "Login"
 msgstr "Ouverture"
 
@@ -1313,8 +1414,7 @@ msgstr "Bienvenue dans OpenERP"
 msgid "Server:"
 msgstr "Serveur :"
 
-#: openerp/templates/login.mako:48
-#: openerp/templates/login_ajax.mako:72
+#: openerp/templates/login.mako:48 openerp/templates/login_ajax.mako:72
 #: openerp/templates/login_ajax.mako:94
 msgid "User:"
 msgstr "Utilisateur :"
@@ -1374,8 +1474,7 @@ msgstr "Le client web est développé par %(axelor)s et %(tiny)s."
 msgid "Running Server:"
 msgstr "Serveur courant :"
 
-#: openerp/validators/validators.py:154
-#: openerp/validators/validators.py:280
+#: openerp/validators/validators.py:154 openerp/validators/validators.py:280
 msgid "Invalid datetime format"
 msgstr "Format de date/heure invalide"
 
@@ -1393,13 +1492,21 @@ msgstr "Un courriel doit contenir un seul @"
 
 #: openerp/validators/validators.py:267
 #, python-format
-msgid "The username portion of the email address is invalid (the portion before the @: %(username)s)"
-msgstr "La partie 'nom d'utilisateur' du courriel est invalide (la partie avant le @ : %(username)s)"
+msgid ""
+"The username portion of the email address is invalid (the portion before "
+"the @: %(username)s)"
+msgstr ""
+"La partie 'nom d'utilisateur' du courriel est invalide (la partie avant "
+"le @ : %(username)s)"
 
 #: openerp/validators/validators.py:268
 #, python-format
-msgid "The domain portion of the email address is invalid (the portion after the @: %(domain)s)"
-msgstr "La partie 'domaine' du courriel est invalide (la partie après le @ : %(domain)s)"
+msgid ""
+"The domain portion of the email address is invalid (the portion after the"
+" @: %(domain)s)"
+msgstr ""
+"La partie 'domaine' du courriel est invalide (la partie après le @ : "
+"%(domain)s)"
 
 #: openerp/validators/validators.py:272
 msgid "You must start your URL with http://, https://, etc"
@@ -1422,8 +1529,7 @@ msgstr "Veuillez saisir une valeur entière"
 msgid "Please enter a number"
 msgstr "Veuillez saisir un nombre"
 
-#: openerp/widgets/form.py:872
-#: openerp/widgets/listgrid.py:309
+#: openerp/widgets/form.py:873 openerp/widgets/listgrid.py:309
 #, python-format
 msgid "Invalid view, duplicate field: %s"
 msgstr "Vue invalide, champ redondant: %s"
@@ -1440,8 +1546,7 @@ msgstr "Non"
 msgid "== Access Denied =="
 msgstr "== Accès refusé =="
 
-#: openerp/widgets/one2many.py:56
-#: openerp/widgets/templates/viewform.mako:35
+#: openerp/widgets/one2many.py:56 openerp/widgets/templates/viewform.mako:35
 #: openerp/widgets/templates/viewform.mako:39
 msgid "Create new record."
 msgstr "Créer un nouvel enregistrement."
@@ -1468,8 +1573,7 @@ msgstr "[%s - %s of %s]"
 msgid "Clear"
 msgstr "Effacer"
 
-#: openerp/widgets/templates/email.mako:9
-#: openerp/widgets/templates/url.mako:9
+#: openerp/widgets/templates/email.mako:9 openerp/widgets/templates/url.mako:9
 msgid "Go!"
 msgstr "Avancer!"
 
@@ -1484,11 +1588,6 @@ msgstr "Déplacer vers le haut"
 #: openerp/widgets/templates/listgrid.mako:99
 msgid "Move Down"
 msgstr "Déplacer vers le bas"
-
-#: openerp/widgets/templates/many2one.mako:17
-#: openerp/widgets/templates/reference.mako:32
-msgid "Open"
-msgstr "Ouvrir"
 
 #: openerp/widgets/templates/many2one.mako:18
 #: openerp/widgets/templates/reference.mako:33
@@ -1746,173 +1845,4 @@ msgstr "Recherche normale"
 #: openerp/widgets_search/templates/search.mako:10
 msgid "Advanced Search"
 msgstr "Recherche avancée"
-
-#~ msgid "Could not find default configuration."
-#~ msgstr "Impossible de trouver la configuration par défaut"
-#~ msgid "M"
-#~ msgstr "M"
-#~ msgid "T"
-#~ msgstr "T"
-#~ msgid "W"
-#~ msgstr "W"
-#~ msgid "F"
-#~ msgstr "F"
-#~ msgid "S"
-#~ msgstr "S"
-#~ msgid "Selected"
-#~ msgstr "Sélectionné"
-#~ msgid "Not Selected"
-#~ msgstr "Non sélectionné"
-#~ msgid "?"
-#~ msgstr "?"
-#~ msgid "20"
-#~ msgstr "20"
-#~ msgid "40"
-#~ msgstr "40"
-#~ msgid "60"
-#~ msgstr "60"
-#~ msgid "80"
-#~ msgstr "80"
-#~ msgid "100"
-#~ msgstr "100"
-#~ msgid "|"
-#~ msgstr "l"
-#~ msgid "Button Label"
-#~ msgstr "Label Bouton"
-#~ msgid "Title"
-#~ msgstr "Titre"
-#~ msgid "-"
-#~ msgstr "-"
-#~ msgid "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr "Copyright © 2006-TODAY Tiny ERP SPRL. Tous Droits Réservés."
-#~ msgid "OpenERP Web Client"
-#~ msgstr "Client Web OpenERP"
-#~ msgid "is jointly developed by"
-#~ msgstr "développé en collaboration avec"
-#~ msgid "Tiny"
-#~ msgstr "Tiny"
-#~ msgid "and"
-#~ msgstr "et"
-#~ msgid "Axelor"
-#~ msgstr "Axelor"
-#~ msgid "."
-#~ msgstr "."
-#~ msgid "Licenced under the terms of"
-#~ msgstr "Sous licence"
-#~ msgid "OpenERP Public License (OEPL) v1.1"
-#~ msgstr "OpenERP Public License (OEPL) v1.1"
-#~ msgid ""
-#~ "is a free enterprise-scale software system that is designed to boost\n"
-#~ "productivity and profit through data "
-#~ "integration. It connects, improves and\n"
-#~ "manages business processes in areas such"
-#~ " as sales, finance, supply chain,\n"
-#~ "project management, production, services, CRM, etc.."
-#~ msgstr ""
-#~ "est un progiciel de gestion intégrée qui est conçu à améliorer\n"
-#~ "la productivité et le profit par "
-#~ "l'intégration de la base de donnée. "
-#~ "Tiny ERP connecte, améliore et \n"
-#~ "gére des processus dans les domaines "
-#~ "de ventes, finances, chaîne logistique, \n"
-#~ ""
-#~ "Gestion de projet, Production, Services, CRM, etc..."
-#~ msgid ""
-#~ "Depending on your needs, OpenERP is "
-#~ "available through a web or application"
-#~ "\n"
-#~ "client."
-#~ msgstr ""
-#~ "Selon vos besoins, OpenERP est "
-#~ "disponible à travers un client web "
-#~ "ou une application\n"
-#~ "cliente."
-#~ msgid "Your title goes here"
-#~ msgstr "Mettez votre titre ici"
-#~ msgid "Welcome"
-#~ msgstr "Bienvenue"
-#~ msgid ">>"
-#~ msgstr ">>"
-#~ msgid ""
-#~ "Copyright © 2007-TODAY Tiny ERP Pvt. "
-#~ "Ltd. All Rights Reserved. More "
-#~ "Information on"
-#~ msgstr ""
-#~ "Copyright © 2007-TODAY Tiny ERP SPRL."
-#~ " Tous Droits Réservés. Plus d'Informations"
-#~ " sur"
-#~ msgid "http://openerp.com"
-#~ msgstr "http://openerp.com"
-#~ msgid "The web client is developed by Axelor ("
-#~ msgstr "l'interface web est développée par Axelor ("
-#~ msgid "http://axelor.com"
-#~ msgstr "http://axelor.com"
-#~ msgid ") and Tiny ("
-#~ msgstr ") et Tiny ("
-#~ msgid "http://tiny.be"
-#~ msgstr "http://tiny.be"
-#~ msgid ")"
-#~ msgstr ")"
-#~ msgid "dbname"
-#~ msgstr "Nom de la base de donnée"
-#~ msgid "View"
-#~ msgstr "Vue"
-#~ msgid "Language"
-#~ msgstr "Langue"
-#~ msgid "Search View"
-#~ msgstr "Mode recherche"
-#~ msgid "Screen View"
-#~ msgstr "Affichage écran"
-#~ msgid "View Editor"
-#~ msgstr "Éditeur de Vues"
-#~ msgid "Form Title"
-#~ msgstr "Titre de formulaire"
-#~ msgid "["
-#~ msgstr "["
-#~ msgid "]"
-#~ msgstr "]"
-#~ msgid "Form View"
-#~ msgstr "Vue Formulaire"
-#~ msgid "List View"
-#~ msgstr "Vue Liste"
-#~ msgid "Tree"
-#~ msgstr "Arborescence"
-#~ msgid "Tree Title"
-#~ msgstr "Titre de l'Arborescence"
-#~ msgid "Tree View"
-#~ msgstr "Vue arbre"
-#~ msgid "UTF-8"
-#~ msgstr "UTF-8"
-#~ msgid "Latin 1"
-#~ msgstr "Latin 1"
-#~ msgid "Please wait..."
-#~ msgstr "Veuillez patienter..."
-#~ msgid "This operation may take a while..."
-#~ msgstr "Cette opération peut prendre un certain temps..."
-#~ msgid "You must select at least one record."
-#~ msgstr "Vous devez sélectionner au moins un enregistrement."
-#~ msgid "Do you really want to delete selected record(s) ?"
-#~ msgstr "Voulez-vous vraiment supprimer le(s) enregistrement(s) sélectionné(s)?"
-#~ msgid "Do you really want to delete this record?"
-#~ msgstr "Voulez-vous vraiment supprimer cet enregistrement?"
-#~ msgid "You must save this record to use the relate button!"
-#~ msgstr ""
-#~ "Vous devez sauvegarder cet enregistrement "
-#~ "pour utiliser le bouton \"Associer\" !"
-#~ msgid "Do you really want to remove this node?"
-#~ msgstr "Voulez-vous vraiment supprimer ce nœud?"
-#~ msgid "Do you really wants to create an inherited view here?"
-#~ msgstr "Voulez-vous vraiment créer une vue héritée ici ?"
-#~ msgid "Notes:"
-#~ msgstr "Remarques :"
-#~ msgid "Subflows:"
-#~ msgstr "Sous-processus"
-#~ msgid "Related:"
-#~ msgstr "Associé :"
-#~ msgid "Print"
-#~ msgstr "Imprimer"
-#~ msgid "Print workflow"
-#~ msgstr "Imprimer le workflow"
-#~ msgid "Documents"
-#~ msgstr "Documents"
 

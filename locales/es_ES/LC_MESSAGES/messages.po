@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-21 13:32+0000\n"
-"PO-Revision-Date: 2009-06-14 11:53+0530\n"
+"PO-Revision-Date: 2009-06-15 18:18+0530\n"
 "Last-Translator: Jordi Esteve <jesteve@zikzakmedia.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -87,7 +87,7 @@ msgstr "¡Error de autorización!"
 
 #: openerp/rpc.py:424 openerp/rpc.py:427 openerp/subcontrollers/form.py:900
 #: openerp/subcontrollers/templates/error_page.mako:149
-#: openerp/widgets/form.py:872 openerp/widgets/listgrid.py:309
+#: openerp/widgets/form.py:873 openerp/widgets/listgrid.py:309
 msgid "Application Error!"
 msgstr "¡Error de la aplicación!"
 
@@ -98,6 +98,122 @@ msgstr "¡No se ha podido conectar con el servidor!"
 #: openerp/tinyres.py:142 openerp/templates/login_ajax.mako:111
 msgid "Bad username or password!"
 msgstr "¡Nombre de usuario o contraseña incorrecto!"
+
+#: openerp/static/javascript/form.js:257
+msgid "Invalid form, correct red fields !"
+msgstr ""
+
+#: openerp/static/javascript/form.js:269
+#: openerp/static/tinycalendar/javascript/calendar_box.js:158
+msgid "Do you really want to delete this record?"
+msgstr "¿Realmente desea eliminar este registro?"
+
+#: openerp/static/javascript/form.js:288
+#: openerp/static/javascript/listgrid.js:411
+msgid "You must select at least one record."
+msgstr "Debe seleccionar al menos un registro"
+
+#: openerp/static/javascript/form.js:300
+msgid "You must save this record to use the relate button!"
+msgstr "¡Debe guardar este registro para usar este botón!"
+
+#: openerp/static/javascript/listgrid.js:413
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "¿Realmente desea eliminar el registro(s) seleccionado(s)?"
+
+#: openerp/static/javascript/treegrid.js:101
+#: openerp/subcontrollers/templates/workflow.mako:64
+#: openerp/widgets/tinycalendar/templates/day.mako:3
+#: openerp/widgets/tinycalendar/templates/month.mako:3
+#: openerp/widgets/tinycalendar/templates/week.mako:3
+msgid "Loading..."
+msgstr "Cargando..."
+
+#: openerp/static/javascript/viewed.js:71
+msgid "Do you really want to remove this node?"
+msgstr "¿Realmente desea eliminar este nodo?"
+
+#: openerp/static/javascript/viewed.js:337
+msgid "Do you really wants to create an inherited view here?"
+msgstr "¿Realmente desea crear una vista heredada aquí?"
+
+#: openerp/static/javascript/waitbox.js:49
+msgid "Please wait..."
+msgstr "Por favor espere..."
+
+#: openerp/static/javascript/waitbox.js:50
+msgid "This operation may take a while..."
+msgstr "Esta operacion puede tardar un rato..."
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:48
+#: openerp/subcontrollers/templates/error_page.mako:183
+#: openerp/subcontrollers/templates/form.mako:162
+#: openerp/subcontrollers/templates/preferences.mako:21
+#: openerp/subcontrollers/templates/selection.mako:52
+#: openerp/subcontrollers/templates/viewlist.mako:188
+#: openerp/subcontrollers/templates/wkf_list.mako:182
+#: openerp/widgets/templates/listgrid.mako:60
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:49
+#: openerp/subcontrollers/templates/form.mako:134
+#: openerp/subcontrollers/templates/viewlist.mako:125
+#: openerp/subcontrollers/templates/wkf_list.mako:125
+#: openerp/widgets/templates/listgrid.mako:76
+#: openerp/widgets/templates/listgrid.mako:79
+#: openerp/widgets/templates/viewform.mako:32
+msgid "Edit"
+msgstr "Editar"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:50
+#: openerp/subcontrollers/templates/form.mako:150
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:51
+#: openerp/subcontrollers/templates/exp.mako:189
+#: openerp/subcontrollers/templates/form.mako:156
+#: openerp/subcontrollers/templates/image.mako:63
+#: openerp/widgets/templates/listgrid.mako:113
+#: openerp/widgets/templates/viewform.mako:28
+msgid "Delete"
+msgstr "Eliminar"
+
+#: openerp/static/workflow/javascript/process.js:190
+msgid "Notes:"
+msgstr "Notas:"
+
+#: openerp/static/workflow/javascript/process.js:198
+msgid "Subflows:"
+msgstr "Subflujos:"
+
+#: openerp/static/workflow/javascript/process.js:202
+msgid "Related:"
+msgstr "Relacionado:"
+
+#: openerp/static/workflow/javascript/process.js:287
+#: openerp/subcontrollers/templates/process.mako:76
+msgid "Help"
+msgstr "Ayuda"
+
+#: openerp/static/workflow/javascript/process.js:291
+#: openerp/widgets/templates/many2one.mako:17
+#: openerp/widgets/templates/reference.mako:32
+msgid "Open"
+msgstr "Abrir"
+
+#: openerp/static/workflow/javascript/process.js:292
+msgid "Print"
+msgstr "Imprimir"
+
+#: openerp/static/workflow/javascript/process.js:299
+msgid "Print workflow"
+msgstr "Imprimir flujo"
+
+#: openerp/static/workflow/javascript/process.js:305
+msgid "Documents"
+msgstr "Documentos"
 
 #: openerp/subcontrollers/actions.py:97
 msgid "Invalid View!"
@@ -708,16 +824,6 @@ msgid ""
 "\t- \"Write anyway\" to save your current version."
 msgstr ""
 
-#: openerp/subcontrollers/templates/error_page.mako:183
-#: openerp/subcontrollers/templates/form.mako:162
-#: openerp/subcontrollers/templates/preferences.mako:21
-#: openerp/subcontrollers/templates/selection.mako:52
-#: openerp/subcontrollers/templates/viewlist.mako:188
-#: openerp/subcontrollers/templates/wkf_list.mako:182
-#: openerp/widgets/templates/listgrid.mako:60
-msgid "Cancel"
-msgstr "Cancelar"
-
 #: openerp/subcontrollers/templates/error_page.mako:184
 msgid "Write Anyway"
 msgstr ""
@@ -725,14 +831,6 @@ msgstr ""
 #: openerp/subcontrollers/templates/exp.mako:176
 msgid "Export Data"
 msgstr "Exportar datos"
-
-#: openerp/subcontrollers/templates/exp.mako:189
-#: openerp/subcontrollers/templates/form.mako:156
-#: openerp/subcontrollers/templates/image.mako:63
-#: openerp/widgets/templates/listgrid.mako:113
-#: openerp/widgets/templates/viewform.mako:28
-msgid "Delete"
-msgstr "Eliminar"
 
 #: openerp/subcontrollers/templates/exp.mako:197
 #: openerp/subcontrollers/templates/imp.mako:153
@@ -914,15 +1012,6 @@ msgstr "Nuevo"
 msgid "Edit this resource"
 msgstr "Edita este registro"
 
-#: openerp/subcontrollers/templates/form.mako:134
-#: openerp/subcontrollers/templates/viewlist.mako:125
-#: openerp/subcontrollers/templates/wkf_list.mako:125
-#: openerp/widgets/templates/listgrid.mako:76
-#: openerp/widgets/templates/listgrid.mako:79
-#: openerp/widgets/templates/viewform.mako:32
-msgid "Edit"
-msgstr "Editar"
-
 #: openerp/subcontrollers/templates/form.mako:139
 msgid "Save this resource"
 msgstr "Guarda este registro"
@@ -938,10 +1027,6 @@ msgstr "Guardar & Editar"
 #: openerp/subcontrollers/templates/form.mako:149
 msgid "Duplicate this resource"
 msgstr "Duplica este registro"
-
-#: openerp/subcontrollers/templates/form.mako:150
-msgid "Duplicate"
-msgstr "Duplicar"
 
 #: openerp/subcontrollers/templates/form.mako:155
 msgid "Delete this resource"
@@ -1039,10 +1124,6 @@ msgstr "Seleccionar proceso"
 #: openerp/widgets/templates/datetime.mako:13
 msgid "Select"
 msgstr "Seleccionar"
-
-#: openerp/subcontrollers/templates/process.mako:76
-msgid "Help"
-msgstr "Ayuda"
 
 #: openerp/subcontrollers/templates/process.mako:93
 msgid "Customize"
@@ -1193,13 +1274,6 @@ msgstr "Flujo"
 #, python-format
 msgid "Workflow (%s)"
 msgstr ""
-
-#: openerp/subcontrollers/templates/workflow.mako:64
-#: openerp/widgets/tinycalendar/templates/day.mako:3
-#: openerp/widgets/tinycalendar/templates/month.mako:3
-#: openerp/widgets/tinycalendar/templates/week.mako:3
-msgid "Loading..."
-msgstr "Cargando..."
 
 #: openerp/templates/about.mako:4
 msgid "About the OpenERP Web"
@@ -1445,7 +1519,7 @@ msgstr "Por favor introduzca un valor numérico entero"
 msgid "Please enter a number"
 msgstr "Por favor introduzca un número"
 
-#: openerp/widgets/form.py:872 openerp/widgets/listgrid.py:309
+#: openerp/widgets/form.py:873 openerp/widgets/listgrid.py:309
 #, python-format
 msgid "Invalid view, duplicate field: %s"
 msgstr "Vista no válida, campo duplicado: %s"
@@ -1504,11 +1578,6 @@ msgstr "Subir"
 #: openerp/widgets/templates/listgrid.mako:99
 msgid "Move Down"
 msgstr "Bajar"
-
-#: openerp/widgets/templates/many2one.mako:17
-#: openerp/widgets/templates/reference.mako:32
-msgid "Open"
-msgstr "Abrir"
 
 #: openerp/widgets/templates/many2one.mako:18
 #: openerp/widgets/templates/reference.mako:33
@@ -1766,239 +1835,4 @@ msgstr "Búsqueda básica"
 #: openerp/widgets_search/templates/search.mako:10
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
-
-#~ msgid "Could not find default configuration."
-#~ msgstr "No se ha podido encontrar la configuración predeterminada."
-
-#~ msgid "M"
-#~ msgstr "M"
-
-#~ msgid "T"
-#~ msgstr "T"
-
-#~ msgid "W"
-#~ msgstr "W"
-
-#~ msgid "F"
-#~ msgstr "F"
-
-#~ msgid "S"
-#~ msgstr "S"
-
-#~ msgid "Selected"
-#~ msgstr "Seleccionado"
-
-#~ msgid "Not Selected"
-#~ msgstr "No seleccionado"
-
-#~ msgid "?"
-#~ msgstr "?"
-
-#~ msgid "20"
-#~ msgstr "20"
-
-#~ msgid "40"
-#~ msgstr "40"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#~ msgid "80"
-#~ msgstr "80"
-
-#~ msgid "100"
-#~ msgstr "100"
-
-#~ msgid "|"
-#~ msgstr "|"
-
-#~ msgid "Button Label"
-#~ msgstr "Etiqueta del botón"
-
-#~ msgid "Title"
-#~ msgstr "Título"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr "Copyright © 2006-Hoy, Tiny ERP Pvt Ltd. Todos los derechos reservados."
-
-#~ msgid "OpenERP Web Client"
-#~ msgstr "Cliente web OpenERP"
-
-#~ msgid "is jointly developed by"
-#~ msgstr "es desarrollado conjuntamente por"
-
-#~ msgid "Tiny"
-#~ msgstr "Tiny"
-
-#~ msgid "and"
-#~ msgstr "y"
-
-#~ msgid "Axelor"
-#~ msgstr "Axelor"
-
-#~ msgid "."
-#~ msgstr "."
-
-#~ msgid "Licenced under the terms of"
-#~ msgstr "Licenciado bajo los términos de"
-
-#~ msgid "OpenERP Public License (OEPL) v1.1"
-#~ msgstr "Licencia pública OpenERP (OEPL) v1.1"
-
-#~ msgid ""
-#~ "is a free enterprise-scale software system that is designed to boost\n"
-#~ "productivity and profit through data "
-#~ "integration. It connects, improves and\n"
-#~ "manages business processes in areas such"
-#~ " as sales, finance, supply chain,\n"
-#~ "project management, production, services, CRM, etc.."
-#~ msgstr ""
-#~ "es software libre que implementa un "
-#~ "sistema escalable para empresas diseñado "
-#~ "para\n"
-#~ "aumentar la productividad y el beneficio"
-#~ " mediante integración de datos.\n"
-#~ "Interconecta, mejora y gestiona procesos de negocios en áreas como\n"
-#~ "ventas, contabilidad, suministros, gestión de proyectos, producción,\n"
-#~ "servicios, CRM, etc."
-
-#~ msgid ""
-#~ "Depending on your needs, OpenERP is "
-#~ "available through a web or application"
-#~ "\n"
-#~ "client."
-#~ msgstr ""
-#~ "Dependiendo de sus necesidades, OpenERP "
-#~ "es accesible mediante un cliente web "
-#~ "o\n"
-#~ "una aplicación de escritorio."
-
-#~ msgid "Your title goes here"
-#~ msgstr "Su título va aquí"
-
-#~ msgid "Welcome"
-#~ msgstr "Bienvenido/a"
-
-#~ msgid ">>"
-#~ msgstr ">>"
-
-#~ msgid ""
-#~ "Copyright © 2007-TODAY Tiny ERP Pvt. "
-#~ "Ltd. All Rights Reserved. More "
-#~ "Information on"
-#~ msgstr ""
-#~ "Copyright © 2007-HOY Tiny ERP Pvt. "
-#~ "Ltd. Todos los derechos reservados. Más"
-#~ " información en"
-
-#~ msgid "http://openerp.com"
-#~ msgstr "http://openerp.com"
-
-#~ msgid "The web client is developed by Axelor ("
-#~ msgstr "El cliente web ha sido desarrollado por Axelor ("
-
-#~ msgid "http://axelor.com"
-#~ msgstr "http://axelor.com"
-
-#~ msgid ") and Tiny ("
-#~ msgstr ") y Tiny ("
-
-#~ msgid "http://tiny.be"
-#~ msgstr "http://tiny.be"
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "dbname"
-#~ msgstr "nombre b.d."
-
-#~ msgid "View"
-#~ msgstr "Vista"
-
-#~ msgid "Language"
-#~ msgstr "Idioma"
-
-#~ msgid "Search View"
-#~ msgstr "Vista de búsqueda"
-
-#~ msgid "Screen View"
-#~ msgstr "Vista de pantalla"
-
-#~ msgid "View Editor"
-#~ msgstr "Editor de vista"
-
-#~ msgid "Form Title"
-#~ msgstr "Título formulario"
-
-#~ msgid "["
-#~ msgstr "["
-
-#~ msgid "]"
-#~ msgstr "]"
-
-#~ msgid "Form View"
-#~ msgstr "Vista formulario"
-
-#~ msgid "List View"
-#~ msgstr "Vista de lista"
-
-#~ msgid "Tree"
-#~ msgstr "Árbol"
-
-#~ msgid "Tree Title"
-#~ msgstr "Título árbol"
-
-#~ msgid "Tree View"
-#~ msgstr "Vista de árbol"
-
-#~ msgid "UTF-8"
-#~ msgstr "UTF-8"
-
-#~ msgid "Latin 1"
-#~ msgstr "Latin 1"
-
-#~ msgid "Please wait..."
-#~ msgstr "Por favor espere..."
-
-#~ msgid "This operation may take a while..."
-#~ msgstr "Esta operacion puede tardar un rato..."
-
-#~ msgid "You must select at least one record."
-#~ msgstr "Debe seleccionar al menos un registro"
-
-#~ msgid "Do you really want to delete selected record(s) ?"
-#~ msgstr "¿Realmente desea eliminar el registro(s) seleccionado(s)?"
-
-#~ msgid "Do you really want to delete this record?"
-#~ msgstr "¿Realmente desea eliminar este registro?"
-
-#~ msgid "You must save this record to use the relate button!"
-#~ msgstr "¡Debe guardar este registro para usar este botón!"
-
-#~ msgid "Do you really want to remove this node?"
-#~ msgstr "¿Realmente desea eliminar este nodo?"
-
-#~ msgid "Do you really wants to create an inherited view here?"
-#~ msgstr "¿Realmente desea crear una vista heredada aquí?"
-
-#~ msgid "Notes:"
-#~ msgstr "Notas:"
-
-#~ msgid "Subflows:"
-#~ msgstr "Subflujos:"
-
-#~ msgid "Related:"
-#~ msgstr "Relacionado:"
-
-#~ msgid "Print"
-#~ msgstr "Imprimir"
-
-#~ msgid "Print workflow"
-#~ msgstr "Imprimir flujo"
-
-#~ msgid "Documents"
-#~ msgstr "Documentos"
 

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version:  openobject-web-client-de\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-21 13:32+0000\n"
-"PO-Revision-Date: 2009-06-14 11:53+0530\n"
+"PO-Revision-Date: 2009-06-15 18:18+0530\n"
 "Last-Translator: Ferdinand Gassauer <Unknown>\n"
 "Language-Team: Deutsch\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -86,7 +86,7 @@ msgstr "Autorisierung Fehler!"
 
 #: openerp/rpc.py:424 openerp/rpc.py:427 openerp/subcontrollers/form.py:900
 #: openerp/subcontrollers/templates/error_page.mako:149
-#: openerp/widgets/form.py:872 openerp/widgets/listgrid.py:309
+#: openerp/widgets/form.py:873 openerp/widgets/listgrid.py:309
 msgid "Application Error!"
 msgstr "Programm Fehler!"
 
@@ -97,6 +97,124 @@ msgstr "Kann nicht zum Server verbinden!"
 #: openerp/tinyres.py:142 openerp/templates/login_ajax.mako:111
 msgid "Bad username or password!"
 msgstr "Benutzername oder Kennwort falsch"
+
+#: openerp/static/javascript/form.js:257
+msgid "Invalid form, correct red fields !"
+msgstr ""
+
+#: openerp/static/javascript/form.js:269
+#: openerp/static/tinycalendar/javascript/calendar_box.js:158
+msgid "Do you really want to delete this record?"
+msgstr "Wollen Sie diesen Datensatz wirklich löschen?"
+
+#: openerp/static/javascript/form.js:288
+#: openerp/static/javascript/listgrid.js:411
+msgid "You must select at least one record."
+msgstr "Wählen Sie mindestens einen Datensatz"
+
+#: openerp/static/javascript/form.js:300
+msgid "You must save this record to use the relate button!"
+msgstr ""
+"Sie müssen diesen Datensatz speichern um die \"Relation\" Schaltfläche "
+"nutzen zu können"
+
+#: openerp/static/javascript/listgrid.js:413
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Wollen Sie die ausgewählten Datensätze wirklich löschen"
+
+#: openerp/static/javascript/treegrid.js:101
+#: openerp/subcontrollers/templates/workflow.mako:64
+#: openerp/widgets/tinycalendar/templates/day.mako:3
+#: openerp/widgets/tinycalendar/templates/month.mako:3
+#: openerp/widgets/tinycalendar/templates/week.mako:3
+msgid "Loading..."
+msgstr "Ladevorgang läuft ..."
+
+#: openerp/static/javascript/viewed.js:71
+msgid "Do you really want to remove this node?"
+msgstr "Wollen Sie diesen Knoten wirklich löschen?"
+
+#: openerp/static/javascript/viewed.js:337
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Wollen Sie hier wirklich eine vererbte Sicht erstellen?"
+
+#: openerp/static/javascript/waitbox.js:49
+msgid "Please wait..."
+msgstr "Bitte warten..."
+
+#: openerp/static/javascript/waitbox.js:50
+msgid "This operation may take a while..."
+msgstr "Dieser Vorgang kann eine Weile dauern"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:48
+#: openerp/subcontrollers/templates/error_page.mako:183
+#: openerp/subcontrollers/templates/form.mako:162
+#: openerp/subcontrollers/templates/preferences.mako:21
+#: openerp/subcontrollers/templates/selection.mako:52
+#: openerp/subcontrollers/templates/viewlist.mako:188
+#: openerp/subcontrollers/templates/wkf_list.mako:182
+#: openerp/widgets/templates/listgrid.mako:60
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:49
+#: openerp/subcontrollers/templates/form.mako:134
+#: openerp/subcontrollers/templates/viewlist.mako:125
+#: openerp/subcontrollers/templates/wkf_list.mako:125
+#: openerp/widgets/templates/listgrid.mako:76
+#: openerp/widgets/templates/listgrid.mako:79
+#: openerp/widgets/templates/viewform.mako:32
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:50
+#: openerp/subcontrollers/templates/form.mako:150
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+#: openerp/static/tinycalendar/javascript/calendar_box.js:51
+#: openerp/subcontrollers/templates/exp.mako:189
+#: openerp/subcontrollers/templates/form.mako:156
+#: openerp/subcontrollers/templates/image.mako:63
+#: openerp/widgets/templates/listgrid.mako:113
+#: openerp/widgets/templates/viewform.mako:28
+msgid "Delete"
+msgstr "Löschen"
+
+#: openerp/static/workflow/javascript/process.js:190
+msgid "Notes:"
+msgstr "Bemerkungen:"
+
+#: openerp/static/workflow/javascript/process.js:198
+msgid "Subflows:"
+msgstr "untergeordnete Flussdiagramme"
+
+#: openerp/static/workflow/javascript/process.js:202
+msgid "Related:"
+msgstr "Verbunden:"
+
+#: openerp/static/workflow/javascript/process.js:287
+#: openerp/subcontrollers/templates/process.mako:76
+msgid "Help"
+msgstr "Hilfe"
+
+#: openerp/static/workflow/javascript/process.js:291
+#: openerp/widgets/templates/many2one.mako:17
+#: openerp/widgets/templates/reference.mako:32
+msgid "Open"
+msgstr "Öffnen"
+
+#: openerp/static/workflow/javascript/process.js:292
+msgid "Print"
+msgstr "Drucken"
+
+#: openerp/static/workflow/javascript/process.js:299
+msgid "Print workflow"
+msgstr "Arbeitsfluss Drucken"
+
+#: openerp/static/workflow/javascript/process.js:305
+msgid "Documents"
+msgstr "Dokumente"
 
 #: openerp/subcontrollers/actions.py:97
 msgid "Invalid View!"
@@ -422,7 +540,7 @@ msgstr "%s Anfrage(n)"
 #: openerp/subcontrollers/requests.py:58
 #, python-format
 msgid " - %s pending request(s)"
-msgstr " - %s schwebende Anfragen"
+msgstr ""
 
 #: openerp/subcontrollers/translator.py:142
 msgid "You need to save the resource before adding translations."
@@ -705,16 +823,6 @@ msgid ""
 "\t- \"Write anyway\" to save your current version."
 msgstr ""
 
-#: openerp/subcontrollers/templates/error_page.mako:183
-#: openerp/subcontrollers/templates/form.mako:162
-#: openerp/subcontrollers/templates/preferences.mako:21
-#: openerp/subcontrollers/templates/selection.mako:52
-#: openerp/subcontrollers/templates/viewlist.mako:188
-#: openerp/subcontrollers/templates/wkf_list.mako:182
-#: openerp/widgets/templates/listgrid.mako:60
-msgid "Cancel"
-msgstr "Abbrechen"
-
 #: openerp/subcontrollers/templates/error_page.mako:184
 msgid "Write Anyway"
 msgstr ""
@@ -722,14 +830,6 @@ msgstr ""
 #: openerp/subcontrollers/templates/exp.mako:176
 msgid "Export Data"
 msgstr "Exportiere Daten"
-
-#: openerp/subcontrollers/templates/exp.mako:189
-#: openerp/subcontrollers/templates/form.mako:156
-#: openerp/subcontrollers/templates/image.mako:63
-#: openerp/widgets/templates/listgrid.mako:113
-#: openerp/widgets/templates/viewform.mako:28
-msgid "Delete"
-msgstr "Löschen"
 
 #: openerp/subcontrollers/templates/exp.mako:197
 #: openerp/subcontrollers/templates/imp.mako:153
@@ -911,15 +1011,6 @@ msgstr "Neu"
 msgid "Edit this resource"
 msgstr "Bearbeiten Datensatz"
 
-#: openerp/subcontrollers/templates/form.mako:134
-#: openerp/subcontrollers/templates/viewlist.mako:125
-#: openerp/subcontrollers/templates/wkf_list.mako:125
-#: openerp/widgets/templates/listgrid.mako:76
-#: openerp/widgets/templates/listgrid.mako:79
-#: openerp/widgets/templates/viewform.mako:32
-msgid "Edit"
-msgstr "Bearbeiten"
-
 #: openerp/subcontrollers/templates/form.mako:139
 msgid "Save this resource"
 msgstr "Speichern Ressource"
@@ -935,10 +1026,6 @@ msgstr "Speichern & Bearbeiten"
 #: openerp/subcontrollers/templates/form.mako:149
 msgid "Duplicate this resource"
 msgstr "Dupliziere diesen Datensatz"
-
-#: openerp/subcontrollers/templates/form.mako:150
-msgid "Duplicate"
-msgstr "Duplizieren"
 
 #: openerp/subcontrollers/templates/form.mako:155
 msgid "Delete this resource"
@@ -1036,10 +1123,6 @@ msgstr "Prozess auswählen"
 #: openerp/widgets/templates/datetime.mako:13
 msgid "Select"
 msgstr "Auswählen"
-
-#: openerp/subcontrollers/templates/process.mako:76
-msgid "Help"
-msgstr "Hilfe"
 
 #: openerp/subcontrollers/templates/process.mako:93
 msgid "Customize"
@@ -1190,13 +1273,6 @@ msgstr "Arbeitsablauf"
 #, python-format
 msgid "Workflow (%s)"
 msgstr ""
-
-#: openerp/subcontrollers/templates/workflow.mako:64
-#: openerp/widgets/tinycalendar/templates/day.mako:3
-#: openerp/widgets/tinycalendar/templates/month.mako:3
-#: openerp/widgets/tinycalendar/templates/week.mako:3
-msgid "Loading..."
-msgstr "Ladevorgang läuft ..."
 
 #: openerp/templates/about.mako:4
 msgid "About the OpenERP Web"
@@ -1440,7 +1516,7 @@ msgstr "BItte eine Ganzzahl eingeben (ohne Kommastellen)"
 msgid "Please enter a number"
 msgstr "Bitte eine Nummer eingeben"
 
-#: openerp/widgets/form.py:872 openerp/widgets/listgrid.py:309
+#: openerp/widgets/form.py:873 openerp/widgets/listgrid.py:309
 #, python-format
 msgid "Invalid view, duplicate field: %s"
 msgstr "ungültige Sicht, doppeltes Feld: %s"
@@ -1499,11 +1575,6 @@ msgstr "Nach oben"
 #: openerp/widgets/templates/listgrid.mako:99
 msgid "Move Down"
 msgstr "Nach unten"
-
-#: openerp/widgets/templates/many2one.mako:17
-#: openerp/widgets/templates/reference.mako:32
-msgid "Open"
-msgstr "Öffnen"
 
 #: openerp/widgets/templates/many2one.mako:18
 #: openerp/widgets/templates/reference.mako:33
@@ -1950,49 +2021,4 @@ msgstr "Erweiterte Suche"
 
 #~ msgid "Latin 1"
 #~ msgstr "Latein 1"
-
-#~ msgid "Please wait..."
-#~ msgstr "Bitte warten..."
-
-#~ msgid "This operation may take a while..."
-#~ msgstr "Dieser Vorgang kann eine Weile dauern"
-
-#~ msgid "You must select at least one record."
-#~ msgstr "Wählen Sie mindestens einen Datensatz"
-
-#~ msgid "Do you really want to delete selected record(s) ?"
-#~ msgstr "Wollen Sie die ausgewählten Datensätze wirklich löschen"
-
-#~ msgid "Do you really want to delete this record?"
-#~ msgstr "Wollen Sie diesen Datensatz wirklich löschen?"
-
-#~ msgid "You must save this record to use the relate button!"
-#~ msgstr ""
-#~ "Sie müssen diesen Datensatz speichern um"
-#~ " die \"Relation\" Schaltfläche nutzen zu"
-#~ " können"
-
-#~ msgid "Do you really want to remove this node?"
-#~ msgstr "Wollen Sie diesen Knoten wirklich löschen?"
-
-#~ msgid "Do you really wants to create an inherited view here?"
-#~ msgstr "Wollen Sie hier wirklich eine vererbte Sicht erstellen?"
-
-#~ msgid "Notes:"
-#~ msgstr "Bemerkungen:"
-
-#~ msgid "Subflows:"
-#~ msgstr "untergeordnete Flussdiagramme"
-
-#~ msgid "Related:"
-#~ msgstr "Verbunden:"
-
-#~ msgid "Print"
-#~ msgstr "Drucken"
-
-#~ msgid "Print workflow"
-#~ msgstr "Arbeitsfluss Drucken"
-
-#~ msgid "Documents"
-#~ msgstr "Dokumente"
 
