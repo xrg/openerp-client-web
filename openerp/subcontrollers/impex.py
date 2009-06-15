@@ -261,7 +261,7 @@ class ImpEx(TinyResource):
         return dict(records=records)
 
 
-    @expose()
+    @expose('json')
     def get_namelist(self, **kw):
 
         params, data = TinyDict.split(kw)
