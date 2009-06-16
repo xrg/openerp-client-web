@@ -54,6 +54,21 @@ if not hasattr(locale, 'nl_langinfo'):
 
 if not hasattr(locale, 'D_FMT'):
     locale.D_FMT = None
+    
+    
+COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
+                 '#fcaf3e', '#ef2929', '#ff00c9', '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f',
+                 '#ff8e00', '#ff0000', '#b0008c', '#9000ff', '#0078ff', '#00ff00', '#e6ff00', '#ffff00',
+                 '#905000', '#9b0000', '#840067', '#510090', '#0000c9', '#009b00', '#9abe00', '#ffc900',]
+
+_colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
+def choice_colors(n):
+    if n > len(COLOR_PALETTE):
+        return _colorline[0:-1:len(_colorline)/(n+1)]
+    elif n:
+        return COLOR_PALETTE[:n]
+    return []
+
 
 class Graph(TinyWidget):
 
@@ -389,7 +404,6 @@ class BarChart(GraphData):
 
         temp_lbl = []
         dataset = result.setdefault('dataset', [])
-        ChartColors = ['#204a87', '#8f5902', '#668ebc', '#8f5838', '#d248d0', '#085c83', '#2e3436', '#4e9a06', '#ce5c00'];
 
         for i in label_x:
             lbl = {}
@@ -410,6 +424,8 @@ class BarChart(GraphData):
 
         allvalues = []
         
+        ChartColors = choice_colors(len(axis))
+        
         for i, x in enumerate(axis[1:]):
             datas = []
             data = values[x]
@@ -423,7 +439,7 @@ class BarChart(GraphData):
 
             dataset.append({"text": axis_data[x]['string'],
                             "type": "bar_3d",
-                            "colour": ChartColors[i+3],
+                            "colour": ChartColors[i],
                             "values": datas,
                             "font-size": 10})
 
@@ -434,7 +450,7 @@ class BarChart(GraphData):
             for i, x in enumerate(axis_group):
                 data = {}
                 data['text'] = x
-                data['colour'] = ChartColors[i+3]
+                data['colour'] = ChartColors[i]
                 all_keys.append(data)
 
             stack_val = []
@@ -448,7 +464,7 @@ class BarChart(GraphData):
                 stack_val.append(sval)
                 
             result = { "elements": [{"type": "bar_stack",
-                                     "colours": [ col for col in ChartColors ],
+                                     "colours": ChartColors,
                                      "values": [s for s in stack_val],
                                      "keys": [key for key in all_keys]}],
                         "x_axis": {"labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
@@ -497,8 +513,6 @@ class PieChart(GraphData):
         else:
             return res
 
-        ChartColors = ['#582912', '#668ebc', '#ce5c00', '#4e9a06', '#561258', '#085c83', '#204a87', '#8f5902', '#2e3436'];
-
         dataset = result.setdefault('dataset', [])
         value = values.values()[0]
         
@@ -519,21 +533,18 @@ class PieChart(GraphData):
         for i, x in enumerate(label_x):
             val = {}
             val['value'] = value[i]
-#            val['label'] = value[i]
             val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             val["tip"] = x + ' (' + str(round((100 * value[i])/total_val)) + '%)'
 
             allvalues.append(val)
+            
+        ChartColors = choice_colors(len(allvalues))
 
-        for i, x in enumerate(label_x):
-            dataset.append({'type': 'pie',
-                            "colours": [c for c in ChartColors],
-                            "border": 1,
-                            "animate": "true",
-                            "label-colour": "#432BAF",
-                            "alpha": 0.30,
-                            "gradient-fill": 'true',
-                            "values": allvalues})
+        dataset.append({'type': 'pie',
+                        "colours": ChartColors,
+                        "animate": "true",
+                        "gradient-fill": 'true',
+                        "values": allvalues})
 
         result = {"elements": [d for d in dataset],
                   "bg_colour": "#FFFFFF"}
