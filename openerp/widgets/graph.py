@@ -68,7 +68,7 @@ class Graph(TinyWidget):
     width = 500
     height = 350
 
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
@@ -76,8 +76,8 @@ class Graph(TinyWidget):
         ctx = rpc.session.context.copy()
         ctx.update(context or {})
 
-        view = cache.fields_view_get(model, view_id, 'graph', ctx)
-
+        view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
+        
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
@@ -320,8 +320,8 @@ class GraphData(object):
                         v = [datas[x].get(axis_group[y], 0.0) for y in range(len(axis_group))]
                         val.append(v)
                 stack_list += val
-                
-        return values, domain, self.model, label_x, axis, axis_group, stack_list, keys
+
+        return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data
 
 class BarChart(GraphData):
 
@@ -344,6 +344,7 @@ class BarChart(GraphData):
             axis_group = res[5]
             stack_list = res[6]
             stack_labels = res[7]
+            axis_data = res[8]
         else:
             return res
 
@@ -408,7 +409,7 @@ class BarChart(GraphData):
             urls += [[url]]
 
         allvalues = []
-
+        
         for i, x in enumerate(axis[1:]):
             datas = []
             data = values[x]
@@ -420,7 +421,7 @@ class BarChart(GraphData):
                 datas.append(dt)
                 allvalues.append(d)
 
-            dataset.append({"text": axis[i+1],
+            dataset.append({"text": axis_data[x]['string'],
                             "type": "bar_3d",
                             "colour": ChartColors[i+3],
                             "values": datas,

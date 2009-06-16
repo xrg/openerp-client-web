@@ -172,6 +172,7 @@ class List(TinyResource):
 
         error = None
         reload = (params.context or {}).get('reload', False)
+        result = {}
 
         name = params.button_name
         btype = params.button_type
@@ -190,7 +191,9 @@ class List(TinyResource):
             elif btype == 'object':
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
-                rpc.session.execute('object', 'execute', model, name, ids, ctx)
+                res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
+                if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
+                    result = res
 
             elif btype == 'action':
                 from openerp.subcontrollers import actions
@@ -203,15 +206,17 @@ class List(TinyResource):
                     cherrypy.session['wizard_parent_params'] = params
 
                 res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
-                if res:
-                    raise "Button action has returned another view..."
+                if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
+                    result = res
+                elif res:
+                    error = "Button action has returned another view..."
 
             else:
-                raise 'Unallowed button type'
+                error = "Unallowed button type"
         except Exception, e:
             error = ustr(e)
 
-        return dict(error=error, reload=reload)
+        return dict(error=error, result=result, reload=reload)
 
     @expose('json')
     def moveUp(self, **kw):

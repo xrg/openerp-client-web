@@ -119,7 +119,13 @@ Many2Many.prototype = {
 
     getValue: function(){
         var ids = this.hasList ? this.terp_ids.value : this.id.value;
-        return eval(ids) || [];
+        try {
+            res = eval(ids);
+            if (res.length) 
+                return res;
+        } catch(e) {}
+        
+        return [];
     },
 
     remove: function() {
@@ -138,7 +144,7 @@ Many2Many.prototype = {
             return MochiKit.Base.findIdentical(boxes, id) == -1;
         }, ids);
 
-        this.id.value = '[' + ids.join(',') + ']';
+        this.id.value = this.terp_ids.value = '[' + ids.join(',') + ']';
         this.onChange();
     },
 

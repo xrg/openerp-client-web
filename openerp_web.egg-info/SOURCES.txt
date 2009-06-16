@@ -791,7 +791,6 @@ openerp/widgets/js_i18n.py
 openerp/widgets/listgrid.py
 openerp/widgets/many2many.py
 openerp/widgets/many2one.py
-openerp/widgets/mochikit.py
 openerp/widgets/one2many.py
 openerp/widgets/pager.py
 openerp/widgets/reference.py

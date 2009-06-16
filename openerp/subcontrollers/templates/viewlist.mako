@@ -72,7 +72,7 @@
                 return;
             }
             
-            window.location.href = '/viewlist/delete?model=${model}&amp;id=' + boxes[0].value;
+            window.location.href = '/viewlist/delete?model=${model}&id=' + boxes[0].value;
         }
 		
         MochiKit.DOM.addLoadEvent(function(evt){

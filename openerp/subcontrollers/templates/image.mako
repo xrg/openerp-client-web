@@ -16,7 +16,7 @@
 
         addLoadEvent(function(evt){
             img = window.opener.document.getElementById('${field}');
-            img.src = img.src + '&amp;' + Math.random();
+            img.src = img.src + '&' + Math.random();
             if($('saved').value)
                 window.close();
         });

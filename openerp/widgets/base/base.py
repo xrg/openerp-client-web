@@ -57,8 +57,10 @@ class Widget(object):
         for name in chain(self.__class__.params, self.__class__.member_widgets):
             try:
                 attr = getattr(self, name, None)
-                if isinstance(attr, (list, dict)):
+                if isinstance(attr, list):
                     attr = copy.copy(attr)
+                elif isinstance(attr, dict):
+                    attr = attr.copy()
                 setattr(self, name, attr)
             except AttributeError, e:
                 pass
@@ -319,14 +321,14 @@ class InputWidget(Widget):
         the validator so it can be rendered in the template.
         """
         
-        iv = None
-        if self.is_validated:
-            iv = getattr(cherrypy.request, 'validation_value', {}).get(self._name)
-        
+        iv = None        
+        if hasattr(cherrypy.request, 'input_values') and self.is_validated:
+            iv = cherrypy.request.input_values.get(self._name)
+            
         if iv is not None and not isinstance(self.validator, (ForEach, Schema)):
             value = self.safe_validate(iv)
-
-        value = super(InputWidget, self).adjust_value(value, **params)
+        else:
+            value = super(InputWidget, self).adjust_value(value, **params)
         
         if self.validator and not isinstance(self.validator, Schema):
             # Does not adjust_value with Schema because it will recursively
@@ -336,9 +338,8 @@ class InputWidget(Widget):
             # value to the template, not before.
             try:
                 value = self.validator.from_python(value)
-            except Invalid, e:
-                # Ignore conversion errors so bad-input is redisplayed
-                # properly
+            except Exception, e:
+                # Ignore conversion errors so bad-input is redisplayed properly
                 pass
         return value
     

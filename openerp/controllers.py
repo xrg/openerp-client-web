@@ -94,8 +94,8 @@ class Root(TinyResource):
 
         location = url(location or '/', kw or {})
 
-        if db and user == "anonymous":
-            if rpc.session.login(db, 'anonymous', password):
+        if db and user and user.startswith("anonymous"):
+            if rpc.session.login(db, user, password):
                 raise redirect(location)
 
         if cherrypy.request.params.get('tg_format') == 'json':

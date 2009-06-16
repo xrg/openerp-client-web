@@ -55,7 +55,7 @@ class M2M(TinyInputWidget):
     def __init__(self, **attrs):
         super(M2M, self).__init__(**attrs)
 
-        ids = []
+        ids = None
         params = getattr(cherrypy.request, 'terp_params', None)
         if not params:
             params = TinyDict()
@@ -87,8 +87,8 @@ class M2M(TinyInputWidget):
 
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
-
-        if not ids:
+        
+        if ids is None:
             ids = attrs.get('value', [])
 
         id = (ids or None) and ids[0]

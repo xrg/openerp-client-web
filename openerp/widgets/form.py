@@ -250,6 +250,7 @@ class Notebook(TinyInputWidget):
 
     css = [CSSLink('openerp', 'css/tabs.css')]
 
+    params = ['prefix']
     member_widgets = ['children']
     
     def __init__(self, **attrs):
@@ -552,7 +553,7 @@ class URL(TinyInputWidget):
 class Hidden(TinyInputWidget):
     template = "templates/hidden.mako"
 
-    params = ['relation']
+    params = ['relation', 'field_id']
     member_widgets = ['widget']
 
     def __init__(self, **attrs):
@@ -561,7 +562,10 @@ class Hidden(TinyInputWidget):
         self.widget = WIDGETS[kind](**attrs)
         self.validator = self.widget.validator
         self.relation = attrs.get('relation') or None
-
+        
+        if 'field_id' not in attrs:
+            self.field_id = self.name
+            
     def set_value(self, value):
         self.widget.set_value(value)
         self.default = self.widget.default
