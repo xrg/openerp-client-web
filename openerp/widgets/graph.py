@@ -434,7 +434,7 @@ class BarChart(GraphData):
             for i, x in enumerate(axis_group):
                 data = {}
                 data['text'] = x
-                data['colour'] = ChartColors[i+3]
+                data['colour'] = ChartColors[i]
                 all_keys.append(data)
 
             stack_val = []
