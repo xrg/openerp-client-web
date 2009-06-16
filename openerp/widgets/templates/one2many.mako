@@ -15,16 +15,6 @@
                             % endif
                         </button>
                         % endif
-                        % if screen.editable and screen.view_type == 'tree':
-                        <button type="button" onclick="new ListView('${name}').remove()" style="padding: 2px">
-                            <img src="/static/images/stock/gtk-delete.png" width="16" height="16"/>
-                        </button>
-                        % endif
-                        % if screen.editable and screen.view_type == 'form' and screen.id and not readonly:
-                        <button type="button" title="${_('Delete current record...')}" onclick="submit_form('delete', '${name}')" style="padding: 2px">
-                            <img src="/static/images/stock/gtk-delete.png" width="16" height="16"/>
-                        </button>
-                        % endif
                         % if pager_info:
                         <button type="button" title="${_('Previous record...')}" onclick="submit_form('previous', '${name}')" style="padding: 2px">
                             <img class="button" src="/static/images/stock/gtk-go-back.png" width="16" height="16"/>
