@@ -1,6 +1,48 @@
+5.0.2 (2009-06-16)
+
+	New Features:
+	
+	* Removed TurboGears & PyXML dependencies
+	* Ported to CherryPy 3 + Mako template, almost 5-7 time faster then the previous version
+	* Re-implementation of graph with Open Flash Chart 2
+	* Implemented profiler for code profiling (for developer's only)
+	* Implemented unit test api (for developer's only)
+	* Implemented anonymous login
+	
+	Improvements:
+	
+	* Compatible with Python 2.6
+	* start-openerp-web command is renamed to openerp-web
+	* Improved cache system (efficiently handle per db cache).
+	* Added min_rows, limit configuration options for M2M/O2M fields
+	* Improved ListGrid button action (support act_url).
+	* Implemented `Concurrency Exception` handling.
+	* Database filter options from configuration
+	* Login controller with custom template for small Ajax login screen
+	* Strip the header completely for action with target=new.
+	* Improved wiki widget
+	
+	Bug Fixed (major):
+	
+	* Dynamic notebook page visibility with attrs.
+	* Improved Ajax validator (fixes onchange problem when there is some invalid value in the form)
+	* Prevent conflicts with `onchange` and `attrs/state change` hooks.
+	* Month calendar issue (day span 3 instead of 2 for hours=16 with day_length=8)
+	* M2M (listview reload) problem in wizards.
+	* O2M popup rendering time is too slow (IE bug)
+	* attrs (invisible) is not working properly on fields with labels
+	* attrs is not working properly on Group widgets
+	* Evaluate dynamic domain & context expression.
+	* Search popup validation problem (bug #338141)
+	* Ignore concurrency check if no check field defined.
+	* Create custom field for custom object (o2m popup problem).
+
+	For more complete bug fix history, please visit Launchpad.
+
+
 5.0.0 (2009-02-06)
 
-New Features:
+	New Features:
 
 	* Enterprise Intelligence (Process View)
 	* Workflow Designer
@@ -30,7 +72,7 @@ New Features:
 	* Command line options
 	* Win32 Installer
 
-Improvements:
+	Improvements:
 	
 	* Calendar view (default mode in view, e.g. mode="week")
 	* Save export list in export dialog.
@@ -52,7 +94,7 @@ Improvements:
 	* Client side validation for required fields (no page reload)
 	* Changes the way web app loads default configuration.
 
-* Bug fixed:
+	Bug fixed:
 	
 	* Fixed timezone change problem (CEST to CET)
 	* Fixed `sidebar links` problem (ignore links for multi records on FORM)

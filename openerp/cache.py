@@ -39,12 +39,12 @@ from gettext import translation
 import i18n
 import rpc
 
-__cache_references = []
+__cache = {}
 
 def clear():
-    for queue, store in __cache_references:
-        while queue:
-            del store[queue.pop()]
+    queue, store = __cache.setdefault(rpc.session.db, ([], {}))
+    while queue:
+        del store[queue.pop()]
 
 def memoize(limit=100, force=False):
 
@@ -54,12 +54,10 @@ def memoize(limit=100, force=False):
         if not force and cherrypy.config.get('server.environment') == 'development':
             return func
 
-        queue = []
-        store = {}
-
-        __cache_references.append((queue, store))
-
         def func_wrapper(*args, **kwargs):
+            
+            queue, store = __cache.setdefault(rpc.session.db, ([], {}))
+            
             key = cPickle.dumps((args, kwargs))
             try:
                 queue.append(queue.pop(queue.index(key)))
