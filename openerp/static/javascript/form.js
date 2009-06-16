@@ -429,7 +429,7 @@ var getFormData = function(extended) {
             return;
 
         // work arround to skip o2m values (list mode)
-        if (document.getElementsByName(n + '/__id').length)
+        if (n.indexOf('/__id').length > 0)
             return;
             
         if (extended && n.indexOf('/__id') == -1) {
