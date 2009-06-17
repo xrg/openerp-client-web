@@ -36,12 +36,14 @@ import base64
 
 import urllib
 
+import simplejson
+
 from openerp import rpc
 from openerp import tools
 from openerp import common
 from openerp import cache
 
-from base import JSSource
+from base import JSSource, JSLink
 from interface import TinyWidget
 
 
@@ -77,9 +79,10 @@ class Graph(TinyWidget):
     var onChartClick = function(path) {
         window.location.href = path;
     }
-    """)]
+    """),
+    JSLink("openerp", "javascript/swfobject.js")]
 
-    params = ['url', 'width', 'height']
+    params = ['width', 'height', 'data']
     width = 500
     height = 350
 
@@ -102,25 +105,24 @@ class Graph(TinyWidget):
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-
-        args = base64.urlsafe_b64encode(ustr({
-            '_terp_model': model,
-            '_terp_view_id': view_id,
-            '_terp_ids': ustr(ids),
-            '_terp_domain': ustr(domain),
-            '_terp_context': ustr(context or {})}))
-
-        self.url = tools.url(["/graph", chart_type], args=args)
+            
+            
+        if chart_type == "bar":
+            self.data = BarChart(model, view, view_id, ids, domain, context)
+        else:
+            self.data = PieChart(model, view, view_id, ids, domain, context)
+            
+        self.data = simplejson.dumps(self.data.get_data())
 
 class GraphData(object):
 
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
 
         ctx = {}
         ctx = rpc.session.context.copy()
         ctx.update(context)
 
-        view = cache.fields_view_get(model, view_id, 'graph', ctx)
+        view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
         fields = view['fields']
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
@@ -340,8 +342,8 @@ class GraphData(object):
 
 class BarChart(GraphData):
 
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}):
-        super(BarChart, self).__init__(model, view_id, ids, domain, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
+        super(BarChart, self).__init__(model, view, view_id, ids, domain, context)
 
     def get_data(self):
 
@@ -494,8 +496,8 @@ class BarChart(GraphData):
 
 class PieChart(GraphData):
 
-    def __init__(self, model, view_id=False, ids=[], domain=[], context={}):
-        super(PieChart, self).__init__(model, view_id, ids, domain, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
+        super(PieChart, self).__init__(model, view, view_id, ids, domain, context)
 
     def get_data(self):
 
