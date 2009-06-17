@@ -449,6 +449,7 @@ class BarChart(GraphData):
                 data = {}
                 data['text'] = x
                 data['colour'] = ChartColors[i]
+                data['font-size'] = 12
                 all_keys.append(data)
 
             stack_val = []
