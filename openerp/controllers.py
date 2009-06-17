@@ -169,7 +169,6 @@ class Root(TinyResource):
 
     form = subcontrollers.form.Form()
     tree = subcontrollers.tree.Tree()
-    graph = subcontrollers.graph.Graph()
     wizard = subcontrollers.wizard.Wizard()
     search = subcontrollers.search.Search()
     pref = subcontrollers.preferences.Preferences()
