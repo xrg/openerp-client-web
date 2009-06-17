@@ -17,8 +17,8 @@ DAEMON=/usr/bin/openerp-web
 NAME=openerp-web
 DESC=openerp-web
 
-# Specify the user name (Default: terp).
-USER="terp"
+# Specify the user name (Default: openerp).
+USER="openerp"
 
 # Specify an alternate config file (Default: /etc/openerp-web.cfg).
 CONFIGFILE="/etc/openerp-web.cfg"
