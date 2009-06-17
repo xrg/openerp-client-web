@@ -136,7 +136,7 @@ class Picture(TinyInputWidget):
                 stock, size = data
                 self.url =  icons.get_icon(stock)
             else:
-                fname = get_temp_file(self.model, self.name, self.id)
+                fname = get_temp_file(str(self.model), str(self.name), str(self.id))
                 try:
                     tmp = open(fname, "w")
                     try:
@@ -146,7 +146,7 @@ class Picture(TinyInputWidget):
                 except Exception, e:
                     raise
                 
-                self.url = tools.url("/image/get_picture", fname=fname)
+                self.url = tools.url("/image/get_picture", model=self.model, name=self.name, id=self.id)
         else:
             self.url = tools.url("/static/images/blank.gif")
 
