@@ -63,6 +63,14 @@ class Image(TinyResource):
             return base64.decodestring(res)
         else:
             return ''
+        
+    @expose(content_type='application/octet')
+    def get_picture(self, fname, **kw):
+        try:
+            return open(fname).read()
+        except:
+            pass
+        return ""
 
     @expose(template="templates/image.mako")
     def add(self, upimage,  **kw):

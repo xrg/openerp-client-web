@@ -622,13 +622,68 @@ class Image(TinyInputWidget):
             self.src = tools.url('/image/get_image', model=self.model, id=self.id, field=self.field)
             self.height = attrs.get('img_height', attrs.get('height', 160))
             self.width = attrs.get('img_width', attrs.get('width', 200))
-            if (attrs.get('widget') == 'picture'):
-                self.height = '100%'
-                self.width = '100%'
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
+            
+            
+import tempfile
+import base64
 
+class Picture(TinyInputWidget):
+    template = """
+    <img id="${name}" width="${width}" heigth="${height}" src="${url}"/>
+    """
+
+    params = ["url", "width", "height"]
+    width = 32
+    height = 32
+
+    def __init__(self, **attrs):
+        super(Picture, self).__init__(**attrs)
+        
+        self.height = attrs.get('img_height', attrs.get('height', 160))
+        self.width = attrs.get('img_width', attrs.get('width', 200))
+        self.validator = validators.Binary()
+        
+        ctx = rpc.session.context.copy()
+        ctx.update(self.context or {})
+        ctx['bin_size'] = False
+        
+        proxy = rpc.RPCProxy(self.model)
+        
+        if not self.id:
+            value = proxy.default_get([self.name], ctx)
+        else:
+            value = proxy.read([self.id], [self.name], ctx)[0]
+            
+        value = value.get(self.name) or (None, None)
+
+        if isinstance(value, (tuple, list)) and len(value)==2:
+            type, data = value
+        else:
+            type, data = None, value
+            
+        if data:
+            if type == 'stock':
+                stock, size = data
+                self.url =  icons.get_icon(stock)
+            else:
+                tmp, fname = tempfile.mkstemp()
+                try:
+                    tmp = open(fname, "w")
+                    try:
+                        tmp.write(base64.decodestring(data))
+                    finally:
+                        tmp.close()
+                except Exception, e:
+                    raise
+                
+                self.url = tools.url("/image/get_picture", fname=fname)
+        else:
+            self.url = tools.url("/static/images/blank.gif")
+
+        
 class Group(TinyInputWidget):
     template = "templates/group.mako"
 
@@ -956,7 +1011,7 @@ WIDGETS = {
     'button': Button,
     'reference': Reference,
     'binary': Binary,
-    'picture': Image,
+    'picture': Picture,
     'text': Text,
     'text_tag': Text,
     'text_html': TinyMCE,
