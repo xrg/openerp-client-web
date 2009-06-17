@@ -97,8 +97,9 @@ def get_temp_file(m, n, i):
 
 
 class Picture(TinyInputWidget):
-    template = """
+    template = """<div style="text-align: center;">
     <img id="${name}" width="${width}" heigth="${height}" src="${url}"/>
+    </div>
     """
 
     params = ["url", "width", "height"]
