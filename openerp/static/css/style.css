@@ -75,6 +75,10 @@ input.radio {
     margin: 0px;
 }
 
+fieldset {
+    border: solid 1px #888888; 
+}
+
 button {
     border: solid 1px #888888;    
     background: url(/static/images/button_bg.png) repeat-x left top;
