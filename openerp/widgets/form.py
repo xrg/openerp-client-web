@@ -42,6 +42,7 @@ import cherrypy
 from openerp import icons
 from openerp import tools
 from openerp import common
+from openerp import cache
 
 from openerp import rpc
 
@@ -630,6 +631,11 @@ class Image(TinyInputWidget):
 import tempfile
 import base64
 
+@cache.memoize(1000, force=True)
+def get_temp_file(m, n, i):
+    t, fn = tempfile.mkstemp()
+    return fn
+        
 class Picture(TinyInputWidget):
     template = """
     <img id="${name}" width="${width}" heigth="${height}" src="${url}"/>
@@ -669,7 +675,7 @@ class Picture(TinyInputWidget):
                 stock, size = data
                 self.url =  icons.get_icon(stock)
             else:
-                tmp, fname = tempfile.mkstemp()
+                fname = get_temp_file(self.model, self.name, self.id)
                 try:
                     tmp = open(fname, "w")
                     try:
