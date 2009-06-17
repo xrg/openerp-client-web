@@ -217,16 +217,11 @@ class GraphData(object):
                 axis.remove(i)
 
         return axis, axis_data, axis_group
-
-    def get_data(self):
-
-        if self.values:
-            res = self.get_graph_data()
-            return res
-
-        return dict(title=self.string)
-
+    
     def get_graph_data(self):
+        
+        if not self.values:
+            return dict(title=self.string)
 
         axis = self.axis
         axis_data = self.axis_data
@@ -350,7 +345,7 @@ class BarChart(GraphData):
         result = {}
         ctx =  rpc.session.context.copy()
 
-        res = super(BarChart, self).get_data()
+        res = super(BarChart, self).get_graph_data()
 
         if len(res) > 1:
             values = res[0]
@@ -448,6 +443,7 @@ class BarChart(GraphData):
         yopts = minmx_ticks(allvalues)
 
         if len(axis_group) > 1:
+            ChartColors = choice_colors(len(axis_group))
             all_keys = []
             for i, x in enumerate(axis_group):
                 data = {}
@@ -504,7 +500,7 @@ class PieChart(GraphData):
         result = {}
         ctx =  rpc.session.context.copy()
 
-        res = super(PieChart, self).get_data()
+        res = super(PieChart, self).get_graph_data()
 
         if len(res) > 1:
             values = res[0]
