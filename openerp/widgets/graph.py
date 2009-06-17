@@ -542,6 +542,7 @@ class PieChart(GraphData):
                         "colours": ChartColors,
                         "animate": "true",
                         "gradient-fill": 'true',
+                        "no-labels": 'true',
                         "values": allvalues})
 
         result = {"elements": [d for d in dataset],
