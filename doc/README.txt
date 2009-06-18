@@ -48,16 +48,16 @@ Prerequisites:
     
 Remember, this version requires CherryPy3 which is conflicting with 
 CherryPy2 (used by TurboGears), so you can't install both in system area.
-To overcome with issue, we added support for local library installation
-for OpenERP Web. In that case, just download the source package and do
-the following...
+To overcome with the issue, we added support for local library installation
+for OpenERP Web. In that case, just download the source package and do the 
+following...
 
     $ cd /path/to/openerp-web/lib
     $ ./populate.sh
     $ cd ..
 
 This will install all required dependencies in private lib directory, and you
-don't need to install anything.
+don't need to install anything...
 
 The rest will describe how to install the client in system area...
 
@@ -129,8 +129,6 @@ and `/etc/openerp-web.cfg`:
 Now run following command to start the OpenERP Web automatically on system startup.
 
     $ sudo mkdir /var/log/openerp-web
-    $ sudo touch /var/log/openerp-web/error.log
-    $ sudo touch /var/log/openerp-web/access.log
     $ sudo chown -R openerp /var/log/openerp-web
     $ sudo update-rc.d openerp-web
 

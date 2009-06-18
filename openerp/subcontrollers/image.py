@@ -37,6 +37,8 @@ import cherrypy
 from openerp import rpc
 from openerp.tinyres import TinyResource
 
+from openerp.widgets.binary import get_temp_file
+
 class Image(TinyResource):
 
     @expose(template="templates/image.mako")
@@ -63,6 +65,15 @@ class Image(TinyResource):
             return base64.decodestring(res)
         else:
             return ''
+        
+    @expose(content_type='application/octet')
+    def get_picture(self, model, name, id, **kw):
+        try:
+            fname = get_temp_file(model, name, id)
+            return open(fname).read()
+        except Exception, e:
+            raise
+        return ""
 
     @expose(template="templates/image.mako")
     def add(self, upimage,  **kw):

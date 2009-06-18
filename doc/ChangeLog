@@ -20,8 +20,9 @@
 	* Database filter options from configuration
 	* Login controller with custom template for small Ajax login screen
 	* Strip the header completely for action with target=new.
+	* New Picture widget (display only)
 	* Improved wiki widget
-	
+
 	Bug Fixed (major):
 	
 	* Dynamic notebook page visibility with attrs.

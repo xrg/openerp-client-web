@@ -42,6 +42,7 @@ import cherrypy
 from openerp import icons
 from openerp import tools
 from openerp import common
+from openerp import cache
 
 from openerp import rpc
 
@@ -520,25 +521,6 @@ class DateTime(TinyInputWidget):
         super(DateTime, self).set_value(value or False)
 
 
-class Binary(TinyInputWidget):
-    template = "templates/binary.mako"
-    params = ["name", "text", "readonly", "filename"]
-
-    text = None
-    file_upload = True
-
-    def __init__(self, **attrs):
-        super(Binary, self).__init__(**attrs)
-        self.validator = validators.Binary()
-        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % (self.filename or '')
-
-    def set_value(self, value):
-        #XXX: server bug work-arround
-        try:
-            self.text = tools.get_size(value)
-        except:
-            self.text = value or ''
-
 class URL(TinyInputWidget):
     template = "templates/url.mako"
 
@@ -597,38 +579,7 @@ class Button(TinyInputWidget):
         if self.states:
             self.visible = state in self.states
 
-class Image(TinyInputWidget):
-
-    template = "templates/image.mako"
-
-    params = ["src", "width", "height", "model", "id", "field", "stock"]
-    src = ""
-    width = 32
-    height = 32
-    field = ''
-    stock = True
-
-    def __init__(self, **attrs):
-        icon = attrs.get('name')
-        attrs['name'] = attrs.get('name', 'Image').replace("-","_")
-
-        super(Image, self).__init__(**attrs)
-
-        self.filename = attrs.get('filename', '')
-
-        if 'widget' in attrs:
-            self.stock = False
-            self.field = self.name.split('/')[-1]
-            self.src = tools.url('/image/get_image', model=self.model, id=self.id, field=self.field)
-            self.height = attrs.get('img_height', attrs.get('height', 160))
-            self.width = attrs.get('img_width', attrs.get('width', 200))
-            if (attrs.get('widget') == 'picture'):
-                self.height = '100%'
-                self.width = '100%'
-            self.validator = validators.Binary()
-        else:
-            self.src =  icons.get_icon(icon)
-
+        
 class Group(TinyInputWidget):
     template = "templates/group.mako"
 
@@ -942,6 +893,9 @@ from many2many import M2M
 from reference import Reference
 from tiny_mce import TinyMCE
 from wiki import WikiWidget
+from binary import Binary
+from binary import Image
+from binary import Picture
 
 WIDGETS = {
     'date': DateTime,
@@ -956,7 +910,7 @@ WIDGETS = {
     'button': Button,
     'reference': Reference,
     'binary': Binary,
-    'picture': Image,
+    'picture': Picture,
     'text': Text,
     'text_tag': Text,
     'text_html': TinyMCE,
