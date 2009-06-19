@@ -787,7 +787,7 @@ class Form(TinyInputWidget):
             elif node.localName == 'notebook':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
-                nb._name = prefix.replace('/', '_') + '_notebook'
+                nb._name = prefix.replace('/', '_') + '_notebook_%s' % (nb._serial)
                 views += [nb]
 
             elif node.localName == 'page':
