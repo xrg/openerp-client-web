@@ -586,6 +586,11 @@ class ViewEd(TinyResource):
 
             if new_node.localName == "field":
                 new_node.setAttribute('name', kw.get('name', new_node.localName))
+            
+            elif new_node.localName == "notebook":
+                page = doc.createElement('page')
+                page.setAttribute('string', 'Page 1')
+                new_node.appendChild(page)
 
             pnode = node.parentNode
             position = kw['position']
@@ -629,7 +634,7 @@ class ViewEd(TinyResource):
         data = dict(arch=doc.toxml(encoding="utf-8"))
         try:
             res = proxy.write([view_id], data)
-        except:
+        except Exception, e:
             return dict(error=_("Unable to update the view."))
 
         try:
