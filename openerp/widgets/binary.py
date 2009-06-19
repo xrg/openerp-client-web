@@ -98,7 +98,7 @@ def get_temp_file(m, n, i):
 
 class Picture(TinyInputWidget):
     template = """<div style="text-align: center;">
-    <img id="${name}" width="${width}" heigth="${height}" src="${url}"/>
+    <img id="${name}" ${width} ${height} src="${url}"/>
     </div>
     """
 
@@ -109,8 +109,10 @@ class Picture(TinyInputWidget):
     def __init__(self, **attrs):
         super(Picture, self).__init__(**attrs)
         
-        self.height = attrs.get('img_height', attrs.get('height', 160))
-        self.width = attrs.get('img_width', attrs.get('width', 200))
+        height = attrs.get('img_height', attrs.get('height', None))
+        self.height = height and 'height="%s"' % height or ''
+        width = attrs.get('img_width', attrs.get('width', None))
+        self.width = width and 'width="%s"' % width or ''
         self.validator = validators.Binary()
         
         ctx = rpc.session.context.copy()
