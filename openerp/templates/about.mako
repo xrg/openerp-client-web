@@ -43,7 +43,7 @@ ${_("""%(openerp)s is a free enterprise-scale software system that is designed t
 productivity and profit through data integration. It connects, improves and
 manages business processes in areas such as sales, finance, supply chain,
 project management, production, services, CRM, etc..
-""", openerp="""<a target="_blank" href="http://openerp.com">OpenERP</a>""")|n}
+""", openerp="""<a target="_blank" href="http://openerp.com/">OpenERP</a>""")|n}
 </p>
 
 <p>
@@ -90,39 +90,43 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                 </tr>
                 <tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com">${_("Homepage")}</a>
+                        <a target="_blank" href="http://openerp.com/">${_("Homepage")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/documentations.html">${_("Documentation")}</a>
+                        <a target="_blank" href="http://openerp.com/en/downloads.html">${_("Download")}</a>
+                    </td>                
+                </tr><tr>
+                    <td>
+                        <a target="_blank" href="http://doc.openerp.com/">${_("Documentation")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/forum">${_("Forum")}</a>
+                        <a target="_blank" href="http://doc.openerp.com/modindex.html">${_("Modules")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/component/option,com_mtree/Itemid,111/">${_("Modules")}</a>
+                        <a target="_blank" href="http://openobject.com/forum/index.php">${_("Forum")}</a>
+                    </td>
+                </tr><tr>                
+                    <td>
+                        <a target="_blank" href="http://openerp.com/planet/">${_("Planet")}</a>
+                    </td>
+                </tr><tr>                
+                    <td>
+                        <a target="_blank" href="http://openobject.com/irc/">${_("IRC Chat")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/component/option,com_joomlaxplorer/Itemid,132/">${_("Download")}</a>
+                        <a target="_blank" href="http://ondemand.openerp.com/">${_("SaaS Offers")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/planet">${_("Planet")}</a>
+                        <a target="_blank" href="http://openerp.com/en/buy/trainings.html">${_("Trainings")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://ondemand.openerp.com">${_("SaaS Offers")}</a>
-                    </td>
-                </tr><tr>
-                    <td>
-                        <a target="_blank" href="http://openerp.com/training.html">${_("Trainings")}</a>
-                    </td>
-                </tr><tr>
-                    <td>
-                        <a target="_blank" href="http://openerp.com/services.html">${_("Services")}</a>
+                        <a target="_blank" href="http://openerp.com/en/buy.html">${_("Services")}</a>
                     </td>
                 </tr>
             </table>
