@@ -322,6 +322,7 @@ class GraphData(object):
                 k = urllib.unquote_plus(k)
                 new_keys += [k]
                 
+            keys = new_keys
             for i in range(n):
                 datas = data_ax[i]
                 for y in range(len(axis_group)):
