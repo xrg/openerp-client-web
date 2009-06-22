@@ -106,15 +106,11 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openobject.com/forum/index.php">${_("Forum")}</a>
+                        <a target="_blank" href="http://openerp.tv/">${_("Screencasts")}</a>
                     </td>
-                </tr><tr>                
+                </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/planet/">${_("Planet")}</a>
-                    </td>
-                </tr><tr>                
-                    <td>
-                        <a target="_blank" href="http://openobject.com/irc/">${_("IRC Chat")}</a>
+                        <a target="_blank" href="http://openobject.com/">${_("Community")}</a>
                     </td>
                 </tr><tr>
                     <td>
