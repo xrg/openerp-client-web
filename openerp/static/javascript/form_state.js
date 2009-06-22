@@ -44,7 +44,7 @@ var form_hookOnChange = function() {
     }
 
     var fields = getFormData();
-    //TODO: remove onchange="${onchange}" from all kid templates and register onChange here
+    //TODO: remove onchange="${onchange}" from all templates and register onChange here
 
     // signal fake onchange events for default value in new record form
     id = parseInt(id) || 0;
@@ -335,7 +335,6 @@ var form_setVisible = function(container, field, visible) {
         if (visible) {            
             tab.li.style.display = '';
             tabber.tabShow(idx);
-            tabber.tabShow(active);
         } else {
             var tab = tabber.tabs[idx];
             tab.li.style.display = 'none';
