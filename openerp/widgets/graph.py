@@ -533,7 +533,11 @@ class PieChart(GraphData):
             val = {}
             val['value'] = value[i]
             val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
-            val["tip"] = x + ' (' + str(round((100 * value[i])/total_val)) + '%)'
+            
+            if total_val <> 0.0:
+                val["tip"] = x + ' (' + str(round((100 * value[i])/total_val)) + '%)'
+            else:
+                val["tip"] = x
 
             allvalues.append(val)
             
