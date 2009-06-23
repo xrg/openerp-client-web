@@ -74,7 +74,7 @@ class M2O(TinyInputWidget):
 
     def set_value(self, value):
 
-        if isinstance(value, (tuple, list)):
+        if value and isinstance(value, (tuple, list)):
             self.default, self.text = value
         else:
             self.default = value
