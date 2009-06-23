@@ -182,7 +182,7 @@ class Tree(TinyResource):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = url('/tree/open', model=model, id=record['id'], context=context)
+            record['action'] = url('/tree/open', model=model, id=record['id'], context=ustr(context))
             record['target'] = None
 
             record['icon'] = None
