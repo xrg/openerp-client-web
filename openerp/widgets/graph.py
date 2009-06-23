@@ -77,6 +77,7 @@ class Graph(TinyWidget):
     template = "templates/graph.mako"
     javascript = [JSSource("""
     var onChartClick = function(path) {
+        //alert(path);
         window.location.href = path;
     }
     """),
@@ -575,6 +576,8 @@ class PieChart(GraphData):
         for i, x in enumerate(label_x):
             val = {}
             val['value'] = value[i]
+            val['text'] = x
+            val['label'] = x
             val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             val["tip"] = x + ' (' + str(round((100 * value[i])/total_val)) + '%)'
 
@@ -589,7 +592,13 @@ class PieChart(GraphData):
                         "no-labels": 'true',
                         "values": allvalues})
 
-        result = {"elements": [d for d in dataset],
+        result = {"legend": {"bg_colour": "#fefefe", 
+                             "border": 'true', 
+                             "position": "top", 
+                             "shadow": 'true', 
+                             "visible": 'true' 
+                             }, 
+                  "elements": [d for d in dataset],
                   "bg_colour": "#FFFFFF"}
         
         return result
