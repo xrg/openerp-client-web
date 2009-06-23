@@ -77,6 +77,7 @@ class Graph(TinyWidget):
     template = "templates/graph.mako"
     javascript = [JSSource("""
     var onChartClick = function(path) {
+        //alert(path);
         window.location.href = path;
     }
     """),
@@ -302,7 +303,7 @@ class GraphData(object):
                 label_x.append(l.split('/')[-1])
             else:
                 label_x.append(l)
-
+                
         for d in temp_dom:
             for val in datas:
                 rec = val.get('rec_id')
@@ -314,9 +315,13 @@ class GraphData(object):
             
         n = len(axis)-1
         stack_list = []
+        stack_id_list = []
         val = []
+        grp_value = []
         
         if len(axis_group) > 1 and kind == 'bar':
+            
+            group_field = self.axis_group_field.keys()[0]
             new_keys = []
             for k in keys:
                 k = urllib.unquote_plus(k)
@@ -324,17 +329,33 @@ class GraphData(object):
                 
             keys = new_keys
             for i in range(n):
-                datas = data_ax[i]
+                
+                data = data_ax[i]
+                group_data = {}
+                
+                for key in keys:
+                    group_data[key] = {}
+                    for dt in data:
+                        for d in data[dt]:
+                            ids = []
+                            for dts in datas:
+                                if dt == dts[axis[0]] and d == dts[group_field] and dt == key:
+                                    ids += [dts['temp_id']]
+                                    group_data[key][d] = str(data[dt][d]) + '/' + str(ids)
+                
                 for y in range(len(axis_group)):
                     for field in axis[1:]:
-                        values[field] = [datas[x].get(axis_group[y], 0.0) for x in new_keys]
+                        values[field] = [data[x].get(axis_group[y], 0.0) for x in new_keys]
                 for x in new_keys:
                     for field in axis[1:]:
-                        v = [datas[x].get(axis_group[y], 0.0) for y in range(len(axis_group))]
+                        v = [data[x].get(axis_group[y], 0.0) for y in range(len(axis_group))]
+                        grp_v = [group_data[x].get(axis_group[y], '0.0') for y in range(len(axis_group))]
                         val.append(v)
+                        grp_value.append(grp_v)
                 stack_list += val
+                stack_id_list += grp_value
 
-        return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data
+        return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data, stack_id_list
 
 class BarChart(GraphData):
 
@@ -347,7 +368,7 @@ class BarChart(GraphData):
         ctx =  rpc.session.context.copy()
 
         res = super(BarChart, self).get_graph_data()
-
+        
         if len(res) > 1:
             values = res[0]
             domain = res[1]
@@ -358,6 +379,7 @@ class BarChart(GraphData):
             stack_list = res[6]
             stack_labels = res[7]
             axis_data = res[8]
+            stack_id_list = res[9]
         else:
             return res
 
@@ -409,37 +431,37 @@ class BarChart(GraphData):
             lbl['colour'] = "#432BAF"
             temp_lbl.append(lbl)
 
-        urls = []
         url = []
 
-        for i, x in enumerate(axis[1:]):
-            for dom in domain:
-                u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
-                       _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
-
-                url.append(u)
-            urls += [[url]]
-
+        for x in axis[1:]:
+            if len(axis_group) > 1:
+                for st in stack_id_list:
+                    for s in st:
+                        if s.find('/') != -1:
+                            ids = s.split('/')[1]
+                            ids = eval(ids)
+                            dom = [('id', 'in', ids)]
+                            u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                               _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
+        
+                            url.append(u)
+            
+            else:
+                for dom in domain:
+                    u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                           _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
+    
+                    url.append(u)
+        
         allvalues = []
         
         ChartColors = choice_colors(len(axis))
         
         for i, x in enumerate(axis[1:]):
-            datas = []
             data = values[x]
 
             for j, d in enumerate(data):
-                dt = {}
-                dt["on-click"]= "function(){onChartClick('" + url[j] + "')}"
-                dt['top'] = d
-                datas.append(dt)
                 allvalues.append(d)
-
-            dataset.append({"text": axis_data[x]['string'],
-                            "type": "bar_3d",
-                            "colour": ChartColors[i],
-                            "values": datas,
-                            "font-size": 10})
 
         yopts = minmx_ticks(allvalues)
 
@@ -454,15 +476,19 @@ class BarChart(GraphData):
                 all_keys.append(data)
 
             stack_val = []
+            cnt = 0
             for j, stk in enumerate(stack_list):
                 sval = []
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
-                    stack["on-click"]= "function(){onChartClick('" + url[j] + "')}"
+                    if s != 0.0:
+                        stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
+                        cnt += 1
+                    stack['tip'] = s
                     sval.append(stack)
                 stack_val.append(sval)
-                
+            
             result = { "elements": [{"type": "bar_stack",
                                      "colours": ChartColors,
                                      "values": [s for s in stack_val],
@@ -475,6 +501,23 @@ class BarChart(GraphData):
                         "tooltip": {"mouse": 2 }}
 
         else:
+            for i, x in enumerate(axis[1:]):
+                datas = []
+                data = values[x]
+    
+                for j, d in enumerate(data):
+                    dt = {}
+                    dt["on-click"]= "function(){onChartClick('" + url[j] + "')}"
+                    dt['top'] = d
+                    datas.append(dt)
+                    allvalues.append(d)
+    
+                dataset.append({"text": axis_data[x]['string'],
+                                "type": "bar_3d",
+                                "colour": ChartColors[i],
+                                "values": datas,
+                            "font-size": 10})
+                
             result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
                                  'stroke': 2},
                       "title": {"text": ""},
@@ -533,6 +576,8 @@ class PieChart(GraphData):
         for i, x in enumerate(label_x):
             val = {}
             val['value'] = value[i]
+            val['text'] = x
+            val['label'] = x
             val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             
             if total_val <> 0.0:
@@ -551,7 +596,13 @@ class PieChart(GraphData):
                         "no-labels": 'true',
                         "values": allvalues})
 
-        result = {"elements": [d for d in dataset],
+        result = {"legend": {"bg_colour": "#fefefe", 
+                             "border": 'true', 
+                             "position": "top", 
+                             "shadow": 'true', 
+                             "visible": 'true' 
+                             }, 
+                  "elements": [d for d in dataset],
                   "bg_colour": "#FFFFFF"}
         
         return result
