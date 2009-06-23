@@ -182,7 +182,7 @@ class Tree(TinyResource):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = url('/tree/open', model=model, id=record['id'])
+            record['action'] = url('/tree/open', model=model, id=record['id'], context=context)
             record['target'] = None
 
             record['icon'] = None
@@ -210,7 +210,7 @@ class Tree(TinyResource):
         params, data = TinyDict.split(datas)
 
         model = params.model
-
+        context = params._terp_context or {}
         ids = data.get('ids') or []
 
         if ids:
@@ -220,7 +220,7 @@ class Tree(TinyResource):
 
         if len(ids):
             from openerp.subcontrollers import actions
-            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
+            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=context, report_type='pdf')
         else:
             raise common.message(_("No record selected!"))
 
