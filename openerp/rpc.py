@@ -419,7 +419,7 @@ class RPCSession(object):
                 if err.message in ('ConcurrencyException') and len(args) > 4:
                     raise common.concurrency(err.message, err.data, args)
                 else:
-                    raise common.warning(err.data)
+                    raise common.warning(err.data, err.message)
             else:
                 raise common.error(_('Application Error!'), err.backtrace)
 
