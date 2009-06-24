@@ -28,6 +28,7 @@
 ###############################################################################
 
 import base64
+import os
 
 from openerp.tools import expose
 from openerp.tools import redirect
@@ -67,13 +68,13 @@ class Image(TinyResource):
             return ''
         
     @expose(content_type='application/octet')
-    def get_picture(self, model, name, id, **kw):
-        try:
-            fname = get_temp_file(model, name, id)
-            return open(fname).read()
-        except Exception, e:
-            raise
-        return ""
+    def get_picture(self, **kw):
+        fname = get_temp_file(**kw)
+        data = open(fname).read()
+        if not data:
+            # empty file that have just been created by get_temp_file
+            raise cherrypy.HTTPError(404)
+        return data
 
     @expose(template="templates/image.mako")
     def add(self, upimage,  **kw):

@@ -29,6 +29,8 @@
 
 import re
 import cherrypy
+import tempfile
+import os
 
 from openerp import validators as tw_validators
 
@@ -269,6 +271,22 @@ class TinyForm(object):
 
     def to_python(self, safe=False):
         return self._convert(True, safe=safe)
+
+
+
+class TempFileName(str):
+    '''A string representing a temporary file name that will be deleted when object is deleted'''
+    def __new__(cls, suffix="", prefix=tempfile.template, dir=None, text=False):
+        fd, fn = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dir, text=text)
+        os.close(fd)
+        return str.__new__(cls, fn)
+
+    def __del__(self):
+        import os   # ensure os module exists
+        if os.path.exists(str(self)):
+            os.unlink(str(self))
+
+
 
 if __name__ == "__main__":
 

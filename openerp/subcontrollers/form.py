@@ -51,6 +51,8 @@ from openerp.tinyres import TinyResource
 from openerp.utils import TinyDict
 from openerp.utils import TinyForm
 
+from openerp.widgets.binary import generate_url_for_picture
+
 def make_domain(name, value):
     """A helper function to generate domain for the given name, value pair.
     Will be used for search window...
@@ -971,6 +973,9 @@ class Form(TinyResource):
 
             if relation and kind in ('many2one', 'reference') and values.get(k):
                 values[k] = [values[k], tw.many2one.get_name(relation, values[k])]
+
+            if kind == 'picture':
+                values[k] = generate_url_for_picture(model, k, ctx.id, values[k])
 
         result['value'] = values
 

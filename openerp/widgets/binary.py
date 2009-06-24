@@ -28,7 +28,7 @@
 ###############################################################################
             
 import base64
-import tempfile
+import time
 
 from openerp import icons
 from openerp import tools
@@ -39,6 +39,7 @@ from openerp import rpc
 from openerp import validators
 from openerp.widgets.interface import TinyInputWidget
 
+from opener.utils import TempFileName
 
 class Binary(TinyInputWidget):
     template = "templates/binary.mako"
@@ -91,20 +92,46 @@ class Image(TinyInputWidget):
             
 
 @cache.memoize(1000, force=True)
-def get_temp_file(m, n, i):
-    t, fn = tempfile.mkstemp()
-    return fn
+def get_temp_file(**kw):
+    return TempFileName()
+
+
+def generate_url_for_picture(model, name, id, value):
+    url = ''
+
+    if isinstance(value, (tuple, list)) and len(value)==2:
+        type, data = value
+    else:
+        type, data = None, value
+        
+    if data:
+        if type == 'stock':
+            stock, size = data
+            url =  icons.get_icon(stock)
+        else:
+            key = "%s,%s:%s@%s" % (model, id or 0, name, time.time())
+            hashkey = str(hash(key))
+            fname = get_temp_file(hash=hashkey)
+            tmp = open(fname, "w")
+            try:
+                tmp.write(base64.decodestring(data))
+            finally:
+                tmp.close()
+             
+            url = tools.url("/image/get_picture", hash=hashkey)
+    else:
+        url = tools.url("/static/images/blank.gif")
+
+    return url
 
 
 class Picture(TinyInputWidget):
     template = """<div style="text-align: center;">
-    <img id="${name}" ${width} ${height} src="${url}"/>
+    <img id="${name}" ${width} ${height} src="${url}" kind="picture"/>
     </div>
     """
 
     params = ["url", "width", "height"]
-    width = 32
-    height = 32
 
     def __init__(self, **attrs):
         super(Picture, self).__init__(**attrs)
@@ -127,30 +154,7 @@ class Picture(TinyInputWidget):
             value = proxy.read([self.id], [self.name], ctx)[0]
             
         value = value.get(self.name) or (None, None)
-
-        if isinstance(value, (tuple, list)) and len(value)==2:
-            type, data = value
-        else:
-            type, data = None, value
-            
-        if data:
-            if type == 'stock':
-                stock, size = data
-                self.url =  icons.get_icon(stock)
-            else:
-                fname = get_temp_file(str(self.model), str(self.name), str(self.id))
-                try:
-                    tmp = open(fname, "w")
-                    try:
-                        tmp.write(base64.decodestring(data))
-                    finally:
-                        tmp.close()
-                except Exception, e:
-                    raise
-                
-                self.url = tools.url("/image/get_picture", model=self.model, name=self.name, id=self.id)
-        else:
-            self.url = tools.url("/static/images/blank.gif")
+        self.url = generate_url_for_picture(self.model, self.name, self.id, value)
 
 
 # vim: ts=4 sts=4 sw=4 si et
