@@ -39,7 +39,7 @@ from openerp import rpc
 from openerp import validators
 from openerp.widgets.interface import TinyInputWidget
 
-from opener.utils import TempFileName
+from openerp.utils import TempFileName
 
 class Binary(TinyInputWidget):
     template = "templates/binary.mako"
