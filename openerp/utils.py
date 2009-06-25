@@ -286,6 +286,11 @@ class TempFileName(str):
         if os.path.exists(str(self)):
             os.unlink(str(self))
 
+    def __copy__(self):
+        return self
+    
+    def __deepcopy__(self, visit):
+        return self
 
 
 if __name__ == "__main__":
