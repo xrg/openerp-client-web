@@ -114,7 +114,7 @@ def setup_server(configfile):
     protocol = app.config['openerp'].get('protocol')
 
     from openerp import rpc
-    rpc.session = rpc.RPCSession(host, port, protocol, storage=CPSessionWrapper())
+    rpc.initialize(host, port, protocol, storage=CPSessionWrapper())
 
 
 def start():

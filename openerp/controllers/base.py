@@ -48,7 +48,7 @@ from openerp.tools import redirect
 @expose(template="templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
 
-    url = rpc.session.get_url()
+    url = rpc.session.connection_string
     url = str(url[:-1])
 
     dblist = rpc.session.listdb()
