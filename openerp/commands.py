@@ -99,7 +99,7 @@ def setup_server(configfile):
     # import profiler while makes profile decorator available as __builtins__
     from openerp import profiler
     
-    from openerp.controllers import Root
+    from openerp.controllers.root import Root
     app = cherrypy.tree.mount(Root(), '/', app_config)
 
     import pkg_resources
