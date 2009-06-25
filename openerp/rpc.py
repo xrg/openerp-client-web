@@ -347,6 +347,9 @@ class RPCSession(object):
 
     def execute_noauth(self, obj, method, *args):
         return self.gateway.execute_noauth(obj, method, *args)
+    
+    def execute_db(self, method, *args):
+        return self.execute_noauth('db', method, *args)
 
 # global session variable, will be initialized with connect
 session = None
