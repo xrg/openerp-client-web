@@ -182,7 +182,7 @@ class Tree(SecuredController):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = url('/tree/open', model=model, id=record['id'], context=ustr(context))
+            record['action'] = url('/tree/open', model=model, id=record['id'])
             record['target'] = None
 
             record['icon'] = None
@@ -212,6 +212,9 @@ class Tree(SecuredController):
         model = params.model
         context = params._terp_context or {}
         ids = data.get('ids') or []
+        
+        ctx = rpc.session.context.copy()
+        ctx.update(context)
 
         if ids:
             ids = [int(id) for id in ids.split(',')]
@@ -220,7 +223,7 @@ class Tree(SecuredController):
 
         if len(ids):
             from openerp.controllers import actions
-            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=context, report_type='pdf')
+            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=ctx, report_type='pdf')
         else:
             raise common.message(_("No record selected!"))
 
