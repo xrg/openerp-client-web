@@ -538,7 +538,7 @@ class Button(TinyInputWidget):
         super(Button, self).__init__(**attrs)
 
         self.states = attrs.get('states', "draft").split(',')
-        self.btype = attrs.get('type', "workflow")
+        self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.icon = attrs.get('icon')
 
         if self.icon:
