@@ -35,6 +35,7 @@ import tiny_socket
 
 from openerp import common
 
+
 class RPCException(Exception):
     """A common exeption class for RPC errors.
     """
@@ -64,6 +65,7 @@ class RPCException(Exception):
     def __str__(self):
         return self.message
 
+
 class RPCGateway(object):
     """Gateway abstraction, that implement common stuffs for rpc gateways.
     All RPC gateway should extends this class.
@@ -85,7 +87,6 @@ class RPCGateway(object):
         @return: the result of the method
         """
         pass
-
 
     @property
     def connection_string(self):
@@ -124,7 +125,6 @@ class RPCGateway(object):
             #print "TERP-CALLING:", obj, method, args
             result = self.__rpc__(obj, method, args, auth=auth)
             #print "TERP-RESULT:", result
-            #return result
             return self.__convert(result)
 
         except socket.error, (e1, e2):
@@ -164,6 +164,7 @@ class RPCGateway(object):
         """
         return self.__execute(obj, method, args, auth=False)
 
+
 class XMLRPCGateway(RPCGateway):
     """XMLRPC implementation.
     """
@@ -184,6 +185,7 @@ class XMLRPCGateway(RPCGateway):
             return getattr(sock, method)(*args)
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
+
 
 class NETRPCGateway(RPCGateway):
     """NETRPC Implementation.
@@ -206,10 +208,12 @@ class NETRPCGateway(RPCGateway):
         except tiny_socket.Myexception, err:
             raise RPCException(err.faultCode, err.faultString)
 
+
 # XXX: Fix openerp server to return PyTZ compatible timezone name
 _TZ_ALIASES = {
     'IST' : 'Asia/Calcutta'
 }
+
 
 class RPCSession(object):
     """Maintains client session and provides way to authenticate 
@@ -351,14 +355,17 @@ class RPCSession(object):
     def execute_db(self, method, *args):
         return self.execute_noauth('db', method, *args)
 
+
 # global session variable, will be initialized with connect
 session = None
+
 
 def initialize(host, port, protocol='socket', storage=None):
     """ Initialize the default rpc session.
     """
     global session
     session = RPCSession(host, port, protocol, storage=storage)
+
 
 class RPCProxy(object):
     """A wrapper arround xmlrpclib, provides pythonic way to access tiny resources.
@@ -377,11 +384,16 @@ class RPCProxy(object):
         self._resource = resource
         self._session = session
         self._attrs = {}
+        
+    def _func_getter(self, name):
+        return lambda *args: self._session.execute("object", "execute", self._resource, name, *args)
 
     def __getattr__(self, name):
-        if not name in self._attrs:
-            self._attrs[name] = lambda *args: self._session.execute("object", "execute", self._resource, name, *args)
+        if name not in self._attrs:
+            return self._attrs.setdefault(name, self._func_getter(name))
         return self._attrs[name]
+
+
 
 if __name__=="__main__":
 
