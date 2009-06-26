@@ -206,6 +206,8 @@ class GraphData(object):
             attrs = tools.node_attributes(node)
             if node.localName == 'field':
                 name = attrs['name']
+                fields[name].update(attrs) # Update fields ...
+                
                 attrs['string'] = fields[name]['string']
 
                 axis.append(ustr(name))
