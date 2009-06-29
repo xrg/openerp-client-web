@@ -7,14 +7,7 @@
         class="${css_class}" ${py.attrs(attrs)}>
         <option value=""></option>
         % for (k, v) in options:
-            % if value == k:
-        <option value="${k}" selected="1">${v}</option>
-            % endif
-        % endfor
-        % for (k, v) in options:
-            % if value != k:
-        <option value="${k}">${v}</option>
-            % endif
+        <option value="${k}" ${py.selector(k==value)}>${v}</option>
         % endfor
     </select>
     % if error:
