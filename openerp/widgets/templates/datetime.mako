@@ -13,19 +13,20 @@
                 <img id="${name}_trigger" width="16" height="16" alt="${_('Select')}" 
                 src="/static/images/stock/stock_calendar.png" class="${css_class}" style="cursor: pointer;"/>
             </td>
-            % endif
-            % if not attrs.get('disabled'):
+            
             <script type="text/javascript">
             
-                var x = $$('input.${css_class}'); x = x[x.length-1];
-                var y = $$('img.${css_class}'); y = y[y.length-1];
-            	var x_val = x ? x: "${name}";
-            	var y_val = y ? y: "${name}_trigger";
+                var dt_field = $$('[id=${name}]');
+                var dt_button = $$('[id=${name}_trigger]');
+                
+                dt_field = dt_field[dt_field.length-1];
+                dt_button = dt_button[dt_button.length-1];
+            
                 Calendar.setup(
                 {
-                    inputField : x_val,
+                    inputField : dt_field,
                     ifFormat : "${format}",
-                    button : y_val,
+                    button : dt_button,
                     showsTime: ${str(picker_shows_time).lower()}
                 });
             </script>
