@@ -583,7 +583,9 @@ class PieChart(GraphData):
             val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             
             if total_val <> 0.0:
-                val["tip"] = x + ' (' + str(round((100 * value[i])/total_val)) + '%)'
+                field_key = (100 * value[i])/total_val
+                field_key = '%.2f' % (field_key)
+                val["tip"] = x + ' (' + field_key + ' %)'
             else:
                 val["tip"] = x
 
