@@ -115,6 +115,10 @@ Many2Many.prototype = {
             this.id.value = '[' + ids.join(',') + ']';
             getElement(this.name).value = ids;
         }
+
+        if (getNodeAttribute(this.id, 'callback')) {
+            onChange(this.id);
+        }
     },
 
     getValue: function(){
