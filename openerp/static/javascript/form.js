@@ -162,7 +162,7 @@ var switch_O2M = function(view_type, src){
     
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-	log(getElement('_terp_list') + "getElement('_terp_list')")
+    
     if (getElement('_terp_list')){
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
