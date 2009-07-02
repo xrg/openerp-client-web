@@ -494,13 +494,14 @@ class ProgressBar(Char):
 
     def get_text(self):
         if isinstance(self.value, float):
-            self.value = '%.2f' % (self.value)
+            self.value = '%.2f' % (self.value)            
             self.value = float(self.value)
             
             if self.value > 100.0:
                 self.range = 100.0
             else:
                 self.range = self.value
+            return self.value
         else:
             self.value = '%d' % (self.value)
             return self.value
