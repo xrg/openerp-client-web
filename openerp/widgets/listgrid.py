@@ -483,9 +483,11 @@ class Int(Char):
 
 class ProgressBar(Char):
 
+    params = ['range']
+
     template = """
         <div style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
-            <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${text}%; height: 100%;"></div>
+            <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${range}%; height: 100%;"></div>
             <div style="position: absolute; top:0px; left: 0px; width: 100%; height: 100%; text-align: center">${text}%</div>
         </div>
     """
@@ -493,7 +495,12 @@ class ProgressBar(Char):
     def get_text(self):
         if isinstance(self.value, float):
             self.value = '%.2f' % (self.value)
-            return self.value
+            self.value = float(self.value)
+            
+            if self.value > 100.0:
+                self.range = 100.0
+            else:
+                self.range = self.value
         else:
             self.value = '%d' % (self.value)
             return self.value
