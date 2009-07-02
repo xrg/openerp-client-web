@@ -827,49 +827,34 @@ class Form(SecuredController):
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-
-        action = params.data
-
-        if not action:
-            return self.do_action('client_action_multi', datas=kw)
-
-        if not params.selection and not params.id:
-            raise common.message(_('You must save this record to use the sidebar button!'))
-
-        from openerp.controllers import actions
-        from openerp.controllers import record
-
+        
         id = params.id or False
         ids = params.selection or []
-
+        
         if not ids and id:
             ids = [id]
-
+            
         if not id and ids:
             id = ids[0]
-
-        params.ids = ids
-        params.id = id
-
-        domain = action.get('domain')
-        context = action.get('context')
-
-        ctx = {'active_id': id, 'active_ids': ids}
-        rec = None
-        if domain:
-            if not rec: rec = record.Record(params)
-            rec.update(ctx)
-            domain = rec.expr_eval(domain, rec)
-
-            action['domain'] = domain
-
-        if context:
-            if not rec: rec = record.Record(params)
-            rec.update(ctx)
-            context = rec.expr_eval(context, rec)
-
-            action['context'] = context
-
+        
+        domain = params.domain or []
+        context = params.context or {}
+        
+        act_id = params.action
+        
+        if not params.selection and not params.id:
+            raise common.message(_('You must save this record to use the sidebar button!'))
+        
+        if not act_id:
+            return self.do_action('client_action_multi', datas=kw)
+        
+        action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
+        action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
+        
+        action['domain'] = domain or []
+        action['context'] = context or {}
+        
+        from openerp.controllers import actions
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
     @expose()
@@ -1006,7 +991,8 @@ class Form(SecuredController):
                 x['string'] = x['name']
                 relates += [{'text': '... '+x['name'],
                              'action': act and "do_relate(%s, '%s', '%s', this)" %(x['id'], field, relation),
-                             'data': "%s"%str(x)}]
+                             'domain': x.get('domain', []),
+                             'context': x.get('context', {})}]
 
         return dict(defaults=defaults, actions=actions, relates=relates)
 

@@ -109,8 +109,8 @@ class Search(Form):
     def eval_domain_and_context(self, **kw):
         params, data = TinyDict.split(kw)
 
-        domain = params.domain
-        context = params.context
+        domain = kw.get('_terp_domain', [])
+        context = kw.get('_terp_context', {})
 
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
@@ -133,7 +133,7 @@ class Search(Form):
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context
-        ctx['active_id'] = params.parent_id or False
+        ctx['active_id'] = params.active_id or params.parent_id or False
 
         if isinstance(domain, basestring):
             domain = tools.expr_eval(domain, ctx)

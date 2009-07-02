@@ -435,6 +435,11 @@ var getFormData = function(extended) {
         
             n = n.replace('/__id', '');
             
+            if ($(n + '/_terp_view_type').value == 'form') {
+                frm[n+'/__id'] = $(n+'/__id').value;
+                return;
+            }
+            
             // skip if editable list's editors are visible
             if ($$('[name^=_terp_listfields/' + n + ']').length) {
                 return;
@@ -688,6 +693,10 @@ function eval_domain_context_request(options){
     params['_terp_prefix'] = prefix;    
     params['_terp_parent_id'] = prefix ? $(prefix + '/_terp_id').value : $('_terp_id').value;
     
+    if (getNodeAttribute(options.source, 'kind') == 'many2one') {
+        params['_terp_active_id'] = $(options.source).value;
+    }
+    
     var parent_context = prefix ? $(prefix + '/_terp_context') : $('_terp_context');
     
     if (parent_context){
@@ -781,7 +790,9 @@ function makeContextMenu(id, kind, relation, val) {
                 var o = obj.relates[r];
                 
                 var a = SPAN({'class': o.action ? '' : 'disabled',
-                           'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '', 'data': o.data}, o.text);
+                              'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '',
+                              'domain': o.domain,
+                              'context': o.context}, o.text);
 
                 rows = rows.concat(a);
             }
@@ -899,13 +910,30 @@ function do_print(id, relation) {
 
 function do_relate(action_id, field, relation, src) {
 
+    //TODO: make this function generic (for context menu & sidebar)
+    //TODO: remove action/relate related stuffs from submit_form
+
     var id = $(field).value;
-    var data = getNodeAttribute(src, 'data');
+    var domain = getNodeAttribute(src, 'domain');
+    var context = getNodeAttribute(src, 'context');
     
-    var act = get_form_action('action');
-    var params = {'_terp_data': data, '_terp_id': id, '_terp_model': relation};
-    
-    window.open(getURL(act, params));
+    var req = eval_domain_context_request({source: $(field).id, 
+                                           domain: domain, 
+                                           context: context});
+                                           
+    req.addCallback(function(obj){
+          
+        var act = get_form_action('action');
+        var params = {
+            '_terp_action': action_id,
+            '_terp_domain': obj.domain, 
+            '_terp_context': obj.context, 
+            '_terp_id': id, 
+            '_terp_model': relation};
+        
+        window.open(getURL(act, params));
+
+    });
 }
 
 function on_context_menu(evt) { 
