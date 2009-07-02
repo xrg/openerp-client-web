@@ -275,7 +275,7 @@ class CalendarPopup(Form):
         form = self.create_form(params, tg_errors)
         return dict(form=form, params=params)
 
-    @expose()
+    @expose('json')
     def get_defaults(self, **kw):
         params, data = TinyDict.split(kw)
         data = {}
