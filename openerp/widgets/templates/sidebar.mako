@@ -50,7 +50,9 @@
                                 </td>
                             </tr>
                             % for item in actions:
-                            <tr data="${item}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                            <tr onclick="do_relate(${item['id']}, '_terp_id', '${model}', this);"
+                                domain="${item.get('domain')}"
+                                context="${item.get('context')}">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
@@ -78,7 +80,9 @@
                                 </td>
                             </tr>
                             % for item in relates:
-                            <tr data="${item}" onclick="submit_form('relate', null, getNodeAttribute(this, 'data'), '${item.get('target', '')}')">
+                            <tr onclick="do_relate(${item['id']}, '_terp_id', '${model}', this);"
+                                domain="${item.get('domain')}"
+                                context="${item.get('context')}">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
