@@ -30,7 +30,7 @@
 import re
 import cherrypy
 
-from openerp import validators as tw_validators
+from openerp import validators
 
 def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
@@ -174,29 +174,29 @@ class TinyDict(dict):
         return res
 
 _VALIDATORS = {
-    'date': lambda *a: tw_validators.DateTime(kind="date"),
-    'time': lambda *a: tw_validators.DateTime(kind="time"),
-    'datetime': lambda *a: tw_validators.DateTime(kind="datetime"),
-    'float_time': lambda *a: tw_validators.FloatTime(),
-    'float': lambda *a: tw_validators.Float(),
-    'integer': lambda *a: tw_validators.Int(),
-    'selection': lambda *a: tw_validators.Selection(),
-    'char': lambda *a: tw_validators.String(),
-    'boolean': lambda *a: tw_validators.Bool(),
-    'reference': lambda *a: tw_validators.Reference(),
-    'binary': lambda *a: tw_validators.Binary(),
-    'text': lambda *a: tw_validators.String(),
-    'text_tag': lambda *a: tw_validators.String(),
-    'many2many': lambda *a: tw_validators.many2many(),
-    'many2one': lambda *a: tw_validators.many2one(),
-    'email' : lambda *a: tw_validators.Email(),
-    'url' : lambda *a: tw_validators.URL(),
-	'picture': lambda *a: tw_validators.Binary(),
+    'date': lambda *a: validators.DateTime(kind="date"),
+    'time': lambda *a: validators.DateTime(kind="time"),
+    'datetime': lambda *a: validators.DateTime(kind="datetime"),
+    'float_time': lambda *a: validators.FloatTime(),
+    'float': lambda *a: validators.Float(),
+    'integer': lambda *a: validators.Int(),
+    'selection': lambda *a: validators.Selection(),
+    'char': lambda *a: validators.String(),
+    'boolean': lambda *a: validators.Bool(),
+    'reference': lambda *a: validators.Reference(),
+    'binary': lambda *a: validators.Binary(),
+    'text': lambda *a: validators.String(),
+    'text_tag': lambda *a: validators.String(),
+    'many2many': lambda *a: validators.many2many(),
+    'many2one': lambda *a: validators.many2one(),
+    'email' : lambda *a: validators.Email(),
+    'url' : lambda *a: validators.URL(),
+	'picture': lambda *a: validators.Binary(),
 }
 
-class TinyFormError(tw_validators.Invalid):
+class TinyFormError(validators.Invalid):
     def __init__(self, field, msg, value):
-        tw_validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
+        validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
         self.field = field
 
 class TinyForm(object):
@@ -232,11 +232,17 @@ class TinyForm(object):
             value = attrs.get('value')
 
             required = attrs.get('required', False)
+            
+            if kind == "one2many":
+                try:
+                    value = eval(value) or [(0, 0, [])]
+                except:
+                    pass
 
-            if kind not in _VALIDATORS:
+            elif kind not in _VALIDATORS:
                 kind = 'char'
 
-            v = _VALIDATORS[kind]()
+            v = _VALIDATORS.get(kind, validators.DefaultValidator)()
             v.not_empty = (required or False) and True
 
             try:
@@ -245,11 +251,12 @@ class TinyForm(object):
                 else:
                     value = v.from_python(value, None)
 
-            except tw_validators.Invalid, e:
+            except validators.Invalid, e:
                 if form and not safe:
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
 
             kw[name] = value
+
 
         # Prevent auto conversion from TinyDict
         _eval = TinyDict._eval
