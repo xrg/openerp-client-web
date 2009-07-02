@@ -7,7 +7,7 @@
                     <td>
                         % if inline:
                         <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' value="${screen.ids}" ${py.attrs(attrs)} relation="${relation}"/>
-                        <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${screen.ids}"/>
+                        <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${screen.ids}" relation="${relation}"/>
                         <input type="text" class="${css_class}" value="(${len(screen.ids or [])})" readonly="0" id='${name}_set' kind="${kind}" ${py.attrs(attrs)} style="width: 100%; text-align: center;"/>
                         % else:
                         <input type="text" class="${css_class}" id='${name}_set' kind="${kind}" ${py.attrs(attrs)} style="width: 100%;"/>

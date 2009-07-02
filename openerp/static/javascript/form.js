@@ -415,7 +415,9 @@ var getFormData = function(extended) {
     fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
     fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
     fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
-    fields = fields.concat(filter(function(e){return getNodeAttribute(e,'kind')=='picture';}, getElementsByTagAndClassName('img', null, parentNode)));
+    fields = fields.concat(filter(function(e){
+        return getNodeAttribute(e,'kind')=='picture';
+        }, getElementsByTagAndClassName('img', null, parentNode)));
 
     forEach(fields, function(e){
 
@@ -429,9 +431,28 @@ var getFormData = function(extended) {
             return;
 
         // work arround to skip o2m values (list mode)
-        if (n.indexOf('/__id').length > 0)
-            return;
+        if (n.indexOf('/__id') > 0) {
+        
+            n = n.replace('/__id', '');
             
+            // skip if editable list's editors are visible
+            if ($$('[name^=_terp_listfields/' + n + ']').length) {
+                return;
+            }
+            
+            var value = $(n + '/_terp_ids').value;
+            
+            if (extended) {
+                value = {'value': value, 
+                         'type': 'one2many', 
+                         'relation': $(n + '/_terp_model').value};
+                value = serializeJSON(value);
+            }
+            
+            frm[n] = value;
+            return;
+        }
+
         if (extended && n.indexOf('/__id') == -1) {
 
             var attrs = {};
@@ -481,10 +502,9 @@ var getFormData = function(extended) {
                 n = e.id;
             }
 
-            // pythonize the attr object
-            attrs = map(function(x){return '"' + x[0] + '"' + ':' + '"' + x[1] + '"'}, items(attrs));
-            frm[n] = "{" + attrs.join(", ") + "}";
-
+            // stringify the attr object
+            frm[n] = serializeJSON(attrs);
+            
         } else {
             frm[n] = e.value;
         }
