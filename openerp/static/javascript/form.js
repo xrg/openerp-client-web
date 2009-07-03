@@ -659,12 +659,14 @@ function eval_domain_context_request(options){
     params['_terp_domain'] = options.domain;
     params['_terp_context'] = options.context;
     params['_terp_prefix'] = prefix;    
-    params['_terp_parent_id'] = prefix ? $(prefix + '/_terp_id').value : $('_terp_id').value;
+    params['_terp_active_id'] = prefix ? $(prefix + '/_terp_id').value : $('_terp_id').value;
+    params['_terp_active_ids'] = prefix ? $(prefix + '/_terp_ids').value : $('_terp_ids').value;
     
-    if (getNodeAttribute(options.source, 'kind') == 'many2one') {
-        params['_terp_active_id'] = $(options.source).value;
+    if (options.active_id) {
+        params['_terp_active_id'] = options.active_id;
+        params['_terp_active_ids'] = options.active_ids;
     }
-    
+        
     var parent_context = prefix ? $(prefix + '/_terp_context') : $('_terp_context');
     
     if (parent_context){
@@ -885,7 +887,9 @@ function do_action(action_id, field, relation, src) {
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
     
-    var req = eval_domain_context_request({source: $(field).id, 
+    var req = eval_domain_context_request({source: $(field).id,
+                                           active_id: id,
+                                           active_ids: params['_terp_selection'],
                                            domain: domain, 
                                            context: context});
                                            
