@@ -133,8 +133,12 @@ class Search(Form):
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context
-        ctx['active_id'] = params.active_id or params.parent_id or False
-
+        ctx['active_id'] = params.active_id or False
+        ctx['active_ids'] = params.active_ids or []
+        
+        if params.active_id and not params.active_ids:
+            ctx['active_ids'] = [params.active_id]
+        
         if isinstance(domain, basestring):
             domain = tools.expr_eval(domain, ctx)
 
