@@ -260,10 +260,10 @@ var validate_required = function(form) {
     return result;
 }
 
-var submit_form = function(action, src, data, target){
+var submit_form = function(action, src, target){
     
     if (Ajax.COUNT > 0) {
-        return callLater(1, submit_form, action, src, data);
+        return callLater(1, submit_form, action, src, target);
     }
 
     if (action == 'delete' && !confirm(_('Do you really want to delete this record?'))) {
@@ -276,43 +276,10 @@ var submit_form = function(action, src, data, target){
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
 
     var args = {
-        _terp_source: source,
-        _terp_data: data ? data : null
+        _terp_source: source
     };
-
-    if ((action == 'action' || action == 'relate') && $('_terp_list')){
-        var list = new ListView('_terp_list');
-        var ids = list.getSelectedRecords();
-
-        if (ids.length == 0) {
-           return alert(_('You must select at least one record.'));
-        }
-
-        args['_terp_selection'] = '[' + ids.join(',') + ']';
-    }
-
-    if ((action == 'action' || action == 'relate') && !getElement('_terp_list')){
-
-        var cur_id = getElement('_terp_id').value;
-        cur_id = parseInt(cur_id) || 0;
-
-        if (!cur_id) {
-           return alert(_('You must save this record to use the relate button!'));
-        }
-    }
-    
-    if (action == 'relate' && target == 'new') {
-        
-        args['_terp_model'] = getElement('_terp_model').value;
-        args['_terp_id'] = getElement('_terp_id').value;
-        args['_terp_domain'] = getElement('_terp_domain').value;
-        args['_terp_context'] = getElement('_terp_context').value;
-        
-        var act = get_form_action('relate', args);
-        return openWindow(act);
-    }
    
-    if (target == "new" || action == 'report' || (action == 'action' && data)){
+    if (target == "new"){
         setNodeAttribute(form, 'target', '_blank');
     }
     
@@ -378,14 +345,15 @@ var buttonClicked = function(name, btype, model, id, sure, target){
         return;
     }
 
-    params = {};
+    var params = {};
 
     params['_terp_button/name'] = name;
     params['_terp_button/btype'] = btype;
     params['_terp_button/model'] = model;
     params['_terp_button/id'] = id;
-
-    submit_form(get_form_action(btype == 'cancel' ? 'cancel' : 'save', params), null, null, target);
+    
+    var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+    submit_form(act, null, target);
 }
 
 var onBooleanClicked = function(name) {
@@ -888,17 +856,7 @@ function set_as_default(field, model){
     });
 }
 
-function do_action(id, relation) {
-
-    id = $(id).value;
-
-    var act = get_form_action('action');
-    var params = {'_terp_model': relation, '_terp_id': id};
-
-    window.open(getURL(act, params));
-}
-
-function do_print(id, relation) {
+function do_report(id, relation) {
 
     id = $(id).value;
 
@@ -908,10 +866,20 @@ function do_print(id, relation) {
     window.open(getURL(act, params));
 }
 
-function do_relate(action_id, field, relation, src) {
+function do_action(action_id, field, relation, src) {
+    
+    var params = {};
+    
+    if ($('_terp_list')) {
+        var list = new ListView('_terp_list');
+        var ids = list.getSelectedRecords();
 
-    //TODO: make this function generic (for context menu & sidebar)
-    //TODO: remove action/relate related stuffs from submit_form
+        if (ids.length == 0) {
+           return alert(_('You must select at least one record.'));
+        }
+
+        params['_terp_selection'] = '[' + ids.join(',') + ']';
+    }
 
     var id = $(field).value;
     var domain = getNodeAttribute(src, 'domain');
@@ -924,12 +892,12 @@ function do_relate(action_id, field, relation, src) {
     req.addCallback(function(obj){
           
         var act = get_form_action('action');
-        var params = {
+        MochiKit.Base.update(params, {
             '_terp_action': action_id,
             '_terp_domain': obj.domain, 
             '_terp_context': obj.context, 
-            '_terp_id': id, 
-            '_terp_model': relation};
+            '_terp_id': id,
+            '_terp_model': relation});
         
         window.open(getURL(act, params));
 

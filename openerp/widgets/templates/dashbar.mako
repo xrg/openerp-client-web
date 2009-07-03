@@ -8,7 +8,7 @@
                     <td>
                         <img class="dashlet-button" 
                              src="/static/images/stock/gtk-zoom-in.png" 
-                             onclick="submit_form('dashlet', '${dashlet.name}', null, 'new')"/>
+                             onclick="submit_form('dashlet', '${dashlet.name}', 'new')"/>
                     </td>
                 </tr>
             </table>

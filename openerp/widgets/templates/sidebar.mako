@@ -22,7 +22,7 @@
                             </tr>
     
                             % for item in reports:
-                            <tr data="${item}" onclick="submit_form('action', null, getNodeAttribute(this, 'data'))">
+                            <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
                                 <td>
                                     <a href="javascript: void(0)">${item['name']}</a>
                                 </td>
@@ -50,7 +50,7 @@
                                 </td>
                             </tr>
                             % for item in actions:
-                            <tr onclick="do_relate(${item['id']}, '_terp_id', '${model}', this);"
+                            <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);"
                                 domain="${item.get('domain')}"
                                 context="${item.get('context')}">
                                 <td>
@@ -80,7 +80,7 @@
                                 </td>
                             </tr>
                             % for item in relates:
-                            <tr onclick="do_relate(${item['id']}, '_terp_id', '${model}', this);"
+                            <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);"
                                 domain="${item.get('domain')}"
                                 context="${item.get('context')}">
                                 <td>
