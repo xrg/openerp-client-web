@@ -821,10 +821,6 @@ class Form(SecuredController):
                                                                            'type':'ir.actions.report.xml'}}, datas=kw)
 
     @expose()
-    def relate(self, **kw):
-        return self.action(**kw)
-
-    @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
         
@@ -980,8 +976,8 @@ class Form(SecuredController):
 
             act = (value or None) and "javascript: void(0)"
 
-            actions = [{'text': 'Action', 'action': act and "do_action('%s', '%s')" %(field, relation)},
-                       {'text': 'Report', 'action': act and "do_print('%s', '%s')" %(field, relation)}]
+            actions = [{'text': 'Action', 'action': act and "do_action(null, '%s', '%s', this)" %(field, relation)},
+                       {'text': 'Report', 'action': act and "do_report('%s', '%s')" %(field, relation)}]
 
             res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
             res = [x[2] for x in res]
@@ -990,7 +986,7 @@ class Form(SecuredController):
                 act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
                 relates += [{'text': '... '+x['name'],
-                             'action': act and "do_relate(%s, '%s', '%s', this)" %(x['id'], field, relation),
+                             'action': act and "do_action(%s, '%s', '%s', this)" %(x['id'], field, relation),
                              'domain': x.get('domain', []),
                              'context': x.get('context', {})}]
 

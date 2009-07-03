@@ -4,7 +4,7 @@
     <title>${tree.string}</title>
     <script type="text/javascript">
 
-        function submit_form(action, src, data, target){
+        function submit_form(action, src, target){
             
             var selection = MochiKit.DOM.getElement('tree_ids').value;
             
@@ -13,12 +13,9 @@
             }
             
             var form = document.forms['view_tree'];
-            
             var args = {
-                _terp_data: data ? data : null
-            };
-            
-            args['_terp_selection'] = '[' + selection + ']';
+                '_terp_selection': '[' + selection + ']'
+            }
 
             setNodeAttribute(form, 'action', getURL('/tree/' + action, args));
             form.method = 'post';
