@@ -97,12 +97,11 @@ class RangeWidget(TinyInputWidget):
 class Filter(TinyInputWidget):
     template = "templates/filter.mako"
     
-    params = ['icon', 'filter_domain', 'help', 'filter_id', 'filter_model', 'text_val']
+    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val']
     
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
         
-        self.filter_model = attrs.get('model')
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain')
         self.help = attrs.get('help')

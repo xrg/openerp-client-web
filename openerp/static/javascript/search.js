@@ -92,6 +92,36 @@ var remove_row = function(id) {
 	}
 }
 
+var do_filter = function() {
+	
+	var filter_table = $('filter_table');
+	datas = $$('[name]', 'search_filter_data');
+	domains = '';
+	forEach(datas, function(d) {
+		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {
+			if (filter_table.style.display == 'none') {
+				value = d.value;
+				if (getNodeAttribute(d, 'kind') == 'selection') {
+					value = parseInt(d.value);
+					domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', ' + value + ')]';
+				}
+				else {
+					domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', \'' + value + '\')]';	
+				}
+			}
+//			else {
+//				if (d.name == 'fields' || d.name == 'domain_text' || d.name == 'qstring')
+//					log('[(\'' + d.name + '\',' + d.value + ',\'' + d.value + '\')]');
+//			}
+		}
+	});
+	
+	domain = domains.replace(/(]\[)/g, ',');
+	src = '';
+	search_filter(src, domain);
+}
+
+// Direct click on icon.
 var search_image_filter = function(src, id) {
 	domain = getNodeAttribute(id, 'value');
 	search_filter(src, domain);
@@ -130,7 +160,6 @@ var getSelectedDomain = function() {
 
 var SelectedDomains = function() {
     return map(function(box){
-    	log("box..."+box.value);
         return box.value;
     }, this.getSelectedDomain());
 }
