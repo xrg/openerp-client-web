@@ -63,7 +63,7 @@ class Frame(TinyInputWidget):
 
     template = "templates/frame.mako"
 
-    params = ['table']
+    params = ['table', 'label_position']
     member_widgets = ['hiddens', 'children']
 
     table = None
@@ -74,6 +74,8 @@ class Frame(TinyInputWidget):
 
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
+        
+        self.label_position = attrs.get('label_position', False)
 
         self.x = 0
         self.y = 0
@@ -272,13 +274,13 @@ class Separator(TinyInputWidget):
     """
 
     template = "templates/separator.mako"
-    params = ["position"]
+    params = ["orientation"]
     
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
 
         self.colspan = int(attrs.get('colspan', 4))
-        self.position = attrs.get('position', False)
+        self.orientation = attrs.get('orientation', False)
         self.rowspan = 1
         self.nolabel = True
 
