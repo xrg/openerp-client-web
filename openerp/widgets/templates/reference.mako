@@ -19,7 +19,7 @@
                 </select>
             </td>
             <td>
-                <input type="text" id='${name}_text' class="${css_class}" ${py.attrs(attrs, kind=kind, relation=relation, value=value)}/>
+                <input type="text" id='${name}_text' class="${css_class}" ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
                 % if error:
                 <span class="fielderror">${error}</span>
                 % endif
