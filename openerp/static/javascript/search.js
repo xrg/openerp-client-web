@@ -96,7 +96,10 @@ var do_filter = function() {
 	
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');
+	
 	domains = '';
+	check_domain = '';
+	
 	forEach(datas, function(d) {
 		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {
 			if (filter_table.style.display == 'none') {
@@ -109,41 +112,55 @@ var do_filter = function() {
 					domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', \'' + value + '\')]';	
 				}
 			}
-//			else {
-//				if (d.name == 'fields' || d.name == 'domain_text' || d.name == 'qstring')
-//					log('[(\'' + d.name + '\',' + d.value + ',\'' + d.value + '\')]');
-//			}
 		}
+		else if (d.type=='checkbox') {
+			id = SelectedDomains();
+			id = id.toString();
+			
+			if (id.length > 0) {
+				check_domain = id.replace(/(]\,\[)/g, ', ');
+			}
+			else {
+				check_domain = 'None';
+			}
+		}
+//		if (d.name == 'fields' && d.name == 'domain_text' && d.name == 'qstring') {
+//			if (d.name == 'fields') {
+//				var que = d.value;
+//			}
+//			else if(d.name == 'domain_text') {
+//				var expr = d.value;
+//			}
+//			else if (d.name == 'qstring') {
+//				var val = d.value
+//			}
+//			log('[(\'' + que + '\',' + expr + ',\'' + val + '\')]');
+//		}
 	});
+		
+	domain = domains.replace(/(]\[)/g, ', ');
 	
-	domain = domains.replace(/(]\[)/g, ',');
-	src = '';
-	search_filter(src, domain);
+	if(check_domain != 'None') {
+		ch_dom = domain + check_domain;
+		domain = ch_dom.replace(/(]\[)/g, ', ');
+	}
+	
+	search_filter(domain);
 }
 
 // Direct click on icon.
 var search_image_filter = function(src, id) {
 	domain = getNodeAttribute(id, 'value');
-	search_filter(src, domain);
+	search_filter(domain);
 }
 
-var search_filter = function(src, domain) {
-	var type = getNodeAttribute(src, 'type');
+var search_filter = function(domain) {
+	
+	if (!domain) {
+		domain = 'None';
+	}
 	
 	var lst = new ListView('_terp_list');
-	var ids = []
-	
-	if (type=='checkbox') {
-		id = SelectedDomains();
-		id = id.toString();
-		
-		if (id.length > 0) {
-			domain = id.replace(/(]\,\[)/g, ',');
-		}
-		else {
-			domain = 'None';
-		}
-	}
 	var req = eval_domain_context_request({source: '_terp_list', domain: domain});
 
     req.addCallback(function(obj){

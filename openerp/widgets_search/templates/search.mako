@@ -31,7 +31,7 @@
 	                % for f in filters_list:
 	                <option value="${f[0]}">${f[1]}</option>
 	                % endfor
-	            </select>            
+	            </select>
 	    	</td>
 	    	<td>
 	    		<img width="18" height="18" src="/static/images/stock-disabled/gtk-add.png" onclick="add_filter_row();" style="cursor: pointer;"/>
