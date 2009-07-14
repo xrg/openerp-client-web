@@ -257,6 +257,21 @@
             </td>
         </tr>
         <tr>
+        	<td>
+        		<fieldset>
+                    <legend>${_("Select an Option to Export")}</legend>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="checkbox" name="import_compat" checked="checked"/>
+                            </td>
+                            <td>${_("Import Compatible")}</td>
+                        </tr>
+                    </table>
+                </fieldset>
+        	</td>
+        </tr>
+        <tr>
             <td>
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">

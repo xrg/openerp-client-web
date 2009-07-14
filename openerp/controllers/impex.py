@@ -194,7 +194,8 @@ class ImpEx(SecuredController):
             pass
 
         fields = _fields_get_all(model, views)
-
+        fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
+        
         fields_order = fields.keys()
         fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
 
@@ -330,22 +331,31 @@ class ImpEx(SecuredController):
         return rec(fields)
 
     @expose(content_type="application/octet-stream")
-    def export_data(self, fname, fields, export_as="csv", add_names=False, **kw):
+    def export_data(self, fname, fields, export_as="csv", add_names=False, import_compat=False, **kw):
 
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
-
+        
         if isinstance(fields, basestring):
             fields = [fields]
 
         ctx = {}
         ctx.update(rpc.session.context.copy())
-
+        ctx['import_comp'] = import_compat
+        
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
         result = datas_read(ids, params.model, fields)
-
+        
+        if result.get('warning', False):
+            common.message_box(_('Exportation Error !'), unicode(result.get('warning', False)))
+            return False
+        result = result.get('datas',[])
+        
+        if import_compat:
+            params.fields2 = fields
+        
         if export_as == 'excel':
             #add_names = True
             pass
