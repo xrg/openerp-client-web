@@ -46,7 +46,7 @@ var add_filter_row = function() {
 	
 	else{
 		
-		var old_tr = MochiKit.DOM.getFirstElementByTagAndClassName('tr', null, filter_table)
+		var old_tr = MochiKit.DOM.getFirstElementByTagAndClassName('tr', null, filter_table);
 		
 		var new_tr = old_tr.cloneNode(true);
 		
@@ -56,12 +56,48 @@ var add_filter_row = function() {
 			id = id + 1;
 			new_tr.id = keys[0] + '/' + id;
 			
+			var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
+			
+			var fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'fields', new_tr);
+			var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
+			var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
+			
+			var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
+			
+			aid = and_or.id.split('/')[0];
+			and_or.id = aid + '/' + id;
+			
+			fcid = filter_column.id.split('/')[0];
+			filter_column.id = fcid + '/' + id;
+			
+			fid = fields.id.split('/')[0];
+			fields.id = fid + '/' + id;
+			
+			eid = expr.id.split('/')[0];
+			expr.id = eid + '/' + id;
+			
+			qid = qstring.id.split('/')[0];
+			qstring.id = qid + '/' + id;
+			
 			insertSiblingNodesBefore(old_tr, new_tr);
 		}
 		else {
 			new_tr.id = new_tr.id +'/'+ row_id;
 			
+			var filter_column = MochiKit.DOM.getElementsByTagAndClassName('td', 'filter_column', new_tr);
+			
+			var fields = MochiKit.DOM.getElementsByTagAndClassName('select', 'fields', new_tr);
+			var expr = MochiKit.DOM.getElementsByTagAndClassName('select', 'expr', new_tr);
+			var qstring = MochiKit.DOM.getElementsByTagAndClassName('input', 'qstring', new_tr);
+			
+			filter_column.id = filter_column.id + '/' + row_id;
+			
+			fields.id = fields.id + '/' + row_id;
+			expr.id = expr.id + '/' + row_id;
+			qstring.id = qstring.id + '/' + row_id;
+			
 			var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
+			and_or.id = and_or.id + '/' + row_id;
 			
 			var select_andor = document.createElement('select');
 			var option = document.createElement('option');
@@ -101,8 +137,8 @@ var do_filter = function() {
 	check_domain = '';
 	
 	forEach(datas, function(d) {
-		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {
-			if (filter_table.style.display == 'none') {
+		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {			
+			if(filter_table.style.display == 'none') {
 				value = d.value;
 				if (getNodeAttribute(d, 'kind') == 'selection') {
 					value = parseInt(d.value);
@@ -124,20 +160,32 @@ var do_filter = function() {
 				check_domain = 'None';
 			}
 		}
-//		if (d.name == 'fields' && d.name == 'domain_text' && d.name == 'qstring') {
-//			if (d.name == 'fields') {
-//				var que = d.value;
-//			}
-//			else if(d.name == 'domain_text') {
-//				var expr = d.value;
-//			}
-//			else if (d.name == 'qstring') {
-//				var val = d.value
-//			}
-//			log('[(\'' + que + '\',' + expr + ',\'' + val + '\')]');
-//		}
 	});
-		
+	
+	if(filter_table.style.display != 'none') {
+		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
+		forEach(children, function(ch){
+			ids = ch['id'];	// row id...
+			id = ids.split('/')[1];
+			
+			var q_id = '';
+			var qid = 'qstring';
+			var fid = 'fields';
+			var eid = 'expr';
+			
+			if(id && id.indexOf('/')!= -1) {
+				var q_id = 'qstring/' + id;
+				var fid = 'fields/' + id;
+				var eid = 'expr/' + id;
+				var and_or = 'and_or/' + id;
+			}
+			//  || ($(q_id).value && $(and_or).value == 'AND')
+			if ($(qid) && $(qid).value) {
+				domains += '[(\'' + $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')]';
+			}
+		});
+	}
+			
 	domain = domains.replace(/(]\[)/g, ', ');
 	
 	if(check_domain != 'None') {
