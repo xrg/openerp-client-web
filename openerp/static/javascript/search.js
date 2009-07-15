@@ -137,16 +137,14 @@ var do_filter = function() {
 	check_domain = '';
 	
 	forEach(datas, function(d) {
-		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {			
-			if(filter_table.style.display == 'none') {
-				value = d.value;
-				if (getNodeAttribute(d, 'kind') == 'selection') {
-					value = parseInt(d.value);
-					domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', ' + value + ')]';
-				}
-				else {
-					domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', \'' + value + '\')]';	
-				}
+		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {
+			value = d.value;
+			if (getNodeAttribute(d, 'kind') == 'selection') {
+				value = parseInt(d.value);
+				domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', ' + value + ')]';
+			}
+			else {
+				domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', \'' + value + '\')]';	
 			}
 		}
 		else if (d.type=='checkbox') {
