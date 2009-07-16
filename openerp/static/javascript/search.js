@@ -180,7 +180,7 @@ var do_filter = function() {
 					}
 				}
 				else {
-					dom += '[\'|\',(' +  $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')' + ']';
+					dom += '[\'|\',(\'' +  $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')' + ']';
 				}
 				log(dom);
 			}
