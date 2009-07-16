@@ -111,10 +111,10 @@ class Search(Form):
 
         domain = kw.get('_terp_domain', [])
         context = kw.get('_terp_context', {})
-
+        
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
-
+        
         try:
             ctx = TinyForm(**kw).to_python()
             pctx = ctx
@@ -153,7 +153,10 @@ class Search(Form):
             for key, val in context.items():
                 if val==None:
                     context[key] = False
-
+                    
+        ctx2 = parent_context
+        context.update(ctx2)
+        
         return dict(domain=ustr(domain), context=ustr(context))
 
     @expose('json')
