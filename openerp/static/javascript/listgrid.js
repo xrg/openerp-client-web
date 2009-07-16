@@ -301,8 +301,7 @@ MochiKit.Base.update(ListView.prototype, {
                         context: $(prefix + '_terp_context').value,
                         limit: $(prefix + '_terp_limit').value,
                         offset: $(prefix + '_terp_offset').value,
-                        count: $(prefix + '_terp_count').value,
-                        }));
+                        count: $(prefix + '_terp_count').value}));
         }
 
         name = name.split('.').pop();
