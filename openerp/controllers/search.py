@@ -153,6 +153,9 @@ class Search(Form):
             for key, val in context.items():
                 if val==None:
                     context[key] = False
+        
+        ctx2 = parent_context
+        context.update(ctx2)
 
         return dict(domain=ustr(domain), context=ustr(context))
 
