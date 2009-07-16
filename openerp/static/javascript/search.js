@@ -165,7 +165,7 @@ var do_filter = function() {
 		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
 		forEach(children, function(ch){
 			ids = ch['id'];	// row id...
-						
+			dom = '';
 			if(ids && ids.indexOf('/')!= -1) {
 				id = ids.split('/')[1];
 				
@@ -173,9 +173,16 @@ var do_filter = function() {
 				var fid = 'filter_fields/' + id;
 				var eid = 'expr/' + id;
 				var and_or = 'and_or/' + id;
-				if ($(qid) && $(qid).value) {
-					domains += '[(\'' + $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')]';
+				
+				if ($(and_or).value == 'AND') {
+					if ($(qid) && $(qid).value) {
+						domains += '[(\'' + $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')]';
+					}
 				}
+				else {
+					dom += '[\'|\',(' +  $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')' + ']';
+				}
+				log(dom);
 			}
 			else {
 				var qid = 'qstring';
