@@ -297,7 +297,7 @@ class NewLine(TinyInputWidget):
 class Label(TinyInputWidget):
 
     template = """
-    <div style="text-align: $align; width: 100%;">
+    <div style="text-align: ${align}; width: 100%;">
         ${field_value}
     </div>"""
 
