@@ -141,7 +141,12 @@ class Search(Form):
         
         if isinstance(domain, basestring):
             domain = tools.expr_eval(domain, ctx)
-
+            
+        if domain and len(domain) >= 2 and domain[-2] in ['&','|']: # For custom domain ('AND', OR') from search view.
+            dom1 = domain[-1:]
+            dom2 = domain[:-2]
+            domain = dom2 + dom1
+        
         if isinstance(context, basestring):
             if not context.startswith('{'):
                 context = "dict(%s)"%context

@@ -67,6 +67,10 @@ var add_filter_row = function() {
 			aid = and_or.id.split('/')[0];
 			and_or.id = aid + '/' + id;
 			
+			var select_andor = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'select_andor', and_or);
+			sid = select_andor.id.split('/')[0];
+			select_andor.id = sid + '/' + id;
+			
 			fcid = filter_column.id.split('/')[0];
 			filter_column.id = fcid + '/' + id;
 			
@@ -100,6 +104,9 @@ var add_filter_row = function() {
 			and_or.id = and_or.id + '/' + row_id;
 			
 			var select_andor = document.createElement('select');
+			select_andor.id = 'select_andor/' + row_id;
+			select_andor.className = 'select_andor';
+			
 			var option = document.createElement('option');
 
 			vals.push('AND');
@@ -161,28 +168,31 @@ var do_filter = function() {
 		}
 	});
 	
+	var custom_dom = '';
+	
 	if(filter_table.style.display != 'none') {
 		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
 		forEach(children, function(ch){
-			ids = ch['id'];	// row id...
-			dom = '';
+			
+			ids = ch['id'];	// row id...			
+			
 			if(ids && ids.indexOf('/')!= -1) {
 				id = ids.split('/')[1];
 				
 				var qid = 'qstring/' + id;
 				var fid = 'filter_fields/' + id;
 				var eid = 'expr/' + id;
-				var and_or = 'and_or/' + id;
+				var select_andor = 'select_andor/' + id;
 				
-				if ($(and_or).value == 'AND') {
-					if ($(qid) && $(qid).value) {
-						domains += '[(\'' + $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')]';
-					}
+				if ($(select_andor).value == 'AND') {
+					var operator = '&';	
 				}
 				else {
-					dom += '[\'|\',(\'' +  $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')' + ']';
+					var operator = '|';
 				}
-				log(dom);
+				if ($(qid) && $(qid).value) {
+					domains += '[\'' + operator +'\',(\'' +  $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')' + ']';
+				}
 			}
 			else {
 				var qid = 'qstring';
@@ -194,7 +204,7 @@ var do_filter = function() {
 			}
 		});
 	}
-			
+	
 	domain = domains.replace(/(]\[)/g, ', ');
 	
 	if(check_domain != 'None') {
