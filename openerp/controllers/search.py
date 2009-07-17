@@ -162,6 +162,34 @@ class Search(Form):
         return dict(domain=ustr(domain), context=ustr(context))
 
     @expose('json')
+    def eval_domain_filter(self, **kw):
+        print "================== kw..", kw
+        
+        field_type = kw.get('field_type')
+        domains = eval(kw.get('domains'))
+        context = rpc.session.context
+        
+        domain = []
+        check_domain = []
+        # TODO: domain none problem.
+        if field_type == 'checkbox':
+            check_domain = kw.get('check_domain')
+        
+        if check_domain and isinstance(check_domain, basestring):
+            domain = tools.expr_eval(check_domain, context)
+                    
+        if domain == None:
+            domain = []
+            
+        if domains:
+            for key in domains:
+                domain += [(key, '=', domains[key])]
+        
+        if not domain:
+            domain = None
+        return dict(domain=ustr(domain))
+
+    @expose('json')
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
 

@@ -5,7 +5,7 @@
 	    	<td align="right" class="filter_column" id="filter_column">
 	    		<select id="filter_fields" class="filter_fields">
 	    			% for field in fields_list:
-	                	<option value="${field[0]}">${field[1]}</option>
+	                	<option kind="${field[2]}" value="${field[0]}">${field[1]}</option>
 	                % endfor
 	            </select>
 	    		<select id="expr" class="expr">

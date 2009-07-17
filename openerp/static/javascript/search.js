@@ -135,105 +135,69 @@ var remove_row = function(id) {
 		$('qstring').value = '';
 	}
 }
-
-var do_filter = function() {
-	
-	var filter_table = $('filter_table');
-	datas = $$('[name]', 'search_filter_data');
-	
-	domains = '';
-	check_domain = '';
-	
-	forEach(datas, function(d) {
-		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {
-			value = d.value;
-			if (getNodeAttribute(d, 'kind') == 'selection') {
-				value = parseInt(d.value);
-				domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', ' + value + ')]';
-			}
-			else {
-				domains += '[(\'' + d.name + '\', ' + '\'=\'' + ', \'' + value + '\')]';	
-			}
-		}
-		else if (d.type=='checkbox') {
-			id = SelectedDomains();
-			id = id.toString();
-			
-			if (id.length > 0) {
-				check_domain = id.replace(/(]\,\[)/g, ', ');
-			}
-			else {
-				check_domain = 'None';
-			}
-		}
-	});
-	
-	var custom_dom = '';
-	
-	if(filter_table.style.display != 'none') {
-		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
-		forEach(children, function(ch){
-			
-			ids = ch['id'];	// row id...			
-			
-			if(ids && ids.indexOf('/')!= -1) {
-				id = ids.split('/')[1];
-				
-				var qid = 'qstring/' + id;
-				var fid = 'filter_fields/' + id;
-				var eid = 'expr/' + id;
-				var select_andor = 'select_andor/' + id;
-				
-				if ($(select_andor).value == 'AND') {
-					var operator = '&';	
-				}
-				else {
-					var operator = '|';
-				}
-				if ($(qid) && $(qid).value) {
-					domains += '[\'' + operator +'\',(\'' +  $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')' + ']';
-				}
-			}
-			else {
-				var qid = 'qstring';
-				var fid = 'filter_fields';
-				var eid = 'expr';
-				if ($(qid) && $(qid).value) {
-					domains += '[(\'' + $(fid).value + '\', \'' + $(eid).value + '\', \'' + $(qid).value + '\')]';
-				}
-			}
-		});
-	}
-	
-	domain = domains.replace(/(]\[)/g, ', ');
-	
-	if(check_domain != 'None') {
-		ch_dom = domain + check_domain;
-		domain = ch_dom.replace(/(]\[)/g, ', ');
-	}
-	
-	search_filter(domain);
-}
-
 // Direct click on icon.
 var search_image_filter = function(src, id) {
 	domain = getNodeAttribute(id, 'value');
 	search_filter(domain);
 }
 
-var search_filter = function(domain) {
+var search_filter = function(src, domain) {
 	
 	if (!domain) {
 		domain = 'None';
 	}
 	
+	check_domain = '';
+	domains = {};
+	
+	var field_type = getNodeAttribute(src, 'type')
+	
+	var filter_table = $('filter_table');
+	datas = $$('[name]', 'search_filter_data');
+	
+	forEach(datas, function(d) {
+		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {
+			value = d.value;
+			if (getNodeAttribute(d, 'kind') == 'selection') {
+				value = parseInt(d.value);
+				domains[d.name] = value;
+			}
+			else {
+				domains[d.name] = value;	
+			}
+		}
+	});
+	
+	domains = serializeJSON(domains);
+		
+	if (getNodeAttribute(src, 'type')=='checkbox') {
+		id = SelectedDomains();
+		id = id.toString();
+		
+		if (id.length > 0) {
+			check_domain = id.replace(/(]\,\[)/g, ', ');
+		}
+		else {
+			check_domain = 'None';
+		}
+	}
+	
 	var lst = new ListView('_terp_list');
-	var req = eval_domain_context_request({source: '_terp_list', domain: domain});
+	var req = Ajax.JSON.post('/search/eval_domain_filter', {source: '_terp_list', 
+															check_domain: check_domain,
+															domains: domains, 
+															field_type: field_type});
+	
+	req.addCallback(function(obj){
+		if (obj.domain) {
+			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain});
 
-    req.addCallback(function(obj){
-    	$('_terp_search_domain').value = obj.domain;
-        lst.reload();
-    });
+		    in_req.addCallback(function(in_obj){
+		    	$('_terp_search_domain').value = in_obj.domain;
+		        lst.reload();
+		    });	
+		}
+	});
 }
 
 var getSelectedDomain = function() {
