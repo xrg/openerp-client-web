@@ -1,3 +1,4 @@
+<input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
 <div id="search_filter_data">
 	${display_member(frame)}
 	<table id="filter_table" style="display: none;">

@@ -467,11 +467,7 @@ var getFormData = function(extended) {
             if (extended > 1 && hasElementClass(e, 'requiredfield'))
                 attrs['required'] =  1;
 
-            if (value && (kind == "text" || kind == "char"))
-                attrs['value'] = '""' + value + '""';
-
             if (kind == "picture") {
-                attrs['value'] = '""' + e.src + '""';
                 n = e.id;
             }
 

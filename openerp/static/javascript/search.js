@@ -163,7 +163,7 @@ var search_filter = function(src, domain) {
 				domains[d.name] = value;
 			}
 			else {
-				domains[d.name] = value;	
+				domains[d.name] = value;
 			}
 		}
 	});
@@ -182,10 +182,93 @@ var search_filter = function(src, domain) {
 		}
 	}
 	
+	var custom_domains = [];
+	
+	if(filter_table.style.display != 'none') {
+		
+		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
+		forEach(children, function(ch){
+			
+			var temp_domain = [];
+			var params = {};
+			var ids = ch['id'];	// row id...
+			
+			if(ids && ids.indexOf('/')!= -1) {
+				id = ids.split('/')[1];
+				
+				var qid = 'qstring/' + id;
+				var fid = 'filter_fields/' + id;
+				var eid = 'expr/' + id;
+				var select_andor = 'select_andor/' + id;
+				
+				var qval = '';
+				
+				if ($(select_andor).value == 'AND') {
+					var operator = '&';	
+				}
+				else {
+					var operator = '|';
+				}
+				
+				if ($(qid) && $(qid).value) {
+					
+					params['_terp_fields/' + $(fid).value] = $(qid).value;
+					params['_terp_model'] = $('_terp_model').value;
+					
+					var search_req = Ajax.JSON.post('/search/get', params);
+					
+					search_req.addCallback(function(obj){
+	        			for (var i in obj.frm) {
+	        				qval = obj.frm[i];
+	        			}
+					});
+					
+					temp_domain.push(operator);
+					temp_domain.push($(fid).value);
+					temp_domain.push($(eid).value);
+					temp_domain.push(qval);
+				}
+			}
+			
+			else {
+				var qid = 'qstring';
+				var fid = 'filter_fields';
+				var eid = 'expr';
+				
+				var q_val = '';
+				
+				if ($(qid) && $(qid).value) {
+					
+					temp_domain.push($(fid).value);
+					temp_domain.push($(eid).value);
+					
+					params['_terp_fields/' + $(fid).value] = $(qid).value;
+					params['_terp_model'] = $('_terp_model').value;
+					
+					var search_req = Ajax.JSON.post('/search/get', params);
+					
+					search_req.addCallback(function(obj){
+						if (obj.error) {
+							return alert(obj.error);
+						}
+	        			for (var i in obj.frm) {
+	        				q_val = obj.frm[i];
+	        				log(typeof(q_val)+'....q....'+ q_val);
+	        				temp_domain.push(q_val);
+	        			}
+					});
+				}
+			}
+			
+			custom_domains.push(temp_domain);
+		});
+	}
+	
 	var lst = new ListView('_terp_list');
 	var req = Ajax.JSON.post('/search/eval_domain_filter', {source: '_terp_list', 
 															check_domain: check_domain,
-															domains: domains, 
+															domains: domains,
+															custom_domains: custom_domains,
 															field_type: field_type});
 	
 	req.addCallback(function(obj){

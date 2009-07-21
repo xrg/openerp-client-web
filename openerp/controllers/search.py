@@ -162,11 +162,43 @@ class Search(Form):
         return dict(domain=ustr(domain), context=ustr(context))
 
     @expose('json')
+    def get(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        model = params.model
+        fields = params.fields
+        context = rpc.session.context
+        
+        proxy = rpc.RPCProxy(model)
+        data = {}
+        
+        frm = ''
+        errpr = ''
+        
+        for field in fields:            
+            fld = {}
+            
+            res = proxy.fields_get(field)
+            
+            fld['value'] = fields[field]
+            fld['type'] = res[field].get('type')
+       
+            data[field] = fld
+            try:
+                frm = TinyForm(**data).to_python()
+            except Exception, e:
+                error = ustr(e)
+            
+        return dict(frm=frm, error=error)
+
+
+    @expose('json')
     def eval_domain_filter(self, **kw):
-        print "================== kw..", kw
         
         field_type = kw.get('field_type')
         domains = eval(kw.get('domains'))
+        custom_domains = kw.get('custom_domains')
+        
         context = rpc.session.context
         
         domain = []
@@ -185,6 +217,22 @@ class Search(Form):
             for key in domains:
                 domain += [(key, '=', domains[key])]
         
+        if custom_domains:
+            inner_domain = []
+            for dom in custom_domains:
+                inner_domain += [dom.split(',')]
+                
+            tmp_domain = ''
+            for inner in inner_domain:
+                if len(inner) == 4:
+                    tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'
+                elif len(inner) == 3:
+                    tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', \'' + inner[2] + '\')]'
+            
+            if tmp_domain :
+                domain = tmp_domain.replace('][', ', ')
+                domain = eval(domain)
+                   
         if not domain:
             domain = None
         return dict(domain=ustr(domain))
