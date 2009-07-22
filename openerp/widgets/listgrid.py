@@ -158,7 +158,8 @@ class List(TinyWidget):
 
         self.data_dict = {}
         data = []
-        if len(ids) > 0:
+        
+        if ids and len(ids) > 0:
 
             ctx = rpc.session.context.copy()
             ctx.update(context)
