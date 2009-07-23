@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following
+# It's based on Mozilla Public License Version (MPL) 1.1 with following 
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
-#     kept as in original distribution without any changes in all software
-#     screens, especially in start-up page and the software header, even if
-#     the application source code has been changed or updated or code has been
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+#     kept as in original distribution without any changes in all software 
+#     screens, especially in start-up page and the software header, even if 
+#     the application source code has been changed or updated or code has been 
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-#
+# 
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -27,24 +27,24 @@
 #
 ###############################################################################
 
-"""
-This module provides wrappers arround xmlrpclib that allows accessing
-Tiny resources in pythonic way.
-"""
-
 import time
 import socket
 import xmlrpclib
 
 import tiny_socket
-import common
+
+from openerp import common
+
 
 class RPCException(Exception):
+    """A common exeption class for RPC errors.
+    """
 
     def __init__(self, code, backtrace):
 
         self.code = code
         self.args = backtrace
+
         if hasattr(code, 'split'):
             lines = code.split('\n')
 
@@ -54,6 +54,7 @@ class RPCException(Exception):
                 self.message = lines[0].split(' -- ')[1]
 
             self.data = '\n'.join(lines[2:])
+
         else:
             self.type = 'error'
             self.message = backtrace
@@ -64,62 +65,93 @@ class RPCException(Exception):
     def __str__(self):
         return self.message
 
+
 class RPCGateway(object):
     """Gateway abstraction, that implement common stuffs for rpc gateways.
     All RPC gateway should extends this class.
     """
 
-    def __init__(self, host, port, protocol):
+    def __init__(self, session):
+        if not isinstance(session, RPCSession):
+            raise TypeError("RPCSession argument expected, got %s" % type(session))
+        self.session = session
 
-        self.protocol = protocol
-        self.host = host
-        self.port = port
+    def __rpc__(self, obj, method, args=(), auth=True):
+        """Derived classes should owverride this method.
 
-    def _get_db(self):
-        return session.db
-
-    def _get_uid(self):
-        return session.uid
-
-    def _get_password(self):
-        return session.password
-
-    db = property(_get_db)
-    uid = property(_get_uid)
-    password = property(_get_password)
-
-    def get_url(self):
-        """Get the url
-        """
-
-        return "%s://%s:%s/"%(self.protocol, self.host, self.port)
-
-    def listdb(self):
-        """Get the list of databases.
-        """
-        pass
-
-    def login(self, db, user, password):
-        """Do login.
-
-        @param db: the database
-        @param user: the user
-        @param password: the password
-
-        @return: 1 on success else negative error value
-        """
-        pass
-
-    def execute(self, obj, method, *args):
-        """Excecute the method of the obj with the given arguments.
-
-        @param obj: the object
-        @param method: the method to execute
-        @param args: the arguments
+        @param obj: the remote object
+        @param method: the method of the remote object
+        @param args: arguments to be passed
+        @param oauth: authentication is required or not
 
         @return: the result of the method
         """
         pass
+
+    @property
+    def connection_string(self):
+        """Get the connection string...
+        """
+        return "%s://%s:%s/"%(self.session.protocol, self.session.host, self.session.port)
+
+    def __convert(self, result):
+
+        if isinstance(result, str):
+            # try to convert into unicode string
+            try:
+                return ustr(result)
+            except Exception, e:
+                return result
+
+        elif isinstance(result, list):
+            return [self.__convert(val) for val in result]
+
+        elif isinstance(result, tuple):
+            return tuple([self.__convert(val) for val in result])
+
+        elif isinstance(result, dict):
+            newres = {}
+            for key, val in result.items():
+                newres[key] = self.__convert(val)
+
+            return newres
+
+        else:
+            return result
+
+    def __execute(self, obj, method, args=(), auth=True):
+        try:
+            
+            #print "TERP-CALLING:", obj, method, args
+            result = self.__rpc__(obj, method, args, auth=auth)
+            #print "TERP-RESULT:", result
+            return self.__convert(result)
+
+        except socket.error, (e1, e2):
+            raise common.message(_('Connection refused!'))
+
+        except RPCException, err:
+            if err.type in ('warning', 'UserError'):
+                if err.message in ('ConcurrencyException') and len(args) > 4:
+                    raise common.concurrency(err.message, err.data, args)
+                else:
+                    raise common.warning(err.data)
+            else:
+                raise common.error(_('Application Error!'), err.backtrace)
+
+        except Exception, e:
+            raise common.error(_('Application Error!'), str(e))
+
+    def execute(self, obj, method, *args):
+        """Excecute the method of the obj with the given arguments.
+
+        @param obj: the remote object
+        @param method: the method of the remote object
+        @param args: arguments to be passed
+
+        @return: the result of the method
+        """
+        return self.__execute(obj, method, args)
 
     def execute_noauth(self, obj, method, *args):
         """Excecute the method of the obj with the given arguments without authentication.
@@ -130,98 +162,41 @@ class RPCGateway(object):
 
         @return: the result of the method
         """
-        pass
+        return self.__execute(obj, method, args, auth=False)
 
-    def execute_db(self, method, *args):
-        """Execute a database related method.
-        """
-        pass
 
 class XMLRPCGateway(RPCGateway):
     """XMLRPC implementation.
     """
 
-    def __init__(self, host, port, protocol='http'):
+    def __init__(self, session):
         """Create new instance of XMLRPCGateway.
 
-        @param host: the host
-        @param port: the port
-        @param protocol: either http or https
+        @param session: a session
         """
-        super(XMLRPCGateway, self).__init__(host, port, protocol)
-        self.url =  self.get_url() + 'xmlrpc/'
+        super(XMLRPCGateway, self).__init__(session)
+        self._url = self.connection_string + 'xmlrpc/'
 
-    def listdb(self):
-        sock = xmlrpclib.ServerProxy(self.url + 'db')
+    def __rpc__(self, obj, method, args=(), auth=True):
+        sock = xmlrpclib.ServerProxy(self._url + str(obj))
         try:
-            return sock.list()
-        except Exception, e:
-            return -1
-
-    def login(self, db, user, password):
-        sock = xmlrpclib.ServerProxy(self.url + 'common')
-        try:
-            res = sock.login(db, user, password)
-        except Exception, e:
-            return -1
-
-        return res
-
-    def _execute(self, obj, method, args=(), noauth=False):
-        sock = xmlrpclib.ServerProxy(self.url + str(obj))
-        try:
-            if not noauth:
-                args = (self.db, self.uid, self.password) + args
+            if auth:
+                args = (self.session.db, self.session.uid, self.session.password) + args
             return getattr(sock, method)(*args)
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
 
-    def execute(self, obj, method, *args):
-        return self._execute(obj, method, args)
-
-    def execute_noauth(self, obj, method, *args):
-        return self._execute(obj, method, args, noauth=True)
-
-    def execute_db(self, method, *args):
-        sock = xmlrpclib.ServerProxy(self.url + 'db')
-        return getattr(sock, method)(*args)
 
 class NETRPCGateway(RPCGateway):
     """NETRPC Implementation.
     """
 
-    def __init__(self, host, port):
-        super(NETRPCGateway, self).__init__(host, port, 'socket')
-
-    def listdb(self):
+    def __rpc__(self, obj, method, args=(), auth=True):
         sock = tiny_socket.mysocket()
         try:
-            sock.connect(self.host, self.port)
-            sock.mysend(('db', 'list'))
-            res = sock.myreceive()
-            sock.disconnect()
-            return res
-        except Exception, e:
-            return -1
-
-    def login(self, db, user, password):
-        sock = tiny_socket.mysocket()
-        try:
-            sock.connect(self.host, self.port)
-            sock.mysend(('common', 'login', db, user, password))
-            res = sock.myreceive()
-            sock.disconnect()
-        except Exception, e:
-            return -1
-
-        return res
-
-    def _execute(self, obj, method, args=(), noauth=False):
-        sock = tiny_socket.mysocket()
-        try:
-            sock.connect(self.host, self.port)
-            if not noauth:
-                args = (self.db, self.uid, self.password) + args
+            sock.connect(self.session.host, self.session.port)
+            if auth:
+                args = (self.session.db, self.session.uid, self.session.password) + args
             sock.mysend((obj, method) + args)
             res = sock.myreceive()
             sock.disconnect()
@@ -229,32 +204,20 @@ class NETRPCGateway(RPCGateway):
 
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
-
+        
         except tiny_socket.Myexception, err:
             raise RPCException(err.faultCode, err.faultString)
 
-    def execute(self, obj, method, *args):
-        return self._execute(obj, method, args)
-
-    def execute_noauth(self, obj, method, *args):
-        return self._execute(obj, method, args, noauth=True)
-
-    def execute_db(self, method, *args):
-        sock = tiny_socket.mysocket()
-        sock.connect(self.host, self.port)
-        sock.mysend(('db', method) + args)
-        res = sock.myreceive()
-        sock.disconnect()
-        return res
 
 # XXX: Fix openerp server to return PyTZ compatible timezone name
 _TZ_ALIASES = {
     'IST' : 'Asia/Calcutta'
 }
 
+
 class RPCSession(object):
-    """This is a wrapper class that provides Pythonic way to handle RPC (remote procedure call).
-    It also provides a way to store session data into different kind of storage.
+    """Maintains client session and provides way to authenticate 
+    client & invoce RPC requested by clients.
     """
 
     __slots__ = ['host', 'port', 'protocol', 'storage', 'gateway']
@@ -272,17 +235,14 @@ class RPCSession(object):
         self.protocol = protocol
         self.storage = storage
 
-        if protocol == 'http':
-            self.gateway = XMLRPCGateway(host, port, 'http')
-
-        elif protocol == 'https':
-            self.gateway = XMLRPCGateway(host, port, 'https')
+        if protocol in ('http', 'https'):
+            self.gateway = XMLRPCGateway(self)
 
         elif protocol == 'socket':
-            self.gateway = NETRPCGateway(host, port)
+            self.gateway = NETRPCGateway(self)
 
         else:
-            raise common.message(_("Connection refused!"))
+            raise common.message(_("Unsupported protocol."))
 
     def __getattr__(self, name):
         try:
@@ -299,7 +259,7 @@ class RPCSession(object):
             self.storage[name] = value
 
     def __getitem__(self, name):
-        return self.storage.get(name)
+        return self.storage[name]
 
     def __setitem__(self, name, value):
         self.storage[name] = value
@@ -313,18 +273,29 @@ class RPCSession(object):
     def get(self, name, default=None):
         return self.storage.get(name, default)
 
-    def get_url(self):
-        return self.gateway.get_url()
+    @property
+    def context(self):
+        return (self._context or {}).copy()
+
+    @property
+    def connection_string(self):
+        return self.gateway.connection_string
 
     def listdb(self):
-        return self.gateway.listdb()
-
-    def login(self, db, user, password):
-
-        if password is None:
+        try:
+            return self.execute_noauth('db', 'list')
+        except Exception, e:
             return -1
 
-        uid = self.gateway.login(db, user or '', password or '')
+    def login(self, db, user, password):
+        
+        if not (db and user and password):
+            return -1
+
+        try:
+            uid = self.execute_noauth('common', 'login', db, user, password)
+        except Exception, e:
+            return -1
 
         if uid <= 0:
             return -1
@@ -355,86 +326,46 @@ class RPCSession(object):
         """Reload the context for the current user
         """
 
-        self.context = {'client': 'web'}
+        self._context = {'client': 'web'}
         self.timezone = 'utc'
 
         # self.uid
         context = self.execute('object', 'execute', 'res.users', 'context_get')
-        self.context.update(context or {})
-
+        self._context.update(context or {})
+        
         if self.context.get('tz', False):
             self.timezone = self.execute('common', 'timezone_get')
             try:
                 import pytz
             except:
                 raise common.warning(_('You select a timezone but OpenERP could not find pytz library!\nThe timezone functionality will be disable.'))
-
+                
         # set locale in session
         self.locale = self.context.get('lang')
 
-    def __convert(self, result):
-
-        if isinstance(result, basestring):
-            # try to convert into unicode string
-            try:
-                return ustr(result)
-            except Exception, e:
-                return result
-
-        elif isinstance(result, list):
-            return [self.__convert(val) for val in result]
-
-        elif isinstance(result, tuple):
-            return tuple([self.__convert(val) for val in result])
-
-        elif isinstance(result, dict):
-            newres = {}
-            for key, val in result.items():
-                newres[key] = self.__convert(val)
-
-            return newres
-
-        else:
-            return result
-    
-    @profile("rpc.execute", log=[3, 4])
     def execute(self, obj, method, *args):
-        
         if not self.is_logged():
             raise common.warning(_('Not logged...'), _('Authorization Error!'))
 
-        try:
-
-            #print "TERP-CALLING:", obj, method, args
-            result = self.gateway.execute(obj, method, *args)
-            #print "TERP-RESULT:", result
-            return self.__convert(result)
-
-        except socket.error, (e1, e2):
-            raise common.message(_('Connection refused!'))
-
-        except RPCException, err:
-
-            if err.type in ('warning', 'UserError'):
-                if err.message in ('ConcurrencyException') and len(args) > 4:
-                    raise common.concurrency(err.message, err.data, args)
-                else:
-                    raise common.warning(err.data, err.message)
-            else:
-                raise common.error(_('Application Error!'), err.backtrace)
-
-        except Exception, e:
-            raise common.error(_('Application Error!'), str(e))
+        return self.gateway.execute(obj, method, *args)
 
     def execute_noauth(self, obj, method, *args):
         return self.gateway.execute_noauth(obj, method, *args)
-
+    
     def execute_db(self, method, *args):
-        return self.gateway.execute_db(method, *args)
+        return self.execute_noauth('db', method, *args)
 
-# Client must initialise session with storage.
-# for example: session = RPCSession('localhost', 8070, 'socket', storage=dict())
+
+# global session variable, will be initialized with connect
 session = None
+
+
+def initialize(host, port, protocol='socket', storage=None):
+    """ Initialize the default rpc session.
+    """
+    global session
+    session = RPCSession(host, port, protocol, storage=storage)
+
 
 class RPCProxy(object):
     """A wrapper arround xmlrpclib, provides pythonic way to access tiny resources.
@@ -450,49 +381,39 @@ class RPCProxy(object):
 
         @param resource: the tinyresource
         """
-        self.resource = resource
-        self.__attrs = {}
+        self._resource = resource
+        self._session = session
+        self._attrs = {}
+        
+    def _func_getter(self, name):
+        return lambda *args: self._session.execute("object", "execute", self._resource, name, *args)
 
     def __getattr__(self, name):
-        if not name in self.__attrs:
-            self.__attrs[name] = RPCFunction(self.resource, name)
-        return self.__attrs[name]
+        if name not in self._attrs:
+            return self._attrs.setdefault(name, self._func_getter(name))
+        return self._attrs[name]
 
-class RPCFunction(object):
-    """A wrapper arround xmlrpclib, provides pythonic way to execute tiny methods.
-    """
 
-    def __init__(self, object, func_name):
-        """Create a new instance of RPCFunction.
-
-        @param object: name of a tiny object
-        @param func_name: name of the function
-        """
-        self.object = object
-        self.func = func_name
-
-    def __call__(self, *args):
-        return session.execute("object", "execute", self.object, self.func, *args)
 
 if __name__=="__main__":
 
     host = 'localhost'
-    port = '8070'
+    port = 8070
     protocol = 'socket'
 
-    session = RPCSession(host, port, protocol, storage=dict())
+    initialize(host, port, protocol, storage=dict())
 
     res = session.listdb()
     print res
 
-    res = session.login('test421', 'admin', 'admin')
+    res = session.login('t1', 'admin', 'admin')
     print res
 
     res = RPCProxy('res.users').read([session.uid], ['name'])
     print res
 
-    res = RPCProxy('ir.values').get('action', 'tree_but_open', [('ir.ui.menu', 73)], False, {})
-    print res
+    print session.context
+
 
 # vim: ts=4 sts=4 sw=4 si et
 
