@@ -195,7 +195,7 @@ class ImpEx(SecuredController):
 
         fields = _fields_get_all(model, views)
         fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
-        
+
         fields_order = fields.keys()
         fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
 
@@ -205,7 +205,7 @@ class ImpEx(SecuredController):
 
             value = fields[field]
             record = {}
-            
+
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
 
@@ -335,14 +335,14 @@ class ImpEx(SecuredController):
 
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
-        
+
         if isinstance(fields, basestring):
             fields = [fields]
 
         ctx = {}
         ctx.update(rpc.session.context.copy())
         ctx['import_comp'] = import_compat
-        
+
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
@@ -355,7 +355,7 @@ class ImpEx(SecuredController):
         
         if import_compat:
             params.fields2 = fields
-        
+
         if export_as == 'excel':
             #add_names = True
             pass

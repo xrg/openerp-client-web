@@ -158,7 +158,8 @@ class List(TinyWidget):
 
         self.data_dict = {}
         data = []
-        if len(ids) > 0:
+        
+        if ids and len(ids) > 0:
 
             ctx = rpc.session.context.copy()
             ctx.update(context)
@@ -546,7 +547,7 @@ class Button(TinyInputWidget):
         super(Button, self).__init__(**attrs)
 
         self.states = attrs.get('states', "draft").split(',')
-        self.btype = attrs.get('type', "workflow")
+        self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.icon = attrs.get('icon')
 
         if self.icon:

@@ -240,25 +240,6 @@ ManyToOne.prototype.get_matched = function(){
     }
 
     var m2o = this;
-    var do_get_matched = function(relation, text, domain, context){
-        
-        text = m2o.field.value ? '' : text;
-        
-        var req2 = Ajax.JSON.post('/search/get_matched', {model: relation, text: text, 
-                                                         _terp_domain: domain, 
-                                                         _terp_context: context});
-        
-        req2.addCallback(function(obj){
-            if (text && obj.values.length == 1) {
-                val = obj.values[0];
-                m2o.field.value = val[0];
-                m2o.text.value = val[1];
-                m2o.on_change();
-            }else{
-                open_search_window(relation, domain, context, m2o.name, 1, text);
-            }
-        });
-    }
 
     var domain = getNodeAttribute(this.field, 'domain');
     var context = getNodeAttribute(this.field, 'context');
@@ -266,7 +247,22 @@ ManyToOne.prototype.get_matched = function(){
     var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
 
     req.addCallback(function(obj){
-        do_get_matched(m2o.relation, m2o.text.value, obj.domain, obj.context);
+        text = m2o.field.value ? '' : m2o.text.value;
+        
+        var req2 = Ajax.JSON.post('/search/get_matched', {model: m2o.relation, text: text, 
+                                                         _terp_domain: obj.domain, 
+                                                         _terp_context: obj.context});
+        
+        req2.addCallback(function(obj2){
+            if (text && obj2.values.length == 1) {
+                val = obj2.values[0];
+                m2o.field.value = val[0];
+                m2o.text.value = val[1];
+                m2o.on_change();
+            }else{
+                open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
+            }
+        });
     });
 }
 

@@ -24,7 +24,8 @@
 	* Improved wiki widget
 
 	Bug Fixed (major):
-	
+
+	* Fixed notebook widget (nested notebooks are not working)
 	* Dynamic notebook page visibility with attrs.
 	* Improved Ajax validator (fixes onchange problem when there is some invalid value in the form)
 	* Prevent conflicts with `onchange` and `attrs/state change` hooks.

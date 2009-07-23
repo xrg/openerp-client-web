@@ -455,7 +455,7 @@ var getFormData = function(extended) {
                 value = value == 'False' ? '' : value;
             }
 
-            attrs['value'] = value;
+            attrs['value'] = typeof(value) == "undefined" ? '' : value;
 
             if (kind)
                 attrs['type'] = kind;

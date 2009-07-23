@@ -212,7 +212,7 @@ class Tree(SecuredController):
         model = params.model
         context = params._terp_context or {}
         ids = data.get('ids') or []
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(context)
 

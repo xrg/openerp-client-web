@@ -904,8 +904,14 @@ class ButtonTypeProperty(tw.SelectField):
 class ButtonSpecialProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
-        options = [('', ''), ('sale', _('Save Button')), ('cancel', _('Cancel Button'))]
+        options = [('', ''), ('save', _('Save Button')), ('cancel', _('Cancel Button')), ('open', _('Open Button'))]
         super(ButtonSpecialProperty, self).__init__(name=name, options=options, default=default)
+        
+class AlignProperty(tw.SelectField):
+
+    def __init__(self, name, default=None):
+        options = [('', ''), ('0.0', _('Left')), ('0.5', _('Center')), ('1.0', _('Right'))]
+        super(AlignProperty, self).__init__(name=name, options=options, default=default)   
 
 _PROPERTY_WIDGETS = {
     'select' : SelectProperty,
@@ -917,6 +923,7 @@ _PROPERTY_WIDGETS = {
     'groups' : GroupsProperty,
     'position': PositionProperty,
     'icon': IconProperty,
+    'align': AlignProperty,
 }
 
 _PROPERTY_WIDGETS_BUTTON = {

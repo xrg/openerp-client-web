@@ -85,7 +85,7 @@ class mysocket:
 
         if isinstance(res[0],Exception):
             if exception:
-                raise Myexception(str(res[0]), str(res[1]))
+                raise Myexception(ustr(res[0]), ustr(res[1]))
             raise res[0]
         else:
             return res[0]

@@ -291,6 +291,19 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
+        if (btype == "open") {
+            return window.open(get_form_action('/form/edit', {
+                        id: id,
+                        ids: $(prefix + '_terp_ids').value,
+                        model: $(prefix + '_terp_model').value,
+                        view_ids: $(prefix + '_terp_view_ids').value,
+                        domain: $(prefix + '_terp_domain').value,
+                        context: $(prefix + '_terp_context').value,
+                        limit: $(prefix + '_terp_limit').value,
+                        offset: $(prefix + '_terp_offset').value,
+                        count: $(prefix + '_terp_count').value}));
+        }
+
         name = name.split('.').pop();
         
         var params = {
