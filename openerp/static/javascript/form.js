@@ -392,13 +392,13 @@ var getFormData = function(extended) {
         var e = fields[i];
         
         if (e.tagName.toLowerCase() != 'img' && !e.name)
-            return;
+            continue;
 
         var n = e.name.replace('_terp_listfields/', '');
 
         // don't include _terp_ fields except _terp_id
         if (/_terp_/.test(n) && ! /_terp_id$/.test(n))
-            return;
+            continue;
 
         // work arround to skip o2m values (list mode)
         if (n.indexOf('/__id') > 0) {
@@ -407,12 +407,12 @@ var getFormData = function(extended) {
             
             if ($(n + '/_terp_view_type').value == 'form') {
                 frm[n+'/__id'] = $(n+'/__id').value;
-                return;
+                continue;
             }
             
             // skip if editable list's editors are visible
             if ($$('[name^=_terp_listfields/' + n + ']').length) {
-                return;
+                continue;
             }
             
             var value = $(n + '/_terp_ids').value;
@@ -425,7 +425,7 @@ var getFormData = function(extended) {
             }
             
             frm[n] = value;
-            return;
+            continue;
         }
 
         if (extended && n.indexOf('/__id') == -1) {
@@ -444,13 +444,13 @@ var getFormData = function(extended) {
                 //  only the resource id and all O2M
                 n = n.replace(/_terp_id$/, '');
                 if (n && !getElement(n + '__id')) {
-                    return; 
+                    continue; 
                 }
 
                 n = n + 'id';
                 
                 if (!getElement(n)) {
-                    return;    
+                    continue;    
                 }
                 
                 kind = 'integer';
