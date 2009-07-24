@@ -279,7 +279,7 @@ var submit_form = function(action, src, target){
         _terp_source: source
     };
    
-    if (target == "new"){
+    if (target == "new" || target == "_blank"){
         setNodeAttribute(form, 'target', '_blank');
     }
     
