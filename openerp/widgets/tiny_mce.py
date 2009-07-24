@@ -40,7 +40,8 @@ class TinyMCE(TinyInputWidget):
     def __init__(self, **attrs):
         super(TinyMCE, self).__init__(**attrs)
         self.validator = validators.String()
-
+        self.readonly = not self.editable or self.readonly
+        
     def set_value(self, value):
         super(TinyMCE, self).set_value(value)
 

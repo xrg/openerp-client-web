@@ -9,7 +9,7 @@
         mode: "exact",
         elements: "${name}",
         editor_selector: "tinymce",
-        readonly: ${(not editable or 0) and 1},
+        readonly: ${(readonly or 0) and 1},
         
         theme: "advanced",
 
