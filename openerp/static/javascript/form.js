@@ -385,10 +385,12 @@ var getFormData = function(extended) {
     fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
     fields = fields.concat(filter(function(e){
         return getNodeAttribute(e,'kind')=='picture';
-        }, getElementsByTagAndClassName('img', null, parentNode)));
-
-    forEach(fields, function(e){
-
+    }, getElementsByTagAndClassName('img', null, parentNode)));
+    
+    for(var i=0; i<fields.length; i++) {
+    
+        var e = fields[i];
+        
         if (e.tagName.toLowerCase() != 'img' && !e.name)
             return;
 
@@ -477,7 +479,7 @@ var getFormData = function(extended) {
         } else {
             frm[n] = e.value;
         }
-    });
+    }
 
     return frm;
 }
