@@ -90,7 +90,7 @@ One2Many.prototype = {
 
             params['_terp_view_params/' + prefix + '/_terp_model'] = $(prefix + '/_terp_model').value;
             params['_terp_view_params/' + prefix + '/_terp_view_ids'] = $(prefix + '/_terp_view_ids').value;
-            params['_terp_view_params/' + prefix + '_terp_view_mode'] = $(prefix + '/_terp_view_mode').value;
+            params['_terp_view_params/' + prefix + '/_terp_view_mode'] = $(prefix + '/_terp_view_mode').value;
             params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
         }
 
