@@ -53,11 +53,11 @@ from openerp.utils import TinyForm
 
 from openerp.widgets.binary import generate_url_for_picture
 
-def make_domain(name, value):
+def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
     Will be used for search window...
     """
-
+        
     if isinstance(value, int) and not isinstance(value, bool):
         return [(name, '=', value)]
 
@@ -76,7 +76,10 @@ def make_domain(name, value):
             return [(name, '<=', end)]
 
         return None
-
+    
+    if kind == "selection" and value:
+        return [(name, '=', value)]
+    
     if isinstance(value, basestring) and value:
         return [(name, 'ilike', value)]
 
@@ -101,12 +104,16 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     domain = domain or []
     context = context or {}
     data = data or {}
-
+    
+    proxy = rpc.RPCProxy(model)
+    fields = proxy.fields_get([], {})
+    
     search_domain = domain[:]
     search_data = {}
 
     for k, v in data.items():
-        t = make_domain(k, v)
+        t = fields.get(k, {}).get('type', 'char')
+        t = make_domain(k, v, t)
 
         if t:
             search_domain += t
@@ -118,7 +125,6 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     if l < 1: l = 20
     if o < 0: o = 0
 
-    proxy = rpc.RPCProxy(model)
     ctx = rpc.session.context.copy()
     ctx.update(context)
 
