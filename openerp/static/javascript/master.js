@@ -133,5 +133,17 @@ window.browser.isWebKit = /webkit/.test(navigator.userAgent.toLowerCase());
 // Opera
 window.browser.isOpera = /opera/.test(navigator.userAgent.toLowerCase());
 
+
+
+// hack to prevent cross-domain secutiry errors, if window is opened 
+// from different domain.
+MochiKit.DOM.addLoadEvent(function(evt){
+    try {
+        window.opener.document.domain;
+    } catch () {
+        window.opener = null;
+    }
+});
+
 // vim: ts=4 sts=4 sw=4 si et
 
