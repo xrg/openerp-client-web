@@ -140,7 +140,7 @@ window.browser.isOpera = /opera/.test(navigator.userAgent.toLowerCase());
 MochiKit.DOM.addLoadEvent(function(evt){
     try {
         window.opener.document.domain;
-    } catch () {
+    } catch (e) {
         window.opener = null;
     }
 });
