@@ -82,6 +82,7 @@ var add_filter_row = function() {
 			
 			qid = qstring.id.split('/')[0];
 			qstring.id = qid + '/' + id;
+			qstring.value = '';
 			
 			insertSiblingNodesBefore(old_tr, new_tr);
 		}
@@ -99,6 +100,7 @@ var add_filter_row = function() {
 			filter_fields.id = filter_fields.id + '/' + row_id;
 			expr.id = expr.id + '/' + row_id;
 			qstring.id = qstring.id + '/' + row_id;
+			qstring.value = '';
 			
 			var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
 			and_or.id = and_or.id + '/' + row_id;
@@ -138,7 +140,7 @@ var remove_row = function(id) {
 // Direct click on icon.
 var search_image_filter = function(src, id) {
 	domain = getNodeAttribute(id, 'value');
-	search_filter(domain);
+	search_filter(src, domain);
 }
 
 var search_filter = function(src, domain) {
@@ -150,7 +152,7 @@ var search_filter = function(src, domain) {
 	check_domain = '';
 	domains = {};
 	
-	var field_type = getNodeAttribute(src, 'type')
+	var field_type = getNodeAttribute(src, 'type') || ''
 	
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');
@@ -182,15 +184,14 @@ var search_filter = function(src, domain) {
 		}
 	}
 	
-	var custom_domains = [];
-	
 	if(filter_table.style.display != 'none') {
+		var custom_domains = [];
+		var params = {};
+		var record = {};
 		
 		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
 		forEach(children, function(ch){
 			
-			var temp_domain = [];
-			var params = {};
 			var ids = ch['id'];	// row id...
 			
 			if(ids && ids.indexOf('/')!= -1) {
@@ -199,34 +200,11 @@ var search_filter = function(src, domain) {
 				var qid = 'qstring/' + id;
 				var fid = 'filter_fields/' + id;
 				var eid = 'expr/' + id;
-				var select_andor = 'select_andor/' + id;
-				
-				var qval = '';
-				
-				if ($(select_andor).value == 'AND') {
-					var operator = '&';	
-				}
-				else {
-					var operator = '|';
-				}
 				
 				if ($(qid) && $(qid).value) {
-					
-					params['_terp_fields/' + $(fid).value] = $(qid).value;
+					var rec = {};
+					rec[$(fid).value] = $(qid).value;
 					params['_terp_model'] = $('_terp_model').value;
-					
-					var search_req = Ajax.JSON.post('/search/get', params);
-					
-					search_req.addCallback(function(obj){
-	        			for (var i in obj.frm) {
-	        				qval = obj.frm[i];
-	        			}
-					});
-					
-					temp_domain.push(operator);
-					temp_domain.push($(fid).value);
-					temp_domain.push($(eid).value);
-					temp_domain.push(qval);
 				}
 			}
 			
@@ -238,37 +216,73 @@ var search_filter = function(src, domain) {
 				var q_val = '';
 				
 				if ($(qid) && $(qid).value) {
+					var rec = {};
 					
-					temp_domain.push($(fid).value);
-					temp_domain.push($(eid).value);
-					
-					params['_terp_fields/' + $(fid).value] = $(qid).value;
-					params['_terp_model'] = $('_terp_model').value;
-					
-					var search_req = Ajax.JSON.post('/search/get', params);
-					
-					search_req.addCallback(function(obj){
-						if (obj.error) {
-							return alert(obj.error);
-						}
-	        			for (var i in obj.frm) {
-	        				q_val = obj.frm[i];
-	        				log(typeof(q_val)+'....q....'+ q_val);
-	        				temp_domain.push(q_val);
-	        			}
-					});
+					rec[$(fid).value] = $(qid).value;
+					params['_terp_model'] = $('_terp_model').value;					
 				}
 			}
-			
-			custom_domains.push(temp_domain);
+			record[ids] = rec;
+		});
+		
+		record = serializeJSON(record);
+		params['record'] = record;
+		
+		var search_req = Ajax.JSON.post('/search/get', params);
+
+		var custom_domain = [];
+		search_req.addCallback(function(obj){
+			if (obj.frm) {
+    			for (var i in obj.frm) {
+    				var temp_domain = [];
+    				var operator = '';
+    				
+    				row_id = serializeJSON(i);
+    				
+    				if(row_id && row_id.indexOf('/')!= -1) {
+
+						id = row_id.split('/')[1];
+						id = parseInt(id);
+						
+						var fid = 'filter_fields/' + id;
+						var eid = 'expr/' + id;
+	    				var select_andor = 'select_andor/' + id;
+						
+						if ($(select_andor).value == 'AND') {
+							var operator = '&';
+						}
+						else {
+							var operator = '|';
+						}
+    				}
+    				else {
+    					var fid = 'filter_fields';
+						var eid = 'expr';
+    				}
+    				
+    				temp_domain.push(operator);
+					temp_domain.push(obj.frm[i].rec);
+					temp_domain.push($(eid).value);
+					temp_domain.push(obj.frm[i].rec_val);
+					
+					custom_domain.push(temp_domain);
+    			}
+			}
+			custom_domain = serializeJSON(custom_domain);
+    		final_search_domain(custom_domain);
 		});
 	}
-	
+}
+
+var final_search_domain = function(custom_domain) {
+	check_domain = '';
+	domains = '';
+	field_type = '';
 	var lst = new ListView('_terp_list');
 	var req = Ajax.JSON.post('/search/eval_domain_filter', {source: '_terp_list', 
 															check_domain: check_domain,
 															domains: domains,
-															custom_domains: custom_domains,
+															custom_domain: custom_domain,
 															field_type: field_type});
 	
 	req.addCallback(function(obj){

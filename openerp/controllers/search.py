@@ -163,42 +163,55 @@ class Search(Form):
 
     @expose('json')
     def get(self, **kw):
+        
         params, data = TinyDict.split(kw)
         
         model = params.model
-        fields = params.fields
         context = rpc.session.context
+        
+        record = kw.get('record')
+        record = eval(record)
         
         proxy = rpc.RPCProxy(model)
         data = {}
         
         frm = ''
-        errpr = ''
+        error = ''
+        values = {}
         
-        for field in fields:            
-            fld = {}
+        for key, val in record.items():
+            id = key
+            for field in val:            
+                fld = {}
+                datas = {}
+                res = proxy.fields_get(field)
             
-            res = proxy.fields_get(field)
-            
-            fld['value'] = fields[field]
-            fld['type'] = res[field].get('type')
+                fld['value'] = val[field]
+                fld['type'] = res[field].get('type')
        
-            data[field] = fld
-            try:
-                frm = TinyForm(**data).to_python()
-            except Exception, e:
-                error = ustr(e)
+                data[field] = fld
+                try:
+                    frm = TinyForm(**data).to_python()
+                except Exception, e:
+                    error = ustr(e)
+                
+                datas['rec'] = field
+                datas['rec_val'] = frm[field]
+                
+            values[key] = datas
             
-        return dict(frm=frm, error=error)
+        return dict(frm=values, error=error)
 
 
     @expose('json')
     def eval_domain_filter(self, **kw):
         
         field_type = kw.get('field_type')
-        domains = eval(kw.get('domains'))
-        custom_domains = kw.get('custom_domains')
+        domains = kw.get('domains')
+        custom_domains = kw.get('custom_domain')
         
+        if domains: 
+            domains = eval(domains)
         context = rpc.session.context
         
         domain = []
@@ -232,7 +245,7 @@ class Search(Form):
             if tmp_domain :
                 domain = tmp_domain.replace('][', ', ')
                 domain = eval(domain)
-                   
+        
         if not domain:
             domain = None
         return dict(domain=ustr(domain))
