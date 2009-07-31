@@ -363,12 +363,14 @@ class BarChart(GraphData):
 
     def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
         super(BarChart, self).__init__(model, view, view_id, ids, domain, context)
+        self.context = context
 
     def get_data(self):
 
         result = {}
         ctx =  rpc.session.context.copy()
-
+        ctx.update(self.context)
+        
         res = super(BarChart, self).get_graph_data()
         
         if len(res) > 1:
