@@ -235,7 +235,7 @@ var search_filter = function(src, domain) {
 			if (obj.frm) {
     			for (var i in obj.frm) {
     				var temp_domain = [];
-    				var operator = '';
+    				var operator = 'None';
     				
     				row_id = serializeJSON(i);
     				
@@ -260,7 +260,9 @@ var search_filter = function(src, domain) {
 						var eid = 'expr';
     				}
     				
-    				temp_domain.push(operator);
+    				if (operator != 'None') {
+    					temp_domain.push(operator);
+    				}
 					temp_domain.push(obj.frm[i].rec);
 					temp_domain.push($(eid).value);
 					temp_domain.push(obj.frm[i].rec_val);

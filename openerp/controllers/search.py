@@ -142,7 +142,7 @@ class Search(Form):
         if isinstance(domain, basestring):
             domain = tools.expr_eval(domain, ctx)
             
-        if domain and len(domain) >= 2 and domain[-2] in ['&','|']: # For custom domain ('AND', OR') from search view.
+        if domain and len(domain) >= 2 and domain[-2] in ['&', '|']: # For custom domain ('AND', OR') from search view.
             dom1 = domain[-1:]
             dom2 = domain[:-2]
             domain = dom2 + dom1
@@ -196,7 +196,14 @@ class Search(Form):
                     error = ustr(e)
                 
                 datas['rec'] = field
-                datas['rec_val'] = frm[field]
+                
+                if isinstance(frm[field], bool):
+                    if frm[field]:
+                        datas['rec_val'] = 1
+                    else:
+                        datas['rec_val'] = 0
+                else:
+                    datas['rec_val'] = frm[field]
                 
             values[key] = datas
             
@@ -209,6 +216,8 @@ class Search(Form):
         field_type = kw.get('field_type')
         domains = kw.get('domains')
         custom_domains = kw.get('custom_domain')
+        
+        custom_domains = eval(custom_domains)
         
         if domains: 
             domains = eval(domains)
@@ -232,20 +241,22 @@ class Search(Form):
         
         if custom_domains:
             inner_domain = []
-            for dom in custom_domains:
-                inner_domain += [dom.split(',')]
-                
             tmp_domain = ''
-            for inner in inner_domain:
+            for inner in custom_domains:
                 if len(inner) == 4:
-                    tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'
+                    if isinstance(inner[3], int):
+                        tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', ' + ustr(inner[3]) + ')]'
+                    else:
+                        tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'
                 elif len(inner) == 3:
-                    tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', \'' + inner[2] + '\')]'
+                    if isinstance(inner[2], int):
+                        tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', ' + ustr(inner[2]) + ')]'
+                    else:
+                        tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', \'' + inner[2] + '\')]'
             
             if tmp_domain :
                 domain = tmp_domain.replace('][', ', ')
                 domain = eval(domain)
-        
         if not domain:
             domain = None
         return dict(domain=ustr(domain))
