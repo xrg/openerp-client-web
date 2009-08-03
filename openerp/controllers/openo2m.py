@@ -143,8 +143,8 @@ class OpenO2M(Form):
         new_ids = [i for i in all_ids if i not in ids]
 
         current.ids = all_ids
-        if new_ids:
-            current.id = new_ids[0]
+        #if new_ids:
+        #    current.id = new_ids[0]
             
         # perform button action
         if params.button:
