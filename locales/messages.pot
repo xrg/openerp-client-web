@@ -1759,3 +1759,7 @@ msgstr ""
 msgid "Advanced Search"
 msgstr ""
 
+#: openerp/widgets/wikimarkup/__init__.py: 1981
+msgid "Table of Contents"
+msgstr ""
+

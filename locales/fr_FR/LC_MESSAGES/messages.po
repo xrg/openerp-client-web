@@ -1846,3 +1846,7 @@ msgstr "Recherche normale"
 msgid "Advanced Search"
 msgstr "Recherche avancée"
 
+#: openerp/widgets/wikimarkup/__init__.py: 1981
+msgid "Table of Contents"
+msgstr "Table des matières"
+

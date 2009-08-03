@@ -2022,3 +2022,6 @@ msgstr "Erweiterte Suche"
 #~ msgid "Latin 1"
 #~ msgstr "Latein 1"
 
+#~ msgid "Table of Contents"
+#~ msgstr "Inhaltsverzeichnis"
+
