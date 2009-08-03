@@ -213,21 +213,20 @@ class Search(Form):
     @expose('json')
     def eval_domain_filter(self, **kw):
         
-        field_type = kw.get('field_type')
-        domains = kw.get('domains')
-        custom_domains = kw.get('custom_domain')
+        all_domains = kw.get('all_domains')
+        all_domains = eval(all_domains)
         
-        custom_domains = eval(custom_domains)
+        domains = all_domains.get('domains')
+        custom_domains = kw.get('custom_domain')
         
         if domains: 
             domains = eval(domains)
+            
         context = rpc.session.context
         
         domain = []
         check_domain = []
-        # TODO: domain none problem.
-        if field_type == 'checkbox':
-            check_domain = kw.get('check_domain')
+        check_domain = all_domains.get('check_domain')
         
         if check_domain and isinstance(check_domain, basestring):
             domain = tools.expr_eval(check_domain, context)
@@ -242,6 +241,9 @@ class Search(Form):
         if custom_domains:
             inner_domain = []
             tmp_domain = ''
+            
+            custom_domains = eval(custom_domains)
+            
             for inner in custom_domains:
                 if len(inner) == 4:
                     if isinstance(inner[3], int):
@@ -255,10 +257,12 @@ class Search(Form):
                         tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', \'' + inner[2] + '\')]'
             
             if tmp_domain :
-                domain = tmp_domain.replace('][', ', ')
-                domain = eval(domain)
+                cust_domain = tmp_domain.replace('][', ', ')
+                domain += eval(cust_domain)
+                
         if not domain:
             domain = None
+            
         return dict(domain=ustr(domain))
 
     @expose('json')

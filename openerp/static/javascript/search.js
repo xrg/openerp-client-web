@@ -149,10 +149,9 @@ var search_filter = function(src, domain) {
 		domain = 'None';
 	}
 	
-	check_domain = '';
+	all_domains = {};
+	check_domain = 'None';
 	domains = {};
-	
-	var field_type = getNodeAttribute(src, 'type') || ''
 	
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');
@@ -171,18 +170,19 @@ var search_filter = function(src, domain) {
 	});
 	
 	domains = serializeJSON(domains);
-		
-	if (getNodeAttribute(src, 'type')=='checkbox') {
-		id = SelectedDomains();
-		id = id.toString();
-		
-		if (id.length > 0) {
-			check_domain = id.replace(/(]\,\[)/g, ', ');
-		}
-		else {
-			check_domain = 'None';
-		}
+	all_domains['domains'] = domains;
+	
+	check_id = SelectedDomains();
+	check_id = check_id.toString();
+	
+	if (check_id.length > 0) {
+		check_domain = check_id.replace(/(]\,\[)/g, ', ');
 	}
+	else {
+		check_domain = 'None';
+	}
+	
+	all_domains['check_domain'] = check_domain;
 	
 	if(filter_table.style.display != 'none') {
 		var custom_domains = [];
@@ -271,21 +271,24 @@ var search_filter = function(src, domain) {
     			}
 			}
 			custom_domain = serializeJSON(custom_domain);
-    		final_search_domain(custom_domain);
+			all_domains = serializeJSON(all_domains);
+			
+			final_search_domain(custom_domain, all_domains);
 		});
+	}
+	else {
+		custom_domain = []
+		all_domains = serializeJSON(all_domains);
+		final_search_domain(custom_domain, all_domains);	
 	}
 }
 
-var final_search_domain = function(custom_domain) {
-	check_domain = '';
-	domains = '';
-	field_type = '';
+var final_search_domain = function(custom_domain, all_domain) {
+	
 	var lst = new ListView('_terp_list');
 	var req = Ajax.JSON.post('/search/eval_domain_filter', {source: '_terp_list', 
-															check_domain: check_domain,
-															domains: domains,
 															custom_domain: custom_domain,
-															field_type: field_type});
+															all_domains: all_domains});
 	
 	req.addCallback(function(obj){
 		if (obj.domain) {
