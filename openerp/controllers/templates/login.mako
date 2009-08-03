@@ -65,9 +65,13 @@
                 </table>                
             </div>            
         </form>
-
+    
         % if message:
         <div class="box2 message" id="message">${message}</div>
+        % endif
+        
+        % if info:
+        <div class="information">${info|n}</div>
         % endif
     </div>
 </%def>
