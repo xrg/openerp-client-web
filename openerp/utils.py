@@ -237,7 +237,19 @@ class TinyForm(object):
             
             if kind == "one2many":
                 try:
-                    value = eval(value) or [(0, 0, [])]
+                    value = eval(value)
+                    if value:
+                        if not isinstance(value, list):
+                            value = [value]
+                        from openerp import rpc
+                        proxy = rpc.RPCProxy(attrs['relation'])
+                        res = proxy.read(value, [], rpc.session.context)
+                        value = []
+                        for r in res:
+                            id = r.pop('id')
+                            value += [(1, id, r)]
+                    else:
+                        value = [(0, 0, [])]
                 except:
                     pass
 
