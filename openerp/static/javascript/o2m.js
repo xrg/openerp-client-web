@@ -44,6 +44,15 @@ var One2Many = function(name, inline) {
     this.parent_id = $(parent_prefix + '_terp_id').value;
     this.parent_context = $(parent_prefix + '_terp_context').value;
     this.parent_view_id = $(parent_prefix + '_terp_view_id').value;
+    
+    // hide new button when editors are visible
+    if (this.mode == 'tree' && this.inline){ 
+        var self = this;
+        this.btn_new = getElement(this.name + '_btn_');
+        MochiKit.Signal.connect(ListView(this.name), 'onreload', function(evt) {
+            self.btn_new.style.display = ListView(self.name).getEditors().length > 0 ? 'none': '';
+        });
+    }
 }
 
 One2Many.prototype = {
@@ -55,7 +64,7 @@ One2Many.prototype = {
         }
     
         if (this.mode == 'tree' && this.inline){
-
+        
             if (this.default_get_ctx) {
                 var self = this;
                 var req = eval_domain_context_request({source: this.name, context: this.default_get_ctx});
