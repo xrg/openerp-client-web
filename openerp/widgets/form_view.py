@@ -68,10 +68,10 @@ class ViewForm(Form):
         if readonly is None:
             readonly = False
 
-        self.screen = Screen(prefix='', hastoolbar=True, editable=editable, readonly=readonly,
+        self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
 
-        self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.id,
+        self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, self.screen.view_type != 'form',
                                self.screen.context)
 

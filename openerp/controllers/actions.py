@@ -215,7 +215,7 @@ def execute(action, **data):
         </html>
         """
 
-    elif action['type']=='ir.actions.act_window':
+    elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
         for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit', 'search_view_id'):
             data[key] = action.get(key, data.get(key, None))
             

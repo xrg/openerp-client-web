@@ -70,7 +70,7 @@ class Screen(TinyInputWidget):
     params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count', 'search_view_id']
     member_widgets = ['widget']
 
-    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, editable=False, readonly=False, selectable=0, nolinks=1):
+    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1):
 
         # get params dictionary
         params = params or cherrypy.request.terp_params
@@ -116,6 +116,9 @@ class Screen(TinyInputWidget):
 
         self.hastoolbar         = hastoolbar
         self.toolbar            = None
+        
+        self.hassubmenu         = hassubmenu
+        self.submenu            = None
 
         self.selectable         = selectable
         self.editable           = editable
@@ -136,7 +139,7 @@ class Screen(TinyInputWidget):
         else:
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
-            view = cache.fields_view_get(self.model, view_id, view_type, ctx, self.hastoolbar)
+            view = cache.fields_view_get(self.model, view_id, view_type, ctx, self.hastoolbar, self.hassubmenu)
 
         self.add_view(view, view_type)
 
@@ -205,8 +208,13 @@ class Screen(TinyInputWidget):
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
 
+        submenu = view.get('submenu', {})
+        
         self.toolbar = toolbar or None
+        self.submenu = eval(ustr(submenu)) or None
+        
         self.hastoolbar = (toolbar or False) and True
+        self.hassubmenu = (submenu or False) and True
 
 # vim: ts=4 sts=4 sw=4 si et
 

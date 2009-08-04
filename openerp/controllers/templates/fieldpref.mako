@@ -1,4 +1,4 @@
-s<%inherit file="master.mako"/>
+<%inherit file="master.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
     <title>${_("Field Preferences")}</title>

@@ -75,11 +75,11 @@ def memoize(limit=100, force=False):
     return memoize_wrapper
 
 @memoize(1000)
-def __fields_view_get(model, view_id, view_type, context, hastoolbar, uid):
-    return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar)
+def __fields_view_get(model, view_id, view_type, context, hastoolbar, hassubmenu, uid):
+    return rpc.RPCProxy(model).fields_view_get(view_id, view_type, context, hastoolbar, hassubmenu)
 
-def fields_view_get(model, view_id, view_type, context, hastoolbar=False):
-    return __fields_view_get(model, view_id, view_type, context, hastoolbar=hastoolbar, uid=rpc.session.uid)
+def fields_view_get(model, view_id, view_type, context, hastoolbar=False, hassubmenu=False):
+    return __fields_view_get(model, view_id, view_type, context, hastoolbar=hastoolbar, hassubmenu=hassubmenu, uid=rpc.session.uid)
 
 @memoize(1000)
 def __fields_get(model, fields, context, uid):

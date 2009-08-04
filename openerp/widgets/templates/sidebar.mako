@@ -123,7 +123,41 @@
                     </td>
                 </tr>
                 % endif
-                
+                % if sub_menu:
+                <tr>
+                    <td>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
+                            <tr>
+                                <td>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr>
+                                            <td width="8" style="background: #ac0000"/>
+                                            <td width="7" style="background-color: #363636"/>
+                                            <td style="color: white; font-weight: bold; font-size: 12px; background-color: #363636">${_("SUBMENUS")}</td>
+                                            <td width="35" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
+                                            <td width="50" style="background-color: #666666"/>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <%
+								from openerp import icons
+							%>
+                            % for menu in sub_menu:
+                            <tr data="${menu}">
+                            	% if menu['name']:
+									<td>
+										<a href="#" onclick="submenu_action('${menu['action_id']}', '${model}');">
+											${menu['name']}
+										</a>
+									</td>
+								% endif
+							</tr>
+							% endfor
+						</table>
+					</td>
+				</tr>
+				% endif                
             </table>
         </td>
 
