@@ -854,7 +854,7 @@ class BooleanProperty(tw.CheckBox):
 
     def __init__(self, name, default=None):
         super(BooleanProperty, self).__init__(name=name, default=default, attrs=dict(value=1))
-        self.field_class = "checkbox"
+        self.css_class = "checkbox"
 
 class GroupsProperty(tw.SelectField):
 
