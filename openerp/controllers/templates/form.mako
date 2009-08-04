@@ -63,10 +63,12 @@
                                             title="${_('Graph View...')}" 
                                             ${py.attr_if("disabled",not buttons.graph)}
                                             onclick="switchView('graph')">${_("Graph")}</button>
+                                        % if buttons.process:
                                         <button 
                                             type="button" 
                                             title="${_('Corporate Intelligence...')}"
                                             onclick="show_process_view()">${_("Process")}</button>
+                                        % endif
                                     </td>
                                     % endif
                                     % if buttons.can_attach and not buttons.has_attach:

@@ -248,6 +248,8 @@ class Form(SecuredController):
             
         if cache.can_write('workflow'):
             links.workflow_manager = True
+            
+        buttons.process = cache.can_read('process.process')
 
         pager = None
         if buttons.pager:
