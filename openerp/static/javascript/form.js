@@ -411,7 +411,7 @@ var getFormData = function(extended) {
             }
             
             // skip if editable list's editors are visible
-            if ($$('[name^=_terp_listfields/' + n + ']').length) {
+            if (getElementsByAttribute(['name', '^=_terp_listfields/' + n]).length) {
                 continue;
             }
             

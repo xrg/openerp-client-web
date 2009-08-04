@@ -16,8 +16,8 @@
             
             <script type="text/javascript">
             
-                var dt_field = $$('[id=${name}]');
-                var dt_button = $$('[id=${name}_trigger]');
+                var dt_field = getElementsByAttribute(['id', '${name}']);
+                var dt_button = getElementsByAttribute(['id', '${name}_trigger']);
                 
                 dt_field = dt_field[dt_field.length-1];
                 dt_button = dt_button[dt_button.length-1];

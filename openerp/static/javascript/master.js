@@ -37,6 +37,71 @@ function validate_email(email) {
     return re.test(email);
 }
 
+function getElementsByAttribute(/*...*/) {
+
+    
+    var elems = document.getElementsByTagName('*');
+    var exprs = {};
+    
+    for(var i=0; i<arguments.length; i++) {
+    
+        var arg = arguments[i];
+        
+        if (typeof(arg) == "string") {
+            exprs[arg] = null; 
+        } else {
+            var a = arg[0];
+            var x = arg[1];
+            var c = "=";
+            
+            if (/[~*!^$]=/.test(x)) {
+                c = x.slice(0, 2);
+                x = x.slice(2);
+            } 
+            else if (/=/.test(x)) {
+                c = x.slice(0, 1);
+                x = x.slice(1);
+            }
+            exprs[a] = [c, x];
+        }
+    }
+    
+    //log(keys(exprs));
+    
+    return MochiKit.Base.filter(function(e){
+    
+        for(var a in exprs) {
+        
+            var v = MochiKit.DOM.getNodeAttribute(e, a);
+            if (v == null || typeof(v) != 'string') return false;
+            
+            var x = exprs[a];
+            if (!x) continue;
+            
+            var c = x[0];
+            var x = x[1];
+        
+            switch(c) {
+                case '^=': 
+                    if (!v.match('^' + x)) return false;
+                    break;
+                case '$=': 
+                    if (!v.match(x + '$')) return false;
+                    break;
+                case '~=':
+                case '*=':
+                    if (!v.match(x)) return false;
+                    break;
+                case '=' : 
+                    if (v != x) return false;
+                    break;
+            }
+        }
+        return true;
+        
+    }, elems);
+}
+
 function set_cookie(name, value) {
     document.cookie = name + "=" + escape(value) + "; path=/";
 }

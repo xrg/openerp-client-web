@@ -170,9 +170,11 @@ var saveCalendarRecord = function(record_id, starts, ends){
         // update concurrency info
         for(var key in obj.info) {
             try {
-                var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
+                var items = getElementsByAttribute(['name', '_terp_concurrency_info'], ['value', '*=' + key]);
                 var value = "('" + key + "', '" + obj.info[key] + "')";
-                item.value = value;
+                for(var i=0; i<items.length;i++) {
+                    items[i].value = value;
+                }
             }catch(e){}
         }
 
