@@ -108,11 +108,12 @@ class ViewTree(Form):
         self.id = id
         self.ids = ids
 
+        submenu = {}
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
 
-        self.sidebar = Sidebar(self.model, toolbar, True, True, context=self.context)
+        self.sidebar = Sidebar(self.model, submenu, toolbar, True, True, context=self.context)
 
         if self.context and '_view_name' in self.context:
             self.string = self.context.pop('_view_name')

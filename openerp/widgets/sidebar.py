@@ -77,7 +77,6 @@ class Sidebar(TinyWidget):
 
         toolbar = toolbar or {}
         submenu = submenu
-        self.id = id
         
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
