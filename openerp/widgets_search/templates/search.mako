@@ -28,7 +28,7 @@
 	<table>
 	    <tr>
 	    	<td align="right">
-	    		<select name="filter_list" id="filter_list">
+	    		<select name="filter_list" id="filter_list" onchange="search_filter();">
 	                % for f in filters_list:
 	                <option value="${f[0]}">${f[1]}</option>
 	                % endfor

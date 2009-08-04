@@ -214,10 +214,12 @@ class Search(Form):
     def eval_domain_filter(self, **kw):
         
         all_domains = kw.get('all_domains')
+        custom_domains = kw.get('custom_domain')
+        
         all_domains = eval(all_domains)
         
         domains = all_domains.get('domains')
-        custom_domains = kw.get('custom_domain')
+        selection_domain = all_domains.get('selection_domain')
         
         if domains: 
             domains = eval(domains)
@@ -230,10 +232,10 @@ class Search(Form):
         
         if check_domain and isinstance(check_domain, basestring):
             domain = tools.expr_eval(check_domain, context)
-                    
+        
         if domain == None:
             domain = []
-            
+        
         if domains:
             for key in domains:
                 domain += [(key, '=', domains[key])]
@@ -259,7 +261,11 @@ class Search(Form):
             if tmp_domain :
                 cust_domain = tmp_domain.replace('][', ', ')
                 domain += eval(cust_domain)
-                
+        
+        if selection_domain:
+            selection_domain = eval(selection_domain)
+            domain += selection_domain
+        
         if not domain:
             domain = None
             

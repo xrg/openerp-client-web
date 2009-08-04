@@ -3,7 +3,7 @@
 		id="${filter_id}"
 		name="${filter_id}"
 		class="checkbox grid-domain-selector" 
-		onclick="search_filter(this, this.value);" 
+		onclick="search_filter(this);" 
 		value="${filter_domain}"
 		title="${help}">
 	${text_val}

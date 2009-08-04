@@ -158,12 +158,12 @@ class Search(TinyInputWidget):
         
         my_acts = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'get_filters', model)
                 
-        sorted_filters = [[act.get('domain',act['id']),act['name']] for act in my_acts]
+        sorted_filters = [[act.get('domain', act['id']), act['name']] for act in my_acts]
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
         
-        self.filters_list = [["", "-- Filters --"]]
+        self.filters_list = [["blk", "-- Filters --"]]
         self.filters_list += sorted_filters
-        self.filters_list += [["", '--Actions--'],["", 'Save as Shortcut'],["", 'Save as a Filter'],["", 'Manage Filters']]
+        self.filters_list += [["blk", '--Actions--'],["sh", 'Save as a Shortcut'],["sf", 'Save as a Filter'],["mf", 'Manage Filters']]
         
         self.middle_string = []
         for item in (['ilike', _('contains')], ['not ilike', _('doesn\'t contain')], ['=', _('is equal to')], 

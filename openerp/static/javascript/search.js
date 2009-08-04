@@ -140,24 +140,35 @@ var remove_row = function(id) {
 // Direct click on icon.
 var search_image_filter = function(src, id) {
 	domain = getNodeAttribute(id, 'value');
-	search_filter(src, domain);
+	search_filter(src);
 }
 
-var search_filter = function(src, domain) {
-	
-	if (!domain) {
-		domain = 'None';
-	}
+var search_filter = function(src) {
 	
 	all_domains = {};
 	check_domain = 'None';
 	domains = {};
 	
+	domain = 'None';
+	
+	var selection_domain = $('filter_list').value;
+	
+	if (selection_domain) {
+		if (selection_domain == 'blk' || selection_domain == 'sh' || selection_domain == 'sf' || selection_domain == 'mf') {
+			if (selection_domain == 'blk') {
+				domain = 'None';
+			}
+		}
+		else {
+			all_domains['selection_domain'] = selection_domain;
+		}
+	}
+	
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
 	forEach(datas, function(d) {
-		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1) {
+		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
 			value = d.value;
 			if (getNodeAttribute(d, 'kind') == 'selection') {
 				value = parseInt(d.value);
