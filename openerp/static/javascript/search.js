@@ -154,9 +154,12 @@ var search_filter = function(src) {
 	var selection_domain = $('filter_list').value;
 	
 	if (selection_domain) {
-		if (selection_domain == 'blk' || selection_domain == 'sh' || selection_domain == 'sf' || selection_domain == 'mf') {
+		if (selection_domain == 'blk' || selection_domain == 'sh' || selection_domain == 'sf') {
 			if (selection_domain == 'blk') {
 				domain = 'None';
+			}
+			if (selection_domain == 'sh' || selection_domain == 'sf') {
+				
 			}
 		}
 		else {
@@ -230,7 +233,7 @@ var search_filter = function(src) {
 					var rec = {};
 					
 					rec[$(fid).value] = $(qid).value;
-					params['_terp_model'] = $('_terp_model').value;					
+					params['_terp_model'] = $('_terp_model').value;
 				}
 			}
 			record[ids] = rec;
@@ -297,11 +300,16 @@ var search_filter = function(src) {
 var final_search_domain = function(custom_domain, all_domain) {
 	
 	var lst = new ListView('_terp_list');
-	var req = Ajax.JSON.post('/search/eval_domain_filter', {source: '_terp_list', 
+	var req = Ajax.JSON.post('/search/eval_domain_filter', {source: '_terp_list',
+															model: $('_terp_model').value, 
 															custom_domain: custom_domain,
 															all_domains: all_domains});
 	
 	req.addCallback(function(obj){
+		if (obj.action) {
+			action = serializeJSON(obj.action);
+			window.location.href = getURL('/search/manage_filter', {action: action});
+		}
 		if (obj.domain) {
 			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain});
 

@@ -43,6 +43,7 @@ from openerp import widgets as tw
 from openerp import widgets_search as tws
 
 from openerp.controllers.base import SecuredController
+from openerp.controllers import actions
 
 from openerp.utils import TinyDict
 from openerp.utils import TinyForm
@@ -215,6 +216,7 @@ class Search(Form):
         
         all_domains = kw.get('all_domains')
         custom_domains = kw.get('custom_domain')
+        model = kw.get('model')
         
         all_domains = eval(all_domains)
         
@@ -263,14 +265,36 @@ class Search(Form):
                 domain += eval(cust_domain)
         
         if selection_domain:
-            selection_domain = eval(selection_domain)
-            domain += selection_domain
+            if selection_domain in ['blk', 'sh', 'sf', 'mf']:
+                if selection_domain == 'blk':
+                    selection_domain = []
+                if selection_domain == 'mf':
+                    act = {'name':'Manage Filters', 
+                         'res_model':'ir.actions.act_window', 
+                         'type':'ir.actions.act_window', 
+                         'view_type':'form', 
+                         'view_mode':'tree, form', 
+                         'domain':'[(\'filter\',\'=\',True), (\'res_model\',\'=\',\'' + model + '\'), (\'default_user_ids\',\'in\', (\'' + str(rpc.session.uid) + '\',))]'}
+                    return dict(action=act)
+            else:
+                selection_domain = eval(selection_domain)
+                domain += selection_domain
         
         if not domain:
             domain = None
             
         return dict(domain=ustr(domain))
 
+    @expose()
+    def manage_filter(self, **kw):
+        action = kw.get('action')
+        action = eval(action)
+        return actions.execute(action, context=rpc.session.context)
+
+    @expose(template="templates/filter_shortcut.mako")
+    def filter_shortcut(self, **kw):
+        return dict()
+        
     @expose('json')
     def ok(self, **kw):
         params, data = TinyDict.split(kw)

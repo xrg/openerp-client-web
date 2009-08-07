@@ -141,8 +141,8 @@ class Search(TinyInputWidget):
         self.fields_list = []
         
         for k,v in view_fields['fields'].items():
-            if v['type'] in ('many2one','char','float','integer','date','datetime','selection','many2many','boolean','one2many') and v.get('selectable', False):
-                self.fields_list.append([k,v['string'],v['type']])
+            if v['type'] in ('many2one', 'char', 'float', 'integer', 'date', 'datetime', 'selection', 'many2many', 'boolean', 'one2many') and v.get('selectable',  False):
+                self.fields_list.append([k, v['string'], v['type']])
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
 
@@ -200,7 +200,6 @@ class Search(TinyInputWidget):
 
             elif node.localName == 'search':
                 n = self.parse(model=search_model, root=node, fields=fields, values=values)
-                
                 views += [Frame(children=n, **attrs)]
 
             elif node.localName=='group':
@@ -210,12 +209,14 @@ class Search(TinyInputWidget):
             elif node.localName=='filter':
                 kind = 'filter'
                 attrs['model'] = search_model
-                field = FILTER[kind](**attrs)                
+                field = FILTER[kind](**attrs)
+                
                 views += [field]
             
-            elif node.localName=='separator':                
+            elif node.localName=='separator':
                 kind = 'separator'
                 field = WIDGETS[kind](**attrs)
+                
                 views += [field]
            
             elif node.localName == 'field':
@@ -223,6 +224,9 @@ class Search(TinyInputWidget):
                 filter_field = {}
                 
                 if name in self.fields_type:
+                    continue
+                
+                if not ('select' in attrs or 'select' in fields[name]):
                     continue
               
                 if attrs.get('widget', False):
@@ -258,16 +262,17 @@ class Search(TinyInputWidget):
                 field.onchange = None
                 field.callback = None
 
-                val = fields[name].get('select', False)
-
                 if kind == 'boolean':
-                    field.options = [[1,'Yes'],[0,'No']]
+                    field.options = [[1, 'Yes'],[0, 'No']]
                     field.validator.if_empty = ''
 
                 if values.has_key(name) and isinstance(field, (TinyInputWidget, RangeWidget)):
                     field.set_value(values[name])
                 
-                if field:
+                val = fields[name].get('select', False)
+                field.adv = val and int(val) > 1
+                
+                if field and not field.adv:
                     views += [field]
                 
                 for n in node.childNodes:
