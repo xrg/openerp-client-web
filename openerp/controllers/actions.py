@@ -233,8 +233,8 @@ def execute(action, **data):
             action['domain']='[]'
 
         ctx = data.get('context', {}).copy()
-        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
         ctx.update(tools.expr_eval(action.get('context', '{}'), ctx.copy()))
+        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
 
         # save active_id in session
         rpc.session.active_id = data.get('id')
