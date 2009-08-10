@@ -113,9 +113,9 @@ class ViewTree(Form):
             if value: toolbar[item] = value
 
         self.sidebar = Sidebar(self.model, toolbar, True, True, context=self.context)
-
-        if self.context and '_view_name' in self.context:
-            self.string = self.context.pop('_view_name')
+        
+        # get the correct view title
+        self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
 
 
     def parse(self, root, fields=None):

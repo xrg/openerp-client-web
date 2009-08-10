@@ -240,7 +240,7 @@ class Form(SecuredController):
         buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
 
-        target = params.context.get('_terp_target')
+        target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
         if cache.can_write('ir.ui.view'):

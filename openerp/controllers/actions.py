@@ -70,13 +70,10 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
-
-    if name:
-        params.context['_view_name'] = name
-
-    if target:
-        params.context['_terp_target'] = target
-
+    
+    cherrypy.request._terp_view_name = name or None
+    cherrypy.request._terp_view_target = target or None
+    
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
 
