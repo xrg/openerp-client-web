@@ -123,8 +123,8 @@ class M2M(TinyInputWidget):
         current.ids = ids or []
         current.view_mode = view_mode
         current.view_type = view_type
-        current.domain = current.domain or []
-        current.context = current.context or {}
+        current.domain = self.domain or current.domain or []
+        current.context = self.context or current.context or {}
 
         if current.view_type == 'tree' and self.readonly:
             self.editable = False

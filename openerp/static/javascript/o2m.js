@@ -34,6 +34,7 @@ var One2Many = function(name, inline) {
     
     this.model = $(name + '/_terp_model').value;
     this.mode = $(name + '/_terp_view_type').value;
+    this.context = $(name + '/_terp_context').value;
     
     if ($(name + '/_terp_default_get_ctx'))
     	this.default_get_ctx = $(name + '/_terp_default_get_ctx').value; 
@@ -112,12 +113,9 @@ One2Many.prototype = {
                 _terp_o2m_model: this.model,
                 _terp_o2m_id: id,
                 _terp_editable: readonly ? 0 : 1});
-                    
-        if (id && id != 'False' && !this.default_get_ctx){
-            return openWindow(getURL('/openo2m/edit', params));
-        }
-        
-        var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
+
+        var ctx = this.default_get_ctx || this.context;
+        var req = eval_domain_context_request({source: this.name, context: ctx});
         
         req.addCallback(function(res){
             params['_terp_o2m_context'] = res.context;
