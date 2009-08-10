@@ -97,7 +97,7 @@ class RangeWidget(TinyInputWidget):
 class Filter(TinyInputWidget):
     template = "templates/filter.mako"
     
-    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val']
+    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'search_view_id']
     
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
@@ -105,6 +105,8 @@ class Filter(TinyInputWidget):
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain')
         self.help = attrs.get('help')
+        self.search_view_id = attrs.get('search_view_id')
+        
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
         
         self.nolabel = True
@@ -209,6 +211,7 @@ class Search(TinyInputWidget):
             elif node.localName=='filter':
                 kind = 'filter'
                 attrs['model'] = search_model
+                attrs['search_view_id'] = self.search_view_id
                 field = FILTER[kind](**attrs)
                 
                 views += [field]

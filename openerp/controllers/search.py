@@ -293,7 +293,49 @@ class Search(Form):
 
     @expose(template="templates/filter_shortcut.mako")
     def filter_shortcut(self, **kw):
-        return dict()
+        
+        search_view_id = kw.get('search_view_id')
+        model = kw.get('model')
+        domain = kw.get('domain')
+        flag = kw.get('flag')
+        
+        return dict(search_view_id=search_view_id, model=model, domain=domain, flag=flag)
+    
+    @expose()
+    def do_filter_sc(self, **kw):
+        
+        name = kw.get('sc_name')
+        model = kw.get('model')
+        domain = kw.get('domain')
+        flag = kw.get('flag')
+        
+        datas = {'name': name, 
+               'res_model': model, 
+               'domain': domain, 
+               'context': str({}), 
+               'search_view_id': kw.get('search_view_id'), 
+               'filter': True, 
+               'default_user_ids': [[6, 0, [rpc.session.uid]]], 
+               }
+        action_id = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'create', datas)
+
+        if flag == 'sh':
+            parent_menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'search', [('name','=','Custom Shortcuts')])
+        
+            if parent_menu_id:
+                menu_data = {'name': name,
+                           'sequence': 20,
+                           'action': 'ir.actions.act_window,' + str(action_id),
+                           'parent_id': parent_menu_id[0],
+                           }
+                menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'create', menu_data)
+                sc_data = {'name': name,
+                         'sequence': 1,
+                         'res_id': menu_id,
+                         }
+                shortcut_id = rpc.session.execute('object', 'execute', 'ir.ui.view_sc', 'create', sc_data)
+            
+        return True
         
     @expose('json')
     def ok(self, **kw):
