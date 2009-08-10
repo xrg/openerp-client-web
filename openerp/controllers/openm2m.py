@@ -54,7 +54,7 @@ class OpenM2M(Form):
     def create(self, params, tg_errors=None):
 
         params.editable = params.get('_terp_editable', True)
-        params.hidden_fields = [tw.form.Hidden(name='_terp_m2m', default=params.m2o)]
+        params.hidden_fields = [tw.form.Hidden(name='_terp_m2m', default=params.source)]
         form = self.create_form(params, tg_errors)
 
         return dict(form=form, params=params)
@@ -83,7 +83,12 @@ class OpenM2M(Form):
                 ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
                 id = proxy.write([params.id], data, ctx)
 
+        current = params.chain_get(params.source or '')
         button = (params.button or False) and True
+        
+        params.load_counter = 1
+        if current and current.id and not button:
+            params.load_counter = 2
 
         # perform button action
         if params.button:
@@ -91,7 +96,7 @@ class OpenM2M(Form):
             if res:
                 return res
 
-        current = params.chain_get(params.source or '')
+        
         if current:
             current.id = None
             if not params.id:
@@ -117,5 +122,4 @@ class OpenM2M(Form):
         params.editable = params.get('_terp_editable', True)
 
         return self.create(params)
-
 

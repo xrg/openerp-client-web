@@ -37,12 +37,12 @@ function get_form_action(action, params){
 
 var editRecord = function(id, src, target){
 
-    if (src && src != '_terp_list' && 
-    	$('_terp_count').value != '0' && 
-    	$('_terp_model').value.indexOf('board') != 0) {
-        	return new One2Many(src).edit(id);
+    var kind = getNodeAttribute(src + '_set', 'kind');
+    
+    if (kind == "one2many") {
+        return new One2Many(src).edit(id);
     }
-
+    
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
     var model = $(prefix + '_terp_model').value;
@@ -75,6 +75,11 @@ var editRecord = function(id, src, target){
 
     if (target == '_blank') {
         return window.open(get_form_action('edit', args));
+    }
+    
+    if (kind == 'many2many') {
+        args['source'] = src;
+        return openWindow(get_form_action('/openm2m/edit', args));
     }
 
     window.location.href = get_form_action('edit', args);

@@ -18,14 +18,15 @@
             var id = parseInt(MochiKit.DOM.getElement('_terp_id').value) || null;
             var lc = parseInt(MochiKit.DOM.getElement('_terp_load_counter').value) || 1;
 
-            if (lc>1 && id) {
+            if (lc > 1 && id) {
 
                 with(window.opener) {
 
                     var m2m = Many2Many('${params.m2m}');
                     var ids = m2m.getValue();
 
-                    ids.push(id);
+                    if (ids.indexOf(id) == -1)
+                        ids.push(id);
 
                     m2m.setValue(ids);
                 }
