@@ -181,10 +181,12 @@ class GraphData(object):
                 else:
                     res[x] = float(value[x])
 
-            if isinstance(value[axis[0]], (tuple, list)):
+            if axis and isinstance(value[axis[0]], (tuple, list)):
                 res['id'] = value[axis[0]][0]
-            else:
+            elif axis:
                 res['id'] = value[axis[0]]
+            else:
+                res['id'] = False
 
             res['rec_id'] = rec_ids
 
