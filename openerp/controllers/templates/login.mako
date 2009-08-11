@@ -10,7 +10,7 @@
         <br/>
 
         <center>
-            <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}"/>
+            ${cp.root.developped_by()|n}
         </center>
 
         <br/>
