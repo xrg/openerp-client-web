@@ -75,7 +75,7 @@
                                     <td align="center" valign="middle" width="16">
                                         <img 
                                             class="button" width="16" height="16"
-                                            title="${_('Add an attachment to this resource.')}" 
+                                            title="${_('Show attachments.')}" 
                                             src="/static/images/stock/gtk-paste.png" 
                                             onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
                                     </td>
@@ -84,7 +84,7 @@
                                     <td align="center" valign="middle" width="16">
                                         <img
                                             class="button" width="16" height="16"
-                                            title="${_('Add an attachment to this resource.')}" 
+                                            title="${_('Show attachments.')}" 
                                             src="/static/images/stock/gtk-paste-v.png" onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
                                     </td>
                                     % endif
