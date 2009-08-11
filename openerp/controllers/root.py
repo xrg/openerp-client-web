@@ -32,6 +32,7 @@ import re
 
 from openerp.tools import expose
 from openerp.tools import redirect
+from openerp.tools import find_resource
 from openerp.tools import url
 
 import cherrypy
@@ -112,8 +113,8 @@ class Root(SecuredController):
     @expose()
     @unsecured
     def get_logo(self):
-
-        comp_url = config.get('company.url', path='openerp-web') or None
+        
+        comp_url = cherrypy.request.app.config['openerp-web'].get('company.url', None)
 
         res="""<img src="/static/images/openerp_big.png" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
                     <map name="logo_map">
@@ -121,7 +122,7 @@ class Root(SecuredController):
                         <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
                     </map>"""%(dict(alt=_('OpenERP')))
 
-        if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
+        if os.path.exists(find_resource("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
                                 <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
@@ -133,7 +134,7 @@ class Root(SecuredController):
     @expose()
     @unsecured
     def developped_by(self):
-        comp_url = config.get('company.url', path='openerp-web') or None
+        comp_url = cherrypy.request.app.config['openerp-web'].get('company.url', None)
 
         res="""<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
                     <map name="devby_map">
@@ -141,7 +142,7 @@ class Root(SecuredController):
                         <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
                     </map>"""%(dict(alt=_('Developped by Axelor and Tiny')))
 
-        if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
+        if os.path.exists(find_resource("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
                                 <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
