@@ -34,6 +34,7 @@ list view of the given model.
 import cherrypy
 
 from openerp.tools import expose
+from openerp.tools import redirect
 
 from openerp import rpc
 from openerp import tools
@@ -298,8 +299,9 @@ class Search(Form):
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
+        sc_id = kw.get('sc_id')
         
-        return dict(search_view_id=search_view_id, model=model, domain=domain, flag=flag)
+        return dict(search_view_id=search_view_id, model=model, domain=domain, flag=flag, sc_id=sc_id)
     
     @expose()
     def do_filter_sc(self, **kw):
@@ -308,6 +310,7 @@ class Search(Form):
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
+        id = kw.get('sc_id')
         
         datas = {'name': name, 
                'res_model': model, 
@@ -321,21 +324,20 @@ class Search(Form):
 
         if flag == 'sh':
             parent_menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'search', [('name','=','Custom Shortcuts')])
-        
+            
             if parent_menu_id:
                 menu_data = {'name': name,
                            'sequence': 20,
                            'action': 'ir.actions.act_window,' + str(action_id),
                            'parent_id': parent_menu_id[0],
                            }
+                
                 menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'create', menu_data)
                 sc_data = {'name': name,
                          'sequence': 1,
                          'res_id': menu_id,
                          }
                 shortcut_id = rpc.session.execute('object', 'execute', 'ir.ui.view_sc', 'create', sc_data)
-            
-        return True
         
     @expose('json')
     def ok(self, **kw):

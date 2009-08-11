@@ -1,4 +1,8 @@
 <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
+% if cp.root.shortcuts.can_create():
+<input type="hidden" id="_terp_sc_id" name="_terp_sc_id" value="${rpc.session.active_id}"/>
+% endif
+
 <div id="search_filter_data">
 	${display_member(frame)}
 	<table id="filter_table" style="display: none;">

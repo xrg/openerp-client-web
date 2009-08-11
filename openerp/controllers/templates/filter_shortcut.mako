@@ -3,6 +3,20 @@
 
 <%def name="header()">
     <title>Save as a Shortcut</title>
+    
+    <script type="text/javascript">
+    	
+    	var onFilterClose = function(form, sc_id){
+    	
+			form.submit();			
+			var act = getURL("/tree/open", {id: sc_id, model: 'ir.ui.menu'});
+			
+		    window.opener.location.href = act;
+		    
+		    window.close();
+		}
+		
+    </script>
 </%def>
 
 <%def name="content()">
@@ -11,6 +25,7 @@
 		<input type="hidden" id="model" name="model" value="${model}"/>
 		<input type="hidden" id="domain" name="domain" value="${domain}"/>
 		<input type="hidden" id="flag" name="flag" value="${flag}"/>
+		<input type="hidden" id="sc_id" name="sc_id" value="${sc_id}"/>
 		
 		<table class="view" width="100%" border="0">
 			<tr>
@@ -20,15 +35,25 @@
 	                        <td width="32px" align="left">
 	                            <img src="/static/images/stock/gtk-index.png"/>
 	                        </td>
-	                        <td align="center" width="100%">${_("Save as a Shortcut")}</td>
+	                        % if flag == 'sh':
+	                        	<td align="center" width="100%">${_("Save as a Shortcut")}</td>
+	                        % else:
+	                        	<td align="center" width="100%">${_("Save as a Filter")}</td>
+	                        % endif
 	                    </tr>
 	                </table>
 	            </td>
 	        </tr>
 	        <tr>
+	        	% if flag == 'sh':
 	        	<td class="label">
 	        		Shortcut Name :
 	        	</td>
+	        	% else:
+	        	<td class="label">
+	        		Filter Name :
+	        	</td>
+	        	% endif
 	        	<td>
 	        		<input type="text" name="sc_name"/>
 	        	</td>
@@ -40,7 +65,7 @@
 	        			<table border="0" cellpadding="0" cellspacing="0" width="100%">
 	                        <tr>
 	                            <td width="100%">&nbsp;</td>
-	                            <td><button type="submit" onclick="window.close()">${_("Ok")}</button></td>
+	                            <td><button type="button" onclick="onFilterClose(form, ${sc_id});">${_("Ok")}</button></td>
 	                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
 	                        </tr>
 	                    </table>

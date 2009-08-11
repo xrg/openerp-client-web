@@ -195,7 +195,9 @@ var search_filter = function(src) {
 				
 				var params = {'domain': all_dom,
 								'model': $('_terp_model').value,
-								'search_view_id': $('search_view_id').value };
+								'search_view_id': $('search_view_id').value,
+								'flag': flag,
+								'sc_id': $('_terp_sc_id').value };
 								
 				openWindow(getURL('/search/filter_shortcut', params), {width: 300, height: 150});
 			}
@@ -339,4 +341,5 @@ var SelectedDomains = function() {
         return box.value;
     }, this.getSelectedDomain());
 }
+
     
