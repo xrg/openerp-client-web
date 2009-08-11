@@ -35,12 +35,16 @@ function get_form_action(action, params){
     return getURL(act, params);
 }
 
-var editRecord = function(id, src, target){
+var openRecord = function(id, src, target, readonly){
 
     var kind = getNodeAttribute(src + '_set', 'kind');
     
+    if (!kind && getElement('_o2m_' + src)) {
+        kind = "one2many";
+    }
+        
     if (kind == "one2many") {
-        return new One2Many(src).edit(id);
+        return new One2Many(src).edit(id, readonly);
     }
     
     var prefix = src && src != '_terp_list' ? src + '/' : '';
@@ -72,68 +76,37 @@ var editRecord = function(id, src, target){
                 'limit': limit,
                 'count': count,
                 'search_domain': search_domain};
-
+                
+    var action = readonly ? 'view' : 'edit';
+        
     if (target == '_blank') {
-        return window.open(get_form_action('edit', args));
+        return window.open(get_form_action(action, args));
     }
     
     if (kind == 'many2many') {
         args['source'] = src;
-        return openWindow(get_form_action('/openm2m/edit', args));
+        return openWindow(get_form_action('/openm2m/edit' + action, args));
     }
 
-    window.location.href = get_form_action('edit', args);
+    window.location.href = get_form_action(action, args);
+}
+
+var editRecord = function(id, src, target){
+    return openRecord(id, src, target, false);
+}
+
+var viewRecord = function(id, src){
+    return openRecord(id, src, null, true);
 }
 
 var editSelectedRecord = function() {
+
     var lst = new ListView('_terp_list');
     var ids = lst.getSelectedRecords();
 
     forEach(ids, function(id){
         editRecord(id, '_terp_list', '_blank');
     });
-}
-
-var viewRecord = function(id, src){
-
-    if (src && src != '_terp_list' && $('_terp_count').value != '0') {
-        if (getElement(src + '_set')) {
-            return editRecord(id, src);
-        } else {
-            return new One2Many(src).edit(id, true);
-        }
-    }
-
-    var prefix = src && src != '_terp_list' ? src + '/' : '';
-    var model = $(prefix + '_terp_model').value;
-    var view_ids = $(prefix + '_terp_view_ids').value;
-    var view_mode = $(prefix + '_terp_view_mode').value;
-
-    var ids = $(prefix + '_terp_ids').value;
-
-    var offset = $(prefix + '_terp_offset').value;
-    var limit = $(prefix + '_terp_limit').value;
-    var count = $(prefix + '_terp_count').value;
-
-    var domain = $(prefix + '_terp_domain').value;
-    var context = $(prefix + '_terp_context').value;
-
-    var search_domain = $('_terp_search_domain');
-    search_domain = search_domain ? search_domain.value : null;
-
-    var args = {'model': model,
-                'id': id ? id : 'False',
-                'ids': ids,
-                'view_ids': view_ids,
-                'view_mode': view_mode,
-                'domain': domain,
-                'context': context,
-                'offset': offset,
-                'limit': limit,
-                'count': count,
-                'search_domain': search_domain};
-
-    window.location.href = get_form_action('view', args);
 }
 
 var switchView = function(view_type, src){

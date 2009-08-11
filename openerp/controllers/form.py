@@ -299,12 +299,13 @@ class Form(SecuredController):
 
     @expose()
     def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
-            domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
                                        '_terp_view_mode' : view_mode,
+                                       '_terp_source' : source,
                                        '_terp_domain' : domain,
                                        '_terp_context' : context,
                                        '_terp_offset': offset,
