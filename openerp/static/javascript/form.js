@@ -103,6 +103,12 @@ var editSelectedRecord = function() {
 
     var lst = new ListView('_terp_list');
     var ids = lst.getSelectedRecords();
+    
+    if (ids && ids.length > 5) {
+        var msg = _('You selected to open %(tabs)s tabs - do you want to continue?');
+        msg = msg.replace('%(tabs)s', ids.length);
+        if (!confirm(msg)) return;
+    }
 
     forEach(ids, function(id){
         editRecord(id, '_terp_list', '_blank');
