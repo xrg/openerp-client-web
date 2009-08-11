@@ -53,8 +53,9 @@ class OpenM2M(Form):
     @expose(template="templates/openm2m.mako")
     def create(self, params, tg_errors=None):
 
+        params.m2m = params.source or params.m2m
         params.editable = params.get('_terp_editable', True)
-        params.hidden_fields = [tw.form.Hidden(name='_terp_m2m', default=params.source)]
+        params.hidden_fields = [tw.form.Hidden(name='_terp_m2m', default=params.m2m)]
         form = self.create_form(params, tg_errors)
 
         return dict(form=form, params=params)
