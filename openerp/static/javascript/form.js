@@ -85,7 +85,7 @@ var openRecord = function(id, src, target, readonly){
     
     if (kind == 'many2many') {
         args['source'] = src;
-        return openWindow(get_form_action('/openm2m/edit' + action, args));
+        return openWindow(get_form_action('/openm2m/edit', args));
     }
 
     window.location.href = get_form_action(action, args);
