@@ -269,12 +269,16 @@ class Search(Form):
             if selection_domain in ['blk', 'sh', 'sf', 'mf']:
                 if selection_domain == 'blk':
                     selection_domain = []
+                
+                if selection_domain in ['sh', 'sf']:
+                    return dict(flag=selection_domain, sf_dom=ustr(domain))
+                
                 if selection_domain == 'mf':
                     act = {'name':'Manage Filters', 
                          'res_model':'ir.actions.act_window', 
                          'type':'ir.actions.act_window', 
                          'view_type':'form', 
-                         'view_mode':'tree, form', 
+                         'view_mode':'tree,form', 
                          'domain':'[(\'filter\',\'=\',True), (\'res_model\',\'=\',\'' + model + '\'), (\'default_user_ids\',\'in\', (\'' + str(rpc.session.uid) + '\',))]'}
                     return dict(action=act)
             else:
@@ -290,10 +294,11 @@ class Search(Form):
     def manage_filter(self, **kw):
         action = kw.get('action')
         action = eval(action)
+        
         return actions.execute(action, context=rpc.session.context)
 
-    @expose(template="templates/filter_shortcut.mako")
-    def filter_shortcut(self, **kw):
+    @expose(template="templates/save_filter.mako")
+    def save_filter(self, **kw):
         
         search_view_id = kw.get('search_view_id')
         model = kw.get('model')

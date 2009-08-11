@@ -185,26 +185,27 @@ var search_filter = function(src) {
 	var selection_domain = $('filter_list').value;
 	
 	if (selection_domain) {
-		if (selection_domain == 'blk' || selection_domain == 'sh' || selection_domain == 'sf') {
-			if (selection_domain == 'blk') {
-				domain = 'None';
-			}
-			if (selection_domain == 'sh' || selection_domain == 'sf') {
-				flag = selection_domain;
-				all_dom = serializeJSON(all_domains);
-				
-				var params = {'domain': all_dom,
-								'model': $('_terp_model').value,
-								'search_view_id': $('search_view_id').value,
-								'flag': flag,
-								'sc_id': $('_terp_sc_id').value };
-								
-				openWindow(getURL('/search/filter_shortcut', params), {width: 300, height: 150});
-			}
-		}
-		else {
-			all_domains['selection_domain'] = selection_domain;
-		}
+//		if (selection_domain == 'blk' || selection_domain == 'sh' || selection_domain == 'sf') {
+//			if (selection_domain == 'blk') {
+//				domain = 'None';
+//			}
+//			if (selection_domain == 'sh' || selection_domain == 'sf') {
+//				flag = selection_domain;
+//				all_dom = serializeJSON(all_domains);
+//				
+//				var params = {'domain': all_dom,
+//								'model': $('_terp_model').value,
+//								'search_view_id': $('search_view_id').value,
+//								'flag': flag,
+//								'sc_id': $('_terp_sc_id').value };
+//								
+//				openWindow(getURL('/search/save_filter', params), {width: 300, height: 150});
+//			}
+//		}
+//		else {
+//			all_domains['selection_domain'] = selection_domain;
+//		}
+		all_domains['selection_domain'] = selection_domain;
 	}
 	
 	if(filter_table.style.display != 'none') {
@@ -315,11 +316,20 @@ var final_search_domain = function(custom_domain, all_domain) {
 															all_domains: all_domains});
 	
 	req.addCallback(function(obj){
-		if (obj.action) {
+		if (obj.flag) {
+			var params = {'domain': obj.sf_dom,
+								'model': $('_terp_model').value,
+								'search_view_id': $('search_view_id').value,
+								'flag': obj.flag,
+								'sc_id': $('_terp_sc_id').value };
+								
+			openWindow(getURL('/search/save_filter', params), {width: 300, height: 150});
+		}
+		if (obj.action) { // For manage Filter
 			action = serializeJSON(obj.action);
 			window.location.href = getURL('/search/manage_filter', {action: action});
 		}
-		if (obj.domain) {
+		if (obj.domain) { // For direct search
 			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain});
 
 		    in_req.addCallback(function(in_obj){
