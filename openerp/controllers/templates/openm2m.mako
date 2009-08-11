@@ -24,8 +24,8 @@
 
                     var m2m = Many2Many('${params.m2m}');
                     var ids = m2m.getValue();
-
-                    if (ids.indexOf(id) == -1)
+                    
+                    if (MochiKit.Base.findIdentical(ids, id) == -1)
                         ids.push(id);
 
                     m2m.setValue(ids);
