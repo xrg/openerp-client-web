@@ -358,7 +358,16 @@ class GraphData(object):
                         grp_value.append(grp_v)
                 stack_list += val
                 stack_id_list += grp_value
-
+                
+#        IF VALUES ARE ALL 0...
+#        if stack_list and len(stack_list) > 0:
+#            if stack_list[0] and len(stack_list[0]) > 0:
+#                min_stack_val = min(stack_list[0])
+#                max_stack_val = max(stack_list[0])
+#            
+#                if min_stack_val == max_stack_val == 0 or min_stack_val == max_stack_val == 0.0:
+#                    return dict(title=self.string)
+        
         return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data, stack_id_list
 
 class BarChart(GraphData):
@@ -470,7 +479,23 @@ class BarChart(GraphData):
                 allvalues.append(d)
 
         yopts = minmx_ticks(allvalues)
-
+        
+        y_grid_color = True
+        
+        if yopts['y_steps'] == 0.0:
+            yopts['y_steps'] = 1
+            yopts['y_max'] = 9
+            yopts['y_min'] = 0
+            y_grid_color = False
+            
+        if y_grid_color:
+            axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                      "stroke": 2 }
+        else:
+            axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                      "grid-colour": "#FFFFFF",
+                      'stroke': 2 }
+        
         if len(axis_group) > 1:
             ChartColors = choice_colors(len(axis_group))
             all_keys = []
@@ -499,10 +524,11 @@ class BarChart(GraphData):
                                      "colours": ChartColors,
                                      "values": [s for s in stack_val],
                                      "keys": [key for key in all_keys]}],
-                        "x_axis": {"labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
-                                   "grid-colour" : "#FFFFFF"},
-                        "y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                                   'stroke': 2 },
+                        "x_axis": {"colour": "#909090",
+                                   "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
+                                   "grid-colour" : "#FFFFFF",
+                                   "3d": 3},
+                        "y_axis": axis_y,
                         "bg_colour": "#FFFFFF",
                         "tooltip": {"mouse": 2 }}
 
@@ -523,9 +549,8 @@ class BarChart(GraphData):
                                 "colour": ChartColors[i],
                                 "values": datas,
                             "font-size": 10})
-                
-            result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                                 'stroke': 2},
+            
+            result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
                       "bg_colour": "#FFFFFF",
