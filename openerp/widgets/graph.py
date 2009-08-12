@@ -442,6 +442,21 @@ class BarChart(GraphData):
 
         for i in label_x:
             lbl = {}
+            i = re.sub(u'[êéèë]', 'e', i)
+            i = re.sub(u'[ïî]', 'i', i)
+            i = re.sub(u'[àâáâãä]', 'a', i)
+            i = re.sub(u'[ç]', 'c', i)
+            i = re.sub(u'[òóôõö]', 'o', i)
+            i = re.sub(u'[ýÿ]', 'y', i)
+            i = re.sub(u'[ñ]', 'n', i)
+            i = re.sub(u'[ÁÂÃÄ]', 'A', i)
+            i = re.sub(u'[ÈÉÊË]', 'E', i)
+            i = re.sub(u'[ÌÍÎÏ]', 'I', i)
+            i = re.sub(u'[ÒÓÔÕÖ]', 'O', i)
+            i = re.sub(u'[ÙÚÛÜ]', 'U', i)
+            i = re.sub(u'[Ý]', 'Y', i)
+            i = re.sub(u'[Ñ]', 'N', i)
+            
             lbl['text'] = i
             lbl['colour'] = "#432BAF"
             temp_lbl.append(lbl)
