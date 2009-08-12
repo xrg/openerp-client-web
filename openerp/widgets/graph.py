@@ -469,6 +469,22 @@ class BarChart(GraphData):
 
         yopts = minmx_ticks(allvalues)
 
+        y_grid_color = True
+        
+        if yopts['y_steps'] == 0.0:
+            yopts['y_steps'] = 1
+            yopts['y_max'] = 9
+            yopts['y_min'] = 0
+            y_grid_color = False
+            
+        if y_grid_color:
+            axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                      "stroke": 2 }
+        else:
+            axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                      "grid-colour": "#FFFFFF",
+                      'stroke': 2 }
+
         if len(axis_group) > 1:
             ChartColors = choice_colors(len(axis_group))
             all_keys = []
@@ -497,10 +513,11 @@ class BarChart(GraphData):
                                      "colours": ChartColors,
                                      "values": [s for s in stack_val],
                                      "keys": [key for key in all_keys]}],
-                        "x_axis": {"labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
-                                   "grid-colour" : "#FFFFFF"},
-                        "y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                                   'stroke': 2 },
+                        "x_axis": {"colour": "#909090",
+                                   "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
+                                   "grid-colour" : "#FFFFFF",
+                                   "3d": 3},
+                        "y_axis": axis_y,
                         "bg_colour": "#FFFFFF",
                         "tooltip": {"mouse": 2 }}
 
@@ -522,8 +539,7 @@ class BarChart(GraphData):
                                 "values": datas,
                             "font-size": 10})
                 
-            result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                                 'stroke': 2},
+            result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
                       "bg_colour": "#FFFFFF",
