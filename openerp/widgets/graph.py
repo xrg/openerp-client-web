@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ###############################################################################
 #
 # Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
@@ -35,6 +36,7 @@ import xml.dom.minidom
 import base64
 
 import urllib
+import re
 
 import simplejson
 
