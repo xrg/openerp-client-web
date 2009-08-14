@@ -6,8 +6,8 @@ from distutils.util import convert_path
 
 execfile(os.path.join("openerp", "release.py"))
 
-if 'bdist_rpm' not in sys.argv:
-    version = version + '-' + release
+if sys.argv[1] == 'bdist_rpm':
+    version = version.split('-')[0]
 
 # Provided as an attribute, so you can append to these instead
 # of replicating them:

@@ -180,9 +180,9 @@ class bdist_wininst(Command):
         if not os.path.exists(makensis):
             makensis = "makensis.exe"
 
-        cmd = '"%s" %s /DVERSION=%s-%s ..\\setup.nsi' % (makensis,
+        cmd = '"%s" %s /DVERSION=%s ..\\setup.nsi' % (makensis,
                                                       self.allinone and '/DALLINONE=1' or '',
-                                                      version, release)
+                                                      version,)
 
         os.system(cmd)
 

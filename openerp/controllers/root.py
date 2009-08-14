@@ -163,7 +163,7 @@ class Root(SecuredController):
     @unsecured
     def about(self):
         from openerp import release
-        version = _("Version %s-%s") % (release.version, release.release)
+        version = _("Version %s") % (release.version,)
         return dict(version=version)
     
     profile = profile.profiler

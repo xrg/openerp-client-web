@@ -29,8 +29,7 @@
 
 # Release information about openerp-web
 
-version = "5.0.2"
-release = "0"
+version = "5.0.3-bzr"
 
 description = "Web Client of OpenERP, the Enterprise Management Software"
 long_description = "OpenERP Web is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
