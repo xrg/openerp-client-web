@@ -102,13 +102,14 @@ class Graph(TinyWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
-
+        
+        self.string = attrs.get('string')
+        
         chart_type = attrs.get('type', 'pie')
 
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-            
             
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, context)
