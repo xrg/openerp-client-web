@@ -331,6 +331,7 @@ class GraphData(object):
             new_keys = []
             for k in keys:
                 k = urllib.unquote_plus(k)
+                k = k.decode('utf-8')
                 new_keys += [k]
                 
             keys = new_keys
@@ -524,15 +525,13 @@ class BarChart(GraphData):
                 all_keys.append(data)
 
             stack_val = []
-            cnt = 0
             for j, stk in enumerate(stack_list):
                 sval = []
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
                     if s != 0.0:
-                        stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
-                        cnt += 1
+                        stack["on-click"]= "function(){onChartClick('" + url[x] + "')}"
                     stack['tip'] = s
                     sval.append(stack)
                 stack_val.append(sval)
