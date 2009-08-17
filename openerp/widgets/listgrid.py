@@ -415,14 +415,12 @@ class M2O(Char):
         </span>
     """
 
-    def __init__(self, **attrs):
-        super(M2O, self).__init__(**attrs)
-
+    def get_text(self):
+        
         if isinstance(self.value, int):
             from many2one import get_name as _m2o_get_name
-            self.value = self.value, _m2o_get_name(attrs['relation'], self.value)
-
-    def get_text(self):
+            self.value = self.value, _m2o_get_name(self.attrs['relation'], self.value)
+            
         if self.value and len(self.value) > 0:
             return self.value[-1]
 
