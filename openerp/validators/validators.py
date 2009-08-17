@@ -153,7 +153,10 @@ class DateTime(FancyValidator):
         except ValueError:
             raise Invalid(_('Invalid datetime format'), value, state)
         # return str instead of real datetime object
-        return format.parse_datetime(value, kind=self.kind)
+        try:
+            return format.parse_datetime(value, kind=self.kind)
+        except ValueError:
+            raise Invalid(_('Invalid datetime format'), value, state)
 
     def _from_python(self, value, state):
         return format.format_datetime(value, kind=self.kind)
