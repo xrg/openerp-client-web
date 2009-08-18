@@ -63,17 +63,19 @@
                                             title="${_('Graph View...')}" 
                                             ${py.attr_if("disabled",not buttons.graph)}
                                             onclick="switchView('graph')">${_("Graph")}</button>
+                                        % if buttons.process:
                                         <button 
                                             type="button" 
                                             title="${_('Corporate Intelligence...')}"
                                             onclick="show_process_view()">${_("Process")}</button>
+                                        % endif
                                     </td>
                                     % endif
                                     % if buttons.can_attach and not buttons.has_attach:
                                     <td align="center" valign="middle" width="16">
                                         <img 
                                             class="button" width="16" height="16"
-                                            title="${_('Add an attachment to this resource.')}" 
+                                            title="${_('Show attachments.')}" 
                                             src="/static/images/stock/gtk-paste.png" 
                                             onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
                                     </td>
@@ -82,7 +84,7 @@
                                     <td align="center" valign="middle" width="16">
                                         <img
                                             class="button" width="16" height="16"
-                                            title="${_('Add an attachment to this resource.')}" 
+                                            title="${_('Show attachments.')}" 
                                             src="/static/images/stock/gtk-paste-v.png" onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
                                     </td>
                                     % endif
@@ -197,7 +199,7 @@
                 </table>
             </td>
 
-            % if form.sidebar and form.screen.view_type not in ('calendar', 'gantt'):
+            % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
             <td width="163" valign="top">
                 ${form.sidebar.display()}
             </td>

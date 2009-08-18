@@ -360,8 +360,8 @@ class ICalendar(TinyWidget):
 
             n = (tde - tds) / (60 * 60)
 
-            if n > self.day_length:
-                span = math.floor(n / 24)
+            if n >= self.day_length:
+                span = math.ceil(n / 24)
 
         starts = format.format_datetime(starts, "datetime", True)
         ends = format.format_datetime(ends, "datetime", True)

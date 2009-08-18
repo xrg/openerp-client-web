@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import time
+
 import cherrypy
 
 from interface import TinyInputWidget
@@ -36,6 +38,7 @@ from listgrid import List
 
 from openerp import rpc
 from openerp import cache
+from openerp import tools
 
 from screen import Screen
 from openerp.utils import TinyDict
@@ -125,6 +128,23 @@ class M2M(TinyInputWidget):
         current.view_type = view_type
         current.domain = current.domain or []
         current.context = current.context or {}
+        
+        if isinstance(self.context, basestring):
+            ctx = cherrypy.request.terp_record
+            ctx['current_date'] = time.strftime('%Y-%m-%d')
+            ctx['time'] = time
+            ctx['context'] = current.context
+            ctx['active_id'] = current.id or False
+
+            # XXX: parent record for O2M
+            #if self.parent:
+            #    ctx['parent'] = EvalEnvironment(self.parent)
+
+            try:
+                ctx = tools.expr_eval(self.context, ctx)
+                current.context.update(ctx)
+            except:
+                pass
 
         if current.view_type == 'tree' and self.readonly:
             self.editable = False

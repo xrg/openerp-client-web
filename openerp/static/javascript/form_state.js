@@ -35,7 +35,12 @@ var form_hookContextMenu = function(){
 
 var form_hookOnChange = function() {
 
-    var id = getElement('_terp_id').value;
+    var prefix = '';
+    try {
+        prefix = getElement('_terp_o2m').value + '/';
+    }catch(e){}
+    
+    var id = getElement(prefix + '_terp_id').value;
     var view_type = getElement('_terp_view_type').value;
     var editable = getElement('_terp_editable').value;
 

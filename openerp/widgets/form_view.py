@@ -86,9 +86,9 @@ class ViewForm(Form):
         if params.view_type == 'tree':
             self.screen.id = False
 
-        if params.context and '_view_name' in params.context:
-            self.screen.string = params.context.get('_view_name')
-
+        # get the correct view title
+        self.screen.string = getattr(cherrypy.request, '_terp_view_name', self.screen.string)
+            
         # get the actual pager data
         self.limit = self.screen.limit
         self.offset = self.screen.offset

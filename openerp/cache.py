@@ -100,5 +100,17 @@ def __can_write(model, uid):
 def can_write(model):
     return __can_write(model, uid=rpc.session.uid)
 
+@memoize(1000)
+def __can_read(model, uid):
+    proxy = rpc.RPCProxy('ir.model.access')
+    try:
+        return proxy.check(model, 'read')
+    except:
+        pass
+    return False
+
+def can_read(model):
+    return __can_read(model, uid=rpc.session.uid)
+
 # vim: ts=4 sts=4 sw=4 si et
 

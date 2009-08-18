@@ -113,7 +113,7 @@ class Root(SecuredController):
     @expose()
     @unsecured
     def get_logo(self):
-
+        
         comp_url = cherrypy.request.app.config['openerp-web'].get('company.url', None)
 
         res="""<img src="/static/images/openerp_big.png" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
@@ -163,7 +163,7 @@ class Root(SecuredController):
     @unsecured
     def about(self):
         from openerp import release
-        version = _("Version %s-%s") % (release.version, release.release)
+        version = _("Version %s") % (release.version,)
         return dict(version=version)
     
     profile = profile.profiler

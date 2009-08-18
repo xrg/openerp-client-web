@@ -11,18 +11,13 @@
         MochiKit.DOM.addLoadEvent(function(evt) {
 
             var lc = parseInt(MochiKit.DOM.getElement('_terp_id').value) || 0;
-
+            
             if (lc > 0) {
             
                 var id = parseInt(getElement('_terp_id').value) || 0;
                 
                 if (id) {
-                    var field = window.opener.document.getElementById('name');
-                    var name = getElement('name').value;
-                    
-                    var op = new Option(name, name); 
-                    field.options.add(op);
-                    op.selected = 1;
+                    window.opener.addNewFieldName(getElement('name').value);
                 }
                 
                 window.close();

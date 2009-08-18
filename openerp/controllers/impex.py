@@ -349,7 +349,7 @@ class ImpEx(SecuredController):
         result = datas_read(ids, params.model, fields)
         
         if result.get('warning', False):
-            common.message_box(_('Exportation Error !'), unicode(result.get('warning', False)))
+            common.message_box(_('Export Error!'), unicode(result.get('warning', False)))
             return False
         result = result.get('datas',[])
         

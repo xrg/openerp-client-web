@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ###############################################################################
 #
 # Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
@@ -35,6 +36,7 @@ import xml.dom.minidom
 import base64
 
 import urllib
+import re
 
 import simplejson
 
@@ -100,13 +102,14 @@ class Graph(TinyWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
-
+        
+        self.string = attrs.get('string')
+        
         chart_type = attrs.get('type', 'pie')
 
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-            
             
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, context)
@@ -181,10 +184,12 @@ class GraphData(object):
                 else:
                     res[x] = float(value[x])
 
-            if isinstance(value[axis[0]], (tuple, list)):
+            if axis and isinstance(value[axis[0]], (tuple, list)):
                 res['id'] = value[axis[0]][0]
-            else:
+            elif axis:
                 res['id'] = value[axis[0]]
+            else:
+                res['id'] = False
 
             res['rec_id'] = rec_ids
 
@@ -327,6 +332,7 @@ class GraphData(object):
             new_keys = []
             for k in keys:
                 k = urllib.unquote_plus(k)
+                k = k.decode('utf-8')
                 new_keys += [k]
                 
             keys = new_keys
@@ -356,7 +362,16 @@ class GraphData(object):
                         grp_value.append(grp_v)
                 stack_list += val
                 stack_id_list += grp_value
-
+                
+#        IF VALUES ARE ALL 0...
+#        if stack_list and len(stack_list) > 0:
+#            if stack_list[0] and len(stack_list[0]) > 0:
+#                min_stack_val = min(stack_list[0])
+#                max_stack_val = max(stack_list[0])
+#            
+#                if min_stack_val == max_stack_val == 0 or min_stack_val == max_stack_val == 0.0:
+#                    return dict(title=self.string)
+        
         return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data, stack_id_list
 
 class BarChart(GraphData):
@@ -364,7 +379,7 @@ class BarChart(GraphData):
     def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
         super(BarChart, self).__init__(model, view, view_id, ids, domain, context)
         self.context = context
-        
+
     def get_data(self):
 
         result = {}
@@ -431,6 +446,21 @@ class BarChart(GraphData):
 
         for i in label_x:
             lbl = {}
+            i = re.sub(u'[êéèë]', 'e', i)
+            i = re.sub(u'[ïî]', 'i', i)
+            i = re.sub(u'[àâáâãä]', 'a', i)
+            i = re.sub(u'[ç]', 'c', i)
+            i = re.sub(u'[òóôõö]', 'o', i)
+            i = re.sub(u'[ýÿ]', 'y', i)
+            i = re.sub(u'[ñ]', 'n', i)
+            i = re.sub(u'[ÁÂÃÄ]', 'A', i)
+            i = re.sub(u'[ÈÉÊË]', 'E', i)
+            i = re.sub(u'[ÌÍÎÏ]', 'I', i)
+            i = re.sub(u'[ÒÓÔÕÖ]', 'O', i)
+            i = re.sub(u'[ÙÚÛÜ]', 'U', i)
+            i = re.sub(u'[Ý]', 'Y', i)
+            i = re.sub(u'[Ñ]', 'N', i)
+            
             lbl['text'] = i
             lbl['colour'] = "#432BAF"
             temp_lbl.append(lbl)
@@ -468,7 +498,7 @@ class BarChart(GraphData):
                 allvalues.append(d)
 
         yopts = minmx_ticks(allvalues)
-
+        
         y_grid_color = True
         
         if yopts['y_steps'] == 0.0:
@@ -496,15 +526,13 @@ class BarChart(GraphData):
                 all_keys.append(data)
 
             stack_val = []
-            cnt = 0
             for j, stk in enumerate(stack_list):
                 sval = []
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
                     if s != 0.0:
-                        stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
-                        cnt += 1
+                        stack["on-click"]= "function(){onChartClick('" + url[x] + "')}"
                     stack['tip'] = s
                     sval.append(stack)
                 stack_val.append(sval)
@@ -538,7 +566,7 @@ class BarChart(GraphData):
                                 "colour": ChartColors[i],
                                 "values": datas,
                             "font-size": 10})
-                
+            
             result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],

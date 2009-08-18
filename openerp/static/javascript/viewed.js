@@ -395,6 +395,11 @@ var onUpdate = function(){
     window.mbox.onUpdate();
 }
 
+var addNewFieldName = function(name) {
+    var op = getElement("name").options;
+    op[op.length] = new Option(name, name, 0, 1);
+}
+
 MochiKit.DOM.addLoadEvent(function(evt){
 
     window.mbox = new ModalBox({

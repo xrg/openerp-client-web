@@ -53,11 +53,11 @@ from openerp.utils import TinyForm
 
 from openerp.widgets.binary import generate_url_for_picture
 
-def make_domain(name, value):
+def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
     Will be used for search window...
     """
-
+        
     if isinstance(value, int) and not isinstance(value, bool):
         return [(name, '=', value)]
 
@@ -76,7 +76,10 @@ def make_domain(name, value):
             return [(name, '<=', end)]
 
         return None
-
+    
+    if kind == "selection" and value:
+        return [(name, '=', value)]
+    
     if isinstance(value, basestring) and value:
         return [(name, 'ilike', value)]
 
@@ -101,12 +104,16 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     domain = domain or []
     context = context or {}
     data = data or {}
-
+    
+    proxy = rpc.RPCProxy(model)
+    fields = proxy.fields_get([], {})
+    
     search_domain = domain[:]
     search_data = {}
 
     for k, v in data.items():
-        t = make_domain(k, v)
+        t = fields.get(k, {}).get('type', 'char')
+        t = make_domain(k, v, t)
 
         if t:
             search_domain += t
@@ -118,7 +125,6 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     if l < 1: l = 20
     if o < 0: o = 0
 
-    proxy = rpc.RPCProxy(model)
     ctx = rpc.session.context.copy()
     ctx.update(context)
 
@@ -234,7 +240,7 @@ class Form(SecuredController):
         buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
 
-        target = params.context.get('_terp_target')
+        target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
         if cache.can_write('ir.ui.view'):
@@ -242,6 +248,8 @@ class Form(SecuredController):
             
         if cache.can_write('workflow'):
             links.workflow_manager = True
+            
+        buttons.process = cache.can_read('process.process')
 
         pager = None
         if buttons.pager:
@@ -291,12 +299,13 @@ class Form(SecuredController):
 
     @expose()
     def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
-            domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
                                        '_terp_view_mode' : view_mode,
+                                       '_terp_source' : source,
                                        '_terp_domain' : domain,
                                        '_terp_context' : context,
                                        '_terp_offset': offset,

@@ -77,9 +77,14 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
 
         if dbfilter == 'BOTH':
             dblist = [d for d in dblist if d.startswith(base + '_') or d == base]
-
+            
+    info = None
+    try:
+        info = rpc.session.execute_noauth('common', 'login_message') or ''
+    except:
+        pass
     return dict(target=target, url=url, dblist=dblist, db=db, user=user, password=password,
-            action=action, message=message, origArgs=origArgs)
+            action=action, message=message, origArgs=origArgs, info=info)
 
 def secured(fn):
     """A Decorator to make a SecuredController controller method secured.

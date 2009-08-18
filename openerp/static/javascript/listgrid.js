@@ -507,15 +507,6 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_count.value = obj.count;
             }
 
-            // update concurrency info
-            for(var key in obj.info) {
-                try {
-                    var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
-                    var value = "('" + key + "', '" + obj.info[key] + "')";
-                    item.value = value;
-                }catch(e){}
-            }
-
             var d = DIV();
             d.innerHTML = obj.view;
 
@@ -539,6 +530,18 @@ MochiKit.Base.update(ListView.prototype, {
                 forEach(scripts, function(s){
                     eval(s.innerHTML);
                 });
+            }
+            
+            // update concurrency info
+            for(var key in obj.info) {
+                try {
+                    var items = getElementsByAttribute(['name', '_terp_concurrency_info'], ['value', '*=' + key]);
+                    var value = "('" + key + "', '" + obj.info[key] + "')";
+                    for(var i=0; i<items.length;i++) {
+                        log(key, value);
+                        items[i].value = value;
+                    }
+                }catch(e){}
             }
 
             // set focus on the first field

@@ -56,6 +56,10 @@ class OpenO2M(Form):
         params.model = params.o2m_model
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
+        
+        #XXX: dirty hack to fix bug #401700
+        if not params.get('_terp_view_ids'):
+            params['_terp_view_ids'] = []
 
         # to get proper view, first generate form using the view_params
         vp = params.view_params
@@ -139,8 +143,8 @@ class OpenO2M(Form):
         new_ids = [i for i in all_ids if i not in ids]
 
         current.ids = all_ids
-        if new_ids:
-            current.id = new_ids[0]
+        #if new_ids:
+        #    current.id = new_ids[0]
             
         # perform button action
         if params.button:

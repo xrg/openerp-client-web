@@ -120,7 +120,7 @@ def setup_server(configfile):
 def start():
     """Start the CherryPy application server."""
 
-    parser = optparse.OptionParser(version="%s-%s" % (release.version, release.release))
+    parser = optparse.OptionParser(version=release.version)
     parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
     (opt, args) = parser.parse_args()
 

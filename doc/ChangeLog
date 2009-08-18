@@ -1,4 +1,4 @@
-5.0.2 (2009-06-16)
+5.0.2 (2009-08-11)
 
 	New Features:
 	
@@ -22,9 +22,14 @@
 	* Strip the header completely for action with target=new.
 	* New Picture widget (display only)
 	* Improved wiki widget
+	* Improvements in `Import/Export` (db_id, id, import compatible).
 
 	Bug Fixed (major):
 
+    * Concurrenry problem when inserting o2m values from popup.
+    * Calendar view (improper day span).
+    * Incorrect sequence number incrementation
+    * Fixed long URI problem (relate links)
 	* Fixed notebook widget (nested notebooks are not working)
 	* Dynamic notebook page visibility with attrs.
 	* Improved Ajax validator (fixes onchange problem when there is some invalid value in the form)
