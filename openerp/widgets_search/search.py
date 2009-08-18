@@ -82,9 +82,10 @@ class RangeWidget(TinyInputWidget):
         self.to_field.readonly = False
         
         # register the validators
-        for widget in [self.from_field, self.to_field]:
-            cherrypy.request.terp_validators[str(widget.name)] = widget.validator
-            cherrypy.request.terp_fields += [widget]
+        if hasattr(cherrypy.request, 'terp_validators'):
+            for widget in [self.from_field, self.to_field]:
+                cherrypy.request.terp_validators[str(widget.name)] = widget.validator
+                cherrypy.request.terp_fields += [widget]
 
     def set_value(self, value):
         start = value.get('from', '')
