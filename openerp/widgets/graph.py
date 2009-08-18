@@ -102,13 +102,14 @@ class Graph(TinyWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
-
+        
+        self.string = attrs.get('string')
+        
         chart_type = attrs.get('type', 'pie')
 
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-            
             
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, context)
@@ -331,6 +332,7 @@ class GraphData(object):
             new_keys = []
             for k in keys:
                 k = urllib.unquote_plus(k)
+                k = k.decode('utf-8')
                 new_keys += [k]
                 
             keys = new_keys
@@ -524,15 +526,13 @@ class BarChart(GraphData):
                 all_keys.append(data)
 
             stack_val = []
-            cnt = 0
             for j, stk in enumerate(stack_list):
                 sval = []
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
                     if s != 0.0:
-                        stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
-                        cnt += 1
+                        stack["on-click"]= "function(){onChartClick('" + url[x] + "')}"
                     stack['tip'] = s
                     sval.append(stack)
                 stack_val.append(sval)
