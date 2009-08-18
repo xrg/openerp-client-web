@@ -199,7 +199,7 @@
                 </table>
             </td>
 
-            % if form.sidebar and form.screen.view_type not in ('calendar', 'gantt'):
+            % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
             <td width="163" valign="top">
                 ${form.sidebar.display()}
             </td>
