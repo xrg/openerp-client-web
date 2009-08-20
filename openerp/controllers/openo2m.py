@@ -81,8 +81,7 @@ class OpenO2M(Form):
 
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
-        o2m_ctx = params.o2m_context or {}
-        ctx.update(o2m_ctx)
+        ctx.update(params.o2m_context or {})
         p, ctx = TinyDict.split(ctx)
 
         params.context = ctx or {}
