@@ -4,9 +4,9 @@
     <title>${tree.string}</title>
     <script type="text/javascript">
 
-        function submit_form(action, src, target){
-            
-            var selection = MochiKit.DOM.getElement('tree_ids').value;
+        function switchTree(){
+        
+            var selection = MochiKit.DOM.getElement('_terp_ids').value;
             
             if (!selection) {
                 return alert(_('You must select at least one record.'));
@@ -17,7 +17,7 @@
                 '_terp_selection': '[' + selection + ']'
             }
 
-            setNodeAttribute(form, 'action', getURL('/tree/' + action, args));
+            setNodeAttribute(form, 'action', getURL('/tree/switch', args));
             form.method = 'post';
             form.submit();
         }
@@ -48,7 +48,7 @@
                                 </td>
                                 <td width="100%">${tree.string}</td>
                                 <td nowrap="nowrap">
-                                <button type="button" title="${_('Switch current view: form/list')}" onclick="submit_form('switch')">${_("Switch")}</button>
+                                <button type="button" title="${_('Switch current view: form/list')}" onclick="switchTree()">${_("Switch")}</button>
                                 </td>
                                 <td align="center" valign="middle" width="16">
                                     <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
