@@ -32,6 +32,7 @@ import re
 from openerp.tools import expose
 from openerp.tools import redirect
 from openerp.tools import validate
+from openerp.tools import error_handler
 
 import cherrypy
 
@@ -40,7 +41,9 @@ from openerp import tools
 from openerp import common
 
 from openerp import widgets as tw
+
 from openerp.controllers.base import SecuredController
+from openerp.controllers.form import default_error_handler
 from openerp.utils import TinyDict
 
 from openerp import validators
@@ -206,6 +209,7 @@ class Wizard(SecuredController):
 
     @expose()
     @validate(form=get_validation_schema)
+    @error_handler(default_error_handler)
     def report(self, tg_errors=None, tg_exceptions=None, **kw):
 
         if tg_exceptions:
@@ -221,6 +225,7 @@ class Wizard(SecuredController):
 
     @expose()
     @validate(form=get_validation_schema)
+    @error_handler(default_error_handler)
     def action(self, tg_errors=None, tg_exceptions=None, **kw):
 
         if tg_exceptions:
