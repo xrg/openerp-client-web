@@ -81,7 +81,10 @@ class OpenO2M(Form):
 
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
-        ctx.update(params.o2m_context or {})
+        
+        if isinstance(params.o2m_context, dict):
+            ctx.update(params.o2m_context or {})
+            
         p, ctx = TinyDict.split(ctx)
 
         params.context = ctx or {}
@@ -126,7 +129,9 @@ class OpenO2M(Form):
 
         ctx = tools.context_with_concurrency_info(rpc.session.context, params.concurrency_info)
         ctx.update(params.parent_context or {})
-        ctx.update(params.o2m_context or {})
+        
+        if isinstance(params.o2m_context, dict):
+            ctx.update(params.o2m_context or {})
 
         id = proxy.write([params.parent_id], data, ctx)
         
