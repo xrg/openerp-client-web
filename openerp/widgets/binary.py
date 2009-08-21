@@ -148,13 +148,18 @@ class Picture(TinyInputWidget):
         
         proxy = rpc.RPCProxy(self.model)
         
-        if not self.id:
-            value = proxy.default_get([self.name], ctx)
+        if '/' in self.name:
+            name = self.name.rsplit('/', 1)[-1]
         else:
-            value = proxy.read([self.id], [self.name], ctx)[0]
+            name = self.name
+        
+        if not self.id:
+            value = proxy.default_get([name], ctx)
+        else:
+            value = proxy.read([self.id], [name], ctx)[0]
             
-        value = value.get(self.name) or (None, None)
-        self.url = generate_url_for_picture(self.model, self.name, self.id, value)
+        value = value.get(name) or (None, None)
+        self.url = generate_url_for_picture(self.model, name, self.id, value)
 
 
 # vim: ts=4 sts=4 sw=4 si et

@@ -164,10 +164,10 @@ class GraphData(object):
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
                     res[x] = ustr(res[x])
-                elif fields[x]['type'] == 'date':
+                elif fields[x]['type'] == 'date' and value[x]:
                     date = time.strptime(value[x], DT_FORMAT)
                     res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
-                elif fields[x]['type'] == 'datetime':
+                elif fields[x]['type'] == 'datetime' and value[x]:
                     date = time.strptime(value[x], DHM_FORMAT)
                     if 'tz' in rpc.session.context:
                         try:
@@ -268,10 +268,13 @@ class GraphData(object):
                 key_ids['rec_id'] = val.get('rec_id')
                 key_ids['prod_id'] = val[axis[0]]
                 lbl = val[axis[0]]
-                key = urllib.quote_plus(val[axis[0]].encode('utf-8'))
+                
+                key_value = val[axis[0]]
+                
+                key = urllib.quote_plus(ustr(key_value).encode('utf-8'))
                 info = data_axis.setdefault(key, {})
 
-                data_all.setdefault(val[axis[0]], {})
+                data_all.setdefault(key_value, {})
 
                 keys[key] = 1
                 label[lbl] = 1
@@ -297,7 +300,7 @@ class GraphData(object):
 
         label = label.keys()
         label.sort()
-
+        
         for l in label:
             x = 0
             for i in total_ids:
@@ -305,7 +308,10 @@ class GraphData(object):
                     dd = i.get('id')
                     x += 1
                     temp_dom.append(dd)
-
+            
+            if not isinstance(l, basestring):
+                l = ustr(l)
+            
             if(len(l) > 10):
                 label_x.append(l.split('/')[-1])
             else:
@@ -371,7 +377,7 @@ class GraphData(object):
 #            
 #                if min_stack_val == max_stack_val == 0 or min_stack_val == max_stack_val == 0.0:
 #                    return dict(title=self.string)
-        
+
         return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data, stack_id_list
 
 class BarChart(GraphData):
