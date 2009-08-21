@@ -123,6 +123,10 @@ function get_cookie(name) {
     return unescape(dc.substring(begin + prefix.length, end));
 }
 
+function del_cookie(name) {
+    document.cookie = name + "=; path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT";
+}
+
 function openWindow(anchor, options) {
 
     var opts = MochiKit.Base.update({
