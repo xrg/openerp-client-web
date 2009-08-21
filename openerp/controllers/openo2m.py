@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import urllib
+
 from openerp.tools import expose
 from openerp.tools import validate
 from openerp.tools import error_handler
@@ -78,7 +80,18 @@ class OpenO2M(Form):
 
         params.prefix = params.o2m
         params.views = wid.view
-
+        
+        # IE hack, get context from cookies (see o2m.js)
+        o2m_context = {}
+        try:
+            o2m_context = urllib.unquote(cherrypy.request.cookie['_terp_o2m_context'].value)
+            cherrypy.request.cookie['_terp_o2m_context']['expires'] = 0
+            cherrypy.response.cookie['_terp_o2m_context']['expires'] = 0
+        except:
+            pass
+        
+        params.o2m_context = o2m_context
+        
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
