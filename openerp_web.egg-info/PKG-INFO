@@ -13,6 +13,5 @@ Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
-Classifier: Topic :: Software Development :: Libraries :: Python Modules
-Classifier: Framework :: CherryPy
-Classifier: Framework :: CherryPy :: Applications
+Classifier: Environment :: Web Environment
+Classifier: Topic :: Office/Business :: Financial
