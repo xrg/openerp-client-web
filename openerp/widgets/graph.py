@@ -520,7 +520,7 @@ class BarChart(GraphData):
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
                       "grid-colour": "#FFFFFF",
                       'stroke': 2 }
-
+        
         if len(axis_group) > 1:
             ChartColors = choice_colors(len(axis_group))
             all_keys = []

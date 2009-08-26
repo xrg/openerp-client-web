@@ -73,6 +73,7 @@ class O2M(TinyInputWidget):
         self.parent_id = params.id
         if pparams:
             self.parent_id = pparams.id
+
         # get params for this field
         current = params.chain_get(self.name)
 
@@ -115,7 +116,7 @@ class O2M(TinyInputWidget):
         current.view_type = view_type
         current.domain = current.domain or []
         current.context = current.context or {}
-        
+
         if self.default_get_ctx:
             ctx = cherrypy.request.terp_record
             ctx['current_date'] = time.strftime('%Y-%m-%d')
@@ -139,7 +140,7 @@ class O2M(TinyInputWidget):
 
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
-            
+
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
                              selectable=0, nolinks=self.link)

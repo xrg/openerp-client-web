@@ -1,3 +1,19 @@
+5.0.3 (2009-08-21)
+
+	Bug Fixed (major):
+
+	* [FIX] graph crashed, if date value is empty.
+	* [FIX] O2M popup (IE issue).
+	* [FIX] validation problem in wizards.
+	* [FIX] search widget (missing validation).
+	* [FIX] don't show sidebar if target=new.
+	* [FIX] process view popup.
+	* [IMP] datetime validation (year out of range).
+	* [FIX] Fixed graph view for unicode characters.
+	* [FIX] Fixed `Graph View` when there is no data on y-axis (For OOCRM).
+
+	For more complete bug fix history, please visit Launchpad.
+
 5.0.2 (2009-08-11)
 
 	New Features:
@@ -26,10 +42,10 @@
 
 	Bug Fixed (major):
 
-    * Concurrenry problem when inserting o2m values from popup.
-    * Calendar view (improper day span).
-    * Incorrect sequence number incrementation
-    * Fixed long URI problem (relate links)
+	* Concurrenry problem when inserting o2m values from popup.
+	* Calendar view (improper day span).
+	* Incorrect sequence number incrementation
+	* Fixed long URI problem (relate links)
 	* Fixed notebook widget (nested notebooks are not working)
 	* Dynamic notebook page visibility with attrs.
 	* Improved Ajax validator (fixes onchange problem when there is some invalid value in the form)

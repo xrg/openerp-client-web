@@ -252,10 +252,7 @@ class Tree(SecuredController):
 
         params, data = TinyDict.split(kw)
 
-        ids = data.get('ids') or []
-        if ids:
-            ids = [int(id) for id in ids.split(',')]
-
+        ids = params.selection or []            
         if len(ids):
             from openerp.controllers import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)

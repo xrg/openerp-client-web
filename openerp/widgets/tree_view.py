@@ -36,8 +36,7 @@ from openerp import tools
 from openerp import cache
 
 from sidebar import Sidebar
-
-from base import Form
+from base import Form, JSLink, locations
 
 import treegrid
 
@@ -46,6 +45,8 @@ class ViewTree(Form):
     template = "templates/viewtree.mako"
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
+    
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)
