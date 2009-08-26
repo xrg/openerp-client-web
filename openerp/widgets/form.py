@@ -726,6 +726,7 @@ class Form(TinyInputWidget):
             cherrypy.request.terp_record = TinyDict()
 
         self.view_fields = []
+        self.nb_couter = 0
         self.frame = self.parse(prefix, dom, fields, values)[0]
         self.values = [values]
         self.concurrency_info = ConcurrencyInfo(self.model, [self.id])
@@ -789,9 +790,10 @@ class Form(TinyInputWidget):
                 views += [Frame(children=n, **attrs)]
 
             elif node.localName == 'notebook':
+                self.nb_couter += 1
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
-                nb._name = prefix.replace('/', '_') + '_notebook_%s' % (nb._serial)
+                nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)
                 views += [nb]
 
             elif node.localName == 'page':

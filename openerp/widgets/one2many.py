@@ -122,7 +122,7 @@ class O2M(TinyInputWidget):
             ctx['current_date'] = time.strftime('%Y-%m-%d')
             ctx['time'] = time
             ctx['context'] = current.context
-            ctx['active_id'] = current.id or False
+            ctx['active_id'] = self.parent_id or False
 
             # XXX: parent record for O2M
             #if self.parent:
