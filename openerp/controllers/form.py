@@ -241,6 +241,9 @@ class Form(SecuredController):
         buttons.i18n = not editable and mode == 'form'
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
+        if not params.header_footer:
+            target = "new"
+
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
         if cache.can_write('ir.ui.view'):
