@@ -118,8 +118,9 @@ class Wizard(SecuredController):
                 buttons = res.get('state', [])
                 buttons = [(b[0], re.sub('_(?!_)', '', b[1])) for b in buttons] # remove mnemonic
                 params.state = state
-
-                return dict(form=form, buttons=buttons)
+                
+                target = getattr(cherrypy.request, '_terp_view_target', None)
+                return dict(form=form, buttons=buttons, show_header_footer=target!='new')
 
             elif res['type']=='action':
                 from openerp.controllers import actions

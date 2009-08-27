@@ -488,7 +488,7 @@ class Form(SecuredController):
 
             if action_type == 'ir.actions.wizard':
                 cherrypy.session['wizard_parent_form'] = self.path
-                cherrypy.session['wizard_parent_params'] = params
+                cherrypy.session['wizard_parent_params'] = params.parent_params or params
 
             res = actions.execute_by_id(action_id, type=action_type,
                                         model=model, id=id, ids=ids,
