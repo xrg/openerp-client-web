@@ -30,7 +30,16 @@
     
     <div class="toolbar" style="text-align: right;">
         % for state in buttons:
-        <button onclick="wizardAction('${state[0]}')">${state[1]}</button>
+        <button onclick="wizardAction('${state[0]}')">
+            <table align="center" cellspacing="0">
+                <tr>
+                    % if len(state) >= 3:
+                    <td><img align="left" src="${state[2]}" width="16" height="16"/></td>
+                    % endif
+                    <td>${state[1]}</td>
+                </tr>
+            </table>
+        </button>
         % endfor
     </div>
     
