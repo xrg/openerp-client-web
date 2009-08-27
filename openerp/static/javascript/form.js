@@ -427,8 +427,8 @@ var getFormData = function(extended) {
 
             var attrs = {};
             
-            var value = getNodeAttribute(e, 'value');
-            var kind = getNodeAttribute(e, 'kind');
+            var value = getNodeAttribute(e, 'value') || "";
+            var kind = getNodeAttribute(e, 'kind') || "char";
 
             //take care of _terp_id
             if (/_terp_id$/.test(n)) {
