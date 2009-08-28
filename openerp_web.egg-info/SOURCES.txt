@@ -1,9 +1,11 @@
 MANIFEST.in
+openerp-web.py
 setup.py
 config/openerp-web.cfg
 doc/ChangeLog
 doc/LICENSE.txt
 doc/README.txt
+lib/populate.sh
 locales/messages.pot
 locales/de_DE/LC_MESSAGES/messages.mo
 locales/de_DE/LC_MESSAGES/messages.po

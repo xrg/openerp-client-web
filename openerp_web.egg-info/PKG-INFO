@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: openerp-web
-Version: 5.0.4-bzr
+Version: 5.0.4-brz
 Summary: Web Client of OpenERP, the Enterprise Management Software
 Home-page: http://openerp.com/
 Author: Tiny ERP Pvt. Ltd.
@@ -13,6 +13,5 @@ Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
-Classifier: Topic :: Software Development :: Libraries :: Python Modules
-Classifier: Framework :: CherryPy
-Classifier: Framework :: CherryPy :: Applications
+Classifier: Environment :: Web Environment
+Classifier: Topic :: Office/Business :: Financial

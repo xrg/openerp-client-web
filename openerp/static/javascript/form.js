@@ -365,10 +365,18 @@ var getFormData = function(extended) {
 
     var frm = {};
     var fields = [];
-
-    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
-    fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
-    fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
+    
+    var is_editable = $('_terp_editable').value == 'True';
+    
+    if (is_editable) {
+	    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
+	    fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
+	    fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
+    } else {
+        fields = fields.concat(getElementsByAttribute('kind', 'value'));
+        fields = fields.concat(getElementsByAttribute(['name', '$=/__id']));
+    }
+    
     fields = fields.concat(filter(function(e){
         return getNodeAttribute(e,'kind')=='picture';
     }, getElementsByTagAndClassName('img', null, parentNode)));
@@ -376,11 +384,12 @@ var getFormData = function(extended) {
     for(var i=0; i<fields.length; i++) {
     
         var e = fields[i];
+        var n = is_editable ? e.name : e.id;
         
-        if (e.tagName.toLowerCase() != 'img' && !e.name)
+        if (e.tagName.toLowerCase() != 'img' && !n)
             continue;
 
-        var n = e.name.replace('_terp_listfields/', '');
+        var n = n.replace('_terp_listfields/', '');
 
         // don't include _terp_ fields except _terp_id
         if (/_terp_/.test(n) && ! /_terp_id$/.test(n))
@@ -390,7 +399,7 @@ var getFormData = function(extended) {
         if (n.indexOf('/__id') > 0) {
         
             n = n.replace('/__id', '');
-            
+
             if ($(n + '/_terp_view_type').value == 'form') {
                 frm[n+'/__id'] = $(n+'/__id').value;
                 continue;
@@ -402,7 +411,7 @@ var getFormData = function(extended) {
             }
             
             var value = $(n + '/_terp_ids').value;
-            
+
             if (extended) {
                 value = {'value': value, 
                          'type': 'one2many', 
@@ -417,12 +426,9 @@ var getFormData = function(extended) {
         if (extended && n.indexOf('/__id') == -1) {
 
             var attrs = {};
-
-            var value = e.value;
-            var kind = null;
-
-            value = e.value;
-            kind = getNodeAttribute(e, 'kind');
+            
+            var value = getNodeAttribute(e, 'value') || "";
+            var kind = getNodeAttribute(e, 'kind') || "char";
 
             //take care of _terp_id
             if (/_terp_id$/.test(n)) {

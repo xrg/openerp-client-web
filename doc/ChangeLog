@@ -1,3 +1,10 @@
+5.0.3-1 (2009-08-26)
+
+    * [IMP] process view node now links to parent document directory if no record selected.
+    * [FIX] Fixed one2many popup (context problem).
+    * [FIX] Remember active notebook page.
+    * [FIX] Included lib/populate.sh in source distribution package.
+    
 5.0.3 (2009-08-21)
 
 	Bug Fixed (major):

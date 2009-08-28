@@ -16,28 +16,32 @@
 <%def name="content()">
 <div class="view">
 
-    <div class="header">
-
-        <div class="title">
-            % if form:
-                ${form.screen.string}
-            % endif
-        </div>
-
-        <div class="spacer"></div>
-
-        <div class="toolbar">
-            % for state in buttons:
-            <button onclick="wizardAction('${state[0]}')">${state[1]}</button>
-            % endfor
-        </div>
-
+% if form:
+    <div class="title">
+    ${form.screen.string}
     </div>
-
-    <div class="spacer"></div>
+% endif
 
     % if form:
         ${form.display()}
     % endif
+    
+    <div class="spacer"></div>
+    
+    <div class="toolbar" style="text-align: right;">
+        % for state in buttons:
+        <button onclick="wizardAction('${state[0]}')">
+            <table align="center" cellspacing="0">
+                <tr>
+                    % if len(state) >= 3:
+                    <td><img align="left" src="${state[2]}" width="16" height="16"/></td>
+                    % endif
+                    <td>${state[1]}</td>
+                </tr>
+            </table>
+        </button>
+        % endfor
+    </div>
+    
 </div>
 </%def>
