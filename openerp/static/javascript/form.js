@@ -427,7 +427,7 @@ var getFormData = function(extended) {
 
             var attrs = {};
             
-            var value = e.value || "";
+            var value = (is_editable ? e.value : getNodeAttribute(e, 'value')) || "";
             var kind = getNodeAttribute(e, 'kind') || "char";
 
             //take care of _terp_id
