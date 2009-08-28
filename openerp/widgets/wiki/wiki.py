@@ -46,6 +46,7 @@ _rss = re.compile(r'rss:(.*)\.(.*)', re.UNICODE)
 _attach = re.compile(r'attach:(.*)\.(.*)', re.UNICODE)
 _internalLinks = re.compile(r'\[\[.*\]\]', re.UNICODE)
 _edit = re.compile(r'edit:(.*)\|(.*)', re.UNICODE)
+_view = re.compile(r'view:(.*)\|(.*)', re.UNICODE)
 
 class WikiParser(wikimarkup.Parser):
 
@@ -65,11 +66,34 @@ class WikiParser(wikimarkup.Parser):
         text = self.addImage(text, id)
         text = self.attachDoc(text, id)
         text = self.recordLink(text)
+        text = self.viewRecordLink(text)
         text = self.addInternalLinks(text)
         #TODO : already implemented but we will implement it later after releasing the 5.0
         #text = self.addRss(text, id)
         return text
-
+    
+    def viewRecordLink(self, text):
+        def record(path):
+            record = path.group().replace('view:','').split("|")
+            model = record[0]
+            text = record[1].replace('\r','').strip()
+            label = "View Record"
+            if len(record) > 2:
+                label = record[2]
+            proxy = rpc.RPCProxy(model)
+            ids = proxy.name_search(text, [], 'ilike', {})
+            if len(ids):
+                id = ids[0][0]
+            else:
+                try:
+                    id = int(text)
+                except:
+                    id = 0
+            return "[[/form/view?model=%s&amp;id=%d | %s]]" % (model, id, label)
+        
+        bits = _view.sub(record, text) 
+        return bits
+        
     def addRss(self, text, id):
         def addrss(path):
             rssurl = path.group().replace('rss:','')
