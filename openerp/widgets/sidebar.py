@@ -67,13 +67,17 @@ class Sidebar(TinyWidget):
         });
     """)]
 
-    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}, **kw):
+    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, context={}, is_tree=False, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
 
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type
+        
+        act = 'client_action_multi'
+#        if is_tree:
+#            act = 'tree_but_action'
 
         toolbar = toolbar or {}
 
@@ -84,32 +88,37 @@ class Sidebar(TinyWidget):
         self.attachments = []
 
         proxy = rpc.RPCProxy('ir.values')
-
+        
+        if self.view_type == 'form':
+            act = 'tree_but_action'
+        
+        res_action = []
+        res_action = proxy.get('action', act, [(self.model, False)], False, self.context)
+        action = [a[-1] for a in res_action]
+        
         if not self.actions:
+            self.actions = action
+        else:
+            ids = []
+            ids += [ac['id'] for ac in self.actions]
 
-            act = 'client_action_multi'
-            if is_tree:
-                act = 'tree_but_action'
-
-            res = []
-            try: # Deal with `You try to bypass an access rule`
-                res = proxy.get('action', act, [(self.model, False)], False, self.context)
-            except:
-                pass
-
-            actions = [a[-1] for a in res]
-            self.actions = [a for a in actions if self.multi or not a.get('multi')]
-
+            for a in action:
+                if a['id'] not in ids:
+                    self.actions += [a]
+            
+        res_reports = []        
+        res_reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
+        report = [a[-1] for a in res_reports]
+        
         if not self.reports:
-            res = []
-            try:
-                res = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
-            except:
-                pass
+            self.reports = report
+        else:
+            ids = []
+            ids += [re['id'] for re in self.reports]
 
-            actions = [a[-1] for a in res]
-            self.reports = [a for a in actions if self.multi or not a.get('multi')]
-
+            for r in report:
+                if r['id'] not in ids:
+                    self.reports += [a]
 
         if self.view_type == 'form':
             
