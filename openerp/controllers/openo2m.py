@@ -70,7 +70,7 @@ class OpenO2M(Form):
         # auto increment of sequence
         vp.id = params.parent_id or False 
         
-        form = tw.form_view.ViewForm(vp, name="view_form", action="/form/save")
+        form = tw.form_view.ViewForm(vp, name="view_form", action="/openo2m/save")
         cherrypy.request.terp_validators = {}
         wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
 
@@ -162,6 +162,8 @@ class OpenO2M(Form):
         # perform button action
         if params.button:
             current.button = params.button
+            current.parent_params = params
+            cherrypy.request._terp_view_target = 'new'
             res = self.button_action(current)
             if res:
                 return res

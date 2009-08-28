@@ -39,6 +39,7 @@ import cherrypy
 from openerp import rpc
 from openerp import tools
 from openerp import common
+from openerp import icons
 
 from openerp import widgets as tw
 
@@ -115,11 +116,20 @@ class Wizard(SecuredController):
                 
                 form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
 
-                buttons = res.get('state', [])
-                buttons = [(b[0], re.sub('_(?!_)', '', b[1])) for b in buttons] # remove mnemonic
-                params.state = state
+                buttons = []
+                for x in res.get('state', []):
+                    x = list(x)
+                    x[1] = re.sub('_(?!_)', '', x[1]) # remove mnemonic
+                    
+                    if len(x) >= 3:
+                        x[2] = icons.get_icon(x[2])
+                        
+                    buttons.append(tuple(x))
 
-                return dict(form=form, buttons=buttons)
+                params.state = state
+                target = getattr(cherrypy.request, '_terp_view_target', None)
+                
+                return dict(form=form, buttons=buttons, show_header_footer=target!='new')
 
             elif res['type']=='action':
                 from openerp.controllers import actions

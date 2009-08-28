@@ -136,9 +136,8 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Framework :: CherryPy',
-        'Framework :: CherryPy :: Applications',
+        'Environment :: Web Environment',
+        'Topic :: Office/Business :: Financial',
         ],
     entry_points = {
         'console_scripts': [
