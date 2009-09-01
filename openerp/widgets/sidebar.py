@@ -105,7 +105,7 @@ class Sidebar(TinyWidget):
             for a in action:
                 if a['id'] not in ids:
                     self.actions += [a]
-            
+                    
         res_reports = []        
         res_reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
         report = [a[-1] for a in res_reports]
@@ -118,8 +118,8 @@ class Sidebar(TinyWidget):
 
             for r in report:
                 if r['id'] not in ids:
-                    self.reports += [a]
-
+                    self.reports += [r]
+                    
         if self.view_type == 'form':
             
             proxy = rpc.RPCProxy('ir.attachment')
