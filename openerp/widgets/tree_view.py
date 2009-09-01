@@ -113,7 +113,7 @@ class ViewTree(Form):
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
 
-        self.sidebar = Sidebar(self.model, toolbar, True, True, context=self.context)
+        self.sidebar = Sidebar(self.model, toolbar, context=self.context)
         
         # get the correct view title
         self.string = getattr(cherrypy.request, '_terp_view_name', self.string)

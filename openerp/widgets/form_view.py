@@ -72,8 +72,7 @@ class ViewForm(Form):
                              selectable=params.selectable or 2)
 
         self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.id,
-                               self.screen.view_type, self.screen.view_type != 'form',
-                               self.screen.context)
+                               self.screen.view_type, context=self.screen.context)
 
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 

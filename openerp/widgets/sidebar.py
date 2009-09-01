@@ -67,14 +67,15 @@ class Sidebar(TinyWidget):
         });
     """)]
 
-    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, is_tree=False, context={}, **kw):
+    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
 
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type
-
+        
+        act = 'client_action_multi'
         toolbar = toolbar or {}
 
         self.reports = toolbar.get('print', [])
@@ -84,32 +85,25 @@ class Sidebar(TinyWidget):
         self.attachments = []
 
         proxy = rpc.RPCProxy('ir.values')
+        
+        if self.view_type == 'form':
+            act = 'tree_but_action'
 
-        if not self.actions:
+        actions = proxy.get('action', act, [(self.model, False)], False, self.context)
+        actions = [a[-1] for a in actions]
 
-            act = 'client_action_multi'
-            if is_tree:
-                act = 'tree_but_action'
+        ids = [a['id'] for a in self.actions]
+        for act in actions:
+            if act['id'] not in ids:
+                self.actions.append(act)
 
-            res = []
-            try: # Deal with `You try to bypass an access rule`
-                res = proxy.get('action', act, [(self.model, False)], False, self.context)
-            except:
-                pass
+        reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
+        reports = [a[-1] for a in reports]
 
-            actions = [a[-1] for a in res]
-            self.actions = [a for a in actions if self.multi or not a.get('multi')]
-
-        if not self.reports:
-            res = []
-            try:
-                res = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
-            except:
-                pass
-
-            actions = [a[-1] for a in res]
-            self.reports = [a for a in actions if self.multi or not a.get('multi')]
-
+        ids = [a['id'] for a in self.reports]
+        for rep in reports:
+            if rep['id'] not in ids:
+                self.reports.append(rep)
 
         if self.view_type == 'form':
             
