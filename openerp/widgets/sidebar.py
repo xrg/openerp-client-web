@@ -76,9 +76,6 @@ class Sidebar(TinyWidget):
         self.view_type = view_type
         
         act = 'client_action_multi'
-#        if is_tree:
-#            act = 'tree_but_action'
-
         toolbar = toolbar or {}
 
         self.reports = toolbar.get('print', [])
@@ -91,34 +88,22 @@ class Sidebar(TinyWidget):
         
         if self.view_type == 'form':
             act = 'tree_but_action'
-        
-        res_action = []
-        res_action = proxy.get('action', act, [(self.model, False)], False, self.context)
-        action = [a[-1] for a in res_action]
-        
-        if not self.actions:
-            self.actions = action
-        else:
-            ids = []
-            ids += [ac['id'] for ac in self.actions]
+            
+        actions = proxy.get('action', act, [(self.model, False)], False, self.context)
+        actions = [a[-1] for a in actions]
 
-            for a in action:
-                if a['id'] not in ids:
-                    self.actions += [a]
-                    
-        res_reports = []        
-        res_reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
-        report = [a[-1] for a in res_reports]
-        
-        if not self.reports:
-            self.reports = report
-        else:
-            ids = []
-            ids += [re['id'] for re in self.reports]
+        ids = [a['id'] for a in self.actions]
+        for act in actions:
+            if act['id'] not in ids:
+                self.actions.append(act)
 
-            for r in report:
-                if r['id'] not in ids:
-                    self.reports += [r]
+        reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
+        reports = [a[-1] for a in reports]
+
+        ids = [a['id'] for a in self.reports]
+        for rep in reports:
+            if rep['id'] not in ids:
+                self.reports.append(rep)
                     
         if self.view_type == 'form':
             
