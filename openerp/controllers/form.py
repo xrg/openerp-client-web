@@ -241,8 +241,11 @@ class Form(SecuredController):
         buttons.i18n = not editable and mode == 'form'
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
-        show_header = target != 'new' or int(cherrypy.request.params.get('_terp_header_footer', 0))
-                
+        
+        show_header = target != 'new'
+        if not int(cherrypy.request.params.get('_terp_header_footer', 1)):
+            show_header = False
+            
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
         if cache.can_write('ir.ui.view'):
@@ -263,7 +266,7 @@ class Form(SecuredController):
     @profile("form.edit", log=['model', 'id'])
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
-             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
 
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
@@ -280,6 +283,8 @@ class Form(SecuredController):
 
         params.editable = True
         params.view_type = 'form'
+        
+        cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
@@ -301,7 +306,7 @@ class Form(SecuredController):
 
     @expose()
     def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
-            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
@@ -317,6 +322,8 @@ class Form(SecuredController):
 
         params.editable = False
         params.view_type = 'form'
+        
+        cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
@@ -420,6 +427,9 @@ class Form(SecuredController):
                 'limit': params.limit,
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
+                
+        if not int(cherrypy.request.params.get('_terp_header_footer', 1)):
+            args['target'] = 'new'
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
