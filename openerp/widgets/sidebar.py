@@ -67,7 +67,7 @@ class Sidebar(TinyWidget):
         });
     """)]
 
-    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, context={}, is_tree=False, **kw):
+    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
 
@@ -88,7 +88,7 @@ class Sidebar(TinyWidget):
         
         if self.view_type == 'form':
             act = 'tree_but_action'
-            
+
         actions = proxy.get('action', act, [(self.model, False)], False, self.context)
         actions = [a[-1] for a in actions]
 
@@ -104,7 +104,7 @@ class Sidebar(TinyWidget):
         for rep in reports:
             if rep['id'] not in ids:
                 self.reports.append(rep)
-                    
+
         if self.view_type == 'form':
             
             proxy = rpc.RPCProxy('ir.attachment')

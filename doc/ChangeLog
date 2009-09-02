@@ -1,10 +1,21 @@
+5.0.4 (2009-08-28)
+	
+	* [FIX] dynamic context is missing in non-editable view.
+	* [FIX] don't show header/footer on a view opened from button actions if current view has no header/footer.
+	* [IMP] wizard buttons now moved to bottom.
+	* [FIX] O2M popop crash after wizard action ends.
+
+	For more complete bug fix history, please visit Launchpad.
+
 5.0.3-1 (2009-08-26)
 
-    * [IMP] process view node now links to parent document directory if no record selected.
-    * [FIX] Fixed one2many popup (context problem).
-    * [FIX] Remember active notebook page.
-    * [FIX] Included lib/populate.sh in source distribution package.
-    
+	* [IMP] process view node now links to parent document directory if no record selected.
+	* [FIX] Fixed one2many popup (context problem).
+	* [FIX] Remember active notebook page.
+	* [FIX] Included lib/populate.sh in source distribution package.
+
+	For more complete bug fix history, please visit Launchpad.
+
 5.0.3 (2009-08-21)
 
 	Bug Fixed (major):

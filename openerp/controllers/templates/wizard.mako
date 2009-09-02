@@ -36,7 +36,7 @@
                     % if len(state) >= 3:
                     <td><img align="left" src="${state[2]}" width="16" height="16"/></td>
                     % endif
-                    <td>${state[1]}</td>
+                    <td nowrap="nowrap">${state[1]}</td>
                 </tr>
             </table>
         </button>
