@@ -245,6 +245,7 @@ class Form(SecuredController):
         show_header = target != 'new'
         if not int(cherrypy.request.params.get('_terp_header_footer', 1)):
             show_header = False
+        cherrypy.request.show_header_footer = show_header
             
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
