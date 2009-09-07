@@ -144,10 +144,15 @@ class Tree(SecuredController):
         # formate the data
         for field in fields:
 
-            if fields_info[field]['type'] in ('float', 'integer'):
+            if fields_info[field]['type'] in ('integer'):
                 for x in result:
                     if x[field]:
                         x[field] = '%s'%(x[field])
+            
+            if fields_info[field]['type'] in ('float'):
+                for x in result:
+                    if x[field]:
+                        x[field] = '%.02f'%(round(x[field], 2))
 
             if fields_info[field]['type'] in ('date',):
                 for x in result:
