@@ -500,10 +500,11 @@ class ProgressBar(Char):
                 self.range = 100.0
             else:
                 self.range = self.value
-            return self.value
+            return self.range
         else:
             self.value = '%d' % (self.value)
-            return self.value
+            self.range = self.value
+            return self.range
 
 class DateTime(Char):
 

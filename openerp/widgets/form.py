@@ -427,7 +427,7 @@ class ProgressBar(TinyInputWidget):
     def __init__(self, **attrs):
         super(ProgressBar, self).__init__(**attrs)
 
-        if attrs.get('type2') is 'float':
+        if attrs.get('type2') == 'float':
             self.validator = validators.Float()
         else:
             self.validator = validators.Int()
