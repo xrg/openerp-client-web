@@ -28,7 +28,9 @@
         function disable_hidden_search_fields(){
             // disable fields of hidden tab
 
-            var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_form')[0];
+            var tab = SEARCH_NOTEBOOK.getActivePage();
+            tab = tab.getNext() || tab.getPrev();
+
             var disabled = [];
 
             disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));

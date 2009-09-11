@@ -102,11 +102,16 @@ function getElementsByAttribute(/*...*/) {
     }, elems);
 }
 
-function set_cookie(name, value) {
-    document.cookie = name + "=" + escape(value) + "; path=/";
+
+function setCookie(name, value, expires, path, domain, secure) {
+    document.cookie= name + "=" + escape(value) +
+        ((expires) ? "; expires=" + expires.toGMTString() : "") +
+        ((path) ? "; path=" + path : "") +
+        ((domain) ? "; domain=" + domain : "") +
+        ((secure) ? "; secure" : "");
 }
 
-function get_cookie(name) {
+function getCookie(name) {
     var dc = document.cookie;
     var prefix = name + "=";
     var begin = dc.indexOf("; " + prefix);
@@ -123,8 +128,13 @@ function get_cookie(name) {
     return unescape(dc.substring(begin + prefix.length, end));
 }
 
-function del_cookie(name) {
-    document.cookie = name + "=; path=/;expires=Thu, 01-Jan-1970 00:00:01 GMT";
+function delCookie(name, path, domain) {
+    if (getCookie(name)) {
+        document.cookie = name + "=" +
+            ((path) ? "; path=" + path : "") +
+            ((domain) ? "; domain=" + domain : "") +
+            "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+    }
 }
 
 function openWindow(anchor, options) {

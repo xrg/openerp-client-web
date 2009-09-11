@@ -239,17 +239,8 @@ class Notebook(TinyInputWidget):
 
     template = "templates/notebook.mako"
 
-    javascript = [JSLink("openerp", "javascript/tabber/tabber_cookie.js"),
-                  JSSource("""
-                  if (typeof(tabberOptions) == "undefined")
-                      var tabberOptions = {};
-                  tabberOptions['onLoad'] = tabber_onload;
-                  tabberOptions['onClick'] = tabber_onclick;
-                  tabberOptions['cookie'] = 'TGTabber';
-                  tabberOptions['manualStartup'] = true;"""),
-                  JSLink("openerp", "javascript/tabber/tabber.js")]
-
-    css = [CSSLink('openerp', 'css/tabs.css')]
+    javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
+    css = [CSSLink('openerp', 'css/notebook.css')]
 
     params = ['fake_widget']
     member_widgets = ['children']

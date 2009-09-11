@@ -63,8 +63,8 @@
         <tr>
             <td valign="top">
 <form id="view_form" onsubmit="return false;">
-                <div class='tabber' id="error_page_notebook">
-                    <div class='tabbertab' title="${_('Maintenance')}">
+                <div id="error_page_notebook">
+                    <div title="${_('Maintenance')}">
                             % if maintenance['status'] == 'none':
                             <pre>
 <b>${_("An unknown error has been reported.")}</b><br/>
@@ -146,7 +146,7 @@ is displayed on the second tab.""")}
                             </div>
                             % endif
                     </div>
-                    <div class='tabbertab' title="${_('Application Error!')}">
+                    <div title="${_('Application Error!')}">
                         <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20">${error}</textarea>
                         <script type="text/javascript">
                             new ResizableTextarea('error');
@@ -154,8 +154,7 @@ is displayed on the second tab.""")}
                     </div>
                 </div>
                 <script type="text/javascript">
-                    tabberOptions.div = getElement('error_page_notebook');
-                    tabberOptions.div.tabber = new tabberObj(tabberOptions);
+                    new Notebook('error_page_notebook');
                 </script>
 </form>
             </td>
