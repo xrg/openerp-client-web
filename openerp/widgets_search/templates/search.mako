@@ -15,7 +15,8 @@
             </div>
             <script type="text/javascript">
                 var SEARCH_NOTEBOOK = new Notebook('search_view_notebook', {
-                    'closable': false
+                    'closable': false,
+                    'remember': true
                 });
             </script>
         </td>
