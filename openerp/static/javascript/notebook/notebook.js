@@ -99,9 +99,27 @@ Notebook.prototype = {
         for(var i=0; i<pages.length; i++) {
         
             var page = pages[i];
-            var title = page.title || "Page " + i;
+            var text = page.title || "Page " + i;
             
-            this.add(title, page, false);
+            text = text.split('|');
+            
+            var help = text.length > 1 ? text[1] : null;            
+            var closable = this.options.closable;
+            
+            if (text.length > 2) {
+                closable = parseInt(text[2]);
+                closable = isNaN(closable) ? this.options.closable : closable;
+            }
+            
+            text = text[0];
+            
+            this.add(page, {
+                text: text,
+                help: help,
+                closable: closable,
+                activate: false,
+                css: page.className
+            });
         }
         
         MochiKit.DOM.appendChildNodes(this.elemWrap, this.elemStrip);        
@@ -184,31 +202,66 @@ Notebook.prototype = {
         return null;
     },
     
-    add: function(title, content, activate) {
+    setClosable: function(tab, closable) {
+    
+        var tab = this.getTab(tab);
+        if (!tab) {
+            return;
+        }
         
-        var title = isUndefinedOrNull(title) ? 'Page ' + this.tabs.length : title;        
+        var prop = closable ? "addElementClass" : "removeElementClass";
+        MochiKit.DOM[prop](tab, 'notebook-tab-closable');
+        
+        if (closable && !tab.elemClose) {
+            tab.elemClose = SPAN({'href': 'javascript: void(0)', 'class': 'tab-close'});
+            MochiKit.DOM.appendChildNodes(tab, tab.elemClose);
+        } else if (!closable && tab.elemClose) {
+            MochiKit.DOM.removeElement(tab.elemClose);
+            tab.elemClose = null;
+        }
+    },
+    
+    add: function(content, options) {
+    
+        var options = MochiKit.Base.update({
+            text: null,                         // text of the tab
+            help: null,                         // help text for the tab
+            closable: this.options.closable,    // make the tab closable
+            activate: true,                     // activate the tab or not
+            css: null                           // additional css class
+        }, options || {});
+        
+        var text = options.text ? options.text : 'Page ' + this.tabs.length;
         var page = content && content.tagName == "DIV" ? content : DIV({}, content);
+        
+        page.title = null;
+        page.className = null;
         
         MochiKit.DOM.addElementClass(page, 'notebook-page');
         
-        var tab = LI({'class': 'notebook-tab'},
+        var tab = LI({'class': 'notebook-tab', 'title': options.help},
                         A({'href': 'javascript: void(0)', 'class': 'tab-title'}, 
-                            SPAN(null, title)));
+                            SPAN(null, text)));
                             
-        if (this.options.closable) {
-            MochiKit.DOM.appendChildNodes(tab, 
-                SPAN({'href': 'javascript: void(0)', 'class': 'tab-close'}));
+        if (typeof(options.css) == "string") {
+            MochiKit.DOM.addElementClass(tab, options.css);
+        }
+                            
+        if (options.closable) {
+        
+            tab.elemClose = SPAN({'href': 'javascript: void(0)', 'class': 'tab-close'});
+            MochiKit.DOM.appendChildNodes(tab, tab.elemClose);
                 
             MochiKit.DOM.addElementClass(tab, 'notebook-tab-closable');
         }
-                
+        
         this.tabs = this.tabs.concat(tab);
         this.pages = this.pages.concat(page);
         
         MochiKit.DOM.appendChildNodes(this.elemStrip, tab);
         MochiKit.DOM.appendChildNodes(this.elemStack, page);
         
-        this.show(tab, activate);
+        this.show(tab, options.activate);
     },
     
     remove: function(tab) {
@@ -395,6 +448,10 @@ Notebook.prototype = {
         
         if (tab) {
             this[action](tab)
+        }
+        
+        if (action == "show") {
+            MochiKit.Signal.signal(this, 'click', this, tab);
         }
     },
     
