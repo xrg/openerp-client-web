@@ -141,7 +141,7 @@ var form_hookAttrChange = function() {
     
     items = items.concat(getElementsByTagAndClassName('td', 'item'));
     items = items.concat(getElementsByTagAndClassName('td', 'label'));
-    items = items.concat(getElementsByTagAndClassName('div', 'tabbertab'));
+    items = items.concat(getElementsByTagAndClassName('div', 'notebook-page'));
     
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'attrs');
