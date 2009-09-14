@@ -346,7 +346,6 @@ Notebook.prototype = {
         }
             
         tab.style.display = "none";
-        this.pages[i].style.display = "none";
         
         MochiKit.Signal.signal(this, "hide", this, tab);    
         
