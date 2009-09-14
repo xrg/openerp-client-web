@@ -365,7 +365,7 @@ var onBooleanClicked = function(name) {
  */
 var getFormData = function(extended) {
 
-    var parentNode = $('_terp_list') || document.forms['view_form'];
+    var parentNode = document.forms['view_form'] || $('_terp_list');
 
     var frm = {};
     var fields = [];
@@ -467,6 +467,10 @@ var getFormData = function(extended) {
 
             if (kind == "picture") {
                 n = e.id;
+            }
+
+            if (kind == 'text_html') {
+                attrs['value'] =  tinyMCE.get(e.name).getContent();
             }
 
             // stringify the attr object
@@ -593,6 +597,21 @@ var onChange = function(name) {
                 if (kind == 'boolean') {
                     $(prefix + k + '_checkbox_').checked = value || false;
                 }
+                
+                if (kind=='text_html') {
+                    tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '')
+                }
+                
+                if (kind=='selection') {                    
+                    var opts = [];
+                    opts.push(OPTION({'value': ''}))
+                    
+                    for (i in value) {                        
+                        var item = value[i];                        
+                        opts.push(OPTION({'value': item[0]}, item[1]));
+                    } 
+                    MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
+                }                
 
                 MochiKit.Signal.signal(fld, 'onchange');
             }
