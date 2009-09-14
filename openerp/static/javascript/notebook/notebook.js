@@ -79,6 +79,8 @@ Notebook.prototype = {
     },
 
     prepare: function() {
+    
+        this.rendered = false;
         
         this.elemLeft = DIV({'class': 'notebook-tabs-left'});
         this.elemRight = DIV({'class': 'notebook-tabs-right'});
@@ -103,7 +105,7 @@ Notebook.prototype = {
             
             text = text.split('|');
             
-            var help = text.length > 1 ? text[1] : null;            
+            var help = text.length > 1 ? text[1] : "";            
             var closable = this.options.closable;
             
             if (text.length > 2) {
@@ -137,9 +139,10 @@ Notebook.prototype = {
         this.evtRightClick = MochiKit.Signal.connect(this.elemRight, 'onclick', this, this.onScrollRight);
         
         this.evtStripClick = MochiKit.Signal.connect(this.elemStrip, 'onclick', this, this.onStripClick);
-
-        this.adjustSize();
+        this.rendered = true;
         
+        this.adjustSize();
+
         var self = this;
         MochiKit.Async.callLater(0, function() {
             var i = self.options.remember ? parseInt(getCookie(self.cookie)) || 0 : 0;
@@ -147,7 +150,8 @@ Notebook.prototype = {
         });
 
         showElement(this.element);
-
+        
+        this.adjustSize();
     },
     
     getTab: function(tab) {
@@ -224,8 +228,8 @@ Notebook.prototype = {
     add: function(content, options) {
     
         var options = MochiKit.Base.update({
-            text: null,                         // text of the tab
-            help: null,                         // help text for the tab
+            text: "",                         // text of the tab
+            help: "",                         // help text for the tab
             closable: this.options.closable,    // make the tab closable
             activate: true,                     // activate the tab or not
             css: null                           // additional css class
@@ -234,8 +238,8 @@ Notebook.prototype = {
         var text = options.text ? options.text : 'Page ' + this.tabs.length;
         var page = content && content.tagName == "DIV" ? content : DIV({}, content);
         
-        page.title = null;
-        page.className = null;
+        page.title = "";
+        page.className = "";
         
         MochiKit.DOM.addElementClass(page, 'notebook-page');
         
@@ -342,6 +346,7 @@ Notebook.prototype = {
         }
             
         tab.style.display = "none";
+        this.pages[i].style.display = "none";
         
         MochiKit.Signal.signal(this, "hide", this, tab);    
         
@@ -366,11 +371,19 @@ Notebook.prototype = {
             var left = getElementPosition(tab, this.elemWrap).x + x;
             var right = left + getElementDimensions(tab).w;
             
+            var s = this.elemWrap.scrollLeft;
+            
             if (left < x) {
-                this.elemWrap.scrollLeft = left;
+                s = left - this.marginTab;
             } else if (right > (x + w)){
-                this.elemWrap.scrollLeft = right - w;
+                s = right - w;
             }
+            
+            //this.elemWrap.scrollLeft = s;
+            Scroll(this.elemWrap, {
+                to: s,
+                afterFinish: bind(this.activateScrollers, this)
+            });            
         }
         
         this.activeTab = tab;
@@ -380,7 +393,7 @@ Notebook.prototype = {
             setCookie(this.cookie, findIdentical(this.tabs, tab));
         }
         
-        MochiKit.Signal.signal(this, "activate", this, tab);    
+        MochiKit.Signal.signal(this, "activate", this, tab);
     },
     
     adjustScroll: function() {
@@ -388,18 +401,27 @@ Notebook.prototype = {
         if (!this.options.scrollable) {
             return;
         }
+        
+        if (!this.rendered) {
+            return;
+        }
     
         var w = MochiKit.Style.getElementDimensions(this.elemWrap).w;
         var t = 0;
+        
+        var self = this;
+        
+        this.marginTab = 3;
+        this.marginWrap = 0;
                 
         MochiKit.Iter.forEach(this.tabs, function(e){
             if (e.style.display != "none")
-                t += e.offsetWidth + 2;
+                t += e.offsetWidth + self.marginTab;
         });
         
         this.widthWrap = w;
         this.widthTabs = t;
-        
+                
         if (t <= w) {
         
             MochiKit.DOM.hideElement(this.elemLeft);
@@ -414,28 +436,75 @@ Notebook.prototype = {
             MochiKit.DOM.showElement(this.elemRight);            
             MochiKit.DOM.addElementClass(this.elemWrap, 'notebook-tabs-wrap-scrollable');
             
+            // adjust size of scrollers
+            var h = getElementDimensions(this.elemStrip).h;
+            setElementDimensions(this.elemLeft, {h: h - 1});
+            setElementDimensions(this.elemRight, {h: h - 1});
+            
             var x = this.elemWrap.scrollLeft;
             var l = t - x;
             
             if (l < w) {
-                this.elemWrap.scrollLeft = x - (w - l);
+                //this.elemWrap.scrollLeft = x - (w - l);
+                Scroll(this.elemWrap, {
+                    to: x - (w - l),
+                    afterFinish: bind(this.activateScrollers, this)
+                }); 
             } else {
                 this.setActiveTab(this.activeTab);
             }
+            
         }
+    },
+    
+    activateScrollers: function() {
+    
+        var p = this.elemWrap.scrollLeft;
+        var w = this.widthTabs - p - this.widthWrap;
+                
+        if (p > 0) {
+            removeElementClass(this.elemLeft, "notebook-tabs-left-disabled");
+        } else {
+            addElementClass(this.elemLeft, "notebook-tabs-left-disabled");
+        }
+    
+        if (w > 0) {
+            removeElementClass(this.elemRight, "notebook-tabs-right-disabled");
+        } else {
+            addElementClass(this.elemRight, "notebook-tabs-right-disabled");
+        }
+        
     },
 
     adjustSize: function() {
     
+        //XXX: doesn't work properly under IE
+    
         hideElement(this.elemWrap);
         var w = this.element.parentNode.clientWidth;
+                
+        w = w < this.widthTabs ? w - 36 - 2 : w;
+        
         setElementDimensions(this.elemWrap, {w: w});
         showElement(this.elemWrap);
-
+        
+        if (browser.isIE) {
+            
+            with (this.elemRight) {
+                style.top = '1px';
+                style.right = '4px';
+            }
+            
+            with (this.elemLeft) {
+                style.top = '1px';
+                style.left = '-18px';
+            }
+        }
+        
         this.adjustScroll();
     },
         
-    onResize: function(evt) {
+    onResize: function(evt) {    
         this.adjustSize();
     },
     
@@ -447,6 +516,10 @@ Notebook.prototype = {
         
         if (tab) {
             this[action](tab)
+        }
+        
+        if (tab && tab == this.activeTab) {
+            this.setActiveTab(tab);
         }
         
         if (action == "show") {
@@ -461,7 +534,13 @@ Notebook.prototype = {
         
         var s = Math.min(w, x + 100);
 
-        this.elemWrap.scrollLeft = s;
+        //this.elemWrap.scrollLeft = s;
+        //this.activateScrollers();
+        
+        Scroll(this.elemWrap, {
+            to: s,
+            afterFinish: bind(this.activateScrollers, this)
+        });
     },
     
     onScrollLeft: function(evt) {
@@ -469,7 +548,12 @@ Notebook.prototype = {
         var x = this.elemWrap.scrollLeft;
         var s = Math.max(0, x - 100);
         
-        this.elemWrap.scrollLeft = s;
+        //this.elemWrap.scrollLeft = s;
+        //this.activateScrollers();
+        Scroll(this.elemWrap, {
+            to: s,
+            afterFinish: bind(this.activateScrollers, this)
+        });        
     }
 
 }
