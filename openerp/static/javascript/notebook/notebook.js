@@ -378,11 +378,12 @@ Notebook.prototype = {
                 s = right - w;
             }
             
-            //this.elemWrap.scrollLeft = s;
-            Scroll(this.elemWrap, {
+            this.elemWrap.scrollLeft = s;
+            this.activateScrollers();
+            /*Scroll(this.elemWrap, {
                 to: s,
                 afterFinish: bind(this.activateScrollers, this)
-            });            
+            }); */
         }
         
         this.activeTab = tab;
@@ -444,11 +445,12 @@ Notebook.prototype = {
             var l = t - x;
             
             if (l < w) {
-                //this.elemWrap.scrollLeft = x - (w - l);
-                Scroll(this.elemWrap, {
+                this.elemWrap.scrollLeft = x - (w - l);
+                this.activateScrollers();
+                /*Scroll(this.elemWrap, {
                     to: x - (w - l),
                     afterFinish: bind(this.activateScrollers, this)
-                }); 
+                });*/
             } else {
                 this.setActiveTab(this.activeTab);
             }
@@ -482,7 +484,8 @@ Notebook.prototype = {
         hideElement(this.elemWrap);
         var w = this.element.parentNode.clientWidth;
                 
-        w = w < this.widthTabs ? w - 36 - 2 : w;
+        w = w < this.widthTabs ? w - 36 : w;
+        w = Math.max(0, w - 2);
         
         setElementDimensions(this.elemWrap, {w: w});
         showElement(this.elemWrap);
@@ -533,13 +536,12 @@ Notebook.prototype = {
         
         var s = Math.min(w, x + 100);
 
-        //this.elemWrap.scrollLeft = s;
-        //this.activateScrollers();
-        
-        Scroll(this.elemWrap, {
+        this.elemWrap.scrollLeft = s;
+        this.activateScrollers();
+        /*Scroll(this.elemWrap, {
             to: s,
             afterFinish: bind(this.activateScrollers, this)
-        });
+        });*/
     },
     
     onScrollLeft: function(evt) {
@@ -547,12 +549,12 @@ Notebook.prototype = {
         var x = this.elemWrap.scrollLeft;
         var s = Math.max(0, x - 100);
         
-        //this.elemWrap.scrollLeft = s;
-        //this.activateScrollers();
-        Scroll(this.elemWrap, {
+        this.elemWrap.scrollLeft = s;
+        this.activateScrollers();
+        /*Scroll(this.elemWrap, {
             to: s,
             afterFinish: bind(this.activateScrollers, this)
-        });        
+        });*/
     }
 
 }
