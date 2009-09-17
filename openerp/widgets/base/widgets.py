@@ -60,7 +60,7 @@ class FormField(InputWidget):
             if isinstance(arg, dict):
                 d.attrs.update(arg)
             else:
-                d.attrs.setdefault(arg, d[arg])
+                d.attrs[arg] = d[arg]
                 
         for name, value in kw.items():
             d.attrs[name] = value
@@ -228,8 +228,7 @@ class SelectField(Input):
                     option_attrs = dict(option[2])
                 if self._is_option_selected(option[0], value):
                     option_attrs['selected'] = 'selected'
-                optlist[i] = (self.adjust_value(option[0]), option[1],
-                              option_attrs)
+                optlist[i] = (option[0], option[1], option_attrs)
             options.extend(optlist)
             if group:
                 grouped_options.append((optgroup[0], optlist))
