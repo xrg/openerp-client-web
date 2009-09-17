@@ -37,7 +37,6 @@ import time
 import base64
 import locale
 
-from openerp import icons
 from openerp.i18n import format
 
 from formencode.validators import *

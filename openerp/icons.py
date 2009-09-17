@@ -29,6 +29,8 @@
 
 import os
 
+from openerp import tools
+
 icons = map(lambda x: (x,x), ['STOCK_ABOUT', 'STOCK_ADD', 'STOCK_APPLY', 'STOCK_BOLD',
 'STOCK_CANCEL', 'STOCK_CDROM', 'STOCK_CLEAR', 'STOCK_CLOSE', 'STOCK_COLOR_PICKER',
 'STOCK_CONNECT', 'STOCK_CONVERT', 'STOCK_COPY', 'STOCK_CUT', 'STOCK_DELETE',
@@ -156,16 +158,19 @@ stock_items = {
 def get_icon(name):
 
     if name.startswith('STOCK_'):
-        return "/static/images/stock/%s.png"%(stock_items.get(name, "stock"))
+        res = "/static/images/stock/%s.png"%(stock_items.get(name, "stock"))
 
-    if name.startswith('gtk-'):
-        return "/static/images/stock/%s.png"%(name)
+    elif name.startswith('gtk-'):
+        res = "/static/images/stock/%s.png"%(name)
 
-    if name.startswith('terp-'):
-        return "/static/images/icons/%s.png"%(name.replace('terp-', '', 1))
-
-    name, ext = os.path.splitext(name)
-    return "/static/images/%s%s" % (name, ext or '.png')
+    elif name.startswith('terp-'):
+        res = "/static/images/icons/%s.png"%(name.replace('terp-', '', 1))
+    
+    else:
+        name, ext = os.path.splitext(name)
+        res = "/static/images/%s%s" % (name, ext or '.png')
+    
+    return tools.url(res)
 
 # vim: ts=4 sts=4 sw=4 si et
 
