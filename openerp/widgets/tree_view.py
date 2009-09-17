@@ -99,7 +99,7 @@ class ViewTree(Form):
         self.tree = treegrid.TreeGrid(name="tree",
                                       model=self.model,
                                       headers=self.headers,
-                                      url="/tree/data",
+                                      url=tools.url("/tree/data"),
                                       ids=ids or 0,
                                       domain=self.domain,
                                       context=self.context,

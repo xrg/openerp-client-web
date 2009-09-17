@@ -51,7 +51,7 @@ WaitBox.prototype = {
             
             var info = DIV(null,
                         DIV({'class': 'WaitTitle'}, title),
-                        DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: '/static/images/progress.gif'})),
+                        DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: getURL('/static/images/progress.gif')})),
                             TABLE({'class': 'WaitButtons', 'cellpadding': 2, 'width': '100%'}, 
                                 TBODY(null, 
                                     TR(null,
