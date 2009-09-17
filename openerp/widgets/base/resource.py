@@ -32,9 +32,11 @@ class Link(Resource):
 
     def __init__(self, modname, filename, location=locations.head, **kw):
         super(Link, self).__init__(modname=modname, filename=filename, location=location, **kw)
-
-        #TODO: consider the server.webpath and cherrypy mount point
         self.link = "/cp_widgets/%s/%s" % (self.modname, self.filename)
+
+    def update_params(self, d):
+        super(Link, self).update_params(d)
+        d['link'] = cherrypy.request.app.script_name + self.link
 
     def __eq__(self, other):
         return getattr(other, 'link', None) == self.link
