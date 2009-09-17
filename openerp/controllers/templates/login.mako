@@ -15,7 +15,7 @@
 
         <br/>
 
-        <form action="${target}" method="post" name="loginform">
+        <form action="${py.url(target)}" method="post" name="loginform">
             % for key, value in origArgs.items():
             <input type="hidden" name="${key}" value="${value}"/>
             % endfor
@@ -57,7 +57,7 @@
                         <td></td>
                         <td align="right">
                             % if cp.config('dbbutton.visible', 'openerp-web'):
-                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='/database'">${_("Databases")}</button>
+                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='${py.url('/database')}'">${_("Databases")}</button>
                             % endif
                             <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
                         </td>
