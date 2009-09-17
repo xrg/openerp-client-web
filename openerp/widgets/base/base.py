@@ -382,7 +382,7 @@ class InputWidget(Widget):
             return error
 
         try:
-            error.error_dict[item.name]
+            return error.error_dict[item.name]
         except:
             pass
         return None
