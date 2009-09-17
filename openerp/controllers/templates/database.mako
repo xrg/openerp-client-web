@@ -3,58 +3,10 @@
 <%def name="header()">
     <title>${form.string}</title>
 
-    <script type="text/javascript" src="/static/javascript/waitbox.js"></script>
-    <link rel="stylesheet" type="text/css" href="/static/css/waitbox.css"/>
-
-    <style type="text/css">
-        form table {
-            margin-top: 20px;
-            padding: 5px;
-            border: 4px double #c0c0c0;
-        }
-
-        form th {
-            padding: 0 4px;
-            text-align: right;
-            white-space: nowrap;
-            font-weight: normal;
-        }
-
-        form select {
-            min-width: 100px;
-        }
-
-        .submitbutton td {
-            text-align: right;
-        }
-
-        .submitbutton {
-            border: solid 1px #888888;
-            background: url(/static/images/button_bg.png) repeat-x left top;
-            color: #000;
-            padding: 0px 2px;
-            font-size: 11px;
-            white-space: nowrap;
-            min-width: 80px;
-        }
-        
-        td.labelcol {
-            text-align: right;
-        }
-
-        .submitbutton:hover {
-            background: url(/static/images/button_bg2.png) repeat-x left top;
-        }
-
-        .fieldcol .requiredfield {
-            background-color: #CCD9FF;
-        }
-
-        .fielderror {
-            color: red;
-        }
-
-    </style>
+    <script type="text/javascript" src="${py.url('/static/javascript/waitbox.js')}"></script>
+    
+    <link rel="stylesheet" type="text/css" href="${py.url('/static/css/waitbox.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${py.url('/static/css/database.css')}"/>
 
     <script type="text/javascript">
 
@@ -65,7 +17,7 @@
         });
 
         var dbView = function(name) {
-            window.location.href = '/database/' + name;
+            window.location.href = "${py.url('/database/')}" + name;
         }
 
         var on_create = function() {
@@ -85,7 +37,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/stock_person.png"/>
+                            <img src="${py.url('/static/images/stock/stock_person.png')}"/>
                         </td>
                         <td width="100%">${form.string}</td>
                         <td nowrap="nowrap">

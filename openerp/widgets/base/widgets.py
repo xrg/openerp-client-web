@@ -274,7 +274,7 @@ class Form(FormField):
             % endfor
             <tr>
                 <td>&nbsp;</td>
-                <td><input type="submit" value="${submit_text}"/></td>
+                <td><input type="submit" class="submitbutton" value="${submit_text}"/></td>
             </tr>
         </table>
     </form>
