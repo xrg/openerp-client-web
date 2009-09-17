@@ -70,8 +70,8 @@ Ajax.prototype = {
 
         Ajax.COUNT += 1;
         Ajax.showStatus();
-
-        var req = MochiKit.Async.doSimpleXMLHttpRequest(url, params || {});
+        
+        var req = MochiKit.Async.doSimpleXMLHttpRequest(getURL(url), params || {});
 
         return req.addBoth(function(xmlHttp){
             Ajax.COUNT -= 1;
@@ -94,7 +94,7 @@ Ajax.prototype = {
         }
 
         var req = MochiKit.Async.getXMLHttpRequest();
-        req.open("POST", url, true);
+        req.open("POST", getURL(url), true);
 
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         req.setRequestHeader("Connection", "close");
