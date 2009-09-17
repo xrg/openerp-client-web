@@ -23,7 +23,7 @@ table.tree-grid .tree-field td {
 
 table.tree-grid .header th {
     padding: 4px 5px;
-    background: url(/static/images/treegrid/header.gif);
+    background: url(../images/treegrid/header.gif);
 }
 
 table.tree-grid .row {
@@ -56,23 +56,23 @@ table.tree-grid .loading {
 }
 
 table.tree-grid .expand {
-    background-image: url("/static/images/treegrid/expand.gif");
+    background-image: url("../images/treegrid/expand.gif");
 }
 
 table.tree-grid .expand:hover {
-    background-image: url("/static/images/treegrid/expandh.gif");
+    background-image: url("../images/treegrid/expandh.gif");
 }
 
 table.tree-grid .collapse {
-    background-image: url("/static/images/treegrid/collapse.gif");
+    background-image: url("../images/treegrid/collapse.gif");
 }
 
 table.tree-grid .collapse:hover {
-    background-image: url("/static/images/treegrid/collapseh.gif");
+    background-image: url("../images/treegrid/collapseh.gif");
 }
 
 table.tree-grid .loading {
-    background-image: url("/static/images/treegrid/loading.gif");
+    background-image: url("../images/treegrid/loading.gif");
 }
 
 table.tree-grid a,
