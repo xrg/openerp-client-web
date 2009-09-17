@@ -8,27 +8,27 @@
     ${css.display()}
 % endfor
 
-    <script type="text/javascript" src="/static/javascript/MochiKit/MochiKit.js"></script>
-    <script type="text/javascript" src="/static/javascript/MochiKit/DragAndDrop.js"></script>
-    <script type="text/javascript" src="/static/javascript/MochiKit/Resizable.js"></script>
-    <script type="text/javascript" src="/static/javascript/MochiKit/Sortable.js"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/MochiKit.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/DragAndDrop.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/Resizable.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/Sortable.js')}"></script>
     
 % for js in widget_javascript.get('head', []):
     ${js.display()}
 % endfor
 
-    <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="/static/css/menu.css" rel="stylesheet" type="text/css"/>
-    <link href="/static/css/tips.css" rel="stylesheet" type="text/css"/>
+    <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css"/>
+    <link href="${py.url('/static/css/menu.css')}" rel="stylesheet" type="text/css"/>
+    <link href="${py.url('/static/css/tips.css')}" rel="stylesheet" type="text/css"/>
 
     <!--[if IE]>
-        <link href="/static/css/style-ie.css" rel="stylesheet" type="text/css"/>
+    <link href="${py.url('/static/css/style-ie.css')}" rel="stylesheet" type="text/css"/>
     <![endif]-->
         
-    <script type="text/javascript" src="/static/javascript/master.js"></script>
-    <script type="text/javascript" src="/static/javascript/menu.js"></script>
-    <script type="text/javascript" src="/static/javascript/ajax.js"></script>
-    <script type="text/javascript" src="/static/javascript/tips.js"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/master.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/menu.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/ajax.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/tips.js')}"></script>
     
     ${self.header()}
 
@@ -65,19 +65,19 @@ except:
                             <tr>
                                 <td>
                                     <a href="http://openerp.com" target="_blank" title="OpenERP - Open Source Management Solution" style="padding: 0px;">
-                                        <img src="/static/images/openerp_small.png" border="0" width="86" height="24"/></a>
+                                        <img src="${py.url('/static/images/openerp_small.png')}" border="0" width="86" height="24"/></a>
                                 </td>
-                                <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
+                                <td width="26" style="background: transparent url(static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
                                     <div style="width: 26px;"/>
                                 </td>
                                 <td class="menu_connection_welcome" nowrap="norwap">
                                     ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
                                 </td>
                                 <td class="menu_connection_links" nowrap="norwap">
-                                    <a href="/">${_("Home")}</a>
-                                    <a href="/pref/create/">${_("Preferences")}</a>
-                                    <a href="/about">${_("About")}</a>
-                                    <a href="/logout">${_("Logout")}</a>
+                                    <a href="${py.url('/')}">${_("Home")}</a>
+                                    <a href="${py.url('/pref/create')}">${_("Preferences")}</a>
+                                    <a href="${py.url('/about')}">${_("About")}</a>
+                                    <a href="${py.url('/logout')}">${_("Logout")}</a>
                                 </td>
                             </tr>
                         </table>
@@ -96,12 +96,12 @@ except:
                         <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                             <tr>
                                 <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                                    <a href="/menu">${_("MAIN MENU")}</a>
+                                    <a href="${py.url('/menu')}">${_("MAIN MENU")}</a>
                                 </td>
                                 <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
-                                    <a href="/shortcuts">${_("SHORTCUTS")}</a>
+                                    <a href="${py.url('/shortcuts')}">${_("SHORTCUTS")}</a>
                                 </td>
-                                <td width="26" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
+                                <td width="26" style="background: transparent url(static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
                                 % if rpc.session.is_logged():
                                 <td nowrap="nowrap">
                                     <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">

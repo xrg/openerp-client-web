@@ -39,9 +39,10 @@ import cherrypy
 
 from openerp import rpc
 from openerp import common
+from openerp import tools
+from openerp import cache
 
 from openerp import controllers
-from openerp import cache
 
 from openerp.controllers.base import SecuredController, unsecured
 from openerp.controllers.base import login as tiny_login
@@ -116,40 +117,44 @@ class Root(SecuredController):
         
         comp_url = cherrypy.request.app.config['openerp-web'].get('company.url', None)
 
-        res="""<img src="/static/images/openerp_big.png" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
+        res="""<img src="%(src)s" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
                     <map name="logo_map">
                         <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
                         <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
-                    </map>"""%(dict(alt=_('OpenERP')))
+                    </map>"""%({
+                        'alt': 'OpenERP',
+                        'src': tools.url('/static/images/openerp_big.png')
+                    })
 
         if os.path.exists(find_resource("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
+                                <img src="%(src)s" alt="" border="0" width="205px" height="58px"/>
                             </a> """
             else:
-                 res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
-        return res
+                 res = """<img src="%(src)s" alt="" border="0" width="205px" height="58px"/>"""
+
+        return res % ({'src': tools.url('/static/images/company_logo.png')})
 
     @expose()
     @unsecured
     def developped_by(self):
         comp_url = cherrypy.request.app.config['openerp-web'].get('company.url', None)
 
-        res="""<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
+        res="""<img src="%(src)s" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
                     <map name="devby_map">
                         <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
                         <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
-                    </map>"""%(dict(alt=_('Developped by Axelor and Tiny')))
+                    </map>"""%(dict(alt=_('Developped by Axelor and Tiny'), src=tools.url('/static/images/developped_by.png')))
 
         if os.path.exists(find_resource("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
+                                <img src="%(src)s" alt="" border="0" width="205px" height="58px"/>
                             </a> """
             else:
-                 res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
-        return res
+                 res = """<img src="%(src)s" alt="" border="0" width="205px" height="58px"/>"""
+        return res % (dict(src=tools.url("/static/images/company_logo.png")))
 
     @expose()
     @unsecured
