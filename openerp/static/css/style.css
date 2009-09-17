@@ -149,6 +149,10 @@ table.menu_connection a:hover {
     color: white;
 }
 
+.menu_connection_right {
+    background: transparent url(../images/diagonal_right.gif) no-repeat scroll right;
+}
+
 #menu_header {
     background: #666666;
     margin-bottom: 4px;
@@ -173,6 +177,10 @@ table.menu_connection a:hover {
 
 #menu_header a {
     color: white;
+}
+
+.menu_header_shortcuts_left {
+    background: transparent url(../images/diagonal_left.gif) no-repeat scroll left;
 }
 
 /*------------------ Header End ---------------*/

@@ -67,7 +67,7 @@ except:
                                     <a href="http://openerp.com" target="_blank" title="OpenERP - Open Source Management Solution" style="padding: 0px;">
                                         <img src="${py.url('/static/images/openerp_small.png')}" border="0" width="86" height="24"/></a>
                                 </td>
-                                <td width="26" style="background: transparent url(static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
+                                <td width="26" class="menu_connection_right" nowrap="nowrap">
                                     <div style="width: 26px;"/>
                                 </td>
                                 <td class="menu_connection_welcome" nowrap="norwap">
@@ -101,7 +101,7 @@ except:
                                 <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
                                     <a href="${py.url('/shortcuts')}">${_("SHORTCUTS")}</a>
                                 </td>
-                                <td width="26" style="background: transparent url(static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
+                                <td width="26" class="menu_header_shortcuts_left" nowrap="nowrap"/>
                                 % if rpc.session.is_logged():
                                 <td nowrap="nowrap">
                                     <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
