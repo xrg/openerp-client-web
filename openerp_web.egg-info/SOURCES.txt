@@ -170,10 +170,10 @@ openerp/static/css/dashboard.css
 openerp/static/css/listgrid.css
 openerp/static/css/menu.css
 openerp/static/css/modalbox.css
+openerp/static/css/notebook.css
 openerp/static/css/pager.css
 openerp/static/css/style-ie.css
 openerp/static/css/style.css
-openerp/static/css/tabs.css
 openerp/static/css/tiny_mce.css
 openerp/static/css/tips.css
 openerp/static/css/treegrid.css
@@ -198,10 +198,6 @@ openerp/static/images/progress.gif
 openerp/static/images/sidebar_button_bg.png
 openerp/static/images/sidebar_hide.gif
 openerp/static/images/sidebar_show.gif
-openerp/static/images/tabs_left_active.gif
-openerp/static/images/tabs_left_inactive.gif
-openerp/static/images/tabs_right_active.gif
-openerp/static/images/tabs_right_inactive.gif
 openerp/static/images/textarea-grip.png
 openerp/static/images/icons/account.png
 openerp/static/images/icons/administration.png
@@ -225,6 +221,11 @@ openerp/static/images/listgrid/arrow_up.gif
 openerp/static/images/listgrid/delete_inline.gif
 openerp/static/images/listgrid/edit_inline.gif
 openerp/static/images/listgrid/save_inline.gif
+openerp/static/images/notebook/nb-left-d.png
+openerp/static/images/notebook/nb-left.png
+openerp/static/images/notebook/nb-right-d.png
+openerp/static/images/notebook/nb-right.png
+openerp/static/images/notebook/tab-close.png
 openerp/static/images/stock/gtk-about.png
 openerp/static/images/stock/gtk-add.png
 openerp/static/images/stock/gtk-apply.png
@@ -491,8 +492,7 @@ openerp/static/javascript/i18n/en_US.js
 openerp/static/javascript/i18n/es_ES.js
 openerp/static/javascript/i18n/fr_FR.js
 openerp/static/javascript/i18n/i18n.js
-openerp/static/javascript/tabber/tabber.js
-openerp/static/javascript/tabber/tabber_cookie.js
+openerp/static/javascript/notebook/notebook.js
 openerp/static/tiny_mce/license.txt
 openerp/static/tiny_mce/tiny_mce.js
 openerp/static/tiny_mce/tiny_mce_popup.js
