@@ -137,7 +137,7 @@ class ImpEx(SecuredController):
         tree = tw.treegrid.TreeGrid('export_fields',
                                     model=params.model,
                                     headers=headers,
-                                    url='/impex/get_fields',
+                                    url=tools.url('/impex/get_fields'),
                                     field_parent='relation',
                                     views=views)
 
@@ -374,7 +374,7 @@ class ImpEx(SecuredController):
         tree = tw.treegrid.TreeGrid('import_fields',
                                     model=params.model,
                                     headers=headers,
-                                    url='/impex/get_fields',
+                                    url=tools.url('/impex/get_fields'),
                                     field_parent='relation',
                                     views=views,
                                     is_importing=1)

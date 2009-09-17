@@ -58,9 +58,9 @@ class Sidebar(TinyWidget):
 
                 var img = MochiKit.DOM.getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
                 if (sb.style.display == "none") {
-                    img.src = '/static/images/sidebar_show.gif';
+                    img.src = getURL('/static/images/sidebar_show.gif');
                 } else {
-                    img.src = '/static/images/sidebar_hide.gif';
+                    img.src = getURL('/static/images/sidebar_hide.gif');
                 }
             }
             

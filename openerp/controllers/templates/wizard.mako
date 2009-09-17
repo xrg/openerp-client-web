@@ -7,10 +7,10 @@
         % endif
     </title>
 
-    <script type="text/javascript" src="/static/javascript/waitbox.js"></script>
-    <script type="text/javascript" src="/static/javascript/wizard.js"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/waitbox.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/wizard.js')}"></script>
 
-    <link rel="stylesheet" type="text/css" href="/static/css/waitbox.css"/>
+    <link rel="stylesheet" type="text/css" href="${py.url('/static/css/waitbox.css')}"/>
 </%def>
 
 <%def name="content()">

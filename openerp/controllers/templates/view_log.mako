@@ -2,7 +2,7 @@
 <%! show_header_footer = False %>
 <%def name="header()">
     <title>${_("Information")}</title>
-    <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css"/>
 </%def>
 
 <%def name="content()">

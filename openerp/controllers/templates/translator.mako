@@ -2,8 +2,8 @@
 <%! show_header_footer = False %>
 <%def name="header()">
     <title>${_("Add Translations")}</title>
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
+    <link href="${py.url('/static/css/listgrid.css')}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${py.url('/static/javascript/listgrid.js')}"></script>
 </%def>
 
 <%def name="content()">
@@ -17,7 +17,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/stock_translate.png"/>
+                            <img src="${py.url('/static/images/stock/stock_translate.png')}"/>
                         </td>
                         <td width="100%">${_("Add Translation")}</td>
                     </tr>

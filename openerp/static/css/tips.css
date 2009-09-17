@@ -19,27 +19,27 @@ table.tooltip .tip-br {
 }
 
 table.tooltip .tip-tl {
-    background: url(/static/images/tips/tl.png) no-repeat left;
+    background: url(../images/tips/tl.png) no-repeat left;
 }
 
 table.tooltip .tip-tr {
-    background: url(/static/images/tips/tr.png) no-repeat right;
+    background: url(../images/tips/tr.png) no-repeat right;
 }
 
 table.tooltip .tip-t {
-    background: url(/static/images/tips/t.png);
+    background: url(../images/tips/t.png);
 }
 
 table.tooltip .tip-bl {
-    background: url(/static/images/tips/bl.png) no-repeat left;
+    background:url(../images/tips/bl.png) no-repeat left;
 }
 
 table.tooltip .tip-br {
-    background: url(/static/images/tips/br.png) no-repeat right;
+    background: url(../images/tips/br.png) no-repeat right;
 }
 
 table.tooltip .tip-b {
-    background: url(/static/images/tips/b.png);
+    background: url(../images/tips/b.png);
 }
 
 table.tooltip .tip-l {
@@ -47,11 +47,11 @@ table.tooltip .tip-l {
 }
 
 table.tooltip .tip-r {
-    background: url(/static/images/tips/r.png) repeat-y right;
+    background: url(../images/tips/r.png) repeat-y right;
 }
 
 table.tooltip .tip-text {
-    background: url(/static/images/tips/l.png);
+    background: url(../images/tips/l.png);
 }
 
 table.tooltip .tipTitle {

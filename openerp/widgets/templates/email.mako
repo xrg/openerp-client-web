@@ -7,7 +7,7 @@
             </td>
             <td width="16" style="padding-left: 2px">
                 <img width="16" height="16" alt="${_('Go!')}" 
-                     src="/static/images/stock/gtk-jump-to.png" 
+                     src="${py.url('/static/images/stock/gtk-jump-to.png')}" 
                      style="cursor: pointer;" 
                      onclick="if (validate_email($('${name}').value)) window.open('mailto:' + $('${name}').value).close();"/>
             </td>

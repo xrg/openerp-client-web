@@ -3,7 +3,7 @@
     <tr>
         <td id="sidebar_pane" width="163" valign="top">
             <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
-                % if reports:
+              
                 <tr>
                     <td>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
@@ -31,7 +31,7 @@
                         </table>
                     </td>
                 </tr>
-                % endif
+              
                 % if actions:
                 <tr>
                     <td>
@@ -128,7 +128,7 @@
         </td>
 
         <td id="sidebar_hide" valign="top">
-           <img src="/static/images/sidebar_show.gif" border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
+           <img src="${py.url('/static/images/sidebar_show.gif')}" border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
         </td>
     </tr>
 </table>

@@ -72,7 +72,7 @@ QuickMenu.prototype = {
         	
         	this.box.id = 'quick_menu';
         	this.box.scrolling = 'auto';
-        	this.box.src = '/quickmenu';
+        	this.box.src = getURL('/quickmenu');
         	this.box.frameborder = 0;
         	
             appendChildNodes(document.body, this.box);

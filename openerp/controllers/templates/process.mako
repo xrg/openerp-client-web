@@ -3,16 +3,16 @@
 <%def name="header()">
     <title>${_("Process")}</title>
 
-    <link type="text/css" rel="stylesheet" href="/static/workflow/css/process_box.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/workflow/css/process.css"/>
+    <link type="text/css" rel="stylesheet" href="${py.url('/static/workflow/css/process_box.css')}"/>
+    <link type="text/css" rel="stylesheet" href="${py.url('/static/workflow/css/process.css')}"/>
 
-    <script src='/static/workflow/javascript/draw2d/wz_jsgraphics.js'></script>
-    <script src='/static/workflow/javascript/draw2d/mootools.js'></script>
-    <script src='/static/workflow/javascript/draw2d/moocanvas.js'></script>
-    <script src='/static/workflow/javascript/draw2d/draw2d.js'></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/wz_jsgraphics.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/mootools.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/moocanvas.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/draw2d.js')}"></script>
 
-    <script src='/static/workflow/javascript/process_box.js'></script>
-    <script src='/static/workflow/javascript/process.js'></script>
+    <script src="${py.url('/static/workflow/javascript/process_box.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/process.js')}"></script>
 
     <script type="text/javascript">
         var context_help = function() {
@@ -69,11 +69,11 @@
             <table width="100%" class="titlebar">
                 <tr>
                     <td width="32px" align="center">
-                        <img src="/static/images/stock/gtk-refresh.png"/>
+                        <img src="${py.url('/static/images/stock/gtk-refresh.png')}"/>
                     </td>
                     <td width="100%" id="process_title">${title}</td>
                     <td nowrap="nowrap">
-                        <img class="button" title="${_('Help')}" src="/static/images/stock/gtk-help.png" width="16" height="16"
+                        <img class="button" title="${_('Help')}" src="${py.url('/static/images/stock/gtk-help.png')}" width="16" height="16"
                         onclick="context_help()"/>
                     </td>
                 </tr>

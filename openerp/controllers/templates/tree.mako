@@ -44,14 +44,14 @@
                         <table width="100%" class="titlebar">
                             <tr>
                                 <td width="32px" align="center">
-                                    <img src="/static/images/stock/gtk-find.png"/>
+                                    <img src="${py.url('/static/images/stock/gtk-find.png')}"/>
                                 </td>
                                 <td width="100%">${tree.string}</td>
                                 <td nowrap="nowrap">
                                 <button type="button" title="${_('Switch current view: form/list')}" onclick="switchTree()">${_("Switch")}</button>
                                 </td>
                                 <td align="center" valign="middle" width="16">
-                                    <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/></a>
+                                    <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="${py.url('/static/images/stock/gtk-help.png')}" width="16" height="16"/></a>
                                 </td>
                             </tr>
                          </table>

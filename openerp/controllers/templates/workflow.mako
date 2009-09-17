@@ -4,21 +4,21 @@
 <title>${_("Workflow")}</title>
  <!--meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"-->
     <title></title>  
-	<link type="text/css" rel="stylesheet" href="/static/workflow/css/graph.css"/>
+	<link type="text/css" rel="stylesheet" href="${py.url('/static/workflow/css/graph.css')}"/>
 	
-	<script src='/static/workflow/javascript/draw2d/wz_jsgraphics.js'></script>
-    <script src='/static/workflow/javascript/draw2d/mootools.js'></script>
-    <script src='/static/workflow/javascript/draw2d/moocanvas.js'></script>
-    <script src='/static/workflow/javascript/draw2d/draw2d.js'></script>
+	<script src="${py.url('/static/workflow/javascript/draw2d/wz_jsgraphics.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/mootools.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/moocanvas.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/draw2d.js')}"></script>
     
-	<script src='/static/workflow/javascript/connector.js'></script>
-	<script src='/static/workflow/javascript/conn_anchor.js'></script>
-	<script src='/static/workflow/javascript/conn_decorator.js'></script>
-    <script src='/static/workflow/javascript/workflow.js'></script>
-    <script src='/static/workflow/javascript/toolbar.js'></script>
-    <script src='/static/workflow/javascript/ports.js'></script>
-    <script src='/static/workflow/javascript/state.js'></script>
-    <script src='/static/workflow/javascript/infobox.js'></script>
+	<script src="${py.url('/static/workflow/javascript/connector.js')}"></script>
+	<script src="${py.url('/static/workflow/javascript/conn_anchor.js')}"></script>
+	<script src="${py.url('/static/workflow/javascript/conn_decorator.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/workflow.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/toolbar.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/ports.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/state.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/infobox.js')}"></script>
 
     <style>
         body, html {
@@ -45,7 +45,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-refresh.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-refresh.png')}"/>
                         </td>
                         <td width="100%">${_('Workflow (%s)') % wkf['name']}</td>
                     </tr>

@@ -2,10 +2,10 @@
 <%! show_header_footer = False %>
 
 <%def name="header()">
-    <link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="${py.url('static/css/style.css')}" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
-    <script type="text/javascript" src="/static/javascript/textarea.js"></script>
+    <script type="text/javascript" src="${py.url('static/javascript/textarea.js')}"></script>
     
     <script type="text/javascript">
         var send_maintenance_request = function() {
