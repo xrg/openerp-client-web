@@ -49,8 +49,8 @@ def find_resource(package_or_module, *names):
 
     ref = package_or_module
     if isinstance(package_or_module, basestring):
-        ref = __import__(package_or_module, globals(), \
-                fromlist=package_or_module.split('.'))
+        ref = __import__(package_or_module, globals(), locals(), \
+                package_or_module.split('.'))
 
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
