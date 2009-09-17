@@ -385,7 +385,7 @@ class Char(TinyWidget):
 
         self.text = self.get_text()
         self.link = self.get_link()
-
+        print "================ link...", self.link
         self.color = None
         self.onclick = None
 
@@ -411,7 +411,11 @@ class M2O(Char):
 
     template = """\
         <span>
-            <a href="${link}">${text}</a>
+            % if link:
+                <a href="${link}">${text}</a>
+            % else:
+                ${text}
+            % endif
         </span>
     """
 
@@ -427,7 +431,12 @@ class M2O(Char):
         return ''
 
     def get_link(self):
-        return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+        m2o_link = int(self.attrs.get('link', 0))
+        
+        if m2o_link == 1:
+            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+        else:
+            return None
 
 class O2M(Char):
 
