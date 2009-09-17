@@ -31,7 +31,6 @@ function get_form_action(action, params){
     
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
-	alert(act)
     return getURL(act, params);
 }
 
