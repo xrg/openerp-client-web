@@ -239,17 +239,8 @@ class Notebook(TinyInputWidget):
 
     template = "templates/notebook.mako"
 
-    javascript = [JSLink("openerp", "javascript/tabber/tabber_cookie.js"),
-                  JSSource("""
-                  if (typeof(tabberOptions) == "undefined")
-                      var tabberOptions = {};
-                  tabberOptions['onLoad'] = tabber_onload;
-                  tabberOptions['onClick'] = tabber_onclick;
-                  tabberOptions['cookie'] = 'TGTabber';
-                  tabberOptions['manualStartup'] = true;"""),
-                  JSLink("openerp", "javascript/tabber/tabber.js")]
-
-    css = [CSSLink('openerp', 'css/tabs.css')]
+    javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
+    css = [CSSLink('openerp', 'css/notebook.css')]
 
     params = ['fake_widget']
     member_widgets = ['children']
@@ -427,7 +418,7 @@ class ProgressBar(TinyInputWidget):
     def __init__(self, **attrs):
         super(ProgressBar, self).__init__(**attrs)
 
-        if attrs.get('type2') is 'float':
+        if attrs.get('type2') == 'float':
             self.validator = validators.Float()
         else:
             self.validator = validators.Int()

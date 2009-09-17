@@ -45,25 +45,35 @@ class Sidebar(TinyWidget):
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
+        
+            function a() {
 
-            var sb = MochiKit.DOM.getElement('sidebar');
-            var sbp = MochiKit.DOM.getElement('sidebar_pane');
+                var sb = MochiKit.DOM.getElement('sidebar');
+                var sbp = MochiKit.DOM.getElement('sidebar_pane');
 
-            sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
-            sbp.style.display = sb.style.display;
+                sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
+                sbp.style.display = sb.style.display;
 
-            set_cookie("terp_sidebar", sb.style.display);
+                setCookie("terp_sidebar", sb.style.display);
 
-            var img = MochiKit.DOM.getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
-            if (sb.style.display == "none")
-                img.src = '/static/images/sidebar_show.gif';
-            else
-                img.src = '/static/images/sidebar_hide.gif';
+                var img = MochiKit.DOM.getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
+                if (sb.style.display == "none") {
+                    img.src = '/static/images/sidebar_show.gif';
+                } else {
+                    img.src = '/static/images/sidebar_hide.gif';
+                }
+            }
+            
+            if (typeof(Notebook) == "undefined") {
+                a();
+            } else {
+                Notebook.adjustSize(a);
+            }
         }
 
         MochiKit.DOM.addLoadEvent(function(evt) {
             var sb = MochiKit.DOM.getElement('sidebar');
-            if (sb) toggle_sidebar(get_cookie('terp_sidebar'));
+            if (sb) toggle_sidebar(getCookie('terp_sidebar'));
         });
     """)]
 

@@ -122,11 +122,11 @@ One2Many.prototype = {
         req.addCallback(function(res){
             //XXX: IE hack, long context value generate long URI
             // params['_terp_o2m_context'] = res.context;
-            set_cookie('_terp_o2m_context', res.context || '{}');
+            setCookie('_terp_o2m_context', res.context || '{}');
             try {
                 return openWindow(getURL('/openo2m/edit', params));
             } finally {
-                del_cookie('_terp_o2m_context');
+                delCookie('_terp_o2m_context');
             }
         });     
     }

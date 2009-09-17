@@ -1,7 +1,7 @@
 % if reports or actions or relates or attachments:
-<table border="0" cellpadding="0">
+<table border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td id="sidebar_pane" width="163" valign="top" style="padding-left: 2px">
+        <td id="sidebar_pane" width="163" valign="top">
             <table border="0" cellpadding="0" cellspacing="0" width="160" id="sidebar" style="display:none">
                 % if reports:
                 <tr>

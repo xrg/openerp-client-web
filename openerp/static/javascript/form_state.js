@@ -141,7 +141,7 @@ var form_hookAttrChange = function() {
     
     items = items.concat(getElementsByTagAndClassName('td', 'item'));
     items = items.concat(getElementsByTagAndClassName('td', 'label'));
-    items = items.concat(getElementsByTagAndClassName('div', 'tabbertab'));
+    items = items.concat(getElementsByTagAndClassName('div', 'notebook-page'));
     
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'attrs');
@@ -317,36 +317,21 @@ var form_setRequired = function(container, field, required) {
 }
 
 var form_setVisible = function(container, field, visible) {
+
+    if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
-    if (MochiKit.DOM.hasElementClass(container, 'tabbertab')) { // notebook page?
-    
-        var tabber = container.parentNode.tabber;
+        var nb = container.parentNode.parentNode.notebook;
         
-        if (!tabber)  {
+        if (!nb)  {
            return MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
         }
-
-        var tabs = getElementsByTagAndClassName('div', 'tabbertab', container.parentNode);
-        var idx = findIdentical(tabs, container);
-        var tab = tabber.tabs[idx];
         
-        var active = filter(function(t){
-            return !hasElementClass(t, 'tabbertabhide');
-        }, tabs);
+        var i = findIdentical(nb.pages, container);
         
-        active = active ? active[0] : container;
-        active = findIdentical(tabs, active);
-
-        if (visible) {            
-            tab.li.style.display = '';
-            tabber.tabShow(idx);
+        if (visible) {
+            nb.show(i, false);
         } else {
-            var tab = tabber.tabs[idx];
-            tab.li.style.display = 'none';
-            tabber.tabHide(idx);
-            if (idx == active) {
-                tabber.tabShow(0);
-            }
+            nb.hide(i);
         }
 
     } else {

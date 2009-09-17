@@ -28,7 +28,7 @@
         theme_advanced_resize_horizontal : false,
 
         tab_focus : ':prev,:next',
-        height: 350,
+        height: ${height},
         debug: false
     });
 </script>

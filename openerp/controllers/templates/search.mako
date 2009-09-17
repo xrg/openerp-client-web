@@ -26,19 +26,24 @@
         }
 
         function disable_hidden_search_fields(){
-            // disable fields of hidden tab
 
-            var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_form')[0];
+            var nb = SEARCH_NOTEBOOK;
+            var tab = nb.getNext(nb.getActiveTab()) || nb.getPrev(nb.getActiveTab());
+            var page = nb.getPage(tab);
+            
+            // disable fields of hidden tab
+            
             var disabled = [];
 
-            disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
-            disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
-            disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
-
+            disabled = disabled.concat(getElementsByTagAndClassName('input', null, page));
+            disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, page));
+            disabled = disabled.concat(getElementsByTagAndClassName('select', null, page));
+            
             forEach(disabled, function(fld){
+                log(fld);
                 fld.disabled = true;
             });
-
+            
             return true;
         }
 

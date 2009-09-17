@@ -21,19 +21,6 @@
     <link href="/static/css/menu.css" rel="stylesheet" type="text/css"/>
     <link href="/static/css/tips.css" rel="stylesheet" type="text/css"/>
 
-    <!--[if lt IE 7]>
-    <style type="text/css">
-        ul.tabbernav {
-        padding: 0px;
-    }
-
-    ul.tabbernav li {
-        left: 10px;
-        top: 1px;
-    }
-    </style>
-    <![endif]-->
-
     <!--[if IE]>
         <link href="/static/css/style-ie.css" rel="stylesheet" type="text/css"/>
     <![endif]-->

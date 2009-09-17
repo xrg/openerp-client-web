@@ -1031,7 +1031,7 @@ class Form(SecuredController):
 
     def reset_notebooks(self):
         for name in cherrypy.request.cookie.keys():
-            if name.endswith('_notebookTGTabber'):
+            if name.startswith('_notebook_'):
                 cherrypy.response.cookie[name] = 0
 
     @expose('json')
