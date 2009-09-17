@@ -28,9 +28,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var getURL = function(path, args) {
+
     var qs = args ? queryString(args) : null;
-    
-    if (SCRIPT_PATH && path && path[0] == "/") {
+        
+    if (SCRIPT_PATH && path && path[0] == "/" && path.indexOf(SCRIPT_PATH) != 0) {
         path = SCRIPT_PATH + path;
     }
     
