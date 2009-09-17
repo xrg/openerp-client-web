@@ -385,7 +385,7 @@ class Char(TinyWidget):
 
         self.text = self.get_text()
         self.link = self.get_link()
-        print "================ link...", self.link
+        
         self.color = None
         self.onclick = None
 
