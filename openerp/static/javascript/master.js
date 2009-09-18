@@ -38,6 +38,10 @@ var getURL = function(path, args) {
     return qs ? path + "?" +  qs : path;
 }
 
+var doRedirect = function(path, args) {
+    window.location.href = getURL(path, args);
+}
+
 function validate_email(email) {
     var re  = /(^[a-z]([a-z_\.]*)@([a-z_\.]*)([.][a-z]{3})$)|(^[a-z]([a-z_\.]*)@([a-z_\.]*)(\.[a-z]{3})(\.[a-z]{2})*$)/i;
     return re.test(email);

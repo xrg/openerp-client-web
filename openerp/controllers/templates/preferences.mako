@@ -18,7 +18,7 @@
                     <td>${form.display()}</td>
                 </tr>
                 <td class="toolbar" align="right">
-                    <button type='button' style="width: 80px" onclick="window.location.href='/'">${_("Cancel")}</button>
+                    <button type='button' style="width: 80px" onclick="doRedirect('/')">${_("Cancel")}</button>
                     <button type='button' style="width: 80px" onclick="submit_form('ok')">${_("Save")}</button>
                 </td>
             </table>
