@@ -147,7 +147,7 @@
     width: 100%;
     height: 5px;
 
-    background: url("/static/tinycalendar/images/calGrip.gif") no-repeat scroll center bottom;
+    background: url("../images/calGrip.gif") no-repeat scroll center bottom;
     cursor: s-resize;
 }
 
@@ -155,7 +155,7 @@
     color: maroon;
     font-weight: bold;
     padding-left: 20px;
-    background: url("/static/tinycalendar/images/calLoading.gif") no-repeat left;
+    background: url("../images/calLoading.gif") no-repeat left;
     display: none;
 }
 

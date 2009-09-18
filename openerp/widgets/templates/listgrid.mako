@@ -49,7 +49,7 @@
                             ${editors[field].display()}
                             % endfor
                             <!-- end of hidden fields -->
-                            <img src="${py.url('static/images/listgrid/save_inline.gif')}" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
+                            <img src="${py.url('/static/images/listgrid/save_inline.gif')}" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                         </td>
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}">

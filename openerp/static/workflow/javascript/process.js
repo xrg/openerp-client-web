@@ -241,9 +241,9 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var bg = "node";        
         bg = this.data.kind == "subflow" ? "node-subflow" : "node"; 
         bg = this.data.gray ? bg + "-gray" : bg;
-
-        elem.style.background = "url(/static/workflow/images/" + bg + ".png) no-repeat";
-
+		get_url = getURL('/static/workflow/images/'+ bg + '.png')
+        elem.style.background = "url('"+get_url+"') no-repeat";
+		
         elem.innerHTML = (
         "<div class='node-title'></div>"+
         "<div class='node-text'></div>"+
@@ -276,7 +276,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         }
 
         if (this.data.menu) {
-            var menu_img = IMG({src: '/static/images/stock/gtk-jump-to.png'});
+            var menu_img = IMG({src: getURL('/static/images/stock/gtk-jump-to.png')});
             menu_img.title = this.data.menu.name;
             menu_img.onclick = MochiKit.Base.bind(function(){
                 window.open(getURL('/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id}));
@@ -284,31 +284,32 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
             MochiKit.DOM.appendChildNodes(menu, menu_img);
         }
 
-        var buttons = [IMG({src: '/static/images/stock/gtk-info.png', title: _('Help')})];
+        var buttons = [IMG({src: getURL('/static/images/stock/gtk-info.png'), title: _('Help')})];
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
         if (this.data.res) {
-            buttons.push(IMG({src: '/static/images/stock/gtk-open.png', title: _('Open')}));
-            buttons.push(IMG({src: '/static/images/stock/gtk-print.png', title: _('Print')}));
+            buttons.push(IMG({src: getURL('/static/images/stock/gtk-open.png'), title: _('Open')}));
+            buttons.push(IMG({src: getURL('/static/images/stock/gtk-print.png'), title: _('Print')}));
 
             buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
         }
 
         if (this.data.workflow && this.data.res) {
-            var btn = IMG({src: '/static/images/stock/gtk-execute.png', title: _('Print workflow')});
+            var btn = IMG({src: getURL('/static/images/stock/gtk-execute.png'), title: _('Print workflow')});
             btn.onclick = MochiKit.Base.bind(this.onPrintWorkflow, this);
             buttons.push(btn);
         }
 
         if ((this.data.res && this.data.res.directory) || (this.data.directory)) {
-            var btn = IMG({src: '/static/images/stock/gtk-directory-remote.png', title: _('Documents')});
+            var btn = IMG({src: getURL('/static/images/stock/gtk-directory-remote.png'), title: _('Documents')});
             btn.onclick = MochiKit.Base.bind(this.onDocument, this);
             buttons.push(btn);
         }
 
         if (this.data.active){
-            elem.style.background = "url(/static/workflow/images/node-current.png) no-repeat";
+        	get_url = getURL('/static/workflow/images/node-current.png')
+        	elem.style.background = "url('"+get_url+"') no-repeat";
         }
 
         MochiKit.DOM.appendChildNodes(bbar, buttons);
@@ -400,7 +401,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         if (data.active && data.buttons && data.buttons.length) {
 
             var description = MochiKit.Base.map(function(role){
-                return TD({align: 'center'}, IMG({src: '/static/images/stock/stock_person.png'}), BR(), role.name);
+                return TD({align: 'center'}, IMG({src: getURL('/static/images/stock/stock_person.png')}), BR(), role.name);
             }, roles);
 
             description = roles.length ? TABLE({'style': 'height: 70px; font-size: 10px'},
@@ -417,7 +418,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         }
 
         if (roles.length) {
-            var role_img = new draw2d.ImageFigure('/static/images/stock/stock_person.png');
+            var role_img = new draw2d.ImageFigure(getURL('/static/images/stock/stock_person.png'));
             role_img.setDimension(32, 32);
             role_img.html.style.cursor = "pointer";
             this.addFigure(role_img, new draw2d.ManhattenMidpointLocator(this));

@@ -70,7 +70,7 @@
                 return;
             }
             
-            window.location.href = '/workflowlist/delete?model=${model}&id=' + boxes[0].value;
+            window.location.href = getURL('/workflowlist/delete?model=${model}&id=' + boxes[0].value);
         }
         
         function onActivate() {
@@ -82,7 +82,7 @@
                 return;
             }
             
-            window.location.href = '/workflowlist/activate?model=${model}&id=' + boxes[0].value;
+            window.location.href = getURL('/workflowlist/activate?model=${model}&id=' + boxes[0].value);
         }
 		
 		MochiKit.DOM.addLoadEvent(function(evt){
