@@ -319,6 +319,7 @@ TreeNode.prototype = {
                     
                     value.onclick = MochiKit.Base.bind(function(){
                         this.toggle();
+                        return false;
                     }, this);
                 }
     

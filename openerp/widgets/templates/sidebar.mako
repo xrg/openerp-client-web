@@ -1,7 +1,7 @@
 <%def name="sidebox_action_item(item, model)">
     <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
         <td>
-            <a href="javascript: void(0)">${item['name']}</a>
+            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
         </td>
     </tr>
 </%def>
