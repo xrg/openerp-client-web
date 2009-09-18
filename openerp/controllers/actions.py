@@ -202,7 +202,7 @@ def execute(action, **data):
                         window.opener.setTimeout("window.location.reload()", 0);
                         window.close();
                     } else {
-                        window.location.href = '/';
+                        doRedirect('/');
                     }
                 }
             </script>

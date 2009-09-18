@@ -467,7 +467,7 @@ class Form(SecuredController):
                         window.opener.setTimeout("window.location.reload()", 0);
                         window.close();
                     } else {
-                        window.location.href = '/';
+                        doRedirect('/');
                     }
                 }
             </script>
