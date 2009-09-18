@@ -459,21 +459,8 @@ class Form(SecuredController):
                 if res:
                     return res
 
-            return """<html>
-        <head>
-            <script type="text/javascript">
-                window.onload = function(evt){
-                    if (window.opener) {
-                        window.opener.setTimeout("window.location.reload()", 0);
-                        window.close();
-                    } else {
-                        doRedirect('/');
-                    }
-                }
-            </script>
-        </head>
-        <body></body>
-        </html>"""
+            from openerp.controllers import actions
+            return actions.close_popup()
 
         elif btype == 'save':
             params.id = False

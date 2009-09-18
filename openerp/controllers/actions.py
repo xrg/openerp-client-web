@@ -194,22 +194,7 @@ def execute(action, **data):
         return
 
     if action['type'] == 'ir.actions.act_window_close':
-        return """<html>
-        <head>
-            <script type="text/javascript">
-                window.onload = function(evt){
-                    if (window.opener) {
-                        window.opener.setTimeout("window.location.reload()", 0);
-                        window.close();
-                    } else {
-                        doRedirect('/');
-                    }
-                }
-            </script>
-        </head>
-        <body></body>
-        </html>
-        """
+        return close_popup()
 
     elif action['type']=='ir.actions.act_window':
         for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
@@ -357,6 +342,11 @@ def execute_by_keyword(keyword, adds={}, **data):
         return execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)
+
+
+@tools.expose(template="templates/closepopup.mako")
+def close_popup(*args, **kw):
+    return dict()
 
 # vim: ts=4 sts=4 sw=4 si et
 

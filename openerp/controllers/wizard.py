@@ -175,21 +175,8 @@ class Wizard(SecuredController):
             frm = eval('cherrypy.request.app.root' + frm.replace('/', '.'))
             return frm.create(params)
 
-        return """<html>
-            <head>
-                <script type="text/javascript">
-                    if (window.opener) {
-                        window.opener.setTimeout("window.location.reload()", 0);
-                        window.close();
-                    } else {
-                        doRedirect("/");
-                    }
-                </script>
-            </head>
-            <body>
-            </body>
-        </html>
-        """
+        from openerp.controllers import actions
+        return actions.close_popup()
 
     def get_validation_schema(self):
 
