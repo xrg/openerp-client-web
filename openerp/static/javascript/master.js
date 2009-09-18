@@ -114,6 +114,9 @@ function getElementsByAttribute(/*...*/) {
 
 
 function setCookie(name, value, expires, path, domain, secure) {
+
+    var path = path ? getURL(path) : SCRIPT_PATH;
+
     document.cookie= name + "=" + escape(value) +
         ((expires) ? "; expires=" + expires.toGMTString() : "") +
         ((path) ? "; path=" + path : "") +
@@ -139,6 +142,9 @@ function getCookie(name) {
 }
 
 function delCookie(name, path, domain) {
+
+    var path = path ? getURL(path) : SCRIPT_PATH;
+    
     if (getCookie(name)) {
         document.cookie = name + "=" +
             ((path) ? "; path=" + path : "") +
