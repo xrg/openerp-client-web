@@ -456,6 +456,7 @@ td.item .radio {
 /* ----------------- Side bar ----------------- */
 
 #sidebar {
+    padding-left: 4px;    
 }
 
 #sidebar .sidebox {
@@ -497,6 +498,28 @@ td.item .radio {
     text-decoration: none;
     color: #902D2D;
 }
+
+.sidebox .sidebox-title {
+    background-color: #666666;
+}
+
+.sidebox .sidebox-title-l {
+    background: #ac0000;
+}
+
+.sidebox .sidebox-title-m {
+    color: white; 
+    font-weight: bold; 
+    font-size: 12px; 
+    background-color: #363636;
+    padding-left: 4px;
+}
+
+.sidebox .sidebox-title-r {
+    background: url(../images/diagonal_left.gif) no-repeat; 
+    background-color: #666666";
+}
+
 
 div .chart_resize {
     background:#EEEEEE url(../images/textarea-grip.png) no-repeat scroll center 2px;

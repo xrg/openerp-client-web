@@ -49,10 +49,8 @@ class Sidebar(TinyWidget):
             function a() {
 
                 var sb = MochiKit.DOM.getElement('sidebar');
-                var sbp = MochiKit.DOM.getElement('sidebar_pane');
 
                 sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
-                sbp.style.display = sb.style.display;
 
                 setCookie("terp_sidebar", sb.style.display);
 
