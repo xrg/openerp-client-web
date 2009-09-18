@@ -101,6 +101,10 @@ class Tree(SecuredController):
     def sort_callback(self, item1, item2, field, sort_order="asc"):
         a = item1[field]
         b = item2[field]
+        
+        if type == 'many2one' and isinstance(a, (tuple, list)):
+            a = a[1]
+            b = b[1]
 
         if(sort_order == "dsc"):
             return -cmp(a, b)
@@ -139,7 +143,7 @@ class Tree(SecuredController):
         result = proxy.read(ids, fields, ctx)
 
         if sort_by:
-            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order))
+            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order, type=fields_info[sort_by]['type']))
 
         # formate the data
         for field in fields:
