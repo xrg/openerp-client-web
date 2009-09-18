@@ -43,7 +43,7 @@ table.tooltip .tip-b {
 }
 
 table.tooltip .tip-l {
-    background: url(/static/images/tips/l.png) repeat-y left;
+    background: url(../images/tips/l.png) repeat-y left;
 }
 
 table.tooltip .tip-r {
