@@ -90,7 +90,7 @@ except:
                 <tr>
                     % if rpc.session.is_logged():
                     <td align="right" valign="middle" style="padding-right: 4px;">
-                        ${_("Requests:")} <a href="${py.url('/requests', ids=requests)}">${requests_message}</a>
+                        ${_("Requests:")} <a href="${py.url('/requests')}">${requests_message}</a>
                     </td>
                     % endif
                 </tr>
