@@ -1,3 +1,20 @@
+5.0.6 (2009-09-22)
+
+	* Re-release as 5.0.6 due to packaging issue
+
+5.0.5 (2009-09-22)
+
+	* [FIX] Fixed sorting in treeview.
+	* [FIX] python2.4 compatibility.
+	* [FIX] database admin form validation
+	* [FIX] buttons in listgrid
+	* [FIX] don't show header/footer on button action if source form has not header/footer.
+	* [FIX] sidebar links (actions/reports) missing in tree mode.
+	* [IMP] implement the view functionality for wiki widget
+	* [FIX] improper data in M2M field while navigation.
+
+	For more complete bug fix history, please visit Launchpad.
+
 5.0.4 (2009-08-28)
 	
 	* [FIX] dynamic context is missing in non-editable view.
