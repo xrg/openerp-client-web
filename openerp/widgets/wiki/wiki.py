@@ -171,8 +171,10 @@ class WikiParser(wikimarkup.Parser):
         def link(path):
             link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
 
-            mids = proxy.search([('name','ilike',link[0])])
+            name_to_search = link[0].strip()
+            mids = proxy.search([('name','ilike',name_to_search)])
             link_str = ""
+
             if mids:
                if len(link) == 2:
                    link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
