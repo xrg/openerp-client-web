@@ -152,7 +152,7 @@
         </tr>
         <tr>
             <td>
-                <form id="view_form" action="/workflowlist/create">
+                <form id="view_form" action="${py.url('/workflowlist/create')}">
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>
