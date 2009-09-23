@@ -139,7 +139,7 @@
 
 <%def name="content()">
 <div class="view">
-    <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
+    <form id="search_form" name="search_form" action="${py.url('/search/find')}" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>
@@ -151,7 +151,7 @@
                     <table width="100%" class="titlebar">
                         <tr>
                             <td width="32px" align="center">
-                                <img src="${py.url('static/images/stock/gtk-find.png')}"/>
+                                <img src="${py.url('/static/images/stock/gtk-find.png')}"/>
                             </td>
                             <td width="100%">${_("Search %(name)s", name=form.screen.string)}</td>
                         </tr>
