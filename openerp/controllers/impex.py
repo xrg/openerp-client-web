@@ -422,7 +422,10 @@ class ImpEx(SecuredController):
             for line in data:
                 for word in line:
                     word = ustr(word.decode(csvcode))
-                    fields += [(_fields_invert[word], word)]
+                    if word in _fields_invert.keys():
+                        fields += [(_fields_invert[word], word)]
+                    else:
+                        fields += [(word, _fields[word])]
                 break
         except:
             raise common.warning(_('Error processing your first line of the file.\nField %s is unknown!') % (word,), _('Import Error.'))
