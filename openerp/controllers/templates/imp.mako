@@ -4,8 +4,8 @@
 
 <%def name="header()">
     <title>Import Data</title>
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
+    <link href="${py.url('/static/css/listgrid.css')}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${py.url('/static/javascript/listgrid.js')}"></script>
 
     <style type="text/css">
         .fields-selector {
@@ -83,7 +83,7 @@
 
             form.target = "detector";
 
-            setNodeAttribute(form, 'action', '/impex/import_data');
+            setNodeAttribute(form, 'action', getURL('/impex/import_data'));
             form.submit();
         }
 
@@ -118,7 +118,7 @@
 
             form.target = "detector";
 
-            setNodeAttribute(form, 'action','/impex/detect_data');
+            setNodeAttribute(form, 'action',getURL('/impex/detect_data'));
             form.submit();
         }
 
@@ -139,7 +139,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-go-down.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-go-down.png')}"/>
                         </td>
                         <td width="100%">${_("Import Data")}</td>
                     </tr>

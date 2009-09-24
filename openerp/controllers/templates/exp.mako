@@ -4,8 +4,8 @@
 
 <%def name="header()">
     <title>Export Data</title>
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
+    <link href="${py.url('/static/css/listgrid.css')}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${py.url('/static/javascript/listgrid.js')}"></script>
 
     <style type="text/css">
         .fields-selector {
@@ -67,7 +67,7 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = '/impex/save_exp';
+            form.action = getURL('/impex/save_exp');
             
             var options = $('fields').options;            
             forEach(options, function(o){
@@ -151,7 +151,7 @@
 
             $('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', '/impex/export_data/data.' + $('export_as').value);
+            setNodeAttribute(form, 'action', getURL('/impex/export_data/data.' + $('export_as').value));
             form.submit();
         }
     </script>
@@ -171,7 +171,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-go-up.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-go-up.png')}"/>
                         </td>
                         <td width="100%">${_("Export Data")}</td>
                     </tr>
