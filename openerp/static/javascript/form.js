@@ -364,7 +364,7 @@ var onBooleanClicked = function(name) {
  */
 var getFormData = function(extended) {
 
-    var parentNode = document.forms['view_form'] || $('_terp_list');
+    var parentNode = $('_terp_list') || document.forms['view_form'];
 
     var frm = {};
     var fields = [];
