@@ -780,11 +780,11 @@ class Form(TinyInputWidget):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Frame(children=n, **attrs)]
 
-            elif node.localName == 'notebook':
-                self.nb_couter += 1
+            elif node.localName == 'notebook':                
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
-                nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)
+                self.nb_couter += 1
+                nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)                
                 views += [nb]
 
             elif node.localName == 'page':
