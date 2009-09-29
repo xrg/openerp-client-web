@@ -536,7 +536,7 @@ class BarChart(GraphData):
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
-                    if s != 0.0:
+                    if s != 0.0 and not ctx.get('report_id', False):
                         stack["on-click"]= "function(){onChartClick('" + url[x] + "')}"
                     stack['tip'] = s
                     sval.append(stack)
@@ -561,7 +561,8 @@ class BarChart(GraphData):
     
                 for j, d in enumerate(data):
                     dt = {}
-                    dt["on-click"]= "function(){onChartClick('" + url[j] + "')}"
+                    if not ctx.get('report_id', False):
+                        dt["on-click"]= "function(){onChartClick('" + url[j] + "')}"
                     dt['top'] = d
                     datas.append(dt)
                     allvalues.append(d)
@@ -631,7 +632,8 @@ class PieChart(GraphData):
             val['value'] = value[i]
             val['text'] = x
             val['label'] = x
-            val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
+            if not ctx.get('report_id', False):
+                val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             
             if total_val <> 0.0:
                 field_key = (100 * value[i])/total_val
