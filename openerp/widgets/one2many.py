@@ -102,6 +102,9 @@ class O2M(TinyInputWidget):
         if not isinstance(ids, list):
             ids = [ids]
             
+        if ids and isinstance(ids[0], dict):
+            ids = []
+            
         id = (ids or None) and ids[0]
         
         if current and params.source and self.name in params.source.split('/'):
