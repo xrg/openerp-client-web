@@ -405,10 +405,18 @@ class ImpEx(SecuredController):
                     _fields_invert[st_name] = prefix_node+field
                     if fields[field]['type']=='one2many' and level>0:
                         fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
+                        fields2.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id':{'type': 'char', 'string': 'Database ID'}})
+                        model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
+                    if fields[field].get('type','') in ('many2one', 'many2many' ) and level>0:
+                        _fields[field+':id'] = fields[field]['string']
+                        fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
+                        fields2.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}})
+                        _fields_invert[fields[field]['string']] = field+':id'
                         model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
 
         proxy = rpc.RPCProxy(params.model)
         fields = proxy.fields_get(False, rpc.session.context)
+        fields.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}})
         model_populate(fields)
 
         try:
@@ -422,7 +430,10 @@ class ImpEx(SecuredController):
             for line in data:
                 for word in line:
                     word = ustr(word.decode(csvcode))
-                    fields += [(_fields_invert[word], word)]
+                    if word in _fields_invert.keys():
+                        fields += [(_fields_invert[word], word)]
+                    else:
+                        fields += [(word, _fields[word])]
                 break
         except:
             raise common.warning(_('Error processing your first line of the file.\nField %s is unknown!') % (word,), _('Import Error.'))
