@@ -415,7 +415,8 @@ td.item .radio {
     background: url("/static/images/stock/stock_translate.png") no-repeat right center;
 }
 
-#view_form .fielderror {
+#view_form .fielderror,
+#search_form .fielderror  {
     color: #FF0000;
 }
 
@@ -423,7 +424,8 @@ td.item .radio {
     background-color: #CCD9FF;
 }
 
-#view_form .errorfield {
+#view_form .errorfield,
+#search_form .errorfield  {
     background-color: #FF6666;
 }
 
