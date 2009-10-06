@@ -268,7 +268,12 @@ class InputWidget(Widget):
     @property
     def is_validated(self):
         try:
-            return self.root is cherrypy.request.validated_form
+            if self.root is cherrypy.request.validated_form:
+                return True
+            
+            for w in cherrypy.request.validated_form.iter_member_widgets():
+                if w is self.root:
+                    return True
         except:
             pass
         return False
