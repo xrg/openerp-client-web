@@ -1,0 +1,40 @@
+.accordion {
+    border: 1px solid #999999;
+    border-bottom: none;
+}
+
+.accordion-block {
+
+}
+
+.accordion-title {
+	display: block;
+	
+	padding: 8px;
+	margin: 0;
+	
+	font-weight: normal;
+	font-size: 12px;
+	text-decoration: none;
+	outline: none;
+	
+	border-bottom: 1px solid #999999;
+	cursor: pointer;
+	
+	background-color: #ccc;
+	color: #950000;
+}
+
+.accordion-title-active {
+	font-weight: bold;
+}
+
+.accordion-content {
+	overflow: hidden;
+	border-bottom: 1px solid #999999;
+}
+
+/**
+ * vim: sts=4 st=4 et 
+ *
+ */
