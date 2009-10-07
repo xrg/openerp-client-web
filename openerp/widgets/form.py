@@ -565,7 +565,10 @@ class Button(TinyInputWidget):
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
 
         self.nolabel = True
-        self.readonly = False
+        self.readonly = attrs.get('readonly', False)
+        
+        if self.readonly:
+            attrs['disabled'] = 'disabled'
 
         if self.icon:
             self.icon = icons.get_icon(self.icon)
