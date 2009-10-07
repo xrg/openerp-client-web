@@ -1,4 +1,4 @@
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 <%! show_header_footer = False %>
 <%def name="header()">
     <title>${_("Manage Views (%s)") % (model)}</title>

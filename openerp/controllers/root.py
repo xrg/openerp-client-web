@@ -82,10 +82,55 @@ class Root(SecuredController):
     def index(self):
         """Index page, loads the view defined by `action_id`.
         """
-        return self.user_action('action_id')
-
-    @expose()
+        #return self.user_action('action_id')
+        raise redirect("/menu")
+    
+    @expose(template="templates/menu.mako")
     def menu(self):
+        
+        from openerp.widgets import tree_view
+        from openerp import cache
+        from openerp import icons
+        
+        view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
+        tree = tree_view.ViewTree(view, 'ir.ui.menu', [], domain=[('parent_id', '=', False)], context={}, action="/tree/action")
+        
+        toolbar = tree.toolbar or []
+        for tool in toolbar:
+            if tool.get('icon'):
+                tool['icon'] = icons.get_icon(tool['icon'])
+            else:
+                tool['icon'] = False
+                
+            t = tree_view.ViewTree(view, 'ir.ui.menu', tool['id'], 
+                domain=[('parent_id', '=', False)], context={}, action="/tree/action")
+            t.tree._name = "tree_%s" %(tool['id'])
+            t.tree.onselection = None
+            t.tree.onheaderclick = None
+            t.tree.showheaders = 0
+            t.tree.linktarget = "'appFrame'"
+            
+            tool['tree'] = t.tree
+            
+        return dict(toolbar=toolbar)
+    
+    @expose()
+    def info(self):
+        return """
+    <html>
+    <head></head>
+    <body>
+        <center>
+        <h1>Work in progress...</h1>
+        <br>
+        <h3>This is just a preview of new global menu</h3>
+        </center>
+    </body>
+    </html>
+    """
+
+    #@expose()
+    def _old_menu(self):
         """Main menu page, loads the view defined by `menu_id`.
         """
         return self.user_action('menu_id')

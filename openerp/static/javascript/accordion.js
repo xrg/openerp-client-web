@@ -57,7 +57,6 @@ Accordion.prototype = {
 		}, options || {});
 		
 		var accordions = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-block", container);
-		var first = null;
 		
 		MochiKit.Iter.forEach(accordions, function(accordion) {
 		
@@ -68,28 +67,26 @@ Accordion.prototype = {
 		
 		    MochiKit.Signal.connect(title, "onclick", this, partial(this.activate, title));
 			MochiKit.Style.hideElement(content);
-			
-			first = this.current ? first : title;
-			
+						
 			this.current = title;
 			
 		}, this);
-
-        if (first)
-            this.activate(first);
     },
     
 	activate : function(title) {
-	    
-	    if (title == this.current) {
-	        return;
-	    }
 	    
 	    if (this.animate) {
 	        return;
 	    }
 	    
-	    this.deactivate(this.current);
+	    if (this.current) {
+    	    this.deactivate(this.current);
+        }
+	    
+	    if (title == this.current) {
+	        this.current = null;
+	        return;
+	    }
 	    
 		this.current = title;		
 		this.animate = true;

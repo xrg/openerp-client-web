@@ -42,7 +42,8 @@ TreeGrid.prototype = {
             'expandall' : false,
             'onselect' : function(evt, node){},
             'onbuttonclick' : function(evt, node){},
-            'onheaderclick' : function(evt, header){}
+            'onheaderclick' : function(evt, header){},
+            'linktarget': null
         }, options || {});
         
         // a dummy root node
@@ -325,6 +326,8 @@ TreeNode.prototype = {
     
                 if (record.target) {
                     MochiKit.DOM.setNodeAttribute(value, 'target', record.target);
+                } else if (this.tree.options.linktarget) {
+                    MochiKit.DOM.setNodeAttribute(value, 'target', this.tree.options.linktarget);
                 }
                 
                 if(record.required) {

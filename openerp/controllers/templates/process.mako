@@ -1,4 +1,4 @@
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>${_("Process")}</title>

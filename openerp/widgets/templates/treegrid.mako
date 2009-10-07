@@ -9,6 +9,7 @@
         ${name}.options.onheaderclick = ${onheaderclick or 'null'};
         
         ${name}.options.expandall = ${(expandall and 'true') or 'false'};
+        ${name}.options.linktarget = ${linktarget};
         
         MochiKit.DOM.addLoadEvent(function(e){
         

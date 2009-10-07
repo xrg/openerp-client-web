@@ -1,5 +1,5 @@
 <%! show_header_footer = False %>
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <script type="text/javascript">    
