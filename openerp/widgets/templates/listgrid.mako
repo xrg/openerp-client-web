@@ -72,9 +72,11 @@
                         % endif
                         % if editable:
                         <td class="grid-cell selector">
-                            % if not editors:
+                            % if not editors and 'form' in mode_views:
                             <img src="${py.url('/static/images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
-                            % endif
+                            % elif not editors:
+                            <img src="/static/images/listgrid/edit_inline.gif" border="0" title="${_('Edit')}"/>
+                            % endif                            
                             % if editors:
                             <img src="${py.url('/static/images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
                             % endif
@@ -82,9 +84,13 @@
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                            % if i==0:
+                            % if i==0 and 'form' in mode_views:
                             <span>
                                 <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
+                            </span>
+                            % elif i==0 and 'form' not in mode_views:
+                            <span>
+                            	 ${data[field]}
                             </span>
                             % endif
                             % if i and show_links:

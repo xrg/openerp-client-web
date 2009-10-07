@@ -55,7 +55,7 @@ from base import CSSLink, JSLink
 class List(TinyWidget):
 
     template = "templates/listgrid.mako"
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'mode_views',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
 
@@ -68,7 +68,7 @@ class List(TinyWidget):
     buttons = []
 
     edit_inline = None
-
+    mode_views = False
     data = None
     columns = 0
     headers = None
@@ -101,6 +101,8 @@ class List(TinyWidget):
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
+        
+        self.mode_views = kw.get('view_mode')
 
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
