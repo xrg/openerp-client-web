@@ -33,6 +33,17 @@
     <script type="text/javascript" src="${py.url('/static/javascript/ajax.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/tips.js')}"></script>
     
+    <script type="text/javascript">
+        
+        MochiKit.DOM.addLoadEvent(function(evt){
+        
+            if (parent && parent.MAIN_WINDOW) {
+                parent.setTimeout("showAppBar()", 0);
+            }
+            
+        });
+    </script>
+    
     ${self.header()}
 
 </head>

@@ -25,14 +25,19 @@
         }
         
         function onHeaderClick(evt, header) {
+        
+            var tree = header.tree;
+            
             tree.ajax_params.sort_by = header.name;
             tree.ajax_params.sort_order = tree.ajax_params.sort_order == "dsc" ? "asc" : "dsc";
             tree.reload();
         }
         
     </script>
+    
 % if tree:
     ${tree.display()}
 % endif
+
 </form>
 

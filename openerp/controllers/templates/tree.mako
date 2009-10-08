@@ -2,40 +2,11 @@
 
 <%def name="header()">
     <title>${tree.string}</title>
-    <script type="text/javascript">
-
-        function switchTree(){
-        
-            var selection = MochiKit.DOM.getElement('_terp_ids').value;
-            
-            if (!selection) {
-                return alert(_('You must select at least one record.'));
-            }
-            
-            var form = document.forms['view_tree'];
-            var args = {
-                '_terp_selection': '[' + selection + ']'
-            }
-
-            setNodeAttribute(form, 'action', getURL('/tree/switch', args));
-            form.method = 'post';
-            form.submit();
-        }
-
-        function button_click(id){
-            location.href = getURL('/tree', {
-                    id : id, 
-                    model : $('_terp_model').value,
-                    view_id : $('_terp_view_id').value,
-                    domain: $('_terp_domain').value,
-                    context: $('_terp_context').value});
-        }
-
-    </script>
+    <script type="text/javascript" src="${py.url('/static/javascript/treeview.js')}"></script>
 </%def>
 
 <%def name="content()">
-<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+<table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td width="100%" valign="top">
             <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -47,9 +18,9 @@
                                     <img src="${py.url('/static/images/stock/gtk-find.png')}"/>
                                 </td>
                                 <td width="100%">${tree.string}</td>
-                                <td nowrap="nowrap">
-                                <button type="button" title="${_('Switch current view: form/list')}" onclick="switchTree()">${_("Switch")}</button>
-                                </td>
+                                <!--td nowrap="nowrap">
+                                <button type="button" title="${_('Switch current view: form/list')}" onclick="TREEVIEW.switchItem()">${_("Switch")}</button>
+                                </td-->
                                 <td align="center" valign="middle" width="16">
                                     <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="${py.url('/static/images/stock/gtk-help.png')}" width="16" height="16"/></a>
                                 </td>
@@ -68,7 +39,7 @@
                             </thead>
                             <tbody>
                                 % for tool in tree.toolbar:
-                                <tr class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="button_click('${tool['id']}')">
+                                <tr class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="TREEVIEW.openTree(${tool['id']}, ${tool['ids']}, this)">
                                     <td>
                                         <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
                                             <tr>
@@ -94,4 +65,9 @@
         % endif
     </tr>
 </table>
+
+<script type="text/javascript">
+    var TREEVIEW = new TreeView(${tree.id});
+</script>
+
 </%def>

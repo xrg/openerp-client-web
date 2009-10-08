@@ -241,12 +241,6 @@ class Form(SecuredController):
         buttons.i18n = not editable and mode == 'form'
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
-        
-        show_header = target != 'new'
-        if not int(cherrypy.request.params.get('_terp_header_footer', 1)):
-            show_header = False
-        cherrypy.request.show_header_footer = show_header
-            
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
         if cache.can_write('ir.ui.view'):
@@ -262,7 +256,7 @@ class Form(SecuredController):
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path, show_header_footer=show_header)
+        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)
 
     @profile("form.edit", log=['model', 'id'])
     @expose()
@@ -429,9 +423,6 @@ class Form(SecuredController):
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
                 
-        if not int(cherrypy.request.params.get('_terp_header_footer', 1)):
-            args['target'] = 'new'
-
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
 

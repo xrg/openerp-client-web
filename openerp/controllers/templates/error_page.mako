@@ -1,5 +1,4 @@
 <%inherit file="base.mako"/>
-<%! show_header_footer = False %>
 
 <%def name="header()">
     <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />

@@ -83,10 +83,10 @@ class Root(SecuredController):
         """Index page, loads the view defined by `action_id`.
         """
         #return self.user_action('action_id')
-        raise redirect("/menu")
+        raise redirect("/main")
     
     @expose(template="templates/menu.mako")
-    def menu(self):
+    def menu2(self):
         
         from openerp.widgets import tree_view
         from openerp import cache
@@ -120,17 +120,19 @@ class Root(SecuredController):
     <html>
     <head></head>
     <body>
-        <center>
-        <h1>Work in progress...</h1>
-        <br>
-        <h3>This is just a preview of new global menu</h3>
-        </center>
+        <div align="center" style="padding: 50px;">
+            <img border="0" src="%s"></img>
+        </div>
     </body>
     </html>
-    """
+    """ % (url("/static/images/loading.gif"))
+    
+    @expose(template="templates/main.mako")
+    def main(self):
+        return dict()
 
-    #@expose()
-    def _old_menu(self):
+    @expose()
+    def menu(self):
         """Main menu page, loads the view defined by `menu_id`.
         """
         return self.user_action('menu_id')

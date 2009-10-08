@@ -3,11 +3,6 @@
     <div>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${search_data}"/>
-    % if getattr(cp.request, 'show_header_footer', True):
-        <input type="hidden" id="_terp_header_footer" name="_terp_header_footer" value="1"/>
-    % else:
-        <input type="hidden" id="_terp_header_footer" name="_terp_header_footer" value="0"/>
-    % endif
 
     % for field in hidden_fields:
         ${display_member(field)}

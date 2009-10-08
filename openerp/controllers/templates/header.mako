@@ -50,7 +50,7 @@ except:
             <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                 <tr>
                     <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                        <a href="${py.url('/menu')}">${_("MAIN MENU")}</a>
+                        <a href="#" onclick="toggleMenubar()">${_("MAIN MENU")}</a>
                     </td>
                     <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
                         <a href="${py.url('/shortcuts')}">${_("SHORTCUTS")}</a>

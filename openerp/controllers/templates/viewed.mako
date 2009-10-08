@@ -1,5 +1,5 @@
 <%inherit file="base.mako"/>
-<%! show_header_footer = False %>
+
 <%def name="header()">
     <title>View Editor</title>
     <script type="text/javascript" src="${py.url('/static/javascript/form.js')}"></script>

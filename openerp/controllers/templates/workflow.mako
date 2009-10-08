@@ -1,5 +1,5 @@
 <%inherit file="base.mako"/>
-<%! show_header_footer = False %>
+
 <%def name="header()">
 <title>${_("Workflow")}</title>
  <!--meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"-->

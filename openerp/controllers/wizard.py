@@ -127,9 +127,7 @@ class Wizard(SecuredController):
                     buttons.append(tuple(x))
 
                 params.state = state
-                target = getattr(cherrypy.request, '_terp_view_target', None)
-                
-                return dict(form=form, buttons=buttons, show_header_footer=target!='new')
+                return dict(form=form, buttons=buttons)
 
             elif res['type']=='action':
                 from openerp.controllers import actions

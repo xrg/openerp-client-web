@@ -1,5 +1,5 @@
 <%inherit file="base.mako"/>
-<%! show_header_footer = False %>
+
 <%def name="header()">
     <title>${_("Add Translations")}</title>
     <link href="${py.url('/static/css/listgrid.css')}" rel="stylesheet" type="text/css"/>

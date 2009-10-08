@@ -73,12 +73,18 @@ class Tree(SecuredController):
 
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
         if tree.toolbar:
+            
+            proxy = rpc.RPCProxy(model)
+            
             for tool in tree.toolbar:
                 if tool.get('icon'):
                     tool['icon'] = icons.get_icon(tool['icon'])
                 else:
                     tool['icon'] = False
-
+                id = tool['id']
+                ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
+                tool['ids'] = ids
+                
         return dict(tree=tree, model=model)
 
     @expose()
@@ -98,7 +104,7 @@ class Tree(SecuredController):
 
         return self.create(params)
 
-    def sort_callback(self, item1, item2, field, sort_order="asc"):
+    def sort_callback(self, item1, item2, field, sort_order="asc", type=None):
         a = item1[field]
         b = item2[field]
         

@@ -96,7 +96,7 @@ class ViewTree(Form):
         self.headers = []
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree",
+        self.tree = treegrid.TreeGrid(name="tree_%s" % (id),
                                       model=self.model,
                                       headers=self.headers,
                                       url=tools.url("/tree/data"),
@@ -108,6 +108,9 @@ class ViewTree(Form):
                                       onheaderclick="onHeaderClick")
         self.id = id
         self.ids = ids
+        
+        if model == "ir.ui.menu":
+            self.tree.linktarget = "'appFrame'"
 
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():

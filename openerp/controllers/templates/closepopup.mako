@@ -1,4 +1,3 @@
-<%! show_header_footer = False %>
 <%inherit file="base.mako"/>
 
 <%def name="header()">
