@@ -165,6 +165,7 @@ class Screen(TinyInputWidget):
                                         ids=self.ids,
                                         domain=self.domain,
                                         context=self.context,
+                                        view_mode=self.view_mode,
                                         editable=self.editable,
                                         selectable=self.selectable,
                                         offset=self.offset, limit=self.limit, count=self.count, nolinks=self.link)
