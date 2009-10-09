@@ -36,11 +36,35 @@
     <script type="text/javascript">
         
         MochiKit.DOM.addLoadEvent(function(evt){
-        
-            if (parent && parent.MAIN_WINDOW) {
-                parent.setTimeout("showAppBar()", 0);
-            }
+            (function(){
             
+                var frame = window.frameElement ? window.frameElement.name : null;
+            
+                if (frame == "appFrame") {
+                    parent.setTimeout("showAppBar()", 0);
+                }
+                
+                var frameHeight = 0;
+                
+                var callback = function(elem) {
+                
+                    MochiKit.Async.callLater(0.3, function(){
+                    
+                        var h = getElementDimensions(elem).h;
+                        
+                        if (frameHeight != h) {
+                            window.frameElement.height = h + 2 + 'px';
+                            frameHeight = h;
+                        }
+                        callback(elem);
+                    });
+                }
+                
+                if (frame == "menuFrame" || frame == "appFrame") {
+                    callback("content_container");
+                }
+                
+            })()
         });
     </script>
     
@@ -54,7 +78,9 @@
     ${js.display()}
 % endfor
 
+<div id="content_container">
 ${self.content()}
+</div>
 
 % for js in widget_javascript.get('bodybottom', []):
     ${js.display()}

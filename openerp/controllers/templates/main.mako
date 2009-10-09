@@ -5,24 +5,7 @@
     <script type="text/javascript">
     
         var menubar, appbar, infobar = null
-        var nHeader, nFooter = 0;
-
-        var onWindowResize = function(evt) {
-
-            var dim = getViewportDimensions();
-            var h = dim.h - nHeader - 4 - 2 + 'px';
-            
-            with (menubar.style) {
-                height = h;
-            }
-            
-            with (appbar.style) {
-                height = h;
-            }
-            
-        }
-
-        MochiKit.Signal.connect(window, "onresize", onWindowResize);
+                
         MochiKit.DOM.addLoadEvent(function(evt){
         
             MochiKit.Iter.forEach(document.getElementsByTagName("a"), function(a){
@@ -32,18 +15,12 @@
                 }
             });
         
-            window.MAIN_WINDOW = true;
-
             menubar = getElement("menu_container");
             appbar = getElement("app_container");
             infobar = getElement("info_container");
             
             appbar.style.display = "none";
             infobar.style.display = "none";
-            
-            nHeader = getElementDimensions("header").h;
-            
-            onWindowResize();
         });
         
         var toggleMenubar = function() {
@@ -86,14 +63,16 @@
     </div>
 
     <div id="app_container">
-        <iframe width="100%" height="100%" border="0" frameborder="0" 
+        <iframe width="100%" height="100%" border="0" frameborder="0" scrolling="no" 
             id="appFrame" name="appFrame" src=""></iframe>
     </div>
 
     <div id="menu_container">
-        <iframe width="100%" height="100%" border="0" frameborder="0" 
+        <iframe width="100%" height="100%" border="0" frameborder="0" scrolling="no" 
             id="menuFrame" name="menuFrame" src="${py.url('/menu')}"></iframe>
     </div>
+    
+    <%include file="footer.mako"/>
     
 </%def>
 
