@@ -729,6 +729,17 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
+var showCustomizeMenu = function(src, elem) {
+
+    var src = getElement(src);
+    var elem = getElement(elem);
+    
+    var y = getElementPosition(src).y - getElementDimensions(elem).h;
+    
+    elem.style.top = y + 'px';
+    MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
+}
+
 function makeContextMenu(id, kind, relation, val) {
 
     var form = document.forms['view_form'];
@@ -791,11 +802,18 @@ function makeContextMenu(id, kind, relation, val) {
         var md = elementDimensions('contextmenu');
 
         var x = $('contextmenu').style.left.slice(0, -2);
+        var y = $('contextmenu').style.top.slice(0, -2);
         x = parseInt(x);
+        y = parseInt(y);
 
         if ((x + md.w) > vd.w) {
             x -= x + md.w - vd.w;
             $('contextmenu').style.left = x + 'px';
+        }
+        
+        if ((y + md.h) > vd.h) {
+            y -= y + md.h - vd.h;
+            $('contextmenu').style.top = y + 'px';
         }
 
         showContextMenu();

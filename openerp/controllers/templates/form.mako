@@ -179,7 +179,7 @@
                     % if links:
                     <tr>
                         <td class="dimmed-text">
-                            [<a onmouseover="MochiKit.Visual.appear('customise_menu_', {from: 0, duration: 0.4});" 
+                            [<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
                                 onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a>]<br/>
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
                                  onmouseover="showElement(this);" onmouseout="hideElement(this);">
