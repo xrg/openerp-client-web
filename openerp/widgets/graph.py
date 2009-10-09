@@ -159,11 +159,15 @@ class GraphData(object):
             res['temp_id'] = value.get('id')
 
             for x in axis_data.keys():
-                if fields[x]['type'] in ('many2one', 'char', 'time', 'text', 'selection'):
+                if fields[x]['type'] in ('many2one', 'char', 'time', 'text'):
                     res[x] = value[x]
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
                     res[x] = ustr(res[x])
+                elif fields[x]['type'] in 'selection': 
+                    for i in fields[x]['selection']:
+                        if value[x] in i:
+                            res[x] = i[1]
                 elif fields[x]['type'] == 'date':
                     if value[x]:
                         date = time.strptime(value[x], DT_FORMAT)
