@@ -88,6 +88,10 @@
                             <span>
                                 <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
                             </span>
+                            % elif i==0 and mode_views==[]:
+                            <span>
+                            	<a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
+                            </span>
                             % elif i==0 and 'form' not in mode_views:
                             <span>
                             	 ${data[field]}
