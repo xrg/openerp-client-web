@@ -68,7 +68,7 @@ class List(TinyWidget):
     buttons = []
 
     edit_inline = None
-    mode_views = False
+    mode_views = []
     data = None
     columns = 0
     headers = None
@@ -102,7 +102,7 @@ class List(TinyWidget):
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
         
-        self.mode_views = kw.get('view_mode')
+        self.mode_views = kw.get('view_mode', [])
 
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
