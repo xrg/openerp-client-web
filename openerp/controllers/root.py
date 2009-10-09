@@ -68,7 +68,7 @@ class Root(SecuredController):
 
         proxy = rpc.RPCProxy("res.users")
         act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-
+        
         if not act_id[0][id]:
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
@@ -84,36 +84,7 @@ class Root(SecuredController):
         """
         #return self.user_action('action_id')
         raise redirect("/main")
-    
-    @expose(template="templates/menu.mako")
-    def menu2(self):
         
-        from openerp.widgets import tree_view
-        from openerp import cache
-        from openerp import icons
-        
-        view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
-        tree = tree_view.ViewTree(view, 'ir.ui.menu', [], domain=[('parent_id', '=', False)], context={}, action="/tree/action")
-        
-        toolbar = tree.toolbar or []
-        for tool in toolbar:
-            if tool.get('icon'):
-                tool['icon'] = icons.get_icon(tool['icon'])
-            else:
-                tool['icon'] = False
-                
-            t = tree_view.ViewTree(view, 'ir.ui.menu', tool['id'], 
-                domain=[('parent_id', '=', False)], context={}, action="/tree/action")
-            t.tree._name = "tree_%s" %(tool['id'])
-            t.tree.onselection = None
-            t.tree.onheaderclick = None
-            t.tree.showheaders = 0
-            t.tree.linktarget = "'appFrame'"
-            
-            tool['tree'] = t.tree
-            
-        return dict(toolbar=toolbar)
-    
     @expose()
     def info(self):
         return """
