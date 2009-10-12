@@ -49,10 +49,13 @@ except:
         
             <script type="text/javascript">
                 function toggleMenubar() {
+                
                     if (window.frameElement && 
                         (window.frameElement.name == "appFrame" || 
                          window.frameElement.name == "menuFrame")) {
                         parent.setTimeout("toggleMenubar()", 0);
+                    } else {
+                        doRedirect("/main");
                     }
                 }
             </script>
