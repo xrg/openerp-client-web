@@ -8,6 +8,9 @@
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
+
     <div class="view">
         <form name="view_form" id="view_form" action="/pref/ok" method="post">
             <table align="center">
@@ -24,4 +27,6 @@
             </table>
         </form>
     </div>
+    
+<%include file="footer.mako"/>
 </%def>

@@ -31,6 +31,9 @@
 </%def>
 
 <%def name="content()">
+
+<%include file="footer.mako"/>
+
     <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td valign="top">
@@ -70,4 +73,5 @@
             <td valign="top" align="center">${form.display()}</td>
         </tr>
     </table>
+<%include file="footer.mako"/>    
 </%def>

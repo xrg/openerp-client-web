@@ -48,6 +48,9 @@
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
+
 % if selection:
 <div class="view">
     <input type="hidden" id="res_model" value="${res_model}"/>
@@ -95,4 +98,7 @@
     </tr>
 </table>
 %endif
+
+<%include file="footer.mako"/>
+
 </%def>

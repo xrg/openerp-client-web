@@ -6,6 +6,8 @@
 
 <%def name="content()">
 
+<%include file="header.mako"/>
+
 <table class="view" width="100%">
     <tr>
         <td>
@@ -127,5 +129,7 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
         </td>
     </tr>
 </table>
+
+<%include file="footer.mako"/>
 
 </%def>

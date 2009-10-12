@@ -54,6 +54,8 @@
 
 <%def name="content()">
 	
+<%include file="header.mako"/>
+	
     <input type="hidden" id="_terp_all_params" name="_terp_all_params" value="${all_params}"/>
     
 	<table class="view" border="0" width="100%">
@@ -206,4 +208,5 @@ Choose:
         </tr>
         % endif
     </table>
+<%include file="footer.mako"/>    
 </%def>

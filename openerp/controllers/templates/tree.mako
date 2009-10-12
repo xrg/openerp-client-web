@@ -6,6 +6,9 @@
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
+
 <table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td width="100%" valign="top">
@@ -69,5 +72,7 @@
 <script type="text/javascript">
     var TREEVIEW = new TreeView(${tree.id});
 </script>
+
+<%include file="footer.mako"/>
 
 </%def>

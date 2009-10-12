@@ -14,6 +14,9 @@
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
+
 <div class="view">
 
 % if form:
@@ -44,4 +47,7 @@
     </div>
     
 </div>
+
+<%include file="footer.mako"/>
+
 </%def>

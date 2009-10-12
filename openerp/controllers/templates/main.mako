@@ -1,78 +1,69 @@
-<%inherit file="base.mako"/>
-
-<%def name="header()">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>OpenERP</title>
+    
+    <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css"/>
+    
+    <script type="text/javascript">
+        window.SCRIPT_PATH = "${cp.request.app.script_name}";
+    </script>
+
+    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/MochiKit.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/master.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/ajax.js')}"></script>
+    
     <script type="text/javascript">
     
-        var menubar, appbar, infobar = null
-                
+        var menuFrame, appFrame = null;
+        var container = null;
+        
         MochiKit.DOM.addLoadEvent(function(evt){
         
-            MochiKit.Iter.forEach(document.getElementsByTagName("a"), function(a){
-                var v = getNodeAttribute(a, 'href');
-                if (v.indexOf('/') == 0) {
-                    a.target = "appFrame";
-                }
-            });
-        
-            menubar = getElement("menu_container");
-            appbar = getElement("app_container");
-            infobar = getElement("info_container");
+            menuFrame = getElement("menuFrame");
+            appFrame = getElement("appFrame");
             
-            appbar.style.display = "none";
-            infobar.style.display = "none";
+            container = getElement("frameContainer");
+
         });
         
         var toggleMenubar = function() {
+        
+            var current = getCurrentFrame();
             
-            if (menubar.style.display == "none")
-                showMenuBar();
-            else
-                showAppBar();
+            if (appFrame.contentWindow.location.pathname.length == 0) {
+                return showMenuBar();
+            }
+            
+            return current == menuFrame ? showAppBar() : showMenuBar();
+        }
+        
+        var getCurrentFrame = function() {
+            switch(container.rows) {
+                case "*,100%":
+                    return appFrame;
+                case "100%,*":
+                    return menuFrame;
+            }
         }
         
         var showMenuBar = function() {
-            infobar.style.display = "none";
-            appbar.style.display = "none";
-            menubar.style.display = "";
+            container.rows = "100%,*";
+            return menuFrame;
         }
         
         var showAppBar = function() {
-            menubar.style.display = "none";
-            infobar.style.display = "none";
-            appbar.style.display = "";
-        }
-        
-        var showInfoBar = function() {
-            menubar.style.display = "none";
-            appbar.style.display = "none";
-            infobar.style.display = "";
+            container.rows = "*,100%";
+            return appFrame;
         }
         
     </script>
-        
-</%def>
+</head>
 
-<%def name="content()">
-
-    <%include file="header.mako"/>
+    <frameset id="frameContainer" border="0" frameborder="0" rows="100%,*">
+        <frame id="menuFrame" name="menuFrame" target="appFrame" src="${py.url('/menu')}"/>
+        <frame id="appFrame" name="appFrame" src=""/>
+    </frameset>
     
-    <div id="info_container">
-        <iframe width="100%" height="100%" border="0" frameborder="0" 
-            id="infoFrame" name="infoFrame" src="${py.url('/info')}"></iframe>
-    </div>
-
-    <div id="app_container">
-        <iframe width="100%" height="100%" border="0" frameborder="0" scrolling="no" 
-            id="appFrame" name="appFrame" src=""></iframe>
-    </div>
-
-    <div id="menu_container">
-        <iframe width="100%" height="100%" border="0" frameborder="0" scrolling="no" 
-            id="menuFrame" name="menuFrame" src="${py.url('/menu')}"></iframe>
-    </div>
-    
-    <%include file="footer.mako"/>
-    
-</%def>
-
+</html>

@@ -5,6 +5,9 @@
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
+
     <div class="view">
 
         <br/>
@@ -74,4 +77,5 @@
         <div class="information">${info|n}</div>
         % endif
     </div>
+<%include file="footer.mako"/>    
 </%def>

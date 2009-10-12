@@ -44,24 +44,18 @@
                     parent.setTimeout("showAppBar()", 0);
                 }
                 
-                var frameHeight = 0;
+                if (frame == "menuFrame") {
                 
-                var callback = function(elem) {
-                
-                    MochiKit.Async.callLater(0.3, function(){
+                    var links = [];
                     
-                        var h = getElementDimensions(elem).h;
-                        
-                        if (frameHeight != h) {
-                            window.frameElement.height = h + 2 + 'px';
-                            frameHeight = h;
+                    links = links.concat(getElementsByTagAndClassName("a", null, "header"));
+                    links = links.concat(getElementsByTagAndClassName("a", null, "footer"));
+                    
+                    forEach(links, function(a) {
+                        if (!a.target) {
+                            a.target = "appFrame";
                         }
-                        callback(elem);
                     });
-                }
-                
-                if (frame == "menuFrame" || frame == "appFrame") {
-                    callback("content_container");
                 }
                 
             })()
