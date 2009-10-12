@@ -48,11 +48,12 @@ except:
         <td colspan="2" nowrap="nowrap">
         
             <script type="text/javascript">
-                function toggleMenubar() {
+            
+                function onMenuLinkClick() {
                 
-                    if (window.frameElement && 
-                        (window.frameElement.name == "appFrame" || 
-                         window.frameElement.name == "menuFrame")) {
+                    var frame = window.frameElement ? window.frameElement.name : null;
+                    
+                    if (frame == "appFrame" || frame == "menuFrame") {
                         parent.setTimeout("toggleMenubar()", 0);
                     } else {
                         doRedirect("/main");
@@ -63,7 +64,7 @@ except:
             <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                 <tr>
                     <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                        <a href="#" onclick="toggleMenubar(); return false;">${_("MAIN MENU")}</a>
+                        <a href="#" onclick="onMenuLinkClick(); return false;">${_("MAIN MENU")}</a>
                     </td>
                     <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
                         <a href="${py.url('/shortcuts')}">${_("SHORTCUTS")}</a>

@@ -730,13 +730,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
 }
 
 var showCustomizeMenu = function(src, elem) {
-
-    var src = getElement(src);
     var elem = getElement(elem);
-    
-    var y = getElementPosition(src).y - getElementDimensions(elem).h;
-    
-    elem.style.top = y + 'px';
     MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
 }
 

@@ -45,9 +45,9 @@
                 }
                 
                 if (frame == "menuFrame") {
-                
+                                
                     var links = [];
-                    
+                                        
                     links = links.concat(getElementsByTagAndClassName("a", null, "header"));
                     links = links.concat(getElementsByTagAndClassName("a", null, "footer"));
                     
