@@ -341,6 +341,7 @@ class GraphData(object):
         stack_id_list = []
         val = []
         grp_value = []
+        grp_data = []
         
         if len(axis_group) > 1 and kind == 'bar':
             
@@ -366,18 +367,17 @@ class GraphData(object):
                                 if dt == dts[axis[0]] and d == dts[group_field] and dt == key:
                                     ids += [dts['temp_id']]
                                     group_data[key][d] = str(data[dt][d]) + '/' + str(ids)
-                
-                for y in range(len(axis_group)):
-                    for field in axis[1:]:
-                        values[field] = [data[x].get(axis_group[y], 0.0) for x in new_keys]
-                for x in new_keys:
-                    for field in axis[1:]:
-                        v = [data[x].get(axis_group[y], 0.0) for y in range(len(axis_group))]
-                        grp_v = [group_data[x].get(axis_group[y], '0.0') for y in range(len(axis_group))]
-                        val.append(v)
-                        grp_value.append(grp_v)
-                stack_list += val
-                stack_id_list += grp_value
+                    val.append(data)
+                    grp_data.append(group_data)
+            
+            for x in new_keys:
+                for i in val:
+                    v = [i[x].get(axis_group[y], 0.0) for y in range(len(axis_group))]
+                    stack_list.append(v)
+                for j in grp_data:
+                    grp_v = [group_data[x].get(axis_group[y], '0.0') for y in range(len(axis_group))]
+                    stack_id_list.append(grp_v)
+            
                 
 #        IF VALUES ARE ALL 0...
 #        if stack_list and len(stack_list) > 0:
@@ -550,9 +550,9 @@ class BarChart(GraphData):
                     stack['val'] = s
                     if s != 0.0 and not ctx.get('report_id', False):
                         stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
+                        cnt += 1
                     stack['tip'] = s
-                    sval.append(stack)
-                    cnt += 1
+                    sval.append(stack)                    
                 stack_val.append(sval)
             
             result = { "elements": [{"type": "bar_stack",
