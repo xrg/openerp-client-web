@@ -535,15 +535,17 @@ class BarChart(GraphData):
                 all_keys.append(data)
 
             stack_val = []
+            cnt = 0
             for j, stk in enumerate(stack_list):
                 sval = []
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
                     if s != 0.0 and not ctx.get('report_id', False):
-                        stack["on-click"]= "function(){onChartClick('" + url[x] + "')}"
+                        stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
                     stack['tip'] = s
                     sval.append(stack)
+                    cnt += 1
                 stack_val.append(sval)
             
             result = { "elements": [{"type": "bar_stack",
