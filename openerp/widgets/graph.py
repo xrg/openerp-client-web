@@ -543,9 +543,9 @@ class BarChart(GraphData):
                     stack['val'] = s
                     if s != 0.0 and not ctx.get('report_id', False):
                         stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
+                        cnt += 1
                     stack['tip'] = s
-                    sval.append(stack)
-                    cnt += 1
+                    sval.append(stack)                    
                 stack_val.append(sval)
             
             result = { "elements": [{"type": "bar_stack",
