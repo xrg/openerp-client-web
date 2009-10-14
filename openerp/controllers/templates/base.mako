@@ -7,14 +7,22 @@
     ${css.display()}
 % endfor
 
-    <script type="text/javascript">
-        window.SCRIPT_PATH = "${cp.request.app.script_name}";
-    </script>
-
     <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/MochiKit.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/DragAndDrop.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/Resizable.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/Sortable.js')}"></script>
+    
+    <script type="text/javascript" src="${py.url('/static/javascript/Sizzle/sizzle.js')}"></script>
+    
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.base.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.dom.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.tools.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.http.js')}"></script>
+    
+    <script type="text/javascript">
+        window.SCRIPT_PATH = "${cp.request.app.script_name}";
+        openobject.http.SCRIPT_PATH = "${cp.request.app.script_name}";
+    </script>
     
 % for js in widget_javascript.get('head', []):
     ${js.display()}
@@ -27,7 +35,7 @@
     <!--[if IE]>
     <link href="${py.url('/static/css/style-ie.css')}" rel="stylesheet" type="text/css"/>
     <![endif]-->
-        
+    
     <script type="text/javascript" src="${py.url('/static/javascript/master.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/menu.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/ajax.js')}"></script>
