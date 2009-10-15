@@ -52,13 +52,13 @@ class Sidebar(TinyWidget):
 
                 sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
 
-                setCookie("terp_sidebar", sb.style.display);
+                openobject.http.setCookie("terp_sidebar", sb.style.display);
 
                 var img = MochiKit.DOM.getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
                 if (sb.style.display == "none") {
-                    img.src = getURL('/static/images/sidebar_show.gif');
+                    img.src = openobject.http.getURL('/static/images/sidebar_show.gif');
                 } else {
-                    img.src = getURL('/static/images/sidebar_hide.gif');
+                    img.src = openobject.http.getURL('/static/images/sidebar_hide.gif');
                 }
             }
             
@@ -71,7 +71,7 @@ class Sidebar(TinyWidget):
 
         MochiKit.DOM.addLoadEvent(function(evt) {
             var sb = MochiKit.DOM.getElement('sidebar');
-            if (sb) toggle_sidebar(getCookie('terp_sidebar'));
+            if (sb) toggle_sidebar(openobject.http.getCookie('terp_sidebar'));
         });
     """)]
 

@@ -49,12 +49,12 @@
                 return;
             }
 
-            var act = getURL('/viewed', {view_id: boxes[0].value});
+            var act = openobject.http.getURL('/viewed', {view_id: boxes[0].value});
             if (window.opener) {
-                window.opener.setTimeout("openWindow('" + act + "')", 0);
+                window.opener.setTimeout("openobject.tools.openWindow('" + act + "')", 0);
                 window.close();
             } else {
-                openWindow(act);
+                openobject.tools.openWindow(act);
             }
         }
         
@@ -72,7 +72,7 @@
                 return;
             }
             
-            window.location.href = getURL('/viewlist/delete?model=${model}&id=' + boxes[0].value);
+            window.location.href = openobject.http.getURL('/viewlist/delete?model=${model}&id=' + boxes[0].value);
         }
 		
         MochiKit.DOM.addLoadEvent(function(evt){

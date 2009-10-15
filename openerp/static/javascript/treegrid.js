@@ -426,11 +426,11 @@ TreeNode.prototype = {
                 this.element_a.innerHTML = MochiKit.DOM.escapeHTML(value);
                 
                 if (record.action) {
-                    MochiKit.DOM.setNodeAttribute(this.element_a, 'href', getURL(record.action));
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'href', openobject.http.getURL(record.action));
                 }
                 
                 if (record.target) {
-                    MochiKit.DOM.setNodeAttribute(this.element_a, 'target', getURL(record.target));
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'target', openobject.http.getURL(record.target));
                 }
                 
                 if(record.required) {

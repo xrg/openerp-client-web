@@ -460,7 +460,7 @@ GanttCalendar.List.prototype = {
     _get_status: function() {
         this.stat = {};
 
-        var s = getCookie('terp_gantt_status') || '';
+        var s = openobject.http.getCookie('terp_gantt_status') || '';
         try{
             this.stat = eval('({' + s + '})');
         }catch(e){}
@@ -471,7 +471,7 @@ GanttCalendar.List.prototype = {
         for(var k in this.stat) {
             s.push("'" + k + "':" + this.stat[k]);
         }
-        setCookie('terp_gantt_status', s.join(','));
+        openobject.http.setCookie('terp_gantt_status', s.join(','));
     },
 
     onToggle: function(element, group, evt) {

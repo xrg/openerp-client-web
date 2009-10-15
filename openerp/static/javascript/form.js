@@ -31,7 +31,7 @@ function get_form_action(action, params){
     
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
-    return getURL(act, params);
+    return openobject.http.getURL(act, params);
 }
 
 var openRecord = function(id, src, target, readonly){
@@ -84,7 +84,7 @@ var openRecord = function(id, src, target, readonly){
     
     if (kind == 'many2many') {
         args['source'] = src;
-        return openWindow(get_form_action('/openm2m/edit', args));
+        return openobject.tools.openWindow(get_form_action('/openm2m/edit', args));
     }
 
     window.location.href = get_form_action(action, args);
@@ -198,7 +198,7 @@ var show_process_view = function() {
 
     id = parseInt(id) || null;
 
-    window.open(getURL('/process', {res_model: model, res_id: id}));
+    window.open(openobject.http.getURL('/process', {res_model: model, res_id: id}));
 }
 
 var validate_required = function(form) {
@@ -376,8 +376,8 @@ var getFormData = function(extended) {
 	    fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
 	    fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
     } else {
-        fields = fields.concat(getElementsByAttribute('kind', 'value'));
-        fields = fields.concat(getElementsByAttribute(['name', '$=/__id']));
+        fields =  fields.concat(openobject.dom.select('kind=value')); 
+        fields = fields.concat(openobject.dom.select('[name$=/__id]'));       
     }
     
     fields = fields.concat(filter(function(e){
@@ -407,11 +407,11 @@ var getFormData = function(extended) {
                 frm[n+'/__id'] = $(n+'/__id').value;
                 continue;
             }
-            
             // skip if editable list's editors are visible
-            if (getElementsByAttribute(['name', '^=_terp_listfields/' + n]).length) {
+            if (openobject.dom.select("[name^=_terp_listfields/" + n + "]").length) {
                 continue;
             }
+            
             
             var value = $(n + '/_terp_ids').value;
 
@@ -720,7 +720,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
     }
 
     req.addCallback(function(obj){
-        openWindow(getURL('/search/new', {model: relation, 
+        openobject.tools.openWindow(openobject.http.getURL('/search/new', {model: relation, 
                                           domain: obj.domain, 
                                           context: obj.context, 
                                           source: source, 
@@ -878,7 +878,7 @@ function set_as_default(field, model){
                       '_terp_field/value': $(field).value, 
                       '_terp_deps': obj.deps};
         
-        openWindow(getURL('/fieldpref', params), {width: 500, height: 350});
+        openobject.tools.openWindow(openobject.http.getURL('/fieldpref', params), {width: 500, height: 350});
     });
 }
 
@@ -889,7 +889,7 @@ function do_report(id, relation) {
     var act = get_form_action('report');
     var params = {'_terp_model': relation, '_terp_id': id};
 
-    window.open(getURL(act, params));
+    window.open(openobject.http.getURL(act, params));
 }
 
 function do_action(action_id, field, relation, src) {
@@ -927,7 +927,7 @@ function do_action(action_id, field, relation, src) {
             '_terp_id': id,
             '_terp_model': relation});
         
-        window.open(getURL(act, params));
+        window.open(openobject.http.getURL(act, params));
 
     });
 }

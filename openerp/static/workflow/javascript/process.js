@@ -177,12 +177,12 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
         for(var k in subflows) {
             if (k != this.process_id)
-                sflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
+                sflows += "<a href='" + openobject.http.getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
         }
 
         for(var k in related) {
             if (k != this.process_id)
-                rflows += "<a href='" + getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + related[k] + "</a><br/>";
+                rflows += "<a href='" + openobject.http.getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + related[k] + "</a><br/>";
         }
 
         var text = (
@@ -241,7 +241,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var bg = "node";        
         bg = this.data.kind == "subflow" ? "node-subflow" : "node"; 
         bg = this.data.gray ? bg + "-gray" : bg;
-		get_url = getURL('/static/workflow/images/'+ bg + '.png')
+		get_url = openobject.http.getURL('/static/workflow/images/'+ bg + '.png')
         elem.style.background = "url('"+get_url+"') no-repeat";
 		
         elem.innerHTML = (
@@ -265,7 +265,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow && this.data.subflow.length) {
-            var href = getURL('/process', {id: this.data.subflow[0], res_model: this.data.res_model, res_id: this.data.res_id});
+            var href = openobject.http.getURL('/process', {id: this.data.subflow[0], res_model: this.data.res_model, res_id: this.data.res_id});
             title.innerHTML = "<a href='" + href + "'>" + this.data.name + "</a>";
         }
 
@@ -276,39 +276,39 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         }
 
         if (this.data.menu) {
-            var menu_img = IMG({src: getURL('/static/images/stock/gtk-jump-to.png')});
+            var menu_img = IMG({src: openobject.http.getURL('/static/images/stock/gtk-jump-to.png')});
             menu_img.title = this.data.menu.name;
             menu_img.onclick = MochiKit.Base.bind(function(){
-                window.open(getURL('/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id}));
+                window.open(openobject.http.getURL('/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id}));
             }, this);
             MochiKit.DOM.appendChildNodes(menu, menu_img);
         }
 
-        var buttons = [IMG({src: getURL('/static/images/stock/gtk-info.png'), title: _('Help')})];
+        var buttons = [IMG({src: openobject.http.getURL('/static/images/stock/gtk-info.png'), title: _('Help')})];
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
         if (this.data.res) {
-            buttons.push(IMG({src: getURL('/static/images/stock/gtk-open.png'), title: _('Open')}));
-            buttons.push(IMG({src: getURL('/static/images/stock/gtk-print.png'), title: _('Print')}));
+            buttons.push(IMG({src: openobject.http.getURL('/static/images/stock/gtk-open.png'), title: _('Open')}));
+            buttons.push(IMG({src: openobject.http.getURL('/static/images/stock/gtk-print.png'), title: _('Print')}));
 
             buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
             buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
         }
 
         if (this.data.workflow && this.data.res) {
-            var btn = IMG({src: getURL('/static/images/stock/gtk-execute.png'), title: _('Print workflow')});
+            var btn = IMG({src: openobject.http.getURL('/static/images/stock/gtk-execute.png'), title: _('Print workflow')});
             btn.onclick = MochiKit.Base.bind(this.onPrintWorkflow, this);
             buttons.push(btn);
         }
 
         if ((this.data.res && this.data.res.directory) || (this.data.directory)) {
-            var btn = IMG({src: getURL('/static/images/stock/gtk-directory-remote.png'), title: _('Documents')});
+            var btn = IMG({src: openobject.http.getURL('/static/images/stock/gtk-directory-remote.png'), title: _('Documents')});
             btn.onclick = MochiKit.Base.bind(this.onDocument, this);
             buttons.push(btn);
         }
 
         if (this.data.active){
-        	get_url = getURL('/static/workflow/images/node-current.png')
+        	get_url = openobject.http.getURL('/static/workflow/images/node-current.png')
         	elem.style.background = "url('"+get_url+"') no-repeat";
         }
 
@@ -336,11 +336,11 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
 
     onView: function() {
         var params = {model: this.data.res.model, id: this.data.res.id};
-        openWindow(getURL("/process/resource/edit", params));
+        openobject.tools.openWindow(openobject.http.getURL("/process/resource/edit", params));
     },
 
     onPrint: function() {
-        window.open(getURL("/form/report", {
+        window.open(openobject.http.getURL("/form/report", {
             _terp_model: this.workflow.res_model, 
             _terp_id: this.workflow.res_id}));
     },
@@ -354,7 +354,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
 
     onPrintWorkflow: function() {
         var id = this.data.res ? this.data.res.id : "False";
-        window.open(getURL('/process/print_workflow', {model: this.data.model, id: id}));
+        window.open(openobject.http.getURL('/process/print_workflow', {model: this.data.model, id: id}));
     },
 
     onHelp: function() {
@@ -401,7 +401,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         if (data.active && data.buttons && data.buttons.length) {
 
             var description = MochiKit.Base.map(function(role){
-                return TD({align: 'center'}, IMG({src: getURL('/static/images/stock/stock_person.png')}), BR(), role.name);
+                return TD({align: 'center'}, IMG({src: openobject.http.getURL('/static/images/stock/stock_person.png')}), BR(), role.name);
             }, roles);
 
             description = roles.length ? TABLE({'style': 'height: 70px; font-size: 10px'},
@@ -418,7 +418,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         }
 
         if (roles.length) {
-            var role_img = new draw2d.ImageFigure(getURL('/static/images/stock/stock_person.png'));
+            var role_img = new draw2d.ImageFigure(openobject.http.getURL('/static/images/stock/stock_person.png'));
             role_img.setDimension(32, 32);
             role_img.html.style.cursor = "pointer";
             this.addFigure(role_img, new draw2d.ManhattenMidpointLocator(this));

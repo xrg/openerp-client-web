@@ -81,7 +81,7 @@
 
             form.target = "detector";
 
-            setNodeAttribute(form, 'action', getURL('/impex/import_data'));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/import_data'));
             form.submit();
         }
 
@@ -116,7 +116,7 @@
 
             form.target = "detector";
 
-            setNodeAttribute(form, 'action',getURL('/impex/detect_data'));
+            setNodeAttribute(form, 'action',openobject.http.getURL('/impex/detect_data'));
             form.submit();
         }
 

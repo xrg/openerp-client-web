@@ -76,7 +76,7 @@ openobject.tools = {
         if (opts.locationbar) { args += "location=1,"; }
         if (opts.resizable) { args += "resizable=1,"; }
 
-        var win = window.open(getURL(anchor), opts.name, args);
+        var win = window.open(openobject.http.getURL(anchor), opts.name, args);
         return false;
     
     },

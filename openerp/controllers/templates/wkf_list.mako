@@ -53,7 +53,7 @@
                 return;
             }
             
-            openWindow(getURL('/workflow', {model: getElement('model').value, id:boxes[0].value }));
+            openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: getElement('model').value, id:boxes[0].value }));
         }
         
         function onRemove() {
@@ -70,7 +70,7 @@
                 return;
             }
             
-            window.location.href = getURL('/workflowlist/delete?model=${model}&id=' + boxes[0].value);
+            window.location.href = openobject.http.getURL('/workflowlist/delete?model=${model}&id=' + boxes[0].value);
         }
         
         function onActivate() {
@@ -82,7 +82,7 @@
                 return;
             }
             
-            window.location.href = getURL('/workflowlist/activate?model=${model}&id=' + boxes[0].value);
+            window.location.href = openobject.http.getURL('/workflowlist/activate?model=${model}&id=' + boxes[0].value);
         }
 		
 		MochiKit.DOM.addLoadEvent(function(evt){

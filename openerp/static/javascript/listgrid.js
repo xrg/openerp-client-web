@@ -534,11 +534,11 @@ MochiKit.Base.update(ListView.prototype, {
             
             // update concurrency info
             for(var key in obj.info) {
-                try {
-                    var items = getElementsByAttribute(['name', '_terp_concurrency_info'], ['value', '*=' + key]);
+                try {               						
+                    var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]")
                     var value = "('" + key + "', '" + obj.info[key] + "')";
                     for(var i=0; i<items.length;i++) {
-                        log(key, value);
+//                        log(key, value);
                         items[i].value = value;
                     }
                 }catch(e){}
@@ -579,7 +579,7 @@ MochiKit.Base.update(ListView.prototype, {
         
         ids = '[' + ids.join(',') + ']';
         
-        openWindow(getURL('/impex/exp', {_terp_model: this.model, 
+        openobject.tools.openWindow(openobject.http.getURL('/impex/exp', {_terp_model: this.model, 
                                          _terp_source: this.name, 
                                          _terp_search_domain: $('_terp_search_domain').value, 
                                          _terp_ids: ids,
@@ -588,7 +588,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     importData: function(){
-        openWindow(getURL('/impex/imp', {_terp_model: this.model,
+        openobject.tools.openWindow(openobject.http.getURL('/impex/imp', {_terp_model: this.model,
                                          _terp_source: this.name,
                                          _terp_view_ids : this.view_ids,
                                          _terp_view_mode : this.view_mode}));

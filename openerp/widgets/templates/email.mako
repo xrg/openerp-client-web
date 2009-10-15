@@ -9,7 +9,7 @@
                 <img width="16" height="16" alt="${_('Go!')}" 
                      src="${py.url('/static/images/stock/gtk-jump-to.png')}" 
                      style="cursor: pointer;" 
-                     onclick="if (validate_email($('${name}').value)) window.open('mailto:' + $('${name}').value).close();"/>
+                     onclick="if (openobject.tools.validateEmail($('${name}').value)) window.open('mailto:' + $('${name}').value).close();"/>
             </td>
         </tr>
     </table>

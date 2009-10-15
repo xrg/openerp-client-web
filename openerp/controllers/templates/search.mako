@@ -84,7 +84,7 @@
         }
 
         function do_create(){
-            act = getURL('/openm2o/edit', {_terp_model: '${params.model}', 
+            act = openobject.http.getURL('/openm2o/edit', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2o: '${params.source}',
                                            _terp_domain: $('_terp_domain').value,
@@ -126,7 +126,7 @@
         }
         
         function do_create(){
-            act = getURL('/openm2m/new', {_terp_model: '${params.model}', 
+            act = openobject.http.getURL('/openm2m/new', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2m: '${params.source}',
                                            _terp_domain: $('_terp_domain').value,

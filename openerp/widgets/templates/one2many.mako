@@ -36,7 +36,7 @@
                     </td>
                     <td>
                         % if not screen.editable and screen.view_type=='form':
-                        <img class="button" title="${_('Translate me.')}" src="${py.url('/static/images/stock/stock_translate.png')}" width="16" height="16" onclick="openWindow('${py.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
+                        <img class="button" title="${_('Translate me.')}" src="${py.url('/static/images/stock/stock_translate.png')}" width="16" height="16" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
                         % endif
                     </td>
                 </tr>

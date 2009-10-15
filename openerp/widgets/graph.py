@@ -79,7 +79,7 @@ class Graph(TinyWidget):
     template = "templates/graph.mako"
     javascript = [JSSource("""
     var onChartClick = function(path) {
-        doRedirect(path);
+        openobject.http.redirect(path);
     }
     """),
     JSLink("openerp", "javascript/swfobject.js")]

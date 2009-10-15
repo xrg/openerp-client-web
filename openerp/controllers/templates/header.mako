@@ -56,7 +56,7 @@ except:
                     if (frame == "appFrame" || frame == "menuFrame") {
                         parent.setTimeout("toggleMenubar()", 0);
                     } else {
-                        doRedirect("/main");
+                        openobject.http.redirect("/main");
                     }
                 }
             </script>

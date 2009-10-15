@@ -80,7 +80,7 @@
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
                                             src="${py.url('/static/images/stock/gtk-paste.png')}" 
-                                            onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
+                                            onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
                                     </td>
                                     % endif
                                     % if buttons.can_attach and buttons.has_attach:
@@ -88,7 +88,7 @@
                                         <img
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
-                                            src="${py.url('/static/images/stock/gtk-paste-v.png')}" onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
+                                            src="${py.url('/static/images/stock/gtk-paste-v.png')}" onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -96,7 +96,7 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Translate this resource.')}" 
-                                            src="${py.url('/static/images/stock/stock_translate.png')}" onclick="openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                            src="${py.url('/static/images/stock/stock_translate.png')}" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -105,7 +105,7 @@
                                             class="button" width="16" height="16"
                                             title="${_('View Log.')}" 
                                             src="${py.url('/static/images/stock/stock_log.png')}"
-                                            onclick="openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
+                                            onclick="openobject.tools.openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     % endif
                                     <td align="center" valign="middle" width="16">
@@ -187,13 +187,13 @@
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
                                  onmouseover="showElement(this);" onmouseout="hideElement(this);">
                                 <a title="${_('Manage views of the current object')}" 
-                                   onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
+                                   onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
                                 <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
+                                   onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Workflows")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
-                                   onclick="openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
+                                   onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
                                    href="javascript: void(0)">${_("Customise Object")}</a>
                             </div>
                         </td>

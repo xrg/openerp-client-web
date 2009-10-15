@@ -145,7 +145,7 @@ Notebook.prototype = {
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
-            var i = self.options.remember ? parseInt(getCookie(self.cookie)) || 0 : 0;
+            var i = self.options.remember ? parseInt(openobject.http.getCookie(self.cookie)) || 0 : 0;
             self.show(i);
         });
 
@@ -390,7 +390,7 @@ Notebook.prototype = {
         this.activePage = this.getPage(tab);
         
         if (this.options.remember) {
-            setCookie(this.cookie, findIdentical(this.tabs, tab));
+            openobject.http.setCookie(this.cookie, findIdentical(this.tabs, tab));
         }
         
         MochiKit.Signal.signal(this, "activate", this, tab);

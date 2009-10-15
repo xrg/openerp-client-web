@@ -58,7 +58,7 @@ function wizardAction(state) {
         return false;
     }
 
-    MochiKit.DOM.setNodeAttribute(form, 'action', getURL(act));
+    MochiKit.DOM.setNodeAttribute(form, 'action', openobject.http.getURL(act));
     form._terp_state.value = state;
 
     WAITBOX_SHOW = state != 'report';

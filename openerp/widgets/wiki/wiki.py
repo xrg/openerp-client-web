@@ -121,7 +121,7 @@ class WikiParser(wikimarkup.Parser):
                 if len(ids) > 0:
                     return "<a href='/wiki/getfile?file=%s&amp;id=%d'>%s</a>" % (file, id, file)
                 else:
-                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}),
+                    return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
         bits = _attach.sub(document, text)
         return bits
@@ -137,7 +137,7 @@ class WikiParser(wikimarkup.Parser):
                 if len(ids) > 0:
                     return "<img src='/wiki/getImage?file=%s&amp;id=%d'/>" % (file, id)
                 else:
-                    return """<a onclick="openWindow(getURL('/attachment', {model: 'wiki.wiki', id: %d}),
+                    return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
                 #"[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
         bits = _image.sub(image, text)

@@ -68,7 +68,7 @@ TreeView.prototype = {
             '_terp_selection': '[' + selection + ']'
         }
 
-        setNodeAttribute(form, 'action', getURL('/tree/switch', args));
+        setNodeAttribute(form, 'action', openobject.http.getURL('/tree/switch', args));
         form.method = 'post';
         form.submit();
     

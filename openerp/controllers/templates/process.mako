@@ -16,7 +16,7 @@
 
     <script type="text/javascript">
         var context_help = function() {
-            return window.open(getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
+            return window.open(openobject.http.getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
         }
     </script>
 
@@ -26,7 +26,7 @@
             var id = parseInt(getElement('select_workflow').value) || null;
             var res_model = getElement('res_model').value || null;
             var res_id = parseInt(getElement('res_id').value) || null;
-            window.location.href = getURL("/process", {id: id, res_model: res_model, res_id: res_id});
+            window.location.href = openobject.http.getURL("/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
     % else:

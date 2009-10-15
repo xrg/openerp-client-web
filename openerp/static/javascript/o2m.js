@@ -114,7 +114,7 @@ One2Many.prototype = {
                 _terp_editable: readonly ? 0 : 1});
                     
         if (id && id != 'False' && !this.default_get_ctx){
-            return openWindow(getURL('/openo2m/edit', params));
+            return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
         }
         
         var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
@@ -122,11 +122,11 @@ One2Many.prototype = {
         req.addCallback(function(res){
             //XXX: IE hack, long context value generate long URI
             // params['_terp_o2m_context'] = res.context;
-            setCookie('_terp_o2m_context', res.context || '{}');
+            openobject.http.setCookie('_terp_o2m_context', res.context || '{}');
             try {
-                return openWindow(getURL('/openo2m/edit', params));
+                return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
             } finally {
-                delCookie('_terp_o2m_context');
+                openobject.http.delCookie('_terp_o2m_context');
             }
         });     
     }

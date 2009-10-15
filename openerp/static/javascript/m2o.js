@@ -117,7 +117,7 @@ ManyToOne.prototype.open = function(id){
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
     req.addCallback(function(obj){
-        openWindow(getURL('/openm2o/edit', {_terp_model: model, _terp_id: id, 
+        openobject.tools.openWindow(openobject.http.getURL('/openm2o/edit', {_terp_model: model, _terp_id: id, 
                                             _terp_domain: obj.domain, _terp_context: obj.context,
                                             _terp_m2o: source, _terp_editable: editable}));
     });
@@ -174,7 +174,7 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 
 ManyToOne.prototype.change_icon = function(evt){
 
-    this.open_img.src = getURL('/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png');
+    this.open_img.src = openobject.http.getURL('/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png');
 
     if (!this.field.value) {
         this.open_img.style.cursor = '';

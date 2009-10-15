@@ -65,7 +65,7 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = getURL('/impex/save_exp');
+            form.action = openobject.http.getURL('/impex/save_exp');
             
             var options = $('fields').options;            
             forEach(options, function(o){
@@ -118,7 +118,7 @@
     
             params = {'_terp_id' : id};
 
-            setNodeAttribute(form, 'action', getURL('/impex/delete_listname', params));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/delete_listname', params));
             form.submit();
         }
         
@@ -149,7 +149,7 @@
 
             $('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', getURL('/impex/export_data/data.' + $('export_as').value));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + $('export_as').value));
             form.submit();
         }
     </script>

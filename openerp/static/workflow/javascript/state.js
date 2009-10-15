@@ -124,8 +124,8 @@ openerp.workflow.StateBase.prototype = {
         if(!isUndefinedOrNull(this.act_id))
             params['_terp_id'] = this.act_id;
             
-        var act = getURL('/workflow/state/edit', params);
-        openWindow(act);
+        var act = openobject.http.getURL('/workflow/state/edit', params);
+        openobject.tools.openWindow(act);
         
     },
     

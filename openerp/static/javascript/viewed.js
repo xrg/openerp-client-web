@@ -365,20 +365,20 @@ var onInherit = function() {
 }
 
 var onPreview = function() {
-   var act = getURL('/viewed/preview/show', {'model' : getElement('view_model').value, 
+   var act = openobject.http.getURL('/viewed/preview/show', {'model' : getElement('view_model').value, 
                                              'view_id' : getElement('view_id').value,
                                              'view_type' : getElement('view_type').value});
    
     if (window.browser.isGecko19) {
-        return openWindow(act);
+        return openobject.tools.openWindow(act);
     } 
     
     window.open(act);
 }
 
 var onNew = function(model){                          
-    var act = getURL('/viewed/new_field/edit', {'for_model' : model});
-    openWindow(act, {width: 650, height: 400});
+    var act = openobject.http.getURL('/viewed/new_field/edit', {'for_model' : model});
+    openobject.tools.openWindow(act, {width: 650, height: 400});
 }
 
 var onClose = function(){

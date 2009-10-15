@@ -27,183 +27,183 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var getURL = function(path, args) {
+//var getURL = function(path, args) {
+//
+//    var qs = args ? queryString(args) : null;
+//        
+//    if (SCRIPT_PATH && path && path[0] == "/" && path.indexOf(SCRIPT_PATH) != 0) {
+//        path = SCRIPT_PATH + path;
+//    }
+//    
+//    return qs ? path + "?" +  qs : path;
+//}
 
-    var qs = args ? queryString(args) : null;
-        
-    if (SCRIPT_PATH && path && path[0] == "/" && path.indexOf(SCRIPT_PATH) != 0) {
-        path = SCRIPT_PATH + path;
-    }
-    
-    return qs ? path + "?" +  qs : path;
-}
+//var doRedirect = function(path, args) {
+//    window.location.href = openobject.http.getURL(path, args);
+//}
 
-var doRedirect = function(path, args) {
-    window.location.href = getURL(path, args);
-}
+//function validate_email(email) {
+//    var re  = /(^[a-z]([a-z_\.]*)@([a-z_\.]*)([.][a-z]{3})$)|(^[a-z]([a-z_\.]*)@([a-z_\.]*)(\.[a-z]{3})(\.[a-z]{2})*$)/i;
+//    return re.test(email);
+//}
+//
+//function getElementsByAttribute(/*...*/) {
+//
+//    
+//    var elems = document.getElementsByTagName('*');
+//    var exprs = {};
+//    
+//    for(var i=0; i<arguments.length; i++) {
+//    
+//        var arg = arguments[i];
+//        
+//        if (typeof(arg) == "string") {
+//            exprs[arg] = null; 
+//        } else {
+//            var a = arg[0];
+//            var x = arg[1];
+//            var c = "=";
+//            
+//            if (/[~*!^$]=/.test(x)) {
+//                c = x.slice(0, 2);
+//                x = x.slice(2);
+//            } 
+//            else if (/=/.test(x)) {
+//                c = x.slice(0, 1);
+//                x = x.slice(1);
+//            }
+//            exprs[a] = [c, x];
+//        }
+//    }
+//    
+//    //log(keys(exprs));
+//    
+//    return MochiKit.Base.filter(function(e){
+//    
+//        for(var a in exprs) {
+//        
+//            var v = MochiKit.DOM.getNodeAttribute(e, a);
+//            if (v == null || typeof(v) != 'string') return false;
+//            
+//            var x = exprs[a];
+//            if (!x) continue;
+//            
+//            var c = x[0];
+//            var x = x[1];
+//        
+//            switch(c) {
+//                case '^=': 
+//                    if (!v.match('^' + x)) return false;
+//                    break;
+//                case '$=': 
+//                    if (!v.match(x + '$')) return false;
+//                    break;
+//                case '~=':
+//                case '*=':
+//                    if (!v.match(x)) return false;
+//                    break;
+//                case '=' : 
+//                    if (v != x) return false;
+//                    break;
+//            }
+//        }
+//        return true;
+//        
+//    }, elems);
+//}
 
-function validate_email(email) {
-    var re  = /(^[a-z]([a-z_\.]*)@([a-z_\.]*)([.][a-z]{3})$)|(^[a-z]([a-z_\.]*)@([a-z_\.]*)(\.[a-z]{3})(\.[a-z]{2})*$)/i;
-    return re.test(email);
-}
+//
+//function setCookie(name, value, expires, path, domain, secure) {
+//
+//    var path = path ? openobject.http.getURL(path) : SCRIPT_PATH;
+//
+//    document.cookie= name + "=" + escape(value) +
+//        ((expires) ? "; expires=" + expires.toGMTString() : "") +
+//        ((path) ? "; path=" + path : "") +
+//        ((domain) ? "; domain=" + domain : "") +
+//        ((secure) ? "; secure" : "");
+//}
 
-function getElementsByAttribute(/*...*/) {
+//function getCookie(name) {
+//    var dc = document.cookie;
+//    var prefix = name + "=";
+//    var begin = dc.indexOf("; " + prefix);
+//    if (begin == -1) {
+//        begin = dc.indexOf(prefix);
+//        if (begin != 0) return null;
+//    } else {
+//        begin += 2;
+//    }
+//    var end = document.cookie.indexOf(";", begin);
+//    if (end == -1) {
+//        end = dc.length;
+//    }
+//    return unescape(dc.substring(begin + prefix.length, end));
+//}
 
-    
-    var elems = document.getElementsByTagName('*');
-    var exprs = {};
-    
-    for(var i=0; i<arguments.length; i++) {
-    
-        var arg = arguments[i];
-        
-        if (typeof(arg) == "string") {
-            exprs[arg] = null; 
-        } else {
-            var a = arg[0];
-            var x = arg[1];
-            var c = "=";
-            
-            if (/[~*!^$]=/.test(x)) {
-                c = x.slice(0, 2);
-                x = x.slice(2);
-            } 
-            else if (/=/.test(x)) {
-                c = x.slice(0, 1);
-                x = x.slice(1);
-            }
-            exprs[a] = [c, x];
-        }
-    }
-    
-    //log(keys(exprs));
-    
-    return MochiKit.Base.filter(function(e){
-    
-        for(var a in exprs) {
-        
-            var v = MochiKit.DOM.getNodeAttribute(e, a);
-            if (v == null || typeof(v) != 'string') return false;
-            
-            var x = exprs[a];
-            if (!x) continue;
-            
-            var c = x[0];
-            var x = x[1];
-        
-            switch(c) {
-                case '^=': 
-                    if (!v.match('^' + x)) return false;
-                    break;
-                case '$=': 
-                    if (!v.match(x + '$')) return false;
-                    break;
-                case '~=':
-                case '*=':
-                    if (!v.match(x)) return false;
-                    break;
-                case '=' : 
-                    if (v != x) return false;
-                    break;
-            }
-        }
-        return true;
-        
-    }, elems);
-}
-
-
-function setCookie(name, value, expires, path, domain, secure) {
-
-    var path = path ? getURL(path) : SCRIPT_PATH;
-
-    document.cookie= name + "=" + escape(value) +
-        ((expires) ? "; expires=" + expires.toGMTString() : "") +
-        ((path) ? "; path=" + path : "") +
-        ((domain) ? "; domain=" + domain : "") +
-        ((secure) ? "; secure" : "");
-}
-
-function getCookie(name) {
-    var dc = document.cookie;
-    var prefix = name + "=";
-    var begin = dc.indexOf("; " + prefix);
-    if (begin == -1) {
-        begin = dc.indexOf(prefix);
-        if (begin != 0) return null;
-    } else {
-        begin += 2;
-    }
-    var end = document.cookie.indexOf(";", begin);
-    if (end == -1) {
-        end = dc.length;
-    }
-    return unescape(dc.substring(begin + prefix.length, end));
-}
-
-function delCookie(name, path, domain) {
-
-    var path = path ? getURL(path) : SCRIPT_PATH;
-    
-    if (getCookie(name)) {
-        document.cookie = name + "=" +
-            ((path) ? "; path=" + path : "") +
-            ((domain) ? "; domain=" + domain : "") +
-            "; expires=Thu, 01-Jan-70 00:00:01 GMT";
-    }
-}
-
-function openWindow(anchor, options) {
-
-    var opts = MochiKit.Base.update({
-        name        : 'win' + Math.round(Math.random()*100000),
-        center      : true,
-        x           : null,
-        y           : null,
-        width       : 800, //screen.availWidth - 200,
-        height      : 600, //screen.availHeight - 200,
-        scrollbars  : true,
-        fullscreen  : false,
-        menubar     : false,
-        locationbar : false,
-        resizable   : true
-    }, options || {});
-
-    //opts.width = opts.width > 0 ? opts.width : 800;
-    //opts.height = opts.height > 0 ? opts.height : 600;
-
-    var args = '';
-
-    args += "height=" + (opts.fullscreen ? screen.availHeight : opts.height) + ",";
-    args += "width=" + (opts.fullscreen ? screen.availWidth : opts.width) + ",";
-    
-    if (!opts.center) {
-        opts.x = 0;
-        opts.y = 0;
-        args += "screenx=" + opts.x + ",";
-        args += "screeny=" + opts.y + ",";
-        args += "left=" + opts.x + ",";
-        args += "top=" + opts.y + ",";
-    }
-
-    if (opts.center && !opts.fullscreen) {
-        opts.y = Math.floor((screen.availHeight - opts.height - (screen.height - screen.availHeight)) / 2);
-        opts.x = Math.floor((screen.availWidth - opts.width - (screen.width - screen.availWidth)) / 2);
-        args += "screenx=" + opts.x + ",";
-        args += "screeny=" + opts.y + ",";
-        args += "left=" + opts.x + ",";
-        args += "top=" + opts.y + ",";
-    }
-
-    if (opts.scrollbars) { args += "scrollbars=1,"; }
-    if (opts.menubar) { args += "menubar=1,"; }
-    if (opts.locationbar) { args += "location=1,"; }
-    if (opts.resizable) { args += "resizable=1,"; }
-
-    var win = window.open(getURL(anchor), opts.name, args);
-    return false;
-
-}
+//function delCookie(name, path, domain) {
+//
+//    var path = path ? openobject.http.getURL(path) : SCRIPT_PATH;
+//    
+//    if (getCookie(name)) {
+//        document.cookie = name + "=" +
+//            ((path) ? "; path=" + path : "") +
+//            ((domain) ? "; domain=" + domain : "") +
+//            "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+//    }
+//}
+//
+//function openWindow(anchor, options) {
+//
+//    var opts = MochiKit.Base.update({
+//        name        : 'win' + Math.round(Math.random()*100000),
+//        center      : true,
+//        x           : null,
+//        y           : null,
+//        width       : 800, //screen.availWidth - 200,
+//        height      : 600, //screen.availHeight - 200,
+//        scrollbars  : true,
+//        fullscreen  : false,
+//        menubar     : false,
+//        locationbar : false,
+//        resizable   : true
+//    }, options || {});
+//
+//    //opts.width = opts.width > 0 ? opts.width : 800;
+//    //opts.height = opts.height > 0 ? opts.height : 600;
+//
+//    var args = '';
+//
+//    args += "height=" + (opts.fullscreen ? screen.availHeight : opts.height) + ",";
+//    args += "width=" + (opts.fullscreen ? screen.availWidth : opts.width) + ",";
+//    
+//    if (!opts.center) {
+//        opts.x = 0;
+//        opts.y = 0;
+//        args += "screenx=" + opts.x + ",";
+//        args += "screeny=" + opts.y + ",";
+//        args += "left=" + opts.x + ",";
+//        args += "top=" + opts.y + ",";
+//    }
+//
+//    if (opts.center && !opts.fullscreen) {
+//        opts.y = Math.floor((screen.availHeight - opts.height - (screen.height - screen.availHeight)) / 2);
+//        opts.x = Math.floor((screen.availWidth - opts.width - (screen.width - screen.availWidth)) / 2);
+//        args += "screenx=" + opts.x + ",";
+//        args += "screeny=" + opts.y + ",";
+//        args += "left=" + opts.x + ",";
+//        args += "top=" + opts.y + ",";
+//    }
+//
+//    if (opts.scrollbars) { args += "scrollbars=1,"; }
+//    if (opts.menubar) { args += "menubar=1,"; }
+//    if (opts.locationbar) { args += "location=1,"; }
+//    if (opts.resizable) { args += "resizable=1,"; }
+//
+//    var win = window.open(openobject.http.getURL(anchor), opts.name, args);
+//    return false;
+//
+//}
 
 // browser information
 window.browser = new Object;
@@ -232,13 +232,13 @@ window.browser.isOpera = /opera/.test(navigator.userAgent.toLowerCase());
 
 // hack to prevent cross-domain secutiry errors, if window is opened 
 // from different domain.
-MochiKit.DOM.addLoadEvent(function(evt){
-    try {
-        window.opener.document.domain;
-    } catch (e) {
-        window.opener = null;
-    }
-});
+//MochiKit.DOM.addLoadEvent(function(evt){
+//    try {
+//        window.opener.document.domain;
+//    } catch (e) {
+//        window.opener = null;
+//    }
+//});
 
 // vim: ts=4 sts=4 sw=4 si et
 
