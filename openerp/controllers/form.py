@@ -521,6 +521,8 @@ class Form(SecuredController):
         elif btype == 'action':
             from openerp.controllers import actions
 
+            print "XXXX", button
+
             action_id = int(name)
             action_type = actions.get_action_type(action_id)
 

@@ -559,7 +559,7 @@ class Hidden(TinyInputWidget):
 class Button(TinyInputWidget):
 
     template = "templates/button.mako"
-    params = ["btype", "id", "confirm", "icon", "target"]
+    params = ["btype", "id", "confirm", "icon", "target", "context"]
 
     visible = True
     target = 'current'
@@ -572,7 +572,8 @@ class Button(TinyInputWidget):
         self.string = re.sub('_(?!_)', '', self.string or '')
 
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
-        
+        self.context = attrs.get("context") or {}
+
         self.nolabel = True
 
         if self.icon:

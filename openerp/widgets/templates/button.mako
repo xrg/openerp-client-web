@@ -1,4 +1,4 @@
-<button ${py.attrs(attrs)} 
+<button ${py.attrs(attrs, context=ctx)} 
     type="button" 
     id="${name}" 
     onclick="buttonClicked('${name}', '${btype}', '${model}', '${id}', '${confirm}', '${target}');">

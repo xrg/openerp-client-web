@@ -331,15 +331,28 @@ var buttonClicked = function(name, btype, model, id, sure, target){
         return;
     }
 
+    var button = getElement(name);
+    var context = getNodeAttribute(button, "context");
+
     var params = {};
 
     params['_terp_button/name'] = name;
     params['_terp_button/btype'] = btype;
     params['_terp_button/model'] = model;
     params['_terp_button/id'] = id;
+
+    if (!context || context == "{}") {
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        return submit_form(act, null, target);
+    }
+
+    var req = eval_domain_context_request({source: "", domain: "[]", context: context});
+    req.addCallback(function(obj) {
+        params['_terp_button/context'] = obj.context || 0;
     
-    var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
-    submit_form(act, null, target);
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        submit_form(act, null, target);
+    });
 }
 
 var onBooleanClicked = function(name) {
