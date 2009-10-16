@@ -36,7 +36,6 @@
     <link href="${py.url('/static/css/style-ie.css')}" rel="stylesheet" type="text/css"/>
     <![endif]-->
     
-    <script type="text/javascript" src="${py.url('/static/javascript/master.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/menu.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/ajax.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/tips.js')}"></script>

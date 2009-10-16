@@ -11,7 +11,6 @@
     </script>
 
     <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/MochiKit.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/master.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/ajax.js')}"></script>
     
     <script type="text/javascript">
