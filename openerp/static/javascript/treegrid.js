@@ -42,7 +42,8 @@ TreeGrid.prototype = {
             'expandall' : false,
             'onselect' : function(evt, node){},
             'onbuttonclick' : function(evt, node){},
-            'onheaderclick' : function(evt, header){}
+            'onheaderclick' : function(evt, header){},
+            'linktarget': null
         }, options || {});
         
         // a dummy root node
@@ -164,6 +165,8 @@ TreeGrid.prototype = {
                th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this._onHeaderClick, header), this);
                th.style.cursor = 'pointer';
             }
+            
+            header.tree = this;
     
             MochiKit.DOM.appendChildNodes(tr, th);
         }
@@ -179,6 +182,28 @@ TreeGrid.prototype = {
     _onHeaderClick : function(header) {
         var evt = arguments[1] || window.event;
         this.options.onheaderclick(new MochiKit.Signal.Event(evt.target || evt.srcElement, evt), header);
+    },
+    
+    copy: function(elem, options, ids) {
+    
+        var tree = new TreeGrid(elem, options);
+        MochiKit.Base.update(tree.options, this.options);
+        
+        var headers = MochiKit.Base.map(function(h) {
+            return MochiKit.Base.clone(h);
+        }, this.headers);
+        
+        tree.setHeaders(headers);
+        tree.ajax_url = this.ajax_url;
+        tree.ajax_params = MochiKit.Base.clone(this.ajax_params);
+        
+        if (ids) {
+            tree.ajax_params.ids = ids;
+        }
+        
+        tree.setRecords(tree.ajax_url, tree.ajax_params);
+        
+        return tree;
     }
 }
 
@@ -315,15 +340,22 @@ TreeNode.prototype = {
     
                 if (record.action) {
                     MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
+                    value.onclick = MochiKit.Base.bind(function(){
+                        MochiKit.Signal.signal(this.tree, "onaction", this);
+                    }, this);
+                    
                 } else {
                     
                     value.onclick = MochiKit.Base.bind(function(){
                         this.toggle();
+                        return false;
                     }, this);
                 }
     
                 if (record.target) {
                     MochiKit.DOM.setNodeAttribute(value, 'target', record.target);
+                } else if (this.tree.options.linktarget) {
+                    MochiKit.DOM.setNodeAttribute(value, 'target', this.tree.options.linktarget);
                 }
                 
                 if(record.required) {
@@ -394,11 +426,11 @@ TreeNode.prototype = {
                 this.element_a.innerHTML = MochiKit.DOM.escapeHTML(value);
                 
                 if (record.action) {
-                    MochiKit.DOM.setNodeAttribute(this.element_a, 'href', record.action);
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'href', openobject.http.getURL(record.action));
                 }
                 
                 if (record.target) {
-                    MochiKit.DOM.setNodeAttribute(this.element_a, 'target', record.target);
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'target', openobject.http.getURL(record.target));
                 }
                 
                 if(record.required) {

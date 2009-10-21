@@ -70,10 +70,9 @@ class ViewForm(Form):
 
         self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
-
+        
         self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
-                               self.screen.view_type, self.screen.view_type != 'form',
-                               self.screen.context)
+                               self.screen.view_type, context=self.screen.context)
 
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 
@@ -86,9 +85,9 @@ class ViewForm(Form):
         if params.view_type == 'tree':
             self.screen.id = False
 
-        if params.context and '_view_name' in params.context:
-            self.screen.string = params.context.get('_view_name')
-
+        # get the correct view title
+        self.screen.string = getattr(cherrypy.request, '_terp_view_name', self.screen.string) or self.screen.string
+            
         # get the actual pager data
         self.limit = self.screen.limit
         self.offset = self.screen.offset

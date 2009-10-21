@@ -36,8 +36,7 @@ from openerp import tools
 from openerp import cache
 
 from sidebar import Sidebar
-
-from base import Form
+from base import Form, JSLink, locations
 
 import treegrid
 
@@ -46,6 +45,8 @@ class ViewTree(Form):
     template = "templates/viewtree.mako"
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
+    
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)
@@ -95,10 +96,10 @@ class ViewTree(Form):
         self.headers = []
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree",
+        self.tree = treegrid.TreeGrid(name="tree_%s" % (id),
                                       model=self.model,
                                       headers=self.headers,
-                                      url="/tree/data",
+                                      url=tools.url("/tree/data"),
                                       ids=ids or 0,
                                       domain=self.domain,
                                       context=self.context,
@@ -107,17 +108,19 @@ class ViewTree(Form):
                                       onheaderclick="onHeaderClick")
         self.id = id
         self.ids = ids
+        
+        if model == "ir.ui.menu":
+            self.tree.linktarget = "'appFrame'"
 
         submenu = {}
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
 
-        self.sidebar = Sidebar(self.model, submenu, toolbar, True, True, context=self.context)
-
-        if self.context and '_view_name' in self.context:
-            self.string = self.context.pop('_view_name')
-
+        self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
+        
+        # get the correct view title
+        self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
 
     def parse(self, root, fields=None):
 

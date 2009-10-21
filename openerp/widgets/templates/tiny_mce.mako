@@ -9,7 +9,7 @@
         mode: "exact",
         elements: "${name}",
         editor_selector: "tinymce",
-        readonly: ${(not editable or 0) and 1},
+        readonly: ${(readonly or 0) and 1},
         
         theme: "advanced",
 
@@ -28,7 +28,7 @@
         theme_advanced_resize_horizontal : false,
 
         tab_focus : ':prev,:next',
-        height: 350,
+        height: ${height},
         debug: false
     });
 </script>

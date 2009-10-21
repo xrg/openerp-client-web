@@ -1,4 +1,4 @@
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>
@@ -17,6 +17,9 @@
 </%def>
 
 <%def name="content()">
+
+    <%include file="header.mako"/>
+
     <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td width="100%" valign="top">
@@ -28,11 +31,11 @@
                                 <tr>
                                     <td width="32px" align="center">
                                         % if form.screen.view_type in ('tree', 'graph'):
-                                        <img src="/static/images/stock/gtk-find.png"/>
+                                        <img src="${py.url('/static/images/stock/gtk-find.png')}"/>
                                         % elif form.screen.view_type in ('form'):
-                                        <img src="/static/images/stock/gtk-edit.png"/>
+                                        <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                                         % elif form.screen.view_type in ('calendar', 'gantt'):
-                                        <img src="/static/images/stock/stock_calendar.png"/>
+                                        <img src="${py.url('/static/images/stock/stock_calendar.png')}"/>
                                         % endif
                                     </td>
                                     <td width="100%">${form.screen.string}</td>
@@ -63,27 +66,29 @@
                                             title="${_('Graph View...')}" 
                                             ${py.attr_if("disabled",not buttons.graph)}
                                             onclick="switchView('graph')">${_("Graph")}</button>
+                                        % if buttons.process:
                                         <button 
                                             type="button" 
                                             title="${_('Corporate Intelligence...')}"
                                             onclick="show_process_view()">${_("Process")}</button>
+                                        % endif
                                     </td>
                                     % endif
                                     % if buttons.can_attach and not buttons.has_attach:
                                     <td align="center" valign="middle" width="16">
                                         <img 
                                             class="button" width="16" height="16"
-                                            title="${_('Add an attachment to this resource.')}" 
-                                            src="/static/images/stock/gtk-paste.png" 
-                                            onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
+                                            title="${_('Show attachments.')}" 
+                                            src="${py.url('/static/images/stock/gtk-paste.png')}" 
+                                            onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
                                     </td>
                                     % endif
                                     % if buttons.can_attach and buttons.has_attach:
                                     <td align="center" valign="middle" width="16">
                                         <img
                                             class="button" width="16" height="16"
-                                            title="${_('Add an attachment to this resource.')}" 
-                                            src="/static/images/stock/gtk-paste-v.png" onclick="window.open(getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
+                                            title="${_('Show attachments.')}" 
+                                            src="${py.url('/static/images/stock/gtk-paste-v.png')}" onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -91,7 +96,7 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Translate this resource.')}" 
-                                            src="/static/images/stock/stock_translate.png" onclick="openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                            src="${py.url('/static/images/stock/stock_translate.png')}" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -99,13 +104,13 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('View Log.')}" 
-                                            src="/static/images/stock/stock_log.png"
-                                            onclick="openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
+                                            src="${py.url('/static/images/stock/stock_log.png')}"
+                                            onclick="openobject.tools.openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     % endif
                                     <td align="center" valign="middle" width="16">
                                         <a target="_blank" href="${py.url('http://doc.openerp.com/index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
-                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="/static/images/stock/gtk-help.png" width="16" height="16"/>
+                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="${py.url('/static/images/stock/gtk-help.png')}" width="16" height="16"/>
                                         </a>
                                     </td>
                                 </tr>
@@ -177,18 +182,18 @@
                     % if links:
                     <tr>
                         <td class="dimmed-text">
-                            [<a onmouseover="MochiKit.Visual.appear('customise_menu_', {from: 0, duration: 0.4});" 
+                            [<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
                                 onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a>]<br/>
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
                                  onmouseover="showElement(this);" onmouseout="hideElement(this);">
                                 <a title="${_('Manage views of the current object')}" 
-                                   onclick="openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
+                                   onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
                                 <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
+                                   onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Workflows")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
-                                   onclick="openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
+                                   onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
                                    href="javascript: void(0)">${_("Customise Object")}</a>
                             </div>
                         </td>
@@ -197,11 +202,14 @@
                 </table>
             </td>
 
-            % if form.sidebar and form.screen.view_type not in ('calendar', 'gantt'):
+            % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
             <td width="163" valign="top">
                 ${form.sidebar.display()}
             </td>
             % endif
         </tr>
     </table>
+    
+<%include file="footer.mako"/>    
+
 </%def>

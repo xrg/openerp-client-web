@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import urllib
+
 from openerp.tools import expose
 from openerp.tools import validate
 from openerp.tools import error_handler
@@ -56,10 +58,19 @@ class OpenO2M(Form):
         params.model = params.o2m_model
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
+        
+        #XXX: dirty hack to fix bug #401700
+        if not params.get('_terp_view_ids'):
+            params['_terp_view_ids'] = []
 
         # to get proper view, first generate form using the view_params
         vp = params.view_params
-        form = tw.form_view.ViewForm(vp, name="view_form", action="/form/save")
+        
+        # this prevents calling default_get, causes unnecessary 
+        # auto increment of sequence
+        vp.id = params.parent_id or False 
+        
+        form = tw.form_view.ViewForm(vp, name="view_form", action="/openo2m/save")
         cherrypy.request.terp_validators = {}
         wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
 
@@ -69,7 +80,18 @@ class OpenO2M(Form):
 
         params.prefix = params.o2m
         params.views = wid.view
-
+        
+        # IE hack, get context from cookies (see o2m.js)
+        o2m_context = {}
+        try:
+            o2m_context = urllib.unquote(cherrypy.request.cookie['_terp_o2m_context'].value)
+            cherrypy.request.cookie['_terp_o2m_context']['expires'] = 0
+            cherrypy.response.cookie['_terp_o2m_context']['expires'] = 0
+        except:
+            pass
+        
+        params.o2m_context = o2m_context
+        
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
@@ -124,27 +146,27 @@ class OpenO2M(Form):
         prefix = params.o2m
         current = params.chain_get(prefix)
         
+        params.load_counter = 1
+        if current and current.id and not params.button:
+            params.load_counter = 2
+        
         ids = current.ids
         fld = params.o2m.split('/')[-1]
         all_ids = proxy.read([params.parent_id], [fld])[0][fld]
         new_ids = [i for i in all_ids if i not in ids]
 
         current.ids = all_ids
-        if new_ids:
-            current.id = new_ids[0]
+        #if new_ids:
+        #    current.id = new_ids[0]
             
         # perform button action
-        is_button_action = params.button
         if params.button:
             current.button = params.button
+            current.parent_params = params
+            cherrypy.request._terp_view_target = 'new'
             res = self.button_action(current)
             if res:
                 return res
-
-        params.load_counter = 1
-
-        if current and current.id and not is_button_action:
-            params.load_counter = 2
 
         # If new O2M action, get the newly created id
         if params.source:

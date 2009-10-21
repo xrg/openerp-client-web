@@ -32,15 +32,19 @@ import re
 from openerp.tools import expose
 from openerp.tools import redirect
 from openerp.tools import validate
+from openerp.tools import error_handler
 
 import cherrypy
 
 from openerp import rpc
 from openerp import tools
 from openerp import common
+from openerp import icons
 
 from openerp import widgets as tw
+
 from openerp.controllers.base import SecuredController
+from openerp.controllers.form import default_error_handler
 from openerp.utils import TinyDict
 
 from openerp import validators
@@ -112,10 +116,17 @@ class Wizard(SecuredController):
                 
                 form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
 
-                buttons = res.get('state', [])
-                buttons = [(b[0], re.sub('_(?!_)', '', b[1])) for b in buttons] # remove mnemonic
-                params.state = state
+                buttons = []
+                for x in res.get('state', []):
+                    x = list(x)
+                    x[1] = re.sub('_(?!_)', '', x[1]) # remove mnemonic
+                    
+                    if len(x) >= 3:
+                        x[2] = icons.get_icon(x[2])
+                        
+                    buttons.append(tuple(x))
 
+                params.state = state
                 return dict(form=form, buttons=buttons)
 
             elif res['type']=='action':
@@ -162,21 +173,8 @@ class Wizard(SecuredController):
             frm = eval('cherrypy.request.app.root' + frm.replace('/', '.'))
             return frm.create(params)
 
-        return """<html>
-            <head>
-                <script type="text/javascript">
-                    if (window.opener) {
-                        window.opener.setTimeout("window.location.reload()", 0);
-                        window.close();
-                    } else {
-                        window.location.href = "/";
-                    }
-                </script>
-            </head>
-            <body>
-            </body>
-        </html>
-        """
+        from openerp.controllers import actions
+        return actions.close_popup()
 
     def get_validation_schema(self):
 
@@ -206,6 +204,7 @@ class Wizard(SecuredController):
 
     @expose()
     @validate(form=get_validation_schema)
+    @error_handler(default_error_handler)
     def report(self, tg_errors=None, tg_exceptions=None, **kw):
 
         if tg_exceptions:
@@ -221,6 +220,7 @@ class Wizard(SecuredController):
 
     @expose()
     @validate(form=get_validation_schema)
+    @error_handler(default_error_handler)
     def action(self, tg_errors=None, tg_exceptions=None, **kw):
 
         if tg_exceptions:

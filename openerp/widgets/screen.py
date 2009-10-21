@@ -109,7 +109,7 @@ class Screen(TinyInputWidget):
         self.count         = params.count
 
         if (self.ids or self.id) and self.count == 0:
-            self.count = rpc.RPCProxy(self.model).search_count(self.domain)
+            self.count = rpc.RPCProxy(self.model).search_count(self.domain, self.context)
 
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded or (params.views or {})
@@ -160,7 +160,7 @@ class Screen(TinyInputWidget):
 
             if not self.is_wizard and self.ids is None:
                 proxy = rpc.RPCProxy(self.model)
-                self.ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
+                self.ids = proxy.search(self.domain, self.offset or False, self.limit or False, 0, self.context)
                 self.count = proxy.search_count(self.domain, self.context)
 
         elif view_type == 'tree':
@@ -170,6 +170,7 @@ class Screen(TinyInputWidget):
                                         ids=self.ids,
                                         domain=self.domain,
                                         context=self.context,
+                                        view_mode=self.view_mode,
                                         editable=self.editable,
                                         selectable=self.selectable,
                                         offset=self.offset, limit=self.limit, count=self.count, nolinks=self.link)

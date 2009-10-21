@@ -42,18 +42,18 @@
 }
 
 .grid-header .grid-cell {
-    background:url(/static/images/gradientlinebg.gif);
+    background:url(../images/gradientlinebg.gif);
     border-bottom: 1px solid #999;
     font-weight: bold;
     text-align: left;
 }
 
 .grid-header .grid-cell .sortup {
-    background: url(/static/images/arrow_up.gif) no-repeat center;
+    background: url(../images/arrow_up.gif) no-repeat center;
 }
 
 .grid-header .grid-cell .sortdown {
-    background: url(/static/images/arrow_down.gif) no-repeat center;
+    background: url(../images/arrow_down.gif) no-repeat center;
 }
 
 .grid-header .grid-cell.sortable {

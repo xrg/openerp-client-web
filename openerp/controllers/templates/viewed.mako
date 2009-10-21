@@ -1,13 +1,13 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>View Editor</title>
-    <script type="text/javascript" src="/static/javascript/form.js"></script>
-    <script type="text/javascript" src="/static/javascript/m2o.js"></script>
-    <script type="text/javascript" src="/static/javascript/viewed.js"></script>    
-    <script type="text/javascript" src="/static/javascript/modalbox.js"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/form.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/m2o.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/viewed.js')}"></script>    
+    <script type="text/javascript" src="${py.url('/static/javascript/modalbox.js')}"></script>
 
-    <link href="/static/css/modalbox.css" rel="stylesheet" type="text/css"/>
+    <link href="${py.url('/static/css/modalbox.css')}" rel="stylesheet" type="text/css"/>
 </%def>
 
 <%def name="content()">
@@ -17,7 +17,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-edit.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${_("View Editor %s - %s") % (view_id, model)}</td>
                     </tr>

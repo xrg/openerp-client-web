@@ -98,9 +98,12 @@ def setup_server(configfile):
 
     # import profiler while makes profile decorator available as __builtins__
     from openerp import profiler
-    
     from openerp.controllers.root import Root
-    app = cherrypy.tree.mount(Root(), '/', app_config)
+
+    root = Root()
+    mount = cherrypy.config.get('server.webpath', '/')
+
+    app = cherrypy.tree.mount(root, mount, app_config)
 
     import pkg_resources
     from openerp.widgets import register_resource_directory
@@ -120,7 +123,7 @@ def setup_server(configfile):
 def start():
     """Start the CherryPy application server."""
 
-    parser = optparse.OptionParser(version="%s-%s" % (release.version, release.release))
+    parser = optparse.OptionParser(version=release.version)
     parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
     (opt, args) = parser.parse_args()
 

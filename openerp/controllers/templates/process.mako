@@ -1,22 +1,22 @@
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>${_("Process")}</title>
 
-    <link type="text/css" rel="stylesheet" href="/static/workflow/css/process_box.css"/>
-    <link type="text/css" rel="stylesheet" href="/static/workflow/css/process.css"/>
+    <link type="text/css" rel="stylesheet" href="${py.url('/static/workflow/css/process_box.css')}"/>
+    <link type="text/css" rel="stylesheet" href="${py.url('/static/workflow/css/process.css')}"/>
 
-    <script src='/static/workflow/javascript/draw2d/wz_jsgraphics.js'></script>
-    <script src='/static/workflow/javascript/draw2d/mootools.js'></script>
-    <script src='/static/workflow/javascript/draw2d/moocanvas.js'></script>
-    <script src='/static/workflow/javascript/draw2d/draw2d.js'></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/wz_jsgraphics.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/mootools.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/moocanvas.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/draw2d/draw2d.js')}"></script>
 
-    <script src='/static/workflow/javascript/process_box.js'></script>
-    <script src='/static/workflow/javascript/process.js'></script>
+    <script src="${py.url('/static/workflow/javascript/process_box.js')}"></script>
+    <script src="${py.url('/static/workflow/javascript/process.js')}"></script>
 
     <script type="text/javascript">
         var context_help = function() {
-            return window.open(getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
+            return window.open(openobject.http.getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
         }
     </script>
 
@@ -26,7 +26,7 @@
             var id = parseInt(getElement('select_workflow').value) || null;
             var res_model = getElement('res_model').value || null;
             var res_id = parseInt(getElement('res_id').value) || null;
-            window.location.href = getURL("/process", {id: id, res_model: res_model, res_id: res_id});
+            window.location.href = openobject.http.getURL("/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
     % else:
@@ -48,6 +48,9 @@
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
+
 % if selection:
 <div class="view">
     <input type="hidden" id="res_model" value="${res_model}"/>
@@ -69,11 +72,11 @@
             <table width="100%" class="titlebar">
                 <tr>
                     <td width="32px" align="center">
-                        <img src="/static/images/stock/gtk-refresh.png"/>
+                        <img src="${py.url('/static/images/stock/gtk-refresh.png')}"/>
                     </td>
                     <td width="100%" id="process_title">${title}</td>
                     <td nowrap="nowrap">
-                        <img class="button" title="${_('Help')}" src="/static/images/stock/gtk-help.png" width="16" height="16"
+                        <img class="button" title="${_('Help')}" src="${py.url('/static/images/stock/gtk-help.png')}" width="16" height="16"
                         onclick="context_help()"/>
                     </td>
                 </tr>
@@ -95,4 +98,7 @@
     </tr>
 </table>
 %endif
+
+<%include file="footer.mako"/>
+
 </%def>

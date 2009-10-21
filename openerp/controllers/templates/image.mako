@@ -1,16 +1,16 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>${_("Image")}</title>
     <script type="text/javascript">
 
         function do_delete(form, id, field){
-            setNodeAttribute(form, 'action', getURL('/image/delete', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
             form.submit();
         }
 
         function do_save(form, id){
-            setNodeAttribute(form, 'action', getURL('/image/save_as', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
             form.submit();
         }
 
@@ -31,7 +31,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-edit.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${_("Image")}</td>
                     </tr>

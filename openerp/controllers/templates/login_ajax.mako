@@ -1,5 +1,5 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>Login</title>
 

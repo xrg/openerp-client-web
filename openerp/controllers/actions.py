@@ -71,13 +71,10 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.context = context or {}
     params.limit = limit
     params.search_view_id = search_view_id
-
-    if name:
-        params.context['_view_name'] = name
-
-    if target:
-        params.context['_terp_target'] = target
-
+    
+    cherrypy.request._terp_view_name = name or None
+    cherrypy.request._terp_view_target = target or None
+    
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
 
@@ -198,22 +195,7 @@ def execute(action, **data):
         return
 
     if action['type'] == 'ir.actions.act_window_close':
-        return """<html>
-        <head>
-            <script type="text/javascript">
-                window.onload = function(evt){
-                    if (window.opener) {
-                        window.opener.setTimeout("window.location.reload()", 0);
-                        window.close();
-                    } else {
-                        window.location.href = '/';
-                    }
-                }
-            </script>
-        </head>
-        <body></body>
-        </html>
-        """
+        return close_popup()
 
     elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
         for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit', 'search_view_id'):
@@ -226,7 +208,7 @@ def execute(action, **data):
             search_view_id = None
         else:
             search_view_id = data.get('search_view_id')[0] 
-
+        
         view_ids=False
         if action.get('views', []):
             if isinstance(action['views'], list):
@@ -244,7 +226,7 @@ def execute(action, **data):
         ctx = data.get('context', {}).copy()
         ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
         ctx.update(tools.expr_eval(action.get('context', '{}'), ctx.copy()))
-
+        
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
@@ -367,6 +349,11 @@ def execute_by_keyword(keyword, adds={}, **data):
         return execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)
+
+
+@tools.expose(template="templates/closepopup.mako")
+def close_popup(*args, **kw):
+    return dict()
 
 # vim: ts=4 sts=4 sw=4 si et
 

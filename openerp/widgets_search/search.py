@@ -80,12 +80,18 @@ class RangeWidget(TinyInputWidget):
         self.from_field = RANGE_WIDGETS[kind](**from_attrs)
         self.to_field = RANGE_WIDGETS[kind](**to_attrs)
 
-        self.from_field.validator.if_invalid = False
-        self.to_field.validator.if_invalid = False
+        #self.from_field.validator.if_invalid = False
+        #self.to_field.validator.if_invalid = False
 
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
+        
+        # register the validators
+        if hasattr(cherrypy.request, 'terp_validators'):
+            for widget in [self.from_field, self.to_field]:
+                cherrypy.request.terp_validators[str(widget.name)] = widget.validator
+                cherrypy.request.terp_fields += [widget]
 
     def set_value(self, value):
         start = value.get('from', '')

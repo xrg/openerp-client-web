@@ -41,7 +41,7 @@ var save_binary_data = function(src, filename) {
     var act = get_form_action('save_binary_data');
     act = fname ? act + '/' + fname : act;    
 
-    act = getURL(act, {_terp_field: name,
+    act = openobject.http.getURL(act, {_terp_field: name,
                        _terp_model: $(prefix + '_terp_model').value,
                        _terp_id: $(prefix + '_terp_id').value});
 
@@ -56,7 +56,7 @@ var clear_binary_data = function(src, filename) {
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
 
     var act = get_form_action('clear_binary_data');
-    act = getURL(act, {_terp_field: name,
+    act = openobject.http.getURL(act, {_terp_field: name,
                        _terp_fname: filename || null,
                        _terp_model: $(prefix + '_terp_model').value,
                        _terp_id: $(prefix + '_terp_id').value});

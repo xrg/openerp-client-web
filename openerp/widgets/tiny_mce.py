@@ -35,12 +35,16 @@ from openerp import validators
 class TinyMCE(TinyInputWidget):
 
     template = "templates/tiny_mce.mako"
+    params = ["height"]
+    
     javascript = [JSLink("openerp", "tiny_mce/tiny_mce.js")]
 
     def __init__(self, **attrs):
         super(TinyMCE, self).__init__(**attrs)
         self.validator = validators.String()
-
+        self.readonly = not self.editable or self.readonly
+        self.height = attrs.get('height', 350)
+        
     def set_value(self, value):
         super(TinyMCE, self).set_value(value)
 

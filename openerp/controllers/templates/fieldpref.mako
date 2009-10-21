@@ -1,5 +1,5 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>${_("Field Preferences")}</title>
     
@@ -27,7 +27,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-edit.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${_("Field Preferences")}</td>
                     </tr>

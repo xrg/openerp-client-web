@@ -76,7 +76,7 @@ var getCalendar = function(day, mode) {
     var day = day || MochiKit.DOM.getElement('_terp_selected_day').value;
     var mode = mode || MochiKit.DOM.getElement('_terp_selected_mode').value;
     
-    var act = getURL('/calendar/get', {day: day, mode: mode});
+    var act = openobject.http.getURL('/calendar/get', {day: day, mode: mode});
 
     var form = document.forms['view_form'];
     var contents = formContents(form);
@@ -170,9 +170,11 @@ var saveCalendarRecord = function(record_id, starts, ends){
         // update concurrency info
         for(var key in obj.info) {
             try {
-                var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
+                var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");              
                 var value = "('" + key + "', '" + obj.info[key] + "')";
-                item.value = value;
+                for(var i=0; i<items.length;i++) {
+                    items[i].value = value;
+                }
             }catch(e){}
         }
 
@@ -191,8 +193,8 @@ var editCalendarRecord = function(record_id){
         'context': $('_terp_context').value
     }
 
-    var act = getURL('/calpopup/edit', params);
-    openWindow(act);
+    var act = openobject.http.getURL('/calpopup/edit', params);
+    openobject.tools.openWindow(act);
 }
 
 var copyCalendarRecord = function(record_id){

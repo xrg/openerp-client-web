@@ -259,7 +259,7 @@ class ViewEd(SecuredController):
                    {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
                    {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
 
-        tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url='/viewed/data?view_id='+str(view_id))
+        tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=tools.url('/viewed/data?view_id='+str(view_id)))
         tree.showheaders = False
         tree.onselection = 'onSelect'
         tree.onbuttonclick = 'onButtonClick'
@@ -694,15 +694,15 @@ class Node(object):
                  'name' : self.name,
                  'localName' : self.localName,
                  'view_id' : self.view_id,
-                 'delete': '/static/images/stock/gtk-remove.png'}
+                 'delete': tools.url('static/images/stock/gtk-remove.png')}
 
         if self.localName not in ('view'):
-            items['add'] = '/static/images/stock/gtk-add.png'
-            items['up'] = '/static/images/stock/gtk-go-up.png'
-            items['down'] = '/static/images/stock/gtk-go-down.png'
+            items['add'] = tools.url('static/images/stock/gtk-add.png')
+            items['up'] = tools.url('static/images/stock/gtk-go-up.png')
+            items['down'] = tools.url('static/images/stock/gtk-go-down.png')
 
         if self.localName not in ('view', 'newline'):
-            items['edit'] = '/static/images/stock/gtk-edit.png'
+            items['edit'] = tools.url('static/images/stock/gtk-edit.png')
 
         record = { 'id' : self.id, 'items' : items}
 
@@ -854,7 +854,7 @@ class BooleanProperty(tw.CheckBox):
 
     def __init__(self, name, default=None):
         super(BooleanProperty, self).__init__(name=name, default=default, attrs=dict(value=1))
-        self.field_class = "checkbox"
+        self.css_class = "checkbox"
 
 class GroupsProperty(tw.SelectField):
 
@@ -904,8 +904,14 @@ class ButtonTypeProperty(tw.SelectField):
 class ButtonSpecialProperty(tw.SelectField):
 
     def __init__(self, name, default=None):
-        options = [('', ''), ('sale', _('Save Button')), ('cancel', _('Cancel Button'))]
+        options = [('', ''), ('save', _('Save Button')), ('cancel', _('Cancel Button')), ('open', _('Open Button'))]
         super(ButtonSpecialProperty, self).__init__(name=name, options=options, default=default)
+        
+class AlignProperty(tw.SelectField):
+
+    def __init__(self, name, default=None):
+        options = [('', ''), ('0.0', _('Left')), ('0.5', _('Center')), ('1.0', _('Right'))]
+        super(AlignProperty, self).__init__(name=name, options=options, default=default)   
 
 _PROPERTY_WIDGETS = {
     'select' : SelectProperty,
@@ -917,6 +923,7 @@ _PROPERTY_WIDGETS = {
     'groups' : GroupsProperty,
     'position': PositionProperty,
     'icon': IconProperty,
+    'align': AlignProperty,
 }
 
 _PROPERTY_WIDGETS_BUTTON = {

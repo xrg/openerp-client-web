@@ -1,12 +1,14 @@
-<div class='tabber' id="${name}">
+<div id="${name}">
     % for page in children:
-    <div class='tabbertab' ${py.attrs(title=page.string, attrs=page.attributes, widget=prefix+'/_fake')}>
+    <div class='notebook-page' ${py.attrs(title=page.string, attrs=page.attributes, widget=fake_widget)}>
         <div>${display_member(page)}</div>
     </div>
     % endfor
 </div>
 <script type="text/javascript">
-    tabberOptions.div = getElement('${name}');
-    tabberOptions.div.tabber = new tabberObj(tabberOptions);
+    new Notebook('${name}', {
+        'closable': false,
+        'scrollable': true
+    });
 </script>
 

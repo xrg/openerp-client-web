@@ -73,12 +73,18 @@ class Tree(SecuredController):
 
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
         if tree.toolbar:
+            
+            proxy = rpc.RPCProxy(model)
+            
             for tool in tree.toolbar:
                 if tool.get('icon'):
                     tool['icon'] = icons.get_icon(tool['icon'])
                 else:
                     tool['icon'] = False
-
+                id = tool['id']
+                ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
+                tool['ids'] = ids
+                
         return dict(tree=tree, model=model)
 
     @expose()
@@ -98,9 +104,13 @@ class Tree(SecuredController):
 
         return self.create(params)
 
-    def sort_callback(self, item1, item2, field, sort_order="asc"):
+    def sort_callback(self, item1, item2, field, sort_order="asc", type=None):
         a = item1[field]
         b = item2[field]
+        
+        if type == 'many2one' and isinstance(a, (tuple, list)):
+            a = a[1]
+            b = b[1]
 
         if(sort_order == "dsc"):
             return -cmp(a, b)
@@ -139,15 +149,20 @@ class Tree(SecuredController):
         result = proxy.read(ids, fields, ctx)
 
         if sort_by:
-            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order))
+            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order, type=fields_info[sort_by]['type']))
 
         # formate the data
         for field in fields:
 
-            if fields_info[field]['type'] in ('float', 'integer'):
+            if fields_info[field]['type'] in ('integer'):
                 for x in result:
                     if x[field]:
                         x[field] = '%s'%(x[field])
+            
+            if fields_info[field]['type'] in ('float'):
+                for x in result:
+                    if x[field]:
+                        x[field] = '%.02f'%(round(x[field], 2))
 
             if fields_info[field]['type'] in ('date',):
                 for x in result:
@@ -212,7 +227,7 @@ class Tree(SecuredController):
         model = params.model
         context = params._terp_context or {}
         ids = data.get('ids') or []
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(context)
 
@@ -252,10 +267,7 @@ class Tree(SecuredController):
 
         params, data = TinyDict.split(kw)
 
-        ids = data.get('ids') or []
-        if ids:
-            ids = [int(id) for id in ids.split(',')]
-
+        ids = params.selection or []            
         if len(ids):
             from openerp.controllers import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)

@@ -36,7 +36,8 @@ from interface import TinyWidget
 class TreeGrid(TinyWidget):
 
     template = "templates/treegrid.mako"
-    params = ['headers', 'showheaders', 'expandall', 'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
+    params = ['headers', 'showheaders', 'expandall', 'linktarget',
+    'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
 
     css = [CSSLink("openerp", "css/treegrid.css")]
     javascript = [JSLink("openerp", "javascript/treegrid.js")]
@@ -70,6 +71,7 @@ class TreeGrid(TinyWidget):
         self.onbuttonclick = params.pop('onbuttonclick', '')
         self.onheaderclick = params.pop('onheaderclick', '')
         self.expandall = params.pop('expandall', 0)
+        self.linktarget = params.pop('linktarget', 0)
 
         def _jsonify(obj):
 

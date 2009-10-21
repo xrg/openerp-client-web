@@ -102,6 +102,9 @@ class O2M(TinyInputWidget):
         if not isinstance(ids, list):
             ids = [ids]
             
+        if ids and isinstance(ids[0], dict):
+            ids = []
+            
         id = (ids or None) and ids[0]
         
         if current and params.source and self.name in params.source.split('/'):
@@ -122,7 +125,7 @@ class O2M(TinyInputWidget):
             ctx['current_date'] = time.strftime('%Y-%m-%d')
             ctx['time'] = time
             ctx['context'] = current.context
-            ctx['active_id'] = current.id or False
+            ctx['active_id'] = self.parent_id or False
 
             # XXX: parent record for O2M
             #if self.parent:

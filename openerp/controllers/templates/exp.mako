@@ -1,11 +1,9 @@
-<%! show_header_footer = False %>
-
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>Export Data</title>
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
+    <link href="${py.url('/static/css/listgrid.css')}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${py.url('/static/javascript/listgrid.js')}"></script>
 
     <style type="text/css">
         .fields-selector {
@@ -67,7 +65,7 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = '/impex/save_exp';
+            form.action = openobject.http.getURL('/impex/save_exp');
             
             var options = $('fields').options;            
             forEach(options, function(o){
@@ -120,7 +118,7 @@
     
             params = {'_terp_id' : id};
 
-            setNodeAttribute(form, 'action', getURL('/impex/delete_listname', params));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/delete_listname', params));
             form.submit();
         }
         
@@ -151,7 +149,7 @@
 
             $('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', '/impex/export_data/data.' + $('export_as').value);
+            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + $('export_as').value));
             form.submit();
         }
     </script>
@@ -171,7 +169,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-go-up.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-go-up.png')}"/>
                         </td>
                         <td width="100%">${_("Export Data")}</td>
                     </tr>
@@ -255,6 +253,21 @@
                     </table>
                 </fieldset>
             </td>
+        </tr>
+        <tr>
+        	<td>
+        		<fieldset>
+                    <legend>${_("Select an Option to Export")}</legend>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="checkbox" name="import_compat" checked="checked"/>
+                            </td>
+                            <td>${_("Import Compatible")}</td>
+                        </tr>
+                    </table>
+                </fieldset>
+        	</td>
         </tr>
         <tr>
             <td>

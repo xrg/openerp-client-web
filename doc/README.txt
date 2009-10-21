@@ -176,7 +176,7 @@ Configuration:
 The following text describes how to configure OpenERP Web for production 
 environment over HTTPS with Apache2.
 
-mod_proxy + mod_ssl (Apache2)
+mod_proxy + mod_headers + mod_ssl (Apache2)
 
     See Apache manual for more information.
 
@@ -197,13 +197,16 @@ Apache configuration:
         ProxyPass        /   http://127.0.0.1:8080
         ProxyPassReverse /   http://127.0.0.1:8080
 
+        RequestHeader set "X-Forwarded-Proto" "https"
+
+        # Fix IE problem (http error 408/409)
+        SetEnv proxy-nokeepalive 1
+
     </VirtualHost>
 
 OpenERP Web configuration:
 
-    base_url_filter.on = True
-    base_url_filter.use_x_forwarded_host = False
-    base_url_filter.base_url = "https://www.example.com"
+    tools.proxy.on = True
 
 Block the OpenERP Web server port (firewall):
 

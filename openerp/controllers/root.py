@@ -32,15 +32,17 @@ import re
 
 from openerp.tools import expose
 from openerp.tools import redirect
+from openerp.tools import find_resource
 from openerp.tools import url
 
 import cherrypy
 
 from openerp import rpc
 from openerp import common
+from openerp import tools
+from openerp import cache
 
 from openerp import controllers
-from openerp import cache
 
 from openerp.controllers.base import SecuredController, unsecured
 from openerp.controllers.base import login as tiny_login
@@ -66,7 +68,7 @@ class Root(SecuredController):
 
         proxy = rpc.RPCProxy("res.users")
         act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-
+        
         if not act_id[0][id]:
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
@@ -80,7 +82,25 @@ class Root(SecuredController):
     def index(self):
         """Index page, loads the view defined by `action_id`.
         """
-        return self.user_action('action_id')
+        #return self.user_action('action_id')
+        raise redirect("/main")
+        
+    @expose()
+    def info(self):
+        return """
+    <html>
+    <head></head>
+    <body>
+        <div align="center" style="padding: 50px;">
+            <img border="0" src="%s"></img>
+        </div>
+    </body>
+    </html>
+    """ % (url("/static/images/loading.gif"))
+    
+    @expose(template="templates/main.mako")
+    def main(self):
+        return dict()
 
     @expose()
     def menu(self):
@@ -112,43 +132,47 @@ class Root(SecuredController):
     @expose()
     @unsecured
     def get_logo(self):
+        
+        comp_url = cherrypy.request.app.config['openerp-web'].get('company.url', None)
 
-        comp_url = config.get('company.url', path='openerp-web') or None
-
-        res="""<img src="/static/images/openerp_big.png" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
+        res="""<img src="%(src)s" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
                     <map name="logo_map">
                         <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
                         <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
-                    </map>"""%(dict(alt=_('OpenERP')))
+                    </map>"""%({
+                        'alt': 'OpenERP',
+                        'src': tools.url('/static/images/openerp_big.png')
+                    })
 
-        if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
+        if os.path.exists(find_resource("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
+                                <img src="%(src)s" alt="" border="0" width="205px" height="58px"/>
                             </a> """
             else:
-                 res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
-        return res
+                 res = """<img src="%(src)s" alt="" border="0" width="205px" height="58px"/>"""
+
+        return res % ({'src': tools.url('/static/images/company_logo.png')})
 
     @expose()
     @unsecured
     def developped_by(self):
-        comp_url = config.get('company.url', path='openerp-web') or None
+        comp_url = cherrypy.request.app.config['openerp-web'].get('company.url', None)
 
-        res="""<img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
+        res="""<img src="%(src)s" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
                     <map name="devby_map">
                         <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
                         <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
-                    </map>"""%(dict(alt=_('Developped by Axelor and Tiny')))
+                    </map>"""%(dict(alt=_('Developped by Axelor and Tiny'), src=tools.url('/static/images/developped_by.png')))
 
-        if os.path.exists(pkg_resources.resource_filename("openerp", "static/images/company_logo.png")):
+        if os.path.exists(find_resource("openerp", "static/images/company_logo.png")):
             if comp_url:
                 res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src='/static/images/company_logo.png' alt="" border="0" width="205px" height="58px"/>
+                                <img src="%(src)s" alt="" border="0" width="205px" height="58px"/>
                             </a> """
             else:
-                 res = """<img src="/static/images/company_logo.png" alt="" border="0" width="205px" height="58px"/>"""
-        return res
+                 res = """<img src="%(src)s" alt="" border="0" width="205px" height="58px"/>"""
+        return res % (dict(src=tools.url("/static/images/company_logo.png")))
 
     @expose()
     @unsecured
@@ -162,7 +186,7 @@ class Root(SecuredController):
     @unsecured
     def about(self):
         from openerp import release
-        version = _("Version %s-%s") % (release.version, release.release)
+        version = _("Version %s") % (release.version,)
         return dict(version=version)
     
     profile = profile.profiler

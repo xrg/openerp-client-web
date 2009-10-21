@@ -1,10 +1,12 @@
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>${_("About the OpenERP Web")}</title>
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
 
 <table class="view" width="100%">
     <tr>
@@ -43,7 +45,7 @@ ${_("""%(openerp)s is a free enterprise-scale software system that is designed t
 productivity and profit through data integration. It connects, improves and
 manages business processes in areas such as sales, finance, supply chain,
 project management, production, services, CRM, etc..
-""", openerp="""<a target="_blank" href="http://openerp.com">OpenERP</a>""")|n}
+""", openerp="""<a target="_blank" href="http://openerp.com/">OpenERP</a>""")|n}
 </p>
 
 <p>
@@ -76,58 +78,58 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
         <td width="170" valign="top" id="sidebar">
             <table cellpadding="0" cellspacing="0" border="0" class="sidebox" width="100%">
                 <tr>
-                    <td>
+                    <td class="sidebox-title">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
-                                <td width="8" style="background: #ac0000"/>
-                                <td width="7" style="background-color: #363636"/>
-                                <td style="color: white; font-weight: bold; font-size: 12px; background-color: #363636">${_("RESOURCES")}</td>
-                                <td width="25" valign="top" style="background: url(/static/images/diagonal_left.gif) no-repeat; background-color: #666666"/>
-                                <td width="50" style="background-color: #666666"/>
+                                <td width="8"  class="sidebox-title-l"/>
+                                <td class="sidebox-title-m">${_("RESOURCES")}</td>
+                                <td width="35" class="sidebox-title-r"/>
                             </tr>
                         </table>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com">${_("Homepage")}</a>
+                        <a target="_blank" href="http://openerp.com/">${_("Homepage")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/documentations.html">${_("Documentation")}</a>
+                        <a target="_blank" href="http://openerp.com/en/downloads.html">${_("Download")}</a>
+                    </td>                
+                </tr><tr>
+                    <td>
+                        <a target="_blank" href="http://doc.openerp.com/">${_("Documentation")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/forum">${_("Forum")}</a>
+                        <a target="_blank" href="http://doc.openerp.com/modindex.html">${_("Modules")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/component/option,com_mtree/Itemid,111/">${_("Modules")}</a>
+                        <a target="_blank" href="http://openerp.tv/">${_("Screencasts")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/component/option,com_joomlaxplorer/Itemid,132/">${_("Download")}</a>
+                        <a target="_blank" href="http://openobject.com/">${_("Community")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/planet">${_("Planet")}</a>
+                        <a target="_blank" href="http://ondemand.openerp.com/">${_("SaaS Offers")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://ondemand.openerp.com">${_("SaaS Offers")}</a>
+                        <a target="_blank" href="http://openerp.com/en/buy/trainings.html">${_("Trainings")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/training.html">${_("Trainings")}</a>
-                    </td>
-                </tr><tr>
-                    <td>
-                        <a target="_blank" href="http://openerp.com/services.html">${_("Services")}</a>
+                        <a target="_blank" href="http://openerp.com/en/buy.html">${_("Services")}</a>
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
 </table>
+
+<%include file="footer.mako"/>
 
 </%def>

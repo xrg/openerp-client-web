@@ -1,5 +1,5 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer=False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>Search ${form.screen.string}</title>
 
@@ -26,19 +26,24 @@
         }
 
         function disable_hidden_search_fields(){
-            // disable fields of hidden tab
 
-            var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_form')[0];
+            var nb = SEARCH_NOTEBOOK;
+            var tab = nb.getNext(nb.getActiveTab()) || nb.getPrev(nb.getActiveTab());
+            var page = nb.getPage(tab);
+            
+            // disable fields of hidden tab
+            
             var disabled = [];
 
-            disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
-            disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
-            disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
-
+            disabled = disabled.concat(getElementsByTagAndClassName('input', null, page));
+            disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, page));
+            disabled = disabled.concat(getElementsByTagAndClassName('select', null, page));
+            
             forEach(disabled, function(fld){
+                log(fld);
                 fld.disabled = true;
             });
-
+            
             return true;
         }
 
@@ -79,7 +84,7 @@
         }
 
         function do_create(){
-            act = getURL('/openm2o/edit', {_terp_model: '${params.model}', 
+            act = openobject.http.getURL('/openm2o/edit', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2o: '${params.source}',
                                            _terp_domain: $('_terp_domain').value,
@@ -121,9 +126,9 @@
         }
         
         function do_create(){
-            act = getURL('/openm2m/new', {_terp_model: '${params.model}', 
+            act = openobject.http.getURL('/openm2m/new', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
-                                           _terp_m2o: '${params.source}',
+                                           _terp_m2m: '${params.source}',
                                            _terp_domain: $('_terp_domain').value,
                                            _terp_context: $('_terp_context').value});
             window.location.href = act;
@@ -134,7 +139,7 @@
 
 <%def name="content()">
 <div class="view">
-    <form id="search_form" name="search_form" action="/search/find" method="post" onsubmit="return disable_hidden_search_fields();">
+    <form id="search_form" name="search_form" action="${py.url('/search/find')}" method="post" onsubmit="return disable_hidden_search_fields();">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>
@@ -146,7 +151,7 @@
                     <table width="100%" class="titlebar">
                         <tr>
                             <td width="32px" align="center">
-                                <img src="/static/images/stock/gtk-find.png"/>
+                                <img src="${py.url('/static/images/stock/gtk-find.png')}"/>
                             </td>
                             <td width="100%">${_("Search %(name)s", name=form.screen.string)}</td>
                         </tr>

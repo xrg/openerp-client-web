@@ -1,5 +1,5 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>${form.screen.string} </title>
 
@@ -16,16 +16,17 @@
         MochiKit.DOM.addLoadEvent(function(evt) {
 
             var id = parseInt(MochiKit.DOM.getElement('_terp_id').value) || null;
-            var lc = parseInt(MochiKit.DOM.getElement('_terp_load_counter').value) || 1;
+            var lc = parseInt(MochiKit.DOM.getElement('_terp_load_counter').value) || 0;
 
-            if (lc>1 && id) {
+            if (lc > 0 && id) {
 
                 with(window.opener) {
 
                     var m2m = Many2Many('${params.m2m}');
                     var ids = m2m.getValue();
-
-                    ids.push(id);
+                    
+                    if (MochiKit.Base.findIdentical(ids, id) == -1)
+                        ids.push(id);
 
                     m2m.setValue(ids);
                 }
@@ -47,7 +48,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-edit.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${form.screen.string}
                         </td>

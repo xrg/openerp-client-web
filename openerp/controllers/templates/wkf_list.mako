@@ -1,5 +1,5 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>${_("Manage Workflows %s") % (model)}</title>
     <script type="text/javascript">
@@ -53,7 +53,7 @@
                 return;
             }
             
-            openWindow(getURL('/workflow', {model: getElement('model').value, id:boxes[0].value }));
+            openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: getElement('model').value, id:boxes[0].value }));
         }
         
         function onRemove() {
@@ -70,7 +70,7 @@
                 return;
             }
             
-            window.location.href = '/workflowlist/delete?model=${model}&id=' + boxes[0].value;
+            window.location.href = openobject.http.getURL('/workflowlist/delete?model=${model}&id=' + boxes[0].value);
         }
         
         function onActivate() {
@@ -82,7 +82,7 @@
                 return;
             }
             
-            window.location.href = '/workflowlist/activate?model=${model}&id=' + boxes[0].value;
+            window.location.href = openobject.http.getURL('/workflowlist/activate?model=${model}&id=' + boxes[0].value);
         }
 		
 		MochiKit.DOM.addLoadEvent(function(evt){
@@ -105,7 +105,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-find.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-find.png')}"/>
                         </td>
                         <td width="100%">${_("Manage Workflows %s") % (model)}</td>
                     </tr>
@@ -143,7 +143,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-edit.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${_("Create a Workflow (%s)") % (model)}</td>
                     </tr>
@@ -152,7 +152,7 @@
         </tr>
         <tr>
             <td>
-                <form id="view_form" action="/workflowlist/create">
+                <form id="view_form" action="${py.url('/workflowlist/create')}">
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>

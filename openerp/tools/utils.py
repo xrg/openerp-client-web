@@ -50,11 +50,9 @@ def url(_cppath, _cpparams=None, _cpquote=False, **kw):
     elif query:
         path = query
 
-    if path.startswith('/'):
-        webpath = (cherrypy.config.get('server.webpath') or '').rstrip('/')
-        if cherrypy.request.app:
-            path = cherrypy.request.app.script_name + path
-        path = webpath + path
+    if path.startswith('/') and cherrypy.request.app and \
+        not path.startswith(cherrypy.request.app.script_name):
+        path = cherrypy.request.app.script_name + path
 
     return path
 

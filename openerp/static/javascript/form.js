@@ -31,16 +31,21 @@ function get_form_action(action, params){
     
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
-
-    return getURL(act, params);
+    return openobject.http.getURL(act, params);
 }
 
-var editRecord = function(id, src, target){
+var openRecord = function(id, src, target, readonly){
 
-    if (src && src != '_terp_list' && $('_terp_count').value != '0') {
-        return new One2Many(src).edit(id);
+    var kind = getNodeAttribute(src + '_set', 'kind');
+    
+    if (!kind && getElement('_o2m_' + src)) {
+        kind = "one2many";
     }
-
+        
+    if (kind == "one2many") {
+        return new One2Many(src).edit(id, readonly);
+    }
+    
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
     var model = $(prefix + '_terp_model').value;
@@ -70,63 +75,43 @@ var editRecord = function(id, src, target){
                 'limit': limit,
                 'count': count,
                 'search_domain': search_domain};
-
+                
+    var action = readonly ? 'view' : 'edit';
+        
     if (target == '_blank') {
-        return window.open(get_form_action('edit', args));
+        return window.open(get_form_action(action, args));
+    }
+    
+    if (kind == 'many2many') {
+        args['source'] = src;
+        return openobject.tools.openWindow(get_form_action('/openm2m/edit', args));
     }
 
-    window.location.href = get_form_action('edit', args);
+    window.location.href = get_form_action(action, args);
+}
+
+var editRecord = function(id, src, target){
+    return openRecord(id, src, target, false);
+}
+
+var viewRecord = function(id, src){
+    return openRecord(id, src, null, true);
 }
 
 var editSelectedRecord = function() {
+
     var lst = new ListView('_terp_list');
     var ids = lst.getSelectedRecords();
+    
+    if (ids && ids.length > 5) {
+        var msg = _('You selected to open %(tabs)s tabs - do you want to continue?');
+        msg = msg.replace('%(tabs)s', ids.length);
+        if (!confirm(msg)) return;
+    }
 
     forEach(ids, function(id){
         editRecord(id, '_terp_list', '_blank');
     });
-}
-
-var viewRecord = function(id, src){
-
-    if (src && src != '_terp_list' && $('_terp_count').value != '0') {
-        if (getElement(src + '_set')) {
-            return editRecord(id, src);
-        } else {
-            return new One2Many(src).edit(id, true);
-        }
-    }
-
-    var prefix = src && src != '_terp_list' ? src + '/' : '';
-    var model = $(prefix + '_terp_model').value;
-    var view_ids = $(prefix + '_terp_view_ids').value;
-    var view_mode = $(prefix + '_terp_view_mode').value;
-
-    var ids = $(prefix + '_terp_ids').value;
-
-    var offset = $(prefix + '_terp_offset').value;
-    var limit = $(prefix + '_terp_limit').value;
-    var count = $(prefix + '_terp_count').value;
-
-    var domain = $(prefix + '_terp_domain').value;
-    var context = $(prefix + '_terp_context').value;
-
-    var search_domain = $('_terp_search_domain');
-    search_domain = search_domain ? search_domain.value : null;
-
-    var args = {'model': model,
-                'id': id ? id : 'False',
-                'ids': ids,
-                'view_ids': view_ids,
-                'view_mode': view_mode,
-                'domain': domain,
-                'context': context,
-                'offset': offset,
-                'limit': limit,
-                'count': count,
-                'search_domain': search_domain};
-
-    window.location.href = get_form_action('view', args);
 }
 
 var switchView = function(view_type, src){
@@ -213,7 +198,7 @@ var show_process_view = function() {
 
     id = parseInt(id) || null;
 
-    window.open(getURL('/process', {res_model: model, res_id: id}));
+    window.open(openobject.http.getURL('/process', {res_model: model, res_id: id}));
 }
 
 var validate_required = function(form) {
@@ -279,7 +264,7 @@ var submit_form = function(action, src, target){
         _terp_source: source
     };
    
-    if (target == "new"){
+    if (target == "new" || target == "_blank"){
         setNodeAttribute(form, 'target', '_blank');
     }
     
@@ -301,17 +286,21 @@ var submit_form = function(action, src, target){
 var submit_search_form = function(action) {
 
     if ($('search_view_notebook')) {
-
+    
+        var nb = SEARCH_NOTEBOOK;
+        var tab = nb.getNext(nb.getActiveTab()) || nb.getPrev(nb.getActiveTab());
+        var page = nb.getPage(tab);
+        
         // disable fields of hidden tab
-
-        var hidden_tab = getElementsByTagAndClassName('div', 'tabbertabhide', 'search_view_notebook')[0];
+        
         var disabled = [];
 
-        disabled = disabled.concat(getElementsByTagAndClassName('input', null, hidden_tab));
-        disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, hidden_tab));
-        disabled = disabled.concat(getElementsByTagAndClassName('select', null, hidden_tab));
-
+        disabled = disabled.concat(getElementsByTagAndClassName('input', null, page));
+        disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, page));
+        disabled = disabled.concat(getElementsByTagAndClassName('select', null, page));
+        
         forEach(disabled, function(fld){
+            log(fld);
             fld.disabled = true;
         });
     }
@@ -379,42 +368,53 @@ var getFormData = function(extended) {
 
     var frm = {};
     var fields = [];
-
-    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
-    fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
-    fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
+    
+    var is_editable = $('_terp_editable').value == 'True';
+    
+    if (is_editable) {
+	    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
+	    fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
+	    fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
+    } else {
+        fields =  fields.concat(openobject.dom.select('kind=value')); 
+        fields = fields.concat(openobject.dom.select('[name$=/__id]'));       
+    }
+    
     fields = fields.concat(filter(function(e){
         return getNodeAttribute(e,'kind')=='picture';
-        }, getElementsByTagAndClassName('img', null, parentNode)));
+    }, getElementsByTagAndClassName('img', null, parentNode)));
+    
+    for(var i=0; i<fields.length; i++) {
+    
+        var e = fields[i];
+        var n = is_editable ? e.name : e.id;
+        
+        if (e.tagName.toLowerCase() != 'img' && !n)
+            continue;
 
-    forEach(fields, function(e){
-
-        if (e.tagName.toLowerCase() != 'img' && !e.name)
-            return;
-
-        var n = e.name.replace('_terp_listfields/', '');
+        var n = n.replace('_terp_listfields/', '');
 
         // don't include _terp_ fields except _terp_id
         if (/_terp_/.test(n) && ! /_terp_id$/.test(n))
-            return;
+            continue;
 
         // work arround to skip o2m values (list mode)
         if (n.indexOf('/__id') > 0) {
         
             n = n.replace('/__id', '');
-            
+
             if ($(n + '/_terp_view_type').value == 'form') {
                 frm[n+'/__id'] = $(n+'/__id').value;
-                return;
+                continue;
+            }
+            // skip if editable list's editors are visible
+            if (openobject.dom.select("[name^=_terp_listfields/" + n + "]").length) {
+                continue;
             }
             
-            // skip if editable list's editors are visible
-            if ($$('[name^=_terp_listfields/' + n + ']').length) {
-                return;
-            }
             
             var value = $(n + '/_terp_ids').value;
-            
+
             if (extended) {
                 value = {'value': value, 
                          'type': 'one2many', 
@@ -423,18 +423,15 @@ var getFormData = function(extended) {
             }
             
             frm[n] = value;
-            return;
+            continue;
         }
 
         if (extended && n.indexOf('/__id') == -1) {
 
             var attrs = {};
-
-            var value = e.value;
-            var kind = null;
-
-            value = e.value;
-            kind = getNodeAttribute(e, 'kind');
+            
+            var value = (is_editable ? e.value : getNodeAttribute(e, 'value')) || "";
+            var kind = getNodeAttribute(e, 'kind') || "char";
 
             //take care of _terp_id
             if (/_terp_id$/.test(n)) {
@@ -442,20 +439,20 @@ var getFormData = function(extended) {
                 //  only the resource id and all O2M
                 n = n.replace(/_terp_id$/, '');
                 if (n && !getElement(n + '__id')) {
-                    return; 
+                    continue; 
                 }
 
                 n = n + 'id';
                 
                 if (!getElement(n)) {
-                    return;    
+                    continue;    
                 }
                 
                 kind = 'integer';
                 value = value == 'False' ? '' : value;
             }
 
-            attrs['value'] = value;
+            attrs['value'] = typeof(value) == "undefined" ? '' : value;
 
             if (kind)
                 attrs['type'] = kind;
@@ -471,13 +468,17 @@ var getFormData = function(extended) {
                 n = e.id;
             }
 
+            if (kind == 'text_html') {
+                attrs['value'] =  tinyMCE.get(e.name).getContent();
+            }
+
             // stringify the attr object
             frm[n] = serializeJSON(attrs);
             
         } else {
             frm[n] = e.value;
         }
-    });
+    }
 
     return frm;
 }
@@ -595,6 +596,21 @@ var onChange = function(name) {
                 if (kind == 'boolean') {
                     $(prefix + k + '_checkbox_').checked = value || false;
                 }
+                
+                if (kind=='text_html') {
+                    tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '')
+                }
+                
+                if (kind=='selection') {                    
+                    var opts = [];
+                    opts.push(OPTION({'value': ''}))
+                    
+                    for (i in value) {                        
+                        var item = value[i];                        
+                        opts.push(OPTION({'value': item[0]}, item[1]));
+                    } 
+                    MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
+                }                
 
                 MochiKit.Signal.signal(fld, 'onchange');
             }
@@ -704,13 +720,18 @@ function open_search_window(relation, domain, context, source, kind, text) {
     }
 
     req.addCallback(function(obj){
-        openWindow(getURL('/search/new', {model: relation, 
+        openobject.tools.openWindow(openobject.http.getURL('/search/new', {model: relation, 
                                           domain: obj.domain, 
                                           context: obj.context, 
                                           source: source, 
                                           kind: kind, 
                                           text: text}));
     });
+}
+
+var showCustomizeMenu = function(src, elem) {
+    var elem = getElement(elem);
+    MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
 }
 
 function makeContextMenu(id, kind, relation, val) {
@@ -775,11 +796,18 @@ function makeContextMenu(id, kind, relation, val) {
         var md = elementDimensions('contextmenu');
 
         var x = $('contextmenu').style.left.slice(0, -2);
+        var y = $('contextmenu').style.top.slice(0, -2);
         x = parseInt(x);
+        y = parseInt(y);
 
         if ((x + md.w) > vd.w) {
             x -= x + md.w - vd.w;
             $('contextmenu').style.left = x + 'px';
+        }
+        
+        if ((y + md.h) > vd.h) {
+            y -= y + md.h - vd.h;
+            $('contextmenu').style.top = y + 'px';
         }
 
         showContextMenu();
@@ -850,7 +878,7 @@ function set_as_default(field, model){
                       '_terp_field/value': $(field).value, 
                       '_terp_deps': obj.deps};
         
-        openWindow(getURL('/fieldpref', params), {width: 500, height: 350});
+        openobject.tools.openWindow(openobject.http.getURL('/fieldpref', params), {width: 500, height: 350});
     });
 }
 
@@ -861,7 +889,7 @@ function do_report(id, relation) {
     var act = get_form_action('report');
     var params = {'_terp_model': relation, '_terp_id': id};
 
-    window.open(getURL(act, params));
+    window.open(openobject.http.getURL(act, params));
 }
 
 function do_action(action_id, field, relation, src) {
@@ -899,7 +927,7 @@ function do_action(action_id, field, relation, src) {
             '_terp_id': id,
             '_terp_model': relation});
         
-        window.open(getURL(act, params));
+        window.open(openobject.http.getURL(act, params));
 
     });
 }

@@ -51,7 +51,7 @@ openerp.workflow.Workflow.implement({
         this.setEnableSmoothFigureHandling(true);
 
         // enable grid by default
-        this.setBackgroundImage('/static/workflow/images/grid_10.jpg', true);
+        this.setBackgroundImage( openobject.http.getURL('/static/workflow/images/grid_10.jpg'), true);
         this.setGridWidth(10, 10);
         this.setSnapToGrid(true);
 		

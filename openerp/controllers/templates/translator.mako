@@ -1,9 +1,9 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>${_("Add Translations")}</title>
-    <link href="/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/static/javascript/listgrid.js"></script>
+    <link href="${py.url('/static/css/listgrid.css')}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${py.url('/static/javascript/listgrid.js')}"></script>
 </%def>
 
 <%def name="content()">
@@ -17,7 +17,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/stock_translate.png"/>
+                            <img src="${py.url('/static/images/stock/stock_translate.png')}"/>
                         </td>
                         <td width="100%">${_("Add Translation")}</td>
                     </tr>
@@ -31,7 +31,7 @@
                         <tr>
                             <td class="label">${_("Add Translation for:")}</td>
                             <td>
-                                <select name="translate" onchange="window.location.href=getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
+                                <select name="translate" onchange="window.location.href=openobject.http.getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
                                     <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
                                     <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
                                     <option value="relates" ${py.selector(translate=='relates')}>${_("Relates")}</option>

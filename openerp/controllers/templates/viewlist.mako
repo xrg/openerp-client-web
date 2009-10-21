@@ -1,5 +1,5 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>${_("Manage Views (%s)") % (model)}</title>
     <script type="text/javascript">
@@ -49,12 +49,12 @@
                 return;
             }
 
-            var act = getURL('/viewed', {view_id: boxes[0].value});
+            var act = openobject.http.getURL('/viewed', {view_id: boxes[0].value});
             if (window.opener) {
-                window.opener.setTimeout("openWindow('" + act + "')", 0);
+                window.opener.setTimeout("openobject.tools.openWindow('" + act + "')", 0);
                 window.close();
             } else {
-                openWindow(act);
+                openobject.tools.openWindow(act);
             }
         }
         
@@ -72,7 +72,7 @@
                 return;
             }
             
-            window.location.href = '/viewlist/delete?model=${model}&id=' + boxes[0].value;
+            window.location.href = openobject.http.getURL('/viewlist/delete?model=${model}&id=' + boxes[0].value);
         }
 		
         MochiKit.DOM.addLoadEvent(function(evt){
@@ -105,7 +105,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-find.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-find.png')}"/>
                         </td>
                         <td width="100%">${_("Manage Views (%s)") % (model)}</td>
                     </tr>
@@ -142,7 +142,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-edit.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${_("Create a view (%s)") % (model)}</td>
                     </tr>

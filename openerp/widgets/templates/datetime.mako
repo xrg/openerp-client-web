@@ -11,13 +11,13 @@
             % if not attrs.get('disabled'):
             <td width="16" style="padding-left: 2px">
                 <img id="${name}_trigger" width="16" height="16" alt="${_('Select')}" 
-                src="/static/images/stock/stock_calendar.png" class="${css_class}" style="cursor: pointer;"/>
+                src="${py.url('/static/images/stock/stock_calendar.png')}" class="${css_class}" style="cursor: pointer;"/>
             </td>
             
             <script type="text/javascript">
             
-                var dt_field = $$('[id=${name}]');
-                var dt_button = $$('[id=${name}_trigger]');
+                var dt_field = openobject.dom.select("[id='${name}']")
+                var dt_button = openobject.dom.select("[id='${name}_trigger']");                
                 
                 dt_field = dt_field[dt_field.length-1];
                 dt_button = dt_button[dt_button.length-1];

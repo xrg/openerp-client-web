@@ -16,7 +16,7 @@
                     height="16" 
                     alt="${_('Open')}" 
                     title="${_('Open a resource')}" 
-                    src="/static/images/stock/gtk-open.png" 
+                    src="${py.url('/static/images/stock/gtk-open.png')}" 
                     style="cursor: pointer;" 
                     class="imgSelect"/>
             </td>
@@ -27,7 +27,7 @@
                     height="16" 
                     alt="${_('Search')}" 
                     title="${_('Search')}" 
-                    src="/static/images/stock-disabled/gtk-find.png"/>
+                    src="${py.url('/static/images/stock-disabled/gtk-find.png')}"/>
                 % endif
                 % if not readonly:
                 <img id='${name}_select' 
@@ -35,7 +35,7 @@
                     height="16" 
                     alt="${_('Search')}" 
                     title="${_('Search')}" 
-                    src="/static/images/stock/gtk-find.png" 
+                    src="${py.url('/static/images/stock/gtk-find.png')}" 
                     style="cursor: pointer;" 
                     class="imgSelect"/>
                 % endif
@@ -63,7 +63,7 @@
 
 % if not editable and not link == '0':
     <span>
-        <span id="${name}" ${py.attrs(kind=kind, value=value)}>
+        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
             <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>

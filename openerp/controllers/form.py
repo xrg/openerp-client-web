@@ -51,11 +51,13 @@ from openerp.controllers.base import SecuredController
 from openerp.utils import TinyDict
 from openerp.utils import TinyForm
 
-def make_domain(name, value):
+from openerp.widgets.binary import generate_url_for_picture
+
+def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
     Will be used for search window...
     """
-
+        
     if isinstance(value, int) and not isinstance(value, bool):
         return [(name, '=', value)]
 
@@ -74,7 +76,10 @@ def make_domain(name, value):
             return [(name, '<=', end)]
 
         return None
-
+    
+    if kind == "selection" and value:
+        return [(name, '=', value)]
+    
     if isinstance(value, basestring) and value:
         return [(name, 'ilike', value)]
 
@@ -99,12 +104,16 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     domain = domain or []
     context = context or {}
     data = data or {}
-
+    
+    proxy = rpc.RPCProxy(model)
+    fields = proxy.fields_get([], {})
+    
     search_domain = domain[:]
     search_data = {}
 
     for k, v in data.items():
-        t = make_domain(k, v)
+        t = fields.get(k, {}).get('type', 'char')
+        t = make_domain(k, v, t)
 
         if t:
             search_domain += t
@@ -116,7 +125,6 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     if l < 1: l = 20
     if o < 0: o = 0
 
-    proxy = rpc.RPCProxy(model)
     ctx = rpc.session.context.copy()
     ctx.update(context)
 
@@ -232,7 +240,7 @@ class Form(SecuredController):
         buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
 
-        target = params.context.get('_terp_target')
+        target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
         if cache.can_write('ir.ui.view'):
@@ -240,18 +248,20 @@ class Form(SecuredController):
             
         if cache.can_write('workflow'):
             links.workflow_manager = True
+            
+        buttons.process = cache.can_read('process.process')
 
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path, show_header_footer=target!='new')
+        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)
 
     @profile("form.edit", log=['model', 'id'])
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
-             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
 
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
@@ -268,6 +278,8 @@ class Form(SecuredController):
 
         params.editable = True
         params.view_type = 'form'
+        
+        cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
@@ -289,12 +301,13 @@ class Form(SecuredController):
 
     @expose()
     def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
-            domain=[], context={}, offset=0, limit=20, count=0, search_domain=None):
+            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
                                        '_terp_view_mode' : view_mode,
+                                       '_terp_source' : source,
                                        '_terp_domain' : domain,
                                        '_terp_context' : context,
                                        '_terp_offset': offset,
@@ -304,6 +317,8 @@ class Form(SecuredController):
 
         params.editable = False
         params.view_type = 'form'
+        
+        cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
             params.view_type = params.view_mode[-1]
@@ -407,7 +422,7 @@ class Form(SecuredController):
                 'limit': params.limit,
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
-
+                
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
 
@@ -435,21 +450,8 @@ class Form(SecuredController):
                 if res:
                     return res
 
-            return """<html>
-        <head>
-            <script type="text/javascript">
-                window.onload = function(evt){
-                    if (window.opener) {
-                        window.opener.setTimeout("window.location.reload()", 0);
-                        window.close();
-                    } else {
-                        window.location.href = '/';
-                    }
-                }
-            </script>
-        </head>
-        <body></body>
-        </html>"""
+            from openerp.controllers import actions
+            return actions.close_popup()
 
         elif btype == 'save':
             params.id = False
@@ -477,7 +479,7 @@ class Form(SecuredController):
 
             if action_type == 'ir.actions.wizard':
                 cherrypy.session['wizard_parent_form'] = self.path
-                cherrypy.session['wizard_parent_params'] = params
+                cherrypy.session['wizard_parent_params'] = params.parent_params or params
 
             res = actions.execute_by_id(action_id, type=action_type,
                                         model=model, id=id, ids=ids,
@@ -953,6 +955,9 @@ class Form(SecuredController):
             if relation and kind in ('many2one', 'reference') and values.get(k):
                 values[k] = [values[k], tw.many2one.get_name(relation, values[k])]
 
+            if kind == 'picture':
+                values[k] = generate_url_for_picture(model, k, ctx.id, values[k])
+
         result['value'] = values
 
         # convert domains in string to prevent them being converted in JSON
@@ -1004,7 +1009,7 @@ class Form(SecuredController):
 
     def reset_notebooks(self):
         for name in cherrypy.request.cookie.keys():
-            if name.endswith('_notebookTGTabber'):
+            if name.startswith('_notebook_'):
                 cherrypy.response.cookie[name] = 0
 
     @expose('json')

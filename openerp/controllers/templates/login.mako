@@ -1,21 +1,24 @@
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>${_("Login")}</title>
 </%def>
 
 <%def name="content()">
+
+<%include file="header.mako"/>
+
     <div class="view">
 
         <br/>
 
         <center>
-            <img src="/static/images/developped_by.png" border="0" width="200" height="60" alt="${_('Developped by Axelor and Tiny')}"/>
+            ${cp.root.developped_by()|n}
         </center>
 
         <br/>
 
-        <form action="${target}" method="post" name="loginform">
+        <form action="${py.url(target)}" method="post" name="loginform">
             % for key, value in origArgs.items():
             <input type="hidden" name="${key}" value="${value}"/>
             % endfor
@@ -57,7 +60,7 @@
                         <td></td>
                         <td align="right">
                             % if cp.config('dbbutton.visible', 'openerp-web'):
-                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='/database'">${_("Databases")}</button>
+                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='${py.url('/database')}'">${_("Databases")}</button>
                             % endif
                             <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
                         </td>
@@ -65,9 +68,14 @@
                 </table>                
             </div>            
         </form>
-
+    
         % if message:
         <div class="box2 message" id="message">${message}</div>
         % endif
+        
+        % if info:
+        <div class="information">${info|n}</div>
+        % endif
     </div>
+<%include file="footer.mako"/>    
 </%def>

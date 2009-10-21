@@ -78,12 +78,8 @@ class ErrorPage(object):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
 
-        show_header_footer = cherrypy.request.params.get('_terp_header_footer')
-        
         return dict(title=title, error=error, 
-                    maintenance=maintenance, 
-                    nb=self.nb, 
-                    show_header_footer=show_header_footer,
+                    maintenance=maintenance, nb=self.nb, 
                     concurrency=concurrency, all_params=all_params)
 
     @expose('json')

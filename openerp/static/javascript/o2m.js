@@ -44,6 +44,15 @@ var One2Many = function(name, inline) {
     this.parent_id = $(parent_prefix + '_terp_id').value;
     this.parent_context = $(parent_prefix + '_terp_context').value;
     this.parent_view_id = $(parent_prefix + '_terp_view_id').value;
+    
+    // hide new button when editors are visible
+    if (this.mode == 'tree' && this.inline){ 
+        var self = this;
+        this.btn_new = getElement(this.name + '_btn_');
+        MochiKit.Signal.connect(ListView(this.name), 'onreload', function(evt) {
+            self.btn_new.style.display = ListView(self.name).getEditors().length > 0 ? 'none': '';
+        });
+    }
 }
 
 One2Many.prototype = {
@@ -55,7 +64,7 @@ One2Many.prototype = {
         }
     
         if (this.mode == 'tree' && this.inline){
-
+        
             if (this.default_get_ctx) {
                 var self = this;
                 var req = eval_domain_context_request({source: this.name, context: this.default_get_ctx});
@@ -90,7 +99,7 @@ One2Many.prototype = {
 
             params['_terp_view_params/' + prefix + '/_terp_model'] = $(prefix + '/_terp_model').value;
             params['_terp_view_params/' + prefix + '/_terp_view_ids'] = $(prefix + '/_terp_view_ids').value;
-            params['_terp_view_params/' + prefix + '_terp_view_mode'] = $(prefix + '/_terp_view_mode').value;
+            params['_terp_view_params/' + prefix + '/_terp_view_mode'] = $(prefix + '/_terp_view_mode').value;
             params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
         }
 
@@ -105,14 +114,20 @@ One2Many.prototype = {
                 _terp_editable: readonly ? 0 : 1});
                     
         if (id && id != 'False' && !this.default_get_ctx){
-            return openWindow(getURL('/openo2m/edit', params));
+            return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
         }
         
         var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
         
         req.addCallback(function(res){
-            params['_terp_o2m_context'] = res.context;
-            return openWindow(getURL('/openo2m/edit', params));
+            //XXX: IE hack, long context value generate long URI
+            // params['_terp_o2m_context'] = res.context;
+            openobject.http.setCookie('_terp_o2m_context', res.context || '{}');
+            try {
+                return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
+            } finally {
+                openobject.http.delCookie('_terp_o2m_context');
+            }
         });     
     }
 }

@@ -56,12 +56,12 @@ class Record(dict):
     def _make_record(self, parent=None):
         parent = parent or self
 
-        for wid in parent.member_widgets:
-
+        for wid in parent.iter_member_widgets():
+            
             if isinstance(wid, TinyInputWidget) and wid.name and not wid.name.endswith('/'):
                 self[wid.name] = wid.get_value()
 
-            elif isinstance(wid, TinyWidget) and len(wid.children):
+            elif isinstance(wid, TinyWidget) and len(wid.member_widgets):
                 self._make_record(wid)
 
         params, data = TinyDict.split(self)

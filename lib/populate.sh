@@ -1,13 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 
 test -f 'populate.sh' || exit
-test ! -d 'cherrypy' || exit
 
-PYTHONPATH=. easy_install -a -Z -d . "CherryPy>=3.1.2"
-PYTHONPATH=. easy_install -a -Z -d . "Babel>=0.9.4"
-PYTHONPATH=. easy_install -a -Z -d . "Mako>=0.2.4"
-PYTHONPATH=. easy_install -a -Z -d . "simplejson >= 2.0.9"
-PYTHONPATH=. easy_install -a -Z -d . "formencode>=1.2.2"
+function install {
+    test $2 || PYTHONPATH=. easy_install -a -Z -d . $1
+}
+
+install "CherryPy>=3.1.2" "-d cherrypy"
+install "Babel>=0.9.4" "-d babel"
+install "Mako>=0.2.4" "-d mako"
+install "simplejson>=2.0.9" "-d simplejson"
+install "formencode>=1.2.2" "-d formencode"
+install "pyparsing>=1.5.2" "-f pyparsing.py"
+install "pytz>=2009j" "-d pytz"
 
 for egg in *.egg
 do

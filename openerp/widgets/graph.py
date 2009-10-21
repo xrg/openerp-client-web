@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 ###############################################################################
 #
 # Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
@@ -35,6 +36,7 @@ import xml.dom.minidom
 import base64
 
 import urllib
+import re
 
 import simplejson
 
@@ -77,8 +79,7 @@ class Graph(TinyWidget):
     template = "templates/graph.mako"
     javascript = [JSSource("""
     var onChartClick = function(path) {
-        //alert(path);
-        window.location.href = path;
+        openobject.http.redirect(path);
     }
     """),
     JSLink("openerp", "javascript/swfobject.js")]
@@ -100,13 +101,14 @@ class Graph(TinyWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
-
+        
+        self.string = attrs.get('string')
+        
         chart_type = attrs.get('type', 'pie')
 
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-            
             
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, context)
@@ -156,15 +158,19 @@ class GraphData(object):
             res['temp_id'] = value.get('id')
 
             for x in axis_data.keys():
-                if fields[x]['type'] in ('many2one', 'char','time','text','selection'):
+                if fields[x]['type'] in ('many2one', 'char','time','text'):
                     res[x] = value[x]
                     if isinstance(res[x], (list, tuple)):
                         res[x] = res[x][-1]
                     res[x] = ustr(res[x])
-                elif fields[x]['type'] == 'date':
+                elif fields[x]['type'] in 'selection':
+                    for i in fields[x]['selection']:
+                        if value[x] in i:
+                            res[x] = i[1]
+                elif fields[x]['type'] == 'date' and value[x]:
                     date = time.strptime(value[x], DT_FORMAT)
                     res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
-                elif fields[x]['type'] == 'datetime':
+                elif fields[x]['type'] == 'datetime' and value[x]:
                     date = time.strptime(value[x], DHM_FORMAT)
                     if 'tz' in rpc.session.context:
                         try:
@@ -181,10 +187,12 @@ class GraphData(object):
                 else:
                     res[x] = float(value[x])
 
-            if isinstance(value[axis[0]], (tuple, list)):
+            if axis and isinstance(value[axis[0]], (tuple, list)):
                 res['id'] = value[axis[0]][0]
-            else:
+            elif axis:
                 res['id'] = value[axis[0]]
+            else:
+                res['id'] = False
 
             res['rec_id'] = rec_ids
 
@@ -206,6 +214,8 @@ class GraphData(object):
             attrs = tools.node_attributes(node)
             if node.localName == 'field':
                 name = attrs['name']
+                fields[name].update(attrs) # Update fields ...
+                
                 attrs['string'] = fields[name]['string']
 
                 axis.append(ustr(name))
@@ -261,10 +271,13 @@ class GraphData(object):
                 key_ids['rec_id'] = val.get('rec_id')
                 key_ids['prod_id'] = val[axis[0]]
                 lbl = val[axis[0]]
-                key = urllib.quote_plus(val[axis[0]].encode('utf-8'))
+                
+                key_value = val[axis[0]]
+                
+                key = urllib.quote_plus(ustr(key_value).encode('utf-8'))
                 info = data_axis.setdefault(key, {})
 
-                data_all.setdefault(val[axis[0]], {})
+                data_all.setdefault(key_value, {})
 
                 keys[key] = 1
                 label[lbl] = 1
@@ -290,7 +303,7 @@ class GraphData(object):
 
         label = label.keys()
         label.sort()
-
+        
         for l in label:
             x = 0
             for i in total_ids:
@@ -298,7 +311,10 @@ class GraphData(object):
                     dd = i.get('id')
                     x += 1
                     temp_dom.append(dd)
-
+            
+            if not isinstance(l, basestring):
+                l = ustr(l)
+            
             if(len(l) > 10):
                 label_x.append(l.split('/')[-1])
             else:
@@ -325,8 +341,9 @@ class GraphData(object):
             new_keys = []
             for k in keys:
                 k = urllib.unquote_plus(k)
+                k = k.decode('utf-8')
                 new_keys += [k]
-            
+                
             keys = new_keys
             for i in range(n):
                 
@@ -354,6 +371,15 @@ class GraphData(object):
                         grp_value.append(grp_v)
                 stack_list += val
                 stack_id_list += grp_value
+                
+#        IF VALUES ARE ALL 0...
+#        if stack_list and len(stack_list) > 0:
+#            if stack_list[0] and len(stack_list[0]) > 0:
+#                min_stack_val = min(stack_list[0])
+#                max_stack_val = max(stack_list[0])
+#            
+#                if min_stack_val == max_stack_val == 0 or min_stack_val == max_stack_val == 0.0:
+#                    return dict(title=self.string)
 
         return values, domain, self.model, label_x, axis, axis_group, stack_list, keys, axis_data, stack_id_list
 
@@ -361,12 +387,14 @@ class BarChart(GraphData):
 
     def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
         super(BarChart, self).__init__(model, view, view_id, ids, domain, context)
+        self.context = context
 
     def get_data(self):
 
         result = {}
         ctx =  rpc.session.context.copy()
-
+        ctx.update(self.context)
+        
         res = super(BarChart, self).get_graph_data()
         
         if len(res) > 1:
@@ -427,6 +455,21 @@ class BarChart(GraphData):
 
         for i in label_x:
             lbl = {}
+            i = re.sub(u'[êéèë]', 'e', i)
+            i = re.sub(u'[ïî]', 'i', i)
+            i = re.sub(u'[àâáâãä]', 'a', i)
+            i = re.sub(u'[ç]', 'c', i)
+            i = re.sub(u'[òóôõö]', 'o', i)
+            i = re.sub(u'[ýÿ]', 'y', i)
+            i = re.sub(u'[ñ]', 'n', i)
+            i = re.sub(u'[ÁÂÃÄ]', 'A', i)
+            i = re.sub(u'[ÈÉÊË]', 'E', i)
+            i = re.sub(u'[ÌÍÎÏ]', 'I', i)
+            i = re.sub(u'[ÒÓÔÕÖ]', 'O', i)
+            i = re.sub(u'[ÙÚÛÜ]', 'U', i)
+            i = re.sub(u'[Ý]', 'Y', i)
+            i = re.sub(u'[Ñ]', 'N', i)
+            
             lbl['text'] = i
             lbl['colour'] = "#432BAF"
             temp_lbl.append(lbl)
@@ -464,7 +507,23 @@ class BarChart(GraphData):
                 allvalues.append(d)
 
         yopts = minmx_ticks(allvalues)
-
+        
+        y_grid_color = True
+        
+        if yopts['y_steps'] == 0.0:
+            yopts['y_steps'] = 1
+            yopts['y_max'] = 9
+            yopts['y_min'] = 0
+            y_grid_color = False
+            
+        if y_grid_color:
+            axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                      "stroke": 2 }
+        else:
+            axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
+                      "grid-colour": "#FFFFFF",
+                      'stroke': 2 }
+        
         if len(axis_group) > 1:
             ChartColors = choice_colors(len(axis_group))
             all_keys = []
@@ -482,21 +541,22 @@ class BarChart(GraphData):
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
-                    if s != 0.0:
+                    if s != 0.0 and not ctx.get('report_id', False):
                         stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
                         cnt += 1
                     stack['tip'] = s
-                    sval.append(stack)
+                    sval.append(stack)                    
                 stack_val.append(sval)
             
             result = { "elements": [{"type": "bar_stack",
                                      "colours": ChartColors,
                                      "values": [s for s in stack_val],
                                      "keys": [key for key in all_keys]}],
-                        "x_axis": {"labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
-                                   "grid-colour" : "#FFFFFF"},
-                        "y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                                   'stroke': 2 },
+                        "x_axis": {"colour": "#909090",
+                                   "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
+                                   "grid-colour" : "#FFFFFF",
+                                   "3d": 3},
+                        "y_axis": axis_y,
                         "bg_colour": "#FFFFFF",
                         "tooltip": {"mouse": 2 }}
 
@@ -507,7 +567,8 @@ class BarChart(GraphData):
     
                 for j, d in enumerate(data):
                     dt = {}
-                    dt["on-click"]= "function(){onChartClick('" + url[j] + "')}"
+                    if not ctx.get('report_id', False):
+                        dt["on-click"]= "function(){onChartClick('" + url[j] + "')}"
                     dt['top'] = d
                     datas.append(dt)
                     allvalues.append(d)
@@ -517,9 +578,8 @@ class BarChart(GraphData):
                                 "colour": ChartColors[i],
                                 "values": datas,
                             "font-size": 10})
-                
-            result = {"y_axis": {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                                 'stroke': 2},
+            
+            result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
                       "bg_colour": "#FFFFFF",
@@ -578,7 +638,8 @@ class PieChart(GraphData):
             val['value'] = value[i]
             val['text'] = x
             val['label'] = x
-            val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
+            if not ctx.get('report_id', False):
+                val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
             
             if total_val <> 0.0:
                 field_key = (100 * value[i])/total_val

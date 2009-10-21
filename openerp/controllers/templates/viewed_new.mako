@@ -1,5 +1,5 @@
-<%inherit file="master.mako"/>
-<%! show_header_footer = False %>
+<%inherit file="base.mako"/>
+
 <%def name="header()">
     <title>${form.screen.string}</title>
 
@@ -11,18 +11,13 @@
         MochiKit.DOM.addLoadEvent(function(evt) {
 
             var lc = parseInt(MochiKit.DOM.getElement('_terp_id').value) || 0;
-
+            
             if (lc > 0) {
             
                 var id = parseInt(getElement('_terp_id').value) || 0;
                 
                 if (id) {
-                    var field = window.opener.document.getElementById('name');
-                    var name = getElement('name').value;
-                    
-                    var op = new Option(name, name); 
-                    field.options.add(op);
-                    op.selected = 1;
+                    window.opener.addNewFieldName(getElement('name').value);
                 }
                 
                 window.close();
@@ -38,7 +33,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/static/images/stock/gtk-edit.png"/>
+                            <img src="${py.url('/static/images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${form.screen.string}</td>
                     </tr>

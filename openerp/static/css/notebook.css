@@ -1,0 +1,120 @@
+div.notebook {
+    overflow: hidden;
+}
+
+div.notebook-tabs {
+    position: relative;
+}
+
+div.notebook-tabs-left,
+div.notebook-tabs-right {
+    
+    position: absolute;
+    
+    top: 0px;
+    width: 18px;
+        
+    border-bottom: solid 1px gray;
+    display: none;
+    
+    cursor: pointer;
+    z-index: 2;
+}
+
+div.notebook-tabs-right {
+    right: 0px;
+    background: url('../images/notebook/nb-right.png') no-repeat center;
+}
+
+div.notebook-tabs-left {
+    left: 0px;
+    background: url('../images/notebook/nb-left.png') no-repeat center;
+}
+
+div.notebook-tabs-right-disabled {
+    background: url('../images/notebook/nb-right-d.png') no-repeat center;
+    cursor: default;
+}
+
+div.notebook-tabs-left-disabled {
+    background: url('../images/notebook/nb-left-d.png') no-repeat center;
+    cursor: default;
+}
+
+div.notebook-tabs-wrap {
+    position: relative;
+    overflow: hidden;
+}
+
+div.notebook-tabs-wrap-scrollable {
+    margin: 0 18px;
+}
+
+ul.notebook-tabs-strip {
+
+    display: block;
+    float: left;
+    width: 5000px;
+        
+    margin: 0;
+    padding: 0;
+        
+    list-style: none;    
+    border-bottom: solid 1px gray;
+}
+
+li.notebook-tab {
+
+    position: relative;
+    float: left;
+    margin-left: 3px;
+    border: 1px solid gray;
+    background-color: #c0c0c0;
+    margin-bottom: -1px;
+}
+
+li.notebook-tab-active {
+    background-color: #fff;
+    border-bottom: 1px solid white;
+}
+
+li.notebook-tab a.tab-title {
+    display: block;
+    outline: none;
+    padding: 3px 0.5em;
+    color: #222;
+    text-decoration: none !important;
+}
+
+li.notebook-tab-active a.tab-title {
+
+}
+
+li.notebook-tab span.tab-close {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 12px;
+    height: 12px;
+    background: transparent url('../images/notebook/tab-close.png') no-repeat center;
+    cursor: pointer;
+}
+
+li.notebook-tab-closable a.tab-title {
+    padding-right: 18px;
+}
+
+div.notebook-pages {
+    border: 1px solid gray;
+    border-top: none;
+    padding: 2px;
+}
+
+div.notebook-page {
+    display: none;
+}
+
+div.notebook-page-active {
+    display: block;
+}
+

@@ -1,4 +1,6 @@
 <form method="post" id="${name}" name="${name}" action="${action}">
+    <input type="hidden" id="_terp_id" name="_terp_id"/>
+    <input type="hidden" id="_terp_ids" name="_terp_ids"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_domain" name="_terp_domain" value="${domain}"/>
     <input type="hidden" id="_terp_context" name="_terp_context" value="${ctx}"/>
@@ -18,19 +20,24 @@
                 return n.record.id;
             }, selection);
             
-            MochiKit.DOM.getElement('tree_ids').value = values;
+            MochiKit.DOM.getElement('_terp_id').value = values.length ? values[0] : '';
+            MochiKit.DOM.getElement('_terp_ids').value = values;
         }
         
         function onHeaderClick(evt, header) {
+        
+            var tree = header.tree;
+            
             tree.ajax_params.sort_by = header.name;
             tree.ajax_params.sort_order = tree.ajax_params.sort_order == "dsc" ? "asc" : "dsc";
             tree.reload();
         }
         
     </script>
-    <input type="hidden" id="tree_ids" name="ids"/>
+    
 % if tree:
     ${tree.display()}
 % endif
+
 </form>
 

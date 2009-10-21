@@ -241,25 +241,20 @@ class Notebook(TinyInputWidget):
 
     template = "templates/notebook.mako"
 
-    javascript = [JSLink("openerp", "javascript/tabber/tabber_cookie.js"),
-                  JSSource("""
-                  if (typeof(tabberOptions) == "undefined")
-                      var tabberOptions = {};
-                  tabberOptions['onLoad'] = tabber_onload;
-                  tabberOptions['onClick'] = tabber_onclick;
-                  tabberOptions['cookie'] = 'TGTabber';
-                  tabberOptions['manualStartup'] = true;"""),
-                  JSLink("openerp", "javascript/tabber/tabber.js")]
+    javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
+    css = [CSSLink('openerp', 'css/notebook.css')]
 
-    css = [CSSLink('openerp', 'css/tabs.css')]
-
-    params = ['prefix']
+    params = ['fake_widget']
     member_widgets = ['children']
     
     def __init__(self, **attrs):
         super(Notebook, self).__init__(**attrs)
         self.nolabel = True
         self.colspan = attrs.get('colspan', 3)
+        
+        self.fake_widget = '_fake'
+        if attrs.get('prefix'):
+            self.fake_widge = attrs['prefix'] + '/_fake'
 
 
 class Page(Frame):
@@ -295,7 +290,7 @@ class NewLine(TinyInputWidget):
 class Label(TinyInputWidget):
 
     template = """
-    <div style="text-align: $align; width: 100%;">
+    <div style="text-align: ${align}; width: 100%;">
         ${field_value}
     </div>"""
 
@@ -425,7 +420,7 @@ class ProgressBar(TinyInputWidget):
     def __init__(self, **attrs):
         super(ProgressBar, self).__init__(**attrs)
 
-        if attrs.get('type2') is 'float':
+        if attrs.get('type2') == 'float':
             self.validator = validators.Float()
         else:
             self.validator = validators.Int()
@@ -572,8 +567,7 @@ class Button(TinyInputWidget):
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
 
         self.nolabel = True
-        self.readonly = False
-
+        
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
@@ -724,6 +718,7 @@ class Form(TinyInputWidget):
             cherrypy.request.terp_record = TinyDict()
 
         self.view_fields = []
+        self.nb_couter = 0
         self.frame = self.parse(prefix, dom, fields, values)[0]
         self.values = [values]
         self.concurrency_info = ConcurrencyInfo(self.model, [self.id])
@@ -786,10 +781,11 @@ class Form(TinyInputWidget):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Frame(children=n, **attrs)]
 
-            elif node.localName == 'notebook':
+            elif node.localName == 'notebook':                
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
-                nb._name = prefix.replace('/', '_') + '_notebook_%s' % (nb._serial)
+                self.nb_couter += 1
+                nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)                
                 views += [nb]
 
             elif node.localName == 'page':

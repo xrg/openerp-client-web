@@ -35,7 +35,12 @@ var form_hookContextMenu = function(){
 
 var form_hookOnChange = function() {
 
-    var id = getElement('_terp_id').value;
+    var prefix = '';
+    try {
+        prefix = getElement('_terp_o2m').value + '/';
+    }catch(e){}
+    
+    var id = getElement(prefix + '_terp_id').value;
     var view_type = getElement('_terp_view_type').value;
     var editable = getElement('_terp_editable').value;
 
@@ -44,7 +49,7 @@ var form_hookOnChange = function() {
     }
 
     var fields = getFormData();
-    //TODO: remove onchange="${onchange}" from all kid templates and register onChange here
+    //TODO: remove onchange="${onchange}" from all templates and register onChange here
 
     // signal fake onchange events for default value in new record form
     id = parseInt(id) || 0;
@@ -136,7 +141,7 @@ var form_hookAttrChange = function() {
     
     items = items.concat(getElementsByTagAndClassName('td', 'item'));
     items = items.concat(getElementsByTagAndClassName('td', 'label'));
-    items = items.concat(getElementsByTagAndClassName('div', 'tabbertab'));
+    items = items.concat(getElementsByTagAndClassName('div', 'notebook-page'));
     
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'attrs');
@@ -312,37 +317,21 @@ var form_setRequired = function(container, field, required) {
 }
 
 var form_setVisible = function(container, field, visible) {
+
+    if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
-    if (MochiKit.DOM.hasElementClass(container, 'tabbertab')) { // notebook page?
-    
-        var tabber = container.parentNode.tabber;
+        var nb = container.parentNode.parentNode.notebook;
         
-        if (!tabber)  {
+        if (!nb)  {
            return MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
         }
-
-        var tabs = getElementsByTagAndClassName('div', 'tabbertab', container.parentNode);
-        var idx = findIdentical(tabs, container);
-        var tab = tabber.tabs[idx];
         
-        var active = filter(function(t){
-            return !hasElementClass(t, 'tabbertabhide');
-        }, tabs);
+        var i = findIdentical(nb.pages, container);
         
-        active = active ? active[0] : container;
-        active = findIdentical(tabs, active);
-
-        if (visible) {            
-            tab.li.style.display = '';
-            tabber.tabShow(idx);
-            tabber.tabShow(active);
+        if (visible) {
+            nb.show(i, false);
         } else {
-            var tab = tabber.tabs[idx];
-            tab.li.style.display = 'none';
-            tabber.tabHide(idx);
-            if (idx == active) {
-                tabber.tabShow(0);
-            }
+            nb.hide(i);
         }
 
     } else {

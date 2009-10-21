@@ -81,7 +81,7 @@ fieldset {
 
 button {
     border: solid 1px #888888;    
-    background: url(/static/images/button_bg.png) repeat-x left top;
+    background: url(../images/button_bg.png) repeat-x left top;
     color: #000;
     padding: 0px 2px;
     font-size: 11px;
@@ -90,7 +90,7 @@ button {
 }
 
 button:hover {
-    background: url(/static/images/button_bg2.png) repeat-x left top;
+    background: url(../images/button_bg2.png) repeat-x left top;
 }
 
 button.btn_filter {
@@ -129,7 +129,7 @@ button.inactive {
 /* ---------- Header ----------- */
 
 table.header {
-    background: url(/static/images/grdheader.gif) repeat-x left top;
+    background: url(../images/grdheader.gif) repeat-x left top;
     width: 100%;
 }
 
@@ -148,7 +148,7 @@ table.menu_connection td.menu_connection_welcome {
 }
 
 table.menu_connection td.menu_connection_links {
-    background: url(/static/images/mainmenu_button.png) repeat-x;
+    background: url(../images/mainmenu_button.png) repeat-x;
     padding-left: 10px;
     padding-right: 10px;
     color: white;
@@ -163,6 +163,10 @@ table.menu_connection a:hover {
     color: white;
 }
 
+.menu_connection_right {
+    background: transparent url(../images/diagonal_right.gif) no-repeat scroll right;
+}
+
 #menu_header {
     background: #666666;
     margin-bottom: 4px;
@@ -171,7 +175,7 @@ table.menu_connection a:hover {
 }
 
 #menu_header_menu {
-    background: url(/static/images/mainmenu_button.png) repeat-x;
+    background: url(../images/mainmenu_button.png) repeat-x;
     text-align: center;
     font-weight: bold;
     padding: 0 10px;
@@ -187,6 +191,10 @@ table.menu_connection a:hover {
 
 #menu_header a {
     color: white;
+}
+
+.menu_header_shortcuts_left {
+    background: transparent url(../images/diagonal_left.gif) no-repeat scroll left;
 }
 
 /*------------------ Header End ---------------*/
@@ -334,7 +342,7 @@ div.welcome {
 }
 
 .view .title {
-    background: url(/static/images/grdline1.gif) repeat-x left top;
+    background: url(../images/grdline1.gif) repeat-x left top;
     border-top: 1px solid #E3E3E3;
     height: 20px;
     padding: 5px;
@@ -407,7 +415,7 @@ td.item button {
 }
 
 .resizable-textarea .grip {
-    background:#EEEEEE url(/static/images/textarea-grip.png) no-repeat scroll center 2px;
+    background:#EEEEEE url(../images/textarea-grip.png) no-repeat scroll center 2px;
     border-color:#DDDDDD;
     border-style:solid;
     border-width:0pt 1px 1px;
@@ -427,10 +435,11 @@ td.item .radio {
 }
 
 #view_form .translatable {
-    background: url("/static/images/stock/stock_translate.png") no-repeat right center;
+    background: url(../images/stock/stock_translate.png) no-repeat right center;
 }
 
-#view_form .fielderror {
+#view_form .fielderror,
+#search_form .fielderror  {
     color: #FF0000;
 }
 
@@ -438,7 +447,8 @@ td.item .radio {
     background-color: #CCD9FF;
 }
 
-#view_form .errorfield {
+#view_form .errorfield,
+#search_form .errorfield  {
     background-color: #FF6666;
 }
 
@@ -463,6 +473,7 @@ td.item .radio {
 /* ----------------- Side bar ----------------- */
 
 #sidebar {
+    padding-left: 4px;    
 }
 
 #sidebar .sidebox {
@@ -479,7 +490,7 @@ td.item .radio {
 }
 
 #sidebar a {
-    background: url(/static/images/sidebar_button_bg.png) no-repeat;
+    background: url(../images/sidebar_button_bg.png) no-repeat;
     background-color: #dadada;
     border-top: 1.5px solid white;
 
@@ -505,8 +516,30 @@ td.item .radio {
     color: #902D2D;
 }
 
+.sidebox .sidebox-title {
+    background-color: #666666;
+}
+
+.sidebox .sidebox-title-l {
+    background: #ac0000;
+}
+
+.sidebox .sidebox-title-m {
+    color: white; 
+    font-weight: bold; 
+    font-size: 12px; 
+    background-color: #363636;
+    padding-left: 4px;
+}
+
+.sidebox .sidebox-title-r {
+    background: url(../images/diagonal_left.gif) no-repeat; 
+    background-color: #666666";
+}
+
+
 div .chart_resize {
-    background:#EEEEEE url(/static/images/textarea-grip.png) no-repeat scroll center 2px;
+    background:#EEEEEE url(../images/textarea-grip.png) no-repeat scroll center 2px;
     border-color:#DDDDDD;
     border-style:solid;
     border-width:0pt 1px 1px;

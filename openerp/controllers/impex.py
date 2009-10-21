@@ -137,7 +137,7 @@ class ImpEx(SecuredController):
         tree = tw.treegrid.TreeGrid('export_fields',
                                     model=params.model,
                                     headers=headers,
-                                    url='/impex/get_fields',
+                                    url=tools.url('/impex/get_fields'),
                                     field_parent='relation',
                                     views=views)
 
@@ -194,6 +194,7 @@ class ImpEx(SecuredController):
             pass
 
         fields = _fields_get_all(model, views)
+        fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
 
         fields_order = fields.keys()
         fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
@@ -208,7 +209,7 @@ class ImpEx(SecuredController):
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
 
-            if is_importing and (value['type'] not in ('reference',)) and (not value.get('readonly', False) \
+            if is_importing and (value.get('type') not in ('reference',)) and (not value.get('readonly', False) \
                         or not dict(value.get('states', {}).get('draft', [('readonly', True)])).get('readonly', True)):
 
                 record['id'] = id
@@ -330,7 +331,7 @@ class ImpEx(SecuredController):
         return rec(fields)
 
     @expose(content_type="application/octet-stream")
-    def export_data(self, fname, fields, export_as="csv", add_names=False, **kw):
+    def export_data(self, fname, fields, export_as="csv", add_names=False, import_compat=False, **kw):
 
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
@@ -340,11 +341,20 @@ class ImpEx(SecuredController):
 
         ctx = {}
         ctx.update(rpc.session.context.copy())
+        ctx['import_comp'] = import_compat
 
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
         result = datas_read(ids, params.model, fields)
+        
+        if result.get('warning', False):
+            common.message_box(_('Export Error!'), unicode(result.get('warning', False)))
+            return False
+        result = result.get('datas',[])
+        
+        if import_compat:
+            params.fields2 = fields
 
         if export_as == 'excel':
             #add_names = True
@@ -364,7 +374,7 @@ class ImpEx(SecuredController):
         tree = tw.treegrid.TreeGrid('import_fields',
                                     model=params.model,
                                     headers=headers,
-                                    url='/impex/get_fields',
+                                    url=tools.url('/impex/get_fields'),
                                     field_parent='relation',
                                     views=views,
                                     is_importing=1)
@@ -412,7 +422,10 @@ class ImpEx(SecuredController):
             for line in data:
                 for word in line:
                     word = ustr(word.decode(csvcode))
-                    fields += [(_fields_invert[word], word)]
+                    if word in _fields_invert.keys():
+                        fields += [(_fields_invert[word], word)]
+                    else:
+                        fields += [(word, _fields[word])]
                 break
         except:
             raise common.warning(_('Error processing your first line of the file.\nField %s is unknown!') % (word,), _('Import Error.'))

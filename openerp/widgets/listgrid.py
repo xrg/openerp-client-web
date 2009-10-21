@@ -55,7 +55,7 @@ from base import CSSLink, JSLink
 class List(TinyWidget):
 
     template = "templates/listgrid.mako"
-    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
+    params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable', 'mode_views',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
 
@@ -68,7 +68,7 @@ class List(TinyWidget):
     buttons = []
 
     edit_inline = None
-
+    mode_views = []
     data = None
     columns = 0
     headers = None
@@ -101,6 +101,8 @@ class List(TinyWidget):
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
+        
+        self.mode_views = kw.get('view_mode', [])
 
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
@@ -158,7 +160,8 @@ class List(TinyWidget):
 
         self.data_dict = {}
         data = []
-        if len(ids) > 0:
+        
+        if ids and len(ids) > 0:
 
             ctx = rpc.session.context.copy()
             ctx.update(context)
@@ -384,7 +387,7 @@ class Char(TinyWidget):
 
         self.text = self.get_text()
         self.link = self.get_link()
-
+        
         self.color = None
         self.onclick = None
 
@@ -410,25 +413,32 @@ class M2O(Char):
 
     template = """\
         <span>
-            <a href="${link}">${text}</a>
+            % if link:
+                <a href="${link}">${text}</a>
+            % else:
+                ${text}
+            % endif
         </span>
     """
 
-    def __init__(self, **attrs):
-        super(M2O, self).__init__(**attrs)
-
+    def get_text(self):
+        
         if isinstance(self.value, int):
             from many2one import get_name as _m2o_get_name
-            self.value = self.value, _m2o_get_name(attrs['relation'], self.value)
-
-    def get_text(self):
+            self.value = self.value, _m2o_get_name(self.attrs['relation'], self.value)
+            
         if self.value and len(self.value) > 0:
             return self.value[-1]
 
         return ''
 
     def get_link(self):
-        return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+        m2o_link = int(self.attrs.get('link', 1))
+        
+        if m2o_link == 1:
+            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+        else:
+            return None
 
 class O2M(Char):
 
@@ -501,10 +511,11 @@ class ProgressBar(Char):
                 self.range = 100.0
             else:
                 self.range = self.value
-            return self.value
+            return self.range
         else:
             self.value = '%d' % (self.value)
-            return self.value
+            self.range = self.value
+            return self.range
 
 class DateTime(Char):
 
@@ -515,13 +526,15 @@ class DateTime(Char):
         return ustr(self.value or '')
 
 class Boolean(Char):
+    
+    params = ['value', 'kind']
+    
+    template = """ <input type="checkbox" kind="${kind}" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
 
     def get_text(self):
-        if int(self.value) == 1:
-            return _('Yes')
-        else:
-            return _('No')
-
+        self.kind=self.attrs.get('type', 'boolean')
+        self.default = self.value or ''
+        
 class Button(TinyInputWidget):
     
     params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
@@ -545,8 +558,11 @@ class Button(TinyInputWidget):
     def __init__(self, **attrs):
         super(Button, self).__init__(**attrs)
 
-        self.states = attrs.get('states', "draft").split(',')
-        self.btype = attrs.get('type', "workflow")
+        self.states = attrs.get('states')
+        if self.states:
+            self.states = self.states.split(',')
+
+        self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.icon = attrs.get('icon')
 
         if self.icon:

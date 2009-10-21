@@ -291,6 +291,19 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
+        if (btype == "open") {
+            return window.open(get_form_action('/form/edit', {
+                        id: id,
+                        ids: $(prefix + '_terp_ids').value,
+                        model: $(prefix + '_terp_model').value,
+                        view_ids: $(prefix + '_terp_view_ids').value,
+                        domain: $(prefix + '_terp_domain').value,
+                        context: $(prefix + '_terp_context').value,
+                        limit: $(prefix + '_terp_limit').value,
+                        offset: $(prefix + '_terp_offset').value,
+                        count: $(prefix + '_terp_count').value}));
+        }
+
         name = name.split('.').pop();
         
         var params = {
@@ -494,15 +507,6 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_count.value = obj.count;
             }
 
-            // update concurrency info
-            for(var key in obj.info) {
-                try {
-                    var item = $$('[name=_terp_concurrency_info][value*=' + key + ']')[0];
-                    var value = "('" + key + "', '" + obj.info[key] + "')";
-                    item.value = value;
-                }catch(e){}
-            }
-
             var d = DIV();
             d.innerHTML = obj.view;
 
@@ -526,6 +530,18 @@ MochiKit.Base.update(ListView.prototype, {
                 forEach(scripts, function(s){
                     eval(s.innerHTML);
                 });
+            }
+            
+            // update concurrency info
+            for(var key in obj.info) {
+                try {               						
+                    var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]")
+                    var value = "('" + key + "', '" + obj.info[key] + "')";
+                    for(var i=0; i<items.length;i++) {
+//                        log(key, value);
+                        items[i].value = value;
+                    }
+                }catch(e){}
             }
 
             // set focus on the first field
@@ -563,7 +579,7 @@ MochiKit.Base.update(ListView.prototype, {
         
         ids = '[' + ids.join(',') + ']';
         
-        openWindow(getURL('/impex/exp', {_terp_model: this.model, 
+        openobject.tools.openWindow(openobject.http.getURL('/impex/exp', {_terp_model: this.model, 
                                          _terp_source: this.name, 
                                          _terp_search_domain: $('_terp_search_domain').value, 
                                          _terp_ids: ids,
@@ -572,7 +588,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     importData: function(){
-        openWindow(getURL('/impex/imp', {_terp_model: this.model,
+        openobject.tools.openWindow(openobject.http.getURL('/impex/imp', {_terp_model: this.model,
                                          _terp_source: this.name,
                                          _terp_view_ids : this.view_ids,
                                          _terp_view_mode : this.view_mode}));
