@@ -908,8 +908,6 @@ function do_action(action_id, field, relation, src) {
     }
 
     var id = $(field).value;
-    alert(id)
-    alert($(field).id)
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
     
