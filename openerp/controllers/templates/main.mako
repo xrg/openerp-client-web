@@ -10,8 +10,7 @@
         window.SCRIPT_PATH = "${cp.request.app.script_name}";
     </script>
 
-    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/MochiKit.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/ajax.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/MochiKit.js')}"></script>   
     
     <script type="text/javascript">
     

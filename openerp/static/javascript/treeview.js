@@ -25,7 +25,7 @@ TreeView.prototype = {
         
     openTree: function(id, ids, elem) {
     
-        if (Ajax.COUNT > 0) {
+        if (openobject.http.AJAX_COUNT > 0) {
             return;
         }
     

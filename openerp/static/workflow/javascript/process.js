@@ -72,7 +72,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         this.res_id = res_id;
 
         var self = this;
-        var req = Ajax.JSON.post('/process/get', {id: id, res_model: res_model, res_id: res_id});
+        var req = openobject.http.postJSON('/process/get', {id: id, res_model: res_model, res_id: res_id});
         req.addCallback(function(obj){
             self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions, obj.related);            
         });
@@ -467,7 +467,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         if (button.state == "dummy" || !button.action)
             return;
 
-        var req = Ajax.JSON.post('/process/action', {
+        var req = openobject.http.postJSON('/process/action', {
             _terp_model: this.workflow.res_model,
             _terp_id: this.workflow.res_id,
             _terp_kind: button.state,

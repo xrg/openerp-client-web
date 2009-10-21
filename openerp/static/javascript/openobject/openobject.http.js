@@ -95,7 +95,7 @@ openobject.http = {
     },
     
     postJSON: function(uri, params) {
-        var req = Ajax.post(uri, params);
+        var req = this.post(uri, params);
         return req.addCallback(MochiKit.Async.evalJSONRequest);
     },
         

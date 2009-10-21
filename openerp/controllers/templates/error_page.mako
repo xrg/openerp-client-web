@@ -15,7 +15,7 @@
                 tb: getElement('error').value
             }
 
-            var req = Ajax.JSON.post('/errorpage/submit', args);
+            var req = openobject.http.postJSON('/errorpage/submit', args);
 
             req.addCallback(function(obj){
 
@@ -37,7 +37,7 @@
 					_terp_all_params: getElement('_terp_all_params').value
 			}
 			
-			var req = Ajax.JSON.post('/errorpage/write_data', params);
+			var req = openobject.http.postJSON('/errorpage/write_data', params);
 			
 			req.addCallback(function(obj){
 

@@ -91,7 +91,7 @@ openerp.workflow.Workflow.implement({
 		this.id = wkf_id;
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/get_info',{id:wkf_id});
+		req = openobject.http.postJSON('/workflow/get_info',{id:wkf_id});
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.nodes) {
@@ -251,7 +251,7 @@ openerp.workflow.Workflow.implement({
 			this.state.setPosition(100, 20);	
 			var self = this;
 			
-			req = Ajax.JSON.post('/workflow/state/get_info',{id: id});
+			req = openobject.http.postJSON('/workflow/state/get_info',{id: id});
 			req.addCallback(function(obj) {
 				var flag = false;
 				var index = null;
@@ -302,7 +302,7 @@ openerp.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/connector/auto_create', {act_from: act_from, act_to: act_to});
+		req = openobject.http.postJSON('/workflow/connector/auto_create', {act_from: act_from, act_to: act_to});
 		req.addCallback(function(obj) {	
 			
 			var data = obj.data;
@@ -349,7 +349,7 @@ openerp.workflow.Workflow.implement({
 	update_connection : function(id) {	
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/connector/get_info',{id: id});
+		req = openobject.http.postJSON('/workflow/connector/get_info',{id: id});
 		req.addCallback(function(obj) {
 			var n = self.connectors.getSize();
 			
@@ -378,7 +378,7 @@ openerp.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/state/delete', {'id' : state.get_act_id()});
+		req = openobject.http.postJSON('/workflow/state/delete', {'id' : state.get_act_id()});
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {
@@ -424,7 +424,7 @@ openerp.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = Ajax.JSON.post('/workflow/connector/delete', {'id' : conn.get_tr_id()});
+		req = openobject.http.postJSON('/workflow/connector/delete', {'id' : conn.get_tr_id()});
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {				

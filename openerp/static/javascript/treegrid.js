@@ -68,7 +68,7 @@ TreeGrid.prototype = {
         if (typeof(headers) == 'string'){
             
            var self = this;
-           var req = Ajax.JSON.post(headers, arguments[1]);
+           var req = openobject.http.postJSON(headers, arguments[1]);
            
            self._ajax_counter += 1;
            
@@ -97,7 +97,7 @@ TreeGrid.prototype = {
             this.ajax_params = arguments[1] || {};
             
             var self = this;
-            var req = Ajax.JSON.post(this.ajax_url, this.ajax_params);
+            var req = openobject.http.postJSON(this.ajax_url, this.ajax_params);
             
             var div = DIV({id: this.id}, _("Loading..."));
             MochiKit.DOM.swapDOM(this.id, div);
@@ -671,7 +671,7 @@ TreeNode.prototype = {
             
             params['ids'] = this.record.children.join(',')
 
-            var req = Ajax.JSON.post(this.tree.ajax_url, params);
+            var req = openobject.http.postJSON(this.tree.ajax_url, params);
             self.tree._ajax_counter += 1;
            
             this.setState('loading');

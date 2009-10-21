@@ -103,7 +103,7 @@ var getCalendar = function(day, mode) {
 
     showElement('calLoading');
 
-    var req = Ajax.post(act, params);
+    var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp){
 
         var d = DIV();
@@ -139,7 +139,7 @@ var getCalendar = function(day, mode) {
 }
 
 var getMiniCalendar = function(action) {
-    var req = Ajax.post(action);
+    var req = openobject.http.post(action);
 
     req.addCallback(function(xmlHttp){
 
@@ -164,7 +164,7 @@ var saveCalendarRecord = function(record_id, starts, ends){
         '_terp_context': $('_terp_context').value
     });
 
-    var req = Ajax.JSON.post('/calendar/save', params);
+    var req = openobject.http.postJSON('/calendar/save', params);
     return req.addCallback(function(obj){
 
         // update concurrency info
@@ -205,7 +205,7 @@ var copyCalendarRecord = function(record_id){
         '_terp_context': $('_terp_context').value
     }
 
-    return Ajax.post('/calendar/duplicate', params);
+    return openobject.http.post('/calendar/duplicate', params);
 }
 
 // vim: ts=4 sts=4 sw=4 si et

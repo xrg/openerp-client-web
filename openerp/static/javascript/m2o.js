@@ -130,7 +130,7 @@ ManyToOne.prototype.get_text = function(evt){
     }
 
     if (this.field.value && ! this.text.value){
-        var req = Ajax.JSON.post('/search/get_name', {model: this.relation, id : this.field.value});
+        var req = openobject.http.postJSON('/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
 
         req.addCallback(function(obj){
@@ -231,7 +231,7 @@ ManyToOne.prototype.on_keypress = function(evt){
 
 ManyToOne.prototype.get_matched = function(){
     
-    if (Ajax.COUNT > 0) {
+    if (openobject.http.AJAX_COUNT > 0) {
         return callLater(1, this.get_matched);
     }
     
@@ -249,7 +249,7 @@ ManyToOne.prototype.get_matched = function(){
     req.addCallback(function(obj){
         text = m2o.field.value ? '' : m2o.text.value;
         
-        var req2 = Ajax.JSON.post('/search/get_matched', {model: m2o.relation, text: text, 
+        var req2 = openobject.http.postJSON('/search/get_matched', {model: m2o.relation, text: text, 
                                                          _terp_domain: obj.domain, 
                                                          _terp_context: obj.context});
         

@@ -93,7 +93,7 @@
             model = $('_terp_model').value;
             params = {'_terp_id': id, '_terp_model': model}
             
-            req = Ajax.JSON.post('/impex/get_namelist', params);
+            req = openobject.http.postJSON('/impex/get_namelist', params);
             
             req.addCallback(function(obj){
                 if (obj.error){

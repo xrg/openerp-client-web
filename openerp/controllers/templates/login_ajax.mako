@@ -7,7 +7,7 @@
 
         var do_login = function(form) {
 
-            if (Ajax.COUNT > 0) {
+            if (openobject.http.AJAX_COUNT > 0) {
                 return false;
             }
 
@@ -36,7 +36,7 @@
                 return false;
             }
 
-            var req = Ajax.JSON.get('/login', {
+            var req = openobject.http.getJSON('/login', {
                 'db': $('db').value,
                 'user': user,
                 'password': password,

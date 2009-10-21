@@ -166,7 +166,7 @@ InfoBox.prototype = {
            '_terp_context': getElement('_terp_context').value
         });
 
-        var req = Ajax.JSON.post('/calendar/delete', params);
+        var req = openobject.http.postJSON('/calendar/delete', params);
         var self = this;
         
         req.addCallback(function(obj){

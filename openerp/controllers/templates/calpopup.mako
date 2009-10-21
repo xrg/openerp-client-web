@@ -24,7 +24,7 @@
                 '_terp_context': $('_terp_context').value
             }
 
-            var req = Ajax.JSON.post('/calpopup/get_defaults', params);
+            var req = openobject.http.postJSON('/calpopup/get_defaults', params);
             req.addCallback(function(obj){
                 forEach(items(obj), function(item){
                     var k = item[0];

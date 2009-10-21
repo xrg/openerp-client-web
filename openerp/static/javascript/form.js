@@ -136,7 +136,7 @@ var switchView = function(view_type, src){
 
 var switch_O2M = function(view_type, src){
     
-    if (Ajax.COUNT > 0){
+    if (openobject.http.AJAX_COUNT > 0){
         return;
     }
     
@@ -155,7 +155,7 @@ var switch_O2M = function(view_type, src){
         }
     }
     
-    req = Ajax.post('/form/switch_o2m', params);
+    req = openobject.http.post('/form/switch_o2m', params);
     req.addCallback(function(xmlHttp){
     
         var text = xmlHttp.responseText;
@@ -247,7 +247,7 @@ var validate_required = function(form) {
 
 var submit_form = function(action, src, target){
     
-    if (Ajax.COUNT > 0) {
+    if (openobject.http.AJAX_COUNT > 0) {
         return callLater(1, submit_form, action, src, target);
     }
 
@@ -539,7 +539,7 @@ var onChange = function(name) {
     params['_terp_value'] = caller.value;
     params['id'] = id;
     
-    var req = Ajax.JSON.post(callback ? '/form/on_change' : '/form/change_default_get', params);
+    var req = openobject.http.postJSON(callback ? '/form/on_change' : '/form/change_default_get', params);
 
     req.addCallback(function(obj){
 
@@ -644,7 +644,7 @@ function getName(name, relation){
     }
 
     if (value_field.value){
-        var req = Ajax.JSON.get('/search/get_name', {model: relation, id : value_field.value});
+        var req = openobject.http.getJSON('/search/get_name', {model: relation, id : value_field.value});
         req.addCallback(function(obj){
             text_field.value = obj.name;
         });
@@ -685,7 +685,7 @@ function eval_domain_context_request(options){
         params['_terp_parent_context'] = parent_context.value;
     }
     
-    var req = Ajax.JSON.post('/search/eval_domain_and_context', params);
+    var req = openobject.http.postJSON('/search/eval_domain_and_context', params);
     return req.addCallback(function(obj){
 
         if (obj.error_field) {
@@ -745,7 +745,7 @@ function makeContextMenu(id, kind, relation, val) {
 
     var params = {'model': model, 'field': id, 'kind': kind, 'relation': relation, 'value': val};
     
-    var req = Ajax.JSON.post(act, params);
+    var req = openobject.http.postJSON(act, params);
 
     req.addCallback(function(obj) {
 
@@ -851,7 +851,7 @@ function set_to_default(field, model){
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
 
-    var req = Ajax.JSON.post(act, params);
+    var req = openobject.http.postJSON(act, params);
     req.addCallback(function(obj) {
 
         $(field).value = obj.value;
@@ -868,7 +868,7 @@ function set_as_default(field, model){
     args['_terp_model'] = model;
     args['_terp_field'] = field;
 
-    var req = Ajax.JSON.post('/fieldpref/get', args);
+    var req = openobject.http.postJSON('/fieldpref/get', args);
 
     req.addCallback(function(obj){
         var text = obj.text;
@@ -908,6 +908,8 @@ function do_action(action_id, field, relation, src) {
     }
 
     var id = $(field).value;
+    alert(id)
+    alert($(field).id)
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
     

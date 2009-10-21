@@ -74,7 +74,7 @@ var onDelete = function(node){
     
     var act = data.localName == 'view' ? '/viewed/remove_view' : '/viewed/save/remove';
     
-    var req = Ajax.JSON.post(act, {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = openobject.http.postJSON(act, {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(obj){
         
         if (obj.error){
@@ -101,7 +101,7 @@ var onAdd = function(node){
         return;
     }
     
-    var req = Ajax.post('/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = openobject.http.post('/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         var el = window.mbox.content;
         el.innerHTML = xmlHttp.responseText;
@@ -139,7 +139,7 @@ var doAdd = function() {
     
     var act = MochiKit.DOM.getElement('node').value == 'view' ? '/viewed/create_view' : '/viewed/save/node';
     
-    var req = Ajax.JSON.post(act, params);
+    var req = openobject.http.postJSON(act, params);
     req.addCallback(function(obj) {
         
         if (obj.error){
@@ -192,7 +192,7 @@ var onEdit = function(node) {
         return;
     };
     
-    var req = Ajax.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = openobject.http.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         
         var el = window.mbox.content;
@@ -249,7 +249,7 @@ var doEdit = function() {
         }
     });
     
-    var req = Ajax.JSON.post('/viewed/save/properties', params);
+    var req = openobject.http.postJSON('/viewed/save/properties', params);
     req.addCallback(function(obj){
         
         if (obj.error){
@@ -291,7 +291,7 @@ var onMove = function(direction, node) {
         xpath_ref: getXPath(refNode)
     }
     
-    var req = Ajax.JSON.post('/viewed/save/move', params);
+    var req = openobject.http.postJSON('/viewed/save/move', params);
     
     req.addCallback(function(obj) {
         
@@ -350,7 +350,7 @@ var onInherit = function() {
         xpath_expr: getXPath(selected)
     };
     
-    var req = Ajax.JSON.post('/viewed/create_view', params);
+    var req = openobject.http.postJSON('/viewed/create_view', params);
     req.addCallback(function(obj) {
         
         if (obj.error){

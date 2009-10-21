@@ -212,7 +212,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_ids'] = this.ids;
         args['_terp_id'] = id;
         
-        var req = Ajax.JSON.post('/listgrid/moveUp', args);
+        var req = openobject.http.postJSON('/listgrid/moveUp', args);
         req.addCallback(function(){      
             self.reload();        
         });        
@@ -227,7 +227,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_ids'] = this.ids;
         args['_terp_id'] = id;
         
-        var req = Ajax.JSON.post('/listgrid/moveDown', args);
+        var req = openobject.http.postJSON('/listgrid/moveDown', args);
         req.addCallback(function(){      
             self.reload();        
         });
@@ -316,7 +316,7 @@ MochiKit.Base.update(ListView.prototype, {
         var req = eval_domain_context_request({source: this.name, context : context || '{}'});
         req.addCallback(function(res){
             params['_terp_context'] = res.context;
-            var req = Ajax.JSON.post('/listgrid/button_action', params);
+            var req = openobject.http.postJSON('/listgrid/button_action', params);
             req.addCallback(function(obj){
                 if (obj.error){
                     return alert(obj.error);
@@ -348,7 +348,7 @@ MochiKit.Base.update(ListView.prototype, {
 
     save: function(id){
 
-        if (Ajax.COUNT > 0) {
+        if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.save, this), id);
         }
 
@@ -381,7 +381,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_source'] = this.name;
 
         var self = this;
-        var req= Ajax.JSON.post('/listgrid/save', args);
+        var req= openobject.http.postJSON('/listgrid/save', args);
 
         req.addCallback(function(obj){
             if (obj.error){
@@ -430,7 +430,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_model'] = this.model;
         args['_terp_ids'] = ids;
 
-        var req = Ajax.JSON.post('/listgrid/remove', args);
+        var req = openobject.http.postJSON('/listgrid/remove', args);
 
         req.addCallback(function(obj){
             if (obj.error){
@@ -443,7 +443,7 @@ MochiKit.Base.update(ListView.prototype, {
 
     go: function(action){
         
-        if (Ajax.COUNT > 0){
+        if (openobject.http.AJAX_COUNT > 0){
             return;
         }
 
@@ -477,7 +477,7 @@ MochiKit.Base.update(ListView.prototype, {
 
     reload: function(edit_inline, concurrency_info, default_get_ctx){
 
-        if (Ajax.COUNT > 0) {
+        if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
         }
 
@@ -494,7 +494,7 @@ MochiKit.Base.update(ListView.prototype, {
             args['_terp_search_domain'] = $('_terp_search_domain').value;
         }
 
-        var req = Ajax.JSON.post('/listgrid/get', args);
+        var req = openobject.http.postJSON('/listgrid/get', args);
         req.addCallback(function(obj){
 
             var _terp_id = $(self.name + '/_terp_id') || $('_terp_id');
