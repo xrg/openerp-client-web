@@ -133,8 +133,10 @@ TreeGrid.prototype = {
         }
         
         this._makeBody();
-        
-        MochiKit.DOM.swapDOM(this.id, this.table);
+
+        if (MochiKit.DOM.getElement(this.id) != this.table) {
+            MochiKit.DOM.swapDOM(this.id, this.table);
+        }
     },
     
     reload : function() {
@@ -772,7 +774,7 @@ TreeNode.prototype = {
         }
 
         // calculate the row index
-        var table = this.tree.table;
+        var table = this.tree.tbody;
         var index = -1;
         
         var n = refChild || this.nextSibling;
