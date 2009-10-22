@@ -106,7 +106,7 @@ var onAdd = function(node){
         var el = window.mbox.content;
         el.innerHTML = xmlHttp.responseText;
 
-        var scripts = getElementsByTagAndClassName('script', null, el);
+        var scripts = openobject.dom.select('script', el);
         forEach(scripts, function(s){
             eval('(' + s.innerHTML + ')');
         });
@@ -198,7 +198,7 @@ var onEdit = function(node) {
         var el = window.mbox.content;
         el.innerHTML = xmlHttp.responseText;
         
-        var scripts = getElementsByTagAndClassName('script', null, el);
+        var scripts = openobject.dom.select('script', el);
         forEach(scripts, function(s){
             eval(s.innerHTML);
         });

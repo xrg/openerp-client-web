@@ -97,12 +97,12 @@ SortableGrid.prototype = {
         // scrape the tbody for data
         this.tbody = table.getElementsByTagName('tbody')[0];
         // every row
-        var rows = getElementsByTagAndClassName('tr', 'grid-row', this.tbody);
+        var rows = openobject.dom.select('tr.grid-row', this.tbody);
         for (var i = 0; i < rows.length; i++) {
         	
             // every cell
             var row = rows[i];
-            var cols = getElementsByTagAndClassName('td', 'grid-cell', row);
+            var cols = openobject.dom.select('td.grid-cell', row);
             var rowData = [];
             for (var j = 0; j < cols.length; j++) {
                 // scrape the text and build the appropriate object out of it

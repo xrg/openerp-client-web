@@ -35,9 +35,9 @@
             
             var disabled = [];
 
-            disabled = disabled.concat(getElementsByTagAndClassName('input', null, page));
-            disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, page));
-            disabled = disabled.concat(getElementsByTagAndClassName('select', null, page));
+            disabled = disabled.concat(openobject.dom.select('input', page));
+            disabled = disabled.concat(openobject.dom.select('textarea', page));
+            disabled = disabled.concat(openobject.dom.select('select', page));
             
             forEach(disabled, function(fld){
                 log(fld);

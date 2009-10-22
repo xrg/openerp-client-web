@@ -54,7 +54,7 @@ class Sidebar(TinyWidget):
 
                 openobject.http.setCookie("terp_sidebar", sb.style.display);
 
-                var img = MochiKit.DOM.getElementsByTagAndClassName('img', null, 'sidebar_hide')[0];
+                var img = openobject.dom.select('img', 'sidebar_hide')[0];
                 if (sb.style.display == "none") {
                     img.src = openobject.http.getURL('/static/images/sidebar_show.gif');
                 } else {

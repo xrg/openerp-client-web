@@ -90,7 +90,7 @@ var getCalendar = function(day, mode) {
     }
 
     // colors
-    var colors = getElementsByTagAndClassName('input', null, 'calGroups');
+    var colors = openobject.dom.select('input', 'calGroups');
     var values = [];
 
     colors = filter(function(e){return e.checked}, colors);
@@ -124,7 +124,7 @@ var getCalendar = function(day, mode) {
 
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
             // execute JavaScript
-            var scripts = getElementsByTagAndClassName('script', null, newContainer);
+            var scripts = openobject.dom.select('script', newContainer);
             forEach(scripts, function(s){
                 eval(s.innerHTML);
             });

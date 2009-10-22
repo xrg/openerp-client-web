@@ -563,7 +563,7 @@ Notebook.adjustSize = function(callback) {
 
     var elems = MochiKit.Base.filter(function(e){
         return e.notebook;
-    }, getElementsByTagAndClassName('div', 'notebook'));
+    }, openobject.dom.select('div.notebook'));
     
     MochiKit.Iter.forEach(elems, function(e){
         hideElement(e.notebook.elemWrap);

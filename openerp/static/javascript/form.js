@@ -177,7 +177,7 @@ var switch_O2M = function(view_type, src){
 
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
             // execute JavaScript
-            var scripts = getElementsByTagAndClassName('script', null, newo2m);
+            var scripts = openobject.dom.select('script', newo2m);
             forEach(scripts, function(s){
                 eval(s.innerHTML);
             });
@@ -295,9 +295,9 @@ var submit_search_form = function(action) {
         
         var disabled = [];
 
-        disabled = disabled.concat(getElementsByTagAndClassName('input', null, page));
-        disabled = disabled.concat(getElementsByTagAndClassName('textarea', null, page));
-        disabled = disabled.concat(getElementsByTagAndClassName('select', null, page));
+        disabled = disabled.concat(openobject.dom.select('input', page));
+        disabled = disabled.concat(openobject.dom.select('textarea', page));
+        disabled = disabled.concat(openobject.dom.select('select', page));
         
         forEach(disabled, function(fld){
             log(fld);
@@ -314,9 +314,9 @@ var clear_search_form = function() {
 
         var fields = [];
 
-        fields = fields.concat(getElementsByTagAndClassName('input', null, 'search_view_notebook'));
-        fields = fields.concat(getElementsByTagAndClassName('textarea', null, 'search_view_notebook'));
-        fields = fields.concat(getElementsByTagAndClassName('select', null, 'search_view_notebook'));
+        fields = fields.concat(openobject.dom.select('input', 'search_view_notebook'));
+        fields = fields.concat(openobject.dom.select('textarea', 'search_view_notebook'));
+        fields = fields.concat(openobject.dom.select('select', 'search_view_notebook'));
 
         forEach(fields, function(fld){
             fld.value = '';
@@ -372,9 +372,9 @@ var getFormData = function(extended) {
     var is_editable = $('_terp_editable').value == 'True';
     
     if (is_editable) {
-	    fields = fields.concat(getElementsByTagAndClassName('input', null, parentNode));
-	    fields = fields.concat(getElementsByTagAndClassName('select', null, parentNode));
-	    fields = fields.concat(getElementsByTagAndClassName('textarea', null, parentNode));
+	    fields = fields.concat(openobject.dom.select('input', parentNode));
+	    fields = fields.concat(openobject.dom.select('select', parentNode));
+	    fields = fields.concat(openobject.dom.select('textarea', parentNode));
     } else {
         fields =  fields.concat(openobject.dom.select('kind=value')); 
         fields = fields.concat(openobject.dom.select('[name$=/__id]'));       
@@ -382,7 +382,7 @@ var getFormData = function(extended) {
     
     fields = fields.concat(filter(function(e){
         return getNodeAttribute(e,'kind')=='picture';
-    }, getElementsByTagAndClassName('img', null, parentNode)));
+    }, openobject.dom.select('img', parentNode)));
     
     for(var i=0; i<fields.length; i++) {
     
@@ -492,7 +492,7 @@ var getFormParams = function(name){
     var parentNode = document.forms['view_form'];
 
     var frm = {};
-    var fields = getElementsByTagAndClassName('input', null, parentNode);
+    var fields = openobject.dom.select('input', parentNode);
 
     forEach(fields, function(e){
 

@@ -114,8 +114,8 @@ GanttCalendar.prototype = {
         this.events = {};
         this.groups = {};
 
-        var events = MochiKit.DOM.getElementsByTagAndClassName('div', 'calEvent', 'calGantt') || [];
-        var groups = MochiKit.DOM.getElementsByTagAndClassName('div', 'calGroup', 'calGantt') || [];
+        var events = openobject.dom.select('div.calEvent', 'calGantt') || [];
+        var groups = openobject.dom.select('div.calGroup', 'calGantt') || [];
 
         for(var i=0; i<events.length; i++) {
         
@@ -326,8 +326,8 @@ GanttCalendar.Header.prototype = {
 
     __init__: function(calendar) {
 
-        var titles = MochiKit.DOM.getElementsByTagAndClassName('div', 'calTitle', 'calHeaderSect');
-        var subtitles = MochiKit.DOM.getElementsByTagAndClassName('div', 'calSubTitle', 'calHeaderSect');
+        var titles = openobject.dom.select('div.calTitle', 'calHeaderSect');
+        var subtitles = openobject.dom.select('div.calSubTitle', 'calHeaderSect');
 
         MochiKit.DOM.removeElement('calHeaderSect');
 
@@ -481,7 +481,7 @@ GanttCalendar.List.prototype = {
         var visible = this.stat[key];
         visible = typeof(visible) == "undefined" ? 1 : visible;
 
-        var divs = getElementsByTagAndClassName('div', 'calEventLabel', element);
+        var divs = openobject.dom.select('div.calEventLabel', element);
 
         forEach(divs, function(div) {
             div.style.display = evt ? (visible ? '' : 'none') : (visible ? 'none' : '');
@@ -506,7 +506,7 @@ GanttCalendar.List.prototype = {
         var group = draggable.element.parentNode.__group;
         var event = draggable.element.__event;
 
-        var items = getElementsByTagAndClassName('div', 'calEventLabel', 'calListC');
+        var items = openobject.dom.select('div.calEventLabel', 'calListC');
         items = MochiKit.Base.map(function(item){
             return item.__event.record_id;
         }, items);

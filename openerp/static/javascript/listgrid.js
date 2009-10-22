@@ -82,7 +82,7 @@ ListView.prototype = {
     getRecords: function() {
         var records = map(function(row){
             return parseInt(getNodeAttribute(row, 'record')) || 0;
-        }, getElementsByTagAndClassName('tr', 'grid-row', this.name));
+        }, openobject.dom.select('tr.grid-row', this.name));
         
         return filter(function(rec){
             return rec;
@@ -98,16 +98,16 @@ ListView.prototype = {
     getSelectedItems: function() {
         return filter(function(box){
             return box.id && box.checked;
-        }, getElementsByTagAndClassName('input', 'grid-record-selector', this.name));
+        }, openobject.dom.select('input.grid-record-selector', this.name));
     },
 
     getColumns: function(dom){
         dom = dom || this.name;
-        var header = getElementsByTagAndClassName('tr', 'grid-header', dom)[0];
+        var header = openobject.dom.select('tr.grid-header', dom)[0];
         
         return filter(function(c){
             return c.id ? true : false;
-        }, getElementsByTagAndClassName('th', 'grid-cell', header));
+        }, openobject.dom.select('th.grid-cell', header));
     },
 
     makeArgs: function(){
@@ -117,8 +117,8 @@ ListView.prototype = {
         var names = name.split('/');
 
         var prefix = '';
-        var items = MochiKit.DOM.getElementsByTagAndClassName('input');
-        
+        var items = openobject.dom.select('input');
+      
         while(names.length) {
             
             var name = names.shift();
@@ -188,9 +188,9 @@ MochiKit.Base.update(ListView.prototype, {
         var editors = [];
         var dom = dom ? dom : this.name;
 
-        editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
-        editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
-        editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
+        editors = editors.concat(openobject.dom.select('input', dom));
+        editors = editors.concat(openobject.dom.select('select', dom));
+        editors = editors.concat(openobject.dom.select('textarea', dom));
 
         return filter(function(e){
             name = named ? e.name : e.id;
@@ -270,8 +270,8 @@ MochiKit.Base.update(ListView.prototype, {
             return this.save(this.current_record);
         }
 
-        var editors = getElementsByTagAndClassName(null, 'listfields', this.name);
-
+        var editors = openobject.dom.select('listfields',this.name);
+		
         var first = editors.shift();
         var last = editors.pop();
 
@@ -526,7 +526,7 @@ MochiKit.Base.update(ListView.prototype, {
 
             if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
                 // execute JavaScript
-                var scripts = getElementsByTagAndClassName('script', null, newlist);
+                var scripts = openobject.dom.select('script', newlist);
                 forEach(scripts, function(s){
                     eval(s.innerHTML);
                 });
@@ -545,7 +545,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             // set focus on the first field
-            var first = getElementsByTagAndClassName(null, 'listfields', self.name)[0] || null;
+            var first = openobject.dom.select('listfields', self.name)[0] || null;
             if (first) {
                 first.focus();
                 first.select();

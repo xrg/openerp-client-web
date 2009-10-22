@@ -33,7 +33,7 @@ function initialize_dashboard() {
         return;
     }
     
-    var dashtabs = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashlet-title');
+    var dashtabs = openobject.dom.select('div.dashlet-title');
     
     if (window.browser.isIE || window.browser.isIE6 || window.browser.isIE7) {
         forEach(dashtabs, function(tabs){
@@ -42,14 +42,14 @@ function initialize_dashboard() {
         return;
     }
 
-    var dashbars = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashbar');
+    var dashbars = openobject.dom.select('div.dashbar');
     MochiKit.Iter.forEach(dashbars, function(bar){
         
         new Droppable(bar, {'ondrop': onDrop, 
                             'hoverclass': 'dashbar-hover',
                             'accept': ['dashlet']});
         
-        var dashlets = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashlet', bar);
+        var dashlets = openobject.dom.select('div.dashlet', bar);      
         MochiKit.Iter.forEach(dashlets, function(dashlet){
             new Draggable(dashlet, {'handle': 'dashlet-title', 
                                     'starteffect': null, 
@@ -63,7 +63,7 @@ function initialize_dashboard() {
         var xy = MochiKit.DOM.elementPosition(src, dst);
         var ref = null;
 
-        var divs = MochiKit.DOM.getElementsByTagAndClassName('div', 'dashlet', dst);
+        var divs = openobject.dom.select('div.dashlet', dst);
 
         for(var i=0; i < divs.length; i++) {
 
@@ -107,7 +107,8 @@ function initialize_dashboard() {
     }
 
     MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function(evt) {
-            var embeds = getElementsByTagAndClassName('embed');
+            var embeds = openobject.dom.select('embeds');
+            
             MochiKit.Iter.forEach(embeds, function(e){
                 log(e);
                 MochiKit.DOM.hideElement(e);
@@ -115,7 +116,8 @@ function initialize_dashboard() {
     });
 
     MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', function(evt){
-            var embeds = getElementsByTagAndClassName('embed');
+            var embeds = openobject.dom.select('embeds');
+      
             MochiKit.Iter.forEach(embeds, function(e){
                 MochiKit.DOM.showElement(e);
             });

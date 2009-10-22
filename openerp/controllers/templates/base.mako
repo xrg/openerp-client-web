@@ -54,8 +54,8 @@
                                 
                     var links = [];
                                         
-                    links = links.concat(getElementsByTagAndClassName("a", null, "header"));
-                    links = links.concat(getElementsByTagAndClassName("a", null, "footer"));
+                    links = links.concat(openobject.dom.select("a", "header"));
+                    links = links.concat(openobject.dom.select("a", "footer"));
                     
                     forEach(links, function(a) {
                         if (!a.target) {

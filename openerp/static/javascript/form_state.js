@@ -71,9 +71,9 @@ var form_hookStateChange = function() {
     
     var items = [];
     
-    items = items.concat(getElementsByTagAndClassName('td', 'item'));
-    items = items.concat(getElementsByTagAndClassName('td', 'label'));
-    items = items.concat(getElementsByTagAndClassName('div', 'tabbertab'));
+    items = items.concat(openobject.dom.select('td.item'));
+    items = items.concat(openobject.dom.select('td.label'));
+    items = items.concat(openobject.dom.select('div.tabbertab'));
     
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'states');
@@ -139,9 +139,9 @@ var form_hookAttrChange = function() {
     
     var items = [];
     
-    items = items.concat(getElementsByTagAndClassName('td', 'item'));
-    items = items.concat(getElementsByTagAndClassName('td', 'label'));
-    items = items.concat(getElementsByTagAndClassName('div', 'notebook-page'));
+    items = items.concat(openobject.dom.select('td.item'));
+    items = items.concat(openobject.dom.select('td.label'));
+    items = items.concat(openobject.dom.select('div.notebook-page'));
     
     items = MochiKit.Base.filter(function(e){
         return getNodeAttribute(e, 'attrs');

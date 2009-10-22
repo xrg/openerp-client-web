@@ -156,7 +156,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         // set title
         openobject.dom.get('process_title').innerHTML = title;
 
-        var elems = MochiKit.DOM.getElementsByTagAndClassName('*', null, this.html);
+        var elems = openobject.dom.select('*', this.html);
         elems = MochiKit.Base.filter(function(e){
             return MochiKit.DOM.getNodeAttribute(e, 'title');
         }, elems);
@@ -256,10 +256,10 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         "   </table>"+
         "</div>");
 
-        var title = MochiKit.DOM.getElementsByTagAndClassName('div', 'node-title', elem)[0];
-        var text = MochiKit.DOM.getElementsByTagAndClassName('div', 'node-text', elem)[0];
-        var bbar = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-buttons', elem)[0];        
-        var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', elem)[0];
+        var title = openobject.dom.select('div.node-title', elem)[0];
+        var text = openobject.dom.select('div.node-text', elem)[0];
+        var bbar = openobject.dom.select('td.node-buttons', elem)[0];        
+        var menu = openobject.dom.select('td.node-menu', elem)[0];
 
         title.innerHTML = title.title = this.data.name || '';
         text.innerHTML = this.data.notes || '';

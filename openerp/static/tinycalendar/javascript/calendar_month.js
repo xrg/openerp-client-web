@@ -48,7 +48,7 @@ MonthCalendar.prototype = {
 
         this.events = {};
 
-        var events = getElementsByTagAndClassName('div', 'calEvent', 'calBodySect');
+        var events = openobject.dom.select('div.calEvent', 'calBodySect');
         forEach(events, function(e){
 
             var id = getNodeAttribute(e, 'nRecordID');
@@ -219,7 +219,7 @@ MonthCalendar.prototype = {
         }
         
         var self = this;
-        var events = getElementsByTagAndClassName('div', 'calEvent', 'calBodySect');
+        var events = openobject.dom.select('div.calEvent', 'calBodySect');
 
         forEach(events, function(e){
             removeElement(e);
@@ -263,7 +263,7 @@ MonthCalendar.Header.prototype = {
         this.elements = [];
 
         var self = this;
-        var days = getElementsByTagAndClassName('div', null, 'calHeaderSect');
+        var days = openobject.dom.select('div', 'calHeaderSect');
         forEach(days, function(day){
             var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, MochiKit.DOM.scrapeText(day));
             self.elements = self.elements.concat(div);
@@ -499,7 +499,7 @@ MonthCalendar.Week.prototype = {
 
             // add `+ (n) more...`
 
-            forEach(getElementsByTagAndClassName('div', 'calEventInfo', element), function(e){
+            forEach(openobject.dom.select('div.calEventInfo', element), function(e){
                 removeElement(e);
             });
 

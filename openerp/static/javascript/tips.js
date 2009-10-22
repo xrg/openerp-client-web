@@ -187,7 +187,7 @@ MochiKit.DOM.addLoadEvent(function(evt){
 
         return true;
 
-    }, MochiKit.DOM.getElementsByTagAndClassName('td', 'label', document));
+    }, openobject.dom.select('td.label', document));
     
     new Tips(elements);
 });

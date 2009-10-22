@@ -18,7 +18,7 @@ TreeView.prototype = {
                 
         this.trees = {};
         this.current = window['tree_' + current];
-        this.current_button = getElementsByTagAndClassName("tr", "selected", "treeview")[0];
+        this.current_button = openobject.dom.select("tr.selected", "treeview")[0];
                 
         this.trees[this.current.id] = this.current;
     },
