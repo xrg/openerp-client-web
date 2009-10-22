@@ -48,7 +48,7 @@ var One2Many = function(name, inline) {
     // hide new button when editors are visible
     if (this.mode == 'tree' && this.inline){ 
         var self = this;
-        this.btn_new = getElement(this.name + '_btn_');
+        this.btn_new = openobject.dom.get(this.name + '_btn_');
         MochiKit.Signal.connect(ListView(this.name), 'onreload', function(evt) {
             self.btn_new.style.display = ListView(self.name).getEditors().length > 0 ? 'none': '';
         });

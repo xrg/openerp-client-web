@@ -30,7 +30,7 @@
                     var k = item[0];
                     var v = item[1];
 
-                    var e = getElement(k);
+                    var e = openobject.dom.get(k);
 
                     if (e) e.value = v;
                 });

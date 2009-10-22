@@ -73,8 +73,8 @@ var CAL_INSTANCE = null;
 
 var getCalendar = function(day, mode) {
 
-    var day = day || MochiKit.DOM.getElement('_terp_selected_day').value;
-    var mode = mode || MochiKit.DOM.getElement('_terp_selected_mode').value;
+    var day = day || openobject.dom.get('_terp_selected_day').value;
+    var mode = mode || openobject.dom.get('_terp_selected_mode').value;
     
     var act = openobject.http.getURL('/calendar/get', {day: day, mode: mode});
 

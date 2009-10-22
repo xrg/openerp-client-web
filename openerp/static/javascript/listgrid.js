@@ -29,7 +29,7 @@
 
 var ListView = function(name) {
 
-    var elem = getElement(name);
+    var elem = openobject.dom.get(name);
     if (elem.__listview) {
         return elem.__listview;
     }
@@ -52,21 +52,21 @@ ListView.prototype = {
         this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
         this.current_record = null;
     
-        this.ids = getElement(prefix + '_terp_ids').value;
+        this.ids = openobject.dom.get(prefix + '_terp_ids').value;
 
-        var view_ids = getElement(prefix + '_terp_view_ids');
-        var view_mode = getElement(prefix + '_terp_view_mode');
-        var def_ctx = getElement(prefix + '_terp_default_get_ctx');
+        var view_ids = openobject.dom.get(prefix + '_terp_view_ids');
+        var view_mode = openobject.dom.get(prefix + '_terp_view_mode');
+        var def_ctx = openobject.dom.get(prefix + '_terp_default_get_ctx');
     
         this.view_ids = view_ids ? view_ids.value : null;
         this.view_mode = view_mode ? view_mode.value : null;
     
         // if o2m
-        this.m2m = getElement(name + '_set');
+        this.m2m = openobject.dom.get(name + '_set');
         this.default_get_ctx = def_ctx ? def_ctx.value : null;
 
         // save the reference
-        getElement(name).__listview = this;
+        openobject.dom.get(name).__listview = this;
     },
 
     checkAll: function(clear){
@@ -257,7 +257,7 @@ MochiKit.Base.update(ListView.prototype, {
                 var k = src.id;
                 k = k.slice(0, k.length - 5);
 
-                if (src.value && !getElement(k).value){
+                if (src.value && !openobject.dom.get(k).value){
                     return;
                 }
             }
@@ -388,10 +388,10 @@ MochiKit.Base.update(ListView.prototype, {
                 alert(obj.error);
 
                 if (obj.error_field) {
-                    var fld = getElement('_terp_listfields/' + obj.error_field);
+                    var fld = openobject.dom.get('_terp_listfields/' + obj.error_field);
 
                     if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
-                        fld = getElement(fld.id + '_text');
+                        fld = openobject.dom.get(fld.id + '_text');
 
                     if (fld) {
                         fld.focus();
@@ -518,9 +518,9 @@ MochiKit.Base.update(ListView.prototype, {
                 
             self.current_record = edit_inline;
 
-            var __listview = getElement(self.name).__listview;
+            var __listview = openobject.dom.get(self.name).__listview;
             swapDOM(self.name, newlist);
-            getElement(self.name).__listview = __listview;
+            openobject.dom.get(self.name).__listview = __listview;
 
             var ua = navigator.userAgent.toLowerCase();
 

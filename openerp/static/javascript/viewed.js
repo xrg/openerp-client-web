@@ -137,7 +137,7 @@ var doAdd = function() {
         params[el.name] = el.value;
     });
     
-    var act = MochiKit.DOM.getElement('node').value == 'view' ? '/viewed/create_view' : '/viewed/save/node';
+    var act = openobject.dom.get('node').value == 'view' ? '/viewed/create_view' : '/viewed/save/node';
     
     var req = openobject.http.postJSON(act, params);
     req.addCallback(function(obj) {
@@ -149,7 +149,7 @@ var doAdd = function() {
         var node = tree.createNode(obj.record);
         var pnode = selected.parentNode;
         
-        var pos = MochiKit.DOM.getElement('position').value;
+        var pos = openobject.dom.get('position').value;
         
         if (pos == 'after') {
             pnode.insertBefore(node, selected.nextSibling);    
@@ -346,7 +346,7 @@ var onInherit = function() {
     }
     
     params = {
-        view_id: getElement('view_id').value,
+        view_id: openobject.dom.get('view_id').value,
         xpath_expr: getXPath(selected)
     };
     
@@ -365,9 +365,9 @@ var onInherit = function() {
 }
 
 var onPreview = function() {
-   var act = openobject.http.getURL('/viewed/preview/show', {'model' : getElement('view_model').value, 
-                                             'view_id' : getElement('view_id').value,
-                                             'view_type' : getElement('view_type').value});
+   var act = openobject.http.getURL('/viewed/preview/show', {'model' : openobject.dom.get('view_model').value, 
+                                             'view_id' : openobject.dom.get('view_id').value,
+                                             'view_type' : openobject.dom.get('view_type').value});
    
     if (window.browser.isGecko19) {
         return openobject.tools.openWindow(act);
@@ -387,8 +387,8 @@ var onClose = function(){
 }
 
 var toggleFields = function(selector) {
-    MochiKit.DOM.getElement('name').style.display = selector.value == 'field' ? '' : 'none';
-    MochiKit.DOM.getElement('new_field').style.display = selector.value == 'field' ? '' : 'none';
+    openobject.dom.get('name').style.display = selector.value == 'field' ? '' : 'none';
+    openobject.dom.get('new_field').style.display = selector.value == 'field' ? '' : 'none';
 }
 
 var onUpdate = function(){
@@ -396,7 +396,7 @@ var onUpdate = function(){
 }
 
 var addNewFieldName = function(name) {
-    var op = getElement("name").options;
+    var op = openobject.dom.get("name").options;
     op[op.length] = new Option(name, name, 0, 1);
 }
 

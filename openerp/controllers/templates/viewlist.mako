@@ -5,7 +5,7 @@
     <script type="text/javascript">
     
         function do_select(id, src){
-            var radio = MochiKit.DOM.getElement(src + '/' + id);
+            var radio = openobject.dom.get(src + '/' + id);
 			if (radio) {
 				radio.checked = true;
 			}
@@ -17,8 +17,8 @@
         }
         
         function doCancel() {
-            var edt = getElement('view_editor');
-            var lst = getElement('view_list');
+            var edt = openobject.dom.get('view_editor');
+            var lst = openobject.dom.get('view_list');
             
             edt.style.display = "none";
             lst.style.display = "";
@@ -29,11 +29,11 @@
         }
         
         function onNew() {
-            var edt = getElement('view_editor');
-            var lst = getElement('view_list');
+            var edt = openobject.dom.get('view_editor');
+            var lst = openobject.dom.get('view_list');
             
-            var nm = getElement('name');
-            nm.value = getElement('model').value + '.custom_' + Math.round(Math.random() * 1000);
+            var nm = openobject.dom.get('name');
+            nm.value = openobject.dom.get('model').value + '.custom_' + Math.round(Math.random() * 1000);
             
             edt.style.display = "";
             lst.style.display = "none";
@@ -82,7 +82,7 @@
 
             var id = window.opener.document.getElementById('_terp_view_id').value;
             
-            if (!MochiKit.DOM.getElement('_terp_list/' + id)) {
+            if (!openobject.dom.get('_terp_list/' + id)) {
                 
                 var list = new ListView('_terp_list');
                 var ids = list.getRecords();

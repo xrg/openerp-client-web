@@ -66,7 +66,7 @@ SortableGrid.prototype = {
         this.sortState = {};
         this.sortkey = 0;
 
-        table = getElement(table);
+        table = openobject.dom.get(table);
         
         // Find the thead
         this.thead = table.getElementsByTagName('thead')[0];

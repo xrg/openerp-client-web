@@ -20,8 +20,8 @@
                 return n.record.id;
             }, selection);
             
-            MochiKit.DOM.getElement('_terp_id').value = values.length ? values[0] : '';
-            MochiKit.DOM.getElement('_terp_ids').value = values;
+            openobject.dom.get('_terp_id').value = values.length ? values[0] : '';
+            openobject.dom.get('_terp_ids').value = values;
         }
         
         function onHeaderClick(evt, header) {

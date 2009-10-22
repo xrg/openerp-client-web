@@ -74,7 +74,7 @@ __init__ : function(elements, options) {
 
     MochiKit.Iter.forEach(elements, function(el) {
         
-        el = MochiKit.DOM.getElement(el);
+        el = openobject.dom.get(el);
         el.myText = MochiKit.DOM.getNodeAttribute(el, 'title');
 
         if (el.myText) 

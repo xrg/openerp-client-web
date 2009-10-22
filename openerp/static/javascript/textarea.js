@@ -34,14 +34,14 @@ var ResizableTextarea = function(ta){
 ResizableTextarea.prototype = {
     
     __init__ : function(ta){
-        this.textarea = MochiKit.DOM.getElement(ta);
+        this.textarea = openobject.dom.get(ta);
         this.gripper = DIV({'class' : 'grip'});
         
         this.ta = this.textarea.cloneNode(true);
         
         MochiKit.DOM.swapDOM(this.textarea, DIV({'class' : 'resizable-textarea'}, this.ta, this.gripper));
         
-        this.textarea = MochiKit.DOM.getElement(this.ta);        
+        this.textarea = openobject.dom.get(this.ta);        
         this.draggin = false;
         
         this.evtMouseDn = MochiKit.Signal.connect(this.gripper, 'onmousedown', this, "dragStart");

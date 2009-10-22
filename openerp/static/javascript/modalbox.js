@@ -41,7 +41,7 @@ ModalBox.prototype = {
             buttons: []         // buttons
         }, options || {});
 
-        if (MochiKit.DOM.getElement('modalbox_overlay')){
+        if (openobject.dom.get('modalbox_overlay')){
             throw "Only one Modalbox instance is allowed per page.";
         }
 

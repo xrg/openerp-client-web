@@ -89,12 +89,12 @@ openerp.workflow.Connector.prototype.onClick = function(event) {
 
 
 openerp.workflow.Connector.prototype.onmouseOver = function(event) {
-    getElement('status').innerHTML = "Condition: " + this.condition + " | Signal: "+ this.signal;
+    openobject.dom.get('status').innerHTML = "Condition: " + this.condition + " | Signal: "+ this.signal;
 }
 
 
 openerp.workflow.Connector.prototype.onmouseOut = function(event){
-    getElement('status').innerHTML = '';
+    openobject.dom.get('status').innerHTML = '';
 }
 
 openerp.workflow.Connector.prototype.edit = function() {

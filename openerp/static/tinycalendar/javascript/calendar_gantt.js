@@ -27,7 +27,7 @@ GanttCalendar.prototype = {
       
         this.starts = MochiKit.DateTime.isoDate(getNodeAttribute('calGantt', 'dtStart'));
       
-        this.mode = getElement('_terp_selected_mode').value;
+        this.mode = openobject.dom.get('_terp_selected_mode').value;
         this.range = parseInt(getNodeAttribute('calGantt', 'dtRange')) || 7;
 
         this.scale = 0;
@@ -60,9 +60,9 @@ GanttCalendar.prototype = {
         this.grid = new GanttCalendar.Grid(this);
         this.list = new GanttCalendar.List(this);
 
-        this.gc = getElement('calGridC');
-        this.hc = getElement('calHeaderC');
-        this.lc = getElement('calListC');
+        this.gc = openobject.dom.get('calGridC');
+        this.hc = openobject.dom.get('calHeaderC');
+        this.lc = openobject.dom.get('calListC');
 
         this.attachSignals();
       
@@ -98,7 +98,7 @@ GanttCalendar.prototype = {
     onResize: function(evt){
         
         var h1 = getElementDimensions('calGroupC').h;
-        var h2 = getElement('calGridC').clientHeight;
+        var h2 = openobject.dom.get('calGridC').clientHeight;
 
         setElementDimensions('calList', {h: h1 > h2 ? h1 : h2});
         setElementDimensions('calGrid', {h: h1 > h2 ? h1 : h2});
@@ -476,7 +476,7 @@ GanttCalendar.List.prototype = {
 
     onToggle: function(element, group, evt) {
 
-        var key = getElement('_terp_model').value + '-' + group.model + '-' + group.id;
+        var key = openobject.dom.get('_terp_model').value + '-' + group.model + '-' + group.id;
 
         var visible = this.stat[key];
         visible = typeof(visible) == "undefined" ? 1 : visible;
@@ -514,8 +514,8 @@ GanttCalendar.List.prototype = {
         var params = {
             '_terp_id': event.record_id,
             '_terp_ids': '[' + items.join(',') + ']',
-            '_terp_model': getElement('_terp_model').value,
-            '_terp_level': getElement('_terp_gantt_level').value,
+            '_terp_model': openobject.dom.get('_terp_model').value,
+            '_terp_level': openobject.dom.get('_terp_gantt_level').value,
             '_terp_level_value': group.id
         }
 
@@ -610,7 +610,7 @@ GanttCalendar.Grid.prototype = {
         });
 
         // adjust horizontal scrollbar
-        getElement('calGridC').scrollLeft = left - 50;
+        openobject.dom.get('calGridC').scrollLeft = left - 50;
     }
 }
 
@@ -929,7 +929,7 @@ GanttCalendar.Event.prototype = {
 
 var ganttZoomOut = function() {
 
-    var mode = getElement('_terp_selected_mode').value;
+    var mode = openobject.dom.get('_terp_selected_mode').value;
     var modes = {
         'day': '3days',
         '3days': 'week',
@@ -946,7 +946,7 @@ var ganttZoomOut = function() {
 
 var ganttZoomIn = function() {
 
-    var mode = getElement('_terp_selected_mode').value;
+    var mode = openobject.dom.get('_terp_selected_mode').value;
     var modes = {
         '5years': '3years',
         '3years': 'year',

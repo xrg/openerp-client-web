@@ -48,7 +48,7 @@ class Sidebar(TinyWidget):
         
             function a() {
 
-                var sb = MochiKit.DOM.getElement('sidebar');
+                var sb = openobject.dom.get('sidebar');
 
                 sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
 
@@ -70,7 +70,7 @@ class Sidebar(TinyWidget):
         }
 
         MochiKit.DOM.addLoadEvent(function(evt) {
-            var sb = MochiKit.DOM.getElement('sidebar');
+            var sb = openobject.dom.get('sidebar');
             if (sb) toggle_sidebar(openobject.http.getCookie('terp_sidebar'));
         });
     """)]

@@ -35,7 +35,7 @@ TreeGrid.prototype = {
     
     __init__ : function(elem, options) {
         
-        this.id = MochiKit.DOM.getElement(elem).id;
+        this.id = openobject.dom.get(elem).id;
         
         this.options = MochiKit.Base.update({
             'showheaders': true,
@@ -134,7 +134,7 @@ TreeGrid.prototype = {
         
         this._makeBody();
 
-        if (MochiKit.DOM.getElement(this.id) != this.table) {
+        if (openobject.dom.get(this.id) != this.table) {
             MochiKit.DOM.swapDOM(this.id, this.table);
         }
     },

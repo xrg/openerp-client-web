@@ -22,8 +22,8 @@ var onWindowResize = function(evt) {
 MochiKit.Signal.connect(window, "onresize", onWindowResize);
 MochiKit.DOM.addLoadEvent(function(evt){
 
-    menubar = getElement("menubar_container");
-    appbar = getElement("app_container");
+    menubar = openobject.dom.get("menubar_container");
+    appbar = openobject.dom.get("app_container");
     
     nHeader = getElementDimensions("header").h;
     

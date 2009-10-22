@@ -33,9 +33,8 @@ if (typeof(Sizzle) == "undefined") {
 
 openobject.dom = {
 
-    get: function(selector, context) {
-        var res = Sizzle(selector, MochiKit.DOM.getElement(context));
-        return res.length ? res[0] : null;
+    get: function(elem) {
+    	return MochiKit.DOM.getElement(elem);
     },
     
     select: function(selector, context) {

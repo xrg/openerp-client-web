@@ -35,7 +35,7 @@ InfoBox._id = 0;
 
 InfoBox.nextId = function() {
     var id = 'infoBox' + InfoBox._id++;
-    while(getElement(id)) {
+    while(openobject.dom.get(id)) {
         id = InfoBox.nextId();
     }
     return id;

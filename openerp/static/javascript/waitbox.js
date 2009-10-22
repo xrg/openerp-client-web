@@ -38,8 +38,8 @@ WaitBox.prototype = {
         this.options = MochiKit.Base.update({
         }, options || {});
 
-        this.layer = MochiKit.DOM.getElement('WaitBoxLayer');
-        this.box = MochiKit.DOM.getElement('WaitBox');
+        this.layer = openobject.dom.get('WaitBoxLayer');
+        this.box = openobject.dom.get('WaitBox');
         
         if (!this.layer) {
         

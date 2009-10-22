@@ -90,7 +90,7 @@ function initialize_dashboard() {
             var ref_id = ref ? ref.id.replace('dashlet_', '') : null;
 
             var args = {src: src_id, dst: dst.id, ref: ref_id};
-            args['view_id'] = getElement('_terp_view_id').value;
+            args['view_id'] = openobject.dom.get('_terp_view_id').value;
 
             var req = openobject.http.postJSON('/viewed/update_dashboard', args); 
             req.addCallback(function(obj) {

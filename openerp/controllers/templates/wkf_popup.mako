@@ -8,9 +8,9 @@
                
          function on_load() {
           
-           	var id = parseInt(getElement('_terp_id').value) || 0;
+           	var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
             
-            var lc = getElement('_terp_load_counter').value;
+            var lc = openobject.dom.get('_terp_load_counter').value;
             lc = parseInt(lc) || 1;            
             
             if (lc > 1) {    

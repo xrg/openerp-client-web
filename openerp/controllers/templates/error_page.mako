@@ -10,9 +10,9 @@
         var send_maintenance_request = function() {
 
             var args = {
-                explanation: getElement('explanation').value,
-                remarks: getElement('remarks').value,
-                tb: getElement('error').value
+                explanation: openobject.dom.get('explanation').value,
+                remarks: openobject.dom.get('remarks').value,
+                tb: openobject.dom.get('error').value
             }
 
             var req = openobject.http.postJSON('/errorpage/submit', args);
@@ -34,7 +34,7 @@
 		var write_data = function() {
 		
 			var params = { 
-					_terp_all_params: getElement('_terp_all_params').value
+					_terp_all_params: openobject.dom.get('_terp_all_params').value
 			}
 			
 			var req = openobject.http.postJSON('/errorpage/write_data', params);

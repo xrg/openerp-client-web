@@ -10,14 +10,14 @@
     <script type="text/javascript">
         MochiKit.DOM.addLoadEvent(function(evt) {
 
-            var lc = parseInt(MochiKit.DOM.getElement('_terp_id').value) || 0;
+            var lc = parseInt(openobject.dom.get('_terp_id').value) || 0;
             
             if (lc > 0) {
             
-                var id = parseInt(getElement('_terp_id').value) || 0;
+                var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
                 
                 if (id) {
-                    window.opener.addNewFieldName(getElement('name').value);
+                    window.opener.addNewFieldName(openobject.dom.get('name').value);
                 }
                 
                 window.close();

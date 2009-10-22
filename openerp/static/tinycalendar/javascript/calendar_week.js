@@ -285,7 +285,7 @@ WeekCalendar.AllDayGrid.prototype = {
         if (!hasElementClass(target, 'calVRule'))
             return;
 
-        var elem = getElement('calEventNew');
+        var elem = openobject.dom.get('calEventNew');
 
         // set datetime info
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(target, 'dtDay'));
@@ -561,7 +561,7 @@ WeekCalendar.DayGrid.prototype = {
         var st = this.calendar.options.hourStarts * this.calendar.options.hourHeight;
 
         // set initial scroll position
-        window.setTimeout("MochiKit.DOM.getElement('calBodySect').scrollTop=" + st, 0);
+        window.setTimeout("openobject.dom.get('calBodySect').scrollTop=" + st, 0);
 
         this.droppables = [];
         var self = this;
@@ -665,7 +665,7 @@ WeekCalendar.DayGrid.prototype = {
         if (!hasElementClass(target, 'calVRule'))
             return;
 
-        var elem = getElement('calEventNew');
+        var elem = openobject.dom.get('calEventNew');
 
         var x = getNodeAttribute(target, 'dtDay');
 
@@ -712,7 +712,7 @@ WeekCalendar.DayGrid.prototype = {
         if (!evt.mouse().button.left)
             return;
 
-        var elem = getElement('calEventNew');
+        var elem = openobject.dom.get('calEventNew');
         if (!elem || elem.style.display == 'none') return;
 
         // set end time

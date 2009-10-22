@@ -137,7 +137,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
         // create notes
         var note = this._create_note(notes, subflows, perm, related);
-        var canvas = getElement('process_canvas');
+        var canvas = openobject.dom.get('process_canvas');
         canvas.parentNode.insertBefore(note, canvas);
 
         // check whether any node overlaps the notes
@@ -154,7 +154,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         canvas.style.marginTop = mx + 4 + 'px';
 
         // set title
-        MochiKit.DOM.getElement('process_title').innerHTML = title;
+        openobject.dom.get('process_title').innerHTML = title;
 
         var elems = MochiKit.DOM.getElementsByTagAndClassName('*', null, this.html);
         elems = MochiKit.Base.filter(function(e){

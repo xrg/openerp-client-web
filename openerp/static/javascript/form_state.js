@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var form_hookContextMenu = function(){
-    if (!MochiKit.DOM.getElement('_terp_list')) {
+    if (!openobject.dom.get('_terp_list')) {
         MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
     }
 }
@@ -37,12 +37,12 @@ var form_hookOnChange = function() {
 
     var prefix = '';
     try {
-        prefix = getElement('_terp_o2m').value + '/';
+        prefix = openobject.dom.get('_terp_o2m').value + '/';
     }catch(e){}
     
-    var id = getElement(prefix + '_terp_id').value;
-    var view_type = getElement('_terp_view_type').value;
-    var editable = getElement('_terp_editable').value;
+    var id = openobject.dom.get(prefix + '_terp_id').value;
+    var view_type = openobject.dom.get('_terp_view_type').value;
+    var editable = openobject.dom.get('_terp_editable').value;
 
     if (!(view_type == 'form' || editable == 'True')) {
         return;
@@ -56,7 +56,7 @@ var form_hookOnChange = function() {
     if (id) return;
 
     for(var name in fields) {
-        var field = getElement(name);
+        var field = openobject.dom.get(name);
         if (field && field.value && getNodeAttribute(field, 'callback')) {
             if (field.onchange) {
                 field.onchange();
@@ -92,7 +92,7 @@ var form_hookStateChange = function() {
         states = states.replace(/False/g, '0');
         states = eval('(' + states + ')');
 
-        var state = getElement(prefix + 'state') || getElement(prefix + 'x_state');
+        var state = openobject.dom.get(prefix + 'state') || openobject.dom.get(prefix + 'x_state');
         if (state) {
             fields[state.id] = state;
             MochiKit.Signal.connect(state, 'onStateChange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
@@ -177,7 +177,7 @@ var form_hookAttrChange = function() {
                 }
 
                 var name = prefix + n[0];
-                var field = MochiKit.DOM.getElement(name);
+                var field = openobject.dom.get(name);
                 if (field && !expr_fields[field.id]) {
                     fields[field.id] = 1;
                     expr_fields[field.id] = 1;
@@ -198,7 +198,7 @@ var form_hookAttrChange = function() {
 var form_onAttrChange = function(container, widget, attr, expr, evt) {
 
     var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
-    var widget = MochiKit.DOM.getElement(widget);
+    var widget = openobject.dom.get(widget);
 
     var result = form_evalExpr(prefix, expr);
     
@@ -219,7 +219,7 @@ var form_evalExpr = function(prefix, expr) {
     for(var i=0; i<expr.length; i++) {
         
         var ex = expr[i];
-        var elem = MochiKit.DOM.getElement(prefix + ex[0]);
+        var elem = openobject.dom.get(prefix + ex[0]);
         
         if (!elem) 
             continue;
@@ -264,7 +264,7 @@ var form_evalExpr = function(prefix, expr) {
 
 var form_setReadonly = function(container, field, readonly) {
     
-    var field = MochiKit.DOM.getElement(field);
+    var field = openobject.dom.get(field);
 
     if (!field) {
         return;
@@ -273,8 +273,8 @@ var form_setReadonly = function(container, field, readonly) {
     var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
 
     if (!kind && 
-            MochiKit.DOM.getElement(field.id + '_id') && 
-            MochiKit.DOM.getElement(field.id + '_text') &&
+            openobject.dom.get(field.id + '_id') && 
+            openobject.dom.get(field.id + '_text') &&
             MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
         return Many2Many(field.id).setReadonly(readonly);
     }
@@ -294,7 +294,7 @@ var form_setReadonly = function(container, field, readonly) {
     }
     
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
-        var img = getElement(field.name + '_trigger');
+        var img = openobject.dom.get(field.name + '_trigger');
         if (img)
             img.parentNode.style.display = readonly ? 'none' : '';
     }
@@ -312,7 +312,7 @@ var form_setRequired = function(container, field, required) {
     var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
     
     if (field.type == 'hidden' && kind == 'many2one') {
-        form_setRequired(container, getElement(field.name + '_text'), required);
+        form_setRequired(container, openobject.dom.get(field.name + '_text'), required);
     }
 }
 

@@ -23,9 +23,9 @@
     % if selection:
     <script type="text/javascript">
         var select_workflow = function() {
-            var id = parseInt(getElement('select_workflow').value) || null;
-            var res_model = getElement('res_model').value || null;
-            var res_id = parseInt(getElement('res_id').value) || null;
+            var id = parseInt(openobject.dom.get('select_workflow').value) || null;
+            var res_model = openobject.dom.get('res_model').value || null;
+            var res_id = parseInt(openobject.dom.get('res_id').value) || null;
             window.location.href = openobject.http.getURL("/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
@@ -33,9 +33,9 @@
     <script type="text/javascript">
         MochiKit.DOM.addLoadEvent(function(evt){
     
-            var id = parseInt(getElement('id').value) || 0;
-            var res_model = getElement('res_model').value;
-            var res_id = getElement('res_id').value;
+            var id = parseInt(openobject.dom.get('id').value) || 0;
+            var res_model = openobject.dom.get('res_model').value;
+            var res_id = openobject.dom.get('res_id').value;
 
             if (id) {
                 var wkf = new openerp.process.Workflow('process_canvas');

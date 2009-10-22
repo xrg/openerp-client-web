@@ -83,7 +83,7 @@ openerp.workflow.Workflow.implement({
 		this.state.initPort();
 			
 		
-		this.draw_graph(getElement('wkf_id').value);
+		this.draw_graph(openobject.dom.get('wkf_id').value);
 	},
 	
 	draw_graph : function(wkf_id) {
@@ -153,7 +153,7 @@ openerp.workflow.Workflow.implement({
                 self.add_connection(start, end, conn)
 			}
 			
-	    	getElement('loading').style.display = 'none';
+	    	openobject.dom.get('loading').style.display = 'none';
 		});	
 	
 		
@@ -279,7 +279,7 @@ openerp.workflow.Workflow.implement({
 			        state.initPort();
 				} else {
 					var state = self.states.get(index);
-					var span = getElement(state.sname);
+					var span = openobject.dom.get(state.sname);
 					span.innerHTML = data['name'];
 					span.id = data['name'];
 					

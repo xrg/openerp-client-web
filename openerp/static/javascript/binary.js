@@ -72,7 +72,7 @@ var add_binary = function(src) {
     binary_add.style.display = "";
     binary_buttons.style.display = "none";
     
-    fld = MochiKit.DOM.getElement(src);
+    fld = openobject.dom.get(src);
     fld.disabled = false;
 
     // Firefox problem (bug: 324408)
@@ -83,13 +83,13 @@ var add_binary = function(src) {
 
 var set_binary_filename = function(src, filename){
 
-    var src = getElement(src);
+    var src = openobject.dom.get(src);
     var name = src.name;
 
     var prefix = name.split('/'); prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
 
-    var target = getElement(prefix + filename);
+    var target = openobject.dom.get(prefix + filename);
 
     var fname = src.value || '';
     

@@ -64,8 +64,8 @@
             
             with (window.opener) {
                 
-                var value_field = getElement('${params.source}');
-                var text_field = getElement('${params.source}_text');
+                var value_field = openobject.dom.get('${params.source}');
+                var text_field = openobject.dom.get('${params.source}_text');
                 
                 value_field.value = id;
             

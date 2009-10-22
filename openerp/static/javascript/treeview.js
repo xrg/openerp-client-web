@@ -14,7 +14,7 @@ TreeView.prototype = {
     
     __init__: function(current) {
         
-        this.view_tree = getElement("view_tree");
+        this.view_tree = openobject.dom.get("view_tree");
                 
         this.trees = {};
         this.current = window['tree_' + current];
@@ -57,7 +57,7 @@ TreeView.prototype = {
     
     switchItem: function() {
 
-        var selection = MochiKit.DOM.getElement('_terp_ids').value;
+        var selection = openobject.dom.get('_terp_ids').value;
         
         if (!selection) {
             return alert(_('You must select at least one record.'));

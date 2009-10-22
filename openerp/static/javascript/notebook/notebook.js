@@ -48,7 +48,7 @@ Notebook.prototype = {
     toString: MochiKit.Base.forwardCall("repr"),
     
     __init__ : function(element, options) {
-        this.element = MochiKit.DOM.getElement(element);
+        this.element = openobject.dom.get(element);
         
         if (!this.element) {
             throw "Invalid argument:" + element;
@@ -594,7 +594,7 @@ MochiKit.Base.update(Scroll.prototype, {
     __init__: function (element, /* optional */options) {
         var b = MochiKit.Base;
         var s = MochiKit.Style;
-        this.element = MochiKit.DOM.getElement(element);
+        this.element = openobject.dom.get(element);
 
         options = b.update({
             side: "left",

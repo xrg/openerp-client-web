@@ -29,7 +29,7 @@
 
 var Many2Many = function(name) {
 
-    var elem = getElement(name);
+    var elem = openobject.dom.get(name);
     if (elem._m2m) {
         return elem._m2m;
     }
@@ -48,16 +48,16 @@ Many2Many.prototype = {
 
         this.name = name;
 
-        this.id = getElement(name + '_id');
-        this.text = getElement(name + '_set');
+        this.id = openobject.dom.get(name + '_id');
+        this.text = openobject.dom.get(name + '_set');
 
-        this.btnAdd = getElement('_' + name + '_button1');
-        this.btnDel = getElement('_' + name + '_button2');
+        this.btnAdd = openobject.dom.get('_' + name + '_button1');
+        this.btnDel = openobject.dom.get('_' + name + '_button2');
 
-        this.terp_ids = getElement(name + '/_terp_ids');
+        this.terp_ids = openobject.dom.get(name + '/_terp_ids');
         this.model = getNodeAttribute(this.id, 'relation');
 
-        this.hasList = getElement(name + '_container') ? true : false;
+        this.hasList = openobject.dom.get(name + '_container') ? true : false;
 
         MochiKit.Signal.connect(this.id, 'onchange', this, this.onChange);
         MochiKit.Signal.connect(this.text, 'onchange', this, this.onChange);
@@ -81,7 +81,7 @@ Many2Many.prototype = {
         }
 
         // save the reference
-        getElement(name)._m2m = this;
+        openobject.dom.get(name)._m2m = this;
     },
     
     onClick: function() {
@@ -113,7 +113,7 @@ Many2Many.prototype = {
         } else {
             this.text.value = '(' + ids.length + ')';
             this.id.value = '[' + ids.join(',') + ']';
-            getElement(this.name).value = ids;
+            openobject.dom.get(this.name).value = ids;
         }
 
         if (getNodeAttribute(this.id, 'callback')) {

@@ -15,8 +15,8 @@
         
         MochiKit.DOM.addLoadEvent(function(evt) {
         
-            var id = parseInt(MochiKit.DOM.getElement('_terp_id').value) || null;
-            var lc = parseInt(MochiKit.DOM.getElement('_terp_load_counter').value) || 1;
+            var id = parseInt(openobject.dom.get('_terp_id').value) || null;
+            var lc = parseInt(openobject.dom.get('_terp_load_counter').value) || 1;
 
             if (lc > 1 && id) {
                 window.opener.document.getElementById('${params.m2o}').value = id;

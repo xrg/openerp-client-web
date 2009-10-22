@@ -142,7 +142,7 @@ MonthCalendar.prototype = {
         if (!hasElementClass(target, 'calMonthDay'))
             return;
 
-        var elem = getElement('calEventNew');
+        var elem = openobject.dom.get('calEventNew');
 
         // set datetime info
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(target, 'dtDay'));

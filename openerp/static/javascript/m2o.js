@@ -30,7 +30,7 @@
 
 var ManyToOne = function(name){
     
-    var elem = getElement(name);
+    var elem = openobject.dom.get(name);
     if (elem._m2o) {
         return elem._m2o;
     }

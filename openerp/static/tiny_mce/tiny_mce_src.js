@@ -6878,7 +6878,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 			}
 
 			// Element not found, then skip initialization
-			if (!t.getElement())
+			if (!t.openobject.dom.get())
 				return;
 
 			if (s.strict_loading_mode) {
@@ -6887,7 +6887,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 			}
 
 			// Add hidden input for non input elements inside form elements
-			if (!/TEXTAREA|INPUT/i.test(t.getElement().nodeName) && s.hidden_input && DOM.getParent(id, 'form'))
+			if (!/TEXTAREA|INPUT/i.test(t.openobject.dom.get().nodeName) && s.hidden_input && DOM.getParent(id, 'form'))
 				DOM.insertAfter(DOM.create('input', {type : 'hidden', name : id}), id);
 
 			t.windowManager = new tinymce.WindowManager(t);
@@ -6919,7 +6919,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 
 			if (s.submit_patch) {
 				t.onBeforeRenderUI.add(function() {
-					var n = t.getElement().form;
+					var n = t.openobject.dom.get().form;
 
 					if (!n)
 						return;
@@ -6996,7 +6996,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 		},
 
 		init : function() {
-			var n, t = this, s = t.settings, w, h, e = t.getElement(), o, ti, u, bi, bc, re;
+			var n, t = this, s = t.settings, w, h, e = t.openobject.dom.get(), o, ti, u, bi, bc, re;
 
 			EditorManager.add(t);
 
@@ -7796,7 +7796,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 		},
 
 		load : function(o) {
-			var t = this, e = t.getElement(), h;
+			var t = this, e = t.openobject.dom.get(), h;
 
 			if (e) {
 				o = o || {};
@@ -7815,7 +7815,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 		},
 
 		save : function(o) {
-			var t = this, e = t.getElement(), h, f;
+			var t = this, e = t.openobject.dom.get(), h, f;
 
 			if (!e || !t.initialized)
 				return;
@@ -8164,7 +8164,7 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 
 					case 'submit':
 					case 'reset':
-						Event.add(t.getElement().form || DOM.getParent(t.id, 'form'), k, eventHandler);
+						Event.add(t.openobject.dom.get().form || DOM.getParent(t.id, 'form'), k, eventHandler);
 						break;
 
 					default:

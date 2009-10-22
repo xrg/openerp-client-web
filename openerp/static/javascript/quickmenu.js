@@ -38,8 +38,8 @@ QuickMenu.prototype = {
             title: null       // title
         }, params);
 		
-		this.layer = MochiKit.DOM.getElement('quick_layer');
-		this.box = MochiKit.DOM.getElement('quick_menu');
+		this.layer = openobject.dom.get('quick_layer');
+		this.box = openobject.dom.get('quick_menu');
 		
 		if (!this.layer) {
             this.layer = DIV({id: 'quick_layer', 

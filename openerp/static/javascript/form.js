@@ -38,7 +38,7 @@ var openRecord = function(id, src, target, readonly){
 
     var kind = getNodeAttribute(src + '_set', 'kind');
     
-    if (!kind && getElement('_o2m_' + src)) {
+    if (!kind && openobject.dom.get('_o2m_' + src)) {
         kind = "one2many";
     }
         
@@ -124,7 +124,7 @@ var switchView = function(view_type, src){
         '_terp_source_view_type': view_type
     }
 
-    if (getElement('_terp_list')){
+    if (openobject.dom.get('_terp_list')){
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             $('_terp_id').value = ids[0];
@@ -148,7 +148,7 @@ var switch_O2M = function(view_type, src){
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
     
-    if (getElement('_terp_list')){
+    if (openobject.dom.get('_terp_list')){
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             $('_terp_id').value = ids[0];
@@ -164,7 +164,7 @@ var switch_O2M = function(view_type, src){
             return alert(text);
         }
 
-        var frm = getElement('_o2m_'+src);
+        var frm = openobject.dom.get('_o2m_'+src);
         
         var d = DIV();
         d.innerHTML = text;
@@ -186,10 +186,10 @@ var switch_O2M = function(view_type, src){
 }
 
 var show_process_view = function() {
-    var model = getElement('_terp_model').value;
-    var id = getElement('_terp_id').value;
+    var model = openobject.dom.get('_terp_model').value;
+    var id = openobject.dom.get('_terp_id').value;
 
-    if (getElement('_terp_list')) {
+    if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
         if (ids.length)
@@ -222,12 +222,12 @@ var validate_required = function(form) {
         var kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
 
         if (kind == 'many2many') {
-            elem2 = MochiKit.DOM.getElement(elem.name + '_set') || elem;
+            elem2 = openobject.dom.get(elem.name + '_set') || elem;
             value = value == '[]' ? '' : value;
         }
 
         if (kind == 'many2one' || kind == 'reference') {
-            elem2 = MochiKit.DOM.getElement(elem.id + '_text') || elem;
+            elem2 = openobject.dom.get(elem.id + '_text') || elem;
         }
 
         if (!value) {
@@ -347,8 +347,8 @@ var buttonClicked = function(name, btype, model, id, sure, target){
 
 var onBooleanClicked = function(name) {
 
-    var source = getElement(name + '_checkbox_');
-    var target = getElement(name);
+    var source = openobject.dom.get(name + '_checkbox_');
+    var target = openobject.dom.get(name);
 
     target.value = source.checked ? 1 : '';
 	MochiKit.Signal.signal(target, 'onchange');
@@ -438,13 +438,13 @@ var getFormData = function(extended) {
 
                 //  only the resource id and all O2M
                 n = n.replace(/_terp_id$/, '');
-                if (n && !getElement(n + '__id')) {
+                if (n && !openobject.dom.get(n + '__id')) {
                     continue; 
                 }
 
                 n = n + 'id';
                 
-                if (!getElement(n)) {
+                if (!openobject.dom.get(n)) {
                     continue;    
                 }
                 
@@ -690,10 +690,10 @@ function eval_domain_context_request(options){
 
         if (obj.error_field) {
 
-            var fld = getElement(obj.error_field) || getElement('_terp_listfields/' + obj.error_field);
+            var fld = openobject.dom.get(obj.error_field) || openobject.dom.get('_terp_listfields/' + obj.error_field);
 
             if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
-            fld = getElement(fld.id + '_text');
+            fld = openobject.dom.get(fld.id + '_text');
 
             if (fld) {
                 fld.focus();
@@ -730,7 +730,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
 }
 
 var showCustomizeMenu = function(src, elem) {
-    var elem = getElement(elem);
+    var elem = openobject.dom.get(elem);
     MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
 }
 

@@ -58,9 +58,9 @@ InfoBox.prototype = {
         var DT_FORMAT = '%Y-%m-%d';
         var H_FORMAT = '%I:%M %P';
 
-        DTH_FORMAT = getElement('calGantt') ? getNodeAttribute('calGantt', 'dtFormat') :
-                        getElement('calMonth') ? getNodeAttribute('calMonth', 'dtFormat') : 
-                            getElement('calWeek') ? getNodeAttribute('calWeek', 'dtFormat') : DT_FORMAT;
+        DTH_FORMAT = openobject.dom.get('calGantt') ? getNodeAttribute('calGantt', 'dtFormat') :
+                        openobject.dom.get('calMonth') ? getNodeAttribute('calMonth', 'dtFormat') : 
+                            openobject.dom.get('calWeek') ? getNodeAttribute('calWeek', 'dtFormat') : DT_FORMAT;
 
         var DTH_FORMAT = DT_FORMAT + ' ' + H_FORMAT;
 
@@ -162,8 +162,8 @@ InfoBox.prototype = {
         var params = getFormParams('_terp_concurrency_info');
         MochiKit.Base.update(params, {
            '_terp_id': this.params.nRecordID,
-           '_terp_model': getElement('_terp_model').value,
-           '_terp_context': getElement('_terp_context').value
+           '_terp_model': openobject.dom.get('_terp_model').value,
+           '_terp_context': openobject.dom.get('_terp_context').value
         });
 
         var req = openobject.http.postJSON('/calendar/delete', params);
@@ -175,22 +175,22 @@ InfoBox.prototype = {
                return alert(obj.error);
            }
            
-           var id = parseInt(getElement('_terp_id').value) || 0;
+           var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
            var ids = [];
            
            try {
-               ids = eval('(' + getElement('_terp_ids').value + ')') || [];
+               ids = eval('(' + openobject.dom.get('_terp_ids').value + ')') || [];
            }catch(e){}
            
            var idx = MochiKit.Base.findIdentical(ids, self.params.nRecordID);
            
            if (id == self.params.nRecordID) {
-               getElement('_terp_id').value = 'False';
+               openobject.dom.get('_terp_id').value = 'False';
            }
            
            if (idx > -1) {
                ids = ids.splice(idx, 1);
-               getElement('_terp_ids').value = '[' + ids.join(', ') + ']';
+               openobject.dom.get('_terp_ids').value = '[' + ids.join(', ') + ']';
            }
            
            getCalendar();
