@@ -185,26 +185,6 @@ var search_filter = function(src) {
 	var selection_domain = $('filter_list').value;
 	
 	if (selection_domain) {
-//		if (selection_domain == 'blk' || selection_domain == 'sh' || selection_domain == 'sf') {
-//			if (selection_domain == 'blk') {
-//				domain = 'None';
-//			}
-//			if (selection_domain == 'sh' || selection_domain == 'sf') {
-//				flag = selection_domain;
-//				all_dom = serializeJSON(all_domains);
-//				
-//				var params = {'domain': all_dom,
-//								'model': $('_terp_model').value,
-//								'search_view_id': $('search_view_id').value,
-//								'flag': flag,
-//								'sc_id': $('_terp_sc_id').value };
-//								
-//				openWindow(getURL('/search/save_filter', params), {width: 300, height: 150});
-//			}
-//		}
-//		else {
-//			all_domains['selection_domain'] = selection_domain;
-//		}
 		all_domains['selection_domain'] = selection_domain;
 	}
 	
@@ -256,6 +236,9 @@ var search_filter = function(src) {
 
 		var custom_domain = [];
 		search_req.addCallback(function(obj){
+			if (obj.error) {
+				return alert(obj.error);
+			}
 			if (obj.frm) {
     			for (var i in obj.frm) {
     				var temp_domain = [];

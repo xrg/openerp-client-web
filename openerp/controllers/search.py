@@ -180,7 +180,7 @@ class Search(Form):
         proxy = rpc.RPCProxy(model)
         data = {}
         
-        frm = ''
+        frm = {}
         error = ''
         values = {}
         
@@ -199,6 +199,7 @@ class Search(Form):
                     frm = TinyForm(**data).to_python()
                 except Exception, e:
                     error = ustr(e)
+                    return dict(error=error)
                 
                 datas['rec'] = field
                 
