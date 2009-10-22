@@ -1,9 +1,24 @@
-<%def name="sidebox_action_item(item, model)">
-    <tr onclick="do_action(${item.get('id')}, '_terp_id', '${model}', this);">
-        <td>
-            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
-        </td>
-    </tr>
+<%def name="sidebox_action_item(item, model, submenu)">
+    % if submenu == True:
+	    <tr onclick="do_action(${item.get('id')}, '_terp_id', '${model}', this);">
+	        <td>
+	            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+	        </td>
+	    </tr>
+	% else:
+		<%
+			from openerp import icons
+		%>	
+		<tr data="${item}">
+	   		% if item['name']:
+				<td>
+					<a href="#" onclick="submenu_action('${item.get('action_id')}', '${model}');">
+						${item['name']}
+					</a>
+				</td>
+			% endif
+		</tr>
+	% endif
 </%def>
 
 <%def name="sidebox_attach_item(item, model)">
@@ -14,22 +29,7 @@
     </tr>
 </%def>
 
-<%def name="display_submenu(item, model)">
-	<%
-		from openerp import icons
-	%>	
-	<tr data="${item}">
-   		% if item['name']:
-			<td>
-				<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
-					${item['name']}
-				</a>
-			</td>
-		% endif
-	</tr>
-</%def>
-
-<%def name="make_sidebox(title, model, items, item_cb=None, submenu_data=None)">
+<%def name="make_sidebox(title, model, items, item_cb=None, submenu=False)">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
     <tr>
         <td class="sidebox-title">
@@ -48,10 +48,7 @@
             % if item_cb:
                 ${item_cb(item, model)}
             % else:
-                ${sidebox_action_item(item, model)}
-            % endif
-            % if submenu_data:
-            	${display_submenu(item, model)}
+                ${sidebox_action_item(item, model, submenu)}
             % endif
         % endif
     % endfor
@@ -79,7 +76,8 @@
             % endif
             
             % if sub_menu:
-                ${make_sidebox(_("SUBMENU"), model, sub_menu, None, sidebox_submenu_icons)}
+            	submenu = True
+                ${make_sidebox(_("SUBMENU"), model, sub_menu, submenu)}
             % endif
         </td>
 

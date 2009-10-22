@@ -323,11 +323,11 @@ var final_search_domain = function(custom_domain, all_domain) {
 								'flag': obj.flag,
 								'sc_id': $('_terp_sc_id').value };
 								
-			openWindow(getURL('/search/save_filter', params), {width: 300, height: 150});
+			openWindow(openobject.http.getURL('/search/save_filter', params), {width: 300, height: 150});
 		}
 		if (obj.action) { // For manage Filter
 			action = serializeJSON(obj.action);
-			window.location.href = getURL('/search/manage_filter', {action: action});
+			window.location.href = openobject.http.getURL('/search/manage_filter', {action: action});
 		}
 		if (obj.domain) { // For direct search
 			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain});
