@@ -1,6 +1,6 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-	    <tr onclick="do_action(${item.get('id')}, '_terp_id', '${model}', this);">
+	    <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
 	        <td>
 	            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
 	        </td>
@@ -12,7 +12,7 @@
 		<tr data="${item}">
 	   		% if item['name']:
 				<td>
-					<a href="#" onclick="submenu_action('${item.get('action_id')}', '${model}');">
+					<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
 						${item['name']}
 					</a>
 				</td>
