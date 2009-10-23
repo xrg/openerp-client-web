@@ -47,6 +47,8 @@ var add_filter_row = function() {
 	else{
 		
 		var old_tr = MochiKit.DOM.getFirstElementByTagAndClassName('tr', null, filter_table);
+		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
+		old_qstring.style.background = '#FFFFFF';
 		
 		var new_tr = old_tr.cloneNode(true);
 		
@@ -82,6 +84,7 @@ var add_filter_row = function() {
 			
 			qid = qstring.id.split('/')[0];
 			qstring.id = qid + '/' + id;
+			qstring.style.background = '#FFFFFF';
 			qstring.value = '';
 			
 			insertSiblingNodesBefore(old_tr, new_tr);
@@ -100,6 +103,7 @@ var add_filter_row = function() {
 			filter_fields.id = filter_fields.id + '/' + row_id;
 			expr.id = expr.id + '/' + row_id;
 			qstring.id = qstring.id + '/' + row_id;
+			qstring.style.background = '#FFFFFF';
 			qstring.value = '';
 			
 			var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
@@ -135,6 +139,7 @@ var remove_row = function(id) {
 	else {
 		node.style.display = 'none';
 		$('qstring').value = '';
+		$('qstring').style.background = '#FFFFFF';
 	}
 }
 // Direct click on icon.
@@ -197,10 +202,8 @@ var search_filter = function(src) {
 		forEach(children, function(ch){
 			
 			var ids = ch['id'];	// row id...
-			
 			if(ids && ids.indexOf('/')!= -1) {
 				id = ids.split('/')[1];
-				
 				var qid = 'qstring/' + id;
 				var fid = 'filter_fields/' + id;
 				var eid = 'expr/' + id;
@@ -221,12 +224,13 @@ var search_filter = function(src) {
 				
 				if ($(qid) && $(qid).value) {
 					var rec = {};
-					
 					rec[$(fid).value] = $(qid).value;
 					params['_terp_model'] = $('_terp_model').value;
 				}
 			}
-			record[ids] = rec;
+			if (rec) {
+				record[ids] = rec;
+			}
 		});
 		
 		record = serializeJSON(record);
@@ -237,6 +241,7 @@ var search_filter = function(src) {
 		var custom_domain = [];
 		search_req.addCallback(function(obj){
 			if (obj.error) {
+				$('qstring').style.background = '#FF6666';
 				return alert(obj.error);
 			}
 			if (obj.frm) {

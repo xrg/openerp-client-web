@@ -235,6 +235,7 @@ class Search(TinyInputWidget):
                 if name in self.fields_type:
                     continue
                 
+                # If search view available then select=1 wont consider. All fields will display from search view.
                 if not self.search_view_id and not ('select' in attrs or 'select' in fields[name]):
                     continue
               
