@@ -109,6 +109,7 @@ class Search(TinyInputWidget):
         self.context = context or {}
 
         ctx = rpc.session.context.copy()
+        ctx.update(self.context)
         view = cache.fields_view_get(self.model, False, 'form', ctx, True)
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
