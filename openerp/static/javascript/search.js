@@ -241,8 +241,25 @@ var search_filter = function(src) {
 		var custom_domain = [];
 		search_req.addCallback(function(obj){
 			if (obj.error) {
-				$('qstring').style.background = '#FF6666';
-				return alert(obj.error);
+				forEach(children, function(child){
+					var cids = child['id']
+					if(cids && cids.indexOf('/')!= -1) {
+						id = cids.split('/')[1];
+						var fid = 'filter_fields/' + id;
+					}
+					else {
+						var fid = 'filter_fields';
+					}
+					if ($(fid).value == obj.error_field) {
+						if (fid.indexOf('/')!= -1) {
+							f = fid.split('/')[1];
+							$('qstring/'+f).style.background = '#FF6666';
+						}
+						else {
+							$('qstring').style.background = '#FF6666';
+						}						
+					}
+				});
 			}
 			if (obj.frm) {
     			for (var i in obj.frm) {

@@ -199,7 +199,8 @@ class Search(Form):
                     frm = TinyForm(**data).to_python()
                 except Exception, e:
                     error = ustr(e)
-                    return dict(error=error)
+                    error_field = ustr(e.field)
+                    return dict(error=error, error_field=error_field)
                 
                 datas['rec'] = field
                 
