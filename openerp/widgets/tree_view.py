@@ -116,7 +116,7 @@ class ViewTree(Form):
         self.sidebar = Sidebar(self.model, toolbar, context=self.context)
         
         # get the correct view title
-        self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
+        self.string = self.context.get('_terp_view_name', self.string) or self.string
 
 
     def parse(self, root, fields=None):

@@ -86,7 +86,7 @@ class ViewForm(Form):
             self.screen.id = False
 
         # get the correct view title
-        self.screen.string = getattr(cherrypy.request, '_terp_view_name', self.screen.string) or self.screen.string
+        self.screen.string = params.context.get('_terp_view_name', self.screen.string) or self.screen.string
             
         # get the actual pager data
         self.limit = self.screen.limit
