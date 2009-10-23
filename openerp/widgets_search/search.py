@@ -235,7 +235,7 @@ class Search(TinyInputWidget):
                 if name in self.fields_type:
                     continue
                 
-                if not ('select' in attrs or 'select' in fields[name]):
+                if not self.search_view_id and not ('select' in attrs or 'select' in fields[name]):
                     continue
               
                 if attrs.get('widget', False):
@@ -278,10 +278,7 @@ class Search(TinyInputWidget):
                 if values.has_key(name) and isinstance(field, (TinyInputWidget, RangeWidget)):
                     field.set_value(values[name])
                 
-                val = fields[name].get('select', False)
-                field.adv = val and int(val) > 1
-                
-                if field and not field.adv:
+                if field:
                     views += [field]
                 
                 for n in node.childNodes:
