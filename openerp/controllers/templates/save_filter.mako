@@ -1,5 +1,4 @@
-<%! show_header_footer = False %>
-<%inherit file="master.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>Save as a Shortcut</title>
@@ -9,7 +8,7 @@
     	var onFilterClose = function(form, sc_id){
     	
 			form.submit();			
-			var act = getURL("/tree/open", {id: sc_id, model: 'ir.ui.menu'});
+			var act = openobject.http.getURL("/tree/open", {id: sc_id, model: 'ir.ui.menu'});
 			
 		    window.opener.location.href = act;
 		    
