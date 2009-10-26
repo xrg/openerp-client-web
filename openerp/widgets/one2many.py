@@ -101,6 +101,9 @@ class O2M(TinyInputWidget):
         ids = attrs.get('value') or []
         if not isinstance(ids, list):
             ids = [ids]
+        
+        if ids and isinstance(ids[0], dict):
+            ids = []
             
         if ids and isinstance(ids[0], tuple):
             ids = [i[1] for i in ids]
