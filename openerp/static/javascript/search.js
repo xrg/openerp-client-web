@@ -350,7 +350,7 @@ var final_search_domain = function(custom_domain, all_domain) {
 								'flag': obj.flag,
 								'sc_id': $('_terp_sc_id').value };
 								
-			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 300, height: 150});
+			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
 		}
 		if (obj.action) { // For manage Filter
 			action = serializeJSON(obj.action);

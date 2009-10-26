@@ -54,7 +54,65 @@
 	        	</td>
 	        	% endif
 	        	<td>
-	        		<input type="text" name="sc_name"/>
+	        		<input type="text" name="sc_name" style="width: 75%"/>
+	        	</td>
+	        </tr>
+	        	<td class="label">
+	        		Form View :
+	        	</td>
+	        	<td>
+	        		<select id="form_views" style="width: 75%">
+		    			% for val in form_views:
+		                	<option value="${val[0]}">${val[1]}</option>
+		                % endfor
+		            </select>
+	        	</td>
+	        <tr>
+	        	<td class="label">
+	        		Tree View :
+	        	</td>
+	        	<td>
+	        		<select id="tree_views" style="width: 75%">
+		    			% for val in tree_views:
+		                	<option value="${val[0]}">${val[1]}</option>
+		                % endfor
+		            </select>
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td class="label">
+	        		Graph View :
+	        	</td>
+	        	<td>
+	        		<select id="graph_views" style="width: 75%">
+		    			% for val in graph_views:
+		                	<option value="${val[0]}">${val[1]}</option>
+		                % endfor
+		            </select>
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td class="label">
+	        		Calendar View :
+	        	</td>
+	        	<td>
+	        		<select id="calendar_view" style="width: 75%">
+		    			% for val in calendar_views:
+		                	<option value="${val[0]}">${val[1]}</option>
+		                % endfor
+		            </select>
+	        	</td>
+	        </tr>
+	        <tr>
+	        	<td class="label">
+	        		Gantt View :
+	        	</td>
+	        	<td>
+	        		<select id="gantt_view" style="width: 75%">
+		    			% for val in gantt_views:
+		                	<option value="${val[0]}">${val[1]}</option>
+		                % endfor
+		            </select>
 	        	</td>
 	        </tr>
 	        <tr>

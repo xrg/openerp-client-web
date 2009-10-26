@@ -310,7 +310,30 @@ class Search(Form):
         flag = kw.get('flag')
         sc_id = kw.get('sc_id')
         
-        return dict(search_view_id=search_view_id, model=model, domain=domain, flag=flag, sc_id=sc_id)
+        new_view_ids = rpc.session.execute('object', 'execute', 'ir.ui.view', 'search', [('model', '=', model), ('inherit_id', '=', False)])
+        view_datas = rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', new_view_ids, ['id', 'name', 'type'])
+        
+        form_views = []
+        tree_views = []
+        graph_views = []
+        calendar_views = []
+        gantt_views = []
+        
+        for data in view_datas:
+            if data['type'] == 'form':
+                form_views.append([data['id'],data['name']])
+            elif data['type'] == 'tree':
+                tree_views.append([data['id'],data['name']])
+            elif data['type'] == 'graph':
+                graph_views.append([data['id'],data['name']])
+            elif data['type'] == 'calendar':
+                calendar_views.append([data['id'],data['name']])
+            elif data['type'] == 'gantt':
+                gantt_views.append([data['id'],data['name']])
+        
+        return dict(search_view_id=search_view_id, model=model, domain=domain, flag=flag, sc_id=sc_id,
+                    form_views=form_views, tree_views=tree_views, graph_views=graph_views, 
+                    calendar_views=calendar_views, gantt_views=gantt_views)
     
     @expose()
     def do_filter_sc(self, **kw):
