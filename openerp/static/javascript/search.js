@@ -312,7 +312,6 @@ var search_filter = function(src) {
     				}
     				if (expression == 'in' || expression == 'not in'){
     					right_text = right_text.split(',');
-    					log(right_text);
     				}
     				
 					temp_domain.push(first_text);
