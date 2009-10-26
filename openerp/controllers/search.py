@@ -211,11 +211,11 @@ class Search(Form):
                         datas['rec_val'] = 0
                 else:
                     datas['rec_val'] = frm[field]
-                
+                    
+            datas['type'] = fld['type']
             values[key] = datas
             
         return dict(frm=values, error=error)
-
 
     @expose('json')
     def eval_domain_filter(self, **kw):
@@ -253,7 +253,6 @@ class Search(Form):
             tmp_domain = ''
             
             custom_domains = eval(custom_domains)
-            
             for inner in custom_domains:
                 if len(inner) == 4:
                     if isinstance(inner[3], int):
@@ -261,7 +260,7 @@ class Search(Form):
                     else:
                         tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'
                 elif len(inner) == 3:
-                    if isinstance(inner[2], int):
+                    if isinstance(inner[2], (int, list)):
                         tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', ' + ustr(inner[2]) + ')]'
                     else:
                         tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', \'' + inner[2] + '\')]'

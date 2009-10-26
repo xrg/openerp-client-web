@@ -276,6 +276,7 @@ var search_filter = function(src) {
 						var fid = 'filter_fields/' + id;
 						var eid = 'expr/' + id;
 	    				var select_andor = 'select_andor/' + id;
+	    				var type = obj.frm[i].type;
 						
 						if ($(select_andor).value == 'AND') {
 							var operator = '&';
@@ -287,14 +288,36 @@ var search_filter = function(src) {
     				else {
     					var fid = 'filter_fields';
 						var eid = 'expr';
+						var type = obj.frm[i].type;
     				}
     				
     				if (operator != 'None') {
     					temp_domain.push(operator);
     				}
-					temp_domain.push(obj.frm[i].rec);
-					temp_domain.push($(eid).value);
-					temp_domain.push(obj.frm[i].rec_val);
+    				
+    				var first_text = obj.frm[i].rec;
+    				var expression = $(eid).value;
+    				var right_text = obj.frm[i].rec_val;
+    				if (expression=='ilike'||expression=='not ilike'){
+    					if (type=='integer'||type=='float'||type=='date'||type=='datetime'||type=='boolean'){
+    						if (expression == 'ilike')
+    							expression = '=';
+    						else {
+    							expression = '!=';
+    						}
+    					}
+    				}
+    				if ((expression == '<' || expression == '>') && (type!='integer'||type!='float'||type!='date'||type!='datetime'||type!='boolean')){
+    					expression = '=';
+    				}
+    				if (expression == 'in' || expression == 'not in'){
+    					right_text = right_text.split(',');
+    					log(right_text);
+    				}
+    				
+					temp_domain.push(first_text);
+					temp_domain.push(expression);
+					temp_domain.push(right_text);
 					
 					custom_domain.push(temp_domain);
     			}
