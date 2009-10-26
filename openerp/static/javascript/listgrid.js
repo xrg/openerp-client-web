@@ -188,10 +188,8 @@ MochiKit.Base.update(ListView.prototype, {
         var editors = [];
         var dom = dom ? dom : this.name;
 
-        editors = editors.concat(openobject.dom.select('input', dom));
-        editors = editors.concat(openobject.dom.select('select', dom));
-        editors = editors.concat(openobject.dom.select('textarea', dom));
-
+        editors = openobject.dom.select("input, select, textarea", dom);
+		
         return filter(function(e){
             name = named ? e.name : e.id;
             return name &&  name.indexOf('_terp_listfields') == 0;

@@ -54,8 +54,7 @@
                                 
                     var links = [];
                                         
-                    links = links.concat(openobject.dom.select("a", "header"));
-                    links = links.concat(openobject.dom.select("a", "footer"));
+                    links = openobject.dom.select("#header a, #footer a");
                     
                     forEach(links, function(a) {
                         if (!a.target) {

@@ -295,9 +295,7 @@ var submit_search_form = function(action) {
         
         var disabled = [];
 
-        disabled = disabled.concat(openobject.dom.select('input', page));
-        disabled = disabled.concat(openobject.dom.select('textarea', page));
-        disabled = disabled.concat(openobject.dom.select('select', page));
+        disabled = openobject.dom.select("input, textarea, select", page);
         
         forEach(disabled, function(fld){
             log(fld);
@@ -314,10 +312,8 @@ var clear_search_form = function() {
 
         var fields = [];
 
-        fields = fields.concat(openobject.dom.select('input', 'search_view_notebook'));
-        fields = fields.concat(openobject.dom.select('textarea', 'search_view_notebook'));
-        fields = fields.concat(openobject.dom.select('select', 'search_view_notebook'));
-
+        fields = openobject.dom.select("input, textarea, select", 'search_view_notebook');
+		
         forEach(fields, function(fld){
             fld.value = '';
         });
@@ -372,9 +368,7 @@ var getFormData = function(extended) {
     var is_editable = $('_terp_editable').value == 'True';
     
     if (is_editable) {
-	    fields = fields.concat(openobject.dom.select('input', parentNode));
-	    fields = fields.concat(openobject.dom.select('select', parentNode));
-	    fields = fields.concat(openobject.dom.select('textarea', parentNode));
+	    fields = openobject.dom.select("input, textarea, select", parentNode);
     } else {
         fields =  fields.concat(openobject.dom.select('kind=value')); 
         fields = fields.concat(openobject.dom.select('[name$=/__id]'));       

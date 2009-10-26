@@ -37,7 +37,7 @@
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = openobject.dom.get{tree.name};
+            var tree = ${tree.name};
             
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
