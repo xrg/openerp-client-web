@@ -61,7 +61,7 @@
 	        		Form View :
 	        	</td>
 	        	<td>
-	        		<select id="form_views" style="width: 75%">
+	        		<select id="form_views" name="form_views" style="width: 75%">
 		    			% for val in form_views:
 		                	<option value="${val[0]}">${val[1]}</option>
 		                % endfor
@@ -72,7 +72,7 @@
 	        		Tree View :
 	        	</td>
 	        	<td>
-	        		<select id="tree_views" style="width: 75%">
+	        		<select id="tree_views" name="tree_views" style="width: 75%">
 		    			% for val in tree_views:
 		                	<option value="${val[0]}">${val[1]}</option>
 		                % endfor
@@ -84,7 +84,7 @@
 	        		Graph View :
 	        	</td>
 	        	<td>
-	        		<select id="graph_views" style="width: 75%">
+	        		<select id="graph_views" name="graph_views" style="width: 75%">
 		    			% for val in graph_views:
 		                	<option value="${val[0]}">${val[1]}</option>
 		                % endfor
@@ -96,7 +96,7 @@
 	        		Calendar View :
 	        	</td>
 	        	<td>
-	        		<select id="calendar_view" style="width: 75%">
+	        		<select id="calendar_view" name="calendar_views" style="width: 75%">
 		    			% for val in calendar_views:
 		                	<option value="${val[0]}">${val[1]}</option>
 		                % endfor
@@ -108,7 +108,7 @@
 	        		Gantt View :
 	        	</td>
 	        	<td>
-	        		<select id="gantt_view" style="width: 75%">
+	        		<select id="gantt_view" name="gantt_views" style="width: 75%">
 		    			% for val in gantt_views:
 		                	<option value="${val[0]}">${val[1]}</option>
 		                % endfor

@@ -345,32 +345,58 @@ class Search(Form):
         flag = kw.get('flag')
         id = kw.get('sc_id')
         
-        datas = {'name': name, 
-               'res_model': model, 
-               'domain': domain, 
-               'context': str({}), 
-               'search_view_id': kw.get('search_view_id'), 
-               'filter': True, 
-               'default_user_ids': [[6, 0, [rpc.session.uid]]], 
-               }
-        action_id = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'create', datas)
+        form_id = kw.get('form_views')
+        tree_id = kw.get('tree_views')
+        graph_id = kw.get('graph_views')
+        calendar_id = kw.get('calendar_views')
+        gantt_id = kw.get('gantt_views')
+        
+        if name:
+            v_ids=[]                
+            if kw.get('form_views'):
+                rec = {'view_mode':'form', 'view_id': form_id, 'sequence':2}
+                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
+            if kw.get('tree_views'):
+                rec = {'view_mode':'tree', 'view_id':tree_id, 'sequence':1}
+                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
+            if kw.get('graph_views'):
+                rec = {'view_mode':'graph', 'view_id':graph_id, 'sequence':4}
+                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
+            if kw.get('calendar_views'):
+                rec = {'view_mode':'calendar', 'view_id':calendar_id, 'sequence':3}
+                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
+            if kw.get('gantt_views'):
+                rec = {'view_mode':'gantt', 'view_id':gantt_id, 'sequence':5}                                        
+                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
+        
+            datas = {'name': name, 
+                   'res_model': model, 
+                   'domain': domain, 
+                   'context': str({}),
+                   'view_ids':[(6, 0, v_ids)],
+                   'search_view_id': kw.get('search_view_id'), 
+                   'filter': True, 
+                   'default_user_ids': [[6, 0, [rpc.session.uid]]], 
+                   }
+            action_id = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'create', datas)
 
-        if flag == 'sh':
-            parent_menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'search', [('name','=','Custom Shortcuts')])
-            
-            if parent_menu_id:
-                menu_data = {'name': name,
-                           'sequence': 20,
-                           'action': 'ir.actions.act_window,' + str(action_id),
-                           'parent_id': parent_menu_id[0],
-                           }
+            if flag == 'sh':
+                parent_menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'search', [('name','=','Custom Shortcuts')])
                 
-                menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'create', menu_data)
-                sc_data = {'name': name,
-                         'sequence': 1,
-                         'res_id': menu_id,
-                         }
-                shortcut_id = rpc.session.execute('object', 'execute', 'ir.ui.view_sc', 'create', sc_data)
+                if parent_menu_id:
+                    menu_data = {'name': name,
+                               'sequence': 20,
+                               'action': 'ir.actions.act_window,' + str(action_id),
+                               'parent_id': parent_menu_id[0],
+                               }
+                    
+                    menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'create', menu_data)
+                    sc_data = {'name': name,
+                             'sequence': 1,
+                             'res_id': menu_id,
+                             }
+                    shortcut_id = rpc.session.execute('object', 'execute', 'ir.ui.view_sc', 'create', sc_data)
+            return True
         
     @expose('json')
     def ok(self, **kw):
