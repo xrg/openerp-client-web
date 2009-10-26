@@ -7,9 +7,26 @@
             var res = ${data|n};
             return MochiKit.Base.serializeJSON(res);
         }
-        swfobject.embedSWF("/static/open-flash-chart.swf", "${name}", "${width}", "${height}", "9.0.0", 
-        "expressInstall.swf", {'get-data': 'get_chart_${name}'}, {'wmode': 'transparent'});
     </script>
+    
+    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
+            codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
+            width="${width}"
+		    height="${height}" id="${name}" align="middle">
+     
+	    <param name="movie" value="${py.url('/static/ofc2/open-flash-chart.swf')}" />
+	    <param name="flashvars" value="get-data=get_chart_${name}"/>
+	    
+	    <embed src="${py.url('/static/ofc2/open-flash-chart.swf')}"
+		       width="${width}"
+		       height="${height}"
+		       bgcolor="#FFFFFF"
+		       name="${name}"
+		       align="middle"
+		       type="application/x-shockwave-flash"
+		       pluginspage="http://www.macromedia.com/go/getflashplayer"
+		       flashvars="get-data=get_chart_${name}" />
+    </object>    
     
 </div>
 
