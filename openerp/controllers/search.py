@@ -286,8 +286,9 @@ class Search(Form):
                          'domain':'[(\'filter\',\'=\',True), (\'res_model\',\'=\',\'' + model + '\'), (\'default_user_ids\',\'in\', (\'' + str(rpc.session.uid) + '\',))]'}
                     return dict(action=act)
             else:
-                selection_domain = eval(selection_domain)
-                domain += selection_domain
+                selection_domain = tools.expr_eval(selection_domain)
+                if selection_domain:
+                    domain += selection_domain
         
         if not domain:
             domain = None
