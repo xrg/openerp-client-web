@@ -40,10 +40,10 @@
             var tree = ${tree.name};
             
             var fields = tree.selection;
-            var select = $('fields');
+            var select = openobject.dom.get('fields');
 
             var opts = {};
-            forEach($('fields').options, function(o){
+            forEach(openobject.dom.get('fields').options, function(o){
                 opts[o.value] = o;
             });
 
@@ -59,7 +59,7 @@
         }
 		
         function open_savelist(id) {
-            var elem = $(id);
+            var elem = openobject.dom.get(id);
             elem.style.display = elem.style.display == 'none' ? '' : 'none';
         }
 
@@ -67,7 +67,7 @@
             var form = document.forms['view_form'];
             form.action = openobject.http.getURL('/impex/save_exp');
             
-            var options = $('fields').options;            
+            var options = openobject.dom.get('fields').options;            
             forEach(options, function(o){
                 o.selected = true;
             });
@@ -77,10 +77,10 @@
         
         function del_fields(all){
 
-            var fields = filter(function(o){return o.selected;}, $('fields').options);
+            var fields = filter(function(o){return o.selected;}, openobject.dom.get('fields').options);
 
             if (all){
-                $('fields').innerHTML = '';
+                openobject.dom.get('fields').innerHTML = '';
             } else {
                 forEach(fields, function(f){
                     removeElement(f);
@@ -89,8 +89,8 @@
         }
         
         function do_select(id, src) {
-            $('fields').innerHTML = '';
-            model = $('_terp_model').value;
+            openobject.dom.get('fields').innerHTML = '';
+            model = openobject.dom.get('_terp_model').value;
             params = {'_terp_id': id, '_terp_model': model}
             
             req = openobject.http.postJSON('/impex/get_namelist', params);
@@ -123,7 +123,7 @@
         }
         
         function reload(name_list) {
-            var select = $('fields');
+            var select = openobject.dom.get('fields');
 
             forEach(name_list, function(f){                
                 var text = f[1];
@@ -134,7 +134,7 @@
 
         function do_export(form){
 
-            var options = $('fields').options;
+            var options = openobject.dom.get('fields').options;
 
             if (options.length == 0){
                 return alert(_('Please select fields to export...'));
@@ -147,9 +147,9 @@
                 fields2 = fields2.concat('"' + o.text + '"');
             });
 
-            $('_terp_fields2').value = '[' + fields2.join(',') + ']';
+            openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + $('export_as').value));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + openobject.dom.get('export_as').value));
             form.submit();
         }
     </script>

@@ -11,33 +11,33 @@
                 return false;
             }
 
-            var user = $('user').value;
-            var password = $('password').value;
+            var user = openobject.dom.get('user').value;
+            var password = openobject.dom.get('password').value;
 
             if (!(user || password)) {
                 MochiKit.Visual.Highlight('user', {'startcolor': '#FF6666'});
                 MochiKit.Visual.Highlight('password', {'startcolor': '#FF6666'});
-                $('user').focus();
+                openobject.dom.get('user').focus();
                 MochiKit.Style.hideElement('message');
                 return false;
             }
 
             if (!user) {
                 MochiKit.Visual.Highlight('user', {'startcolor': '#FF6666'});
-                $('user').focus();
+                openobject.dom.get('user').focus();
                 MochiKit.Style.hideElement('message');
                 return false;
             }
 
             if (!password) {
                 MochiKit.Visual.Highlight('password', {'startcolor': '#FF6666'});
-                $('password').focus();
+                openobject.dom.get('password').focus();
                 MochiKit.Style.hideElement('message');
                 return false;
             }
 
             var req = openobject.http.getJSON('/login', {
-                'db': $('db').value,
+                'db': openobject.dom.get('db').value,
                 'user': user,
                 'password': password,
                 'tg_format': 'json'
@@ -45,8 +45,8 @@
 
             req.addCallback(function(obj){
                 if (obj.result) {
-                    $('password').value = '';
-                    window.open($('location').value || '/');
+                    openobject.dom.get('password').value = '';
+                    window.open(openobject.dom.get('location').value || '/');
                     MochiKit.Style.hideElement('message');
                 } else {
                     MochiKit.Visual.appear('message');

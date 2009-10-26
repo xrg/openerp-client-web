@@ -12,7 +12,7 @@
         % if prev:
         </a>
         % endif
-        <a href="javascript: void(0)" onclick="$('_${name+str(pager_id)}_link_span').style.display='none'; $('_${name+str(pager_id)}_limit_span').style.display=''">${page_info}</a>
+        <a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_link_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display=''">${page_info}</a>
         % if next:
         <a href="javascript: void(0)" onclick="pager_action('next', '${name}'); return false;">
         % endif
@@ -30,10 +30,10 @@
     <table id="_${name+str(pager_id)}_limit_span" style="width: 100%; display: none" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td align="right">
-                <a href="javascript: void(0)" onclick="$('_${name+str(pager_id)}_limit_span').style.display='none'; $('_${name+str(pager_id)}_link_span').style.display=''">${_("Change Limit:")}</a>&nbsp;
+                <a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_link_span').style.display=''">${_("Change Limit:")}</a>&nbsp;
             </td>
             <td width="45px;">
-                <select id='_${name+str(pager_id)}_limit' onchange="$('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=$('_${name+str(pager_id)}_limit').value; pager_action('filter', '${name}')">
+                <select id='_${name+str(pager_id)}_limit' onchange="openobject.dom.get('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=openobject.dom.get('_${name+str(pager_id)}_limit').value; pager_action('filter', '${name}')">
                     <option value="20" ${py.selector(limit==20)}>20</option>
                     <option value="40" ${py.selector(limit==40)}>40</option>
                     <option value="60" ${py.selector(limit==60)}>60</option>

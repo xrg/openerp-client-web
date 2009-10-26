@@ -37,13 +37,13 @@
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = ${tree.name};
+            var tree = openobject.dom.get{tree.name};
             
             var fields = tree.selection;
-            var select = $('fields');
+            var select = openobject.dom.get('fields');
 
             var opts = {};
-            forEach($('fields').options, function(o){
+            forEach(openobject.dom.get('fields').options, function(o){
                 opts[o.value] = o;
             });
 
@@ -60,10 +60,10 @@
 
         function del_fields(all){
 
-            var fields = filter(function(o){return o.selected;}, $('fields').options);
+            var fields = filter(function(o){return o.selected;}, openobject.dom.get('fields').options);
 
             if (all){
-                $('fields').innerHTML = '';
+                openobject.dom.get('fields').innerHTML = '';
             } else {
                 forEach(fields, function(f){
                     removeElement(f);
@@ -73,7 +73,7 @@
 
         function do_import(form){
 
-            var options = $('fields').options;
+            var options = openobject.dom.get('fields').options;
 
             forEach(options, function(o){
                 o.selected = true;
@@ -86,7 +86,7 @@
         }
 
         function on_detector(src){
-            var d = $("detector");
+            var d = openobject.dom.get("detector");
 
             if (d.contentDocument)
                 d = d.contentDocument;
@@ -98,9 +98,9 @@
             var f = d.getElementById('fields');
 
             if (f) {
-                $('fields').innerHTML = '';
+                openobject.dom.get('fields').innerHTML = '';
                 forEach(f.options, function(o){
-                    $('fields').options.add(new Option(o.text, o.value));
+                    openobject.dom.get('fields').options.add(new Option(o.text, o.value));
                 });
             } else {
                 f = d.getElementsByTagName('pre');
@@ -110,7 +110,7 @@
 
         function do_autodetect(form){
 
-            if (! $('csvfile').value ){
+            if (! openobject.dom.get('csvfile').value ){
                 return alert(_('You must select an import file first!'));
             }
 

@@ -25,7 +25,7 @@
                 <a href="javascript: void(0)" onclick="getCalendar('${day.isoformat()}', 'day'); return false;">${day.day}</a>
                 % endif
                 % if forweek:
-                <a href="javascript: void(0)" onclick="$('_terp_selected_day').value='${day.isoformat()}'; getCalendar('${day.isoformat()}', 'week'); return false;">${day.day}</a>
+                <a href="javascript: void(0)" onclick="openobject.dom.get('_terp_selected_day').value='${day.isoformat()}'; getCalendar('${day.isoformat()}', 'week'); return false;">${day.day}</a>
                 % endif
             </td>
             % endfor

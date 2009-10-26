@@ -14,14 +14,13 @@
             var elem = pwin.document.getElementById('calEventNew');
 
             var starts = getNodeAttribute(elem, 'dtStart');
-            var ends = getNodeAttribute(elem, 'dtEnd');
-
+            var ends = getNodeAttribute(elem, 'dtEnd');	
             var params = {
-                '_terp_model': $('_terp_model').value,
+                '_terp_model': openobject.dom.get('_terp_model').value,
                 '_terp_fields': pwin.document.getElementById('_terp_calendar_fields').value,
                 '_terp_starts' : starts,
                 '_terp_ends' : ends,
-                '_terp_context': $('_terp_context').value
+                '_terp_context': openobject.dom.get('_terp_context').value
             }
 
             var req = openobject.http.postJSON('/calpopup/get_defaults', params);
@@ -38,9 +37,9 @@
         }
 
         function on_load() {
-            var id = parseInt($('_terp_id').value) || 0;
+            var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
             
-            var lc = $('_terp_load_counter').value;
+            var lc = openobject.dom.get('_terp_load_counter').value;
             lc = parseInt(lc) || 0;
 
             if (lc > 0) { 

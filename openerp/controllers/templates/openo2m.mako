@@ -42,7 +42,7 @@
 
             MochiKit.DOM.appendChildNodes(form, fields);
 
-            var lc = $('_terp_load_counter').value;
+            var lc = openobject.dom.get('_terp_load_counter').value;
 
             lc = parseInt(lc) || 0;
 

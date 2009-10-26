@@ -40,7 +40,7 @@
         % if screen:
     	<td id='${name}_container'>
             ${screen.display()}
-            <!-- IMP: IE problem, $('some_name') returns field with name="some_id" instead of id="some_id" -->
+            <!-- IMP: IE problem, openobject.dom.get('some_name') returns field with name="some_id" instead of id="some_id" -->
             <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' name="${name}" value="${screen.ids}" ${py.attrs(attrs)} relation="${relation}"/>
         </td>
         % endif

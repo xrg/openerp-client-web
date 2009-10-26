@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
     function onSubmit() {
-        var form = $('selection');
+        var form = openobject.dom.get('selection');
         var result = false;
 
         forEach(form._terp_action, function(e){

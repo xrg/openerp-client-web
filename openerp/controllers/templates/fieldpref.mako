@@ -5,7 +5,7 @@
     
     <script type="text/javascript">
         addLoadEvent(function(evt){            
-            if($('click_ok').value)
+            if(openobject.dom.get('click_ok').value)
                 window.close();
         });
     </script>

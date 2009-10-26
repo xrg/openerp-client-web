@@ -10,7 +10,7 @@
     <script type="text/javascript">
 
         function submit_search_form(action){
-            form = $('search_form');
+            form = openobject.dom.get('search_form');
             setNodeAttribute(form, 'action', action);
 
             disable_hidden_search_fields();
@@ -87,8 +87,8 @@
             act = openobject.http.getURL('/openm2o/edit', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2o: '${params.source}',
-                                           _terp_domain: $('_terp_domain').value,
-                                           _terp_context: $('_terp_context').value});
+                                           _terp_domain: openobject.dom.get('_terp_domain').value,
+                                           _terp_context: openobject.dom.get('_terp_context').value});
             window.location.href = act;
         }
     </script>
@@ -129,8 +129,8 @@
             act = openobject.http.getURL('/openm2m/new', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2m: '${params.source}',
-                                           _terp_domain: $('_terp_domain').value,
-                                           _terp_context: $('_terp_context').value});
+                                           _terp_domain: openobject.dom.get('_terp_domain').value,
+                                           _terp_context: openobject.dom.get('_terp_context').value});
             window.location.href = act;
         }
     </script>

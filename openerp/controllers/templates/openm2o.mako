@@ -21,7 +21,7 @@
             if (lc > 1 && id) {
                 window.opener.document.getElementById('${params.m2o}').value = id;
                 window.opener.document.getElementById('${params.m2o}_text').value = '';
-                window.opener.setTimeout("signal($('${params.m2o}'), 'onchange')", 0);
+                window.opener.setTimeout("signal(openobject.dom.get('${params.m2o}'), 'onchange')", 0);
             }
 
             if (lc > 1) {
