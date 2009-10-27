@@ -148,6 +148,34 @@ var search_image_filter = function(src, id) {
 	search_filter(src);
 }
 
+var onKey_Event = function(evt) {
+	
+	dom = $('search_filter_data');
+	
+	var editors = [];
+	
+	editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
+    editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
+    editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
+    
+    var editors = filter(function(e){
+        return e.type != 'hidden' && !e.disabled
+    }, editors);
+
+    forEach(editors, function(e){
+        connect(e, 'onkeydown', self, onKeyDown_search);
+    });
+}
+
+var onKeyDown_search = function(evt) {
+	var key = evt.key();
+    var src = evt.src();
+    
+    if (key.string == "KEY_ENTER"){
+    	search_filter();
+    }
+}
+
 var search_filter = function(src) {
 	
 	all_domains = {};
@@ -376,4 +404,6 @@ var SelectedDomains = function() {
     }, this.getSelectedDomain());
 }
 
-    
+MochiKit.DOM.addLoadEvent(function(evt){
+	onKey_Event(evt);
+});
