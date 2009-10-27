@@ -246,7 +246,10 @@ class Search(Form):
         
         if domains:
             for key in domains:
-                domain += [(key, '=', domains[key])]
+                if isinstance(domains[key], int):
+                    domain += [(key, '=', domains[key])]
+                else:
+                    domain += [(key, 'ilike', domains[key])]
         
         if custom_domains:
             inner_domain = []

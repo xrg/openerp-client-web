@@ -164,11 +164,8 @@ var search_filter = function(src) {
 			value = d.value;
 			if (getNodeAttribute(d, 'kind') == 'selection') {
 				value = parseInt(d.value);
-				domains[d.name] = value;
 			}
-			else {
-				domains[d.name] = value;
-			}
+			domains[d.name] = value;
 		}
 	});
 	
