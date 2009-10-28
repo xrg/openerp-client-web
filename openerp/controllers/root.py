@@ -78,30 +78,13 @@ class Root(SecuredController):
 
         return controllers.actions.execute_by_id(act_id)
 
-    @expose()
+    @expose(template="templates/index.mako")
     def index(self):
         """Index page, loads the view defined by `action_id`.
         """
         #return self.user_action('action_id')
-        raise redirect("/main")
-        
-    @expose()
-    def info(self):
-        return """
-    <html>
-    <head></head>
-    <body>
-        <div align="center" style="padding: 50px;">
-            <img border="0" src="%s"></img>
-        </div>
-    </body>
-    </html>
-    """ % (url("/static/images/loading.gif"))
-    
-    @expose(template="templates/main.mako")
-    def main(self):
         return dict()
-
+        
     @expose()
     def menu(self):
         """Main menu page, loads the view defined by `menu_id`.

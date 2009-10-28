@@ -29,8 +29,8 @@
         var toggleMenubar = function() {
         
             var current = getCurrentFrame();
-            
-            if (appFrame.contentWindow.location.pathname.length == 0) {
+                        
+            if (appFrame.contentWindow.location.href == "about:blank") {
                 return showMenuBar();
             }
             

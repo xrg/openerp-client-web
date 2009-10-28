@@ -31,7 +31,7 @@ except:
                         <a href="${py.url('/')}">${_("Home")}</a>
                         <a href="${py.url('/pref/create')}">${_("Preferences")}</a>
                         <a href="${py.url('/about')}">${_("About")}</a>
-                        <a href="${py.url('/logout')}">${_("Logout")}</a>
+                        <a href="${py.url('/logout')}" target="_top">${_("Logout")}</a>
                     </td>
                 </tr>
             </table>
@@ -56,7 +56,7 @@ except:
                     if (frame == "appFrame" || frame == "menuFrame") {
                         parent.setTimeout("toggleMenubar()", 0);
                     } else {
-                        openobject.http.redirect("/main");
+                        openobject.http.redirect("/");
                     }
                 }
             </script>
