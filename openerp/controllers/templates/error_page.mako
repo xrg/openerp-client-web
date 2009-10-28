@@ -154,7 +154,7 @@ is displayed on the second tab.""")}
                     </div>
                 </div>
                 <script type="text/javascript">
-                    new Notebook('error_page_notebook');
+                    new Notebook('error_page_notebook', {'closable': false});
                 </script>
 </form>
             </td>
