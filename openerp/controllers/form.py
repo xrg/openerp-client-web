@@ -57,7 +57,7 @@ def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
     Will be used for search window...
     """
-        
+
     if isinstance(value, int) and not isinstance(value, bool):
         return [(name, '=', value)]
 
@@ -76,10 +76,10 @@ def make_domain(name, value, kind='char'):
             return [(name, '<=', end)]
 
         return None
-    
+
     if kind == "selection" and value:
         return [(name, '=', value)]
-    
+
     if isinstance(value, basestring) and value:
         return [(name, 'ilike', value)]
 
@@ -104,10 +104,10 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     domain = domain or []
     context = context or {}
     data = data or {}
-    
+
     proxy = rpc.RPCProxy(model)
     fields = proxy.fields_get([], {})
-    
+
     search_domain = domain[:]
     search_data = {}
 
@@ -152,9 +152,9 @@ def get_validation_schema(self):
 
     cherrypy.request.terp_validators = {}
     cherrypy.request.terp_data = data
-    
+
     params.nodefault = True
-    
+
     form = self.create_form(params)
     cherrypy.request.terp_form = form
 
@@ -245,10 +245,10 @@ class Form(SecuredController):
 
         if cache.can_write('ir.ui.view'):
             links.view_manager = True
-            
+
         if cache.can_write('workflow'):
             links.workflow_manager = True
-            
+
         buttons.process = cache.can_read('process.process')
 
         pager = None
@@ -278,7 +278,7 @@ class Form(SecuredController):
 
         params.editable = True
         params.view_type = 'form'
-        
+
         cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
@@ -317,7 +317,7 @@ class Form(SecuredController):
 
         params.editable = False
         params.view_type = 'form'
-        
+
         cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
@@ -422,7 +422,7 @@ class Form(SecuredController):
                 'limit': params.limit,
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
-                
+
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
 
@@ -591,7 +591,7 @@ class Form(SecuredController):
             proxy.write([params.id], {params.field: False, params.fname: False}, ctx)
         else:
             proxy.write([params.id], {params.field: False}, ctx)
-            
+
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
@@ -603,7 +603,7 @@ class Form(SecuredController):
                 'limit': params.limit,
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
-                
+
         raise redirect(self.path + '/edit', **args)
 
     @expose()
@@ -641,6 +641,9 @@ class Form(SecuredController):
                 o += l
             elif id in ids:
                 id = ids[ids.index(id)+1]
+            elif id == False:
+                o = 0
+                id = ids[0]
 
         if filter_action:
             # remember the current page (tab) of notebooks
@@ -825,33 +828,33 @@ class Form(SecuredController):
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         id = params.id or False
         ids = params.selection or []
-        
+
         if not ids and id:
             ids = [id]
-            
+
         if not id and ids:
             id = ids[0]
-        
+
         domain = params.domain or []
         context = params.context or {}
-        
+
         act_id = params.action
-        
+
         if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the sidebar button!'))
-        
+
         if not act_id:
             return self.do_action('client_action_multi', datas=kw)
-        
+
         action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
         action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
-        
+
         action['domain'] = domain or []
         action['context'] = context or {}
-        
+
         from openerp.controllers import actions
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
@@ -924,13 +927,13 @@ class Form(SecuredController):
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:
             return dict(error=ustr(e))
-        
+
         if response is False: # response is False when creating new record for inherited view.
             response = {}
-            
+
         if 'value' not in response:
             response['value'] = {}
-            
+
         result.update(response)
 
         # apply validators (transform values from python)
