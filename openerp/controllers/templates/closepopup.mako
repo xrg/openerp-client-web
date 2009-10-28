@@ -6,7 +6,7 @@
         
             var frame = window.frameElement ? window.frameElement.name : null;
             
-            if (frame = "appFrame") {
+            if (frame == "appFrame") {
                 window.location.href = "about:blank";
                 return parent.setTimeout("showMenuBar()", 0);
             }
