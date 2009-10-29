@@ -532,7 +532,7 @@ class Boolean(Char):
     
     params = ['value', 'kind']
     
-    template = """ <input type="checkbox" kind="${kind}" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
+    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
 
     def get_text(self):
         self.kind=self.attrs.get('type', 'boolean')

@@ -115,29 +115,21 @@ class Frame(TinyInputWidget):
 
         for row in self.table:
 
-            ## adjust the columns
-            #if len(row):
-            #    cs = reduce(lambda x,y: x +y, [a.get('colspan', 1) for a,w in row])
-            #    a['colspan'] = a.get('colspan', 1) + self.columns - cs
+            sn = len([w for a, w in row if isinstance(w, (basestring, Label, Image))])
 
-            sn = len([w for a, w in row if isinstance(w, (basestring, Label))])
-            pn = len([w for a, w in row if isinstance(w, Image)])
-
-            sw = 5                                  # label width
-            pw = 1                                  # image width
-            ww = 100.00 - sw * sn - pw * pn         # remaining width
-            cn = self.columns - sn - pn             # columns - (lables + image)
+            sw = 5                                  # label & image width
+            ww = 100.00 - sw * sn                   # remaining width
+            cn = self.columns - sn                  # columns - (lables + image)
 
             cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
 
             if cn < 1: cn = 1
-
+            
             for i, (a, wid) in enumerate(row):
 
-                if isinstance(wid, (basestring, Label)):
+                if isinstance(wid, (basestring, Label, Image)):
                     w = sw
-                elif isinstance(wid, Image):
-                    w = pw
+                    
                 else:
                     c = a.get('colspan', 1)
                     if c > max_length:
@@ -147,14 +139,20 @@ class Frame(TinyInputWidget):
                         w = ww * c / cn
                     else:
                         w = 0
-
+                        
                 a['width'] = '%d%%' % (w)
 
     def add_row(self):
+        
+        if len(self.table) and len(self.table[-1]) == 0:
+            return self.table[-1]
+        
         self.table.append([])
 
         self.x = 0
         self.y += 1
+        
+        return self.table[-1]
 
     def _add_validator(self, widget):
 
