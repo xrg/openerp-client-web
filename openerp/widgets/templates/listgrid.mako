@@ -176,9 +176,6 @@
                         % if editable:
                         <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
-                        % if buttons:
-                        <td class="grid-cell button"><div style="width: 0px;"></div></td>
-                        % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
                              % if 'sum' in field_attrs:
@@ -193,6 +190,9 @@
                              % endif
                         </td>
                         % endfor
+                        % if buttons:
+                        <td class="grid-cell button"><div style="width: 0px;"></div></td>
+                        % endif
                         % if editable:
                         <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
