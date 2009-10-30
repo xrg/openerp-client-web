@@ -51,6 +51,15 @@ openobject.dom = {
      *
      */    
     select: function(selector, context) {
+    
+        if (selector == window || selector == document) {
+            return [selector];
+        }
+    
+        if (typeof(selector) != "string") {
+            return MochiKit.Base.isArrayLike(selector) ? selector : [selector];
+        }
+    
         return Sizzle(selector, MochiKit.DOM.getElement(context));
     },
     
