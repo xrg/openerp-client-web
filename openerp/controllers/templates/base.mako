@@ -24,6 +24,8 @@
         openobject.http.SCRIPT_PATH = "${cp.request.app.script_name}";
     </script>
     
+    <script type="text/javascript" src="${py.url('/static/javascript/ajax_stat.js')}"></script>
+    
 % for js in widget_javascript.get('head', []):
     ${js.display()}
 % endfor
