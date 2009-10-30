@@ -162,7 +162,7 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
         }, elems);
 
         if (elems.length) {
-            new Tips(elems);
+            new openobject.ui.Tips(elems);
         }
     },
 

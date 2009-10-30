@@ -40,7 +40,7 @@
     <![endif]-->
     
     <script type="text/javascript" src="${py.url('/static/javascript/menu.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/tips.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.ui.tips.js')}"></script>
     
     <script type="text/javascript">
         

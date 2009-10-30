@@ -31,11 +31,11 @@
 // Bubble Tooltips (http://web-graphics.com/mtarchive/001717.php) 
 // by Alessandro Fulcitiniti (http://web-graphics.com)
 
-var Tips = function(elements, options) {
+openobject.ui.Tips = function(elements, options) {
     this.__init__(elements, options);
 }
 
-Tips.prototype = {
+openobject.ui.Tips.prototype = {
 
 __init__ : function(elements, options) {
 
@@ -189,9 +189,7 @@ MochiKit.DOM.addLoadEvent(function(evt){
 
     }, openobject.dom.select('td.label', document));
     
-    new Tips(elements);
+    new openobject.ui.Tips(elements);
 });
 
 // vim: ts=4 sts=4 sw=4 si et
-
-
