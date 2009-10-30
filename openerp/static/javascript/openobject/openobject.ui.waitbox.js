@@ -27,11 +27,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var WaitBox = function(options) {
+if (typeof(openobject.ui) == "undefined") {
+    throw "openobject.ui is required by 'openobject.ui.textarea'.";
+}
+
+openobject.ui.WaitBox = function(options) {
     this.__init__(options);
 }
 
-WaitBox.prototype = {
+openobject.ui.WaitBox.prototype = {
 
     __init__ : function(options) {
         

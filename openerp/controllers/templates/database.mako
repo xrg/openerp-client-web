@@ -3,7 +3,7 @@
 <%def name="header()">
     <title>${form.string}</title>
 
-    <script type="text/javascript" src="${py.url('/static/javascript/waitbox.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.ui.waitbox.js')}"></script>
     
     <link rel="stylesheet" type="text/css" href="${py.url('/static/css/waitbox.css')}"/>
     <link rel="stylesheet" type="text/css" href="${py.url('/static/css/database.css')}"/>
@@ -13,7 +13,7 @@
         var WAITBOX = null;
 
         MochiKit.DOM.addLoadEvent(function(evt){
-            WAITBOX = new WaitBox();
+            WAITBOX = new openobject.ui.WaitBox();
         });
 
         var dbView = function(name) {
