@@ -32,13 +32,11 @@ if (typeof(openobject.ui) == "undefined") {
     throw "openobject.ui is required by 'openobject.ui.textarea'.";
 }
 
-//TODO: rename ResizableTextarea to TextArea.
-
-openobject.ui.ResizableTextarea = function(ta){
+openobject.ui.TextArea = function(ta){
     this.__init__(ta);
 }
 
-openobject.ui.ResizableTextarea.prototype = {
+openobject.ui.TextArea.prototype = {
     
     __init__ : function(ta){
         this.textarea = openobject.dom.get(ta);

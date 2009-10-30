@@ -3,7 +3,7 @@
         ${py.attrs(attrs, kind=kind)}>${value}</textarea>
     <script type="text/javascript">
         if (!window.browser.isWebKit) {
-            new ResizableTextarea('${name}');
+            new openobject.ui.TextArea('${name}');
         }
     </script>
 % endif
