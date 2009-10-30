@@ -18,6 +18,7 @@
     <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.dom.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.tools.js')}"></script>
     <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.http.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.ui.js')}"></script>
     
     <script type="text/javascript">
         window.SCRIPT_PATH = "${cp.request.app.script_name}";

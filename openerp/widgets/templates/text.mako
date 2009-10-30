@@ -6,7 +6,7 @@
 % if editable and not inline:
 <script type="text/javascript">
     if (!window.browser.isWebKit) {
-        new ResizableTextarea('${name}');
+        new openobject.ui.ResizableTextarea('${name}');
     }
 </script>
 % endif

@@ -4,7 +4,7 @@
     <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
-    <script type="text/javascript" src="${py.url('/static/javascript/textarea.js')}"></script>
+    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.ui.textarea.js')}"></script>
     
     <script type="text/javascript">
         var send_maintenance_request = function() {
@@ -123,7 +123,7 @@ is displayed on the second tab.""")}
                                         <td class="item">
                                             <textarea id="explanation" class="text" rows="10"/>
                                             <script type="text/javascript">
-                                                new ResizableTextarea('explanation');
+                                                new openobject.ui.ResizableTextarea('explanation');
                                             </script>
                                         </td>
                                     </tr>
@@ -132,7 +132,7 @@ is displayed on the second tab.""")}
                                         <td class="item">
                                             <textarea id="remarks" class="text" rows="10"/>
                                             <script type="text/javascript">
-                                                new ResizableTextarea('remarks');
+                                                new openobject.ui.ResizableTextarea('remarks');
                                             </script>
                                         </td>
                                     </tr>
@@ -149,7 +149,7 @@ is displayed on the second tab.""")}
                     <div title="${_('Application Error!')}">
                         <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20">${error}</textarea>
                         <script type="text/javascript">
-                            new ResizableTextarea('error');
+                            new openobject.ui.ResizableTextarea('error');
                         </script>
                     </div>
                 </div>
