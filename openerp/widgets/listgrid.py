@@ -101,7 +101,7 @@ class List(TinyWidget):
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-
+        
         self.mode_views = kw.get('view_mode', [])
 
         self.offset = kw.get('offset', 0)
@@ -124,10 +124,10 @@ class List(TinyWidget):
 
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string','')
-
+        
         # is relational field (M2M/O2M)
         if self.source:
-            self.limit = cherrypy.request.app.config['openerp-web'].get('child.listgrid.limit', self.limit)
+            self.limit = cherrypy.request.app.config['openerp-web'].get('child.listgrid.limit', self.limit) 
             self.min_rows = cherrypy.request.app.config['openerp-web'].get('child.listgrid.min_rows', 5)
         else:
             self.min_rows = 5
@@ -160,10 +160,7 @@ class List(TinyWidget):
 
         self.data_dict = {}
         data = []
-
-        if not isinstance(ids, list):
-            ids = [ids]
-
+        
         if ids and len(ids) > 0:
 
             ctx = rpc.session.context.copy()
@@ -177,7 +174,7 @@ class List(TinyWidget):
                 self.data_dict[item['id']] = item.copy()
 
             self.ids = ids
-
+            
         self.values = copy.deepcopy(data)
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
@@ -425,11 +422,11 @@ class M2O(Char):
     """
 
     def get_text(self):
-
+        
         if isinstance(self.value, int):
             from many2one import get_name as _m2o_get_name
             self.value = self.value, _m2o_get_name(self.attrs['relation'], self.value)
-
+            
         if self.value and len(self.value) > 0:
             return self.value[-1]
 
@@ -437,7 +434,7 @@ class M2O(Char):
 
     def get_link(self):
         m2o_link = int(self.attrs.get('link', 1))
-
+        
         if m2o_link == 1:
             return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
         else:
@@ -507,9 +504,9 @@ class ProgressBar(Char):
 
     def get_text(self):
         if isinstance(self.value, float):
-            self.value = '%.2f' % (self.value)
+            self.value = '%.2f' % (self.value)            
             self.value = float(self.value)
-
+            
             if self.value > 100.0:
                 self.range = 100.0
             else:
@@ -536,7 +533,7 @@ class Boolean(Char):
             return _('No')
 
 class Button(TinyInputWidget):
-
+    
     params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
 
     template="""
