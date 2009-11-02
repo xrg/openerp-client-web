@@ -32,18 +32,18 @@ var One2Many = function(name, inline) {
     this.name = name;
     this.inline = inline > 0;
     
-    this.model = $(name + '/_terp_model').value;
-    this.mode = $(name + '/_terp_view_type').value;
+    this.model = openobject.dom.get(name + '/_terp_model').value;
+    this.mode = openobject.dom.get(name + '/_terp_view_type').value;
     
-    if ($(name + '/_terp_default_get_ctx'))
-    	this.default_get_ctx = $(name + '/_terp_default_get_ctx').value; 
+    if (openobject.dom.get(name + '/_terp_default_get_ctx'))
+    	this.default_get_ctx = openobject.dom.get(name + '/_terp_default_get_ctx').value; 
     
     var parent_prefix = name.indexOf('/') > -1 ? name.slice(0, name.lastIndexOf('/')+1) : '';
     
-    this.parent_model = $(parent_prefix + '_terp_model').value;
-    this.parent_id = $(parent_prefix + '_terp_id').value;
-    this.parent_context = $(parent_prefix + '_terp_context').value;
-    this.parent_view_id = $(parent_prefix + '_terp_view_id').value;
+    this.parent_model = openobject.dom.get(parent_prefix + '_terp_model').value;
+    this.parent_id = openobject.dom.get(parent_prefix + '_terp_id').value;
+    this.parent_context = openobject.dom.get(parent_prefix + '_terp_context').value;
+    this.parent_view_id = openobject.dom.get(parent_prefix + '_terp_view_id').value;
     
     // hide new button when editors are visible
     if (this.mode == 'tree' && this.inline){ 
@@ -87,9 +87,9 @@ One2Many.prototype = {
         var params = {};
 
         // get the required view params to get proper view
-        params['_terp_view_params/_terp_model'] = $('_terp_model').value;
-        params['_terp_view_params/_terp_view_ids'] = $('_terp_view_ids').value;
-        params['_terp_view_params/_terp_view_mode'] = $('_terp_view_mode').value;
+        params['_terp_view_params/_terp_model'] = openobject.dom.get('_terp_model').value;
+        params['_terp_view_params/_terp_view_ids'] = openobject.dom.get('_terp_view_ids').value;
+        params['_terp_view_params/_terp_view_mode'] = openobject.dom.get('_terp_view_mode').value;
         params['_terp_view_params/_terp_view_type'] = 'form';
 
         while(names.length) {
@@ -97,9 +97,9 @@ One2Many.prototype = {
             parents.push(names.shift());
             var prefix = parents.join('/');
 
-            params['_terp_view_params/' + prefix + '/_terp_model'] = $(prefix + '/_terp_model').value;
-            params['_terp_view_params/' + prefix + '/_terp_view_ids'] = $(prefix + '/_terp_view_ids').value;
-            params['_terp_view_params/' + prefix + '/_terp_view_mode'] = $(prefix + '/_terp_view_mode').value;
+            params['_terp_view_params/' + prefix + '/_terp_model'] = openobject.dom.get(prefix + '/_terp_model').value;
+            params['_terp_view_params/' + prefix + '/_terp_view_ids'] = openobject.dom.get(prefix + '/_terp_view_ids').value;
+            params['_terp_view_params/' + prefix + '/_terp_view_mode'] = openobject.dom.get(prefix + '/_terp_view_mode').value;
             params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
         }
 

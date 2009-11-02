@@ -446,7 +446,7 @@ WeekCalendar.AllDayGrid.prototype = {
                 rowcount = rowcount < evt.row ? evt.row : rowcount;
             });
         }
-        $('calAllDaySect').style.height = ((rowcount + 1) * 15) + 15 + 'px';
+        openobject.dom.get('calAllDaySect').style.height = ((rowcount + 1) * 15) + 15 + 'px';
 
         this.containers = containers;
     },
@@ -540,22 +540,22 @@ WeekCalendar.DayGrid.prototype = {
         this.makeEventContainers();
 
         // adjust right margins (accoring to the scrollbar size)
-        var sw = ($('calBodySect').offsetWidth - tbl.offsetWidth) || 17;
+        var sw = (openobject.dom.get('calBodySect').offsetWidth - tbl.offsetWidth) || 17;
 
         sw = sw - 2;
 
-        $('calHeaderSect').style.marginRight = sw + 'px';
-        $('calAllDaySect').style.marginRight = sw + 'px';
+        openobject.dom.get('calHeaderSect').style.marginRight = sw + 'px';
+        openobject.dom.get('calAllDaySect').style.marginRight = sw + 'px';
 
         if (Browser.isIE7){
-            $('calHeaderSect').style.marginRight = '16px';
-            $('calAllDaySect').style.marginRight = '16px';
-            $('calBodySect').style.paddingRight = '16px';
+            openobject.dom.get('calHeaderSect').style.marginRight = '16px';
+            openobject.dom.get('calAllDaySect').style.marginRight = '16px';
+            openobject.dom.get('calBodySect').style.paddingRight = '16px';
         }
 
         if (Browser.isIE6){
-            $('calBodySect').style.marginRight = sw + 'px';
-            $('calBodySect').parentNode.style.paddingRight = '4px';
+            openobject.dom.get('calBodySect').style.marginRight = sw + 'px';
+            openobject.dom.get('calBodySect').parentNode.style.paddingRight = '4px';
         }
 
         var st = this.calendar.options.hourStarts * this.calendar.options.hourHeight;
@@ -673,7 +673,7 @@ WeekCalendar.DayGrid.prototype = {
         var y = evt.mouse().page.y - elementPosition(target).y;
 
         if (Browser.isOpera){
-            y = evt.mouse().page.y - elementPosition2(target).y + $('calBodySect').scrollTop;
+            y = evt.mouse().page.y - elementPosition2(target).y + openobject.dom.get('calBodySect').scrollTop;
         }
 
         var w = this.calendar.colWidth;

@@ -49,7 +49,7 @@ ListView.prototype = {
         var prefix = name == '_terp_list' ? '' : name + '/';
 
         this.name = name;
-        this.model = $(prefix + '_terp_model') ? $(prefix + '_terp_model').value : null;
+        this.model = openobject.dom.get(prefix + '_terp_model') ? openobject.dom.get(prefix + '_terp_model').value : null;
         this.current_record = null;
     
         this.ids = openobject.dom.get(prefix + '_terp_ids').value;
@@ -73,7 +73,7 @@ ListView.prototype = {
 
         clear = clear ? false : true;
 
-        boxes = $(this.name).getElementsByTagName('input');
+        boxes = openobject.dom.get(this.name).getElementsByTagName('input');
         forEach(boxes, function(box){
             box.checked = clear;
         });
@@ -292,14 +292,14 @@ MochiKit.Base.update(ListView.prototype, {
         if (btype == "open") {
             return window.open(get_form_action('/form/edit', {
                         id: id,
-                        ids: $(prefix + '_terp_ids').value,
-                        model: $(prefix + '_terp_model').value,
-                        view_ids: $(prefix + '_terp_view_ids').value,
-                        domain: $(prefix + '_terp_domain').value,
-                        context: $(prefix + '_terp_context').value,
-                        limit: $(prefix + '_terp_limit').value,
-                        offset: $(prefix + '_terp_offset').value,
-                        count: $(prefix + '_terp_count').value}));
+                        ids: openobject.dom.get(prefix + '_terp_ids').value,
+                        model: openobject.dom.get(prefix + '_terp_model').value,
+                        view_ids: openobject.dom.get(prefix + '_terp_view_ids').value,
+                        domain: openobject.dom.get(prefix + '_terp_domain').value,
+                        context: openobject.dom.get(prefix + '_terp_context').value,
+                        limit: openobject.dom.get(prefix + '_terp_limit').value,
+                        offset: openobject.dom.get(prefix + '_terp_offset').value,
+                        count: openobject.dom.get(prefix + '_terp_count').value}));
         }
 
         name = name.split('.').pop();
@@ -363,7 +363,7 @@ MochiKit.Base.update(ListView.prototype, {
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
         args['_terp_id'] = id ? id : -1;
-        args['_terp_ids'] = $(prefix + '_terp_ids').value;
+        args['_terp_ids'] = openobject.dom.get(prefix + '_terp_ids').value;
         args['_terp_model'] = this.model;
 
         if (parent_field.length > 0){
@@ -373,9 +373,9 @@ MochiKit.Base.update(ListView.prototype, {
         parent_field = parent_field.join('/');
         parent_field = parent_field ? parent_field + '/' : '';
 
-        args['_terp_parent/id'] = $(parent_field + '_terp_id').value;
-        args['_terp_parent/model'] = $(parent_field + '_terp_model').value;
-        args['_terp_parent/context'] = $(parent_field + '_terp_context').value;
+        args['_terp_parent/id'] = openobject.dom.get(parent_field + '_terp_id').value;
+        args['_terp_parent/model'] = openobject.dom.get(parent_field + '_terp_model').value;
+        args['_terp_parent/context'] = openobject.dom.get(parent_field + '_terp_context').value;
         args['_terp_source'] = this.name;
 
         var self = this;
@@ -398,8 +398,8 @@ MochiKit.Base.update(ListView.prototype, {
                 }
             } else {
 
-                $(prefix + '_terp_id').value = obj.id;
-                $(prefix + '_terp_ids').value = obj.ids;
+                openobject.dom.get(prefix + '_terp_id').value = obj.id;
+                openobject.dom.get(prefix + '_terp_ids').value = obj.ids;
 
                 self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
              }
@@ -447,9 +447,9 @@ MochiKit.Base.update(ListView.prototype, {
 
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
-        var o = $(prefix + '_terp_offset');
-        var l = $(prefix + '_terp_limit');
-        var c = $(prefix + '_terp_count');
+        var o = openobject.dom.get(prefix + '_terp_offset');
+        var l = openobject.dom.get(prefix + '_terp_limit');
+        var c = openobject.dom.get(prefix + '_terp_count');
 
         var ov = o.value ? parseInt(o.value) : 0;
         var lv = l.value ? parseInt(l.value) : 0;
@@ -489,15 +489,15 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_concurrency_info'] = concurrency_info;
 
         if (this.name == '_terp_list') {
-            args['_terp_search_domain'] = $('_terp_search_domain').value;
+            args['_terp_search_domain'] = openobject.dom.get('_terp_search_domain').value;
         }
 
         var req = openobject.http.postJSON('/listgrid/get', args);
         req.addCallback(function(obj){
 
-            var _terp_id = $(self.name + '/_terp_id') || $('_terp_id');
-            var _terp_ids = $(self.name + '/_terp_ids') || $('_terp_ids');
-            var _terp_count = $(self.name + '/_terp_count') || $('_terp_count');
+            var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
+            var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
+            var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
             
             if(obj.ids) {
                 _terp_id.value = obj.ids.length ? obj.ids[0] : 'False';
@@ -579,7 +579,7 @@ MochiKit.Base.update(ListView.prototype, {
         
         openobject.tools.openWindow(openobject.http.getURL('/impex/exp', {_terp_model: this.model, 
                                          _terp_source: this.name, 
-                                         _terp_search_domain: $('_terp_search_domain').value, 
+                                         _terp_search_domain: openobject.dom.get('_terp_search_domain').value, 
                                          _terp_ids: ids,
                                          _terp_view_ids : this.view_ids,
                                          _terp_view_mode : this.view_mode}));

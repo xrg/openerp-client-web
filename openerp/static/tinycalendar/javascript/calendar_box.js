@@ -42,8 +42,8 @@ InfoBox.prototype = {
             description: null   // description
         }, params);
 
-        this.layer = $('calInfoLayer');
-        this.box = $('calInfoBox');
+        this.layer = openobject.dom.get('calInfoLayer');
+        this.box = openobject.dom.get('calInfoBox');
 
         var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, _('Cancel'));
         var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, _('Edit'));

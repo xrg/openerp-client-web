@@ -48,20 +48,20 @@ var openRecord = function(id, src, target, readonly){
     
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
-    var model = $(prefix + '_terp_model').value;
-    var view_ids = $(prefix + '_terp_view_ids').value;
-    var view_mode = $(prefix + '_terp_view_mode').value;
+    var model = openobject.dom.get(prefix + '_terp_model').value;
+    var view_ids = openobject.dom.get(prefix + '_terp_view_ids').value;
+    var view_mode = openobject.dom.get(prefix + '_terp_view_mode').value;
 
-    var ids = $(prefix + '_terp_ids').value;
+    var ids = openobject.dom.get(prefix + '_terp_ids').value;
 
-    var offset = $(prefix + '_terp_offset').value;
-    var limit = $(prefix + '_terp_limit').value;
-    var count = $(prefix + '_terp_count').value;
+    var offset = openobject.dom.get(prefix + '_terp_offset').value;
+    var limit = openobject.dom.get(prefix + '_terp_limit').value;
+    var count = openobject.dom.get(prefix + '_terp_count').value;
 
-    var domain = $(prefix + '_terp_domain').value;
-    var context = $(prefix + '_terp_context').value;
+    var domain = openobject.dom.get(prefix + '_terp_domain').value;
+    var context = openobject.dom.get(prefix + '_terp_context').value;
 
-    var search_domain = $('_terp_search_domain');
+    var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
 
     var args = {'model': model,
@@ -127,7 +127,7 @@ var switchView = function(view_type, src){
     if (openobject.dom.get('_terp_list')){
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
-            $('_terp_id').value = ids[0];
+            openobject.dom.get('_terp_id').value = ids[0];
         }
     }
 
@@ -151,7 +151,7 @@ var switch_O2M = function(view_type, src){
     if (openobject.dom.get('_terp_list')){
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
-            $('_terp_id').value = ids[0];
+            openobject.dom.get('_terp_id').value = ids[0];
         }
     }
     
@@ -285,7 +285,7 @@ var submit_form = function(action, src, target){
 
 var submit_search_form = function(action) {
 
-    if ($('search_view_notebook')) {
+    if (openobject.dom.get('search_view_notebook')) {
     
         var nb = SEARCH_NOTEBOOK;
         var tab = nb.getNext(nb.getActiveTab()) || nb.getPrev(nb.getActiveTab());
@@ -308,7 +308,7 @@ var submit_search_form = function(action) {
 
 var clear_search_form = function() {
 
-    if ($('search_view_notebook')) {
+    if (openobject.dom.get('search_view_notebook')) {
 
         var fields = [];
 
@@ -360,12 +360,12 @@ var onBooleanClicked = function(name) {
  */
 var getFormData = function(extended) {
 
-    var parentNode = $('_terp_list') || document.forms['view_form'];
+    var parentNode = openobject.dom.get('_terp_list') || document.forms['view_form'];
 
     var frm = {};
     var fields = [];
     
-    var is_editable = $('_terp_editable').value == 'True';
+    var is_editable = openobject.dom.get('_terp_editable').value == 'True';
     
     if (is_editable) {
 	    fields = openobject.dom.select("input, textarea, select", parentNode);
@@ -397,8 +397,8 @@ var getFormData = function(extended) {
         
             n = n.replace('/__id', '');
 
-            if ($(n + '/_terp_view_type').value == 'form') {
-                frm[n+'/__id'] = $(n+'/__id').value;
+            if (openobject.dom.get(n + '/_terp_view_type').value == 'form') {
+                frm[n+'/__id'] = openobject.dom.get(n+'/__id').value;
                 continue;
             }
             // skip if editable list's editors are visible
@@ -407,12 +407,12 @@ var getFormData = function(extended) {
             }
             
             
-            var value = $(n + '/_terp_ids').value;
+            var value = openobject.dom.get(n + '/_terp_ids').value;
 
             if (extended) {
                 value = {'value': value, 
                          'type': 'one2many', 
-                         'relation': $(n + '/_terp_model').value};
+                         'relation': openobject.dom.get(n + '/_terp_model').value};
                 value = serializeJSON(value);
             }
             
@@ -509,7 +509,7 @@ var getFormParams = function(name){
 
 var onChange = function(name) {
 
-    var caller = $(name);
+    var caller = openobject.dom.get(name);
     var callback = getNodeAttribute(caller, 'callback');
     var change_default = getNodeAttribute(caller, 'change_default');
     
@@ -522,9 +522,9 @@ var onChange = function(name) {
     prefix = prefix.slice(0, prefix.lastIndexOf('/')+1);
 
     var params = getFormData(1);
-    var model = is_list ? $(prefix.slice(17) + '_terp_model').value : $(prefix + '_terp_model').value;
-    var context = is_list ? $(prefix.slice(17) + '_terp_context').value : $(prefix + '_terp_context').value;
-    var id = is_list ? $(prefix.slice(17) + '_terp_id').value : $(prefix + '_terp_id').value;
+    var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
+    var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
+    var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
 
     params['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
     params['_terp_callback'] = callback;
@@ -547,7 +547,7 @@ var onChange = function(name) {
         domains = domains ? domains : {};
 
         for(var k in domains){
-            fld = $(prefix + k);
+            fld = openobject.dom.get(prefix + k);
             if (fld){
                 setNodeAttribute(fld, 'domain', domains[k]);
             }
@@ -556,7 +556,7 @@ var onChange = function(name) {
         for(var k in values){
             
             flag = false;
-            fld = $(prefix + k);
+            fld = openobject.dom.get(prefix + k);
 
             if (!fld) continue;
 
@@ -566,8 +566,8 @@ var onChange = function(name) {
             // prevent recursive onchange
             fld.__lock_onchange = true;
 
-            if ($(prefix + k + '_id')){
-                fld = $(prefix + k + '_id');
+            if (openobject.dom.get(prefix + k + '_id')){
+                fld = openobject.dom.get(prefix + k + '_id');
                 flag = true;
             }
 
@@ -583,12 +583,12 @@ var onChange = function(name) {
                 if (kind == 'many2one'){
                     fld.value = value[0] || '';
                     try {
-                        $(prefix + k + '_text').value = value[1] || '';
+                        openobject.dom.get(prefix + k + '_text').value = value[1] || '';
                     }catch(e){}
                 }
 
                 if (kind == 'boolean') {
-                    $(prefix + k + '_checkbox_').checked = value || false;
+                    openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
                 }
                 
                 if (kind=='text_html') {
@@ -628,8 +628,8 @@ var onChange = function(name) {
  */
 function getName(name, relation){
 
-    var value_field = $(name);
-    var text_field = $(value_field.name + '_text');
+    var value_field = openobject.dom.get(name);
+    var text_field = openobject.dom.get(value_field.name + '_text');
 
     relation = relation ? relation : getNodeAttribute(value_field, 'relation');
 
@@ -665,15 +665,15 @@ function eval_domain_context_request(options){
     params['_terp_domain'] = options.domain;
     params['_terp_context'] = options.context;
     params['_terp_prefix'] = prefix;    
-    params['_terp_active_id'] = prefix ? $(prefix + '/_terp_id').value : $('_terp_id').value;
-    params['_terp_active_ids'] = prefix ? $(prefix + '/_terp_ids').value : $('_terp_ids').value;
+    params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
+    params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
     
     if (options.active_id) {
         params['_terp_active_id'] = options.active_id;
         params['_terp_active_ids'] = options.active_ids;
     }
         
-    var parent_context = prefix ? $(prefix + '/_terp_context') : $('_terp_context');
+    var parent_context = prefix ? openobject.dom.get(prefix + '/_terp_context') : openobject.dom.get('_terp_context');
     
     if (parent_context){
         params['_terp_parent_context'] = parent_context.value;
@@ -735,7 +735,7 @@ function makeContextMenu(id, kind, relation, val) {
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
 
-    var model = prefix ? $(prefix + '_terp_model').value : $('_terp_model').value;
+    var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
 
     var params = {'model': model, 'field': id, 'kind': kind, 'relation': relation, 'value': val};
     
@@ -779,7 +779,7 @@ function makeContextMenu(id, kind, relation, val) {
             }
         }
 
-        $('contextmenu').innerHTML = '';
+        openobject.dom.get('contextmenu').innerHTML = '';
 
         var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 0}, 
                     TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
@@ -789,19 +789,19 @@ function makeContextMenu(id, kind, relation, val) {
         var vd = getViewportDimensions();
         var md = elementDimensions('contextmenu');
 
-        var x = $('contextmenu').style.left.slice(0, -2);
-        var y = $('contextmenu').style.top.slice(0, -2);
+        var x = openobject.dom.get('contextmenu').style.left.slice(0, -2);
+        var y = openobject.dom.get('contextmenu').style.top.slice(0, -2);
         x = parseInt(x);
         y = parseInt(y);
 
         if ((x + md.w) > vd.w) {
             x -= x + md.w - vd.w;
-            $('contextmenu').style.left = x + 'px';
+            openobject.dom.get('contextmenu').style.left = x + 'px';
         }
         
         if ((y + md.h) > vd.h) {
             y -= y + md.h - vd.h;
-            $('contextmenu').style.top = y + 'px';
+            openobject.dom.get('contextmenu').style.top = y + 'px';
         }
 
         showContextMenu();
@@ -810,8 +810,8 @@ function makeContextMenu(id, kind, relation, val) {
 
 var showContextMenu = function(){
 
-    var menu = $('contextmenu');
-    var ifrm = $('contextmenu_frm');
+    var menu = openobject.dom.get('contextmenu');
+    var ifrm = openobject.dom.get('contextmenu_frm');
 
     showElement(menu);
 
@@ -828,8 +828,8 @@ var showContextMenu = function(){
 }
 
 var hideContextMenu = function(){
-    var menu = $('contextmenu');
-    var ifrm = $('contextmenu_frm');
+    var menu = openobject.dom.get('contextmenu');
+    var ifrm = openobject.dom.get('contextmenu_frm');
 
     if (ifrm){
         hideElement(ifrm);
@@ -840,7 +840,7 @@ var hideContextMenu = function(){
 
 function set_to_default(field, model){
 
-    var kind = getNodeAttribute($(field), 'kind');
+    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
     
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
@@ -848,14 +848,14 @@ function set_to_default(field, model){
     var req = openobject.http.postJSON(act, params);
     req.addCallback(function(obj) {
 
-        $(field).value = obj.value;
+        openobject.dom.get(field).value = obj.value;
         signal(field, "onchange");
     });
 }
 
 function set_as_default(field, model){
 
-    var kind = getNodeAttribute($(field), 'kind');
+    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
 
     var args = getFormData(1);
     
@@ -869,7 +869,7 @@ function set_as_default(field, model){
         var params = {'_terp_model': model, 
                       '_terp_field/name': field, 
                       '_terp_field/string': text, 
-                      '_terp_field/value': $(field).value, 
+                      '_terp_field/value': openobject.dom.get(field).value, 
                       '_terp_deps': obj.deps};
         
         openobject.tools.openWindow(openobject.http.getURL('/fieldpref', params), {width: 500, height: 350});
@@ -878,7 +878,7 @@ function set_as_default(field, model){
 
 function do_report(id, relation) {
 
-    id = $(id).value;
+    id = openobject.dom.get(id).value;
 
     var act = get_form_action('report');
     var params = {'_terp_model': relation, '_terp_id': id};
@@ -890,7 +890,7 @@ function do_action(action_id, field, relation, src) {
     
     var params = {};
     
-    if ($('_terp_list')) {
+    if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
 
@@ -901,11 +901,11 @@ function do_action(action_id, field, relation, src) {
         params['_terp_selection'] = '[' + ids.join(',') + ']';
     }
 
-    var id = $(field).value;
+    var id = openobject.dom.get(field).value;
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
     
-    var req = eval_domain_context_request({source: $(field).id,
+    var req = eval_domain_context_request({source: openobject.dom.get(field).id,
                                            active_id: id,
                                            active_ids: params['_terp_selection'],
                                            domain: domain, 
@@ -937,7 +937,7 @@ function on_context_menu(evt) {
     if(! kind || target.disabled)
         return;
 
-    var menu = $('contextmenu');
+    var menu = openobject.dom.get('contextmenu');
 
     if (!menu) {
 
@@ -964,7 +964,7 @@ function on_context_menu(evt) {
         src = src.slice(0, -5);
     }
     
-    var val = $(src).value;
+    var val = openobject.dom.get(src).value;
     var relation = getNodeAttribute(src, 'relation');
 
     hideElement(menu);

@@ -36,8 +36,8 @@ InfoBox.prototype = {
 	__init__ : function(source){		
 		
 		this.source = source;		
-		this.layer = $('calInfoLayer');
-        this.box = $('calInfoBox');
+		this.layer = openobject.dom.get('calInfoLayer');
+        this.box = openobject.dom.get('calInfoBox');
 
         var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
         var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, 'Edit');  

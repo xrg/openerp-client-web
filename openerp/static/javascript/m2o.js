@@ -47,13 +47,13 @@ ManyToOne.prototype.__init__ = function(name){
     
     this.name = name;
 
-    this.field = $(name);
-    this.text = $(name + '_text');
+    this.field = openobject.dom.get(name);
+    this.text = openobject.dom.get(name + '_text');
 
-    this.select_img = $(name + '_select');    
-    this.open_img = $(name + '_open');
+    this.select_img = openobject.dom.get(name + '_select');    
+    this.open_img = openobject.dom.get(name + '_open');
     
-    this.reference = $(name + '_reference'); // reference widget
+    this.reference = openobject.dom.get(name + '_reference'); // reference widget
 
     this.callback = getNodeAttribute(this.field, 'callback');
     this.relation = getNodeAttribute(this.field, 'relation');

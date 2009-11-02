@@ -29,12 +29,12 @@
 
 var save_binary_data = function(src, filename) {
     
-    var name = $(src) ? $(src).name : src;
+    var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
     var prefix = name.split('/'); name = prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
 
-    var fname = $(prefix + filename) || $(prefix + 'name');
+    var fname = openobject.dom.get(prefix + filename) || openobject.dom.get(prefix + 'name');
 
     fname = fname ? fname.value || fname.innerHTML : null;
 
@@ -42,15 +42,15 @@ var save_binary_data = function(src, filename) {
     act = fname ? act + '/' + fname : act;    
 
     act = openobject.http.getURL(act, {_terp_field: name,
-                       _terp_model: $(prefix + '_terp_model').value,
-                       _terp_id: $(prefix + '_terp_id').value});
+                       _terp_model: openobject.dom.get(prefix + '_terp_model').value,
+                       _terp_id: openobject.dom.get(prefix + '_terp_id').value});
 
     submit_form(act);
 }
 
 var clear_binary_data = function(src, filename) {
     
-    var name = $(src) ? $(src).name : src;
+    var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
     var prefix = name.split('/'); name = prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
@@ -58,16 +58,16 @@ var clear_binary_data = function(src, filename) {
     var act = get_form_action('clear_binary_data');
     act = openobject.http.getURL(act, {_terp_field: name,
                        _terp_fname: filename || null,
-                       _terp_model: $(prefix + '_terp_model').value,
-                       _terp_id: $(prefix + '_terp_id').value});
+                       _terp_model: openobject.dom.get(prefix + '_terp_model').value,
+                       _terp_id: openobject.dom.get(prefix + '_terp_id').value});
 
     submit_form(act);
 }
 
 var add_binary = function(src) {
 
-    binary_add = $(src + '_binary_add');
-    binary_buttons = $(src + '_binary_buttons');
+    binary_add = openobject.dom.get(src + '_binary_add');
+    binary_buttons = openobject.dom.get(src + '_binary_buttons');
         
     binary_add.style.display = "";
     binary_buttons.style.display = "none";

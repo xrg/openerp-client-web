@@ -98,7 +98,7 @@ var getCalendar = function(day, mode) {
         values = values.concat(e.value);
     });
 
-    params['_terp_colors'] = $('_terp_colors').value;
+    params['_terp_colors'] = openobject.dom.get('_terp_colors').value;
     params['_terp_color_values'] = values.join(",");
 
     showElement('calLoading');
@@ -157,11 +157,11 @@ var saveCalendarRecord = function(record_id, starts, ends){
     var params = getFormParams('_terp_concurrency_info');
     MochiKit.Base.update(params, {
         '_terp_id': record_id,
-        '_terp_model': $('_terp_model').value,
-        '_terp_fields': $('_terp_calendar_fields').value,
+        '_terp_model': openobject.dom.get('_terp_model').value,
+        '_terp_fields': openobject.dom.get('_terp_calendar_fields').value,
         '_terp_starts' : starts,
         '_terp_ends' : ends,
-        '_terp_context': $('_terp_context').value
+        '_terp_context': openobject.dom.get('_terp_context').value
     });
 
     var req = openobject.http.postJSON('/calendar/save', params);
@@ -186,11 +186,11 @@ var editCalendarRecord = function(record_id){
 
     var params = {
         'id': record_id,
-        'model': $('_terp_model').value,
-        'view_mode': $('_terp_view_mode').value,
-        'view_ids': $('_terp_view_ids').value,
-        'domain': $('_terp_domain').value,
-        'context': $('_terp_context').value
+        'model': openobject.dom.get('_terp_model').value,
+        'view_mode': openobject.dom.get('_terp_view_mode').value,
+        'view_ids': openobject.dom.get('_terp_view_ids').value,
+        'domain': openobject.dom.get('_terp_domain').value,
+        'context': openobject.dom.get('_terp_context').value
     }
 
     var act = openobject.http.getURL('/calpopup/edit', params);
@@ -201,8 +201,8 @@ var copyCalendarRecord = function(record_id){
 
     var params = {
         '_terp_id': record_id,
-        '_terp_model': $('_terp_model').value,
-        '_terp_context': $('_terp_context').value
+        '_terp_model': openobject.dom.get('_terp_model').value,
+        '_terp_context': openobject.dom.get('_terp_context').value
     }
 
     return openobject.http.post('/calendar/duplicate', params);
