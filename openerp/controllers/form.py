@@ -692,6 +692,9 @@ class Form(SecuredController):
                 o += l
             elif id in ids:
                 id = ids[ids.index(id)+1]
+            elif id == False:
+                o = 0
+                id = ids[0]
 
         if filter_action:
             # remember the current page (tab) of notebooks
