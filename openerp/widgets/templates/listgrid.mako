@@ -72,37 +72,33 @@
                         % endif
                         % if editable:
                         <td class="grid-cell selector">
-                             % if not editors and 'form' in mode_views:
+                            % if not editors:
                             <img src="/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
-                             % elif not editors:
-                            <img src="/static/images/listgrid/edit_inline.gif" border="0" title="${_('Edit')}"/>
-                            % endif
-                            % if editors:
+                            % else:
                             <img src="/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
                             % endif
                         </td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                            % if i==0 and 'form' in mode_views:
-                            <span>
-                                <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
-                            </span>
-                            % elif i==0 and mode_views==[]:
-                            <span>
-                            	<a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
-                            </span>
-                            % elif i==0 and 'form' not in mode_views:
-                            <span>
-                            	 ${data[field]}
-                            </span>
-                            % endif
-                            % if i and show_links:
-                            ${data[field].display()}
-                            % endif
-                            % if i and not show_links:
-                            <span>${data[field]}</span>
-                            % endif
+                            % if i==0:
+                                % if show_links:
+                                <span>
+                                    <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
+                                </span>
+                                % else:
+                                <span>
+                                	 ${data[field]}
+                                </span>
+                                % endif
+                            % else:
+                                % if show_links:
+                                ${data[field].display()}
+                                % else:
+                                <span>${data[field]}</span>
+                                % endif
+                            %endif
+                            
                             % if editable and field == 'sequence':
                             <span class="selector">
                                 <img src="/static/images/listgrid/arrow_up.gif" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
