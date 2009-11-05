@@ -39,7 +39,7 @@ import wikimarkup
 from openerp.widgets import JSLink, CSSLink
 from openerp.widgets.form import Text
 
-from openerp import rpc
+from openerp.tools import rpc
 
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
 _rss = re.compile(r'rss:(.*)\.(.*)', re.UNICODE)
@@ -166,7 +166,7 @@ class WikiParser(wikimarkup.Parser):
         return bits
 
     def addInternalLinks(self, text):
-        from openerp import rpc
+        from openerp.tools import rpc
         proxy = rpc.RPCProxy('wiki.wiki')
         def link(path):
             link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")

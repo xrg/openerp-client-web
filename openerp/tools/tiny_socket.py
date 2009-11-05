@@ -33,13 +33,15 @@ import sys
 
 DNS_CACHE = {}
 
-class Myexception(Exception):
+class TinySocketError(Exception):
+
     def __init__(self, faultCode, faultString):
         self.faultCode = faultCode
         self.faultString = faultString
         self.args = (faultCode, faultString)
 
-class mysocket:
+class TinySocket(object):
+
     def __init__(self, sock=None):
         if sock is None:
             self.sock = socket.socket(
@@ -64,11 +66,12 @@ class mysocket:
             self.sock.shutdown(socket.SHUT_RDWR)
         self.sock.close()
 
-    def mysend(self, msg, exception=False, traceback=None):
+    def send(self, msg, exception=False, traceback=None):
         msg = cPickle.dumps([msg,traceback])
         self.sock.sendall('%8d%s%s' % (len(msg), exception and "1" or "0", msg))
 
-    def myreceive(self):
+    def receive(self):
+
         def read(socket, size):
             buf=''
             while len(buf) < size:
@@ -85,7 +88,7 @@ class mysocket:
 
         if isinstance(res[0],Exception):
             if exception:
-                raise Myexception(ustr(res[0]), ustr(res[1]))
+                raise TinySocketError(ustr(res[0]), ustr(res[1]))
             raise res[0]
         else:
             return res[0]

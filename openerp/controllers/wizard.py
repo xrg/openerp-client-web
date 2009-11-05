@@ -36,16 +36,16 @@ from openerp.tools import error_handler
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import common
-from openerp import icons
+from openerp.tools import common
+from openerp.tools import icons
 
 from openerp import widgets as tw
 
 from openerp.controllers.base import SecuredController
 from openerp.controllers.form import default_error_handler
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from openerp import validators
 

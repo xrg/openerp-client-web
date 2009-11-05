@@ -34,9 +34,9 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from openerp.widgets import JSLink, CSSLink
 from openerp.widgets.interface import TinyWidget

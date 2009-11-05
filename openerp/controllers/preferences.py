@@ -35,9 +35,9 @@ from openerp.tools import redirect
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp.controllers.base import SecuredController
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from form import Form
 

@@ -31,9 +31,9 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import cache
+from openerp.tools import cache
 
 from sidebar import Sidebar
 from base import Form, JSLink, locations

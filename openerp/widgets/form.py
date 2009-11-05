@@ -39,16 +39,16 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp import icons
+from openerp.tools import icons
 from openerp import tools
-from openerp import common
-from openerp import cache
+from openerp.tools import common
+from openerp.tools import cache
 
-from openerp import rpc
+from openerp.tools import rpc
 
 from openerp.i18n import format
 from openerp.i18n import get_locale
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from interface import TinyInputWidget
 from interface import ConcurrencyInfo

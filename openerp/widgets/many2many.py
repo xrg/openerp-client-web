@@ -36,12 +36,12 @@ from interface import TinyInputWidget
 from form import Form
 from listgrid import List
 
-from openerp import rpc
-from openerp import cache
+from openerp.tools import rpc
+from openerp.tools import cache
 from openerp import tools
 
 from screen import Screen
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from openerp import validators
 

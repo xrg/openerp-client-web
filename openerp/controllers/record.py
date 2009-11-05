@@ -33,7 +33,7 @@ from openerp.widgets import TinyWidget
 from openerp.widgets import TinyInputWidget
 
 from openerp import tools
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from form import Form
 

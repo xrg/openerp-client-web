@@ -31,9 +31,10 @@ import time
 import socket
 import xmlrpclib
 
-import tiny_socket
+from openerp.tools import common
 
-from openerp import common
+from openerp.tools.tiny_socket import TinySocket
+from openerp.tools.tiny_socket import TinySocketError
 
 
 class RPCException(Exception):
@@ -192,20 +193,20 @@ class NETRPCGateway(RPCGateway):
     """
 
     def __rpc__(self, obj, method, args=(), auth=True):
-        sock = tiny_socket.mysocket()
+        sock = TinySocket()
         try:
             sock.connect(self.session.host, self.session.port)
             if auth:
                 args = (self.session.db, self.session.uid, self.session.password) + args
-            sock.mysend((obj, method) + args)
-            res = sock.myreceive()
+            sock.send((obj, method) + args)
+            res = sock.receive()
             sock.disconnect()
             return res
 
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
         
-        except tiny_socket.Myexception, err:
+        except TinySocketError, err:
             raise RPCException(err.faultCode, err.faultString)
 
 

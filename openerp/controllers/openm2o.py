@@ -34,12 +34,12 @@ from openerp.tools import exception_handler
 
 import cherrypy
 
-from openerp import rpc
-from openerp import cache
+from openerp.tools import rpc
+from openerp.tools import cache
 from openerp import tools
 from openerp import widgets as tw
 
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from form import Form
 from form import get_validation_schema

@@ -97,7 +97,7 @@ def setup_server(configfile):
     }})
 
     # import profiler while makes profile decorator available as __builtins__
-    from openerp import profiler
+    from openerp.tools import profiler
     from openerp.controllers.root import Root
 
     root = Root()
@@ -116,7 +116,7 @@ def setup_server(configfile):
     port = app.config['openerp'].get('port')
     protocol = app.config['openerp'].get('protocol')
 
-    from openerp import rpc
+    from openerp.tools import rpc
     rpc.initialize(host, port, protocol, storage=CPSessionWrapper())
 
 

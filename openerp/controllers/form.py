@@ -38,18 +38,18 @@ from openerp.tools import exception_handler
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import common
-from openerp import cache
+from openerp.tools import common
+from openerp.tools import cache
 from openerp import validators
 
 from openerp import widgets as tw
 
 from openerp.controllers.base import SecuredController
 
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
+from openerp.tools import TinyDict
+from openerp.tools import TinyForm
 
 from openerp.widgets.binary import generate_url_for_picture
 

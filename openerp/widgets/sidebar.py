@@ -27,10 +27,10 @@
 #
 ###############################################################################
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
 
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from screen import Screen
 

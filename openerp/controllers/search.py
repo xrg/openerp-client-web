@@ -35,18 +35,18 @@ import cherrypy
 
 from openerp.tools import expose
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import common
+from openerp.tools import common
 
 from openerp import widgets as tw
 from openerp import widgets_search as tws
 
 from openerp.controllers.base import SecuredController
 
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
-from openerp.utils import TinyFormError
+from openerp.tools import TinyDict
+from openerp.tools import TinyForm
+from openerp.tools import TinyFormError
 
 from form import Form
 

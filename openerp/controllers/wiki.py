@@ -36,9 +36,9 @@ from openerp.tools import expose
 from openerp.tools import redirect
 from openerp.tools import validate
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp.controllers.base import SecuredController
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 import openerp.widgets as tw
 

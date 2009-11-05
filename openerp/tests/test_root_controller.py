@@ -1,6 +1,6 @@
 from openerp.tests.test import TestCase, setup_server
 
-from openerp import rpc
+from openerp.tools import rpc
 
 class RootTest(TestCase):
 

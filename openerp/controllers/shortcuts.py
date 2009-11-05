@@ -32,9 +32,9 @@ from openerp.tools import redirect
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import common
+from openerp.tools import common
 
 from openerp.controllers.base import SecuredController
 

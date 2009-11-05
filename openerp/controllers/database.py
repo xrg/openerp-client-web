@@ -40,8 +40,8 @@ from openerp.tools import expose
 from openerp.tools import validate, error_handler
 from openerp.tools import redirect
 
-from openerp import rpc
-from openerp import common
+from openerp.tools import rpc
+from openerp.tools import common
 from openerp import widgets
 from openerp import validators
 

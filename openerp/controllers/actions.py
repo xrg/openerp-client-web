@@ -36,16 +36,16 @@ import base64
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import common
+from openerp.tools import common
 
 from form import Form
 from tree import Tree
 from wizard import Wizard
 from selection import Selection
 
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
                    mode='form,tree', name=None, target=None, limit=None):

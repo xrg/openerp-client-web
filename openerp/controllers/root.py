@@ -37,10 +37,10 @@ from openerp.tools import url
 
 import cherrypy
 
-from openerp import rpc
-from openerp import common
+from openerp.tools import rpc
+from openerp.tools import common
 from openerp import tools
-from openerp import cache
+from openerp.tools import cache
 
 from openerp import controllers
 

@@ -34,14 +34,14 @@ from openerp.tools import expose
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import common
+from openerp.tools import common
 
 from openerp.controllers.base import SecuredController
 
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
+from openerp.tools import TinyDict
+from openerp.tools import TinyForm
 
 import openerp.widgets as tw
 

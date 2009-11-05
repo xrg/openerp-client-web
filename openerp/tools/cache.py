@@ -36,8 +36,8 @@ import cherrypy
 
 from gettext import translation
 
-import i18n
-import rpc
+from openerp import i18n
+from openerp.tools import rpc
 
 __cache = {}
 

@@ -30,8 +30,8 @@
 import cherrypy
 
 from openerp import tools
-from openerp import rpc
-from openerp import cache
+from openerp.tools import rpc
+from openerp.tools import cache
 
 from interface import TinyInputWidget
 

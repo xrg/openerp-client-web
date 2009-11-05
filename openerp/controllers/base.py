@@ -38,7 +38,7 @@ import re
 import cherrypy
 import pkg_resources
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
 
 from openerp.tools import expose

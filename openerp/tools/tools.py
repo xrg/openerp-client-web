@@ -31,7 +31,7 @@ import os
 import time
 import datetime as DT
 
-from openerp import rpc
+from openerp.tools import rpc
 
 def expr_eval(string, context={}):
     context['uid'] = rpc.session.uid

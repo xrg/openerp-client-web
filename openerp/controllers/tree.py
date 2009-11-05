@@ -38,16 +38,16 @@ import xml.dom.minidom
 from openerp.tools import expose
 from openerp.tools import url
 
-from openerp import rpc
-from openerp import icons
+from openerp.tools import rpc
+from openerp.tools import icons
 from openerp import tools
-from openerp import common
-from openerp import cache
+from openerp.tools import common
+from openerp.tools import cache
 
 from openerp.controllers.base import SecuredController
 from openerp.widgets import tree_view
 
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'

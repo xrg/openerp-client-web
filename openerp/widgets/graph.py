@@ -40,10 +40,10 @@ import re
 
 import simplejson
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import common
-from openerp import cache
+from openerp.tools import common
+from openerp.tools import cache
 
 from base import JSSource, JSLink
 from interface import TinyWidget

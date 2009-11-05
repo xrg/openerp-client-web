@@ -35,10 +35,10 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
-from openerp import icons
-from openerp import common
+from openerp.tools import icons
+from openerp.tools import common
 
 from openerp.i18n import format
 

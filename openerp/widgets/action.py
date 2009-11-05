@@ -29,13 +29,13 @@
 
 import cherrypy
 
-from openerp import icons
+from openerp.tools import icons
 from openerp import tools
-from openerp import rpc
+from openerp.tools import rpc
 
 import screen
 from interface import TinyInputWidget
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 class Action(TinyInputWidget):
     template = """

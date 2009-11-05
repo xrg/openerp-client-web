@@ -32,8 +32,8 @@ import time
 import cherrypy
 
 from openerp import tools
-from openerp import rpc
-from openerp.utils import TinyDict
+from openerp.tools import rpc
+from openerp.tools import TinyDict
 
 from interface import TinyInputWidget
 from screen import Screen

@@ -32,7 +32,7 @@ from interface import TinyInputWidget
 from form import Form
 from listgrid import List
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import validators as validators
 
 import many2one

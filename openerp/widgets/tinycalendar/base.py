@@ -34,11 +34,11 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp import tools
 
 from openerp.i18n import format
-from openerp.utils import TinyDict
+from openerp.tools import TinyDict
 
 from openerp.widgets.interface import TinyWidget
 from openerp.widgets.interface import ConcurrencyInfo
