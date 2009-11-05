@@ -6,7 +6,7 @@ test_path = join(dirname(abspath(__file__)), "openerp", "tests")
 sys.path.insert(0, test_path)
 
 
-from openerp.tests import test
+from openerp.base.test import test
 
 if __name__ == "__main__":
     test.run()

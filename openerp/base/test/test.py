@@ -8,6 +8,7 @@ test.prefer_parent_path()
 
 import cherrypy
 
+__all__ = ["TestCase", "setup_server"]
 
 class TestCase(helper.CPWebCase):
     pass
