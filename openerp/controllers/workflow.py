@@ -38,7 +38,7 @@ from openerp.tools import rpc
 from openerp.tools import common
 
 from openerp.tools import TinyDict
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 from openerp import widgets as tw
 

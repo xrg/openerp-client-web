@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="/base/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${tree.string}</title>
@@ -7,7 +7,7 @@
 
 <%def name="content()">
 
-<%include file="header.mako"/>
+<%include file="/base/controllers/templates/header.mako"/>
 
 <table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
@@ -73,6 +73,6 @@
     var TREEVIEW = new TreeView(${tree.id});
 </script>
 
-<%include file="footer.mako"/>
+<%include file="/base/controllers/templates/footer.mako"/>
 
 </%def>

@@ -44,8 +44,8 @@ from openerp.tools import cache
 
 from openerp import controllers
 
-from openerp.controllers.base import SecuredController, unsecured
-from openerp.controllers.base import login as tiny_login
+from openerp.base.controllers import SecuredController, unsecured
+from openerp.base.controllers import login as tiny_login
 
 
 def _cp_on_error():

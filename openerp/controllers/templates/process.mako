@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="/base/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${_("Process")}</title>
@@ -49,7 +49,7 @@
 
 <%def name="content()">
 
-<%include file="header.mako"/>
+<%include file="/base/controllers/templates/header.mako"/>
 
 % if selection:
 <div class="view">
@@ -99,6 +99,6 @@
 </table>
 %endif
 
-<%include file="footer.mako"/>
+<%include file="/base/controllers/templates/footer.mako"/>
 
 </%def>

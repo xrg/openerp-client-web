@@ -38,7 +38,7 @@ from openerp.tools import rpc
 from openerp import tools
 from openerp.tools import common
 
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm

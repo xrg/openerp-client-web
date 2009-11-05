@@ -46,7 +46,7 @@ from openerp import validators
 
 from openerp import widgets as tw
 
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm

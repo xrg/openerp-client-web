@@ -44,6 +44,8 @@ from openerp import tools
 from openerp.tools import expose
 from openerp.tools import redirect
 
+__all__ = ["BaseController", "SecuredController", "secured", "unsecured", "login"]
+
 
 @expose(template="templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):

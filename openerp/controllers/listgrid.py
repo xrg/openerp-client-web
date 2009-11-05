@@ -33,7 +33,7 @@ from openerp.tools import expose
 
 from openerp.tools import rpc
 from openerp import tools
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm

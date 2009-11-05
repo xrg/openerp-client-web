@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="/base/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
@@ -54,7 +54,7 @@
 
 <%def name="content()">
 	
-<%include file="header.mako"/>
+<%include file="/base/controllers/templates/header.mako"/>
 	
     <input type="hidden" id="_terp_all_params" name="_terp_all_params" value="${all_params}"/>
     
@@ -208,5 +208,5 @@ Choose:
         </tr>
         % endif
     </table>
-<%include file="footer.mako"/>    
+<%include file="/base/controllers/templates/footer.mako"/>    
 </%def>

@@ -43,7 +43,7 @@ from openerp.tools import icons
 
 from openerp import widgets as tw
 
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 from openerp.controllers.form import default_error_handler
 from openerp.tools import TinyDict
 

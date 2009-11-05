@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="/base/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>
@@ -15,7 +15,7 @@
 
 <%def name="content()">
 
-<%include file="header.mako"/>
+<%include file="/base/controllers/templates/header.mako"/>
 
 <div class="view">
 
@@ -48,6 +48,6 @@
     
 </div>
 
-<%include file="footer.mako"/>
+<%include file="/base/controllers/templates/footer.mako"/>
 
 </%def>

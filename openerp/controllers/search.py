@@ -42,7 +42,7 @@ from openerp.tools import common
 from openerp import widgets as tw
 from openerp import widgets_search as tws
 
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm

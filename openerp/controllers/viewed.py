@@ -41,7 +41,7 @@ from openerp.tools import icons
 from openerp.tools import cache
 
 from openerp.tools import TinyDict
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 import openerp.widgets as tw
 

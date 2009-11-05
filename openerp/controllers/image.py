@@ -36,7 +36,7 @@ from openerp.tools import redirect
 import cherrypy
 
 from openerp.tools import rpc
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 from openerp.widgets.binary import get_temp_file
 

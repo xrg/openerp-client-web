@@ -44,7 +44,7 @@ from openerp import tools
 from openerp.tools import common
 from openerp.tools import cache
 
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 from openerp.widgets import tree_view
 
 from openerp.tools import TinyDict

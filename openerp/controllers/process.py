@@ -37,7 +37,7 @@ from openerp.tools import common
 
 from openerp.i18n import format
 from openerp.tools import TinyDict
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 
 import form
 import actions

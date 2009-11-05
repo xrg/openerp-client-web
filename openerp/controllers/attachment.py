@@ -33,7 +33,7 @@ import base64
 from openerp.tools import expose
 
 from openerp.tools import rpc
-from openerp.controllers.base import SecuredController
+from openerp.base.controllers import SecuredController
 from openerp.tools import TinyDict
 from openerp.controllers import actions
 from openerp.tools import common
