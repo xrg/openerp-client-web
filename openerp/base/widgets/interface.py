@@ -31,8 +31,8 @@ import cherrypy
 
 from openerp import tools
 
-from openerp.widgets.base import Widget
-from openerp.widgets.base import InputWidget
+from base import Widget
+from base import InputWidget
 
 __all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo']
 

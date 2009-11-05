@@ -35,11 +35,12 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
+
+from openerp.tools import rpc
 from openerp.tools import cache
 
-from openerp.widgets.interface import TinyInputWidget
+from openerp.base.widgets import TinyInputWidget
 
 from openerp.widgets.form import Char
 from openerp.widgets.form import Form
@@ -51,6 +52,7 @@ from openerp.widgets.form import DateTime
 from openerp.widgets.form import Integer
 from openerp.widgets.form import Selection
 from openerp.widgets.form import Notebook
+
 
 class RangeWidget(TinyInputWidget):
     template = "templates/rangewid.mako"

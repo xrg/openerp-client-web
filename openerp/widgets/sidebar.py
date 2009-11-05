@@ -27,15 +27,15 @@
 #
 ###############################################################################
 
-from openerp.tools import rpc
 from openerp import tools
 
+from openerp.tools import rpc
 from openerp.tools import TinyDict
 
-from screen import Screen
+from openerp.base.widgets import JSSource
+from openerp.base.widgets import TinyWidget
 
-from base import JSSource
-from interface import TinyWidget
+from screen import Screen
 
 
 class Sidebar(TinyWidget):

@@ -27,13 +27,15 @@
 #
 ###############################################################################
 
+from openerp import validators
+
 from openerp.tools import rpc
 from openerp.tools import common
 
-from interface import TinyInputWidget
+from openerp.base.widgets import TinyInputWidget
+
 from form import Form
 
-from openerp import validators
 
 def get_name(model, id):
     id = (id or False) and int(id)

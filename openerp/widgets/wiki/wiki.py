@@ -31,15 +31,16 @@ import re
 import random
 import locale
 import cherrypy
+
 from base64 import b64encode, b64decode
 from StringIO import StringIO
 
 import wikimarkup
 
-from openerp.widgets import JSLink, CSSLink
+from openerp.tools import rpc
+from openerp.base.widgets import JSLink, CSSLink
 from openerp.widgets.form import Text
 
-from openerp.tools import rpc
 
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
 _rss = re.compile(r'rss:(.*)\.(.*)', re.UNICODE)

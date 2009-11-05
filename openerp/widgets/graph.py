@@ -35,18 +35,19 @@ import locale
 import xml.dom.minidom
 import base64
 
-import urllib
 import re
+import urllib
 
 import simplejson
 
-from openerp.tools import rpc
 from openerp import tools
+
+from openerp.tools import rpc
 from openerp.tools import common
 from openerp.tools import cache
 
-from base import JSSource, JSLink
-from interface import TinyWidget
+from openerp.base.widgets import JSSource, JSLink
+from openerp.base.widgets import TinyWidget
 
 
 DT_FORMAT = '%Y-%m-%d'

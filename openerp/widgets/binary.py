@@ -30,16 +30,16 @@
 import base64
 import time
 
-from openerp.tools import icons
 from openerp import tools
-from openerp.tools import cache
+from openerp import validators
 
 from openerp.tools import rpc
-
-from openerp import validators
-from openerp.widgets.interface import TinyInputWidget
-
+from openerp.tools import icons
+from openerp.tools import cache
 from openerp.tools import TempFileName
+
+from openerp.base.widgets import TinyInputWidget
+
 
 class Binary(TinyInputWidget):
     template = "templates/binary.mako"

@@ -35,22 +35,21 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
+
+from openerp.tools import rpc
 from openerp.tools import icons
 from openerp.tools import common
-
 from openerp.i18n import format
 
 import form
 
 from pager import Pager
 
-from interface import TinyWidget
-from interface import TinyInputWidget
-from interface import ConcurrencyInfo
-
-from base import CSSLink, JSLink
+from openerp.base.widgets import TinyWidget
+from openerp.base.widgets import TinyInputWidget
+from openerp.base.widgets import ConcurrencyInfo
+from openerp.base.widgets import CSSLink, JSLink
 
 class List(TinyWidget):
 

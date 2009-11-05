@@ -8,6 +8,7 @@ import optparse
 from os.path import join, dirname, exists
 
 import cherrypy
+
 from cherrypy._cpconfig import as_dict
 from formencode import NestedVariables
 
@@ -106,7 +107,7 @@ def setup_server(configfile):
     app = cherrypy.tree.mount(root, mount, app_config)
 
     import pkg_resources
-    from openerp.widgets import register_resource_directory
+    from openerp.base.widgets import register_resource_directory
 
     static = pkg_resources.resource_filename("openerp", "static")
     register_resource_directory(app, "openerp", static)

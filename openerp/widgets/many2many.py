@@ -31,19 +31,18 @@ import time
 
 import cherrypy
 
-from interface import TinyInputWidget
-
-from form import Form
-from listgrid import List
+from openerp import tools
+from openerp import validators
 
 from openerp.tools import rpc
 from openerp.tools import cache
-from openerp import tools
-
-from screen import Screen
 from openerp.tools import TinyDict
 
-from openerp import validators
+from openerp.base.widgets import TinyInputWidget
+
+from form import Form
+from listgrid import List
+from screen import Screen
 
 class M2M(TinyInputWidget):
 

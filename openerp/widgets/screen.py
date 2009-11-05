@@ -30,10 +30,11 @@
 import cherrypy
 
 from openerp import tools
+
 from openerp.tools import rpc
 from openerp.tools import cache
 
-from interface import TinyInputWidget
+from openerp.base.widgets import TinyInputWidget
 
 import form
 import graph

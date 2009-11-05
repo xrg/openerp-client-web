@@ -39,23 +39,22 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp.tools import icons
 from openerp import tools
-from openerp.tools import common
-from openerp.tools import cache
+from openerp import validators
 
 from openerp.tools import rpc
+from openerp.tools import icons
+from openerp.tools import common
+from openerp.tools import cache
+from openerp.tools import TinyDict
 
 from openerp.i18n import format
 from openerp.i18n import get_locale
-from openerp.tools import TinyDict
 
-from interface import TinyInputWidget
-from interface import ConcurrencyInfo
+from openerp.base.widgets import TinyInputWidget
+from openerp.base.widgets import ConcurrencyInfo
+from openerp.base.widgets import JSLink, JSSource, CSSLink
 
-from base import JSLink, JSSource, CSSLink
-
-from openerp import validators
 
 class Frame(TinyInputWidget):
     """Frame widget layouts the widgets in a table.

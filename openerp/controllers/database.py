@@ -36,13 +36,14 @@ import cherrypy
 import pkg_resources
 
 from openerp.tools import url
-from openerp.tools import expose
-from openerp.tools import validate, error_handler
-from openerp.tools import redirect
-
 from openerp.tools import rpc
+from openerp.tools import expose
 from openerp.tools import common
-from openerp import widgets
+from openerp.tools import redirect
+from openerp.tools import validate, error_handler
+
+from openerp.base import widgets
+
 from openerp import validators
 
 

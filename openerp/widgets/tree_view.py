@@ -31,14 +31,15 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
+from openerp.tools import rpc
 from openerp.tools import cache
 
-from sidebar import Sidebar
-from base import Form, JSLink, locations
+from openerp.base.widgets import Form, JSLink, locations
 
+from sidebar import Sidebar
 import treegrid
+
 
 class ViewTree(Form):
 

@@ -34,16 +34,19 @@ from openerp.tools import expose
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
+
+from openerp.tools import rpc
 from openerp.tools import common
 from openerp.tools import icons
 from openerp.tools import cache
-
 from openerp.tools import TinyDict
+
 from openerp.base.controllers import SecuredController
 
-import openerp.widgets as tw
+import openerp.widgets
+import openerp.validators
+import openerp.base.widgets
 
 from form import Form
 
@@ -54,14 +57,14 @@ class NewField(Form):
     def create_form(self, params, tg_errors=None):
         
         # generate model_id field
-        params.hidden_fields = [tw.form.Hidden(name='model_id', default=params.model_id)]
+        params.hidden_fields = [openerp.widgets.form.Hidden(name='model_id', default=params.model_id)]
         form = super(NewField, self).create_form(params, tg_errors)
 
         field = form.screen.widget.get_widgets_by_name('model_id')[0]
         field.set_value(params.model_id or False)
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals['model_id'] = tw.validators.Int()
+        vals['model_id'] = openerp.validators.Int()
 
         return form
 
@@ -259,7 +262,7 @@ class ViewEd(SecuredController):
                    {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
                    {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
 
-        tree = tw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=tools.url('/viewed/data?view_id='+str(view_id)))
+        tree = openerp.widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=tools.url('/viewed/data?view_id='+str(view_id)))
         tree.showheaders = False
         tree.onselection = 'onSelect'
         tree.onbuttonclick = 'onButtonClick'
@@ -818,7 +821,7 @@ _CHILDREN = {
     'separator': [],
 }
 
-class SelectProperty(tw.SelectField):
+class SelectProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
 
@@ -828,7 +831,7 @@ class SelectProperty(tw.SelectField):
 
         super(SelectProperty, self).__init__(name=name, options=options, default=default)
 
-class PositionProperty(tw.SelectField):
+class PositionProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
 
@@ -840,23 +843,23 @@ class PositionProperty(tw.SelectField):
 
         super(PositionProperty, self).__init__(name=name, options=options, default=default)
 
-class WidgetProperty(tw.SelectField):
+class WidgetProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
 
-        options = tw.form.WIDGETS.keys()
+        options = openerp.widgets.form.WIDGETS.keys()
         options.sort()
         options = [''] + options
 
         super(WidgetProperty, self).__init__(name=name, options=options, default=default)
 
-class BooleanProperty(tw.CheckBox):
+class BooleanProperty(openerp.base.widgets.CheckBox):
 
     def __init__(self, name, default=None):
         super(BooleanProperty, self).__init__(name=name, default=default, attrs=dict(value=1))
         self.css_class = "checkbox"
 
-class GroupsProperty(tw.SelectField):
+class GroupsProperty(openerp.base.widgets.SelectField):
 
     multiple = True
 
@@ -876,38 +879,38 @@ class GroupsProperty(tw.SelectField):
 
         super(GroupsProperty, self).__init__(name=name, options=options, default=default)
 
-class ActionProperty(tw.many2one.M2O):
+class ActionProperty(openerp.widgets.many2one.M2O):
 
     def __init__(self, name, default=None):
         attrs = dict(name=name, relation='ir.actions.actions')
         super(ActionProperty, self).__init__(attrs)
         self.set_value(default or False)
 
-class IconProperty(tw.SelectField):
+class IconProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', '')] + icons.icons
         super(IconProperty, self).__init__(name=name, options=options, default=default)
 
-class ButtonTargetProperty(tw.SelectField):
+class ButtonTargetProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('new', _('New Window'))]
         super(ButtonTargetProperty, self).__init__(name=name, options=options, default=default)
 
-class ButtonTypeProperty(tw.SelectField):
+class ButtonTypeProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('action', 'Action'), ('object', 'Object'), ('workflow', 'Workflow'), ('server_action', 'Server Action')]
         super(ButtonTypeProperty, self).__init__(name=name, options=options, default=default)
 
-class ButtonSpecialProperty(tw.SelectField):
+class ButtonSpecialProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('save', _('Save Button')), ('cancel', _('Cancel Button')), ('open', _('Open Button'))]
         super(ButtonSpecialProperty, self).__init__(name=name, options=options, default=default)
         
-class AlignProperty(tw.SelectField):
+class AlignProperty(openerp.base.widgets.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('0.0', _('Left')), ('0.5', _('Center')), ('1.0', _('Right'))]
@@ -933,8 +936,9 @@ _PROPERTY_WIDGETS_BUTTON = {
 }
 
 def get_property_widget(name, value=None):
-    wid = _PROPERTY_WIDGETS.get(name, tw.TextField)
+    wid = _PROPERTY_WIDGETS.get(name, openerp.base.widgets.TextField)
     return wid(name=name, default=value)
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

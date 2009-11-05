@@ -27,15 +27,16 @@
 #
 ###############################################################################
 
-from interface import TinyInputWidget
+from openerp import validators
+
+from openerp.tools import rpc
+from openerp.base.widgets import TinyInputWidget
 
 from form import Form
 from listgrid import List
 
-from openerp.tools import rpc
-from openerp import validators as validators
-
 import many2one
+
 
 class Reference(TinyInputWidget):
 

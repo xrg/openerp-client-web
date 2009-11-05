@@ -32,10 +32,12 @@ import time
 import cherrypy
 
 from openerp import tools
+
 from openerp.tools import rpc
 from openerp.tools import TinyDict
 
-from interface import TinyInputWidget
+from openerp.base.widgets import TinyInputWidget
+
 from screen import Screen
 
 class O2M(TinyInputWidget):

@@ -34,19 +34,20 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
 
-from openerp.i18n import format
+from openerp.tools import rpc
 from openerp.tools import TinyDict
 
-from openerp.widgets.interface import TinyWidget
-from openerp.widgets.interface import ConcurrencyInfo
+from openerp.i18n import format
 
-from openerp.widgets import JSLink, CSSLink
+from openerp.base.widgets import TinyWidget
+from openerp.base.widgets import ConcurrencyInfo
+from openerp.base.widgets import JSLink, CSSLink
 
 from utils import Day
 from utils import parse_datetime
+
 
 COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
                  '#fcaf3e', '#ef2929', '#ff00c9', '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f',

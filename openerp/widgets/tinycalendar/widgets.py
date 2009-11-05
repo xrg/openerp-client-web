@@ -34,12 +34,13 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
+
+from openerp.tools import rpc
 from openerp.tools import TinyDict
 
-from openerp.widgets import JSLink, CSSLink
-from openerp.widgets.interface import TinyWidget
+from openerp.base.widgets import JSLink, CSSLink
+from openerp.base.widgets import TinyWidget
 
 from base import ICalendar
 from base import TinyCalendar
