@@ -38,39 +38,10 @@ import base64
 import locale
 
 from openerp.i18n import format
-
-from formencode.validators import *
-from formencode.schema import Schema
-from formencode.foreach import ForEach
-
-class DefaultValidator(FancyValidator):
-    pass
+from openerp.base.validators import *
 
 
-class Schema(Schema):
-    """Modified Schema validator.
-
-    A schema validates a dictionary of values, applying different validators
-    (by key) to the different values.
-
-    This modified Schema allows fields that do not appear in the fields
-    parameter of your schema, but filters them out from the value dictionary.
-    You might want to set filter_extra_fields to True when you're building a
-    dynamic form with unpredictable keys and need these values.
-
-    """
-
-    filter_extra_fields = True
-    allow_extra_fields = True
-    if_key_missing = None
-
-    def from_python(self, value, state=None):
-        # The Schema shouldn't do any from_python conversion because
-        # adjust_value already takes care of that for all childs.
-        return value
-
-
-class String(FancyValidator):
+class String(BaseValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -82,7 +53,7 @@ class String(FancyValidator):
     def _from_python(self, value, state):
         return ustr(value or '')
 
-class Bool(FancyValidator):
+class Bool(BaseValidator):
     values = ['1', 'true']
 
     if_empty = False
@@ -136,7 +107,7 @@ class FloatTime(Float):
 
         return 0.0
 
-class DateTime(FancyValidator):
+class DateTime(BaseValidator):
     if_empty = False
     kind = "datetime"
 
@@ -161,7 +132,7 @@ class DateTime(FancyValidator):
         return format.format_datetime(value, kind=self.kind)
 
 
-class Selection(FancyValidator):
+class Selection(BaseValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -176,7 +147,7 @@ class Selection(FancyValidator):
 
         return value
 
-class Reference(FancyValidator):
+class Reference(BaseValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -190,7 +161,7 @@ class Reference(FancyValidator):
 
         return False
 
-class Binary(FancyValidator):
+class Binary(BaseValidator):
     if_empty = False
 
     def _to_python(self, value, state):
@@ -228,7 +199,7 @@ class Email(Email):
     def _from_python(self, value, state):
         return value or ''
 
-class many2many(FancyValidator):
+class many2many(BaseValidator):
 
     if_empty = [(6, 0, [])]
 
@@ -242,7 +213,7 @@ class many2many(FancyValidator):
 
         return [(6, 0, [int(id) for id in value if id])]
 
-class many2one(FancyValidator):
+class many2one(BaseValidator):
 
     if_empty = False
 
