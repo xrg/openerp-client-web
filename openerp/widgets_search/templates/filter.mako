@@ -1,4 +1,3 @@
-<input type="hidden" id="search_view_id" value="${search_view_id}"/>
 <table>
 	<tr>
 		<td class=label>

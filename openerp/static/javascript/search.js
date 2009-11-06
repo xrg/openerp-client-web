@@ -371,7 +371,6 @@ var final_search_domain = function(custom_domain, all_domain) {
 		if (obj.flag) {
 			var params = {'domain': obj.sf_dom,
 								'model': $('_terp_model').value,
-								'search_view_id': $('search_view_id').value,
 								'flag': obj.flag,
 								'sc_id': $('_terp_sc_id').value };
 								

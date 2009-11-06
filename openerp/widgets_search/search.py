@@ -103,7 +103,7 @@ class RangeWidget(TinyInputWidget):
 class Filter(TinyInputWidget):
     template = "templates/filter.mako"
     
-    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'search_view_id']
+    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val']
     
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
@@ -111,7 +111,6 @@ class Filter(TinyInputWidget):
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain')
         self.help = attrs.get('help')
-        self.search_view_id = attrs.get('search_view_id')
         
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
         
@@ -132,33 +131,38 @@ class Search(TinyInputWidget):
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=[], context={}, values={}, search_view_id=None):
+    def __init__(self, model, domain=[], context={}, values={}):
         
         super(Search, self).__init__(model=model)
 
         self.domain = domain or []
         self.context = context or {}
+        self.model = model
+        self.search_view_id = True
 
         ctx = rpc.session.context.copy()
+        ctx.update(self.context)
+        view = cache.fields_view_get(self.model, False, 'search', ctx, True)
+        
+        if not view:
+            view = cache.fields_view_get(self.model, False, 'form', ctx, True)
+            self.search_view_id = False
         
         proxy = rpc.RPCProxy(self.model)
-        view = proxy.fields_view_get(search_view_id, 'form', ctx)
-        
-        view_fields = cache.fields_view_get(self.model, False, 'form', ctx, True)
+        view_fields = proxy.fields_get(False, ctx)
         
         self.fields_list = []
         
-        for k,v in view_fields['fields'].items():
+        for k,v in view_fields.items():
             if v['type'] in ('many2one', 'char', 'float', 'integer', 'date', 'datetime', 'selection', 'many2many', 'boolean', 'one2many') and v.get('selectable',  False):
                 self.fields_list.append([k, v['string'], v['type']])
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
-
+            
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = tools.node_attributes(root)
         self.string = attrs.get('string', '')
-        self.search_view_id = search_view_id
 
         self.fields_type = {}
         
@@ -217,7 +221,6 @@ class Search(TinyInputWidget):
             elif node.localName=='filter':
                 kind = 'filter'
                 attrs['model'] = search_model
-                attrs['search_view_id'] = self.search_view_id
                 field = FILTER[kind](**attrs)
                 
                 views += [field]
@@ -320,7 +323,7 @@ WIDGETS = {
     'one2many_form': Char,
     'one2many_list': Char,
     'many2many': Char,
-    'many2one': Selection,
+    'many2one': Char,
     'email' : Char,
     'url' : Char,
     'separator': Separator

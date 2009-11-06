@@ -20,7 +20,6 @@
 
 <%def name="content()">
 	<form name="filter_sc" method="POST" action="/search/do_filter_sc">
-		<input type="hidden" id="search_view_id" name="search_view_id" value="${search_view_id}"/>
 		<input type="hidden" id="model" name="model" value="${model}"/>
 		<input type="hidden" id="domain" name="domain" value="${domain}"/>
 		<input type="hidden" id="flag" name="flag" value="${flag}"/>

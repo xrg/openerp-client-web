@@ -308,7 +308,6 @@ class Search(Form):
     @expose(template="templates/save_filter.mako")
     def save_filter(self, **kw):
         
-        search_view_id = kw.get('search_view_id')
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
@@ -335,7 +334,7 @@ class Search(Form):
             elif data['type'] == 'gantt':
                 gantt_views.append([data['id'],data['name']])
         
-        return dict(search_view_id=search_view_id, model=model, domain=domain, flag=flag, sc_id=sc_id,
+        return dict(model=model, domain=domain, flag=flag, sc_id=sc_id,
                     form_views=form_views, tree_views=tree_views, graph_views=graph_views, 
                     calendar_views=calendar_views, gantt_views=gantt_views)
     
@@ -376,8 +375,7 @@ class Search(Form):
                    'res_model': model, 
                    'domain': domain, 
                    'context': str({}),
-                   'view_ids':[(6, 0, v_ids)],
-                   'search_view_id': kw.get('search_view_id'), 
+                   'view_ids':[(6, 0, v_ids)], 
                    'filter': True, 
                    'default_user_ids': [[6, 0, [rpc.session.uid]]], 
                    }
