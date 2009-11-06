@@ -378,6 +378,10 @@ class ImpEx(SecuredController):
 
             for data in range(len(result)):
                 for d in range(len(result[data])):
+                    try:
+                        result[data][d] = str(result[data][d])
+                    except:
+                        pass
                     result[data][d] = re.sub("\r", " ", result[data][d])
                     worksheet.write(data+1, d, result[data][d], heading_xf)
                     worksheet.col(d).width = 8000  
