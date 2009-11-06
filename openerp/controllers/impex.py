@@ -32,6 +32,7 @@ import time
 import types
 import base64
 import xml.dom.minidom
+import re
 
 import csv
 import StringIO
@@ -356,10 +357,43 @@ class ImpEx(SecuredController):
         if import_compat:
             params.fields2 = fields
 
-        if export_as == 'excel':
-            #add_names = True
-            pass
-        return export_csv(params.fields2, result, add_names)
+        if export_as == 'xls':
+            try:            
+                import xlwt
+            except Exception, e:
+                  raise common.warning(_('Please Install xlwt Library.\nTo create spreadsheet files compatible with MS Excel.'), _('Import Error.')) 
+                   
+            ezxf = xlwt.easyxf
+          
+            fp = StringIO.StringIO()
+          
+            wb = xlwt.Workbook()
+            worksheet = wb.add_sheet('Sheet 1')
+          
+            for col in range(len(fields)):
+                worksheet.write(0, col, str(fields[col]))
+                col+1
+                
+            heading_xf = ezxf('align: wrap yes')
+
+            for data in range(len(result)):
+                for d in range(len(result[data])):
+                    try:
+                        result[data][d] = str(result[data][d])
+                    except:
+                        pass
+                    result[data][d] = re.sub("\r", " ", result[data][d])
+                    worksheet.write(data+1, d, result[data][d], heading_xf)
+                    worksheet.col(d).width = 8000  
+                    d+1   
+            
+            wb.save(fp)            
+
+            fp.seek(0)
+            data = fp.read()          
+            return data
+        else:
+            return export_csv(params.fields2, result, add_names)
 
     @expose(template="templates/imp.mako")
     def imp(self, **kw):
