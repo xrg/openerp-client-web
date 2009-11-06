@@ -39,8 +39,7 @@ from openerp.tools import rpc
 from openerp import tools
 from openerp.tools import common
 
-from openerp import widgets as tw
-from openerp import widgets_search as tws
+from openerp import widgets
 
 from openerp.base.controllers import SecuredController
 
@@ -168,7 +167,7 @@ class Search(Form):
 
     @expose('json')
     def get_name(self, model, id):
-        name = tw.many2one.get_name(model, id)
+        name = widgets.many2one.get_name(model, id)
         if not name:
             name=''
         return dict(name=name)

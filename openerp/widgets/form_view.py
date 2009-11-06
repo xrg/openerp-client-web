@@ -29,8 +29,7 @@
 
 import cherrypy
 
-from openerp.widgets_search.search import Search
-
+from search import Search
 from screen import Screen
 from sidebar import Sidebar
 
