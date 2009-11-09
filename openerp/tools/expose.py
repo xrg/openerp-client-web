@@ -219,8 +219,8 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                     
                 if _template:
                     
-                    from openerp.base.widgets import Widget, OrderedSet
-                    from openerp.base.widgets import js_i18n
+                    from openerp.widgets import Widget, OrderedSet
+                    from openerp.widgets import js_i18n
                     
                     res['widget_css'] = css = OrderedSet()
                     res['widget_javascript'] = js = {}
