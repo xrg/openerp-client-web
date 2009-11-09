@@ -51,8 +51,10 @@ from openerp.tools import TinyDict
 
 import openerp.widgets as tw
 
-def datas_read(ids, model, fields):
-    return rpc.RPCProxy(model).export_data(ids, fields)
+def datas_read(ids, model, fields, context=None):
+    ctx = context.copy()    
+    ctx.update(rpc.session.context)
+    return rpc.RPCProxy(model).export_data(ids, fields, ctx)
 
 def export_csv(fields, result, write_title=False):
     try:
@@ -347,10 +349,10 @@ class ImpEx(SecuredController):
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
-        result = datas_read(ids, params.model, fields)
+        result = datas_read(ids, params.model, fields, context=ctx)
         
         if result.get('warning', False):
-            common.message_box(_('Export Error!'), unicode(result.get('warning', False)))
+            common.warning(unicode(result.get('warning', False)), _('Export Error!'))
             return False
         result = result.get('datas',[])
         
@@ -443,6 +445,7 @@ class ImpEx(SecuredController):
 
         proxy = rpc.RPCProxy(params.model)
         fields = proxy.fields_get(False, rpc.session.context)
+        fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
         model_populate(fields)
 
         try:
@@ -477,14 +480,16 @@ class ImpEx(SecuredController):
         data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
         datas = []
         #if csv_data['combo']:
-
+        ctx = {}
+        ctx.update(rpc.session.context.copy())
+        
         if not isinstance(fields, list):
             fields = [fields]
 
         for line in data:
             datas.append(map(lambda x:x.decode(csvcode).encode('utf-8'), line))
         try:
-            res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas)
+            res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas, 'init', '', False, ctx)
         except Exception, e:
             raise common.warning(ustr(e), _('XML-RPC error!'))
         if res[0]>=0:
@@ -493,8 +498,8 @@ class ImpEx(SecuredController):
             d = ''
             for key,val in res[1].items():
                 d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
-            error = _('Unable to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
-            raise common.message(unicode(error))
+            error = _('Error trying to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
+            raise common.warning(unicode(error), _('Importation Error !'))   
 
         return self.imp(**kw)
 
