@@ -65,6 +65,8 @@ def load_modules():
     addons_path = os.path.dirname(os.path.abspath(__file__))
     addons_path = os.path.join(addons_path, "addons")
     
+    sys.path.insert(0, addons_path)
+    
     addons = [f for f in os.listdir(addons_path) if os.path.isfile(addons_path + "/" + f + "/__terp__.py")]
     for addon in addons:
         n = "openerp.addons.%s" % (addon)
@@ -111,19 +113,13 @@ def setup_server(configfile):
 
     # import profiler while makes profile decorator available as __builtins__
     from openerp.tools import profiler
+    from openerp.controllers import mount_tree
     
     # load each modules prior to mount the application
     load_modules()
     
-    #from openerp.addons.base.controllers.root import Root
-    
-    #root = Root()
-    #mount = cherrypy.config.get('server.webpath', '/')
-
-    #app = cherrypy.tree.mount(root, mount, app_config)
-    
-    from openerp.controllers import mount_tree
-    app = mount_tree(app_config)
+    mount = cherrypy.config.get('server.webpath', '/')
+    app = mount_tree(mount, app_config)
 
     import pkg_resources
     from openerp.widgets import register_resource_directory

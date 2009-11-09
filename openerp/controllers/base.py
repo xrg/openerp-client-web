@@ -41,7 +41,7 @@ __all__ = ["BaseController", "SecuredController", "mount_tree"]
 
 _REGISTRY = {}
 
-def mount_tree(config):
+def mount_tree(mount, config):
     
     root = _REGISTRY.get("/", None)
     
@@ -72,7 +72,7 @@ def mount_tree(config):
         c = _REGISTRY[p]
         parent._subcontrollers[last] = c()
         
-    return cherrypy.tree.mount(root(), '/', config)
+    return cherrypy.tree.mount(root(), mount, config)
     
 
 class ControllerType(type):
