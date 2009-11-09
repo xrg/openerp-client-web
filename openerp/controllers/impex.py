@@ -51,8 +51,10 @@ from openerp.utils import TinyDict
 
 import openerp.widgets as tw
 
-def datas_read(ids, model, fields):
-    return rpc.RPCProxy(model).export_data(ids, fields)
+def datas_read(ids, model, fields, context=None):
+    ctx = context.copy()    
+    ctx.update(rpc.session.context)
+    return rpc.RPCProxy(model).export_data(ids, fields, ctx)
 
 def export_csv(fields, result, write_title=False):
     try:
@@ -347,10 +349,10 @@ class ImpEx(SecuredController):
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
-        result = datas_read(ids, params.model, fields)
+        result = datas_read(ids, params.model, fields, context=ctx)
         
         if result.get('warning', False):
-            common.message_box(_('Export Error!'), unicode(result.get('warning', False)))
+            common.warning(unicode(result.get('warning', False)), _('Export Error!'))
             return False
         result = result.get('datas',[])
         
