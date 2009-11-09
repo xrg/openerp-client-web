@@ -656,7 +656,9 @@ class Form(SecuredController):
                 domain = params.search_domain
                 data = params.search_data
 
-            res = search(params.model, o, l, domain=domain, data=data)
+            ctx = params.context or {}
+            ctx.update(rpc.session.context.copy())
+            res = search(params.model, o, l, domain=domain, context=ctx, data=data)
 
             o = res['offset']
             l = res['limit']
