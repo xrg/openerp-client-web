@@ -55,9 +55,6 @@ class WikiView(SecuredController):
     
     _cp_path = "/wiki"
     
-    # deprecated (use _cp_path)
-    path = '/wiki'
-    
     @expose(content_type='application/octet')
     def getImage(self, *kw, **kws):
         model = 'ir.attachment'

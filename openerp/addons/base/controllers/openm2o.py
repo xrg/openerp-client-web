@@ -50,9 +50,6 @@ class OpenM2O(Form):
     
     _cp_path = "/openm2o"
 
-    # deprecated (use _cp_path)
-    path = '/openm2o'    # mapping from root
-
     @expose(template="templates/openm2o.mako")
     def create(self, params, tg_errors=None):
 

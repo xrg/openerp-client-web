@@ -188,9 +188,6 @@ class Form(SecuredController):
     
     _cp_path = "/form"
     
-    # deprecated (use _cp_path)
-    path = '/form'    # mapping from root
-
     def create_form(self, params, tg_errors=None):
         if tg_errors:
             return cherrypy.request.terp_form

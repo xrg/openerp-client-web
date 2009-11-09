@@ -52,9 +52,6 @@ class OpenO2M(Form):
     
     _cp_path = "/openo2m"
 
-    # deprecated (use _cp_path)
-    path = '/openo2m'    # mapping from root
-
     def create_form(self, params, tg_errors=None):
 
         params.id = params.o2m_id

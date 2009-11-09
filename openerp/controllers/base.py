@@ -82,6 +82,9 @@ class ControllerType(type):
         obj = super(ControllerType, cls).__new__(cls, name, bases, attrs)    
         path = attrs.get("_cp_path")
         
+        if "path" in attrs and name != "BaseController":
+            raise Exception("Can't override 'path' attribute.")
+        
         if path == "/" and path in _REGISTRY:        
             raise Exception("There should be only one root controller.")
         
@@ -101,6 +104,8 @@ class BaseController(object):
     
     __metaclass__ = ControllerType
     
+    _cp_path = None
+    
     _subcontrollers = {}
     
     def __new__(cls):
@@ -109,7 +114,11 @@ class BaseController(object):
             setattr(o, n, c)
         return o
     
-
+    def _get_path(self):
+        return self._cp_path
+    
+    path = property(_get_path)
+    
 class SecuredController(BaseController):
 
     def __getattribute__( self, name ):

@@ -52,9 +52,6 @@ class Search(Form):
 
     _cp_path = "/search"
     
-    # deprecated (use _cp_path)
-    path = '/search'    # mapping from root
-
     @expose(template="templates/search.mako")
     def create(self, params, tg_errors=None):
 

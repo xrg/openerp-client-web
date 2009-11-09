@@ -46,9 +46,6 @@ class ResourcePopup(form.Form):
 
     _cp_path = "/process/resource"
     
-    # deprecated (use _cp_path)
-    path = '/process/resource'    # mapping from root
-
     @expose(template="templates/process_open.mako")
     def create(self, params, tg_errors=None):
         params.editable = True

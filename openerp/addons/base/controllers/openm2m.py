@@ -50,9 +50,6 @@ class OpenM2M(Form):
     
     _cp_path = "/openm2m"
 
-    # deprecated (use _cp_path)
-    path = '/openm2m'
-
     @expose(template="templates/openm2m.mako")
     def create(self, params, tg_errors=None):
 

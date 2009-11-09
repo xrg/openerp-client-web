@@ -51,9 +51,6 @@ class State(Form):
 
     _cp_path = "/workflow/state"
     
-    # deprecated (use _cp_path)
-    path = '/workflow/state'    # mapping from root
-
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
@@ -123,9 +120,6 @@ class Connector(Form):
 
     _cp_path = "/workflow/connector"
     
-    # deprecate (use _cp_path)
-    path = '/workflow/connector'    # mapping from root
-
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
@@ -213,9 +207,6 @@ class Workflow(Form):
 
     _cp_path = "/workflow"
     
-    # deprecated (use _cp_path)
-    path = '/workflow'
-
     @expose(template="templates/workflow.mako")
     def index(self, model, id=None):
 

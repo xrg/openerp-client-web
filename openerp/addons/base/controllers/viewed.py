@@ -54,9 +54,6 @@ class NewField(Form):
 
     _cp_path = "/viewed/new_field"
     
-    # deprecated (use _cp_path)
-    path = '/viewed/new_field'    # mapping from root
-
     def create_form(self, params, tg_errors=None):
         
         # generate model_id field
@@ -97,9 +94,6 @@ class NewModel(Form):
 
     _cp_path = "/viewed/new_model"
     
-    # deprecated (use _cp_path)
-    path = '/viewed/new_model'    # mapping from root
-
     @expose(template="templates/viewed_new_model.mako")
     def create(self, params, tg_errors=None):
 
@@ -131,9 +125,6 @@ class Preview(Form):
 
     _cp_path = "/viewed/preview"
     
-    # deprecated (use _cp_path)
-    path = '/viewed/preview'    # mapping from root
-
     @expose(template="templates/viewed_preview.mako")
     def create(self, params, tg_errors=None):
         form = self.create_form(params, tg_errors)

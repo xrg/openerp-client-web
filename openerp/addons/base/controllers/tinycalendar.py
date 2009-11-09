@@ -267,9 +267,6 @@ class CalendarPopup(Form):
     
     _cp_path = "/calpopup"
 
-    # deprecated (use _cp_path)
-    path = '/calpopup'    # mapping from root
-
     @expose(template="templates/calpopup.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
