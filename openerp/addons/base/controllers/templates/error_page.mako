@@ -1,10 +1,10 @@
 <%inherit file="base.mako"/>
 
 <%def name="header()">
-    <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css" />
+    <link href="${cp.static('base', 'css/style.css')}" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
-    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.ui.textarea.js')}"></script>
+    <script type="text/javascript" src="${cp.static('base', 'javascript/openobject/openobject.ui.textarea.js')}"></script>
     
     <script type="text/javascript">
         var send_maintenance_request = function() {

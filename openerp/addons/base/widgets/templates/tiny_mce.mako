@@ -15,7 +15,7 @@
 
         plugins: "fullscreen,print,safari",
         
-        content_css: "${py.url('/static/css/tiny_mce.css')}",
+        content_css: "${cp.static('base', 'css/tiny_mce.css')}",
         apply_source_formatting : true,
         
         extended_valid_elements : "a[href|target|name]",

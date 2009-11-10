@@ -2,8 +2,8 @@
 
 <%def name="header()">
     <title>Export Data</title>
-    <link href="${py.url('/static/css/listgrid.css')}" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="${py.url('/static/javascript/listgrid.js')}"></script>
+    <link href="${cp.static('base', 'css/listgrid.css')}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${cp.static('base', 'javascript/listgrid.js')}"></script>
 
     <style type="text/css">
         .fields-selector {
@@ -169,7 +169,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${py.url('/static/images/stock/gtk-go-up.png')}"/>
+                            <img src="${cp.static('base', 'images/stock/gtk-go-up.png')}"/>
                         </td>
                         <td width="100%">${_("Export Data")}</td>
                     </tr>

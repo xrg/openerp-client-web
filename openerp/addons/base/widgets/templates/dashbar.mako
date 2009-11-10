@@ -7,7 +7,7 @@
                     <td width="100%">${dashlet.string}</td>
                     <td>
                         <img class="dashlet-button" 
-                             src="${py.url('/static/images/stock/gtk-zoom-in.png')}" 
+                             src="${cp.static('base', 'images/stock/gtk-zoom-in.png')}" 
                              onclick="submit_form('dashlet', '${dashlet.name}', 'new')"/>
                     </td>
                 </tr>
