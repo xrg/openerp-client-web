@@ -27,18 +27,19 @@
 #
 ###############################################################################
 
-import base64
 import os
-
-from openerp.tools import expose
-from openerp.tools import redirect
+import base64
 
 import cherrypy
 
 from openerp.tools import rpc
+from openerp.tools import expose
+from openerp.tools import redirect
+
 from openerp.controllers import SecuredController
 
-from openerp.addons.base.widgets.binary import get_temp_file
+from base.widgets.binary import get_temp_file
+
 
 class Image(SecuredController):
     

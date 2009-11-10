@@ -48,7 +48,7 @@ import openerp.widgets
 import openerp.validators
 
 from form import Form
-from openerp.addons.base import widgets as bw
+from base import widgets as bw
 
 class NewField(Form):
 

@@ -27,26 +27,21 @@
 #
 ###############################################################################
 
-"""
-This module implementes search view for a tiny model. Currently it simply displays
-list view of the given model.
-"""
 import cherrypy
 
-from openerp.tools import expose
+from openerp import tools
 
 from openerp.tools import rpc
-from openerp import tools
 from openerp.tools import common
-
-from openerp.controllers import SecuredController
-
+from openerp.tools import expose
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm
 from openerp.tools import TinyFormError
 
+from openerp.controllers import SecuredController
+
 from form import Form
-from openerp.addons.base import widgets
+from base import widgets
 
 class Search(Form):
 

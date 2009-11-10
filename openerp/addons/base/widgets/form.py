@@ -54,7 +54,7 @@ from openerp.widgets import TinyInputWidget
 from openerp.widgets import ConcurrencyInfo
 from openerp.widgets import JSLink, JSSource, CSSLink
 
-from openerp.addons.base import validators
+from base import validators
 
 
 class Frame(TinyInputWidget):

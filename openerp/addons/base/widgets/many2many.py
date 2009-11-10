@@ -43,7 +43,7 @@ from form import Form
 from listgrid import List
 from screen import Screen
 
-from openerp.addons.base import validators
+from base import validators
 
 class M2M(TinyInputWidget):
 

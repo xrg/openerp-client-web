@@ -30,20 +30,18 @@
 import os
 import time
 
-from openerp.tools import expose
-
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
+
+from openerp.tools import rpc
 from openerp.tools import common
-
-from openerp.controllers import SecuredController
-
+from openerp.tools import expose
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm
 
-import openerp.widgets as tw
+from openerp.controllers import SecuredController
+
 
 class FieldPref(SecuredController):
     

@@ -33,7 +33,7 @@ from openerp.tools import common
 from openerp.widgets import TinyInputWidget
 
 from form import Form
-from openerp.addons.base import validators
+from base import validators
 
 def get_name(model, id):
     id = (id or False) and int(id)

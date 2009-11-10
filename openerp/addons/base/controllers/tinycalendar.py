@@ -44,7 +44,7 @@ from openerp.controllers import SecuredController
 
 from form import Form
 
-from openerp.addons.base.widgets import tinycalendar as tc
+from base.widgets import tinycalendar as tc
 
 class TinyCalendar(Form):
     

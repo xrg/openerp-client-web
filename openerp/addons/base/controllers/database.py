@@ -30,10 +30,8 @@
 import re
 import time
 import base64
-import xmlrpclib
 
 import cherrypy
-import pkg_resources
 
 from openerp.tools import url
 from openerp.tools import rpc
@@ -43,7 +41,6 @@ from openerp.tools import redirect
 from openerp.tools import validate, error_handler
 
 from openerp import widgets
-
 from openerp import validators
 
 

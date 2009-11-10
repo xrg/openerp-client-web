@@ -27,19 +27,19 @@
 #
 ###############################################################################
 
+import cherrypy
+
+from openerp import tools
+
+from openerp.tools import rpc
+from openerp.tools import cache
 from openerp.tools import expose
 from openerp.tools import validate
 from openerp.tools import error_handler
 from openerp.tools import exception_handler
-
-import cherrypy
-
-from openerp.tools import rpc
-from openerp.tools import cache
-from openerp import tools
-from openerp import widgets as tw
-
 from openerp.tools import TinyDict
+
+from base.widgets.form import Hidden
 
 from form import Form
 from form import get_validation_schema
@@ -54,7 +54,7 @@ class OpenM2O(Form):
     def create(self, params, tg_errors=None):
 
         params.editable = params.get('_terp_editable', True)
-        params.hidden_fields = [tw.form.Hidden(name='_terp_m2o', default=params.m2o)]
+        params.hidden_fields = [Hidden(name='_terp_m2o', default=params.m2o)]
         form = self.create_form(params, tg_errors)
 
         return dict(form=form, params=params)

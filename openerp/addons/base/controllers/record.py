@@ -29,11 +29,11 @@
 
 import time
 
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-
 from openerp import tools
 from openerp.tools import TinyDict
+
+from openerp.widgets import TinyWidget
+from openerp.widgets import TinyInputWidget
 
 from form import Form
 

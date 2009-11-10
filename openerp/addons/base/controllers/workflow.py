@@ -27,25 +27,22 @@
 #
 ###############################################################################
 
-from openerp.tools import expose
-from openerp.tools import redirect
-from openerp.tools import validate
-
-import pkg_resources
 import cherrypy
 
 from openerp.tools import rpc
 from openerp.tools import common
-
+from openerp.tools import expose
+from openerp.tools import redirect
+from openerp.tools import validate
 from openerp.tools import TinyDict
+
 from openerp.controllers import SecuredController
 
-from openerp import widgets as tw
+from base import widgets as tw
+from base import validators
 
 from form import Form
 
-
-#rpc.session = rpc.RPCSession('localhost', '8070', 'socket', storage=cherrypy.session)
 
 class State(Form):
 
@@ -68,7 +65,7 @@ class State(Form):
         field.readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals['wkf_id'] = tw.validators.Int()
+        vals['wkf_id'] = validators.Int()
 
         hide = []
 
@@ -143,8 +140,8 @@ class Connector(Form):
         field_act_to.readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals['act_from'] = tw.validators.Int()
-        vals['act_to'] = tw.validators.Int()
+        vals['act_from'] = validators.Int()
+        vals['act_to'] = validators.Int()
 
         return dict(form=form, params=params)
 

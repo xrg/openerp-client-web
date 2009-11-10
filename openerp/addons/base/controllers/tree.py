@@ -46,7 +46,7 @@ from openerp.tools import expose
 from openerp.tools import TinyDict
 
 from openerp.controllers import SecuredController
-from ..widgets import tree_view
+from base.widgets import tree_view
 
 
 DT_FORMAT = '%Y-%m-%d'

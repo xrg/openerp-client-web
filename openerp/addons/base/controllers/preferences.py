@@ -30,16 +30,17 @@
 import re
 import time
 
-from openerp.tools import expose
-from openerp.tools import redirect
-
 import cherrypy
 
 from openerp.tools import rpc
-from openerp.controllers import SecuredController
+from openerp.tools import expose
+from openerp.tools import redirect
 from openerp.tools import TinyDict
 
+from openerp.controllers import SecuredController
+
 from form import Form
+
 
 class Preferences(Form):
     

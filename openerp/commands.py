@@ -69,7 +69,7 @@ def load_modules():
     
     addons = [f for f in os.listdir(addons_path) if os.path.isfile(addons_path + "/" + f + "/__terp__.py")]
     for addon in addons:
-        n = "openerp.addons.%s" % (addon)
+        n = "%s" % (addon)
         print "Loading module '%s'" % n
         m = __import__(n, globals(), locals())
         

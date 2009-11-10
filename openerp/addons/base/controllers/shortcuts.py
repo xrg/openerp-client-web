@@ -27,16 +27,17 @@
 #
 ###############################################################################
 
+import cherrypy
+
+from openerp import tools
+
+from openerp.tools import rpc
+from openerp.tools import common
 from openerp.tools import expose
 from openerp.tools import redirect
 
-import cherrypy
-
-from openerp.tools import rpc
-from openerp import tools
-from openerp.tools import common
-
 from openerp.controllers import SecuredController
+
 
 class Shortcuts(SecuredController):
     

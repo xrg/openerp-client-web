@@ -44,7 +44,7 @@ from openerp.tools import error_handler
 from openerp.tools import TinyDict
 
 from openerp.controllers import SecuredController
-from openerp.addons.base import widgets as tw
+from base import widgets as tw
 
 import form
 

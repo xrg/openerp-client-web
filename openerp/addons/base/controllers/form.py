@@ -47,9 +47,10 @@ from openerp.tools import exception_handler
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm
 
-from openerp.addons.base import widgets as tw
+from base import widgets as tw
+from base.widgets.binary import generate_url_for_picture
+
 from openerp.controllers import SecuredController
-from openerp.addons.base.widgets.binary import generate_url_for_picture
 
 
 def make_domain(name, value, kind='char'):

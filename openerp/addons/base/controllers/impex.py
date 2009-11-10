@@ -27,29 +27,30 @@
 #
 ###############################################################################
 
+import re
 import os
+import csv
 import time
 import types
 import base64
-import xml.dom.minidom
-import re
-
-import csv
 import StringIO
-
-from openerp.tools import expose
-from openerp.tools import redirect
+import xml.dom.minidom
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
-from openerp.tools import common
 
-from openerp.controllers import SecuredController
+from openerp.tools import rpc
+from openerp.tools import common
+from openerp.tools import expose
+from openerp.tools import redirect
 from openerp.tools import TinyDict
 
-import openerp.widgets as tw
+from openerp.controllers import SecuredController
+
+from base.widgets import treegrid
+from base.widgets import listgrid
+
 
 def datas_read(ids, model, fields, context=None):
     ctx = context.copy()    
@@ -139,19 +140,19 @@ class ImpEx(SecuredController):
         new_list = []
 
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
-        tree = tw.treegrid.TreeGrid('export_fields',
-                                    model=params.model,
-                                    headers=headers,
-                                    url=tools.url('/impex/get_fields'),
-                                    field_parent='relation',
-                                    views=views)
+        tree = treegrid.TreeGrid('export_fields',
+                                 model=params.model,
+                                 headers=headers,
+                                 url=tools.url('/impex/get_fields'),
+                                 field_parent='relation',
+                                 views=views)
 
         tree.show_headers = False
 
         view = proxy.fields_view_get(False, 'tree', rpc.session.context)
-        new_list = tw.listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
-                                       domain=[('resource', '=', params.model)],
-                                       context=rpc.session.context, selectable=1, editable=False, pageable=False)
+        new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
+                                 domain=[('resource', '=', params.model)],
+                                 context=rpc.session.context, selectable=1, editable=False, pageable=False)
 
 
         return dict(new_list=new_list, model=params.model, ids=params.ids,

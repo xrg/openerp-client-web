@@ -29,17 +29,17 @@
 
 import cherrypy
 
-from openerp.tools import expose
+from openerp import tools
 
 from openerp.tools import rpc
-from openerp import tools
-from openerp.controllers import SecuredController
-
+from openerp.tools import expose
 from openerp.tools import TinyDict
 from openerp.tools import TinyForm
 from openerp.tools import TinyFormError
 
-import openerp.widgets as tw
+from openerp.controllers import SecuredController
+
+from base.widgets import listgrid
 
 import form
 import search
@@ -153,7 +153,7 @@ class List(SecuredController):
         else:
             frm = form.Form().create_form(params)
 
-        wid = frm.screen.get_widgets_by_name(source, kind=tw.listgrid.List)[0]
+        wid = frm.screen.get_widgets_by_name(source, kind=listgrid.List)[0]
         ids = wid.ids
         count = wid.count
 

@@ -32,18 +32,17 @@ import base64
 
 import cherrypy
 
+from openerp.tools import rpc
 from openerp.tools import expose
 from openerp.tools import redirect
 from openerp.tools import validate
-
-from openerp.tools import rpc
-from openerp.controllers import SecuredController
 from openerp.tools import TinyDict
 
-import openerp.widgets as tw
-
+from openerp.controllers import SecuredController
 from pyparsing import *
+
 import form
+
 
 FILE_FORMATS = {
      'pdf' : 'application/pdf',

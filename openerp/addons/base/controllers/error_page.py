@@ -41,14 +41,14 @@ from openerp.tools import TinyDict
 
 from openerp.controllers import BaseController
 
-from openerp.addons.base import widgets as tw
+from base import widgets
 
 
 class ErrorPage(BaseController):
     
     _cp_path = "/errorpage"
 
-    nb = tw.form.Notebook()
+    nb = widgets.form.Notebook()
 
     @expose()
     def index(self, *args, **kw):

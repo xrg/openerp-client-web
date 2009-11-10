@@ -29,19 +29,19 @@
 
 import urllib
 
+import cherrypy
+
+from openerp import tools
+
+from openerp.tools import rpc
+from openerp.tools import cache
 from openerp.tools import expose
 from openerp.tools import validate
 from openerp.tools import error_handler
 from openerp.tools import exception_handler
-
-import cherrypy
-
-from openerp.tools import rpc
-from openerp.tools import cache
-from openerp import tools
-from openerp import widgets as tw
-
 from openerp.tools import TinyDict
+
+import base.widgets as tw
 
 from form import Form
 from form import get_validation_schema

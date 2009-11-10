@@ -31,21 +31,22 @@
 """
 
 import time
-import datetime
 import base64
+import datetime
 
 import cherrypy
 
-from openerp.tools import rpc
 from openerp import tools
+
+from openerp.tools import rpc
 from openerp.tools import common
+from openerp.tools import TinyDict
 
 from form import Form
 from tree import Tree
 from wizard import Wizard
 from selection import Selection
 
-from openerp.tools import TinyDict
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
                    mode='form,tree', name=None, target=None, limit=None):

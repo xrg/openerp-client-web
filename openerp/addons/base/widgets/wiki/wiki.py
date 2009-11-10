@@ -41,7 +41,7 @@ import wikimarkup
 from openerp.tools import rpc
 from openerp.widgets import JSLink, CSSLink
 
-from openerp.addons.base.widgets.form import Text
+from base.widgets.form import Text
 
 
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
