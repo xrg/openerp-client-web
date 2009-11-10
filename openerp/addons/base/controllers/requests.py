@@ -36,7 +36,7 @@ from openerp.tools import common
 from openerp.tools import expose
 from openerp.tools import redirect
 
-from openerp.controllers import SecuredController
+from base.controllers import SecuredController
 
 
 class Requests(SecuredController):
@@ -67,6 +67,7 @@ class Requests(SecuredController):
         import actions
         return actions.execute_window(False, 'res.request', res_id=None, 
             domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -42,8 +42,8 @@ from openerp.tools import expose
 from openerp.tools import redirect
 from openerp.tools import find_resource
 
-from openerp.controllers import SecuredController, unsecured
-from openerp.controllers import login as tiny_login
+from base.controllers import SecuredController, unsecured
+from base.controllers import login as tiny_login
 
 
 def _cp_on_error():

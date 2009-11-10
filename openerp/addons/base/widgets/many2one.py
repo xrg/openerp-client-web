@@ -30,7 +30,7 @@
 from openerp.tools import rpc
 from openerp.tools import common
 
-from openerp.widgets import TinyInputWidget
+from base.widgets import TinyInputWidget
 
 from form import Form
 from base import validators

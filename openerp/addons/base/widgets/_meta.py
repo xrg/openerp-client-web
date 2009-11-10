@@ -1,7 +1,7 @@
 import inspect
 from new import instancemethod
 
-from utils import OrderedSet
+from _utils import OrderedSet
 from openerp.tools import load_template
 
 

@@ -37,9 +37,9 @@ from openerp import tools
 from openerp.tools import rpc
 from openerp.tools import common
 from openerp.tools import expose
-from openerp.tools import TinyDict
+from base.utils import TinyDict
 
-from openerp.controllers import BaseController
+from base.controllers import BaseController
 
 from base import widgets
 

@@ -32,19 +32,21 @@ import re
 import cherrypy
 
 from openerp import tools
-from openerp import validators
 
 from openerp.tools import rpc
 from openerp.tools import icons
 from openerp.tools import common
 from openerp.tools import expose
 from openerp.tools import redirect
-from openerp.tools import validate
-from openerp.tools import error_handler
-from openerp.tools import TinyDict
 
-from openerp.controllers import SecuredController
+from base.utils import TinyDict
+
+from base.controllers import validate
+from base.controllers import error_handler
+from base.controllers import SecuredController
+
 from base import widgets as tw
+from base import validators
 
 import form
 

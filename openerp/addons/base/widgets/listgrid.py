@@ -46,10 +46,10 @@ import form
 
 from pager import Pager
 
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-from openerp.widgets import CSSLink, JSLink
+from base.widgets import TinyWidget
+from base.widgets import TinyInputWidget
+from base.widgets import ConcurrencyInfo
+from base.widgets import CSSLink, JSLink
 
 class List(TinyWidget):
 

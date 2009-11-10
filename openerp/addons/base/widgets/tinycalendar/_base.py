@@ -37,13 +37,13 @@ import cherrypy
 from openerp import tools
 
 from openerp.tools import rpc
-from openerp.tools import TinyDict
+from base.utils import TinyDict
 
 from openerp.i18n import format
 
-from openerp.widgets import TinyWidget
-from openerp.widgets import ConcurrencyInfo
-from openerp.widgets import JSLink, CSSLink
+from base.widgets import TinyWidget
+from base.widgets import ConcurrencyInfo
+from base.widgets import JSLink, CSSLink
 
 from utils import Day
 from utils import parse_datetime
@@ -239,7 +239,7 @@ class ICalendar(TinyWidget):
         # convert color values from string to python values
         if self.color_values and self.color_field in self.fields:
             try:
-                import openerp.widgets as tw
+                import base.widgets as tw
                 atr = self.fields[self.color_field]
                 atr['required'] = False
                 wid = tw.form.WIDGETS[atr['type']](**atr)

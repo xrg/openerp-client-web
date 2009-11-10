@@ -113,16 +113,16 @@ def setup_server(configfile):
 
     # import profiler while makes profile decorator available as __builtins__
     from openerp.tools import profiler
-    from openerp.controllers import mount_tree
-    
+        
     # load each modules prior to mount the application
     load_modules()
     
+    from base.controllers import mount_tree
     mount = cherrypy.config.get('server.webpath', '/')
     app = mount_tree(mount, app_config)
 
     import pkg_resources
-    from openerp.widgets import register_resource_directory
+    from base.widgets import register_resource_directory
 
     static = pkg_resources.resource_filename("openerp", "static")
     register_resource_directory(app, "openerp", static)

@@ -35,15 +35,14 @@ import xml.dom.minidom
 import cherrypy
 
 from openerp import tools
-
 from openerp.tools import rpc
-from openerp.tools import TinyDict
 
-from openerp.widgets import JSLink, CSSLink
-from openerp.widgets import TinyWidget
+from base.utils import TinyDict
+from base.widgets import JSLink, CSSLink
+from base.widgets import TinyWidget
 
-from base import ICalendar
-from base import TinyCalendar
+from _base import ICalendar
+from _base import TinyCalendar
 
 from utils import Day
 from utils import Week

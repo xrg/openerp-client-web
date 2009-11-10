@@ -33,11 +33,11 @@ from openerp import tools
 
 from openerp.tools import rpc
 from openerp.tools import expose
-from openerp.tools import TinyDict
-from openerp.tools import TinyForm
-from openerp.tools import TinyFormError
+from base.utils import TinyDict
+from base.utils import TinyForm
+from base.utils import TinyFormError
 
-from openerp.controllers import SecuredController
+from base.controllers import SecuredController
 
 from base.widgets import listgrid
 

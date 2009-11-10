@@ -33,9 +33,9 @@ import base64
 from openerp.tools import rpc
 from openerp.tools import common
 from openerp.tools import expose
-from openerp.tools import TinyDict
+from base.utils import TinyDict
 
-from openerp.controllers import SecuredController
+from base.controllers import SecuredController
 
 
 class Attachment(SecuredController):

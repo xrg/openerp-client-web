@@ -36,7 +36,7 @@ from openerp.tools import common
 from openerp.tools import expose
 from openerp.tools import redirect
 
-from openerp.controllers import SecuredController
+from base.controllers import SecuredController
 
 
 class Shortcuts(SecuredController):

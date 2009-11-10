@@ -46,8 +46,8 @@ from openerp.tools import rpc
 from openerp.tools import common
 from openerp.tools import cache
 
-from openerp.widgets import JSSource, JSLink
-from openerp.widgets import TinyWidget
+from base.widgets import JSSource, JSLink
+from base.widgets import TinyWidget
 
 
 DT_FORMAT = '%Y-%m-%d'

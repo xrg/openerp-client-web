@@ -27,10 +27,10 @@
 #
 ###############################################################################
 
-from openerp import validators
-
 from openerp.tools import rpc
-from openerp.widgets import TinyInputWidget
+
+from base import validators
+from base.widgets import TinyInputWidget
 
 from form import Form
 from listgrid import List

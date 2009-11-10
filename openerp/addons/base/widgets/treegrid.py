@@ -29,8 +29,8 @@
 
 import simplejson
 
-from openerp.widgets import TinyWidget
-from openerp.widgets import CSSLink, JSLink
+from base.widgets import TinyWidget
+from base.widgets import CSSLink, JSLink
 
 
 class TreeGrid(TinyWidget):

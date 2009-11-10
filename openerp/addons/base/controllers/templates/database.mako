@@ -1,4 +1,4 @@
-<%inherit file="/controllers/templates/base.mako"/>
+<%inherit file="base.mako"/>
 
 <%def name="header()">
     <title>${form.string}</title>
@@ -32,7 +32,7 @@
 
 <%def name="content()">
 
-<%include file="/controllers/templates/header.mako"/>
+<%include file="header.mako"/>
 
     <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
@@ -73,5 +73,5 @@
             <td valign="top" align="center">${form.display()}</td>
         </tr>
     </table>
-<%include file="/controllers/templates/footer.mako"/>    
+<%include file="footer.mako"/>    
 </%def>

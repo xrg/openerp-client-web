@@ -1,8 +1,9 @@
 from openerp import i18n
 from openerp import tools
 
-from base import Widget
-from resource import JSLink
+from _base import Widget
+from _resource import JSLink
+
 
 def _get_locale():
     lang = i18n.get_locale()

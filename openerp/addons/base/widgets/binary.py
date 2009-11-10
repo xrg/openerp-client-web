@@ -31,14 +31,14 @@ import base64
 import time
 
 from openerp import tools
-from openerp import validators
 
 from openerp.tools import rpc
 from openerp.tools import icons
 from openerp.tools import cache
 from openerp.tools import TempFileName
 
-from openerp.widgets import TinyInputWidget
+from base import validators
+from base.widgets import TinyInputWidget
 
 
 class Binary(TinyInputWidget):

@@ -35,9 +35,9 @@ from openerp import tools
 
 from openerp.tools import rpc
 from openerp.tools import cache
-from openerp.tools import TinyDict
+from base.utils import TinyDict
 
-from openerp.widgets import TinyInputWidget
+from base.widgets import TinyInputWidget
 
 from form import Form
 from listgrid import List

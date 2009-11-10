@@ -1,12 +1,14 @@
 import os
 
-from itertools import izip, chain, imap
+from itertools import imap
+from itertools import izip
+from itertools import chain
 
 import cherrypy
 
-from base import Widget
-from utils import OrderedSet
-from utils import Enum
+from _base import Widget
+from _utils import OrderedSet
+from _utils import Enum
 
 
 locations = Enum(["head", "bodytop", "bodybottom"])

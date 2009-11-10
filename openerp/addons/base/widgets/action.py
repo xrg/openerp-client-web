@@ -35,8 +35,8 @@ from openerp.tools import rpc
 
 import screen
 
-from openerp.tools import TinyDict
-from openerp.widgets import TinyInputWidget
+from base.utils import TinyDict
+from base.widgets import TinyInputWidget
 
 
 class Action(TinyInputWidget):

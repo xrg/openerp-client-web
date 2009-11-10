@@ -38,10 +38,12 @@ from openerp.tools import rpc
 from openerp.tools import expose
 from openerp.tools import common
 from openerp.tools import redirect
-from openerp.tools import validate, error_handler
 
-from openerp import widgets
-from openerp import validators
+from base.controllers import validate
+from base.controllers import error_handler
+
+from base import widgets
+from base import validators
 
 
 def get_lang_list():

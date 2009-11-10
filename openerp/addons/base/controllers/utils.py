@@ -1,4 +1,31 @@
-
+###############################################################################
+#
+# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
+#
+# $Id$
+#
+# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
+#
+# The OpenERP web client is distributed under the "OpenERP Public License".
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
+# restrictions:
+#
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
+#     added.
+#
+# -   All distributions of the software must keep source code with OEPL.
+#
+# -   All integrations to any other software must keep source code with OEPL.
+#
+# If you need commercial licence to remove this kind of restriction please
+# contact us.
+#
+# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+#
+###############################################################################
 
 import re
 import time
@@ -13,7 +40,7 @@ from openerp.tools import expose
 from openerp.tools import redirect
 
 
-__all__ = ["secured", "unsecured", "login"]
+__all__ = ["secured", "unsecured", "login", "validate", "error_handler", "exception_handler"]
 
 
 @expose(template="templates/login.mako")
@@ -145,4 +172,112 @@ def unsecured(fn):
         return fn(*args, **kw)
 
     return tools.decorated(wrapper, fn, secured=False)
+
+
+from itertools import izip, islice
+from inspect import getargspec
+
+def to_kw(func, args, kw):
+
+    argnames, defaults = getargspec(func)[::3]
+    defaults = defaults or []
+
+    kv = zip(islice(argnames, 0, len(argnames) - len(defaults)), args)
+    kw.update(kv)
+
+    return args[len(argnames)-len(defaults):], kw
+
+def from_kw(func, args, kw):
+
+    argnames, defaults = getargspec(func)[::3]
+    defaults = defaults or []
+
+    newargs = [kw.pop(name) for name in islice(argnames, 0, len(argnames) - len(defaults)) if name in kw]
+    newargs.extend(args)
+
+    return newargs, kw
+
+
+def validate(form=None, validators=None):
+
+    def validate_wrapper(func):
+
+        if callable(form) and not hasattr(form, "validate"):
+            init_form = lambda self: form(self)
+        else:
+            init_form = lambda self: form
+
+        def func_wrapper(*args, **kw):
+
+            # do not validate a second time if already validated
+            if hasattr(cherrypy.request, 'validation_state'):
+                return func(*args, **kw)
+
+            form = init_form(args and args[0] or kw["self"])
+            args, kw = to_kw(func, args, kw)
+
+            errors = {}
+
+            if form:
+                value = kw.copy()
+                value.pop('self', None)
+                try:
+                    kw.update(form.validate(value, None))
+                except Invalid, e:
+                    errors = e.unpack_errors()
+                    cherrypy.request.validation_exception = e
+                    cherrypy.request.validation_value = value
+                cherrypy.request.validated_form = form
+
+            if validators:
+
+                if isinstance(validators, dict):
+                    for field, validator in validators.iteritems():
+                        try:
+                            kw[field] = validator.to_python(
+                                kw.get(field, None), None)
+                        except Invalid, error:
+                            errors[field] = error
+                else:
+                    try:
+                        value = kw.copy()
+                        kw.update(validators.to_python(value, None))
+                    except Invalid, e:
+                        errors = e.unpack_errors()
+                        cherrypy.request.validation_exception = e
+                        cherrypy.request.validation_value = value
+
+            cherrypy.request.validation_errors = errors
+            cherrypy.request.input_values = kw.copy()
+            cherrypy.request.validation_state = True
+
+            args, kw = from_kw(func, args, kw)
+            return func(*args, **kw)
+
+        return tools.decorated(func_wrapper, func)
+
+    return validate_wrapper
+
+def error_handler(handler):
+
+    def wrapper(func):
+
+        def func_wrapper(*args, **kw):
+
+            tg_errors = getattr(cherrypy.request, 'validation_errors', None)
+            if tg_errors:
+                kw['tg_errors'] = tg_errors
+                return handler(*args, **kw)
+
+            return func(*args, **kw)
+
+        return tools.decorated(func_wrapper, func)
+
+    return wrapper
+
+def exception_handler(*args, **kw):
+    return lambda f: f
+
+
+# vim: ts=4 sts=4 sw=4 si et
 

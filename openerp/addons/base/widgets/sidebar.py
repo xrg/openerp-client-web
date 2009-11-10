@@ -30,10 +30,10 @@
 from openerp import tools
 
 from openerp.tools import rpc
-from openerp.tools import TinyDict
+from base.utils import TinyDict
 
-from openerp.widgets import JSSource
-from openerp.widgets import TinyWidget
+from base.widgets import JSSource
+from base.widgets import TinyWidget
 
 from screen import Screen
 

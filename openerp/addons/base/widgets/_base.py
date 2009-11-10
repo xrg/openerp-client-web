@@ -1,16 +1,20 @@
 import copy
 
-from itertools import ifilter, count, chain, izip, ifilterfalse
+from itertools import izip
+from itertools import count
+from itertools import chain
+from itertools import ifilter
+from itertools import ifilterfalse
 
 import cherrypy
 
 from openerp import tools
 
-from openerp.validators import *
+from base.validators import *
 
-from meta import WidgetType
-from utils import OrderedSet
-from utils import make_bunch
+from _meta import WidgetType
+from _utils import OrderedSet
+from _utils import make_bunch
 
 
 __all__ = ['Widget', 'InputWidget']

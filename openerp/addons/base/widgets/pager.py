@@ -27,8 +27,8 @@
 #
 ###############################################################################
 
-from openerp.widgets import CSSLink
-from openerp.widgets import TinyWidget
+from base.widgets import CSSLink
+from base.widgets import TinyWidget
 
 
 class Pager(TinyWidget):

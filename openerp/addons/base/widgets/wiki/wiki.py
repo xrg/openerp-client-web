@@ -39,7 +39,7 @@ import cherrypy
 import wikimarkup
 
 from openerp.tools import rpc
-from openerp.widgets import JSLink, CSSLink
+from base.widgets import JSLink, CSSLink
 
 from base.widgets.form import Text
 

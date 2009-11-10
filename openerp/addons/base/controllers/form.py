@@ -33,24 +33,25 @@ import base64
 import cherrypy
 
 from openerp import tools
-from openerp import validators
 
 from openerp.tools import rpc
 from openerp.tools import cache
 from openerp.tools import common
 from openerp.tools import expose
-from openerp.tools import validate
 from openerp.tools import redirect
-from openerp.tools import error_handler
-from openerp.tools import exception_handler
 
-from openerp.tools import TinyDict
-from openerp.tools import TinyForm
+from base.controllers import validate
+from base.controllers import error_handler
+from base.controllers import exception_handler
+from base.controllers import SecuredController
+
+from base.utils import TinyDict
+from base.utils import TinyForm
 
 from base import widgets as tw
-from base.widgets.binary import generate_url_for_picture
+from base import validators
 
-from openerp.controllers import SecuredController
+from base.widgets.binary import generate_url_for_picture
 
 
 def make_domain(name, value, kind='char'):

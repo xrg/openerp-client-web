@@ -35,7 +35,7 @@ from openerp import tools
 from openerp.tools import rpc
 from openerp.tools import cache
 
-from openerp.widgets import Form, JSLink, locations
+from base.widgets import Form, JSLink, locations
 
 from sidebar import Sidebar
 import treegrid

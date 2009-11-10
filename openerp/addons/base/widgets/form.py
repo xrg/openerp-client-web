@@ -45,14 +45,14 @@ from openerp.tools import rpc
 from openerp.tools import icons
 from openerp.tools import common
 from openerp.tools import cache
-from openerp.tools import TinyDict
+from base.utils import TinyDict
 
 from openerp.i18n import format
 from openerp.i18n import get_locale
 
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-from openerp.widgets import JSLink, JSSource, CSSLink
+from base.widgets import TinyInputWidget
+from base.widgets import ConcurrencyInfo
+from base.widgets import JSLink, JSSource, CSSLink
 
 from base import validators
 

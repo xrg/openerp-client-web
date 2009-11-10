@@ -1,10 +1,10 @@
 import re
 
-from base import *
-from resource import *
-from utils import make_bunch
+from _base import *
+from _resource import *
+from _utils import make_bunch
 
-from openerp import validators
+from base import validators
 
 
 def name2label(name):

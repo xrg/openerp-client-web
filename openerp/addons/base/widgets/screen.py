@@ -34,7 +34,7 @@ from openerp import tools
 from openerp.tools import rpc
 from openerp.tools import cache
 
-from openerp.widgets import TinyInputWidget
+from base.widgets import TinyInputWidget
 
 import form
 import graph

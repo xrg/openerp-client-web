@@ -31,15 +31,16 @@ import os
 import base64
 
 import cherrypy
+from pyparsing import *
 
 from openerp.tools import rpc
 from openerp.tools import expose
 from openerp.tools import redirect
-from openerp.tools import validate
-from openerp.tools import TinyDict
 
-from openerp.controllers import SecuredController
-from pyparsing import *
+from base.utils import TinyDict
+
+from base.controllers import validate
+from base.controllers import SecuredController
 
 import form
 

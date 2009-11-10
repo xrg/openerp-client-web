@@ -36,12 +36,13 @@ from openerp import tools
 from openerp.tools import rpc
 from openerp.tools import cache
 from openerp.tools import expose
-from openerp.tools import validate
-from openerp.tools import error_handler
-from openerp.tools import exception_handler
-from openerp.tools import TinyDict
 
-import base.widgets as tw
+from base.controllers import validate
+from base.controllers import error_handler
+from base.controllers import exception_handler
+
+from base.utils import TinyDict
+from base import widgets as tw
 
 from form import Form
 from form import get_validation_schema

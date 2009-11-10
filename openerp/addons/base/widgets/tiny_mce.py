@@ -27,10 +27,10 @@
 #
 ###############################################################################
 
-from openerp.widgets import JSLink
-from openerp.widgets import TinyInputWidget
+from base.widgets import JSLink
+from base.widgets import TinyInputWidget
 
-from openerp import validators
+from base import validators
 
 
 class TinyMCE(TinyInputWidget):

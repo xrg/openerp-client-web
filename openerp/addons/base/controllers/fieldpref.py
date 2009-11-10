@@ -37,10 +37,10 @@ from openerp import tools
 from openerp.tools import rpc
 from openerp.tools import common
 from openerp.tools import expose
-from openerp.tools import TinyDict
-from openerp.tools import TinyForm
+from base.utils import TinyDict
+from base.utils import TinyForm
 
-from openerp.controllers import SecuredController
+from base.controllers import SecuredController
 
 
 class FieldPref(SecuredController):
