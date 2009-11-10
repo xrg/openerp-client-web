@@ -36,7 +36,6 @@ js_i18n = JSI18n()
 # Auto generate language files from gettext catalogs.
 
 import os
-import pkg_resources
 import simplejson
 
 def __generate_catalog(locale):
@@ -44,7 +43,7 @@ def __generate_catalog(locale):
     if not i18n.is_locale_supported(locale):
         return
 
-    fname = pkg_resources.resource_filename("openerp",  "static/javascript/i18n/%s.js" % locale)
+    fname = tools.find_resource("base",  "static/javascript/i18n/%s.js" % locale)
     cname = os.path.join(i18n.get_locale_dir(), locale, 'LC_MESSAGES', 'messages.mo')
 
     if os.path.exists(fname) and os.path.getmtime(fname) >= os.path.getmtime(cname):
