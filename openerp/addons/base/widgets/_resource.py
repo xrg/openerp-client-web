@@ -157,11 +157,12 @@ class _StaticProvider(object):
     def __call__(self, module, resource):
         return '/cp_widgets/%s/%s' % (module, resource)
     
+static = _StaticProvider()
     
 def _cp_vars():
     
     return {
-        'static': _StaticProvider()
+        'static': static
     }
 
 tools.register_template_vars(_cp_vars, 'cp')
