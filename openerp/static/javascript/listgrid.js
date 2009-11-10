@@ -589,7 +589,8 @@ MochiKit.Base.update(ListView.prototype, {
         
         ids = '[' + ids.join(',') + ']';
         
-        openWindow(getURL('/impex/exp', {_terp_model: this.model, 
+        openWindow(getURL('/impex/exp', {_terp_model: this.model,
+        								 _terp_context: $('_terp_context').value, 
                                          _terp_source: this.name, 
                                          _terp_search_domain: $('_terp_search_domain').value, 
                                          _terp_ids: ids,
@@ -599,6 +600,7 @@ MochiKit.Base.update(ListView.prototype, {
 
     importData: function(){
         openWindow(getURL('/impex/imp', {_terp_model: this.model,
+        								 _terp_context: $('_terp_context').value,
                                          _terp_source: this.name,
                                          _terp_view_ids : this.view_ids,
                                          _terp_view_mode : this.view_mode}));
