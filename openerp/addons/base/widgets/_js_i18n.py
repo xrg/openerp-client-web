@@ -15,15 +15,20 @@ def _get_locale():
     return lang
 
 class JSCatelog(JSLink):
-    def update_params(self, d):
-        super(JSCatelog, self).update_params(d)
+    
+    def get_file(self):
+        
+        fname = super(JSCatelog, self).get_file()
         lang = _get_locale()
+        
         if i18n.is_locale_supported(lang):
-            d["link"] = tools.url("/static/javascript/i18n/%s.js" % (lang))
+            fname = "javascript/i18n/%s.js" % (lang)
+            
+        return fname
 
 class JSI18n(Widget):
-    javascript = [JSLink('openerp', 'javascript/i18n/i18n.js'),
-                  JSCatelog('openerp', 'javascript/i18n/en_US.js'),]
+    javascript = [JSLink("base", 'javascript/i18n/i18n.js'),
+                  JSCatelog('base', 'javascript/i18n/en_US.js'),]
 
 js_i18n = JSI18n()
 

@@ -59,20 +59,6 @@ def get_config_file():
         return configfile
     return None
 
-
-def load_modules():
-    
-    addons_path = os.path.dirname(os.path.abspath(__file__))
-    addons_path = os.path.join(addons_path, "addons")
-    
-    sys.path.insert(0, addons_path)
-    
-    addons = [f for f in os.listdir(addons_path) if os.path.isfile(addons_path + "/" + f + "/__terp__.py")]
-    for addon in addons:
-        n = "%s" % (addon)
-        print "Loading module '%s'" % n
-        m = __import__(n, globals(), locals())
-        
         
 def setup_server(configfile):
 
@@ -113,19 +99,13 @@ def setup_server(configfile):
 
     # import profiler while makes profile decorator available as __builtins__
     from openerp.tools import profiler
-        
-    # load each modules prior to mount the application
-    load_modules()
+    from openerp.addons import load_addons
+    
+    load_addons(app_config)
     
     from base.controllers import mount_tree
     mount = cherrypy.config.get('server.webpath', '/')
     app = mount_tree(mount, app_config)
-
-    import pkg_resources
-    from base.widgets import register_resource_directory
-
-    static = pkg_resources.resource_filename("openerp", "static")
-    register_resource_directory(app, "openerp", static)
 
     # initialize the rpc session
     host = app.config['openerp'].get('host')

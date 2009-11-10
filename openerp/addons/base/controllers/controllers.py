@@ -48,7 +48,7 @@ def mount_tree(mount, config):
     if not root:
         raise Exception("There is no root controller.")
     
-    print "Registering controller '%s'" % "/"
+    cherrypy.log("Registering controller '%s'" % "/", "INFO")
     
     keys = _REGISTRY.keys()
     keys.sort()
@@ -66,8 +66,8 @@ def mount_tree(mount, config):
         parent = _REGISTRY.get(rest)
         if not parent:
             raise Exception("Unable to mount '%s', no parent." % p)
-        
-        print "Registering controller '%s'" % p
+                
+        cherrypy.log("Registering controller '%s'" % p, "INFO")
         
         c = _REGISTRY[p]
         parent._subcontrollers[last] = c()

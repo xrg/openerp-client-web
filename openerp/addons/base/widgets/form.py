@@ -237,8 +237,8 @@ class Notebook(TinyInputWidget):
 
     template = "templates/notebook.mako"
 
-    javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
-    css = [CSSLink('openerp', 'css/notebook.css')]
+    javascript = [JSLink("base", "javascript/notebook/notebook.js")]
+    css = [CSSLink("base", 'css/notebook.css')]
 
     params = ['fake_widget']
     member_widgets = ['children']
@@ -490,11 +490,11 @@ class DateTime(TinyInputWidget):
 
     template = "templates/datetime.mako"
     
-    javascript = [JSLink("openerp", "calendar/calendar.js"),
-                  JSLink("openerp", "calendar/calendar-setup.js"),
-                  DTLink("openerp", "calendar/lang/calendar-en.js")]
+    javascript = [JSLink("base", "calendar/calendar.js"),
+                  JSLink("base", "calendar/calendar-setup.js"),
+                  DTLink("base", "calendar/lang/calendar-en.js")]
                             
-    css = [CSSLink("openerp", "calendar/skins/aqua/theme.css")]
+    css = [CSSLink("base", "calendar/skins/aqua/theme.css")]
 
     params = ["format", "picker_shows_time"]
 
@@ -588,8 +588,8 @@ class Dashbar(TinyInputWidget):
 
     template = "templates/dashbar.mako"
 
-    javascript = [JSLink("openerp", "javascript/dashboard.js")]
-    css = [CSSLink('openerp', 'css/dashboard.css')]
+    javascript = [JSLink("base", "javascript/dashboard.js")]
+    css = [CSSLink("base", 'css/dashboard.css')]
 
     member_widgets = ['children']
 

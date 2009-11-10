@@ -10,6 +10,7 @@ from _base import Widget
 from _utils import OrderedSet
 from _utils import Enum
 
+from openerp import tools
 
 locations = Enum(["head", "bodytop", "bodybottom"])
 
@@ -29,16 +30,21 @@ class Link(Resource):
         'link': None,
     }
 
-    filename = None
+    _filename = None
     modname = None
 
     def __init__(self, modname, filename, location=locations.head, **kw):
-        super(Link, self).__init__(modname=modname, filename=filename, location=location, **kw)
-        self.link = "/cp_widgets/%s/%s" % (self.modname, self.filename)
-
-    def update_params(self, d):
-        super(Link, self).update_params(d)
-        d['link'] = cherrypy.request.app.script_name + self.link
+        super(Link, self).__init__(modname=modname, location=location, **kw)
+        self._filename = filename
+        
+    def get_link(self):
+        return cherrypy.request.app.script_name + "/cp_widgets/%s/%s" % (self.modname, self.filename)
+    
+    def get_file(self):
+        return self._filename
+    
+    link = property(lambda self: self.get_link())
+    filename = property(lambda self: self.get_file())
 
     def __eq__(self, other):
         return getattr(other, 'link', None) == self.link
@@ -119,16 +125,44 @@ class CSSSource(Source):
 
     media = "all"
 
-def register_resource_directory(app, modulename, directory):
+def register_resource_directory(config, modulename, directory):
     """Set up an application wide static resource directory...
     """
 
-    assert isinstance(app, cherrypy.Application), "Excepected cherrypy.Application"
+    #assert isinstance(app, cherrypy.Application), "Excepected cherrypy.Application"
 
     directory = os.path.abspath(directory)
-    app.config.update({'/cp_widgets/%s' % modulename: {
+    config.update({'/cp_widgets/%s' % modulename: {
         'tools.staticdir.on': True,
         'tools.staticdir.dir': directory
     }})
 
+
+class _StaticProvider(object):
+    
+    def js(self, module, resource, location=locations.head):
+        
+        if not resource.startswith("javascript/"):
+            resource = "javascript/" + resource
+            
+        return JSLink(module, resource, location).display()
+    
+    def css(self, module, resource, location=locations.head):
+        
+        if not resource.startswith("css/"):
+            resource = "css/" + resource
+            
+        return CSSLink(module, resource, location).display()
+    
+    def __call__(self, module, resource):
+        return '/cp_widgets/%s/%s' % (module, resource)
+    
+    
+def _cp_vars():
+    
+    return {
+        'static': _StaticProvider()
+    }
+
+tools.register_template_vars(_cp_vars, 'cp')
 

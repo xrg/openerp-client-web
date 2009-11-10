@@ -200,8 +200,8 @@ class WikiWidget(Text):
     template = "templates/wiki.mako"
 
     params = ["data"]
-    css = [CSSLink('openerp', 'css/wiki.css')]
-    javascript = [JSLink("openerp", "javascript/openobject/openobject.ui.textarea.js")]
+    css = [CSSLink("base", 'css/wiki.css')]
+    javascript = [JSLink("base", "javascript/openobject/openobject.ui.textarea.js")]
 
     data = None
 

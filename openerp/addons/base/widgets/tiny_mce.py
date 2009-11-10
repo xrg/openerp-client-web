@@ -38,7 +38,7 @@ class TinyMCE(TinyInputWidget):
     template = "templates/tiny_mce.mako"
     params = ["height"]
     
-    javascript = [JSLink("openerp", "tiny_mce/tiny_mce.js")]
+    javascript = [JSLink("base", "tiny_mce/tiny_mce.js")]
 
     def __init__(self, **attrs):
         super(TinyMCE, self).__init__(**attrs)

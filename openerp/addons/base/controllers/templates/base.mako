@@ -7,40 +7,42 @@
     ${css.display()}
 % endfor
 
-    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/MochiKit.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/DragAndDrop.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/Resizable.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/MochiKit/Sortable.js')}"></script>
+    ${cp.static.js("base", "MochiKit/MochiKit.js")}
+    ${cp.static.js("base", "MochiKit/DragAndDrop.js")}
+    ${cp.static.js("base", "MochiKit/Resizable.js")}
+
+    ${cp.static.js("base", "MochiKit/Resizable.js")}
+    ${cp.static.js("base", "MochiKit/Sortable.js")}
     
-    <script type="text/javascript" src="${py.url('/static/javascript/Sizzle/sizzle.js')}"></script>
+    ${cp.static.js("base", "Sizzle/sizzle.js")}
     
-    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.base.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.dom.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.tools.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.http.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.ui.js')}"></script>
+    ${cp.static.js("base", "openobject/openobject.base.js")}
+    ${cp.static.js("base", "openobject/openobject.dom.js")}
+    ${cp.static.js("base", "openobject/openobject.tools.js")}
+    ${cp.static.js("base", "openobject/openobject.http.js")}
+    ${cp.static.js("base", "openobject/openobject.ui.js")}
     
     <script type="text/javascript">
         window.SCRIPT_PATH = "${cp.request.app.script_name}";
         openobject.http.SCRIPT_PATH = "${cp.request.app.script_name}";
     </script>
     
-    <script type="text/javascript" src="${py.url('/static/javascript/ajax_stat.js')}"></script>
+    ${cp.static.js("base", "javascript/ajax_stat.js")}
     
 % for js in widget_javascript.get('head', []):
     ${js.display()}
 % endfor
 
-    <link href="${py.url('/static/css/style.css')}" rel="stylesheet" type="text/css"/>
-    <link href="${py.url('/static/css/menu.css')}" rel="stylesheet" type="text/css"/>
-    <link href="${py.url('/static/css/tips.css')}" rel="stylesheet" type="text/css"/>
+    ${cp.static.css("base", "style.css")}
+    ${cp.static.css("base", "menu.css")}
+    ${cp.static.css("base", "tips.css")}
 
     <!--[if IE]>
-    <link href="${py.url('/static/css/style-ie.css')}" rel="stylesheet" type="text/css"/>
+    ${cp.static.css("base", "style-ie.css")}
     <![endif]-->
     
-    <script type="text/javascript" src="${py.url('/static/javascript/menu.js')}"></script>
-    <script type="text/javascript" src="${py.url('/static/javascript/openobject/openobject.ui.tips.js')}"></script>
+    ${cp.static.js("base", "menu.js")}
+    ${cp.static.js("base", "openobject/openobject.ui.tips.js")}
     
     <script type="text/javascript">
         
