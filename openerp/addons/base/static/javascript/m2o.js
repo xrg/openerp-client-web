@@ -174,8 +174,8 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 
 ManyToOne.prototype.change_icon = function(evt){
 
-    this.open_img.src = openobject.http.getURL('/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png');
-
+    this.open_img.src = openobject.links.image('base', 'stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png');
+	
     if (!this.field.value) {
         this.open_img.style.cursor = '';
     }
