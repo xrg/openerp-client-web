@@ -18,8 +18,9 @@
     
     ${cp.static.js("base", "openobject/openobject.base.js")}
     ${cp.static.js("base", "openobject/openobject.dom.js")}
-    ${cp.static.js("base", "openobject/openobject.tools.js")}
     ${cp.static.js("base", "openobject/openobject.http.js")}
+    ${cp.static.js("base", "openobject/openobject.tools.js")}
+    ${cp.static.js("base", "openobject/openobject.links.js")}
     ${cp.static.js("base", "openobject/openobject.ui.js")}
     
     <script type="text/javascript">
