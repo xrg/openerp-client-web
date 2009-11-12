@@ -694,15 +694,15 @@ class Node(object):
                  'name' : self.name,
                  'localName' : self.localName,
                  'view_id' : self.view_id,
-                 'delete': tools.url('static/images/stock/gtk-remove.png')}
+                 'delete': tools.icons.get_icon('gtk-remove.png')}
 
         if self.localName not in ('view'):
-            items['add'] = tools.url('static/images/stock/gtk-add.png')
-            items['up'] = tools.url('static/images/stock/gtk-go-up.png')
-            items['down'] = tools.url('static/images/stock/gtk-go-down.png')
+            items['add'] = tools.icons.get_icon('gtk-add.png')
+            items['up'] = tools.icons.get_icon('gtk-go-up.png')
+            items['down'] = tools.icons.get_icon('gtk-go-down.png')
 
         if self.localName not in ('view', 'newline'):
-            items['edit'] = tools.url('static/images/stock/gtk-edit.png')
+            items['edit'] = tools.icons.get_icon('gtk-edit.png')
 
         record = { 'id' : self.id, 'items' : items}
 

@@ -75,7 +75,7 @@
                             % if not editors:
                             <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
                             % elif not editors:
-                            <img src="/static/images/listgrid/edit_inline.gif" border="0" title="${_('Edit')}"/>
+                            <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" border="0" title="${_('Edit')}"/>
                             % endif                            
                             % if editors:
                             <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
