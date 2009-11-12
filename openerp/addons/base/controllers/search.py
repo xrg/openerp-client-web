@@ -158,10 +158,10 @@ class Search(Form):
 
         ids = [int(id) for id in data.get('search_list', [])]
         return dict(ids=ids)
-
+    
     @expose('json')
     def get_name(self, model, id):
-        return dict(name=rpc.name_get(model, id)
+        return dict(name=rpc.name_get(model, id))
 
     @expose('json')
     def get_matched(self, model, text, **kw):
