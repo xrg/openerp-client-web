@@ -39,10 +39,9 @@ from openerp.tools import redirect
 
 from base.utils import TinyDict
 
+from base.controllers import form
 from base.controllers import validate
 from base.controllers import SecuredController
-
-import form
 
 
 FILE_FORMATS = {
