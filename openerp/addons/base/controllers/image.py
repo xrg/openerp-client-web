@@ -38,7 +38,7 @@ from openerp.tools import redirect
 
 from base.controllers import SecuredController
 
-from base.widgets.binary import get_temp_file
+from base.widgets.form import get_temp_file
 
 
 class Image(SecuredController):

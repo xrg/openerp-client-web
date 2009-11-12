@@ -29,8 +29,12 @@
 
 from base.widgets import JSLink
 from base.widgets import TinyInputWidget
+from base.widgets import register_widget
 
 from base import validators
+
+
+__all__ = ["TinyMCE"]
 
 
 class TinyMCE(TinyInputWidget):
@@ -48,6 +52,8 @@ class TinyMCE(TinyInputWidget):
         
     def set_value(self, value):
         super(TinyMCE, self).set_value(value)
+
+register_widget(TinyMCE, ["text_html"])
 
 # vim: ts=4 sts=4 sw=4 si et
 

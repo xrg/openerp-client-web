@@ -54,7 +54,12 @@ from base.widgets import TinyInputWidget
 from base.widgets import ConcurrencyInfo
 from base.widgets import JSLink, JSSource, CSSLink
 
+from base.widgets import get_widget
+from base.widgets import register_widget
+
 from base import validators
+
+from _binary import Image
 
 
 class Frame(TinyInputWidget):
@@ -211,9 +216,10 @@ class Frame(TinyInputWidget):
             if not widget.visible:
                 attrs['style'] = 'display: none'
             widget.visible = True
-
-        if isinstance(widget, (Group, Notebook, O2M, M2M)):
-            attrs['valign'] = 'top'
+            
+        valign = getattr(widget, "valign", None)
+        if valign:
+            attrs['valign'] = valign
 
         # attr change
         if getattr(widget, 'attributes', False):
@@ -243,6 +249,8 @@ class Notebook(TinyInputWidget):
     params = ['fake_widget']
     member_widgets = ['children']
     
+    valign = "top"
+    
     def __init__(self, **attrs):
         super(Notebook, self).__init__(**attrs)
         self.nolabel = True
@@ -252,12 +260,17 @@ class Notebook(TinyInputWidget):
         if attrs.get('prefix'):
             self.fake_widge = attrs['prefix'] + '/_fake'
 
+register_widget(Notebook, ["notebook"])
+
 
 class Page(Frame):
+    
     def __init__(self, **attrs):
         super(Page, self).__init__(**attrs)
         if self.invisible:
             self.attributes = "{'invisible': [1]}"
+            
+register_widget(Page, ["page"])
 
 
 class Separator(TinyInputWidget):
@@ -275,12 +288,16 @@ class Separator(TinyInputWidget):
         self.rowspan = 1
         self.nolabel = True
 
+register_widget(Separator, ["separator"])
+
 
 class NewLine(TinyInputWidget):
     """NewLine widget just tells the Frame widget to start new row during
     layout process.
     """
     template = "<span/>"
+
+register_widget(NewLine, ["newline"])
 
 
 class Label(TinyInputWidget):
@@ -315,6 +332,9 @@ class Label(TinyInputWidget):
 
     def set_value(self, value):
         self.field_value = unicode(value or '', 'utf-8')
+        
+register_widget(Label, ["label"])
+
 
 class Char(TinyInputWidget):
 
@@ -332,6 +352,8 @@ class Char(TinyInputWidget):
     def set_value(self, value):
         self.default = value
 
+register_widget(Char, ["char"])
+
 
 class Email(TinyInputWidget):
     template = "templates/email.mako"
@@ -344,6 +366,8 @@ class Email(TinyInputWidget):
         if value:
             self.default = value
 
+register_widget(Email, ["email"])
+
 
 class Text(TinyInputWidget):
     template = "templates/text.mako"
@@ -354,6 +378,8 @@ class Text(TinyInputWidget):
 
     def set_value(self, value):
         self.default = value
+
+register_widget(Text, ["text", "text_tag"])
 
 
 class Integer(TinyInputWidget):
@@ -366,6 +392,8 @@ class Integer(TinyInputWidget):
     def set_value(self, value):
         self.default = value or 0
 
+register_widget(Integer, ["integer"])
+
 
 class Boolean(TinyInputWidget):
     template = "templates/boolean.mako"
@@ -376,6 +404,8 @@ class Boolean(TinyInputWidget):
 
     def set_value(self, value):
         self.default = value or ''
+
+register_widget(Boolean, ["boolean"])
 
 
 class Float(TinyInputWidget):
@@ -398,6 +428,8 @@ class Float(TinyInputWidget):
     def set_value(self, value):
         self.default = value
 
+register_widget(Float, ["float"])
+
 
 class FloatTime(TinyInputWidget):
     template = "templates/floattime.mako"
@@ -408,6 +440,8 @@ class FloatTime(TinyInputWidget):
 
     def set_value(self, value):
         self.default = value
+
+register_widget(FloatTime, ["float_time"])
 
 
 class ProgressBar(TinyInputWidget):
@@ -423,6 +457,8 @@ class ProgressBar(TinyInputWidget):
 
     def set_value(self, value):
         self.default = value or 0.00
+
+register_widget(ProgressBar, ["progressbar"])
 
 
 class Selection(TinyInputWidget):
@@ -469,6 +505,9 @@ class Selection(TinyInputWidget):
             value = None
 
         super(Selection, self).set_value(value)
+        
+register_widget(Selection, ["selection"])
+        
 
 class DTLink(JSLink):
     
@@ -513,6 +552,8 @@ class DateTime(TinyInputWidget):
     def set_value(self, value):
         super(DateTime, self).set_value(value or False)
 
+register_widget(DateTime, ["date", "time", "datetime"])
+
 
 class URL(TinyInputWidget):
     template = "templates/url.mako"
@@ -525,6 +566,9 @@ class URL(TinyInputWidget):
         if value:
             super(URL, self).set_value(value)
 
+register_widget(URL, ["url"])
+
+
 class Hidden(TinyInputWidget):
     template = "templates/hidden.mako"
 
@@ -534,7 +578,7 @@ class Hidden(TinyInputWidget):
     def __init__(self, **attrs):
         super(Hidden, self).__init__(**attrs)
         kind = self.kind or 'text'
-        self.widget = WIDGETS[kind](**attrs)
+        self.widget = get_widget(kind)(**attrs)
         self.validator = self.widget.validator
         self.relation = attrs.get('relation') or None
         
@@ -544,6 +588,7 @@ class Hidden(TinyInputWidget):
     def set_value(self, value):
         self.widget.set_value(value)
         self.default = self.widget.default
+        
 
 class Button(TinyInputWidget):
 
@@ -571,17 +616,23 @@ class Button(TinyInputWidget):
         if self.states:
             self.visible = state in self.states
 
+register_widget(Button, ["button"])
+
         
 class Group(TinyInputWidget):
+
     template = "templates/group.mako"
 
     member_widgets = ["frame"]
-
+    valign = "top"
+    
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
 
         self.frame = Frame(**attrs)
         self.nolabel = True
+
+register_widget(Group, ["group"])
 
 
 class Dashbar(TinyInputWidget):
@@ -592,6 +643,8 @@ class Dashbar(TinyInputWidget):
     css = [CSSLink("base", 'css/dashboard.css')]
 
     member_widgets = ['children']
+    
+register_widget(Dashbar, ["dashbar"])
 
 
 class HPaned(TinyInputWidget):
@@ -614,6 +667,8 @@ class HPaned(TinyInputWidget):
         super(HPaned, self).__init__(**attrs)
         self.nolabel = True
 
+register_widget(HPaned, ["hpaned"])
+
 
 class VPaned(TinyInputWidget):
 
@@ -634,6 +689,8 @@ class VPaned(TinyInputWidget):
     def __init__(self, **attrs):
         super(VPaned, self).__init__(**attrs)
         self.nolabel = True
+
+register_widget(VPaned, ["vpaned"])
 
 
 class Form(TinyInputWidget):
@@ -725,7 +782,7 @@ class Form(TinyInputWidget):
             if name not in self.view_fields:
 
                 kind = attrs.get('type', 'char')
-                if kind not in WIDGETS:
+                if not get_widget(kind):
                     continue
 
                 attrs['prefix'] = prefix
@@ -804,7 +861,7 @@ class Form(TinyInputWidget):
 
                 kind = fields[name]['type']
 
-                if kind not in WIDGETS:
+                if not get_widget(kind):
                     continue
 
                 if kind in ('text', 'text_tag') and attrs.get('html'):
@@ -853,7 +910,7 @@ class Form(TinyInputWidget):
         if attrs.get('widget', False):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
-            if attrs['widget'] in WIDGETS:
+            if get_widget(attrs['widget']):
                 attrs['type2'] = attrs['type']
                 attrs['type'] = attrs['widget']
 
@@ -869,7 +926,7 @@ class Form(TinyInputWidget):
         if self.readonly:
             attrs['readonly'] = True
 
-        field = WIDGETS[kind](**attrs)
+        field = get_widget(kind)(**attrs)
 
         if isinstance(field, TinyInputWidget):
             field.set_value(value)
@@ -879,46 +936,6 @@ class Form(TinyInputWidget):
 
         return field
 
-
-from action import Action
-from many2one import M2O
-from one2many import O2M
-from many2many import M2M
-from reference import Reference
-from tiny_mce import TinyMCE
-from wiki import WikiWidget
-from binary import Binary
-from binary import Image
-from binary import Picture
-
-WIDGETS = {
-    'date': DateTime,
-    'time': DateTime,
-    'float_time': FloatTime,
-    'datetime': DateTime,
-    'float': Float,
-    'integer': Integer,
-    'selection': Selection,
-    'char': Char,
-    'boolean': Boolean,
-    'button': Button,
-    'reference': Reference,
-    'binary': Binary,
-    'picture': Picture,
-    'text': Text,
-    'text_tag': Text,
-    'text_html': TinyMCE,
-    'text_wiki': WikiWidget,
-    'one2many': O2M,
-    'one2many_form': O2M,
-    'one2many_list': O2M,
-    'many2many': M2M,
-    'many2one': M2O,
-    'email' : Email,
-    'url' : URL,
-    'image' : Image,
-    'progressbar' : ProgressBar,
-}
 
 # vim: ts=4 sts=4 sw=4 si et
 

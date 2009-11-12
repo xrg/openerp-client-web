@@ -35,21 +35,27 @@ from openerp import tools
 
 from openerp.tools import rpc
 from openerp.tools import cache
+
 from base.utils import TinyDict
 
+from base.widgets.listgrid import List
+from base.widgets.screen import Screen
 from base.widgets import TinyInputWidget
-
-from form import Form
-from listgrid import List
-from screen import Screen
+from base.widgets import register_widget
 
 from base import validators
+
+
+__all__ = ["M2M"]
+
 
 class M2M(TinyInputWidget):
 
     template = "templates/many2many.mako"
     params = ['relation', 'domain', 'context']
     member_widgets = ['screen']
+    
+    valign = "top"
 
     relation = None
     domain = []
@@ -183,6 +189,9 @@ class M2M(TinyInputWidget):
 
     def get_value(self):
         return [(6, 0, self.ids or [])]
+
+register_widget(M2M, ["many2many"])
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

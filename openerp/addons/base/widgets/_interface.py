@@ -34,8 +34,8 @@ from openerp import tools
 from _base import Widget
 from _base import InputWidget
 
-__all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo']
-
+__all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo',
+           'register_widget', 'get_widget', 'get_registered_widgets']
 
 _attrs_boolean = {
     'select': False,
@@ -64,6 +64,7 @@ class TinyWidget(Widget):
         'string',
         'nolabel',
         'visible',
+        'valign',
         'model',
     ]
 
@@ -73,6 +74,8 @@ class TinyWidget(Widget):
     nolabel = False
     visible = True
     model = None
+    
+    valign = "middle"
 
     def __init__(self, **attrs):
 
@@ -261,6 +264,59 @@ class ConcurrencyInfo(TinyInputWidget):
     @property
     def info(self):
         return getattr(cherrypy.request, 'terp_concurrency_info', {})
+
+
+__WIDGETS = {}
+
+def register_widget(klass, types, view="form"):
+    """Register a widget class for the given view and types
+    
+    @param view: the view type (e.g. form, tree)
+    @param types: register for the give types    
+    @param klass: widget class
+    """
+    
+    wids = __WIDGETS.setdefault(view, {})
+    
+    if not isinstance(types, (list, tuple)):
+        types = [types]
+        
+    for t in types:
+        wids[t] = klass
+        
+
+def unregister_widget(types, view="form"):
+    """Unregister the given widget types for the given view.
+    
+    @param view: the view
+    @param types: the widgets to unregister
+    """
+    wids = __WIDGETS.setdefault(view, {})
+    
+    if not isinstance(types, (list, tuple)):
+        types = [types]
+        
+    for t in types:
+        wids.pop(t, None)
+        
+
+def get_widget(type, view="form"):
+    """Get the widget of the given type for the given view.
+    
+    @param view: the view
+    @param type: the widget type
+    """
+    wids = __WIDGETS.setdefault(view, {})
+    return wids.get(type)
+
+
+def get_registered_widgets(view="form"):
+    """Get all the registered widgets for the given view type.
+    
+    @param view: the view
+    @returns: dict of all the registered widgets
+    """
+    return __WIDGETS.get(view, {}).copy()
 
 
 # vim: ts=4 sts=4 sw=4 si et

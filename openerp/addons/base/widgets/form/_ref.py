@@ -28,63 +28,49 @@
 ###############################################################################
 
 from openerp.tools import rpc
-from openerp.tools import common
 
-from base.widgets import TinyInputWidget
-
-from form import Form
 from base import validators
 
-def get_name(model, id):
-    id = (id or False) and int(id)
-    name = (id or str('')) and str(id)
+from base.widgets import TinyInputWidget
+from base.widgets import register_widget
 
-    if model and id:
-        proxy = rpc.RPCProxy(model)
+from _form import Form
+from _m2o import get_name
 
-        try:
-            name = proxy.name_get([id], rpc.session.context.copy())
-            name = name[0][1]
-        except common.TinyWarning, e:
-            name = _("== Access Denied ==")
-        except Exception, e:
-            raise e
+from base.widgets.listgrid import List
 
-    return name
 
-class M2O(TinyInputWidget):
-    template = "templates/many2one.mako"
-    params=['relation', 'text', 'domain', 'context', 'link', 'readonly']
+__all__ = ["Reference"]
 
-    domain = []
-    context = {}
-    link = 1
+
+class Reference(TinyInputWidget):
+
+    template = "templates/reference.mako"
+    params = ['options','domain','context', "text", "relation"]
+
+    options = []
 
     def __init__(self, **attrs):
-
-        super(M2O, self).__init__(**attrs)
-        self.relation = attrs.get('relation', '')
-
+        super(Reference, self).__init__(**attrs)
+        self.options = attrs.get('selection', [])
+        
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {})
-        self.link = attrs.get('link')
+
+        self.validator = validators.Reference()
         self.onchange = None # override onchange in js code
 
-        self.validator = validators.many2one()
-
     def set_value(self, value):
-
-        if value and isinstance(value, (tuple, list)):
-            self.default, self.text = value
-        else:
-            self.default = value
+        if value:
+            self.relation, self.default = value.split(",")
             self.text = get_name(self.relation, self.default)
+        else:
+            self.relation = ''
+            self.default = ''
+            self.text = ''
+            
+register_widget(Reference, ["reference"])
 
-    def update_params(self, d):
-        super(M2O, self).update_params(d)
-
-        if d['value'] and not d['text']:
-            d['text'] = get_name(self.relation, d['value'])
 
 # vim: ts=4 sts=4 sw=4 si et
 

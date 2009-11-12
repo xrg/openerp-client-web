@@ -51,6 +51,9 @@ from base.widgets import TinyInputWidget
 from base.widgets import ConcurrencyInfo
 from base.widgets import CSSLink, JSLink
 
+from base.widgets import get_widget
+from base.widgets import register_widget
+
 class List(TinyWidget):
 
     template = "templates/listgrid.mako"
@@ -195,17 +198,17 @@ class List(TinyWidget):
 
             for f, fa in self.headers:
                 k = fa.get('type', 'char')
-                if k not in form.WIDGETS:
+                if not get_widget(k):
                     k = 'char'
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 fa['inline'] = True
-                self.editors[f] = form.WIDGETS[k](**fa)
+                self.editors[f] = get_widget(k)(**fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
                 k = fa.get('type', 'char')
-                if k not in form.WIDGETS:
+                if not get_widget(k):
                     k = 'char'
 
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)

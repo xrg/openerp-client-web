@@ -29,14 +29,19 @@
 
 import cherrypy
 
-from openerp.tools import icons
 from openerp import tools
-from openerp.tools import rpc
 
-import screen
+from openerp.tools import rpc
+from openerp.tools import icons
 
 from base.utils import TinyDict
+
+from base.widgets import screen
 from base.widgets import TinyInputWidget
+from base.widgets import register_widget
+
+
+__all__ = ["Action"]
 
 
 class Action(TinyInputWidget):
@@ -106,6 +111,8 @@ class Action(TinyInputWidget):
 
             elif self.action['view_type']=='tree':
                 pass #TODO
+            
+register_widget(Action, ["action"])            
 
 # vim: ts=4 sts=4 sw=4 si et
 

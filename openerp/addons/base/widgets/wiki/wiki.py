@@ -39,7 +39,9 @@ import cherrypy
 import wikimarkup
 
 from openerp.tools import rpc
+
 from base.widgets import JSLink, CSSLink
+from base.widgets import register_widget
 
 from base.widgets.form import Text
 
@@ -222,3 +224,6 @@ class WikiWidget(Text):
             html = wiki2html(text, toc, id)
 
             self.data = html
+            
+register_widget(WikiWidget, ["text_wiki"])
+

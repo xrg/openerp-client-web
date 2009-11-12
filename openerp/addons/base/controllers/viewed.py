@@ -48,7 +48,6 @@ from base import widgets
 from base import validators
 
 from form import Form
-from base import widgets as bw
 
 class NewField(Form):
 
@@ -57,7 +56,7 @@ class NewField(Form):
     def create_form(self, params, tg_errors=None):
         
         # generate model_id field
-        params.hidden_fields = [bw.form.Hidden(name='model_id', default=params.model_id)]
+        params.hidden_fields = [widgets.form.Hidden(name='model_id', default=params.model_id)]
         form = super(NewField, self).create_form(params, tg_errors)
 
         field = form.screen.widget.get_widgets_by_name('model_id')[0]
@@ -260,7 +259,7 @@ class ViewEd(SecuredController):
                    {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
                    {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
 
-        tree = bw.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=tools.url('/viewed/data?view_id='+str(view_id)))
+        tree = widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=tools.url('/viewed/data?view_id='+str(view_id)))
         tree.showheaders = False
         tree.onselection = 'onSelect'
         tree.onbuttonclick = 'onButtonClick'
@@ -845,7 +844,7 @@ class WidgetProperty(widgets.SelectField):
 
     def __init__(self, name, default=None):
 
-        options = widgets.form.WIDGETS.keys()
+        options = widgets.get_registered_widgets().keys()
         options.sort()
         options = [''] + options
 
@@ -877,7 +876,7 @@ class GroupsProperty(widgets.SelectField):
 
         super(GroupsProperty, self).__init__(name=name, options=options, default=default)
 
-class ActionProperty(bw.many2one.M2O):
+class ActionProperty(widgets.form.M2O):
 
     def __init__(self, name, default=None):
         attrs = dict(name=name, relation='ir.actions.actions')

@@ -51,7 +51,7 @@ from base.utils import TinyForm
 from base import widgets as tw
 from base import validators
 
-from base.widgets.binary import generate_url_for_picture
+from base.widgets.form import generate_url_for_picture
 
 
 def make_domain(name, value, kind='char'):

@@ -38,10 +38,16 @@ from openerp.tools import cache
 from openerp.tools import TempFileName
 
 from base import validators
+
 from base.widgets import TinyInputWidget
+from base.widgets import register_widget
+
+
+__all__ = ["Binary", "Image", "Picture", "get_temp_file", "generate_url_for_picture"]
 
 
 class Binary(TinyInputWidget):
+
     template = "templates/binary.mako"
     params = ["name", "text", "readonly", "filename"]
 
@@ -59,6 +65,8 @@ class Binary(TinyInputWidget):
             self.text = tools.get_size(value)
         except:
             self.text = value or ''
+
+register_widget(Binary, ["binary"])
             
 
 class Image(TinyInputWidget):
@@ -89,6 +97,8 @@ class Image(TinyInputWidget):
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
+
+register_widget(Image, ["image"])
             
 
 @cache.memoize(1000, force=True)
@@ -160,6 +170,8 @@ class Picture(TinyInputWidget):
             
         value = value.get(name) or (None, None)
         self.url = generate_url_for_picture(self.model, name, self.id, value)
+
+register_widget(Picture, ["picture"])
 
 
 # vim: ts=4 sts=4 sw=4 si et

@@ -32,13 +32,18 @@ import time
 import cherrypy
 
 from openerp import tools
-
 from openerp.tools import rpc
+
 from base.utils import TinyDict
 
-from base.widgets import TinyInputWidget
+from base.widgets.screen import Screen
 
-from screen import Screen
+from base.widgets import TinyInputWidget
+from base.widgets import register_widget
+
+
+__all__ = ["O2M"]
+
 
 class O2M(TinyInputWidget):
     """One2Many widget
@@ -48,6 +53,7 @@ class O2M(TinyInputWidget):
     member_widgets = ['screen']
 
     form = None
+    valign = "top"
 
     def __init__(self, **attrs):
         #FIXME: validation error in `Pricelist Version`
@@ -174,6 +180,8 @@ class O2M(TinyInputWidget):
         values = getattr(self.screen.widget, 'values', [])
         
         return [(1, val.get('id', False), val) for val in values]
+
+register_widget(O2M, ["one2many", "one2many_form", "one2many_list"])
 
 # vim: ts=4 sts=4 sw=4 si et
 
