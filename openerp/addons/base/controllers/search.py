@@ -41,7 +41,7 @@ from base.utils import TinyFormError
 from base.controllers import SecuredController
 
 from form import Form
-from base import widgets
+
 
 class Search(Form):
 
@@ -161,10 +161,7 @@ class Search(Form):
 
     @expose('json')
     def get_name(self, model, id):
-        name = widgets.many2one.get_name(model, id)
-        if not name:
-            name=''
-        return dict(name=name)
+        return dict(name=rpc.name_get(model, id)
 
     @expose('json')
     def get_matched(self, model, text, **kw):

@@ -34,19 +34,13 @@ from base import validators
 from base.widgets import TinyInputWidget
 from base.widgets import register_widget
 
-from _form import Form
-from _m2o import get_name
-
-from base.widgets.listgrid import List
-
-
 __all__ = ["Reference"]
 
 
 class Reference(TinyInputWidget):
 
     template = "templates/reference.mako"
-    params = ['options','domain','context', "text", "relation"]
+    params = ["options", "domain", "context", "text", "relation"]
 
     options = []
 
@@ -63,7 +57,7 @@ class Reference(TinyInputWidget):
     def set_value(self, value):
         if value:
             self.relation, self.default = value.split(",")
-            self.text = get_name(self.relation, self.default)
+            self.text = rpc.name_get(self.relation, self.default)
         else:
             self.relation = ''
             self.default = ''

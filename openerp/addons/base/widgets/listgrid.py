@@ -54,6 +54,7 @@ from base.widgets import CSSLink, JSLink
 from base.widgets import get_widget
 from base.widgets import register_widget
 
+
 class List(TinyWidget):
 
     template = "templates/listgrid.mako"
@@ -426,8 +427,7 @@ class M2O(Char):
     def get_text(self):
         
         if isinstance(self.value, int):
-            from many2one import get_name as _m2o_get_name
-            self.value = self.value, _m2o_get_name(self.attrs['relation'], self.value)
+            self.value = self.value, rpc.name_get(self.attrs['relation'], self.value)
             
         if self.value and len(self.value) > 0:
             return self.value[-1]

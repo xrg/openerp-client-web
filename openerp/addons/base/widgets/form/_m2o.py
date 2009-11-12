@@ -35,25 +35,9 @@ from base import validators
 from base.widgets import TinyInputWidget
 from base.widgets import register_widget
 
-__all__ = ["M2O", "get_name"]
 
+__all__ = ["M2O"]
 
-def get_name(model, id):
-    id = (id or False) and int(id)
-    name = (id or str('')) and str(id)
-
-    if model and id:
-        proxy = rpc.RPCProxy(model)
-
-        try:
-            name = proxy.name_get([id], rpc.session.context.copy())
-            name = name[0][1]
-        except common.TinyWarning, e:
-            name = _("== Access Denied ==")
-        except Exception, e:
-            raise e
-
-    return name
 
 class M2O(TinyInputWidget):
     template = "templates/many2one.mako"
@@ -81,13 +65,13 @@ class M2O(TinyInputWidget):
             self.default, self.text = value
         else:
             self.default = value
-            self.text = get_name(self.relation, self.default)
+            self.text = rpc.name_get(self.relation, self.default)
 
     def update_params(self, d):
         super(M2O, self).update_params(d)
 
         if d['value'] and not d['text']:
-            d['text'] = get_name(self.relation, d['value'])
+            d['text'] = rpc.name_get(self.relation, d['value'])
 
 register_widget(M2O, ["many2one"])
 

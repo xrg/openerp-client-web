@@ -395,6 +395,28 @@ class RPCProxy(object):
         return self._attrs[name]
 
 
+def name_get(model, id, context=None):
+    
+    id = (id or False) and int(id)
+    name = (id or str('')) and str(id)
+
+    if model and id:
+        
+        ctx = rpc.session.context.copy()
+        ctx.update(context or {})
+        
+        proxy = rpc.RPCProxy(model)
+        
+        try:
+            name = proxy.name_get([id], ctx)
+            name = name[0][1]
+        except common.TinyWarning, e:
+            name = _("== Access Denied ==")
+        except Exception, e:
+            raise e
+
+    return name
+
 
 if __name__=="__main__":
 
