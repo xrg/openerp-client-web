@@ -402,14 +402,14 @@ def name_get(model, id, context=None):
 
     if model and id:
         
-        ctx = rpc.session.context.copy()
+        ctx = session.context.copy()
         ctx.update(context or {})
         
-        proxy = rpc.RPCProxy(model)
+        proxy = RPCProxy(model)
         
         try:
             name = proxy.name_get([id], ctx)
-            name = name[0][1]
+            name = name[0][1] or ''
         except common.TinyWarning, e:
             name = _("== Access Denied ==")
         except Exception, e:
