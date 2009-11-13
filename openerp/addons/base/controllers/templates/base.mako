@@ -17,6 +17,7 @@
     ${cp.static.js("base", "Sizzle/sizzle.js")}
     
     ${cp.static.js("base", "openobject/openobject.base.js")}
+    ${cp.static.js("base", "openobject/openobject.gettext.js")}
     ${cp.static.js("base", "openobject/openobject.dom.js")}
     ${cp.static.js("base", "openobject/openobject.http.js")}
     ${cp.static.js("base", "openobject/openobject.tools.js")}

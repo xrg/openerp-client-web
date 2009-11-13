@@ -157,6 +157,8 @@ def imp_module(name):
             fp.close()
             
 
+from openerp import i18n
+
 def load_addons(config):
     
     addons = [f for f in os.listdir(ADDONS_PATH) \
@@ -172,9 +174,14 @@ def load_addons(config):
         cherrypy.log("Loading module '%s'" % package.name, "INFO")
         
         m = imp_module(package.name)
-                
+        
         static = os.path.join(ADDONS_PATH, package.name, "static")
         if os.path.isdir(static):
             base = imp_module("base")
             base.widgets.register_resource_directory(config, package.name, static)
+            
+        localedir = os.path.join(ADDONS_PATH, package.name, "locales")
+        if os.path.isdir(localedir):
+            i18n.load_translations(localedir, domain="messages")
+            i18n.load_translations(localedir, domain="javascript")
 

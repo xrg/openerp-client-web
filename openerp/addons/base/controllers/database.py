@@ -94,7 +94,7 @@ class FormDrop(DBForm):
     string = _('Drop database')
     action = '/database/do_drop'
     submit_text = _('OK')
-    form_attrs = {'onsubmit': 'return window.confirm("%s")' % _("Do you really want to drop the selected database?")}
+    form_attrs = {'onsubmit': 'return window.confirm(_("Do you really want to drop the selected database?"))'}
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
 
