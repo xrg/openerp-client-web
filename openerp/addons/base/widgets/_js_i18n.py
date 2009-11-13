@@ -11,7 +11,7 @@ class JSI18n(JSLink):
     
     template = """\
     % for tr in translations:
-        <script type="text/javascript" src="${tr}"></script>\
+        <script type="text/javascript" src="${tr}"></script>
     % endfor
     """
     
