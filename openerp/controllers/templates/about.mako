@@ -94,7 +94,7 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/en/downloads.html">${_("Download")}</a>
+                        <a target="_blank" href="http://openerp.com/downloads.html">${_("Download")}</a>
                     </td>                
                 </tr><tr>
                     <td>
@@ -118,11 +118,11 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/en/buy/trainings.html">${_("Trainings")}</a>
+                        <a target="_blank" href="http://openerp.com/buy/trainings.html">${_("Trainings")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/en/buy.html">${_("Services")}</a>
+                        <a target="_blank" href="http://openerp.com/buy.html">${_("Services")}</a>
                     </td>
                 </tr>
             </table>
