@@ -15,6 +15,16 @@ from openerp import tools
 locations = Enum(["head", "bodytop", "bodybottom"])
 
 
+# a random id to be used to generate static js/css links to prevent cache
+import random
+try:
+    from hashlib import sha1 as sha
+except:
+    from sha import new as sha
+    
+_UUID = sha('%s' % random.random()).hexdigest()
+
+
 class Resource(Widget):
 
     location = locations.head
@@ -38,7 +48,11 @@ class Link(Resource):
         self._filename = filename
         
     def get_link(self):
-        return cherrypy.request.app.script_name + "/cp_widgets/%s/%s" % (self.modname, self.filename)
+        
+        link = "/cp_widgets/%s/%s" % (self.modname, self.filename)
+        if cherrypy.config.get('server.environment') == 'development':
+            link = "%s?%s" % (link, _UUID)
+        return tools.url(link)
     
     def get_file(self):
         return self._filename
