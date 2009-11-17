@@ -1,31 +1,92 @@
-# -*- coding: UTF-8 -*-
-"""This module contains functions called from console script entry points."""
-
 import os
 import sys
-import optparse
-
-from os.path import join, dirname, exists
+from optparse import OptionParser
 
 import cherrypy
-
 from cherrypy._cpconfig import as_dict
-from formencode import NestedVariables
 
 from openerp import release
 
 
-__all__ = ['start']
+COMMANDS = {}
+
+class _CommandType(type):
+
+    def __new__(cls, name, bases, attrs):
+
+        obj = super(_CommandType, cls).__new__(cls, name, bases, attrs)
+
+        if "name" in attrs:
+            COMMANDS[attrs["name"]] = obj
+
+        return obj
+
+class BaseCommand(object):
+
+    __metaclass__ = _CommandType
+    
+    def __init__(self):
+        self.parser = OptionParser(usage=self.usage)
+        self.parser.disable_interspersed_args()
+
+    def run(self, argv):
+        pass
+
+    def _get_usage(self):
+        return "%%prog %s [options]" % getattr(self, "name", self.__class__.__name__)
+
+    usage = property(lambda self: self._get_usage())
+       
+
+class StartCommand(BaseCommand):
+
+    name = "start"
+    description = "start openerp-web"
+
+    def run(self, argv):
+
+        self.parser.add_option("-c", "--config", metavar="FILE", dest="config", help="configuration file", default=get_config_file())
+        options, args = self.parser.parse_args(argv)
+        
+        setup_server(options.config)
+        
+        cherrypy.engine.start()
+        cherrypy.engine.block()
 
 
-def nestedvars_tool():
-    if hasattr(cherrypy.request, 'params'):
-        cherrypy.request.params = NestedVariables.to_python(cherrypy.request.params or {})
+class CommandLine(object):
 
-cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
-cherrypy.lowercase_api = True
+    def run(self, argv):
+        
+        self.parser = OptionParser(usage="%prog command [option]", version="%s" % (release.version))
 
+        self.parser.disable_interspersed_args()
+        self.parser.print_help = self._help
 
+        options, args = self.parser.parse_args(argv[1:])
+
+        if not args:
+            self.parser.error('incorrect number of arguments')
+
+        cmdname = args[0]
+        if cmdname not in COMMANDS:
+            self.parser.error('unknown command "%s"' % cmdname)
+            
+
+        return COMMANDS[cmdname]().run(args[1:])
+
+    def _help(self):
+
+        print self.parser.format_help()
+        print "Commands:"
+        longest = max([len(command) for command in COMMANDS])
+        format = "  %%-%ds %%s" % max(8, longest + 1)
+        commands = COMMANDS.items()
+        commands.sort()
+        for name, command in commands:
+            print format % (name, command.description)
+            
+            
 class CPSessionWrapper(object):
 
     def __setattr__(self, name, value):
@@ -53,16 +114,16 @@ class ConfigurationError(Exception):
 
 
 def get_config_file():
-    setupdir = dirname(dirname(__file__))
-    configfile = join(setupdir, "config", "openerp-web.cfg")
-    if exists(configfile):
+    setupdir = os.path.dirname(os.path.dirname(__file__))
+    configfile = os.path.join(setupdir, "config", "openerp-web.cfg")
+    if os.path.exists(configfile):
         return configfile
     return None
+            
 
-        
 def setup_server(configfile):
 
-    if not exists(configfile):
+    if not os.path.exists(configfile):
         raise ConfigurationError(_("Could not find configuration file: %s") % configfile)
 
 
@@ -114,21 +175,9 @@ def setup_server(configfile):
 
     from openerp.tools import rpc
     rpc.initialize(host, port, protocol, storage=CPSessionWrapper())
-
-
+    
+    
 def start():
-    """Start the CherryPy application server."""
+    CommandLine().run(sys.argv)
 
-    parser = optparse.OptionParser(version=release.version)
-    parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
-    (opt, args) = parser.parse_args()
-
-    setup_server(opt.config)
-
-    cherrypy.engine.start()
-    cherrypy.engine.block()
-
-
-
-# vim: ts=4 sts=4 sw=4 si et
 
