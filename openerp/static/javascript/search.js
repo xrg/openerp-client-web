@@ -181,6 +181,7 @@ var search_filter = function(src) {
 	all_domains = {};
 	check_domain = 'None';
 	domains = {};
+	search_context = {};
 	
 	domain = 'None';
 	
@@ -192,6 +193,10 @@ var search_filter = function(src) {
 			value = d.value;
 			if (getNodeAttribute(d, 'kind') == 'selection') {
 				value = parseInt(d.value);
+				if(getNodeAttribute(d, 'search_context')) {
+					search_context['context'] = getNodeAttribute(d, 'search_context');
+					search_context['value'] = value;
+				}
 			}
 			domains[d.name] = value;
 		}
@@ -199,6 +204,7 @@ var search_filter = function(src) {
 	
 	domains = serializeJSON(domains);
 	all_domains['domains'] = domains;
+	all_domains['search_context'] =  search_context;
 	
 	check_id = SelectedDomains();
 	check_id = check_id.toString();
@@ -381,10 +387,11 @@ var final_search_domain = function(custom_domain, all_domain) {
 			window.location.href = openobject.http.getURL('/search/manage_filter', {action: action});
 		}
 		if (obj.domain) { // For direct search
-			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain});
+			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain, context: obj.context});
 
 		    in_req.addCallback(function(in_obj){
 		    	$('_terp_search_domain').value = in_obj.domain;
+		    	$('_terp_context').value = in_obj.context;
 		        lst.reload();
 		    });	
 		}

@@ -432,8 +432,9 @@ class ProgressBar(TinyInputWidget):
 class Selection(TinyInputWidget):
     template = "templates/selection.mako"
 
-    params = ['options']
+    params = ['options', 'search_context']
     options = []
+    search_context = {}
 
     def __init__(self, **attrs):
         super(Selection, self).__init__(**attrs)
@@ -450,7 +451,8 @@ class Selection(TinyInputWidget):
                         domain = []
                 ids = proxy.search(domain)
                 ctx = rpc.session.context.copy()
-                ctx.update(attrs.get('context', {}))
+                self.search_context = attrs.get('context', {})
+#                ctx.update(attrs.get('context', {})) # In search view this will create problem for m2o field having widget='selection' and context as attr.
                 self.options = proxy.name_get(ids, ctx)
             except:
                 self.options = []

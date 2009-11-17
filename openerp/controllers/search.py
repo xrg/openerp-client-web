@@ -162,9 +162,9 @@ class Search(Form):
                     context[key] = False
                     
         ctx2 = parent_context
-        context.update(ctx2)
+        parent_context.update(context)
         
-        return dict(domain=ustr(domain), context=ustr(context))
+        return dict(domain=ustr(domain), context=ustr(parent_context))
 
     @expose('json')
     def get(self, **kw):
@@ -228,11 +228,18 @@ class Search(Form):
         
         domains = all_domains.get('domains')
         selection_domain = all_domains.get('selection_domain')
+        search_context = all_domains.get('search_context')
         
         if domains: 
             domains = eval(domains)
-            
+        
+        c = search_context.get('context', {})
+        v = search_context.get('value')
+        ctx = tools.expr_eval(c, {'self':v})
+        
         context = rpc.session.context
+        if ctx:
+            ctx.update(context)
         
         domain = []
         check_domain = []
@@ -240,7 +247,7 @@ class Search(Form):
         
         if check_domain and isinstance(check_domain, basestring):
             domain = tools.expr_eval(check_domain, context)
-        
+            
         if domain == None:
             domain = []
         
@@ -296,7 +303,7 @@ class Search(Form):
         if not domain:
             domain = None
             
-        return dict(domain=ustr(domain))
+        return dict(domain=ustr(domain), context=ustr(ctx))
 
     @expose()
     def manage_filter(self, **kw):

@@ -245,7 +245,10 @@ class Search(TinyInputWidget):
                 if attrs.get('widget', False):
                     if attrs['widget']=='one2many_list':
                         attrs['widget']='one2many'
+                    if attrs['widget']=='selection':
+                        attrs['widget']='selection'
                     attrs['type'] = attrs['widget']
+                    
 
                 # in search view fields should be writable
                 attrs['readonly'] = False
