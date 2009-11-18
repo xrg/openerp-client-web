@@ -401,6 +401,10 @@ div.welcome {
     height: 30px;
 }
 
+.view .selection_search {
+	background-color: turquoise;
+}
+
 td.label {
     padding: 0 4px;
     text-align: right;
@@ -534,19 +538,7 @@ td.item .radio {
 
 .sidebox .sidebox-title-r {
     background: url(../images/diagonal_left.gif) no-repeat; 
-    background-color: #666666";
-}
-
-
-div .chart_resize {
-    background:#EEEEEE url(../images/textarea-grip.png) no-repeat scroll center 2px;
-    border-color:#DDDDDD;
-    border-style:solid;
-    border-width:0pt 1px 1px;
-    cursor:s-resize;
-    width: 99%; 
-    height:9px;
-    overflow:hidden;    
+    background-color: #666666;
 }
 
 /* ------------- End side bar ------- */

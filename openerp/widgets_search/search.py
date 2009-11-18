@@ -55,6 +55,7 @@ from openerp.widgets.form import Selection
 from openerp.widgets.form import Notebook
 from openerp.widgets.form import Separator
 from openerp.widgets.form import Group
+from openerp.widgets.form import NewLine
 
 from openerp.widgets.base import JSLink, JSSource, CSSLink
 
@@ -217,6 +218,9 @@ class Search(TinyInputWidget):
             elif node.localName=='group':
                 n = self.parse(model=search_model, root=node, fields=fields, values=values)
                 views += [Group(children=n, **attrs)]
+                
+            elif node.localName=='newline':
+                views += [NewLine(**attrs)]
                     
             elif node.localName=='filter':
                 kind = 'filter'

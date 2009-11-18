@@ -466,6 +466,12 @@ class Selection(TinyInputWidget):
         else:
             self.validator = validators.Selection()
 
+    def update_params(self, d):
+        super(Selection, self).update_params(d)
+        
+        if self.search_context:
+            d.setdefault('css_classes', []).append('selection_search')
+            
     def set_value(self, value):
 
         if isinstance(value, (tuple, list)):
