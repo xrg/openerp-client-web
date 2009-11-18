@@ -55,36 +55,11 @@ def load_translations(path, locales=None, domain=None):
                 except:
                     pass
         
-        if domain == "javascript":
-            
-            try:
-                messages = tr._catalog
-                messages.pop("")
-            except Exception, e:
-                continue
-            
-            import simplejson
-            messages = simplejson.dumps(messages)
-            
-            text = """
-// Auto generated file. Please don't modify.
-openobject.gettext.update(
-%(messages)s
-);
-
-""" % dict(messages=messages)
-
-            try:
-                fname = os.path.join(jspath, "%s.js" % lang)
-                fo = open(fname, 'w')
-                fo.write(text)
-                fo.close()
-                
+        if domain == "javascript":            
+            fname = os.path.join(jspath, "%s.js" % lang)
+            if os.path.exists(fname):
                 _all = catalog.setdefault(lang, [])
                 _all.append(fname)
-                
-            except Exception, e:
-                pass
     
 
 def _gettext(key, locale=None, domain=None):

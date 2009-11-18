@@ -32,8 +32,10 @@ import sys
 import time
 
 from babel.messages.frontend import CommandLineInterface
+from babel.support import Translations
 
 from openerp.commands import BaseCommand
+
 
 def _get_modules(modules):
     
@@ -115,13 +117,17 @@ class BabelCommand(BaseCommand):
 
     def init(self, locale, domain, path):
         
-        pot, po, mo = self.get_files(locale, domain, path)
         
-        if os.path.exists(po) or not os.path.exists(pot):
-            return
+        _locales = _get_locales(path, locale)
+        for l in _locales:
+            
+            pot, po, mo = self.get_files(l, domain, path)
         
-        print "Creating '%s'" % (po)
-        self.execute("init", l=locale, D=domain, d=path, i=pot)
+            if os.path.exists(po) or not os.path.exists(pot):
+                continue
+            
+            print "Creating '%s'" % (po)
+            self.execute("init", l=l, D=domain, d=path, i=pot)
         
     def extract(self, locale, domain, path):
         
@@ -174,6 +180,43 @@ class BabelCommand(BaseCommand):
         print "Compiling '%s'" % po
         self.execute("compile", D=domain, l=locale, i=po, o=mo)
         
+        if domain == "javascript":
+            
+            jspath = os.path.dirname(path)
+            jspath = os.path.join(path, "static", "javascript", "i18n")
+            if not os.path.exists(jspath):
+                os.makedirs(jspath)
+            jspath = os.path.join(jspath, "%s.js" % locale)
+            
+            try:
+                tr = Translations.load(path, [locale], domain)
+                messages = tr._catalog
+                messages.pop("")
+            except Exception, e:
+                return
+            
+            import simplejson
+            messages = simplejson.dumps(messages)
+            
+            text = """
+// Auto generated file. Please don't modify.
+openobject.gettext.update(
+%(messages)s
+);
+
+""" % dict(messages=messages)
+
+            try:
+                fo = open(jspath, 'w')
+                fo.write(text)
+                fo.close()
+                
+                print "Creating '%s'" % jspath
+                
+            except Exception, e:
+                pass
+            
+            
     def clean(self, locale, domain, path):
         
         def walk(p, d, files):
