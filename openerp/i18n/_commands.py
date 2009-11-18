@@ -116,9 +116,9 @@ class BabelCommand(BaseCommand):
         return pot, po, mo
 
     def init(self, locale, domain, path):
-        
-        
+                
         _locales = _get_locales(path, locale)
+        
         for l in _locales:
             
             pot, po, mo = self.get_files(l, domain, path)
@@ -138,9 +138,13 @@ class BabelCommand(BaseCommand):
             
         modpath = os.path.dirname(path)
         mappath = os.path.join(os.path.dirname(__file__), "mapping", "%s.cfg" % domain)
-    
-        os.chdir(modpath)
         
+        if os.path.basename(modpath) == "base":
+            mappath = os.path.join(os.path.dirname(__file__), "mapping", "base.cfg")
+            os.chdir(os.path.dirname(os.path.dirname(modpath)))
+        else:
+            os.chdir(modpath)
+            
         _make_backup(pot)
         
         print "Creating '%s'" % pot
@@ -183,11 +187,11 @@ class BabelCommand(BaseCommand):
         if domain == "javascript":
             
             jspath = os.path.dirname(path)
-            jspath = os.path.join(path, "static", "javascript", "i18n")
+            jspath = os.path.join(jspath, "static", "javascript", "i18n")
             if not os.path.exists(jspath):
                 os.makedirs(jspath)
             jspath = os.path.join(jspath, "%s.js" % locale)
-            
+                        
             try:
                 tr = Translations.load(path, [locale], domain)
                 messages = tr._catalog
@@ -275,7 +279,6 @@ openobject.gettext.update(
         for m, p in modules:
             for d in domains:
                 action(options.locale, d, p)
-        
 
 # vim: ts=4 sts=4 sw=4 si et
-        
+
