@@ -139,7 +139,7 @@ class BabelCommand(BaseCommand):
         modpath = os.path.dirname(path)
         mappath = os.path.join(os.path.dirname(__file__), "mapping", "%s.cfg" % domain)
         
-        if os.path.basename(modpath) == "base":
+        if domain == "messages" and os.path.basename(modpath) == "base":
             mappath = os.path.join(os.path.dirname(__file__), "mapping", "base.cfg")
             os.chdir(os.path.dirname(os.path.dirname(modpath)))
         else:
