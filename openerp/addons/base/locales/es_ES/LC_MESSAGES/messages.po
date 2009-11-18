@@ -1,230 +1,175 @@
-# Spanish translation for openobject-client-web
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
-# This file is distributed under the same license as the
-# openobject-client-web package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# Spanish (Spain) translations for PROJECT.
+# Copyright (C) 2009 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  openobject-client-web\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-01-21 13:32+0000\n"
-"PO-Revision-Date: 2009-08-11 16:56+0530\n"
-"Last-Translator: Jordi Esteve <jesteve@zikzakmedia.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2009-11-18 17:42+0530\n"
+"PO-Revision-Date: 2009-11-18 17:51+0530\n"
+"Last-Translator: Amit Mendapara <mendapara.amit@gmail.com>\n"
+"Language-Team: es_ES <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.4\n"
+"Generated-By: Babel None\n"
 
-#: openerp/commands.py:65
-#, python-format
+#: commands.py:127
 msgid "Could not find configuration file: %s"
 msgstr "No se ha podido encontrar el archivo de configuración: %s"
 
-#: openerp/common.py:45 openerp/common.py:72
-msgid "Error"
-msgstr "Error"
-
-#: openerp/common.py:50 openerp/common.py:75
-msgid "Warning"
-msgstr "Aviso"
-
-#: openerp/common.py:55 openerp/controllers/templates/view_log.mako:4
-#: openerp/controllers/templates/view_log.mako:14
-msgid "Information"
-msgstr "Información"
-
-#: openerp/rpc.py:131
-msgid "Connection refused!"
-msgstr "¡Conexión rechazada!"
-
-#: openerp/rpc.py:140 openerp/rpc.py:143 openerp/controllers/form.py:892
-#: openerp/controllers/templates/error_page.mako:149
-#: openerp/widgets/form.py:828 openerp/widgets/listgrid.py:310
-msgid "Application Error!"
-msgstr "¡Error de la aplicación!"
-
-#: openerp/rpc.py:245
-msgid "Unsupported protocol."
-msgstr ""
-
-#: openerp/rpc.py:341
-msgid ""
-"You select a timezone but OpenERP could not find pytz library!\n"
-"The timezone functionality will be disable."
-msgstr ""
-"¡Ha seleccionado una zona horaria pero OpenERP no ha podido encontrar la "
-"librería pytz!\n"
-"La funcionalidad de zona horaria será deshabilitada."
-
-#: openerp/rpc.py:348
-msgid "Not logged..."
-msgstr "No autentificado..."
-
-#: openerp/rpc.py:348
-msgid "Authorization Error!"
-msgstr "¡Error de autorización!"
-
-#: openerp/controllers/actions.py:94
+#: addons/base/controllers/actions.py:95
 msgid "Invalid View!"
 msgstr "Vista no válida!"
 
-#: openerp/controllers/actions.py:121
+#: addons/base/controllers/actions.py:123
 msgid "Error no report"
-msgstr "Error, no informe"
+msgstr "Error, no hay reporte"
 
-#: openerp/controllers/actions.py:147
+#: addons/base/controllers/actions.py:149
 msgid "Nothing to print!"
 msgstr "¡Nada para imprimir!"
 
-#: openerp/controllers/actions.py:162
+#: addons/base/controllers/actions.py:164
 msgid "Printing aborted, too long delay!"
 msgstr "¡Impresión cancelada, tiempo de espera demasiado largo!"
 
-#: openerp/controllers/actions.py:294
+#: addons/base/controllers/actions.py:281
 msgid "Relative URLs are not supported!"
 msgstr "¡URLs relativas no están soportadas!"
 
-#: openerp/controllers/actions.py:307 openerp/widgets/action.py:58
+#: addons/base/controllers/actions.py:294
+#: addons/base/widgets/form/_action.py:65
 msgid "Action not found!"
 msgstr "¡No se ha encontrado la acción!"
 
-#: openerp/controllers/actions.py:353
+#: addons/base/controllers/actions.py:340
 msgid "No action defined!"
 msgstr "¡No se ha definido una acción!"
 
-#: openerp/controllers/attachment.py:63
+#: addons/base/controllers/attachment.py:64
 msgid "No record selected! You can only attach to existing record..."
-msgstr ""
-"¡No ha seleccionado un registro! Sólo puede adjuntar a un registro en "
-"concreto ..."
+msgstr "¡No ha seleccionado un registro! Sólo puede adjuntarse a un registro existente ..."
 
-#: openerp/controllers/base.py:57
-msgid "Could not connect to server!"
-msgstr "¡No se ha podido conectar con el servidor!"
-
-#: openerp/controllers/base.py:148
-#: openerp/controllers/templates/login_ajax.mako:111
-msgid "Bad username or password!"
-msgstr "¡Nombre de usuario o contraseña incorrecto!"
-
-#: openerp/controllers/database.py:73
-#: openerp/controllers/templates/database.mako:93
+#: addons/base/controllers/database.py:78
+#: addons/base/controllers/templates/database.mako:48
 msgid "Create new database"
 msgstr "Crear nueva base de datos"
 
-#: openerp/controllers/database.py:75 openerp/controllers/database.py:91
-#: openerp/controllers/database.py:100 openerp/controllers/database.py:108
-#: openerp/controllers/database.py:117
-#: openerp/controllers/templates/exp.mako:230
-#: openerp/controllers/templates/fieldpref.mako:106
-#: openerp/controllers/templates/selection.mako:53
-#: openerp/controllers/templates/view_log.mako:48
+#: addons/base/controllers/database.py:80
+#: addons/base/controllers/database.py:96
+#: addons/base/controllers/database.py:105
+#: addons/base/controllers/database.py:113
+#: addons/base/controllers/database.py:122
+#: addons/base/controllers/templates/exp.mako:228
+#: addons/base/controllers/templates/fieldpref.mako:106
+#: addons/base/controllers/templates/selection.mako:53
+#: addons/base/controllers/templates/view_log.mako:48
 msgid "OK"
 msgstr "Aceptar"
 
-#: openerp/controllers/database.py:78
+#: addons/base/controllers/database.py:83
 msgid "Super admin password:"
 msgstr "Contraseña de super administrador:"
 
-#: openerp/controllers/database.py:79 openerp/controllers/database.py:111
+#: addons/base/controllers/database.py:84
+#: addons/base/controllers/database.py:116
 msgid "New database name:"
 msgstr "Nuevo nombre de la base de datos:"
 
-#: openerp/controllers/database.py:80
+#: addons/base/controllers/database.py:85
 msgid "Load Demonstration data:"
 msgstr "Cargar datos de demostración:"
 
-#: openerp/controllers/database.py:81
+#: addons/base/controllers/database.py:86
 msgid "Default Language:"
 msgstr "Idioma predeterminado:"
 
-#: openerp/controllers/database.py:82
+#: addons/base/controllers/database.py:87
 msgid "Administrator password:"
 msgstr "Contraseña de administrador:"
 
-#: openerp/controllers/database.py:83
+#: addons/base/controllers/database.py:88
 msgid "Confirm password:"
 msgstr "Confirmar contraseña:"
 
-#: openerp/controllers/database.py:89
-#: openerp/controllers/templates/database.mako:97
+#: addons/base/controllers/database.py:94
+#: addons/base/controllers/templates/database.mako:52
 msgid "Drop database"
 msgstr "Eliminar base de datos"
 
-#: openerp/controllers/database.py:92
-msgid "Do you really want to drop the selected database?"
-msgstr "¿Realmente desea eliminar la base de datos seleccionada?"
-
-#: openerp/controllers/database.py:93 openerp/controllers/database.py:101
-#: openerp/controllers/templates/login.mako:36
+#: addons/base/controllers/database.py:98
+#: addons/base/controllers/database.py:106
+#: addons/base/controllers/templates/login.mako:39
 msgid "Database:"
 msgstr "Base de datos:"
 
-#: openerp/controllers/database.py:94 openerp/controllers/database.py:102
-#: openerp/controllers/database.py:110
-#: openerp/controllers/templates/login.mako:53
-#: openerp/controllers/templates/login_ajax.mako:78
-#: openerp/controllers/templates/login_ajax.mako:98
+#: addons/base/controllers/database.py:99
+#: addons/base/controllers/database.py:107
+#: addons/base/controllers/database.py:115
+#: addons/base/controllers/templates/login.mako:56
+#: addons/base/controllers/templates/login_ajax.mako:78
+#: addons/base/controllers/templates/login_ajax.mako:98
 msgid "Password:"
 msgstr "Contraseña:"
 
-#: openerp/controllers/database.py:98
-#: openerp/controllers/templates/database.mako:101
+#: addons/base/controllers/database.py:103
+#: addons/base/controllers/templates/database.mako:56
 msgid "Backup database"
 msgstr "Copia de seguridad de la base de datos"
 
-#: openerp/controllers/database.py:106
-#: openerp/controllers/templates/database.mako:105
+#: addons/base/controllers/database.py:111
+#: addons/base/controllers/templates/database.mako:60
 msgid "Restore database"
 msgstr "Restaurar base de datos"
 
-#: openerp/controllers/database.py:109
+#: addons/base/controllers/database.py:114
 msgid "File:"
 msgstr "Archivo:"
 
-#: openerp/controllers/database.py:115
-#: openerp/controllers/templates/database.mako:109
+#: addons/base/controllers/database.py:120
+#: addons/base/controllers/templates/database.mako:64
 msgid "Change Administrator Password"
 msgstr "Cambiar contraseña de administrador"
 
-#: openerp/controllers/database.py:118
+#: addons/base/controllers/database.py:123
 msgid "Old Password:"
 msgstr "Contraseña anterior:"
 
-#: openerp/controllers/database.py:119
+#: addons/base/controllers/database.py:124
 msgid "New Password:"
 msgstr "Contraseña nueva:"
 
-#: openerp/controllers/database.py:120
+#: addons/base/controllers/database.py:125
 msgid "Confirm Password:"
 msgstr "Confirmar contraseña:"
 
-#: openerp/controllers/database.py:150
+#: addons/base/controllers/database.py:157
 msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
 msgstr ""
-"﻿El nombre de la base de datos debe contener sólo caracteres normales o "
-"\"_\".\n"
+"﻿El nombre de la base de datos debe contener sólo caracteres normales o \"_\".\n"
 "Debe evitar todos los acentos, espacio o los caracteres especiales."
 
-#: openerp/controllers/database.py:150
+#: addons/base/controllers/database.py:157
 msgid "Bad database name!"
 msgstr "¡Nombre de la base de datos erróneo!"
 
-#: openerp/controllers/database.py:174 openerp/controllers/database.py:179
-#: openerp/controllers/database.py:181
+#: addons/base/controllers/database.py:181
+#: addons/base/controllers/database.py:186
+#: addons/base/controllers/database.py:188
 msgid "Could not create database."
 msgstr "No se ha podido crear la base de datos."
 
-#: openerp/controllers/database.py:174
+#: addons/base/controllers/database.py:181
 msgid "Database already exists!"
 msgstr "¡La base de datos ya existe!"
 
-#: openerp/controllers/database.py:176
+#: addons/base/controllers/database.py:183
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
@@ -232,48 +177,49 @@ msgstr ""
 "El servidor ha fallado durante la instalación.\n"
 "Le sugerimos eliminar la base de datos."
 
-#: openerp/controllers/database.py:177
+#: addons/base/controllers/database.py:184
 msgid "Error during database creation!"
 msgstr "¡Error durante la creación de la base de datos!"
 
-#: openerp/controllers/database.py:179 openerp/controllers/database.py:200
-#: openerp/controllers/database.py:240
+#: addons/base/controllers/database.py:186
+#: addons/base/controllers/database.py:207
+#: addons/base/controllers/database.py:247
 msgid "Bad database administrator password!"
 msgstr "¡Contraseña del administrador de la base de datos errónea!"
 
-#: openerp/controllers/database.py:200
+#: addons/base/controllers/database.py:207
 msgid "Could not drop database."
 msgstr "No se ha podido eliminar la base de datos."
 
-#: openerp/controllers/database.py:202
+#: addons/base/controllers/database.py:209
 msgid "Couldn't drop database"
 msgstr "No se ha podido eliminar la base de datos"
 
-#: openerp/controllers/database.py:222
+#: addons/base/controllers/database.py:229
 msgid "Could not create backup."
 msgstr "No se ha podido crear la copia de seguridad."
 
-#: openerp/controllers/database.py:240
+#: addons/base/controllers/database.py:247
 msgid "Could not restore database."
 msgstr "No se ha podido restaurar la base de datos."
 
-#: openerp/controllers/database.py:242
+#: addons/base/controllers/database.py:249
 msgid "Couldn't restore database"
 msgstr "No se ha podido restaurar la base de datos"
 
-#: openerp/controllers/database.py:259
+#: addons/base/controllers/database.py:266
 msgid "Could not change super admin password."
 msgstr "No se ha podido cambiar la contraseña del super administrador."
 
-#: openerp/controllers/database.py:259
+#: addons/base/controllers/database.py:266
 msgid "Bad password provided!"
 msgstr "¡Se ha proporcionado una contraseña errónea!"
 
-#: openerp/controllers/database.py:261
+#: addons/base/controllers/database.py:268
 msgid "Error, password not changed."
 msgstr "Error, contraseña no cambiada."
 
-#: openerp/controllers/error_page.py:94
+#: addons/base/controllers/error_page.py:95
 msgid ""
 "Your problem has been sent to the quality team!\n"
 "We will recontact you after analysing the problem."
@@ -281,8 +227,7 @@ msgstr ""
 "¡Su problema ha sido enviado al equipo de calidad!\n"
 "Nos volveremos a poner en contacto después de analizar el problema."
 
-#: openerp/controllers/error_page.py:96
-#, python-format
+#: addons/base/controllers/error_page.py:97
 msgid ""
 "Your problem could not be sent to the quality team!\n"
 "Please report this error manually at %s"
@@ -290,28 +235,37 @@ msgstr ""
 "¡Su problema no ha podido ser enviado al equipo de calidad!\n"
 "Por favor informe de este error manualmente en %s"
 
-#: openerp/controllers/form.py:500
+#: addons/base/controllers/form.py:492
 msgid "Invalid button type"
 msgstr "Tipo de botón no válido"
 
-#: openerp/controllers/form.py:826 openerp/controllers/tree.py:228
+#: addons/base/controllers/form.py:823
+#: addons/base/controllers/tree.py:245
 msgid "No record selected!"
 msgstr "¡Ningún registro seleccionado!"
 
-#: openerp/controllers/form.py:831
+#: addons/base/controllers/form.py:828
 msgid "Print Screen"
 msgstr "Imprimir pantalla"
 
-#: openerp/controllers/form.py:853
+#: addons/base/controllers/form.py:850
 msgid "You must save this record to use the sidebar button!"
 msgstr "Debe guardar este registro para usar el botón lateral!"
 
-#: openerp/controllers/form.py:892
-#, python-format
+#: addons/base/controllers/form.py:889
+#: addons/base/controllers/templates/error_page.mako:149
+#: addons/base/widgets/listgrid.py:315
+#: addons/base/widgets/form/_form.py:875
+#: tools/rpc.py:141
+#: tools/rpc.py:144
+msgid "Application Error!"
+msgstr "¡Error de la aplicación!"
+
+#: addons/base/controllers/form.py:889
 msgid "Wrong on_change trigger: %s"
 msgstr "Disparador on_change erróneo: %s"
 
-#: openerp/controllers/impex.py:81
+#: addons/base/controllers/impex.py:85
 msgid ""
 "Operation failed!\n"
 "I/O error"
@@ -319,20 +273,30 @@ msgstr ""
 "¡La operación ha fallado!\n"
 "Error entrada/salida"
 
-#: openerp/controllers/impex.py:352
+#: addons/base/controllers/impex.py:358
 msgid "Export Error!"
+msgstr "¡Error de autorización!"
+
+#: addons/base/controllers/impex.py:369
+msgid ""
+"Please Install xlwt Library.\n"
+"To create spreadsheet files compatible with MS Excel."
 msgstr ""
 
-#: openerp/controllers/impex.py:417
+#: addons/base/controllers/impex.py:369
+#: addons/base/controllers/impex.py:471
+msgid "Import Error."
+msgstr "Error de importación."
+
+#: addons/base/controllers/impex.py:457
 msgid "Error opening .CSV file"
 msgstr "Error abriendo archivo .CSV"
 
-#: openerp/controllers/impex.py:417
+#: addons/base/controllers/impex.py:457
 msgid "Input Error."
 msgstr "Error de entrada."
 
-#: openerp/controllers/impex.py:428
-#, python-format
+#: addons/base/controllers/impex.py:471
 msgid ""
 "Error processing your first line of the file.\n"
 "Field %s is unknown!"
@@ -340,73 +304,63 @@ msgstr ""
 "Error procesando la primera línea del archivo.\n"
 "¡Campo %s desconocido!"
 
-#: openerp/controllers/impex.py:428
-msgid "Import Error."
-msgstr "Error de importación."
-
-#: openerp/controllers/impex.py:452
+#: addons/base/controllers/impex.py:497
 msgid "XML-RPC error!"
 msgstr "¡Error XML-RPC!"
 
-#: openerp/controllers/impex.py:454
-#, python-format
+#: addons/base/controllers/impex.py:499
 msgid "Imported %d objects!"
 msgstr "¡Se ha importado %d objetos!"
 
-#: openerp/controllers/impex.py:459
+#: addons/base/controllers/impex.py:504
 #, python-format
 msgid ""
-"Unable to import this record:\n"
+"Error trying to import this record:\n"
 "%s\n"
 "Error Message:\n"
 "%s\n"
 "\n"
 "%s"
 msgstr ""
-"No es posible importar este registro:\n"
-"%s\n"
-"Mensaje de error:\n"
-"%s\n"
-"\n"
-"%s"
 
-#: openerp/controllers/listgrid.py:64
+#: addons/base/controllers/impex.py:505
+msgid "Importation Error !"
+msgstr "¡Error de autorización!"
+
+#: addons/base/controllers/listgrid.py:66
 msgid "Parent record doesn't exists..."
-msgstr "Registro padre no existe..."
+msgstr "Registro relacionado no existe..."
 
-#: openerp/controllers/preferences.py:69
-#: openerp/controllers/templates/master.mako:91
+#: addons/base/controllers/preferences.py:72
+#: addons/base/controllers/templates/header.mako:32
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: openerp/controllers/process.py:69
+#: addons/base/controllers/process.py:70
 msgid "Select Workflow"
 msgstr "Seleccionar flujo"
 
-#: openerp/controllers/process.py:100
-#, python-format
+#: addons/base/controllers/process.py:101
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
 msgstr "%(name)s - Recurso: %(resource)s, Estado: %(state)s"
 
-#: openerp/controllers/process.py:112
+#: addons/base/controllers/process.py:113
 msgid "Last modified by:"
 msgstr "Última modificación por:"
 
-#: openerp/controllers/requests.py:53
+#: addons/base/controllers/requests.py:56
 msgid "No request"
 msgstr "No hay solicitudes"
 
-#: openerp/controllers/requests.py:55
-#, python-format
+#: addons/base/controllers/requests.py:58
 msgid "%s request(s)"
 msgstr "%s solicitud(es)"
 
-#: openerp/controllers/requests.py:58
-#, python-format
+#: addons/base/controllers/requests.py:61
 msgid " - %s pending request(s)"
 msgstr " - %s solicitud(es) pendiente(s)"
 
-#: openerp/controllers/root.py:72
+#: addons/base/controllers/root.py:71
 msgid ""
 "You can not log into the system!\n"
 "Ask the administrator to verify\n"
@@ -417,323 +371,318 @@ msgstr ""
 "que verifique si tiene una acción\n"
 "definida para su usuario."
 
-#: openerp/controllers/root.py:72
+#: addons/base/controllers/root.py:71
 msgid "Access Denied!"
 msgstr "¡Acceso denegado!"
 
-#: openerp/controllers/root.py:123
-msgid "OpenERP"
-msgstr "OpenERP"
-
-#: openerp/controllers/root.py:143
+#: addons/base/controllers/root.py:148
 msgid "Developped by Axelor and Tiny"
 msgstr "Desarrollado por Axelor y Tiny"
 
-#: openerp/controllers/root.py:166
-#, python-format
-msgid "Version %s-%s"
-msgstr ""
+#: addons/base/controllers/root.py:171
+msgid "Version %s"
+msgstr "Version %s-%s"
 
-#: openerp/controllers/translator.py:142
+#: addons/base/controllers/translator.py:143
 msgid "You need to save the resource before adding translations."
 msgstr "Debe guardar el registro antes de añadir traducciones."
 
-#: openerp/controllers/tree.py:263
+#: addons/base/controllers/tree.py:277
 msgid "No resource selected!"
 msgstr "¡No ha seleccionado ningún registro!"
 
-#: openerp/controllers/view_log.py:64
+#: addons/base/controllers/utils.py:55
+msgid "Could not connect to server!"
+msgstr "¡No se ha podido conectar con el servidor!"
+
+#: addons/base/controllers/utils.py:146
+#: addons/base/controllers/templates/login_ajax.mako:111
+msgid "Bad username or password!"
+msgstr "¡Nombre de usuario o contraseña incorrecto!"
+
+#: addons/base/controllers/view_log.py:65
 msgid "ID"
 msgstr "ID"
 
-#: openerp/controllers/view_log.py:65
+#: addons/base/controllers/view_log.py:66
 msgid "Creation User"
 msgstr "Creado por el usuario"
 
-#: openerp/controllers/view_log.py:66
+#: addons/base/controllers/view_log.py:67
 msgid "Creation Date"
-msgstr "Fecha creación"
+msgstr "Fecha Creación"
 
-#: openerp/controllers/view_log.py:67
+#: addons/base/controllers/view_log.py:68
 msgid "Latest Modification by"
-msgstr "Última modificación hecha por"
+msgstr "Última Modificación por"
 
-#: openerp/controllers/view_log.py:68
+#: addons/base/controllers/view_log.py:69
 msgid "Latest Modification Date"
-msgstr "Fecha última modificación"
+msgstr "Fecha Última Modificación"
 
-#: openerp/controllers/view_log.py:69
+#: addons/base/controllers/view_log.py:70
 msgid "Owner"
 msgstr "Propietario"
 
-#: openerp/controllers/view_log.py:70
+#: addons/base/controllers/view_log.py:71
 msgid "Group Owner"
-msgstr "Grupo del propietario"
+msgstr "Propietario del grupo"
 
-#: openerp/controllers/view_log.py:71
+#: addons/base/controllers/view_log.py:72
 msgid "Access Level"
 msgstr "Nivel de acceso"
 
-#: openerp/controllers/view_log.py:80
+#: addons/base/controllers/view_log.py:81
 msgid "No resource is selected..."
 msgstr "No ha seleccionado un registro..."
 
-#: openerp/controllers/viewed.py:247
+#: addons/base/controllers/viewed.py:247
 msgid "Invalid view id."
 msgstr "ID de vista no válido."
 
-#: openerp/controllers/viewed.py:526
+#: addons/base/controllers/viewed.py:526
 msgid "Unable to create inherited view."
 msgstr "Imposible crear una vista heredada."
 
-#: openerp/controllers/viewed.py:528
+#: addons/base/controllers/viewed.py:528
 msgid "Can't create inherited view here."
 msgstr "No se puede crear una vista heredada aquí."
 
-#: openerp/controllers/viewed.py:531
+#: addons/base/controllers/viewed.py:531
 msgid "Not implemented yet!"
 msgstr "¡No implementado aún!"
 
-#: openerp/controllers/viewed.py:638
+#: addons/base/controllers/viewed.py:638
 msgid "Unable to update the view."
 msgstr "No se puede actualizar la vista."
 
-#: openerp/controllers/viewed.py:895
+#: addons/base/controllers/viewed.py:895
 msgid "New Window"
-msgstr "Nueva ventana"
+msgstr "Nueva Ventana"
 
-#: openerp/controllers/viewed.py:907
+#: addons/base/controllers/viewed.py:907
 msgid "Save Button"
 msgstr "Botón Guardar"
 
-#: openerp/controllers/viewed.py:907
+#: addons/base/controllers/viewed.py:907
 msgid "Cancel Button"
 msgstr "Botón Cancelar"
 
-#: openerp/controllers/viewed.py:907
+#: addons/base/controllers/viewed.py:907
 msgid "Open Button"
-msgstr ""
+msgstr "Botón Guardar"
 
-#: openerp/controllers/viewed.py:913
+#: addons/base/controllers/viewed.py:913
 msgid "Left"
 msgstr ""
 
-#: openerp/controllers/viewed.py:913
+#: addons/base/controllers/viewed.py:913
 msgid "Center"
 msgstr ""
 
-#: openerp/controllers/viewed.py:913
+#: addons/base/controllers/viewed.py:913
 msgid "Right"
 msgstr ""
 
-#: openerp/controllers/workflow.py:106 openerp/controllers/workflow.py:173
+#: addons/base/controllers/workflow.py:104
+#: addons/base/controllers/workflow.py:171
 msgid "Could not delete state"
 msgstr "No se ha podido eliminar el estado"
 
-#: openerp/controllers/workflow.py:220
+#: addons/base/controllers/workflow.py:218
 msgid "No workflow associated!"
-msgstr "¡No hay flujo asociado!"
+msgstr "¡No hay un flujo de trabajo asociado!"
 
-#: openerp/controllers/templates/about.mako:4
+#: addons/base/controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr "Acerca de Web OpenERP"
+msgstr "Acerca de OpenERP Web"
 
-#: openerp/controllers/templates/about.mako:15
+#: addons/base/controllers/templates/about.mako:17
 msgid "OpenERP Web"
-msgstr "Web OpenERP"
+msgstr "OpenERP Web"
 
-#: openerp/controllers/templates/about.mako:21
+#: addons/base/controllers/templates/about.mako:23
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr ""
+msgstr "Derechos registrados &copy; 2006-HOY Tiny ERP Pvt. Ltd. Todos los derechos reservados."
 
-#: openerp/controllers/templates/about.mako:22
+#: addons/base/controllers/templates/about.mako:24
 msgid "OpenERP is a trademark of the Tiny Company."
 msgstr "OpenERP es una marca registrada de la empresa Tiny."
 
-#: openerp/controllers/templates/about.mako:24
-#, python-format
+#: addons/base/controllers/templates/about.mako:26
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr ""
+msgstr "%(ooweb)s es desarrollado conjuntamente por %(tiny)s y %(axelor)s."
 
-#: openerp/controllers/templates/about.mako:31
-#, python-format
+#: addons/base/controllers/templates/about.mako:33
 msgid "Licenced under the terms of %(license)s"
-msgstr ""
+msgstr "Licenciado bajo los términos de %(license)s"
 
-#: openerp/controllers/templates/about.mako:37
+#: addons/base/controllers/templates/about.mako:39
 msgid "About OpenERP"
 msgstr "Acerca de OpenERP"
 
-#: openerp/controllers/templates/about.mako:42
-#, python-format
+#: addons/base/controllers/templates/about.mako:44
 msgid ""
-"%(openerp)s is a free enterprise-scale software system that is designed "
-"to boost\n"
-"productivity and profit through data integration. It connects, improves "
-"and\n"
-"manages business processes in areas such as sales, finance, supply chain,"
-"\n"
+"%(openerp)s is a free enterprise-scale software system that is designed to boost\n"
+"productivity and profit through data integration. It connects, improves and\n"
+"manages business processes in areas such as sales, finance, supply chain,\n"
 "project management, production, services, CRM, etc..\n"
 msgstr ""
+"%(openerp)s es un sistema de software de escala empresarial libre que es diseñado para promover\n"
+"la productividad aprovechando la total integración de los datos. OpenERP conecta, mejora y\n"
+"administra procesos de negocios en áreas tales como ventas, finanzas, cadena de suministros,\n"
+"administración de proyectos, producción, servicios, CRM, ...\n"
 
-#: openerp/controllers/templates/about.mako:50
+#: addons/base/controllers/templates/about.mako:52
 msgid ""
-"The system is platform-independent, and can be installed on Windows, Mac "
-"OS X,\n"
-"and various Linux and other Unix-based distributions. Its architecture "
-"enables\n"
+"The system is platform-independent, and can be installed on Windows, Mac OS X,\n"
+"and various Linux and other Unix-based distributions. Its architecture enables\n"
 "new functionality to be rapidly created, modifications to be made to a\n"
 "production system and migration to a new version to be straightforward."
 msgstr ""
 "El sistema es multiplataforma, y puede instalarse en Windows, Mac OS X,\n"
-"diferentes distribuciones de Linux y otros sistemas basados en Unix.  Su "
-"arquitectura\n"
-"facilita la creación rápida de nuevas funcionalidades, modificaciones "
-"sobre un\n"
+"diferentes distribuciones de Linux y otros sistemas basados en Unix.  Su arquitectura\n"
+"facilita la creación rápida de nuevas funcionalidades, modificaciones sobre un\n"
 "sistema en producción y migración sencilla a nuevas versiones."
 
-#: openerp/controllers/templates/about.mako:57
-msgid ""
-"Depending on your needs, OpenERP is available through a web or "
-"application client."
-msgstr ""
+#: addons/base/controllers/templates/about.mako:59
+msgid "Depending on your needs, OpenERP is available through a web or application client."
+msgstr "Dependiendo de sus necesidades, OpenERP está disponible a través de un cliente web o cliente de escritorio."
 
-#: openerp/controllers/templates/about.mako:62
+#: addons/base/controllers/templates/about.mako:64
 msgid "Links"
 msgstr "Enlaces"
 
-#: openerp/controllers/templates/about.mako:68
+#: addons/base/controllers/templates/about.mako:70
 msgid "The Axelor Company"
 msgstr "La compañía Axelor"
 
-#: openerp/controllers/templates/about.mako:69
+#: addons/base/controllers/templates/about.mako:71
 msgid "The Tiny Company"
 msgstr "La compañía Tiny"
 
-#: openerp/controllers/templates/about.mako:84
+#: addons/base/controllers/templates/about.mako:85
 msgid "RESOURCES"
 msgstr "RECURSOS"
 
-#: openerp/controllers/templates/about.mako:93
+#: addons/base/controllers/templates/about.mako:93
 msgid "Homepage"
 msgstr "Inicio"
 
-#: openerp/controllers/templates/about.mako:97
+#: addons/base/controllers/templates/about.mako:97
 msgid "Download"
-msgstr "Descarga"
+msgstr "Descargar"
 
-#: openerp/controllers/templates/about.mako:101
+#: addons/base/controllers/templates/about.mako:101
 msgid "Documentation"
 msgstr "Documentación"
 
-#: openerp/controllers/templates/about.mako:105
+#: addons/base/controllers/templates/about.mako:105
 msgid "Modules"
 msgstr "Módulos"
 
-#: openerp/controllers/templates/about.mako:109
+#: addons/base/controllers/templates/about.mako:109
 msgid "Screencasts"
 msgstr ""
 
-#: openerp/controllers/templates/about.mako:113
+#: addons/base/controllers/templates/about.mako:113
 msgid "Community"
 msgstr ""
 
-#: openerp/controllers/templates/about.mako:117
+#: addons/base/controllers/templates/about.mako:117
 msgid "SaaS Offers"
 msgstr "Ofertas SaaS"
 
-#: openerp/controllers/templates/about.mako:121
+#: addons/base/controllers/templates/about.mako:121
 msgid "Trainings"
 msgstr "Formación"
 
-#: openerp/controllers/templates/about.mako:125
+#: addons/base/controllers/templates/about.mako:125
 msgid "Services"
 msgstr "Servicios"
 
-#: openerp/controllers/templates/calpopup.mako:89
-#: openerp/controllers/templates/exp.mako:281
-#: openerp/controllers/templates/fieldpref.mako:103
-#: openerp/controllers/templates/image.mako:66
-#: openerp/controllers/templates/imp.mako:220
-#: openerp/controllers/templates/openm2m.mako:70
-#: openerp/controllers/templates/openm2o.mako:61
-#: openerp/controllers/templates/openo2m.mako:88
-#: openerp/controllers/templates/process_open.mako:57
-#: openerp/controllers/templates/search.mako:169
-#: openerp/controllers/templates/translator.mako:43
-#: openerp/controllers/templates/translator.mako:108
-#: openerp/controllers/templates/viewed.mako:43
-#: openerp/controllers/templates/viewed_new.mako:54
-#: openerp/controllers/templates/viewed_new_model.mako:49
-#: openerp/controllers/templates/viewed_preview.mako:36
-#: openerp/controllers/templates/viewlist.mako:130
-#: openerp/controllers/templates/wkf_list.mako:131
-#: openerp/controllers/templates/wkf_popup.mako:57
-#: openerp/controllers/templates/workflow.mako:78
+#: addons/base/controllers/templates/calpopup.mako:88
+#: addons/base/controllers/templates/exp.mako:279
+#: addons/base/controllers/templates/fieldpref.mako:103
+#: addons/base/controllers/templates/image.mako:66
+#: addons/base/controllers/templates/imp.mako:218
+#: addons/base/controllers/templates/openm2m.mako:70
+#: addons/base/controllers/templates/openm2o.mako:61
+#: addons/base/controllers/templates/openo2m.mako:88
+#: addons/base/controllers/templates/process_open.mako:57
+#: addons/base/controllers/templates/search.mako:172
+#: addons/base/controllers/templates/translator.mako:43
+#: addons/base/controllers/templates/translator.mako:108
+#: addons/base/controllers/templates/viewed.mako:43
+#: addons/base/controllers/templates/viewed_new.mako:54
+#: addons/base/controllers/templates/viewed_new_model.mako:49
+#: addons/base/controllers/templates/viewed_preview.mako:36
+#: addons/base/controllers/templates/viewlist.mako:130
+#: addons/base/controllers/templates/wkf_list.mako:131
+#: addons/base/controllers/templates/wkf_popup.mako:57
+#: addons/base/controllers/templates/workflow.mako:78
 msgid "Close"
 msgstr "Cerrar"
 
-#: openerp/controllers/templates/calpopup.mako:90
-#: openerp/controllers/templates/form.mako:142
-#: openerp/controllers/templates/image.mako:61
-#: openerp/controllers/templates/openm2m.mako:71
-#: openerp/controllers/templates/openm2o.mako:63
-#: openerp/controllers/templates/openo2m.mako:90
-#: openerp/controllers/templates/preferences.mako:22
-#: openerp/controllers/templates/process_open.mako:58
-#: openerp/controllers/templates/translator.mako:42
-#: openerp/controllers/templates/translator.mako:107
-#: openerp/controllers/templates/viewed_new.mako:55
-#: openerp/controllers/templates/viewed_new_model.mako:50
-#: openerp/controllers/templates/viewlist.mako:187
-#: openerp/controllers/templates/wkf_list.mako:181
-#: openerp/controllers/templates/wkf_popup.mako:58
+#: addons/base/controllers/templates/calpopup.mako:89
+#: addons/base/controllers/templates/form.mako:145
+#: addons/base/controllers/templates/image.mako:61
+#: addons/base/controllers/templates/openm2m.mako:71
+#: addons/base/controllers/templates/openm2o.mako:63
+#: addons/base/controllers/templates/openo2m.mako:90
+#: addons/base/controllers/templates/preferences.mako:25
+#: addons/base/controllers/templates/process_open.mako:58
+#: addons/base/controllers/templates/translator.mako:42
+#: addons/base/controllers/templates/translator.mako:107
+#: addons/base/controllers/templates/viewed_new.mako:55
+#: addons/base/controllers/templates/viewed_new_model.mako:50
+#: addons/base/controllers/templates/viewlist.mako:187
+#: addons/base/controllers/templates/wkf_list.mako:181
+#: addons/base/controllers/templates/wkf_popup.mako:58
 msgid "Save"
 msgstr "Guardar"
 
-#: openerp/controllers/templates/database.mako:95
+#: addons/base/controllers/templates/database.mako:50
 msgid "Create"
 msgstr "Crear"
 
-#: openerp/controllers/templates/database.mako:99
+#: addons/base/controllers/templates/database.mako:54
 msgid "Drop"
 msgstr "Eliminar"
 
-#: openerp/controllers/templates/database.mako:103
+#: addons/base/controllers/templates/database.mako:58
 msgid "Backup"
 msgstr "Copia de seguridad"
 
-#: openerp/controllers/templates/database.mako:107
+#: addons/base/controllers/templates/database.mako:62
 msgid "Restore"
 msgstr "Restaurar"
 
-#: openerp/controllers/templates/database.mako:111
+#: addons/base/controllers/templates/database.mako:66
 msgid "Password"
 msgstr "Contraseña"
 
-#: openerp/controllers/templates/error_page.mako:67
+#: addons/base/controllers/templates/error_page.mako:67
 msgid "Maintenance"
-msgstr ""
+msgstr "Mantenimiento"
 
-#: openerp/controllers/templates/error_page.mako:70
-#: openerp/controllers/templates/error_page.mako:93
+#: addons/base/controllers/templates/error_page.mako:70
+#: addons/base/controllers/templates/error_page.mako:93
 msgid "An unknown error has been reported."
-msgstr "Un error desconocido ha sido comunicado."
+msgstr "Un error desconocido ha sido reportado."
 
-#: openerp/controllers/templates/error_page.mako:72
+#: addons/base/controllers/templates/error_page.mako:72
 msgid "You do not have a valid Open ERP maintenance contract !"
 msgstr "¡No dispone de un contrato válido de mantenimiento de OpenERP!"
 
-#: openerp/controllers/templates/error_page.mako:73
+#: addons/base/controllers/templates/error_page.mako:73
 msgid ""
-"If you are using Open ERP in production, it is highly suggested to "
-"subscribe\n"
+"If you are using Open ERP in production, it is highly suggested to subscribe\n"
 "a maintenance program.\n"
 "\n"
 "The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
 "automatic migration system so that we can fix your problems within a few\n"
-"hours. If you had a maintenance contract, this error would have been sent"
-"\n"
+"hours. If you had a maintenance contract, this error would have been sent\n"
 "to the quality team of the Open ERP editor.\n"
 "\n"
 "The maintenance program offers you:\n"
@@ -743,8 +692,7 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 "\n"
-"You can use the link bellow for more information. The detail of the error"
-"\n"
+"You can use the link bellow for more information. The detail of the error\n"
 "is displayed on the second tab."
 msgstr ""
 "Si está utilizando OpenERP en producción, se recomienda\n"
@@ -766,80 +714,63 @@ msgstr ""
 "Puede utilizar el enlace inferior para más información. El detalle del\n"
 "error se muestra en la segunda pestaña."
 
-#: openerp/controllers/templates/error_page.mako:95
+#: addons/base/controllers/templates/error_page.mako:95
 msgid ""
-"Your maintenance contract does not cover all modules installed in your "
-"system !\n"
-"If you are using Open ERP in production, it is highly suggested to "
-"upgrade your\n"
+"Your maintenance contract does not cover all modules installed in your system !\n"
+"If you are using Open ERP in production, it is highly suggested to upgrade your\n"
 "contract.\n"
 "\n"
-"If you have developped your own modules or installed third party module, "
-"we\n"
-"can provide you an additional maintenance contract for these modules. "
-"After\n"
-"having reviewed your modules, our quality team will ensure they will "
-"migrate\n"
-"automatically for all futur stable versions of Open ERP at no extra cost."
-"\n"
+"If you have developped your own modules or installed third party module, we\n"
+"can provide you an additional maintenance contract for these modules. After\n"
+"having reviewed your modules, our quality team will ensure they will migrate\n"
+"automatically for all futur stable versions of Open ERP at no extra cost.\n"
 "\n"
 "Here is the list of modules not covered by your maintenance contract:"
 msgstr ""
-"¡Su contrato de mantenimiento no cubre todos los módulos instalados en su"
-" sistema!\n"
-"Si está utilizando OpenERP en producción, se recomienda actualizar su "
-"contrato.\n"
+"¡Su contrato de mantenimiento no cubre todos los módulos instalados en su sistema!\n"
+"Si está utilizando OpenERP en producción, se recomienda actualizar su contrato.\n"
 "\n"
-"Si ha desarrollado sus propios módulos o instalado módulos de terceras "
-"partes,\n"
-"le podemos ofrecer un contrato de mantenimiento adicional para estos "
-"módulos.\n"
-"Después de haber revisado sus módulos, nuestro equipo de calidad le "
-"asegurará\n"
-"que sean migrados automáticamente para todas las futuras versiones "
-"estables\n"
+"Si ha desarrollado sus propios módulos o instalado módulos de terceras partes,\n"
+"le podemos ofrecer un contrato de mantenimiento adicional para estos módulos.\n"
+"Después de haber revisado sus módulos, nuestro equipo de calidad le asegurará\n"
+"que sean migrados automáticamente para todas las futuras versiones estables\n"
 "de OpenERP sin ningún coste extra.\n"
 "\n"
 "Esta es la lista de módulos no incluidos en su contrato de mantenimiento:"
 
-#: openerp/controllers/templates/error_page.mako:109
+#: addons/base/controllers/templates/error_page.mako:109
 msgid ""
-"You can use the link bellow for more information. The detail of the error"
-"\n"
+"You can use the link bellow for more information. The detail of the error\n"
 "is displayed on the second tab."
 msgstr ""
 "Puede utilizar el enlace inferior para más información. El detalle del\n"
 "error se muestra en la segunda pestaña."
 
-#: openerp/controllers/templates/error_page.mako:117
+#: addons/base/controllers/templates/error_page.mako:117
 msgid "Maintenance contract."
 msgstr "Contrato de mantenimiento."
 
-#: openerp/controllers/templates/error_page.mako:118
-msgid ""
-"Your request will be sent to OpenERP and maintenance team will reply you "
-"shortly."
-msgstr ""
-"Su solicitud será enviada a OpenERP y un equipo de mantenimiento le "
-"responderá en poco tiempo."
+#: addons/base/controllers/templates/error_page.mako:118
+msgid "Your request will be sent to OpenERP and maintenance team will reply you shortly."
+msgstr "Su solicitud será enviada a OpenERP y un equipo de mantenimiento le responderá en poco tiempo."
 
-#: openerp/controllers/templates/error_page.mako:122
+#: addons/base/controllers/templates/error_page.mako:122
 msgid "Explain what you did:"
 msgstr "Explique lo que hizo:"
 
-#: openerp/controllers/templates/error_page.mako:131
+#: addons/base/controllers/templates/error_page.mako:131
 msgid "Other Comments:"
 msgstr "Otros comentarios:"
 
-#: openerp/controllers/templates/error_page.mako:142
+#: addons/base/controllers/templates/error_page.mako:142
 msgid "Send to Maintenance Team"
 msgstr "Enviar al equipo de mantenimiento"
 
-#: openerp/controllers/templates/error_page.mako:171
+#: addons/base/controllers/templates/error_page.mako:170
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Aviso concurrencia de escritura:"
 
-#: openerp/controllers/templates/error_page.mako:172
+#: addons/base/controllers/templates/error_page.mako:171
 msgid ""
 "This document has been modified while you were editing it.\n"
 "Choose:\n"
@@ -847,1045 +778,967 @@ msgid ""
 "\t- \"Cancel\" to cancel saving.\n"
 "\t- \"Write anyway\" to save your current version."
 msgstr ""
+"Este registro ha sido modificado mientras lo estaba editando.\n"
+"Seleccione:\n"
+"\n"
+"\t - \"Cancelar\" para no guardarlo.\n"
+"\t - \"Guardar de todos modos\" para guardar su versión actual."
 
-#: openerp/controllers/templates/error_page.mako:183
-#: openerp/controllers/templates/form.mako:164
-#: openerp/controllers/templates/preferences.mako:21
-#: openerp/controllers/templates/selection.mako:52
-#: openerp/controllers/templates/viewlist.mako:188
-#: openerp/controllers/templates/wkf_list.mako:182
-#: openerp/static/tinycalendar/javascript/calendar_box.js:48
-#: openerp/widgets/templates/listgrid.mako:60
+#: addons/base/controllers/templates/error_page.mako:182
+#: addons/base/controllers/templates/form.mako:167
+#: addons/base/controllers/templates/preferences.mako:24
+#: addons/base/controllers/templates/selection.mako:52
+#: addons/base/controllers/templates/viewlist.mako:188
+#: addons/base/controllers/templates/wkf_list.mako:182
+#: addons/base/widgets/templates/listgrid.mako:60
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: openerp/controllers/templates/error_page.mako:184
+#: addons/base/controllers/templates/error_page.mako:183
 msgid "Write Anyway"
-msgstr ""
+msgstr "Guardar de todos modos"
 
-#: openerp/controllers/templates/exp.mako:176
+#: addons/base/controllers/templates/exp.mako:174
 msgid "Export Data"
 msgstr "Exportar datos"
 
-#: openerp/controllers/templates/exp.mako:189
-#: openerp/controllers/templates/form.mako:158
-#: openerp/controllers/templates/image.mako:63
-#: openerp/static/tinycalendar/javascript/calendar_box.js:51
-#: openerp/widgets/templates/listgrid.mako:113
-#: openerp/widgets/templates/viewform.mako:28
+#: addons/base/controllers/templates/exp.mako:187
+#: addons/base/controllers/templates/form.mako:161
+#: addons/base/controllers/templates/image.mako:63
+#: addons/base/widgets/templates/listgrid.mako:115
+#: addons/base/widgets/templates/viewform.mako:25
 msgid "Delete"
 msgstr "Eliminar"
 
-#: openerp/controllers/templates/exp.mako:197
-#: openerp/controllers/templates/imp.mako:153
+#: addons/base/controllers/templates/exp.mako:195
+#: addons/base/controllers/templates/imp.mako:151
 msgid "All fields"
 msgstr "Todos los campos"
 
-#: openerp/controllers/templates/exp.mako:199
+#: addons/base/controllers/templates/exp.mako:197
 msgid "Fields to export"
 msgstr "Campos a exportar"
 
-#: openerp/controllers/templates/exp.mako:206
-#: openerp/controllers/templates/imp.mako:162
+#: addons/base/controllers/templates/exp.mako:204
+#: addons/base/controllers/templates/imp.mako:160
 msgid "Add"
 msgstr "Añadir"
 
-#: openerp/controllers/templates/exp.mako:207
-#: openerp/controllers/templates/imp.mako:163
-#: openerp/controllers/templates/viewlist.mako:126
-#: openerp/controllers/templates/wkf_list.mako:126
+#: addons/base/controllers/templates/exp.mako:205
+#: addons/base/controllers/templates/imp.mako:161
+#: addons/base/controllers/templates/viewlist.mako:126
+#: addons/base/controllers/templates/wkf_list.mako:126
 msgid "Remove"
 msgstr "Eliminar"
 
-#: openerp/controllers/templates/exp.mako:208
-#: openerp/controllers/templates/imp.mako:164
+#: addons/base/controllers/templates/exp.mako:206
+#: addons/base/controllers/templates/imp.mako:162
 msgid "Nothing"
 msgstr "Nada"
 
-#: openerp/controllers/templates/exp.mako:209
-#: openerp/controllers/templates/exp.mako:222
+#: addons/base/controllers/templates/exp.mako:207
+#: addons/base/controllers/templates/exp.mako:220
 msgid "Save List"
 msgstr "Guardar lista"
 
-#: openerp/controllers/templates/exp.mako:225
+#: addons/base/controllers/templates/exp.mako:223
 msgid "Name of This Export:"
 msgstr "Nombre de esta exportación:"
 
-#: openerp/controllers/templates/exp.mako:241
-#: openerp/controllers/templates/imp.mako:190
+#: addons/base/controllers/templates/exp.mako:239
+#: addons/base/controllers/templates/imp.mako:188
 msgid "Options"
 msgstr "Opciones"
 
-#: openerp/controllers/templates/exp.mako:246
+#: addons/base/controllers/templates/exp.mako:244
 msgid "Export as CSV"
 msgstr "Exportar como CSV"
 
-#: openerp/controllers/templates/exp.mako:247
+#: addons/base/controllers/templates/exp.mako:245
 msgid "Export as Excel"
 msgstr "Exportar como Excel"
 
-#: openerp/controllers/templates/exp.mako:253
+#: addons/base/controllers/templates/exp.mako:251
 msgid "Add field names"
-msgstr "Añadir nombres de campo"
+msgstr "Añadir nombres de campos"
 
-#: openerp/controllers/templates/exp.mako:262
+#: addons/base/controllers/templates/exp.mako:260
 msgid "Select an Option to Export"
 msgstr ""
 
-#: openerp/controllers/templates/exp.mako:268
+#: addons/base/controllers/templates/exp.mako:266
 msgid "Import Compatible"
-msgstr ""
+msgstr "Error de importación."
 
-#: openerp/controllers/templates/exp.mako:280
-#: openerp/widgets/templates/listgrid.mako:204
+#: addons/base/controllers/templates/exp.mako:278
+#: addons/base/widgets/templates/listgrid.mako:206
 msgid "Export"
 msgstr "Exportar"
 
-#: openerp/controllers/templates/fieldpref.mako:4
-#: openerp/controllers/templates/fieldpref.mako:32
+#: addons/base/controllers/templates/fieldpref.mako:4
+#: addons/base/controllers/templates/fieldpref.mako:32
 msgid "Field Preferences"
 msgstr "Preferencias de campos"
 
-#: openerp/controllers/templates/fieldpref.mako:42
+#: addons/base/controllers/templates/fieldpref.mako:42
 msgid "Field Name:"
-msgstr "Nombre de campo:"
+msgstr "Nombre del campo:"
 
-#: openerp/controllers/templates/fieldpref.mako:46
+#: addons/base/controllers/templates/fieldpref.mako:46
 msgid "Domain:"
 msgstr "Dominio:"
 
-#: openerp/controllers/templates/fieldpref.mako:50
+#: addons/base/controllers/templates/fieldpref.mako:50
 msgid "Default Value:"
 msgstr "Valor predeterminado:"
 
-#: openerp/controllers/templates/fieldpref.mako:60
+#: addons/base/controllers/templates/fieldpref.mako:60
 msgid "Value applicable for:"
 msgstr "Valor aplicable para:"
 
-#: openerp/controllers/templates/fieldpref.mako:66
+#: addons/base/controllers/templates/fieldpref.mako:66
 msgid "Only for you"
 msgstr "Sólo para usted"
 
-#: openerp/controllers/templates/fieldpref.mako:70
+#: addons/base/controllers/templates/fieldpref.mako:70
 msgid "For all"
 msgstr "Para todos"
 
-#: openerp/controllers/templates/fieldpref.mako:79
+#: addons/base/controllers/templates/fieldpref.mako:79
 msgid "Value applicable if:"
 msgstr "Valor aplicable si:"
 
-#: openerp/controllers/templates/fieldpref.mako:82
+#: addons/base/controllers/templates/fieldpref.mako:82
 msgid "Always applicable!"
 msgstr "¡Siempre aplicable!"
 
-#: openerp/controllers/templates/form.mako:43
-msgid "Tree View..."
-msgstr "Vista árbol..."
-
-#: openerp/controllers/templates/form.mako:45
-#: openerp/widgets/templates/many2one.mako:28
-#: openerp/widgets/templates/many2one.mako:29
-#: openerp/widgets/templates/many2one.mako:36
-#: openerp/widgets/templates/many2one.mako:37
-#: openerp/widgets/templates/reference.mako:40
-msgid "Search"
-msgstr "Buscar"
-
-#: openerp/controllers/templates/form.mako:48
-msgid "Form View..."
-msgstr "Vista formulario..."
-
-#: openerp/controllers/templates/form.mako:50
-msgid "Form"
-msgstr "Formulario"
-
-#: openerp/controllers/templates/form.mako:53
-msgid "Calendar View..."
-msgstr "Vista calendario..."
-
-#: openerp/controllers/templates/form.mako:55
-msgid "Calendar"
-msgstr "Calendario"
-
-#: openerp/controllers/templates/form.mako:58
-msgid "Gantt View..."
-msgstr "Vista Gantt..."
-
-#: openerp/controllers/templates/form.mako:60
-msgid "Gantt"
-msgstr "Gantt"
-
-#: openerp/controllers/templates/form.mako:63
-msgid "Graph View..."
-msgstr "Vista gráfico..."
-
-#: openerp/controllers/templates/form.mako:65
-msgid "Graph"
-msgstr "Gráfico"
-
-#: openerp/controllers/templates/form.mako:69
-msgid "Corporate Intelligence..."
-msgstr "Inteligencia corporativa..."
-
-#: openerp/controllers/templates/form.mako:70
-#: openerp/controllers/templates/process.mako:4
-msgid "Process"
-msgstr "Proceso"
-
-#: openerp/controllers/templates/form.mako:78
-#: openerp/controllers/templates/form.mako:87
-msgid "Show attachments."
-msgstr ""
-
-#: openerp/controllers/templates/form.mako:95
-msgid "Translate this resource."
-msgstr "Traduce este registro."
-
-#: openerp/controllers/templates/form.mako:103
-msgid "View Log."
-msgstr "Vista de log."
-
-#: openerp/controllers/templates/form.mako:129
-msgid "Create a new resource"
-msgstr "Crea un registro nuevo"
-
-#: openerp/controllers/templates/form.mako:130
-#: openerp/controllers/templates/search.mako:165
-#: openerp/controllers/templates/viewed_new_model.mako:45
-#: openerp/controllers/templates/viewlist.mako:124
-#: openerp/controllers/templates/wkf_list.mako:124
-#: openerp/widgets/one2many.py:56 openerp/widgets/templates/viewform.mako:36
-#: openerp/widgets/templates/viewform.mako:40
-msgid "New"
-msgstr "Nuevo"
-
-#: openerp/controllers/templates/form.mako:135
-msgid "Edit this resource"
-msgstr "Edita este registro"
-
-#: openerp/controllers/templates/form.mako:136
-#: openerp/controllers/templates/viewlist.mako:125
-#: openerp/controllers/templates/wkf_list.mako:125
-#: openerp/static/tinycalendar/javascript/calendar_box.js:49
-#: openerp/widgets/templates/listgrid.mako:76
-#: openerp/widgets/templates/listgrid.mako:79
-#: openerp/widgets/templates/viewform.mako:32
-msgid "Edit"
-msgstr "Editar"
-
-#: openerp/controllers/templates/form.mako:141
-msgid "Save this resource"
-msgstr "Guarda este registro"
-
-#: openerp/controllers/templates/form.mako:145
-msgid "Save & Edit this resource"
-msgstr "Guarda & Edita este registro"
-
-#: openerp/controllers/templates/form.mako:146
-msgid "Save & Edit"
-msgstr "Guardar & Editar"
-
-#: openerp/controllers/templates/form.mako:151
-msgid "Duplicate this resource"
-msgstr "Duplica este registro"
-
-#: openerp/controllers/templates/form.mako:152
-#: openerp/static/tinycalendar/javascript/calendar_box.js:50
-msgid "Duplicate"
-msgstr "Duplicar"
-
-#: openerp/controllers/templates/form.mako:157
-msgid "Delete this resource"
-msgstr "Elimina este registro"
-
-#: openerp/controllers/templates/form.mako:163
-msgid "Cancel editing the current resource"
-msgstr "Cancela la edición del registro actual"
-
-#: openerp/controllers/templates/form.mako:183
-msgid "Customise"
-msgstr "Personalizar"
-
-#: openerp/controllers/templates/form.mako:186
-msgid "Manage views of the current object"
-msgstr "Gestionar vistas del objeto actual"
-
-#: openerp/controllers/templates/form.mako:188
-msgid "Manage Views"
-msgstr "Gestionar vistas"
-
-#: openerp/controllers/templates/form.mako:189
-msgid "Manage workflows of the current object"
-msgstr "Gestionar flujos del objeto actual"
-
-#: openerp/controllers/templates/form.mako:191
-msgid "Manage Workflows"
-msgstr "Gestionar flujos"
-
-#: openerp/controllers/templates/form.mako:192
-msgid "Customise current object or create a new object"
-msgstr "Personalizar objeto actual o crear un nuevo objeto"
-
-#: openerp/controllers/templates/form.mako:194
-msgid "Customise Object"
-msgstr "Personalizar objeto"
-
-#: openerp/controllers/templates/image.mako:4
-#: openerp/controllers/templates/image.mako:36
-msgid "Image"
-msgstr "Imagen"
-
-#: openerp/controllers/templates/image.mako:51
-msgid "Add Resource:"
-msgstr "Añadir registro:"
-
-#: openerp/controllers/templates/image.mako:62
-#: openerp/widgets/templates/binary.mako:16
-msgid "Save As"
-msgstr "Guardar como"
-
-#: openerp/controllers/templates/imp.mako:144
-msgid "Import Data"
-msgstr "Importar datos"
-
-#: openerp/controllers/templates/imp.mako:155
-msgid "Fields to import"
-msgstr "Campos a importar"
-
-#: openerp/controllers/templates/imp.mako:166
-msgid "Auto Detect"
-msgstr "Auto detectar"
-
-#: openerp/controllers/templates/imp.mako:182
-msgid "File to import"
-msgstr "Archivo a importar"
-
-#: openerp/controllers/templates/imp.mako:193
-msgid "Separator:"
-msgstr "Separador:"
-
-#: openerp/controllers/templates/imp.mako:195
-msgid "Delimiter:"
-msgstr "Delimitador:"
-
-#: openerp/controllers/templates/imp.mako:199
-msgid "Encoding:"
-msgstr "Codificación:"
-
-#: openerp/controllers/templates/imp.mako:206
-msgid "Lines to skip:"
-msgstr "Líneas omitidas:"
-
-#: openerp/controllers/templates/imp.mako:219
-#: openerp/widgets/templates/listgrid.mako:204
-msgid "Import"
-msgstr "Importar"
-
-#: openerp/controllers/templates/login.mako:4
-#: openerp/controllers/templates/login.mako:62
-#: openerp/controllers/templates/login_ajax.mako:85
-#: openerp/controllers/templates/login_ajax.mako:104
-msgid "Login"
-msgstr "Entrar"
-
-#: openerp/controllers/templates/login.mako:24
-msgid "Welcome to OpenERP"
-msgstr "Bienvenido a OpenERP"
-
-#: openerp/controllers/templates/login.mako:31
-msgid "Server:"
-msgstr "Servidor:"
-
-#: openerp/controllers/templates/login.mako:48
-#: openerp/controllers/templates/login_ajax.mako:72
-#: openerp/controllers/templates/login_ajax.mako:94
-msgid "User:"
-msgstr "Usuario:"
-
-#: openerp/controllers/templates/login.mako:60
-msgid "Databases"
-msgstr "Bases de datos"
-
-#: openerp/controllers/templates/master.mako:87
-#, python-format
-msgid "Welcome %(user)s"
-msgstr ""
-
-#: openerp/controllers/templates/master.mako:90
-msgid "Home"
-msgstr "Inicio"
-
-#: openerp/controllers/templates/master.mako:92
-msgid "About"
-msgstr "Acerca"
-
-#: openerp/controllers/templates/master.mako:93
-msgid "Logout"
-msgstr "Salir"
-
-#: openerp/controllers/templates/master.mako:102
-msgid "Requests:"
-msgstr "Solicitudes:"
-
-#: openerp/controllers/templates/master.mako:112
-msgid "MAIN MENU"
-msgstr "MENÚ"
-
-#: openerp/controllers/templates/master.mako:115
-msgid "SHORTCUTS"
-msgstr "ATAJOS"
-
-#: openerp/controllers/templates/master.mako:153
-msgid "[ADD]"
-msgstr "[Añadir]"
-
-#: openerp/controllers/templates/master.mako:174
+#: addons/base/controllers/templates/footer.mako:2
 msgid "Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr ""
+msgstr "Derechos registrados &copy; 2007-HOY Tiny ERP Pvt. Ltd. Todos los derechos reservados."
 
-#: openerp/controllers/templates/master.mako:175
-#, python-format
+#: addons/base/controllers/templates/footer.mako:3
 msgid "More Information on %s"
-msgstr ""
+msgstr "Más información en %s"
 
-#: openerp/controllers/templates/master.mako:177
-#, python-format
+#: addons/base/controllers/templates/footer.mako:5
 msgid "The web client is developed by %(axelor)s and %(tiny)s."
-msgstr ""
+msgstr "El cliente web es desarrollado por %(axelor)s y %(tiny)s."
 
-#: openerp/controllers/templates/master.mako:181
+#: addons/base/controllers/templates/footer.mako:9
 msgid "Running Server:"
 msgstr "Servidor en ejecución:"
 
-#: openerp/controllers/templates/process.mako:56
+#: addons/base/controllers/templates/form.mako:46
+msgid "Tree View..."
+msgstr "Vista árbol..."
+
+#: addons/base/controllers/templates/form.mako:48
+#: addons/base/widgets/form/templates/many2one.mako:28
+#: addons/base/widgets/form/templates/many2one.mako:29
+#: addons/base/widgets/form/templates/many2one.mako:36
+#: addons/base/widgets/form/templates/many2one.mako:37
+#: addons/base/widgets/form/templates/reference.mako:40
+msgid "Search"
+msgstr "Buscar"
+
+#: addons/base/controllers/templates/form.mako:51
+msgid "Form View..."
+msgstr "Vista formulario..."
+
+#: addons/base/controllers/templates/form.mako:53
+msgid "Form"
+msgstr "Formulario"
+
+#: addons/base/controllers/templates/form.mako:56
+msgid "Calendar View..."
+msgstr "Vista calendario..."
+
+#: addons/base/controllers/templates/form.mako:58
+msgid "Calendar"
+msgstr "Calendario"
+
+#: addons/base/controllers/templates/form.mako:61
+msgid "Gantt View..."
+msgstr "Vista Gantt..."
+
+#: addons/base/controllers/templates/form.mako:63
+msgid "Gantt"
+msgstr "Gantt"
+
+#: addons/base/controllers/templates/form.mako:66
+msgid "Graph View..."
+msgstr "Vista gráfico..."
+
+#: addons/base/controllers/templates/form.mako:68
+msgid "Graph"
+msgstr "Gráfico"
+
+#: addons/base/controllers/templates/form.mako:72
+msgid "Corporate Intelligence..."
+msgstr "Inteligencia corporativa..."
+
+#: addons/base/controllers/templates/form.mako:73
+#: addons/base/controllers/templates/process.mako:4
+msgid "Process"
+msgstr "Proceso"
+
+#: addons/base/controllers/templates/form.mako:81
+#: addons/base/controllers/templates/form.mako:90
+msgid "Show attachments."
+msgstr ""
+
+#: addons/base/controllers/templates/form.mako:98
+msgid "Translate this resource."
+msgstr "Traducir este recurso"
+
+#: addons/base/controllers/templates/form.mako:106
+msgid "View Log."
+msgstr "Ver registro (log)"
+
+#: addons/base/controllers/templates/form.mako:132
+msgid "Create a new resource"
+msgstr "Crear un nuevo registro"
+
+#: addons/base/controllers/templates/form.mako:133
+#: addons/base/controllers/templates/search.mako:168
+#: addons/base/controllers/templates/viewed_new_model.mako:45
+#: addons/base/controllers/templates/viewlist.mako:124
+#: addons/base/controllers/templates/wkf_list.mako:124
+#: addons/base/widgets/form/_o2m.py:64
+#: addons/base/widgets/templates/viewform.mako:33
+#: addons/base/widgets/templates/viewform.mako:37
+msgid "New"
+msgstr "Nuevo"
+
+#: addons/base/controllers/templates/form.mako:138
+msgid "Edit this resource"
+msgstr "Editar este registro"
+
+#: addons/base/controllers/templates/form.mako:139
+#: addons/base/controllers/templates/viewlist.mako:125
+#: addons/base/controllers/templates/wkf_list.mako:125
+#: addons/base/widgets/templates/listgrid.mako:76
+#: addons/base/widgets/templates/listgrid.mako:78
+#: addons/base/widgets/templates/listgrid.mako:81
+#: addons/base/widgets/templates/viewform.mako:29
+msgid "Edit"
+msgstr "Editar"
+
+#: addons/base/controllers/templates/form.mako:144
+msgid "Save this resource"
+msgstr "Guarda este registro"
+
+#: addons/base/controllers/templates/form.mako:148
+msgid "Save & Edit this resource"
+msgstr "Guardar & Editar este registro"
+
+#: addons/base/controllers/templates/form.mako:149
+msgid "Save & Edit"
+msgstr "Guardar & Editar"
+
+#: addons/base/controllers/templates/form.mako:154
+msgid "Duplicate this resource"
+msgstr "Duplicar este registro"
+
+#: addons/base/controllers/templates/form.mako:155
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#: addons/base/controllers/templates/form.mako:160
+msgid "Delete this resource"
+msgstr "Eliminar este registro"
+
+#: addons/base/controllers/templates/form.mako:166
+msgid "Cancel editing the current resource"
+msgstr "Cancela la edición del registro actual"
+
+#: addons/base/controllers/templates/form.mako:186
+msgid "Customise"
+msgstr "Personalizar"
+
+#: addons/base/controllers/templates/form.mako:189
+msgid "Manage views of the current object"
+msgstr "Gestionar vistas del objeto actual"
+
+#: addons/base/controllers/templates/form.mako:191
+msgid "Manage Views"
+msgstr "Gestionar vistas"
+
+#: addons/base/controllers/templates/form.mako:192
+msgid "Manage workflows of the current object"
+msgstr "Gestionar flujos del objeto actual"
+
+#: addons/base/controllers/templates/form.mako:194
+msgid "Manage Workflows"
+msgstr "Gestionar flujos"
+
+#: addons/base/controllers/templates/form.mako:195
+msgid "Customise current object or create a new object"
+msgstr "Personalizar objeto actual o crear un nuevo objeto"
+
+#: addons/base/controllers/templates/form.mako:197
+msgid "Customise Object"
+msgstr "Personalizar objeto"
+
+#: addons/base/controllers/templates/header.mako:28
+msgid "Welcome %(user)s"
+msgstr "Bienvenido %(user)s"
+
+#: addons/base/controllers/templates/header.mako:31
+msgid "Home"
+msgstr "Inicio"
+
+#: addons/base/controllers/templates/header.mako:33
+msgid "About"
+msgstr "Acerca"
+
+#: addons/base/controllers/templates/header.mako:34
+msgid "Logout"
+msgstr "Salir"
+
+#: addons/base/controllers/templates/header.mako:43
+msgid "Requests:"
+msgstr "Solicitudes:"
+
+#: addons/base/controllers/templates/header.mako:67
+msgid "MAIN MENU"
+msgstr "MENÚ"
+
+#: addons/base/controllers/templates/header.mako:70
+msgid "SHORTCUTS"
+msgstr "ATAJOS"
+
+#: addons/base/controllers/templates/header.mako:108
+msgid "[ADD]"
+msgstr "[Añadir]"
+
+#: addons/base/controllers/templates/image.mako:4
+#: addons/base/controllers/templates/image.mako:36
+msgid "Image"
+msgstr "Imagen"
+
+#: addons/base/controllers/templates/image.mako:51
+msgid "Add Resource:"
+msgstr "Añadir registro:"
+
+#: addons/base/controllers/templates/image.mako:62
+#: addons/base/widgets/form/templates/binary.mako:16
+msgid "Save As"
+msgstr "Guardar Como"
+
+#: addons/base/controllers/templates/imp.mako:142
+msgid "Import Data"
+msgstr "Importar datos"
+
+#: addons/base/controllers/templates/imp.mako:153
+msgid "Fields to import"
+msgstr "Campos a importar"
+
+#: addons/base/controllers/templates/imp.mako:164
+msgid "Auto Detect"
+msgstr "Auto detectar"
+
+#: addons/base/controllers/templates/imp.mako:180
+msgid "File to import"
+msgstr "Archivo a importar"
+
+#: addons/base/controllers/templates/imp.mako:191
+msgid "Separator:"
+msgstr "Separador:"
+
+#: addons/base/controllers/templates/imp.mako:193
+msgid "Delimiter:"
+msgstr "Delimitador:"
+
+#: addons/base/controllers/templates/imp.mako:197
+msgid "Encoding:"
+msgstr "Codificación:"
+
+#: addons/base/controllers/templates/imp.mako:204
+msgid "Lines to skip:"
+msgstr "Líneas a omitir:"
+
+#: addons/base/controllers/templates/imp.mako:217
+#: addons/base/widgets/templates/listgrid.mako:206
+msgid "Import"
+msgstr "Importar"
+
+#: addons/base/controllers/templates/login.mako:4
+#: addons/base/controllers/templates/login.mako:65
+#: addons/base/controllers/templates/login_ajax.mako:85
+#: addons/base/controllers/templates/login_ajax.mako:104
+msgid "Login"
+msgstr "Entrar"
+
+#: addons/base/controllers/templates/login.mako:27
+msgid "Welcome to OpenERP"
+msgstr "Bienvenido a OpenERP"
+
+#: addons/base/controllers/templates/login.mako:34
+msgid "Server:"
+msgstr "Servidor:"
+
+#: addons/base/controllers/templates/login.mako:51
+#: addons/base/controllers/templates/login_ajax.mako:72
+#: addons/base/controllers/templates/login_ajax.mako:94
+msgid "User:"
+msgstr "Usuario:"
+
+#: addons/base/controllers/templates/login.mako:63
+msgid "Databases"
+msgstr "Bases de Datos"
+
+#: addons/base/controllers/templates/process.mako:59
 msgid "Select Process"
 msgstr "Seleccionar proceso"
 
-#: openerp/controllers/templates/process.mako:62
-#: openerp/controllers/templates/search.mako:166
-#: openerp/widgets/templates/datetime.mako:13
+#: addons/base/controllers/templates/process.mako:65
+#: addons/base/controllers/templates/search.mako:169
+#: addons/base/widgets/form/templates/datetime.mako:13
 msgid "Select"
 msgstr "Seleccionar"
 
-#: openerp/controllers/templates/process.mako:76
-#: openerp/static/workflow/javascript/process.js:287
+#: addons/base/controllers/templates/process.mako:79
 msgid "Help"
 msgstr "Ayuda"
 
-#: openerp/controllers/templates/process.mako:93
+#: addons/base/controllers/templates/process.mako:96
 msgid "Customize"
 msgstr "Personalizar"
 
-#: openerp/controllers/templates/search.mako:151
-#, python-format
+#: addons/base/controllers/templates/search.mako:154
 msgid "Search %(name)s"
-msgstr ""
+msgstr "Buscar %(name)s"
 
-#: openerp/controllers/templates/search.mako:164
-#: openerp/widgets/templates/viewform.mako:25
+#: addons/base/controllers/templates/search.mako:167
+#: addons/base/widgets/templates/viewform.mako:22
 msgid "Filter"
 msgstr "Filtro"
 
-#: openerp/controllers/templates/selection.mako:4
+#: addons/base/controllers/templates/selection.mako:4
 msgid "Select action"
 msgstr "Seleccionar acción"
 
-#: openerp/controllers/templates/selection.mako:30
+#: addons/base/controllers/templates/selection.mako:30
 msgid "Select your action"
 msgstr "Seleccione su acción"
 
-#: openerp/controllers/templates/translator.mako:4
+#: addons/base/controllers/templates/translator.mako:4
 msgid "Add Translations"
 msgstr "Añadir traducciones"
 
-#: openerp/controllers/templates/translator.mako:22
+#: addons/base/controllers/templates/translator.mako:22
 msgid "Add Translation"
-msgstr "Añadir traducción"
+msgstr "Añadir Traducción"
 
-#: openerp/controllers/templates/translator.mako:32
+#: addons/base/controllers/templates/translator.mako:32
 msgid "Add Translation for:"
 msgstr "Añadir traducción para:"
 
-#: openerp/controllers/templates/translator.mako:35
+#: addons/base/controllers/templates/translator.mako:35
 msgid "Fields"
 msgstr "Campos"
 
-#: openerp/controllers/templates/translator.mako:36
+#: addons/base/controllers/templates/translator.mako:36
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: openerp/controllers/templates/translator.mako:37
+#: addons/base/controllers/templates/translator.mako:37
 msgid "Relates"
 msgstr "Referencias"
 
-#: openerp/controllers/templates/translator.mako:55
+#: addons/base/controllers/templates/translator.mako:55
 msgid "Field"
 msgstr "Campo"
 
-#: openerp/controllers/templates/tree.mako:51
+#: addons/base/controllers/templates/tree.mako:25
 msgid "Switch current view: form/list"
 msgstr "Cambia vista actual: formulario/lista"
 
-#: openerp/controllers/templates/tree.mako:51
+#: addons/base/controllers/templates/tree.mako:25
 msgid "Switch"
 msgstr "Cambiar"
 
-#: openerp/controllers/templates/tree.mako:66
+#: addons/base/controllers/templates/tree.mako:40
 msgid "Toolbar"
 msgstr "Barra de herramientas"
 
-#: openerp/controllers/templates/viewed.mako:22
-#, python-format
-msgid "View Editor %s - %s"
-msgstr ""
+#: addons/base/controllers/templates/view_log.mako:4
+#: addons/base/controllers/templates/view_log.mako:14
+#: tools/common.py:55
+msgid "Information"
+msgstr "Información"
 
-#: openerp/controllers/templates/viewed.mako:40
+#: addons/base/controllers/templates/viewed.mako:22
+msgid "View Editor %s - %s"
+msgstr "Editor de vista %s - %s"
+
+#: addons/base/controllers/templates/viewed.mako:40
 msgid "Create a new inherited view"
 msgstr "Crear una nueva vista heredada"
 
-#: openerp/controllers/templates/viewed.mako:40
+#: addons/base/controllers/templates/viewed.mako:40
 msgid "Inherited View"
 msgstr "Vista heredada"
 
-#: openerp/controllers/templates/viewed.mako:42
+#: addons/base/controllers/templates/viewed.mako:42
 msgid "Preview"
 msgstr "Vista previa"
 
-#: openerp/controllers/templates/viewed_add.mako:6
+#: addons/base/controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
 msgstr "Tipo de nodo:"
 
-#: openerp/controllers/templates/viewed_add.mako:23
+#: addons/base/controllers/templates/viewed_add.mako:23
 msgid "New Field"
 msgstr "Campo nuevo"
 
-#: openerp/controllers/templates/viewed_add.mako:27
+#: addons/base/controllers/templates/viewed_add.mako:27
 msgid "Position:"
 msgstr "Posición:"
 
-#: openerp/controllers/templates/viewlist.mako:4
-#: openerp/controllers/templates/viewlist.mako:110
-#, python-format
+#: addons/base/controllers/templates/viewlist.mako:4
+#: addons/base/controllers/templates/viewlist.mako:110
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Gestionar vistas (%s)"
 
-#: openerp/controllers/templates/viewlist.mako:147
-#, python-format
+#: addons/base/controllers/templates/viewlist.mako:147
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Crear una vista (%s)"
 
-#: openerp/controllers/templates/viewlist.mako:158
+#: addons/base/controllers/templates/viewlist.mako:158
 msgid "View Name:"
 msgstr "Nombre vista:"
 
-#: openerp/controllers/templates/viewlist.mako:162
+#: addons/base/controllers/templates/viewlist.mako:162
 msgid "View Type:"
-msgstr "Tipo vista:"
+msgstr "Tipo de vista:"
 
-#: openerp/controllers/templates/viewlist.mako:173
+#: addons/base/controllers/templates/viewlist.mako:173
 msgid "Priority:"
 msgstr "Prioridad:"
 
-#: openerp/controllers/templates/wkf_list.mako:4
-#: openerp/controllers/templates/wkf_list.mako:110
-#, python-format
+#: addons/base/controllers/templates/wkf_list.mako:4
+#: addons/base/controllers/templates/wkf_list.mako:110
 msgid "Manage Workflows %s"
-msgstr ""
+msgstr "Gestionar flujos de trabajo %s"
 
-#: openerp/controllers/templates/wkf_list.mako:127
+#: addons/base/controllers/templates/wkf_list.mako:127
 msgid "Activate"
 msgstr "Activar"
 
-#: openerp/controllers/templates/wkf_list.mako:148
-#, python-format
+#: addons/base/controllers/templates/wkf_list.mako:148
 msgid "Create a Workflow (%s)"
-msgstr ""
+msgstr "Crear un flujo de trabajo (%s)"
 
-#: openerp/controllers/templates/wkf_list.mako:159
+#: addons/base/controllers/templates/wkf_list.mako:159
 msgid "Workflow Name:"
 msgstr "Nombre flujo:"
 
-#: openerp/controllers/templates/wkf_list.mako:163
+#: addons/base/controllers/templates/wkf_list.mako:163
 msgid "Resource Model:"
 msgstr "Modelo del recurso:"
 
-#: openerp/controllers/templates/wkf_list.mako:167
+#: addons/base/controllers/templates/wkf_list.mako:167
 msgid "On Create:"
 msgstr "Al crear:"
 
-#: openerp/controllers/templates/workflow.mako:4
+#: addons/base/controllers/templates/workflow.mako:4
 msgid "Workflow"
-msgstr "Flujo"
+msgstr "Flujo de Trabajo"
 
-#: openerp/controllers/templates/workflow.mako:50
-#, python-format
+#: addons/base/controllers/templates/workflow.mako:50
 msgid "Workflow (%s)"
-msgstr ""
+msgstr "Flujo de Trabajo (%s)"
 
-#: openerp/controllers/templates/workflow.mako:64
-#: openerp/static/javascript/treegrid.js:101
-#: openerp/widgets/tinycalendar/templates/day.mako:3
-#: openerp/widgets/tinycalendar/templates/month.mako:3
-#: openerp/widgets/tinycalendar/templates/week.mako:3
+#: addons/base/controllers/templates/workflow.mako:64
+#: addons/base/widgets/tinycalendar/templates/day.mako:3
+#: addons/base/widgets/tinycalendar/templates/month.mako:3
+#: addons/base/widgets/tinycalendar/templates/week.mako:3
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: openerp/static/javascript/form.js:108
-#, python-format
-msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr ""
-
-#: openerp/static/javascript/form.js:243
-msgid "Invalid form, correct red fields !"
-msgstr ""
-
-#: openerp/static/javascript/form.js:255
-#: openerp/static/tinycalendar/javascript/calendar_box.js:158
-msgid "Do you really want to delete this record?"
-msgstr "¿Realmente desea eliminar este registro?"
-
-#: openerp/static/javascript/form.js:864
-#: openerp/static/javascript/listgrid.js:424
-msgid "You must select at least one record."
-msgstr "Debe seleccionar al menos un registro"
-
-#: openerp/static/javascript/listgrid.js:426
-msgid "Do you really want to delete selected record(s) ?"
-msgstr "¿Realmente desea eliminar el registro(s) seleccionado(s)?"
-
-#: openerp/static/javascript/viewed.js:71
-msgid "Do you really want to remove this node?"
-msgstr "¿Realmente desea eliminar este nodo?"
-
-#: openerp/static/javascript/viewed.js:337
-msgid "Do you really wants to create an inherited view here?"
-msgstr "¿Realmente desea crear una vista heredada aquí?"
-
-#: openerp/static/javascript/waitbox.js:49
-msgid "Please wait..."
-msgstr "Por favor espere..."
-
-#: openerp/static/javascript/waitbox.js:50
-msgid "This operation may take a while..."
-msgstr "Esta operacion puede tardar un rato..."
-
-#: openerp/static/workflow/javascript/process.js:190
-msgid "Notes:"
-msgstr "Notas:"
-
-#: openerp/static/workflow/javascript/process.js:198
-msgid "Subflows:"
-msgstr "Subflujos:"
-
-#: openerp/static/workflow/javascript/process.js:202
-msgid "Related:"
-msgstr "Relacionado:"
-
-#: openerp/static/workflow/javascript/process.js:291
-#: openerp/widgets/templates/many2one.mako:17
-#: openerp/widgets/templates/reference.mako:32
-msgid "Open"
-msgstr "Abrir"
-
-#: openerp/static/workflow/javascript/process.js:292
-msgid "Print"
-msgstr "Imprimir"
-
-#: openerp/static/workflow/javascript/process.js:299
-msgid "Print workflow"
-msgstr "Imprimir flujo"
-
-#: openerp/static/workflow/javascript/process.js:305
-msgid "Documents"
-msgstr "Documentos"
-
-#: openerp/validators/validators.py:154 openerp/validators/validators.py:280
+#: addons/base/validators/validators.py:158
+#: addons/base/validators/validators.py:163
+#: addons/base/validators/validators.py:287
 msgid "Invalid datetime format"
 msgstr "Formato de fecha/hora inválido"
 
-#: openerp/validators/validators.py:199
+#: addons/base/validators/validators.py:206
 msgid "Please select a file."
 msgstr "Por favor seleccione un archivo."
 
-#: openerp/validators/validators.py:265
+#: addons/base/validators/validators.py:272
 msgid "Please enter an email address"
 msgstr "Por favor introduzca un correo electrónico"
 
-#: openerp/validators/validators.py:266
+#: addons/base/validators/validators.py:273
 msgid "An email address must contain a single @"
 msgstr "La dirección de correo debe contener una única @"
 
-#: openerp/validators/validators.py:267
-#, python-format
-msgid ""
-"The username portion of the email address is invalid (the portion before "
-"the @: %(username)s)"
-msgstr ""
-"El nombre de usuario del correo electrónico es inválido (el fragmento "
-"anterior a la @: %(username)s)"
+#: addons/base/validators/validators.py:274
+msgid "The username portion of the email address is invalid (the portion before the @: %(username)s)"
+msgstr "El nombre de usuario del correo electrónico es inválido (el fragmento anterior a la @: %(username)s)"
 
-#: openerp/validators/validators.py:268
-#, python-format
-msgid ""
-"The domain portion of the email address is invalid (the portion after the"
-" @: %(domain)s)"
-msgstr ""
-"El dominio del correo electrónico es inválido (el fragmento posterior a "
-"la @: %(domain)s)"
+#: addons/base/validators/validators.py:275
+msgid "The domain portion of the email address is invalid (the portion after the @: %(domain)s)"
+msgstr "El dominio del correo electrónico es inválido (el fragmento posterior a la @: %(domain)s)"
 
-#: openerp/validators/validators.py:272
+#: addons/base/validators/validators.py:279
 msgid "You must start your URL with http://, https://, etc"
 msgstr "Su URL debe empezar con http://, https://, etc."
 
-#: openerp/validators/validators.py:273
+#: addons/base/validators/validators.py:280
 msgid "That is not a valid URL"
 msgstr "Ésta no es una URL válida"
 
-#: openerp/validators/validators.py:274
-#, python-format
+#: addons/base/validators/validators.py:281
 msgid "You must provide a full domain name (like %(domain)s.com)"
 msgstr "Debe introducir el nombre de dominio completo (como %(domain)s.com)"
 
-#: openerp/validators/validators.py:278
+#: addons/base/validators/validators.py:285
 msgid "Please enter an integer value"
 msgstr "Por favor introduzca un valor numérico entero"
 
-#: openerp/validators/validators.py:279
+#: addons/base/validators/validators.py:286
 msgid "Please enter a number"
 msgstr "Por favor introduzca un número"
 
-#: openerp/widgets/form.py:828 openerp/widgets/listgrid.py:310
-#, python-format
+#: addons/base/widgets/listgrid.py:315
+#: addons/base/widgets/form/_form.py:875
 msgid "Invalid view, duplicate field: %s"
 msgstr "Vista no válida, campo duplicado: %s"
 
-#: openerp/widgets/listgrid.py:522
-msgid "Yes"
-msgstr "Sí"
-
-#: openerp/widgets/listgrid.py:524
-msgid "No"
-msgstr "No"
-
-#: openerp/widgets/many2one.py:49
-msgid "== Access Denied =="
-msgstr "== Acceso denegado =="
-
-#: openerp/widgets/one2many.py:56 openerp/widgets/templates/viewform.mako:35
-#: openerp/widgets/templates/viewform.mako:39
-msgid "Create new record."
-msgstr "Crea un registro nuevo."
-
-#: openerp/widgets/one2many.py:71
-msgid "Save/New"
-msgstr "Guardar/Nuevo"
-
-#: openerp/widgets/one2many.py:71
-msgid "Save parent record."
-msgstr "Guardar registro padre."
-
-#: openerp/widgets/pager.py:66
-#, python-format
+#: addons/base/widgets/pager.py:66
 msgid "[%s/%s]"
 msgstr "[%s/%s]"
 
-#: openerp/widgets/pager.py:77
-#, python-format
+#: addons/base/widgets/pager.py:77
 msgid "[%s - %s of %s]"
 msgstr "[%s - %s de %s]"
 
-#: openerp/widgets/templates/binary.mako:19
-msgid "Change"
-msgstr ""
+#: addons/base/widgets/form/_o2m.py:64
+#: addons/base/widgets/templates/viewform.mako:32
+#: addons/base/widgets/templates/viewform.mako:36
+msgid "Create new record."
+msgstr "Crear nuevo registro"
 
-#: openerp/widgets/templates/email.mako:9 openerp/widgets/templates/url.mako:9
+#: addons/base/widgets/form/_o2m.py:79
+msgid "Save/New"
+msgstr "Guardar/Nuevo"
+
+#: addons/base/widgets/form/_o2m.py:79
+msgid "Save parent record."
+msgstr "Guardar registro padre."
+
+#: addons/base/widgets/form/templates/binary.mako:19
+msgid "Change"
+msgstr "Cambiar límite:"
+
+#: addons/base/widgets/form/templates/email.mako:9
+#: addons/base/widgets/form/templates/url.mako:9
 msgid "Go!"
 msgstr "Ir!"
 
-#: openerp/widgets/templates/listgrid.mako:52
-msgid "Update"
-msgstr "Actualizar"
+#: addons/base/widgets/form/templates/many2one.mako:17
+#: addons/base/widgets/form/templates/reference.mako:32
+msgid "Open"
+msgstr "Abrir"
 
-#: openerp/widgets/templates/listgrid.mako:98
-msgid "Move Up"
-msgstr "Subir"
-
-#: openerp/widgets/templates/listgrid.mako:99
-msgid "Move Down"
-msgstr "Bajar"
-
-#: openerp/widgets/templates/many2one.mako:18
-#: openerp/widgets/templates/reference.mako:33
+#: addons/base/widgets/form/templates/many2one.mako:18
+#: addons/base/widgets/form/templates/reference.mako:33
 msgid "Open a resource"
 msgstr "Abrir un registro"
 
-#: openerp/widgets/templates/one2many.mako:19
+#: addons/base/widgets/form/templates/one2many.mako:19
 msgid "Previous record..."
 msgstr "Registro anterior..."
 
-#: openerp/widgets/templates/one2many.mako:29
+#: addons/base/widgets/form/templates/one2many.mako:29
 msgid "Next record..."
 msgstr "Registro siguiente..."
 
-#: openerp/widgets/templates/one2many.mako:33
+#: addons/base/widgets/form/templates/one2many.mako:33
 msgid "Switch view..."
 msgstr "Cambiar vista..."
 
-#: openerp/widgets/templates/one2many.mako:39
+#: addons/base/widgets/form/templates/one2many.mako:39
 msgid "Translate me."
 msgstr "Tradúceme."
 
-#: openerp/widgets/templates/pager.mako:6
+#: addons/base/widgets/templates/listgrid.mako:52
+msgid "Update"
+msgstr "Actualizar"
+
+#: addons/base/widgets/templates/listgrid.mako:100
+msgid "Move Up"
+msgstr "Subir"
+
+#: addons/base/widgets/templates/listgrid.mako:101
+msgid "Move Down"
+msgstr "Bajar"
+
+#: addons/base/widgets/templates/pager.mako:6
 msgid "<< First"
 msgstr "<< Primero"
 
-#: openerp/widgets/templates/pager.mako:11
+#: addons/base/widgets/templates/pager.mako:11
 msgid "< Previous"
 msgstr "< Ant."
 
-#: openerp/widgets/templates/pager.mako:19
+#: addons/base/widgets/templates/pager.mako:19
 msgid "Next >"
 msgstr "Sig. >"
 
-#: openerp/widgets/templates/pager.mako:24
+#: addons/base/widgets/templates/pager.mako:24
 msgid "Last >>"
 msgstr "Último >>"
 
-#: openerp/widgets/templates/pager.mako:33
+#: addons/base/widgets/templates/pager.mako:33
 msgid "Change Limit:"
 msgstr "Cambiar límite:"
 
-#: openerp/widgets/templates/sidebar.mako:16
-msgid "REPORTS"
-msgstr "INFORMES"
-
-#: openerp/widgets/templates/sidebar.mako:45
-msgid "ACTIONS"
-msgstr "ACCIONES"
-
-#: openerp/widgets/templates/sidebar.mako:75
-msgid "LINKS"
-msgstr "ENLACES"
-
-#: openerp/widgets/templates/sidebar.mako:106
-msgid "ATTACHMENTS"
-msgstr "ADJUNTOS"
-
-#: openerp/widgets/templates/viewform.mako:24
-msgid "Filter records."
-msgstr "Filtrar registros."
-
-#: openerp/widgets/templates/viewform.mako:27
-msgid "Delete selected records."
-msgstr "Eliminar registros seleccionados."
-
-#: openerp/widgets/templates/viewform.mako:31
-msgid "Edit selected records."
-msgstr "Editar registros seleccionados."
-
-#: openerp/widgets/tinycalendar/utils.py:34
-msgid "Monday"
-msgstr "Lunes"
-
-#: openerp/widgets/tinycalendar/utils.py:35
-msgid "Tuesday"
-msgstr "Martes"
-
-#: openerp/widgets/tinycalendar/utils.py:36
-msgid "Wednesday"
-msgstr "Miércoles"
-
-#: openerp/widgets/tinycalendar/utils.py:37
-msgid "Thursday"
-msgstr "Jueves"
-
-#: openerp/widgets/tinycalendar/utils.py:38
-msgid "Friday"
-msgstr "Viernes"
-
-#: openerp/widgets/tinycalendar/utils.py:39
-msgid "Saturday"
-msgstr "Sábado"
-
-#: openerp/widgets/tinycalendar/utils.py:40
-msgid "Sunday"
-msgstr "Domingo"
-
-#: openerp/widgets/tinycalendar/utils.py:43
-msgid "January"
-msgstr "Enero"
-
-#: openerp/widgets/tinycalendar/utils.py:44
-msgid "February"
-msgstr "Febrero"
-
-#: openerp/widgets/tinycalendar/utils.py:45
-msgid "March"
-msgstr "Marzo"
-
-#: openerp/widgets/tinycalendar/utils.py:46
-msgid "April"
-msgstr "Abril"
-
-#: openerp/widgets/tinycalendar/utils.py:47
-msgid "May"
-msgstr "Mayo"
-
-#: openerp/widgets/tinycalendar/utils.py:48
-msgid "June"
-msgstr "Junio"
-
-#: openerp/widgets/tinycalendar/utils.py:49
-msgid "July"
-msgstr "Julio"
-
-#: openerp/widgets/tinycalendar/utils.py:50
-msgid "August"
-msgstr "Agosto"
-
-#: openerp/widgets/tinycalendar/utils.py:51
-msgid "September"
-msgstr "Septiembre"
-
-#: openerp/widgets/tinycalendar/utils.py:52
-msgid "October"
-msgstr "Octubre"
-
-#: openerp/widgets/tinycalendar/utils.py:53
-msgid "November"
-msgstr "Noviembre"
-
-#: openerp/widgets/tinycalendar/utils.py:54
-msgid "December"
-msgstr "Diciembre"
-
-#: openerp/widgets/tinycalendar/widgets.py:263
-#, python-format
-msgid "%s, Week %s"
-msgstr "%s, Semana %s"
-
-#: openerp/widgets/tinycalendar/widgets.py:275
-#, python-format
-msgid "%s - %s"
-msgstr "%s - %s"
-
-#: openerp/widgets/tinycalendar/widgets.py:277
-#: openerp/widgets/tinycalendar/widgets.py:307
-#: openerp/widgets/tinycalendar/widgets.py:351
-#, python-format
-msgid "Week %s"
-msgstr "Semana %s"
-
-#: openerp/widgets/tinycalendar/widgets.py:296
-#, python-format
-msgid "%s, Qtr %s"
-msgstr "%s, Ctr %s"
-
-#: openerp/widgets/tinycalendar/widgets.py:318
-#, python-format
-msgid "W %s"
-msgstr "S %s"
-
-#: openerp/widgets/tinycalendar/widgets.py:326
-#: openerp/widgets/tinycalendar/widgets.py:340
-#, python-format
-msgid "Year %s to Year %s"
-msgstr "Año %s a año %s"
-
-#: openerp/widgets/tinycalendar/templates/day.mako:8
-#: openerp/widgets/tinycalendar/templates/gantt.mako:11
-#: openerp/widgets/tinycalendar/templates/month.mako:8
-#: openerp/widgets/tinycalendar/templates/week.mako:8
-msgid "Today..."
-msgstr "Hoy..."
-
-#: openerp/widgets/tinycalendar/templates/day.mako:8
-#: openerp/widgets/tinycalendar/templates/gantt.mako:12
-#: openerp/widgets/tinycalendar/templates/month.mako:8
-#: openerp/widgets/tinycalendar/templates/week.mako:8
-msgid "Today"
-msgstr "Hoy"
-
-#: openerp/widgets/tinycalendar/templates/day.mako:12
-#: openerp/widgets/tinycalendar/templates/month.mako:12
-#: openerp/widgets/tinycalendar/templates/week.mako:12
-msgid "Day Calendar..."
-msgstr "Calendario diario..."
-
-#: openerp/widgets/tinycalendar/templates/day.mako:12
-#: openerp/widgets/tinycalendar/templates/month.mako:12
-#: openerp/widgets/tinycalendar/templates/week.mako:12
-msgid "Day"
-msgstr "Día"
-
-#: openerp/widgets/tinycalendar/templates/day.mako:13
-#: openerp/widgets/tinycalendar/templates/month.mako:13
-#: openerp/widgets/tinycalendar/templates/week.mako:13
-msgid "Week Calendar..."
-msgstr "Calendario semanal..."
-
-#: openerp/widgets/tinycalendar/templates/day.mako:13
-#: openerp/widgets/tinycalendar/templates/month.mako:13
-#: openerp/widgets/tinycalendar/templates/week.mako:13
-msgid "Week"
-msgstr "Semana"
-
-#: openerp/widgets/tinycalendar/templates/day.mako:14
-#: openerp/widgets/tinycalendar/templates/month.mako:14
-#: openerp/widgets/tinycalendar/templates/week.mako:14
-msgid "Month Calendar..."
-msgstr "Calendario mensual..."
-
-#: openerp/widgets/tinycalendar/templates/day.mako:14
-#: openerp/widgets/tinycalendar/templates/month.mako:14
-#: openerp/widgets/tinycalendar/templates/week.mako:14
-msgid "Month"
-msgstr "Mes"
-
-#: openerp/widgets/tinycalendar/templates/day.mako:34
-#: openerp/widgets/tinycalendar/templates/gantt.mako:95
-#: openerp/widgets/tinycalendar/templates/month.mako:34
-#: openerp/widgets/tinycalendar/templates/week.mako:34
-msgid "Apply search filter"
-msgstr "Aplica filtro de búsqueda"
-
-#: openerp/widgets/tinycalendar/templates/gantt.mako:21
-#: openerp/widgets/tinycalendar/templates/gantt.mako:24
-msgid "Zoom In"
-msgstr "Ampliar"
-
-#: openerp/widgets/tinycalendar/templates/gantt.mako:29
-#: openerp/widgets/tinycalendar/templates/gantt.mako:32
-msgid "Zoom Out"
-msgstr "Reducir"
-
-#: openerp/widgets/wiki/wikimarkup/__init__.py:1981
-msgid "Table of Contents"
-msgstr "Tabla de contenidos"
-
-#: openerp/widgets_search/templates/search.mako:5
+#: addons/base/widgets/templates/search.mako:5
 msgid "Basic Search"
 msgstr "Búsqueda básica"
 
-#: openerp/widgets_search/templates/search.mako:10
+#: addons/base/widgets/templates/search.mako:10
 msgid "Advanced Search"
 msgstr "Búsqueda avanzada"
 
-#~ msgid "You must save this record to use the relate button!"
-#~ msgstr "¡Debe guardar este registro para usar este botón!"
+#: addons/base/widgets/templates/sidebar.mako:48
+msgid "REPORTS"
+msgstr "INFORMES"
 
-#~ msgid "Add an attachment to this resource."
-#~ msgstr "Añade un archivo adjunto a este registro."
+#: addons/base/widgets/templates/sidebar.mako:52
+msgid "ACTIONS"
+msgstr "ACCIONES"
 
-#~ msgid "Forum"
-#~ msgstr "Fórum"
+#: addons/base/widgets/templates/sidebar.mako:56
+msgid "LINKS"
+msgstr "ENLACES"
 
-#~ msgid "Planet"
-#~ msgstr "Planeta"
+#: addons/base/widgets/templates/sidebar.mako:60
+msgid "ATTACHMENTS"
+msgstr "ADJUNTOS"
 
-#~ msgid "Clear"
-#~ msgstr "Limpiar"
+#: addons/base/widgets/templates/viewform.mako:21
+msgid "Filter records."
+msgstr "Filtrar registros."
 
-#~ msgid "Delete current record..."
-#~ msgstr "Elimina registro actual..."
+#: addons/base/widgets/templates/viewform.mako:24
+msgid "Delete selected records."
+msgstr "Eliminar registros seleccionados."
+
+#: addons/base/widgets/templates/viewform.mako:28
+msgid "Edit selected records."
+msgstr "Editar registros seleccionados."
+
+#: addons/base/widgets/tinycalendar/utils.py:34
+msgid "Monday"
+msgstr "Lunes"
+
+#: addons/base/widgets/tinycalendar/utils.py:35
+msgid "Tuesday"
+msgstr "Martes"
+
+#: addons/base/widgets/tinycalendar/utils.py:36
+msgid "Wednesday"
+msgstr "Miércoles"
+
+#: addons/base/widgets/tinycalendar/utils.py:37
+msgid "Thursday"
+msgstr "Jueves"
+
+#: addons/base/widgets/tinycalendar/utils.py:38
+msgid "Friday"
+msgstr "Viernes"
+
+#: addons/base/widgets/tinycalendar/utils.py:39
+msgid "Saturday"
+msgstr "Sábado"
+
+#: addons/base/widgets/tinycalendar/utils.py:40
+msgid "Sunday"
+msgstr "Domingo"
+
+#: addons/base/widgets/tinycalendar/utils.py:43
+msgid "January"
+msgstr "Enero"
+
+#: addons/base/widgets/tinycalendar/utils.py:44
+msgid "February"
+msgstr "Febrero"
+
+#: addons/base/widgets/tinycalendar/utils.py:45
+msgid "March"
+msgstr "Marzo"
+
+#: addons/base/widgets/tinycalendar/utils.py:46
+msgid "April"
+msgstr "Abril"
+
+#: addons/base/widgets/tinycalendar/utils.py:47
+msgid "May"
+msgstr "Mayo"
+
+#: addons/base/widgets/tinycalendar/utils.py:48
+msgid "June"
+msgstr "Junio"
+
+#: addons/base/widgets/tinycalendar/utils.py:49
+msgid "July"
+msgstr "Julio"
+
+#: addons/base/widgets/tinycalendar/utils.py:50
+msgid "August"
+msgstr "Agosto"
+
+#: addons/base/widgets/tinycalendar/utils.py:51
+msgid "September"
+msgstr "Septiembre"
+
+#: addons/base/widgets/tinycalendar/utils.py:52
+msgid "October"
+msgstr "Octubre"
+
+#: addons/base/widgets/tinycalendar/utils.py:53
+msgid "November"
+msgstr "Noviembre"
+
+#: addons/base/widgets/tinycalendar/utils.py:54
+msgid "December"
+msgstr "Diciembre"
+
+#: addons/base/widgets/tinycalendar/widgets.py:263
+msgid "%s, Week %s"
+msgstr "%s, Semana %s"
+
+#: addons/base/widgets/tinycalendar/widgets.py:275
+msgid "%s - %s"
+msgstr "%s - %s"
+
+#: addons/base/widgets/tinycalendar/widgets.py:277
+#: addons/base/widgets/tinycalendar/widgets.py:307
+#: addons/base/widgets/tinycalendar/widgets.py:351
+msgid "Week %s"
+msgstr "Semana %s"
+
+#: addons/base/widgets/tinycalendar/widgets.py:296
+msgid "%s, Qtr %s"
+msgstr "%s, Ctr %s"
+
+#: addons/base/widgets/tinycalendar/widgets.py:318
+msgid "W %s"
+msgstr "S %s"
+
+#: addons/base/widgets/tinycalendar/widgets.py:326
+#: addons/base/widgets/tinycalendar/widgets.py:340
+msgid "Year %s to Year %s"
+msgstr "Año %s a año %s"
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:8
+#: addons/base/widgets/tinycalendar/templates/gantt.mako:11
+#: addons/base/widgets/tinycalendar/templates/month.mako:8
+#: addons/base/widgets/tinycalendar/templates/week.mako:8
+msgid "Today..."
+msgstr "Hoy..."
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:8
+#: addons/base/widgets/tinycalendar/templates/gantt.mako:12
+#: addons/base/widgets/tinycalendar/templates/month.mako:8
+#: addons/base/widgets/tinycalendar/templates/week.mako:8
+msgid "Today"
+msgstr "Hoy"
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:12
+#: addons/base/widgets/tinycalendar/templates/month.mako:12
+#: addons/base/widgets/tinycalendar/templates/week.mako:12
+msgid "Day Calendar..."
+msgstr "Calendario Diario"
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:12
+#: addons/base/widgets/tinycalendar/templates/month.mako:12
+#: addons/base/widgets/tinycalendar/templates/week.mako:12
+msgid "Day"
+msgstr "Día"
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:13
+#: addons/base/widgets/tinycalendar/templates/month.mako:13
+#: addons/base/widgets/tinycalendar/templates/week.mako:13
+msgid "Week Calendar..."
+msgstr "Calendario Semanal..."
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:13
+#: addons/base/widgets/tinycalendar/templates/month.mako:13
+#: addons/base/widgets/tinycalendar/templates/week.mako:13
+msgid "Week"
+msgstr "Semana"
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:14
+#: addons/base/widgets/tinycalendar/templates/month.mako:14
+#: addons/base/widgets/tinycalendar/templates/week.mako:14
+msgid "Month Calendar..."
+msgstr "Calendario Mensual..."
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:14
+#: addons/base/widgets/tinycalendar/templates/month.mako:14
+#: addons/base/widgets/tinycalendar/templates/week.mako:14
+msgid "Month"
+msgstr "Mes"
+
+#: addons/base/widgets/tinycalendar/templates/day.mako:34
+#: addons/base/widgets/tinycalendar/templates/gantt.mako:95
+#: addons/base/widgets/tinycalendar/templates/month.mako:34
+#: addons/base/widgets/tinycalendar/templates/week.mako:34
+msgid "Apply search filter"
+msgstr "Aplica filtro de búsqueda"
+
+#: addons/base/widgets/tinycalendar/templates/gantt.mako:21
+#: addons/base/widgets/tinycalendar/templates/gantt.mako:24
+msgid "Zoom In"
+msgstr "Ampliar"
+
+#: addons/base/widgets/tinycalendar/templates/gantt.mako:29
+#: addons/base/widgets/tinycalendar/templates/gantt.mako:32
+msgid "Zoom Out"
+msgstr "Reducir"
+
+#: tools/common.py:45
+#: tools/common.py:72
+msgid "Error"
+msgstr "Error"
+
+#: tools/common.py:50
+#: tools/common.py:75
+msgid "Warning"
+msgstr "Aviso"
+
+#: tools/rpc.py:132
+msgid "Connection refused!"
+msgstr "¡Conexión rechazada!"
+
+#: tools/rpc.py:246
+msgid "Unsupported protocol."
+msgstr ""
+
+#: tools/rpc.py:342
+msgid ""
+"You select a timezone but OpenERP could not find pytz library!\n"
+"The timezone functionality will be disable."
+msgstr ""
+"¡Ha seleccionado una zona horaria pero OpenERP no ha podido encontrar la librería pytz!\n"
+"La funcionalidad de zona horaria será deshabilitada."
+
+#: tools/rpc.py:349
+msgid "Not logged..."
+msgstr "No autenticado..."
+
+#: tools/rpc.py:349
+msgid "Authorization Error!"
+msgstr "¡Error de autorización!"
+
+#: tools/rpc.py:414
+msgid "== Access Denied =="
+msgstr "== Acceso denegado =="
 
