@@ -186,18 +186,18 @@ class BabelCommand(BaseCommand):
         
         if domain == "javascript":
             
-            jspath = os.path.dirname(path)
-            jspath = os.path.join(jspath, "static", "javascript", "i18n")
-            if not os.path.exists(jspath):
-                os.makedirs(jspath)
-            jspath = os.path.join(jspath, "%s.js" % locale)
-                        
             try:
                 tr = Translations.load(path, [locale], domain)
                 messages = tr._catalog
                 messages.pop("")
             except Exception, e:
                 return
+            
+            jspath = os.path.dirname(path)
+            jspath = os.path.join(jspath, "static", "javascript", "i18n")
+            if not os.path.exists(jspath):
+                os.makedirs(jspath)
+            jspath = os.path.join(jspath, "%s.js" % locale)
             
             import simplejson
             messages = simplejson.dumps(messages)
