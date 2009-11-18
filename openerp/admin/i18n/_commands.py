@@ -34,7 +34,7 @@ import time
 from babel.messages.frontend import CommandLineInterface
 from babel.support import Translations
 
-from openerp.commands import BaseCommand
+from openerp.admin import BaseCommand
 
 
 def _get_modules(modules):
