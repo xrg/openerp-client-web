@@ -10,8 +10,8 @@ from _resource import JSLink
 class JSI18n(JSLink):
     
     template = """\
-    % for tr in translations:
-        <script type="text/javascript" src="${tr}"></script>
+    % for m, tr in translations:
+        ${cp.static.js(m, tr)}
     % endfor
     """
     
@@ -28,9 +28,7 @@ class JSI18n(JSLink):
         for tr in trans:
             pr, tr = tr.split("/static/")
             pr = pr.split("/")[-1]
-            tr = "/cp_widgets/%s/%s" % (pr, tr)
-            
-            translations.append(tools.url(tr))
+            translations.append((pr, tr))
             
         d.translations = translations
         
