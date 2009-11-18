@@ -132,11 +132,13 @@ class BabelCommand(BaseCommand):
             
         modpath = os.path.dirname(path)
         mappath = os.path.join(os.path.dirname(__file__), "mapping", "%s.cfg" % domain)
+    
+        os.chdir(modpath)
         
         _make_backup(pot)
         
         print "Creating '%s'" % pot
-        self.execute("extract", modpath, o=pot, F=mappath)
+        self.execute("extract", '.', o=pot, F=mappath)
     
     def update(self, locale, domain, path):
         
@@ -174,14 +176,9 @@ class BabelCommand(BaseCommand):
         
     def clean(self, locale, domain, path):
         
-        if not locale:
-            _locales = _get_locales(path, locale)
-            for l in _locales:
-                self.clean(l, domain, path)
-            return
-        
-        def walk(p, d, files):            
+        def walk(p, d, files):
             for f in files:
+                
                 if f.endswith(".bak"):
                     f = os.path.join(d, f)
                     os.remove(f)
