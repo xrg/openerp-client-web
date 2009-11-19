@@ -1,6 +1,6 @@
 <div class="graph-block" style="text-align: center; padding: 10px; min-width: $width">
 
-    <div id="${name}"></div>
+    <div id="${name}_"></div>
     
     <script type="text/javascript">
         var get_chart_${name} = function(name){
