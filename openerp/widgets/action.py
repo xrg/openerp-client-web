@@ -52,7 +52,7 @@ class Action(TinyInputWidget):
         super(Action, self).__init__(**attrs)
         self.nolabel = True
 
-        self.act_id=attrs['name']
+        self.act_id= self.name
         res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [self.act_id], ['type'], rpc.session.context)
         if not res:
             raise _('Action not found!')

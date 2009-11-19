@@ -879,8 +879,7 @@ class GroupsProperty(tw.SelectField):
 class ActionProperty(tw.many2one.M2O):
 
     def __init__(self, name, default=None):
-        attrs = dict(name=name, relation='ir.actions.actions')
-        super(ActionProperty, self).__init__(attrs)
+        super(ActionProperty, self).__init__(name=name, relation='ir.actions.actions')
         self.set_value(default or False)
 
 class IconProperty(tw.SelectField):
