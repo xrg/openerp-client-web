@@ -548,7 +548,6 @@ MochiKit.Base.update(ListView.prototype, {
                     var items = getElementsByAttribute(['name', '_terp_concurrency_info'], ['value', '*=' + key]);
                     var value = "('" + key + "', '" + obj.info[key] + "')";
                     for(var i=0; i<items.length;i++) {
-                        log(key, value);
                         items[i].value = value;
                     }
                 }catch(e){}

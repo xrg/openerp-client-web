@@ -109,7 +109,6 @@ function initialize_dashboard() {
     MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function(evt) {
             var embeds = getElementsByTagAndClassName('embed');
             MochiKit.Iter.forEach(embeds, function(e){
-                log(e);
                 MochiKit.DOM.hideElement(e);
             });
     });
