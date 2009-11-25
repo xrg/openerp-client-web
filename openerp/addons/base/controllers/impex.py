@@ -410,7 +410,7 @@ class ImpEx(SecuredController):
                 views[view] = params.view_ids[i]
 
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
-        tree = tw.treegrid.TreeGrid('import_fields',
+        tree = treegrid.TreeGrid('import_fields',
                                     model=params.model,
                                     headers=headers,
                                     url=tools.url('/impex/get_fields'),
