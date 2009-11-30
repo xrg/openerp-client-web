@@ -261,7 +261,7 @@ MochiKit.Base.update(openerp.process.Node.prototype, {
         var bbar = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-buttons', elem)[0];        
         var menu = MochiKit.DOM.getElementsByTagAndClassName('td', 'node-menu', elem)[0];
 
-        title.innerHTML = title.title = this.data.name || '';
+        title.innerHTML = this.data.name || '';
         text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow && this.data.subflow.length) {
@@ -386,7 +386,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
         this.setTargetDecorator(new openerp.process.TargetDecorator(color));
         this.setColor(color);
-        this.setLineWidth(2);
+        this.setLineWidth(3);
         this.setSelectable(false);
 
         this.data = data;
@@ -395,7 +395,8 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
         var elem = this.getHTMLElement();
         elem.style.cursor = 'pointer';
-        elem.title = this._makeTipText();
+//        elem.title = this._makeTipText();
+        MochiKit.Signal.connect(elem, 'ondblclick', this, this._makeTipText);
 
         if (data.active && data.buttons && data.buttons.length) {
 
@@ -427,6 +428,7 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
 
     _makeTipText: function() {
 
+		var params = {};
         var data = this.data;
         var title = data.name + '::' + (data.notes || '');
 
@@ -452,8 +454,9 @@ MochiKit.Base.update(openerp.process.Transition.prototype, {
         if (buttons.length) {
             title += '<span>Actions:</span>' + _mkList(buttons);
         }
-
-        return title;
+        
+        params['title_tip'] = MochiKit.DOM.emitHTML(title);
+        openWindow(getURL("/process/open_tip", params), {width: 450, height: 250});
     },
 
     onClick: function(evt) {

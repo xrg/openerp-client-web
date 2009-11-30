@@ -154,5 +154,10 @@ class Process(SecuredController):
     def print_workflow(self, id, model):
         return actions.execute_report("workflow.instance.graph", ids=[], id=int(id), model=model, nested=False)
 
+    @expose(template="templates/process_tip.mako")
+    def open_tip(self, **kw):
+        title_tip = kw.get('title_tip')
+        return dict(id=None, res_model=None, res_id=None, title=None, selection=None, title_tip=title_tip)
+
 # vim: ts=4 sts=4 sw=4 si et
 
