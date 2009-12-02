@@ -884,9 +884,11 @@ function do_action(action_id, field, relation, src) {
         }
 
         params['_terp_selection'] = '[' + ids.join(',') + ']';
+        var id = eval(params['_terp_selection'])[0]
     }
-
-    var id = $(field).value;
+	else{
+    	var id = $(field).value;}
+    	
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
     
