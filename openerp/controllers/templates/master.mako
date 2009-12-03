@@ -83,7 +83,7 @@ except:
                                 <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
                                     <div style="width: 26px;"/>
                                 </td>
-                                <td class="menu_connection_welcome" nowrap="norwap">
+                                <td class="menu_connection_welcome" nowrap="nowrap">
                                     ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
                                 </td>
                                 <td class="menu_connection_links" nowrap="norwap">
