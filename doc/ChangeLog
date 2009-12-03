@@ -1,3 +1,99 @@
+2009-12-03: 5.0.7
+=================
+
+Bugfixes
+--------
+
+ * Not linked to a bug report:
+   * Removed print statement from JS file.
+   * Fixed at customise view add new action from dashboad.
+   * Fixed sidebar Links display at list view.
+   * context problem at Links(oocrm).
+   * Fixed stack graph for onclick.
+   * reverting back changes made to restict edit/select records
+   * O2M popup (empty form after save).
+   * reverting back rev 2737 & 2738 (invalid fix)
+   * Fixed existing `EXPORT NAME` for id.
+   * Fixed Button Next on form view.
+   * tabber.js license included.
+   * feedparser license included.
+   * wikimarkup license included.
+   * draw2d licenses includes.
+   * OpenFlashChart License included.
+   * Fixed label problem, when passed name in action.
+   * nested notebook.
+   * included README, LGPL (JSCal 1.0 license)
+   * button with context.
+   * Fixed graph onclick event on stack.
+   * Fixed act_window with view_mode=tree will not show form view.
+   * Improve graph for selection box value.
+   * nested o2m in o2m popup.
+   * Improved link='1' for M2O.
+   * Fixed readonly problem for button widget.
+   * Buttons are not clickable when readonly='1'.
+   * sidebar wizard without wizard id
+   * actions.server can return a list of actions to execute...
+ * https://launchpad.net/bugs/484658
+   * Fixed id not found in sidebar when HTTP.
+ * https://launchpad.net/bugs/478504
+   * Fixed context problem in search.
+ * https://launchpad.net/bugs/435325
+   * fix the problme for the linking pages from any model to wiki.pages
+ * https://launchpad.net/bugs/461219
+   * Fixed excel report column, encoded data problem.
+ * https://launchpad.net/bugs/482079
+   * Update links at about page.
+ * https://launchpad.net/bugs/491718
+   * Typo in nowrap attribute.
+ * https://launchpad.net/bugs/489183
+   * Fixed active_id problem when click on Links.
+ * https://launchpad.net/bugs/485073
+   * Fixed graph problem for IE.
+ * https://launchpad.net/bugs/431238
+   * Fixed import 'ID' Problem
+ * https://launchpad.net/bugs/401847
+   * Graph view not clickable for custom report. (base_report_creator)
+ * https://launchpad.net/bugs/442242
+   * validation problem (search popup).
+ * https://launchpad.net/bugs/444397
+   * nested o2m
+   * unable to save o2m record if widget is in form mode
+   * nested O2M.
+ * https://launchpad.net/bugs/463214
+ * https://launchpad.net/bugs/439438
+   * validation of editable listgrid.
+ * https://launchpad.net/bugs/481655
+   * Fixed hyperlinks on fields.reference fields.
+ * https://launchpad.net/bugs/462443
+   * Button Next when create new record.
+ * https://launchpad.net/bugs/461680
+   * Fixed listgrid.
+ * https://launchpad.net/bugs/439596
+   * editable listgrid (mistakenly passing id of first record other then current).
+ * https://launchpad.net/bugs/470269
+   * Click on wizard button on form view.
+ * https://launchpad.net/bugs/416861
+   * Fixed Graph widget.
+ * https://launchpad.net/bugs/449371
+   * Passed updated context for custom report search.
+ * https://launchpad.net/bugs/429470
+   * Default field values for one2many.
+ * https://launchpad.net/bugs/435299
+   * Make picking wizard, one2many field in wizard doesn't work.
+ * https://launchpad.net/bugs/478627
+   * Fixed context problem at import/export(base_report_creator).
+   * Lost context in import/export (base_report_creator).
+
+
+Improvements
+------------
+
+ * handle the case of the server can't give the database list
+ * Improved process view [dblclick on transition for tip].
+ * support for context attribute for button.
+ * Improve graph for stack [manufacturing/production dashboard].
+
+
 5.0.6 (2009-09-22)
 
 	* Re-release as 5.0.6 due to packaging issue
