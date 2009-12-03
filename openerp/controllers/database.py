@@ -151,10 +151,6 @@ class Database(object):
 
         ok = False
         try:
-            dblist = rpc.session.listdb()
-            if dbname in dblist:
-                raise Exception('DbExist')
-
             res = rpc.session.execute_db('create', password, dbname, demo_data, language, admin_password)
             while True:
                 try:
