@@ -153,6 +153,9 @@ class Search(Form):
             for key, val in context.items():
                 if val==None:
                     context[key] = False
+        
+        if isinstance(context, dict):
+            context = tools.expr_eval(context, ctx)
                     
         ctx2 = parent_context
         context.update(ctx2)
