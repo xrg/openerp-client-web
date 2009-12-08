@@ -267,7 +267,7 @@ var search_filter = function(src) {
 		record = serializeJSON(record);
 		params['record'] = record;
 		
-		var search_req = Ajax.JSON.post('/search/get', params);
+		var search_req = openobject.http.postJSON('/search/get', params);
 
 		var custom_domain = [];
 		search_req.addCallback(function(obj){
@@ -368,7 +368,7 @@ var search_filter = function(src) {
 var final_search_domain = function(custom_domain, all_domain) {
 	
 	var lst = new ListView('_terp_list');
-	var req = Ajax.JSON.post('/search/eval_domain_filter', {source: '_terp_list',
+	var req = openobject.http.postJSON('/search/eval_domain_filter', {source: '_terp_list',
 															model: $('_terp_model').value, 
 															custom_domain: custom_domain,
 															all_domains: all_domains});

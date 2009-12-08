@@ -43,21 +43,21 @@ from openerp.tools import icons
 
 from base.widgets import TinyInputWidget
 
-from base.widgets import Char
-from base.widgets import Form
-from base.widgets import Frame
-from base.widgets import Button
-from base.widgets import Float
-from base.widgets import Frame
-from base.widgets import DateTime
-from base.widgets import Integer
-from base.widgets import Selection
-from base.widgets import Notebook
-from base.widgets import Separator
-from base.widgets import Group
-from base.widgets import NewLine
+from base.widgets.form import Char
+from base.widgets.form import Form
+from base.widgets.form import Frame
+from base.widgets.form import Button
+from base.widgets.form import Float
+from base.widgets.form import Frame
+from base.widgets.form import DateTime
+from base.widgets.form import Integer
+from base.widgets.form import Selection
+from base.widgets.form import Notebook
+from base.widgets.form import Separator
+from base.widgets.form import Group
+from base.widgets.form import NewLine
 
-from base.widgets import JSLink, JSSource, CSSLink
+from base.widgets import JSLink, locations
 
 class RangeWidget(TinyInputWidget):
     template = "templates/rangewid.mako"
@@ -125,7 +125,7 @@ class Filter(TinyInputWidget):
 
 class Search(TinyInputWidget):
     template = "templates/search.mako"
-    javascript = [JSLink("openerp", "javascript/search.js")]
+    javascript = [JSLink("base", "javascript/search.js", location=locations.bodytop)]
     
     params = ['fields_type', 'filters_list', 'middle_string', 'fields_list']
     member_widgets = ['frame']

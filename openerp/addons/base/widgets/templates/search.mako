@@ -24,7 +24,7 @@
 	    	<td class="and_or" id="and_or"></td>
 	    	
 	    	<td id="image_col">
-	    		<img id="img_remove" width="18" height="18" src="/static/images/stock-disabled/gtk-remove.png" onclick="remove_row(this)" style="cursor: pointer;"/>
+	    		<img id="img_remove" width="18" height="18" src="${cp.static('base', 'images/stock-disabled/gtk-remove.png')}" onclick="remove_row(this)" style="cursor: pointer;"/>
 	    	</td>
 	    </tr>
 	</table>
@@ -39,7 +39,7 @@
 	            </select>
 	    	</td>
 	    	<td>
-	    		<img width="18" height="18" src="/static/images/stock-disabled/gtk-add.png" onclick="add_filter_row();" style="cursor: pointer;"/>
+	    		<img width="18" height="18" src="${cp.static('base', 'images/stock-disabled/gtk-add.png')}" onclick="add_filter_row();" style="cursor: pointer;"/>
 	    	</td>
 	    </tr>
 	</table>
