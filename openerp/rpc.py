@@ -121,13 +121,10 @@ class RPCGateway(object):
 
     def __execute(self, obj, method, args=(), auth=True):
         try:
-            
-            #print "TERP-CALLING:", obj, method, args
             result = self.__rpc__(obj, method, args, auth=auth)
-            #print "TERP-RESULT:", result
             return self.__convert(result)
 
-        except socket.error, (e1, e2):
+        except socket.error:
             raise common.message(_('Connection refused!'))
 
         except RPCException, err:
