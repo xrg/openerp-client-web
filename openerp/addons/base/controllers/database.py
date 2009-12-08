@@ -42,6 +42,8 @@ from openerp.tools import redirect
 from base.controllers import validate
 from base.controllers import error_handler
 
+from base.controllers import BaseController
+
 from base import widgets
 from base import validators
 
@@ -135,7 +137,7 @@ _FORMS = {
     'password': FormPassword()
 }
 
-class Database(object):
+class Database(BaseController):
     
     _cp_path = "/database"
 
