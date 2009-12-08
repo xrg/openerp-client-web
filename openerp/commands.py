@@ -1,30 +1,13 @@
-# -*- coding: UTF-8 -*-
-"""This module contains functions called from console script entry points."""
-
 import os
 import sys
-import optparse
-
-from os.path import join, dirname, exists
+from optparse import OptionParser
 
 import cherrypy
 from cherrypy._cpconfig import as_dict
-from formencode import NestedVariables
 
 from openerp import release
-
-
-__all__ = ['start']
-
-
-def nestedvars_tool():
-    if hasattr(cherrypy.request, 'params'):
-        cherrypy.request.params = NestedVariables.to_python(cherrypy.request.params or {})
-
-cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
-cherrypy.lowercase_api = True
-
-
+      
+           
 class CPSessionWrapper(object):
 
     def __setattr__(self, name, value):
@@ -52,16 +35,16 @@ class ConfigurationError(Exception):
 
 
 def get_config_file():
-    setupdir = dirname(dirname(__file__))
-    configfile = join(setupdir, "config", "openerp-web.cfg")
-    if exists(configfile):
+    setupdir = os.path.dirname(os.path.dirname(__file__))
+    configfile = os.path.join(setupdir, "config", "openerp-web.cfg")
+    if os.path.exists(configfile):
         return configfile
     return None
-
+            
 
 def setup_server(configfile):
 
-    if not exists(configfile):
+    if not os.path.exists(configfile):
         raise ConfigurationError(_("Could not find configuration file: %s") % configfile)
 
 
@@ -97,42 +80,32 @@ def setup_server(configfile):
     }})
 
     # import profiler while makes profile decorator available as __builtins__
-    from openerp import profiler
-    from openerp.controllers.root import Root
-
-    root = Root()
+    from openerp.tools import profiler
+    from openerp.addons import load_addons
+    
+    load_addons(app_config)
+    
+    from base.controllers import mount_tree
     mount = cherrypy.config.get('server.webpath', '/')
-
-    app = cherrypy.tree.mount(root, mount, app_config)
-
-    import pkg_resources
-    from openerp.widgets import register_resource_directory
-
-    static = pkg_resources.resource_filename("openerp", "static")
-    register_resource_directory(app, "openerp", static)
+    app = mount_tree(mount, app_config)
 
     # initialize the rpc session
     host = app.config['openerp'].get('host')
     port = app.config['openerp'].get('port')
     protocol = app.config['openerp'].get('protocol')
 
-    from openerp import rpc
+    from openerp.tools import rpc
     rpc.initialize(host, port, protocol, storage=CPSessionWrapper())
-
-
+    
+   
 def start():
-    """Start the CherryPy application server."""
-
-    parser = optparse.OptionParser(version=release.version)
-    parser.add_option("-c", "--config", dest="config", help="specify alternate config file", default=get_config_file())
-    (opt, args) = parser.parse_args()
-
-    setup_server(opt.config)
-
+    
+    parser = OptionParser(version="%s" % (release.version))
+    parser.add_option("-c", "--config", metavar="FILE", dest="config", help="configuration file", default=get_config_file())
+    options, args = parser.parse_args(sys.argv)
+    
+    setup_server(options.config)
+    
     cherrypy.engine.start()
     cherrypy.engine.block()
-
-
-
-# vim: ts=4 sts=4 sw=4 si et
 

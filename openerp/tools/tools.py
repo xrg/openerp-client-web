@@ -29,9 +29,22 @@
 
 import os
 import time
+import tempfile
 import datetime as DT
 
-from openerp import rpc
+import cherrypy
+from formencode import NestedVariables
+
+from openerp.tools import rpc
+
+
+def nestedvars_tool():
+    if hasattr(cherrypy.request, 'params'):
+        cherrypy.request.params = NestedVariables.to_python(cherrypy.request.params or {})
+
+cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
+cherrypy.lowercase_api = True
+
 
 def expr_eval(string, context={}):
     context['uid'] = rpc.session.uid
@@ -124,6 +137,25 @@ def context_with_concurrency_info(context, concurrency_info):
         concurrency_info = [concurrency_info]
     ctx['__last_update'] = dict(concurrency_info)
     return ctx
+
+
+class TempFileName(str):
+    '''A string representing a temporary file name that will be deleted when object is deleted'''
+    def __new__(cls, suffix="", prefix=tempfile.template, dir=None, text=False):
+        fd, fn = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dir, text=text)
+        os.close(fd)
+        return str.__new__(cls, fn)
+
+    def __del__(self):
+        import os   # ensure os module exists
+        if os.path.exists(str(self)):
+            os.unlink(str(self))
+
+    def __copy__(self):
+        return self
+    
+    def __deepcopy__(self, visit):
+        return self
 
 
 # vim: ts=4 sts=4 sw=4 si et

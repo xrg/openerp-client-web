@@ -38,7 +38,7 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp.tools import utils
 
 
@@ -219,15 +219,15 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                     
                 if _template:
                     
-                    from openerp.widgets import Widget, OrderedSet
-                    from openerp.widgets import js_i18n
+                    from base.widgets import Widget, OrderedSet
+                    from base.widgets import js_i18n
                     
                     res['widget_css'] = css = OrderedSet()
                     res['widget_javascript'] = js = {}
                     
                     jset = js.setdefault('head', OrderedSet())
-                    jset.add_all(js_i18n.retrieve_javascript())
-                                        
+                    jset.add_all([js_i18n])
+                    
                     for value in res.itervalues():
                         
                         if isinstance(value, Widget):

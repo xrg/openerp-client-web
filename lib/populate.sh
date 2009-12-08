@@ -13,6 +13,7 @@ install "simplejson>=2.0.9" "-d simplejson"
 install "formencode>=1.2.2" "-d formencode"
 install "pyparsing>=1.5.2" "-f pyparsing.py"
 install "pytz>=2009j" "-d pytz"
+install "xlwt>=0.7" "-d xlwt"
 
 for egg in *.egg
 do

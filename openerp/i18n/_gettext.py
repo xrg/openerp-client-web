@@ -2,49 +2,65 @@ import os
 import sys
 import string
 
-from gettext import translation
-
-#TODO: use Babel
-
 import cherrypy
+
+from babel.support import Translations
 
 from openerp.i18n.utils import get_locale
 
 
-__all__ = ['get_locale_dir', 'is_locale_supported', 'get_catalog', 'gettext', 'install']
+__all__ = ['get_translations', 'load_translations', 'gettext', 'install']
 
 
-_locale_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "locales"))
+_translations = {}
 
-def get_locale_dir():
-    return _locale_dir
 
-_supported = {}
-def is_locale_supported(locale, domain=None):
-    try:
-        return _supported[str(locale)]
-    except:
-        pass
-    domain = domain or "messages"
-    localedir = get_locale_dir()
-    _supported[str(locale)] = res = localedir and os.path.exists(os.path.join(
-        localedir, locale, "LC_MESSAGES", "%s.mo" % domain))
-    return res
-
-_catalogs = {}
-
-def get_catalog(locale, domain=None):
+def get_translations(locale, domain=None):
         
     domain = domain or "messages"
     
-    catalog = _catalogs.setdefault(domain, {})
-    messages = catalog.get(locale)
-    if not messages:
-        localedir = get_locale_dir()
-        messages = catalog[locale] = translation(domain=domain,
-            localedir=localedir, languages=[locale])
-    return messages
+    cats = _translations.setdefault(domain, {})
+    cat = cats.get(locale)
+    
+    if not cat:
+        path = os.path.join(os.path.dirname(__file__), "locales")
+        load_translations(path, [locale])
+        cat = cats.get(locale)
+        
+    return cat
 
+
+def load_translations(path, locales=None, domain=None):
+    
+    domain = domain or "messages"
+    catalog = _translations.setdefault(domain, {})
+    
+    if not locales:
+        locales = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+        
+    if domain == "javascript":
+        jspath = os.path.join(os.path.dirname(path), "static", "javascript", "i18n")
+        
+    for lang in locales:
+        
+        tr = Translations.load(path, [lang], domain)
+        
+        if domain == "messages":
+            tr1 = catalog.setdefault(lang, None)
+            if not tr1:
+                catalog[lang] = tr
+            else:
+                try:
+                    tr1.merge(tr)
+                except:
+                    pass
+        
+        if domain == "javascript":            
+            fname = os.path.join(jspath, "%s.js" % lang)
+            if os.path.exists(fname):
+                _all = catalog.setdefault(lang, [])
+                _all.append(fname)
+    
 
 def _gettext(key, locale=None, domain=None):
     """Get the gettext value for key.
@@ -58,12 +74,10 @@ def _gettext(key, locale=None, domain=None):
     """
     if locale is None:
         locale = get_locale()
-    if not is_locale_supported(locale):
-        locale = locale[:2]
     if key == '':
         return '' # special case
     try:
-        return get_catalog(locale, domain).ugettext(key)
+        return get_translations(locale, domain).ugettext(key)
     except KeyError:
         return key
     except IOError:

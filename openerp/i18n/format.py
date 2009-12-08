@@ -35,7 +35,7 @@ from babel import dates
 from babel import numbers
 from babel.support import Format
 
-from openerp import rpc
+from openerp.tools import rpc
 from openerp.i18n.utils import get_locale
 
 __all__ = ['get_datetime_format', 'format_datetime', 'parse_datetime', 'format_decimal', 'parse_decimal']
