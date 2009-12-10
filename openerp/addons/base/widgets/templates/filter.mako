@@ -1,3 +1,5 @@
+<input type="hidden" id="search_view_id" value="${search_view_id}"/>
+<input type="hidden" id="search_view" value="${search_view}"/>
 <table>
 	<tr>
 		<td class=label>

@@ -32,6 +32,7 @@ This module implementes widget parser for form view, and
 several widget components.
 """
 import xml.dom.minidom
+import copy
 
 import cherrypy
 import random
@@ -104,7 +105,7 @@ class RangeWidget(TinyInputWidget):
 class Filter(TinyInputWidget):
     template = "templates/filter.mako"
     
-    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val']
+    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'search_view_id', 'search_view']
     
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
@@ -112,6 +113,8 @@ class Filter(TinyInputWidget):
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain')
         self.help = attrs.get('help')
+        self.search_view_id = attrs.get('search_view_id')
+        self.search_view = attrs.get('search_view')
         
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
         
@@ -132,23 +135,26 @@ class Search(TinyInputWidget):
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=[], context={}, values={}):
+    def __init__(self, model, domain=[], context={}, values={}, search_view_id=None, search_view=None):
         
         super(Search, self).__init__(model=model)
 
         self.domain = domain or []
         self.context = context or {}
         self.model = model
-        self.search_view_id = True
 
         ctx = rpc.session.context.copy()
         ctx.update(self.context)
-        view = cache.fields_view_get(self.model, False, 'search', ctx, True)
         
-        if not view:
-            view = cache.fields_view_get(self.model, False, 'form', ctx, True)
-            self.search_view_id = False
+        proxy = rpc.RPCProxy(self.model)
+        view = None
+        view_arch = {}
         
+        if search_view_id:
+            view = proxy.fields_view_get(search_view_id, 'form', ctx)
+        else:
+            view = search_view
+            
         proxy = rpc.RPCProxy(self.model)
         view_fields = proxy.fields_get(False, ctx)
         
@@ -209,7 +215,8 @@ class Search(TinyInputWidget):
                 views += [Frame(children=n, **attrs)]
 
             elif node.localName in ('notebook', 'page'):
-                self.parse(model=search_model, root=node, fields=fields, values=values)
+                n = self.parse(model=search_model, root=node, fields=fields, values=values)
+                views += [Frame(children=n, **attrs)]
 
             elif node.localName == 'search':
                 n = self.parse(model=search_model, root=node, fields=fields, values=values)
@@ -243,7 +250,7 @@ class Search(TinyInputWidget):
                     continue
                 
                 # If search view available then select=1 wont consider. All fields will display from search view.
-                if not self.search_view_id and not ('select' in attrs or 'select' in fields[name]):
+                if not ('select' in attrs or 'select' in fields[name]):
                     continue
               
                 if attrs.get('widget', False):

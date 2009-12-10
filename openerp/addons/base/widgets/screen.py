@@ -61,13 +61,17 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
+        <input type="hidden" id="${name}_terp_search_view_id" name="${name}_terp_search_view_id" value="${search_view_id}"/>
+        <input type="hidden" id="${name}_terp_search_view" name="${name}_terp_search_view" value="${search_view}"/>
         
         % if widget:
             ${display_member(widget)}
         % endif
     """
 
-    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 'context', 'limit', 'offset', 'count']
+    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 
+              'context', 'limit', 'offset', 'count', 'search_view_id', 'search_view']
+    
     member_widgets = ['widget']
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1):
@@ -86,6 +90,8 @@ class Screen(TinyInputWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
+        self.search_view_id= params.search_view_id
+        self.search_view   = params.search_view
 
         self.is_wizard = params.is_wizard
 

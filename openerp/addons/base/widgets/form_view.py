@@ -51,7 +51,7 @@ class ViewForm(Form):
                   JSLink("base", "javascript/binary.js", location=locations.bodytop)]
 
     def __init__(self, params, **kw):
-
+        
         super(ViewForm, self).__init__(**kw)
 
         # save reference of params dictionary in requeste
@@ -76,9 +76,9 @@ class ViewForm(Form):
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 
         self.search = None
-
+        
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(model=params.model, domain=params.domain,
+            self.search = Search(search_view_id=params.search_view_id, search_view=params.search_view, model=params.model, domain=params.domain,
                                  context=params.context, values=params.search_data or {})
 
         if params.view_type == 'tree':
