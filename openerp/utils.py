@@ -249,7 +249,7 @@ class TinyForm(object):
                             id = r.pop('id')
                             value += [(1, id, r)]
                     else:
-                        value = [(0, 0, [])]
+                        value = []
                 except:
                     pass
 
