@@ -68,7 +68,7 @@ except:
     % if context.get('show_header_footer', self.attr.show_header_footer):
     <tr>
            <td>
-            <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
+            <table id="header_" class="header" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td rowspan="2">
                         ${cp.root.get_logo()|n}
