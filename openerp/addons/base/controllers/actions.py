@@ -49,7 +49,7 @@ from selection import Selection
 
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
-                   mode='form,tree', name=None, target=None, limit=None, search_view_id=None, search_view=None):
+                   mode='form,tree', name=None, target=None, limit=None):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -71,8 +71,6 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
-    params.search_view_id = search_view_id
-    params.search_view = search_view
     
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
@@ -201,18 +199,11 @@ def execute(action, **data):
         return close_popup()
 
     elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
-        for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit', 'search_view_id', 'search_view'):
+        for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
             data[key] = action.get(key, data.get(key, None))
             
         if not data.get('limit'):
             data['limit'] = 80
-        
-        if not data.get('search_view_id'):
-            search_view_id = None
-        else:
-            search_view_id = data.get('search_view_id')[0]
-        
-        search_view = data.get('search_view')
         
         view_ids=False
         if action.get('views', []):
@@ -251,9 +242,7 @@ def execute(action, **data):
                              ctx, data['view_mode'],
                              name=action.get('name'),
                              target=action.get('target'),
-                             limit=data.get('limit'),
-                             search_view_id=search_view_id,
-                             search_view=search_view)
+                             limit=data.get('limit'))
         
         return res
 

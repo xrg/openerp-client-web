@@ -78,8 +78,7 @@ class ViewForm(Form):
         self.search = None
         
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(search_view_id=params.search_view_id, search_view=params.search_view, model=params.model, domain=params.domain,
-                                 context=params.context, values=params.search_data or {})
+            self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
 
         if params.view_type == 'tree':
             self.screen.id = False
