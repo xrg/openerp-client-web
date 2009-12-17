@@ -893,11 +893,12 @@ class Form(TinyInputWidget):
                 views += [Dashbar(children=n, **attrs)]
 
             elif node.localName=='action':
-                views += [Action(**attrs)]
+                wid = get_widget('action')(**attrs)
+                views += [wid]
                 cherrypy.request._terp_dashboard = True
 
         return views
-
+    
     def _make_field_widget(self, attrs, value=False):
 
         attrs['editable'] = self.editable
