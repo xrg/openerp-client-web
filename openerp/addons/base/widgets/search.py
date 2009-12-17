@@ -113,7 +113,6 @@ class Filter(TinyInputWidget):
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain')
         self.help = attrs.get('help')
-        
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
         
         self.nolabel = True
@@ -144,13 +143,8 @@ class Search(TinyInputWidget):
         ctx = rpc.session.context.copy()
         ctx.update(self.context)
         
-        proxy = rpc.RPCProxy(self.model)
-        view = None
-        
         view = cache.fields_view_get(self.model, False, 'search', ctx, True)
-        
-        proxy = rpc.RPCProxy(self.model)
-        view_fields = proxy.fields_get(False, ctx)
+        view_fields = view['fields']
         
         self.fields_list = []
         
