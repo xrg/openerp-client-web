@@ -143,7 +143,9 @@ class Search(TinyInputWidget):
         ctx = rpc.session.context.copy()
         ctx.update(self.context)
         
-        view = cache.fields_view_get(self.model, False, 'search', ctx, True)
+        view_id = ctx.get('search_view') or False
+        
+        view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
         view_fields = view['fields']
         
         self.fields_list = []

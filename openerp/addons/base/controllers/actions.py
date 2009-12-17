@@ -223,6 +223,10 @@ def execute(action, **data):
         ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
         ctx.update(tools.expr_eval(action.get('context', '{}'), ctx.copy()))
         
+        search_view = action.get('search_view_id')
+        if search_view:
+            ctx['search_view'] = search_view[0]
+            
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
