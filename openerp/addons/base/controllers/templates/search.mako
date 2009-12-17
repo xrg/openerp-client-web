@@ -9,40 +9,11 @@
 
     <script type="text/javascript">
 
-        function submit_search_form(action){
-            form = openobject.dom.get('search_form');
-            setNodeAttribute(form, 'action', action);
-
-            disable_hidden_search_fields();
-
-            form.submit();
-        }
-
         function pager_action(action, src){
             if (src)
                 new ListView(src).go(action);
            else
                 submit_search_form(action);
-        }
-
-        function disable_hidden_search_fields(){
-
-            var nb = SEARCH_NOTEBOOK;
-            var tab = nb.getNext(nb.getActiveTab()) || nb.getPrev(nb.getActiveTab());
-            var page = nb.getPage(tab);
-            
-            // disable fields of hidden tab
-            
-            var disabled = [];
-
-            var disabled = openobject.dom.select("input, textarea, select", page);
-            
-            forEach(disabled, function(fld){
-                log(fld);
-                fld.disabled = true;
-            });
-            
-            return true;
         }
 
     </script>
@@ -137,7 +108,7 @@
 
 <%def name="content()">
 <div class="view">
-    <form id="search_form" name="search_form" action="${py.url('/search/find')}" method="post" onsubmit="return disable_hidden_search_fields();">
+    <form id="search_form" name="search_form" action="${py.url('/search/find')}" method="post">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>

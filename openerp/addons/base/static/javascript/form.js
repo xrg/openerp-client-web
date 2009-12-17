@@ -283,43 +283,6 @@ var submit_form = function(action, src, target){
     form.submit();
 }
 
-var submit_search_form = function(action) {
-
-    if (openobject.dom.get('search_view_notebook')) {
-    
-        var nb = SEARCH_NOTEBOOK;
-        var tab = nb.getNext(nb.getActiveTab()) || nb.getPrev(nb.getActiveTab());
-        var page = nb.getPage(tab);
-        
-        // disable fields of hidden tab
-        
-        var disabled = [];
-
-        disabled = openobject.dom.select("input, textarea, select", page);
-        
-        forEach(disabled, function(fld){
-            log(fld);
-            fld.disabled = true;
-        });
-    }
-
-    submit_form(action ? action : 'find');
-}
-
-var clear_search_form = function() {
-
-    if (openobject.dom.get('search_view_notebook')) {
-
-        var fields = [];
-
-        fields = openobject.dom.select("input, textarea, select", 'search_view_notebook');
-		
-        forEach(fields, function(fld){
-            fld.value = '';
-        });
-    }
-}
-
 var pager_action = function(action, src) {
     return src ? new ListView(src).go(action) : submit_search_form(action);
 }
