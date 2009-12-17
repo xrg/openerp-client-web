@@ -146,11 +146,11 @@ class Search(TinyInputWidget):
         view_id = ctx.get('search_view') or False
         
         view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
-        view_fields = view['fields']
+        fields = cache.fields_get(self.model, [], ctx)
         
         self.fields_list = []
         
-        for k,v in view_fields.items():
+        for k,v in fields.items():
             if v['type'] in ('many2one', 'char', 'float', 'integer', 'date', 'datetime', 'selection', 'many2many', 'boolean', 'one2many') and v.get('selectable',  False):
                 self.fields_list.append([k, v['string'], v['type']])
         if self.fields_list:
