@@ -301,10 +301,14 @@ class TempFileName(str):
         os.close(fd)
         return str.__new__(cls, fn)
 
+    def __init__(self, *args, **kwargs):
+        self.__os_path_exists = os.path.exists
+        self.__os_unlink = os.unlink
+        str.__init__(self, *args, **kwargs)
+        
     def __del__(self):
-        import os   # ensure os module exists
-        if os.path.exists(str(self)):
-            os.unlink(str(self))
+        if self.__os_path_exists(self):
+            self.__os_unlink(self)
 
     def __copy__(self):
         return self
