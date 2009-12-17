@@ -4,7 +4,8 @@
         kind="${kind}" 
         name="${name}" 
         style="width: 100%" 
-        class="${css_class}" ${py.attrs(attrs)}>
+        class="${css_class}"
+        search_context="${search_context}" ${py.attrs(attrs)}>
         <option value=""></option>
         % for (k, v) in options:
         <option value="${k}" ${py.selector(k==value)}>${v}</option>

@@ -51,7 +51,7 @@ class ViewForm(Form):
                   JSLink("base", "javascript/binary.js", location=locations.bodytop)]
 
     def __init__(self, params, **kw):
-
+        
         super(ViewForm, self).__init__(**kw)
 
         # save reference of params dictionary in requeste
@@ -67,19 +67,18 @@ class ViewForm(Form):
         if readonly is None:
             readonly = False
 
-        self.screen = Screen(prefix='', hastoolbar=True, editable=editable, readonly=readonly,
+        self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
-
-        self.sidebar = Sidebar(self.screen.model, self.screen.toolbar, self.screen.id,
+        
+        self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, context=self.screen.context)
 
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 
         self.search = None
-
+        
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(model=params.model, domain=params.domain,
-                                 context=params.context, values=params.search_data or {})
+            self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
 
         if params.view_type == 'tree':
             self.screen.id = False

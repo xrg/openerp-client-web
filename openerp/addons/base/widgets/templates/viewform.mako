@@ -18,8 +18,7 @@
         <tr>
             <td style="padding: 3px; padding-top: 0px">
                 <div class="toolbar">
-                    <button type="submit" title="${_('Filter records.')}" 
-                        onclick="setNodeAttribute(form, 'action', ''); submit_search_form('find')">${_("Filter")}</button>
+                    <button type="button" title="${_('Filter records.')}" onclick="search_filter()">${_("Filter")}</button>
                     % if screen.editable and screen.view_type in ('form', 'tree'):
                     <button type="button" title="${_('Delete selected records.')}"
                         onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>

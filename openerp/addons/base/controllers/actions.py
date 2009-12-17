@@ -198,13 +198,13 @@ def execute(action, **data):
     if action['type'] == 'ir.actions.act_window_close':
         return close_popup()
 
-    elif action['type']=='ir.actions.act_window':
+    elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
         for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
             data[key] = action.get(key, data.get(key, None))
             
         if not data.get('limit'):
             data['limit'] = 80
-
+        
         view_ids=False
         if action.get('views', []):
             if isinstance(action['views'], list):

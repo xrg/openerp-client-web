@@ -998,5 +998,12 @@ function open_url(site){
     }
 }
 
+function submenu_action(action_id, model) {
+	window.location.href = openobject.http.getURL("/form/action_submenu", {	_terp_action_id: action_id,
+															_terp_model: model,
+															_terp_id: $('_terp_id').value,
+															});
+}
+
 // vim: ts=4 sts=4 sw=4 si et
 

@@ -1038,5 +1038,19 @@ class Form(SecuredController):
 
         return dict(values=data)
 
+    @expose()
+    def action_submenu(self, **kw):
+        params, data = TinyDict.split(kw)
+        
+        import actions
+        
+        act_id = rpc.session.execute('object', 'execute', 'ir.model.data', 'search', [('name','=', params.action_id)])
+        res_model = rpc.session.execute('object', 'execute', 'ir.model.data', 'read', act_id, ['res_id'])
+        
+        res = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', res_model[0]['res_id'], False)
+        
+        if res:
+            return actions.execute(res, model=params.model, id=params.id, context=rpc.session.context.copy())
 
+        
 # vim: ts=4 sts=4 sw=4 si et

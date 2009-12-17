@@ -41,7 +41,7 @@ from screen import Screen
 class Sidebar(TinyWidget):
 
     template = "templates/sidebar.mako"
-    params = ['reports', 'actions', 'relates', 'attachments']
+    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu']
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
@@ -75,7 +75,7 @@ class Sidebar(TinyWidget):
         });
     """)]
 
-    def __init__(self, model, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
+    def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
 
@@ -85,12 +85,14 @@ class Sidebar(TinyWidget):
         
         act = 'client_action_multi'
         toolbar = toolbar or {}
-
+        submenu = submenu
+        
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
 
         self.attachments = []
+        self.sub_menu = None
 
         proxy = rpc.RPCProxy('ir.values')
         
@@ -122,8 +124,10 @@ class Sidebar(TinyWidget):
                 attach = []
                 datas = proxy.read(ids, ['datas_fname'])
                 self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
+                
+            self.sub_menu = submenu
         else:
             self.relates = []
-
+        
 # vim: ts=4 sts=4 sw=4 si et
 

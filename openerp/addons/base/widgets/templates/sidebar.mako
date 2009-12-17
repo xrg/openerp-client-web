@@ -1,9 +1,24 @@
-<%def name="sidebox_action_item(item, model)">
-    <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
-        <td>
-            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
-        </td>
-    </tr>
+<%def name="sidebox_action_item(item, model, submenu)">
+    % if submenu != 1:
+	    <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
+	        <td>
+	            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+	        </td>
+	    </tr>
+	% else:
+		<%
+			from openerp import icons
+		%>
+		<tr data="${item}">
+	   		% if item['name']:
+				<td>
+					<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
+						${item['name']}
+					</a>
+				</td>
+			% endif
+		</tr>
+	% endif
 </%def>
 
 <%def name="sidebox_attach_item(item, model)">
@@ -14,7 +29,7 @@
     </tr>
 </%def>
 
-<%def name="make_sidebox(title, model, items, item_cb=None)">
+<%def name="make_sidebox(title, model, items, item_cb=None, submenu=0)">
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
     <tr>
         <td class="sidebox-title">
@@ -33,7 +48,7 @@
             % if item_cb:
                 ${item_cb(item, model)}
             % else:
-                ${sidebox_action_item(item, model)}
+                ${sidebox_action_item(item, model, submenu)}
             % endif
         % endif
     % endfor
@@ -58,6 +73,10 @@
             
             % if attachments:
                 ${make_sidebox(_("ATTACHMENTS"), model, attachments, sidebox_attach_item)}
+            % endif
+            
+            % if sub_menu:
+                ${make_sidebox(_("SUBMENU"), model, sub_menu, submenu=1)}
             % endif
         </td>
 

@@ -194,6 +194,8 @@ class Widget(object):
         
         self.update_params(d)
         
+        d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
+        
         return tools.render_template(self.template_c, d)
     
     def render(self, value=None, **params):
@@ -383,7 +385,6 @@ class InputWidget(Widget):
                 params.css_classes.append('errorfield')
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
-        params['css_class'] = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
         
     def error_for(self, item, error):
         

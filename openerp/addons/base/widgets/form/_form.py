@@ -68,7 +68,7 @@ class Frame(TinyInputWidget):
 
     template = "templates/frame.mako"
 
-    params = ['table']
+    params = ['table', 'label_position']
     member_widgets = ['hiddens', 'children']
 
     table = None
@@ -79,6 +79,8 @@ class Frame(TinyInputWidget):
 
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
+        
+        self.label_position = attrs.get('label_position', False)
 
         self.x = 0
         self.y = 0
@@ -278,13 +280,13 @@ class Separator(TinyInputWidget):
     """
 
     template = "templates/separator.mako"
-    params = ["position"]
+    params = ["orientation"]
     
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
 
         self.colspan = int(attrs.get('colspan', 4))
-        self.position = attrs.get('position', False)
+        self.orientation = attrs.get('orientation', False)
         self.rowspan = 1
         self.nolabel = True
 
@@ -464,8 +466,9 @@ register_widget(ProgressBar, ["progressbar"])
 class Selection(TinyInputWidget):
     template = "templates/selection.mako"
 
-    params = ['options']
+    params = ['options', 'search_context']
     options = []
+    search_context = {}
 
     def __init__(self, **attrs):
         super(Selection, self).__init__(**attrs)
@@ -482,7 +485,8 @@ class Selection(TinyInputWidget):
                         domain = []
                 ids = proxy.search(domain)
                 ctx = rpc.session.context.copy()
-                ctx.update(attrs.get('context', {}))
+                self.search_context = attrs.get('context', {})
+#                ctx.update(attrs.get('context', {})) # In search view this will create problem for m2o field having widget='selection' and context as attr.
                 self.options = proxy.name_get(ids, ctx)
             except:
                 self.options = []
@@ -496,6 +500,12 @@ class Selection(TinyInputWidget):
         else:
             self.validator = validators.Selection()
 
+    def update_params(self, d):
+        super(Selection, self).update_params(d)
+        
+        if self.search_context:
+            d.setdefault('css_classes', []).append('selection_search')
+            
     def set_value(self, value):
 
         if isinstance(value, (tuple, list)):

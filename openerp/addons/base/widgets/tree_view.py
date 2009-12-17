@@ -113,15 +113,15 @@ class ViewTree(Form):
         if model == "ir.ui.menu":
             self.tree.linktarget = "'appFrame'"
 
+        submenu = {}
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
 
-        self.sidebar = Sidebar(self.model, toolbar, context=self.context)
+        self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
         
         # get the correct view title
         self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
-
 
     def parse(self, root, fields=None):
 
