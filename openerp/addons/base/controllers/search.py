@@ -183,10 +183,10 @@ class Search(Form):
                 fld = {}
                 datas = {}
                 res = proxy.fields_get(field)
-            
+                
                 fld['value'] = val[field]
                 fld['type'] = res[field].get('type')
-       
+                
                 data[field] = fld
                 try:
                     frm = TinyForm(**data).to_python()
@@ -197,7 +197,10 @@ class Search(Form):
                 
                 datas['rec'] = field
                 
-                if isinstance(frm[field], bool):
+                if fld['type'] == 'many2one':
+                    datas['rec_val'] = fld['value']
+                    frm[field] = 'many2one'
+                elif isinstance(frm[field], bool):
                     if frm[field]:
                         datas['rec_val'] = 1
                     else:
