@@ -108,7 +108,7 @@
 
 <%def name="content()">
 <div class="view">
-    <form id="search_form" name="search_form" action="${py.url('/search/find')}" method="post">
+    <form id="search_form" name="search_form">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>
@@ -135,7 +135,7 @@
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
-                                <button type="submit">${_("Filter")}</button>
+                                <button type="button" onclick="search_filter()">${_("Filter")}</button>
                                 <button type="button" onclick="do_create()">${_("New")}</button>
                                 <button type="button" onclick="do_select()">${_("Select")}</button>
                             </td>
