@@ -139,10 +139,10 @@ class Search(Form):
         if params.active_id and not params.active_ids:
             ctx['active_ids'] = [params.active_id]
         
-        if isinstance(domain, basestring):
+        if domain and isinstance(domain, basestring):
             domain = tools.expr_eval(domain, ctx)
 
-        if isinstance(context, basestring):
+        if context and isinstance(context, basestring):
             if not context.startswith('{'):
                 context = "dict(%s)"%context
                 ctx['dict'] = dict # required
@@ -154,7 +154,7 @@ class Search(Form):
                 if val==None:
                     context[key] = False
         
-        if isinstance(context, dict):
+        if context and isinstance(context, dict):
             context = tools.expr_eval(context, ctx)
                     
         ctx2 = parent_context
