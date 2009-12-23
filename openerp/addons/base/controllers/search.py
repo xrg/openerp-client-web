@@ -134,7 +134,7 @@ class Search(Form):
         if params.active_id and not params.active_ids:
             ctx['active_ids'] = [params.active_id]
         
-        if isinstance(domain, basestring):
+        if domain and isinstance(domain, basestring):
             domain = tools.expr_eval(domain, ctx)
             
         if domain and len(domain) >= 2 and domain[-2] in ['&', '|']: # For custom domain ('AND', OR') from search view.
@@ -142,7 +142,7 @@ class Search(Form):
             dom2 = domain[:-2]
             domain = dom2 + dom1
         
-        if isinstance(context, basestring):
+        if context and isinstance(context, basestring):
             if not context.startswith('{'):
                 context = "dict(%s)"%context
                 ctx['dict'] = dict # required

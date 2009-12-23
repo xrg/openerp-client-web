@@ -105,6 +105,7 @@ class Sidebar(TinyWidget):
         ids = [a['id'] for a in self.actions]
         for act in actions:
             if act['id'] not in ids:
+                act['context'] = self.context 
                 self.actions.append(act)
 
         reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
@@ -113,6 +114,7 @@ class Sidebar(TinyWidget):
         ids = [a['id'] for a in self.reports]
         for rep in reports:
             if rep['id'] not in ids:
+                rep['context'] = self.context
                 self.reports.append(rep)
 
         if self.view_type == 'form':
