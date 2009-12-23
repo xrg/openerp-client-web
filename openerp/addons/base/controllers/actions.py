@@ -94,7 +94,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     else:
         raise common.message(_("Invalid View!"))
 
-def execute_wizard(name, context={}, **datas):
+def execute_wizard(name, **datas):
     """Executes given wizard with the given data
 
     @param name: name of the wizard
@@ -105,7 +105,6 @@ def execute_wizard(name, context={}, **datas):
     params = TinyDict()
     params.name = name
     params.datas = datas
-    params.context = context or {}
     params.state = 'init'
 
     return Wizard().create(params)
@@ -264,9 +263,15 @@ def execute(action, **data):
         if 'window' in data:
             del data['window']
         
-        ctx = action.get('context', {}).copy()
-        
-        return execute_wizard(action['wiz_name'], ctx, **data)
+
+        ctx1 = data.get('context', {}).copy()
+        ctx2 = action.get('context', {}).copy()
+
+        ctx1.update(ctx2)
+
+        data['context'] = ctx2
+
+        return execute_wizard(action['wiz_name'], **data)
 
     elif action['type']=='ir.actions.report.custom':
         data['report_id'] = action['report_id']
