@@ -71,7 +71,7 @@ class M2M(TinyInputWidget):
             ids = current.ids
 
         self.model = attrs.get('relation', 'model')
-        self.link = attrs.get('link', None)
+        self.link = attrs.get('link', 1)
         self.onchange = None # override onchange in js code
 
         self.relation = attrs.get('relation', '')

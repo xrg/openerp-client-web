@@ -78,7 +78,7 @@ class O2M(TinyInputWidget):
         current = params.chain_get(self.name)
 
         self.model = attrs['relation']
-        self.link = attrs.get('link', '')
+        self.link = attrs.get('link', 1)
         self.onchange = None # override onchange in js code
 
         view = attrs.get('views', {})

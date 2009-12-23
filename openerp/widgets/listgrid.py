@@ -104,7 +104,7 @@ class List(TinyWidget):
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
-        self.link = kw.get('nolinks')
+        self.link = kw.get('nolinks', 1)
         self.m2m = False
         self.concurrency_info = None
         self.selector = None
