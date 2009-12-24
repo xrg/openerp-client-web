@@ -81,7 +81,7 @@ class Wizard(SecuredController):
         while state != 'end':
 
             ctx = rpc.session.context.copy()
-            ctx.update(params.context or {})
+            ctx.update(datas.get('context' or {}) or {})
 
             res = rpc.session.execute('wizard', 'execute', wiz_id, datas, state, ctx)
 
