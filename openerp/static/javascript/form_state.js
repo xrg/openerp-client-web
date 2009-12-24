@@ -155,12 +155,15 @@ var form_hookAttrChange = function() {
         var widget = getNodeAttribute(e, 'widget') || '';
         var container = e;
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
+        
+        log('1111', attrs);
 
         // Convert Python statement into it's equivalent in JavaScript.
         attrs = attrs.replace(/\(/g, '[');
         attrs = attrs.replace(/\)/g, ']');
         attrs = attrs.replace(/True/g, '1');
         attrs = attrs.replace(/False/g, '0');
+        attrs = attrs.replace(/uid/g, window.USER_ID);
         
         try {
             attrs = eval('(' + attrs + ')');
