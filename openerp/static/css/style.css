@@ -355,6 +355,7 @@ div.welcome {
 }
 
 .view .fields {
+    clear: left;
 }
 
 .view table.one2many,
