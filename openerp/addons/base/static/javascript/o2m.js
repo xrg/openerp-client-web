@@ -120,15 +120,20 @@ One2Many.prototype = {
         var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
         
         req.addCallback(function(res){
+        
             //XXX: IE hack, long context value generate long URI
-            // params['_terp_o2m_context'] = res.context;
+            if (!window.browser.isIE) {
+                params['_terp_o2m_context'] = res.context;
+                return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
+            }
+            
             openobject.http.setCookie('_terp_o2m_context', res.context || '{}');
             try {
                 return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
             } finally {
                 openobject.http.delCookie('_terp_o2m_context');
             }
-        });     
+        });
     }
 }
 

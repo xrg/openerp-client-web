@@ -116,14 +116,16 @@ openobject.http = {
     },
        
     setCookie: function(name, value, expires, path, domain, secure) {
-
+    
         var path = path ? this.getURL(path) : this.SCRIPT_PATH;
-
-        document.cookie = name + "=" + escape(value) +
+        
+        var cookie = name + "=" + escape(value) +
             ((expires) ? "; expires=" + expires.toGMTString() : "") +
             ((path) ? "; path=" + path : "") +
             ((domain) ? "; domain=" + domain : "") +
             ((secure) ? "; secure" : "");
+            
+        document.cookie = cookie;
     },
     
     getCookie: function(name) {

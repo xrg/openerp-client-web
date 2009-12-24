@@ -91,7 +91,7 @@ class OpenO2M(Form):
         except:
             pass
         
-        params.o2m_context = o2m_context
+        params.o2m_context = params.o2m_context or o2m_context
         
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
