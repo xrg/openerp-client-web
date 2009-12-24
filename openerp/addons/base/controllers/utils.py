@@ -39,6 +39,7 @@ from openerp.tools import rpc
 from openerp.tools import expose
 from openerp.tools import redirect
 
+from base.validators import Invalid
 
 __all__ = ["secured", "unsecured", "login", "validate", "error_handler", "exception_handler"]
 
