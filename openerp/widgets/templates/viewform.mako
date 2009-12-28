@@ -28,6 +28,9 @@
                     % if screen.editable and screen.view_type in ('form', 'tree'):
                     <button type="button" title="${_('Delete selected records.')}"
                         onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>
+                    %else:
+                    <button type="button" title="${_('Delete selected records.')}"
+                        onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>                    	
                     % endif
                     % if screen.editable and screen.view_type in ('form', 'tree'):
                     <button type="button" title="${_('Edit selected records.')}"

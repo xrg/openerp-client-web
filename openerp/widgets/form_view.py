@@ -84,6 +84,12 @@ class ViewForm(Form):
 
         if params.view_type == 'tree':
             self.screen.id = False
+            
+        if 'form' not in self.screen.view_mode:            
+            self.screen.widget.show_links = 0
+            self.screen.widget.link = 0
+            self.screen.editable = False
+            self.screen.widget.editable = False                                    
 
         # get the correct view title
         if params.context:
