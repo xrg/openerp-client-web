@@ -110,7 +110,7 @@ class Search(TinyInputWidget):
 
         ctx = rpc.session.context.copy()
         ctx.update(self.context)
-        view = cache.fields_view_get(self.model, False, 'form', ctx, True)
+        view = cache.fields_view_get(self.model, False, 'tree', ctx, True)
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
@@ -122,7 +122,7 @@ class Search(TinyInputWidget):
         self.parse(dom, view['fields'], values)
 
         # also parse the tree view
-        view = cache.fields_view_get(self.model, False, 'tree', ctx, True)
+        view = cache.fields_view_get(self.model, False, 'form', ctx, True)
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         self.parse(dom, view['fields'], values)
 
