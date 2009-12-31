@@ -110,9 +110,6 @@ class ViewTree(Form):
         self.id = id
         self.ids = ids
         
-        if model == "ir.ui.menu":
-            self.tree.linktarget = "'appFrame'"
-
         submenu = {}
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():

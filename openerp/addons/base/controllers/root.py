@@ -77,11 +77,11 @@ class Root(SecuredController):
         import actions
         return actions.execute_by_id(act_id)
 
-    @expose(template="templates/index.mako")
+    @expose()
     def index(self):
         """Index page, loads the view defined by `action_id`.
         """
-        #return self.user_action('action_id')
+        return self.user_action('action_id')
         return dict()
         
     @expose()

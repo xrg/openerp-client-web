@@ -46,34 +46,6 @@
     ${cp.static.js("base", "menu.js")}
     ${cp.static.js("base", "openobject/openobject.ui.tips.js")}
     
-    <script type="text/javascript">
-        
-        MochiKit.DOM.addLoadEvent(function(evt){
-            (function(){
-            
-                var frame = window.frameElement ? window.frameElement.name : null;
-            
-                if (frame == "appFrame") {
-                    parent.setTimeout("showAppBar()", 0);
-                }
-                
-                if (frame == "menuFrame") {
-                                
-                    var links = [];
-                                        
-                    links = openobject.dom.select("#header a, #footer a");
-                    
-                    forEach(links, function(a) {
-                        if (!a.target) {
-                            a.target = "appFrame";
-                        }
-                    });
-                }
-                
-            })()
-        });
-    </script>
-    
     ${self.header()}
 
 </head>

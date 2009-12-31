@@ -46,25 +46,11 @@ except:
     </tr>
     <tr>
         <td colspan="2" nowrap="nowrap">
-        
-            <script type="text/javascript">
-            
-                function onMenuLinkClick() {
-                
-                    var frame = window.frameElement ? window.frameElement.name : null;
-                    
-                    if (frame == "appFrame" || frame == "menuFrame") {
-                        parent.setTimeout("toggleMenubar()", 0);
-                    } else {
-                        openobject.http.redirect("/");
-                    }
-                }
-            </script>
 
             <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
                 <tr>
                     <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                        <a href="#" onclick="onMenuLinkClick(); return false;">${_("MAIN MENU")}</a>
+                        <a href="${py.url('/menu')}">${_("MAIN MENU")}</a>
                     </td>
                     <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
                         <a href="${py.url('/shortcuts')}">${_("SHORTCUTS")}</a>
