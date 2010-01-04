@@ -259,7 +259,6 @@ class Form(SecuredController):
 
         return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)
 
-    @profile("form.edit", log=['model', 'id'])
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
              source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):

@@ -79,8 +79,6 @@ def setup_server(configfile):
         'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
     }})
 
-    # import profiler while makes profile decorator available as __builtins__
-    from openobject.tools import profiler
     from openobject.addons import load_addons
     
     load_addons(app_config)
