@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-from openerp.admin import main
+from openobject.admin import main
 
 if __name__ == "__main__":
     try:

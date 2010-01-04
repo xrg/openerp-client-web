@@ -18,7 +18,7 @@ URLS = {
 BUILD_DIR=os.path.join(os.path.dirname(os.path.abspath(__file__)), "build")
 PYDIR=os.path.join(BUILD_DIR, "python25")
 
-execfile(os.path.join("openerp", "release.py"))
+execfile(os.path.join("openobject", "release.py"))
 
 class bdist_wininst(Command):
     user_options = [('allinone', None, 'Generate the windows installer for the All In One')]
@@ -50,7 +50,7 @@ class bdist_wininst(Command):
         self._check_simplejson()
         self._check_pyparsing()
         self._check_pytz()
-        self._check_openerp_web()
+        self._check_openobject_web()
         self._check_fixps()
 
         # finally compile the setup.nsi
@@ -154,18 +154,18 @@ class bdist_wininst(Command):
 
         self.run_ez("pytz")
 
-    def _check_openerp_web(self):
+    def _check_openobject_web(self):
 
-        if self.check_module("openerp"):
+        if self.check_module("openobject"):
             # remove old version
-            self.run_ez("-m", "openerp-web")
+            self.run_ez("-m", "openobject-web")
 
             for f in os.listdir("%s\\Scripts" % PYDIR):
-                if fnmatch.fnmatch(f, "*openerp-web*"):
+                if fnmatch.fnmatch(f, "*openobject-web*"):
                     os.remove(os.path.join(PYDIR, "Scripts", f))
 
             for f in os.listdir("%s\\Lib\\site-packages" % PYDIR):
-                if fnmatch.fnmatch(f, "openerp_web*"):
+                if fnmatch.fnmatch(f, "openobject_web*"):
                     os.system("rd /s /q \"%s\\Lib\\site-packages\\%s\"" %(PYDIR, f))
 
         self.run_ez("-N", "..\\..")

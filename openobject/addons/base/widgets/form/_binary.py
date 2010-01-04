@@ -1,0 +1,178 @@
+###############################################################################
+#
+# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
+#
+# $Id$
+#
+# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
+#
+# The OpenERP web client is distributed under the "OpenERP Public License".
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
+# restrictions:
+#
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
+#     added.
+#
+# -   All distributions of the software must keep source code with OEPL.
+#
+# -   All integrations to any other software must keep source code with OEPL.
+#
+# If you need commercial licence to remove this kind of restriction please
+# contact us.
+#
+# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+#
+###############################################################################
+            
+import base64
+import time
+
+from openobject import tools
+
+from openobject.tools import rpc
+from openobject.tools import icons
+from openobject.tools import cache
+from openobject.tools import TempFileName
+
+from base import validators
+
+from base.widgets import TinyInputWidget
+from base.widgets import register_widget
+
+
+__all__ = ["Binary", "Image", "Picture", "get_temp_file", "generate_url_for_picture"]
+
+
+class Binary(TinyInputWidget):
+
+    template = "templates/binary.mako"
+    params = ["name", "text", "readonly", "filename"]
+
+    text = None
+    file_upload = True
+
+    def __init__(self, **attrs):
+        super(Binary, self).__init__(**attrs)
+        self.validator = validators.Binary()
+        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % (self.filename or '')
+
+    def set_value(self, value):
+        #XXX: server bug work-arround
+        try:
+            self.text = tools.get_size(value)
+        except:
+            self.text = value or ''
+
+register_widget(Binary, ["binary"])
+            
+
+class Image(TinyInputWidget):
+
+    template = "templates/image.mako"
+
+    params = ["src", "width", "height", "model", "id", "field", "stock"]
+    src = ""
+    width = 32
+    height = 32
+    field = ''
+    stock = True
+
+    def __init__(self, **attrs):
+        icon = attrs.get('name')
+        attrs['name'] = attrs.get('name', 'Image').replace("-","_")
+
+        super(Image, self).__init__(**attrs)
+
+        self.filename = attrs.get('filename', '')
+
+        if 'widget' in attrs:
+            self.stock = False
+            self.field = self.name.split('/')[-1]
+            self.src = tools.url('/image/get_image', model=self.model, id=self.id, field=self.field)
+            self.height = attrs.get('img_height', attrs.get('height', 160))
+            self.width = attrs.get('img_width', attrs.get('width', 200))
+            self.validator = validators.Binary()
+        else:
+            self.src =  icons.get_icon(icon)
+
+register_widget(Image, ["image"])
+            
+
+@cache.memoize(1000, force=True)
+def get_temp_file(**kw):
+    return TempFileName()
+
+
+def generate_url_for_picture(model, name, id, value):
+    url = ''
+
+    if isinstance(value, (tuple, list)) and len(value)==2:
+        type, data = value
+    else:
+        type, data = None, value
+        
+    if data:
+        if type == 'stock':
+            stock, size = data
+            url =  icons.get_icon(stock)
+        else:
+            key = "%s,%s:%s@%s" % (model, id or 0, name, time.time())
+            hashkey = str(hash(key))
+            fname = get_temp_file(hash=hashkey)
+            tmp = open(fname, "w")
+            try:
+                tmp.write(base64.decodestring(data))
+            finally:
+                tmp.close()
+             
+            url = tools.url("/image/get_picture", hash=hashkey)
+    else:
+        url = tools.url("/static/images/blank.gif")
+
+    return url
+
+
+class Picture(TinyInputWidget):
+    template = """<div style="text-align: center;">
+    <img id="${name}" ${width} ${height} src="${url}" kind="picture"/>
+    </div>
+    """
+
+    params = ["url", "width", "height"]
+
+    def __init__(self, **attrs):
+        super(Picture, self).__init__(**attrs)
+        
+        height = attrs.get('img_height', attrs.get('height', None))
+        self.height = height and 'height="%s"' % height or ''
+        width = attrs.get('img_width', attrs.get('width', None))
+        self.width = width and 'width="%s"' % width or ''
+        self.validator = validators.Binary()
+        
+        ctx = rpc.session.context.copy()
+        ctx.update(self.context or {})
+        ctx['bin_size'] = False
+        
+        proxy = rpc.RPCProxy(self.model)
+        
+        if '/' in self.name:
+            name = self.name.rsplit('/', 1)[-1]
+        else:
+            name = self.name
+        
+        if not self.id:
+            value = proxy.default_get([name], ctx)
+        else:
+            value = proxy.read([self.id], [name], ctx)[0]
+            
+        value = value.get(name) or (None, None)
+        self.url = generate_url_for_picture(self.model, name, self.id, value)
+
+register_widget(Picture, ["picture"])
+
+
+# vim: ts=4 sts=4 sw=4 si et
+

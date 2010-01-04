@@ -46,7 +46,7 @@
 	Improvements:
 	
 	* Compatible with Python 2.6
-	* start-openerp-web command is renamed to openerp-web
+	* start-openobject-web command is renamed to openobject-web
 	* Improved cache system (efficiently handle per db cache).
 	* Added min_rows, limit configuration options for M2M/O2M fields
 	* Improved ListGrid button action (support act_url).

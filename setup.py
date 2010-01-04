@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 from fnmatch import fnmatchcase
 from distutils.util import convert_path
 
-execfile(os.path.join("openerp", "release.py"))
+execfile(os.path.join("openobject", "release.py"))
 
 if sys.argv[1] == 'bdist_rpm':
     version = version.split('-')[0]
@@ -92,7 +92,7 @@ def find_package_data(
     return out
 
 packages = find_packages()
-package_data = find_package_data(where='openerp', package='openerp')
+package_data = find_package_data(where='openobject', package='openobject')
 
 if os.path.isdir('locales'):
     packages.append('locales')
@@ -104,7 +104,7 @@ for name in ('config', 'scripts', 'doc'):
     data_files += [(name, [name + '/' + f for f in data[name]])]
 
 setup(
-    name = "openerp-web",
+    name = "openobject-web",
     version = version,
     description = description,
     long_description = long_description,
@@ -141,7 +141,7 @@ setup(
         ],
     entry_points = {
         'console_scripts': [
-            'openerp-web = openerp.commands:start',
+            'openobject-web = openobject.commands:start',
         ],
     },
 
