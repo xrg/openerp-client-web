@@ -72,11 +72,10 @@ def xml_locate(expr, ref):
     
     if '/' not in expr:
         name, index = expr.split('[')
-        index = int(index.replace(']', ''))
 
         nodes = [n for n in ref.childNodes if n.localName == name]
         try:
-            return nodes[index-1]
+            return nodes
         except Exception, e:
             return []
     
@@ -101,6 +100,8 @@ def get_node_xpath(node):
         xp = get_node_xpath(pn) + xp
         
     nodes = xml_locate(root, node.parentNode)
+    if nodes:
+        nodes = nodes[0]
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
