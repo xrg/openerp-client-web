@@ -160,8 +160,12 @@ class Search(Form):
         
         if context and isinstance(context, dict):
             context = tools.expr_eval(context, ctx)
-                    
+        
+#       Fixed header string problem for m2m field when parent context takes '_terp_view_name'
         ctx2 = parent_context
+        if ctx2['_terp_view_name']:
+            del ctx2['_terp_view_name']
+        ctx2.update(context.copy())
         context.update(ctx2)
         
         return dict(domain=ustr(domain), context=ustr(context))
