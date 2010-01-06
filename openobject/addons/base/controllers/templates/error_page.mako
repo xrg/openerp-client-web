@@ -31,32 +31,12 @@
             });
         }
 		
-		var write_data = function() {
-		
-			var params = { 
-					_terp_all_params: openobject.dom.get('_terp_all_params').value
-			}
-			
-			var req = openobject.http.postJSON('/errorpage/write_data', params);
-			
-			req.addCallback(function(obj){
-
-                if (obj.error) {
-                    return alert(obj.error);
-                }
-                
-                return history.length > 1 ? history.back() : window.close()
-            });
-		}
-		
     </script>
 </%def>
 
 <%def name="content()">
 	
 <%include file="header.mako"/>
-	
-    <input type="hidden" id="_terp_all_params" name="_terp_all_params" value="${all_params}"/>
     
 	<table class="view" border="0" width="100%">
         % if maintenance:
@@ -162,6 +142,14 @@ is displayed on the second tab.""")}
         % else:        	
             <td valign="top">
             	% if concurrency:
+            	
+            	<form action="${target}" method="post" name="error_page" enctype="multipart/form-data">
+            	% for key, value in all_params.items():
+            		% if key != '_terp_concurrency_info':
+			    		<input type="hidden" name="${key}" value="${value}"/>
+			    	% endif	
+			    % endfor
+			    
             	<table border="0" cellpadding="0" cellspacing="0" align="center">
             		<tr><td height="15px"/></tr>
 					<tr>
@@ -180,7 +168,7 @@ Choose:
 			   		<tr>
 			   			<td class="errorbox" align="right">
 			   				<button type="button" onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</button>
-			   				<button type="button" onclick="write_data()">${_("Write Anyway")}</button>
+			   				<button type="submit">${_("Write Anyway")}</button>
 			   			</td>
 			   		</tr>
 			   	</table>
@@ -204,6 +192,7 @@ Choose:
                     </tr>
                 </table>
                 % endif
+                </form>
             </td>
         </tr>
         % endif
