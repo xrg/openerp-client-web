@@ -163,8 +163,9 @@ class Search(Form):
         
 #       Fixed header string problem for m2m field when parent context takes '_terp_view_name'
         ctx2 = parent_context
-        if ctx2['_terp_view_name']:
-            del ctx2['_terp_view_name']
+        for k,v in ctx2.items():
+            if k == '_terp_view_name':
+                del ctx2[k]
         ctx2.update(context.copy())
         context.update(ctx2)
         
