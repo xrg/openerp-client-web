@@ -32,18 +32,7 @@ import time
 import tempfile
 import datetime as DT
 
-import cherrypy
-from formencode import NestedVariables
-
 from openobject.tools import rpc
-
-
-def nestedvars_tool():
-    if hasattr(cherrypy.request, 'params'):
-        cherrypy.request.params = NestedVariables.to_python(cherrypy.request.params or {})
-
-cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
-cherrypy.lowercase_api = True
 
 
 def expr_eval(string, context={}):

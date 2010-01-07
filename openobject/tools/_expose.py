@@ -38,8 +38,7 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-from openobject.tools import rpc
-from openobject.tools import utils
+from openobject import tools
 
 
 __all__ = ['find_resource', 'load_template', 'render_template', 'expose', 'register_template_vars']
@@ -69,7 +68,7 @@ for res in find_resources("openobject", "*.mako", "*.cfg"):
 
 
 filters = ["__content"]
-imports = ["from openobject.tools.utils import content as __content"]
+imports = ["from openobject.tools import content as __content"]
 
 class TL(TemplateLookup):
     
@@ -132,7 +131,7 @@ def _cp_vars():
     return {
         'session': cherrypy.session,
         'request': cherrypy.request,
-        'config': utils.config,
+        'config': tools.config,
         'root': cherrypy.request.app.root,
     }
 
@@ -140,25 +139,17 @@ def _cp_vars():
 def _py_vars():
 
     return {
-        'url': utils.url,
-        'attrs': utils.attrs,
-        'attr_if': utils.attr_if,
-        'checker': lambda e: utils.attr_if('checked', e),
-        'selector': lambda e: utils.attr_if('selected', e),
-        'readonly': lambda e: utils.attr_if('readonly', e),
-        'disabled': lambda e: utils.attr_if('disabled', e),
+        'url': tools.url,
+        'attrs': tools.attrs,
+        'attr_if': tools.attr_if,
+        'checker': lambda e: tools.attr_if('checked', e),
+        'selector': lambda e: tools.attr_if('selected', e),
+        'readonly': lambda e: tools.attr_if('readonly', e),
+        'disabled': lambda e: tools.attr_if('disabled', e),
     }
-
-
-def _root_vars():
-    return {
-        'rpc': rpc,
-    }
-
 
 register_template_vars(_cp_vars, 'cp')
 register_template_vars(_py_vars, 'py')
-register_template_vars(_root_vars, None)
 
 def _get_vars():
     

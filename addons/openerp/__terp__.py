@@ -1,9 +1,9 @@
 {
-    "name" : "Base addon for web client",
+    "name" : "OpenERP Web client",
     "version" : "1.0",
     "depends" : [],
     "author" : "Tiny",
-    "description": """Base addon for web client, needed for all addons.
+    "description": """OpenERP Web client.
     """,
     'website': 'http://www.openerp.com/',
 }

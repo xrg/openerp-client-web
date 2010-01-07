@@ -10,7 +10,7 @@ import cherrypy
 
 from openobject import tools
 
-from base.validators import *
+from openobject.validators import *
 
 from _meta import WidgetType
 from _utils import OrderedSet

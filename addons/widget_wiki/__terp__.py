@@ -1,7 +1,7 @@
 {
     "name" : "Wiki widget for web client",
     "version" : "1.0",
-    "depends" : ["base"],
+    "depends" : ["openerp"],
     "author" : "Tiny",
     "description": """Wiki widget for web client.
     """,

@@ -35,7 +35,6 @@ from babel import dates
 from babel import numbers
 from babel.support import Format
 
-from openobject.tools import rpc
 from openobject.i18n.utils import get_locale
 
 __all__ = ['get_datetime_format', 'format_datetime', 'parse_datetime', 'format_decimal', 'parse_decimal']
@@ -110,11 +109,11 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     value = time.strptime(value, server_format)
 
-    if kind == "datetime" and 'tz' in rpc.session.context:
+    if kind == "datetime":
         try:
             import pytz
-            lzone = pytz.timezone(str(rpc.session.context['tz']))
-            szone = pytz.timezone(str(rpc.session.timezone))
+            lzone = pytz.timezone(cherrypy.session['client_timezone'])
+            szone = pytz.timezone(cherrypy.session['remote_timezone'])
             dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
             sdt = szone.localize(dt, is_dst=True)
             ldt = sdt.astimezone(lzone)
@@ -158,11 +157,11 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
         except:
             return False
 
-    if kind == "datetime" and 'tz' in rpc.session.context:
+    if kind == "datetime":
         try:
             import pytz
-            lzone = pytz.timezone(rpc.session.context['tz'])
-            szone = pytz.timezone(rpc.session.timezone)
+            lzone = pytz.timezone(cherrypy.session['client_timezone'])
+            szone = pytz.timezone(cherrypy.session['remote_timezone'])
             dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
             ldt = lzone.localize(dt, is_dst=True)
             sdt = ldt.astimezone(szone)

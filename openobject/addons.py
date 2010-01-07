@@ -5,8 +5,7 @@ import imp
 
 import cherrypy
 
-
-ADDONS_PATH = os.path.dirname(os.path.abspath(__file__))
+ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
 sys.path.insert(0, ADDONS_PATH)
 
 
@@ -162,10 +161,7 @@ from openobject import i18n
 def load_addons(config):
     
     addons = [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
-              
-    
-    sys.modules.pop("openobject.addons", None)
+              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__config__.py"))] #TODO: __terp__.py
     
     graph = create_graph(addons)
     
@@ -175,13 +171,13 @@ def load_addons(config):
         
         m = imp_module(package.name)
         
-        static = os.path.join(ADDONS_PATH, package.name, "static")
-        if os.path.isdir(static):
-            base = imp_module("base")
-            base.widgets.register_resource_directory(config, package.name, static)
-            
-        localedir = os.path.join(ADDONS_PATH, package.name, "locales")
-        if os.path.isdir(localedir):
-            i18n.load_translations(localedir, domain="messages")
-            i18n.load_translations(localedir, domain="javascript")
+#        static = os.path.join(ADDONS_PATH, package.name, "static")
+#        if os.path.isdir(static):
+#            base = imp_module("base")
+#            base.widgets.register_resource_directory(config, package.name, static)
+#            
+#        localedir = os.path.join(ADDONS_PATH, package.name, "locales")
+#        if os.path.isdir(localedir):
+#            i18n.load_translations(localedir, domain="messages")
+#            i18n.load_translations(localedir, domain="javascript")
 

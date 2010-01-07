@@ -1,4 +1,4 @@
-from openobject.tools.tools import *
-from openobject.tools.expose import *
-from openobject.tools.utils import *
+from _tools import *
+from _expose import *
+from _utils import *
 

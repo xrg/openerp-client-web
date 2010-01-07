@@ -66,9 +66,9 @@ def get_locale(locale=None):
         return locale
     
     try:
-        from openobject.tools import rpc
-        locale = rpc.session.locale
-        if locale: return locale
+        locale = cherrypy.session[locale]
+        if locale:
+            return locale
     except:
         pass
     

@@ -27,9 +27,6 @@
 #
 ###############################################################################
 
-"""
-This module defines validators.
-"""
 import re
 import cgi
 import math
@@ -38,42 +35,7 @@ import base64
 import locale
 
 from openobject.i18n import format
-
-from formencode.validators import *
-from formencode.schema import Schema
-from formencode.foreach import ForEach
-
-
-class BaseValidator(FancyValidator):
-    pass
-
-
-class DefaultValidator(BaseValidator):
-    pass
-
-
-class Schema(Schema):
-    """Modified Schema validator.
-
-    A schema validates a dictionary of values, applying different validators
-    (by key) to the different values.
-
-    This modified Schema allows fields that do not appear in the fields
-    parameter of your schema, but filters them out from the value dictionary.
-    You might want to set filter_extra_fields to True when you're building a
-    dynamic form with unpredictable keys and need these values.
-
-    """
-
-    filter_extra_fields = True
-    allow_extra_fields = True
-    if_key_missing = None
-
-    def from_python(self, value, state=None):
-        # The Schema shouldn't do any from_python conversion because
-        # adjust_value already takes care of that for all childs.
-        return value
-
+from openobject.validators import *
 
 class String(BaseValidator):
     if_empty = False

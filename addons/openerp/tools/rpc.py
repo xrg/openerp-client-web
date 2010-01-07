@@ -324,14 +324,16 @@ class RPCSession(object):
         """
 
         self._context = {'client': 'web'}
-        self.timezone = 'utc'
-
+        
         # self.uid
         context = self.execute('object', 'execute', 'res.users', 'context_get')
         self._context.update(context or {})
         
-        if self.context.get('tz', False):
-            self.timezone = self.execute('common', 'timezone_get')
+        self.remote_timezone = 'utc'
+        self.client_timezone = self.context.get("tz", False)
+        
+        if self.client_timezone:
+            self.remote_timezone = self.execute('common', 'timezone_get')
             try:
                 import pytz
             except:
