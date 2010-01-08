@@ -4,11 +4,11 @@
         <td colspan="2" class="pagerbar-cell" align="right">${pager.display()}</td>
     </tr>
     % endif
-    
+
     <tr>
         <td colspan="2">
             <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0">
-                
+
                 <thead>
                     <tr class="grid-header">
                         % if selector:
@@ -35,7 +35,7 @@
                         % endif
                     </tr>
                 </thead>
-                
+
                 <tbody>
                     <%def name="make_editors(data=None)">
                     % if editable and editors:
@@ -62,7 +62,7 @@
                     </tr>
                     % endif
                     </%def>
-            
+
                     <%def name="make_row(data)">
                     <tr class="grid-row" record="${data['id']}">
                         % if selector:
@@ -76,7 +76,7 @@
                             <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
                             % elif not editors:
                             <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" border="0" title="${_('Edit')}"/>
-                            % endif                            
+                            % endif
                             % if editors:
                             <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
                             % endif
@@ -84,17 +84,7 @@
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                            % if i==0:
-                            <span>
-                                <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
-                            </span>
-                            % endif
-                            % if i and show_links:
-                            ${data[field].display()}
-                            % endif
-                            % if i and not show_links:
-                            <span>${data[field]}</span>
-                            % endif
+							<span>${data[field]}</span>
                             % if editable and field == 'sequence':
                             <span class="selector">
                                 <img src="${cp.static('base', 'images/listgrid/arrow_up.gif')}" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
@@ -117,11 +107,11 @@
                         % endif
                     </tr>
                     </%def>
-                    
+
                     % if edit_inline == -1:
                     ${make_editors()}
                     % endif
-            
+
                     % for i, d in enumerate(data):
                         % if d['id'] == edit_inline:
                         ${make_editors(d)}
@@ -158,9 +148,9 @@
                     % endfor
 
                 </tbody>
-                
+
                 % if field_total:
-                <tfoot>                                    
+                <tfoot>
                     <tr class="field_sum">
                         % if selector:
                         <td width="1%" class="grid-cell">&nbsp;</td>
@@ -191,15 +181,15 @@
                     </tr>
                 </tfoot>
                 % endif
-                
+
             </table>
-            
+
             <script type="text/javascript">
                 new SortableGrid('${name}_grid');
             </script>
         </td>
     </tr>
-    
+
     % if pageable:
     <tr class="pagerbar">
         <td class="pagerbar-cell pagerbar-links" align="left">
