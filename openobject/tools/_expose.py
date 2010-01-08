@@ -38,7 +38,7 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-from openobject import tools
+import _utils as utils
 
 
 __all__ = ['find_resource', 'load_template', 'render_template', 'expose', 'register_template_vars']
@@ -131,7 +131,7 @@ def _cp_vars():
     return {
         'session': cherrypy.session,
         'request': cherrypy.request,
-        'config': tools.config,
+        'config': utils.config,
         'root': cherrypy.request.app.root,
     }
 
@@ -139,13 +139,13 @@ def _cp_vars():
 def _py_vars():
 
     return {
-        'url': tools.url,
-        'attrs': tools.attrs,
-        'attr_if': tools.attr_if,
-        'checker': lambda e: tools.attr_if('checked', e),
-        'selector': lambda e: tools.attr_if('selected', e),
-        'readonly': lambda e: tools.attr_if('readonly', e),
-        'disabled': lambda e: tools.attr_if('disabled', e),
+        'url': utils.url,
+        'attrs': utils.attrs,
+        'attr_if': utils.attr_if,
+        'checker': lambda e: utils.attr_if('checked', e),
+        'selector': lambda e: utils.attr_if('selected', e),
+        'readonly': lambda e: utils.attr_if('readonly', e),
+        'disabled': lambda e: utils.attr_if('disabled', e),
     }
 
 register_template_vars(_cp_vars, 'cp')

@@ -56,10 +56,13 @@ def setup_server(configfile):
         'tools.staticfile.on': True,
         'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
     }})
+    
+    from openobject.dispatch import Dispatcher
+    from openobject.tools import _tools
+    
+    app_config['/'] = {'request.dispatch': Dispatcher()}
+    cherrypy.tree.mount(root=None, config=app_config)
 
-    from openobject.addons import load_addons
-    load_addons(app_config)
-   
 
 def start():
     

@@ -84,6 +84,26 @@ class Node(Singleton):
         for c in self.children:
             s += '%s`-> %s' % ('   ' * depth, c._pprint(depth+1))
         return s
+    
+    
+def get_info(module):
+    
+    info = {}
+    
+    mod_path = os.path.join(ADDONS_PATH, module)
+    terp_file = os.path.join(ADDONS_PATH, module, '__config__.py')
+        
+    if not mod_path or not terp_file:
+        return info
+
+    if os.path.isfile(terp_file):
+        try:
+            info = eval(open(terp_file).read())
+        except:
+            cherrypy.log('module %s: eval file %s' % (module, terp_file), "ERROR")
+            raise
+        
+    return info
 
 def create_graph(module_list, force=None):
     graph = Graph()
@@ -99,22 +119,10 @@ def upgrade_graph(graph, module_list, force=None):
     len_graph = len(graph)
     
     for module in module_list:
-        
-        mod_path = os.path.join(ADDONS_PATH, module)
-        terp_file = os.path.join(ADDONS_PATH, module, '__terp__.py')
-        
-        if not mod_path or not terp_file:
-            continue
-        
-        if os.path.isfile(terp_file):
-            try:
-                info = eval(open(terp_file).read())
-            except:
-                cherrypy.log('module %s: eval file %s' % (module, terp_file), "ERROR")
-                raise
-            if info.get('installable', True):
-                packages.append((module, info.get('depends', []), info))
-
+        info = get_info(module)
+        if info.get('installable', True):
+            packages.append((module, info.get('depends', []), info))
+            
     dependencies = dict([(p, deps) for p, deps, data in packages])
     current, later = set([p for p, dep, data in packages]), set()
     
@@ -157,27 +165,57 @@ def imp_module(name):
             
 
 from openobject import i18n
+from openobject import pooler
 
-def load_addons(config):
+_loaded = {}
+
+__fake_module_check = {
+    'trunk': ['hello', 'world'],
+    'tt': ['hello']
+}
+
+def load_module_graph(db_name, graph, config):
     
-    addons = [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__config__.py"))] #TODO: __terp__.py
-    
-    graph = create_graph(addons)
-    
+    pool = pooler.get_pool(config)
+        
     for package in graph:
-                
+        
         cherrypy.log("Loading module '%s'" % package.name, "INFO")
         
         m = imp_module(package.name)
         
-#        static = os.path.join(ADDONS_PATH, package.name, "static")
-#        if os.path.isdir(static):
-#            base = imp_module("base")
-#            base.widgets.register_resource_directory(config, package.name, static)
-#            
-#        localedir = os.path.join(ADDONS_PATH, package.name, "locales")
-#        if os.path.isdir(localedir):
-#            i18n.load_translations(localedir, domain="messages")
-#            i18n.load_translations(localedir, domain="javascript")
+        static = os.path.join(ADDONS_PATH, package.name, "static")
+        if os.path.isdir(static):
+            from openobject.widgets import register_resource_directory
+            register_resource_directory(config, package.name, static)
+            
+        localedir = os.path.join(ADDONS_PATH, package.name, "locales")
+        if os.path.isdir(localedir):
+            i18n.load_translations(localedir, domain="messages")
+            i18n.load_translations(localedir, domain="javascript")
+            
+        pool.instanciate(package.name)
+
+def load_addons(db_name, config):
+    
+    if db_name in _loaded:
+        return True
+    
+    addons = [f for f in os.listdir(ADDONS_PATH) \
+              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__config__.py"))] #TODO: __terp__.py
+              
+    base_addons = [m for m in addons if not get_info(m).get("depends")]
+    
+    graph = create_graph(base_addons)
+    load_module_graph(db_name, graph, config)
+    
+    #TODO: get modules by db_name
+    module_list = __fake_module_check.get(db_name, [])
+    
+    new_modules_in_graph = upgrade_graph(graph, module_list)
+    if new_modules_in_graph:
+        load_module_graph(db_name, graph, config)
+    
+    _loaded[db_name] = True
+    return True
 
