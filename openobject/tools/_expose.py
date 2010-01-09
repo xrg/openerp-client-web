@@ -82,7 +82,7 @@ class TL(TemplateLookup):
         self.cache[str(uri)] = res = super(TL, self).get_template(uri)
         return res
     
-template_lookup = TL(directories=[find_resource("openobject")], 
+template_lookup = TL(directories=[find_resource("openobject", "..")], 
                         default_filters=filters,
                         imports=imports)#, module_directory="mako_modules")
 
@@ -98,7 +98,7 @@ def load_template(template, module=None):
         else:
             template = os.path.abspath(template)
             
-        base = find_resource("openobject")
+        base = find_resource("openobject", "..")
         template = template.replace(base, '').replace('\\', '/')
         
         return template_lookup.get_template(template)

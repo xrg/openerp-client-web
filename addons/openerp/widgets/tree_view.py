@@ -36,7 +36,7 @@ from openobject.widgets import Form, JSLink, locations
 
 from openerp.utils import rpc
 from openerp.utils import cache
-from openerp.utils import node_attribute
+from openerp.utils import node_attributes
 
 from sidebar import Sidebar
 import treegrid

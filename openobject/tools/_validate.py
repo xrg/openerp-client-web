@@ -3,8 +3,9 @@ import cherrypy
 from itertools import izip, islice
 from inspect import getargspec
 
-from openobject import tools
 from openobject.validators import Invalid
+
+from _utils import decorated
 
 
 __all__ = ["validate", "error_handler", "exception_handler"]
@@ -87,7 +88,7 @@ def validate(form=None, validators=None):
             args, kw = from_kw(func, args, kw)
             return func(*args, **kw)
 
-        return tools.decorated(func_wrapper, func)
+        return decorated(func_wrapper, func)
 
     return validate_wrapper
 
@@ -104,7 +105,7 @@ def error_handler(handler):
 
             return func(*args, **kw)
 
-        return tools.decorated(func_wrapper, func)
+        return decorated(func_wrapper, func)
 
     return wrapper
 
