@@ -38,8 +38,15 @@ class Pool(object):
                 if key == "controller":
                     name = getattr(obj, '_cp_path')
                     if name:
-                        name = name.strip("/")
-                        self.obj_pool["controller"][name] = obj()
+                        self.obj_pool[key][name] = obj()
+                if key == "widget":
+                    name = getattr(obj, '_data_type')
+                    if name:
+                        self.obj_pool[key][name] = obj
+                if key == "validator":
+                    name = getattr(obj, '_data_type')
+                    if name:
+                        self.obj_pool[key][name] = obj
 
 
 pool_dict = {}

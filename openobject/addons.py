@@ -167,13 +167,6 @@ def imp_module(name):
 from openobject import i18n
 from openobject import pooler
 
-_loaded = {}
-
-__fake_module_check = {
-    'trunk': ['hello', 'world'],
-    'tt': ['hello']
-}
-
 def load_module_graph(db_name, graph, config):
     
     pool = pooler.get_pool(config)
@@ -195,6 +188,14 @@ def load_module_graph(db_name, graph, config):
             i18n.load_translations(localedir, domain="javascript")
             
         pool.instanciate(package.name)
+
+
+_loaded = {}
+
+__fake_module_check = {
+    'trunk': ['hello', 'world'],
+    'tt': ['hello']
+}
 
 def load_addons(db_name, config):
     

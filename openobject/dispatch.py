@@ -1,20 +1,36 @@
-
 import cherrypy
+
 import addons
 import pooler
 
 class Dispatcher(cherrypy.dispatch.Dispatcher):
+    """This is a modified disparcher class to use pooled controllers.
+    """
     
     def find_handler(self, path):
+        """Return the appropriate page handler, plus any virtual path.
         
+        This will return two objects. The first will be a callable,
+        which can be used to generate page output. Any parameters from
+        the query string or request body will be sent to that callable
+        as keyword arguments.
+        
+        The callable is found by traversing the application's tree,
+        starting from cherrypy.request.app.root, and matching path
+        components to successive objects in the tree. For example, the
+        URL "/path/to/handler" might return root.path.to.handler.
+        
+        The second object returned will be a list of names which are
+        'virtual path' components: parts of the URL which are dynamic,
+        and were not used when looking up the handler.
+        These virtual path components are passed to the handler as
+        positional arguments.
+        """
         request = cherrypy.request
         app = request.app
-        root = app.root
-
-        pool = pooler.get_pool(app.config)
         
-        if path == "/":
-            root = pool.get_controller("") or app.root
+        pool = pooler.get_pool(app.config)
+        root = pool.get_controller("/")
         
         # Get config for the root object/path.
         curpath = ""
@@ -30,11 +46,12 @@ class Dispatcher(cherrypy.dispatch.Dispatcher):
         for name in names:
             # map to legal Python identifiers (replace '.' with '_')
             objname = name.replace('.', '_')
+            curpath = "/".join((curpath, name))
             
             nodeconf = {}
-            
-            if node is None:
-                node = pool.get_controller(curpath)
+            next = pool.get_controller(curpath)
+            if next is not None:
+                node = next
             else:
                 node = getattr(node, objname, None)
                 
@@ -44,12 +61,11 @@ class Dispatcher(cherrypy.dispatch.Dispatcher):
                     nodeconf.update(node._cp_config)
             
             # Mix in values from app.config for this path.
-            curpath = "/".join((curpath, name))
             if curpath in app.config:
                 nodeconf.update(app.config[curpath])
             
             object_trail.append([name, node, nodeconf, curpath])
-        
+                    
         def set_conf():
             """Collapse all object_trail config into cherrypy.request.config."""
             base = cherrypy.config.copy()
@@ -97,7 +113,6 @@ class Dispatcher(cherrypy.dispatch.Dispatcher):
                     # Note that this also includes handlers which take
                     # positional parameters (virtual paths).
                     request.is_index = False
-                print "RRRRRRRRR", candidate, names[i:-1]
                 return candidate, names[i:-1]
         
         # We didn't find anything
