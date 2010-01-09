@@ -1,6 +1,8 @@
 from utils import *
 from controllers import *
 
+import error_page
+
 import actions
 
 import root
@@ -29,7 +31,6 @@ import viewed
 import viewlist
 import workflow
 import process
-import error_page
 
 # vim: ts=4 sts=4 sw=4 si et
 

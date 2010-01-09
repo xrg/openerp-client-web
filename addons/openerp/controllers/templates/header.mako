@@ -1,8 +1,8 @@
 <%
 # put in try block to prevent improper redirection on connection refuse error
 try:
-    shortcuts = cp.root.shortcuts.my()
-    requests, requests_message = cp.root.requests.my()
+    shortcuts = []#cp.request.pool.get_controller("/shortcuts").my()
+    requests, requests_message = []#cp.request.pool.get_controller("/requests").my()
 except:
     shortcuts = []
     requests = []
@@ -12,7 +12,9 @@ except:
 <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td rowspan="2">
-            ${cp.root.get_logo()|n}
+        <%doc>
+        ${cp.root.get_logo()|n}
+        </%doc>
         </td>
         <td align="right" valign="top" nowrap="nowrap" height="24">
             <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
@@ -90,9 +92,11 @@ except:
                         &nbsp;
                     </td>
                     <td align="right">
+                        <%doc>                        
                         % if cp.root.shortcuts.can_create():
                         <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">${_("[ADD]")}</a>
                         % endif
+                        </%doc>
                     </td>
                 </tr>
             </table>

@@ -18,7 +18,12 @@ def get_config_file():
     if os.path.exists(configfile):
         return configfile
     return None
-            
+
+HOOKS = {}
+
+def register_setup_hook(fn):
+    HOOKS.setdefault("SETUP", []).append(fn)
+
 
 def setup_server(configfile):
 
@@ -58,10 +63,19 @@ def setup_server(configfile):
     }})
     
     from openobject.dispatch import PooledDispatcher
+    from openobject.addons import load_addons
     from openobject.tools import _tools
     
-    app_config['/'] = {'request.dispatch': PooledDispatcher()}
-    cherrypy.tree.mount(root=None, config=app_config)
+    app_config['/'] = {'request.dispatch': PooledDispatcher(app_config)}
+    app = cherrypy.tree.mount(root=None, config=app_config)
+    
+    load_addons(None, app_config)
+    
+    for hook in HOOKS['SETUP']:
+        try:
+            hook(app)
+        except:
+            pass
 
 
 def start():

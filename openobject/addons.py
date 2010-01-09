@@ -173,6 +173,9 @@ def load_module_graph(db_name, graph, config):
         
     for package in graph:
         
+        if package.name in _loaded_addons:
+            continue
+        
         cherrypy.log("Loading module '%s'" % package.name, "INFO")
         
         m = imp_module(package.name)
@@ -188,9 +191,11 @@ def load_module_graph(db_name, graph, config):
             i18n.load_translations(localedir, domain="javascript")
             
         pool.instanciate(package.name)
+        _loaded_addons[package.name] = True
 
 
 _loaded = {}
+_loaded_addons = {}
 
 __fake_module_check = {
     'trunk': ['openerp', 'widget_wiki'],

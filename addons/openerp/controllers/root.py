@@ -48,7 +48,8 @@ from openerp.controllers import login as tiny_login
 
 
 def _cp_on_error():
-    errorpage = cherrypy.request.app.root.errorpage
+    
+    errorpage = cherrypy.request.pool.get_controller("/errorpage")
     message = errorpage.render()
     cherrypy.response.status = 500
     #cherrypy.response.headers['Content-Type'] = 'text/html'

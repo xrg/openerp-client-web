@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="/openobject/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${_("Manage Workflows %s") % (model)}</title>

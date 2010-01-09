@@ -21,7 +21,7 @@ class Pool(object):
     def __init__(self):
         self.obj_pool = {"controller": {}, "widget": {}, "validator": {}}
         
-    def get_controller(self, name):
+    def get_controller(self, name):        
         return self.obj_pool["controller"].get(name, None)
     
     def get_validator(self, name):

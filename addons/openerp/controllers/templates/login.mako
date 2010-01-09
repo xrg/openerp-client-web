@@ -1,4 +1,4 @@
-<%inherit file="base.mako"/>
+<%inherit file="/openobject/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${_("Login")}</title>
@@ -13,7 +13,9 @@
         <br/>
 
         <center>
+            <%doc>
             ${cp.root.developped_by()|n}
+            </%doc>
         </center>
 
         <br/>

@@ -7,6 +7,9 @@ class PooledDispatcher(cherrypy.dispatch.Dispatcher):
     """This is a modified disparcher class to use pooled controllers.
     """
     
+    def __init__(self, config):
+        self.config = config
+    
     def find_handler(self, path):
         """Return the appropriate page handler, plus any virtual path.
         
@@ -28,8 +31,8 @@ class PooledDispatcher(cherrypy.dispatch.Dispatcher):
         """
         request = cherrypy.request
         app = request.app
-        
-        pool = pooler.get_pool(app.config)
+                
+        request.pool = pool = pooler.get_pool(self.config)
         root = pool.get_controller("/")
         
         # Get config for the root object/path.
