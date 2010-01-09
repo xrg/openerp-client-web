@@ -27,13 +27,11 @@
 #
 ###############################################################################
 
-from openobject import tools
+from openerp.utils import rpc
+from openerp.utils import TinyDict
 
-from openobject.tools import rpc
-from base.utils import TinyDict
-
-from base.widgets import JSSource
-from base.widgets import TinyWidget
+from openobject.widgets import JSSource
+from openerp.widgets import TinyWidget
 
 from screen import Screen
 

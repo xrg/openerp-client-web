@@ -41,23 +41,26 @@ import cherrypy
 
 from openobject import tools
 
-from openobject.tools import rpc
-from openobject.tools import icons
-from openobject.tools import common
-from openobject.tools import cache
-from base.utils import TinyDict
-
 from openobject.i18n import format
 from openobject.i18n import get_locale
 
-from base.widgets import TinyInputWidget
-from base.widgets import ConcurrencyInfo
-from base.widgets import JSLink, JSSource, CSSLink
+from openobject.widgets import JSLink, JSSource, CSSLink
 
-from base.widgets import get_widget
-from base.widgets import register_widget
+from openerp.utils import rpc
+from openerp.utils import icons
+from openerp.utils import common
+from openerp.utils import cache
+from openerp.utils import TinyDict
+from openerp.utils import node_attributes
+from openerp.utils import get_node_xpath
 
-from base import validators
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import ConcurrencyInfo
+
+from openerp.widgets import get_widget
+from openerp.widgets import register_widget
+
+from openerp import validators
 
 from _binary import Image
 
@@ -723,7 +726,7 @@ class Form(TinyInputWidget):
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
         fields = view['fields']
 
         self.string = attrs.get('string', '')
@@ -811,7 +814,7 @@ class Form(TinyInputWidget):
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
 
-            attrs = tools.node_attributes(node)
+            attrs = node_attributes(node)
             attrs['prefix'] = prefix
             attrs['state'] = self.state
 
@@ -899,7 +902,7 @@ class Form(TinyInputWidget):
 
             elif node.localName in ('child1', 'child2'):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                attrs['name'] = tools.get_node_xpath(node)
+                attrs['name'] = get_node_xpath(node)
                 views += [Dashbar(children=n, **attrs)]
 
             elif node.localName=='action':

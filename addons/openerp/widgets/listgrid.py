@@ -37,22 +37,25 @@ import cherrypy
 
 from openobject import tools
 
-from openobject.tools import rpc
-from openobject.tools import icons
-from openobject.tools import common
 from openobject.i18n import format
+from openobject.widgets import CSSLink, JSLink
+
+from openerp.utils import rpc
+from openerp.utils import icons
+from openerp.utils import common
+from openerp.utils import expr_eval
+from openerp.utils import node_attributes
 
 import form
 
 from pager import Pager
 
-from base.widgets import TinyWidget
-from base.widgets import TinyInputWidget
-from base.widgets import ConcurrencyInfo
-from base.widgets import CSSLink, JSLink
+from openerp.widgets import TinyWidget
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import ConcurrencyInfo
 
-from base.widgets import get_widget
-from base.widgets import register_widget
+from openerp.widgets import get_widget
+from openerp.widgets import register_widget
 
 
 class List(TinyWidget):
@@ -122,7 +125,7 @@ class List(TinyWidget):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
 
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
         self.string = attrs.get('string','')
         
         # is relational field (M2M/O2M)
@@ -297,11 +300,11 @@ class List(TinyWidget):
         for node in root.childNodes:
 
             if node.nodeName == 'button':
-                attrs = tools.node_attributes(node)
+                attrs = node_attributes(node)
                 buttons += [Button(**attrs)]
 
             elif node.nodeName == 'field':
-                attrs = tools.node_attributes(node)
+                attrs = node_attributes(node)
 
                 if 'name' in attrs:
 
@@ -362,7 +365,7 @@ class List(TinyWidget):
                                 d['time'] = time
                                 d['active_id'] = rpc.session.active_id or False
 
-                                if tools.expr_eval(expr, d):
+                                if expr_eval(expr, d):
                                     cell.color = color
                                     break
                             except:

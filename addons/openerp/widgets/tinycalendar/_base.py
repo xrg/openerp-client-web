@@ -34,17 +34,16 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
-from base.utils import TinyDict
-
 from openobject.i18n import format
+from openobject.widgets import JSLink, CSSLink
 
-from base.widgets import TinyWidget
-from base.widgets import ConcurrencyInfo
-from base.widgets import JSLink, CSSLink
-from base.widgets import get_widget
+from openerp.utils import rpc
+from openerp.utils import TinyDict
+from openerp.utils import node_attributes
+
+from openerp.widgets import TinyWidget
+from openerp.widgets import ConcurrencyInfo
+from openerp.widgets import get_widget
 
 from utils import Day
 from utils import parse_datetime
@@ -160,7 +159,7 @@ class ICalendar(TinyWidget):
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
 
         self.string = attrs.get('string', '')
         self.date_start = attrs.get('date_start')
@@ -381,10 +380,10 @@ class TinyCalendar(ICalendar):
     def parse(self, root, fields):
 
         info_fields = []
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
 
         for node in root.childNodes:
-            attrs = tools.node_attributes(node)
+            attrs = node_attributes(node)
 
             if node.localName == 'field':
                 info_fields += [attrs['name']]

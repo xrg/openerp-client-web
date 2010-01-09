@@ -32,22 +32,23 @@ import os
 import time
 import random
 import locale
-import xml.dom.minidom
 import base64
+import xml.dom.minidom
 
 import re
 import urllib
 
 import simplejson
 
-from openobject import tools
+from openobject.tools import url_plus
+from openobject.widgets import JSSource, JSLink
 
-from openobject.tools import rpc
-from openobject.tools import common
-from openobject.tools import cache
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import cache
+from openerp.utils import node_attributes
 
-from base.widgets import JSSource, JSLink
-from base.widgets import TinyWidget
+from openerp.widgets import TinyWidget
 
 
 DT_FORMAT = '%Y-%m-%d'
@@ -101,7 +102,7 @@ class Graph(TinyWidget):
         
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
         
         self.string = attrs.get('string')
         
@@ -132,7 +133,7 @@ class GraphData(object):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
 
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
 
         self.model = model
         self.string = attrs.get('string', 'Unknown')
@@ -205,14 +206,14 @@ class GraphData(object):
 
     def parse(self, root, fields):
 
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
 
         axis = []
         axis_data = {}
         axis_group = {}
 
         for node in root.childNodes:
-            attrs = tools.node_attributes(node)
+            attrs = node_attributes(node)
             if node.localName == 'field':
                 name = attrs['name']
                 fields[name].update(attrs) # Update fields ...
@@ -485,14 +486,14 @@ class BarChart(GraphData):
                             ids = s.split('/')[1]
                             ids = eval(ids)
                             dom = [('id', 'in', ids)]
-                            u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                            u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
                                _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
         
                             url.append(u)
             
             else:
                 for dom in domain:
-                    u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                    u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
                            _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
     
                     url.append(u)
@@ -623,7 +624,7 @@ class PieChart(GraphData):
         url = []
 
         for dom in domain:
-            u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+            u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
             url.append(u)

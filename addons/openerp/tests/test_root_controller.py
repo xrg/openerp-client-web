@@ -1,5 +1,5 @@
 
-from openobject.tools import rpc
+from openerp.utils import rpc
 from openobject.test import TestCase
 
 

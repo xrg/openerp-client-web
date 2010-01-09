@@ -31,19 +31,18 @@ import time
 
 import cherrypy
 
-from openobject import tools
+from openerp.utils import rpc
+from openerp.utils import cache
+from openerp.utils import TinyDict
+from openerp.utils import expr_eval
 
-from openobject.tools import rpc
-from openobject.tools import cache
+from openerp.widgets.listgrid import List
+from openerp.widgets.screen import Screen
 
-from base.utils import TinyDict
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import register_widget
 
-from base.widgets.listgrid import List
-from base.widgets.screen import Screen
-from base.widgets import TinyInputWidget
-from base.widgets import register_widget
-
-from base import validators
+from openerp import validators
 
 
 __all__ = ["M2M"]
@@ -147,7 +146,7 @@ class M2M(TinyInputWidget):
             #    ctx['parent'] = EvalEnvironment(self.parent)
 
             try:
-                ctx = tools.expr_eval(self.context, ctx)
+                ctx = expr_eval(self.context, ctx)
                 current.context.update(ctx)
             except:
                 pass

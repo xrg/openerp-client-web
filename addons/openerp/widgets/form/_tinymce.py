@@ -27,11 +27,12 @@
 #
 ###############################################################################
 
-from base.widgets import JSLink
-from base.widgets import TinyInputWidget
-from base.widgets import register_widget
+from openobject.widgets import JSLink
 
-from base import validators
+from openerp import validators
+
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import register_widget
 
 
 __all__ = ["TinyMCE"]

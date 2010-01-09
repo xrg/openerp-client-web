@@ -33,7 +33,7 @@ from search import Search
 from screen import Screen
 from sidebar import Sidebar
 
-from base.widgets import Form, JSLink, locations
+from openobject.widgets import Form, JSLink, locations
 
 class ViewForm(Form):
 

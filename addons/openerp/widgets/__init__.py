@@ -1,3 +1,5 @@
+from openobject.widgets import *
+
 from _interface import *
 
 import form

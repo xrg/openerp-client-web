@@ -31,7 +31,7 @@ import time
 import socket
 import xmlrpclib
 
-from openerp.tools import common
+import common
 
 from tiny_socket import TinySocket
 from tiny_socket import TinySocketError

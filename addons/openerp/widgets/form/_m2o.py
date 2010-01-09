@@ -27,13 +27,13 @@
 #
 ###############################################################################
 
-from openobject.tools import rpc
-from openobject.tools import common
+from openerp.utils import rpc
+from openerp.utils import common
 
-from base import validators
+from openerp import validators
 
-from base.widgets import TinyInputWidget
-from base.widgets import register_widget
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import register_widget
 
 
 __all__ = ["M2O"]

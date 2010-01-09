@@ -31,11 +31,12 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openobject import tools
-from openobject.tools import rpc
-from openobject.tools import cache
+from openobject.tools import url
+from openobject.widgets import Form, JSLink, locations
 
-from base.widgets import Form, JSLink, locations
+from openerp.utils import rpc
+from openerp.utils import cache
+from openerp.utils import node_attribute
 
 from sidebar import Sidebar
 import treegrid
@@ -75,7 +76,7 @@ class ViewTree(Form):
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
 
         root = dom.childNodes[0]
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
         self.string = attrs.get('string', 'Unknown')
         self.toolbar = attrs.get('toolbar', False)
 
@@ -100,7 +101,7 @@ class ViewTree(Form):
         self.tree = treegrid.TreeGrid(name="tree_%s" % (id),
                                       model=self.model,
                                       headers=self.headers,
-                                      url=tools.url("/tree/data"),
+                                      url=url("/tree/data"),
                                       ids=ids or 0,
                                       domain=self.domain,
                                       context=self.context,
@@ -127,7 +128,7 @@ class ViewTree(Form):
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
 
-            attrs = tools.node_attributes(node)
+            attrs = node_attributes(node)
 
             field = fields.get(attrs['name'])
             field.update(attrs)

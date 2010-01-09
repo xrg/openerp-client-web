@@ -29,12 +29,10 @@
 
 import cherrypy
 
-from openobject import tools
+from openerp.utils import rpc
+from openerp.utils import cache
 
-from openobject.tools import rpc
-from openobject.tools import cache
-
-from base.widgets import TinyInputWidget
+from openerp.widgets import TinyInputWidget
 
 import form
 import graph

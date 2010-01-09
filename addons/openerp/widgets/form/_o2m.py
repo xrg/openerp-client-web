@@ -31,15 +31,14 @@ import time
 
 import cherrypy
 
-from openobject import tools
-from openobject.tools import rpc
+from openerp.utils import rpc
+from openerp.utils import TinyDict
+from openerp.utils import expr_eval
 
-from base.utils import TinyDict
+from openerp.widgets.screen import Screen
 
-from base.widgets.screen import Screen
-
-from base.widgets import TinyInputWidget
-from base.widgets import register_widget
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import register_widget
 
 
 __all__ = ["O2M"]
@@ -140,7 +139,7 @@ class O2M(TinyInputWidget):
             #    ctx['parent'] = EvalEnvironment(self.parent)
 
             try:
-                ctx = tools.expr_eval("dict(%s)" % self.default_get_ctx, ctx)
+                ctx = expr_eval("dict(%s)" % self.default_get_ctx, ctx)
                 current.context.update(ctx)
             except:
                 pass

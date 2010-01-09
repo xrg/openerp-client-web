@@ -29,10 +29,8 @@
 
 import cherrypy
 
-from openobject import tools
-
-from _base import Widget
-from _base import InputWidget
+from openobject.widgets import Widget
+from openobject.widgets import InputWidget
 
 __all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo',
            'register_widget', 'get_widget', 'get_registered_widgets']

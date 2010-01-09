@@ -27,12 +27,12 @@
 #
 ###############################################################################
 
-from openobject.tools import rpc
+from openerp.utils import rpc
 
-from base import validators
+from openerp import validators
 
-from base.widgets import TinyInputWidget
-from base.widgets import register_widget
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import register_widget
 
 __all__ = ["Reference"]
 

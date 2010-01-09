@@ -29,16 +29,15 @@
 
 import cherrypy
 
-from openobject import tools
+from openerp.utils import rpc
+from openerp.utils import icons
+from openerp.utils import expr_eval
 
-from openobject.tools import rpc
-from openobject.tools import icons
+from openerp.utils import TinyDict
 
-from base.utils import TinyDict
-
-from base.widgets import screen
-from base.widgets import TinyInputWidget
-from base.widgets import register_widget
+from openerp.widgets import screen
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import register_widget
 
 
 __all__ = ["Action"]
@@ -78,8 +77,8 @@ class Action(TinyInputWidget):
             ctx = rpc.session.context.copy()
             ctx.update({'active_id': False, 'active_ids': []})
             
-            self.context = tools.expr_eval(self.action.get('context', '{}'), ctx)
-            self.domain = tools.expr_eval(self.action['domain'], ctx)
+            self.context = expr_eval(self.action.get('context', '{}'), ctx)
+            self.domain = expr_eval(self.action['domain'], ctx)
 
             views = dict(map(lambda x: (x[1], x[0]), self.action['views']))
             view_mode = self.action.get('view_mode', 'tree,form').split(',')

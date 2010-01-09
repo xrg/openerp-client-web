@@ -31,34 +31,36 @@
 This module implementes widget parser for form view, and
 several widget components.
 """
-import xml.dom.minidom
+
 import copy
+import random
+import xml.dom.minidom
 
 import cherrypy
-import random
 
-from openobject import tools
-from openobject.tools import rpc
-from openobject.tools import cache
-from openobject.tools import icons
+from openobject.widgets import JSLink, locations
 
-from base.widgets import TinyInputWidget
+from openerp.utils import rpc
+from openerp.utils import cache
+from openerp.utils import icons
+from openerp.utils import node_attributes
 
-from base.widgets.form import Char
-from base.widgets.form import Form
-from base.widgets.form import Frame
-from base.widgets.form import Button
-from base.widgets.form import Float
-from base.widgets.form import Frame
-from base.widgets.form import DateTime
-from base.widgets.form import Integer
-from base.widgets.form import Selection
-from base.widgets.form import Notebook
-from base.widgets.form import Separator
-from base.widgets.form import Group
-from base.widgets.form import NewLine
+from openerp.widgets import TinyInputWidget
 
-from base.widgets import JSLink, locations
+from openerp.widgets.form import Char
+from openerp.widgets.form import Form
+from openerp.widgets.form import Frame
+from openerp.widgets.form import Button
+from openerp.widgets.form import Float
+from openerp.widgets.form import Frame
+from openerp.widgets.form import DateTime
+from openerp.widgets.form import Integer
+from openerp.widgets.form import Selection
+from openerp.widgets.form import Notebook
+from openerp.widgets.form import Separator
+from openerp.widgets.form import Group
+from openerp.widgets.form import NewLine
+
 
 class RangeWidget(TinyInputWidget):
     template = "templates/rangewid.mako"
@@ -158,7 +160,7 @@ class Search(TinyInputWidget):
             
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
         self.string = attrs.get('string', '')
 
         self.fields_type = {}
@@ -190,7 +192,7 @@ class Search(TinyInputWidget):
                 continue
             
             filter_attrs = {}
-            attrs = tools.node_attributes(node)
+            attrs = node_attributes(node)
             attrs['label_position'] = 'True'
             attrs['model'] = search_model
             
@@ -291,7 +293,7 @@ class Search(TinyInputWidget):
                 
                 for n in node.childNodes:
                     if n.localName=='filter':
-                        attrs = tools.node_attributes(n)
+                        attrs = node_attributes(n)
                         kind = 'filter'
                         
                         filter_field = FILTER[kind](**attrs)

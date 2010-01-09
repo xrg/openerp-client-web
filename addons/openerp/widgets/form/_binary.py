@@ -31,16 +31,17 @@ import base64
 import time
 
 from openobject import tools
+from openerp import utils
 
-from openobject.tools import rpc
-from openobject.tools import icons
-from openobject.tools import cache
-from openobject.tools import TempFileName
+from openerp.utils import rpc
+from openerp.utils import icons
+from openerp.utils import cache
+from openerp.utils import TempFileName
 
-from base import validators
+from openerp import validators
 
-from base.widgets import TinyInputWidget
-from base.widgets import register_widget
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import register_widget
 
 
 __all__ = ["Binary", "Image", "Picture", "get_temp_file", "generate_url_for_picture"]
@@ -62,7 +63,7 @@ class Binary(TinyInputWidget):
     def set_value(self, value):
         #XXX: server bug work-arround
         try:
-            self.text = tools.get_size(value)
+            self.text = utils.get_size(value)
         except:
             self.text = value or ''
 
