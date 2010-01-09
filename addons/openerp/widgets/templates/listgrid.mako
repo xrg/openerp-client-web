@@ -49,7 +49,7 @@
                             ${editors[field].display()}
                             % endfor
                             <!-- end of hidden fields -->
-                            <img src="${cp.static('base', 'images/listgrid/save_inline.gif')}" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
+                            <img src="${cp.static('openerp', 'images/listgrid/save_inline.gif')}" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                         </td>
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}">
@@ -57,7 +57,7 @@
                         </td>
                         % endfor
                         <td class="grid-cell selector" style="text-align: center; padding: 0px;">
-                            <img src="${cp.static('base', 'images/listgrid/delete_inline.gif')}" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
+                            <img src="${cp.static('openerp', 'images/listgrid/delete_inline.gif')}" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
                         </td>
                     </tr>
                     % endif
@@ -73,12 +73,12 @@
                         % if editable:
                         <td class="grid-cell selector">
                             % if not editors:
-                            <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
+                            <img src="${cp.static('openerp', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
                             % elif not editors:
-                            <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" border="0" title="${_('Edit')}"/>
+                            <img src="${cp.static('openerp', 'images/listgrid/edit_inline.gif')}" border="0" title="${_('Edit')}"/>
                             % endif                            
                             % if editors:
-                            <img src="${cp.static('base', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
+                            <img src="${cp.static('openerp', 'images/listgrid/edit_inline.gif')}" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
                             % endif
                         </td>
                         % endif
@@ -97,8 +97,8 @@
                             % endif
                             % if editable and field == 'sequence':
                             <span class="selector">
-                                <img src="${cp.static('base', 'images/listgrid/arrow_up.gif')}" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
-                                <img src="${cp.static('base', 'images/listgrid/arrow_down.gif')}" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
+                                <img src="${cp.static('openerp', 'images/listgrid/arrow_up.gif')}" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
+                                <img src="${cp.static('openerp', 'images/listgrid/arrow_down.gif')}" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
                             </span>
                             % endif
                         </td>
@@ -112,7 +112,7 @@
                         % endif
                         % if editable:
                         <td class="grid-cell selector">
-                            <img src="${cp.static('base', 'images/listgrid/delete_inline.gif')}" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
+                            <img src="${cp.static('openerp', 'images/listgrid/delete_inline.gif')}" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
                         </td>
                         % endif
                     </tr>

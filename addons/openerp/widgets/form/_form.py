@@ -531,12 +531,12 @@ class DTLink(JSLink):
         link = "calendar/lang/calendar-%s.js" % lang
         
         if os.path.exists(tools.find_resource("openobject", "static", link)):
-            d.link = tools.url(["/cp_widgets/openobject", link])
+            d.link = tools.url(["/openobject/static", link])
         else:
             lang = lang.split('_')[0]
             link = "calendar/lang/calendar-%s.js" % lang
             if os.path.exists(tools.find_resource("openobject", "static", link)):
-                d.link = tools.url(["/cp_widgets/openobject", link])
+                d.link = tools.url(["/openobject/static", link])
 
 class DateTime(TinyInputWidget):
 

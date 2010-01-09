@@ -47,7 +47,7 @@ def setup_server(configfile):
     cherrypy.config.update(_global)
     
     static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
-    app_config.update({'/static': {
+    app_config.update({'/openobject/static': {
         'tools.staticdir.on': True,
         'tools.staticdir.dir': static_dir
     }})
@@ -69,7 +69,7 @@ def setup_server(configfile):
     app_config['/'] = {'request.dispatch': PooledDispatcher(app_config)}
     app = cherrypy.tree.mount(root=None, config=app_config)
     
-    load_addons(None, app_config)
+    load_addons(None, app.config)
     
     for hook in HOOKS['SETUP']:
         try:

@@ -3,16 +3,16 @@
 <%def name="header()">
     <title>${_("Process")}</title>
 
-    <link type="text/css" rel="stylesheet" href="${cp.static('base', 'workflow/css/process_box.css')}"/>
-    <link type="text/css" rel="stylesheet" href="${cp.static('base', 'workflow/css/process.css')}"/>
+    <link type="text/css" rel="stylesheet" href="${cp.static('openerp', 'workflow/css/process_box.css')}"/>
+    <link type="text/css" rel="stylesheet" href="${cp.static('openerp', 'workflow/css/process.css')}"/>
 
-    <script src="${cp.static('base', 'workflow/javascript/draw2d/wz_jsgraphics.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/draw2d/mootools.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/draw2d/moocanvas.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/draw2d/draw2d.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/draw2d/wz_jsgraphics.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/draw2d/mootools.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/draw2d/moocanvas.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/draw2d/draw2d.js')}"></script>
 
-    <script src="${cp.static('base', 'workflow/javascript/process_box.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/process.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/process_box.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/process.js')}"></script>
 
     <script type="text/javascript">
         var context_help = function() {
@@ -72,11 +72,11 @@
             <table width="100%" class="titlebar">
                 <tr>
                     <td width="32px" align="center">
-                        <img src="${cp.static('base', 'images/stock/gtk-refresh.png')}"/>
+                        <img src="${cp.static('openerp', 'images/stock/gtk-refresh.png')}"/>
                     </td>
                     <td width="100%" id="process_title">${title}</td>
                     <td nowrap="nowrap">
-                        <img class="button" title="${_('Help')}" src="${cp.static('base', 'images/stock/gtk-help.png')}" width="16" height="16"
+                        <img class="button" title="${_('Help')}" src="${cp.static('openerp', 'images/stock/gtk-help.png')}" width="16" height="16"
                         onclick="context_help()"/>
                     </td>
                 </tr>

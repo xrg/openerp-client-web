@@ -7,7 +7,7 @@
             </td>
             <td width="16" style="padding-left: 2px">
                 <img width="16" height="16" alt="${_('Go!')}" 
-                    src="${cp.static('base', 'images/stock/gtk-jump-to.png')}" 
+                    src="${cp.static('openerp', 'images/stock/gtk-jump-to.png')}" 
                     style="cursor: pointer;" 
                     onclick="open_url(openobject.dom.get('${name}').value);"/>
             </td>

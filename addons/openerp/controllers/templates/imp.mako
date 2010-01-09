@@ -2,8 +2,8 @@
 
 <%def name="header()">
     <title>Import Data</title>
-    <link href="${cp.static('base', 'css/listgrid.css')}" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="${cp.static('base', 'javascript/listgrid.js')}"></script>
+    <link href="${cp.static('openerp', 'css/listgrid.css')}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/listgrid.js')}"></script>
 
     <style type="text/css">
         .fields-selector {
@@ -137,7 +137,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${cp.static('base', 'images/stock/gtk-go-down.png')}"/>
+                            <img src="${cp.static('openerp', 'images/stock/gtk-go-down.png')}"/>
                         </td>
                         <td width="100%">${_("Import Data")}</td>
                     </tr>

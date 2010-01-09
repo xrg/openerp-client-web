@@ -2,7 +2,7 @@
 
 <%def name="header()">
     <title>${tree.string}</title>
-    <script type="text/javascript" src="${cp.static('base', 'javascript/treeview.js')}"></script>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/treeview.js')}"></script>
 </%def>
 
 <%def name="content()">
@@ -18,14 +18,14 @@
                         <table width="100%" class="titlebar">
                             <tr>
                                 <td width="32px" align="center">
-                                    <img src="${cp.static('base', 'images/stock/gtk-find.png')}"/>
+                                    <img src="${cp.static('openerp', 'images/stock/gtk-find.png')}"/>
                                 </td>
                                 <td width="100%">${tree.string}</td>
                                 <!--td nowrap="nowrap">
                                 <button type="button" title="${_('Switch current view: form/list')}" onclick="TREEVIEW.switchItem()">${_("Switch")}</button>
                                 </td-->
                                 <td align="center" valign="middle" width="16">
-                                    <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="${cp.static('base', 'images/stock/gtk-help.png')}" width="16" height="16"/></a>
+                                    <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="${cp.static('openerp', 'images/stock/gtk-help.png')}" width="16" height="16"/></a>
                                 </td>
                             </tr>
                          </table>

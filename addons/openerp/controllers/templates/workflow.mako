@@ -4,21 +4,21 @@
 <title>${_("Workflow")}</title>
  <!--meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"-->
     <title></title>  
-	<link type="text/css" rel="stylesheet" href="${cp.static('base', 'workflow/css/graph.css')}"/>
+	<link type="text/css" rel="stylesheet" href="${cp.static('openerp', 'workflow/css/graph.css')}"/>
 	
-	<script src="${cp.static('base', 'workflow/javascript/draw2d/wz_jsgraphics.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/draw2d/mootools.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/draw2d/moocanvas.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/draw2d/draw2d.js')}"></script>
+	<script src="${cp.static('openerp', 'workflow/javascript/draw2d/wz_jsgraphics.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/draw2d/mootools.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/draw2d/moocanvas.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/draw2d/draw2d.js')}"></script>
     
-	<script src="${cp.static('base', 'workflow/javascript/connector.js')}"></script>
-	<script src="${cp.static('base', 'workflow/javascript/conn_anchor.js')}"></script>
-	<script src="${cp.static('base', 'workflow/javascript/conn_decorator.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/workflow.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/toolbar.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/ports.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/state.js')}"></script>
-    <script src="${cp.static('base', 'workflow/javascript/infobox.js')}"></script>
+	<script src="${cp.static('openerp', 'workflow/javascript/connector.js')}"></script>
+	<script src="${cp.static('openerp', 'workflow/javascript/conn_anchor.js')}"></script>
+	<script src="${cp.static('openerp', 'workflow/javascript/conn_decorator.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/workflow.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/toolbar.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/ports.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/state.js')}"></script>
+    <script src="${cp.static('openerp', 'workflow/javascript/infobox.js')}"></script>
 
     <style>
         body, html {
@@ -45,7 +45,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${cp.static('base', 'images/stock/gtk-refresh.png')}"/>
+                            <img src="${cp.static('openerp', 'images/stock/gtk-refresh.png')}"/>
                         </td>
                         <td width="100%">${_('Workflow (%s)') % wkf['name']}</td>
                     </tr>

@@ -39,7 +39,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${cp.static('base', 'images/stock/gtk-edit.png')}"/>
+                            <img src="${cp.static('openerp', 'images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${form.screen.string}
                         </td>

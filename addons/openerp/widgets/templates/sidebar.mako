@@ -81,7 +81,7 @@
         </td>
 
         <td id="sidebar_hide" valign="top">
-           <img src="${cp.static('base', 'images/sidebar_show.gif')}"
+           <img src="${cp.static('openerp', 'images/sidebar_show.gif')}"
            border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
         </td>
     </tr>

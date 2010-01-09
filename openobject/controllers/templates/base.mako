@@ -7,44 +7,44 @@
     ${css.display()}
 % endfor
 
-    ${cp.static.js("base", "MochiKit/MochiKit.js")}
-    ${cp.static.js("base", "MochiKit/DragAndDrop.js")}
-    ${cp.static.js("base", "MochiKit/Resizable.js")}
+    ${cp.static.js("openobject", "MochiKit/MochiKit.js")}
+    ${cp.static.js("openobject", "MochiKit/DragAndDrop.js")}
+    ${cp.static.js("openobject", "MochiKit/Resizable.js")}
 
-    ${cp.static.js("base", "MochiKit/Resizable.js")}
-    ${cp.static.js("base", "MochiKit/Sortable.js")}
+    ${cp.static.js("openobject", "MochiKit/Resizable.js")}
+    ${cp.static.js("openobject", "MochiKit/Sortable.js")}
     
-    ${cp.static.js("base", "Sizzle/sizzle.js")}
+    ${cp.static.js("openerp", "Sizzle/sizzle.js")}
     
-    ${cp.static.js("base", "openobject/openobject.base.js")}
-    ${cp.static.js("base", "openobject/openobject.gettext.js")}
-    ${cp.static.js("base", "openobject/openobject.dom.js")}
-    ${cp.static.js("base", "openobject/openobject.http.js")}
-    ${cp.static.js("base", "openobject/openobject.tools.js")}
-    ${cp.static.js("base", "openobject/openobject.links.js")}
-    ${cp.static.js("base", "openobject/openobject.ui.js")}
+    ${cp.static.js("openobject", "openobject/openobject.base.js")}
+    ${cp.static.js("openobject", "openobject/openobject.gettext.js")}
+    ${cp.static.js("openobject", "openobject/openobject.dom.js")}
+    ${cp.static.js("openobject", "openobject/openobject.http.js")}
+    ${cp.static.js("openobject", "openobject/openobject.tools.js")}
+    ${cp.static.js("openobject", "openobject/openobject.links.js")}
+    ${cp.static.js("openobject", "openobject/openobject.ui.js")}
     
     <script type="text/javascript">
         window.SCRIPT_PATH = "${cp.request.app.script_name}";
         openobject.http.SCRIPT_PATH = "${cp.request.app.script_name}";
     </script>
     
-    ${cp.static.js("base", "javascript/ajax_stat.js")}
+    ${cp.static.js("openerp", "javascript/ajax_stat.js")}
     
 % for js in widget_javascript.get('head', []):
     ${js.display()}
 % endfor
 
-    ${cp.static.css("base", "style.css")}
-    ${cp.static.css("base", "menu.css")}
-    ${cp.static.css("base", "tips.css")}
+    ${cp.static.css("openerp", "style.css")}
+    ${cp.static.css("openerp", "menu.css")}
+    ${cp.static.css("openerp", "tips.css")}
 
     <!--[if IE]>
-    ${cp.static.css("base", "style-ie.css")}
+    ${cp.static.css("openobject", "style-ie.css")}
     <![endif]-->
     
-    ${cp.static.js("base", "menu.js")}
-    ${cp.static.js("base", "openobject/openobject.ui.tips.js")}
+    ${cp.static.js("openerp", "menu.js")}
+    ${cp.static.js("openobject", "openobject/openobject.ui.tips.js")}
     
     ${self.header()}
 

@@ -37,7 +37,7 @@ openobject.links = {
         
         module = module ? module : "openobject";
         
-        return openobject.http.getURL("/cp_widgets/" + module + "/" + resource);
+        return openobject.http.getURL("/" + module + "/static/" + "/" + resource);
     },
     
     css: function(module, resource) {

@@ -21,7 +21,7 @@ except:
                 <tr>
                     <td>
                         <a href="http://openerp.com" target="_blank" title="OpenERP - Open Source Management Solution" style="padding: 0px;">
-                            <img src="${py.url('/static/images/openerp_small.png')}" border="0" width="86" height="24"/></a>
+                            <img src="/openobject/static/images/openerp_small.png" border="0" width="86" height="24"/></a>
                     </td>
                     <td width="26" class="menu_connection_right" nowrap="nowrap">
                         <div style="width: 26px;"/>

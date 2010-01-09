@@ -4,13 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>OpenERP</title>
     
-    <link href="${cp.static('base', 'css/style.css')}" rel="stylesheet" type="text/css"/>
+    <link href="${cp.static('openerp', 'css/style.css')}" rel="stylesheet" type="text/css"/>
     
     <script type="text/javascript">
         window.SCRIPT_PATH = "${cp.request.app.script_name}";
     </script>
 
-    <script type="text/javascript" src="${cp.static('base', 'javascript/MochiKit/MochiKit.js')}"></script>   
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/MochiKit/MochiKit.js')}"></script>   
     
     <script type="text/javascript">
     

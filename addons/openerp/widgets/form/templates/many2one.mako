@@ -16,7 +16,7 @@
                     height="16" 
                     alt="${_('Open')}" 
                     title="${_('Open a resource')}" 
-                    src="${cp.static('base', 'images/stock/gtk-open.png')}" 
+                    src="${cp.static('openerp', 'images/stock/gtk-open.png')}" 
                     style="cursor: pointer;" 
                     class="imgSelect"/>
             </td>
@@ -27,7 +27,7 @@
                     height="16" 
                     alt="${_('Search')}" 
                     title="${_('Search')}" 
-                    src="${cp.static('base', 'images/stock-disabled/gtk-find.png')}"/>
+                    src="${cp.static('openerp', 'images/stock-disabled/gtk-find.png')}"/>
                 % endif
                 % if not readonly:
                 <img id='${name}_select' 
@@ -35,7 +35,7 @@
                     height="16" 
                     alt="${_('Search')}" 
                     title="${_('Search')}" 
-                    src="${cp.static('base', 'images/stock/gtk-find.png')}" 
+                    src="${cp.static('openerp', 'images/stock/gtk-find.png')}" 
                     style="cursor: pointer;" 
                     class="imgSelect"/>
                 % endif

@@ -32,7 +32,7 @@ class PooledDispatcher(cherrypy.dispatch.Dispatcher):
         request = cherrypy.request
         app = request.app
                 
-        request.pool = pool = pooler.get_pool(self.config)
+        request.pool = pool = pooler.get_pool(app.config)
         root = pool.get_controller("/")
         
         # Get config for the root object/path.

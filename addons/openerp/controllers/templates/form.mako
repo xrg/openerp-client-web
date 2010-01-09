@@ -31,11 +31,11 @@
                                 <tr>
                                     <td width="32px" align="center">
                                         % if form.screen.view_type in ('tree', 'graph'):
-                                        <img src="${cp.static('base', 'images/stock/gtk-find.png')}"/>
+                                        <img src="${cp.static('openerp', 'images/stock/gtk-find.png')}"/>
                                         % elif form.screen.view_type in ('form'):
-                                        <img src="${cp.static('base', 'images/stock/gtk-edit.png')}"/>
+                                        <img src="${cp.static('openerp', 'images/stock/gtk-edit.png')}"/>
                                         % elif form.screen.view_type in ('calendar', 'gantt'):
-                                        <img src="${cp.static('base', 'images/stock/stock_calendar.png')}"/>
+                                        <img src="${cp.static('openerp', 'images/stock/stock_calendar.png')}"/>
                                         % endif
                                     </td>
                                     <td width="100%">${form.screen.string}</td>
@@ -79,7 +79,7 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
-                                            src="${cp.static('base', 'images/stock/gtk-paste.png')}" 
+                                            src="${cp.static('openerp', 'images/stock/gtk-paste.png')}" 
                                             onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
                                     </td>
                                     % endif
@@ -88,7 +88,7 @@
                                         <img
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
-                                            src="${cp.static('base', 'images/stock/gtk-paste-v.png')}" onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
+                                            src="${cp.static('openerp', 'images/stock/gtk-paste-v.png')}" onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -96,7 +96,7 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Translate this resource.')}" 
-                                            src="${cp.static('base', 'images/stock/stock_translate.png')}" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                            src="${cp.static('openerp', 'images/stock/stock_translate.png')}" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -104,13 +104,13 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('View Log.')}" 
-                                            src="${cp.static('base', 'images/stock/stock_log.png')}"
+                                            src="${cp.static('openerp', 'images/stock/stock_log.png')}"
                                             onclick="openobject.tools.openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     % endif
                                     <td align="center" valign="middle" width="16">
                                         <a target="_blank" href="${py.url('http://doc.openerp.com/index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
-                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="${cp.static('base', 'images/stock/gtk-help.png')}" width="16" height="16"/>
+                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="${cp.static('openerp', 'images/stock/gtk-help.png')}" width="16" height="16"/>
                                         </a>
                                     </td>
                                 </tr>

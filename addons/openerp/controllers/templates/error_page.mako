@@ -1,10 +1,10 @@
 <%inherit file="/openobject/controllers/templates/base.mako"/>
 
 <%def name="header()">
-    <link href="${cp.static('base', 'css/style.css')}" rel="stylesheet" type="text/css" />
+    <link href="${cp.static('openerp', 'css/style.css')}" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
-    <script type="text/javascript" src="${cp.static('base', 'javascript/openobject/openobject.ui.textarea.js')}"></script>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/openobject/openobject.ui.textarea.js')}"></script>
     
     <script type="text/javascript">
         var send_maintenance_request = function() {

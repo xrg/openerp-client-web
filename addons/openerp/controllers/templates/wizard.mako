@@ -7,10 +7,10 @@
         % endif
     </title>
 
-    <script type="text/javascript" src="${cp.static('base', 'javascript/openobject/openobject.ui.waitbox.js')}"></script>
-    <script type="text/javascript" src="${cp.static('base', 'javascript/wizard.js')}"></script>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/openobject/openobject.ui.waitbox.js')}"></script>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/wizard.js')}"></script>
 
-    <link rel="stylesheet" type="text/css" href="${cp.static('base', 'css/waitbox.css')}"/>
+    <link rel="stylesheet" type="text/css" href="${cp.static('openerp', 'css/waitbox.css')}"/>
 </%def>
 
 <%def name="content()">

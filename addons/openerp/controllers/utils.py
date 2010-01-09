@@ -114,6 +114,10 @@ def secured(fn):
     def wrapper(*args, **kw):
         """The wrapper function to secure exposed methods
         """
+        
+        print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        print cherrypy.request.app.config
+        print "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
         if rpc.session.is_logged():
             # User is logged in; allow access

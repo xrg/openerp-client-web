@@ -2,12 +2,12 @@
 
 <%def name="header()">
     <title>View Editor</title>
-    <script type="text/javascript" src="${cp.static('base', 'javascript/form.js')}"></script>
-    <script type="text/javascript" src="${cp.static('base', 'javascript/m2o.js')}"></script>
-    <script type="text/javascript" src="${cp.static('base', 'javascript/viewed.js')}"></script>    
-    <script type="text/javascript" src="${cp.static('base', 'javascript/modalbox.js')}"></script>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/form.js')}"></script>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/m2o.js')}"></script>
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/viewed.js')}"></script>    
+    <script type="text/javascript" src="${cp.static('openerp', 'javascript/modalbox.js')}"></script>
 
-    <link href="${cp.static('base', 'css/modalbox.css')}" rel="stylesheet" type="text/css"/>
+    <link href="${cp.static('openerp', 'css/modalbox.css')}" rel="stylesheet" type="text/css"/>
 </%def>
 
 <%def name="content()">
@@ -17,7 +17,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${cp.static('base', 'images/stock/gtk-edit.png')}"/>
+                            <img src="${cp.static('openerp', 'images/stock/gtk-edit.png')}"/>
                         </td>
                         <td width="100%">${_("View Editor %s - %s") % (view_id, model)}</td>
                     </tr>

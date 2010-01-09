@@ -49,7 +49,7 @@ class Link(Resource):
         
     def get_link(self):
         
-        link = "/cp_widgets/%s/%s" % (self.modname, self.filename)
+        link = "/%s/static/%s" % (self.modname, self.filename)
         if cherrypy.config.get('server.environment') == 'development':
             link = "%s?%s" % (link, _UUID)
         return tools.url(link)
@@ -146,7 +146,7 @@ def register_resource_directory(config, modulename, directory):
     #assert isinstance(app, cherrypy.Application), "Excepected cherrypy.Application"
 
     directory = os.path.abspath(directory)
-    config.update({'/cp_widgets/%s' % modulename: {
+    config.update({'/%s/static' % modulename: {
         'tools.staticdir.on': True,
         'tools.staticdir.dir': directory
     }})
@@ -169,7 +169,7 @@ class _StaticProvider(object):
         return CSSLink(module, resource, location).display()
     
     def __call__(self, module, resource):
-        return '/cp_widgets/%s/%s' % (module, resource)
+        return '/%s/static/%s' % (module, resource)
     
 static = _StaticProvider()
     
