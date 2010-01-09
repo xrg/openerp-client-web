@@ -34,12 +34,13 @@ import xml.dom.minidom
 
 import cherrypy
 
-from openobject import tools
-from openobject.tools import rpc
+from openobject.widgets import JSLink, CSSLink
 
-from base.utils import TinyDict
-from base.widgets import JSLink, CSSLink
-from base.widgets import TinyWidget
+from openerp.utils import rpc
+from openerp.utils import TinyDict
+from openerp.utils import node_attributes
+
+from openerp.widgets import TinyWidget
 
 from _base import ICalendar
 from _base import TinyCalendar
@@ -87,7 +88,7 @@ def get_calendar(model, view, ids=None, domain=[], context={}, options=None):
     mode = (options or None) and options.mode
     if not mode:
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
-        attrs = tools.node_attributes(dom.childNodes[0])
+        attrs = node_attributes(dom.childNodes[0])
         mode = attrs.get('mode')
 
     if mode == 'day':
@@ -364,10 +365,10 @@ class GanttCalendar(ICalendar):
     def parse(self, root, fields):
 
         info_fields = []
-        attrs = tools.node_attributes(root)
+        attrs = node_attributes(root)
 
         for node in root.childNodes:
-            attrs = tools.node_attributes(node)
+            attrs = node_attributes(node)
 
             if node.localName == 'field':
                 info_fields += [attrs['name']]
