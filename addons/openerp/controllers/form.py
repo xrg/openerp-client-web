@@ -32,26 +32,26 @@ import base64
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
-from openobject.tools import cache
-from openobject.tools import common
 from openobject.tools import expose
 from openobject.tools import redirect
+from openobject.tools import validate
+from openobject.tools import error_handler
+from openobject.tools import exception_handler
 
-from base.controllers import validate
-from base.controllers import error_handler
-from base.controllers import exception_handler
-from base.controllers import SecuredController
+from openerp import utils
 
-from base.utils import TinyDict
-from base.utils import TinyForm
+from openerp.utils import rpc
+from openerp.utils import cache
+from openerp.utils import common
+from openerp.utils import TinyDict
+from openerp.utils import TinyForm
 
-from base import widgets as tw
-from base import validators
+from openerp.controllers import SecuredController
 
-from base.widgets.form import generate_url_for_picture
+from openerp import widgets as tw
+from openerp import validators
+
+from openerp.widgets.form import generate_url_for_picture
 
 
 def make_domain(name, value, kind='char'):
@@ -389,7 +389,7 @@ class Form(SecuredController):
                 params.id = int(id)
                 params.count += 1
             else:
-                ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
+                ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
                 id = proxy.write([params.id], data, ctx)
 
         button = params.button
@@ -534,7 +534,7 @@ class Form(SecuredController):
 
         idx = -1
         if current.id:
-            ctx = tools.context_with_concurrency_info(current.context, params.concurrency_info)
+            ctx = utils.context_with_concurrency_info(current.context, params.concurrency_info)
             res = proxy.unlink([current.id], ctx)
             idx = current.ids.index(current.id)
             current.ids.remove(current.id)
@@ -585,7 +585,7 @@ class Form(SecuredController):
         params, data = TinyDict.split(kw)
 
         proxy = rpc.RPCProxy(params.model)
-        ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
+        ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
 
         if params.fname:
             proxy.write([params.id], {params.field: False, params.fname: False}, ctx)
@@ -919,7 +919,7 @@ class Form(SecuredController):
         arg_names = [n.strip() for n in match.group(2).split(',')]
 
         ctx_dict = dict(**ctx)
-        args = [tools.expr_eval(arg, ctx_dict) for arg in arg_names]
+        args = [utils.expr_eval(arg, ctx_dict) for arg in arg_names]
 
         proxy = rpc.RPCProxy(model)
 

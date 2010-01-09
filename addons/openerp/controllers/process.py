@@ -29,14 +29,16 @@
 
 import cherrypy
 
-from openobject.tools import rpc
-from openobject.tools import common
 from openobject.tools import expose
 from openobject.tools import redirect
-from base.utils import TinyDict
 
 from openobject.i18n import format
-from base.controllers import SecuredController
+
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import TinyDict
+
+from openerp.controllers import SecuredController
 
 import form
 import actions

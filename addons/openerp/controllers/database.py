@@ -34,18 +34,18 @@ import base64
 import cherrypy
 
 from openobject.tools import url
-from openobject.tools import rpc
 from openobject.tools import expose
-from openobject.tools import common
 from openobject.tools import redirect
+from openobject.tools import validate
+from openobject.tools import error_handler
 
-from base.controllers import validate
-from base.controllers import error_handler
+from openobject.controllers import BaseController
 
-from base.controllers import BaseController
+from openerp.utils import rpc
+from openerp.utils import common
 
-from base import widgets
-from base import validators
+from openerp import widgets
+from openerp import validators
 
 
 def get_lang_list():

@@ -35,15 +35,16 @@ import cherrypy
 from openobject import tools
 
 from openobject.tools import url
-from openobject.tools import rpc
-from openobject.tools import cache
-from openobject.tools import common
 from openobject.tools import expose
 from openobject.tools import redirect
 from openobject.tools import find_resource
 
-from base.controllers import SecuredController, unsecured
-from base.controllers import login as tiny_login
+from openerp.utils import rpc
+from openerp.utils import cache
+from openerp.utils import common
+
+from openerp.controllers import SecuredController, unsecured
+from openerp.controllers import login as tiny_login
 
 
 def _cp_on_error():

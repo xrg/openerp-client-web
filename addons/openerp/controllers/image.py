@@ -32,13 +32,12 @@ import base64
 
 import cherrypy
 
-from openobject.tools import rpc
 from openobject.tools import expose
 from openobject.tools import redirect
 
-from base.controllers import SecuredController
-
-from base.widgets.form import get_temp_file
+from openerp.utils import rpc
+from openerp.controllers import SecuredController
+from openerp.widgets.form import get_temp_file
 
 
 class Image(SecuredController):

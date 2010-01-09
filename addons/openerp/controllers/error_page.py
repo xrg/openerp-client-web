@@ -32,16 +32,16 @@ import cgitb
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
-from openobject.tools import common
 from openobject.tools import expose
-from base.utils import TinyDict
+from openobject.tools import redirect
 
-from base.controllers import BaseController
+from openobject.controllers import BaseController
 
-from base import widgets
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import TinyDict
+
+from openerp import widgets
 
 
 class ErrorPage(BaseController):
@@ -52,7 +52,7 @@ class ErrorPage(BaseController):
 
     @expose()
     def index(self, *args, **kw):
-        raise tools.redirect('/')
+        raise redirect('/')
 
     def render(self):
         etype, value, tb = sys.exc_info()

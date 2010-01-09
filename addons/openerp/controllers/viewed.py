@@ -30,22 +30,23 @@
 import xml
 import random
 
-from openobject.tools import expose
-
 import cherrypy
 
-from openobject import tools
+from openobject.tools import url
+from openobject.tools import expose
 
-from openobject.tools import rpc
-from openobject.tools import common
-from openobject.tools import icons
-from openobject.tools import cache
-from base.utils import TinyDict
+from openerp import utils
 
-from base.controllers import SecuredController
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import icons
+from openerp.utils import cache
+from openerp.utils import TinyDict
 
-from base import widgets
-from base import validators
+from openerp.controllers import SecuredController
+
+from openerp import widgets
+from openerp import validators
 
 from form import Form
 
@@ -192,10 +193,10 @@ def _get_model(node, parent_model):
         if pnode.localName == 'field':
 
             ch = []
-            ch += tools.xml_locate('./form[1]', pnode)
-            ch += tools.xml_locate('./tree[1]', pnode)
-            ch += tools.xml_locate('./graph[1]', pnode)
-            ch += tools.xml_locate('./calendar[1]', pnode)
+            ch += utils.xml_locate('./form[1]', pnode)
+            ch += utils.xml_locate('./tree[1]', pnode)
+            ch += utils.xml_locate('./graph[1]', pnode)
+            ch += utils.xml_locate('./calendar[1]', pnode)
 
             if ch:
                 parents += [pnode.getAttribute('name')]
@@ -259,7 +260,7 @@ class ViewEd(SecuredController):
                    {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
                    {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
 
-        tree = widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=tools.url('/viewed/data?view_id='+str(view_id)))
+        tree = widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=url('/viewed/data?view_id='+str(view_id)))
         tree.showheaders = False
         tree.onselection = 'onSelect'
         tree.onbuttonclick = 'onButtonClick'
@@ -273,7 +274,7 @@ class ViewEd(SecuredController):
             def _find(node, node2):
                 # Check if xpath query or normal inherit (with field matching)
                 if node2.nodeType==node2.ELEMENT_NODE and node2.localName=='xpath':
-                    res = tools.xml_locate(node2.getAttribute('expr'), node)
+                    res = utils.xml_locate(node2.getAttribute('expr'), node)
                     return res and res[0]
                 else:
                     if node.nodeType==node.ELEMENT_NODE and node.localName==node2.localName:
@@ -345,7 +346,7 @@ class ViewEd(SecuredController):
 
         field_attrs = _get_field_attrs(node, parent_model=model)
 
-        attrs = tools.node_attributes(node)
+        attrs = utils.node_attributes(node)
 
         view_id = attrs.get('view_id', view_id)
         view_type = attrs.get('view_type', view_type)
@@ -371,7 +372,7 @@ class ViewEd(SecuredController):
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
 
-            attrs = tools.node_attributes(node)
+            attrs = utils.node_attributes(node)
 
             view_id = attrs.get('view_id', view_id)
             view_type = attrs.get('view_type', view_type)
@@ -413,9 +414,9 @@ class ViewEd(SecuredController):
         res = proxy.read([view_id], ['model', 'arch'])[0]
 
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-        field = tools.xml_locate(xpath_expr, doc)[0]
+        field = utils.xml_locate(xpath_expr, doc)[0]
 
-        attrs = tools.node_attributes(field)
+        attrs = utils.node_attributes(field)
         editors = []
 
         properties = _PROPERTIES.get(field.localName, [])
@@ -463,7 +464,7 @@ class ViewEd(SecuredController):
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
         model = res['model']
 
-        field_node = tools.xml_locate(xpath_expr, doc)[0]
+        field_node = utils.xml_locate(xpath_expr, doc)[0]
         model = _get_model(field_node, parent_model=model)
 
         # get the fields
@@ -499,7 +500,7 @@ class ViewEd(SecuredController):
         if view_id:
 
             doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-            node = tools.xml_locate(xpath_expr, doc)[0]
+            node = utils.xml_locate(xpath_expr, doc)[0]
             new_node = doc.createElement('view')
 
             if node.localName == 'field':
@@ -565,14 +566,14 @@ class ViewEd(SecuredController):
         view_type = res['type']
 
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
-        node = tools.xml_locate(xpath_expr, doc)[0]
+        node = utils.xml_locate(xpath_expr, doc)[0]
 
         new_node = None
         record = None
 
         if _terp_what == "properties":
 
-            attrs = tools.node_attributes(node)
+            attrs = utils.node_attributes(node)
             for attr in attrs:
                 node.removeAttribute(attr)
 
@@ -613,7 +614,7 @@ class ViewEd(SecuredController):
 
             refNode = None
             try:
-                refNode = tools.xml_locate(kw['xpath_ref'], doc)[0]
+                refNode = utils.xml_locate(kw['xpath_ref'], doc)[0]
             except:
                 pass
 
@@ -657,7 +658,7 @@ class ViewEd(SecuredController):
         data = proxy.read([view_id])[0]
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
-        pnode = tools.xml_locate(dst, doc)[0]
+        pnode = utils.xml_locate(dst, doc)[0]
         src = xml_getElementsByTagAndName('*', src, doc)[0]
 
         if ref: ref = xml_getElementsByTagAndName('*', ref, doc)[0]
@@ -694,15 +695,15 @@ class Node(object):
                  'name' : self.name,
                  'localName' : self.localName,
                  'view_id' : self.view_id,
-                 'delete': tools.icons.get_icon('gtk-remove.png')}
+                 'delete': icons.get_icon('gtk-remove.png')}
 
         if self.localName not in ('view'):
-            items['add'] = tools.icons.get_icon('gtk-add.png')
-            items['up'] = tools.icons.get_icon('gtk-go-up.png')
-            items['down'] = tools.icons.get_icon('gtk-go-down.png')
+            items['add'] = icons.get_icon('gtk-add.png')
+            items['up'] = icons.get_icon('gtk-go-up.png')
+            items['down'] = icons.get_icon('gtk-go-down.png')
 
         if self.localName not in ('view', 'newline'):
-            items['edit'] = tools.icons.get_icon('gtk-edit.png')
+            items['edit'] = icons.get_icon('gtk-edit.png')
 
         record = { 'id' : self.id, 'items' : items}
 

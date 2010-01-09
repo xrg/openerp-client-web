@@ -30,13 +30,14 @@
 import os
 import base64
 
-from openobject.tools import rpc
 from openobject.tools import expose
 from openobject.tools import redirect
-from base.utils import TinyDict
 
-from base.controllers import SecuredController
-from base.widgets.screen import Screen
+from openerp.utils import rpc
+from openerp.utils import TinyDict
+
+from openerp.controllers import SecuredController
+from openerp.widgets.screen import Screen
 
 
 class ViewList(SecuredController):

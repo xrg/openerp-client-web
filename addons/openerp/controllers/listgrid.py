@@ -29,17 +29,17 @@
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
 from openobject.tools import expose
-from base.utils import TinyDict
-from base.utils import TinyForm
-from base.utils import TinyFormError
 
-from base.controllers import SecuredController
+from openerp.utils import rpc
+from openerp.utils import TinyDict
+from openerp.utils import TinyForm
+from openerp.utils import TinyFormError
+from openerp.utils import context_with_concurrency_info
 
-from base.widgets import listgrid
+from openerp.controllers import SecuredController
+
+from openerp.widgets import listgrid
 
 import form
 import search
@@ -72,7 +72,7 @@ class List(SecuredController):
             proxy = rpc.RPCProxy(model)
             frm = TinyForm(**kw).to_python()
             data = {}
-            ctx = tools.context_with_concurrency_info(params.parent.context, params.concurrency_info)
+            ctx = context_with_concurrency_info(params.parent.context, params.concurrency_info)
 
             if model != params.model:
                 source = params.source
@@ -117,7 +117,7 @@ class List(SecuredController):
         proxy = rpc.RPCProxy(params.model)
         if params.ids:
             try:
-                ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
+                ctx = context_with_concurrency_info(params.context, params.concurrency_info)
                 if isinstance(params.ids, list):
                     res = proxy.unlink(params.ids, ctx)
                 else:

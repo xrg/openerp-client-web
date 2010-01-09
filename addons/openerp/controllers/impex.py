@@ -40,16 +40,18 @@ import cherrypy
 
 from openobject import tools
 
-from openobject.tools import rpc
-from openobject.tools import common
 from openobject.tools import expose
 from openobject.tools import redirect
-from base.utils import TinyDict
 
-from base.controllers import SecuredController
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import TinyDict
+from openerp.utils import node_attributes
 
-from base.widgets import treegrid
-from base.widgets import listgrid
+from openerp.controllers import SecuredController
+
+from openerp.widgets import treegrid
+from openerp.widgets import listgrid
 
 
 def datas_read(ids, model, fields, context=None):
@@ -94,7 +96,7 @@ def _fields_get_all(model, views):
                 parse(node, fields)
 
             elif node.nodeName=='field':
-                attrs = tools.node_attributes(node)
+                attrs = node_attributes(node)
                 name = attrs['name']
 
                 fields[name].update(attrs)

@@ -31,18 +31,17 @@ import urllib
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
-from openobject.tools import cache
 from openobject.tools import expose
+from openobject.tools import validate
+from openobject.tools import error_handler
+from openobject.tools import exception_handler
 
-from base.controllers import validate
-from base.controllers import error_handler
-from base.controllers import exception_handler
+from openerp.utils import rpc
+from openerp.utils import cache
+from openerp.utils import TinyDict
+from openerp.utils import context_with_concurrency_info
 
-from base.utils import TinyDict
-from base import widgets as tw
+from openerp import widgets as tw
 
 from form import Form
 from form import get_validation_schema
@@ -138,7 +137,7 @@ class OpenO2M(Form):
         if pprefix:
             data = eval(pprefix, TinyDict(**data)).make_dict()
 
-        ctx = tools.context_with_concurrency_info(rpc.session.context, params.concurrency_info)
+        ctx = context_with_concurrency_info(rpc.session.context, params.concurrency_info)
         ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
 

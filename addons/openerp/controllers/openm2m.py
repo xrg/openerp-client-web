@@ -31,16 +31,17 @@ import cherrypy
 
 from openobject import tools
 
-from openobject.tools import rpc
-from openobject.tools import cache
 from openobject.tools import expose
+from openobject.tools import validate
+from openobject.tools import error_handler
+from openobject.tools import exception_handler
 
-from base.controllers import validate
-from base.controllers import error_handler
-from base.controllers import exception_handler
+from openerp.utils import rpc
+from openerp.utils import cache
+from openerp.utils import TinyDict
+from openerp.utils import context_with_concurrency_info
 
-from base.utils import TinyDict
-from base.widgets.form import Hidden
+from openerp.widgets.form import Hidden
 
 from form import Form
 from form import get_validation_schema
@@ -82,7 +83,7 @@ class OpenM2M(Form):
                 params.id = int(id)
                 params.count += 1
             else:
-                ctx = tools.context_with_concurrency_info(params.context, params.concurrency_info)
+                ctx = context_with_concurrency_info(params.context, params.concurrency_info)
                 id = proxy.write([params.id], data, ctx)
 
         current = params.chain_get(params.source or '')

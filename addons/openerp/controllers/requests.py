@@ -29,14 +29,13 @@
 
 import cherrypy
 
-from openobject import tools
+from openerp.utils import rpc
+from openerp.utils import common
 
-from openobject.tools import rpc
-from openobject.tools import common
 from openobject.tools import expose
 from openobject.tools import redirect
 
-from base.controllers import SecuredController
+from openerp.controllers import SecuredController
 
 
 class Requests(SecuredController):

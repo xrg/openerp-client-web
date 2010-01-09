@@ -35,9 +35,10 @@ import cherrypy
 
 from openobject import tools
 
-from openobject.tools import rpc
 from openobject.tools import expose
 from openobject.tools import redirect
+
+from openerp.utils import rpc
 
 
 __all__ = ["secured", "unsecured", "login"]

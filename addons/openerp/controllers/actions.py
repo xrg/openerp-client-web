@@ -38,9 +38,10 @@ import cherrypy
 
 from openobject import tools
 
-from openobject.tools import rpc
-from openobject.tools import common
-from base.utils import TinyDict
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import expr_eval
+from openerp.utils import TinyDict
 
 from form import Form
 from tree import Tree
@@ -221,7 +222,7 @@ def execute(action, **data):
 
         ctx = data.get('context', {}).copy()
         ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
-        ctx.update(tools.expr_eval(action.get('context', '{}'), ctx.copy()))
+        ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
         
         search_view = action.get('search_view_id')
         if search_view:
@@ -233,7 +234,7 @@ def execute(action, **data):
         a = ctx.copy()
         a['time'] = time
         a['datetime'] = datetime
-        domain = tools.expr_eval(action['domain'], a)
+        domain = expr_eval(action['domain'], a)
 
         if data.get('domain', False):
             domain.append(data['domain'])

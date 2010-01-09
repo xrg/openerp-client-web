@@ -29,14 +29,13 @@
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
 from openobject.tools import expose
-from openobject.tools import common
-from base.utils import TinyDict
 
-from base.controllers import SecuredController
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import TinyDict
+
+from openerp.controllers import SecuredController
 
 
 class Selection(SecuredController):

@@ -32,19 +32,19 @@ import math
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
-from openobject.tools import common
 from openobject.tools import expose
-from base.utils import TinyDict
-
 from openobject.i18n import format
-from base.controllers import SecuredController
+
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import TinyDict
+from openerp.utils import context_with_concurrency_info
+
+from openerp.controllers import SecuredController
 
 from form import Form
 
-from base.widgets import tinycalendar as tc
+from openerp.widgets import tinycalendar as tc
 
 class TinyCalendar(Form):
     
@@ -106,7 +106,7 @@ class TinyCalendar(Form):
         
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
-        ctx = tools.context_with_concurrency_info(ctx, params.concurrency_info)
+        ctx = context_with_concurrency_info(ctx, params.concurrency_info)
         
         proxy = rpc.RPCProxy(params.model)
 
@@ -148,7 +148,7 @@ class TinyCalendar(Form):
 
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
-        ctx = tools.context_with_concurrency_info(ctx, params.concurrency_info)
+        ctx = context_with_concurrency_info(ctx, params.concurrency_info)
 
         error = None
         info = {}

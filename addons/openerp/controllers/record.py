@@ -29,11 +29,11 @@
 
 import time
 
-from openobject import tools
-from base.utils import TinyDict
+from openerp.utils import expr_eval
+from openerp.utils import TinyDict
 
-from base.widgets import TinyWidget
-from base.widgets import TinyInputWidget
+from openerp.widgets import TinyWidget
+from openerp.widgets import TinyInputWidget
 
 from form import Form
 
@@ -81,7 +81,7 @@ class Record(dict):
         d['context'] = self.params.context or {}
         d['active_id'] = self.get('id', False)
 
-        val = tools.expr_eval(expr, d)
+        val = expr_eval(expr, d)
         return val
 
 # vim: ts=4 sts=4 sw=4 si et

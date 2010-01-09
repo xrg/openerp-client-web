@@ -32,12 +32,13 @@ import time
 
 import cherrypy
 
-from openobject.tools import rpc
 from openobject.tools import expose
 from openobject.tools import redirect
-from base.utils import TinyDict
 
-from base.controllers import SecuredController
+from openerp.utils import rpc
+from openerp.utils import TinyDict
+
+from openerp.controllers import SecuredController
 
 from form import Form
 

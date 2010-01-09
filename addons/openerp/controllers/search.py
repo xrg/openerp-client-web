@@ -29,20 +29,19 @@
 
 import cherrypy
 
-from openobject import tools
-
-from openobject.tools import rpc
-from openobject.tools import common
 from openobject.tools import expose
 from openobject.tools import redirect
 
 import actions
 
-from base.utils import TinyDict
-from base.utils import TinyForm
-from base.utils import TinyFormError
+from openerp.utils import rpc
+from openerp.utils import common
+from openerp.utils import expr_eval
+from openerp.utils import TinyDict
+from openerp.utils import TinyForm
+from openerp.utils import TinyFormError
 
-from base.controllers import SecuredController
+from openerp.controllers import SecuredController
 from form import Form
 
 class Search(Form):
@@ -135,7 +134,7 @@ class Search(Form):
             ctx['active_ids'] = [params.active_id]
         
         if domain and isinstance(domain, basestring):
-            domain = tools.expr_eval(domain, ctx)
+            domain = expr_eval(domain, ctx)
             
         if domain and len(domain) >= 2 and domain[-2] in ['&', '|']: # For custom domain ('AND', OR') from search view.
             dom1 = domain[-1:]
@@ -147,7 +146,7 @@ class Search(Form):
                 context = "dict(%s)"%context
                 ctx['dict'] = dict # required
 
-            context = tools.expr_eval(context, ctx)
+            context = expr_eval(context, ctx)
 
 #           Fixed many2one pop up in listgrid when value is None.
             for key, val in context.items():
@@ -231,7 +230,7 @@ class Search(Form):
         
         c = search_context.get('context', {})
         v = search_context.get('value')
-        ctx = tools.expr_eval(c, {'self':v})
+        ctx = expr_eval(c, {'self':v})
         
         context = rpc.session.context
         if ctx:
@@ -242,7 +241,7 @@ class Search(Form):
         check_domain = all_domains.get('check_domain')
         
         if check_domain and isinstance(check_domain, basestring):
-            domain = tools.expr_eval(check_domain, context)
+            domain = expr_eval(check_domain, context)
             
         if domain == None:
             domain = []
@@ -292,7 +291,7 @@ class Search(Form):
                          'domain':'[(\'filter\',\'=\',True), (\'res_model\',\'=\',\'' + model + '\'), (\'default_user_ids\',\'in\', (\'' + str(rpc.session.uid) + '\',))]'}
                     return dict(action=act)
             else:
-                selection_domain = tools.expr_eval(selection_domain)
+                selection_domain = expr_eval(selection_domain)
                 if selection_domain:
                     domain += selection_domain
         
