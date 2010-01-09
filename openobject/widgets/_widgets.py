@@ -4,7 +4,7 @@ from _base import *
 from _resource import *
 from _utils import make_bunch
 
-from base import validators
+from openobject import validators
 
 
 def name2label(name):

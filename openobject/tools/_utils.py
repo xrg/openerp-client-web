@@ -5,7 +5,7 @@ import cherrypy
 from mako.filters import html_escape
 
 
-__all__ = ["url", "url_plus", "redirect", "attrs", "attr_if", "decorated"]
+__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated"]
 
 
 def url(_cppath, _cpparams=None, _cpquote=False, **kw):

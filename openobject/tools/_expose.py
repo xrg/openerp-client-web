@@ -210,8 +210,8 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                     
                 if _template:
                     
-                    from base.widgets import Widget, OrderedSet
-                    from base.widgets import js_i18n
+                    from openobject.widgets import Widget, OrderedSet
+                    from openobject.widgets import js_i18n
                     
                     res['widget_css'] = css = OrderedSet()
                     res['widget_javascript'] = js = {}
