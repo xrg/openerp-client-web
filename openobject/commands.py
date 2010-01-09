@@ -57,10 +57,10 @@ def setup_server(configfile):
         'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
     }})
     
-    from openobject.dispatch import Dispatcher
+    from openobject.dispatch import PooledDispatcher
     from openobject.tools import _tools
     
-    app_config['/'] = {'request.dispatch': Dispatcher()}
+    app_config['/'] = {'request.dispatch': PooledDispatcher()}
     cherrypy.tree.mount(root=None, config=app_config)
 
 

@@ -3,7 +3,7 @@ import cherrypy
 import addons
 import pooler
 
-class Dispatcher(cherrypy.dispatch.Dispatcher):
+class PooledDispatcher(cherrypy.dispatch.Dispatcher):
     """This is a modified disparcher class to use pooled controllers.
     """
     
