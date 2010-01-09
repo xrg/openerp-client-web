@@ -66,7 +66,7 @@ def setup_server(configfile):
     from openobject.addons import load_addons
     from openobject.tools import _tools
     
-    app_config['/'] = {'request.dispatch': PooledDispatcher(app_config)}
+    app_config['/'] = {'request.dispatch': PooledDispatcher()}
     app = cherrypy.tree.mount(root=None, config=app_config)
     
     load_addons(None, app.config)
