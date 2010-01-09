@@ -31,10 +31,10 @@ import time
 import socket
 import xmlrpclib
 
-from openobject.tools import common
+from openerp.tools import common
 
-from openobject.tools.tiny_socket import TinySocket
-from openobject.tools.tiny_socket import TinySocketError
+from tiny_socket import TinySocket
+from tiny_socket import TinySocketError
 
 
 class RPCException(Exception):

@@ -30,7 +30,7 @@
 import re
 import cherrypy
 
-from base import validators
+from openerp import validators
 
 
 def _make_dict(data, is_params=False):
@@ -240,7 +240,7 @@ class TinyForm(object):
                     if value:
                         if not isinstance(value, list):
                             value = [value]
-                        from openobject.tools import rpc
+                        from openerp.utils import rpc
                         proxy = rpc.RPCProxy(attrs['relation'])
                         res = proxy.read(value, [], rpc.session.context)
                         value = []

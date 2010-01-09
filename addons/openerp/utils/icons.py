@@ -29,8 +29,6 @@
 
 import os
 
-from openobject import tools
-
 icons = map(lambda x: (x,x), ['STOCK_ABOUT', 'STOCK_ADD', 'STOCK_APPLY', 'STOCK_BOLD',
 'STOCK_CANCEL', 'STOCK_CDROM', 'STOCK_CLEAR', 'STOCK_CLOSE', 'STOCK_COLOR_PICKER',
 'STOCK_CONNECT', 'STOCK_CONVERT', 'STOCK_COPY', 'STOCK_CUT', 'STOCK_DELETE',
@@ -170,7 +168,7 @@ def get_icon(name):
         name, ext = os.path.splitext(name)
         res = "images/%s%s" % (name, ext or '.png')
     
-    from base.widgets._resource import static    
+    from openobject.widgets._resource import static    
     return static("base", res)
     
 

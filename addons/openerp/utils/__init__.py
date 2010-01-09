@@ -1,6 +1,8 @@
 
 import rpc
+
 from tools import *
+from utils import *
 
 from openobject.tools import register_template_vars
 

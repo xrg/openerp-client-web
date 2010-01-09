@@ -32,7 +32,7 @@ import time
 import tempfile
 import datetime as DT
 
-from openobject.tools import rpc
+import rpc
 
 
 def expr_eval(string, context={}):

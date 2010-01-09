@@ -36,8 +36,7 @@ import cherrypy
 
 from gettext import translation
 
-from openobject import i18n
-from openobject.tools import rpc
+import rpc
 
 __cache = {}
 
