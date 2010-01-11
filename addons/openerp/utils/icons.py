@@ -168,8 +168,7 @@ def get_icon(name):
         name, ext = os.path.splitext(name)
         res = "images/%s%s" % (name, ext or '.png')
     
-    from openobject.widgets._resource import static    
-    return static("openerp", res)
+    return "/openerp/static/%s" % res
     
 
 # vim: ts=4 sts=4 sw=4 si et

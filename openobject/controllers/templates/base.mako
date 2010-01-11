@@ -28,7 +28,7 @@
         openobject.http.SCRIPT_PATH = "${cp.request.app.script_name}";
     </script>
     
-    <script type="text/javascript" src="/openerp/static/javascript/javascript/ajax_stat.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/ajax_stat.js"></script>
     
 % for js in widget_javascript.get('head', []):
     ${js.display()}

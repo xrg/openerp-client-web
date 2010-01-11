@@ -151,33 +151,3 @@ def register_resource_directory(config, modulename, directory):
         'tools.staticdir.dir': directory
     }})
 
-
-class _StaticProvider(object):
-    
-    def js(self, module, resource, location=locations.head):
-        
-        if not resource.startswith("javascript/"):
-            resource = "javascript/" + resource
-            
-        return JSLink(module, resource, location).display()
-    
-    def css(self, module, resource, location=locations.head):
-        
-        if not resource.startswith("css/"):
-            resource = "css/" + resource
-            
-        return CSSLink(module, resource, location).display()
-    
-    def __call__(self, module, resource):
-        return '/%s/static/%s' % (module, resource)
-    
-static = _StaticProvider()
-    
-def _cp_vars():
-    
-    return {
-        'static': static
-    }
-
-tools.register_template_vars(_cp_vars, 'cp')
-
