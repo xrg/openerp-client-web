@@ -5,6 +5,18 @@ import cherrypy
 _REGISTRY = {}
 
 def register_object(obj, key, group, auto_create=False):
+    """Register and object with key in the given group.
+    
+    @param obj: the object to register
+    @param key: key to access the register object from the pool
+    @param group: the group in which the object should be registered
+    @auto_create: if True create and instance of the object during pool.initialize
+    
+    >>>
+    >>> pooler.register_object(klass, "char", group="form_input_widgets")
+    >>> pooler.register_object(klass, "/about", group="controllers")
+    >>>
+    """
     
     module = None
     if hasattr(obj, '__module__'):
