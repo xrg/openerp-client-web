@@ -54,9 +54,9 @@ class Sidebar(TinyWidget):
 
                 var img = openobject.dom.select('img', 'sidebar_hide')[0];
                 if (sb.style.display == "none") {
-                    img.src = openobject.links.image('base', 'sidebar_show.gif');
+                    img.src = "/openerp/static/images/sidebar_show.gif";
                 } else {
-                    img.src = openobject.links.image('base', 'sidebar_hide.gif');
+                    img.src = "/openerp/static/images/sidebar_hide.gif";
                 }
             }
             

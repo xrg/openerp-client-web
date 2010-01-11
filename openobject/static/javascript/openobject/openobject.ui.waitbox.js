@@ -55,7 +55,7 @@ openobject.ui.WaitBox.prototype = {
             
             var info = DIV(null,
                         DIV({'class': 'WaitTitle'}, title),
-                        DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: openobject.links.image('base', 'progress.gif')})),
+                        DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: openobject.links.image('openerp', 'progress.gif')})),
                             TABLE({'class': 'WaitButtons', 'cellpadding': 2, 'width': '100%'}, 
                                 TBODY(null, 
                                     TR(null,
