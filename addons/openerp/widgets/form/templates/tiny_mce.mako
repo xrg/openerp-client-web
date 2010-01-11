@@ -15,7 +15,7 @@
 
         plugins: "fullscreen,print,safari",
         
-        content_css: "${cp.static('openerp', 'css/tiny_mce.css')}",
+        content_css: "/openerp/static/css/tiny_mce.css",
         apply_source_formatting : true,
         
         extended_valid_elements : "a[href|target|name]",

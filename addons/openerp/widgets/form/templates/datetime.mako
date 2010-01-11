@@ -11,7 +11,7 @@
             % if not attrs.get('disabled'):
             <td width="16" style="padding-left: 2px">
                 <img id="${name}_trigger" width="16" height="16" alt="${_('Select')}" 
-                src="${cp.static('openerp', 'images/stock/stock_calendar.png')}" class="${css_class}" style="cursor: pointer;"/>
+                src="/openerp/static/images/stock/stock_calendar.png" class="${css_class}" style="cursor: pointer;"/>
             </td>
             
             <script type="text/javascript">

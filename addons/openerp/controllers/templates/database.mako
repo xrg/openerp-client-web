@@ -3,10 +3,10 @@
 <%def name="header()">
     <title>${form.string}</title>
 
-    <script type="text/javascript" src="${cp.static('openerp', 'javascript/openobject/openobject.ui.waitbox.js')}"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/openobject/openobject.ui.waitbox.js"></script>
     
-    <link rel="stylesheet" type="text/css" href="${cp.static('openerp', 'css/waitbox.css')}"/>
-    <link rel="stylesheet" type="text/css" href="${cp.static('openerp', 'css/database.css')}"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/waitbox.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/database.css"/>
 
     <script type="text/javascript">
 
@@ -40,7 +40,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${cp.static('openerp', 'images/stock/stock_person.png')}"/>
+                            <img src="/openerp/static/images/stock/stock_person.png"/>
                         </td>
                         <td width="100%">${form.string}</td>
                         <td nowrap="nowrap">

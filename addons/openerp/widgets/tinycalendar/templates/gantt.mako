@@ -4,7 +4,7 @@
         <table width="100%" class="toolbar">
             <tr>
                 <td nowrap="nowrap">
-                    <img height="16" width="16" class="button" src="${cp.static('openerp', 'images/stock/gtk-go-back.png')}" 
+                    <img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-back.png" 
                         onclick="getCalendar('${days[0].prev().isoformat()}', null)"/>
                 </td>
                 <td nowrap="nowrap">
@@ -12,24 +12,24 @@
                         onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</button>
                 </td>
                 <td nowrap="nowrap">
-                    <img height="16" width="16" class="button" src="${cp.static('openerp', 'images/stock/gtk-go-forward.png')}" 
+                    <img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-forward.png" 
                         onclick="getCalendar('${days[-1].next().isoformat()}', null)"/>
                 </td>
                 <td nowrap="nowrap" width="100%"><strong>${title}</strong></td>
                 <td nowrap="nowrap">
                     % if mode == 'day':
-                    <img title="${_('Zoom In')}" height="16" width="16" src="${cp.static('openerp', 'images/stock-disabled/gtk-zoom-in.png')}"/>
+                    <img title="${_('Zoom In')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-in.png"/>
                     % endif
                     % if mode != 'day':
-                    <img title="${_('Zoom In')}" height="16" width="16" class="button" src="${cp.static('openerp', 'images/stock/gtk-zoom-in.png')}"
+                    <img title="${_('Zoom In')}" height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-zoom-in.png"
                         onclick="ganttZoomIn()"/>
                     % endif
                     
                     % if mode == '5years':
-                    <img title="${_('Zoom Out')}" height="16" width="16" src="${cp.static('openerp', 'images/stock-disabled/gtk-zoom-out.png')}"/>
+                    <img title="${_('Zoom Out')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-out.png"/>
                     % endif
                     % if mode != '5years':
-                    <img title="${_('Zoom Out')}" height="16" width="16" class="button" src="${cp.static('openerp', 'images/stock/gtk-zoom-out.png')}"
+                    <img title="${_('Zoom Out')}" height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-zoom-out.png"
                         onclick="ganttZoomOut()"/>
                     % endif
                 </td>

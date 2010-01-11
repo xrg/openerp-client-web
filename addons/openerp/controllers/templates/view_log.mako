@@ -2,7 +2,7 @@
 
 <%def name="header()">
     <title>${_("Information")}</title>
-    <link href="${cp.static('openerp', 'css/style.css')}" rel="stylesheet" type="text/css"/>
+    <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css"/>
 </%def>
 
 <%def name="content()">

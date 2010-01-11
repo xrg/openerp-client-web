@@ -1,7 +1,7 @@
 <%inherit file="/openobject/controllers/templates/base.mako"/>
 
 <%def name="header()">
-    <link href="${cp.static('openerp', 'css/style.css')}" rel="stylesheet" type="text/css" />
+    <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
     <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.textarea.js"></script>

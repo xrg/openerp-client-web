@@ -31,13 +31,13 @@
                     height="16" 
                     alt="${_('Open')}" 
                     title="${_('Open a resource')}" 
-                    src="${cp.static('openerp', 'images/stock/gtk-open.png')}" 
+                    src="/openerp/static/images/stock/gtk-open.png" 
                     style="cursor: pointer;" 
                     class="imgSelect"/>
             </td>
             % endif
             <td width="16" style="padding-left: 2px">
-                <img id='${name}_select' width="16" height="16" alt="${_('Search')}" title="${_('Search')}" src="${cp.static('openerp', 'images/stock/gtk-find.png')}" style="cursor: pointer;" class="imgSelect"/>
+                <img id='${name}_select' width="16" height="16" alt="${_('Search')}" title="${_('Search')}" src="/openerp/static/images/stock/gtk-find.png" style="cursor: pointer;" class="imgSelect"/>
             </td>
         </tr>
     </table>

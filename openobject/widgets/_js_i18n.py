@@ -11,7 +11,7 @@ class JSI18n(JSLink):
     
     template = """\
     % for m, tr in translations:
-        ${cp.static.js(m, tr)}
+        <script type="text/javascript" src="/${m}/static/javascript/${tr}"></script>
     % endfor
     """
     

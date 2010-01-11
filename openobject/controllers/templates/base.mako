@@ -7,44 +7,44 @@
     ${css.display()}
 % endfor
 
-    ${cp.static.js("openobject", "MochiKit/MochiKit.js")}
-    ${cp.static.js("openobject", "MochiKit/DragAndDrop.js")}
-    ${cp.static.js("openobject", "MochiKit/Resizable.js")}
+    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/MochiKit.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/DragAndDrop.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Resizable.js"></script>
 
-    ${cp.static.js("openobject", "MochiKit/Resizable.js")}
-    ${cp.static.js("openobject", "MochiKit/Sortable.js")}
+    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Resizable.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Sortable.js"></script>
     
-    ${cp.static.js("openobject", "Sizzle/sizzle.js")}
+    <script type="text/javascript" src="/openobject/static/javascript/Sizzle/sizzle.js"></script>
     
-    ${cp.static.js("openobject", "openobject/openobject.base.js")}
-    ${cp.static.js("openobject", "openobject/openobject.gettext.js")}
-    ${cp.static.js("openobject", "openobject/openobject.dom.js")}
-    ${cp.static.js("openobject", "openobject/openobject.http.js")}
-    ${cp.static.js("openobject", "openobject/openobject.tools.js")}
-    ${cp.static.js("openobject", "openobject/openobject.links.js")}
-    ${cp.static.js("openobject", "openobject/openobject.ui.js")}
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.base.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.gettext.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.dom.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.http.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.tools.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.links.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.js"></script>
     
     <script type="text/javascript">
         window.SCRIPT_PATH = "${cp.request.app.script_name}";
         openobject.http.SCRIPT_PATH = "${cp.request.app.script_name}";
     </script>
     
-    ${cp.static.js("openerp", "javascript/ajax_stat.js")}
+    <script type="text/javascript" src="/openerp/static/javascript/javascript/ajax_stat.js"></script>
     
 % for js in widget_javascript.get('head', []):
     ${js.display()}
 % endfor
 
-    ${cp.static.css("openerp", "style.css")}
-    ${cp.static.css("openerp", "menu.css")}
-    ${cp.static.css("openerp", "tips.css")}
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/menu.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/tips.css"/>
 
     <!--[if IE]>
-    ${cp.static.css("openobject", "style-ie.css")}
+    <link rel="stylesheet" type="text/css" href="/openobject/static/css/style-ie.css"/>
     <![endif]-->
     
-    ${cp.static.js("openerp", "menu.js")}
-    ${cp.static.js("openobject", "openobject/openobject.ui.tips.js")}
+    <script type="text/javascript" src="/openerp/static/javascript/menu.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.tips.js"></script>
     
     ${self.header()}
 

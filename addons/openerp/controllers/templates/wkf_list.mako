@@ -105,7 +105,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${cp.static('openerp', 'images/stock/gtk-find.png')}"/>
+                            <img src="/openerp/static/images/stock/gtk-find.png"/>
                         </td>
                         <td width="100%">${_("Manage Workflows %s") % (model)}</td>
                     </tr>
@@ -143,7 +143,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${cp.static('openerp', 'images/stock/gtk-edit.png')}"/>
+                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
                         </td>
                         <td width="100%">${_("Create a Workflow (%s)") % (model)}</td>
                     </tr>

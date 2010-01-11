@@ -4,9 +4,9 @@
     <td id="calNavigation">
         <table width="100%" class="toolbar">
             <tr>
-                <td nowrap="nowrap"><img height="16" width="16" class="button" src="${cp.static('openerp', 'images/stock/gtk-go-back.png')}" onclick="getCalendar('${month.prev().year}-${month.prev().month}-01')"/></td>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-back.png" onclick="getCalendar('${month.prev().year}-${month.prev().month}-01')"/></td>
                 <td nowrap="nowrap"><button type="button" title="${_('Today...')}" onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</button></td>
-                <td nowrap="nowrap"><img height="16" width="16" class="button" src="${cp.static('openerp', 'images/stock/gtk-go-forward.png')}" onclick="getCalendar('${month.next().year}-${month.next().month}-01')"/></td>
+                <td nowrap="nowrap"><img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${month.next().year}-${month.next().month}-01')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${month}</strong></td>
                 <td nowrap="nowrap">
                     <button type="button" title="${_('Day Calendar...')}" onclick="getCalendar(null, 'day')">${_("Day")}</button>
