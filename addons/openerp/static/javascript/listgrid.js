@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -38,7 +38,7 @@ var ListView = function(name) {
     if (!(this instanceof cls)) {
         return new cls(name);
     }
-  
+
     this.__init__(name);
 }
 
@@ -51,16 +51,16 @@ ListView.prototype = {
         this.name = name;
         this.model = openobject.dom.get(prefix + '_terp_model') ? openobject.dom.get(prefix + '_terp_model').value : null;
         this.current_record = null;
-    
+
         this.ids = openobject.dom.get(prefix + '_terp_ids').value;
 
         var view_ids = openobject.dom.get(prefix + '_terp_view_ids');
         var view_mode = openobject.dom.get(prefix + '_terp_view_mode');
         var def_ctx = openobject.dom.get(prefix + '_terp_default_get_ctx');
-    
+
         this.view_ids = view_ids ? view_ids.value : null;
         this.view_mode = view_mode ? view_mode.value : null;
-    
+
         // if o2m
         this.m2m = openobject.dom.get(name + '_set');
         this.default_get_ctx = def_ctx ? def_ctx.value : null;
@@ -78,12 +78,12 @@ ListView.prototype = {
             box.checked = clear;
         });
     },
-    
+
     getRecords: function() {
         var records = map(function(row){
             return parseInt(getNodeAttribute(row, 'record')) || 0;
         }, openobject.dom.select('tr.grid-row', this.name));
-        
+
         return filter(function(rec){
             return rec;
         }, records);
@@ -104,28 +104,28 @@ ListView.prototype = {
     getColumns: function(dom){
         dom = dom || this.name;
         var header = openobject.dom.select('tr.grid-header', dom)[0];
-        
+
         return filter(function(c){
             return c.id ? true : false;
         }, openobject.dom.select('th.grid-cell', header));
     },
 
     makeArgs: function(){
-        
+
         var args = {};
         var name = '/' + this.name;
         var names = name.split('/');
 
         var prefix = '';
         var items = openobject.dom.select('input');
-      
+
         while(names.length) {
-            
+
             var name = names.shift();
             prefix = prefix + (name ? name + '/' : '');
-            
+
             var patern = prefix + '_terp_';
-            
+
             forEach(items, function(item){
                 if(item.name.match("^"+ patern) == patern && !item.name.match('^_terp_listfields/')) {
                 	args[item.name] = item.value;
@@ -154,12 +154,12 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         var widths = {};
-        
+
         // set the column widths of the newlist
         forEach(this.getColumns(), function(c){
             widths[c.id] = parseInt(c.offsetWidth) - 8;
         });
-     
+
         forEach(this.getColumns(newlist), function(c){
             c.style.width = widths[c.id] + 'px';
         });
@@ -189,7 +189,7 @@ MochiKit.Base.update(ListView.prototype, {
         var dom = dom ? dom : this.name;
 
         editors = openobject.dom.select("input, select, textarea", dom);
-		
+
         return filter(function(e){
             name = named ? e.name : e.id;
             return name &&  name.indexOf('_terp_listfields') == 0;
@@ -205,29 +205,29 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = {};
-        
+
         args['_terp_model'] = this.model;
         args['_terp_ids'] = this.ids;
         args['_terp_id'] = id;
-        
+
         var req = openobject.http.postJSON('/listgrid/moveUp', args);
-        req.addCallback(function(){      
-            self.reload();        
-        });        
+        req.addCallback(function(){
+            self.reload();
+        });
     },
 
     moveDown: function(id) {
 
         var self = this;
         var args = {};
-        
+
         args['_terp_model'] = this.model;
         args['_terp_ids'] = this.ids;
         args['_terp_id'] = id;
-        
+
         var req = openobject.http.postJSON('/listgrid/moveDown', args);
-        req.addCallback(function(){      
-            self.reload();        
+        req.addCallback(function(){
+            self.reload();
         });
     }
 });
@@ -263,13 +263,13 @@ MochiKit.Base.update(ListView.prototype, {
             if (src.onchange) {
                 src.onchange();
             }
-            
+
             evt.stop();
             return this.save(this.current_record);
         }
 
         var editors = openobject.dom.select('listfields',this.name);
-		
+
         var first = editors.shift();
         var last = editors.pop();
 
@@ -285,7 +285,7 @@ MochiKit.Base.update(ListView.prototype, {
         if (sure && !confirm(sure)){
             return;
         }
-        
+
         var self = this;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
@@ -303,7 +303,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         name = name.split('.').pop();
-        
+
         var params = {
             _terp_model : this.model,
             _terp_id : id,
@@ -410,21 +410,21 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = getFormParams('_terp_concurrency_info');;
-        
+
         if(!ids) {
             var ids = this.getSelectedRecords();
             if(ids.length > 0){
                 ids = '[' + ids.join(', ') + ']';
             }
         }
-        
+
         if (ids.length == 0) {
             return alert(_('You must select at least one record.'));
         }
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;
         }
-        
+
         args['_terp_model'] = this.model;
         args['_terp_ids'] = ids;
 
@@ -440,7 +440,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     go: function(action){
-        
+
         if (openobject.http.AJAX_COUNT > 0){
             return;
         }
@@ -498,7 +498,7 @@ MochiKit.Base.update(ListView.prototype, {
             var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
             var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
             var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
-            
+
             if(obj.ids) {
                 _terp_id.value = obj.ids.length ? obj.ids[0] : 'False';
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
@@ -510,10 +510,10 @@ MochiKit.Base.update(ListView.prototype, {
 
             var newlist = d.getElementsByTagName('table')[0];
             var editors = self.adjustEditors(newlist);
-            
+
             if (editors.length > 0)
                 self.bindKeyEventsToEditors(editors);
-                
+
             self.current_record = edit_inline;
 
             var __listview = openobject.dom.get(self.name).__listview;
@@ -529,10 +529,10 @@ MochiKit.Base.update(ListView.prototype, {
                     eval(s.innerHTML);
                 });
             }
-            
+
             // update concurrency info
             for(var key in obj.info) {
-                try {               						
+                try {
                     var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]")
                     var value = "('" + key + "', '" + obj.info[key] + "')";
                     for(var i=0; i<items.length;i++) {
@@ -548,7 +548,7 @@ MochiKit.Base.update(ListView.prototype, {
                 first.focus();
                 first.select();
             }
-            
+
             // call on_change for default values
             if (editors.length && edit_inline == -1) {
                 forEach(editors, function(e){
@@ -559,6 +559,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
+            row_listgrid();
         });
     }
 
@@ -568,18 +569,18 @@ MochiKit.Base.update(ListView.prototype, {
 MochiKit.Base.update(ListView.prototype, {
 
     exportData: function(){
-        
+
         var ids = this.getSelectedRecords();
-        
+
         if (ids.length == 0) {
             ids = this.getRecords();
         }
-        
+
         ids = '[' + ids.join(',') + ']';
-        
-        openobject.tools.openWindow(openobject.http.getURL('/impex/exp', {_terp_model: this.model, 
-                                         _terp_source: this.name, 
-                                         _terp_search_domain: openobject.dom.get('_terp_search_domain').value, 
+
+        openobject.tools.openWindow(openobject.http.getURL('/impex/exp', {_terp_model: this.model,
+                                         _terp_source: this.name,
+                                         _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
                                          _terp_ids: ids,
                                          _terp_view_ids : this.view_ids,
                                          _terp_view_mode : this.view_mode}));
@@ -590,7 +591,40 @@ MochiKit.Base.update(ListView.prototype, {
                                          _terp_source: this.name,
                                          _terp_view_ids : this.view_ids,
                                          _terp_view_mode : this.view_mode}));
-    }        
+    }
+});
+
+var row_listgrid = function(evt) {
+	var row = [];
+	row = getElementsByTagAndClassName('tr', 'grid-row');
+
+    forEach(row, function(e){
+    	MochiKit.Signal.connect(e, 'onclick', e, select_row_edit);
+    });
+}
+
+var select_row_edit = function(e){
+	src=e.src();
+	src_record = getNodeAttribute(src, 'record');
+	target = e.target();
+	target_class=getNodeAttribute(target,'class');
+
+    var view_type = getElement('_terp_view_type').value;
+    var editable = getElement('_terp_editable').value;
+
+	if (!(target_class == 'checkbox grid-record-selector' || target_class == 'listImage')) {
+		if (!(view_type == 'form' || editable == 'True')) {
+			do_select(src_record);
+	    }
+	    else {
+			editRecord(src_record);
+		}
+	}
+}
+
+
+MochiKit.DOM.addLoadEvent(function(evt){
+	row_listgrid(evt);
 });
 
 // vim: ts=4 sts=4 sw=4 si et

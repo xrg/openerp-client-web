@@ -69,23 +69,24 @@ class ErrorPage(BaseController):
     def __render(self, value):
         
         maintenance = None
-        all_params = None
         concurrency = False
+        
+        all_params = cherrypy.request.params
         
         title=value.title
         error=value.message
+        
+        target = cherrypy.request.path_info or '/form/save'
                 
         if isinstance(value, common.Concurrency):
-            all_params = value.datas
             concurrency = True
                 
         if isinstance(value, common.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
-
-        return dict(title=title, error=error, 
-                    maintenance=maintenance, nb=self.nb, 
-                    concurrency=concurrency, all_params=all_params)
+        
+        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb, 
+                    concurrency=concurrency, all_params=all_params, target=target)
 
     @expose('json')
     def submit(self, tb, explanation, remarks):
@@ -97,27 +98,6 @@ class ErrorPage(BaseController):
                 return dict(error=_('Your problem could not be sent to the quality team!\nPlease report this error manually at %s') % ('http://openerp.com/report_bug.html'))
         except Exception, e:
             return dict(error=str(e))
-    
-    @expose('json')
-    def write_data(self, **kw):
-        
-        params, data = TinyDict.split(kw)
-
-        method = params.all_params[1]
-        
-        context = params.all_params[4]
-        resource = params.all_params[0]
-        id = params.all_params[2]
-        vals = params.all_params[3]
-        
-        CONCURRENCY_CHECK_FIELD = '__last_update'
-        
-        if CONCURRENCY_CHECK_FIELD in context:
-            del context[CONCURRENCY_CHECK_FIELD]
-        
-        res = rpc.session.execute('object', 'execute' , resource, method, id, vals, context)
-        
-        return dict(res=res)
 
 _ep = ErrorPage()
 
