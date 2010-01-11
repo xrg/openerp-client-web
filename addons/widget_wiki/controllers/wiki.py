@@ -33,15 +33,16 @@ import base64
 import cherrypy
 from pyparsing import *
 
-from openobject.tools import rpc
 from openobject.tools import expose
 from openobject.tools import redirect
+from openobject.tools import validate
 
-from base.utils import TinyDict
 
-from base.controllers import form
-from base.controllers import validate
-from base.controllers import SecuredController
+from openerp.utils import rpc
+from openerp.utils import TinyDict
+
+from openerp.controllers import form
+from openerp.controllers import SecuredController
 
 
 FILE_FORMATS = {

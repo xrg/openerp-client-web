@@ -38,12 +38,12 @@ from StringIO import StringIO
 import cherrypy
 import wikimarkup
 
-from openobject.tools import rpc
+from openobject.widgets import JSLink, CSSLink
 
-from base.widgets import JSLink, CSSLink
-from base.widgets import register_widget
+from openerp.utils import rpc
 
-from base.widgets.form import Text
+from openerp.widgets import register_widget
+from openerp.widgets.form import Text
 
 
 _image = re.compile(r'img:(.*)\.(.*)', re.UNICODE)
