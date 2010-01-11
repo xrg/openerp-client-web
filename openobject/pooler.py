@@ -51,9 +51,11 @@ class Pool(object):
 
 pool_dict = {}
 
-def get_pool(config):
+def get_pool():
     
+    config = cherrypy.request.app.config    
     db_name = None
+    
     try:
         db_name = cherrypy.session.db
     except:

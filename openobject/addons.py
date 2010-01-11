@@ -169,8 +169,8 @@ from openobject import pooler
 
 def load_module_graph(db_name, graph, config):
     
-    pool = pooler.get_pool(config)
-        
+    pool = pooler.get_pool()
+    
     for package in graph:
         
         if package.name in _loaded_addons:

@@ -19,12 +19,6 @@ def get_config_file():
         return configfile
     return None
 
-HOOKS = {}
-
-def register_setup_hook(fn):
-    HOOKS.setdefault("SETUP", []).append(fn)
-
-
 def setup_server(configfile):
 
     if not os.path.exists(configfile):
@@ -33,7 +27,8 @@ def setup_server(configfile):
 
     cherrypy.config.update({
         'tools.sessions.on':  True,
-        'tools.nestedvars.on':  True
+        'tools.nestedvars.on':  True,
+        'checker.on': False,
     })
 
     app_config = as_dict(configfile)
@@ -68,14 +63,6 @@ def setup_server(configfile):
     
     app_config['/'] = {'request.dispatch': PooledDispatcher()}
     app = cherrypy.tree.mount(root=None, config=app_config)
-    
-    load_addons(None, app.config)
-    
-    for hook in HOOKS['SETUP']:
-        try:
-            hook(app)
-        except:
-            pass
 
 
 def start():
