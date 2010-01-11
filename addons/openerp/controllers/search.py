@@ -313,7 +313,6 @@ class Search(Form):
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
-        sc_id = kw.get('sc_id')
         
         new_view_ids = rpc.session.execute('object', 'execute', 'ir.ui.view', 'search', [('model', '=', model), ('inherit_id', '=', False)])
         view_datas = rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', new_view_ids, ['id', 'name', 'type'])
@@ -336,7 +335,7 @@ class Search(Form):
             elif data['type'] == 'gantt':
                 gantt_views.append([data['id'],data['name']])
         
-        return dict(model=model, domain=domain, flag=flag, sc_id=sc_id, form_views=form_views, 
+        return dict(model=model, domain=domain, flag=flag, form_views=form_views, 
                     tree_views=tree_views, graph_views=graph_views, calendar_views=calendar_views, gantt_views=gantt_views)
     
     @expose()
@@ -346,7 +345,6 @@ class Search(Form):
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
-        id = kw.get('sc_id')
         
         form_id = kw.get('form_views')
         tree_id = kw.get('tree_views')
