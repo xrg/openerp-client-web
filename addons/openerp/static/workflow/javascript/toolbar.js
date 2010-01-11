@@ -67,7 +67,7 @@ openobject.workflow.Toolbar.implement({
         item.style.backgroundImage = 'none';//"url(/static/workflow/images/window_bg.png)";
 
         if (this.hasTitleBar()) {        	
-            this.titlebar.style.backgroundImage = "url(" + openobject.links.image('openerp', 'workflow/images/window_toolbar.png') + ")";
+            this.titlebar.style.backgroundImage = "url(/openerp/static/images/workflow/images/window_toolbar.png)";
         }
 
         
@@ -119,13 +119,13 @@ openobject.workflow.ToolGeneric.implement({
 openobject.workflow.ToolShowGrid = openobject.workflow.ToolToggle.extend({
 
     initialize : function(palette) {
-        this.parent(palette, openobject.links.image('openerp', 'workflow/images/ToolShowGrid.jpg'));
+        this.parent(palette, '/openerp/static/images/workflow/images/ToolShowGrid.jpg');
     },
 
     execute : function() {
         var isdown = this.isDown();
         
-        WORKFLOW.setBackgroundImage(isdown ? openobject.links.image('openerp', 'workflow/images/grid_10.jpg') : null, isdown);
+        WORKFLOW.setBackgroundImage(isdown ? '/openerp/static/images/workflow/images/grid_10.jpg' : null, isdown);
         WORKFLOW.setGridWidth(10, 10);
         WORKFLOW.setSnapToGrid(isdown);
     }
@@ -135,7 +135,7 @@ openobject.workflow.ToolShowGrid = openobject.workflow.ToolToggle.extend({
 openobject.workflow.ToolCreateState = openobject.workflow.ToolGeneric.extend({
 
     initialize : function(palette) {
-        this.parent(palette, openobject.links.image('openerp', 'workflow/images/ToolOval.jpg'));
+        this.parent(palette, '/openerp/static/images/workflow/images/ToolOval.jpg');
     },
 
 	execute : function(x, y) {

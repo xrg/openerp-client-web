@@ -21,7 +21,6 @@
     <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.dom.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.http.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.tools.js"></script>
-    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.links.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.js"></script>
     
     <script type="text/javascript">
