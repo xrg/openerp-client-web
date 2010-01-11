@@ -14,7 +14,7 @@
     ${cp.static.js("openobject", "MochiKit/Resizable.js")}
     ${cp.static.js("openobject", "MochiKit/Sortable.js")}
     
-    ${cp.static.js("openerp", "Sizzle/sizzle.js")}
+    ${cp.static.js("openobject", "Sizzle/sizzle.js")}
     
     ${cp.static.js("openobject", "openobject/openobject.base.js")}
     ${cp.static.js("openobject", "openobject/openobject.gettext.js")}

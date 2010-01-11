@@ -1,9 +1,16 @@
 <%
 # put in try block to prevent improper redirection on connection refuse error
 try:
-    shortcuts = []#cp.request.pool.get_controller("/shortcuts").my()
-    requests, requests_message = []#cp.request.pool.get_controller("/requests").my()
+    ROOT = cp.request.pool.get_controller("/")
+    SHORTCUTS = cp.request.pool.get_controller("/shortcuts")
+    REQUESTS = cp.request.pool.get_controller("/requests")
+    
+    shortcuts = SHORTCUTS.my()
+    requests, requests_message = REQUESTS.my()
 except:
+
+    ROOT = None
+    
     shortcuts = []
     requests = []
     requests_message = None
@@ -12,16 +19,19 @@ except:
 <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td rowspan="2">
-        <%doc>
-        ${cp.root.get_logo()|n}
-        </%doc>
+        <img src="/openerp/static/images/openerp_big.png" 
+            alt="OpenERP" border="0" width="200px" height="60px" usemap="#logo_map"/>
+            <map name="logo_map">
+                <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
+                <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
+            </map>
         </td>
         <td align="right" valign="top" nowrap="nowrap" height="24">
             <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td>
                         <a href="http://openerp.com" target="_blank" title="OpenERP - Open Source Management Solution" style="padding: 0px;">
-                            <img src="/openobject/static/images/openerp_small.png" border="0" width="86" height="24"/></a>
+                            <img src="/openerp/static/images/openerp_small.png" border="0" width="86" height="24"/></a>
                     </td>
                     <td width="26" class="menu_connection_right" nowrap="nowrap">
                         <div style="width: 26px;"/>
@@ -91,12 +101,10 @@ except:
                     <td>
                         &nbsp;
                     </td>
-                    <td align="right">
-                        <%doc>                        
-                        % if cp.root.shortcuts.can_create():
+                    <td align="right">                
+                        % if SHORTCUTS and SHORTCUTS.can_create():
                         <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">${_("[ADD]")}</a>
                         % endif
-                        </%doc>
                     </td>
                 </tr>
             </table>

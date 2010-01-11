@@ -115,51 +115,6 @@ class Root(SecuredController):
 
     @expose()
     @unsecured
-    def get_logo(self):
-        
-        comp_url = cherrypy.request.app.config['openobject-web'].get('company.url', None)
-
-        res="""<img src="%(src)s" alt="%(alt)s" border="0" width="200px" height="60px" usemap="#logo_map"/>
-                    <map name="logo_map">
-                        <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
-                        <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
-                    </map>"""%({
-                        'alt': 'OpenERP',
-                        'src': tools.url('/static/images/openerp_big.png')
-                    })
-
-        if os.path.exists(find_resource("openobject", "static/images/company_logo.png")):
-            if comp_url:
-                res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src="%(src)s" alt="" border="0" width="205px" height="58px"/>
-                            </a> """
-            else:
-                 res = """<img src="%(src)s" alt="" border="0" width="205px" height="58px"/>"""
-
-        return res % ({'src': tools.url('/static/images/company_logo.png')})
-
-    @expose()
-    @unsecured
-    def developped_by(self):
-        comp_url = cherrypy.request.app.config['openobject-web'].get('company.url', None)
-
-        res="""<img src="%(src)s" border="0" width="200" height="60" alt="%(alt)s" usemap="#devby_map"/>
-                    <map name="devby_map">
-                        <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
-                        <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
-                    </map>"""%(dict(alt=_('Developped by Axelor and Tiny'), src=tools.url('/static/images/developped_by.png')))
-
-        if os.path.exists(find_resource("openobject", "static/images/company_logo.png")):
-            if comp_url:
-                res = """   <a href='"""+comp_url+"""' target='_blank'>
-                                <img src="%(src)s" alt="" border="0" width="205px" height="58px"/>
-                            </a> """
-            else:
-                 res = """<img src="%(src)s" alt="" border="0" width="205px" height="58px"/>"""
-        return res % (dict(src=tools.url("/static/images/company_logo.png")))
-
-    @expose()
-    @unsecured
     def logout(self):
         """ Logout method, will terminate the current session.
         """

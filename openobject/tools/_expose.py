@@ -132,7 +132,6 @@ def _cp_vars():
         'session': cherrypy.session,
         'request': cherrypy.request,
         'config': utils.config,
-        'root': cherrypy.request.app.root,
     }
 
 
