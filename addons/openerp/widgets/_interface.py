@@ -263,8 +263,7 @@ class ConcurrencyInfo(TinyInputWidget):
     def info(self):
         return getattr(cherrypy.request, 'terp_concurrency_info', {})
 
-
-__WIDGETS = {}
+from openobject import pooler
 
 def register_widget(klass, types, view="form"):
     """Register a widget class for the given view and types
@@ -274,28 +273,11 @@ def register_widget(klass, types, view="form"):
     @param klass: widget class
     """
     
-    wids = __WIDGETS.setdefault(view, {})
-    
     if not isinstance(types, (list, tuple)):
         types = [types]
         
     for t in types:
-        wids[t] = klass
-        
-
-def unregister_widget(types, view="form"):
-    """Unregister the given widget types for the given view.
-    
-    @param view: the view
-    @param types: the widgets to unregister
-    """
-    wids = __WIDGETS.setdefault(view, {})
-    
-    if not isinstance(types, (list, tuple)):
-        types = [types]
-        
-    for t in types:
-        wids.pop(t, None)
+        pooler.register_object(klass, key=t, group=view)
         
 
 def get_widget(type, view="form"):
@@ -304,8 +286,9 @@ def get_widget(type, view="form"):
     @param view: the view
     @param type: the widget type
     """
-    wids = __WIDGETS.setdefault(view, {})
-    return wids.get(type)
+    
+    pool = pooler.get_pool()
+    return pool.get(type, group=view)
 
 
 def get_registered_widgets(view="form"):
@@ -314,7 +297,8 @@ def get_registered_widgets(view="form"):
     @param view: the view
     @returns: dict of all the registered widgets
     """
-    return __WIDGETS.get(view, {}).copy()
+    pool = pooler.get_pool()
+    return pool.get_group(view)
 
 
 # vim: ts=4 sts=4 sw=4 si et

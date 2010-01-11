@@ -4,50 +4,40 @@ import cherrypy
 
 _REGISTRY = {}
 
-def register_class(klass, kind):
+def register_object(obj, key, group, auto_create=False):
     
-    module = str(klass.__module__).split('.')[0]
-    registry = _REGISTRY.setdefault(kind, {})
-    objects = registry.setdefault(module, [])
-    
-    if klass not in objects:
-        objects.append(klass)
+    module = None
+    if hasattr(obj, '__module__'):
+        module = str(obj.__module__).split('.')[0]
         
-    return klass
-
-
+    registry = _REGISTRY.setdefault(group, {})
+    objects = registry.setdefault(module, {})
+    
+    if auto_create:
+        objects[key] = lambda: obj()
+    else:
+        objects[key] = lambda: obj
+    
 class Pool(object):
     
     def __init__(self):
-        self.obj_pool = {"controller": {}, "widget": {}, "validator": {}}
+        self.obj_pool = {}
         
-    def get_controller(self, name):        
-        return self.obj_pool["controller"].get(name, None)
+    def get(self, key, group):
+        return self.obj_pool.get(group, {}).get(key, None)
     
-    def get_validator(self, name):
-        return self.obj_pool["validator"].get(name, None)
+    def get_group(self, key):
+        return self.obj_pool.get(group, {})
     
-    def get_widget(self, name):
-        return self.obj_pool["widget"].get(name, None)
+    def get_controller(self, name):
+        return self.get(name, "controllers")
     
     def instanciate(self, package):
-        
-        for key in ("controller", "widget", "validator"):
-            objects = _REGISTRY.get(key, {}).get(package, [])
-            for obj in objects:
-                if key == "controller":
-                    name = getattr(obj, '_cp_path')
-                    if name:
-                        self.obj_pool[key][name] = obj()
-                if key == "widget":
-                    name = getattr(obj, '_data_type')
-                    if name:
-                        self.obj_pool[key][name] = obj
-                if key == "validator":
-                    name = getattr(obj, '_data_type')
-                    if name:
-                        self.obj_pool[key][name] = obj
-
+        for group, groups in _REGISTRY.items():
+            for module, modules in groups.items():
+                for name, obj in modules.items():
+                    objects = self.obj_pool.setdefault(group, {})
+                    objects[name] = obj()
 
 pool_dict = {}
 
