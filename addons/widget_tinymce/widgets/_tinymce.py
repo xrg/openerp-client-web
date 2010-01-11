@@ -27,7 +27,7 @@
 #
 ###############################################################################
 
-from openobject.widgets import JSLink
+from openobject.widgets import JSLink, CSSLink
 
 from openerp import validators
 
@@ -43,7 +43,8 @@ class TinyMCE(TinyInputWidget):
     template = "templates/tiny_mce.mako"
     params = ["height"]
     
-    javascript = [JSLink("openerp", "tiny_mce/tiny_mce.js")]
+    javascript = [JSLink("widget_tinymce", "javascript/tiny_mce/tiny_mce.js")]
+    css = [CSSLink("widget_tinymce", "css/tiny_mce.css")]
 
     def __init__(self, **attrs):
         super(TinyMCE, self).__init__(**attrs)

@@ -1,7 +1,4 @@
 
-import cherrypy
-
-
 _REGISTRY = {}
 
 def register_object(obj, key, group, auto_create=False):
@@ -39,7 +36,7 @@ class Pool(object):
         return self.obj_pool.get(group, {}).get(key, None)
     
     def get_group(self, key):
-        return self.obj_pool.get(group, {})
+        return self.obj_pool.get(key, {})
     
     def get_controller(self, name):
         return self.get(name, "controllers")
@@ -55,13 +52,16 @@ pool_dict = {}
 
 def get_pool():
     
+    import cherrypy
+    
     config = cherrypy.request.app.config    
     db_name = None
     
     try:
-        db_name = cherrypy.session.db
-    except:
+        db_name = cherrypy.request.cookie['terp_db'].value #cherrypy.session['db']
+    except Exception, e:
         pass
+    
     
     if db_name in pool_dict:
         pool = pool_dict[db_name]

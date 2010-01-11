@@ -695,15 +695,15 @@ class Node(object):
                  'name' : self.name,
                  'localName' : self.localName,
                  'view_id' : self.view_id,
-                 'delete': icons.get_icon('gtk-remove.png')}
+                 'delete': icons.get_icon('gtk-remove')}
 
         if self.localName not in ('view'):
-            items['add'] = icons.get_icon('gtk-add.png')
-            items['up'] = icons.get_icon('gtk-go-up.png')
-            items['down'] = icons.get_icon('gtk-go-down.png')
+            items['add'] = icons.get_icon('gtk-add')
+            items['up'] = icons.get_icon('gtk-go-up')
+            items['down'] = icons.get_icon('gtk-go-down')
 
         if self.localName not in ('view', 'newline'):
-            items['edit'] = icons.get_icon('gtk-edit.png')
+            items['edit'] = icons.get_icon('gtk-edit')
 
         record = { 'id' : self.id, 'items' : items}
 

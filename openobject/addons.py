@@ -198,7 +198,7 @@ _loaded = {}
 _loaded_addons = {}
 
 __fake_module_check = {
-    'trunk': ['openerp', 'widget_wiki'],
+    'trunk': ['openerp', 'widget_wiki', 'widget_tinymce'],
     'trunk2': ['openerp']
 }
 
@@ -214,7 +214,7 @@ def load_addons(db_name, config):
     
     graph = create_graph(base_addons)
     load_module_graph(db_name, graph, config)
-    
+        
     #TODO: get modules by db_name
     module_list = __fake_module_check.get(db_name, [])
     
