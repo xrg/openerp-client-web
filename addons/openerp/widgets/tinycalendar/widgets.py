@@ -215,14 +215,14 @@ class GanttCalendar(ICalendar):
     subheaders = None
     mode = 'week'
 
-    css = [CSSLink("base", 'tinycalendar/css/calendar.css'),
-           CSSLink("base", 'tinycalendar/css/calendar_gantt.css')]
-    javascript = [JSLink("base", 'tinycalendar/javascript/calendar_date.js'),
-                  JSLink("base", 'tinycalendar/javascript/calendar_utils.js'),
-                  JSLink("base", 'tinycalendar/javascript/calendar_box.js'),
-                  JSLink("base", 'tinycalendar/javascript/calendar_month.js'),
-                  JSLink("base", 'tinycalendar/javascript/calendar_week.js'),
-                  JSLink("base", 'tinycalendar/javascript/calendar_gantt.js')]
+    css = [CSSLink("openerp", 'tinycalendar/css/calendar.css'),
+           CSSLink("openerp", 'tinycalendar/css/calendar_gantt.css')]
+    javascript = [JSLink("openerp", 'tinycalendar/javascript/calendar_date.js'),
+                  JSLink("openerp", 'tinycalendar/javascript/calendar_utils.js'),
+                  JSLink("openerp", 'tinycalendar/javascript/calendar_box.js'),
+                  JSLink("openerp", 'tinycalendar/javascript/calendar_month.js'),
+                  JSLink("openerp", 'tinycalendar/javascript/calendar_week.js'),
+                  JSLink("openerp", 'tinycalendar/javascript/calendar_gantt.js')]
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 

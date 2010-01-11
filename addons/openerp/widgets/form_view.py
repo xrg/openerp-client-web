@@ -42,13 +42,13 @@ class ViewForm(Form):
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
     member_widgets = ['screen', 'search', 'sidebar']
 
-    javascript = [JSLink("base", "javascript/form.js", location=locations.bodytop),
-                  JSLink("base", "javascript/form_state.js", location=locations.bodytop),
-                  JSLink("base", "javascript/m2o.js", location=locations.bodytop),
-                  JSLink("base", "javascript/m2m.js", location=locations.bodytop),
-                  JSLink("base", "javascript/o2m.js", location=locations.bodytop),
-                  JSLink("base", "javascript/openobject/openobject.ui.textarea.js", location=locations.bodytop),
-                  JSLink("base", "javascript/binary.js", location=locations.bodytop)]
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/o2m.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/openobject/openobject.ui.textarea.js", location=locations.bodytop),
+                  JSLink("openerp", "javascript/binary.js", location=locations.bodytop)]
 
     def __init__(self, params, **kw):
         

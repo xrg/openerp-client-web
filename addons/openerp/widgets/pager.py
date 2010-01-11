@@ -36,7 +36,7 @@ class Pager(TinyWidget):
     template = "templates/pager.mako"
     params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id']
 
-    css = [CSSLink("base", 'css/pager.css')]
+    css = [CSSLink("openerp", 'css/pager.css')]
 
     page_info = None
     pager_id = 1

@@ -127,7 +127,7 @@ class Filter(TinyInputWidget):
 
 class Search(TinyInputWidget):
     template = "templates/search.mako"
-    javascript = [JSLink("base", "javascript/search.js", location=locations.bodytop)]
+    javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
     
     params = ['fields_type', 'filters_list', 'middle_string', 'fields_list']
     member_widgets = ['frame']

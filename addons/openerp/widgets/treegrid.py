@@ -39,8 +39,8 @@ class TreeGrid(TinyWidget):
     params = ['headers', 'showheaders', 'expandall', 'linktarget',
     'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
 
-    css = [CSSLink("base", "css/treegrid.css")]
-    javascript = [JSLink("base", "javascript/treegrid.js")]
+    css = [CSSLink("openerp", "css/treegrid.css")]
+    javascript = [JSLink("openerp", "javascript/treegrid.js")]
 
     def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
 
