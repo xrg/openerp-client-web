@@ -199,7 +199,7 @@ _loaded_addons = {}
 
 __fake_module_check = {
     'trunk': ['openerp', 'widget_wiki'],
-    'tt': ['openerp']
+    'trunk2': ['openerp']
 }
 
 def load_addons(db_name, config):

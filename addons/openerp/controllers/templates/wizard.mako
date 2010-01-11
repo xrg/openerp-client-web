@@ -7,7 +7,7 @@
         % endif
     </title>
 
-    <script type="text/javascript" src="/openerp/static/javascript/openobject/openobject.ui.waitbox.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.waitbox.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/wizard.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/waitbox.css"/>
