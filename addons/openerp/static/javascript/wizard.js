@@ -31,7 +31,7 @@ var WAITBOX = null;
 var WAITBOX_SHOW = false;
 
 MochiKit.DOM.addLoadEvent(function(evt){
-    WAITBOX = new openobject.ui.WaitBox();
+    WAITBOX = new openerp.ui.WaitBox();
 });
 
 function showWaitBox() {

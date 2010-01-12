@@ -103,7 +103,7 @@ is displayed on the second tab.""")}
                                         <td class="item">
                                             <textarea id="explanation" class="text" rows="10"/>
                                             <script type="text/javascript">
-                                                new openobject.ui.TextArea('explanation');
+                                                new openerp.ui.TextArea('explanation');
                                             </script>
                                         </td>
                                     </tr>
@@ -112,7 +112,7 @@ is displayed on the second tab.""")}
                                         <td class="item">
                                             <textarea id="remarks" class="text" rows="10"/>
                                             <script type="text/javascript">
-                                                new openobject.ui.TextArea('remarks');
+                                                new openerp.ui.TextArea('remarks');
                                             </script>
                                         </td>
                                     </tr>
@@ -129,7 +129,7 @@ is displayed on the second tab.""")}
                     <div title="${_('Application Error!')}">
                         <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20">${error}</textarea>
                         <script type="text/javascript">
-                            new openobject.ui.TextArea('error');
+                            new openerp.ui.TextArea('error');
                         </script>
                     </div>
                 </div>

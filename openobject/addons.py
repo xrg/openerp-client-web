@@ -202,6 +202,18 @@ __fake_module_check = {
     'trunk2': ['openerp']
 }
 
+def get_module_list():
+    
+    addons = [f for f in os.listdir(ADDONS_PATH) \
+              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
+              
+    res = []
+    
+    for m in addons:
+        res.append(get_info(m))
+    return res
+    
+
 def load_addons(db_name, config):
     
     if db_name in _loaded:

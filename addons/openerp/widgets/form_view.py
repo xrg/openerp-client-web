@@ -47,7 +47,7 @@ class ViewForm(Form):
                   JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/o2m.js", location=locations.bodytop),
-                  JSLink("openobject", "javascript/openobject/openobject.ui.textarea.js", location=locations.bodytop),
+                  JSLink("openobject", "javascript/openobject/openerp.ui.textarea.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/binary.js", location=locations.bodytop)]
 
     def __init__(self, params, **kw):

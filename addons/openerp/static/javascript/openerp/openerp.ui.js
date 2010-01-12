@@ -31,6 +31,10 @@ if (typeof(openobject.dom) == "undefined") {
     throw "openobject.dom is required by 'openerp.ui'.";
 }
 
+if (typeof(openerp) == "undefined") {
+    openerp = {};
+}
+
 openerp.ui = {
 }
 
