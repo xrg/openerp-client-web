@@ -197,11 +197,6 @@ def load_module_graph(db_name, graph, config):
 _loaded = {}
 _loaded_addons = {}
 
-__fake_module_check = {
-    'trunk': ['openerp', 'widget_wiki', 'widget_tinymce'],
-    'trunk2': ['openerp']
-}
-
 def get_module_list():
     
     addons = [f for f in os.listdir(ADDONS_PATH) \
@@ -222,13 +217,19 @@ def load_addons(db_name, config):
     addons = [f for f in os.listdir(ADDONS_PATH) \
               if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
               
-    base_addons = [m for m in addons if not get_info(m).get("depends")]
+    #XXX: only active addons should be loaded first
+    #TODO: find out a way to access cherrypy.session inside dispatcher.find_handler
+    #base_addons = [m for m in addons if get_info(m).get("active")]
+    base_addons = [m for m in addons]
     
     graph = create_graph(base_addons)
     load_module_graph(db_name, graph, config)
-        
-    #TODO: get modules by db_name
-    module_list = __fake_module_check.get(db_name, [])
+    
+    try:
+        module_list = pooler.get_pool().get_controller("/modules")
+        module_list = module_list.get_installed_modules()
+    except Exception, e:
+        return False
     
     new_modules_in_graph = upgrade_graph(graph, module_list)
     if new_modules_in_graph:

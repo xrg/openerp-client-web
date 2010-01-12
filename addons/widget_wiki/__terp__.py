@@ -6,5 +6,6 @@
     "description": """Wiki widget for web client.
     """,
     'website': 'http://www.openerp.com/',
+    'active': False,
 }
 

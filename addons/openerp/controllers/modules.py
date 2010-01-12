@@ -33,6 +33,8 @@ class ModuleForm(form.Form):
         for mod in modules:
             mod.pop("depends", None)
             mod.pop("version", None)
+            if mod.pop("active", False):
+                mod["state"] = "uninstallable"
         
         proxy = rpc.RPCProxy("ir.module.web")
         proxy.update_module_list(modules)
@@ -40,3 +42,8 @@ class ModuleForm(form.Form):
         params = TinyDict()
         return self.create(params)
     
+    def get_installed_modules(self):
+        proxy = rpc.RPCProxy("ir.module.web")
+        ids = proxy.search([('state', '!=', 'uninstalled')])
+        return proxy.read(ids)
+        

@@ -6,5 +6,6 @@
     "description": """TinyMCE widget for OpenERP.
     """,
     'website': 'http://www.openerp.com/',
+    'active': False,
 }
 
