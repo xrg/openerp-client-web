@@ -82,9 +82,10 @@ class TL(TemplateLookup):
         self.cache[str(uri)] = res = super(TL, self).get_template(uri)
         return res
     
-template_lookup = TL(directories=[find_resource("openobject", "..")], 
-                        default_filters=filters,
-                        imports=imports)#, module_directory="mako_modules")
+template_lookup = TL(directories=[find_resource("openobject", ".."),
+                                  find_resource("openobject", "../addons")], 
+                     default_filters=filters,
+                     imports=imports)#, module_directory="mako_modules")
 
 def load_template(template, module=None):
 

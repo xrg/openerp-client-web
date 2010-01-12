@@ -1,4 +1,4 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css" />
