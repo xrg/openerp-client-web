@@ -29,21 +29,30 @@ class ModuleForm(form.Form):
         from openobject import addons
         
         modules = addons.get_module_list()
+        data = []
         
-        for mod in modules:
+        for name in modules:
+            mod = addons.get_info(name)
+            
+            mod['module'] = name
+            
             mod.pop("depends", None)
             mod.pop("version", None)
             if mod.pop("active", False):
                 mod["state"] = "uninstallable"
+            
+            data.append(mod)
         
         proxy = rpc.RPCProxy("ir.module.web")
-        proxy.update_module_list(modules)
+        proxy.update_module_list(data)
         
         params = TinyDict()
         return self.create(params)
     
     def get_installed_modules(self):
+                
         proxy = rpc.RPCProxy("ir.module.web")
-        ids = proxy.search([('state', '!=', 'uninstalled')])
-        return proxy.read(ids)
+        ids = proxy.search([('state', '=', 'installed')])
+        
+        return [m['module'] for m in proxy.read(ids)]
         

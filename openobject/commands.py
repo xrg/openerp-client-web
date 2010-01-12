@@ -28,7 +28,6 @@ def setup_server(configfile):
     cherrypy.config.update({
         'tools.sessions.on':  True,
         'tools.nestedvars.on':  True,
-        'checker.on': False,
     })
 
     app_config = as_dict(configfile)
@@ -57,12 +56,8 @@ def setup_server(configfile):
         'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
     }})
     
-    from openobject.dispatch import PooledDispatcher
-    from openobject.addons import load_addons
-    from openobject.tools import _tools
-    
-    app_config['/'] = {'request.dispatch': PooledDispatcher()}
-    app = cherrypy.tree.mount(root=None, config=app_config)
+    from controllers._root import Root
+    app = cherrypy.tree.mount(Root(), "/", config=app_config)
 
 
 def start():

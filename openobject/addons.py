@@ -190,8 +190,10 @@ def load_module_graph(db_name, graph, config):
             i18n.load_translations(localedir, domain="messages")
             i18n.load_translations(localedir, domain="javascript")
             
-        pool.instanciate(package.name)
         _loaded_addons[package.name] = True
+        
+    for package in graph:
+        pool.instanciate(package.name)
 
 
 _loaded = {}
@@ -202,12 +204,7 @@ def get_module_list():
     addons = [f for f in os.listdir(ADDONS_PATH) \
               if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
               
-    res = []
-    
-    for m in addons:
-        res.append(get_info(m))
-    return res
-    
+    return addons
 
 def load_addons(db_name, config):
     
@@ -216,20 +213,17 @@ def load_addons(db_name, config):
     
     addons = [f for f in os.listdir(ADDONS_PATH) \
               if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
-              
-    #XXX: only active addons should be loaded first
-    #TODO: find out a way to access cherrypy.session inside dispatcher.find_handler
-    #base_addons = [m for m in addons if get_info(m).get("active")]
-    base_addons = [m for m in addons]
+
+    base_addons = [m for m in addons if get_info(m).get("active")]
     
     graph = create_graph(base_addons)
     load_module_graph(db_name, graph, config)
-    
+        
     try:
-        #module_list = pooler.get_pool().get_controller("/modules")
-        #module_list = module_list.get_installed_modules()
-        module_list = []
+        obj = pooler.get_pool().get_controller("/modules")
+        module_list = obj.get_installed_modules()
     except Exception, e:
+        module_list = []
         pass
     
     new_modules_in_graph = upgrade_graph(graph, module_list)
