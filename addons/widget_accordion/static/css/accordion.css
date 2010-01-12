@@ -1,0 +1,32 @@
+.accordion {
+}
+
+.accordion-block {
+
+}
+
+.accordion-title {
+    display: block;
+    
+    padding: 4px;
+    margin: 0;
+
+    font-size: small;
+    font-weight: normal;
+    
+    border-bottom: 1px solid #3F2844;
+    border-top: 1px solid #BFABC6;
+    cursor: pointer;
+    
+    background-color: #6A4672;
+    color: #fff;
+}
+
+.accordion-title-active {
+    font-weight: bold;
+}
+
+.accordion-content {
+    overflow: hidden;
+}
+
