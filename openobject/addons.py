@@ -226,10 +226,11 @@ def load_addons(db_name, config):
     load_module_graph(db_name, graph, config)
     
     try:
-        module_list = pooler.get_pool().get_controller("/modules")
-        module_list = module_list.get_installed_modules()
+        #module_list = pooler.get_pool().get_controller("/modules")
+        #module_list = module_list.get_installed_modules()
+        module_list = []
     except Exception, e:
-        return False
+        pass
     
     new_modules_in_graph = upgrade_graph(graph, module_list)
     if new_modules_in_graph:

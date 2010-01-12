@@ -58,8 +58,8 @@ def get_pool():
     db_name = None
     
     try:
-        db_name = cherrypy.serving.session['db']
-        #db_name = cherrypy.request.cookie['terp_db'].value
+        #db_name = cherrypy.serving.session['db']
+        db_name = cherrypy.request.cookie['terp_db'].value
     except Exception, e:
         pass
     
