@@ -28,15 +28,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-if (typeof(openobject.ui) == "undefined") {
-    throw "openobject.ui is required by 'openobject.ui.textarea'.";
+if (typeof(openerp.ui) == "undefined") {
+    throw "openerp.ui is required by 'openerp.ui.textarea'.";
 }
 
-openobject.ui.TextArea = function(ta){
+openerp.ui.TextArea = function(ta){
     this.__init__(ta);
 }
 
-openobject.ui.TextArea.prototype = {
+openerp.ui.TextArea.prototype = {
     
     __init__ : function(ta){
         this.textarea = openobject.dom.get(ta);

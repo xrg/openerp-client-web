@@ -3,7 +3,7 @@
 <%def name="header()">
     <title>${form.string}</title>
 
-    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.waitbox.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
     
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/waitbox.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/database.css"/>

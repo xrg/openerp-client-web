@@ -4,7 +4,7 @@
     <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
-    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.textarea.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
     
     <script type="text/javascript">
         var send_maintenance_request = function() {

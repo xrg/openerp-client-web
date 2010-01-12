@@ -203,8 +203,8 @@ class WikiWidget(Text):
 
     params = ["data"]
 
-    css = [CSSLink("base_wiki", 'wiki.css')]
-    javascript = [JSLink("base", "openobject/openobject.ui.textarea.js")]
+    css = [CSSLink("base_wiki", "wiki.css")]
+    javascript = [JSLink("openerp", "openerp/openerp.ui.textarea.js")]
 
     data = None
 

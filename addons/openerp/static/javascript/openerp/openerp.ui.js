@@ -28,10 +28,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 if (typeof(openobject.dom) == "undefined") {
-    throw "openobject.dom is required by 'openobject.ui'.";
+    throw "openobject.dom is required by 'openerp.ui'.";
 }
 
-openobject.ui = {
+openerp.ui = {
 }
 
 

@@ -27,15 +27,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-if (typeof(openobject.ui) == "undefined") {
-    throw "openobject.ui is required by 'openobject.ui.textarea'.";
+if (typeof(openerp.ui) == "undefined") {
+    throw "openerp.ui is required by 'openerp.ui.textarea'.";
 }
 
-openobject.ui.WaitBox = function(options) {
+openerp.ui.WaitBox = function(options) {
     this.__init__(options);
 }
 
-openobject.ui.WaitBox.prototype = {
+openerp.ui.WaitBox.prototype = {
 
     __init__ : function(options) {
         
