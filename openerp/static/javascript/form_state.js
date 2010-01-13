@@ -345,9 +345,11 @@ var form_setVisible = function(container, field, visible) {
             var tab = tabber.tabs[idx];
             tab.li.style.display = 'none';
             tabber.tabHide(idx);
-            if (idx == active) {
-                tabber.tabShow(0);
-            }
+            //When not define any page it display always 1st one.
+            //e.g state = 'dummy' not display page.
+            //if (idx == active) {
+              //  tabber.tabShow(0);
+            //}
         }
 
     } else {
