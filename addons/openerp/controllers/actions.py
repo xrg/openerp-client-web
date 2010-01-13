@@ -226,7 +226,10 @@ def execute(action, **data):
         
         search_view = action.get('search_view_id')
         if search_view:
-            ctx['search_view'] = search_view[0]
+            if isinstance(search_view, (list, tuple)):
+                ctx['search_view'] = search_view[0]
+            else:
+                ctx['search_view'] = search_view
             
         # save active_id in session
         rpc.session.active_id = data.get('id')
