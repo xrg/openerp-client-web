@@ -94,7 +94,7 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Translate this resource.')}" 
-                                            src="/static/images/stock/stock_translate.png" onclick="openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                            src="/static/images/stock/stock_translate.png" onclick="openWindow(getURL('/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):

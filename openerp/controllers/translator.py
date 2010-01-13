@@ -56,7 +56,12 @@ class Translator(SecuredController):
     @expose(template="templates/translator.mako")
     def index(self, translate='fields', **kw):
         params, data = TinyDict.split(kw)
-
+        
+        ctx = {}
+        ctx = params.context or {}
+        ctx.update(rpc.session.context.copy())
+        params['context'] = ustr(ctx)
+        
         proxy = rpc.RPCProxy('res.lang')
 
         lang_ids = proxy.search([('translatable', '=', '1')])
@@ -67,7 +72,7 @@ class Translator(SecuredController):
         data = []
         view = []
 
-        view_view = cache.fields_view_get(params.model, False, 'form', rpc.session.context, True)
+        view_view = cache.fields_view_get(params.model, False, 'form', ctx, True)
 
         view_fields = view_view['fields']
         view_relates = view_view.get('toolbar')
@@ -81,7 +86,7 @@ class Translator(SecuredController):
                 if attrs.get('translate'):
                     value = {}
                     for lang in langs:
-                        context = copy.copy(rpc.session.context)
+                        context = copy.copy(ctx)
                         context['lang'] = adapt_context(lang['code'])
 
                         val = proxy.read([params.id], [name], context)
@@ -131,19 +136,24 @@ class Translator(SecuredController):
                 if values:
                     view += [(code, values)]
 
-        return dict(translate=translate, langs=langs, data=data, view=view, model=params.model, id=params.id)
+        return dict(translate=translate, langs=langs, data=data, view=view, model=params.model, id=params.id, ctx=params.context)
 
     @expose()
     def save(self, translate='fields', **kw):
         params, data = TinyDict.split(kw)
-
+        
+        ctx = {}
+        ctx = params.context or {}
+        ctx.update(rpc.session.context.copy())
+        params['context'] = ustr(ctx)
+        
         if translate == 'fields':
             if not params.id:
                 raise common.message(_("You need to save the resource before adding translations."))
 
             for lang, value in data.items():
 
-                context = copy.copy(rpc.session.context)
+                context = copy.copy(ctx)
                 context['lang'] = adapt_context(lang)
 
                 for name, val in value.items():
@@ -168,7 +178,7 @@ class Translator(SecuredController):
                 for id, val in value.items():
                     rpc.session.execute('object', 'execute', 'ir.translation', 'write', [int(id)], {'value': val})
 
-        return self.index(translate=translate, _terp_model=params.model, _terp_id=params.id)
+        return self.index(translate=translate, _terp_model=params.model, _terp_id=params.id, ctx=params.context)
 
 # vim: ts=4 sts=4 sw=4 si et
 
