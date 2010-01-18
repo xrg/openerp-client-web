@@ -183,6 +183,10 @@ class Screen(TinyInputWidget):
             self.ids = self.widget.ids
 
         elif view_type == 'calendar':
+            if self.ids is None:
+                proxy = rpc.RPCProxy(self.model)
+                self.ids = proxy.search(self.domain, self.offset or False, self.limit or False, 0, self.context)
+            
             self.widget = tinycalendar.get_calendar(view=view,
                                                     model=self.model,
                                                     ids=self.ids,
