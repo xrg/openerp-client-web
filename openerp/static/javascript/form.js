@@ -325,14 +325,14 @@ var pager_action = function(action, src) {
     return src ? new ListView(src).go(action) : submit_search_form(action);
 }
 
-var buttonClicked = function(name, btype, model, id, sure, target){
+var buttonClicked = function(name, btype, model, id, sure, target, context){
 
     if (sure && !confirm(sure)){
         return;
     }
 
-    var button = getElement(name);
-    var context = getNodeAttribute(button, "context");
+    //var button = getElement(name);
+    //var context = getNodeAttribute(button, "context");
 
     var params = {};
 
