@@ -64,7 +64,7 @@
                     </%def>
 
                     <%def name="make_row(data)">
-                    <tr class="grid-row" record="${data['id']}">
+                    <tr class="grid-row" record="${data['id']}" style="cursor: pointer;">
                         % if selector:
                         <td class="grid-cell selector">
                             <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}"/>
@@ -84,12 +84,27 @@
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-							<span>${data[field]}</span>
+                        	% if i==0 and field == 'sequence':
+								<span class="draggable">${data[field]}</span>
+								<script type="text/javascript">
+									MochiKit.DOM.addLoadEvent(function(evt){
+										var c = getElementsByTagAndClassName('span','draggable');
+										for(var j=0;j< c.length;j++) {
+											new Draggable(c[j].parentNode.parentNode,{revert:true,ghosting:true});
+											new Droppable(c[j].parentNode.parentNode,{accept: [c[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
+										}		
+									});
+								
+								</script>
+							% else:	
+								<span>${data[field]}</span>
+							% endif
                             % if editable and field == 'sequence':
-                            <span class="selector">
+                            
+                            <!-- <span class="selector">
                                 <img src="/openerp/static/images/listgrid/arrow_up.gif" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
                                 <img src="/openerp/static/images/listgrid/arrow_down.gif" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
-                            </span>
+                            </span> -->
                             % endif
                         </td>
                         % endfor

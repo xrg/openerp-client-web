@@ -219,7 +219,53 @@ class List(SecuredController):
             error = ustr(e)
 
         return dict(error=error, result=result, reload=reload)
-
+    
+    @expose('json')
+    def sort_by_drag(self, **kw):
+        params, data = TinyDict.split(kw)
+        id = params.id
+        ids = params.ids or []
+        proxy = rpc.RPCProxy(params.model)
+        ctx = rpc.session.context.copy()
+        swap_id = params.swap_id
+        
+        res_id = proxy.read([id], ['sequence'], ctx)[0]
+        id_seq = res_id['sequence']
+        res_swap_id = proxy.read([swap_id], ['sequence'], ctx)[0]
+        swap_id_seq = res_swap_id['sequence']
+        
+        if id_seq< swap_id_seq:
+            new_ids = ids[ids.index(id)+1: ids.index(swap_id)]
+            new_ids.append(swap_id)
+            new_ids.append(id)
+            res = proxy.read(new_ids,['sequence'], ctx)
+            if swap_id_seq < len(new_ids):
+                for r in res:
+                    if r['id'] == id:
+                        proxy.write([r['id']], {'sequence': len(new_ids)}, ctx)
+                    else:
+                        proxy.write([r['id']], {'sequence': ids.index(r['id'])}, ctx)
+                        
+            else:
+                for r in res:
+                    if r['id'] == id:
+                        proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
+                    else:
+                        proxy.write([r['id']], {'sequence': r['sequence'] -1}, ctx)
+        else:
+            new_ids = []
+            new_ids.append(id)
+            for i in ids[ids.index(swap_id): ids.index(id)]:
+                new_ids.append(i)
+            res = proxy.read(new_ids,['sequence'], ctx)
+            for r in res:
+                if r['id'] == id:
+                    proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
+                else:
+                    proxy.write([r['id']], {'sequence': ids.index(r['id'])+2}, ctx)
+        
+        return dict()
+    
     @expose('json')
     def moveUp(self, **kw):
 
@@ -227,7 +273,6 @@ class List(SecuredController):
 
         id = params.id
         ids = params.ids or []
-
         if id not in ids or ids.index(id) == 0:
             return dict()
 
@@ -235,13 +280,12 @@ class List(SecuredController):
         ctx = rpc.session.context.copy()
 
         prev_id = ids[ids.index(id)-1]
-
+        
         try:
             res = proxy.read([id, prev_id], ['sequence'], ctx)
             records = dict([(r['id'], r['sequence']) for r in res])
             cur_seq = records[id]
             prev_seq = records[prev_id]
-
             if cur_seq == prev_seq:
                 proxy.write([prev_id], {'sequence': cur_seq + 1}, ctx)
                 proxy.write([id], {'sequence': prev_seq}, ctx)

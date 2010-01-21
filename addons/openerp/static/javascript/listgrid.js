@@ -109,7 +109,7 @@ ListView.prototype = {
             return c.id ? true : false;
         }, openobject.dom.select('th.grid-cell', header));
     },
-
+    
     makeArgs: function(){
 
         var args = {};
@@ -200,7 +200,23 @@ MochiKit.Base.update(ListView.prototype, {
 
 // pagination & reordering
 MochiKit.Base.update(ListView.prototype, {
-
+	
+	sort_by_drag: function(drag,drop,event) {
+		var args = {}
+		var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
+		var _terp_model =  getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_model') || getElement('_terp_model')
+		args['_terp_model'] = _terp_model.value
+		var _terp_ids = getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_ids') || getElement('_terp_ids')
+		args['_terp_ids'] = _terp_ids.value
+		args['_terp_id'] = getNodeAttribute(drag,'record')
+		args['_terp_swap_id'] = getNodeAttribute(drop,'record')
+		
+		var req = openobject.http.postJSON('/listgrid/sort_by_drag', args);
+		req.addCallback(function() {
+			_list_view.reload(true)
+		})
+	},
+	
     moveUp: function(id) {
 
         var self = this;
@@ -208,6 +224,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         args['_terp_model'] = this.model;
         args['_terp_ids'] = this.ids;
+        
         args['_terp_id'] = id;
 
         var req = openobject.http.postJSON('/listgrid/moveUp', args);
@@ -559,7 +576,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-            row_listgrid();
+//            row_listgrid();
         });
     }
 
@@ -594,14 +611,14 @@ MochiKit.Base.update(ListView.prototype, {
     }
 });
 
-var row_listgrid = function(evt) {
-	var row = [];
-	row = getElementsByTagAndClassName('tr', 'grid-row');
-
-    forEach(row, function(e){
-    	MochiKit.Signal.connect(e, 'onclick', e, select_row_edit);
-    });
-}
+//var row_listgrid = function(evt) {
+//	var row = [];
+//	row = getElementsByTagAndClassName('tr', 'grid-row');
+//
+//    forEach(row, function(e){
+//    	MochiKit.Signal.connect(e, 'onclick', e, select_row_edit);
+//    });
+//}
 
 var select_row_edit = function(e){
 	src=e.src();
@@ -623,9 +640,9 @@ var select_row_edit = function(e){
 }
 
 
-MochiKit.DOM.addLoadEvent(function(evt){
-	row_listgrid(evt);
-});
+//MochiKit.DOM.addLoadEvent(function(evt){
+//	row_listgrid(evt);
+//});
 
 // vim: ts=4 sts=4 sw=4 si et
 
