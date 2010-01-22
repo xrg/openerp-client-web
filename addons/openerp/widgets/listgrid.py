@@ -537,8 +537,10 @@ class Boolean(Char):
     template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
 
     def get_text(self):
-        self.kind=self.attrs.get('type', 'boolean')
-        self.default = self.value or ''
+        if int(self.value) == 1:
+            return _('Yes')
+        else:
+            return _('No')
         
 class Button(TinyInputWidget):
     
