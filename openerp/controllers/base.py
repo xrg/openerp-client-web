@@ -53,7 +53,7 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
 
     dblist = []
     try:
-        dblist = rpc.session.listdb()
+        dblist = cherrypy.request.app.config['openerp-web'].get('selected_dbs') or rpc.session.listdb()
     except:
         message = _("Could not connect to server!")
         
