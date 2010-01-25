@@ -135,7 +135,13 @@ class Screen(TinyInputWidget):
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
             view = cache.fields_view_get(self.model, view_id, view_type, ctx, self.hastoolbar)
-
+        
+        fields = view['fields']
+        for dom in self.domain:
+            if dom[0] in fields:
+                field_dom = str(fields[dom[0]].setdefault('domain', []))
+                fields[dom[0]]['domain'] = field_dom[:1] + str(('id', dom[1], dom[2])) + ',' + field_dom[1:]
+                
         self.add_view(view, view_type)
 
     def add_view(self, view, view_type='form'):
