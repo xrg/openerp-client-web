@@ -87,13 +87,13 @@
                         	% if i==0 and field == 'sequence':
 								<span class="draggable">${data[field]}</span>
 								<script type="text/javascript">
-									MochiKit.DOM.addLoadEvent(function(evt){
-										var c = getElementsByTagAndClassName('span','draggable');
-										for(var j=0;j< c.length;j++) {
-											new Draggable(c[j].parentNode.parentNode,{revert:true,ghosting:true});
-											new Droppable(c[j].parentNode.parentNode,{accept: [c[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
+									function make_draggale(){
+										var drag = getElementsByTagAndClassName('span','draggable');
+										for(var j=0;j< drag.length;j++) {
+											new Draggable(drag[j].parentNode.parentNode,{revert:true,ghosting:true});
+											new Droppable(drag[j].parentNode.parentNode,{accept: [drag[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
 										}		
-									});
+									}
 								
 								</script>
 							% else:	
@@ -201,6 +201,11 @@
 
             <script type="text/javascript">
                 new SortableGrid('${name}_grid');
+                % for i, (field, field_attrs) in enumerate(headers):
+                	% if field == 'sequence':
+                		make_draggale()
+            		% endif
+                % endfor
             </script>
         </td>
     </tr>
