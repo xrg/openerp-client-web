@@ -241,7 +241,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         var bg = "node";
         bg = this.data.kind == "subflow" ? "node-subflow" : "node"; 
         bg = this.data.gray ? bg + "-gray" : bg;
-        elem.style.background = 'url(/openerp/static/images/workflow/images/'+ bg + '.png) no-repeat';
+        elem.style.background = 'url(/openerp/static/workflow/images/'+ bg + '.png) no-repeat';
 		
         elem.innerHTML = (
         "<div class='node-title'></div>"+
@@ -307,7 +307,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         }
 
         if (this.data.active){
-        	elem.style.background = 'url(/openerp/static/images/workflow/images/node-current.png) no-repeat';
+        	elem.style.background = 'url(/openerp/static/workflow/images/node-current.png) no-repeat';
         }
 
         MochiKit.DOM.appendChildNodes(bbar, buttons);
