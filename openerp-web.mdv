@@ -25,7 +25,7 @@
 
 NAME=openerp-web
 
-DAEMON=/usr/bin/start-openerp-web
+DAEMON=/usr/bin/openerp-web
 PIDFILE=/var/run/openerp/openerp-web.pid
 LOCKFILE=/var/lock/subsys/openerp-web
 # LOGFILE=/var/log/openerp/openerp-web.log
