@@ -30,9 +30,6 @@
                             <img src="/openerp/static/images/stock/gtk-go-forward.png" width="16" height="16"/>
                         </button>
                         % endif
-                        <button type="button" title="${_('Switch view...')}" onclick="switch_O2M('${switch_to}', '${name}')" style="padding: 2px">
-                            <img src="/openerp/static/images/stock/gtk-justify-fill.png" width="16" height="16"/>
-                        </button>
                     </td>
                     <td>
                         % if not screen.editable and screen.view_type=='form':
