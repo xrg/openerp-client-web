@@ -8,7 +8,7 @@
             return MochiKit.Base.serializeJSON(res);
         }
         
-        swfobject.embedSWF(openobject.http.getURL("/static/open-flash-chart.swf"), "${name}", "${width}", "${height}", "9.0.0", 
+        swfobject.embedSWF(openobject.http.getURL("/openerp/static/open-flash-chart.swf"), "${name}", "${width}", "${height}", "9.0.0", 
         "expressInstall.swf", {'get-data': 'get_chart_${name}'}, {'wmode': 'transparent'});
     </script>
     
