@@ -222,7 +222,7 @@ class Tree(SecuredController):
             record['items'] = item
 
             records += [record]
-        print "====================== record...", records
+            
         return dict(records=records)
 
     def do_action(self, name, adds={}, datas={}):
