@@ -84,7 +84,7 @@
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                        	% if i==0 and field == 'sequence':
+                        	% if map(lambda x: x[0],hiddens).__contains__('sequence') or  field == 'sequence':
 								<span class="draggable">${data[field]}</span>
 								<script type="text/javascript">
 									function make_draggale(){
@@ -94,18 +94,10 @@
 											new Droppable(drag[j].parentNode.parentNode,{accept: [drag[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
 										}		
 									}
-								
-								</script>
+							</script>
 							% else:	
 								<span>${data[field]}</span>
 							% endif
-                            % if editable and field == 'sequence':
-                            
-                            <!-- <span class="selector">
-                                <img src="/openerp/static/images/listgrid/arrow_up.gif" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
-                                <img src="/openerp/static/images/listgrid/arrow_down.gif" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
-                            </span> -->
-                            % endif
                         </td>
                         % endfor
                         % if buttons:
@@ -202,7 +194,7 @@
             <script type="text/javascript">
                 new SortableGrid('${name}_grid');
                 % for i, (field, field_attrs) in enumerate(headers):
-                	% if field == 'sequence':
+                	% if field == 'sequence' or map(lambda x: x[0],hiddens).__contains__('sequence'):
                 		make_draggale()
             		% endif
                 % endfor
