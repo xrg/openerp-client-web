@@ -233,11 +233,15 @@ class List(SecuredController):
         id_seq = res_id['sequence']
         res_swap_id = proxy.read([swap_id], ['sequence'], ctx)[0]
         swap_id_seq = res_swap_id['sequence']
-        
-        if id_seq< swap_id_seq:
-            new_ids = ids[ids.index(id)+1: ids.index(swap_id)]
-            new_ids.append(swap_id)
-            new_ids.append(id)
+        if id_seq<= swap_id_seq:
+            new_ids = []
+            if ids[ids.index(id)+1: ids.index(swap_id)]:
+                new_ids.extend(ids[ids.index(id)+1: ids.index(swap_id)+1])
+                new_ids.append(id)
+            else:
+                new_ids.append(id)
+                new_ids.extend(ids[ids.index(swap_id): ids.index(id)])
+
             res = proxy.read(new_ids,['sequence'], ctx)
             if swap_id_seq < len(new_ids):
                 for r in res:
@@ -252,11 +256,11 @@ class List(SecuredController):
                         proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
                     else:
                         proxy.write([r['id']], {'sequence': r['sequence'] -1}, ctx)
+        
         else:
             new_ids = []
             new_ids.append(id)
-            for i in ids[ids.index(swap_id): ids.index(id)]:
-                new_ids.append(i)
+            new_ids.extend(ids[ids.index(swap_id): ids.index(id)])
             res = proxy.read(new_ids,['sequence'], ctx)
             for r in res:
                 if r['id'] == id:

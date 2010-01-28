@@ -213,7 +213,7 @@ MochiKit.Base.update(ListView.prototype, {
 		
 		var req = openobject.http.postJSON('/listgrid/sort_by_drag', args);
 		req.addCallback(function() {
-			_list_view.reload(true)
+			_list_view.reload()
 		})
 	},
 	
@@ -615,7 +615,7 @@ var row_listgrid = function(evt) {
 	row = getElementsByTagAndClassName('tr', 'grid-row');
 
     forEach(row, function(e){
-    	MochiKit.Signal.connect(e, 'onclick', e, select_row_edit);
+    	MochiKit.Signal.connect(e, 'ondblclick', e, select_row_edit);
     });
 }
 

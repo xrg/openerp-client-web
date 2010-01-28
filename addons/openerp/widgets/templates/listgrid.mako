@@ -193,11 +193,13 @@
 
             <script type="text/javascript">
                 new SortableGrid('${name}_grid');
-                % for i, (field, field_attrs) in enumerate(headers):
-                	% if field == 'sequence' or map(lambda x: x[0],hiddens).__contains__('sequence'):
-                		make_draggale()
-            		% endif
-                % endfor
+                % if data:
+	                % for i, (field, field_attrs) in enumerate(headers):
+	                	% if field == 'sequence' or map(lambda x: x[0],hiddens).__contains__('sequence'):
+	                		make_draggale()
+	            		% endif
+	                % endfor
+                % endif
             </script>
         </td>
     </tr>
