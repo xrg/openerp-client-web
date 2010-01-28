@@ -135,7 +135,7 @@ openobject.workflow.ToolShowGrid = openobject.workflow.ToolToggle.extend({
 openobject.workflow.ToolCreateState = openobject.workflow.ToolGeneric.extend({
 
     initialize : function(palette) {
-        this.parent(palette, '/openerp/static/images/workflow/images/ToolOval.jpg');
+        this.parent(palette, '/openerp/static/workflow/images/ToolOval.jpg');
     },
 
 	execute : function(x, y) {
