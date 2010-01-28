@@ -41,7 +41,7 @@
     ${js.display()}
 % endfor
 
-<table id="content_container" width="100%">
+<table id="content_container" width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td>
 			${self.content()}
