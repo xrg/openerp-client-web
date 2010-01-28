@@ -553,7 +553,6 @@ MochiKit.Base.update(ListView.prototype, {
                     var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]")
                     var value = "('" + key + "', '" + obj.info[key] + "')";
                     for(var i=0; i<items.length;i++) {
-//                        log(key, value);
                         items[i].value = value;
                     }
                 }catch(e){}
@@ -576,7 +575,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-//            row_listgrid();
+            row_listgrid();
         });
     }
 
@@ -611,14 +610,14 @@ MochiKit.Base.update(ListView.prototype, {
     }
 });
 
-//var row_listgrid = function(evt) {
-//	var row = [];
-//	row = getElementsByTagAndClassName('tr', 'grid-row');
-//
-//    forEach(row, function(e){
-//    	MochiKit.Signal.connect(e, 'onclick', e, select_row_edit);
-//    });
-//}
+var row_listgrid = function(evt) {
+	var row = [];
+	row = getElementsByTagAndClassName('tr', 'grid-row');
+
+    forEach(row, function(e){
+    	MochiKit.Signal.connect(e, 'onclick', e, select_row_edit);
+    });
+}
 
 var select_row_edit = function(e){
 	src=e.src();
@@ -640,9 +639,9 @@ var select_row_edit = function(e){
 }
 
 
-//MochiKit.DOM.addLoadEvent(function(evt){
-//	row_listgrid(evt);
-//});
+MochiKit.DOM.addLoadEvent(function(evt){
+	row_listgrid(evt);
+});
 
 // vim: ts=4 sts=4 sw=4 si et
 
