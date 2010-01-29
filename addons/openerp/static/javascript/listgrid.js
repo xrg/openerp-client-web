@@ -629,15 +629,14 @@ var select_row_edit = function(e){
     var editable = getElement('_terp_editable').value;
 
 	if (!(target_class == 'checkbox grid-record-selector' || target_class == 'listImage')) {
-		if (!(view_type == 'form' || editable == 'True')) {
+		if ((view_type == 'tree' && editable != 'True')) {
 			do_select(src_record);
-	    }
-	    else {
+		}
+		if ((view_type == 'tree' && editable == 'True')){
 			editRecord(src_record);
 		}
 	}
 }
-
 
 MochiKit.DOM.addLoadEvent(function(evt){
 	row_listgrid(evt);
