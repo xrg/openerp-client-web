@@ -184,6 +184,7 @@ class Screen(TinyInputWidget):
             self.widget = graph.Graph(model=self.model,
                                       view=view,
                                       view_id=view.get('view_id', False),
+                                      view_ids = self.view_ids,
                                       ids=self.ids, domain=self.domain,
                                       context=self.context)
             self.ids = self.widget.ids

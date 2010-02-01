@@ -88,7 +88,7 @@ class Graph(TinyWidget):
     width = 500
     height = 350
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
+    def __init__(self, model, view=False, view_id=False,view_ids=False, ids=[], domain=[], context={}, width=500, height=350):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
@@ -111,7 +111,7 @@ class Graph(TinyWidget):
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
             
         if chart_type == "bar":
-            self.data = BarChart(model, view, view_id, ids, domain, context)
+            self.data = BarChart(model, view, view_id, view_ids, ids, domain, context)
         else:
             self.data = PieChart(model, view, view_id, ids, domain, context)
             
@@ -120,7 +120,6 @@ class Graph(TinyWidget):
 class GraphData(object):
 
     def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
-
         ctx = {}
         ctx = rpc.session.context.copy()
         ctx.update(context)
@@ -393,9 +392,10 @@ class GraphData(object):
 
 class BarChart(GraphData):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
+    def __init__(self, model, view=False, view_id=False,view_ids=False, ids=[], domain=[], context={}):
         super(BarChart, self).__init__(model, view, view_id, ids, domain, context)
         self.context = context
+        self.view_ids = view_ids
 
     def get_data(self):
 
@@ -483,7 +483,7 @@ class BarChart(GraphData):
             temp_lbl.append(lbl)
 
         url = []
-
+        
         for x in axis[1:]:
             if len(axis_group) > 1:
                 for st in stack_id_list:
@@ -492,16 +492,22 @@ class BarChart(GraphData):
                             ids = s.split('/')[1]
                             ids = eval(ids)
                             dom = [('id', 'in', ids)]
-                            u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
-                               _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
-        
+                            if len(self.view_ids) > 2 or self.view_ids[0]:
+                                u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['form','tree', 'graph']",
+                                   _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx),_terp_view_ids = self.view_ids)
+                            else:
+                                u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                                   _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
                             url.append(u)
             
             else:
                 for dom in domain:
-                    u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
-                           _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
-    
+                    if len(self.view_ids) > 2 or self.view_ids[0]:
+                        u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['form','tree', 'graph']",
+                               _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx),_terp_view_ids = self.view_ids)
+                    else:
+                        u = tools.url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                                   _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
                     url.append(u)
         
         allvalues = []
