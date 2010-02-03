@@ -200,6 +200,32 @@ MochiKit.Base.update(ListView.prototype, {
 
 // pagination & reordering
 MochiKit.Base.update(ListView.prototype, {
+	sort_by_order: function(id) {
+		var self = this
+		var domain = [];
+		var args = {}
+		if(getElement('_'+this.name+'_button1'))
+			domain = getNodeAttribute(getElement('_'+this.name+'_button1'),'domain')
+		
+		args['_terp_model'] = this.model
+		args['_terp_sort_order'] = id
+		args['_terp_sort_domain'] = domain
+		var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
+        var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
+        
+		if(this.ids!='[]')
+		{
+			var req = openobject.http.postJSON('/listgrid/sort_by_order', args);
+			req.addCallback(function(obj) {
+				if(obj.ids) {
+					_terp_ids.value = '[' + obj.ids.join(',') + ']';
+					self.reload();
+				}
+				else 
+					alert(obj.error)
+			})
+		}
+	},
 	
 	sort_by_drag: function(drag,drop,event) {
 		var args = {}

@@ -131,7 +131,7 @@ class List(SecuredController):
     def get(self, **kw):
         params, data = TinyDict.split(kw)
 
-        params.ids = None
+#        params.ids = None
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
@@ -219,6 +219,21 @@ class List(SecuredController):
             error = ustr(e)
 
         return dict(error=error, result=result, reload=reload)
+    
+    @expose('json')
+    def sort_by_order(self, **kw):
+        params, data = TinyDict.split(kw)
+        proxy = rpc.RPCProxy(params.model)
+        ctx = rpc.session.context.copy()
+        try:
+            
+            if params.sort_domain:
+                ids = proxy.search(params.sort_domain, 0,0, params.sort_order, ctx)
+            else:
+                ids = proxy.search([], 0,0, params.sort_order, ctx)
+            return dict(ids = ids)
+        except Exception , e:
+            return dict(error = e.message)
     
     @expose('json')
     def sort_by_drag(self, **kw):

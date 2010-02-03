@@ -25,7 +25,7 @@
                         <th class="grid-cell selector"><div style="width: 0px;"></div></th>
                         % endif
                         % for (field, field_attrs) in headers:
-                        <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}">${field_attrs['string']}</th>
+                        <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
                         % endfor
                         % if buttons:
                         <th class="grid-cell button"><div style="width: 0px;"></div></th>
@@ -192,7 +192,7 @@
             </table>
 
             <script type="text/javascript">
-                new SortableGrid('${name}_grid');
+               // new SortableGrid('${name}_grid');
                 % if data:
 	                % for i, (field, field_attrs) in enumerate(headers):
 	                	% if field == 'sequence' or map(lambda x: x[0],hiddens).__contains__('sequence'):
