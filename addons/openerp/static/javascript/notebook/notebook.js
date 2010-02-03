@@ -48,7 +48,7 @@ Notebook.prototype = {
     toString: MochiKit.Base.forwardCall("repr"),
     
     __init__ : function(element, options) {
-        this.element = MochiKit.DOM.getElement(element);
+        this.element = openobject.dom.get(element);
         
         if (!this.element) {
             throw "Invalid argument:" + element;
@@ -151,7 +151,7 @@ Notebook.prototype = {
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
-            var i = self.options.remember ? parseInt(getCookie(self.cookie)) || 0 : 0;
+            var i = self.options.remember ? parseInt(openobject.http.getCookie(self.cookie)) || 0 : 0;
             self.show(i);
         });
 
@@ -397,7 +397,7 @@ Notebook.prototype = {
         this.activePage = this.getPage(tab);
         
         if (this.options.remember) {
-            setCookie(this.cookie, findIdentical(this.tabs, tab));
+            openobject.http.setCookie(this.cookie, findIdentical(this.tabs, tab));
         }
         
         MochiKit.Signal.signal(this, "activate", this, tab);
@@ -574,7 +574,7 @@ Notebook.adjustSize = function(callback) {
 
     var elems = MochiKit.Base.filter(function(e){
         return e.notebook;
-    }, getElementsByTagAndClassName('div', 'notebook'));
+    }, openobject.dom.select('div.notebook'));
     
     MochiKit.Iter.forEach(elems, function(e){
         hideElement(e.notebook.elemWrap);
@@ -605,7 +605,7 @@ MochiKit.Base.update(Scroll.prototype, {
     __init__: function (element, /* optional */options) {
         var b = MochiKit.Base;
         var s = MochiKit.Style;
-        this.element = MochiKit.DOM.getElement(element);
+        this.element = openobject.dom.get(element);
 
         options = b.update({
             side: "left",

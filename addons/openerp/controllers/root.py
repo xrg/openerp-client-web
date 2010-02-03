@@ -86,6 +86,19 @@ class Root(SecuredController):
         return self.user_action('action_id')
         return dict()
     
+    @expose()
+    def info(self):
+        return """
+    <html>
+    <head></head>
+    <body>
+        <div align="center" style="padding: 50px;">
+            <img border="0" src="%s"></img>
+        </div>
+    </body>
+    </html>
+    """ % (url("/openerp/static/images/loading.gif"))
+    
     @expose(template="templates/menu.mako")
     def menu2(self, **kw):
          

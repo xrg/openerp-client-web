@@ -15,11 +15,12 @@
     <script type="text/javascript">
        
         function load_menu(id) {
-    		window.location.href = getURL("/menu2", {p_id: id});
+    		window.location.href = openobject.http.getURL("/menu2", {p_id: id});
     	}
     	
     	function onload_frame() {
-    		ifrm = getElement('content_iframe'); 
+    		log('load');
+    		ifrm = getElement('content_iframe');
 	        if (ifrm) {
 	        	if (window.frames['appFrame'].document.getElementById('main_form_body')) {
 	        		getElement('content_iframe').style.height = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).h + 'px';
@@ -110,7 +111,7 @@
             </td>
             <td style="height: 100%">
                 <div id="app_container" height="100%">
-                    <iframe id="content_iframe" onload="onload_frame()" width="100%" height="100%" border="0" frameborder="0" 
+                    <iframe id="content_iframe" width="100%" height="100%" border="0" frameborder="0" 
                         name="appFrame" src="${py.url('/info')}"></iframe>
                 </div>
             </td>

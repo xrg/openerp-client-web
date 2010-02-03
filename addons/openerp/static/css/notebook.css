@@ -60,7 +60,7 @@ ul.notebook-tabs-strip {
     padding: 0;
         
     list-style: none;    
-    border-bottom: solid 0px gray;
+    border-bottom: solid 1px gray;
 }
 
 li.notebook-tab {
