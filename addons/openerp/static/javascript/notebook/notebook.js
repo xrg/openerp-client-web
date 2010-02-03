@@ -48,7 +48,7 @@ Notebook.prototype = {
     toString: MochiKit.Base.forwardCall("repr"),
     
     __init__ : function(element, options) {
-        this.element = openobject.dom.get(element);
+        this.element = MochiKit.DOM.getElement(element);
         
         if (!this.element) {
             throw "Invalid argument:" + element;
@@ -64,7 +64,7 @@ Notebook.prototype = {
             'remember': true,
             'onclose': null
         }, options || {});
-
+        
         this.prepare();
                 
         this.element.notebook = this;
@@ -88,6 +88,10 @@ Notebook.prototype = {
         this.elemStrip = UL({'class': 'notebook-tabs-strip'});
         this.elemStack = DIV({'class': 'notebook-pages'});
         
+        if (this.element.id == 'static_menu_tabs') {
+        	this.elemStack = DIV();
+        }
+        
         this.cookie = '_notebook_' +  this.element.id + '_active_page';
         
         this.tabs = [];
@@ -102,6 +106,7 @@ Notebook.prototype = {
         
             var page = pages[i];
             var text = page.title || "Page " + i;
+            var id = page.id || 'none';
             
             text = text.split('|');
             
@@ -117,6 +122,7 @@ Notebook.prototype = {
             
             this.add(page, {
                 text: text,
+                id: id,
                 help: help,
                 closable: closable,
                 activate: false,
@@ -145,7 +151,7 @@ Notebook.prototype = {
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
-            var i = self.options.remember ? parseInt(openobject.http.getCookie(self.cookie)) || 0 : 0;
+            var i = self.options.remember ? parseInt(getCookie(self.cookie)) || 0 : 0;
             self.show(i);
         });
 
@@ -229,10 +235,11 @@ Notebook.prototype = {
     
         var options = MochiKit.Base.update({
             text: "",                         // text of the tab
+            id: "",							  // ID of tab for static menu
             help: "",                         // help text for the tab
-            closable: this.options.closable,    // make the tab closable
-            activate: true,                     // activate the tab or not
-            css: null                           // additional css class
+            closable: this.options.closable,  // make the tab closable
+            activate: true,                   // activate the tab or not
+            css: null                         // additional css class
         }, options || {});
         
         var text = options.text ? options.text : 'Page ' + this.tabs.length;
@@ -243,7 +250,7 @@ Notebook.prototype = {
         
         MochiKit.DOM.addElementClass(page, 'notebook-page');
         
-        var tab = LI({'class': 'notebook-tab', 'title': options.help},
+        var tab = LI({'class': 'notebook-tab', 'title': options.help, 'id': options.id},
                         A({'href': 'javascript: void(0)', 'class': 'tab-title'}, 
                             SPAN(null, text)));
                             
@@ -390,7 +397,7 @@ Notebook.prototype = {
         this.activePage = this.getPage(tab);
         
         if (this.options.remember) {
-            openobject.http.setCookie(this.cookie, findIdentical(this.tabs, tab));
+            setCookie(this.cookie, findIdentical(this.tabs, tab));
         }
         
         MochiKit.Signal.signal(this, "activate", this, tab);
@@ -482,10 +489,16 @@ Notebook.prototype = {
         //XXX: doesn't work properly under IE
     
         hideElement(this.elemWrap);
-        var w = this.element.parentNode.clientWidth;
-                
+        var w = this.element.parentNode.clientWidth;  
+         
         w = w < this.widthTabs ? w - 36 : w;
-        w = Math.max(0, w - 2);
+        
+        if (this.element.id == 'static_menu_tabs') {
+        	w = Math.max(0, w - 15);
+        }
+        else {
+        	w = Math.max(0, w - 2);
+        }
         
         setElementDimensions(this.elemWrap, {w: w});
         showElement(this.elemWrap);
@@ -530,7 +543,6 @@ Notebook.prototype = {
     },
     
     onScrollRight: function(evt) {
-    
         var w = this.widthTabs - this.widthWrap;
         var x = this.elemWrap.scrollLeft;
         
@@ -545,7 +557,6 @@ Notebook.prototype = {
     },
     
     onScrollLeft: function(evt) {
-    
         var x = this.elemWrap.scrollLeft;
         var s = Math.max(0, x - 100);
         
@@ -563,7 +574,7 @@ Notebook.adjustSize = function(callback) {
 
     var elems = MochiKit.Base.filter(function(e){
         return e.notebook;
-    }, openobject.dom.select('div.notebook'));
+    }, getElementsByTagAndClassName('div', 'notebook'));
     
     MochiKit.Iter.forEach(elems, function(e){
         hideElement(e.notebook.elemWrap);
@@ -594,7 +605,7 @@ MochiKit.Base.update(Scroll.prototype, {
     __init__: function (element, /* optional */options) {
         var b = MochiKit.Base;
         var s = MochiKit.Style;
-        this.element = openobject.dom.get(element);
+        this.element = MochiKit.DOM.getElement(element);
 
         options = b.update({
             side: "left",

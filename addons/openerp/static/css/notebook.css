@@ -23,21 +23,21 @@ div.notebook-tabs-right {
 
 div.notebook-tabs-right {
     right: 0px;
-    background: url('../images/notebook/nb-right.png') no-repeat center;
+    background: url(../images/notebook/nb-right.png) no-repeat center;
 }
 
 div.notebook-tabs-left {
     left: 0px;
-    background: url('../images/notebook/nb-left.png') no-repeat center;
+    background: url(../images/notebook/nb-left.png) no-repeat center;
 }
 
 div.notebook-tabs-right-disabled {
-    background: url('../images/notebook/nb-right-d.png') no-repeat center;
+    background: url(../images/notebook/nb-right-d.png) no-repeat center;
     cursor: default;
 }
 
 div.notebook-tabs-left-disabled {
-    background: url('../images/notebook/nb-left-d.png') no-repeat center;
+    background: url(../images/notebook/nb-left-d.png) no-repeat center;
     cursor: default;
 }
 
@@ -60,7 +60,7 @@ ul.notebook-tabs-strip {
     padding: 0;
         
     list-style: none;    
-    border-bottom: solid 1px gray;
+    border-bottom: solid 0px gray;
 }
 
 li.notebook-tab {
@@ -96,7 +96,7 @@ li.notebook-tab span.tab-close {
     top: 2px;
     width: 12px;
     height: 12px;
-    background: transparent url('../images/notebook/tab-close.png') no-repeat center;
+    background: transparent url(../images/notebook/tab-close.png) no-repeat center;
     cursor: pointer;
 }
 
