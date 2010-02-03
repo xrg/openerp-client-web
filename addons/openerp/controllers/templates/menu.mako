@@ -18,8 +18,11 @@
     		window.location.href = openobject.http.getURL("/menu2", {p_id: id});
     	}
     	
+    	MochiKit.DOM.addLoadEvent(function(evt){
+            window.MAIN_WINDOW = true;
+        });
+    	
     	function onload_frame() {
-    		log('load');
     		ifrm = getElement('content_iframe');
 	        if (ifrm) {
 	        	if (window.frames['appFrame'].document.getElementById('main_form_body')) {
