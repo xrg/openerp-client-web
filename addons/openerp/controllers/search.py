@@ -248,6 +248,8 @@ class Search(Form):
         
         if domains:
             for key in domains:
+                if domains[key] in ['0', '1']:
+                    domains[key] = int(domains[key])
                 if isinstance(domains[key], int):
                     domain += [(key, '=', domains[key])]
                 else:
