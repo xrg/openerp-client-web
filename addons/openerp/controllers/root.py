@@ -54,10 +54,11 @@ def _cp_on_error():
     cherrypy.response.status = 500
     #cherrypy.response.headers['Content-Type'] = 'text/html'
     cherrypy.response.body = [message]
+    
+cherrypy.config.update({'request.error_response': _cp_on_error})
 
 class Root(SecuredController):
 
-    _cp_config = {'request.error_response': _cp_on_error}
     _cp_path = "/"
 
     def user_action(self, id='action_id'):
