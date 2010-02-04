@@ -4,7 +4,6 @@ from _interface import *
 from _views import *
 
 import form
-import graph
 import listgrid
 import treegrid
 

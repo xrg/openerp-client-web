@@ -84,7 +84,7 @@ class Graph(TinyWidget):
         openobject.http.redirect(path);
     }
     """),
-    JSLink("openerp", "javascript/swfobject.js")]
+    JSLink("view_graph", "javascript/swfobject.js")]
 
     params = ['width', 'height', 'data']
     width = 500

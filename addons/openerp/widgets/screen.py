@@ -34,10 +34,6 @@ from openerp.utils import cache
 
 from openerp.widgets import TinyInputWidget
 
-import form
-import graph
-import listgrid
-
 
 class Screen(TinyInputWidget):
 

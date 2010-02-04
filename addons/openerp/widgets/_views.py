@@ -3,10 +3,9 @@ from openobject import pooler
 from openerp.utils import rpc
 
 import form
-import graph
 import listgrid
 
-__all__ = ["TinyView", "FormView", "ListView", "GraphView",
+__all__ = ["TinyView", "FormView", "ListView",
            "get_view_widget", "get_registered_views"]
 
 
@@ -99,24 +98,6 @@ class ListView(TinyView):
         return widget
     
 
-class GraphView(TinyView):
-    
-    _type = "graph"
-    _name = _("Graph")
-    _desc = _("Graph view...")
-    _priority = 3
-    
-    def __call__(self, screen):
-        
-        widget = graph.Graph(model=screen.model,
-                             view=screen.view,
-                             view_id=screen.view_id,
-                             ids=screen.ids, domain=screen.domain,
-                             context=screen.context)
-        screen.ids = widget.ids
-        return widget
-    
-
 def get_view_widget(kind, screen):
     
     pool = pooler.get_pool()
@@ -125,6 +106,7 @@ def get_view_widget(kind, screen):
     try:
         return views[kind](screen)
     except Exception, e:
+        raise
         raise Exception("view '%s' not supported." % kind)
 
 
