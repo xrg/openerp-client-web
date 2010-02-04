@@ -27,8 +27,7 @@ def setup_server(configfile):
 
     cherrypy.config.update({
         'tools.sessions.on':  True,
-        'tools.nestedvars.on':  True,
-        'checker.on': False
+        'tools.nestedvars.on':  True,        
     })
 
     app_config = as_dict(configfile)
@@ -58,8 +57,7 @@ def setup_server(configfile):
     }})
     
     from controllers._root import Root
-    app_config['/'] = {'request.dispatch': Root()}
-    app = cherrypy.tree.mount(root=None, config=app_config)
+    app = cherrypy.tree.mount(Root(), "/", config=app_config)
 
 
 def start():
