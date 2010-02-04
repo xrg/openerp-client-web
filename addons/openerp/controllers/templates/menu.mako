@@ -75,9 +75,9 @@
 	    			load_menu(tab.id);
 	    		}
 	    		
-                   var nb = new Notebook('static_menu_tabs', {
-                    'closable': false,
-                    'scrollable': true
+                var nb = new Notebook('static_menu_tabs', {
+                	'closable': false,
+                	'scrollable': true
                 });
                 
                 MochiKit.Signal.connect(nb, 'click', tabClick);
