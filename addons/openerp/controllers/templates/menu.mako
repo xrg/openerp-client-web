@@ -62,8 +62,8 @@
 
 <%def name="content()">
 
-    <%include file="header.mako"/>
-	    <div for="static_menu_tabs" align="center" valign="top">
+    <%include file="header2.mako"/>
+	    <div for="static_menu_tabs" style="display: block; border-top: 1px solid gray;" align="center" valign="top">
 	    	<div id="static_menu_tabs" class="notebook">
 	    		% for tool in toolbar:
 	    			<div id="${tool['id']}" title="${tool['name']}"></div>
