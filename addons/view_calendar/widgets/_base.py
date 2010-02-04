@@ -116,12 +116,12 @@ class ICalendar(TinyWidget):
     params = ['use_search']
     member_widgets = ['concurrency_info']
 
-    css = [CSSLink("openerp", 'tinycalendar/css/calendar.css')]
-    javascript = [JSLink("openerp", 'tinycalendar/javascript/calendar_date.js'),
-                  JSLink("openerp", 'tinycalendar/javascript/calendar_utils.js'),
-                  JSLink("openerp", 'tinycalendar/javascript/calendar_box.js'),
-                  JSLink("openerp", 'tinycalendar/javascript/calendar_month.js'),
-                  JSLink("openerp", 'tinycalendar/javascript/calendar_week.js')]
+    css = [CSSLink("view_calendar", 'css/calendar.css')]
+    javascript = [JSLink("view_calendar", 'javascript/calendar_date.js'),
+                  JSLink("view_calendar", 'javascript/calendar_utils.js'),
+                  JSLink("view_calendar", 'javascript/calendar_box.js'),
+                  JSLink("view_calendar", 'javascript/calendar_month.js'),
+                  JSLink("view_calendar", 'javascript/calendar_week.js')]
 
     def __init__(self, model, ids, view, domain=[], context={}, options=None):
 

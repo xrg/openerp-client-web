@@ -39,41 +39,28 @@
                                         % endif
                                     </td>
                                     <td width="100%">${form.screen.string}</td>
-                                    % if buttons.search or buttons.form or buttons.calendar or buttons.gantt or buttons.graph:
+                                    
+                                    <%def name="make_view_button(kind, name, desc, active)">
+                                        <button 
+                                            type="button" 
+                                            title="${desc}" 
+                                            onclick="switchView('${kind}')"
+                                            ${py.attr_if("disabled", not active)}>${name}</button>
+                                    </%def>
+                                   
                                     <td nowrap="nowrap">
-                                        <button 
-                                            type="button" 
-                                            title="${_('Tree View...')}" 
-                                            ${py.attr_if("disabled",not buttons.search)}
-                                            onclick="switchView('tree')">${_("Search")}</button>
-                                        <button 
-                                            type="button" 
-                                            title="${_('Form View...')}" 
-                                            ${py.attr_if("disabled",not buttons.form)}
-                                            onclick="switchView('form')">${_("Form")}</button>
-                                        <button 
-                                            type="button" 
-                                            title="${_('Calendar View...')}" 
-                                            ${py.attr_if("disabled",not buttons.calendar)}
-                                            onclick="switchView('calendar')">${_("Calendar")}</button>
-                                        <button 
-                                            type="button" 
-                                            title="${_('Gantt View...')}"
-                                            ${py.attr_if("disabled",not buttons.gantt)}
-                                            onclick="switchView('gantt')">${_("Gantt")}</button>
-                                        <button 
-                                            type="button" 
-                                            title="${_('Graph View...')}" 
-                                            ${py.attr_if("disabled",not buttons.graph)}
-                                            onclick="switchView('graph')">${_("Graph")}</button>
-                                        % if buttons.process:
+                                    % for view in buttons.views:
+                                        ${make_view_button(**view)}
+                                    % endfor
+                                    % if buttons.process:
                                         <button 
                                             type="button" 
                                             title="${_('Corporate Intelligence...')}"
                                             onclick="show_process_view()">${_("Process")}</button>
-                                        % endif
-                                    </td>
                                     % endif
+                                    </td>
+                                    
+                                  
                                     % if buttons.can_attach and not buttons.has_attach:
                                     <td align="center" valign="middle" width="16">
                                         <img 

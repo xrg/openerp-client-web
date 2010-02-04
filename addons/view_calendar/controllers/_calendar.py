@@ -41,10 +41,9 @@ from openerp.utils import TinyDict
 from openerp.utils import context_with_concurrency_info
 
 from openerp.controllers import SecuredController
+from openerp.controllers.form import Form
 
-from form import Form
-
-from openerp.widgets import tinycalendar as tc
+from view_calendar import widgets as tc
 
 class TinyCalendar(Form):
     
