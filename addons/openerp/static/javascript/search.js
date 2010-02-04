@@ -242,7 +242,7 @@ var search_filter = function(src) {
 				if ($(qid) && $(qid).value) {
 					var rec = {};
 					rec[$(fid).value] = $(qid).value;
-					params['_terp_model'] = $('_terp_model').value;
+					params['_terp_model'] = openobject.dom.get('_terp_model').value;
 				}
 			}
 			
@@ -256,7 +256,7 @@ var search_filter = function(src) {
 				if ($(qid) && $(qid).value) {
 					var rec = {};
 					rec[$(fid).value] = $(qid).value;
-					params['_terp_model'] = $('_terp_model').value;
+					params['_terp_model'] = openobject.dom.get('_terp_model').value;
 				}
 			}
 			if (rec) {
@@ -376,7 +376,7 @@ var final_search_domain = function(custom_domain, all_domain) {
 	req.addCallback(function(obj){
 		if (obj.flag) {
 			var params = {'domain': obj.sf_dom,
-							'model': $('_terp_model').value,
+							'model': openobject.dom.get('_terp_model').value,
 							'flag': obj.flag};
 								
 			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
@@ -389,8 +389,8 @@ var final_search_domain = function(custom_domain, all_domain) {
 			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain, context: obj.context});
 
 		    in_req.addCallback(function(in_obj){
-		    	$('_terp_search_domain').value = in_obj.domain;
-		    	$('_terp_context').value = in_obj.context;
+		    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
+		    	openobject.dom.get('_terp_context').value = in_obj.context;
 		        lst.reload();
 		    });	
 		}

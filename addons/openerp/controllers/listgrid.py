@@ -131,7 +131,7 @@ class List(SecuredController):
     def get(self, **kw):
         params, data = TinyDict.split(kw)
 
-#        params.ids = None
+        params.ids = None
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
