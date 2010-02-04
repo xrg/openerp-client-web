@@ -156,8 +156,9 @@ class OpenO2M(Form):
         new_ids = [i for i in all_ids if i not in ids]
 
         current.ids = all_ids
-        #if new_ids:
-        #    current.id = new_ids[0]
+        if new_ids:
+            current.id = new_ids[0]
+            params.o2m_id = current.id
             
         # perform button action
         if params.button:
@@ -167,12 +168,6 @@ class OpenO2M(Form):
             res = self.button_action(current)
             if res:
                 return res
-
-        # If new O2M action, get the newly created id
-        if params.source:
-            field = prefix.split('/')[-1]
-            current.id = proxy.read([params.parent_id], [field], ctx)[0][field][0]
-            params.o2m_id = current.id
 
         return self.create(params)
 

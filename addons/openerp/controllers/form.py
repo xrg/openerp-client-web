@@ -410,6 +410,30 @@ class Form(SecuredController):
 
         if terp_save_only:
             return dict(params=params, data=data)
+        
+        def get_params(p, f):
+
+            pp = p.chain_get(f)
+            px = rpc.RPCProxy(p.model)
+
+            _ids = pp.ids
+            _all = px.read([p.id], [f])[0][f]
+            _new = [i for i in _all if i not in _ids]
+
+            pp.ids = _all
+            if _new:
+                pp.id = _new[0]
+
+            return pp
+
+        if params.source and len(params.source.split("/")) > 1:
+
+            path = params.source.split("/")
+            p = params
+            for f in path:
+                p = get_params(p, f)
+
+            return self.create(params)
 
         args = {'model': params.model,
                 'id': params.id,
