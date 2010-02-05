@@ -478,7 +478,12 @@ var getFormData = function(extended) {
             if (kind == "picture") {
                 n = e.id;
             }
-
+            
+            if (kind == 'text_html') {
+                if(tinyMCE.get(e.name))
+                    attrs['value'] =  tinyMCE.get(e.name).getContent();
+            }
+            
             // stringify the attr object
             frm[n] = serializeJSON(attrs);
             
@@ -603,6 +608,23 @@ var onChange = function(name) {
                 if (kind == 'boolean') {
                     $(prefix + k + '_checkbox_').checked = value || false;
                 }
+                
+                
+                if (kind=='text_html') {
+                    if(tinyMCE.get(prefix+k))
+                        tinyMCE.execInstanceCommand(prefix+k, 'mceSetContent', false, value || '')
+                }
+                
+                if (kind=='selection') {                    
+                    var opts = [];
+                    opts.push(OPTION({'value': ''}))
+                    
+                    for (i in value) {                        
+                        var item = value[i];                        
+                        opts.push(OPTION({'value': item[0]}, item[1]));
+                    } 
+                    MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
+                }  
 
                 MochiKit.Signal.signal(fld, 'onchange');
             }
