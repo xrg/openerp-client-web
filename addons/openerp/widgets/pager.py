@@ -57,7 +57,8 @@ class Pager(TinyWidget):
             self.ids = self.ids[self.offset:]
             self.ids = self.ids[:min(self.limit, len(self.ids))]
 
-        if self.view_type == 'form':
+#        if self.view_type == 'form':
+        if self.view_type in ['form', 'diagram']:        
 
             index = 0
             if self.id in self.ids:

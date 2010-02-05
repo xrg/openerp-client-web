@@ -117,7 +117,7 @@ openobject.workflow.StateBase.prototype = {
     edit : function() {
         
         params = {
-        '_terp_model' : 'workflow.activity',
+        '_terp_model' : WORKFLOW.node_obj,//'workflow.activity',
         '_terp_wkf_id' : WORKFLOW.id 
         }
         

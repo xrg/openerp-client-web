@@ -37,6 +37,7 @@ from openerp.widgets import TinyInputWidget
 import form
 import graph
 import listgrid
+import diagram
 
 import tinycalendar
 
@@ -201,7 +202,15 @@ class Screen(TinyInputWidget):
                                                      domain=self.domain,
                                                      context=self.context,
                                                      options=self.kalendar)
-
+        elif view_type == 'diagram':
+            self.widget = diagram.Diagram(name=self.name,
+                                        model=self.model,
+                                        view=view,                                      
+                                        ids= ((self.id or []) and [self.id]) or self.ids[:1],
+                                        domain=self.domain,
+                                        context=self.context)
+#            self.ids = self.widget.ids
+            
         self.string = (self.widget or '') and self.widget.string
 
         toolbar = {}

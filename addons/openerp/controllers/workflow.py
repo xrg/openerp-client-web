@@ -26,7 +26,7 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+# eval('obj.'+data.strip(), {'obj':object})
 import cherrypy
 
 from openobject.tools import expose
@@ -93,22 +93,24 @@ class State(Form):
 
         return self.create(params)
 
-    @expose()
-    def delete(self, id, **kw):
+    @expose('json')
+    def delete(self, node_obj, id, **kw):
 
         error_msg = None
-        proxy = rpc.RPCProxy('workflow.activity')
+#        proxy = rpc.RPCProxy('workflow.activity')
+        proxy = rpc.RPCProxy(node_obj)
         res_act = proxy.unlink(int(id))
 
         if not res_act:
             error_msg = _('Could not delete state')
 
-        return dict(error = error_msg)
+        return dict(error=error_msg)
 
     @expose('json')
-    def get_info(self, id, **kw):
+    def get_info(self, node_obj, id, **kw):
 
-        proxy_act = rpc.RPCProxy('workflow.activity')
+#        proxy_act = rpc.RPCProxy('workflow.activity')
+        proxy_act = rpc.RPCProxy(node_obj)
         search_act = proxy_act.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
         data = proxy_act.read(search_act, [], rpc.session.context)
 
@@ -161,10 +163,11 @@ class Connector(Form):
         return self.create(params)
 
     @expose('json')
-    def delete(self, id, **kw):
+    def delete(self, conn_obj, id, **kw):
 
         error_msg = None
-        proxy = rpc.RPCProxy('workflow.transition')
+#        proxy = rpc.RPCProxy('workflow.transition')
+        proxy = rpc.RPCProxy(conn_obj)
         res_tr = proxy.unlink(int(id))
 
         if not res_tr:
@@ -173,10 +176,12 @@ class Connector(Form):
         return dict(error=error_msg)
 
     @expose('json')
-    def auto_create(self, act_from, act_to, **kw):
+    def auto_create(self, conn_obj, src, des, act_from, act_to, **kw):
 
-        proxy_tr = rpc.RPCProxy('workflow.transition')
-        id = proxy_tr.create({'act_from': act_from, 'act_to': act_to})
+#        proxy_tr = rpc.RPCProxy('workflow.transition')
+        proxy_tr = rpc.RPCProxy(conn_obj)
+#        id = proxy_tr.create({'act_from': act_from, 'act_to': act_to})
+        id = proxy_tr.create({src: act_from, des: act_to})
         data = proxy_tr.read(id, [], rpc.session.context);
 
         if id>0:
@@ -185,18 +190,20 @@ class Connector(Form):
             return dict(flag=False)
 
     @expose('json')
-    def get_info(self, id, **kw):
+    def get_info(self, conn_obj, id, **kw):
 
-        proxy_tr = rpc.RPCProxy('workflow.transition')
+#        proxy_tr = rpc.RPCProxy('workflow.transition')
+        proxy_tr = rpc.RPCProxy(conn_obj)
         search_tr = proxy_tr.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
         data = proxy_tr.read(search_tr, [], rpc.session.context)
 
         return dict(data=data[0])
 
     @expose('json')
-    def change_ends(self, id, field, value):
+    def change_ends(self, conn_obj, id, field, value):
 
-        proxy_tr = rpc.RPCProxy('workflow.transition')
+#        proxy_tr = rpc.RPCProxy('workflow.transition')
+        proxy_tr = rpc.RPCProxy(conn_obj)
         id = proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
         return dict()
 
@@ -221,11 +228,19 @@ class Workflow(Form):
         return dict(wkf=wkf)
 
     @expose('json')
-    def get_info(self, id, **kw):
+    def get_info(self, id, model, node_obj, conn_obj, src_node, des_node, **kw):
 
         proxy = rpc.RPCProxy("workflow")
         search_ids = proxy.search([('id', '=' , int(id))], 0, 0, 0, rpc.session.context)
         graph_search = proxy.graph_get(search_ids[0], (140, 180), rpc.session.context)
+
+#        proxy = rpc.RPCProxy('ir.ui.view')        
+#        test_res = proxy.graph_get(record_id(workflow.id), workflow, workflow.activity, workflow.transition, act_from, act_to, (140, 180), rpc.session.context)        
+#        test_res = proxy.graph_get(search_ids[0], model, node_obj, conn_obj, src_node, des_node, (140, 180), rpc.session.context)
+#        print
+#        print "RESULT====================  ", test_res
+#        print 
+                
 
         nodes = graph_search['nodes']
         transitions = graph_search['transitions']
@@ -240,18 +255,23 @@ class Workflow(Form):
             t['s_id'] = transitions[tr][0]
             t['d_id'] = transitions[tr][1]
 
-        proxy_tr = rpc.RPCProxy("workflow.transition")
+#        proxy_tr = rpc.RPCProxy("workflow.transition")
+        proxy_tr = rpc.RPCProxy(conn_obj)
         search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)
-        data_trs = proxy_tr.read(search_trs, ['signal', 'condition', 'act_from', 'act_to'], rpc.session.context)
-
+#        data_trs = proxy_tr.read(search_trs, ['signal', 'condition', 'act_from', 'act_to'], rpc.session.context)
+        data_trs = proxy_tr.read(search_trs, ['signal', 'condition', src_node, des_node], rpc.session.context)
+         
         for tr in data_trs:
             t = connectors.get(tr['id'])
             t['signal'] = tr['signal']
             t['condition'] = tr['condition']
-            t['source'] = tr['act_from'][1]
-            t['destination'] = tr['act_to'][1]
+#            t['source'] = tr['act_from'][1]
+#            t['destination'] = tr['act_to'][1]
+            t['source'] = tr[src_node][1]
+            t['destination'] = tr[des_node][1]
 
-        proxy_act = rpc.RPCProxy("workflow.activity")
+#        proxy_act = rpc.RPCProxy("workflow.activity")
+        proxy_act = rpc.RPCProxy(node_obj)
         search_acts = proxy_act.search([('wkf_id', '=', int(id))], 0, 0, 0, rpc.session.context)
         data_acts = proxy_act.read(search_acts, ['action', 'kind', 'flow_start', 'flow_stop', 'subflow_id'], rpc.session.context)
 

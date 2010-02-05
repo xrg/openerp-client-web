@@ -205,7 +205,7 @@ class Form(SecuredController):
     def create(self, params, tg_errors=None):
 
         params.view_type = params.view_type or params.view_mode[0]
-
+        
         if params.view_type == 'tree':
             params.editable = True
 
@@ -230,19 +230,20 @@ class Form(SecuredController):
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
-        buttons.pager =  mode == 'form' # Pager will visible in edit and non-edit mode in form view.
+        buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
 
         buttons.search = 'tree' in params.view_mode and mode != 'tree'
         buttons.graph = 'graph' in params.view_mode and mode != 'graph'
         buttons.form = 'form' in params.view_mode and mode != 'form'
         buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
         buttons.gantt = 'gantt' in params.view_mode and mode != 'gantt'
+        buttons.diagram = 'diagram' in params.view_mode and mode != 'diagram'
         buttons.can_attach = id and mode == 'form'
         buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
-        buttons.toolbar = target != 'new' and not form.is_dashboard
+        buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
 
         if cache.can_write('ir.ui.view'):
             links.view_manager = True

@@ -55,9 +55,14 @@ openobject.workflow.Workflow.implement({
         this.setGridWidth(10, 10);
         this.setSnapToGrid(true);
 		
-		this.states = new draw2d.ArrayList();
-		this.connectors = new draw2d.ArrayList();
 		this.id = null;
+		this.node_obj = openobject.dom.get('node').value;
+		this.connector_obj = openobject.dom.get('connector').value;
+		this.src_node_nm = openobject.dom.get('src_node').value;
+		this.des_node_nm = openobject.dom.get('des_node').value;
+		
+		this.states = new draw2d.ArrayList();
+		this.connectors = new draw2d.ArrayList();		
 		this.selected = null;
 		//this.setToolWindow(toolbar, 30, 30);
 		var tbar = new openobject.workflow.Toolbar();
@@ -91,7 +96,9 @@ openobject.workflow.Workflow.implement({
 		this.id = wkf_id;
 		var self = this;
 		
-		req = openobject.http.postJSON('/workflow/get_info',{id:wkf_id});
+		req = openobject.http.postJSON('/workflow/get_info',{id:wkf_id, model:$('_terp_model').value,
+		                                                      node_obj: self.node_obj, conn_obj:self.connector_obj,
+		                                                      src_node: self.src_node_nm, des_node:self.des_node_nm});
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.nodes) {
@@ -251,7 +258,7 @@ openobject.workflow.Workflow.implement({
 			this.state.setPosition(100, 20);	
 			var self = this;
 			
-			req = openobject.http.postJSON('/workflow/state/get_info',{id: id});
+			req = openobject.http.postJSON('/workflow/state/get_info',{node_obj: self.node_obj, id: id});
 			req.addCallback(function(obj) {
 				var flag = false;
 				var index = null;
@@ -302,7 +309,7 @@ openobject.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = openobject.http.postJSON('/workflow/connector/auto_create', {act_from: act_from, act_to: act_to});
+		req = openobject.http.postJSON('/workflow/connector/auto_create', {conn_obj: self.connector_obj, src: self.src_node_nm, des: self.des_node_nm, act_from: act_from, act_to: act_to});
 		req.addCallback(function(obj) {	
 			
 			var data = obj.data;
@@ -349,7 +356,7 @@ openobject.workflow.Workflow.implement({
 	update_connection : function(id) {	
 		var self = this;
 		
-		req = openobject.http.postJSON('/workflow/connector/get_info',{id: id});
+		req = openobject.http.postJSON('/workflow/connector/get_info',{conn_obj: self.connector_obj, id: id});
 		req.addCallback(function(obj) {
 			var n = self.connectors.getSize();
 			
@@ -378,7 +385,7 @@ openobject.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = openobject.http.postJSON('/workflow/state/delete', {'id' : state.get_act_id()});
+		req = openobject.http.postJSON('/workflow/state/delete', {node_obj: self.node_obj, 'id': state.get_act_id()});
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {
@@ -424,7 +431,7 @@ openobject.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = openobject.http.postJSON('/workflow/connector/delete', {'id' : conn.get_tr_id()});
+		req = openobject.http.postJSON('/workflow/connector/delete', {conn_obj: self.connector_obj, 'id': conn.get_tr_id()});
 		req.addCallback(function(obj) {
 			
 			if(!obj.error) {				

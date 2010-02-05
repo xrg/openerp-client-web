@@ -72,6 +72,13 @@
                                             title="${_('Corporate Intelligence...')}"
                                             onclick="show_process_view()">${_("Process")}</button>
                                         % endif
+                                        % if buttons.diagram:
+                                        <button 
+                                            type="button" 
+                                            title="${_('Diagram View...')}"
+                                            ${py.attr_if("disabled",not buttons.diagram)}
+                                            onclick="switchView('diagram')">${_("Diagram")}</button>
+                                        % endif
                                     </td>
                                     % endif
                                     % if buttons.can_attach and not buttons.has_attach:
@@ -119,7 +126,7 @@
                     </tr>
                     % endif
 
-                    % if form.screen.view_type == 'form' and buttons.toolbar:
+                    % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
                     <tr>
                         <td>
                             <div class="toolbar">
