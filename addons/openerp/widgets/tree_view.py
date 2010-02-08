@@ -115,6 +115,8 @@ class ViewTree(Form):
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
+        
+        rpc.session['static_tab_form'] = False    # header footer will display when not static tab menu
 
         self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
         
