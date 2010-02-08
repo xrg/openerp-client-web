@@ -35,8 +35,6 @@
 </%def>
 
 <%def name="content()">
-	
-<%include file="header.mako"/>
     
 	<table class="view" border="0" width="100%">
         % if maintenance:
@@ -197,5 +195,5 @@ Choose:
         </tr>
         % endif
     </table>
-<%include file="footer.mako"/>    
+    
 </%def>

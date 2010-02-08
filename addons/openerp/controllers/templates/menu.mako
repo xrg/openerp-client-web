@@ -15,7 +15,7 @@
     <script type="text/javascript">
        
         function load_menu(id) {
-    		window.location.href = openobject.http.getURL("/menu2", {p_id: id});
+    		window.location.href = openobject.http.getURL("/menu", {p_id: id});
     	}
     	
     	MochiKit.DOM.addLoadEvent(function(evt){
@@ -62,7 +62,7 @@
 
 <%def name="content()">
 
-    <%include file="header2.mako"/>
+    <%include file="header.mako"/>
     <div for="static_menu_tabs" style="display: block; border-top: 1px solid gray;" align="center" valign="top">
     	<div id="static_menu_tabs" class="notebook">
     		% for tool in toolbar:

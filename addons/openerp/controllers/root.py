@@ -61,31 +61,11 @@ class Root(SecuredController):
 
     _cp_path = "/"
 
-    def user_action(self, id='action_id'):
-        """Perform default user action.
-
-        @param id: `action_id` or `menu_id`
-        """
-
-        proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-        
-        if not act_id[0][id]:
-            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
-            rpc.session.logout()
-            raise redirect('/');
-
-        act_id = act_id[0][id][0]
-        
-        import actions
-        return actions.execute_by_id(act_id)
-
     @expose()
     def index(self):
-        """Index page, loads the view defined by `action_id`.
+        """Index page, loads the static tab view.
         """
-        return self.user_action('action_id')
-        return dict()
+        raise redirect('/menu')
     
     @expose()
     def info(self):
@@ -101,7 +81,7 @@ class Root(SecuredController):
     """ % (url("/openerp/static/images/loading.gif"))
     
     @expose(template="templates/menu.mako")
-    def menu2(self, **kw):
+    def menu(self, **kw):
          
         from openerp.widgets import tree_view
         from openerp.utils import icons
@@ -143,16 +123,9 @@ class Root(SecuredController):
                     new_tool += [ch_tool]
                 
                 show_formview = True
-                rpc.session['static_tab_form'] = True    # header footer will not display when static tab menu
                 new_toolbar = new_tool
                 
         return dict(new_toolbar=new_toolbar, toolbar=toolbar, show_formview=show_formview)
-        
-    @expose()
-    def menu(self):
-        """Main menu page, loads the view defined by `menu_id`.
-        """
-        return self.user_action('menu_id')
 
     @expose(allow_json=True)
     @unsecured
