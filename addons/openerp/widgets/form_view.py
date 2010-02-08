@@ -33,7 +33,7 @@ from search import Search
 from screen import Screen
 from sidebar import Sidebar
 
-from openobject.widgets import Form, JSLink, locations
+from openobject.widgets import Form, CSSLink, JSLink, locations
 
 class ViewForm(Form):
 
@@ -41,7 +41,8 @@ class ViewForm(Form):
 
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
     member_widgets = ['screen', 'search', 'sidebar']
-
+    
+    css = [CSSLink("openerp", "css/autocomplete.css")]
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),

@@ -13,7 +13,7 @@
         var WAITBOX = null;
 
         MochiKit.DOM.addLoadEvent(function(evt){
-            WAITBOX = new openobject.ui.WaitBox();
+            WAITBOX = new openerp.ui.WaitBox();
         });
 
         var dbView = function(name) {

@@ -54,10 +54,11 @@ def _cp_on_error():
     cherrypy.response.status = 500
     #cherrypy.response.headers['Content-Type'] = 'text/html'
     cherrypy.response.body = [message]
+    
+cherrypy.config.update({'request.error_response': _cp_on_error})
 
 class Root(SecuredController):
 
-    _cp_config = {'request.error_response': _cp_on_error}
     _cp_path = "/"
 
     def user_action(self, id='action_id'):
@@ -85,6 +86,66 @@ class Root(SecuredController):
         """
         return self.user_action('action_id')
         return dict()
+    
+    @expose()
+    def info(self):
+        return """
+    <html>
+    <head></head>
+    <body>
+        <div align="center" style="padding: 50px;">
+            <img border="0" src="%s"></img>
+        </div>
+    </body>
+    </html>
+    """ % (url("/openerp/static/images/loading.gif"))
+    
+    @expose(template="templates/menu.mako")
+    def menu2(self, **kw):
+         
+        from openerp.widgets import tree_view
+        from openerp.utils import icons
+         
+        p_id = kw.get('p_id', None)
+        
+        view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
+        tree = tree_view.ViewTree(view, 'ir.ui.menu', [], domain=[('parent_id', '=', False)], context={}, action="/tree/action")
+        
+        proxy = rpc.RPCProxy('ir.ui.menu')
+        
+        toolbar = tree.toolbar or []
+        new_toolbar = []
+        show_formview = False     # Below static tab, contents will initial display False.
+        
+        for tool in toolbar:
+            if p_id and int(p_id) == tool['id']:
+                    
+                t = tree_view.ViewTree(view, 'ir.ui.menu', int(p_id), domain=[('parent_id', '=', int(p_id))], context={}, action="/tree/action")
+                new_tool = []
+                
+                child_toolbar = t.toolbar
+                
+                for ch_tool in child_toolbar:
+                    if ch_tool.get('icon'):
+                        ch_tool['icon'] = icons.get_icon(ch_tool['icon'])
+                    else:
+                        ch_tool['icon'] = False
+                    
+                    t1 = tree_view.ViewTree(view, 'ir.ui.menu', ch_tool['id'], domain=[('parent_id', '=', ch_tool['id'])], context={}, action="/tree/action")
+
+                    t1.tree._name = "tree_%s" %(ch_tool['id'])
+                    t1.tree.onselection = None
+                    t1.tree.onheaderclick = None
+                    t1.tree.showheaders = 0
+                    t1.tree.linktarget = "'appFrame'"
+                    
+                    ch_tool['tree'] = t1.tree
+                    new_tool += [ch_tool]
+                
+                show_formview = True
+                new_toolbar = new_tool
+                
+        return dict(new_toolbar=new_toolbar, toolbar=toolbar, show_formview=show_formview)
         
     @expose()
     def menu(self):

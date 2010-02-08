@@ -27,7 +27,7 @@ def setup_server(configfile):
 
     cherrypy.config.update({
         'tools.sessions.on':  True,
-        'tools.nestedvars.on':  True,
+        'tools.nestedvars.on':  True,        
     })
 
     app_config = as_dict(configfile)

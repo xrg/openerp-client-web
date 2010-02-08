@@ -123,9 +123,12 @@ class Tree(SecuredController):
 
         ids = ids or []
 
-        if isinstance(ids, basestring):
+        if isinstance(ids, basestring):           
             ids = [int(id) for id in ids.split(',')]
-
+            
+        if isinstance(ids, list):
+            ids = [int(id) for id in ids]
+        
         if isinstance(fields, basestring):
             fields = eval(fields)
 
@@ -219,7 +222,7 @@ class Tree(SecuredController):
             record['items'] = item
 
             records += [record]
-
+            
         return dict(records=records)
 
     def do_action(self, name, adds={}, datas={}):

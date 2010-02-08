@@ -22,9 +22,9 @@ class Root(BaseController):
             request.handler = cherrypy.dispatch.LateParamPageHandler(func, *vpath)
         else:
             request.handler = cherrypy.NotFound()
-            
-        return request.handler()
         
+        return request.handler()
+                    
     def find_handler(self):
         
         request = cherrypy.request
@@ -37,7 +37,9 @@ class Root(BaseController):
                 
         node = pool.get_controller("/")
         trail = [["/", node]]
-        curpath = ""
+        
+        curpath = ""       
+        
         for name in names:
             objname = name.replace(".", "_")
             curpath = "/".join((curpath, name))
@@ -76,6 +78,6 @@ class Root(BaseController):
                     # positional parameters (virtual paths).
                     request.is_index = False
                 return candidate, names[i:-1]
-                
+        
         return None, []
     

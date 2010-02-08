@@ -14,6 +14,16 @@
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style-ie.css"/>
     <![endif]-->
     
-    ${next.header()}    
+    <script type="text/javascript">
+        
+        MochiKit.DOM.addLoadEvent(function(evt){
+        
+            if (parent && parent.MAIN_WINDOW) {
+                parent.setTimeout("onload_frame()", 0);
+            }
+        });
+    </script>
+    
+    ${self.header()}
 </%def>
 

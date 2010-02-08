@@ -25,7 +25,7 @@
                         <th class="grid-cell selector"><div style="width: 0px;"></div></th>
                         % endif
                         % for (field, field_attrs) in headers:
-                        <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}">${field_attrs['string']}</th>
+                        <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
                         % endfor
                         % if buttons:
                         <th class="grid-cell button"><div style="width: 0px;"></div></th>
@@ -64,7 +64,7 @@
                     </%def>
 
                     <%def name="make_row(data)">
-                    <tr class="grid-row" record="${data['id']}">
+                    <tr class="grid-row" record="${data['id']}" style="cursor: pointer;">
                         % if selector:
                         <td class="grid-cell selector">
                             <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}"/>
@@ -84,13 +84,20 @@
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-							<span>${data[field]}</span>
-                            % if editable and field == 'sequence':
-                            <span class="selector">
-                                <img src="/openerp/static/images/listgrid/arrow_up.gif" class="listImage" border="0" title="${_('Move Up')}" onclick="new ListView('${name}').moveUp(${data['id']})"/>
-                                <img src="/openerp/static/images/listgrid/arrow_down.gif" class="listImage" border="0" title="${_('Move Down')}" onclick="new ListView('${name}').moveDown(${data['id']})"/>
-                            </span>
-                            % endif
+                        	% if map(lambda x: x[0],hiddens).__contains__('sequence') or  field == 'sequence':
+								<span class="draggable">${data[field]}</span>
+								<script type="text/javascript">
+									function make_draggale(){
+										var drag = getElementsByTagAndClassName('span','draggable');
+										for(var j=0;j< drag.length;j++) {
+											new Draggable(drag[j].parentNode.parentNode,{revert:true,ghosting:true});
+											new Droppable(drag[j].parentNode.parentNode,{accept: [drag[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
+										}		
+									}
+							</script>
+							% else:	
+								<span>${data[field]}</span>
+							% endif
                         </td>
                         % endfor
                         % if buttons:
@@ -185,7 +192,14 @@
             </table>
 
             <script type="text/javascript">
-                new SortableGrid('${name}_grid');
+               // new SortableGrid('${name}_grid');
+                % if data:
+	                % for i, (field, field_attrs) in enumerate(headers):
+	                	% if field == 'sequence' or map(lambda x: x[0],hiddens).__contains__('sequence'):
+	                		make_draggale()
+	            		% endif
+	                % endfor
+                % endif
             </script>
         </td>
     </tr>

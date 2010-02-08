@@ -23,7 +23,6 @@ import attachment
 import translator
 import impex
 import fieldpref
-import tinycalendar
 import view_log
 import image
 import database

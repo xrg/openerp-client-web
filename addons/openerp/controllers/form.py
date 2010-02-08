@@ -231,17 +231,18 @@ class Form(SecuredController):
         buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
-
-        buttons.search = 'tree' in params.view_mode and mode != 'tree'
-        buttons.graph = 'graph' in params.view_mode and mode != 'graph'
-        buttons.form = 'form' in params.view_mode and mode != 'form'
-        buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
-        buttons.gantt = 'gantt' in params.view_mode and mode != 'gantt'
-        buttons.diagram = 'diagram' in params.view_mode and mode != 'diagram'
         buttons.can_attach = id and mode == 'form'
         buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
-
+                
+        from openerp.widgets import get_registered_views
+        buttons.views = []
+        
+        views = get_registered_views()
+        for k, v in views:
+            active = k in params.view_mode and mode != k
+            buttons.views.append(dict(kind=k, name=v.name, desc=v.desc, active=active))
+            
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
 
@@ -411,6 +412,30 @@ class Form(SecuredController):
 
         if terp_save_only:
             return dict(params=params, data=data)
+        
+        def get_params(p, f):
+
+            pp = p.chain_get(f)
+            px = rpc.RPCProxy(p.model)
+
+            _ids = pp.ids
+            _all = px.read([p.id], [f])[0][f]
+            _new = [i for i in _all if i not in _ids]
+
+            pp.ids = _all
+            if _new:
+                pp.id = _new[0]
+
+            return pp
+
+        if params.source and len(params.source.split("/")) > 1:
+
+            path = params.source.split("/")
+            p = params
+            for f in path:
+                p = get_params(p, f)
+
+            return self.create(params)
 
         args = {'model': params.model,
                 'id': params.id,

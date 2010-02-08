@@ -12,6 +12,7 @@ def register_object(obj, key, group, auto_create=False):
     >>>
     >>> pooler.register_object(klass, "char", group="form_input_widgets")
     >>> pooler.register_object(klass, "/about", group="controllers")
+    >>> pooler.register_object(klass, "calendar", group="view_type")
     >>>
     """
     

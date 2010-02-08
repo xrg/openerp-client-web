@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/openerp/static/javascript/modalbox.js"></script>
 
     <link href="/openerp/static/css/modalbox.css" rel="stylesheet" type="text/css"/>
+    <link href="/openerp/static/css/autocomplete.css" rel="stylesheet" type="text/css"/>
 </%def>
 
 <%def name="content()">

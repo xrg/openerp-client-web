@@ -39,7 +39,6 @@ import graph
 import listgrid
 import diagram
 
-import tinycalendar
 
 class Screen(TinyInputWidget):
 
@@ -146,71 +145,11 @@ class Screen(TinyInputWidget):
     def add_view(self, view, view_type='form'):
 
         self.view_id = view.get('view_id', self.view_id)
+        self.view = view        
+        
+        from _views import get_view_widget
+        self.widget = get_view_widget(view_type, self)
 
-        if view_type == 'form':
-            self.widget = form.Form(prefix=self.prefix,
-                                    model=self.model,
-                                    view=view,
-                                    ids=(self.id or []) and [self.id],
-                                    domain=self.domain,
-                                    context=self.context,
-                                    editable=self.editable,
-                                    readonly=self.readonly,
-                                    nodefault=self.nodefault, nolinks=self.link)
-
-            if not self.is_wizard and self.ids is None:
-                proxy = rpc.RPCProxy(self.model)
-                self.ids = proxy.search(self.domain, self.offset or False, self.limit or False, 0, self.context)
-                self.count = proxy.search_count(self.domain, self.context)
-
-        elif view_type == 'tree':
-            self.widget = listgrid.List(self.name or '_terp_list',
-                                        model=self.model,
-                                        view=view,
-                                        ids=self.ids,
-                                        domain=self.domain,
-                                        context=self.context,
-                                        view_mode=self.view_mode,
-                                        editable=self.editable,
-                                        selectable=self.selectable,
-                                        offset=self.offset, limit=self.limit, count=self.count, nolinks=self.link)
-
-            self.ids = self.widget.ids
-            self.limit = self.widget.limit
-            self.count = self.widget.count
-
-        elif view_type == 'graph':
-            self.widget = graph.Graph(model=self.model,
-                                      view=view,
-                                      view_id=view.get('view_id', False),
-                                      ids=self.ids, domain=self.domain,
-                                      context=self.context)
-            self.ids = self.widget.ids
-
-        elif view_type == 'calendar':
-            self.widget = tinycalendar.get_calendar(view=view,
-                                                    model=self.model,
-                                                    ids=self.ids,
-                                                    domain=self.domain,
-                                                    context=self.context,
-                                                    options=self.kalendar)
-
-        elif view_type == 'gantt':
-            self.widget = tinycalendar.GanttCalendar(model=self.model,
-                                                     view=view,
-                                                     ids=self.ids,
-                                                     domain=self.domain,
-                                                     context=self.context,
-                                                     options=self.kalendar)
-        elif view_type == 'diagram':
-            self.widget = diagram.Diagram(name=self.name,
-                                        model=self.model,
-                                        view=view,                                      
-                                        ids= ((self.id or []) and [self.id]) or self.ids[:1],
-                                        domain=self.domain,
-                                        context=self.context)
-#            self.ids = self.widget.ids
-            
         self.string = (self.widget or '') and self.widget.string
 
         toolbar = {}

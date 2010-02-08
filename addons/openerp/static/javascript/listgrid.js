@@ -109,7 +109,7 @@ ListView.prototype = {
             return c.id ? true : false;
         }, openobject.dom.select('th.grid-cell', header));
     },
-
+    
     makeArgs: function(){
 
         var args = {};
@@ -200,7 +200,49 @@ MochiKit.Base.update(ListView.prototype, {
 
 // pagination & reordering
 MochiKit.Base.update(ListView.prototype, {
-
+	sort_by_order: function(id) {
+		var self = this
+		var domain = [];
+		var args = {}
+		if(getElement('_'+this.name+'_button1'))
+			domain = getNodeAttribute(getElement('_'+this.name+'_button1'),'domain')
+		
+		args['_terp_model'] = this.model
+		args['_terp_sort_order'] = id
+		args['_terp_sort_domain'] = domain
+		var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
+        var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
+        
+		if(this.ids!='[]')
+		{
+			var req = openobject.http.postJSON('/listgrid/sort_by_order', args);
+			req.addCallback(function(obj) {
+				if(obj.ids) {
+					_terp_ids.value = '[' + obj.ids.join(',') + ']';
+					self.reload();
+				}
+				else 
+					alert(obj.error)
+			})
+		}
+	},
+	
+	sort_by_drag: function(drag,drop,event) {
+		var args = {}
+		var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
+		var _terp_model =  getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_model') || getElement('_terp_model')
+		args['_terp_model'] = _terp_model.value
+		var _terp_ids = getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_ids') || getElement('_terp_ids')
+		args['_terp_ids'] = _terp_ids.value
+		args['_terp_id'] = getNodeAttribute(drag,'record')
+		args['_terp_swap_id'] = getNodeAttribute(drop,'record')
+		
+		var req = openobject.http.postJSON('/listgrid/sort_by_drag', args);
+		req.addCallback(function() {
+			_list_view.reload()
+		})
+	},
+	
     moveUp: function(id) {
 
         var self = this;
@@ -208,6 +250,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         args['_terp_model'] = this.model;
         args['_terp_ids'] = this.ids;
+        
         args['_terp_id'] = id;
 
         var req = openobject.http.postJSON('/listgrid/moveUp', args);
@@ -536,7 +579,6 @@ MochiKit.Base.update(ListView.prototype, {
                     var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]")
                     var value = "('" + key + "', '" + obj.info[key] + "')";
                     for(var i=0; i<items.length;i++) {
-//                        log(key, value);
                         items[i].value = value;
                     }
                 }catch(e){}
@@ -599,7 +641,7 @@ var row_listgrid = function(evt) {
 	row = getElementsByTagAndClassName('tr', 'grid-row');
 
     forEach(row, function(e){
-    	MochiKit.Signal.connect(e, 'onclick', e, select_row_edit);
+    	MochiKit.Signal.connect(e, 'ondblclick', e, select_row_edit);
     });
 }
 
@@ -613,15 +655,14 @@ var select_row_edit = function(e){
     var editable = getElement('_terp_editable').value;
 
 	if (!(target_class == 'checkbox grid-record-selector' || target_class == 'listImage')) {
-		if (!(view_type == 'form' || editable == 'True')) {
+		if ((view_type == 'tree' && editable != 'True')) {
 			do_select(src_record);
-	    }
-	    else {
+		}
+		if ((view_type == 'tree' && editable == 'True')){
 			editRecord(src_record);
 		}
 	}
 }
-
 
 MochiKit.DOM.addLoadEvent(function(evt){
 	row_listgrid(evt);
