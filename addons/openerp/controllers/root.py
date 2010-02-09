@@ -74,11 +74,10 @@ class Root(SecuredController):
     <head></head>
     <body>
         <div align="center" style="padding: 50px;">
-            <img border="0" src="%s"></img>
         </div>
     </body>
     </html>
-    """ % (url("/openerp/static/images/loading.gif"))
+    """
     
     @expose(template="templates/menu.mako")
     def menu(self, **kw):
