@@ -81,6 +81,9 @@
 	        });
 	        
 	        MochiKit.Signal.connect(nb, 'click', tabClick);
+	        if ('${first_id}') {
+	        	nb.show(0);
+	        }
 
 		</script>
 	</div>

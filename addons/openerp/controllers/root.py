@@ -85,8 +85,6 @@ class Root(SecuredController):
          
         from openerp.widgets import tree_view
         from openerp.utils import icons
-         
-        p_id = kw.get('p_id', None)
         
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
         tree = tree_view.ViewTree(view, 'ir.ui.menu', [], domain=[('parent_id', '=', False)], context={}, action="/tree/action")
@@ -94,6 +92,16 @@ class Root(SecuredController):
         proxy = rpc.RPCProxy('ir.ui.menu')
         
         toolbar = tree.toolbar or []
+        first_id = None
+        first_id = toolbar[0].get('id')
+        
+        p_id = kw.get('p_id', None)
+        
+        if p_id:
+            first_id = None
+        else:
+            p_id = first_id
+        
         new_toolbar = []
         show_formview = False     # Below static tab, contents will initial display False.
         
@@ -125,7 +133,7 @@ class Root(SecuredController):
                 show_formview = True
                 new_toolbar = new_tool
                 
-        return dict(new_toolbar=new_toolbar, toolbar=toolbar, show_formview=show_formview)
+        return dict(new_toolbar=new_toolbar, first_id=first_id, toolbar=toolbar, show_formview=show_formview)
 
     @expose(allow_json=True)
     @unsecured
