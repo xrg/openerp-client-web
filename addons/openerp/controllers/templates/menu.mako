@@ -26,7 +26,7 @@
     		ifrm = getElement('content_iframe');
 	        if (ifrm) {
 	        	if (window.frames['appFrame'].document.getElementById('main_form_body')) {
-	        		getElement('content_iframe').style.height = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).h + 'px';
+	        		getElement('content_iframe').style.height = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).h + 70 + 'px';
 	        		//getElement('content_iframe').style.width = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).w + 'px';
 	        	}
 	       	}
@@ -90,7 +90,7 @@
 
     % if show_formview:
 	    <table id="container" cellspacing="0" cellpadding="2" border="0" width="100%">
-	        <tr>
+	        <tr valign="top">
 	            <td width="250">
 	                <div id="menubar_container">
 	                    <div id="menubar" class="accordion">
