@@ -143,7 +143,6 @@ class Root(SecuredController):
                     new_tool += [ch_tool]
                 
                 show_formview = True
-                rpc.session['static_tab_form'] = True    # header footer will not display when static tab menu
                 new_toolbar = new_tool
                 
         return dict(new_toolbar=new_toolbar, toolbar=toolbar, show_formview=show_formview)

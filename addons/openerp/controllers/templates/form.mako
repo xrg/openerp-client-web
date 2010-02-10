@@ -17,9 +17,7 @@
 </%def>
 
 <%def name="content()">
-	% if not rpc.session.static_tab_form:
-		<%include file="header.mako"/>
-	% endif
+	<%include file="header.mako"/>
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td width="100%" valign="top">
@@ -197,8 +195,6 @@
         </tr>
     </table>
     
-    % if not rpc.session.static_tab_form:
-    	<%include file="footer.mako"/>
-    % endif
+    <%include file="footer.mako"/>
     
 </%def>
