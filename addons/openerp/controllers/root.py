@@ -91,15 +91,15 @@ class Root(SecuredController):
         proxy = rpc.RPCProxy('ir.ui.menu')
         
         toolbar = tree.toolbar or []
-        first_id = None
-        first_id = toolbar[0].get('id')
+        first_tab_id = None
+        first_tab_id = toolbar[0].get('id')
         
         p_id = kw.get('p_id', None)
         
         if p_id:
-            first_id = None
+            first_tab_id = None
         else:
-            p_id = first_id
+            p_id = first_tab_id
         
         new_toolbar = []
         show_formview = False     # Below static tab, contents will initial display False.
@@ -132,7 +132,7 @@ class Root(SecuredController):
                 show_formview = True
                 new_toolbar = new_tool
                 
-        return dict(new_toolbar=new_toolbar, first_id=first_id, toolbar=toolbar, show_formview=show_formview)
+        return dict(new_toolbar=new_toolbar, first_tab_id=first_tab_id, toolbar=toolbar, show_formview=show_formview)
 
     @expose(allow_json=True)
     @unsecured

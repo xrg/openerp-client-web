@@ -80,8 +80,8 @@
 	        });
 	        
 	        MochiKit.Signal.connect(nb, 'click', tabClick);
-	        if ('${first_id}') {
-	        	nb.show(0);
+	        if ('${first_tab_id}') {
+	        	nb.show(0);		// First tab will high-lighted.
 	        }
 
 		</script>
