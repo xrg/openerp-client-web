@@ -26,8 +26,7 @@
     		ifrm = getElement('content_iframe');
 	        if (ifrm) {
 	        	if (window.frames['appFrame'].document.getElementById('main_form_body')) {
-	        		getElement('content_iframe').style.height = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).h + 70 + 'px';
-	        		//getElement('content_iframe').style.width = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).w + 'px';
+	        		getElement('content_iframe').style.height = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).h + 'px';
 	        	}
 	       	}
     	}
