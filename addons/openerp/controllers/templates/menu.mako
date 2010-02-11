@@ -20,6 +20,11 @@
     	
     	MochiKit.DOM.addLoadEvent(function(evt){
             window.MAIN_WINDOW = true;
+                        
+            var page = getElementsByTagAndClassName('div', 'notebook-pages')[0];
+            if (page) {
+            	page.style.display = 'none';
+            }
         });
     	
     	function onload_frame() {

@@ -88,10 +88,6 @@ Notebook.prototype = {
         this.elemStrip = UL({'class': 'notebook-tabs-strip'});
         this.elemStack = DIV({'class': 'notebook-pages'});
         
-        if (this.element.id == 'static_menu_tabs') {
-        	this.elemStack = DIV();
-        }
-        
         this.cookie = '_notebook_' +  this.element.id + '_active_page';
         
         this.tabs = [];
