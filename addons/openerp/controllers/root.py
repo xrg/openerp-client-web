@@ -94,20 +94,20 @@ class Root(SecuredController):
         first_tab_id = None
         first_tab_id = toolbar[0].get('id')
         
-        p_id = kw.get('p_id', None)
+        menu_id = kw.get('menu_id', None)
         
-        if p_id:
+        if menu_id:
             first_tab_id = None
         else:
-            p_id = first_tab_id
+            menu_id = first_tab_id
         
         new_toolbar = []
         show_formview = False     # Below static tab, contents will initial display False.
         
         for tool in toolbar:
-            if p_id and int(p_id) == tool['id']:
+            if menu_id and int(menu_id) == tool['id']:
                     
-                t = tree_view.ViewTree(view, 'ir.ui.menu', int(p_id), domain=[('parent_id', '=', int(p_id))], context={}, action="/tree/action")
+                t = tree_view.ViewTree(view, 'ir.ui.menu', int(menu_id), domain=[('parent_id', '=', int(menu_id))], context={}, action="/tree/action")
                 new_tool = []
                 
                 child_toolbar = t.toolbar

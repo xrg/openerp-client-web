@@ -15,7 +15,7 @@
     <script type="text/javascript">
        
         function load_menu(id) {
-    		window.location.href = openobject.http.getURL("/menu", {p_id: id});
+    		window.location.href = openobject.http.getURL("/menu", {menu_id: id});
     	}
     	
     	MochiKit.DOM.addLoadEvent(function(evt){
