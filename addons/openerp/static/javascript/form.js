@@ -688,6 +688,12 @@ function open_search_window(relation, domain, context, source, kind, text) {
 
 var showCustomizeMenu = function(src, elem) {
     var elem = openobject.dom.get(elem);
+    
+    var frame = window.frameElement ? window.frameElement : null;
+    if (frame) {
+    	frame.style.height = elementDimensions(openobject.dom.get('main_form_body')).h + 70 + 'px';	
+    }
+        
     MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
 }
 

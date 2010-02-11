@@ -61,31 +61,11 @@ class Root(SecuredController):
 
     _cp_path = "/"
 
-    def user_action(self, id='action_id'):
-        """Perform default user action.
-
-        @param id: `action_id` or `menu_id`
-        """
-
-        proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-        
-        if not act_id[0][id]:
-            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
-            rpc.session.logout()
-            raise redirect('/');
-
-        act_id = act_id[0][id][0]
-        
-        import actions
-        return actions.execute_by_id(act_id)
-
     @expose()
     def index(self):
-        """Index page, loads the view defined by `action_id`.
+        """Index page, loads the static tab view.
         """
-        return self.user_action('action_id')
-        return dict()
+        raise redirect('/menu')
     
     @expose()
     def info(self):
@@ -94,19 +74,16 @@ class Root(SecuredController):
     <head></head>
     <body>
         <div align="center" style="padding: 50px;">
-            <img border="0" src="%s"></img>
         </div>
     </body>
     </html>
-    """ % (url("/openerp/static/images/loading.gif"))
+    """
     
     @expose(template="templates/menu.mako")
-    def menu2(self, **kw):
+    def menu(self, **kw):
          
         from openerp.widgets import tree_view
         from openerp.utils import icons
-         
-        p_id = kw.get('p_id', None)
         
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
         tree = tree_view.ViewTree(view, 'ir.ui.menu', [], domain=[('parent_id', '=', False)], context={}, action="/tree/action")
@@ -114,6 +91,16 @@ class Root(SecuredController):
         proxy = rpc.RPCProxy('ir.ui.menu')
         
         toolbar = tree.toolbar or []
+        first_tab_id = None
+        first_tab_id = toolbar[0].get('id')
+        
+        p_id = kw.get('p_id', None)
+        
+        if p_id:
+            first_tab_id = None
+        else:
+            p_id = first_tab_id
+        
         new_toolbar = []
         show_formview = False     # Below static tab, contents will initial display False.
         
@@ -145,13 +132,7 @@ class Root(SecuredController):
                 show_formview = True
                 new_toolbar = new_tool
                 
-        return dict(new_toolbar=new_toolbar, toolbar=toolbar, show_formview=show_formview)
-        
-    @expose()
-    def menu(self):
-        """Main menu page, loads the view defined by `menu_id`.
-        """
-        return self.user_action('menu_id')
+        return dict(new_toolbar=new_toolbar, first_tab_id=first_tab_id, toolbar=toolbar, show_formview=show_formview)
 
     @expose(allow_json=True)
     @unsecured

@@ -15,11 +15,16 @@
     <script type="text/javascript">
        
         function load_menu(id) {
-    		window.location.href = openobject.http.getURL("/menu2", {p_id: id});
+    		window.location.href = openobject.http.getURL("/menu", {p_id: id});
     	}
     	
     	MochiKit.DOM.addLoadEvent(function(evt){
             window.MAIN_WINDOW = true;
+                        
+            var page = getElementsByTagAndClassName('div', 'notebook-pages')[0];
+            if (page) {
+            	page.style.display = 'none';
+            }
         });
     	
     	function onload_frame() {
@@ -27,7 +32,6 @@
 	        if (ifrm) {
 	        	if (window.frames['appFrame'].document.getElementById('main_form_body')) {
 	        		getElement('content_iframe').style.height = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).h + 'px';
-	        		//getElement('content_iframe').style.width = elementDimensions(window.frames['appFrame'].document.getElementById('main_form_body')).w + 'px';
 	        	}
 	       	}
     	}
@@ -62,7 +66,7 @@
 
 <%def name="content()">
 
-    <%include file="header2.mako"/>
+    <%include file="header.mako"/>
     <div for="static_menu_tabs" style="display: block; border-top: 1px solid gray;" align="center" valign="top">
     	<div id="static_menu_tabs" class="notebook">
     		% for tool in toolbar:
@@ -81,13 +85,16 @@
 	        });
 	        
 	        MochiKit.Signal.connect(nb, 'click', tabClick);
+	        if ('${first_tab_id}') {
+	        	nb.show(0);		// First tab will high-lighted.
+	        }
 
 		</script>
 	</div>
 
     % if show_formview:
 	    <table id="container" cellspacing="0" cellpadding="2" border="0" width="100%">
-	        <tr>
+	        <tr valign="top">
 	            <td width="250">
 	                <div id="menubar_container">
 	                    <div id="menubar" class="accordion">

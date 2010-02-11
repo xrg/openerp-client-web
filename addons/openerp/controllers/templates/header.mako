@@ -57,58 +57,8 @@ except:
         % endif
     </tr>
     <tr>
-        <td colspan="2" nowrap="nowrap">
-
-            <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
-                <tr>
-                    <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                        <a href="${py.url('/menu')}">${_("MAIN MENU")}</a>
-                    </td>
-                    <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
-                        <a href="${py.url('/shortcuts')}">${_("SHORTCUTS")}</a>
-                    </td>
-                    <td width="26" class="menu_header_shortcuts_left" nowrap="nowrap"/>
-                    % if rpc.session.is_logged():
-                    <td nowrap="nowrap">
-                        <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                                % for i, sc in enumerate(shortcuts):
-                                    % if i<6:
-                                <td nowrap="nowrap">
-                                    <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                                </td>
-                                    % endif
-                                % endfor
-                                % if len(shortcuts)>6:
-                                <td id="shortcuts_menu" nowrap="nowrap">
-                                    <a href="javascript: void(0)">>></a>
-                                    <div class="submenu" id="shortcuts_submenu">
-                                        % for sc in shortcuts[6:]:
-                                        <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                                        % endfor
-                                    </div>
-                                </td>
-                                % endif
-                            </tr>
-                        </table>
-                        % if len(shortcuts)>6:
-                        <script type="text/javascript">
-                            new Menu('shortcuts_menu', 'shortcuts_submenu');
-                        </script>
-                        % endif
-                    </td>
-                    % endif
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td align="right">                
-                        % if SHORTCUTS and SHORTCUTS.can_create():
-                        <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">${_("[ADD]")}</a>
-                        % endif
-                    </td>
-                </tr>
-            </table>
-
-        </td>
+    	<td colspan="2">
+    		<hr/>
+    	</td>
     </tr>
 </table>
