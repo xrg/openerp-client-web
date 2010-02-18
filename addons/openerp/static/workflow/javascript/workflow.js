@@ -56,6 +56,7 @@ openobject.workflow.Workflow.implement({
         this.setSnapToGrid(true);
 		
 		this.id = null;
+		this.workitems = [];
 		this.node_obj = openobject.dom.get('node').value;
 		this.connector_obj = openobject.dom.get('connector').value;
 		this.src_node_nm = openobject.dom.get('src_node').value;
@@ -65,21 +66,25 @@ openobject.workflow.Workflow.implement({
 		this.connectors = new draw2d.ArrayList();		
 		this.selected = null;
 		//this.setToolWindow(toolbar, 30, 30);
-		var tbar = new openobject.workflow.Toolbar();
-		this.toolPalette = tbar;
-		tbar.setWorkflow(this);
-		tbar.canDrag = false;
-		
-		tbar = tbar.getHTMLElement();
-		tbar.style.position = 'relative';
-		tbar.style.top = '0px';
-		tbar.style.left = '0px';
-		tbar.style.zIndex = 0;
-		
-        MochiKit.DOM.appendChildNodes('toolbox', tbar);
-		
+		if ($('_terp_editable').value=='True') {
+			var tbar = new openobject.workflow.Toolbar();
+			this.toolPalette = tbar;
+			tbar.setWorkflow(this);
+			tbar.canDrag = false;
+			
+			tbar = tbar.getHTMLElement();
+			tbar.style.position = 'relative';
+			tbar.style.top = '0px';
+			tbar.style.left = '0px';
+			tbar.style.zIndex = 0;
+			
+	        MochiKit.DOM.appendChildNodes('toolbox', tbar);
+		}else {
+            this.workitems = eval($('workitems').value);
+            log(this.workitems, this.workitems.length)		  
+		}
 //		dummy state
-		this.state = new openobject.workflow.StateOval({});
+		this.state = new openobject.workflow.StateOval({}, []);
         this.state.setDimension(100, 60);
 		this.state.setBackgroundColor(new draw2d.Color(255, 255, 255));
 		this.state.getHTMLElement().style.display = 'none';
@@ -105,9 +110,9 @@ openobject.workflow.Workflow.implement({
 			    var node = obj.nodes[i];
 	
 		        if(!node['subflow_id'])
-		          var state = new openobject.workflow.StateOval(node);
+		          var state = new openobject.workflow.StateOval(node, self.workitems);
 		        else
-		          var state = new openobject.workflow.StateRectangle(node);
+		          var state = new openobject.workflow.StateRectangle(node, self.workitems);
 		          
 		        self.addFigure(state, node['x'], node['y']);
 		        state.initPort();

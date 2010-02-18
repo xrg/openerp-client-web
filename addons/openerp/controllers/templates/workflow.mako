@@ -51,13 +51,20 @@
                     </tr>
                 </table>
                 <input type="hidden" id="wkf_id" value="${wkf['id']}"/>
+                <input type="hidden" id="_terp_editable" name="_terp_editable" value="False"/>
+                <input type="hidden" id="_terp_model" name="_terp_model" value="workflow"/>
+                <input type="hidden" id="workitems" name="workitems" value="${workitems}"/>
+                <input type="hidden" id="node" name="node" value="workflow.activity"/>
+                <input type="hidden" id="connector" name="connector" value="workflow.transition"/>
+                <input type="hidden" id="src_node" name="src_node" value="act_from"/>
+                <input type="hidden" id="des_node" name="des_node" value="act_to"/>
             </td>
         </tr>
         <tr>
             <td>
                 <table width="100%">
                     <tr>
-                        <td width="36px" valign="top" id="toolbox"></td>
+                        ##<td width="36px" valign="top" id="toolbox"></td>
                         <td height="500" width="auto" valign="top">
                             <div id="viewport" style="position: relative; width: 100%; height: 500px; border: 1px solid gray; overflow: auto;">
                                 <div id="canvas" style="position: absolute;  width: 3000px; height: 3000px;">

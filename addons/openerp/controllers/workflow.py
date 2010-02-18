@@ -213,33 +213,28 @@ class Workflow(Form):
     _cp_path = "/workflow"
     
     @expose(template="templates/workflow.mako")
-    def index(self, model, id=None):
+    def index(self, model, rec_id=None):
 
         proxy = rpc.RPCProxy("workflow")
-        if id:
-            ids = proxy.search([('id', '=', id)], 0, 0, 0, rpc.session.context)
-        else:
-            ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
-
-        if not ids:
+        result = proxy.get_active_workitems(model, rec_id)
+        
+        if not result['wkf']:
             raise common.message(_('No workflow associated!'))
 
-        wkf = proxy.read(ids, [], rpc.session.context)[0]
-        return dict(wkf=wkf)
+        return dict(wkf=result['wkf'], workitems=result['workitems'].keys())
 
     @expose('json')
     def get_info(self, id, model, node_obj, conn_obj, src_node, des_node, **kw):
+        
+#        proxy = rpc.RPCProxy("workflow")
+#        search_ids = proxy.search([('id', '=' , int(id))], 0, 0, 0, rpc.session.context)
+#        graph_search = proxy.graph_get(search_ids[0], (140, 180), rpc.session.context)
 
-        proxy = rpc.RPCProxy("workflow")
-        search_ids = proxy.search([('id', '=' , int(id))], 0, 0, 0, rpc.session.context)
-        graph_search = proxy.graph_get(search_ids[0], (140, 180), rpc.session.context)
-
-#        proxy = rpc.RPCProxy('ir.ui.view')        
-#        test_res = proxy.graph_get(record_id(workflow.id), workflow, workflow.activity, workflow.transition, act_from, act_to, (140, 180), rpc.session.context)        
-#        test_res = proxy.graph_get(search_ids[0], model, node_obj, conn_obj, src_node, des_node, (140, 180), rpc.session.context)
-#        print
-#        print "RESULT====================  ", test_res
-#        print 
+        proxy = rpc.RPCProxy('ir.ui.view')
+        graph_search = proxy.graph_get(int(id), model, node_obj, conn_obj, src_node, des_node, (140, 180), rpc.session.context)
+        print
+        print "RESULT====================  ", graph_search
+        print 
                 
 
         nodes = graph_search['nodes']

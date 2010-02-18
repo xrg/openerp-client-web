@@ -70,7 +70,11 @@ InfoBox.prototype = {
                                     TD(null, btnEdit),                                   
                                     TD(null, btnDelete),
                                     TD({'align': 'right', 'width': '100%'}, btnCancel)))));
-                                    
+         
+         if ($('_terp_editable').value=='False') {
+            removeElement(btnEdit)
+            removeElement(btnDelete)
+         }                           
                                     
          if (!this.layer) {
             this.layer = DIV({id: 'calInfoLayer'});

@@ -5,8 +5,9 @@ from openerp.utils import rpc
 import form
 import graph
 import listgrid
+import diagram
 
-__all__ = ["TinyView", "FormView", "ListView", "GraphView",
+__all__ = ["TinyView", "FormView", "ListView", "GraphView", "DiagramView",
            "get_view_widget", "get_registered_views"]
 
 
@@ -19,7 +20,7 @@ class ViewType(type):
         name = attrs.get("_name")
         kind = attrs.get("_type")
         desc = attrs.get("_desc")
-        
+
         if kind:
             pooler.register_object(obj, key=kind, group="view_types", auto_create=True)
             
@@ -116,6 +117,23 @@ class GraphView(TinyView):
         screen.ids = widget.ids
         return widget
     
+class DiagramView(TinyView):
+    
+    _type = "diagram"
+    _name = _("Diagram")
+    _desc = _("Diagram view...")
+    _priority = 4
+    
+    def __call__(self, screen):
+        
+        widget = diagram.Diagram(name=screen.name,
+                                        model=screen.model,
+                                        view=screen.view,                                      
+                                        ids= ((screen.id or []) and [screen.id]) or screen.ids[:1],
+                                        domain=screen.domain,
+                                        context=screen.context)
+        screen.ids = widget.ids
+        return widget
 
 def get_view_widget(kind, screen):
     
@@ -124,7 +142,7 @@ def get_view_widget(kind, screen):
     
     try:
         return views[kind](screen)
-    except Exception, e:
+    except Exception, e:    
         raise Exception("view '%s' not supported." % kind)
 
 

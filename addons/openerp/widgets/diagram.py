@@ -71,6 +71,8 @@ class Diagram(TinyWidget):
     connector = ''
     src_node = ''
     des_node = ''
+    node_attrs = []
+    conn_attrs = []
     
     css = [CSSLink("openerp", 'workflow/css/graph.css')]
     javascript = [JSLink("openerp", 'workflow/javascript/draw2d/wz_jsgraphics.js'),

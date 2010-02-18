@@ -54,7 +54,7 @@ openobject.workflow.StateBase.prototype = {
         this.portD = null;
     },
     
-    init_label : function(flow_start, flow_stop) {
+    init_label : function(flow_start, flow_stop, workitems) {
     
         this.setDimension(100, 60);
         this.setDeleteable(false);
@@ -66,7 +66,13 @@ openobject.workflow.StateBase.prototype = {
             this.setBackgroundColor(new draw2d.Color(155, 155, 155))
         else
             this.setBackgroundColor(new draw2d.Color(255, 255, 255)); 
-            
+        try{
+        
+        if (findIdentical(workitems, this.act_id)>-1) {           
+            this.setColor(new draw2d.Color(236, 20, 60))
+            log('match::::', this.sname, this.act_id)
+            }
+        }catch(e){log('error::',e)}
         var html = this.getHTMLElement();    
         html.style.textAlign = 'center';
         html.style.marginLeft = 'auto';
@@ -173,12 +179,12 @@ openobject.workflow.StateOval = new Class;
 openobject.workflow.StateOval.prototype = $merge(openobject.workflow.StateOval.prototype, draw2d.Oval.prototype, openobject.workflow.StateBase.prototype)
 openobject.workflow.StateOval.implement({
     
-    initialize : function(params) {
+    initialize : function(params, workitems) {
         
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
         draw2d.Oval.call(this); 
         this.dragged = false;
-        this.init_label(params.flow_start, params.flow_stop)
+        this.init_label(params.flow_start, params.flow_stop, workitems)
     }
         
 });
@@ -189,14 +195,14 @@ openobject.workflow.StateRectangle = new Class;
 openobject.workflow.StateRectangle.prototype = $merge(openobject.workflow.StateRectangle.prototype, draw2d.VectorFigure.prototype, openobject.workflow.StateBase.prototype)
 openobject.workflow.StateRectangle.implement({
     
-    initialize : function(params) {
+    initialize : function(params, workitems) {
         
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
         draw2d.VectorFigure.call(this);
         this.lineColor = new draw2d.Color(0,0,0);
         this.setLineWidth(1); 
         
-        this.init_label(params.flow_start, params.flow_stop);
+        this.init_label(params.flow_start, params.flow_stop, workitems);
     },
     
     createHTMLElement : function() {

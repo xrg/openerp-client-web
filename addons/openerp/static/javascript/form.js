@@ -969,5 +969,19 @@ function submenu_action(action_id, model) {
 	});
 }
 
+function show_wkf() {
+    id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : false;
+
+    if (!id && $('_terp_list')) {
+        var lst = new ListView('_terp_list');
+        var ids = lst.getSelectedRecords();
+        
+        if (ids.length<1) 
+            return alert(_('You must select at least one record.'));
+        id = ids[0]            
+    }   
+    openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: $('_terp_model').value, rec_id:id}));   
+    
+}
 // vim: ts=4 sts=4 sw=4 si et
 
