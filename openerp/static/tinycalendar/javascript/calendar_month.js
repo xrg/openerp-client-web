@@ -167,8 +167,11 @@ MonthCalendar.prototype = {
         var target = evt.target();
         if (!hasElementClass(target, 'calMonthDay'))
             return;
+		
+		var elem = getElement('calEventNew');
+		var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
 
-        editCalendarRecord(null);
+        editCalendarRecord(null, toISOTimestamp(dt));
     },
 
     splitEvent : function(record, params){

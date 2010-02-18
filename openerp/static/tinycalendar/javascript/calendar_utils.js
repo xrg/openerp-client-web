@@ -182,7 +182,7 @@ var saveCalendarRecord = function(record_id, starts, ends){
     });
 }
 
-var editCalendarRecord = function(record_id){
+var editCalendarRecord = function(record_id, date){
 
     var params = {
         'id': record_id,
@@ -190,7 +190,8 @@ var editCalendarRecord = function(record_id){
         'view_mode': $('_terp_view_mode').value,
         'view_ids': $('_terp_view_ids').value,
         'domain': $('_terp_domain').value,
-        'context': $('_terp_context').value
+        'context': $('_terp_context').value,
+        'default_date': date
     }
 
     var act = getURL('/calpopup/edit', params);
