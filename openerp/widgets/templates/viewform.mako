@@ -1,4 +1,4 @@
-<form method="post" id="${name}" name="${name}" action="${action}" enctype="multipart/form-data">
+<form method="post" id="${name}" name="${name}" action="${action}" ${py.attrs(attrs)} enctype="multipart/form-data">
 
     <div>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
@@ -24,7 +24,7 @@
             <td style="padding: 3px; padding-top: 0px">
                 <div class="toolbar">
                     <button type="submit" title="${_('Filter records.')}" 
-                        onclick="setNodeAttribute(form, 'action', ''); submit_search_form('find')">${_("Filter")}</button>
+                        onclick="submit_search_form('find');">${_("Filter")}</button>
                     % if screen.editable and screen.view_type in ('form', 'tree'):
                     <button type="button" title="${_('Delete selected records.')}"
                         onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>
