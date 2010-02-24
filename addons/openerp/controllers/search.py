@@ -414,7 +414,8 @@ class Search(Form):
     @expose('json')
     def get_matched(self, model, text, **kw):
         params, data = TinyDict.split(kw)
-
+        limit = kw.get('limit', 10)
+        
         domain = params.domain or []
         context = params.context or {}
 
@@ -422,7 +423,7 @@ class Search(Form):
         ctx.update(context)
 
         proxy = rpc.RPCProxy(model)
-        values = proxy.name_search(text, domain, 'ilike', ctx)
+        values = proxy.name_search(text, domain, 'ilike', ctx, int(limit))
 
         return dict(values=values)
 
