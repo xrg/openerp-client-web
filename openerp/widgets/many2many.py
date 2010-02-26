@@ -104,73 +104,71 @@ class M2M(TinyInputWidget):
 
         if not current:
             current = TinyDict()
-        try: #Exception for editable listview values not saved. 
-            current.offset = current.offset or 0
-            current.limit = current.limit or 20
-            current.count = len(ids or [])
-    
-            if current.view_mode: view_mode = current.view_mode
-            if current.view_type: view_type = current.view_type
-    
-            if current and params.source == self.name:
-                id = current.id
-    
-            id = id or None
-    
-            current.model = self.model
-            current.id = id
-    
-            if isinstance(ids, tuple):
-                ids = list(ids)
-    
-            current.ids = ids or []
-            current.view_mode = view_mode
-            current.view_type = view_type
-            current.domain = current.domain or []
-            current.context = current.context or {}
-            
-            if isinstance(self.context, basestring):
-                ctx = cherrypy.request.terp_record
-                ctx['current_date'] = time.strftime('%Y-%m-%d')
-                ctx['time'] = time
-                ctx['context'] = current.context
-                ctx['active_id'] = current.id or False
-    
-                # XXX: parent record for O2M
-                #if self.parent:
-                #    ctx['parent'] = EvalEnvironment(self.parent)
-    
-                try:
-                    ctx = tools.expr_eval(self.context, ctx)
-                    current.context.update(ctx)
-                except:
-                    pass
-    
-            if current.view_type == 'tree' and self.readonly:
-                self.editable = False
-    
-            if self.editable is False:
-                selectable = 0
-            else:
-                selectable = 2
-    
-            # try to get original input values if creating validation form
-            if not params.filter_action:
-                try:
-                    current.ids = eval(cherrypy.request.terp_data.get(self.name))
-                except:
-                    pass
-    
-            self.screen = Screen(current, prefix=self.name, views_preloaded=view,
-                                 editable=False, readonly=self.editable,
-                                 selectable=selectable, nolinks=self.link)
-    
-            self.screen.widget.checkbox_name = False
-            self.screen.widget.m2m = True
-    
-            self.validator = validators.many2many()
-        except Exception,e:
-            pass
+
+        current.offset = current.offset or 0
+        current.limit = current.limit or 20
+        current.count = len(ids or [])
+
+        if current.view_mode: view_mode = current.view_mode
+        if current.view_type: view_type = current.view_type
+
+        if current and params.source == self.name:
+            id = current.id
+
+        id = id or None
+
+        current.model = self.model
+        current.id = id
+
+        if isinstance(ids, tuple):
+            ids = list(ids)
+
+        current.ids = ids or []
+        current.view_mode = view_mode
+        current.view_type = view_type
+        current.domain = current.domain or []
+        current.context = current.context or {}
+        
+        if isinstance(self.context, basestring):
+            ctx = cherrypy.request.terp_record
+            ctx['current_date'] = time.strftime('%Y-%m-%d')
+            ctx['time'] = time
+            ctx['context'] = current.context
+            ctx['active_id'] = current.id or False
+
+            # XXX: parent record for O2M
+            #if self.parent:
+            #    ctx['parent'] = EvalEnvironment(self.parent)
+
+            try:
+                ctx = tools.expr_eval(self.context, ctx)
+                current.context.update(ctx)
+            except:
+                pass
+
+        if current.view_type == 'tree' and self.readonly:
+            self.editable = False
+
+        if self.editable is False:
+            selectable = 0
+        else:
+            selectable = 2
+
+        # try to get original input values if creating validation form
+        if not params.filter_action:
+            try:
+                current.ids = eval(cherrypy.request.terp_data.get(self.name))
+            except:
+                pass
+
+        self.screen = Screen(current, prefix=self.name, views_preloaded=view,
+                             editable=False, readonly=self.editable,
+                             selectable=selectable, nolinks=self.link)
+
+        self.screen.widget.checkbox_name = False
+        self.screen.widget.m2m = True
+
+        self.validator = validators.many2many()
 
     def set_value(self, value):
 
