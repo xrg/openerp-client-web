@@ -58,6 +58,7 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
+        <input type="hidden" id="${name}_terp_group_by_ctx" name="${name}_terp_group_by_ctx" value="${group_by_ctx}"/>
         
         % if widget:
             ${display_member(widget)}
@@ -65,7 +66,7 @@ class Screen(TinyInputWidget):
     """
 
     params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 
-              'context', 'limit', 'offset', 'count']
+              'context', 'limit', 'offset', 'count', 'group_by_ctx']
     
     member_widgets = ['widget']
 
@@ -85,6 +86,7 @@ class Screen(TinyInputWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
+        self.group_by_ctx  = params.group_by_ctx or []
 
         self.is_wizard = params.is_wizard
 
@@ -145,7 +147,6 @@ class Screen(TinyInputWidget):
 
         self.view_id = view.get('view_id', self.view_id)
         self.view = view
-        
         
         from _views import get_view_widget
         self.widget = get_view_widget(view_type, self)
