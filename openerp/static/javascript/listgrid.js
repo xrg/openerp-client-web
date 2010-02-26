@@ -491,7 +491,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_edit_inline'] = edit_inline;
         args['_terp_source_default_get'] = default_get_ctx;
         args['_terp_concurrency_info'] = concurrency_info;
-        args['_terp_editable'] = 1;
+        args['_terp_editable'] = $('_terp_editable').value;
 
         if (this.name == '_terp_list') {
             args['_terp_search_domain'] = $('_terp_search_domain').value;
