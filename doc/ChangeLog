@@ -1,10 +1,28 @@
-2009-12-03: 5.0.7
+2010-03-01: 5.0.7
 =================
 
 Bugfixes
 --------
 
  * Not linked to a bug report:
+   * Fixed edit image display problem for search view.
+   * Fixed context problem on wizard buttons.
+   * Fixed readonly attrs for button.
+   * Fixed lost context when export fields content(base_report_creator).
+   * Fixed editable listview for one2many.
+   * active notebook page
+   * Fixed readonly attrs problem for one2many.
+   * Fixed form action domain.
+   * Fixed wizard button problem, when pass context and name or id is not unique.
+   * Fixed context in nested notebook at translation popup.
+   * Fixed view problem for xpath and revert revno:2789.
+   * Fixed problem for m2m context, when view_name pass from parent context and m2m.
+   * Fixed context problem for m2m fields.
+   * Fixed notebook invisible for one2many fields.
+   * Fixed xpath problem.
+   * o2m popup (missing context)
+   * error in TempFileName cleaning
+   * python 2.6 compatibility
    * Removed print statement from JS file.
    * Fixed at customise view add new action from dashboad.
    * Fixed sidebar Links display at list view.
@@ -33,65 +51,137 @@ Bugfixes
    * Buttons are not clickable when readonly='1'.
    * sidebar wizard without wizard id
    * actions.server can return a list of actions to execute...
+ * https://launchpad.net/bugs/508003
+   * Fixed switch calendar to list/tree view not display records.
+ * https://launchpad.net/bugs/497491
+   * Fixed editable listgrid problem when record not saved.
+ * https://launchpad.net/bugs/505079
+   * Fixed context problem (Ref. JRA)
  * https://launchpad.net/bugs/484658
    * Fixed id not found in sidebar when HTTP.
  * https://launchpad.net/bugs/478504
    * Fixed context problem in search.
- * https://launchpad.net/bugs/435325
-   * fix the problme for the linking pages from any model to wiki.pages
+ * https://launchpad.net/bugs/496498
+   * Fixed link missing in list view.
  * https://launchpad.net/bugs/461219
    * Fixed excel report column, encoded data problem.
- * https://launchpad.net/bugs/482079
-   * Update links at about page.
+ * https://launchpad.net/bugs/500823
+   * Fixed view_mode=tree will not show form view.
+ * https://launchpad.net/bugs/499099
+   * Fixed one2many for nested record.
+ * https://launchpad.net/bugs/442242
+   * validation problem (search popup).
+ * https://launchpad.net/bugs/434048
+   * notebook layout problem.
+ * https://launchpad.net/bugs/435299
+   * Make picking wizard, one2many field in wizard doesn't work.
+ * https://launchpad.net/bugs/523975
+   * Fixed unicode error when except english localization.
  * https://launchpad.net/bugs/491718
    * Typo in nowrap attribute.
- * https://launchpad.net/bugs/489183
-   * Fixed active_id problem when click on Links.
+ * https://launchpad.net/bugs/499704
+   * Fixed active_id not update in context.
+ * https://launchpad.net/bugs/416861
+   * Fixed Graph widget.
+ * https://launchpad.net/bugs/499706
+   * Fixed float widget for validation.
+ * https://launchpad.net/bugs/516978
+   * Fixed default_date context for calendar.
+ * https://launchpad.net/bugs/429444
+   * Fixed onchange for text_html widget.
+ * https://launchpad.net/bugs/507369
+   * Fixed context problem at wizard.
+ * https://launchpad.net/bugs/495572
+   * Fixed when import product category.
  * https://launchpad.net/bugs/485073
    * Fixed graph problem for IE.
+ * https://launchpad.net/bugs/494858
+   * Fixed import problem for special character.
  * https://launchpad.net/bugs/431238
    * Fixed import 'ID' Problem
  * https://launchpad.net/bugs/401847
    * Graph view not clickable for custom report. (base_report_creator)
- * https://launchpad.net/bugs/442242
-   * validation problem (search popup).
+ * https://launchpad.net/bugs/497967
+   * support 'uid' in attrs expression.
+ * https://launchpad.net/bugs/513824
+   * Fixed one2many context problem when not editable.
+ * https://launchpad.net/bugs/499403
+   * Fixed many2many Readonly attribute not working when used in attrs.
  * https://launchpad.net/bugs/444397
    * nested o2m
    * unable to save o2m record if widget is in form mode
    * nested O2M.
  * https://launchpad.net/bugs/463214
+ * https://launchpad.net/bugs/527585
+   * Fixed when user have no rights to access resources.
  * https://launchpad.net/bugs/439438
    * validation of editable listgrid.
  * https://launchpad.net/bugs/481655
    * Fixed hyperlinks on fields.reference fields.
  * https://launchpad.net/bugs/462443
    * Button Next when create new record.
+ * https://launchpad.net/bugs/498180
+   * Fixed add print format 'odt' for print.
+ * https://launchpad.net/bugs/506400
+   * Fixed when not define page in attrs, it display always first one.
  * https://launchpad.net/bugs/461680
    * Fixed listgrid.
+ * https://launchpad.net/bugs/490342
+   * Fixed one2many passed (0, 0, []) in context instead of [].
+ * https://launchpad.net/bugs/489183
+   * Fixed when pass active_id in context from act_window it takes as string.
+   * Fixed active_id problem when click on Links.
+ * https://launchpad.net/bugs/509215
+   * Fixed calendar first day problem.
+ * https://launchpad.net/bugs/435325
+   * fix the problme for the linking pages from any model to wiki.pages
  * https://launchpad.net/bugs/439596
    * editable listgrid (mistakenly passing id of first record other then current).
+ * https://launchpad.net/bugs/501012
+   * Fixed for select options for manage views.
  * https://launchpad.net/bugs/470269
    * Click on wizard button on form view.
- * https://launchpad.net/bugs/416861
-   * Fixed Graph widget.
+ * https://launchpad.net/bugs/485955
+   * Fixed error page textarea tag.
+ * https://launchpad.net/bugs/482079
+   * Update links at about page.
+ * https://launchpad.net/bugs/495639
+   * Fixed  conflict with ir.actions.report.xml.
  * https://launchpad.net/bugs/449371
    * Passed updated context for custom report search.
+ * https://launchpad.net/bugs/498591
+   * Fixed context lost in action and report.
+ * https://launchpad.net/bugs/447819
+   * fixed set default value problem.
+ * https://launchpad.net/bugs/497080
+   * Fixed for one2many context passed [].
  * https://launchpad.net/bugs/429470
    * Default field values for one2many.
- * https://launchpad.net/bugs/435299
-   * Make picking wizard, one2many field in wizard doesn't work.
+ * https://launchpad.net/bugs/516084
+   * Fixed weekly view shows nonexistent meetings.
+ * https://launchpad.net/bugs/497365
+   * Fixed supplier invoice line problem if you save and after create line.
+ * https://launchpad.net/bugs/510607
+   * fixed form view visibility in graph.
  * https://launchpad.net/bugs/478627
    * Fixed context problem at import/export(base_report_creator).
    * Lost context in import/export (base_report_creator).
+ * https://launchpad.net/bugs/490933
+   * Fixed filter on key press.
+ * https://launchpad.net/bugs/503012
+   * Fixed concurrency problem.
 
 
 Improvements
 ------------
 
+ * optimize all png images
+ * Improved dbfilter option.
  * handle the case of the server can't give the database list
  * Improved process view [dblclick on transition for tip].
  * support for context attribute for button.
  * Improve graph for stack [manufacturing/production dashboard].
+
 
 
 5.0.6 (2009-09-22)
@@ -262,4 +352,3 @@ Improvements
 	For more complete bug fix history, please visit Launchpad.
 
 For previous versions, please visit OpenERP web site.
-
