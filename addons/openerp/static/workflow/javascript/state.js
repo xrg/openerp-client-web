@@ -38,16 +38,22 @@ if (typeof(openobject.workflow) == "undefined") {
 }
 
 
-openobject.workflow.StateBase = function(id, action, kind, sname) {
-    this.__init__(id, action, kind, sname);
+openobject.workflow.StateBase = function(id, action, kind, sname, options) {
+    this.__init__(id, action, kind, sname, options);
 } 
     
 openobject.workflow.StateBase.prototype = {
-    __init__ : function(id, action, kind, sname) {
-        this.sname = sname;    
+    __init__ : function(id, action, kind, name, options) {        
+        
+        //this.action = action;
+        //this.kind = kind || '';        
+        
         this.act_id = id || null;
-        this.action = action;
-        this.kind = kind || '';        
+        this.name = name;
+        
+        this.options = MochiKit.Base.update({}, options || {})
+        
+        
         this.portR = null;
         this.portU = null;
         this.portL = null;
@@ -81,7 +87,7 @@ openobject.workflow.StateBase.prototype = {
         this.sgnl_clk = MochiKit.Signal.connect(html , 'onclick', this, this.onClick);
         this.disableTextSelection(html);
         
-        var span = SPAN({'class': 'stateName', id: this.sname}, this.sname);
+        var span = SPAN({'class': 'stateName', id: this.sname}, this.name);
         MochiKit.DOM.appendChildNodes(html, span);
         
         if(!isUndefinedOrNull(this.sname)) {
@@ -181,7 +187,7 @@ openobject.workflow.StateOval.implement({
     
     initialize : function(params, workitems) {
         
-        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
+        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.Oval.call(this); 
         this.dragged = false;
         this.init_label(params.flow_start, params.flow_stop, workitems)
@@ -197,7 +203,7 @@ openobject.workflow.StateRectangle.implement({
     
     initialize : function(params, workitems) {
         
-        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
+        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.VectorFigure.call(this);
         this.lineColor = new draw2d.Color(0,0,0);
         this.setLineWidth(1); 

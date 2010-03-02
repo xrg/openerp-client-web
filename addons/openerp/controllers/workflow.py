@@ -226,17 +226,15 @@ class Workflow(Form):
     @expose('json')
     def get_info(self, id, model, node_obj, conn_obj, src_node, des_node, **kw):
         
+        node_flds = eval(kw.get('node_flds', '[]'))
+        conn_flds = eval(kw.get('conn_flds', '[]'))        
 #        proxy = rpc.RPCProxy("workflow")
 #        search_ids = proxy.search([('id', '=' , int(id))], 0, 0, 0, rpc.session.context)
 #        graph_search = proxy.graph_get(search_ids[0], (140, 180), rpc.session.context)
 
         proxy = rpc.RPCProxy('ir.ui.view')
-        graph_search = proxy.graph_get(int(id), model, node_obj, conn_obj, src_node, des_node, (140, 180), rpc.session.context)
-        print
-        print "RESULT====================  ", graph_search
-        print 
-                
-
+        graph_search = proxy.graph_get(int(id), model, node_obj, conn_obj, src_node, des_node, False, (140, 180), rpc.session.context)
+        
         nodes = graph_search['nodes']
         transitions = graph_search['transitions']
 
@@ -250,34 +248,36 @@ class Workflow(Form):
             t['s_id'] = transitions[tr][0]
             t['d_id'] = transitions[tr][1]
 
-#        proxy_tr = rpc.RPCProxy("workflow.transition")
         proxy_tr = rpc.RPCProxy(conn_obj)
-        search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)
+        search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)         
 #        data_trs = proxy_tr.read(search_trs, ['signal', 'condition', 'act_from', 'act_to'], rpc.session.context)
-        data_trs = proxy_tr.read(search_trs, ['signal', 'condition', src_node, des_node], rpc.session.context)
-         
+        data_trs = proxy_tr.read(search_trs, [src_node, des_node] + conn_flds, rpc.session.context)
+        
         for tr in data_trs:
-            t = connectors.get(tr['id'])
-            t['signal'] = tr['signal']
-            t['condition'] = tr['condition']
-#            t['source'] = tr['act_from'][1]
-#            t['destination'] = tr['act_to'][1]
+            t = connectors.get(str(tr['id'])) 
             t['source'] = tr[src_node][1]
             t['destination'] = tr[des_node][1]
+            t['options'] = {}
+            for fld in conn_flds:
+                t['options'][fld.title()] = tr[fld]
 
-#        proxy_act = rpc.RPCProxy("workflow.activity")
+
         proxy_act = rpc.RPCProxy(node_obj)
         search_acts = proxy_act.search([('wkf_id', '=', int(id))], 0, 0, 0, rpc.session.context)
-        data_acts = proxy_act.read(search_acts, ['action', 'kind', 'flow_start', 'flow_stop', 'subflow_id'], rpc.session.context)
-
+        data_acts = proxy_act.read(search_acts, ['flow_start', 'flow_stop', 'subflow_id'] + node_flds, rpc.session.context)
+        
         for act in data_acts:
             n = nodes.get(str(act['id']))
             n['id'] = act['id']
+            #TO DO: provide support for color and shape of activity
             n['flow_start'] = act['flow_start']
-            n['flow_stop'] = act['flow_stop']
-            n['action'] = act['action']
-            n['kind'] = act['kind']
+            n['flow_stop'] = act['flow_stop']            
             n['subflow_id'] = act['subflow_id']
+            n['options'] = {}
+            for fld in node_flds:
+                n['options'][fld.title()] = act[fld]
+
+            
 
         return dict(nodes=nodes,conn=connectors)
 

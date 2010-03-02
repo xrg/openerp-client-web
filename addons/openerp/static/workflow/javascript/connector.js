@@ -36,7 +36,7 @@ if (typeof(openobject.workflow) == "undefined") {
 }
 
 
-openobject.workflow.Connector=function(id, signal, condition, from, to) {
+openobject.workflow.Connector=function(id, from, to, options) {
 	
 	draw2d.Connection.call(this);
 	this.setLineWidth(2);
@@ -62,14 +62,14 @@ openobject.workflow.Connector=function(id, signal, condition, from, to) {
 	
 	if(id) {
 		this.tr_id = id;
-		this.signal = signal;
-		this.condition = condition;
+		//this.signal = signal;
+		//this.condition = condition;
 		this.from = from;
 		this.to = to;
 		this.isOverlaping = false;
 		this.OverlapingSeq = 0;
 		this.totalOverlaped = 0;
-		
+		this.options = MochiKit.Base.update({}, options || {})
 		this.sourceAnchor.conn_id = id;
 		this.targetAnchor.conn_id = id;
 	}
@@ -89,7 +89,12 @@ openobject.workflow.Connector.prototype.onClick = function(event) {
 
 
 openobject.workflow.Connector.prototype.onmouseOver = function(event) {
-    openobject.dom.get('status').innerHTML = "Condition: " + this.condition + " | Signal: "+ this.signal;
+    str = ''
+    for (f in this.options) 
+        str += f + ': ' + this.options[f] + ' | ' 
+        
+            
+    openobject.dom.get('status').innerHTML = str.substring(0, str.length-3);//"Condition: " + this.condition + " | Signal: "+ this.signal;
 }
 
 

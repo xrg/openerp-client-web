@@ -63,7 +63,7 @@ class Diagram(TinyWidget):
     template = "templates/diagram.mako"
     member_widgets = []
     
-    params = ['dia_id', 'node', 'connector', 'src_node', 'des_node']
+    params = ['dia_id', 'node', 'connector', 'src_node', 'des_node', 'node_flds', 'conn_flds']
     
     pager = None
     dia_id = None
@@ -71,8 +71,8 @@ class Diagram(TinyWidget):
     connector = ''
     src_node = ''
     des_node = ''
-    node_attrs = []
-    conn_attrs = []
+    node_flds = []
+    conn_flds = []
     
     css = [CSSLink("openerp", 'workflow/css/graph.css')]
     javascript = [JSLink("openerp", 'workflow/javascript/draw2d/wz_jsgraphics.js'),
@@ -91,9 +91,6 @@ class Diagram(TinyWidget):
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
         
         super(Diagram, self).__init__(name=name, model=model, ids=ids)
-        print '==================================='
-        print 'view=====================',view
-        print 'ids=====================',ids
         
         if ids:
             self.dia_id = ids[0]
@@ -109,15 +106,24 @@ class Diagram(TinyWidget):
     def parse(self, root):
         elm = None        
         
-        for node in root.childNodes: 
+        for node in root.childNodes:
             if node.nodeName == 'node':
                 attrs = node_attributes(node)
                 self.node = attrs['object']
+                
+                for fld in node.childNodes:
+                    if fld.nodeName == 'field':                        
+                        self.node_flds.append(str(node_attributes(fld)['name']))
             elif node.nodeName == 'arrow':
                 attrs = node_attributes(node)
                 self.connector = attrs['object']
                 self.src_node = attrs['source']
                 self.des_node = attrs['destination']
-        
                 
+                for fld in node.childNodes:
+                    if fld.nodeName == 'field':                        
+                        self.conn_flds.append(str(node_attributes(fld)['name']))
+
+# vim: ts=4 sts=4 sw=4 si et
+        
                 

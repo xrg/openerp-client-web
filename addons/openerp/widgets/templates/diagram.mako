@@ -19,6 +19,8 @@
                     <input type="hidden" id="connector" name="connector" value="${connector}"/>
                     <input type="hidden" id="src_node" name="src_node" value="${src_node}"/>
                     <input type="hidden" id="des_node" name="des_node" value="${des_node}"/>
+                    <input type="hidden" id="node_flds" name="node_flds" value="${node_flds}"/>
+                    <input type="hidden" id="conn_flds" name="conn_flds" value="${conn_flds}"/>
                     
                     <td width="36px" valign="top" id="toolbox"></td>
                     <td height="500" width="auto" valign="top">

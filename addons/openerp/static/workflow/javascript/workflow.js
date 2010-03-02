@@ -91,19 +91,25 @@ openobject.workflow.Workflow.implement({
         this.addFigure(this.state, 100, 20);
 		this.state.initPort();
 		this.state.initPort();
-			
 		
-		this.draw_graph(openobject.dom.get('wkf_id').value);
+		var node_flds = getElement('node_flds').value;			
+		var conn_flds = getElement('conn_flds').value;
+		
+		this.node_flds = eval(node_flds);
+		this.conn_flds = eval(conn_flds);
+		
+		this.draw_graph(openobject.dom.get('wkf_id').value, node_flds, conn_flds);
 	},
 	
-	draw_graph : function(wkf_id) {
+	draw_graph : function(wkf_id, node_flds, conn_flds) {
 		
 		this.id = wkf_id;
 		var self = this;
 		
 		req = openobject.http.postJSON('/workflow/get_info',{id:wkf_id, model:$('_terp_model').value,
 		                                                      node_obj: self.node_obj, conn_obj:self.connector_obj,
-		                                                      src_node: self.src_node_nm, des_node:self.des_node_nm});
+		                                                      src_node: self.src_node_nm, des_node:self.des_node_nm,
+		                                                      node_flds: node_flds, conn_flds: conn_flds});
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.nodes) {
@@ -213,7 +219,8 @@ openobject.workflow.Workflow.implement({
         var source = this.states.get(start);
         var destination = this.states.get(end);     
                
-        var conn = new openobject.workflow.Connector(params.id, params.signal, params.condition, params.source, params.destination); 
+        //var conn = new openobject.workflow.Connector(params.id, params.signal, params.condition, params.source, params.destination); 
+        var conn = new openobject.workflow.Connector(params.id, params.source, params.destination, params.options);
         var n = this.connectors.getSize();
         
         //self connection
