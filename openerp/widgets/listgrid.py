@@ -454,6 +454,10 @@ class Selection(Char):
 
     def get_text(self):
         if self.value:
+            
+            if isinstance(self.value, (tuple, list)):
+                self.value = self.value[0]
+                
             selection = self.attrs['selection']
             for k, v in selection:
                 if k == self.value:
