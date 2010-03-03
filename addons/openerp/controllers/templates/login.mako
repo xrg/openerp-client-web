@@ -32,24 +32,20 @@
 
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
-                    % if dblist is not None:
-                    <tr>
-                        <td class="label">
-                            <span>${_("Server:")}</span>
-                        </td>
-                        <td>${url}</td>
-                    </tr>
                     <tr>
                         <td class="label">${_("Database:")}</td>
                         <td>
+                            % if dblist is None:
+                                <input type="text" name="db" style="width: 300px;" value="${db}"/>
+                            % else:
                             <select name="db" style="width: 302px;">
-                                % for v in dblist or []:
+                                % for v in dblist:
                                 <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
                                 % endfor
                             </select>
+                            % endif
                         </td>
                     </tr>
-                    % endif
 
                     <tr>
                         <td class="label">${_("User:")}</td>
