@@ -54,6 +54,7 @@ from openerp.utils import TinyDict
 from openerp.utils import node_attributes
 from openerp.utils import get_node_xpath
 
+from openerp.widgets import TinyWidget
 from openerp.widgets import TinyInputWidget
 from openerp.widgets import ConcurrencyInfo
 
@@ -705,6 +706,19 @@ class VPaned(TinyInputWidget):
 
 register_widget(VPaned, ["vpaned"])
 
+class HtmlView(TinyWidget):
+    
+    template = """
+        <div>
+            ${value | n}
+        </div>
+    """
+    
+    def __init__(self, **args):
+        super(HtmlView, self).__init__(**args)
+        self.default = args.get('value')
+        
+register_widget(HtmlView, ["html"])
 
 class Form(TinyInputWidget):
     """A generic form widget
@@ -836,6 +850,11 @@ class Form(TinyInputWidget):
                             
                 attrs['string'] = text
                 views += [Label(**attrs)]
+                
+            elif node.localName == 'html':
+                val = node.childNodes[0]
+                attrs['value'] = val.nodeValue
+                views += [HtmlView(**attrs)]
 
             elif node.localName=='newline':
                 views += [NewLine(**attrs)]
