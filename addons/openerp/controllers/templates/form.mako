@@ -194,5 +194,4 @@
             % endif
         </tr>
     </table>
-        
 </%def>

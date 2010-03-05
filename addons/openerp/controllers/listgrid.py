@@ -130,7 +130,22 @@ class List(SecuredController):
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
+        groupby = params.get('_terp_group_by_ctx')
+        
+        if groupby and isinstance(groupby, basestring):
+            groupby = groupby.split(',')
+            
+        group_by_list = []
+        
+        if groupby:
+            for gb in groupby:
+                group_split = gb.split('group_')
+                if group_split:
+                    group_by_list.append(group_split[1])
+            
+        params['_terp_group_by_ctx'] = group_by_list
+                
         params.ids = None
         source = (params.source or '') and str(params.source)
 
@@ -146,7 +161,7 @@ class List(SecuredController):
         if current and params.source_default_get:
             current.context = current.context or {}
             current.context.update(params.source_default_get)
-
+            
         if params.wiz_id:
             res = wizard.Wizard().execute(params)
             frm = res['form']
@@ -156,7 +171,7 @@ class List(SecuredController):
         wid = frm.screen.get_widgets_by_name(source, kind=listgrid.List)[0]
         ids = wid.ids
         count = wid.count
-
+        
         if params.edit_inline:
             wid.edit_inline = params.edit_inline
 

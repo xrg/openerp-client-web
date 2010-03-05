@@ -54,6 +54,7 @@ from openerp.utils import TinyDict
 from openerp.utils import node_attributes
 from openerp.utils import get_node_xpath
 
+from openerp.widgets import TinyWidget
 from openerp.widgets import TinyInputWidget
 from openerp.widgets import ConcurrencyInfo
 
@@ -71,7 +72,7 @@ class Frame(TinyInputWidget):
 
     template = "templates/frame.mako"
 
-    params = ['table', 'label_position']
+    params = ['table']
     member_widgets = ['hiddens', 'children']
 
     table = None
@@ -83,8 +84,6 @@ class Frame(TinyInputWidget):
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
         
-        self.label_position = attrs.get('label_position', False)
-
         self.x = 0
         self.y = 0
 
@@ -644,7 +643,7 @@ class Group(TinyInputWidget):
 
         self.frame = Frame(**attrs)
         self.nolabel = True
-
+        
 register_widget(Group, ["group"])
 
 
@@ -705,6 +704,23 @@ class VPaned(TinyInputWidget):
 
 register_widget(VPaned, ["vpaned"])
 
+class HtmlView(TinyWidget):
+    
+    template = "templates/htmlview.mako"
+   
+    params = ['tag_name', 'args']
+    member_widgets = ['children', 'frame']
+    
+    def __init__(self, **attrs):
+        super(HtmlView, self).__init__(**attrs)
+        self.tag_name = attrs.get('tag_name')
+        
+        self.args = attrs.get('args', {})
+        
+        if attrs.get('value'):
+            self.default = attrs.get('value')
+                
+register_widget(HtmlView, ["html"])
 
 class Form(TinyInputWidget):
     """A generic form widget
@@ -811,7 +827,7 @@ class Form(TinyInputWidget):
 
         for node in root.childNodes:
 
-            if not node.nodeType==node.ELEMENT_NODE:
+            if node.nodeType not in (node.ELEMENT_NODE, node.TEXT_NODE):
                 continue
 
             attrs = node_attributes(node)
@@ -836,7 +852,7 @@ class Form(TinyInputWidget):
                             
                 attrs['string'] = text
                 views += [Label(**attrs)]
-
+                
             elif node.localName=='newline':
                 views += [NewLine(**attrs)]
 
@@ -909,6 +925,20 @@ class Form(TinyInputWidget):
                 wid = get_widget('action')(**attrs)
                 views += [wid]
                 cherrypy.request._terp_dashboard = True
+                
+            else:
+                n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
+                args = node_attributes(node)
+                attrs['args'] = args
+                attrs['tag_name'] = node.localName                
+                
+                if node.nodeType == node.TEXT_NODE:
+                    if not node.nodeValue.strip():
+                        continue
+                    attrs['value'] = node.nodeValue
+                        
+                views += [HtmlView(children=n, **attrs)]
+                
 
         return views
     

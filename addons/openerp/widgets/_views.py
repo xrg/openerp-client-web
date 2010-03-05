@@ -4,6 +4,7 @@ from openerp.utils import rpc
 
 import form
 import listgrid
+import listgroup
 
 __all__ = ["TinyView", "FormView", "ListView",
            "get_view_widget", "get_registered_views"]
@@ -79,7 +80,21 @@ class ListView(TinyView):
 
     def __call__(self, screen):
         
-        widget = listgrid.List(screen.name or '_terp_list',
+        if screen.group_by_ctx:
+            widget = listgroup.ListGroup(screen.name or '_terp_list',
+                                        model=screen.model,
+                                        view=screen.view,
+                                        ids=screen.ids,
+                                        domain=screen.domain,
+                                        context=screen.context,
+                                        view_mode=screen.view_mode,
+                                        editable=screen.editable,
+                                        selectable=screen.selectable,
+                                        offset=screen.offset, limit=screen.limit, 
+                                        count=screen.count, nolinks=screen.link,
+                                        group_by_ctx=screen.group_by_ctx)
+        else:
+            widget = listgrid.List(screen.name or '_terp_list',
                                     model=screen.model,
                                     view=screen.view,
                                     ids=screen.ids,
@@ -104,10 +119,11 @@ def get_view_widget(kind, screen):
     views = pool.get_group("view_types")
     
     try:
-        return views[kind](screen)
-    except Exception, e:
-        raise
+        view = views[kind]
+    except KeyError, e:
         raise Exception("view '%s' not supported." % kind)
+    
+    return view(screen)
 
 
 def get_registered_views():

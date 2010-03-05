@@ -63,6 +63,18 @@ class O2M(TinyInputWidget):
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
         self.default_get_ctx = attrs.get('default_get', {}) or attrs.get('context', {})
 
+        group_by_ctx = ''
+
+        grp_ctx = attrs.get('context', {})
+        try:
+            grp_ctx = expr_eval(grp_ctx)
+        except:
+            pass
+        
+        if grp_ctx:
+            if grp_ctx.get('group_by'):
+                group_by_ctx = grp_ctx.get('group_by') 
+        
 #        self.colspan = 4
 #        self.nolabel = True
 
@@ -147,7 +159,12 @@ class O2M(TinyInputWidget):
         current.offset = current.offset or 0
         current.limit = current.limit or 20
         current.count = len(ids or [])
-
+        
+        # Group By for one2many list.
+        if group_by_ctx:
+            current.group_by_ctx = group_by_ctx
+            current.domain = [('id', 'in', ids)]
+            
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
 

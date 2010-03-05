@@ -524,17 +524,18 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = this.makeArgs();
-
+        
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
         args['_terp_source_default_get'] = default_get_ctx;
         args['_terp_concurrency_info'] = concurrency_info;
+        args['_terp_group_by_ctx'] = openobject.dom.get('_terp_group_by_ctx').value;
 
         if (this.name == '_terp_list') {
             args['_terp_search_domain'] = openobject.dom.get('_terp_search_domain').value;
         }
-
+        
         var req = openobject.http.postJSON('/listgrid/get', args);
         req.addCallback(function(obj){
 
@@ -601,10 +602,9 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-            row_listgrid();
+            row_edit();
         });
     }
-
 });
 
 // export/import functions
@@ -636,20 +636,37 @@ MochiKit.Base.update(ListView.prototype, {
     }
 });
 
-var row_listgrid = function(evt) {
+var toggle_group_data = function(id) {
+	
+	img = openobject.dom.get('img_'+id);
+	rows = openobject.dom.select('tr.'+id);
+	
+	forEach(rows, function(rw){
+		if (rw.style.display == 'none') {
+			rw.style.display = '';
+			setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/collapse.gif');
+		}
+		else {
+			rw.style.display = 'none';
+			setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/expand.gif');
+		}
+	});
+}
+
+var row_edit = function(evt) {
 	var row = [];
 	row = getElementsByTagAndClassName('tr', 'grid-row');
-
+	
     forEach(row, function(e){
     	MochiKit.Signal.connect(e, 'ondblclick', e, select_row_edit);
     });
 }
 
 var select_row_edit = function(e){
-	src=e.src();
+	src = e.src();
 	src_record = getNodeAttribute(src, 'record');
 	target = e.target();
-	target_class=getNodeAttribute(target,'class');
+	target_class = getNodeAttribute(target,'class');
 
     var view_type = getElement('_terp_view_type').value;
     var editable = getElement('_terp_editable').value;
@@ -665,7 +682,7 @@ var select_row_edit = function(e){
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
-	row_listgrid(evt);
+	row_edit(evt);
 });
 
 // vim: ts=4 sts=4 sw=4 si et

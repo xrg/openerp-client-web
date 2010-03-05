@@ -84,8 +84,8 @@
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                        	% if map(lambda x: x[0],hiddens).__contains__('sequence') or  field == 'sequence':
-								<span class="draggable">${data[field]}</span>
+                        	% if map(lambda x: x[0], hiddens).__contains__('sequence') or field == 'sequence':
+								<span class="draggable">${data[field].display()}</span>
 								<script type="text/javascript">
 									function make_draggale(){
 										var drag = getElementsByTagAndClassName('span','draggable');
@@ -96,7 +96,7 @@
 									}
 							</script>
 							% else:	
-								<span>${data[field]}</span>
+								<span>${data[field].display()}</span>
 							% endif
                         </td>
                         % endfor

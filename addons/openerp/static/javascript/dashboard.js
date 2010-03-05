@@ -110,7 +110,6 @@ function initialize_dashboard() {
             var embeds = openobject.dom.select('embeds');
             
             MochiKit.Iter.forEach(embeds, function(e){
-                log(e);
                 MochiKit.DOM.hideElement(e);
             });
     });

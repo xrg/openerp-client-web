@@ -107,15 +107,31 @@ class RangeWidget(TinyInputWidget):
 class Filter(TinyInputWidget):
     template = "templates/filter.mako"
     
-    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val']
+    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'group_context', 'def_checked']
     
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
         
         self.icon = attrs.get('icon')
-        self.filter_domain = attrs.get('domain')
+        self.filter_domain = attrs.get('domain', [])
         self.help = attrs.get('help')
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
+        filter_context = attrs.get('context', None)
+        
+        self.def_checked = False
+        default_val = attrs.get('default', 0)
+        if default_val:
+            self.def_checked = True
+        
+        self.group_context = None
+        
+        # context implemented only for group_by.
+        if filter_context:
+            self.filter_context = eval(filter_context)
+            self.group_context = self.filter_context.get('group_by', None)
+        
+        if self.group_context:
+            self.group_context = 'group_' + self.group_context 
         
         self.nolabel = True
         self.readonly = False

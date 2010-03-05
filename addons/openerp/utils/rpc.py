@@ -133,6 +133,8 @@ class RPCGateway(object):
                     raise common.concurrency(err.message, err.data, args)
                 else:
                     raise common.warning(err.data)
+            elif err.code == 'AccessDenied':
+                raise common.error(_('Access Denied'), err.code)
             else:
                 raise common.error(_('Application Error!'), err.backtrace)
 
@@ -281,8 +283,10 @@ class RPCSession(object):
     def listdb(self):
         try:
             return self.execute_noauth('db', 'list')
-        except Exception, e:
-            return -1
+        except common.TinyError, e:
+            if e.message == 'AccessDenied':
+                return None
+            raise
 
     def login(self, db, user, password):
         

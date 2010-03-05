@@ -347,7 +347,7 @@ class List(TinyWidget):
 
                     if invisible:
                         hiddens += [(name, fields[name])]
-                        continue
+#                        continue
 
                     if 'sum' in attrs:
                         field_total[name] = [attrs['sum'], 0.0]
@@ -372,6 +372,9 @@ class List(TinyWidget):
                                 pass
 
                         row[name] = cell
+                    
+                    if invisible:
+                        continue
 
                     headers += [(name, fields[name])]
 

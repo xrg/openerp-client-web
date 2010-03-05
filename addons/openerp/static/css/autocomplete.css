@@ -1,0 +1,47 @@
+div.autoTextResults {
+    position: absolute;
+    z-index: 1000;
+    background-color: #DADADA;
+    border-right: 1px solid #333;
+    border-bottom: 1px solid #333;
+    display: none;
+}
+
+table.autoTextTable {
+	position: absolute;
+    background-color: white;    
+    border: none;
+    font-family: arial, sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+}
+
+table.autoTextTable tr.autoTextNormalRow td {
+    background-color: #505050;
+    color: #FFF;
+}
+
+table.autoTextTable tr.autoTextSelectedRow td {
+    background-color: #333333;
+    color: #FFF;
+    cursor: pointer;
+}
+
+table.autoTextTable ul{
+	list-style-image:none;
+	list-style-type:none;
+}
+
+table.autoTextTable td a.autoTextHighlight {
+    font-weight: bold;
+    text-decoration: none;
+    color: #FFF;
+}
+
+table.autoTextTable td.autoTextHidden {
+    display: none;
+}
+
+/* ------------- End autocomplete ------- */

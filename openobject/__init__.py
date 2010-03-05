@@ -24,6 +24,9 @@ def ustr(value):
     if isinstance(value, unicode):
         return value
     
+    if hasattr(value, "__unicode__"):
+        return unicode(value)
+    
     try: # first try without encoding
         return unicode(value)
     except:
@@ -38,9 +41,14 @@ def ustr(value):
         return unicode(value, 'iso-8859-15')
     except:
         pass
+    
+    try:
+        return ustr(str(value))
+    except:
+        value = " ".join([ustr(s) for s in value])
 
     # else use default system locale
-    return unicode(value, getlocale()[1])
+    return value
 
 __builtins__['ustr'] = ustr
 
