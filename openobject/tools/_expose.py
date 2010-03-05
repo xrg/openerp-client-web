@@ -54,8 +54,15 @@ def find_resource(package_or_module, *names):
     return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
 
 
-def find_resources(package_or_module, *patterns):
+def find_resources(package_or_module, path=None, patterns=None):
+
     root = find_resource("openobject")
+    path = path or ""
+    patterns = patterns or []
+
+    if path:
+        root = os.path.join(root, path)
+
     for path, dirs, files in os.walk(os.path.abspath(root)):
         for pattern in patterns:
             for filename in fnmatch.filter(files, pattern):
@@ -63,7 +70,7 @@ def find_resources(package_or_module, *patterns):
                 
                 
 # ask autoreloader to check mako templates and cfg files
-for res in find_resources("openobject", "*.mako", "*.cfg"):
+for res in find_resources("openobject", "..", ["*.mako", "*.cfg"]):
     cherrypy.engine.autoreload.files.add(res)
 
 

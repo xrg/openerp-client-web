@@ -61,31 +61,11 @@ class Root(SecuredController):
 
     _cp_path = "/"
 
-    def user_action(self, id='action_id'):
-        """Perform default user action.
-
-        @param id: `action_id` or `menu_id`
-        """
-
-        proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-        
-        if not act_id[0][id]:
-            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
-            rpc.session.logout()
-            raise redirect('/');
-
-        act_id = act_id[0][id][0]
-        
-        import actions
-        return actions.execute_by_id(act_id)
-
     @expose()
     def index(self):
         """Index page, loads the view defined by `action_id`.
         """
-        return self.user_action('action_id')
-        return dict()
+        raise redirect("/menu")
     
     @expose()
     def info(self):
@@ -101,57 +81,43 @@ class Root(SecuredController):
     """ % (url("/openerp/static/images/loading.gif"))
     
     @expose(template="templates/menu.mako")
-    def menu2(self, **kw):
-         
-        from openerp.widgets import tree_view
+    def menu(self, active=None, **kw):
+        
         from openerp.utils import icons
-         
-        p_id = kw.get('p_id', None)
+        from openerp.widgets import tree_view
+        
+        try:
+            id = int(active)
+        except:
+            id = False
+        
+        ctx = rpc.session.context.copy()
+        proxy = rpc.RPCProxy("ir.ui.menu")
+
+        ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
+        parents = proxy.read(ids, ['name', 'icon'], ctx)
+
+        if not id and ids:
+            id = ids[0]
+            
+        ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
+        tools = proxy.read(ids, ['name', 'icon'], ctx)
         
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
-        tree = tree_view.ViewTree(view, 'ir.ui.menu', [], domain=[('parent_id', '=', False)], context={}, action="/tree/action")
-        
-        proxy = rpc.RPCProxy('ir.ui.menu')
-        
-        toolbar = tree.toolbar or []
-        new_toolbar = []
-        show_formview = False     # Below static tab, contents will initial display False.
-        
-        for tool in toolbar:
-            if p_id and int(p_id) == tool['id']:
-                    
-                t = tree_view.ViewTree(view, 'ir.ui.menu', int(p_id), domain=[('parent_id', '=', int(p_id))], context={}, action="/tree/action")
-                new_tool = []
-                
-                child_toolbar = t.toolbar
-                
-                for ch_tool in child_toolbar:
-                    if ch_tool.get('icon'):
-                        ch_tool['icon'] = icons.get_icon(ch_tool['icon'])
-                    else:
-                        ch_tool['icon'] = False
-                    
-                    t1 = tree_view.ViewTree(view, 'ir.ui.menu', ch_tool['id'], domain=[('parent_id', '=', ch_tool['id'])], context={}, action="/tree/action")
 
-                    t1.tree._name = "tree_%s" %(ch_tool['id'])
-                    t1.tree.onselection = None
-                    t1.tree.onheaderclick = None
-                    t1.tree.showheaders = 0
-                    t1.tree.linktarget = "'appFrame'"
-                    
-                    ch_tool['tree'] = t1.tree
-                    new_tool += [ch_tool]
-                
-                show_formview = True
-                new_toolbar = new_tool
-                
-        return dict(new_toolbar=new_toolbar, toolbar=toolbar, show_formview=show_formview)
-        
-    @expose()
-    def menu(self):
-        """Main menu page, loads the view defined by `menu_id`.
-        """
-        return self.user_action('menu_id')
+        for tool in tools:
+            tid = tool['id']
+            tool['icon'] = icons.get_icon(tool['icon'])
+            tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid, 
+                                    domain=[('parent_id', '=', tid)], 
+                                    context=ctx, action="/tree/action")
+            tree._name = "tree_%s" %(tid)
+            tree.tree.onselection = None
+            tree.tree.onheaderclick = None
+            tree.tree.showheaders = 0
+            tree.tree.linktarget = "'appFrame'"
+
+        return dict(parents=parents, tools=tools)
 
     @expose(allow_json=True)
     @unsecured
