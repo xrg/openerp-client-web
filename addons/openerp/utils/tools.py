@@ -36,24 +36,24 @@ import rpc
 
 
 def expr_eval(string, context={}):
-    context['uid'] = rpc.session.uid
-    context['current_date'] = time.strftime('%Y-%m-%d')
-    context['time'] = time
-    context['datetime'] = DT
+    context.update(uid=rpc.session.uid,
+                   current_date=time.strftime('%Y-%m-%d'),
+                   time=time,
+                   datetime=DT)
     if isinstance(string, basestring):
-        string = string.replace("'active_id'", "active_id")
-        return eval(string, context)
+        return eval(string.replace("'active_id'", "active_id"),
+                    context)
     else:
         return string
 
 def node_attributes(node):
-    result = {}
+    if not node.hasAttributes(): return {}
     attrs = node.attributes
-    if attrs is None:
-        return {}
-    for i in range(attrs.length):
-        result[str(attrs.item(i).localName)] = attrs.item(i).nodeValue
-    return result
+    # localName can be a unicode string, we're using attribute names as
+    # **kwargs keys and python-level kwargs don't take unicode keys kindly
+    # (they blow up) so we need to ensure all keys are ``str``
+    return dict([(str(attrs.item(i).localName), attrs.item(i).nodeValue)
+                 for i in range(attrs.length)])
 
 def xml_locate(expr, ref):
     """Simple xpath locator.
