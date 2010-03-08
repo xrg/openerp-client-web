@@ -26,38 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import time
-import math
-import copy
-import locale
 import random
-import xml.dom.minidom
-
-import cherrypy
-
-from openobject import tools
-
-from openobject.i18n import format
-from openobject.widgets import CSSLink, JSLink
 
 from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import expr_eval
-from openerp.utils import node_attributes
 
-import form
 from listgrid import List    
 
-from pager import Pager
-
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-
-from openerp.widgets import get_widget
-from openerp.widgets import register_widget
 
 class ListGroup(List):
 

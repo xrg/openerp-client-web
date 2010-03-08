@@ -26,17 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
 import base64
 
-from openobject.tools import expose
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
 from openerp.controllers import SecuredController
+from openerp.utils import rpc, common
+
+from openobject.tools import expose
 
 
 class Attachment(SecuredController):

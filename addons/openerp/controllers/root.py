@@ -26,25 +26,11 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
-import re
-
 import cherrypy
+from openerp.controllers import SecuredController, unsecured, login as tiny_login
+from openerp.utils import rpc, cache
 
-from openobject import tools
-
-from openobject.tools import url
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import find_resource
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import common
-
-from openerp.controllers import SecuredController, unsecured
-from openerp.controllers import login as tiny_login
+from openobject.tools import url, expose, redirect
 
 
 def _cp_on_error():

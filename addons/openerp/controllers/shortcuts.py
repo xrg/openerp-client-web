@@ -26,16 +26,11 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-
-from openerp.utils import rpc
-from openerp.utils import common
-
 from openerp.controllers import SecuredController
+from openerp.utils import rpc
+
+from openobject.tools import expose, redirect
 
 
 class Shortcuts(SecuredController):

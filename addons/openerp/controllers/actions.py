@@ -29,24 +29,18 @@
 
 """This module implementes action methods.
 """
-
-import time
 import base64
 import datetime
+import time
 
 import cherrypy
-
-from openobject import tools
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import expr_eval
-from openerp.utils import TinyDict
+from openerp.utils import rpc, common, expr_eval, TinyDict
 
 from form import Form
+from openobject import tools
+from selection import Selection
 from tree import Tree
 from wizard import Wizard
-from selection import Selection
 
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},

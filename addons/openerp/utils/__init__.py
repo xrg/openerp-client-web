@@ -1,11 +1,9 @@
-
 import rpc
 import rpc_utils
-
+from openobject.tools import register_template_vars
 from tools import *
 from utils import *
 
-from openobject.tools import register_template_vars
 
 def _root_vars():
     return {

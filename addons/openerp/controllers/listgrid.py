@@ -26,24 +26,15 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject.tools import expose
-
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
-from openerp.utils import TinyFormError
-from openerp.utils import context_with_concurrency_info
-
 from openerp.controllers import SecuredController
-
+from openerp.utils import rpc, TinyDict, TinyForm, TinyFormError, context_with_concurrency_info
 from openerp.widgets import listgrid
 
 import form
-import search
 import wizard
+from openobject.tools import expose
+
 
 class List(SecuredController):
     

@@ -30,8 +30,6 @@
 """
 This modules implements custom authorization logic for the OpenERP Web Client.
 """
-
-import types
 import cherrypy
 
 from openobject import pooler

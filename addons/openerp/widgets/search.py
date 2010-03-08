@@ -31,35 +31,15 @@
 This module implementes widget parser for form view, and
 several widget components.
 """
-
-import copy
 import random
 import xml.dom.minidom
 
 import cherrypy
+from openerp.utils import rpc, cache, icons, node_attributes
+from openerp.widgets import TinyInputWidget
+from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
 
 from openobject.widgets import JSLink, locations
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import icons
-from openerp.utils import node_attributes
-
-from openerp.widgets import TinyInputWidget
-
-from openerp.widgets.form import Char
-from openerp.widgets.form import Form
-from openerp.widgets.form import Frame
-from openerp.widgets.form import Button
-from openerp.widgets.form import Float
-from openerp.widgets.form import Frame
-from openerp.widgets.form import DateTime
-from openerp.widgets.form import Integer
-from openerp.widgets.form import Selection
-from openerp.widgets.form import Notebook
-from openerp.widgets.form import Separator
-from openerp.widgets.form import Group
-from openerp.widgets.form import NewLine
 
 
 class RangeWidget(TinyInputWidget):

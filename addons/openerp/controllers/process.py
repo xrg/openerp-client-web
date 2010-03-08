@@ -26,22 +26,15 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-
-from openobject.i18n import format
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
 from openerp.controllers import SecuredController
+from openerp.utils import rpc, TinyDict
 
-import form
 import actions
+import form
+from openobject.i18n import format
+from openobject.tools import expose
+
 
 class ResourcePopup(form.Form):
 

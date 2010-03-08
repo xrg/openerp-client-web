@@ -31,21 +31,13 @@
 This module implementes heirarchical tree view for a tiny model having
     view_type = 'tree'
 """
-
 import time
-import xml.dom.minidom
-
-from openobject.tools import url
-from openobject.tools import expose
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import TinyDict
 
 from openerp.controllers import SecuredController
+from openerp.utils import rpc, cache, icons, common, TinyDict
 from openerp.widgets import tree_view
+
+from openobject.tools import url, expose
 
 
 DT_FORMAT = '%Y-%m-%d'

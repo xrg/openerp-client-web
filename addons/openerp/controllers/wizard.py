@@ -26,27 +26,16 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import re
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-from openobject.tools import error_handler
-
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import TinyDict
-
+from openerp import widgets as tw, validators
 from openerp.controllers import SecuredController
-
-from openerp import widgets as tw
-from openerp import validators
+from openerp.utils import rpc, icons, TinyDict
 
 import form
+from openobject.tools import expose, redirect, validate, error_handler
+
 
 class Wizard(SecuredController):
     

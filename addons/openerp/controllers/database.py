@@ -26,26 +26,16 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import base64
 import re
 import time
-import base64
 
 import cherrypy
-
-from openobject.tools import url
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-from openobject.tools import error_handler
+from openerp import widgets, validators
+from openerp.utils import rpc, common
 
 from openobject.controllers import BaseController
-
-from openerp.utils import rpc
-from openerp.utils import common
-
-from openerp import widgets
-from openerp import validators
+from openobject.tools import url, expose, redirect, validate, error_handler
 
 
 def get_lang_list():

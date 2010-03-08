@@ -26,19 +26,14 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import re
 import time
-import types
 
 import cherrypy
+from openerp.utils import rpc
 
 from openobject import tools
-
 from openobject.tools import expose
-from openobject.tools import redirect
-
-from openerp.utils import rpc
 
 
 __all__ = ["secured", "unsecured", "login"]

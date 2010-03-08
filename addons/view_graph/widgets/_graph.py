@@ -27,28 +27,18 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
-import time
-import random
 import locale
-import base64
+import random
+import re
+import time
+import urllib
 import xml.dom.minidom
 
-import re
-import urllib
-
 import simplejson
-
+from openerp.utils import rpc, cache, node_attributes
+from openerp.widgets import TinyWidget
 from openobject.tools import url_plus
 from openobject.widgets import JSSource, JSLink
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import cache
-from openerp.utils import node_attributes
-
-from openerp.widgets import TinyWidget
 
 
 DT_FORMAT = '%Y-%m-%d'

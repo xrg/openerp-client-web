@@ -26,29 +26,17 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import xml
 import random
+import xml
 
 import cherrypy
-
-from openobject.tools import url
-from openobject.tools import expose
-
-from openerp import utils
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import icons
-from openerp.utils import cache
-from openerp.utils import TinyDict
-
+from openerp import utils, widgets, validators
 from openerp.controllers import SecuredController
-
-from openerp import widgets
-from openerp import validators
+from openerp.utils import rpc, common, icons, cache, TinyDict
 
 from form import Form
+from openobject.tools import url, expose
+
 
 class NewField(Form):
 

@@ -1,9 +1,8 @@
+from openerp.controllers import form
+from openerp.utils import rpc, TinyDict
+
 from openobject.tools import expose
 
-from openerp.controllers import form
-
-from openerp.utils import rpc
-from openerp.utils import TinyDict
 
 class ModuleForm(form.Form):
     

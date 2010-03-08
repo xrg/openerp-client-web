@@ -26,23 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
+from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
 
 import actions
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import expr_eval
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
-from openerp.utils import TinyFormError
-
-from openerp.controllers import SecuredController
 from form import Form
+from openobject.tools import expose
+
 
 class Search(Form):
 

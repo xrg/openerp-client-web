@@ -26,32 +26,17 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import re
-import os
-import csv
-import time
-import types
-import base64
 import StringIO
+import csv
+import re
 import xml.dom.minidom
 
-import cherrypy
+from openerp.controllers import SecuredController
+from openerp.utils import rpc, common, TinyDict, node_attributes
+from openerp.widgets import treegrid, listgrid
 
 from openobject import tools
-
-from openobject.tools import expose
-from openobject.tools import redirect
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-from openerp.utils import node_attributes
-
-from openerp.controllers import SecuredController
-
-from openerp.widgets import treegrid
-from openerp.widgets import listgrid
+from openobject.tools import expose, redirect
 
 
 def datas_read(ids, model, fields, context=None):

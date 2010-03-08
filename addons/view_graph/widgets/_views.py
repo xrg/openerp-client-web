@@ -1,5 +1,6 @@
-from openerp.widgets import TinyView
 from _graph import Graph
+from openerp.widgets import TinyView
+
 
 class GraphView(TinyView):
     

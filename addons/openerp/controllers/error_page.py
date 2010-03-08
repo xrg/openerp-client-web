@@ -26,23 +26,15 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import sys
 import cgitb
+import sys
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
+from openerp import widgets
+from openerp.utils import rpc, common
 
 from openobject.controllers import BaseController
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
-from openerp import widgets
-
+from openobject.tools import expose, redirect
 
 class ErrorPage(BaseController):
     
