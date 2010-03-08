@@ -30,6 +30,7 @@ import copy
 import math
 import time
 import xml.dom.minidom
+from itertools import chain
 
 import cherrypy
 from openerp.utils import rpc, icons, common, expr_eval, node_attributes
@@ -229,38 +230,32 @@ class List(TinyWidget):
     def display(self, value=None, **params):
 
         # set editor values
-        if self.editors and self.edit_inline:
+        if not (self.editors and self.edit_inline):
+            return super(List, self).display(value, **params)
 
-            ctx = rpc.session.context.copy()
-            ctx.update(self.context)
+        ctx = dict(rpc.session.context,
+                   **self.context)
 
-            fields = [f for f, fa in self.headers]
-            fields += [f for f, fa in self.hiddens]
+        fields = [name for name, _ in chain(self.headers, self.hiddens)]
 
-            proxy = rpc.RPCProxy(self.model)
+        proxy = rpc.RPCProxy(self.model)
 
-            values = {}
-            defaults = {}
+        if self.edit_inline > 0:
+            values = self.data_dict[self.edit_inline]
+        else:
+            values = dict(proxy.default_get(fields, ctx))
 
             # update values according to domain
-            for d in self.domain:
-                if d[0] in fields:
-                    if d[1] == '=':
-                        values[d[0]] = d[2]
-                    if d[1] == 'in' and len(d[2]) == 1:
-                        values[d[0]] = d[2][0]
+            for (field, operator, value) in self.domain:
+                if field in fields:
+                    if operator == '=':
+                        values[field] = value
+                    elif operator == 'in' and len(value) == 1:
+                        values[field] = value[0]
 
-            if self.edit_inline > 0:
-                values = self.data_dict[self.edit_inline]
-            else:
-                defaults = proxy.default_get(fields, ctx)
-
-            for k, v in defaults.items():
-                values.setdefault(k, v)
-
-            for f in fields:
-                if f in values:
-                    self.editors[f].set_value(values[f])
+        for f in fields:
+            if f in values:
+                self.editors[f].set_value(values[f])
 
         return super(List, self).display(value, **params)
 
