@@ -40,8 +40,6 @@ class ListGroup(List):
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
-        params = {}
-
         self.context = context or {}
         self.domain = domain or []
 
@@ -64,11 +62,6 @@ class ListGroup(List):
 
             self.count = proxy.search_count(domain, context)
 
-        params['limit'] = self.limit
-        params['count'] = self.count
-        params['offset'] = self.offset
-        params['editable'] = self.editable
-        params['selectable'] = self.selectable
 
         if ids and not isinstance(ids, list):
             ids = [ids]
@@ -90,7 +83,11 @@ class ListGroup(List):
 
         self.context.update(rpc.session.context.copy())
 
-        super(ListGroup, self).__init__(name=name, model=model, view=view, ids=self.ids, domain=self.domain, context=self.context, **params)
+        super(ListGroup, self).__init__(
+            name=name, model=model, view=view, ids=self.ids, domain=self.domain,
+            context=self.context, limit=self.limit, count=self.count,
+            offset=self.offset, editable=self.editable,
+            selectable=self.selectable)
 
         if self.group_by_ctx:
             gb = self.group_by_ctx[0]
