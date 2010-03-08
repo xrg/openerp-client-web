@@ -91,9 +91,12 @@ ManyToOne.prototype.select = function(evt){
 }
 
 ManyToOne.prototype.open_record = function(evt){
-    if (this.field.value) {
-        this.open(this.field.value);
-    }
+	var link = getNodeAttribute(this.field, 'link');
+	if(!(link==0)){
+		if (this.field.value) {
+			this.open(this.field.value);
+		}
+	}
 }
 
 ManyToOne.prototype.create = function(evt){
@@ -174,7 +177,14 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 
 ManyToOne.prototype.change_icon = function(evt){
 
-    this.open_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
+    var link = getNodeAttribute(this.field, 'link');
+    if (link == 0){
+    	this.open_img.src = '/static/images/stock-disabled/gtk-open.png';
+    	this.open_img.style.cursor = '';
+    }
+    else{
+    	this.open_img.src = '/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
+    }
 
     if (!this.field.value) {
         this.open_img.style.cursor = '';

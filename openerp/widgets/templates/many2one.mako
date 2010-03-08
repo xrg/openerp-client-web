@@ -63,7 +63,7 @@
 
 % if not editable and not link == '0':
     <span>
-        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
+        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation, link=link)}>
             <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>
