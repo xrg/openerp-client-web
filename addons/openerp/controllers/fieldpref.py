@@ -32,7 +32,7 @@ from openerp.utils import rpc, TinyDict, TinyForm
 from openobject.tools import expose
 
 class FieldPref(SecuredController):
-    
+
     _cp_path = "/fieldpref"
 
     @expose(template="templates/fieldpref.mako")

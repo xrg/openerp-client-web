@@ -8,4 +8,3 @@
     "website": 'http://www.openerp.com/',
     "active": True,
 }
-

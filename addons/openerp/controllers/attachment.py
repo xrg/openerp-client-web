@@ -35,7 +35,7 @@ from openobject.tools import expose
 
 
 class Attachment(SecuredController):
-    
+
     _cp_path = "/attachment"
 
     @expose()

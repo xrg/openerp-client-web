@@ -34,9 +34,9 @@ from openobject.tools import expose, redirect
 
 
 class Shortcuts(SecuredController):
-    
+
     _cp_path = "/shortcuts"
-    
+
     def my(self):
 
         if not rpc.session.is_logged():
@@ -89,4 +89,3 @@ class Shortcuts(SecuredController):
         raise redirect('/tree/open', id=id, model='ir.ui.menu')
 
 # vim: ts=4 sts=4 sw=4 si et
-

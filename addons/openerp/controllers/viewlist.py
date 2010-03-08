@@ -34,7 +34,7 @@ from openobject.tools import expose, redirect
 
 
 class ViewList(SecuredController):
-    
+
     _cp_path = "/viewlist"
 
     @expose(template="templates/viewlist.mako")
@@ -101,4 +101,3 @@ class ViewList(SecuredController):
         raise redirect('/viewlist', model=model)
 
 # vim: ts=4 sts=4 sw=4 si et
-

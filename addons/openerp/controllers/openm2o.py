@@ -35,7 +35,7 @@ from openobject.tools import expose, validate, error_handler, exception_handler
 
 
 class OpenM2O(Form):
-    
+
     _cp_path = "/openm2o"
 
     @expose(template="templates/openm2o.mako")
@@ -107,4 +107,3 @@ class OpenM2O(Form):
         return self.create(params)
 
 # vim: ts=4 sts=4 sw=4 si et
-

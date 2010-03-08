@@ -90,7 +90,7 @@ class List(TinyWidget):
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-        
+
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
@@ -111,10 +111,10 @@ class List(TinyWidget):
 
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
-        
+
         # is relational field (M2M/O2M)
         if self.source:
-            self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit) 
+            self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit)
             self.min_rows = cherrypy.request.app.config['openobject-web'].get('child.listgrid.min_rows', 5)
         else:
             self.min_rows = 5
@@ -147,10 +147,10 @@ class List(TinyWidget):
 
         self.data_dict = {}
         data = []
-        
+
         if ids and not isinstance(ids, list):
             ids = [ids]
-        
+
         if ids and len(ids) > 0:
 
             ctx = rpc.session.context.copy()
@@ -164,7 +164,7 @@ class List(TinyWidget):
                 self.data_dict[item['id']] = item.copy()
 
             self.ids = ids
-            
+
         self.values = copy.deepcopy(data)
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
@@ -356,7 +356,7 @@ class List(TinyWidget):
                                 pass
 
                         row[name] = cell
-                    
+
                     if invisible:
                         continue
 
@@ -380,7 +380,7 @@ class Char(TinyWidget):
 
         self.text = self.get_text()
         self.link = self.get_link()
-        
+
         self.color = None
         self.onclick = None
 
@@ -415,10 +415,10 @@ class M2O(Char):
     """
 
     def get_text(self):
-        
+
         if isinstance(self.value, int):
             self.value = self.value, rpc.name_get(self.attrs['relation'], self.value)
-            
+
         if self.value and len(self.value) > 0:
             return self.value[-1]
 
@@ -426,7 +426,7 @@ class M2O(Char):
 
     def get_link(self):
         m2o_link = int(self.attrs.get('link', 1))
-        
+
         if m2o_link == 1:
             return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
         else:
@@ -496,9 +496,9 @@ class ProgressBar(Char):
 
     def get_text(self):
         if isinstance(self.value, float):
-            self.value = '%.2f' % (self.value)            
+            self.value = '%.2f' % (self.value)
             self.value = float(self.value)
-            
+
             if self.value > 100.0:
                 self.range = 100.0
             else:
@@ -518,9 +518,9 @@ class DateTime(Char):
         return ustr(self.value or '')
 
 class Boolean(Char):
-    
+
     params = ['value', 'kind']
-    
+
     template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
 
     def get_text(self):
@@ -528,9 +528,9 @@ class Boolean(Char):
             return _('Yes')
         else:
             return _('No')
-        
+
 class Button(TinyInputWidget):
-    
+
     params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
 
     template="""
@@ -599,4 +599,3 @@ CELLTYPES = {
 }
 
 # vim: ts=4 sts=4 sw=4 si et
-

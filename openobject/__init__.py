@@ -23,15 +23,15 @@ def ustr(value):
 
     if isinstance(value, unicode):
         return value
-    
+
     if hasattr(value, "__unicode__"):
         return unicode(value)
-    
+
     try: # first try without encoding
         return unicode(value)
     except:
         pass
-    
+
     try: # then try with utf-8
         return unicode(value, 'utf-8')
     except:
@@ -41,7 +41,7 @@ def ustr(value):
         return unicode(value, 'iso-8859-15')
     except:
         pass
-    
+
     try:
         return ustr(str(value))
     except:
@@ -57,4 +57,3 @@ i18n.install()
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

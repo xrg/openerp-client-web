@@ -33,7 +33,7 @@ from openobject.tools import expose
 
 
 class Selection(SecuredController):
-    
+
     _cp_path = "/selection"
 
     @expose(template="templates/selection.mako")
@@ -46,6 +46,3 @@ class Selection(SecuredController):
 
         import actions
         return actions.execute(params.action, **params.data)
-
-# vim: ts=4 sts=4 sw=4 si et
-

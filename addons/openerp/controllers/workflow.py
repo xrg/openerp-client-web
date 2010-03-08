@@ -38,7 +38,7 @@ from openobject.tools import expose, redirect
 class State(Form):
 
     _cp_path = "/workflow/state"
-    
+
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
@@ -107,7 +107,7 @@ class State(Form):
 class Connector(Form):
 
     _cp_path = "/workflow/connector"
-    
+
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
@@ -194,7 +194,7 @@ class Connector(Form):
 class Workflow(Form):
 
     _cp_path = "/workflow"
-    
+
     @expose(template="templates/workflow.mako")
     def index(self, model, id=None):
 
@@ -261,7 +261,7 @@ class Workflow(Form):
 
 
 class WorkflowList(SecuredController):
-    
+
     _cp_path = "/workflowlist"
 
     @expose(template="templates/wkf_list.mako")
@@ -319,5 +319,3 @@ class WorkflowList(SecuredController):
         raise redirect('/workflowlist', model=model)
 
 # vim: ts=4 sts=4 sw=4 si et
-
-

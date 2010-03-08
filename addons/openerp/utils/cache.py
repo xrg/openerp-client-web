@@ -54,9 +54,9 @@ def memoize(limit=100, force=False):
             return func
 
         def func_wrapper(*args, **kwargs):
-            
+
             queue, store = __cache.setdefault(rpc.session.db, ([], {}))
-            
+
             key = cPickle.dumps((args, kwargs))
             try:
                 queue.append(queue.pop(queue.index(key)))
@@ -112,4 +112,3 @@ def can_read(model):
     return __can_read(model, uid=rpc.session.uid)
 
 # vim: ts=4 sts=4 sw=4 si et
-

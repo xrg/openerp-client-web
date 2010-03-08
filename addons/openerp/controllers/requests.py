@@ -34,7 +34,7 @@ from openobject.tools import expose
 
 
 class Requests(SecuredController):
-    
+
     _cp_path = "/requests"
 
     def my(self):
@@ -59,9 +59,8 @@ class Requests(SecuredController):
     @expose()
     def default(self):
         import actions
-        return actions.execute_window(False, 'res.request', res_id=None, 
+        return actions.execute_window(False, 'res.request', res_id=None,
             domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

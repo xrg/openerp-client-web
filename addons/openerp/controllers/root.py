@@ -34,13 +34,13 @@ from openobject.tools import url, expose, redirect
 
 
 def _cp_on_error():
-    
+
     errorpage = cherrypy.request.pool.get_controller("/errorpage")
     message = errorpage.render()
     cherrypy.response.status = 500
     #cherrypy.response.headers['Content-Type'] = 'text/html'
     cherrypy.response.body = [message]
-    
+
 cherrypy.config.update({'request.error_response': _cp_on_error})
 
 class Root(SecuredController):
@@ -52,7 +52,7 @@ class Root(SecuredController):
         """Index page, loads the view defined by `action_id`.
         """
         raise redirect("/menu")
-    
+
     @expose()
     def info(self):
         return """
@@ -65,18 +65,18 @@ class Root(SecuredController):
     </body>
     </html>
     """ % (url("/openerp/static/images/loading.gif"))
-    
+
     @expose(template="templates/menu.mako")
     def menu(self, active=None, **kw):
-        
+
         from openerp.utils import icons
         from openerp.widgets import tree_view
-        
+
         try:
             id = int(active)
         except:
             id = False
-        
+
         ctx = rpc.session.context.copy()
         proxy = rpc.RPCProxy("ir.ui.menu")
 
@@ -85,17 +85,17 @@ class Root(SecuredController):
 
         if not id and ids:
             id = ids[0]
-            
+
         ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
         tools = proxy.read(ids, ['name', 'icon'], ctx)
-        
+
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
 
         for tool in tools:
             tid = tool['id']
             tool['icon'] = icons.get_icon(tool['icon'])
-            tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid, 
-                                    domain=[('parent_id', '=', tid)], 
+            tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
+                                    domain=[('parent_id', '=', tid)],
                                     context=ctx, action="/tree/action")
             tree._name = "tree_%s" %(tid)
             tree.tree.onselection = None
@@ -121,7 +121,7 @@ class Root(SecuredController):
             return dict(result=0)
 
         if style in ('ajax', 'ajax_small'):
-            return dict(db=db, user=user, password=password, location=location, 
+            return dict(db=db, user=user, password=password, location=location,
                     style=style, cp_template="templates/login_ajax.mako")
 
         return tiny_login(target=location, db=db, user=user, password=password, action="login")
@@ -143,4 +143,3 @@ class Root(SecuredController):
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

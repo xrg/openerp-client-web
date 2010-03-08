@@ -41,9 +41,9 @@ from openobject.tools import url, expose
 class NewField(Form):
 
     _cp_path = "/viewed/new_field"
-    
+
     def create_form(self, params, tg_errors=None):
-        
+
         # generate model_id field
         params.hidden_fields = [widgets.form.Hidden(name='model_id', default=params.model_id)]
         form = super(NewField, self).create_form(params, tg_errors)
@@ -81,7 +81,7 @@ class NewField(Form):
 class NewModel(Form):
 
     _cp_path = "/viewed/new_model"
-    
+
     @expose(template="templates/viewed_new_model.mako")
     def create(self, params, tg_errors=None):
 
@@ -112,7 +112,7 @@ class NewModel(Form):
 class Preview(Form):
 
     _cp_path = "/viewed/preview"
-    
+
     @expose(template="templates/viewed_preview.mako")
     def create(self, params, tg_errors=None):
         form = self.create_form(params, tg_errors)
@@ -221,7 +221,7 @@ def _get_field_attrs(node, parent_model):
     return field
 
 class ViewEd(SecuredController):
-    
+
     _cp_path = "/viewed"
 
     @expose(template="templates/viewed.mako")
@@ -575,7 +575,7 @@ class ViewEd(SecuredController):
 
             if new_node.localName == "field":
                 new_node.setAttribute('name', kw.get('name', new_node.localName))
-            
+
             elif new_node.localName == "notebook":
                 page = doc.createElement('page')
                 page.setAttribute('string', 'Page 1')
@@ -895,12 +895,12 @@ class ButtonSpecialProperty(widgets.SelectField):
     def __init__(self, name, default=None):
         options = [('', ''), ('save', _('Save Button')), ('cancel', _('Cancel Button')), ('open', _('Open Button'))]
         super(ButtonSpecialProperty, self).__init__(name=name, options=options, default=default)
-        
+
 class AlignProperty(widgets.SelectField):
 
     def __init__(self, name, default=None):
         options = [('', ''), ('0.0', _('Left')), ('0.5', _('Center')), ('1.0', _('Right'))]
-        super(AlignProperty, self).__init__(name=name, options=options, default=default)   
+        super(AlignProperty, self).__init__(name=name, options=options, default=default)
 
 _PROPERTY_WIDGETS = {
     'select' : SelectProperty,
@@ -927,4 +927,3 @@ def get_property_widget(name, value=None):
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

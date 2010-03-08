@@ -30,72 +30,72 @@ import random
 
 from openerp.utils import rpc
 
-from listgrid import List    
+from listgrid import List
 
 
 class ListGroup(List):
 
     template = "templates/listgroup.mako"
     params = ['grp_records', 'group_by_ctx']
-    
+
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         params = {}
 
         self.context = context or {}
         self.domain = domain or []
-        
+
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-        
+
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
-        
+
         proxy = rpc.RPCProxy(model)
-        
+
         if ids == None:
             if self.limit > 0:
                 ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
             else:
                 ids = proxy.search(self.domain, 0, 0, 0, self.context)
-            
+
             self.count = proxy.search_count(domain, context)
-        
+
         params['limit'] = self.limit
         params['count'] = self.count
         params['offset'] = self.offset
         params['editable'] = self.editable
         params['selectable'] = self.selectable
-        
+
         if ids and not isinstance(ids, list):
             ids = [ids]
-        
+
         self.ids = ids
-       
+
         self.m2m = False
         self.concurrency_info = None
-        
+
         self.group_by_ctx = kw.get('group_by_ctx', [])
-        
+
         if not isinstance(self.group_by_ctx, list):
             self.group_by_ctx = [self.group_by_ctx]
-        
+
         fields = view['fields']
-        
+
         self.grp_records = []
         group_field = None
-        
+
         self.context.update(rpc.session.context.copy())
-        
+
         super(ListGroup, self).__init__(name=name, model=model, view=view, ids=self.ids, domain=self.domain, context=self.context, **params)
-        
+
         if self.group_by_ctx:
             gb = self.group_by_ctx[0]
             self.group_by_ctx = gb
-            
+
             new_hidden = ()
             for hidden in self.hiddens:
                 if gb == hidden[0]:
@@ -111,21 +111,21 @@ class ListGroup(List):
                     if header[0] == gb:
                         self.headers.pop(cnt)
                         self.headers.insert(0, head)
-                                       
-            self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []), 
+
+            self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
                                                 fields.keys(), gb, 0, False, self.context)
-            
+
         grp_ids = []
-        
+
         if self.grp_records:
             for rec in self.grp_records:
-                
+
                 if not rec.get(self.group_by_ctx):
                     rec[self.group_by_ctx] = ''
-                    
+
                 rec_dom =  rec.get('__domain')
                 dom = [('id', 'in', self.ids), rec_dom[0]]
-                
+
                 ch_ids = []
                 grp_ids = proxy.search(dom, self.offset, self.limit, 0, self.context)
                 for id in grp_ids:
@@ -134,4 +134,3 @@ class ListGroup(List):
                             ch_ids.append(d)
                 rec['child_rec'] = ch_ids
                 rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
-        

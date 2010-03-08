@@ -83,7 +83,7 @@ class Frame(TinyInputWidget):
 
         self.columns = int(attrs.get('col', 4))
         self.nolabel = True
-        
+
         self.x = 0
         self.y = 0
 
@@ -133,12 +133,12 @@ class Frame(TinyInputWidget):
             cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
 
             if cn < 1: cn = 1
-            
+
             for i, (a, wid) in enumerate(row):
 
                 if isinstance(wid, (basestring, Label, Image)):
                     w = sw
-                    
+
                 else:
                     c = a.get('colspan', 1)
                     if c > max_length:
@@ -148,19 +148,19 @@ class Frame(TinyInputWidget):
                         w = ww * c / cn
                     else:
                         w = 0
-                        
+
                 a['width'] = '%d%%' % (w)
 
     def add_row(self):
-        
+
         if len(self.table) and len(self.table[-1]) == 0:
             return self.table[-1]
-        
+
         self.table.append([])
 
         self.x = 0
         self.y += 1
-        
+
         return self.table[-1]
 
     def _add_validator(self, widget):
@@ -220,7 +220,7 @@ class Frame(TinyInputWidget):
             if not widget.visible:
                 attrs['style'] = 'display: none'
             widget.visible = True
-            
+
         valign = getattr(widget, "valign", None)
         if valign:
             attrs['valign'] = valign
@@ -252,14 +252,14 @@ class Notebook(TinyInputWidget):
 
     params = ['fake_widget']
     member_widgets = ['children']
-    
+
     valign = "top"
-    
+
     def __init__(self, **attrs):
         super(Notebook, self).__init__(**attrs)
         self.nolabel = True
         self.colspan = attrs.get('colspan', 3)
-        
+
         self.fake_widget = '_fake'
         if attrs.get('prefix'):
             self.fake_widge = attrs['prefix'] + '/_fake'
@@ -268,12 +268,12 @@ register_widget(Notebook, ["notebook"])
 
 
 class Page(Frame):
-    
+
     def __init__(self, **attrs):
         super(Page, self).__init__(**attrs)
         if self.invisible:
             self.attributes = "{'invisible': [1]}"
-            
+
 register_widget(Page, ["page"])
 
 
@@ -283,7 +283,7 @@ class Separator(TinyInputWidget):
 
     template = "templates/separator.mako"
     params = ["orientation"]
-    
+
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
 
@@ -336,7 +336,7 @@ class Label(TinyInputWidget):
 
     def set_value(self, value):
         self.field_value = unicode(value or '', 'utf-8')
-        
+
 register_widget(Label, ["label"])
 
 
@@ -346,10 +346,10 @@ class Char(TinyInputWidget):
     params = ['password', 'size']
 
     def __init__(self, **attrs):
-        
+
         if attrs.get('password'):
             attrs.pop('invisible', None)
-        
+
         super(Char, self).__init__(**attrs)
         self.validator = validators.String()
 
@@ -504,10 +504,10 @@ class Selection(TinyInputWidget):
 
     def update_params(self, d):
         super(Selection, self).update_params(d)
-        
+
         if self.search_context:
             d.setdefault('css_classes', []).append('selection_search')
-            
+
     def set_value(self, value):
 
         if isinstance(value, (tuple, list)):
@@ -517,18 +517,18 @@ class Selection(TinyInputWidget):
             value = None
 
         super(Selection, self).set_value(value)
-        
+
 register_widget(Selection, ["selection"])
-        
+
 
 class DTLink(JSLink):
-    
+
     def update_params(self, d):
         super(DTLink, self).update_params(d)
-        
+
         lang = get_locale()
         link = "calendar/lang/calendar-%s.js" % lang
-        
+
         if os.path.exists(tools.find_resource("openobject", "static", link)):
             d.link = tools.url(["/openobject/static", link])
         else:
@@ -540,11 +540,11 @@ class DTLink(JSLink):
 class DateTime(TinyInputWidget):
 
     template = "templates/datetime.mako"
-    
+
     javascript = [JSLink("openerp", "calendar/calendar.js"),
                   JSLink("openerp", "calendar/calendar-setup.js"),
                   DTLink("openerp", "calendar/lang/calendar-en.js")]
-                            
+
     css = [CSSLink("openerp", "calendar/skins/aqua/theme.css")]
 
     params = ["format", "picker_shows_time"]
@@ -593,14 +593,14 @@ class Hidden(TinyInputWidget):
         self.widget = get_widget(kind)(**attrs)
         self.validator = self.widget.validator
         self.relation = attrs.get('relation') or None
-        
+
         if 'field_id' not in attrs:
             self.field_id = self.name
-            
+
     def set_value(self, value):
         self.widget.set_value(value)
         self.default = self.widget.default
-        
+
 
 class Button(TinyInputWidget):
 
@@ -620,7 +620,7 @@ class Button(TinyInputWidget):
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
 
         self.nolabel = True
-        
+
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
@@ -630,20 +630,20 @@ class Button(TinyInputWidget):
 
 register_widget(Button, ["button"])
 
-        
+
 class Group(TinyInputWidget):
 
     template = "templates/group.mako"
 
     member_widgets = ["frame"]
     valign = "top"
-    
+
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
 
         self.frame = Frame(**attrs)
         self.nolabel = True
-        
+
 register_widget(Group, ["group"])
 
 
@@ -655,7 +655,7 @@ class Dashbar(TinyInputWidget):
     css = [CSSLink("openerp", 'css/dashboard.css')]
 
     member_widgets = ['children']
-    
+
 register_widget(Dashbar, ["dashbar"])
 
 
@@ -672,7 +672,7 @@ class HPaned(TinyInputWidget):
         </tr>
     </table>
     """
-    
+
     member_widgets = ['children']
 
     def __init__(self, **attrs):
@@ -695,7 +695,7 @@ class VPaned(TinyInputWidget):
         % endfor
     </table>
     """
-    
+
     member_widgets = ['children']
 
     def __init__(self, **attrs):
@@ -705,21 +705,21 @@ class VPaned(TinyInputWidget):
 register_widget(VPaned, ["vpaned"])
 
 class HtmlView(TinyWidget):
-    
+
     template = "templates/htmlview.mako"
-   
+
     params = ['tag_name', 'args']
     member_widgets = ['children', 'frame']
-    
+
     def __init__(self, **attrs):
         super(HtmlView, self).__init__(**attrs)
         self.tag_name = attrs.get('tag_name')
-        
+
         self.args = attrs.get('args', {})
-        
+
         if attrs.get('value'):
             self.default = attrs.get('value')
-                
+
 register_widget(HtmlView, ["html"])
 
 class Form(TinyInputWidget):
@@ -842,17 +842,17 @@ class Form(TinyInputWidget):
 
             elif node.localName=='label':
                 text = attrs.get('string', '')
-                
+
                 if not text:
                     for node in node.childNodes:
                         if node.nodeType == node.TEXT_NODE:
                             text += node.data
                         else:
                             text += node.toxml()
-                            
+
                 attrs['string'] = text
                 views += [Label(**attrs)]
-                
+
             elif node.localName=='newline':
                 views += [NewLine(**attrs)]
 
@@ -863,11 +863,11 @@ class Form(TinyInputWidget):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Frame(children=n, **attrs)]
 
-            elif node.localName == 'notebook':                
+            elif node.localName == 'notebook':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
                 self.nb_couter += 1
-                nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)                
+                nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)
                 views += [nb]
 
             elif node.localName == 'page':
@@ -925,23 +925,23 @@ class Form(TinyInputWidget):
                 wid = get_widget('action')(**attrs)
                 views += [wid]
                 cherrypy.request._terp_dashboard = True
-                
+
             else:
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 args = node_attributes(node)
                 attrs['args'] = args
-                attrs['tag_name'] = node.localName                
-                
+                attrs['tag_name'] = node.localName
+
                 if node.nodeType == node.TEXT_NODE:
                     if not node.nodeValue.strip():
                         continue
                     attrs['value'] = node.nodeValue
-                        
+
                 views += [HtmlView(children=n, **attrs)]
-                
+
 
         return views
-    
+
     def _make_field_widget(self, attrs, value=False):
 
         attrs['editable'] = self.editable
@@ -982,4 +982,3 @@ class Form(TinyInputWidget):
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

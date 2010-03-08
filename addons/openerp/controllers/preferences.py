@@ -33,7 +33,7 @@ from openobject.tools import expose, redirect
 
 
 class Preferences(Form):
-    
+
     _cp_path = "/pref"
 
     @expose(template="templates/preferences.mako")
@@ -75,4 +75,3 @@ class Preferences(Form):
         raise redirect('/pref/create')
 
 # vim: ts=4 sts=4 sw=4 si et
-

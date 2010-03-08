@@ -154,7 +154,7 @@ stock_items = {
 }
 
 def get_icon(name):
-    
+
     if name.startswith('STOCK_'):
         res = "images/stock/%s.png"%(stock_items.get(name, "stock"))
 
@@ -163,13 +163,12 @@ def get_icon(name):
 
     elif name.startswith('terp-'):
         res = "images/icons/%s.png"%(name.replace('terp-', '', 1))
-    
+
     else:
         name, ext = os.path.splitext(name)
         res = "images/%s%s" % (name, ext or '.png')
-    
+
     return "/openerp/static/%s" % res
-    
+
 
 # vim: ts=4 sts=4 sw=4 si et
-

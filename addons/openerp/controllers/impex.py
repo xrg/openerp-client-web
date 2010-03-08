@@ -40,7 +40,7 @@ from openobject.tools import expose, redirect
 
 
 def datas_read(ids, model, fields, context=None):
-    ctx = context.copy()    
+    ctx = context.copy()
     ctx.update(rpc.session.context)
     return rpc.RPCProxy(model).export_data(ids, fields, ctx)
 
@@ -110,7 +110,7 @@ def _fields_get_all(model, views):
     return fields
 
 class ImpEx(SecuredController):
-    
+
     _cp_path = "/impex"
 
     @expose(template="templates/exp.mako")
@@ -340,32 +340,32 @@ class ImpEx(SecuredController):
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
         result = datas_read(ids, params.model, fields, context=ctx)
-        
+
         if result.get('warning', False):
             common.warning(unicode(result.get('warning', False)), _('Export Error!'))
             return False
         result = result.get('datas',[])
-        
+
         if import_compat:
             params.fields2 = fields
 
         if export_as == 'xls':
-            try:            
+            try:
                 import xlwt
             except Exception, e:
-                  raise common.warning(_('Please Install xlwt Library.\nTo create spreadsheet files compatible with MS Excel.'), _('Import Error.')) 
-                   
+                  raise common.warning(_('Please Install xlwt Library.\nTo create spreadsheet files compatible with MS Excel.'), _('Import Error.'))
+
             ezxf = xlwt.easyxf
-          
+
             fp = StringIO.StringIO()
-          
+
             wb = xlwt.Workbook()
             worksheet = wb.add_sheet('Sheet 1')
-          
+
             for col in range(len(fields)):
                 worksheet.write(0, col, str(fields[col]))
                 col+1
-                
+
             heading_xf = ezxf('align: wrap yes')
 
             for data in range(len(result)):
@@ -376,13 +376,13 @@ class ImpEx(SecuredController):
                         pass
                     result[data][d] = re.sub("\r", " ", result[data][d])
                     worksheet.write(data+1, d, result[data][d], heading_xf)
-                    worksheet.col(d).width = 8000  
-                    d+1   
-            
-            wb.save(fp)            
+                    worksheet.col(d).width = 8000
+                    d+1
+
+            wb.save(fp)
 
             fp.seek(0)
-            data = fp.read()          
+            data = fp.read()
             return data
         else:
             return export_csv(params.fields2, result, add_names)
@@ -472,7 +472,7 @@ class ImpEx(SecuredController):
         #if csv_data['combo']:
         ctx = {}
         ctx.update(rpc.session.context.copy())
-        
+
         if not isinstance(fields, list):
             fields = [fields]
 
@@ -489,7 +489,7 @@ class ImpEx(SecuredController):
             for key,val in res[1].items():
                 d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
             error = _('Error trying to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
-            raise common.warning(unicode(error), _('Importation Error !'))   
+            raise common.warning(unicode(error), _('Importation Error !'))
 
         return self.imp(**kw)
 

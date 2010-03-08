@@ -76,7 +76,7 @@ class WikiParser(wikimarkup.Parser):
         #TODO : already implemented but we will implement it later after releasing the 5.0
         #text = self.addRss(text, id)
         return text
-    
+
     def viewRecordLink(self, text):
         def record(path):
             record = path.group().replace('view:','').split("|")
@@ -95,10 +95,10 @@ class WikiParser(wikimarkup.Parser):
                 except:
                     id = 0
             return "[[/form/view?model=%s&amp;id=%d | %s]]" % (model, id, label)
-        
-        bits = _view.sub(record, text) 
+
+        bits = _view.sub(record, text)
         return bits
-        
+
     def addRss(self, text, id):
         def addrss(path):
             rssurl = path.group().replace('rss:','')
@@ -225,6 +225,5 @@ class WikiWidget(Text):
             html = wiki2html(text, toc, id)
 
             self.data = html
-            
-register_widget(WikiWidget, ["text_wiki"])
 
+register_widget(WikiWidget, ["text_wiki"])

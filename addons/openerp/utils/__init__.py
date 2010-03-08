@@ -13,4 +13,3 @@ def _root_vars():
 register_template_vars(_root_vars, None)
 
 del register_template_vars
-

@@ -37,7 +37,7 @@ from openobject.tools import expose
 
 
 class List(SecuredController):
-    
+
     _cp_path = "/listgrid"
 
     @expose('json')
@@ -225,14 +225,14 @@ class List(SecuredController):
             error = ustr(e)
 
         return dict(error=error, result=result, reload=reload)
-    
+
     @expose('json')
     def sort_by_order(self, **kw):
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
         ctx = rpc.session.context.copy()
         try:
-            
+
             if params.sort_domain:
                 ids = proxy.search(params.sort_domain, 0,0, params.sort_order, ctx)
             else:
@@ -240,7 +240,7 @@ class List(SecuredController):
             return dict(ids = ids)
         except Exception , e:
             return dict(error = e.message)
-    
+
     @expose('json')
     def sort_by_drag(self, **kw):
         params, data = TinyDict.split(kw)
@@ -249,7 +249,7 @@ class List(SecuredController):
         proxy = rpc.RPCProxy(params.model)
         ctx = rpc.session.context.copy()
         swap_id = params.swap_id
-        
+
         res_id = proxy.read([id], ['sequence'], ctx)[0]
         id_seq = res_id['sequence']
         res_swap_id = proxy.read([swap_id], ['sequence'], ctx)[0]
@@ -270,14 +270,14 @@ class List(SecuredController):
                         proxy.write([r['id']], {'sequence': len(new_ids)}, ctx)
                     else:
                         proxy.write([r['id']], {'sequence': ids.index(r['id'])}, ctx)
-                        
+
             else:
                 for r in res:
                     if r['id'] == id:
                         proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
                     else:
                         proxy.write([r['id']], {'sequence': r['sequence'] -1}, ctx)
-        
+
         else:
             new_ids = []
             new_ids.append(id)
@@ -288,9 +288,9 @@ class List(SecuredController):
                     proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
                 else:
                     proxy.write([r['id']], {'sequence': ids.index(r['id'])+2}, ctx)
-        
+
         return dict()
-    
+
     @expose('json')
     def moveUp(self, **kw):
 
@@ -305,7 +305,7 @@ class List(SecuredController):
         ctx = rpc.session.context.copy()
 
         prev_id = ids[ids.index(id)-1]
-        
+
         try:
             res = proxy.read([id, prev_id], ['sequence'], ctx)
             records = dict([(r['id'], r['sequence']) for r in res])

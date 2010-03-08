@@ -42,7 +42,7 @@ def adapt_context(val):
         return val
 
 class Translator(SecuredController):
-    
+
     _cp_path = "/translator"
 
     @expose(template="templates/translator.mako")
@@ -163,4 +163,3 @@ class Translator(SecuredController):
         return self.index(translate=translate, _terp_model=params.model, _terp_id=params.id)
 
 # vim: ts=4 sts=4 sw=4 si et
-

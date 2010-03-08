@@ -76,4 +76,3 @@ class M2O(TinyInputWidget):
 register_widget(M2O, ["many2one"])
 
 # vim: ts=4 sts=4 sw=4 si et
-

@@ -38,7 +38,7 @@ from openobject.tools import expose, redirect, validate, error_handler
 
 
 class Wizard(SecuredController):
-    
+
     _cp_path = "/wizard"
 
     def execute(self, params):
@@ -78,7 +78,7 @@ class Wizard(SecuredController):
                 res['datas'] = {}
 
             if res['type']=='form':
-                
+
                 fields = res['fields']
                 form_values = {}
 
@@ -91,27 +91,27 @@ class Wizard(SecuredController):
                 datas['form'] = form_values
 
                 res['datas'].update(datas['form'])
-                
+
                 params.is_wizard = True
                 params.view_mode = ['form']
                 params.view_type = 'form'
                 params.views = {'form': res}
-                
+
                 # keep track of datas and some other required information
                 params.hidden_fields = [tw.form.Hidden(name='_terp_datas', default=ustr(datas)),
                                         tw.form.Hidden(name='_terp_state2', default=state),
                                         tw.form.Hidden(name='_terp_wiz_id', default=wiz_id)]
-                
+
                 form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
 
                 buttons = []
                 for x in res.get('state', []):
                     x = list(x)
                     x[1] = re.sub('_(?!_)', '', x[1]) # remove mnemonic
-                    
+
                     if len(x) >= 3:
                         x[2] = icons.get_icon(x[2])
-                        
+
                     buttons.append(tuple(x))
 
                 params.state = state
@@ -220,4 +220,3 @@ class Wizard(SecuredController):
         return self.create(params, tg_errors=tg_errors)
 
 # vim: ts=4 sts=4 sw=4 si et
-

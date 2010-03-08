@@ -68,7 +68,7 @@ class Binary(TinyInputWidget):
             self.text = value or ''
 
 register_widget(Binary, ["binary"])
-            
+
 
 class Image(TinyInputWidget):
 
@@ -100,7 +100,7 @@ class Image(TinyInputWidget):
             self.src =  icons.get_icon(icon)
 
 register_widget(Image, ["image"])
-            
+
 
 @cache.memoize(1000, force=True)
 def get_temp_file(**kw):
@@ -114,7 +114,7 @@ def generate_url_for_picture(model, name, id, value):
         type, data = value
     else:
         type, data = None, value
-        
+
     if data:
         if type == 'stock':
             stock, size = data
@@ -128,7 +128,7 @@ def generate_url_for_picture(model, name, id, value):
                 tmp.write(base64.decodestring(data))
             finally:
                 tmp.close()
-             
+
             url = tools.url("/image/get_picture", hash=hashkey)
     else:
         url = tools.url("/static/images/blank.gif")
@@ -146,29 +146,29 @@ class Picture(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Picture, self).__init__(**attrs)
-        
+
         height = attrs.get('img_height', attrs.get('height', None))
         self.height = height and 'height="%s"' % height or ''
         width = attrs.get('img_width', attrs.get('width', None))
         self.width = width and 'width="%s"' % width or ''
         self.validator = validators.Binary()
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(self.context or {})
         ctx['bin_size'] = False
-        
+
         proxy = rpc.RPCProxy(self.model)
-        
+
         if '/' in self.name:
             name = self.name.rsplit('/', 1)[-1]
         else:
             name = self.name
-        
+
         if not self.id:
             value = proxy.default_get([name], ctx)
         else:
             value = proxy.read([self.id], [name], ctx)[0]
-            
+
         value = value.get(name) or (None, None)
         self.url = generate_url_for_picture(self.model, name, self.id, value)
 
@@ -176,4 +176,3 @@ register_widget(Picture, ["picture"])
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

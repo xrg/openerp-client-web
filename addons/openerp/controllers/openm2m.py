@@ -35,7 +35,7 @@ from openobject.tools import expose, validate, error_handler, exception_handler
 
 
 class OpenM2M(Form):
-    
+
     _cp_path = "/openm2m"
 
     @expose(template="templates/openm2m.mako")
@@ -74,7 +74,7 @@ class OpenM2M(Form):
 
         current = params.chain_get(params.source or '')
         button = (params.button or False) and True
-        
+
         params.load_counter = 1
         if current and current.id and not button:
             params.load_counter = 2
@@ -85,7 +85,7 @@ class OpenM2M(Form):
             if res:
                 return res
 
-        
+
         if current:
             current.id = None
             if not params.id:
@@ -111,4 +111,3 @@ class OpenM2M(Form):
         params.editable = params.get('_terp_editable', True)
 
         return self.create(params)
-

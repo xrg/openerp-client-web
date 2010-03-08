@@ -70,11 +70,11 @@ class O2M(TinyInputWidget):
             grp_ctx = expr_eval(grp_ctx)
         except:
             pass
-        
+
         if grp_ctx:
             if grp_ctx.get('group_by'):
-                group_by_ctx = grp_ctx.get('group_by') 
-        
+                group_by_ctx = grp_ctx.get('group_by')
+
 #        self.colspan = 4
 #        self.nolabel = True
 
@@ -116,16 +116,16 @@ class O2M(TinyInputWidget):
 
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
-        
+
         ids = attrs.get('value') or []
         if not isinstance(ids, list):
             ids = [ids]
-            
+
         if ids and isinstance(ids[0], dict):
             ids = []
-            
+
         id = (ids or None) and ids[0]
-        
+
         if current and params.source and self.name in params.source.split('/'):
             id = current.id
 
@@ -159,12 +159,12 @@ class O2M(TinyInputWidget):
         current.offset = current.offset or 0
         current.limit = current.limit or 20
         current.count = len(ids or [])
-        
+
         # Group By for one2many list.
         if group_by_ctx:
             current.group_by_ctx = group_by_ctx
             current.domain = [('id', 'in', ids)]
-            
+
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
 
@@ -192,12 +192,11 @@ class O2M(TinyInputWidget):
 
         if not self.ids:
             return []
-        
+
         values = getattr(self.screen.widget, 'values', [])
-        
+
         return [(1, val.get('id', False), val) for val in values]
 
 register_widget(O2M, ["one2many", "one2many_form", "one2many_list"])
 
 # vim: ts=4 sts=4 sw=4 si et
-

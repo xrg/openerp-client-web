@@ -33,7 +33,7 @@ from openobject.tools import expose
 
 
 class View_Log(SecuredController):
-    
+
     _cp_path = "/viewlog"
 
     @expose(template="templates/view_log.mako")
@@ -72,4 +72,3 @@ class View_Log(SecuredController):
         return dict(tmp=tmp, todo=todo, message=message)
 
 # vim: ts=4 sts=4 sw=4 si et
-

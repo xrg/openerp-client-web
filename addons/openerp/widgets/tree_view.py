@@ -47,7 +47,7 @@ class ViewTree(Form):
     template = "templates/viewtree.mako"
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
-    
+
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
@@ -110,14 +110,14 @@ class ViewTree(Form):
                                       onheaderclick="onHeaderClick")
         self.id = id
         self.ids = ids
-        
+
         submenu = {}
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
 
         self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
-        
+
         # get the correct view title
         self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
 
@@ -136,4 +136,3 @@ class ViewTree(Form):
             self.headers += [field]
 
 # vim: ts=4 sts=4 sw=4 si et
-

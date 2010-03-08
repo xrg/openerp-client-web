@@ -39,7 +39,7 @@ from openobject.tools import expose
 class ResourcePopup(form.Form):
 
     _cp_path = "/process/resource"
-    
+
     @expose(template="templates/process_open.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
@@ -51,7 +51,7 @@ class ResourcePopup(form.Form):
         return dict(form=form, params=params)
 
 class Process(SecuredController):
-    
+
     _cp_path = "/process"
 
     resource = ResourcePopup()
@@ -151,4 +151,3 @@ class Process(SecuredController):
         return actions.execute_report("workflow.instance.graph", ids=[], id=int(id), model=model, nested=False)
 
 # vim: ts=4 sts=4 sw=4 si et
-

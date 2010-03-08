@@ -60,7 +60,7 @@ class DBForm(widgets.Form):
             self.validator = validators.Schema()
         for f in self.fields:
             self.validator.add_field(f.name, f.validator)
-            
+
     def update_params(self, d):
         super(DBForm, self).update_params(d)
         d.attrs['action'] = url(self.action)
@@ -128,7 +128,7 @@ _FORMS = {
 }
 
 class Database(BaseController):
-    
+
     _cp_path = "/database"
 
     @expose()

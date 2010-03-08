@@ -21,7 +21,7 @@ try:
     from hashlib import sha1 as sha
 except:
     from sha import new as sha
-    
+
 _UUID = sha('%s' % random.random()).hexdigest()
 
 
@@ -46,17 +46,17 @@ class Link(Resource):
     def __init__(self, modname, filename, location=locations.head, **kw):
         super(Link, self).__init__(modname=modname, location=location, **kw)
         self._filename = filename
-        
+
     def get_link(self):
-        
+
         link = "/%s/static/%s" % (self.modname, self.filename)
         if cherrypy.config.get('server.environment') == 'development':
             link = "%s?%s" % (link, _UUID)
         return tools.url(link)
-    
+
     def get_file(self):
         return self._filename
-    
+
     link = property(lambda self: self.get_link())
     filename = property(lambda self: self.get_file())
 
@@ -150,4 +150,3 @@ def register_resource_directory(config, modulename, directory):
         'tools.staticdir.on': True,
         'tools.staticdir.dir': directory
     }})
-

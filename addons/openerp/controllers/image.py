@@ -37,7 +37,7 @@ from openobject.tools import expose, redirect
 
 
 class Image(SecuredController):
-    
+
     _cp_path = "/image"
 
     @expose(template="templates/image.mako")
@@ -64,7 +64,7 @@ class Image(SecuredController):
             return base64.decodestring(res)
         else:
             return ''
-        
+
     @expose(content_type='application/octet')
     def get_picture(self, **kw):
         fname = get_temp_file(**kw)
