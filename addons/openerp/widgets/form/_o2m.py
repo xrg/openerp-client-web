@@ -62,18 +62,6 @@ class O2M(TinyInputWidget):
 
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
         self.default_get_ctx = attrs.get('default_get', {}) or attrs.get('context', {})
-
-        group_by_ctx = ''
-
-        grp_ctx = attrs.get('context', {})
-        try:
-            grp_ctx = expr_eval(grp_ctx)
-        except:
-            pass
-        
-        if grp_ctx:
-            if grp_ctx.get('group_by'):
-                group_by_ctx = grp_ctx.get('group_by') 
         
 #        self.colspan = 4
 #        self.nolabel = True
@@ -139,6 +127,8 @@ class O2M(TinyInputWidget):
         current.domain = current.domain or []
         current.context = current.context or {}
 
+        group_by_ctx = ''
+
         if self.default_get_ctx:
             ctx = cherrypy.request.terp_record
             ctx['current_date'] = time.strftime('%Y-%m-%d')
@@ -156,6 +146,9 @@ class O2M(TinyInputWidget):
             except:
                 pass
 
+            if ctx and ctx.get('group_by'):
+                group_by_ctx = ctx.get('group_by')
+                    
         current.offset = current.offset or 0
         current.limit = current.limit or 20
         current.count = len(ids or [])
