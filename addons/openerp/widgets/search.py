@@ -199,10 +199,14 @@ class Search(TinyInputWidget):
 
             if node.localName in ('form', 'tree', 'notebook', 'page', 'search',
                                   'group'):
-                views.append(Frame(children=
-                                   self.parse(model=search_model, root=node,
-                                              fields=fields, values=values),
-                                   **attrs))
+                if node.localName == 'group':
+                    Element = Group
+                else:
+                    Element = Frame
+                views.append(Element(children=
+                                     self.parse(model=search_model, root=node,
+                                                fields=fields, values=values),
+                                     **attrs))
 
             elif node.localName=='newline':
                 views.append(NewLine(**attrs))
