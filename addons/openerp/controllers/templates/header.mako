@@ -75,7 +75,7 @@ except:
 			        </td>
 			        % endif
 			        <td nowrap="nowrap">
-			        	<a target='appFrame' href="${py.url('/')}">
+			        	<a target='appFrame' href="javascript: void(0)">
 			            	<img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0" width="16px" height="16px"/>
 			            </a>
 			        </td>
