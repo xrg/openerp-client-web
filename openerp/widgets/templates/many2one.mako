@@ -53,7 +53,7 @@
 % if not editable and link:
     % if link=='1':
         <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation, link=link)}>
-            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
+            <a href="${py.url('/form/view', model=relation, id=value, context=ctx, domain=domain)}">${text}</a>
         </span>
     % endif
     % if link=='0':

@@ -436,7 +436,7 @@ class M2O(Char):
         m2o_link = int(self.attrs.get('link', 1))
         
         if m2o_link == 1:
-            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0], context=self.context)
         else:
             return None
 
