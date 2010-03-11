@@ -48,36 +48,39 @@ ManyToOne.prototype.__init__ = function(name){
     this.name = name;
 
     this.field = $(name);
-    this.text = $(name + '_text');
-
-    this.select_img = $(name + '_select');    
-    this.open_img = $(name + '_open');
-    
-    this.reference = $(name + '_reference'); // reference widget
-
-    this.callback = getNodeAttribute(this.field, 'callback');
     this.relation = getNodeAttribute(this.field, 'relation');
-    this.field_class = getNodeAttribute(this.field, 'class');
-
-    connect(this.field, 'onchange', this, this.on_change);
-    //connect(this.text, 'onchange', this, this.on_change_text);
-    connect(this.text, 'onkeydown', this, this.on_keydown);
-    connect(this.text, 'onkeypress', this, this.on_keypress);
-
-    if (this.select_img)
-        connect(this.select_img, 'onclick', this, this.select);
-    if (this.open_img)
-        connect(this.open_img, 'onclick', this, this.open_record);
-    
-    if (this.reference) {
-        connect(this.reference, 'onchange', this, this.on_reference_changed);
+    this.editable = getElement('_terp_editable').value
+    if (this.editable == 'True'){
+	    this.text = $(name + '_text');
+	
+	    this.select_img = $(name + '_select');    
+	    this.open_img = $(name + '_open');
+	    
+	    this.reference = $(name + '_reference'); // reference widget
+	
+	    this.callback = getNodeAttribute(this.field, 'callback');    
+	    this.field_class = getNodeAttribute(this.field, 'class');
+	
+	    connect(this.field, 'onchange', this, this.on_change);
+	    //connect(this.text, 'onchange', this, this.on_change_text);
+	    connect(this.text, 'onkeydown', this, this.on_keydown);
+	    connect(this.text, 'onkeypress', this, this.on_keypress);
+	
+	    if (this.select_img)
+	        connect(this.select_img, 'onclick', this, this.select);
+	    if (this.open_img)
+	        connect(this.open_img, 'onclick', this, this.open_record);
+	    
+	    if (this.reference) {
+	        connect(this.reference, 'onchange', this, this.on_reference_changed);
+	    }
+	    
+	    this.is_inline = name.indexOf('_terp_listfields/') == 0;
+	
+	    this.field._m2o = this;
+	
+	    this.change_icon();
     }
-    
-    this.is_inline = name.indexOf('_terp_listfields/') == 0;
-
-    this.field._m2o = this;
-
-    this.change_icon();
 }
 
 ManyToOne.prototype.select = function(evt){
@@ -92,6 +95,7 @@ ManyToOne.prototype.select = function(evt){
 
 ManyToOne.prototype.open_record = function(evt){
 	var link = getNodeAttribute(this.field, 'link');
+	this.field.value = this.field.value || getNodeAttribute(this.field, 'value');
 	if(!(link==0)){
 		if (this.field.value) {
 			this.open(this.field.value);
@@ -110,12 +114,14 @@ ManyToOne.prototype.open = function(id){
 
     var model = this.relation;
     var source = this.name;
-    var editable = 'True';
+    var editable = this.editable || 'True';
     
-    // To open popup form in readonly mode.
-    if (this.field_class.indexOf('readonlyfield') != -1) {
-        var editable = 'False';
-    }
+    if (editable ==  'True'){
+	    // To open popup form in readonly mode.
+	    if (this.field_class.indexOf('readonlyfield') != -1) {
+	        var editable = 'False';
+	    }
+	}
 
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
