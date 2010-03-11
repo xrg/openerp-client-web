@@ -113,8 +113,7 @@ def get_size(sz):
         return False
     
     units = ('bytes', 'Kb', 'Mb', 'Gb')
-    if isinstance(sz,basestring):
-        sz=len(sz)
+
     s, i = float(sz), 0
     while s >= 1024 and i < len(units)-1:
         s = s / 1024
