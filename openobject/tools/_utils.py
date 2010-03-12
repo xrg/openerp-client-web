@@ -8,12 +8,11 @@ from mako.filters import html_escape
 __all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated"]
 
 
-def url(_cppath, _cpparams=None, _cpquote=False, **kw):
+def url(_cppath, _cpparams=None, **kw):
     """
     Returns absolute url for the given _cppath, _cpparams and kw.
     
     If _cppath is a list, path will be created joining them with '/'.
-    If _cpquote if True, url_quote the params/kw
     If _cpparams is given it should be a map or list of tuples to create a map.
     
     query string will be created from _cpparams and **kw.
@@ -35,7 +34,7 @@ def url(_cppath, _cpparams=None, _cpquote=False, **kw):
     
     kv = []
     for k, v in params.iteritems():
-        if _cpquote and isinstance(k, basestring) and isinstance(v, basestring):
+        if isinstance(k, basestring) and isinstance(v, basestring):
             k = urllib.quote_plus(k)
             v = urllib.quote_plus(v)
         kv.append("%s=%s" % (k, v))
@@ -55,7 +54,7 @@ def url(_cppath, _cpparams=None, _cpquote=False, **kw):
 
 
 def url_plus(_cppath, _cpparams=None, **kw):
-    return url(_cppath, _cpparams, True, **kw)
+    return url(_cppath, _cpparams, **kw)
 
 
 def redirect(_cppath, _cpparams=None, **kw):
