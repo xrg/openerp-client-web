@@ -895,18 +895,18 @@ class Form(SecuredController):
             id = ids[0]
         
         domain = params.domain or []
-        context = params.context or {}
-        
-        act_id = params.action
+        context = params.get('context', {}).copy()
+        context.update(rpc.session.context.copy())
+        context.update({'active_id': id, 'active_ids': ids})
         
         if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the sidebar button!'))
         
-        if not act_id:
+        if not params.action:
             return self.do_action('client_action_multi', datas=kw)
         
-        action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
-        action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
+        action_type = rpc.RPCProxy('ir.actions.actions').read(params.action, ['type'], context)['type']
+        action = rpc.session.execute('object', 'execute', action_type, 'read', params.action, False, context)
         
         action['domain'] = domain or []
         action['context'] = context or {}

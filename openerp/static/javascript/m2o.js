@@ -49,7 +49,7 @@ ManyToOne.prototype.__init__ = function(name){
 
     this.field = $(name);
     this.relation = getNodeAttribute(this.field, 'relation');
-    this.editable = getElement('_terp_editable').value
+    this.editable = getElement('_terp_editable') ? getElement('_terp_editable').value : 'True';
     if (this.editable == 'True'){
 	    this.text = $(name + '_text');
 	
