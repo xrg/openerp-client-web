@@ -897,7 +897,7 @@ class Form(SecuredController):
         domain = params.domain or []
         context = params.get('context', {}).copy()
         context.update(rpc.session.context.copy())
-        context.update({'active_id': id, 'active_ids': ids})
+        context.update({'active_id':  rpc.session.active_id, 'active_ids': [rpc.session.active_id]})
         
         if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the sidebar button!'))
