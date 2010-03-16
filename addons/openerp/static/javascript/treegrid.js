@@ -26,10 +26,14 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
+var KEY_ARROW_LEFT = 37;
+var KEY_ARROW_RIGHT = 39;
+var KEY_ARROW_UP = 38;
+var KEY_ARROW_DOWN = 40;
 
 var TreeGrid = function(elem, options){
     this.__init__(elem, options);
-}
+};
 
 TreeGrid.prototype = {
     
@@ -445,51 +449,37 @@ TreeNode.prototype = {
 
             }
             
-            if (i > 0) {
-                
-                if (header.type == 'url') {
+            if (0 < i) {
+                switch (header.type) {
+                    case 'url':
+                    case 'email':
+                        var link = openobject.dom.select('a', td)[0];
+                        MochiKit.DOM.setNodeAttribute(link, 'href', value);
+                        MochiKit.DOM.setNodeAttribute(link, 'target', record.target || '_blank');
 
-                    var a = openobject.dom.select('a', td)[0];
-                    
-                    MochiKit.DOM.setNodeAttribute(a, 'href', value);
-                    MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
-                    
-                    a.innerHTML = MochiKit.DOM.escapeHTML(value);    
-                }
-                
-                if (header.type == 'email') {
-                    
-                    var a = openobject.dom.select('a', td)[0];
-                    
-                    MochiKit.DOM.setNodeAttribute(a, 'href', 'mailto:' + value);
-                    MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
-                    
-                    a.innerHTML = MochiKit.DOM.escapeHTML(value);    
-                }
-                
-                if (header.type == 'image') {
-                    var i = openobject.dom.select('img', td)[0];
-                    MochiKit.DOM.setNodeAttribute(a, 'src', value);
-                }
-                
-                if (header.type == 'button') {
-                    var b = openobject.dom.select('button', td)[0];
-                    a.innerHTML = MochiKit.DOM.escapeHTML(value);
+                        link.innerHTML = MochiKit.DOM.escapeHTML(value);
+                        break;
+                    case 'image':
+                        var image = openobject.dom.select('img', td)[0];
+                        MochiKit.DOM.setNodeAttribute(image, 'src', value);
+                        break;
+                    case 'button':
+                        var b = openobject.dom.select('button', td)[0];
+                        b.innerHTML = MochiKit.DOM.escapeHTML(value);
+                        break;
+                    default:
+                        throw "Unknown header type " + header.type;
                 }
             }
         }
         
         return this.element;
     },    
-    
+
     onKeyDown : function(evt) {
-        
-        var key = evt.event().keyCode;
-        
-        switch (key) {
-            
-            case 37: //"KEY_ARROW_LEFT":
-            
+        var visible_nodes;
+        switch (evt.event().keyCode) {            
+            case KEY_ARROW_LEFT:
                 if (this.expanded) {
                     this.collapse();
                 } else if (this.parentNode.element){
@@ -497,42 +487,35 @@ TreeNode.prototype = {
                 }
                 return evt.stop();
                 
-            case 39: //"KEY_ARROW_RIGHT":
-            
+            case KEY_ARROW_RIGHT:              
                 if (!this.expanded) {
                     this.expand();
                 } else if (this.firstChild) {
                     this.firstChild.onSelect(evt);
                 }
                 return evt.stop();
-                
-            case 38: //"KEY_ARROW_UP":
-                
-                var visible_nodes = this.tree.rootNode.getAllChildren();
-                
+
+            case KEY_ARROW_UP:
                 visible_nodes = MochiKit.Base.filter(function(node){
-                    return node.element && node.element.style.display != "none";
-                }, visible_nodes);
-                
+                    return node.element && "none" != node.element.style.display;
+                }, this.tree.rootNode.getAllChildren());
+
                 visible_nodes = visible_nodes.slice(0, MochiKit.Base.findIdentical(visible_nodes, this));
-                
-                if (visible_nodes.length > 0){
-                    visible_nodes[visible_nodes.length-1].onSelect(evt);
+
+                if (visible_nodes.length > 0) {
+                    visible_nodes[visible_nodes.length - 1].onSelect(evt);
                 }
 
                 return evt.stop();
             
-            case 40: //"KEY_ARROW_DOWN":
-                
-                var visible_nodes = this.tree.rootNode.getAllChildren();
-                
+            case KEY_ARROW_DOWN:
                 visible_nodes = MochiKit.Base.filter(function(node){
-                    return node.element && node.element.style.display != "none";
-                }, visible_nodes);
+                    return node.element && "none" != node.element.style.display;
+                }, this.tree.rootNode.getAllChildren());
                 
                 visible_nodes = visible_nodes.slice(MochiKit.Base.findIdentical(visible_nodes, this)+1);
-                
-                if (visible_nodes.length > 0){
+
+                if (visible_nodes.length > 0) {
                     visible_nodes[0].onSelect(evt);
                 }
             
