@@ -26,10 +26,14 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
+var KEY_ARROW_LEFT = 37;
+var KEY_ARROW_RIGHT = 39;
+var KEY_ARROW_UP = 38;
+var KEY_ARROW_DOWN = 40;
 
 var TreeGrid = function(elem, options){
     this.__init__(elem, options);
-}
+};
 
 TreeGrid.prototype = {
     
@@ -40,9 +44,9 @@ TreeGrid.prototype = {
         this.options = MochiKit.Base.update({
             'showheaders': true,
             'expandall' : false,
-            'onselect' : function(evt, node){},
-            'onbuttonclick' : function(evt, node){},
-            'onheaderclick' : function(evt, header){},
+            'onselect' : function(){},
+            'onbuttonclick' : function(){},
+            'onheaderclick' : function(){},
             'linktarget': null
         }, options || {});
         
@@ -76,11 +80,11 @@ TreeGrid.prototype = {
                self.headers = obj.headers;
            });
            
-           req.addBoth(function(obj){
+           req.addBoth(function(){
                self._ajax_counter -= 1;
            });
            
-        };
+        }
     },
     
     setRecords : function(records/*, params */) {
@@ -113,7 +117,7 @@ TreeGrid.prototype = {
                 self._ajax_counter -= 1;
             });
            
-        };
+        }
         
     },
     
@@ -178,7 +182,7 @@ TreeGrid.prototype = {
     
     _makeBody : function() {
         this.rootNode = this.createNode({children: this.records});
-        this.rootNode.expand(this.options.expandall ? true : false);
+        this.rootNode.expand(this.options.expandall);
     },
     
     _onHeaderClick : function(header) {
@@ -207,16 +211,15 @@ TreeGrid.prototype = {
         
         return tree;
     }
-}
+};
 
 var TreeNode = function(tree, record) {
     this.__init__(tree, record);
-}
+};
 
 TreeNode.prototype = {
 
     __init__ : function(tree, record) {
-        
         this.tree = tree;
         this.record = record; 
         
@@ -297,100 +300,105 @@ TreeNode.prototype = {
     },
     
     createDOM : function() {
-
         this.element = MochiKit.DOM.TR({'class' : 'row'});
         this.element.style.display = this.parentNode ? (this.parentNode.expanded ? "" : "none") : "";
         
         var record = this.record;
         var indent = this.getPath().length - 1;
 
-        for (var i in this.tree.headers){
-            
+        var len = this.tree.headers.length;
+        for (var i=0; i<len; ++i) {            
             var header = this.tree.headers[i];
             
             var key = header.name;
             var value = this.record.items[key];
             
             var td = MochiKit.DOM.TD({'class': header.type || null, 'width' : header.width || null});
-            
             if (i == 0) { // first column
-    
-                var tds = [];
-    
-                for(var i = 0; i < indent; i++){
-                    tds.push(SPAN({'class' : 'indent'}));
+
+                var row = [];
+
+                for (var j = 0; j < indent; j++) {
+                    row.push(SPAN({'class' : 'indent'}));
                 }
-                
+
                 var arrow = SPAN({'class': this.hasChildren ? 'expand' : 'indent'});
                 this.element_b = arrow;
 
-                arrow.onclick = MochiKit.Base.bind(function(){
+                arrow.onclick = MochiKit.Base.bind(function() {
                     this.toggle();
                 }, this);
-                    
-                tds.push(arrow);
-                
+
+                row.push(arrow);
+
                 if (record.icon) {
                     this.element_i = IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16});
-                    tds.push(this.element_i);
+                    row.push(this.element_i);
                 }
-    
-                value = A({'href': 'javascript: void(0)'}, value);
+
+                value = A({'href': '#'}, value);
                 this.element_a = value;
-                
+
                 this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
-    
                 if (record.action) {
                     MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
-                    value.onclick = MochiKit.Base.bind(function(){
-                        MochiKit.Signal.signal(this.tree, "onaction", this);
-                    }, this);
-                    
+                    MochiKit.Signal.connect(value, 'onclick', function (e) {
+                        MochiKit.Signal.signal(e.src().tree, "onaction", e.src());
+                        var frame = $('appFrame');
+                        if(frame.contentWindow) {
+                            frame.contentWindow.location.replace(record.action);
+                        } else if(frame.contentDocument) {
+                            frame.contentDocument.location.replace(record.action);
+                        } else {
+                            // just in case there's still a browser needing DOM0 frames
+                            window.frames[0].location.replace(record.action);
+                        }
+                        e.stop();
+                    });
                 } else {
-                    
-                    value.onclick = MochiKit.Base.bind(function(){
-                        this.toggle();
-                        return false;
-                    }, this);
+                    MochiKit.Signal.connect(value, "onclick", function (e) {
+                        e.src().toggle();
+                        e.stop();
+                    });
                 }
-    
+
                 if (record.target) {
                     MochiKit.DOM.setNodeAttribute(value, 'target', record.target);
                 } else if (this.tree.options.linktarget) {
                     MochiKit.DOM.setNodeAttribute(value, 'target', this.tree.options.linktarget);
                 }
-                
-                if(record.required) {
+
+                if (record.required) {
                     MochiKit.DOM.setNodeAttribute(value, 'class', 'requiredfield');
                 }
-    
-                tds.push(value);
-                tds = map(function(x){return TD(null, x)}, tds);
-    
-                value = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, 
-                           TBODY(null, TR(null, tds)));
-            }
-            
-            if (i > 0) {
-                
-                if (header.type == 'url' && value) {
-                    value = MochiKit.DOM.A({href: record.action || value, target: record.target || '_blank'}, value);    
+
+                row.push(value);
+                var td_row = map(function(x) {
+                    return TD(null, x)
+                }, row);
+
+                value = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0},
+                        TBODY(null, TR(null, td_row)));
+            } else if (i > 0 && value) {
+                switch (header.type) {
+                    case 'url':
+                        value = MochiKit.DOM.A({href: record.action || value, target: record.target || '_blank'}, value);
+                        break;
+                    case 'email':
+                        value = MochiKit.DOM.A({href: 'mailto:' + (record.action || value), target: record.target || '_blank'}, value);
+                        break;
+                    case 'image':
+                        value = MochiKit.DOM.IMG({name: header.name, src: value, style: 'cursor: pointer'});
+                        value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                        break;
+                    case 'button':
+                        value = MochiKit.DOM.BUTTON({name: header.name, style: 'cursor: pointer'}, value);
+                        value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                        break;
+                    default:
+                        throw 'Unknown header type ' + header.type;
                 }
-                
-                if (header.type == 'email' && value) {
-                    value = MochiKit.DOM.A({href: 'mailto:' + (record.action || value), target: record.target || '_blank'}, value);    
-                }
-                
-                if (header.type == 'image' && value) {
-                    value = MochiKit.DOM.IMG({name: header.name, src: value, style: 'cursor: pointer'});
-                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
-                }
-                
-                if (header.type == 'button' && value) {
-                    value = MochiKit.DOM.BUTTON({name: header.name, style: 'cursor: pointer'}, value);
-                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
-                }
-                
+
             }
 
             MochiKit.DOM.appendChildNodes(td, value);
@@ -400,7 +408,7 @@ TreeNode.prototype = {
         // register OnClick, OnDblClick event
         this.eventOnClick = MochiKit.Signal.connect(this.element, 'onclick', this, this.onSelect);
         this.eventOnDblClick = MochiKit.Signal.connect(this.element, 'ondblclick', this, this.toggle);
-        
+
         return this.element;
     },
     
@@ -442,50 +450,36 @@ TreeNode.prototype = {
             }
             
             if (i > 0) {
-                
-                if (header.type == 'url') {
+                switch (header.type) {
+                    case 'url':
+                    case 'email':
+                        var link = openobject.dom.select('a', td)[0];
+                        MochiKit.DOM.setNodeAttribute(link, 'href', value);
+                        MochiKit.DOM.setNodeAttribute(link, 'target', record.target || '_blank');
 
-                    var a = openobject.dom.select('a', td)[0];
-                    
-                    MochiKit.DOM.setNodeAttribute(a, 'href', value);
-                    MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
-                    
-                    a.innerHTML = MochiKit.DOM.escapeHTML(value);    
-                }
-                
-                if (header.type == 'email') {
-                    
-                    var a = openobject.dom.select('a', td)[0];
-                    
-                    MochiKit.DOM.setNodeAttribute(a, 'href', 'mailto:' + value);
-                    MochiKit.DOM.setNodeAttribute(a, 'target', record.target || '_blank');
-                    
-                    a.innerHTML = MochiKit.DOM.escapeHTML(value);    
-                }
-                
-                if (header.type == 'image') {
-                    var i = openobject.dom.select('img', td)[0];
-                    MochiKit.DOM.setNodeAttribute(a, 'src', value);
-                }
-                
-                if (header.type == 'button') {
-                    var b = openobject.dom.select('button', td)[0];
-                    a.innerHTML = MochiKit.DOM.escapeHTML(value);
+                        link.innerHTML = MochiKit.DOM.escapeHTML(value);
+                        break;
+                    case 'image':
+                        var image = openobject.dom.select('img', td)[0];
+                        MochiKit.DOM.setNodeAttribute(image, 'src', value);
+                        break;
+                    case 'button':
+                        var b = openobject.dom.select('button', td)[0];
+                        b.innerHTML = MochiKit.DOM.escapeHTML(value);
+                        break;
+                    default:
+                        throw "Unknown header type " + header.type;
                 }
             }
         }
         
         return this.element;
     },    
-    
+
     onKeyDown : function(evt) {
-        
-        var key = evt.event().keyCode;
-        
-        switch (key) {
-            
-            case 37: //"KEY_ARROW_LEFT":
-            
+        var visible_nodes;
+        switch (evt.event().keyCode) {            
+            case KEY_ARROW_LEFT:
                 if (this.expanded) {
                     this.collapse();
                 } else if (this.parentNode.element){
@@ -493,42 +487,35 @@ TreeNode.prototype = {
                 }
                 return evt.stop();
                 
-            case 39: //"KEY_ARROW_RIGHT":
-            
+            case KEY_ARROW_RIGHT:              
                 if (!this.expanded) {
                     this.expand();
                 } else if (this.firstChild) {
                     this.firstChild.onSelect(evt);
                 }
                 return evt.stop();
-                
-            case 38: //"KEY_ARROW_UP":
-                
-                var visible_nodes = this.tree.rootNode.getAllChildren();
-                
+
+            case KEY_ARROW_UP:
                 visible_nodes = MochiKit.Base.filter(function(node){
-                    return node.element && node.element.style.display != "none";
-                }, visible_nodes);
-                
+                    return node.element && "none" != node.element.style.display;
+                }, this.tree.rootNode.getAllChildren());
+
                 visible_nodes = visible_nodes.slice(0, MochiKit.Base.findIdentical(visible_nodes, this));
-                
-                if (visible_nodes.length > 0){
-                    visible_nodes[visible_nodes.length-1].onSelect(evt);
+
+                if (visible_nodes.length > 0) {
+                    visible_nodes[visible_nodes.length - 1].onSelect(evt);
                 }
 
                 return evt.stop();
             
-            case 40: //"KEY_ARROW_DOWN":
-                
-                var visible_nodes = this.tree.rootNode.getAllChildren();
-                
+            case KEY_ARROW_DOWN:
                 visible_nodes = MochiKit.Base.filter(function(node){
-                    return node.element && node.element.style.display != "none";
-                }, visible_nodes);
+                    return node.element && "none" != node.element.style.display;
+                }, this.tree.rootNode.getAllChildren());
                 
                 visible_nodes = visible_nodes.slice(MochiKit.Base.findIdentical(visible_nodes, this)+1);
-                
-                if (visible_nodes.length > 0){
+
+                if (visible_nodes.length > 0) {
                     visible_nodes[0].onSelect(evt);
                 }
             
@@ -541,7 +528,7 @@ TreeNode.prototype = {
     },
     
     onSelect : function(evt) {
-        
+
         if (this.tree._ajax_counter > 0) {
             return;
         }
@@ -627,11 +614,11 @@ TreeNode.prototype = {
     
     toggle : function() {
         
-        if (this._ajax_counter)
+        if (this._ajax_counter) {
             return false;
+        }
 
-        if (this.expanded) {
-            
+        if (this.expanded) {              
             this.collapse();
         } else {
             
@@ -654,7 +641,7 @@ TreeNode.prototype = {
                 self.appendChild(self.tree.createNode(record));
             });
             
-            if (!expandall) return;
+            if (!expandall) { return; }
             
             forEach(self.childNodes, function(child){
                 child.expand(expandall);
@@ -671,7 +658,7 @@ TreeNode.prototype = {
             MochiKit.Base.update(params, this.tree.ajax_params || {});
             MochiKit.Base.update(params, this.record.params || {});
             
-            params['ids'] = this.record.children.join(',')
+            params['ids'] = this.record.children.join(',');
 
             var req = openobject.http.postJSON(this.tree.ajax_url, params);
             self.tree._ajax_counter += 1;
@@ -768,72 +755,71 @@ TreeNode.prototype = {
     },
     
     insertBefore : function(newChild, refChild) {
-        
+
         if (!this.expanded && this.hasChildren && this.childNodes.length == 0) {
             throw ('Child Nodes are not loaded yet.');
         }
 
         // calculate the row index
         var table = this.tree.tbody;
-        var index = -1;
-        
+
         var n = refChild || this.nextSibling;
         var p = this.parentNode;
-        
-        while(!n && p) {
+
+        while (!n && p) {
             n = p.nextSibling;
             p = p.parentNode;
         }
-        
-        index = n ? MochiKit.Base.findIdentical(table.rows, n.element) : -1;
+
+        var index = n ? MochiKit.Base.findIdentical(table.rows, n.element) : -1;
 
         var prev = refChild ? refChild.previousSibling : this.lastChild;
         var next = refChild;
-        
-        if (prev) { 
+
+        if (prev) {
             prev.nextSibling = newChild;
         }
-        
+
         if (next) {
             next.previousSibling = newChild;
         }
-        
+
         newChild.parentNode = this;
         newChild.nextSibling = next;
         newChild.previousSibling = prev;
-        
+
         if (next) {
-           this.childNodes.splice(MochiKit.Base.findIdentical(this.childNodes, next), 0, newChild);
+            this.childNodes.splice(MochiKit.Base.findIdentical(this.childNodes, next), 0, newChild);
         } else {
-           this.childNodes = this.childNodes.concat(newChild);
+            this.childNodes = this.childNodes.concat(newChild);
         }
-        
+
         this.firstChild = this.childNodes[0];
-        this.lastChild = this.childNodes[this.childNodes.length-1];
-        
+        this.lastChild = this.childNodes[this.childNodes.length - 1];
+
         var row = table.insertRow(index);
-        
+
         var idx = index == -1 ? -1 : index + 1;
-        
+
         // ie6 hack
         table.insertRow(idx);
-        
+
         row = MochiKit.DOM.swapDOM(row, newChild.createDOM());
-        
+
         // ie6 hack
         table.deleteRow(idx);
-        
+
         if (!this.hasChildren) {
             this.hasChildren = true;
             this.element_b.className = 'expand';
         }
-        
+
         return newChild;
     },
     
     removeChild : function(refChild) {
         refChild.__delete__();
     }
-}
+};
 
 // vim: sts=4 st=4 et

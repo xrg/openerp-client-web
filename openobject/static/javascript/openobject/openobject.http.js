@@ -70,13 +70,8 @@ openobject.http = {
 
         var req = MochiKit.Async.getXMLHttpRequest();
         req.open("POST", this.getURL(uri), true);
-        
-        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        req.setRequestHeader("Connection", "close");
 
-        if (qs) {
-           req.setRequestHeader("Content-length", qs.length);
-        }
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         
         req = MochiKit.Async.sendXMLHttpRequest(req, qs);
         
@@ -136,7 +131,7 @@ openobject.http = {
         
         if (begin == -1) {
             begin = dc.indexOf(prefix);
-            if (begin != 0) return null;
+            if (begin != 0) { return null; }
         } else {
             begin += 2;
         }
@@ -161,7 +156,7 @@ openobject.http = {
                 "; expires=Thu, 01-Jan-70 00:00:01 GMT";
         }    
     }
-}
+};
 
 // vim: ts=4 sts=4 sw=4 si et
 

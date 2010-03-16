@@ -35,9 +35,9 @@
         <td class="sidebox-title">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <td width="8" class="sidebox-title-l"/>
+                    <td width="8" class="sidebox-title-l"></td>
                     <td class="sidebox-title-m">${title}</td>
-                    <td width="35" valign="top" class="sidebox-title-r"/>
+                    <td width="35" valign="top" class="sidebox-title-r"></td>
                 </tr>
             </table>
         </td>
@@ -81,7 +81,7 @@
         </td>
 
         <td id="sidebar_hide" valign="top">
-           <img src="/openerp/static/images/sidebar_show.gif"
+           <img src="/openerp/static/images/sidebar_show.gif" alt="toggle sidebar"
            border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
         </td>
     </tr>

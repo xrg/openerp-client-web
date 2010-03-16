@@ -13,7 +13,7 @@
 	                	<option value="${operator}">${description}</option>
 	                % endfor
 	            </select>
-	            <input type="text" class='qstring' id="qstring"></input>
+	            <input type="text" class='qstring' id="qstring"/>
 	    	</td>
 	    	
 	    	<td class="and_or" id="and_or"></td>

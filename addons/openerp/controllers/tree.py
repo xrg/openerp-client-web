@@ -33,6 +33,7 @@ This module implementes heirarchical tree view for a tiny model having
 """
 import time
 
+import actions
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, cache, icons, common, TinyDict
 from openerp.widgets import tree_view
@@ -44,7 +45,7 @@ DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class Tree(SecuredController):
-
+    
     _cp_path = "/tree"
 
     @expose(template="templates/tree.mako")
@@ -66,9 +67,9 @@ class Tree(SecuredController):
 
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
         if tree.toolbar:
-
+            
             proxy = rpc.RPCProxy(model)
-
+            
             for tool in tree.toolbar:
                 if tool.get('icon'):
                     tool['icon'] = icons.get_icon(tool['icon'])
@@ -77,7 +78,7 @@ class Tree(SecuredController):
                 id = tool['id']
                 ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
                 tool['ids'] = ids
-
+                
         return dict(tree=tree, model=model)
 
     @expose()
@@ -100,7 +101,7 @@ class Tree(SecuredController):
     def sort_callback(self, item1, item2, field, sort_order="asc", type=None):
         a = item1[field]
         b = item2[field]
-
+        
         if type == 'many2one' and isinstance(a, (tuple, list)):
             a = a[1]
             b = b[1]
@@ -115,12 +116,12 @@ class Tree(SecuredController):
 
         ids = ids or []
 
-        if isinstance(ids, basestring):
+        if isinstance(ids, basestring):           
             ids = [int(id) for id in ids.split(',')]
-
+            
         if isinstance(ids, list):
             ids = [int(id) for id in ids]
-
+        
         if isinstance(fields, basestring):
             fields = eval(fields)
 
@@ -154,7 +155,7 @@ class Tree(SecuredController):
                 for x in result:
                     if x[field]:
                         x[field] = '%s'%(x[field])
-
+            
             if fields_info[field]['type'] in ('float'):
                 for x in result:
                     if x[field]:
@@ -214,7 +215,7 @@ class Tree(SecuredController):
             record['items'] = item
 
             records += [record]
-
+            
         return dict(records=records)
 
     def do_action(self, name, adds={}, datas={}):
@@ -228,12 +229,11 @@ class Tree(SecuredController):
         ctx.update(context)
 
         if ids:
-            ids = [int(id) for id in ids.split(',')]
+            ids = map(int, ids.split(','))
 
         id = (ids or False) and ids[0]
 
-        if len(ids):
-            import actions
+        if ids:
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=ctx, report_type='pdf')
         else:
             raise common.message(_("No record selected!"))
@@ -263,7 +263,7 @@ class Tree(SecuredController):
 
         params, data = TinyDict.split(kw)
 
-        ids = params.selection or []
+        ids = params.selection or []            
         if len(ids):
             import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
@@ -272,13 +272,10 @@ class Tree(SecuredController):
 
     @expose()
     def open(self, **kw):
-        datas = {}
-
-        datas['_terp_model'] = kw.get('model')
-        datas['_terp_context'] = kw.get('context', {})
-        datas['_terp_domain'] = kw.get('domain', [])
-
-        datas['ids'] = kw.get('id')
+        datas = {'_terp_model': kw.get('model'),
+                 '_terp_context': kw.get('context', {}),
+                 '_terp_domain': kw.get('domain', []),
+                 'ids': kw.get('id')}
 
         return self.do_action('tree_but_open', datas=datas)
 
