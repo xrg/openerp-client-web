@@ -93,6 +93,9 @@ class Search(Form):
 
         params.source = source
         params.selectable = kind
+        
+        if text:
+            params.search_domain = [('name', 'ilike', text)]
 
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
