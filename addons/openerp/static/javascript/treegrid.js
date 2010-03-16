@@ -113,7 +113,7 @@ TreeGrid.prototype = {
                 self._ajax_counter -= 1;
             });
            
-        };
+        }
         
     },
     
@@ -207,16 +207,15 @@ TreeGrid.prototype = {
         
         return tree;
     }
-}
+};
 
 var TreeNode = function(tree, record) {
     this.__init__(tree, record);
-}
+};
 
 TreeNode.prototype = {
 
     __init__ : function(tree, record) {
-        
         this.tree = tree;
         this.record = record; 
         
@@ -405,7 +404,7 @@ TreeNode.prototype = {
         // register OnClick, OnDblClick event
         this.eventOnClick = MochiKit.Signal.connect(this.element, 'onclick', this, this.onSelect);
         this.eventOnDblClick = MochiKit.Signal.connect(this.element, 'ondblclick', this, this.toggle);
-        
+
         return this.element;
     },
     
@@ -546,7 +545,7 @@ TreeNode.prototype = {
     },
     
     onSelect : function(evt) {
-        
+
         if (this.tree._ajax_counter > 0) {
             return;
         }
@@ -632,11 +631,11 @@ TreeNode.prototype = {
     
     toggle : function() {
         
-        if (this._ajax_counter)
+        if (this._ajax_counter) {
             return false;
+        }
 
-        if (this.expanded) {
-            
+        if (this.expanded) {              
             this.collapse();
         } else {
             
@@ -659,7 +658,7 @@ TreeNode.prototype = {
                 self.appendChild(self.tree.createNode(record));
             });
             
-            if (!expandall) return;
+            if (!expandall) { return; }
             
             forEach(self.childNodes, function(child){
                 child.expand(expandall);
@@ -676,7 +675,7 @@ TreeNode.prototype = {
             MochiKit.Base.update(params, this.tree.ajax_params || {});
             MochiKit.Base.update(params, this.record.params || {});
             
-            params['ids'] = this.record.children.join(',')
+            params['ids'] = this.record.children.join(',');
 
             var req = openobject.http.postJSON(this.tree.ajax_url, params);
             self.tree._ajax_counter += 1;
@@ -773,72 +772,71 @@ TreeNode.prototype = {
     },
     
     insertBefore : function(newChild, refChild) {
-        
+
         if (!this.expanded && this.hasChildren && this.childNodes.length == 0) {
             throw ('Child Nodes are not loaded yet.');
         }
 
         // calculate the row index
         var table = this.tree.tbody;
-        var index = -1;
-        
+
         var n = refChild || this.nextSibling;
         var p = this.parentNode;
-        
-        while(!n && p) {
+
+        while (!n && p) {
             n = p.nextSibling;
             p = p.parentNode;
         }
-        
-        index = n ? MochiKit.Base.findIdentical(table.rows, n.element) : -1;
+
+        var index = n ? MochiKit.Base.findIdentical(table.rows, n.element) : -1;
 
         var prev = refChild ? refChild.previousSibling : this.lastChild;
         var next = refChild;
-        
-        if (prev) { 
+
+        if (prev) {
             prev.nextSibling = newChild;
         }
-        
+
         if (next) {
             next.previousSibling = newChild;
         }
-        
+
         newChild.parentNode = this;
         newChild.nextSibling = next;
         newChild.previousSibling = prev;
-        
+
         if (next) {
-           this.childNodes.splice(MochiKit.Base.findIdentical(this.childNodes, next), 0, newChild);
+            this.childNodes.splice(MochiKit.Base.findIdentical(this.childNodes, next), 0, newChild);
         } else {
-           this.childNodes = this.childNodes.concat(newChild);
+            this.childNodes = this.childNodes.concat(newChild);
         }
-        
+
         this.firstChild = this.childNodes[0];
-        this.lastChild = this.childNodes[this.childNodes.length-1];
-        
+        this.lastChild = this.childNodes[this.childNodes.length - 1];
+
         var row = table.insertRow(index);
-        
+
         var idx = index == -1 ? -1 : index + 1;
-        
+
         // ie6 hack
         table.insertRow(idx);
-        
+
         row = MochiKit.DOM.swapDOM(row, newChild.createDOM());
-        
+
         // ie6 hack
         table.deleteRow(idx);
-        
+
         if (!this.hasChildren) {
             this.hasChildren = true;
             this.element_b.className = 'expand';
         }
-        
+
         return newChild;
     },
     
     removeChild : function(refChild) {
         refChild.__delete__();
     }
-}
+};
 
 // vim: sts=4 st=4 et
