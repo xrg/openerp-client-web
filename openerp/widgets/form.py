@@ -403,11 +403,11 @@ class Float(TinyInputWidget):
 
         self.validator = validators.Float(digit=digit)
 
-        if not self.default:
-            self.default = format.format_decimal(float(0.0), digit)
+#        if not self.default:
+#            self.default = format.format_decimal(float(0.0), digit)
 
     def set_value(self, value):
-        self.default = value or self.default
+        self.default = value
 
 
 class FloatTime(TinyInputWidget):

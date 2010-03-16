@@ -44,8 +44,6 @@ from openerp import common
 from openerp import cache
 from openerp import validators
 
-from openerp.i18n import format
-
 from openerp import widgets as tw
 
 from openerp.controllers.base import SecuredController
@@ -999,12 +997,19 @@ class Form(SecuredController):
         values2 = {}
         for k, v in values.items():
             key = ((prefix or '') and prefix + '/') + k
-
+            kind =  data[key].get('type')
+            
             if key in data and key != 'id':
                 values2[k] = data[key]
                 values2[k]['value'] = v
             else:
                 values2[k] = {'value': v}
+            
+            if kind == 'float':
+                field = proxy.fields_get([k], ctx2)
+                digit = field[k].get('digits')
+                if digit: digit = digit[1]
+                values2[k]['digit'] = digit or 2
 
         values = TinyForm(**values2).from_python().make_plain()
 
@@ -1017,13 +1022,7 @@ class Form(SecuredController):
                 values[k] = [values[k], tw.many2one.get_name(relation, values[k])]
 
             if kind == 'picture':
-                values[k] = generate_url_for_picture(model, k, ctx.id, values[k])
-                
-            if kind == 'float':
-                field = proxy.fields_get([k], ctx2)
-                digit = field[k].get('digits')
-                if digit: digit = digit[1]
-                values[k] = format.format_decimal(float(values[k]) or 0.0, digit or 2)
+                values[k] = generate_url_for_picture(model, k, ctx.id, values[k])                
                 
         result['value'] = values
 
