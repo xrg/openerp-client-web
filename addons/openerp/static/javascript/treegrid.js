@@ -297,100 +297,105 @@ TreeNode.prototype = {
     },
     
     createDOM : function() {
-
         this.element = MochiKit.DOM.TR({'class' : 'row'});
         this.element.style.display = this.parentNode ? (this.parentNode.expanded ? "" : "none") : "";
         
         var record = this.record;
         var indent = this.getPath().length - 1;
 
-        for (var i in this.tree.headers){
-            
+        var len = this.tree.headers.length;
+        for (var i=0; i<len; ++i) {            
             var header = this.tree.headers[i];
             
             var key = header.name;
             var value = this.record.items[key];
             
             var td = MochiKit.DOM.TD({'class': header.type || null, 'width' : header.width || null});
-            
             if (i == 0) { // first column
-    
-                var tds = [];
-    
-                for(var i = 0; i < indent; i++){
-                    tds.push(SPAN({'class' : 'indent'}));
+
+                var row = [];
+
+                for (var j = 0; j < indent; j++) {
+                    row.push(SPAN({'class' : 'indent'}));
                 }
-                
+
                 var arrow = SPAN({'class': this.hasChildren ? 'expand' : 'indent'});
                 this.element_b = arrow;
 
-                arrow.onclick = MochiKit.Base.bind(function(){
+                arrow.onclick = MochiKit.Base.bind(function() {
                     this.toggle();
                 }, this);
-                    
-                tds.push(arrow);
-                
+
+                row.push(arrow);
+
                 if (record.icon) {
                     this.element_i = IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16});
-                    tds.push(this.element_i);
+                    row.push(this.element_i);
                 }
-    
-                value = A({'href': 'javascript: void(0)'}, value);
+
+                value = A({'href': '#'}, value);
                 this.element_a = value;
-                
+
                 this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
-    
                 if (record.action) {
                     MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
-                    value.onclick = MochiKit.Base.bind(function(){
-                        MochiKit.Signal.signal(this.tree, "onaction", this);
-                    }, this);
-                    
+                    MochiKit.Signal.connect(value, 'onclick', function (e) {
+                        MochiKit.Signal.signal(e.src().tree, "onaction", e.src());
+                        var frame = $('appFrame');
+                        if(frame.contentWindow) {
+                            frame.contentWindow.location.replace(record.action);
+                        } else if(frame.contentDocument) {
+                            frame.contentDocument.location.replace(record.action);
+                        } else {
+                            // just in case there's still a browser needing DOM0 frames
+                            window.frames[0].location.replace(record.action);
+                        }
+                        e.stop();
+                    });
                 } else {
-                    
-                    value.onclick = MochiKit.Base.bind(function(){
-                        this.toggle();
-                        return false;
-                    }, this);
+                    MochiKit.Signal.connect(value, "onclick", function (e) {
+                        e.src().toggle();
+                        e.stop();
+                    });
                 }
-    
+
                 if (record.target) {
                     MochiKit.DOM.setNodeAttribute(value, 'target', record.target);
                 } else if (this.tree.options.linktarget) {
                     MochiKit.DOM.setNodeAttribute(value, 'target', this.tree.options.linktarget);
                 }
-                
-                if(record.required) {
+
+                if (record.required) {
                     MochiKit.DOM.setNodeAttribute(value, 'class', 'requiredfield');
                 }
-    
-                tds.push(value);
-                tds = map(function(x){return TD(null, x)}, tds);
-    
-                value = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0}, 
-                           TBODY(null, TR(null, tds)));
-            }
-            
-            if (i > 0) {
-                
-                if (header.type == 'url' && value) {
-                    value = MochiKit.DOM.A({href: record.action || value, target: record.target || '_blank'}, value);    
+
+                row.push(value);
+                var td_row = map(function(x) {
+                    return TD(null, x)
+                }, row);
+
+                value = TABLE({'class': 'tree-field', 'cellpadding': 0, 'cellspacing': 0},
+                        TBODY(null, TR(null, td_row)));
+            } else if (i > 0 && value) {
+                switch (header.type) {
+                    case 'url':
+                        value = MochiKit.DOM.A({href: record.action || value, target: record.target || '_blank'}, value);
+                        break;
+                    case 'email':
+                        value = MochiKit.DOM.A({href: 'mailto:' + (record.action || value), target: record.target || '_blank'}, value);
+                        break;
+                    case 'image':
+                        value = MochiKit.DOM.IMG({name: header.name, src: value, style: 'cursor: pointer'});
+                        value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                        break;
+                    case 'button':
+                        value = MochiKit.DOM.BUTTON({name: header.name, style: 'cursor: pointer'}, value);
+                        value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
+                        break;
+                    default:
+                        throw 'Unknown header type ' + header.type;
                 }
-                
-                if (header.type == 'email' && value) {
-                    value = MochiKit.DOM.A({href: 'mailto:' + (record.action || value), target: record.target || '_blank'}, value);    
-                }
-                
-                if (header.type == 'image' && value) {
-                    value = MochiKit.DOM.IMG({name: header.name, src: value, style: 'cursor: pointer'});
-                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
-                }
-                
-                if (header.type == 'button' && value) {
-                    value = MochiKit.DOM.BUTTON({name: header.name, style: 'cursor: pointer'}, value);
-                    value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
-                }
-                
+
             }
 
             MochiKit.DOM.appendChildNodes(td, value);
