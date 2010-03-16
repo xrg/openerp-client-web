@@ -35,6 +35,8 @@ This module implementes heirarchical tree view for a tiny model having
 import time
 import xml.dom.minidom
 
+import actions
+
 from openobject.tools import url
 from openobject.tools import expose
 
@@ -236,12 +238,11 @@ class Tree(SecuredController):
         ctx.update(context)
 
         if ids:
-            ids = [int(id) for id in ids.split(',')]
+            ids = map(int, ids.split(','))
 
         id = (ids or False) and ids[0]
 
-        if len(ids):
-            import actions
+        if ids:
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=ctx, report_type='pdf')
         else:
             raise common.message(_("No record selected!"))
@@ -280,13 +281,10 @@ class Tree(SecuredController):
 
     @expose()
     def open(self, **kw):
-        datas = {}
-
-        datas['_terp_model'] = kw.get('model')
-        datas['_terp_context'] = kw.get('context', {})
-        datas['_terp_domain'] = kw.get('domain', [])
-
-        datas['ids'] = kw.get('id')
+        datas = {'_terp_model': kw.get('model'),
+                 '_terp_context': kw.get('context', {}),
+                 '_terp_domain': kw.get('domain', []),
+                 'ids': kw.get('id')}
 
         return self.do_action('tree_but_open', datas=datas)
 
