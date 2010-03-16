@@ -1,5 +1,5 @@
 
-var adjustAppFrame = function(evt){
+function adjustAppFrame(evt){
 
     var $ = jQuery;
    

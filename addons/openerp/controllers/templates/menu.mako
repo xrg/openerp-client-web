@@ -15,7 +15,7 @@
     <script type="text/javascript">
         
             // call adjustAppFrame every 0.5 second
-            var adjustFrame = function(wait) {
+            function adjustFrame(wait) {
                 try {
                     adjustAppFrame();
                 } catch(e){}
