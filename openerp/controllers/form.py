@@ -1016,7 +1016,13 @@ class Form(SecuredController):
 
             if kind == 'picture':
                 values[k] = generate_url_for_picture(model, k, ctx.id, values[k])
-
+                
+            if kind == 'float':
+                field = proxy.fields_get([k], ctx2)
+                digit = field[k].get('digits')
+                if digit: digit = digit[1]
+                values[k] = format.format_decimal(float(values[k]) or 0.0, digit or 2)
+                
         result['value'] = values
 
         # convert domains in string to prevent them being converted in JSON
