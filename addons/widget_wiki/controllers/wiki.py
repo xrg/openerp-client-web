@@ -52,9 +52,9 @@ FILE_FORMATS = {
 }
 
 class WikiView(SecuredController):
-    
+
     _cp_path = "/wiki"
-    
+
     @expose(content_type='application/octet')
     def getImage(self, *kw, **kws):
         model = 'ir.attachment'

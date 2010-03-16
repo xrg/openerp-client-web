@@ -26,60 +26,45 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
-import copy
-
-import cherrypy
+from openerp.controllers import SecuredController
+from openerp.utils import rpc, TinyDict
 
 from openobject.tools import expose
 
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import common
-from openerp.utils import TinyDict
-
-from openerp.controllers import SecuredController
-
 
 class View_Log(SecuredController):
-    
+
     _cp_path = "/viewlog"
 
+    fields = [
+        ('id', _('ID')),
+        ('create_uid', _('Creation User')),
+        ('create_date', _('Creation Date')),
+        ('write_uid', _('Latest Modification by')),
+        ('write_date', _('Latest Modification Date')),
+        ('uid', _('Owner')),
+        ('gid', _('Group Owner')),
+        ('level', _('Access Level'))
+    ]
+
     @expose(template="templates/view_log.mako")
-    def index(self, **kw):
-        params, data = TinyDict.split(kw)
+    def index(self, _terp_id=None, _terp_model=None):
 
-        id = params.id
-        model = params.model
-        message = None
-        tmp = {}
-        todo = []
-
-        if id:
-            res = rpc.session.execute('object', 'execute', model, 'perm_read', [id], rpc.session.context)
+        values = {}
+        if _terp_id:
+            message = None
+            res = rpc.session.execute('object', 'execute', _terp_model,
+                                      'perm_read', [_terp_id], rpc.session.context)
 
             for line in res:
-                todo = [
-                    ('id', _('ID')),
-                    ('create_uid', _('Creation User')),
-                    ('create_date', _('Creation Date')),
-                    ('write_uid', _('Latest Modification by')),
-                    ('write_date', _('Latest Modification Date')),
-                    ('uid', _('Owner')),
-                    ('gid', _('Group Owner')),
-                    ('level', _('Access Level'))
-                ]
-                for (key,val) in todo:
-                    if line.get(key) and key in ('create_uid','write_uid','uid'):
-                        line[key] = line[key][1]
+                for field, label in self.fields:
+                    if line.get(field) and field in ('create_uid','write_uid','uid'):
+                        line[field] = line[field][1]
 
-                    tmp[key] = ustr(line.get(key) or '/')
-
-        if not id:
+                    values[field] = ustr(line.get(field) or '/')
+        else:
             message = _("No resource is selected...")
 
-        return dict(tmp=tmp, todo=todo, message=message)
+        return {'values':values, 'fields':self.fields, 'message':message}
 
 # vim: ts=4 sts=4 sw=4 si et
-

@@ -46,7 +46,7 @@ from openerp.controllers.form import Form
 from view_calendar import widgets as tc
 
 class TinyCalendar(Form):
-    
+
     _cp_path = "/calendar"
 
     @expose()
@@ -102,11 +102,11 @@ class TinyCalendar(Form):
         params, data = TinyDict.split(kw)
 
         error = None
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         ctx = context_with_concurrency_info(ctx, params.concurrency_info)
-        
+
         proxy = rpc.RPCProxy(params.model)
 
         try:
@@ -263,7 +263,7 @@ class TinyCalendar(Form):
         return dict()
 
 class CalendarPopup(Form):
-    
+
     _cp_path = "/calpopup"
 
     @expose(template="templates/calpopup.mako")
@@ -312,6 +312,3 @@ class CalendarPopup(Form):
         ctx.update(params.context or {})
 
         return data
-
-# vim: ts=4 sts=4 sw=4 si et
-

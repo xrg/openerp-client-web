@@ -53,7 +53,7 @@ class M2M(TinyInputWidget):
     template = "templates/many2many.mako"
     params = ['relation', 'domain', 'context']
     member_widgets = ['screen']
-    
+
     valign = "top"
 
     relation = None
@@ -95,7 +95,7 @@ class M2M(TinyInputWidget):
 
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
-        
+
         if ids is None:
             ids = attrs.get('value', [])
 
@@ -133,7 +133,7 @@ class M2M(TinyInputWidget):
         current.view_type = view_type
         current.domain = current.domain or []
         current.context = current.context or {}
-        
+
         if isinstance(self.context, basestring):
             ctx = cherrypy.request.terp_record
             ctx['current_date'] = time.strftime('%Y-%m-%d')
@@ -193,4 +193,3 @@ register_widget(M2M, ["many2many"])
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

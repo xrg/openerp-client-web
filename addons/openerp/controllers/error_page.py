@@ -26,26 +26,18 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import sys
 import cgitb
+import sys
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
+from openerp import widgets
+from openerp.utils import rpc, common
 
 from openobject.controllers import BaseController
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
-from openerp import widgets
-
+from openobject.tools import expose, redirect
 
 class ErrorPage(BaseController):
-    
+
     _cp_path = "/errorpage"
 
     nb = widgets.form.Notebook()
@@ -56,36 +48,36 @@ class ErrorPage(BaseController):
 
     def render(self):
         etype, value, tb = sys.exc_info()
-        
+
         if isinstance(value, common.Concurrency):
             return self.__render(value)
-        
+
         if not isinstance(value, common.TinyException):
             return cgitb.html((etype, value, tb))
-        
+
         return self.__render(value)
 
     @expose(template="templates/error_page.mako")
     def __render(self, value):
-        
+
         maintenance = None
         concurrency = False
-        
+
         all_params = cherrypy.request.params
-        
+
         title=value.title
         error=value.message
-        
+
         target = cherrypy.request.path_info or '/form/save'
-                
+
         if isinstance(value, common.Concurrency):
             concurrency = True
-                
+
         if isinstance(value, common.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
-        
-        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb, 
+
+        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb,
                     concurrency=concurrency, all_params=all_params, target=target)
 
     @expose('json')

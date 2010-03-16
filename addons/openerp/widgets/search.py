@@ -31,40 +31,20 @@
 This module implementes widget parser for form view, and
 several widget components.
 """
-
-import copy
 import random
 import xml.dom.minidom
 
 import cherrypy
+from openerp.utils import rpc, cache, icons, node_attributes
+from openerp.widgets import TinyInputWidget
+from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
 
 from openobject.widgets import JSLink, locations
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import icons
-from openerp.utils import node_attributes
-
-from openerp.widgets import TinyInputWidget
-
-from openerp.widgets.form import Char
-from openerp.widgets.form import Form
-from openerp.widgets.form import Frame
-from openerp.widgets.form import Button
-from openerp.widgets.form import Float
-from openerp.widgets.form import Frame
-from openerp.widgets.form import DateTime
-from openerp.widgets.form import Integer
-from openerp.widgets.form import Selection
-from openerp.widgets.form import Notebook
-from openerp.widgets.form import Separator
-from openerp.widgets.form import Group
-from openerp.widgets.form import NewLine
 
 
 class RangeWidget(TinyInputWidget):
     template = "templates/rangewid.mako"
-                  
+
     params = ["field_value"]
     member_widgets = ["from_field", "to_field"]
 
@@ -75,11 +55,8 @@ class RangeWidget(TinyInputWidget):
 
         fname = attrs['name']
 
-        from_attrs = attrs.copy()
-        to_attrs = attrs.copy()
-
-        from_attrs['name'] = fname + '/from'
-        to_attrs['name'] = fname + '/to'
+        from_attrs = dict(attrs, name=fname+'/from')
+        to_attrs = dict(attrs, name=fname+'/to')
 
         self.from_field = RANGE_WIDGETS[kind](**from_attrs)
         self.to_field = RANGE_WIDGETS[kind](**to_attrs)
@@ -90,7 +67,7 @@ class RangeWidget(TinyInputWidget):
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
-        
+
         # register the validators
         if hasattr(cherrypy.request, 'terp_validators'):
             for widget in [self.from_field, self.to_field]:
@@ -106,178 +83,163 @@ class RangeWidget(TinyInputWidget):
 
 class Filter(TinyInputWidget):
     template = "templates/filter.mako"
-    
+
     params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'group_context', 'def_checked']
-    
+
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
-        
+
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain', [])
         self.help = attrs.get('help')
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
         filter_context = attrs.get('context', None)
-        
+
         self.def_checked = False
         default_val = attrs.get('default', 0)
         if default_val:
             self.def_checked = True
-        
+
         self.group_context = None
-        
+
         # context implemented only for group_by.
         if filter_context:
             self.filter_context = eval(filter_context)
             self.group_context = self.filter_context.get('group_by', None)
-        
+
         if self.group_context:
-            self.group_context = 'group_' + self.group_context 
-        
+            self.group_context = 'group_' + self.group_context
+
         self.nolabel = True
         self.readonly = False
-        
+
         self.text_val = self.string or self.help
-        
+
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
 class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
-    
-    params = ['fields_type', 'filters_list', 'middle_string', 'fields_list']
+
+    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list']
     member_widgets = ['frame']
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=[], context={}, values={}):
-        
+    def __init__(self, model, domain=None, context=None, values={}):
+
         super(Search, self).__init__(model=model)
 
         self.domain = domain or []
         self.context = context or {}
         self.model = model
 
-        ctx = rpc.session.context.copy()
-        ctx.update(self.context)
-        
+        ctx = dict(rpc.session.context,
+                   **self.context)
+
         view_id = ctx.get('search_view') or False
-        
+
         view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
         fields = cache.fields_get(self.model, [], ctx)
-        
+
         self.fields_list = []
-        
+
         for k,v in fields.items():
-            if v['type'] in ('many2one', 'char', 'float', 'integer', 'date', 'datetime', 'selection', 'many2many', 'boolean', 'one2many') and v.get('selectable',  False):
-                self.fields_list.append([k, v['string'], v['type']])
+            if v['type'] in ('many2one', 'char', 'float', 'integer', 'date',
+                             'datetime', 'selection', 'many2many', 'boolean',
+                             'one2many') and v.get('selectable',  False):
+                self.fields_list.append((k, v['string'], v['type']))
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
-            
+
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
-        root = dom.childNodes[0]
-        attrs = node_attributes(root)
-        self.string = attrs.get('string', '')
+
+        self.string = dom.documentElement.getAttribute('string')
 
         self.fields_type = {}
-        
+
         self.frame = self.parse(model, dom, view['fields'], values)[0]
-        
+
         my_acts = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'get_filters', model)
-                
-        sorted_filters = [[act.get('domain', act['id']), act['name']] for act in my_acts]
+
+        sorted_filters = [(act.get('domain', act['id']), act['name'])
+                          for act in my_acts]
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
-        
-        self.filters_list = [["blk", "-- Filters --"]]
-        self.filters_list += sorted_filters
-        self.filters_list += [["blk", '--Actions--'],["sh", 'Save as a Shortcut'],["sf", 'Save as a Filter'],["mf", 'Manage Filters']]
-        
-        self.middle_string = []
-        for item in (['ilike', _('contains')], ['not ilike', _('doesn\'t contain')], ['=', _('is equal to')], 
-                     ['<>', _('is not equal to')], ['>', _('greater than')], ['<', _('less than')], 
-                     ['in', _('in')], ['not in', _('not in')]):
-            self.middle_string += [item]
-            
+
+        self.filters_list = [("blk", "-- Filters --")] \
+                          + sorted_filters \
+                          + [("blk", '--Actions--'),("sh", 'Save as a Shortcut'),
+                             ("sf", 'Save as a Filter'),("mf", 'Manage Filters')]
+
+        self.operators_map = [
+            ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),
+            ('=', _('is equal to')), ('<>', _('is not equal to')),
+            ('>', _('greater than')), ('<', _('less than')),
+            ('in', _('in')), ('not in', _('not in'))]
+
     def parse(self, model=None, root=None, fields=None, values={}):
-        
+
         views = []
         search_model = model
         for node in root.childNodes:
-            
+
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
-            
-            filter_attrs = {}
+
             attrs = node_attributes(node)
-            attrs['label_position'] = 'True'
-            attrs['model'] = search_model
-            
-            if attrs.has_key('colspan'):
+            attrs.update(label_position='True',
+                         model=search_model)
+
+            if 'colspan' in attrs:
                 attrs['colspan'] = 1
 
-            if attrs.has_key('nolabel'):
+            if 'nolabel' in attrs:
                 attrs['nolabel'] = False
-                
-            if node.localName in ('form', 'tree'):
-                n = self.parse(model=search_model, root=node, fields=fields, values=values)
-                views += [Frame(children=n, **attrs)]
 
-            elif node.localName in ('notebook', 'page'):
-                n = self.parse(model=search_model, root=node, fields=fields, values=values)
-                views += [Frame(children=n, **attrs)]
+            if node.localName in ('form', 'tree', 'notebook', 'page', 'search',
+                                  'group'):
+                if node.localName == 'group':
+                    Element = Group
+                else:
+                    Element = Frame
+                views.append(Element(children=
+                                     self.parse(model=search_model, root=node,
+                                                fields=fields, values=values),
+                                     **attrs))
 
-            elif node.localName == 'search':
-                n = self.parse(model=search_model, root=node, fields=fields, values=values)
-                views += [Frame(children=n, **attrs)]
-
-            elif node.localName=='group':
-                n = self.parse(model=search_model, root=node, fields=fields, values=values)
-                views += [Group(children=n, **attrs)]
-                
             elif node.localName=='newline':
-                views += [NewLine(**attrs)]
-                    
+                views.append(NewLine(**attrs))
+
             elif node.localName=='filter':
-                kind = 'filter'
                 attrs['model'] = search_model
-                field = FILTER[kind](**attrs)
-                
-                views += [field]
-            
-#            elif node.localName=='separator':
-#                kind = 'separator'
-#                field = WIDGETS[kind](**attrs)
-#                
-#                views += [field]
-           
+                views.append(Filter(**attrs))
+
             elif node.localName == 'field':
                 name = attrs['name']
-                filter_field = {}
-                
+
                 if name in self.fields_type:
                     continue
-                
+
                 # If search view available then select=1 wont consider. All fields will display from search view.
                 if not ('select' in attrs or 'select' in fields[name]):
                     continue
-              
-                if attrs.get('widget', False):
-                    if attrs['widget']=='one2many_list':
-                        attrs['widget']='one2many'
-                    if attrs['widget']=='selection':
-                        attrs['widget']='selection'
+
+                if attrs.get('widget'):
+                    if attrs['widget'] == 'one2many_list':
+                        attrs['widget'] = 'one2many'
                     attrs['type'] = attrs['widget']
-                    
+
 
                 # in search view fields should be writable
-                attrs['readonly'] = False
-                attrs['required'] = False
-                attrs['translate'] = False
-                attrs['disabled'] = False
-                attrs['visible'] = True
-                attrs['invisible'] = False
-                attrs['editable'] = True
-                attrs['attrs'] = None
+                attrs.update(readonly=False,
+                             required=False,
+                             translate=False,
+                             disabled=False,
+                             visible=True,
+                             invisible=False,
+                             editable=True,
+                             attrs=None)
 
                 try:
                     fields[name].update(attrs)
@@ -298,26 +260,22 @@ class Search(TinyInputWidget):
                 field.callback = None
 
                 if kind == 'boolean':
-                    field.options = [[1, 'Yes'],[0, 'No']]
+                    field.options = [(1, 'Yes'),(0, 'No')]
                     field.validator.if_empty = ''
 
-                if values.has_key(name) and isinstance(field, (TinyInputWidget, RangeWidget)):
+                if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
                     field.set_value(values[name])
-                
-                if field:
-                    views += [field]
-                
+
+                views.append(field)
+
                 for n in node.childNodes:
                     if n.localName=='filter':
-                        attrs = node_attributes(n)
-                        kind = 'filter'
-                        
-                        filter_field = FILTER[kind](**attrs)
+                        filter_field = Filter(**node_attributes(n))
                         filter_field.onchange = None
                         filter_field.callback = None
-                        
-                        views += [filter_field]
-                
+
+                        views.append(filter_field)
+
         return views
 
 RANGE_WIDGETS = {
@@ -326,10 +284,6 @@ RANGE_WIDGETS = {
     'datetime': DateTime,
     'float': Float,
     'integer': Integer,
-}
-
-FILTER = {
-    'filter': Filter
 }
 
 WIDGETS = {

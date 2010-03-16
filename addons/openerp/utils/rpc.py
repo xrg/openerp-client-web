@@ -7,17 +7,17 @@
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
 # The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following 
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-#     kept as in original distribution without any changes in all software 
-#     screens, especially in start-up page and the software header, even if 
-#     the application source code has been changed or updated or code has been 
+# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
 #     added.
 #
 # -   All distributions of the software must keep source code with OEPL.
-# 
+#
 # -   All integrations to any other software must keep source code with OEPL.
 #
 # If you need commercial licence to remove this kind of restriction please
@@ -203,7 +203,7 @@ class NETRPCGateway(RPCGateway):
 
         except xmlrpclib.Fault, err:
             raise RPCException(err.faultCode, err.faultString)
-        
+
         except TinySocketError, err:
             raise RPCException(err.faultCode, err.faultString)
 
@@ -215,7 +215,7 @@ _TZ_ALIASES = {
 
 
 class RPCSession(object):
-    """Maintains client session and provides way to authenticate 
+    """Maintains client session and provides way to authenticate
     client & invoce RPC requested by clients.
     """
 
@@ -289,7 +289,7 @@ class RPCSession(object):
             raise
 
     def login(self, db, user, password):
-        
+
         if not (db and user and password):
             return -1
 
@@ -328,21 +328,21 @@ class RPCSession(object):
         """
 
         self._context = {'client': 'web'}
-        
+
         # self.uid
         context = self.execute('object', 'execute', 'res.users', 'context_get')
         self._context.update(context or {})
-        
+
         self.remote_timezone = 'utc'
         self.client_timezone = self.context.get("tz", False)
-        
+
         if self.client_timezone:
             self.remote_timezone = self.execute('common', 'timezone_get')
             try:
                 import pytz
             except:
                 raise common.warning(_('You select a timezone but OpenERP could not find pytz library!\nThe timezone functionality will be disable.'))
-                
+
         # set locale in session
         self.locale = self.context.get('lang')
 
@@ -354,7 +354,7 @@ class RPCSession(object):
 
     def execute_noauth(self, obj, method, *args):
         return self.gateway.execute_noauth(obj, method, *args)
-    
+
     def execute_db(self, method, *args):
         return self.execute_noauth('db', method, *args)
 
@@ -387,7 +387,7 @@ class RPCProxy(object):
         self._resource = resource
         self._session = session
         self._attrs = {}
-        
+
     def _func_getter(self, name):
         return lambda *args: self._session.execute("object", "execute", self._resource, name, *args)
 
@@ -398,17 +398,17 @@ class RPCProxy(object):
 
 
 def name_get(model, id, context=None):
-    
+
     id = (id or False) and int(id)
     name = (id or str('')) and str(id)
 
     if model and id:
-        
+
         ctx = session.context.copy()
         ctx.update(context or {})
-        
+
         proxy = RPCProxy(model)
-        
+
         try:
             name = proxy.name_get([id], ctx)
             name = name[0][1] or ''
@@ -441,4 +441,3 @@ if __name__=="__main__":
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

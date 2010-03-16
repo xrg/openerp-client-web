@@ -10,7 +10,7 @@ class Root(BaseController):
     """Custom root controller to dispatch requests to pooled controllers.
     Based on cherrypy.dispatch.Dispatcher
     """
-    
+
     @expose()
     def default(self, *args, **kw):
         request = cherrypy.request
@@ -22,24 +22,24 @@ class Root(BaseController):
             request.handler = cherrypy.dispatch.LateParamPageHandler(func, *vpath)
         else:
             request.handler = cherrypy.NotFound()
-        
+
         return request.handler()
-                    
+
     def find_handler(self):
-        
+
         request = cherrypy.request
         path = request.path_info
         app = request.app
-        
+
         pool = request.pool = pooler.get_pool()
-        
+
         names = [x for x in path.strip("/").split("/") if x] + ["index"]
-                
+
         node = pool.get_controller("/")
         trail = [["/", node]]
-        
-        curpath = ""       
-        
+
+        curpath = ""
+
         for name in names:
             objname = name.replace(".", "_")
             curpath = "/".join((curpath, name))
@@ -49,7 +49,7 @@ class Root(BaseController):
             else:
                 node = getattr(node, objname, None)
             trail.append([curpath, node])
-            
+
         # Try successive objects (reverse order)
         num_candidates = len(trail) - 1
         for i in xrange(num_candidates, -1, -1):
@@ -78,6 +78,5 @@ class Root(BaseController):
                     # positional parameters (virtual paths).
                     request.is_index = False
                 return candidate, names[i:-1]
-        
+
         return None, []
-    

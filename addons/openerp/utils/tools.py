@@ -36,24 +36,24 @@ import rpc
 
 
 def expr_eval(string, context={}):
-    context['uid'] = rpc.session.uid
-    context['current_date'] = time.strftime('%Y-%m-%d')
-    context['time'] = time
-    context['datetime'] = DT
+    context.update(uid=rpc.session.uid,
+                   current_date=time.strftime('%Y-%m-%d'),
+                   time=time,
+                   datetime=DT)
     if isinstance(string, basestring):
-        string = string.replace("'active_id'", "active_id")
-        return eval(string, context)
+        return eval(string.replace("'active_id'", "active_id"),
+                    context)
     else:
         return string
 
 def node_attributes(node):
-    result = {}
+    if not node.hasAttributes(): return {}
     attrs = node.attributes
-    if attrs is None:
-        return {}
-    for i in range(attrs.length):
-        result[str(attrs.item(i).localName)] = attrs.item(i).nodeValue
-    return result
+    # localName can be a unicode string, we're using attribute names as
+    # **kwargs keys and python-level kwargs don't take unicode keys kindly
+    # (they blow up) so we need to ensure all keys are ``str``
+    return dict([(str(attrs.item(i).localName), attrs.item(i).nodeValue)
+                 for i in range(attrs.length)])
 
 def xml_locate(expr, ref):
     """Simple xpath locator.
@@ -66,7 +66,7 @@ def xml_locate(expr, ref):
 
     @return: list of nodes
     """
-    
+
     if '/' not in expr:
         name, index = expr.split('[')
         index = int(index.replace(']', ''))
@@ -76,7 +76,7 @@ def xml_locate(expr, ref):
             return nodes[index-1]
         except Exception, e:
             return []
-    
+
     parts = expr.split('/')
     for part in parts:
         if part in ('', '.'):
@@ -96,7 +96,7 @@ def get_node_xpath(node):
 
     if pn and pn.localName and pn.localName != 'view':
         xp = get_node_xpath(pn) + xp
-        
+
     nodes = xml_locate(root, node.parentNode)
     xp += '[%s]' % (nodes.index(node) + 1)
 
@@ -108,7 +108,7 @@ def get_size(sz):
     """
     if not sz:
         return False
-    
+
     units = ('bytes', 'Kb', 'Mb', 'Gb')
     if isinstance(sz,basestring):
         sz=len(sz)
@@ -142,10 +142,9 @@ class TempFileName(str):
 
     def __copy__(self):
         return self
-    
+
     def __deepcopy__(self, visit):
         return self
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

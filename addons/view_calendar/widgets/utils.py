@@ -349,6 +349,3 @@ class Year(object):
 
     def __repr__(self):
         return "Year %s" % self.year
-
-# vim: ts=4 sts=4 sw=4 si et
-

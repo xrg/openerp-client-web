@@ -9,8 +9,8 @@
 	                % endfor
 	            </select>
 	    		<select id="expr" class="expr">
-	    			% for val in middle_string:
-	                	<option value="${val[0]}">${val[1]}</option>
+	    			% for operator, description in operators_map:
+	                	<option value="${operator}">${description}</option>
 	                % endfor
 	            </select>
 	            <input type="text" class='qstring' id="qstring"></input>

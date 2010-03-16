@@ -26,28 +26,16 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import validate
-from openobject.tools import error_handler
-from openobject.tools import exception_handler
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import TinyDict
-from openerp.utils import context_with_concurrency_info
-
+from openerp.utils import rpc, TinyDict, context_with_concurrency_info
 from openerp.widgets.form import Hidden
 
-from form import Form
-from form import get_validation_schema
-from form import default_error_handler
-from form import default_exception_handler
+from form import Form, get_validation_schema, default_error_handler, default_exception_handler
+from openobject.tools import expose, validate, error_handler, exception_handler
+
 
 class OpenM2O(Form):
-    
+
     _cp_path = "/openm2o"
 
     @expose(template="templates/openm2o.mako")
@@ -119,4 +107,3 @@ class OpenM2O(Form):
         return self.create(params)
 
 # vim: ts=4 sts=4 sw=4 si et
-

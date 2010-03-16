@@ -41,7 +41,7 @@ class ViewForm(Form):
 
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
     member_widgets = ['screen', 'search', 'sidebar']
-    
+
     css = [CSSLink("openerp", "css/autocomplete.css")]
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
@@ -52,7 +52,7 @@ class ViewForm(Form):
                   JSLink("openerp", "javascript/binary.js", location=locations.bodytop)]
 
     def __init__(self, params, **kw):
-        
+
         super(ViewForm, self).__init__(**kw)
 
         # save reference of params dictionary in requeste
@@ -70,14 +70,14 @@ class ViewForm(Form):
 
         self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
-        
+
         self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, context=self.screen.context)
 
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 
         self.search = None
-        
+
         if params.view_type in ('tree', 'graph'):
             self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
 
@@ -86,7 +86,7 @@ class ViewForm(Form):
 
         # get the correct view title
         self.screen.string = getattr(cherrypy.request, '_terp_view_name', self.screen.string) or self.screen.string
-            
+
         # get the actual pager data
         self.limit = self.screen.limit
         self.offset = self.screen.offset
@@ -94,12 +94,11 @@ class ViewForm(Form):
 
         self.search_domain = params.search_domain
         self.search_data = params.search_data
-        
+
         if params.hidden_fields:
             self.hidden_fields = params.hidden_fields
-            
+
         #self.fields = cherrypy.request.terp_fields
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

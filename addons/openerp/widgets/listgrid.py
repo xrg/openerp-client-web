@@ -26,36 +26,21 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import time
-import math
 import copy
-import locale
+import math
+import time
 import xml.dom.minidom
+from itertools import chain
 
 import cherrypy
-
-from openobject import tools
-
-from openobject.i18n import format
-from openobject.widgets import CSSLink, JSLink
-
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import expr_eval
-from openerp.utils import node_attributes
+from openerp.utils import rpc, icons, common, expr_eval, node_attributes
+from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_widget
 
 import form
-
+from openobject import tools
+from openobject.i18n import format
+from openobject.widgets import CSSLink, JSLink
 from pager import Pager
-
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-
-from openerp.widgets import get_widget
-from openerp.widgets import register_widget
 
 
 class List(TinyWidget):
@@ -106,7 +91,7 @@ class List(TinyWidget):
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-        
+
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
@@ -127,10 +112,10 @@ class List(TinyWidget):
 
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
-        
+
         # is relational field (M2M/O2M)
         if self.source:
-            self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit) 
+            self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit)
             self.min_rows = cherrypy.request.app.config['openobject-web'].get('child.listgrid.min_rows', 5)
         else:
             self.min_rows = 5
@@ -163,10 +148,10 @@ class List(TinyWidget):
 
         self.data_dict = {}
         data = []
-        
+
         if ids and not isinstance(ids, list):
             ids = [ids]
-        
+
         if ids and len(ids) > 0:
 
             ctx = rpc.session.context.copy()
@@ -180,7 +165,7 @@ class List(TinyWidget):
                 self.data_dict[item['id']] = item.copy()
 
             self.ids = ids
-            
+
         self.values = copy.deepcopy(data)
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
@@ -245,38 +230,32 @@ class List(TinyWidget):
     def display(self, value=None, **params):
 
         # set editor values
-        if self.editors and self.edit_inline:
+        if not (self.editors and self.edit_inline):
+            return super(List, self).display(value, **params)
 
-            ctx = rpc.session.context.copy()
-            ctx.update(self.context)
+        ctx = dict(rpc.session.context,
+                   **self.context)
 
-            fields = [f for f, fa in self.headers]
-            fields += [f for f, fa in self.hiddens]
+        fields = [name for name, _ in chain(self.headers, self.hiddens)]
 
-            proxy = rpc.RPCProxy(self.model)
+        proxy = rpc.RPCProxy(self.model)
 
-            values = {}
-            defaults = {}
+        if self.edit_inline > 0:
+            values = self.data_dict[self.edit_inline]
+        else:
+            values = dict(proxy.default_get(fields, ctx))
 
             # update values according to domain
-            for d in self.domain:
-                if d[0] in fields:
-                    if d[1] == '=':
-                        values[d[0]] = d[2]
-                    if d[1] == 'in' and len(d[2]) == 1:
-                        values[d[0]] = d[2][0]
+            for (field, operator, value) in self.domain:
+                if field in fields:
+                    if operator == '=':
+                        values[field] = value
+                    elif operator == 'in' and len(value) == 1:
+                        values[field] = value[0]
 
-            if self.edit_inline > 0:
-                values = self.data_dict[self.edit_inline]
-            else:
-                defaults = proxy.default_get(fields, ctx)
-
-            for k, v in defaults.items():
-                values.setdefault(k, v)
-
-            for f in fields:
-                if f in values:
-                    self.editors[f].set_value(values[f])
+        for f in fields:
+            if f in values:
+                self.editors[f].set_value(values[f])
 
         return super(List, self).display(value, **params)
 
@@ -372,7 +351,7 @@ class List(TinyWidget):
                                 pass
 
                         row[name] = cell
-                    
+
                     if invisible:
                         continue
 
@@ -396,7 +375,7 @@ class Char(TinyWidget):
 
         self.text = self.get_text()
         self.link = self.get_link()
-        
+
         self.color = None
         self.onclick = None
 
@@ -431,10 +410,10 @@ class M2O(Char):
     """
 
     def get_text(self):
-        
+
         if isinstance(self.value, int):
             self.value = self.value, rpc.name_get(self.attrs['relation'], self.value)
-            
+
         if self.value and len(self.value) > 0:
             return self.value[-1]
 
@@ -442,7 +421,7 @@ class M2O(Char):
 
     def get_link(self):
         m2o_link = int(self.attrs.get('link', 1))
-        
+
         if m2o_link == 1:
             return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
         else:
@@ -512,9 +491,9 @@ class ProgressBar(Char):
 
     def get_text(self):
         if isinstance(self.value, float):
-            self.value = '%.2f' % (self.value)            
+            self.value = '%.2f' % (self.value)
             self.value = float(self.value)
-            
+
             if self.value > 100.0:
                 self.range = 100.0
             else:
@@ -534,9 +513,9 @@ class DateTime(Char):
         return ustr(self.value or '')
 
 class Boolean(Char):
-    
+
     params = ['value', 'kind']
-    
+
     template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
 
     def get_text(self):
@@ -544,9 +523,9 @@ class Boolean(Char):
             return _('Yes')
         else:
             return _('No')
-        
+
 class Button(TinyInputWidget):
-    
+
     params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
 
     template="""
@@ -615,4 +594,3 @@ CELLTYPES = {
 }
 
 # vim: ts=4 sts=4 sw=4 si et
-

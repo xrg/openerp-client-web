@@ -62,9 +62,7 @@ class O2M(TinyInputWidget):
 
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
         self.default_get_ctx = attrs.get('default_get', {}) or attrs.get('context', {})
-        
-#        self.colspan = 4
-#        self.nolabel = True
+
 
         # get top params dictionary
         params = cherrypy.request.terp_params
@@ -193,4 +191,3 @@ class O2M(TinyInputWidget):
 register_widget(O2M, ["one2many", "one2many_form", "one2many_list"])
 
 # vim: ts=4 sts=4 sw=4 si et
-

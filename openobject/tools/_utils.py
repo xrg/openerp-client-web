@@ -11,18 +11,18 @@ __all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if
 def url(_cppath, _cpparams=None, **kw):
     """
     Returns absolute url for the given _cppath, _cpparams and kw.
-    
+
     If _cppath is a list, path will be created joining them with '/'.
     If _cpparams is given it should be a map or list of tuples to create a map.
-    
+
     query string will be created from _cpparams and **kw.
-    
+
     >>> url("/some/path", {"a": 1, "b": 2})
     >>> /some/path?a=1&b=2
     >>> url(["some", "path"], a=1, b=2)
     >>> /some/path?a=1&b=2
     """
-    
+
     path = _cppath
     if not isinstance(_cppath, basestring):
         path = "/".join(list(_cppath))
@@ -31,7 +31,7 @@ def url(_cppath, _cpparams=None, **kw):
     if isinstance(_cpparams, list):
         params = dict(_cpparams)
     params.update(kw)
-    
+
     kv = []
     for k, v in params.iteritems():
         if isinstance(k, basestring) and isinstance(v, basestring):
@@ -68,7 +68,7 @@ def config(key, section, default=None):
 
 
 class NoEscape(object):
-    """A special callable class to prevent appying `html_escape` filter 
+    """A special callable class to prevent appying `html_escape` filter
     by the default `content` filter.
     """
 
@@ -81,20 +81,20 @@ class NoEscape(object):
         except:
             pass
         return unicode(self.value)
-    
+
     def encode(self, encoding):
         return self().encode(encoding)
-    
+
     def __unicode__(self):
         return self()
-    
+
     def __str__(self):
         return self()
 
 
 def content(value):
     """A Mako filter to return unicode string according to the given value.
-    
+
     If value is None return empty string.
     If value is instance of NoEscape return unicode string.
     If value is not None nor instance of NoEscape return unicode string applying `html_escape` filter.
@@ -131,7 +131,7 @@ def attrs(*args, **kw):
         if value is not None:
             name = alias.get(name, name)
             result.append('%s="%s"' % (name, content(value)))
-    
+
     return NoEscape(" ".join(result))
 
 
@@ -156,4 +156,3 @@ def decorated(wrapper, func, **attrs):
             pass
 
     return wrapper
-

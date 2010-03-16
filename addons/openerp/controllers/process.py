@@ -26,27 +26,20 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-
-from openobject.i18n import format
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
 from openerp.controllers import SecuredController
+from openerp.utils import rpc, TinyDict
 
-import form
 import actions
+import form
+from openobject.i18n import format
+from openobject.tools import expose
+
 
 class ResourcePopup(form.Form):
 
     _cp_path = "/process/resource"
-    
+
     @expose(template="templates/process_open.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
@@ -58,7 +51,7 @@ class ResourcePopup(form.Form):
         return dict(form=form, params=params)
 
 class Process(SecuredController):
-    
+
     _cp_path = "/process"
 
     resource = ResourcePopup()
@@ -158,4 +151,3 @@ class Process(SecuredController):
         return actions.execute_report("workflow.instance.graph", ids=[], id=int(id), model=model, nested=False)
 
 # vim: ts=4 sts=4 sw=4 si et
-

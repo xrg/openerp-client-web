@@ -47,7 +47,7 @@ class Reference(TinyInputWidget):
     def __init__(self, **attrs):
         super(Reference, self).__init__(**attrs)
         self.options = attrs.get('selection', [])
-        
+
         self.domain = attrs.get('domain', [])
         self.context = attrs.get('context', {})
 
@@ -62,9 +62,8 @@ class Reference(TinyInputWidget):
             self.relation = ''
             self.default = ''
             self.text = ''
-            
+
 register_widget(Reference, ["reference"])
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

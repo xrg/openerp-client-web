@@ -26,20 +26,14 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import cherrypy
+from openerp.controllers import SecuredController
+from openerp.utils import TinyDict
 
 from openobject.tools import expose
 
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
-from openerp.controllers import SecuredController
-
 
 class Selection(SecuredController):
-    
+
     _cp_path = "/selection"
 
     @expose(template="templates/selection.mako")
@@ -52,6 +46,3 @@ class Selection(SecuredController):
 
         import actions
         return actions.execute(params.action, **params.data)
-
-# vim: ts=4 sts=4 sw=4 si et
-

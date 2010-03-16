@@ -20,12 +20,12 @@ class _CommandType(type):
             COMMANDS[attrs["name"]] = obj
 
         return obj
-    
+
 
 class BaseCommand(object):
 
     __metaclass__ = _CommandType
-    
+
     def __init__(self):
         self.parser = OptionParser(usage=self.usage)
         self.parser.disable_interspersed_args()
@@ -37,12 +37,12 @@ class BaseCommand(object):
         return "%%prog %s [options]" % getattr(self, "name", self.__class__.__name__)
 
     usage = property(lambda self: self._get_usage())
-    
-    
+
+
 class CommandLine(object):
 
     def run(self, argv):
-        
+
         self.parser = OptionParser(usage="%prog command [option]", version="%s" % (release.version))
 
         self.parser.disable_interspersed_args()
@@ -56,7 +56,7 @@ class CommandLine(object):
         cmdname = args[0]
         if cmdname not in COMMANDS:
             self.parser.error('unknown command "%s"' % cmdname)
-            
+
 
         return COMMANDS[cmdname]().run(args[1:])
 
@@ -70,8 +70,8 @@ class CommandLine(object):
         commands.sort()
         for name, command in commands:
             print format % (name, command.description)
-            
+
 
 def main():
     CommandLine().run(sys.argv)
-    
+

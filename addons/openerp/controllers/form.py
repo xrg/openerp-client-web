@@ -26,39 +26,22 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import re
 import base64
+import re
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-from openobject.tools import error_handler
-from openobject.tools import exception_handler
-
-from openerp import utils
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import common
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
-
+from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
-
-from openerp import widgets as tw
-from openerp import validators
-
+from openerp.utils import rpc, cache, common, TinyDict, TinyForm
 from openerp.widgets.form import generate_url_for_picture
 
+from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 
 def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
     Will be used for search window...
     """
-        
+
     if isinstance(value, int) and not isinstance(value, bool):
         return [(name, '=', value)]
 
@@ -77,10 +60,10 @@ def make_domain(name, value, kind='char'):
             return [(name, '<=', end)]
 
         return None
-    
+
     if kind == "selection" and value:
         return [(name, '=', value)]
-    
+
     if isinstance(value, basestring) and value:
         return [(name, 'ilike', value)]
 
@@ -105,10 +88,10 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     domain = domain or []
     context = context or {}
     data = data or {}
-    
+
     proxy = rpc.RPCProxy(model)
     fields = proxy.fields_get([], {})
-    
+
     search_domain = domain[:]
     search_data = {}
 
@@ -153,9 +136,9 @@ def get_validation_schema(self):
 
     cherrypy.request.terp_validators = {}
     cherrypy.request.terp_data = data
-    
+
     params.nodefault = True
-    
+
     form = self.create_form(params)
     cherrypy.request.terp_form = form
 
@@ -187,9 +170,9 @@ def default_exception_handler(self, tg_exceptions=None, **kw):
     raise tg_exceptions
 
 class Form(SecuredController):
-    
+
     _cp_path = "/form"
-    
+
     def create_form(self, params, tg_errors=None):
         if tg_errors:
             return cherrypy.request.terp_form
@@ -234,24 +217,24 @@ class Form(SecuredController):
         buttons.can_attach = id and mode == 'form'
         buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
-                
+
         from openerp.widgets import get_registered_views
         buttons.views = []
-        
+
         views = get_registered_views()
         for k, v in views:
             active = k in params.view_mode and mode != k
             buttons.views.append(dict(kind=k, name=v.name, desc=v.desc, active=active))
-            
+
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = target != 'new' and not form.is_dashboard
 
         if cache.can_write('ir.ui.view'):
             links.view_manager = True
-            
+
         if cache.can_write('workflow'):
             links.workflow_manager = True
-            
+
         buttons.process = cache.can_read('process.process')
 
         pager = None
@@ -280,7 +263,7 @@ class Form(SecuredController):
 
         params.editable = True
         params.view_type = 'form'
-        
+
         cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
@@ -319,7 +302,7 @@ class Form(SecuredController):
 
         params.editable = False
         params.view_type = 'form'
-        
+
         cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
@@ -412,7 +395,7 @@ class Form(SecuredController):
 
         if terp_save_only:
             return dict(params=params, data=data)
-        
+
         def get_params(p, f):
 
             pp = p.chain_get(f)
@@ -448,7 +431,7 @@ class Form(SecuredController):
                 'limit': params.limit,
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
-                
+
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
 
@@ -617,7 +600,7 @@ class Form(SecuredController):
             proxy.write([params.id], {params.field: False, params.fname: False}, ctx)
         else:
             proxy.write([params.id], {params.field: False}, ctx)
-            
+
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
@@ -629,7 +612,7 @@ class Form(SecuredController):
                 'limit': params.limit,
                 'count': params.count,
                 'search_domain': ustr(params.search_domain)}
-                
+
         raise redirect(self.path + '/edit', **args)
 
     @expose()
@@ -856,33 +839,33 @@ class Form(SecuredController):
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         id = params.id or False
         ids = params.selection or []
-        
+
         if not ids and id:
             ids = [id]
-            
+
         if not id and ids:
             id = ids[0]
-        
+
         domain = params.domain or []
         context = params.context or {}
-        
+
         act_id = params.action
-        
+
         if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the sidebar button!'))
-        
+
         if not act_id:
             return self.do_action('client_action_multi', datas=kw)
-        
+
         action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
         action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
-        
+
         action['domain'] = domain or []
         action['context'] = context or {}
-        
+
         import actions
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
@@ -955,13 +938,13 @@ class Form(SecuredController):
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:
             return dict(error=ustr(e))
-        
+
         if response is False: # response is False when creating new record for inherited view.
             response = {}
-            
+
         if 'value' not in response:
             response['value'] = {}
-            
+
         result.update(response)
 
         # apply validators (transform values from python)
@@ -1066,16 +1049,16 @@ class Form(SecuredController):
     @expose()
     def action_submenu(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         import actions
-        
+
         act_id = rpc.session.execute('object', 'execute', 'ir.model.data', 'search', [('name','=', params.action_id)])
         res_model = rpc.session.execute('object', 'execute', 'ir.model.data', 'read', act_id, ['res_id'])
-        
+
         res = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', res_model[0]['res_id'], False)
-        
+
         if res:
             return actions.execute(res, model=params.model, id=params.id, context=rpc.session.context.copy())
 
-        
+
 # vim: ts=4 sts=4 sw=4 si et
