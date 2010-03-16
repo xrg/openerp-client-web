@@ -44,9 +44,9 @@ TreeGrid.prototype = {
         this.options = MochiKit.Base.update({
             'showheaders': true,
             'expandall' : false,
-            'onselect' : function(evt, node){},
-            'onbuttonclick' : function(evt, node){},
-            'onheaderclick' : function(evt, header){},
+            'onselect' : function(){},
+            'onbuttonclick' : function(){},
+            'onheaderclick' : function(){},
             'linktarget': null
         }, options || {});
         
@@ -80,11 +80,11 @@ TreeGrid.prototype = {
                self.headers = obj.headers;
            });
            
-           req.addBoth(function(obj){
+           req.addBoth(function(){
                self._ajax_counter -= 1;
            });
            
-        };
+        }
     },
     
     setRecords : function(records/*, params */) {
