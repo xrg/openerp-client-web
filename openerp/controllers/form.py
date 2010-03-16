@@ -44,6 +44,8 @@ from openerp import common
 from openerp import cache
 from openerp import validators
 
+from openerp.i18n import format
+
 from openerp import widgets as tw
 
 from openerp.controllers.base import SecuredController
