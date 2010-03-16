@@ -14,8 +14,7 @@
 					value="${filter_domain}"
 					group_by_ctx="${group_context}"
 					checked
-					title="${help}">
-			</input>
+					title="${help}"/>
 			% else:
 			<input ${py.attrs(attrs)} 
 					type="checkbox"
@@ -25,8 +24,7 @@
 					onclick="search_filter(this);" 
 					value="${filter_domain}"
 					group_by_ctx="${group_context}"
-					title="${help}">
-			</input>
+					title="${help}"/>
 			% endif
 		</td>
 	</tr>

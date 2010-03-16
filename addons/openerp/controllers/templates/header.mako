@@ -30,7 +30,7 @@ except:
             <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td width="26" class="menu_connection_right" nowrap="nowrap">
-                        <div style="width: 26px;"/>
+                        <div style="width: 26px;"></div>
                     </td>
                     <td class="menu_connection_welcome" nowrap="norwap">
                         ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
