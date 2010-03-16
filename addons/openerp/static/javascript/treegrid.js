@@ -178,7 +178,7 @@ TreeGrid.prototype = {
     
     _makeBody : function() {
         this.rootNode = this.createNode({children: this.records});
-        this.rootNode.expand(this.options.expandall ? true : false);
+        this.rootNode.expand(this.options.expandall);
     },
     
     _onHeaderClick : function(header) {
