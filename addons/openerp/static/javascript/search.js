@@ -423,6 +423,17 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 	});
 }
 
+var expand_group_option = function(id, event) {
+	if(getElement(id).style.display == '') {
+		getElement(id).style.display = 'none'
+		event.target.className = 'group-expand';
+	}
+	else {
+		getElement(id).style.display = '';
+		event.target.className = 'group-collapse';
+	}
+}
+
 MochiKit.DOM.addLoadEvent(function(evt){
 	onKey_Event(evt);
 	search_filter();

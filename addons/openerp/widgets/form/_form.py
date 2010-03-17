@@ -35,6 +35,7 @@ several widget components.
 import os
 import re
 import time
+import random
 import xml.dom.minidom
 
 import cherrypy
@@ -638,7 +639,7 @@ register_widget(Button, ["button"])
 class Group(TinyInputWidget):
 
     template = "templates/group.mako"
-
+    params = ["expand_grp_id"]
     member_widgets = ["frame"]
     valign = "top"
 
@@ -647,7 +648,8 @@ class Group(TinyInputWidget):
 
         self.frame = Frame(**attrs)
         self.nolabel = True
-
+        self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
+        
 register_widget(Group, ["group"])
 
 
