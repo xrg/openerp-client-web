@@ -176,19 +176,25 @@ var onKeyDown_search = function(evt) {
     }
 }
 
-var search_filter = function(src) {
+var search_filter = function(src, id) {
 	all_domains = {};
 	check_domain = 'None';
 	domains = {};
 	search_context = {};
 	var group_by_ctx = [];
 	
+	
+	
 	domain = 'None';
 	if(src) {
-		if(src.checked==false)
+		if(src.checked==false) {
 			src.checked = true
-		else
+			id.className = 'active-filter';
+		}
+		else {
 			src.checked = false
+			id.className = 'inactive-filter';
+		}
 	}
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');

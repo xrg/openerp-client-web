@@ -54,15 +54,6 @@ hr {
     height: 1px;
 }
 
-#search_filter_data input.datetime,
-td.item input.char,
-td.item select.selection {
-	background-color: #fff;
-    color: #000;
-    border: 1px solid #999999;
-	width: 85px;
-}
-
 input,
 select,
 textarea {
@@ -115,8 +106,20 @@ button.btn_filter:hover {
     background: url(/static/images/button_bg2.png) repeat-x left top;
 }
 
+/* ============== SEARCH FORM start ==============*/
+
+#search_filter_data input.datetime,
+td.item input.char,
+td.item select.selection {
+	background-color: #fff;
+    color: #000;
+    border: 1px solid #999999;
+	width: 85px;
+}
+
 div.inactive-filter {
 	cursor: pointer;
+	background: url(../images/button_unchecked.gif) repeat-x left bottom;
 	border: solid 1px #888888; 
 	white-space: nowrap;
 	padding: 1px;
@@ -124,7 +127,7 @@ div.inactive-filter {
 
 div.active-filter {
 	cursor: pointer;
-	background: url(../images/gradientlinebg.gif) repeat-x left bottom; 
+	background: url(../images/button_checked.gif) repeat-x left bottom; 
 	border: solid 1px #888888; 
 	white-space: nowrap;
 	padding: 1px;
@@ -156,6 +159,8 @@ div.group-collapse:hover {
 	padding-left: 15px;
 	padding-left: 15px;
 }
+
+/* ============== SEARCH FORM end ==============*/
 
 button.inactive {
     background: #eeeeee;
