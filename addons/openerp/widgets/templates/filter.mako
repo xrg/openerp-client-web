@@ -2,7 +2,7 @@
 	<tr>
 		<td>
 			% if def_checked:
-			<div id="active-filter" class="active-filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
+			<div id="active_filter" class="active_filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
 				% if icon:
 					<div align="center">
 						<img src="${icon}" width="16" height="16"/>
@@ -26,7 +26,7 @@
 				</input>
 			</div>			
 		% else:
-			<div id="inactive-filter" class="inactive-filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
+			<div id="inactive_filter" class="inactive_filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
 				% if icon:
 					<div align="center">
 						<img src="${icon}" width="16" height="16"/>

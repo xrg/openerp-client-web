@@ -117,7 +117,7 @@ td.item select.selection {
 	width: 85px;
 }
 
-div.inactive-filter {
+div.inactive_filter {
 	cursor: pointer;
 	background: url(../images/button_unchecked.gif) repeat-x left bottom;
 	border: solid 1px #888888; 
@@ -125,7 +125,7 @@ div.inactive-filter {
 	padding: 1px;
 }
 
-div.active-filter {
+div.active_filter {
 	cursor: pointer;
 	background: url(../images/button_checked.gif) repeat-x left bottom; 
 	border: solid 1px #888888; 

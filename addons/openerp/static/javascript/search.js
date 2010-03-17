@@ -189,11 +189,11 @@ var search_filter = function(src, id) {
 	if(src) {
 		if(src.checked==false) {
 			src.checked = true
-			id.className = 'active-filter';
+			id.className = 'active_filter';
 		}
 		else {
 			src.checked = false
-			id.className = 'inactive-filter';
+			id.className = 'inactive_filter';
 		}
 	}
 	var filter_table = $('filter_table');
