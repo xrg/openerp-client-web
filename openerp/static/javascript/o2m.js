@@ -92,7 +92,7 @@ One2Many.prototype = {
         params['_terp_view_params/_terp_ids'] = $('_terp_ids').value;
         params['_terp_view_params/_terp_view_ids'] = $('_terp_view_ids').value;
         params['_terp_view_params/_terp_view_mode'] = $('_terp_view_mode').value;
-        params['_terp_view_params/_terp_context'] = $('_terp_context').value;
+        params['_terp_view_params/_terp_context'] = $('_terp_context').value || {};
         params['_terp_view_params/_terp_view_type'] = 'form';
 
         while(names.length) {
@@ -105,6 +105,7 @@ One2Many.prototype = {
             params['_terp_view_params/' + prefix + '/_terp_ids'] = $(prefix + '/_terp_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_ids'] = $(prefix + '/_terp_view_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_mode'] = $(prefix + '/_terp_view_mode').value;
+            params['_terp_view_params/' + prefix + '/_terp_context'] = $(prefix + '/_terp_context').value || {};
             params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
         }
 

@@ -158,7 +158,7 @@ class TinyDict(dict):
 
         def _plain(data, prefix):
             for k, v in data.items():
-                if isinstance(v, dict):
+                if isinstance(v, dict) and not k.startswith('_terp_'):
                     _plain(v, prefix + k +'/')
                 else:
                     res[prefix + k] = v
