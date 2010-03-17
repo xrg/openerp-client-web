@@ -3,7 +3,6 @@
 <%def name="header()">
     <title>${_("Process")}</title>
 
-    <link type="text/css" rel="stylesheet" href="/openerp/static/workflow/css/process_box.css"/>
     <link type="text/css" rel="stylesheet" href="/openerp/static/workflow/css/process.css"/>
 
     <script src="/openerp/static/workflow/javascript/draw2d/wz_jsgraphics.js"></script>
@@ -11,7 +10,6 @@
     <script src="/openerp/static/workflow/javascript/draw2d/moocanvas.js"></script>
     <script src="/openerp/static/workflow/javascript/draw2d/draw2d.js"></script>
 
-    <script src="/openerp/static/workflow/javascript/process_box.js"></script>
     <script src="/openerp/static/workflow/javascript/process.js"></script>
 
     <script type="text/javascript">

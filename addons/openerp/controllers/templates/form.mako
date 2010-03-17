@@ -51,10 +51,9 @@
                                         ${make_view_button(**view)}
                                     % endfor
                                     % if buttons.process:
-                                        <button 
-                                            type="button" 
-                                            title="${_('Corporate Intelligence...')}"
-                                            onclick="show_process_view()">${_("Process")}</button>
+                                    	 <a target="_blank" onclick="show_process_view()">
+                                    	 	<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
+                                    	 </a>
                                     % endif
                                     </td>
                                     
@@ -93,11 +92,6 @@
                                             onclick="openobject.tools.openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     % endif
-                                    <td align="center" valign="middle" width="16">
-                                        <a target="_blank" href="${py.url('http://doc.openerp.com/index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
-                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-                                        </a>
-                                    </td>
                                 </tr>
                             </table>
                         </td>

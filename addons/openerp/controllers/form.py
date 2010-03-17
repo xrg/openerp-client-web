@@ -847,11 +847,6 @@ class Form(SecuredController):
         else:
             raise common.message(_("No record selected!"))
 
-    @expose()
-    def report(self, **kw):
-        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list',
-                                                                           'name': _('Print Screen'),
-                                                                           'type':'ir.actions.report.xml'}}, datas=kw)
 
     @expose()
     def action(self, **kw):

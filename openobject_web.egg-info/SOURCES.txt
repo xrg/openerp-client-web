@@ -747,7 +747,6 @@ openobject/static/tinycalendar/javascript/calendar_utils.js
 openobject/static/tinycalendar/javascript/calendar_week.js
 openobject/static/workflow/css/graph.css
 openobject/static/workflow/css/process.css
-openobject/static/workflow/css/process_box.css
 openobject/static/workflow/images/ToolOval.jpg
 openobject/static/workflow/images/ToolShowGrid.jpg
 openobject/static/workflow/images/ToolShowGrid.png
@@ -766,7 +765,6 @@ openobject/static/workflow/javascript/connector.js
 openobject/static/workflow/javascript/infobox.js
 openobject/static/workflow/javascript/ports.js
 openobject/static/workflow/javascript/process.js
-openobject/static/workflow/javascript/process_box.js
 openobject/static/workflow/javascript/state.js
 openobject/static/workflow/javascript/toolbar.js
 openobject/static/workflow/javascript/workflow.js
