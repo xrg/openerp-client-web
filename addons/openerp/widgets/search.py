@@ -197,7 +197,7 @@ class Search(TinyInputWidget):
             if 'nolabel' in attrs:
                 attrs['nolabel'] = False
 
-            if node.localName in ('form', 'tree', 'notebook', 'page', 'search',
+            if node.localName in ('form', 'tree', 'search',
                                   'group'):
                 if node.localName == 'group':
                     Element = Group
