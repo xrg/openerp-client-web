@@ -47,8 +47,10 @@ def expr_eval(string, context={}):
         return string
 
 def node_attributes(node):
-    if not node.hasAttributes(): return {}
     attrs = node.attributes
+    
+    if not attrs:
+        return {}
     # localName can be a unicode string, we're using attribute names as
     # **kwargs keys and python-level kwargs don't take unicode keys kindly
     # (they blow up) so we need to ensure all keys are ``str``
