@@ -88,7 +88,7 @@ class Filter(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
-
+        
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain', [])
         self.help = attrs.get('help')
@@ -101,7 +101,7 @@ class Filter(TinyInputWidget):
             self.def_checked = True
 
         self.group_context = None
-
+        
         # context implemented only for group_by.
         if filter_context:
             self.filter_context = eval(filter_context)
@@ -114,10 +114,9 @@ class Filter(TinyInputWidget):
         self.readonly = False
 
         self.text_val = self.string or self.help
-
         if self.icon:
             self.icon = icons.get_icon(self.icon)
-
+            
 class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
@@ -191,8 +190,8 @@ class Search(TinyInputWidget):
             attrs.update(label_position='True',
                          model=search_model)
 
-            if 'colspan' in attrs:
-                attrs['colspan'] = 1
+#            if 'colspan' in attrs:
+#                attrs['colspan'] = 1
 
             if 'nolabel' in attrs:
                 attrs['nolabel'] = False
@@ -203,6 +202,7 @@ class Search(TinyInputWidget):
                     Element = Group
                 else:
                     Element = Frame
+                
                 views.append(Element(children=
                                      self.parse(model=search_model, root=node,
                                                 fields=fields, values=values),
@@ -217,7 +217,6 @@ class Search(TinyInputWidget):
 
             elif node.localName == 'field':
                 name = attrs['name']
-
                 if name in self.fields_type:
                     continue
 

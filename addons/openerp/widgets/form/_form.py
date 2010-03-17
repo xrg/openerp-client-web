@@ -80,8 +80,12 @@ class Frame(TinyInputWidget):
     def __init__(self, **attrs):
 
         super(Frame, self).__init__(**attrs)
-
-        self.columns = int(attrs.get('col', 4))
+        
+        if attrs.get('label_position'):
+            self.columns = 200
+        else:
+            self.columns = int(attrs.get('col', 4))
+ 
         self.nolabel = True
 
         self.x = 0

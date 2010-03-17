@@ -177,7 +177,6 @@ var onKeyDown_search = function(evt) {
 }
 
 var search_filter = function(src) {
-	
 	all_domains = {};
 	check_domain = 'None';
 	domains = {};
@@ -185,7 +184,12 @@ var search_filter = function(src) {
 	var group_by_ctx = [];
 	
 	domain = 'None';
-	
+	if(src) {
+		if(src.checked==false)
+			src.checked = true
+		else
+			src.checked = false
+	}
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
