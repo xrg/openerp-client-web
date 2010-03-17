@@ -336,7 +336,7 @@ TreeNode.prototype = {
                     row.push(this.element_i);
                 }
 
-                value = A({'href': '#'}, value);
+                value = A({'href': 'javascript: void();'}, value);
                 this.element_a = value;
 
                 this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
