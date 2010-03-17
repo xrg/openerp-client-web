@@ -54,6 +54,15 @@ hr {
     height: 1px;
 }
 
+#search_filter_data input.datetime,
+td.item input.char,
+td.item select.selection {
+	background-color: #fff;
+    color: #000;
+    border: 1px solid #999999;
+	width: 85px;
+}
+
 input,
 select,
 textarea {
@@ -165,36 +174,6 @@ table.menu_connection a:hover {
 
 .menu_connection_right {
     background: transparent url(../images/diagonal_right.gif) no-repeat scroll right;
-}
-
-#menu_header {
-    background: #666666;
-    margin-bottom: 4px;
-    height: 24px;
-    white-space: nowrap;
-}
-
-#menu_header_menu {
-    background: url(../images/mainmenu_button.png) repeat-x;
-    text-align: center;
-    font-weight: bold;
-    padding: 0 10px;
-}
-
-#menu_header_shortcuts {
-    background: #363636;
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 0px;
-    font-weight: bold;
-}
-
-#menu_header a {
-    color: white;
-}
-
-.menu_header_shortcuts_left {
-    background: transparent url(../images/diagonal_left.gif) no-repeat scroll left;
 }
 
 /*------------------ Header End ---------------*/
