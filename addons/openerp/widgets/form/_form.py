@@ -270,7 +270,10 @@ class Notebook(TinyInputWidget):
             self.fake_widge = attrs['prefix'] + '/_fake'
 
 register_widget(Notebook, ["notebook"])
-
+def reset_notebooks():
+    for name in cherrypy.request.cookie.keys():
+        if name.startswith('_notebook_'):
+            cherrypy.response.cookie[name] = 0
 
 class Page(Frame):
 

@@ -33,7 +33,7 @@ import cherrypy
 from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, cache, common, TinyDict, TinyForm
-from openerp.widgets.form import generate_url_for_picture
+from openerp.widgets.form import generate_url_for_picture, reset_notebooks
 
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 
@@ -198,7 +198,7 @@ class Form(SecuredController):
             try:
                 cherrypy.session.pop('remember_notebooks')
             except:
-                self.reset_notebooks()
+                reset_notebooks()
 
         editable = form.screen.editable
         mode = form.screen.view_type
@@ -554,7 +554,7 @@ class Form(SecuredController):
 
         current.id = (current.ids or None) and current.ids[idx]
 
-        self.reset_notebooks()
+        reset_notebooks()
 
         args = {'model': params.model,
                 'id': params.id,
@@ -1015,11 +1015,6 @@ class Form(SecuredController):
         value = res.get(field)
 
         return dict(value=value)
-
-    def reset_notebooks(self):
-        for name in cherrypy.request.cookie.keys():
-            if name.startswith('_notebook_'):
-                cherrypy.response.cookie[name] = 0
 
     @expose('json')
     def change_default_get(self, **kw):
