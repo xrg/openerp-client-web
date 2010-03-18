@@ -242,7 +242,7 @@ class List(SecuredController):
             return dict(error = e.message)
 
     @expose('json')
-    def sort_by_drag(self, **kw):
+    def dragRow(self, **kw):
         params, data = TinyDict.split(kw)
         id = params.id
         ids = params.ids or []

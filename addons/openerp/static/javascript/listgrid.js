@@ -227,7 +227,7 @@ MochiKit.Base.update(ListView.prototype, {
 		}
 	},
 	
-	sort_by_drag: function(drag,drop,event) {
+	dragRow: function(drag,drop,event) {
 		var args = {}
 		var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
 		var _terp_model =  getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_model') || getElement('_terp_model')
@@ -237,7 +237,7 @@ MochiKit.Base.update(ListView.prototype, {
 		args['_terp_id'] = getNodeAttribute(drag,'record')
 		args['_terp_swap_id'] = getNodeAttribute(drop,'record')
 		
-		var req = openobject.http.postJSON('/listgrid/sort_by_drag', args);
+		var req = openobject.http.postJSON('/listgrid/dragRow', args);
 		req.addCallback(function() {
 			_list_view.reload()
 		})

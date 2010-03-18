@@ -27,7 +27,7 @@
 #
 ###############################################################################
 import cherrypy
-from openerp.controllers import SecuredController, unsecured, login as tiny_login
+from openerp.controllers import SecuredController, unsecured, login as tiny_login, form
 from openerp.utils import rpc, cache
 
 from openobject.tools import url, expose, redirect
@@ -76,7 +76,8 @@ class Root(SecuredController):
             id = int(active)
         except:
             id = False
-
+            form.Form().reset_notebooks()
+            
         ctx = rpc.session.context.copy()
         proxy = rpc.RPCProxy("ir.ui.menu")
 

@@ -84,20 +84,7 @@
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                        	% if map(lambda x: x[0], hiddens).__contains__('sequence') or field == 'sequence':
-								<span class="draggable">${data[field].display()}</span>
-								<script type="text/javascript">
-									function make_draggale(){
-										var drag = getElementsByTagAndClassName('span','draggable');
-										for(var j=0;j< drag.length;j++) {
-											new Draggable(drag[j].parentNode.parentNode,{revert:true,ghosting:true});
-											new Droppable(drag[j].parentNode.parentNode,{accept: [drag[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
-										}		
-									}
-							</script>
-							% else:	
-								<span>${data[field].display()}</span>
-							% endif
+							<span>${data[field].display()}</span>
                         </td>
                         % endfor
                         % if buttons:
@@ -194,11 +181,13 @@
             <script type="text/javascript">
                // new SortableGrid('${name}_grid');
                 % if data:
-	                % for i, (field, field_attrs) in enumerate(headers):
-	                	% if field == 'sequence' or map(lambda x: x[0],hiddens).__contains__('sequence'):
-	                		make_draggale()
-	            		% endif
-	                % endfor
+                	%if 'sequence' in map(lambda x: x[0],headers)  or  'sequence' in map(lambda x: x[0],hiddens):
+                		var drag = getElementsByTagAndClassName('tr','grid-row');
+                		for(var grid=0;grid< drag.length;grid++) {
+						    new Draggable(drag[grid],{revert:true,ghosting:true});
+							new Droppable(drag[grid],{accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow});
+						}
+                	% endif
                 % endif
             </script>
         </td>
