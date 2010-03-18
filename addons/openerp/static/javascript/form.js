@@ -284,7 +284,7 @@ var submit_form = function(action, src, target){
 }
 
 var pager_action = function(action, src) {
-    return src ? new ListView(src).go(action) : submit_search_form(action);
+    return src ? new ListView(src).go(action) : submit_form(action ? action : 'find');
 }
 
 var buttonClicked = function(name, btype, model, id, sure, target){
