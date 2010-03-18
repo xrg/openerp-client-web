@@ -1,19 +1,22 @@
 
-var adjustAppFrame = function(evt){
+function adjustAppFrame(evt){
 
     var $ = jQuery;
-    
+   
     var h = $("#appFrame").contents().find("body").height();
-    var w = $("#appFrame").contents().find("body").width();
+    var w = $("#appFrame").contents().width();
     
-    $("#appFrame").height(h);
+    $("#menubar").width(250);
+    $("#appFrame").height(Math.max(0, h));
         
     var mh = $("#menubar").height();
     var ww = $(window).width();
     var tw = $("#menubar").width() + w;
+    var rw = ww - $("#menubar").width();
     
-    $("#header, #footer").width(Math.max(tw, ww));
+    var w = tw > ww ? w : rw - 16;
     
+    $("#appFrame").width(Math.max(0, w));    
     $("table#contents").height(Math.max(h, mh));
 }
 

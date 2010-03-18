@@ -30,18 +30,13 @@
 """
 This modules implements custom authorization logic for the OpenERP Web Client.
 """
-
 import types
-import cherrypy
 
 from openobject.controllers import BaseController
-
 from utils import secured
-
 
 __all__ = ["SecuredController"]
 
-    
 class SecuredController(BaseController):
 
     def __getattribute__( self, name ):

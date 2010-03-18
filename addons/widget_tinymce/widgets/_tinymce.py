@@ -42,7 +42,7 @@ class TinyMCE(TinyInputWidget):
 
     template = "templates/tiny_mce.mako"
     params = ["height"]
-    
+
     javascript = [JSLink("widget_tinymce", "javascript/tiny_mce/tiny_mce.js")]
     css = [CSSLink("widget_tinymce", "css/tiny_mce.css")]
 
@@ -51,11 +51,8 @@ class TinyMCE(TinyInputWidget):
         self.validator = validators.String()
         self.readonly = not self.editable or self.readonly
         self.height = attrs.get('height', 350)
-        
+
     def set_value(self, value):
         super(TinyMCE, self).set_value(value)
 
 register_widget(TinyMCE, ["text_html"])
-
-# vim: ts=4 sts=4 sw=4 si et
-

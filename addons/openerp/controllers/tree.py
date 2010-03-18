@@ -31,21 +31,14 @@
 This module implementes heirarchical tree view for a tiny model having
     view_type = 'tree'
 """
-
 import time
-import xml.dom.minidom
 
-from openobject.tools import url
-from openobject.tools import expose
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import TinyDict
-
+import actions
 from openerp.controllers import SecuredController
+from openerp.utils import rpc, cache, icons, common, TinyDict
 from openerp.widgets import tree_view
+
+from openobject.tools import url, expose
 
 
 DT_FORMAT = '%Y-%m-%d'
@@ -236,12 +229,11 @@ class Tree(SecuredController):
         ctx.update(context)
 
         if ids:
-            ids = [int(id) for id in ids.split(',')]
+            ids = map(int, ids.split(','))
 
         id = (ids or False) and ids[0]
 
-        if len(ids):
-            import actions
+        if ids:
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=ctx, report_type='pdf')
         else:
             raise common.message(_("No record selected!"))
@@ -280,15 +272,11 @@ class Tree(SecuredController):
 
     @expose()
     def open(self, **kw):
-        datas = {}
-
-        datas['_terp_model'] = kw.get('model')
-        datas['_terp_context'] = kw.get('context', {})
-        datas['_terp_domain'] = kw.get('domain', [])
-
-        datas['ids'] = kw.get('id')
+        datas = {'_terp_model': kw.get('model'),
+                 '_terp_context': kw.get('context', {}),
+                 '_terp_domain': kw.get('domain', []),
+                 'ids': kw.get('id')}
 
         return self.do_action('tree_but_open', datas=datas)
 
 # vim: ts=4 sts=4 sw=4 si et
-

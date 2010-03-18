@@ -26,24 +26,13 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
-import time
-
-import cherrypy
+from openerp.controllers import SecuredController
+from openerp.utils import rpc, TinyDict, TinyForm
 
 from openobject.tools import expose
 
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
-
-from openerp.controllers import SecuredController
-
-
 class FieldPref(SecuredController):
-    
+
     _cp_path = "/fieldpref"
 
     @expose(template="templates/fieldpref.mako")

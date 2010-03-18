@@ -13,11 +13,16 @@
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
     
     <script type="text/javascript">
-
-    	MochiKit.DOM.addLoadEvent(function(evt){
-            window.MAIN_WINDOW = true;
-        });
-    	    	
+        
+            // call adjustAppFrame every 0.5 second
+            function adjustFrame(wait) {
+                try {
+                    adjustAppFrame();
+                } catch(e){}
+                setTimeout(adjustFrame, wait);
+            }
+            adjustFrame(0.5);
+            
 </script>
     
     <style>
@@ -66,14 +71,6 @@
         MochiKit.Signal.connect(nb, 'click', function(nb, tab){
             window.location.href = openobject.http.getURL("/menu", {active: tab.id});
         });
-        
-
-        // call adjustAppFrame every 0.5 second
-        var adjustFrame = function(wait) {
-            adjustAppFrame();
-            MochiKit.Async.callLater(wait, adjustFrame);
-        }
-        adjustFrame(0.5);
         
     </script>
     

@@ -79,4 +79,3 @@ class Pager(TinyWidget):
             self.next = self.offset+len(self.ids) < self.count
 
 # vim: ts=4 sts=4 sw=4 si et
-

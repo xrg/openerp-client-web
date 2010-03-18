@@ -67,8 +67,8 @@ def find_resources(package_or_module, path=None, patterns=None):
         for pattern in patterns:
             for filename in fnmatch.filter(files, pattern):
                 yield os.path.join(path, filename)
-                
-                
+
+
 # ask autoreloader to check mako templates and cfg files
 for res in find_resources("openobject", "..", ["*.mako", "*.cfg"]):
     cherrypy.engine.autoreload.files.add(res)
@@ -78,9 +78,9 @@ filters = ["__content"]
 imports = ["from openobject.tools import content as __content"]
 
 class TL(TemplateLookup):
-    
+
     cache = {}
-    
+
     def get_template(self, uri):
         try:
             return self.cache[str(uri)]
@@ -88,9 +88,9 @@ class TL(TemplateLookup):
             pass
         self.cache[str(uri)] = res = super(TL, self).get_template(uri)
         return res
-    
+
 template_lookup = TL(directories=[find_resource("openobject", ".."),
-                                  find_resource("openobject", "../addons")], 
+                                  find_resource("openobject", "../addons")],
                      default_filters=filters,
                      imports=imports)#, module_directory="mako_modules")
 
@@ -98,17 +98,17 @@ def load_template(template, module=None):
 
     if not isinstance(template, basestring):
         return template
-    
+
     if re.match('(.+)\.(html|mako)\s*$', template):
 
         if module:
             template = find_resource(module, template)
         else:
             template = os.path.abspath(template)
-            
+
         base = find_resource("openobject", "..")
         template = template.replace(base, '').replace('\\', '/')
-        
+
         return template_lookup.get_template(template)
 
     else:
@@ -159,14 +159,14 @@ register_template_vars(_cp_vars, 'cp')
 register_template_vars(_py_vars, 'py')
 
 def _get_vars():
-    
+
     try:
         return cherrypy.request._terp_template_vars
     except:
         pass
-    
+
     cherrypy.request._terp_template_vars = _vars = {}
-    
+
     for prefix, cbs in _var_providers.iteritems():
         if prefix:
             provider = _Provider()
@@ -179,55 +179,55 @@ def _get_vars():
     return _vars
 
 def render_template(template, kw):
-    
+
     assert isinstance(template, Template), "Invalid template..."
-    
+
     kw.update(_get_vars())
-    
+
     # XXX mako overrides 'context' template variable...
     if 'context' in kw:
         kw['ctx'] = kw.pop('context')
-        
+
     return utils.NoEscape(template.render_unicode(**kw))
 
 
 def expose(format='html', template=None, content_type=None, allow_json=False):
 
     def expose_wrapper(func):
-        
+
         template_c = load_template(template, func.__module__)
 
         def func_wrapper(*args, **kw):
 
             res = func(*args, **kw)
-            
+
             if format == 'json' or (allow_json and 'allow_json' in cherrypy.request.params):
                 cherrypy.response.headers['Content-Type'] = 'text/javascript'
                 return simplejson.dumps(res)
-            
+
             cherrypy.response.headers['Content-Type'] = content_type or \
             cherrypy.response.headers.get('Content-Type', 'text/html')
-            
+
             if isinstance(res, dict):
-                
+
                 try:
                     _template = load_template(res['cp_template'], func.__module__)
                 except:
                     _template = template_c
-                    
+
                 if _template:
-                    
+
                     from openobject.widgets import Widget, OrderedSet
                     from openobject.widgets import js_i18n
-                    
+
                     res['widget_css'] = css = OrderedSet()
                     res['widget_javascript'] = js = {}
-                    
+
                     jset = js.setdefault('head', OrderedSet())
                     jset.add_all([js_i18n])
-                    
+
                     for value in res.itervalues():
-                        
+
                         if isinstance(value, Widget):
                             css.add_all(value.retrieve_css())
                             for script in value.retrieve_javascript():
@@ -235,7 +235,7 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
                                 jset.add(script)
 
                     return render_template(_template, res).encode("utf-8")
-                
+
             if not isinstance(res, basestring):
                 return unicode(res).encode("utf-8")
 

@@ -26,26 +26,35 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-
-from openobject.i18n import format
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
 from openerp.controllers import SecuredController
+from openerp.utils import rpc, TinyDict
 
-import form
 import actions
+import form
+from openobject.i18n import format
+from openobject.tools import expose
+
+
+class ResourcePopup(form.Form):
+
+    _cp_path = "/process/resource"
+
+    @expose(template="templates/process_open.mako")
+    def create(self, params, tg_errors=None):
+        params.editable = True
+
+        if params.id and cherrypy.request.path_info == self.path + '/view':
+            params.load_counter = 2
+
+        form = self.create_form(params, tg_errors)
+        return dict(form=form, params=params)
 
 class Process(SecuredController):
     
     _cp_path = "/process"
+
+    resource = ResourcePopup()
 
     @expose(template="templates/process.mako")
     def default(self, id=False, res_model=None, res_id=False):
@@ -114,5 +123,31 @@ class Process(SecuredController):
 
         return graph
 
-# vim: ts=4 sts=4 sw=4 si et
+    @expose('json')
+    def action(self, **kw):
+        params, data = TinyDict.split(kw)
 
+        button = TinyDict()
+
+        button.model = params.model
+        button.id = params.id
+        button.name = params.action
+        button.btype = params.kind
+
+        params.button = button
+
+        fobj = form.Form()
+
+        error = ""
+        try:
+            res = fobj.button_action(params)
+        except Exception, e:
+            error = str(e)
+
+        return dict(error=error)
+
+    @expose(content_type='application/pdf')
+    def print_workflow(self, id, model):
+        return actions.execute_report("workflow.instance.graph", ids=[], id=int(id), model=model, nested=False)
+
+# vim: ts=4 sts=4 sw=4 si et

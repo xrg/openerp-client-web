@@ -176,16 +176,26 @@ var onKeyDown_search = function(evt) {
     }
 }
 
-var search_filter = function(src) {
-	
+var search_filter = function(src, id) {
 	all_domains = {};
 	check_domain = 'None';
 	domains = {};
 	search_context = {};
 	var group_by_ctx = [];
 	
-	domain = 'None';
 	
+	
+	domain = 'None';
+	if(src) {
+		if(src.checked==false) {
+			src.checked = true
+			id.className = 'active_filter';
+		}
+		else {
+			src.checked = false
+			id.className = 'inactive_filter';
+		}
+	}
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
@@ -411,6 +421,17 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 		    });	
 		}
 	});
+}
+
+var expand_group_option = function(id, event) {
+	if(getElement(id).style.display == '') {
+		getElement(id).style.display = 'none'
+		event.target.className = 'group-expand';
+	}
+	else {
+		getElement(id).style.display = '';
+		event.target.className = 'group-collapse';
+	}
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){

@@ -73,10 +73,10 @@ class Action(TinyInputWidget):
 
             if not self.action.get('domain', False):
                 self.action['domain']='[]'
-            
+
             ctx = rpc.session.context.copy()
             ctx.update({'active_id': False, 'active_ids': []})
-            
+
             self.context = expr_eval(self.action.get('context', '{}'), ctx)
             self.domain = expr_eval(self.action['domain'], ctx)
 
@@ -110,8 +110,7 @@ class Action(TinyInputWidget):
 
             elif self.action['view_type']=='tree':
                 pass #TODO
-            
-register_widget(Action, ["action"])            
+
+register_widget(Action, ["action"])
 
 # vim: ts=4 sts=4 sw=4 si et
-

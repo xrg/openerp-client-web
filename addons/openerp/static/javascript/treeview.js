@@ -6,7 +6,7 @@ var TreeView = function(current) {
     }
   
     this.__init__(current);
-}
+};
 
 TreeView.prototype = {
 
@@ -66,7 +66,7 @@ TreeView.prototype = {
         var form = document.forms['view_tree'];
         var args = {
             '_terp_selection': '[' + selection + ']'
-        }
+        };
 
         setNodeAttribute(form, 'action', openobject.http.getURL('/tree/switch', args));
         form.method = 'post';
@@ -80,4 +80,4 @@ TreeView.prototype = {
     
     toString: MochiKit.Base.forwardCall("repr")
     
-}
+};

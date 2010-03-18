@@ -20,18 +20,17 @@ class CPSessionWrapper(object):
 
     def clear(self):
         cherrypy.session.clear()
-        
+
 def init_rpc_session():
-    
+
     config = cherrypy.config
-    
+
     # initialize the rpc session
     host = config.get('openerp.server.host')
     port = config.get('openerp.server.port')
     protocol = config.get('openerp.server.protocol')
-    
+
     import rpc
     rpc.initialize(host, port, protocol, storage=CPSessionWrapper())
 
 init_rpc_session()
-

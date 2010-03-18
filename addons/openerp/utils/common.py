@@ -56,12 +56,12 @@ class TinyMessage(TinyException):
         TinyException.__init__(self, message=message, title=title)
 
 class Concurrency(Exception):
-    
+
     def __init__(self, message, title=None, datas=None):
         self.title = title
         self.datas = datas
         self.message = message
-        
+
     def __unicode__(self):
         return ustr(self.title)
 
@@ -84,4 +84,3 @@ def concurrency(message, title=None, datas=None):
     return Concurrency(message, title, datas)
 
 # vim: ts=4 sts=4 sw=4 si et
-

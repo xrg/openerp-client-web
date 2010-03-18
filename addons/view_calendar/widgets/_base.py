@@ -389,6 +389,3 @@ class TinyCalendar(ICalendar):
                 info_fields += [attrs['name']]
 
         return info_fields
-
-# vim: ts=4 sts=4 sw=4 si et
-

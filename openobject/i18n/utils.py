@@ -61,17 +61,17 @@ def get_accept_languages(accept):
     return langs
 
 def get_locale(locale=None):
-    
+
     if locale:
         return locale
-    
+
     try:
         locale = cherrypy.session[locale]
         if locale:
             return locale
     except:
         pass
-    
+
     try:
         header = cherrypy.request.headers.get("Accept-Language")
         if header:
@@ -80,7 +80,7 @@ def get_locale(locale=None):
                 return accept_languages[0]
     except AttributeError:
         pass
-    
+
     return "en"
 
 

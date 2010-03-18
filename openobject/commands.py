@@ -27,25 +27,25 @@ def setup_server(configfile):
 
     cherrypy.config.update({
         'tools.sessions.on':  True,
-        'tools.nestedvars.on':  True,        
+        'tools.nestedvars.on':  True,
     })
 
     app_config = as_dict(configfile)
-    
+
     _global = app_config.pop('global', {})
     _environ = _global.setdefault('server.environment', 'development')
-    
+
     if _environ != 'development':
         _global['environment'] = _environ
-        
+
     cherrypy.config.update(_global)
-    
+
     static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
     app_config.update({'/openobject/static': {
         'tools.staticdir.on': True,
         'tools.staticdir.dir': static_dir
     }})
-    
+
     app_config.update({'/favicon.ico': {
         'tools.staticfile.on': True,
         'tools.staticfile.filename': static_dir + "/images/favicon.ico"
@@ -55,19 +55,18 @@ def setup_server(configfile):
         'tools.staticfile.on': True,
         'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
     }})
-    
+
     from controllers._root import Root
     app = cherrypy.tree.mount(Root(), "/", config=app_config)
 
 
 def start():
-    
+
     parser = OptionParser(version="%s" % (release.version))
     parser.add_option("-c", "--config", metavar="FILE", dest="config", help="configuration file", default=get_config_file())
     options, args = parser.parse_args(sys.argv)
-    
+
     setup_server(options.config)
-    
+
     cherrypy.engine.start()
     cherrypy.engine.block()
-

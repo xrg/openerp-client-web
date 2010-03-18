@@ -30,8 +30,6 @@
 """
 This modules implements custom authorization logic for the OpenERP Web Client.
 """
-
-import types
 import cherrypy
 
 from openobject import pooler
@@ -40,33 +38,33 @@ __all__ = ["BaseController"]
 
 
 class ControllerType(type):
-    
+
     def __new__(cls, name, bases, attrs):
-        
-        obj = super(ControllerType, cls).__new__(cls, name, bases, attrs)    
+
+        obj = super(ControllerType, cls).__new__(cls, name, bases, attrs)
         path = attrs.get("_cp_path")
-        
+
         if "path" in attrs and name != "BaseController":
             raise Exception("Can't override 'path' attribute.")
-        
+
         if path:
             if not path.startswith("/"):
                 raise Exception("Invalid path '%s', should start with '/'." % (path))
-            
+
             pooler.register_object(obj, key=path, group="controllers", auto_create=True)
-            
+
         return obj
 
 
 class BaseController(object):
-    
+
     __metaclass__ = ControllerType
-    
+
     _cp_path = None
-    
+
     def _get_path(self):
         return self._cp_path
-    
+
     path = property(_get_path)
 
 

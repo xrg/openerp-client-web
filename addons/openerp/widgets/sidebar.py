@@ -43,7 +43,7 @@ class Sidebar(TinyWidget):
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
-        
+
             function a() {
 
                 var sb = openobject.dom.get('sidebar');
@@ -59,7 +59,7 @@ class Sidebar(TinyWidget):
                     img.src = "/openerp/static/images/sidebar_hide.gif";
                 }
             }
-            
+
             if (typeof(Notebook) == "undefined") {
                 a();
             } else {
@@ -80,11 +80,11 @@ class Sidebar(TinyWidget):
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type
-        
+
         act = 'client_action_multi'
         toolbar = toolbar or {}
         submenu = submenu
-        
+
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
@@ -93,7 +93,7 @@ class Sidebar(TinyWidget):
         self.sub_menu = None
 
         proxy = rpc.RPCProxy('ir.values')
-        
+
         if self.view_type == 'form':
             act = 'tree_but_action'
 
@@ -103,7 +103,7 @@ class Sidebar(TinyWidget):
         ids = [a['id'] for a in self.actions]
         for act in actions:
             if act['id'] not in ids:
-                act['context'] = self.context 
+                act['context'] = self.context
                 self.actions.append(act)
 
         reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
@@ -116,18 +116,17 @@ class Sidebar(TinyWidget):
                 self.reports.append(rep)
 
         if self.view_type == 'form':
-            
+
             proxy = rpc.RPCProxy('ir.attachment')
             ids = proxy.search([('res_model', '=', model), ('res_id', '=', id)], 0, 0, 0, self.context)
-            
+
             if ids:
                 attach = []
                 datas = proxy.read(ids, ['datas_fname'])
                 self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
-                
+
             self.sub_menu = submenu
         else:
             self.relates = []
-        
-# vim: ts=4 sts=4 sw=4 si et
 
+# vim: ts=4 sts=4 sw=4 si et
