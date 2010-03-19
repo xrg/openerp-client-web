@@ -24,12 +24,6 @@ def setup_server(configfile):
     if not os.path.exists(configfile):
         raise ConfigurationError(_("Could not find configuration file: %s") % configfile)
 
-
-    cherrypy.config.update({
-        'tools.sessions.on':  True,
-        'tools.nestedvars.on':  True,
-    })
-
     app_config = as_dict(configfile)
 
     _global = app_config.pop('global', {})
