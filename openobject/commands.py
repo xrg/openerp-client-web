@@ -51,8 +51,7 @@ def setup_server(configfile):
     }})
 
     from controllers._root import Root
-    app = cherrypy.tree.mount(Root(), "/", config=app_config)
-
+    return cherrypy.tree.mount(Root(), "/", config=app_config)
 
 def start():
 
