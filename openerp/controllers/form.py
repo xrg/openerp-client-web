@@ -899,13 +899,10 @@ class Form(SecuredController):
         context.update(rpc.session.context.copy())
         context.update({'active_id':  rpc.session.active_id, 'active_ids': [rpc.session.active_id]})
         
-        print "XXXXXXXXXXXX", context
-        
         if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the sidebar button!'))
         
         if not params.action:
-            print "YYYYYYYYYYYYYYYYYYYYYYYYY"
             return self.do_action('client_action_multi', datas=kw)
         
         action_type = rpc.RPCProxy('ir.actions.actions').read(params.action, ['type'], context)['type']
