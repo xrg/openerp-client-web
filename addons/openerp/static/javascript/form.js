@@ -116,6 +116,12 @@ var editSelectedRecord = function() {
 
 var switchView = function(view_type, src){
 
+	var search_filter_data = getElement('search_filter_data')
+	if (search_filter_data){
+		search_filter_data.style.display = "none";
+		appendChildNodes(parent.window.document.body, search_filter_data);
+	}
+
     var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];
 
