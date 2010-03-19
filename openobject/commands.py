@@ -35,20 +35,17 @@ def setup_server(configfile):
     cherrypy.config.update(_global)
 
     static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
-    app_config.update({'/openobject/static': {
-        'tools.staticdir.on': True,
-        'tools.staticdir.dir': static_dir
-    }})
-
-    app_config.update({'/favicon.ico': {
-        'tools.staticfile.on': True,
-        'tools.staticfile.filename': static_dir + "/images/favicon.ico"
-    }})
-
-    app_config.update({'/LICENSE.txt': {
-        'tools.staticfile.on': True,
-        'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
-    }})
+    app_config.update(
+        {'/openobject/static': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': static_dir
+        }, '/favicon.ico': {
+            'tools.staticfile.on': True,
+            'tools.staticfile.filename': static_dir + "/images/favicon.ico"
+        }, '/LICENSE.txt': {
+            'tools.staticfile.on': True,
+            'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
+        }})
     application.merge(app_config)
 
 def start():
