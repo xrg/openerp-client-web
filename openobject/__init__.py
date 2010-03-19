@@ -2,13 +2,14 @@ import os
 import sys
 from locale import getlocale
 
+import cherrypy
+import controllers._root
+
 libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'lib')
 if os.path.exists(libdir) and libdir not in sys.path:
     sys.path.insert(0, libdir)
 
-del os
-del sys
-del libdir
+__all__ = ['ustr', 'application']
 
 
 def ustr(value):
@@ -45,15 +46,13 @@ def ustr(value):
     try:
         return ustr(str(value))
     except:
-        value = " ".join([ustr(s) for s in value])
-
-    # else use default system locale
-    return value
+        return " ".join([ustr(s) for s in value])
 
 __builtins__['ustr'] = ustr
 
 import i18n
 i18n.install()
 
+application = cherrypy.tree.mount(controllers._root.Root(), '/')
 
 # vim: ts=4 sts=4 sw=4 si et

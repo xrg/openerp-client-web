@@ -5,7 +5,7 @@ from optparse import OptionParser
 import cherrypy
 from cherrypy._cpconfig import as_dict
 
-from openobject import release
+from openobject import release, application
 
 
 class ConfigurationError(Exception):
@@ -49,9 +49,7 @@ def setup_server(configfile):
         'tools.staticfile.on': True,
         'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
     }})
-
-    from controllers._root import Root
-    return cherrypy.tree.mount(Root(), "/", config=app_config)
+    application.merge(app_config)
 
 def start():
 
