@@ -179,15 +179,17 @@
             </table>
 
             <script type="text/javascript">
-               // new SortableGrid('${name}_grid');
-                % if data:
-                	%if 'sequence' in map(lambda x: x[0],headers)  or  'sequence' in map(lambda x: x[0],hiddens):
+                	<% 
+                		import itertools 
+                	   	from itertools import chain	
+                	%>
+                	% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
                 		var drag = getElementsByTagAndClassName('tr','grid-row');
-                		for(var grid=0;grid< drag.length;grid++) {
-						    new Draggable(drag[grid],{revert:true,ghosting:true});
-							new Droppable(drag[grid],{accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow});
+                		for(var grid=0; grid < drag.length; grid++) 
+                		{
+						    new Draggable(drag[grid], {revert:true, ghosting:true});
+							new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
 						}
-                	% endif
                 % endif
             </script>
         </td>

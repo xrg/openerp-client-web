@@ -16,6 +16,11 @@
     background-color: #F3F3F3;
 }
 
+.grid-rowdrop {
+	background-color: #C0C0C0;
+	position: absolute;
+}
+
 .grid-cell {
     padding: 2px 4px;
     border: none;
