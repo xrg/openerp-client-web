@@ -219,6 +219,28 @@ On Linux do this::
 
     See: http://openobject.org/wiki/index.php/InstallationManual/WebClientHTTPS
 
+OpenERP Web as a WSGI Application
+---------------------------------
+
+OpenERP Web's root CherryPy application is exposed via
+``openerp.application`` along with a few configuration functions. It's
+therefore possible to easily run OpenERP Web via any WSGI server you
+want. For instance using ``wsgiref.simple_server``::
+
+    from wsgiref.simple_server import make_server
+    from cherrypy._cpconfig import as_dict
+    import openobject
+
+    server = make_server('localhost', 8080, openobject.application)
+    openobject.configure(as_dict('config/openobject-web.cfg'))
+    openobject.enable_static_paths() # serve static file via the wsgi server
+    server.serve_forever()
+
+.. warning:: OpenERP Web's default configuration file is setup to
+    integrate with CherryPy's multithreaded single-process server. You
+    might have to provide different configuration options for
+    e.g. session storage depending on the WSGI server you'll be using.
+
 Web Browser Compatibilities
 ---------------------------
 
