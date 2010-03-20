@@ -9,7 +9,7 @@ libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))
 if os.path.exists(libdir) and libdir not in sys.path:
     sys.path.insert(0, libdir)
 
-__all__ = ['ustr', 'application']
+__all__ = ['ustr', 'application', 'configure', 'enable_static_paths']
 
 
 def ustr(value):
@@ -54,5 +54,36 @@ import i18n
 i18n.install()
 
 application = cherrypy.tree.mount(controllers._root.Root(), '/')
+def enable_static_paths():
+    ''' Enables handling of static paths by CherryPy:
+    * /openobject/static
+    * /favicon.ico
+    * LICENSE.txt
+    '''
+    static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                              'static')
+    application.merge(
+        {'/openobject/static': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': static_dir
+        }, '/favicon.ico': {
+            'tools.staticfile.on': True,
+            'tools.staticfile.filename': static_dir + "/images/favicon.ico"
+        }, '/LICENSE.txt': {
+            'tools.staticfile.on': True,
+            'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
+    }})
+
+def configure(app_config):
+    ''' Configures OpenERP Web Client. Takes a configuration dict
+    (as output by cherrypy._cpconfig.as_dict), from it configures
+    cherrypy globally and configure the OpenERP WSGI Application.
+    '''
+    _global = app_config.pop('global', {})
+    _environ = _global.setdefault('server.environment', 'development')
+    if _environ != 'development':
+        _global['environment'] = _environ
+    cherrypy.config.update(_global)
+    application.merge(app_config)
 
 # vim: ts=4 sts=4 sw=4 si et
