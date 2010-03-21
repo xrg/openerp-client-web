@@ -9,8 +9,12 @@ libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))
 if os.path.exists(libdir) and libdir not in sys.path:
     sys.path.insert(0, libdir)
 
-__all__ = ['ustr', 'application', 'configure', 'enable_static_paths']
+__all__ = ['ustr', 'application', 'configure', 'enable_static_paths',
+           'WSGI_STATIC_PATHS']
 
+# handle static files & paths via the WSGI server
+# (using cherrypy's tools.staticfile and tools.staticdir)
+WSGI_STATIC_PATHS = False
 
 def ustr(value):
     """This method is similar to the builtin `str` method, except
@@ -60,6 +64,9 @@ def enable_static_paths():
     * /favicon.ico
     * LICENSE.txt
     '''
+    global WSGI_STATIC_PATHS
+    WSGI_STATIC_PATHS = True
+
     static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                               'static')
     application.merge(
@@ -68,10 +75,12 @@ def enable_static_paths():
             'tools.staticdir.dir': static_dir
         }, '/favicon.ico': {
             'tools.staticfile.on': True,
-            'tools.staticfile.filename': static_dir + "/images/favicon.ico"
+            'tools.staticfile.filename': os.path.join(static_dir,
+                                                      "images", "favicon.ico")
         }, '/LICENSE.txt': {
             'tools.staticfile.on': True,
-            'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
+            'tools.staticfile.filename': os.path.join(static_dir, '..', '..',
+                                                      'doc', 'LICENSE.txt')
     }})
 
 def configure(app_config):

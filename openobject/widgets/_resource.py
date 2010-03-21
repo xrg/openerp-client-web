@@ -1,22 +1,18 @@
 import os
-
-from itertools import imap
-from itertools import izip
-from itertools import chain
+import random
 
 import cherrypy
 
+import openobject
 from _base import Widget
-from _utils import OrderedSet
 from _utils import Enum
-
 from openobject import tools
+
 
 locations = Enum(["head", "bodytop", "bodybottom"])
 
 
 # a random id to be used to generate static js/css links to prevent cache
-import random
 try:
     from hashlib import sha1 as sha
 except:
@@ -142,11 +138,12 @@ class CSSSource(Source):
 def register_resource_directory(config, modulename, directory):
     """Set up an application wide static resource directory...
     """
-
-    #assert isinstance(app, cherrypy.Application), "Excepected cherrypy.Application"
+    if not openobject.WSGI_STATIC_PATHS:
+        return False
 
     directory = os.path.abspath(directory)
     config.update({'/%s/static' % modulename: {
         'tools.staticdir.on': True,
         'tools.staticdir.dir': directory
     }})
+    return True

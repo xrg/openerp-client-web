@@ -241,6 +241,12 @@ want. For instance using ``wsgiref.simple_server``::
     might have to provide different configuration options for
     e.g. session storage depending on the WSGI server you'll be using.
 
+.. note:: If you don't serve static resources through Python WSGI
+    (using CherryPy's static service), ensure that you serve the main
+    static ressources (``openobject/static``) but also the static
+    resources of all the addons you're using
+    (``addons/${addon}/static``)
+
 Web Browser Compatibilities
 ---------------------------
 
