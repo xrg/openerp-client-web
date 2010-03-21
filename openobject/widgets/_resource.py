@@ -1,5 +1,5 @@
 import os
-import random
+import uuid
 
 import cherrypy
 
@@ -10,16 +10,6 @@ from openobject import tools
 
 
 locations = Enum(["head", "bodytop", "bodybottom"])
-
-
-# a random id to be used to generate static js/css links to prevent cache
-try:
-    from hashlib import sha1 as sha
-except:
-    from sha import new as sha
-
-_UUID = sha('%s' % random.random()).hexdigest()
-
 
 class Resource(Widget):
 
@@ -47,7 +37,8 @@ class Link(Resource):
 
         link = "/%s/static/%s" % (self.modname, self.filename)
         if cherrypy.config.get('server.environment') == 'development':
-            link = "%s?%s" % (link, _UUID)
+            # prevent local resource caching
+            link = "%s?%s" % (link, uuid.uuid4().hex)
         return tools.url(link)
 
     def get_file(self):
