@@ -6,6 +6,7 @@ import cherrypy
 from cherrypy._cpconfig import as_dict
 
 import openobject
+import openobject.release
 
 class ConfigurationError(Exception):
     pass
