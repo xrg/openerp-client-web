@@ -1,29 +1,15 @@
 import os
-
-from itertools import imap
-from itertools import izip
-from itertools import chain
+import uuid
 
 import cherrypy
 
+import openobject
 from _base import Widget
-from _utils import OrderedSet
 from _utils import Enum
-
 from openobject import tools
 
+
 locations = Enum(["head", "bodytop", "bodybottom"])
-
-
-# a random id to be used to generate static js/css links to prevent cache
-import random
-try:
-    from hashlib import sha1 as sha
-except:
-    from sha import new as sha
-
-_UUID = sha('%s' % random.random()).hexdigest()
-
 
 class Resource(Widget):
 
@@ -51,7 +37,8 @@ class Link(Resource):
 
         link = "/%s/static/%s" % (self.modname, self.filename)
         if cherrypy.config.get('server.environment') == 'development':
-            link = "%s?%s" % (link, _UUID)
+            # prevent local resource caching
+            link = "%s?%s" % (link, uuid.uuid4().hex)
         return tools.url(link)
 
     def get_file(self):
@@ -142,11 +129,12 @@ class CSSSource(Source):
 def register_resource_directory(config, modulename, directory):
     """Set up an application wide static resource directory...
     """
-
-    #assert isinstance(app, cherrypy.Application), "Excepected cherrypy.Application"
+    if not openobject.WSGI_STATIC_PATHS:
+        return False
 
     directory = os.path.abspath(directory)
     config.update({'/%s/static' % modulename: {
         'tools.staticdir.on': True,
         'tools.staticdir.dir': directory
     }})
+    return True
