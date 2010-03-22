@@ -415,7 +415,10 @@ class M2O(Char):
             self.value = self.value, rpc.name_get(self.attrs['relation'], self.value)
 
         if self.value and len(self.value) > 0:
-            return self.value[-1]
+            if isinstance(self.value, tuple):
+                return self.value[-1]
+            else:
+                return self.value
 
         return ''
 
