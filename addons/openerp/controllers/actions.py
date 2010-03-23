@@ -299,8 +299,10 @@ def get_action_type(act_id):
     @param act_id: the action id
     @return: action type
     """
-    res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', act_id, ['type'], rpc.session.context)
-
+    
+    proxy = rpc.RPCProxy("ir.actions.actions")
+    res = proxy.read([act_id], ["type"], rpc.session.context)[0]
+    
     if not (res and len(res)):
         raise common.message(_('Action not found!'))
 
