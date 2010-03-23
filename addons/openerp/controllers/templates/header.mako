@@ -36,7 +36,7 @@ except:
 						<ul class="tools">
 							<li>
 								% if rpc.session.is_logged():
-									<a href="#" class="messages">Messages<small>${total_mess}</small></a>
+									<a target='appFrame' href="${py.url('/requests')}" class="messages">Messages<small>${total_mess}</small></a>
 									<span class="inline"><strong>${total_mess} New Messages</strong></span>
 								% endif
 							</li>
