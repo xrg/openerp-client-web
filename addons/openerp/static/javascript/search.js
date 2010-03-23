@@ -216,7 +216,6 @@ var search_filter = function(src, id) {
 	domains = serializeJSON(domains);
 	all_domains['domains'] = domains;
 	all_domains['search_context'] =  search_context;
-	
 	selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
 	
 	all_boxes = [];
@@ -392,7 +391,6 @@ var search_filter = function(src, id) {
 }
 
 var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
-	
 	var req = openobject.http.postJSON('/search/eval_domain_filter', {source: '_terp_list',
 															model: $('_terp_model').value, 
 															custom_domain: custom_domain,
@@ -403,7 +401,8 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 			var params = {'domain': obj.sf_dom,
 							'model': openobject.dom.get('_terp_model').value,
 							'flag': obj.flag};
-								
+			if(group_by_ctx!='')
+				params['group_by'] = group_by_ctx					
 			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
 		}
 		if (obj.action) { // For manage Filter
