@@ -1047,7 +1047,7 @@ msgid "Cancel editing the current resource"
 msgstr "Abbrechen der Bearbeitung dieses Datensatzes"
 
 #: addons/base/controllers/templates/form.mako:186
-msgid "Customise"
+msgid "Customize"
 msgstr "Anpassen"
 
 #: addons/base/controllers/templates/form.mako:189
@@ -1067,11 +1067,11 @@ msgid "Manage Workflows"
 msgstr "Verwalten Arbeitsgänge"
 
 #: addons/base/controllers/templates/form.mako:195
-msgid "Customise current object or create a new object"
+msgid "Customize current object or create a new object"
 msgstr "Aktuelles Objekt anpassen oder neues Objekt erstellen"
 
 #: addons/base/controllers/templates/form.mako:197
-msgid "Customise Object"
+msgid "Customize Object"
 msgstr "Objekt Anpassen"
 
 #: addons/base/controllers/templates/header.mako:28

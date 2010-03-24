@@ -206,7 +206,7 @@ class Form(SecuredController):
         ids = form.screen.ids
 
         buttons = TinyDict()    # toolbar
-        links = TinyDict()      # bottom links (customise view, ...)
+        links = TinyDict()      # bottom links (customize view, ...)
 
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'

@@ -167,9 +167,9 @@
                     % if links:
                     <tr>
                         <td class="dimmed-text">
-                            [<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
-                                onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a>]<br/>
-                            <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
+                            [<a onmouseover="showCustomizeMenu(this, 'customize_menu_')" 
+                                onmouseout="hideElement('customize_menu_');" href="javascript: void(0)">${_("Customize")}</a>]<br/>
+                            <div id="customize_menu_" class="contextmenu" style="position: absolute; display: none;" 
                                  onmouseover="showElement(this);" onmouseout="hideElement(this);">
                                 <a title="${_('Manage views of the current object')}" 
                                    onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
@@ -177,9 +177,9 @@
                                 <a title="${_('Manage workflows of the current object')}" 
                                    onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Workflows")}</a>
-                                <a title="${_('Customise current object or create a new object')}" 
+                                <a title="${_('Customize current object or create a new object')}" 
                                    onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
-                                   href="javascript: void(0)">${_("Customise Object")}</a>
+                                   href="javascript: void(0)">${_("Customize Object")}</a>
                             </div>
                         </td>
                     </tr>
