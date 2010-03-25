@@ -53,19 +53,6 @@ class Root(SecuredController):
         """
         raise redirect("/menu")
     
-    @expose()
-    def home(self, id='action_id'):
-        proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-
-        if not act_id[0][id]:
-            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
-            rpc.session.logout()
-            raise redirect('/');
-
-        act_id = act_id[0][id][0]
-        return actions.execute_by_id(act_id)
-    
     def user_action(self, id='action_id'):
         """Perform default user action.
 
