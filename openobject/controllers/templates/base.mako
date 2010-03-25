@@ -44,13 +44,9 @@
     ${js.display()}
 % endfor
 
-<table id="content_container" width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>
-			${self.content()}
-		</td>
-	</tr>
-</table>
+<div id="root">
+	${self.content()}
+</div>
 
 % for js in widget_javascript.get('bodybottom', []):
     ${js.display()}

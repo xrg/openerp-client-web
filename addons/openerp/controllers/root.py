@@ -94,7 +94,7 @@ class Root(SecuredController):
 
         for tool in tools:
             tid = tool['id']
-            tool['icon'] = icons.get_icon(tool['icon'])
+#            tool['icon'] = icons.get_icon(tool['icon'])
             tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
                                     domain=[('parent_id', '=', tid)],
                                     context=ctx, action="/tree/action")

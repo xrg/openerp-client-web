@@ -6,7 +6,7 @@ function adjustAppFrame(evt){
     var h = $("#appFrame").contents().find("body").height();
     var w = $("#appFrame").contents().width();
     
-    $("#menubar").width(250);
+    $("#menubar").width();
     $("#appFrame").height(Math.max(0, h));
         
     var mh = $("#menubar").height();
