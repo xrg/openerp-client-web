@@ -278,7 +278,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
             var menu_img = IMG({src: '/openerp/static/images/stock/gtk-jump-to.png'});
             menu_img.title = this.data.menu.name;
             menu_img.onclick = MochiKit.Base.bind(function(){
-                window.open(openobject.http.getURL('/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id}));
+                window.location.href = openobject.http.getURL('/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id});
             }, this);
             MochiKit.DOM.appendChildNodes(menu, menu_img);
         }

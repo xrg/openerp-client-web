@@ -27,27 +27,12 @@
             window.location.href = openobject.http.getURL("/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
-    % else:
-    <script type="text/javascript">
-        MochiKit.DOM.addLoadEvent(function(evt){
     
-            var id = parseInt(openobject.dom.get('id').value) || 0;
-            var res_model = openobject.dom.get('res_model').value;
-            var res_id = openobject.dom.get('res_id').value;
-
-            if (id) {
-                var wkf = new openobject.process.Workflow('process_canvas');
-                wkf.load(id, res_model, res_id);
-            }
-
-        });
-    </script>
     % endif
 </%def>
 
 <%def name="content()">
 
-<%include file="header.mako"/>
 
 % if selection:
 <div class="view">
@@ -87,6 +72,17 @@
             <input type="hidden" id="res_model" value="${res_model}"/>
             <input type="hidden" id="res_id" value="${res_id}"/>
             <div id="process_canvas"></div>
+            <script type="text/javascript">
+		    
+	            var id = parseInt(openobject.dom.get('id').value) || 0;
+	            var res_model = openobject.dom.get('res_model').value;
+	            var res_id = openobject.dom.get('res_id').value;
+	
+	            if (id) {
+	                var wkf = new openobject.process.Workflow('process_canvas');
+	                wkf.load(id, res_model, res_id);
+	            }
+    		</script>
         </td>
     </tr>
     <tr>
@@ -97,6 +93,5 @@
 </table>
 %endif
 
-<%include file="footer.mako"/>
 
 </%def>

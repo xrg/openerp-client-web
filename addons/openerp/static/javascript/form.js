@@ -203,8 +203,7 @@ var show_process_view = function() {
     }
 
     id = parseInt(id) || null;
-
-    window.open(openobject.http.getURL('/process', {res_model: model, res_id: id}));
+	window.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
 }
 
 var validate_required = function(form) {

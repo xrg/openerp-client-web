@@ -51,7 +51,7 @@
                                         ${make_view_button(**view)}
                                     % endfor
                                     % if buttons.process:
-                                    	 <a target="_blank" onclick="show_process_view()">
+                                    	 <a target="appFrame" onclick="show_process_view()">
                                     	 	<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
                                     	 </a>
                                     % endif
