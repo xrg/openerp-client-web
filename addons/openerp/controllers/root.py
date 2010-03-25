@@ -67,10 +67,12 @@ class Root(SecuredController):
             rpc.session.logout()
             raise redirect('/');
 
-        act_id = act_id[0][id][0]
-        
-        from openerp import controllers
-        return controllers.actions.execute_by_id(act_id)
+        if 'Menu' in act_id[0]['action_id'][1]:
+            return self.blank()
+        else:
+            act_id = act_id[0][id][0]
+            from openerp import controllers
+            return controllers.actions.execute_by_id(act_id)
 
     @expose()
     def home(self):
