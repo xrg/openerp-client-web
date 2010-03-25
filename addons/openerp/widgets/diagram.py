@@ -63,7 +63,7 @@ class Diagram(TinyWidget):
     template = "templates/diagram.mako"
     member_widgets = []
     
-    params = ['dia_id', 'node', 'connector', 'src_node', 'des_node', 'node_flds', 'conn_flds']
+    params = ['dia_id', 'node', 'connector', 'src_node', 'des_node', 'node_flds', 'conn_flds', 'bgcolor', 'shapes']
     
     pager = None
     dia_id = None
@@ -71,8 +71,10 @@ class Diagram(TinyWidget):
     connector = ''
     src_node = ''
     des_node = ''
-    node_flds = []
+    node_flds = {}
     conn_flds = []
+    bgcolor = {}
+    shapes = {}
     
     css = [CSSLink("openerp", 'workflow/css/graph.css')]
     javascript = [JSLink("openerp", 'workflow/javascript/draw2d/wz_jsgraphics.js'),
@@ -103,17 +105,33 @@ class Diagram(TinyWidget):
         
         self.parse(root)
         
-    def parse(self, root):
-        elm = None        
+    def parse(self, root):        
+        self.node_flds['visible'] = []
+        self.node_flds['invisible'] = []
         
         for node in root.childNodes:
             if node.nodeName == 'node':
                 attrs = node_attributes(node)
                 self.node = attrs['object']
-                
+                self.bgcolor = attrs.get('bgcolor', '')
+                self.shapes = attrs.get('shape', '')
+#                for color_spec in attrs.get('bgcolor', '').split(';'):
+#                    if color_spec:                                            
+#                        colour, test = color_spec.split(':')
+#                        self.bgcolor[colour] = test
+#                
+#                for shape_spec in attrs.get('shape', '').split(';'):
+#                    if shape_spec:
+#                        shape, test = shape_spec.split(':')
+#                        self.shapes[shape] = test
+                                        
                 for fld in node.childNodes:
-                    if fld.nodeName == 'field':                        
-                        self.node_flds.append(str(node_attributes(fld)['name']))
+                    if fld.nodeName == 'field':       
+                        attrs = node_attributes(fld)
+                        if attrs.has_key('invisible') and attrs['invisible']=='1':
+                            self.node_flds['invisible'].append(attrs['name'])
+                        else:                  
+                            self.node_flds['visible'].append(attrs['name'])
             elif node.nodeName == 'arrow':
                 attrs = node_attributes(node)
                 self.connector = attrs['object']

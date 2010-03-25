@@ -51,7 +51,7 @@ openobject.workflow.Workflow.implement({
         this.setEnableSmoothFigureHandling(true);
 
         // enable grid by default
-        this.setBackgroundImage( openobject.http.getURL('/static/workflow/images/grid_10.jpg'), true);
+        this.setBackgroundImage(openobject.http.getURL('/static/workflow/images/grid_10.jpg'), true);
         this.setGridWidth(10, 10);
         this.setSnapToGrid(true);
 		
@@ -92,16 +92,20 @@ openobject.workflow.Workflow.implement({
 		this.state.initPort();
 		this.state.initPort();
 		
-		var node_flds = getElement('node_flds').value;			
-		var conn_flds = getElement('conn_flds').value;
+		//var node_flds_v = getElement('node_flds_visible').value;			
+		//var node_flds_h = getElement('node_flds_invisible').value;
+		//var conn_flds = getElement('conn_flds').value;
 		
-		this.node_flds = eval(node_flds);
-		this.conn_flds = eval(conn_flds);
-		
-		this.draw_graph(openobject.dom.get('wkf_id').value, node_flds, conn_flds);
+		this.node_flds_v = getElement('node_flds_visible').value;          
+        this.node_flds_h = getElement('node_flds_invisible').value;
+        this.conn_flds = getElement('conn_flds').value;
+        this.bgcolors = getElement('bgcolors').value;
+        this.shapes = getElement('shapes').value;
+        			
+		this.draw_graph(openobject.dom.get('wkf_id').value);
 	},
 	
-	draw_graph : function(wkf_id, node_flds, conn_flds) {
+	draw_graph : function(wkf_id) {
 		
 		this.id = wkf_id;
 		var self = this;
@@ -109,15 +113,17 @@ openobject.workflow.Workflow.implement({
 		req = openobject.http.postJSON('/workflow/get_info',{id:wkf_id, model:$('_terp_model').value,
 		                                                      node_obj: self.node_obj, conn_obj:self.connector_obj,
 		                                                      src_node: self.src_node_nm, des_node:self.des_node_nm,
-		                                                      node_flds: node_flds, conn_flds: conn_flds});
+		                                                      node_flds_v: this.node_flds_v, node_flds_h: this.node_flds_h, conn_flds: this.conn_flds,
+		                                                      bgcolors: this.bgcolors, shapes: this.shapes});
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.nodes) {
 			    var node = obj.nodes[i];
 	
-		        if(!node['subflow_id'])
+		        //if(!node['subflow_id'])
+		        if(node['shape']=='ellipse')
 		          var state = new openobject.workflow.StateOval(node, self.workitems);
-		        else
+		        else if(node['shape']=='rectangle')
 		          var state = new openobject.workflow.StateRectangle(node, self.workitems);
 		          
 		        self.addFigure(state, node['x'], node['y']);
@@ -270,7 +276,11 @@ openobject.workflow.Workflow.implement({
 			this.state.setPosition(100, 20);	
 			var self = this;
 			
-			req = openobject.http.postJSON('/workflow/state/get_info',{node_obj: self.node_obj, id: id});
+			req = openobject.http.postJSON('/workflow/state/get_info',{node_obj: self.node_obj, id: id, 
+			                                                         node_flds_v: this.node_flds_v, 
+			                                                         node_flds_h: this.node_flds_h,
+			                                                         bgcolors: this.bgcolors, 
+			                                                         shapes: this.shapes});
 			req.addCallback(function(obj) {
 				var flag = false;
 				var index = null;
@@ -285,31 +295,33 @@ openobject.workflow.Workflow.implement({
 						break;
 					}
 				}			
-				
+			
 				if(!flag) {	
 				    
 			        if(!data['subflow_id'])
-			             var state = new openobject.workflow.StateOval(data);
+			             var state = new openobject.workflow.StateOval(data, self.workitems);
 			        else
-			             var state = new openobject.workflow.StateRectangle(data);
+			             var state = new openobject.workflow.StateRectangle(data, self.workitems);
 			             
 			        self.addFigure(state, position.x, position.y);
 			        self.states.add(state);
 			        state.initPort();
-				} else {
+				} else {				    
 					var state = self.states.get(index);
-					var span = openobject.dom.get(state.sname);
+					var span = openobject.dom.get(state.name);
 					span.innerHTML = data['name'];
 					span.id = data['name'];
 					
-					state.action = data['action'];
-					state.kind = data['kind'];
-                    state.sname = data['name'];
+					MochiKit.Base.update(state.options, data['options'])
+					//state.action = data['action'];
+					//state.kind = data['kind'];
+                    //state.sname = data['name'];
 									
 //					if(data['flow_start'] || data['flow_stop'])
 //                      this.setBackgroundColor(new draw2d.Color(155, 155, 155))
 //					else
 //                      this.setBackgroundColor(new draw2d.Color(255, 255, 255))
+				
 				}	
 			});
 		} else {
@@ -321,7 +333,12 @@ openobject.workflow.Workflow.implement({
 		
 		var self = this;
 		
-		req = openobject.http.postJSON('/workflow/connector/auto_create', {conn_obj: self.connector_obj, src: self.src_node_nm, des: self.des_node_nm, act_from: act_from, act_to: act_to});
+		req = openobject.http.postJSON('/workflow/connector/auto_create', {conn_obj: self.connector_obj, 
+		                                                                  src: self.src_node_nm, 
+		                                                                  des: self.des_node_nm, 
+		                                                                  act_from: act_from, 
+		                                                                  act_to: act_to,
+		                                                                  conn_flds: this.conn_flds});
 		req.addCallback(function(obj) {	
 			
 			var data = obj.data;
@@ -340,15 +357,9 @@ openobject.workflow.Workflow.implement({
 						end = j;
 				}
 				
-				var counter = self.get_overlaping_connection(data['act_from'][0], data['act_to'][0], 1)
+				var counter = self.get_overlaping_connection(data['s_id'], data['d_id'], 1)
 				
-				var params = {
-				    id: data['id'],
-				    signal: data['signal'],
-				    condition: data['condition'],
-				    source: data['act_from'][1],
-				    destination: data['act_to'][1]
-				};
+				var params = MochiKit.Base.update({}, obj.data);
 				
 				if(counter>1) {
 					params['isOverlaping'] = true;

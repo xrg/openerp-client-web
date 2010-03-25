@@ -37,6 +37,11 @@ if (typeof(openobject.workflow) == "undefined") {
     openobject.workflow = new Object;
 }
 
+colors = {
+'grey': [155, 155, 155],
+'red': [236, 20, 60],
+'white': [255, 255, 255]
+};
 
 openobject.workflow.StateBase = function(id, action, kind, sname, options) {
     this.__init__(id, action, kind, sname, options);
@@ -60,18 +65,23 @@ openobject.workflow.StateBase.prototype = {
         this.portD = null;
     },
     
-    init_label : function(flow_start, flow_stop, workitems) {
+    init_label : function(color, workitems) {
     
         this.setDimension(100, 60);
         this.setDeleteable(false);
         this.setResizeable(false);
         this.setLineWidth(2);
               
-                       
-        if(flow_start || flow_stop)          
-            this.setBackgroundColor(new draw2d.Color(155, 155, 155))
-        else
-            this.setBackgroundColor(new draw2d.Color(255, 255, 255)); 
+        if (!color)
+            var c = 'white';
+        else                 
+            var c = colors[color]
+            
+        this.setBackgroundColor(new draw2d.Color(c[0], c[1], c[2]))                                           
+        //if(flow_start || flow_stop)          
+          //  this.setBackgroundColor(new draw2d.Color(155, 155, 155))
+        //else
+          //  this.setBackgroundColor(new draw2d.Color(255, 255, 255)); 
         try{
         
         if (findIdentical(workitems, this.act_id)>-1) {           
@@ -87,7 +97,7 @@ openobject.workflow.StateBase.prototype = {
         this.sgnl_clk = MochiKit.Signal.connect(html , 'onclick', this, this.onClick);
         this.disableTextSelection(html);
         
-        var span = SPAN({'class': 'stateName', id: this.sname}, this.name);
+        var span = SPAN({'class': 'stateName', id: this.name}, this.name);
         MochiKit.DOM.appendChildNodes(html, span);
         
         if(!isUndefinedOrNull(this.sname)) {
@@ -190,7 +200,8 @@ openobject.workflow.StateOval.implement({
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.Oval.call(this); 
         this.dragged = false;
-        this.init_label(params.flow_start, params.flow_stop, workitems)
+        //this.init_label(params.flow_start, params.flow_stop, workitems)
+        this.init_label(params.color, workitems);
     }
         
 });
@@ -208,7 +219,8 @@ openobject.workflow.StateRectangle.implement({
         this.lineColor = new draw2d.Color(0,0,0);
         this.setLineWidth(1); 
         
-        this.init_label(params.flow_start, params.flow_stop, workitems);
+        //this.init_label(params.flow_start, params.flow_stop, workitems);
+        this.init_label(params.color, workitems);
     },
     
     createHTMLElement : function() {

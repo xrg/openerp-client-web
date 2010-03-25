@@ -108,13 +108,44 @@ class State(Form):
 
     @expose('json')
     def get_info(self, node_obj, id, **kw):
-
+        node_flds_v = eval(kw.get('node_flds_v', '[]'))
+        node_flds_h = eval(kw.get('node_flds_h', '[]'))
+        
+        bgcolors = {}
+        for color_spec in kw.get('bgcolors', '').split(';'):
+            if color_spec:
+                colour, test = color_spec.split(':')
+                bgcolors[colour] = test   
+        
+        shapes = {}
+        for shape_spec in kw.get('shapes', '').split(';'):
+            if shape_spec:
+                colour, test = shape_spec.split(':')
+                shapes[colour] = test 
 #        proxy_act = rpc.RPCProxy('workflow.activity')
         proxy_act = rpc.RPCProxy(node_obj)
         search_act = proxy_act.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
-        data = proxy_act.read(search_act, [], rpc.session.context)
+        result = proxy_act.read(search_act, node_flds_v + node_flds_h, rpc.session.context)[0]
+        
+        data = {}
+        data['id'] = result['id']
+        data['name'] = result.get('name', '')
+        
+        data['color'] = 'white'        
+        for color, expr in bgcolors.items():
+            if eval(expr, result):
+                data['color'] = color
+                
+        data['shape'] = 'ellipse'                    
+        for shape, expr in shapes.items():
+            if eval(expr, result):
+                data['shape'] = shape                    
 
-        return dict(data=data[0])
+        data['options'] = {}
+        for fld in node_flds_v:
+            data['options'][fld.title()] = result[fld]
+
+        return dict(data=data)
 
 class Connector(Form):
 
@@ -177,13 +208,22 @@ class Connector(Form):
 
     @expose('json')
     def auto_create(self, conn_obj, src, des, act_from, act_to, **kw):
-
+        conn_flds = eval(kw.get('conn_flds', '[]'))
 #        proxy_tr = rpc.RPCProxy('workflow.transition')
         proxy_tr = rpc.RPCProxy(conn_obj)
 #        id = proxy_tr.create({'act_from': act_from, 'act_to': act_to})
         id = proxy_tr.create({src: act_from, des: act_to})
-        data = proxy_tr.read(id, [], rpc.session.context);
-
+        result = proxy_tr.read(id, [src, des] + conn_flds, rpc.session.context);
+        data = {}
+        data['id'] = result['id']
+        data['s_id'] = result[src][0]
+        data['d_id'] = result[des][0]
+        data['source'] = result[src][1]
+        data['destination'] = result[des][1]
+        data['options'] = {}
+        for fld in conn_flds:
+            data['options'][fld.title()] = result[fld]
+        
         if id>0:
             return dict(flag=True,data=data)
         else:
@@ -196,7 +236,7 @@ class Connector(Form):
         proxy_tr = rpc.RPCProxy(conn_obj)
         search_tr = proxy_tr.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
         data = proxy_tr.read(search_tr, [], rpc.session.context)
-
+        
         return dict(data=data[0])
 
     @expose('json')
@@ -226,12 +266,25 @@ class Workflow(Form):
     @expose('json')
     def get_info(self, id, model, node_obj, conn_obj, src_node, des_node, **kw):
         
-        node_flds = eval(kw.get('node_flds', '[]'))
-        conn_flds = eval(kw.get('conn_flds', '[]'))        
+        node_flds_v = eval(kw.get('node_flds_v', '[]'))
+        node_flds_h = eval(kw.get('node_flds_h', '[]'))
+        conn_flds = eval(kw.get('conn_flds', '[]'))
+        
+        bgcolors = {}
+        for color_spec in kw.get('bgcolors', '').split(';'):
+            if color_spec:
+                colour, test = color_spec.split(':')
+                bgcolors[colour] = test   
+        
+        shapes = {}
+        for shape_spec in kw.get('shapes', '').split(';'):
+            if shape_spec:
+                colour, test = shape_spec.split(':')
+                shapes[colour] = test   
+                 
 #        proxy = rpc.RPCProxy("workflow")
 #        search_ids = proxy.search([('id', '=' , int(id))], 0, 0, 0, rpc.session.context)
 #        graph_search = proxy.graph_get(search_ids[0], (140, 180), rpc.session.context)
-
         proxy = rpc.RPCProxy('ir.ui.view')
         graph_search = proxy.graph_get(int(id), model, node_obj, conn_obj, src_node, des_node, False, (140, 180), rpc.session.context)
         
@@ -249,9 +302,12 @@ class Workflow(Form):
             t['d_id'] = transitions[tr][1]
 
         proxy_tr = rpc.RPCProxy(conn_obj)
-        search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)         
+        
+        search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)       
+          
 #        data_trs = proxy_tr.read(search_trs, ['signal', 'condition', 'act_from', 'act_to'], rpc.session.context)
-        data_trs = proxy_tr.read(search_trs, [src_node, des_node] + conn_flds, rpc.session.context)
+       
+        data_trs = proxy_tr.read(search_trs, conn_flds + [src_node, des_node], rpc.session.context)
         
         for tr in data_trs:
             t = connectors.get(str(tr['id'])) 
@@ -260,24 +316,31 @@ class Workflow(Form):
             t['options'] = {}
             for fld in conn_flds:
                 t['options'][fld.title()] = tr[fld]
-
-
+        
         proxy_act = rpc.RPCProxy(node_obj)
         search_acts = proxy_act.search([('wkf_id', '=', int(id))], 0, 0, 0, rpc.session.context)
-        data_acts = proxy_act.read(search_acts, ['flow_start', 'flow_stop', 'subflow_id'] + node_flds, rpc.session.context)
-        
+
+#        data_acts = proxy_act.read(search_acts, ['flow_start', 'flow_stop', 'subflow_id'] + node_flds, rpc.session.context)
+        data_acts = proxy_act.read(search_acts, node_flds_h + node_flds_v, rpc.session.context)
+    
         for act in data_acts:
             n = nodes.get(str(act['id']))
             n['id'] = act['id']
-            #TO DO: provide support for color and shape of activity
-            n['flow_start'] = act['flow_start']
-            n['flow_stop'] = act['flow_stop']            
-            n['subflow_id'] = act['subflow_id']
+            n['color'] = 'white'
+            for color, expr in bgcolors.items():
+                if eval(expr, act):
+                    n['color'] = color
+                    
+            n['shape'] = 'ellipse'                    
+            for shape, expr in shapes.items():
+                if eval(expr, act):
+                    n['shape'] = shape                    
+#            for fld in node_flds_h:
+#                n[fld] = act[fld]
+                
             n['options'] = {}
-            for fld in node_flds:
+            for fld in node_flds_v:
                 n['options'][fld.title()] = act[fld]
-
-            
 
         return dict(nodes=nodes,conn=connectors)
 
