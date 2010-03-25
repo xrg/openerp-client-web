@@ -55,7 +55,7 @@ class TreeGrid(TinyWidget):
         icon_name = headers[0].get('icon')
 
         params = dict(model=model,
-                          ids=ids,
+                          ids=ids or '',
                           fields=ustr(fields),
                           domain=ustr(domain),
                           context=ustr(context),

@@ -102,7 +102,7 @@ class ViewTree(Form):
                                       model=self.model,
                                       headers=self.headers,
                                       url=url("/tree/data"),
-                                      ids=ids or 0,
+                                      ids=ids,
                                       domain=self.domain,
                                       context=self.context,
                                       field_parent=self.field_parent,
