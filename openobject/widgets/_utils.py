@@ -61,5 +61,3 @@ class Bunch(dict):
 def make_bunch(d):
     """Converts a dict instance into a Bunch"""
     return Bunch(d)
-
-

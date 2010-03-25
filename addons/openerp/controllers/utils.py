@@ -26,19 +26,14 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import re
 import time
-import types
 
 import cherrypy
+from openerp.utils import rpc
 
 from openobject import tools
-
 from openobject.tools import expose
-from openobject.tools import redirect
-
-from openerp.utils import rpc
 
 
 __all__ = ["secured", "unsecured", "login"]
@@ -50,33 +45,41 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
     url = rpc.session.connection_string
     url = str(url[:-1])
 
-    dblist = rpc.session.listdb()
-    if dblist == -1:
-        dblist = []
+    dblist = []
+    try:
+        dblist = rpc.session.listdb()
+    except:
         message = _("Could not connect to server!")
-        
-    dbfilter = cherrypy.request.app.config['openobject-web'].get('dblist.filter')    
-    if dbfilter:
 
+    dbfilter = cherrypy.request.app.config['openobject-web'].get('dblist.filter')
+    if dbfilter:
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
 
         base = re.split('\.|:|/', host)[0]
 
-        if dbfilter == 'NONE':
-            dblist = dblist
-
         if dbfilter == 'EXACT':
-            base = base
-            dblist = [d for d in dblist if d == base]
+            if dblist is None:
+                db = base
+                dblist = [db]
+            else:
+                dblist = [d for d in dblist if d == base]
 
-        if dbfilter == 'UNDERSCORE':
+        elif dbfilter == 'UNDERSCORE':
             base = base + '_'
-            dblist = [d for d in dblist if d.startswith(base)]
+            if dblist is None:
+                if db and not db.startswith(base):
+                    db = None
+            else:
+                dblist = [d for d in dblist if d.startswith(base)]
 
-        if dbfilter == 'BOTH':
-            dblist = [d for d in dblist if d.startswith(base + '_') or d == base]
-            
+        elif dbfilter == 'BOTH':
+            if dblist is None:
+                if db and db != base and not db.startswith(base + '_'):
+                    db = None
+            else:
+                dblist = [d for d in dblist if d.startswith(base + '_') or d == base]
+
     info = None
     try:
         info = rpc.session.execute_noauth('common', 'login_message') or ''
@@ -176,4 +179,3 @@ def unsecured(fn):
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

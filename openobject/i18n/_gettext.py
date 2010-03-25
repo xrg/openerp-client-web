@@ -16,35 +16,35 @@ _translations = {}
 
 
 def get_translations(locale, domain=None):
-        
+
     domain = domain or "messages"
-    
+
     cats = _translations.setdefault(domain, {})
     cat = cats.get(locale)
-    
+
     if not cat:
         path = os.path.join(os.path.dirname(__file__), "locales")
         load_translations(path, [locale])
         cat = cats.get(locale)
-        
+
     return cat
 
 
 def load_translations(path, locales=None, domain=None):
-    
+
     domain = domain or "messages"
     catalog = _translations.setdefault(domain, {})
-    
+
     if not locales:
         locales = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
-        
+
     if domain == "javascript":
         jspath = os.path.join(os.path.dirname(path), "static", "javascript", "i18n")
-        
+
     for lang in locales:
-        
+
         tr = Translations.load(path, [lang], domain)
-        
+
         if domain == "messages":
             tr1 = catalog.setdefault(lang, None)
             if not tr1:
@@ -54,13 +54,13 @@ def load_translations(path, locales=None, domain=None):
                     tr1.merge(tr)
                 except:
                     pass
-        
-        if domain == "javascript":            
+
+        if domain == "javascript":
             fname = os.path.join(jspath, "%s.js" % lang)
             if os.path.exists(fname):
                 _all = catalog.setdefault(lang, [])
                 _all.append(fname)
-    
+
 
 def _gettext(key, locale=None, domain=None):
     """Get the gettext value for key.
@@ -137,7 +137,7 @@ def gettext2(key, locale=None, domain=None, **kw):
         except:
             pass
     return value
-    
+
 def install():
     __builtins__['_'] = gettext2
 

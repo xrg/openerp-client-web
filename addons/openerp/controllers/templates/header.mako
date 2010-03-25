@@ -29,20 +29,13 @@ except:
         <td align="right" valign="top" nowrap="nowrap" height="24">
             <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                    <td>
-                        <a href="http://openerp.com" target="_blank" title="OpenERP - Open Source Management Solution" style="padding: 0px;">
-                            <img src="/openerp/static/images/openerp_small.png" border="0" width="86" height="24"/></a>
-                    </td>
                     <td width="26" class="menu_connection_right" nowrap="nowrap">
-                        <div style="width: 26px;"/>
+                        <div style="width: 26px;"></div>
                     </td>
                     <td class="menu_connection_welcome" nowrap="norwap">
                         ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
                     </td>
                     <td class="menu_connection_links" nowrap="norwap">
-                        <a href="${py.url('/')}">${_("Home")}</a>
-                        <a href="${py.url('/pref/create')}">${_("Preferences")}</a>
-                        <a href="${py.url('/about')}">${_("About")}</a>
                         <a href="${py.url('/logout')}" target="_top">${_("Logout")}</a>
                     </td>
                 </tr>
@@ -50,65 +43,64 @@ except:
         </td>
     </tr>
     <tr>
-        % if rpc.session.is_logged():
         <td align="right" valign="middle" style="padding-right: 4px;">
-            ${_("Requests:")} <a href="${py.url('/requests')}">${requests_message}</a>
-        </td>
-        % endif
-    </tr>
-    <tr>
-        <td colspan="2" nowrap="nowrap">
-
-            <table width="100%" cellspacing="0" cellpadding="0" id="menu_header">
-                <tr>
-                    <td width="5%" id="menu_header_menu" nowrap="nowrap">
-                        <a href="${py.url('/menu')}">${_("MAIN MENU")}</a>
-                    </td>
-                    <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
-                        <a href="${py.url('/shortcuts')}">${_("SHORTCUTS")}</a>
-                    </td>
-                    <td width="26" class="menu_header_shortcuts_left" nowrap="nowrap"/>
-                    % if rpc.session.is_logged():
-                    <td nowrap="nowrap">
-                        <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                                % for i, sc in enumerate(shortcuts):
-                                    % if i<6:
-                                <td nowrap="nowrap">
-                                    <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                                </td>
-                                    % endif
-                                % endfor
-                                % if len(shortcuts)>6:
-                                <td id="shortcuts_menu" nowrap="nowrap">
-                                    <a href="javascript: void(0)">>></a>
-                                    <div class="submenu" id="shortcuts_submenu">
-                                        % for sc in shortcuts[6:]:
-                                        <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                                        % endfor
-                                    </div>
-                                </td>
-                                % endif
-                            </tr>
-                        </table>
-                        % if len(shortcuts)>6:
-                        <script type="text/javascript">
-                            new Menu('shortcuts_menu', 'shortcuts_submenu');
-                        </script>
-                        % endif
-                    </td>
-                    % endif
-                    <td>
-                        &nbsp;
-                    </td>
-                    <td align="right">                
-                        % if SHORTCUTS and SHORTCUTS.can_create():
-                        <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header">${_("[ADD]")}</a>
-                        % endif
-                    </td>
-                </tr>
-            </table>
-
-        </td>
+        	<table border="0" cellpadding="0" cellspacing="0">
+        		<tr>
+        			<td nowrap="nowrap">
+			            <a href="${py.url('/')}">
+			            	<img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home" border="0" width="16px" height="16px"/>
+			            </a>
+			        </td>
+			        % if rpc.session.is_logged():
+			        <td nowrap="nowrap">
+			            <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
+			                <tr>
+			                    <td id="shortcuts_menu" nowrap="nowrap">
+			                        <a href="javascript: void(0)">
+						            	<img src="/openerp/static/images/shortcut.png" style="padding: 1px;" border="0" width="18px" height="18px"/>
+						            </a>
+			                        <div class="submenu" id="shortcuts_submenu">
+			                            % for sc in shortcuts:
+			                            <a target='appFrame' href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+			                            % endfor
+			                            <hr style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0px;"/>
+			                            <a target='appFrame' href="/shortcuts">${_("Manage Shortcuts")}</a>
+			                        </div>
+			                    </td>
+			                </tr>
+			            </table>
+			            <script type="text/javascript">
+			                new Menu('shortcuts_menu', 'shortcuts_submenu');
+			            </script>
+			        </td>
+			        % endif
+			        <td nowrap="nowrap">
+			        	<a target='appFrame' href="${py.url('/')}">
+			            	<img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0" width="16px" height="16px"/>
+			            </a>
+			        </td>
+			        <td nowrap="nowrap">
+			            <a target='appFrame' href="${py.url('/pref/create')}">
+			            	<img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preference" border="0" width="16px" height="16px"/>
+			            </a>
+			        </td>
+			        <td nowrap="nowrap">
+			            <a target='appFrame' href="javascript: void(0)">
+			            	<img src="/openerp/static/images/share.png" style="padding: 4px;" title="Share" border="0" width="18px" height="18px"/>
+			            </a>
+			        </td>
+			        <td nowrap="nowrap">
+			            <a target='appFrame' href="javascript: void(0)">
+			            	<img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;" title="Help" border="0" width="16px" height="16px"/>
+			            </a>
+			        </td>
+			        <td nowrap="nowrap">
+			            <a target='appFrame' href="${py.url('/about')}">
+			            	<img src="/openerp/static/images/about.png" style="padding: 4px;" title="About" border="0" width="18px" height="18px"/>
+			            </a>
+			        </td>
+			    </tr>
+			</table>
+    	</td>
     </tr>
 </table>

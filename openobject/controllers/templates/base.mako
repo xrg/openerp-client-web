@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!doctype html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -14,7 +14,10 @@
     <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Resizable.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Sortable.js"></script>
     
-    <script type="text/javascript" src="/openobject/static/javascript/Sizzle/sizzle.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-1.4.2.js"></script>
+    <script type="text/javascript">
+        jQuery.noConflict();
+    </script>
     
     <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.base.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.gettext.js"></script>

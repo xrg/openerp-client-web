@@ -8,13 +8,13 @@ from openobject.tools import load_template
 class WidgetType(type):
 
     def __new__(cls, name, bases, attrs):
-        
+
         _frozenset_from_bases(attrs, bases, 'params')
         _frozenset_from_bases(attrs, bases, 'member_widgets')
-        
+
         if attrs.get('template'):
             attrs['template_c'] = load_template(attrs['template'], attrs['__module__'])
-            
+
         if '__init__' in attrs:
             attrs['__init__'] = post_init(attrs['__init__'])
 
@@ -53,4 +53,3 @@ def post_init(func):
         return res
 
     return wrapper
-

@@ -26,29 +26,19 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-# eval('obj.'+data.strip(), {'obj':object})
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
+from openerp import widgets as tw, validators
 from openerp.controllers import SecuredController
-
-from openerp import widgets as tw
-from openerp import validators
+from openerp.utils import rpc, common, TinyDict
 
 from form import Form
+from openobject.tools import expose, redirect
 
 
 class State(Form):
 
     _cp_path = "/workflow/state"
-    
+
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
@@ -150,7 +140,7 @@ class State(Form):
 class Connector(Form):
 
     _cp_path = "/workflow/connector"
-    
+
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
@@ -251,7 +241,7 @@ class Connector(Form):
 class Workflow(Form):
 
     _cp_path = "/workflow"
-    
+
     @expose(template="templates/workflow.mako")
     def index(self, model, rec_id=None):
 
@@ -349,7 +339,7 @@ class Workflow(Form):
 
 
 class WorkflowList(SecuredController):
-    
+
     _cp_path = "/workflowlist"
 
     @expose(template="templates/wkf_list.mako")
@@ -407,5 +397,3 @@ class WorkflowList(SecuredController):
         raise redirect('/workflowlist', model=model)
 
 # vim: ts=4 sts=4 sw=4 si et
-
-

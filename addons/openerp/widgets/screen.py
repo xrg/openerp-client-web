@@ -34,11 +34,6 @@ from openerp.utils import cache
 
 from openerp.widgets import TinyInputWidget
 
-import form
-import graph
-import listgrid
-import diagram
-
 
 class Screen(TinyInputWidget):
 
@@ -59,15 +54,16 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
-        
+        <input type="hidden" id="${name}_terp_group_by_ctx" name="${name}_terp_group_by_ctx" value="${group_by_ctx}"/>
+
         % if widget:
             ${display_member(widget)}
         % endif
     """
 
-    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 
-              'context', 'limit', 'offset', 'count']
-    
+    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain',
+              'context', 'limit', 'offset', 'count', 'group_by_ctx']
+
     member_widgets = ['widget']
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1):
@@ -86,6 +82,7 @@ class Screen(TinyInputWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
+        self.group_by_ctx  = params.group_by_ctx or []
 
         self.is_wizard = params.is_wizard
 
@@ -115,7 +112,7 @@ class Screen(TinyInputWidget):
 
         self.hastoolbar         = hastoolbar
         self.toolbar            = None
-        
+
         self.hassubmenu         = hassubmenu
         self.submenu            = None
 
@@ -145,7 +142,7 @@ class Screen(TinyInputWidget):
     def add_view(self, view, view_type='form'):
 
         self.view_id = view.get('view_id', self.view_id)
-        self.view = view        
+        self.view = view  
         
         from _views import get_view_widget
         self.widget = get_view_widget(view_type, self)
@@ -157,12 +154,11 @@ class Screen(TinyInputWidget):
             if value: toolbar[item] = value
 
         submenu = view.get('submenu', {})
-        
+
         self.toolbar = toolbar or None
         self.submenu = eval(ustr(submenu)) or None
-        
+
         self.hastoolbar = (toolbar or False) and True
         self.hassubmenu = (submenu or False) and True
 
 # vim: ts=4 sts=4 sw=4 si et
-

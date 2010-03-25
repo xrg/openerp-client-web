@@ -15,13 +15,15 @@
     <![endif]-->
     
     <script type="text/javascript">
+    
+        var frame = window.frameElement ? window.frameElement.name : null;
         
-        MochiKit.DOM.addLoadEvent(function(evt){
-        
-            if (parent && parent.MAIN_WINDOW) {
-                parent.setTimeout("onload_frame()", 0);
+        if (frame == "appFrame") {
+            with (parent) {
+                jQuery("#appFrame").width(0).height(0);
             }
-        });
+        }
+        
     </script>
     
     ${self.header()}

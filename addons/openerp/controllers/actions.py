@@ -29,24 +29,18 @@
 
 """This module implementes action methods.
 """
-
-import time
 import base64
 import datetime
+import time
 
 import cherrypy
-
-from openobject import tools
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import expr_eval
-from openerp.utils import TinyDict
+from openerp.utils import rpc, common, expr_eval, TinyDict
 
 from form import Form
+from openobject import tools
+from selection import Selection
 from tree import Tree
 from wizard import Wizard
-from selection import Selection
 
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
@@ -72,10 +66,10 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
-    
+
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
-    
+
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
 
@@ -202,10 +196,10 @@ def execute(action, **data):
     elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
         for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
             data[key] = action.get(key, data.get(key, None))
-            
+
         if not data.get('limit'):
             data['limit'] = 80
-        
+
         view_ids=False
         if action.get('views', []):
             if isinstance(action['views'], list):
@@ -223,14 +217,14 @@ def execute(action, **data):
         ctx = data.get('context', {}).copy()
         ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
         ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
-        
+
         search_view = action.get('search_view_id')
         if search_view:
             if isinstance(search_view, (list, tuple)):
                 ctx['search_view'] = search_view[0]
             else:
                 ctx['search_view'] = search_view
-            
+
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
@@ -251,7 +245,7 @@ def execute(action, **data):
                              name=action.get('name'),
                              target=action.get('target'),
                              limit=data.get('limit'))
-        
+
         return res
 
     elif action['type']=='ir.actions.server':
@@ -266,7 +260,7 @@ def execute(action, **data):
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
             del data['window']
-        
+
 
         ctx1 = data.get('context', {}).copy()
         ctx2 = action.get('context', {}).copy()
@@ -324,7 +318,7 @@ def execute_by_id(act_id, type=None, **data):
 
     if type==None:
         type = get_action_type(act_id)
-	
+
     res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
     return execute(res, **data)
 
@@ -366,6 +360,3 @@ def execute_by_keyword(keyword, adds={}, **data):
 @tools.expose(template="templates/closepopup.mako")
 def close_popup(*args, **kw):
     return dict()
-
-# vim: ts=4 sts=4 sw=4 si et
-

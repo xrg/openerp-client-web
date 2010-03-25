@@ -26,27 +26,18 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject.tools import expose
-
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
-from openerp.utils import TinyFormError
-from openerp.utils import context_with_concurrency_info
-
 from openerp.controllers import SecuredController
-
+from openerp.utils import rpc, TinyDict, TinyForm, TinyFormError, context_with_concurrency_info
 from openerp.widgets import listgrid
 
 import form
-import search
 import wizard
+from openobject.tools import expose
+
 
 class List(SecuredController):
-    
+
     _cp_path = "/listgrid"
 
     @expose('json')
@@ -130,7 +121,22 @@ class List(SecuredController):
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
+        groupby = params.get('_terp_group_by_ctx')
+        
+        if groupby and isinstance(groupby, basestring):
+            groupby = groupby.split(',')
+            
+        group_by_list = []
+        
+        if groupby:
+            for gb in groupby:
+                group_split = gb.split('group_')
+                if group_split:
+                    group_by_list.append(group_split[1])
+            
+        params['_terp_group_by_ctx'] = group_by_list
+                
         params.ids = None
         source = (params.source or '') and str(params.source)
 
@@ -146,7 +152,7 @@ class List(SecuredController):
         if current and params.source_default_get:
             current.context = current.context or {}
             current.context.update(params.source_default_get)
-
+            
         if params.wiz_id:
             res = wizard.Wizard().execute(params)
             frm = res['form']
@@ -156,7 +162,7 @@ class List(SecuredController):
         wid = frm.screen.get_widgets_by_name(source, kind=listgrid.List)[0]
         ids = wid.ids
         count = wid.count
-
+        
         if params.edit_inline:
             wid.edit_inline = params.edit_inline
 
@@ -219,14 +225,14 @@ class List(SecuredController):
             error = ustr(e)
 
         return dict(error=error, result=result, reload=reload)
-    
+
     @expose('json')
     def sort_by_order(self, **kw):
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
         ctx = rpc.session.context.copy()
         try:
-            
+
             if params.sort_domain:
                 ids = proxy.search(params.sort_domain, 0,0, params.sort_order, ctx)
             else:
@@ -234,7 +240,7 @@ class List(SecuredController):
             return dict(ids = ids)
         except Exception , e:
             return dict(error = e.message)
-    
+
     @expose('json')
     def sort_by_drag(self, **kw):
         params, data = TinyDict.split(kw)
@@ -243,7 +249,7 @@ class List(SecuredController):
         proxy = rpc.RPCProxy(params.model)
         ctx = rpc.session.context.copy()
         swap_id = params.swap_id
-        
+
         res_id = proxy.read([id], ['sequence'], ctx)[0]
         id_seq = res_id['sequence']
         res_swap_id = proxy.read([swap_id], ['sequence'], ctx)[0]
@@ -264,14 +270,14 @@ class List(SecuredController):
                         proxy.write([r['id']], {'sequence': len(new_ids)}, ctx)
                     else:
                         proxy.write([r['id']], {'sequence': ids.index(r['id'])}, ctx)
-                        
+
             else:
                 for r in res:
                     if r['id'] == id:
                         proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
                     else:
                         proxy.write([r['id']], {'sequence': r['sequence'] -1}, ctx)
-        
+
         else:
             new_ids = []
             new_ids.append(id)
@@ -282,9 +288,9 @@ class List(SecuredController):
                     proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
                 else:
                     proxy.write([r['id']], {'sequence': ids.index(r['id'])+2}, ctx)
-        
+
         return dict()
-    
+
     @expose('json')
     def moveUp(self, **kw):
 
@@ -299,7 +305,7 @@ class List(SecuredController):
         ctx = rpc.session.context.copy()
 
         prev_id = ids[ids.index(id)-1]
-        
+
         try:
             res = proxy.read([id, prev_id], ['sequence'], ctx)
             records = dict([(r['id'], r['sequence']) for r in res])

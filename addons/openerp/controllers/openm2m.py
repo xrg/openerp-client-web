@@ -26,30 +26,16 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
-from openobject import tools
-
-from openobject.tools import expose
-from openobject.tools import validate
-from openobject.tools import error_handler
-from openobject.tools import exception_handler
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import TinyDict
-from openerp.utils import context_with_concurrency_info
-
+from openerp.utils import rpc, TinyDict, context_with_concurrency_info
 from openerp.widgets.form import Hidden
 
-from form import Form
-from form import get_validation_schema
-from form import default_error_handler
-from form import default_exception_handler
+from form import Form, get_validation_schema, default_error_handler, default_exception_handler
+from openobject.tools import expose, validate, error_handler, exception_handler
+
 
 class OpenM2M(Form):
-    
+
     _cp_path = "/openm2m"
 
     @expose(template="templates/openm2m.mako")
@@ -88,7 +74,7 @@ class OpenM2M(Form):
 
         current = params.chain_get(params.source or '')
         button = (params.button or False) and True
-        
+
         params.load_counter = 1
         if current and current.id and not button:
             params.load_counter = 2
@@ -99,7 +85,7 @@ class OpenM2M(Form):
             if res:
                 return res
 
-        
+
         if current:
             current.id = None
             if not params.id:
@@ -125,4 +111,3 @@ class OpenM2M(Form):
         params.editable = params.get('_terp_editable', True)
 
         return self.create(params)
-

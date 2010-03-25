@@ -106,6 +106,61 @@ button.btn_filter:hover {
     background: url(/static/images/button_bg2.png) repeat-x left top;
 }
 
+/* ============== SEARCH FORM start ==============*/
+
+#search_filter_data input.datetime,
+td.item input.char,
+td.item select.selection {
+	background-color: #fff;
+    color: #000;
+    border: 1px solid #999999;
+	width: 85px;
+}
+
+div.inactive_filter {
+	cursor: pointer;
+	background: url(../images/button_unchecked.gif) repeat-x left bottom;
+	border: solid 1px #888888; 
+	white-space: nowrap;
+	padding: 1px;
+}
+
+div.active_filter {
+	cursor: pointer;
+	background: url(../images/button_checked.gif) repeat-x left bottom; 
+	border: solid 1px #888888; 
+	white-space: nowrap;
+	padding: 1px;
+}
+
+div.group-expand {
+	cursor: pointer;
+	background: url(../images/treegrid/expand.gif) no-repeat top left;
+	padding-left: 15px;
+}
+
+div.group-expand:hover {
+	cursor: pointer;
+	background: url(../images/treegrid/expandh.gif) no-repeat top left;
+	padding-left: 15px;
+	padding-left: 15px;
+}
+
+div.group-collapse {
+	cursor: pointer;
+	background: url(../images/treegrid/collapse.gif) no-repeat top left;
+	padding-left: 15px;
+	padding-left: 15px;
+}
+
+div.group-collapse:hover {
+	cursor: pointer;
+	background: url(../images/treegrid/collapseh.gif) no-repeat top left;
+	padding-left: 15px;
+	padding-left: 15px;
+}
+
+/* ============== SEARCH FORM end ==============*/
 
 button.inactive {
     background: #eeeeee;
@@ -165,36 +220,6 @@ table.menu_connection a:hover {
 
 .menu_connection_right {
     background: transparent url(../images/diagonal_right.gif) no-repeat scroll right;
-}
-
-#menu_header {
-    background: #666666;
-    margin-bottom: 4px;
-    height: 24px;
-    white-space: nowrap;
-}
-
-#menu_header_menu {
-    background: url(../images/mainmenu_button.png) repeat-x;
-    text-align: center;
-    font-weight: bold;
-    padding: 0 10px;
-}
-
-#menu_header_shortcuts {
-    background: #363636;
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 0px;
-    font-weight: bold;
-}
-
-#menu_header a {
-    color: white;
-}
-
-.menu_header_shortcuts_left {
-    background: transparent url(../images/diagonal_left.gif) no-repeat scroll left;
 }
 
 /*------------------ Header End ---------------*/

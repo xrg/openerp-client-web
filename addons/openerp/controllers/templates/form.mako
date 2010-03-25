@@ -18,8 +18,6 @@
 
 <%def name="content()">
 
-	<%include file="header.mako"/>
-
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td width="100%" valign="top">
@@ -199,7 +197,4 @@
             % endif
         </tr>
     </table>
-    
-    <%include file="footer.mako"/>
-    
 </%def>

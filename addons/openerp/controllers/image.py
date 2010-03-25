@@ -26,22 +26,18 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
 import base64
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-
-from openerp.utils import rpc
 from openerp.controllers import SecuredController
+from openerp.utils import rpc
 from openerp.widgets.form import get_temp_file
+
+from openobject.tools import expose, redirect
 
 
 class Image(SecuredController):
-    
+
     _cp_path = "/image"
 
     @expose(template="templates/image.mako")
@@ -68,7 +64,7 @@ class Image(SecuredController):
             return base64.decodestring(res)
         else:
             return ''
-        
+
     @expose(content_type='application/octet')
     def get_picture(self, **kw):
         fname = get_temp_file(**kw)

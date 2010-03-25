@@ -111,4 +111,3 @@ def error_handler(handler):
 
 def exception_handler(*args, **kw):
     return lambda f: f
-

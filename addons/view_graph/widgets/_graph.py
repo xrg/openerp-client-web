@@ -27,28 +27,18 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
-import time
-import random
 import locale
-import base64
+import random
+import re
+import time
+import urllib
 import xml.dom.minidom
 
-import re
-import urllib
-
 import simplejson
-
+from openerp.utils import rpc, cache, node_attributes
+from openerp.widgets import TinyWidget
 from openobject.tools import url_plus
 from openobject.widgets import JSSource, JSLink
-
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import cache
-from openerp.utils import node_attributes
-
-from openerp.widgets import TinyWidget
 
 
 DT_FORMAT = '%Y-%m-%d'
@@ -60,8 +50,8 @@ if not hasattr(locale, 'nl_langinfo'):
 
 if not hasattr(locale, 'D_FMT'):
     locale.D_FMT = None
-    
-    
+
+
 COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
                  '#fcaf3e', '#ef2929', '#ff00c9', '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f',
                  '#ff8e00', '#ff0000', '#b0008c', '#9000ff', '#0078ff', '#00ff00', '#e6ff00', '#ffff00',
@@ -84,7 +74,7 @@ class Graph(TinyWidget):
         openobject.http.redirect(path);
     }
     """),
-    JSLink("openerp", "javascript/swfobject.js")]
+    JSLink("view_graph", "javascript/swfobject.js")]
 
     params = ['width', 'height', 'data']
     width = 500
@@ -99,24 +89,24 @@ class Graph(TinyWidget):
         ctx.update(context or {})
 
         view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
-        
+
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
         attrs = node_attributes(root)
-        
+
         self.string = attrs.get('string')
-        
+
         chart_type = attrs.get('type', 'pie')
 
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-            
+
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, context)
         else:
             self.data = PieChart(model, view, view_id, ids, domain, context)
-            
+
         self.data = simplejson.dumps(self.data.get_data())
 
 class GraphData(object):
@@ -217,7 +207,7 @@ class GraphData(object):
             if node.localName == 'field':
                 name = attrs['name']
                 fields[name].update(attrs) # Update fields ...
-                
+
                 attrs['string'] = fields[name]['string']
 
                 axis.append(ustr(name))
@@ -230,9 +220,9 @@ class GraphData(object):
                 axis.remove(i)
 
         return axis, axis_data, axis_group
-    
+
     def get_graph_data(self):
-        
+
         if not self.values:
             return dict(title=self.string)
 
@@ -273,9 +263,9 @@ class GraphData(object):
                 key_ids['rec_id'] = val.get('rec_id')
                 key_ids['prod_id'] = val[axis[0]]
                 lbl = val[axis[0]]
-                
+
                 key_value = val[axis[0]]
-                
+
                 key = urllib.quote_plus(ustr(key_value).encode('utf-8'))
                 info = data_axis.setdefault(key, {})
 
@@ -305,7 +295,7 @@ class GraphData(object):
 
         label = label.keys()
         label.sort()
-        
+
         for l in label:
             x = 0
             for i in total_ids:
@@ -313,15 +303,15 @@ class GraphData(object):
                     dd = i.get('id')
                     x += 1
                     temp_dom.append(dd)
-            
+
             if not isinstance(l, basestring):
                 l = ustr(l)
-            
+
             if(len(l) > 10):
                 label_x.append(l.split('/')[-1])
             else:
                 label_x.append(l)
-                
+
         for d in temp_dom:
             for val in datas:
                 rec = val.get('rec_id')
@@ -330,28 +320,28 @@ class GraphData(object):
         values = {}
         for field in axis[1:]:
             values[field] = map(lambda x: data_axis[x][field], keys)
-            
+
         n = len(axis)-1
         stack_list = []
         stack_id_list = []
         val = []
         grp_value = []
-        
+
         if len(axis_group) > 1 and kind == 'bar':
-            
+
             group_field = self.axis_group_field.keys()[0]
             new_keys = []
             for k in keys:
                 k = urllib.unquote_plus(k)
                 k = k.decode('utf-8')
                 new_keys += [k]
-                
+
             keys = new_keys
             for i in range(n):
-                
+
                 data = data_ax[i]
                 group_data = {}
-                
+
                 for key in keys:
                     group_data[key] = {}
                     for dt in data:
@@ -361,7 +351,7 @@ class GraphData(object):
                                 if dt == dts[axis[0]] and d == dts[group_field] and dt == key:
                                     ids += [dts['temp_id']]
                                     group_data[key][d] = str(data[dt][d]) + '/' + str(ids)
-                
+
                 for y in range(len(axis_group)):
                     for field in axis[1:]:
                         values[field] = [data[x].get(axis_group[y], 0.0) for x in new_keys]
@@ -373,13 +363,13 @@ class GraphData(object):
                         grp_value.append(grp_v)
                 stack_list += val
                 stack_id_list += grp_value
-                
+
 #        IF VALUES ARE ALL 0...
 #        if stack_list and len(stack_list) > 0:
 #            if stack_list[0] and len(stack_list[0]) > 0:
 #                min_stack_val = min(stack_list[0])
 #                max_stack_val = max(stack_list[0])
-#            
+#
 #                if min_stack_val == max_stack_val == 0 or min_stack_val == max_stack_val == 0.0:
 #                    return dict(title=self.string)
 
@@ -396,9 +386,9 @@ class BarChart(GraphData):
         result = {}
         ctx =  rpc.session.context.copy()
         ctx.update(self.context)
-        
+
         res = super(BarChart, self).get_graph_data()
-        
+
         if len(res) > 1:
             values = res[0]
             domain = res[1]
@@ -414,20 +404,20 @@ class BarChart(GraphData):
             return res
 
         def minmx_ticks(values):
-            
+
             x_data = []
-            
+
             for st in stack_list:
                 range = 0
                 for s in st:
                     range = range + s
                 x_data += [range]
-                
+
             yopts = {}
             mx = 0
             mn = 0
             tk = 2
-            
+
             if values:
                 values.sort()
                 if x_data:
@@ -471,7 +461,7 @@ class BarChart(GraphData):
             i = re.sub(u'[ÙÚÛÜ]', 'U', i)
             i = re.sub(u'[Ý]', 'Y', i)
             i = re.sub(u'[Ñ]', 'N', i)
-            
+
             lbl['text'] = i
             lbl['colour'] = "#432BAF"
             temp_lbl.append(lbl)
@@ -488,20 +478,20 @@ class BarChart(GraphData):
                             dom = [('id', 'in', ids)]
                             u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
                                _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
-        
+
                             url.append(u)
-            
+
             else:
                 for dom in domain:
                     u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
                            _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
-    
+
                     url.append(u)
-        
+
         allvalues = []
-        
+
         ChartColors = choice_colors(len(axis))
-        
+
         for i, x in enumerate(axis[1:]):
             data = values[x]
 
@@ -509,15 +499,15 @@ class BarChart(GraphData):
                 allvalues.append(d)
 
         yopts = minmx_ticks(allvalues)
-        
+
         y_grid_color = True
-        
+
         if yopts['y_steps'] == 0.0:
             yopts['y_steps'] = 1
             yopts['y_max'] = 9
             yopts['y_min'] = 0
             y_grid_color = False
-            
+
         if y_grid_color:
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
                       "stroke": 2 }
@@ -525,7 +515,7 @@ class BarChart(GraphData):
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
                       "grid-colour": "#FFFFFF",
                       'stroke': 2 }
-        
+
         if len(axis_group) > 1:
             ChartColors = choice_colors(len(axis_group))
             all_keys = []
@@ -547,9 +537,9 @@ class BarChart(GraphData):
                         stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
                         cnt += 1
                     stack['tip'] = s
-                    sval.append(stack)                    
+                    sval.append(stack)
                 stack_val.append(sval)
-            
+
             result = { "elements": [{"type": "bar_stack",
                                      "colours": ChartColors,
                                      "values": [s for s in stack_val],
@@ -566,7 +556,7 @@ class BarChart(GraphData):
             for i, x in enumerate(axis[1:]):
                 datas = []
                 data = values[x]
-    
+
                 for j, d in enumerate(data):
                     dt = {}
                     if not ctx.get('report_id', False):
@@ -574,13 +564,13 @@ class BarChart(GraphData):
                     dt['top'] = d
                     datas.append(dt)
                     allvalues.append(d)
-    
+
                 dataset.append({"text": axis_data[x]['string'],
                                 "type": "bar_3d",
                                 "colour": ChartColors[i],
                                 "values": datas,
                             "font-size": 10})
-            
+
             result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
@@ -620,7 +610,7 @@ class PieChart(GraphData):
 
         dataset = result.setdefault('dataset', [])
         value = values.values()[0]
-        
+
         url = []
 
         for dom in domain:
@@ -642,7 +632,7 @@ class PieChart(GraphData):
             val['label'] = x
             if not ctx.get('report_id', False):
                 val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
-            
+
             if total_val <> 0.0:
                 field_key = (100 * value[i])/total_val
                 field_key = '%.2f' % (field_key)
@@ -651,7 +641,7 @@ class PieChart(GraphData):
                 val["tip"] = x
 
             allvalues.append(val)
-            
+
         ChartColors = choice_colors(len(allvalues))
 
         dataset.append({'type': 'pie',
@@ -661,16 +651,15 @@ class PieChart(GraphData):
                         "no-labels": 'true',
                         "values": allvalues})
 
-        result = {"legend": {"bg_colour": "#fefefe", 
-                             "border": 'true', 
-                             "position": "top", 
-                             "shadow": 'true', 
-                             "visible": 'true' 
-                             }, 
+        result = {"legend": {"bg_colour": "#fefefe",
+                             "border": 'true',
+                             "position": "top",
+                             "shadow": 'true',
+                             "visible": 'true'
+                             },
                   "elements": [d for d in dataset],
                   "bg_colour": "#FFFFFF"}
-        
+
         return result
 
 # vim: ts=4 sts=4 sw=4 si et
-

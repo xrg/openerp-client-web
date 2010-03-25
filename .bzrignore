@@ -2,3 +2,4 @@ RE:(.*/templates/).*\.py
 RE:lib/(?!populate.sh).*
 mako_modules
 profile
+.*

@@ -26,20 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
 import copy
 
-import cherrypy
+from openerp.controllers import SecuredController
+from openerp.utils import rpc, cache, common, TinyDict
 
 from openobject.tools import expose
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import common
-from openerp.utils import TinyDict
-
-from openerp.controllers import SecuredController
 
 
 #change 'en' to false for context
@@ -50,7 +42,7 @@ def adapt_context(val):
         return val
 
 class Translator(SecuredController):
-    
+
     _cp_path = "/translator"
 
     @expose(template="templates/translator.mako")
@@ -171,4 +163,3 @@ class Translator(SecuredController):
         return self.index(translate=translate, _terp_model=params.model, _terp_id=params.id)
 
 # vim: ts=4 sts=4 sw=4 si et
-

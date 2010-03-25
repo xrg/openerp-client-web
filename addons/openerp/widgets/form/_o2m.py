@@ -63,8 +63,6 @@ class O2M(TinyInputWidget):
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
         self.default_get_ctx = attrs.get('default_get', {}) or attrs.get('context', {})
 
-#        self.colspan = 4
-#        self.nolabel = True
 
         # get top params dictionary
         params = cherrypy.request.terp_params
@@ -127,6 +125,8 @@ class O2M(TinyInputWidget):
         current.domain = current.domain or []
         current.context = current.context or {}
 
+        group_by_ctx = ''
+
         if self.default_get_ctx:
             ctx = cherrypy.request.terp_record
             ctx['current_date'] = time.strftime('%Y-%m-%d')
@@ -144,10 +144,18 @@ class O2M(TinyInputWidget):
             except:
                 pass
 
+            if ctx and ctx.get('group_by'):
+                group_by_ctx = ctx.get('group_by')
+                    
         current.offset = current.offset or 0
         current.limit = current.limit or 20
         current.count = len(ids or [])
-
+        
+        # Group By for one2many list.
+        if group_by_ctx:
+            current.group_by_ctx = group_by_ctx
+            current.domain = [('id', 'in', ids)]
+            
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
 
@@ -183,4 +191,3 @@ class O2M(TinyInputWidget):
 register_widget(O2M, ["one2many", "one2many_form", "one2many_list"])
 
 # vim: ts=4 sts=4 sw=4 si et
-

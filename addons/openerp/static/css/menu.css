@@ -7,13 +7,12 @@ table.menubar {
 table.menubar td {
     margin: 0;
     padding: 0;
-    border-right: 1px solid #333;
 }
 
 table.menubar a {
-    display: block;
+/*  display: block; */
     text-align: center;
-    background-color: #666;
+/*	background-color: #666; */
     padding: 4px 10px;
     margin: 0 1px 0 0;
     color: #FFF;
