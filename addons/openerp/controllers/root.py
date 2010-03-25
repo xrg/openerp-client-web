@@ -164,6 +164,10 @@ class Root(SecuredController):
         from openobject import release
         version = _("Version %s") % (release.version,)
         return dict(version=version)
+    
+    @expose()
+    def blank(self):
+        return ''
 
 
 # vim: ts=4 sts=4 sw=4 si et
