@@ -157,8 +157,10 @@ class Wizard(SecuredController):
         if 'wizard_parent_params' in cherrypy.session:
             frm = cherrypy.session['wizard_parent_form']
             params = cherrypy.session['wizard_parent_params']
-
-            frm = eval('cherrypy.request.app.root' + frm.replace('/', '.'))
+            from openobject import pooler
+            pool =  pooler.get_pool()
+            
+            frm = pool.get_controller(frm)
             return frm.create(params)
 
         import actions
