@@ -37,7 +37,7 @@
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="background-color: #DEDEDE;">
                         	% if map(lambda x: x[0], hiddens).__contains__('sequence') or  field == 'sequence':
-								<span class="draggable">${grouped[j][field].display()}</span>
+								<span class="draggable">${grp_row.get(field)}</span>
 								<script type="text/javascript">
 									function make_draggale(){
 										var drag = getElementsByTagAndClassName('span','draggable');
@@ -47,8 +47,10 @@
 										}		
 									}
 							</script>
-							% else:	
+							% elif field_attrs.get('type') == 'progressbar':
 								<span>${grouped[j][field].display()}</span>
+							% else:	
+								<span>${grp_row.get(field)}</span>
 							% endif
                         </td>
                         % endfor
