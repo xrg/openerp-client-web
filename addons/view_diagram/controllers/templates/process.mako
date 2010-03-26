@@ -49,7 +49,7 @@
 
 <%def name="content()">
 
-<%include file="header.mako"/>
+<%include file="/openerp/controllers/templates/header.mako"/>
 
 % if selection:
 <div class="view">
@@ -99,6 +99,6 @@
 </table>
 %endif
 
-<%include file="footer.mako"/>
+<%include file="/openerp/controllers/templates/footer.mako"/>
 
 </%def>

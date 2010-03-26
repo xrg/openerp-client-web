@@ -6,6 +6,5 @@ from _views import *
 import form
 import listgrid
 import treegrid
-import diagram
 import screen
 import form_view

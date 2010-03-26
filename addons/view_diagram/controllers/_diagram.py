@@ -31,7 +31,7 @@ from openerp import widgets as tw, validators
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict
 
-from form import Form
+from openerp.controllers.form import Form
 from openobject.tools import expose, redirect
 
 
@@ -334,8 +334,8 @@ class Workflow(Form):
 
         return dict(nodes=nodes,conn=connectors)
 
-    state = State()
-    connector = Connector()
+#    state = State()
+#    connector = Connector()
 
 
 class WorkflowList(SecuredController):
