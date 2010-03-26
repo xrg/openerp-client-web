@@ -119,7 +119,9 @@ class Wizard(SecuredController):
 
             elif res['type']=='action':
                 import actions
-
+                # If configuration is done 
+                if res['state'] == 'end':
+                    return self.end()
                 act_res = actions.execute(res['action'], **datas)
                 if act_res:
                     return act_res
