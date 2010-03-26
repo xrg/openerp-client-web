@@ -161,7 +161,7 @@ class Screen(TinyInputWidget):
 
             if not self.is_wizard and self.ids is None:
                 proxy = rpc.RPCProxy(self.model)
-                self.ids = proxy.search(self.domain, self.offset or False, self.limit or False, 0, self.context)
+                self.ids = proxy.search(self.domain, self.offset or False, self.limit or 20, 0, self.context)
                 self.count = proxy.search_count(self.domain, self.context)
 
         elif view_type == 'tree':
