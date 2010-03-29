@@ -63,6 +63,9 @@ var openRecord = function(id, src, target, readonly){
 
     var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
+    
+    var search_data = openobject.dom.get('_terp_search_data');
+    search_data = search_data ? search_data.value : null;
 
     var args = {'model': model,
                 'id': id ? id : 'False',
@@ -74,7 +77,8 @@ var openRecord = function(id, src, target, readonly){
                 'offset': offset,
                 'limit': limit,
                 'count': count,
-                'search_domain': search_domain};
+                'search_domain': search_domain,
+                'search_data':search_data};
                 
     var action = readonly ? 'view' : 'edit';
         
@@ -115,12 +119,6 @@ var editSelectedRecord = function() {
 }
 
 var switchView = function(view_type, src){
-
-	var search_filter_data = getElement('search_filter_data')
-	if (search_filter_data){
-		search_filter_data.style.display = "none";
-		appendChildNodes(parent.window.document.body, search_filter_data);
-	}
 
     var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];

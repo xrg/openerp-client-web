@@ -213,6 +213,7 @@ class Search(Form):
         domains = all_domains.get('domains')
         selection_domain = all_domains.get('selection_domain')
         search_context = all_domains.get('search_context')
+        group_by_ctx = kw.get('group_by_ctx', [])
 
         if domains:
             domains = eval(domains)
@@ -235,14 +236,35 @@ class Search(Form):
         if domain == None:
             domain = []
 
+        search_data = {}
         if domains:
             for key in domains:
-                if domains[key] in ['0', '1']:
+                if '/' in key:
+                    check = key.split('/')
+                    if check[1] == 'from':
+                        domain += [(check[0], '>=', domains[key])]
+                        if check[0] in search_data.keys():
+                            search_data[check[0]]['from'] = domains[key]
+                        else:
+                            search_data[check[0]] = {'from': domains[key]}
+                    
+                    if check[1] == 'to':
+                        domain += [(check[0], '<=', domains[key])]
+                        if check[0] in search_data.keys():
+                            search_data[check[0]]['to'] = domains[key]
+                        else:
+                            search_data[check[0]] = {'to': domains[key]}
+                            
+                elif domains[key] in ['0', '1']:
                     domains[key] = int(domains[key])
-                if isinstance(domains[key], int):
+                    search_data[key] = domains[key]
+                    
+                elif isinstance(domains[key], int):
                     domain += [(key, '=', domains[key])]
+                    search_data[key] = domains[key]
                 else:
                     domain += [(key, 'ilike', domains[key])]
+                    search_data[key] = domains[key]
 
         if custom_domains:
             inner_domain = []
@@ -288,8 +310,11 @@ class Search(Form):
 
         if not domain:
             domain = None
+            
+        if group_by_ctx:
+            search_data['group_by_ctx'] = group_by_ctx
 
-        return dict(domain=ustr(domain), context=ustr(ctx))
+        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data))
 
     @expose()
     def manage_filter(self, **kw):
@@ -307,7 +332,7 @@ class Search(Form):
         group_by = kw.get('group_by')
         
         return dict(model=model, domain=domain, flag=flag, group_by=group_by)
-
+    
     @expose()
     def do_filter_sc(self, **kw):
 

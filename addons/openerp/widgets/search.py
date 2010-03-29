@@ -35,7 +35,7 @@ import random
 import xml.dom.minidom
 
 import cherrypy
-from openerp.utils import rpc, cache, icons, node_attributes
+from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget
 from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
 
@@ -89,6 +89,13 @@ class Filter(TinyInputWidget):
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
         
+        flag = True
+        if cherrypy.request.path_info == '/tree/open':
+            flag = False
+            
+        default_domain = attrs.get('default_domain')
+        group_by_ctx = attrs.get('group_by_ctx', [])
+        
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain', [])
         self.help = attrs.get('help')
@@ -97,6 +104,17 @@ class Filter(TinyInputWidget):
 
         self.def_checked = False
         default_val = attrs.get('default', 0)
+        if flag:
+            if default_domain and attrs.get('domain'):
+                domain =  expr_eval(attrs.get('domain'))
+                for d in domain:
+                    if d in default_domain:
+                        default_val = 1
+                    else:
+                        default_val = 0
+            else:
+                default_val = 0
+                
         if default_val:
             self.def_checked = True
 
@@ -109,7 +127,11 @@ class Filter(TinyInputWidget):
 
         if self.group_context:
             self.group_context = 'group_' + self.group_context
-
+        
+        if group_by_ctx and self.group_context:
+            if self.group_context in group_by_ctx:
+                self.def_checked = True
+                
         self.nolabel = True
         self.readonly = False
 
@@ -133,9 +155,10 @@ class Search(TinyInputWidget):
         self.domain = domain or []
         self.context = context or {}
         self.model = model
+        if values == "undefined":
+            values = {}
 
-        ctx = dict(rpc.session.context,
-                   **self.context)
+        ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
 
@@ -196,9 +219,9 @@ class Search(TinyInputWidget):
             if 'nolabel' in attrs:
                 attrs['nolabel'] = False
 
-            if node.localName in ('form', 'tree', 'search',
-                                  'group'):
+            if node.localName in ('form', 'tree', 'search', 'group'):
                 if node.localName == 'group':
+                    attrs['group_by_ctx'] = values.get('group_by_ctx', None)
                     Element = Group
                 else:
                     Element = Frame
@@ -213,6 +236,9 @@ class Search(TinyInputWidget):
 
             elif node.localName=='filter':
                 attrs['model'] = search_model
+                attrs['default_domain'] = self.domain
+                if values and values.get('group_by_ctx'):
+                    attrs['group_by_ctx'] = values['group_by_ctx']
                 views.append(Filter(**attrs))
 
             elif node.localName == 'field':
@@ -262,14 +288,18 @@ class Search(TinyInputWidget):
                     field.options = [(1, 'Yes'),(0, 'No')]
                     field.validator.if_empty = ''
 
-                if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
+                if values.has_key(name) and isinstance(field, (TinyInputWidget, RangeWidget)):
                     field.set_value(values[name])
 
                 views.append(field)
 
                 for n in node.childNodes:
                     if n.localName=='filter':
-                        filter_field = Filter(**node_attributes(n))
+                        attrs = node_attributes(n)
+                        attrs['default_domain'] = self.domain
+                        if values and values.get('group_by_ctx'):
+                            attrs['group_by_ctx'] = values['group_by_ctx']
+                        filter_field = Filter(**attrs)
                         filter_field.onchange = None
                         filter_field.callback = None
 

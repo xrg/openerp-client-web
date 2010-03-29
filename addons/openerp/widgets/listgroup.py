@@ -90,7 +90,17 @@ class ListGroup(List):
             selectable=self.selectable)
 
         if self.group_by_ctx:
-            gb = self.group_by_ctx[0]
+            t = []
+            if self.group_by_ctx and isinstance(self.group_by_ctx[0], basestring):
+                self.group_by_ctx = self.group_by_ctx[0].split(',')
+            
+            for i in self.group_by_ctx:
+                if 'group_' in i:
+                    t.append((i.split('group_'))[1])
+                else:
+                    t.append(i)
+                    
+            gb = t[0]
             self.group_by_ctx = gb
 
             new_hidden = ()

@@ -534,6 +534,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         if (this.name == '_terp_list') {
             args['_terp_search_domain'] = openobject.dom.get('_terp_search_domain').value;
+            args['_terp_search_data'] = openobject.dom.get('_terp_search_data').value;
         }
         
         var req = openobject.http.postJSON('/listgrid/get', args);

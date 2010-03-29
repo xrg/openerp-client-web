@@ -77,6 +77,17 @@ class ViewForm(Form):
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 
         self.search = None
+        search_param = params.search_domain or []
+        if search_param:
+            filter_keys = [key for key, _, _ in search_param]
+            for element in params.domain:
+                if not isinstance(element,tuple):
+                    search_param.append(element)
+                else:
+                    (key, op, value) = element
+                    if key not in filter_keys and not (key=='active' and ctx.get('active_test', False)):
+                        search_param.append((key, op, value))
+            params.domain = search_param
 
         if params.view_type in ('tree', 'graph'):
             self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})

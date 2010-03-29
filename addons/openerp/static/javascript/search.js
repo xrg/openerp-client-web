@@ -394,7 +394,8 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 	var req = openobject.http.postJSON('/search/eval_domain_filter', {source: '_terp_list',
 															model: $('_terp_model').value, 
 															custom_domain: custom_domain,
-															all_domains: all_domains});
+															all_domains: all_domains,
+															group_by_ctx: group_by_ctx});
 	
 	req.addCallback(function(obj){
 		if (obj.flag) {
@@ -414,6 +415,7 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 
 		    in_req.addCallback(function(in_obj){
 		    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
+		    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 		    	openobject.dom.get('_terp_context').value = in_obj.context;
 		    	if (getElement('_terp_list') != null){
 		    		var lst = new ListView('_terp_list');
@@ -436,12 +438,7 @@ var expand_group_option = function(id, event) {
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
-	var d = parent.window.document.getElementById("search_filter_data");
-	if (d){
-		var e = getElement("search_filter_data");
-		swapDOM(e, d);
-		d.style.display = "";
-	}
+
 	onKey_Event(evt);
 	search_filter();
 });

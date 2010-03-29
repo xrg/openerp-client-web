@@ -245,8 +245,8 @@ class Form(SecuredController):
         return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)
 
     @expose()
-    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
-             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
+    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],source=None, 
+             domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, **kw):
 
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
@@ -259,7 +259,8 @@ class Form(SecuredController):
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
-                                       '_terp_search_domain': search_domain})
+                                       '_terp_search_domain': search_domain,
+                                       '_terp_search_data': search_data})
 
         params.editable = True
         params.view_type = 'form'
@@ -285,8 +286,8 @@ class Form(SecuredController):
         return self.create(params)
 
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
-            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
+    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None,
+             domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, **kw):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
@@ -298,7 +299,8 @@ class Form(SecuredController):
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
-                                       '_terp_search_domain': search_domain})
+                                       '_terp_search_domain': search_domain,
+                                       '_terp_search_data': search_data})
 
         params.editable = False
         params.view_type = 'form'
@@ -341,7 +343,8 @@ class Form(SecuredController):
                                                offset=params.offset,
                                                limit=params.limit,
                                                count=params.count,
-                                               search_domain=ustr(params.search_domain))
+                                               search_domain=ustr(params.search_domain),
+                                               search_data = ustr(params.search_data))
 
         params.view_type = 'tree'
         return self.create(params)
@@ -430,7 +433,8 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
+                'search_domain': ustr(params.search_domain),
+                'search_data': ustr(params.search_data)}
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
