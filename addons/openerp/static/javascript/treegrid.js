@@ -532,7 +532,7 @@ TreeNode.prototype = {
         if (this.tree._ajax_counter > 0) {
             return;
         }
-        
+                
         var trg = evt ? evt.target() : this.element;
     
         if (MochiKit.Base.findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
@@ -551,6 +551,7 @@ TreeNode.prototype = {
         
         forEach(tree.selection, function(node){
             MochiKit.DOM.removeElementClass(node.element, "selected");
+            node.element.style.background = 'none';
         });
     
         if (ctr) {
@@ -584,6 +585,7 @@ TreeNode.prototype = {
     
         forEach(tree.selection, function(node){
             MochiKit.DOM.addElementClass(node.element, "selected");
+            node.element.style.background = 'url(/openerp/static/images/sidenav-bg-c.gif) repeat-x';
         });
         
         if (evt && tree.options.onselect) {
