@@ -4,21 +4,21 @@
 <title>${_("Workflow")}</title>
  <!--meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"-->
     <title></title>  
-	<link type="text/css" rel="stylesheet" href="/openerp/static/workflow/css/graph.css"/>
+	<link type="text/css" rel="stylesheet" href="/view_diagram/static/css/graph.css"/>
 	
-	<script src="/openerp/static/workflow/javascript/draw2d/wz_jsgraphics.js"></script>
-    <script src="/openerp/static/workflow/javascript/draw2d/mootools.js"></script>
-    <script src="/openerp/static/workflow/javascript/draw2d/moocanvas.js"></script>
-    <script src="/openerp/static/workflow/javascript/draw2d/draw2d.js"></script>
+	<script src="/view_diagram/static/javascript/draw2d/wz_jsgraphics.js"></script>
+    <script src="/view_diagram/static/javascript/draw2d/mootools.js"></script>
+    <script src="/view_diagram/static/javascript/draw2d/moocanvas.js"></script>
+    <script src="/view_diagram/static/javascript/draw2d/draw2d.js"></script>
     
-	<script src="/openerp/static/workflow/javascript/connector.js"></script>
-	<script src="/openerp/static/workflow/javascript/conn_anchor.js"></script>
-	<script src="/openerp/static/workflow/javascript/conn_decorator.js"></script>
-    <script src="/openerp/static/workflow/javascript/workflow.js"></script>
-    <script src="/openerp/static/workflow/javascript/toolbar.js"></script>
-    <script src="/openerp/static/workflow/javascript/ports.js"></script>
-    <script src="/openerp/static/workflow/javascript/state.js"></script>
-    <script src="/openerp/static/workflow/javascript/infobox.js"></script>
+	<script src="/view_diagram/static/javascript/connector.js"></script>
+	<script src="/view_diagram/static/javascript/conn_anchor.js"></script>
+	<script src="/view_diagram/static/javascript/conn_decorator.js"></script>
+    <script src="/view_diagram/static/javascript/workflow.js"></script>
+    <script src="/view_diagram/static/javascript/toolbar.js"></script>
+    <script src="/view_diagram/static/javascript/ports.js"></script>
+    <script src="/view_diagram/static/javascript/state.js"></script>
+    <script src="/view_diagram/static/javascript/infobox.js"></script>
 
     <style>
         body, html {
