@@ -42,6 +42,7 @@ from selection import Selection
 from tree import Tree
 from wizard import Wizard
 
+from openobject.tools import redirect
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
                    mode='form,tree', name=None, target=None, limit=None):
@@ -66,7 +67,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
-
+    
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
 
@@ -76,7 +77,6 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.id = (params.ids or False) and params.ids[0]
 
     mode = mode or view_type
-
     if view_type == 'form':
         mode = mode.split(',')
         params.view_mode=mode
@@ -235,7 +235,10 @@ def execute(action, **data):
 
         if data.get('domain', False):
             domain.append(data['domain'])
-
+        
+        if 'menu' in data['res_model'] or action.get('name') == 'Menu':
+            raise redirect('/blank')
+        
         res = execute_window(view_ids,
                              data['res_model'],
                              data['res_id'],

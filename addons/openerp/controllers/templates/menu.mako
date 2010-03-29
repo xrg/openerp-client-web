@@ -97,10 +97,17 @@
                 </script>
             </td>
             <td valign="top">
-                <iframe id="appFrame" width="100%"
-                        scrolling="no"
-                        frameborder="0" 
-                        name="appFrame"></iframe>
+            	% if setup:
+	                <iframe id="appFrame" width="100%"
+	                        scrolling="no"
+	                        frameborder="0" 
+	                        name="appFrame" src="${py.url('/home')}"></iframe>
+                % else:
+                	<iframe id="appFrame" width="100%"
+	                        scrolling="no"
+	                        frameborder="0" 
+	                        name="appFrame"></iframe>
+                % endif
             </td>
         </tr>
     </table>

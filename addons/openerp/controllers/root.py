@@ -66,9 +66,8 @@ class Root(SecuredController):
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
             raise redirect('/');
-
-        if 'Menu' in act_id[0]['action_id'][1]:
-            return self.blank()
+#        if 'Menu' in act_id[0]['action_id'][1]:
+#            return self.blank()
         else:
             act_id = act_id[0][id][0]
             from openerp import controllers
@@ -93,10 +92,9 @@ class Root(SecuredController):
 
     @expose(template="templates/menu.mako")
     def menu(self, active=None, **kw):
-
         from openerp.utils import icons
         from openerp.widgets import tree_view
-
+        
         try:
             id = int(active)
         except:
@@ -128,7 +126,8 @@ class Root(SecuredController):
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
             tree.tree.linktarget = "'appFrame'"
-
+        if kw.get('db'):
+            return dict(parents=parents, tools=tools, setup = '/home')
         return dict(parents=parents, tools=tools)
 
     @expose(allow_json=True)
