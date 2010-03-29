@@ -338,62 +338,62 @@ class Workflow(Form):
 #    connector = Connector()
 
 
-class WorkflowList(SecuredController):
-
-    _cp_path = "/workflowlist"
-
-    @expose(template="templates/wkf_list.mako")
-    def index(self, model, active=False):
-
-        params = TinyDict()
-        params.model = 'workflow'
-        params.view_mode = ['tree']
-
-        params.domain = [('osv', '=', model)]
-
-        screen = tw.screen.Screen(params, selectable=1)
-        screen.widget.pageable = False
-
-        return dict(screen=screen, model=model, active=active)
-
-    @expose()
-    def create(self, model, **kw):
-
-        wkf_name = kw.get('name')
-        on_create = kw.get('on_create')
-
-        if not wkf_name:
-            raise redirect('/workflowlist', model=model)
-
-        proxy = rpc.RPCProxy('workflow')
-        proxy.create(dict(osv=model, name=wkf_name, on_create=on_create))
-
-        raise redirect('/workflowlist', model=model)
-
-    @expose()
-    def delete(self, model, id):
-
-        id = int(id)
-
-        proxy = rpc.RPCProxy('workflow')
-        proxy.unlink(id)
-
-        raise redirect('/workflowlist', model=model)
-
-    @expose()
-    def activate(self, model, id):
-
-        activate_id = int(id)
-
-        proxy = rpc.RPCProxy('workflow')
-        search_ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
-
-        for id in search_ids:
-            if id==activate_id:
-                proxy.write([id], {'on_create': True})
-            else:
-                proxy.write([id], {'on_create': False})
-
-        raise redirect('/workflowlist', model=model)
+#class WorkflowList(SecuredController):
+#
+#    _cp_path = "/workflowlist"
+#
+#    @expose(template="templates/wkf_list.mako")
+#    def index(self, model, active=False):
+#
+#        params = TinyDict()
+#        params.model = 'workflow'
+#        params.view_mode = ['tree']
+#
+#        params.domain = [('osv', '=', model)]
+#
+#        screen = tw.screen.Screen(params, selectable=1)
+#        screen.widget.pageable = False
+#
+#        return dict(screen=screen, model=model, active=active)
+#
+#    @expose()
+#    def create(self, model, **kw):
+#
+#        wkf_name = kw.get('name')
+#        on_create = kw.get('on_create')
+#
+#        if not wkf_name:
+#            raise redirect('/workflowlist', model=model)
+#
+#        proxy = rpc.RPCProxy('workflow')
+#        proxy.create(dict(osv=model, name=wkf_name, on_create=on_create))
+#
+#        raise redirect('/workflowlist', model=model)
+#
+#    @expose()
+#    def delete(self, model, id):
+#
+#        id = int(id)
+#
+#        proxy = rpc.RPCProxy('workflow')
+#        proxy.unlink(id)
+#
+#        raise redirect('/workflowlist', model=model)
+#
+#    @expose()
+#    def activate(self, model, id):
+#
+#        activate_id = int(id)
+#
+#        proxy = rpc.RPCProxy('workflow')
+#        search_ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
+#
+#        for id in search_ids:
+#            if id==activate_id:
+#                proxy.write([id], {'on_create': True})
+#            else:
+#                proxy.write([id], {'on_create': False})
+#
+#        raise redirect('/workflowlist', model=model)
 
 # vim: ts=4 sts=4 sw=4 si et
