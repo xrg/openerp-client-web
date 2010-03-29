@@ -36,7 +36,7 @@ if (typeof(openobject.workflow) == "undefined") {
 }
 
 
-openobject.workflow.Connector=function(id, signal, condition, from, to) {
+openobject.workflow.Connector=function(id, from, to, options) {
 	
 	draw2d.Connection.call(this);
 	this.setLineWidth(2);
@@ -62,14 +62,14 @@ openobject.workflow.Connector=function(id, signal, condition, from, to) {
 	
 	if(id) {
 		this.tr_id = id;
-		this.signal = signal;
-		this.condition = condition;
+		//this.signal = signal;
+		//this.condition = condition;
 		this.from = from;
 		this.to = to;
 		this.isOverlaping = false;
 		this.OverlapingSeq = 0;
 		this.totalOverlaped = 0;
-		
+		this.options = MochiKit.Base.update({}, options || {})
 		this.sourceAnchor.conn_id = id;
 		this.targetAnchor.conn_id = id;
 	}
@@ -89,7 +89,12 @@ openobject.workflow.Connector.prototype.onClick = function(event) {
 
 
 openobject.workflow.Connector.prototype.onmouseOver = function(event) {
-    openobject.dom.get('status').innerHTML = "Condition: " + this.condition + " | Signal: "+ this.signal;
+    str = ''
+    for (f in this.options) 
+        str += f + ': ' + this.options[f] + ' | ' 
+        
+            
+    openobject.dom.get('status').innerHTML = str.substring(0, str.length-3);//"Condition: " + this.condition + " | Signal: "+ this.signal;
 }
 
 
@@ -100,7 +105,7 @@ openobject.workflow.Connector.prototype.onmouseOut = function(event){
 openobject.workflow.Connector.prototype.edit = function() {
 	
 	params = {
-	'_terp_model' : 'workflow.transition',
+	'_terp_model' : WORKFLOW.connector_obj,//'workflow.transition',
 	'_terp_start' : this.getSource().getParent().get_act_id(),
 	'_terp_end' : this.getTarget().getParent().get_act_id()
 	}
@@ -128,7 +133,11 @@ openobject.workflow.Connector.prototype.setSource = function(port) {
 		this.sourceId = port.getParent().get_act_id();
 	else if(this.sourceId != port.getParent().get_act_id())	{
 		this.sourceId = port.getParent().get_act_id();
-		req = openobject.http.postJSON('/workflow/connector/change_ends', {id: this.tr_id, field: 'act_from', value: this.sourceId});
+		//req = openobject.http.postJSON('/workflow/connector/change_ends', {id: this.tr_id, field: 'act_from', value: this.sourceId});
+		req = openobject.http.postJSON('/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
+		                                                                  id: this.tr_id, 
+		                                                                  field: WORKFLOW.src_node_nm, 
+		                                                                  value: this.sourceId});
 	}
 }
 
@@ -139,7 +148,11 @@ openobject.workflow.Connector.prototype.setTarget = function(port) {
 		this.destId = port.getParent().get_act_id();
 	else if(this.destId != port.getParent().get_act_id()) {
 		this.destId = port.getParent().get_act_id();
-		req = openobject.http.postJSON('/workflow/connector/change_ends', {id: this.tr_id, field: 'act_to', value: this.destId});
+//		req = openobject.http.postJSON('/workflow/connector/change_ends', {id: this.tr_id, field: 'act_to', value: this.destId});
+        req = openobject.http.postJSON('/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
+                                                                           id: this.tr_id, 
+                                                                           field: WORKFLOW.des_node_nm, 
+                                                                           value: this.destId});
 	}
 }
 

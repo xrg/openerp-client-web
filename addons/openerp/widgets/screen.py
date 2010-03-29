@@ -142,8 +142,8 @@ class Screen(TinyInputWidget):
     def add_view(self, view, view_type='form'):
 
         self.view_id = view.get('view_id', self.view_id)
-        self.view = view
-
+        self.view = view  
+        
         from _views import get_view_widget
         self.widget = get_view_widget(view_type, self)
 

@@ -37,36 +37,58 @@ if (typeof(openobject.workflow) == "undefined") {
     openobject.workflow = new Object;
 }
 
+colors = {
+'grey': [155, 155, 155],
+'red': [236, 20, 60],
+'white': [255, 255, 255]
+};
 
-openobject.workflow.StateBase = function(id, action, kind, sname) {
-    this.__init__(id, action, kind, sname);
+openobject.workflow.StateBase = function(id, action, kind, sname, options) {
+    this.__init__(id, action, kind, sname, options);
 } 
     
 openobject.workflow.StateBase.prototype = {
-    __init__ : function(id, action, kind, sname) {
-        this.sname = sname;    
+    __init__ : function(id, action, kind, name, options) {        
+        
+        //this.action = action;
+        //this.kind = kind || '';        
+        
         this.act_id = id || null;
-        this.action = action;
-        this.kind = kind || '';        
+        this.name = name;
+        
+        this.options = MochiKit.Base.update({}, options || {})
+        
+        
         this.portR = null;
         this.portU = null;
         this.portL = null;
         this.portD = null;
     },
     
-    init_label : function(flow_start, flow_stop) {
+    init_label : function(color, workitems) {
     
         this.setDimension(100, 60);
         this.setDeleteable(false);
         this.setResizeable(false);
         this.setLineWidth(2);
               
-                       
-        if(flow_start || flow_stop)          
-            this.setBackgroundColor(new draw2d.Color(155, 155, 155))
-        else
-            this.setBackgroundColor(new draw2d.Color(255, 255, 255)); 
+        if (!color)
+            var c = 'white';
+        else                 
+            var c = colors[color]
             
+        this.setBackgroundColor(new draw2d.Color(c[0], c[1], c[2]))                                           
+        //if(flow_start || flow_stop)          
+          //  this.setBackgroundColor(new draw2d.Color(155, 155, 155))
+        //else
+          //  this.setBackgroundColor(new draw2d.Color(255, 255, 255)); 
+        try{
+        
+        if (findIdentical(workitems, this.act_id)>-1) {           
+            this.setColor(new draw2d.Color(236, 20, 60))
+            log('match::::', this.sname, this.act_id)
+            }
+        }catch(e){log('error::',e)}
         var html = this.getHTMLElement();    
         html.style.textAlign = 'center';
         html.style.marginLeft = 'auto';
@@ -75,7 +97,7 @@ openobject.workflow.StateBase.prototype = {
         this.sgnl_clk = MochiKit.Signal.connect(html , 'onclick', this, this.onClick);
         this.disableTextSelection(html);
         
-        var span = SPAN({'class': 'stateName', id: this.sname}, this.sname);
+        var span = SPAN({'class': 'stateName', id: this.name}, this.name);
         MochiKit.DOM.appendChildNodes(html, span);
         
         if(!isUndefinedOrNull(this.sname)) {
@@ -117,7 +139,7 @@ openobject.workflow.StateBase.prototype = {
     edit : function() {
         
         params = {
-        '_terp_model' : 'workflow.activity',
+        '_terp_model' : WORKFLOW.node_obj,//'workflow.activity',
         '_terp_wkf_id' : WORKFLOW.id 
         }
         
@@ -173,12 +195,13 @@ openobject.workflow.StateOval = new Class;
 openobject.workflow.StateOval.prototype = $merge(openobject.workflow.StateOval.prototype, draw2d.Oval.prototype, openobject.workflow.StateBase.prototype)
 openobject.workflow.StateOval.implement({
     
-    initialize : function(params) {
+    initialize : function(params, workitems) {
         
-        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
+        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.Oval.call(this); 
         this.dragged = false;
-        this.init_label(params.flow_start, params.flow_stop)
+        //this.init_label(params.flow_start, params.flow_stop, workitems)
+        this.init_label(params.color, workitems);
     }
         
 });
@@ -189,14 +212,15 @@ openobject.workflow.StateRectangle = new Class;
 openobject.workflow.StateRectangle.prototype = $merge(openobject.workflow.StateRectangle.prototype, draw2d.VectorFigure.prototype, openobject.workflow.StateBase.prototype)
 openobject.workflow.StateRectangle.implement({
     
-    initialize : function(params) {
+    initialize : function(params, workitems) {
         
-        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name);
+        openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.VectorFigure.call(this);
         this.lineColor = new draw2d.Color(0,0,0);
         this.setLineWidth(1); 
         
-        this.init_label(params.flow_start, params.flow_stop);
+        //this.init_label(params.flow_start, params.flow_stop, workitems);
+        this.init_label(params.color, workitems);
     },
     
     createHTMLElement : function() {

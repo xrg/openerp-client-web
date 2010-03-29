@@ -30,9 +30,8 @@ import cherrypy
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, TinyDict
 
-import actions
-import form
-from openobject.i18n import format
+import openerp.controllers.actions as actions
+import openerp.controllers.form as form
 from openobject.tools import expose
 
 
@@ -51,10 +50,8 @@ class ResourcePopup(form.Form):
         return dict(form=form, params=params)
 
 class Process(SecuredController):
-    
-    _cp_path = "/process"
 
-    resource = ResourcePopup()
+    _cp_path = "/process"
 
     @expose(template="templates/process.mako")
     def default(self, id=False, res_model=None, res_id=False):

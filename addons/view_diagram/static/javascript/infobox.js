@@ -50,27 +50,32 @@ InfoBox.prototype = {
         var title = 'Information Box';
         
         if(this.source instanceof openobject.workflow.StateOval || this.source instanceof openobject.workflow.StateRectangle) {
-       	  	 var id = 'Id: ' + this.source.get_act_id();
-       		 var dtl1 = 'Action: ' + this.source.action;
-       		 var dtl2 = 'Kind: ' + this.source.kind;
+       	  	var id = 'Id: ' + this.source.get_act_id();
         } else {
         	var id = this.source.from+ ' ---> ' + this.source.to;
-        	var dtl1 = 'Signal: ' + this.source.signal;
-        	var dtl2 = 'Condition: ' + this.source.condition;
         }
         
-        var info = DIV(null,
+        var dtls = []              
+        var options = this.source.options           
+        for (f in options) 
+            dtls.push(DIV({'class': 'calInfoDesc'}, f + ': ' + options[f]))
+            
+        var info = DIV(null,                    
                     DIV({'class': 'calInfoTitle'}, title),
+                    DIV({'id': 'info'},
                     DIV({'class': 'calInfoDesc'}, id),
-                    DIV({'class': 'calInfoDesc'}, dtl1),
-                    DIV({'class': 'calInfoDesc'}, dtl2),
+                    map(function(x){return x}, dtls)),                    
                         TABLE({'class': 'calInfoButtons', 'cellpadding': 2}, 
                             TBODY(null, 
                                 TR(null,
                                     TD(null, btnEdit),                                   
                                     TD(null, btnDelete),
                                     TD({'align': 'right', 'width': '100%'}, btnCancel)))));
-                                    
+         
+         if ($('_terp_editable').value=='False') {
+            removeElement(btnEdit)
+            removeElement(btnDelete)
+         }                           
                                     
          if (!this.layer) {
             this.layer = DIV({id: 'calInfoLayer'});
@@ -94,8 +99,8 @@ InfoBox.prototype = {
         //setElementDimensions(this.layer, getViewportDimensions());
 
         var w = 350;
-        var h = 125;
-
+        var h = elementDimensions('info').h>0 ? elementDimensions('info').h + 53 : 125;
+        
         MochiKit.DOM.setElementDimensions(this.box, {w: w, h: h});
 
         var x = evt.mouse().page.x;

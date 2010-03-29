@@ -3,6 +3,7 @@
 <%def name="header()">
     <title>${_("Process")}</title>
 
+    <link type="text/css" rel="stylesheet" href="/openerp/static/workflow/css/process_box.css"/>
     <link type="text/css" rel="stylesheet" href="/openerp/static/workflow/css/process.css"/>
 
     <script src="/openerp/static/workflow/javascript/draw2d/wz_jsgraphics.js"></script>
@@ -10,6 +11,7 @@
     <script src="/openerp/static/workflow/javascript/draw2d/moocanvas.js"></script>
     <script src="/openerp/static/workflow/javascript/draw2d/draw2d.js"></script>
 
+    <script src="/openerp/static/workflow/javascript/process_box.js"></script>
     <script src="/openerp/static/workflow/javascript/process.js"></script>
 
     <script type="text/javascript">
@@ -27,12 +29,10 @@
             window.location.href = openobject.http.getURL("/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
-    
     % endif
 </%def>
 
 <%def name="content()">
-
 
 % if selection:
 <div class="view">
@@ -73,16 +73,16 @@
             <input type="hidden" id="res_id" value="${res_id}"/>
             <div id="process_canvas"></div>
             <script type="text/javascript">
-		    
-	            var id = parseInt(openobject.dom.get('id').value) || 0;
-	            var res_model = openobject.dom.get('res_model').value;
-	            var res_id = openobject.dom.get('res_id').value;
-	
-	            if (id) {
-	                var wkf = new openobject.process.Workflow('process_canvas');
-	                wkf.load(id, res_model, res_id);
-	            }
-    		</script>
+            
+                var id = parseInt(openobject.dom.get('id').value) || 0;
+                var res_model = openobject.dom.get('res_model').value;
+                var res_id = openobject.dom.get('res_id').value;
+                
+                if (id) {
+                    var wkf = new openobject.process.Workflow('process_canvas');
+                    wkf.load(id, res_model, res_id);
+                }                 
+            </script>
         </td>
     </tr>
     <tr>
