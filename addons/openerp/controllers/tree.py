@@ -77,7 +77,7 @@ class Tree(SecuredController):
                 ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
                 tool['ids'] = ids
 
-        return dict(tree=tree, model=model)
+        return {'tree': tree, 'model': model}
 
     @expose()
     def default(self, id, model, view_id, domain, context):
@@ -134,8 +134,8 @@ class Tree(SecuredController):
 
         proxy = rpc.RPCProxy(model)
 
-        ctx = context or {}
-        ctx.update(rpc.session.context.copy())
+        ctx = dict(context,
+                   **rpc.session.context)
 
         if icon_name:
             fields.append(icon_name)
@@ -187,13 +187,14 @@ class Tree(SecuredController):
                 if v==None or (v==False and type(v)==bool):
                     item[k] = ''
 
-            record = {}
-
-            record['id'] = item.pop('id')
-            record['action'] = url('/tree/open', model=model, id=record['id'])
-            record['target'] = None
-
-            record['icon'] = None
+            record = {
+                'id': item.pop('id'),
+                'action': url('/tree/open', model=model, id=record['id']),
+                'target': None,
+                'icon': None,
+                'children': [],
+                'items': item
+            }
 
             if icon_name and item.get(icon_name):
                 icon = item.pop(icon_name)
@@ -203,16 +204,12 @@ class Tree(SecuredController):
                     record['action'] = None
                     record['target'] = None
 
-            record['children'] = []
-
             if field_parent and field_parent in item:
                 record['children'] = item.pop(field_parent) or None
 
-            record['items'] = item
-
             records += [record]
 
-        return dict(records=records)
+        return {'records': records}
 
     def do_action(self, name, adds={}, datas={}):
         params, data = TinyDict.split(datas)
@@ -269,9 +266,8 @@ class Tree(SecuredController):
 
     @expose()
     def open(self, **kw):
-        datas = {'_terp_model': kw.get('model'),
-                 '_terp_context': kw.get('context', {}),
-                 '_terp_domain': kw.get('domain', []),
-                 'ids': kw.get('id')}
-
-        return self.do_action('tree_but_open', datas=datas)
+        return self.do_action('tree_but_open', datas={
+                '_terp_model': kw.get('model'),
+                '_terp_context': kw.get('context', {}),
+                '_terp_domain': kw.get('domain', []),
+                'ids': kw.get('id')})
