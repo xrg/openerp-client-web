@@ -27,25 +27,25 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-function get_form_action(action, params){
-    
+function get_form_action(action, params) {
+
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
     return openobject.http.getURL(act, params);
 }
 
-var openRecord = function(id, src, target, readonly){
+var openRecord = function(id, src, target, readonly) {
 
     var kind = getNodeAttribute(src + '_set', 'kind');
-    
+
     if (!kind && openobject.dom.get('_o2m_' + src)) {
         kind = "one2many";
     }
-        
+
     if (kind == "one2many") {
         return new One2Many(src).edit(id, readonly);
     }
-    
+
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
     var model = openobject.dom.get(prefix + '_terp_model').value;
@@ -64,24 +64,26 @@ var openRecord = function(id, src, target, readonly){
     var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
 
-    var args = {'model': model,
-                'id': id ? id : 'False',
-                'ids': ids,
-                'view_ids': view_ids,
-                'view_mode': view_mode,
-                'domain': domain,
-                'context': context,
-                'offset': offset,
-                'limit': limit,
-                'count': count,
-                'search_domain': search_domain};
-                
+    var args = {
+        'model': model,
+        'id': id ? id : 'False',
+        'ids': ids,
+        'view_ids': view_ids,
+        'view_mode': view_mode,
+        'domain': domain,
+        'context': context,
+        'offset': offset,
+        'limit': limit,
+        'count': count,
+        'search_domain': search_domain
+    };
+
     var action = readonly ? 'view' : 'edit';
-        
+
     if (target == '_blank') {
         return window.open(get_form_action(action, args));
     }
-    
+
     if (kind == 'many2many') {
         args['source'] = src;
         return openobject.tools.openWindow(get_form_action('/openm2m/edit', args));
@@ -90,11 +92,11 @@ var openRecord = function(id, src, target, readonly){
     window.location.href = get_form_action(action, args);
 }
 
-var editRecord = function(id, src, target){
+var editRecord = function(id, src, target) {
     return openRecord(id, src, target, false);
 }
 
-var viewRecord = function(id, src){
+var viewRecord = function(id, src) {
     return openRecord(id, src, null, true);
 }
 
@@ -102,25 +104,25 @@ var editSelectedRecord = function() {
 
     var lst = new ListView('_terp_list');
     var ids = lst.getSelectedRecords();
-    
+
     if (ids && ids.length > 5) {
         var msg = _('You selected to open %(tabs)s tabs - do you want to continue?');
         msg = msg.replace('%(tabs)s', ids.length);
         if (!confirm(msg)) return;
     }
 
-    forEach(ids, function(id){
+    forEach(ids, function(id) {
         editRecord(id, '_terp_list', '_blank');
     });
 }
 
-var switchView = function(view_type, src){
+var switchView = function(view_type, src) {
 
-	var search_filter_data = getElement('search_filter_data')
-	if (search_filter_data){
-		search_filter_data.style.display = "none";
-		appendChildNodes(parent.window.document.body, search_filter_data);
-	}
+    var search_filter_data = getElement('search_filter_data')
+    if (search_filter_data) {
+        search_filter_data.style.display = "none";
+        appendChildNodes(parent.window.document.body, search_filter_data);
+    }
 
     var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];
@@ -130,7 +132,7 @@ var switchView = function(view_type, src){
         '_terp_source_view_type': view_type
     }
 
-    if (openobject.dom.get('_terp_list')){
+    if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
@@ -140,43 +142,43 @@ var switchView = function(view_type, src){
     submit_form(get_form_action('switch', params));
 }
 
-var switch_O2M = function(view_type, src){
-    
-    if (openobject.http.AJAX_COUNT > 0){
+var switch_O2M = function(view_type, src) {
+
+    if (openobject.http.AJAX_COUNT > 0) {
         return;
     }
-    
+
     var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];
-	
+
     var params = getFormParams();
-    
+
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-    
-    if (openobject.dom.get('_terp_list')){
+
+    if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-    
+
     req = openobject.http.post('/form/switch_o2m', params);
-    req.addCallback(function(xmlHttp){
-    
+    req.addCallback(function(xmlHttp) {
+
         var text = xmlHttp.responseText;
         if (text.indexOf('ERROR: ') == 0) {
             text = text.replace('ERROR: ', '');
             return alert(text);
         }
 
-        var frm = openobject.dom.get('_o2m_'+src);
-        
+        var frm = openobject.dom.get('_o2m_' + src);
+
         var d = DIV();
         d.innerHTML = text;
-        
+
         var newo2m = d.getElementsByTagName('table')[0];
-        
+
         swapDOM(frm, newo2m);
 
         var ua = navigator.userAgent.toLowerCase();
@@ -184,7 +186,7 @@ var switch_O2M = function(view_type, src){
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
             // execute JavaScript
             var scripts = openobject.dom.select('script', newo2m);
-            forEach(scripts, function(s){
+            forEach(scripts, function(s) {
                 eval(s.innerHTML);
             });
         }
@@ -210,18 +212,18 @@ var show_process_view = function() {
 var validate_required = function(form) {
 
     if (typeof form == 'string') {
-       form = document.forms[form];
+        form = document.forms[form];
     }
 
     if (!form) return true;
 
     var elements = MochiKit.Base.filter(function(el) {
-       return !el.disabled && el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
+        return !el.disabled && el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
     }, form.elements);
 
     var result = true;
 
-    for (var i=0; i<elements.length; i++){
+    for (var i = 0; i < elements.length; i++) {
 
         var elem = elem2 = elements[i];
         var value = elem.value;
@@ -243,7 +245,7 @@ var validate_required = function(form) {
             removeElementClass(elem2, 'errorfield');
         }
     }
-    
+
     if (!result) {
         alert(_("Invalid form, correct red fields !"));
     }
@@ -251,8 +253,8 @@ var validate_required = function(form) {
     return result;
 }
 
-var submit_form = function(action, src, target){
-    
+var submit_form = function(action, src, target) {
+
     if (openobject.http.AJAX_COUNT > 0) {
         return callLater(1, submit_form, action, src, target);
     }
@@ -269,23 +271,23 @@ var submit_form = function(action, src, target){
     var args = {
         _terp_source: source
     };
-   
-    if (target == "new" || target == "_blank"){
+
+    if (target == "new" || target == "_blank") {
         setNodeAttribute(form, 'target', '_blank');
     }
-    
-    if (action == 'save_and_edit'){
+
+    if (action == 'save_and_edit') {
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
 
     action = get_form_action(action, args);
 
-    if (/\/save(\?|\/)?/.test(action) && !validate_required(form)){
+    if (/\/save(\?|\/)?/.test(action) && !validate_required(form)) {
         return false;
     }
-    
-    form.attributes['action'].value = action;    
+
+    form.attributes['action'].value = action;
     form.submit();
 }
 
@@ -293,19 +295,19 @@ var pager_action = function(action, src) {
     return src ? new ListView(src).go(action) : submit_form(action ? action : 'find');
 }
 
-var buttonClicked = function(name, btype, model, id, sure, target){
+var buttonClicked = function(name, btype, model, id, sure, target) {
 
-    if (sure && !confirm(sure)){
+    if (sure && !confirm(sure)) {
         return;
     }
 
-    var params = {};
+    var params = {
+        '_terp_button/name': name,
+        '_terp_button/btype': btype,
+        '_terp_button/model': model,
+        '_terp_button/id': id
+    };
 
-    params['_terp_button/name'] = name;
-    params['_terp_button/btype'] = btype;
-    params['_terp_button/model'] = model;
-    params['_terp_button/id'] = id;
-    
     var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
     submit_form(act, null, target);
 }
@@ -316,7 +318,7 @@ var onBooleanClicked = function(name) {
     var target = openobject.dom.get(name);
 
     target.value = source.checked ? 1 : '';
-	MochiKit.Signal.signal(target, 'onchange');
+    MochiKit.Signal.signal(target, 'onchange');
 }
 
 /**
@@ -333,25 +335,25 @@ var getFormData = function(extended) {
 
     var frm = {};
     var fields = [];
-    
+
     var is_editable = openobject.dom.get('_terp_editable').value == 'True';
-    
+
     if (is_editable) {
-	    fields = openobject.dom.select("input, textarea, select", parentNode);
+        fields = openobject.dom.select("input, textarea, select", parentNode);
     } else {
-        fields =  fields.concat(openobject.dom.select('kind=value')); 
-        fields = fields.concat(openobject.dom.select('[name$=/__id]'));       
+        fields = fields.concat(openobject.dom.select('kind=value'));
+        fields = fields.concat(openobject.dom.select('[name$=/__id]'));
     }
-    
-    fields = fields.concat(filter(function(e){
-        return getNodeAttribute(e,'kind')=='picture';
+
+    fields = fields.concat(filter(function(e) {
+        return getNodeAttribute(e, 'kind') == 'picture';
     }, openobject.dom.select('img', parentNode)));
-    
-    for(var i=0; i<fields.length; i++) {
-    
+
+    for (var i = 0; i < fields.length; i++) {
+
         var e = fields[i];
         var n = is_editable ? e.name : e.id;
-        
+
         if (e.tagName.toLowerCase() != 'img' && !n)
             continue;
 
@@ -363,28 +365,28 @@ var getFormData = function(extended) {
 
         // work arround to skip o2m values (list mode)
         if (n.indexOf('/__id') > 0) {
-        
+
             n = n.replace('/__id', '');
 
             if (openobject.dom.get(n + '/_terp_view_type').value == 'form') {
-                frm[n+'/__id'] = openobject.dom.get(n+'/__id').value;
+                frm[n + '/__id'] = openobject.dom.get(n + '/__id').value;
                 continue;
             }
             // skip if editable list's editors are visible
             if (openobject.dom.select("[name^=_terp_listfields/" + n + "]").length) {
                 continue;
             }
-            
-            
+
+
             var value = openobject.dom.get(n + '/_terp_ids').value;
 
             if (extended) {
-                value = {'value': value, 
-                         'type': 'one2many', 
-                         'relation': openobject.dom.get(n + '/_terp_model').value};
+                value = {'value': value,
+                    'type': 'one2many',
+                    'relation': openobject.dom.get(n + '/_terp_model').value};
                 value = serializeJSON(value);
             }
-            
+
             frm[n] = value;
             continue;
         }
@@ -392,7 +394,7 @@ var getFormData = function(extended) {
         if (extended && n.indexOf('/__id') == -1) {
 
             var attrs = {};
-            
+
             var value = (is_editable ? e.value : getNodeAttribute(e, 'value')) || "";
             var kind = getNodeAttribute(e, 'kind') || "char";
 
@@ -402,15 +404,15 @@ var getFormData = function(extended) {
                 //  only the resource id and all O2M
                 n = n.replace(/_terp_id$/, '');
                 if (n && !openobject.dom.get(n + '__id')) {
-                    continue; 
+                    continue;
                 }
 
                 n = n + 'id';
-                
+
                 if (!openobject.dom.get(n)) {
-                    continue;    
+                    continue;
                 }
-                
+
                 kind = 'integer';
                 value = value == 'False' ? '' : value;
             }
@@ -419,25 +421,25 @@ var getFormData = function(extended) {
 
             if (kind)
                 attrs['type'] = kind;
-                
-            if (extended && (kind == 'many2one' || kind == 'many2many')){
+
+            if (extended && (kind == 'many2one' || kind == 'many2many')) {
                 attrs['relation'] = getNodeAttribute(e, 'relation');
             }
 
             if (extended > 1 && hasElementClass(e, 'requiredfield'))
-                attrs['required'] =  1;
+                attrs['required'] = 1;
 
             if (kind == "picture") {
                 n = e.id;
             }
 
             if (kind == 'text_html') {
-                attrs['value'] =  tinyMCE.get(e.name).getContent();
+                attrs['value'] = tinyMCE.get(e.name).getContent();
             }
 
             // stringify the attr object
             frm[n] = serializeJSON(attrs);
-            
+
         } else {
             frm[n] = e.value;
         }
@@ -450,14 +452,14 @@ var getFormData = function(extended) {
  * get key-value pair of form params (_terp_)
  * @param name: only return values for given param
  */
-var getFormParams = function(name){
+var getFormParams = function(name) {
 
     var parentNode = document.forms['view_form'];
 
     var frm = {};
     var fields = openobject.dom.select('input', parentNode);
 
-    forEach(fields, function(e){
+    forEach(fields, function(e) {
 
         if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1)
             return
@@ -481,14 +483,14 @@ var onChange = function(name) {
     var caller = openobject.dom.get(name);
     var callback = getNodeAttribute(caller, 'callback');
     var change_default = getNodeAttribute(caller, 'change_default');
-    
+
     if (!(callback || change_default) || caller.__lock_onchange) {
         return;
     }
-    
+
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
     var prefix = caller.name || caller.id;
-    prefix = prefix.slice(0, prefix.lastIndexOf('/')+1);
+    prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
 
     var params = getFormData(1);
     var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
@@ -501,29 +503,29 @@ var onChange = function(name) {
     params['_terp_context'] = context;
     params['_terp_value'] = caller.value;
     params['id'] = id;
-    
+
     var req = openobject.http.postJSON(callback ? '/form/on_change' : '/form/change_default_get', params);
 
-    req.addCallback(function(obj){
+    req.addCallback(function(obj) {
 
         if (obj.error) {
             return alert(obj.error);
         }
-        
+
         values = obj['value'];
         domains = obj['domain'];
 
         domains = domains ? domains : {};
 
-        for(var k in domains){
+        for (var k in domains) {
             fld = openobject.dom.get(prefix + k);
-            if (fld){
+            if (fld) {
                 setNodeAttribute(fld, 'domain', domains[k]);
             }
         }
 
-        for(var k in values){
-            
+        for (var k in values) {
+
             flag = false;
             fld = openobject.dom.get(prefix + k);
 
@@ -535,7 +537,7 @@ var onChange = function(name) {
             // prevent recursive onchange
             fld.__lock_onchange = true;
 
-            if (openobject.dom.get(prefix + k + '_id')){
+            if (openobject.dom.get(prefix + k + '_id')) {
                 fld = openobject.dom.get(prefix + k + '_id');
                 flag = true;
             }
@@ -544,36 +546,39 @@ var onChange = function(name) {
                 fld.value = value;
 
                 var kind = getNodeAttribute(fld, 'kind');
-                
+
                 if (kind == 'picture') {
                     fld.src = value;
                 }
 
-                if (kind == 'many2one'){
+                if (kind == 'many2one') {
                     fld.value = value[0] || '';
                     try {
                         openobject.dom.get(prefix + k + '_text').value = value[1] || '';
-                    }catch(e){}
+                    } catch(e) {
+                    }
                 }
 
                 if (kind == 'boolean') {
                     openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
                 }
-                
-                if (kind=='text_html') {
+
+                if (kind == 'text_html') {
                     tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '')
                 }
-                
-                if (kind=='selection') {                    
+
+                if (kind == 'selection') {
                     var opts = [];
                     opts.push(OPTION({'value': ''}))
-                    
-                    for (i in value) {                        
-                        var item = value[i];                        
+
+                    for (i in value) {
+                        var item = value[i];
                         opts.push(OPTION({'value': item[0]}, item[1]));
-                    } 
-                    MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
-                }                
+                    }
+                    MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
+                        return x;
+                    }, opts));
+                }
 
                 MochiKit.Signal.signal(fld, 'onchange');
             }
@@ -595,27 +600,27 @@ var onChange = function(name) {
  *
  * @return string
  */
-function getName(name, relation){
+function getName(name, relation) {
 
     var value_field = openobject.dom.get(name);
     var text_field = openobject.dom.get(value_field.name + '_text');
 
     relation = relation ? relation : getNodeAttribute(value_field, 'relation');
 
-    if (value_field.value == ''){
+    if (value_field.value == '') {
         text_field.value = ''
     }
 
-    if (value_field.value){
+    if (value_field.value) {
         var req = openobject.http.getJSON('/search/get_name', {model: relation, id : value_field.value});
-        req.addCallback(function(obj){
+        req.addCallback(function(obj) {
             text_field.value = obj.name;
         });
     }
 }
 
-function eval_domain_context_request(options){
-    
+function eval_domain_context_request(options) {
+
     if ((!options.domain || options.domain == '[]') && (!options.context || options.context == '{}')) {
         return new MochiKit.Async.succeed(-1);
     }
@@ -624,39 +629,39 @@ function eval_domain_context_request(options){
     prefix.pop();
 
     // editable listview fields
-    if (prefix[0] == '_terp_listfields'){
+    if (prefix[0] == '_terp_listfields') {
         prefix.shift();
     }
     prefix = prefix.join('/');
 
     var params = getFormData(1);
-    
+
     params['_terp_domain'] = options.domain;
     params['_terp_context'] = options.context;
-    params['_terp_prefix'] = prefix;    
+    params['_terp_prefix'] = prefix;
     params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
     params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
-    
+
     if (options.active_id) {
         params['_terp_active_id'] = options.active_id;
         params['_terp_active_ids'] = options.active_ids;
     }
-        
+
     var parent_context = prefix ? openobject.dom.get(prefix + '/_terp_context') : openobject.dom.get('_terp_context');
-    
-    if (parent_context){
+
+    if (parent_context) {
         params['_terp_parent_context'] = parent_context.value;
     }
-    
+
     var req = openobject.http.postJSON('/search/eval_domain_and_context', params);
-    return req.addCallback(function(obj){
+    return req.addCallback(function(obj) {
 
         if (obj.error_field) {
 
             var fld = openobject.dom.get(obj.error_field) || openobject.dom.get('_terp_listfields/' + obj.error_field);
 
             if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
-            fld = openobject.dom.get(fld.id + '_text');
+                fld = openobject.dom.get(fld.id + '_text');
 
             if (fld) {
                 fld.focus();
@@ -674,32 +679,36 @@ function eval_domain_context_request(options){
 
 function open_search_window(relation, domain, context, source, kind, text) {
 
-    var req = eval_domain_context_request({source: source, 
-                                           domain: domain, 
-                                           context: context});
+    var req = eval_domain_context_request({
+        'source': source,
+        'domain': domain,
+        'context': context
+    });
 
     if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
         text = "";
     }
 
-    req.addCallback(function(obj){
-        openobject.tools.openWindow(openobject.http.getURL('/search/new', {model: relation, 
-                                          domain: obj.domain, 
-                                          context: obj.context, 
-                                          source: source, 
-                                          kind: kind, 
-                                          text: text}));
+    req.addCallback(function(obj) {
+        openobject.tools.openWindow(openobject.http.getURL('/search/new', {
+            'model': relation,
+            'domain': obj.domain,
+            'context': obj.context,
+            'source': source,
+            'kind': kind,
+            'text': text
+        }));
     });
 }
 
 var showCustomizeMenu = function(src, elem) {
     var elem = openobject.dom.get(elem);
-    
+
     var frame = window.frameElement ? window.frameElement : null;
     if (frame) {
-    	frame.style.height = elementDimensions(openobject.dom.get('main_form_body')).h + 70 + 'px';	
+        frame.style.height = elementDimensions(openobject.dom.get('main_form_body')).h + 70 + 'px';
     }
-        
+
     MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
 }
 
@@ -713,42 +722,46 @@ function makeContextMenu(id, kind, relation, val) {
     var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
 
     var params = {'model': model, 'field': id, 'kind': kind, 'relation': relation, 'value': val};
-    
+
     var req = openobject.http.postJSON(act, params);
 
     req.addCallback(function(obj) {
 
         var rows = [];
 
-        for(var r in obj.defaults) {
-            var o = obj.defaults[r];                        
+        for (var r in obj.defaults) {
+            var o = obj.defaults[r];
             var a = SPAN({onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
             rows = rows.concat(a);
         }
 
-        if(obj.actions.length > 0) {
+        if (obj.actions.length > 0) {
             rows = rows.concat(HR());
 
-            for(var r in obj.actions) {
+            for (var r in obj.actions) {
                 var o = obj.actions[r];
 
-                var a = SPAN({'class': o.action ? '' : 'disabled',
-                           'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''}, o.text);
+                var a = SPAN({
+                    'class': o.action ? '' : 'disabled',
+                    'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''
+                }, o.text);
 
                 rows = rows.concat(a);
             }
         }
 
-        if(obj.relates.length > 0) {
+        if (obj.relates.length > 0) {
             rows = rows.concat(HR())
 
-            for(var r in obj.relates) {
+            for (var r in obj.relates) {
                 var o = obj.relates[r];
-                
-                var a = SPAN({'class': o.action ? '' : 'disabled',
-                              'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '',
-                              'domain': o.domain,
-                              'context': o.context}, o.text);
+
+                var a = SPAN({
+                    'class': o.action ? '' : 'disabled',
+                    'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '',
+                    'domain': o.domain,
+                    'context': o.context
+                }, o.text);
 
                 rows = rows.concat(a);
             }
@@ -756,8 +769,10 @@ function makeContextMenu(id, kind, relation, val) {
 
         openobject.dom.get('contextmenu').innerHTML = '';
 
-        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 0}, 
-                    TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
+        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 0},
+                TBODY(null, map(function(r) {
+                    return TR(null, TD(null, r));
+                }, rows)));
 
         appendChildNodes('contextmenu', tbl);
 
@@ -773,7 +788,7 @@ function makeContextMenu(id, kind, relation, val) {
             x -= x + md.w - vd.w;
             openobject.dom.get('contextmenu').style.left = x + 'px';
         }
-        
+
         if ((y + md.h) > vd.h) {
             y -= y + md.h - vd.h;
             openobject.dom.get('contextmenu').style.top = y + 'px';
@@ -783,14 +798,14 @@ function makeContextMenu(id, kind, relation, val) {
     });
 }
 
-var showContextMenu = function(){
+var showContextMenu = function() {
 
     var menu = openobject.dom.get('contextmenu');
     var ifrm = openobject.dom.get('contextmenu_frm');
 
     showElement(menu);
 
-    if (ifrm){
+    if (ifrm) {
 
         ifrm.style.left = menu.offsetLeft + "px";
         ifrm.style.top = menu.offsetTop + "px";
@@ -802,21 +817,21 @@ var showContextMenu = function(){
     }
 }
 
-var hideContextMenu = function(){
+var hideContextMenu = function() {
     var menu = openobject.dom.get('contextmenu');
     var ifrm = openobject.dom.get('contextmenu_frm');
 
-    if (ifrm){
+    if (ifrm) {
         hideElement(ifrm);
     }
 
     hideElement(menu);
 }
 
-function set_to_default(field, model){
+function set_to_default(field, model) {
 
     var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
-    
+
     var act = get_form_action('get_default_value');
     var params = {'model': model, 'field': field};
 
@@ -828,25 +843,27 @@ function set_to_default(field, model){
     });
 }
 
-function set_as_default(field, model){
+function set_as_default(field, model) {
 
     var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
 
     var args = getFormData(1);
-    
+
     args['_terp_model'] = model;
     args['_terp_field'] = field;
 
     var req = openobject.http.postJSON('/fieldpref/get', args);
 
-    req.addCallback(function(obj){
+    req.addCallback(function(obj) {
         var text = obj.text;
-        var params = {'_terp_model': model, 
-                      '_terp_field/name': field, 
-                      '_terp_field/string': text, 
-                      '_terp_field/value': openobject.dom.get(field).value, 
-                      '_terp_deps': obj.deps};
-        
+        var params = {
+            '_terp_model': model,
+            '_terp_field/name': field,
+            '_terp_field/string': text,
+            '_terp_field/value': openobject.dom.get(field).value,
+            '_terp_deps': obj.deps
+        };
+
         openobject.tools.openWindow(openobject.http.getURL('/fieldpref', params), {width: 500, height: 350});
     });
 }
@@ -862,15 +879,15 @@ function do_report(id, relation) {
 }
 
 function do_action(action_id, field, relation, src) {
-    
+
     var params = {};
-    
+
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
 
         if (ids.length == 0) {
-           return alert(_('You must select at least one record.'));
+            return alert(_('You must select at least one record.'));
         }
 
         params['_terp_selection'] = '[' + ids.join(',') + ']';
@@ -879,106 +896,113 @@ function do_action(action_id, field, relation, src) {
     var id = openobject.dom.get(field).value;
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
-    
-    var req = eval_domain_context_request({source: openobject.dom.get(field).id,
-                                           active_id: id,
-                                           active_ids: params['_terp_selection'],
-                                           domain: domain, 
-                                           context: context});
-                                           
-    req.addCallback(function(obj){
-          
+
+    var req = eval_domain_context_request({
+        'source': openobject.dom.get(field).id,
+        'active_id': id,
+        'active_ids': params['_terp_selection'],
+        'domain': domain,
+        'context': context
+    });
+
+    req.addCallback(function(obj) {
+
         var act = get_form_action('action');
         MochiKit.Base.update(params, {
             '_terp_action': action_id,
-            '_terp_domain': obj.domain, 
-            '_terp_context': obj.context, 
+            '_terp_domain': obj.domain,
+            '_terp_context': obj.context,
             '_terp_id': id,
-            '_terp_model': relation});
-        
+            '_terp_model': relation
+        });
+
         window.open(openobject.http.getURL(act, params));
 
     });
 }
 
-function on_context_menu(evt) { 
-    
-    if(! evt.modifier().ctrl)
+function on_context_menu(evt) {
+
+    if (! evt.modifier().ctrl)
         return;
-        
+
     var target = evt.target();
     var kind = getNodeAttribute(target, 'kind');
-    
-    if(! kind || target.disabled)
+
+    if (! kind || target.disabled)
         return;
 
     var menu = openobject.dom.get('contextmenu');
 
     if (!menu) {
 
-        menu = DIV({'id': 'contextmenu', 
-                    'class' : 'contextmenu', 
-                    'onmouseout' : 'hideContextMenu()', 
-                    'onmouseover' : 'showContextMenu()',
-                    'style' : 'position: absolute; display: none;'});
+        menu = DIV({
+            'id': 'contextmenu',
+            'class': 'contextmenu',
+            'onmouseout': 'hideContextMenu()',
+            'onmouseover': 'showContextMenu()',
+            'style': 'position: absolute; display: none;'
+        });
 
         appendChildNodes(document.body, menu);
 
         if (/msie/.test(navigator.userAgent.toLowerCase())) {
-            var ifrm = createDOM('IFRAME', {'id' : 'contextmenu_frm', 
-                                            'src' : '#', 'frameborder': '0', 'scrolling' :'no', 
-                                            'style':'position: absolute; display: none;'});
+            var ifrm = createDOM('IFRAME', {
+                'id': 'contextmenu_frm',
+                'src': '#', 'frameborder': '0', 'scrolling' :'no',
+                'style':'position: absolute; display: none;'
+            });
 
             appendChildNodes(document.body, ifrm);
         }
     }
 
     var src = target.id;
-    
+
     if (kind == 'many2one') {
         src = src.slice(0, -5);
     }
-    
+
     var val = openobject.dom.get(src).value;
     var relation = getNodeAttribute(src, 'relation');
 
     hideElement(menu);
 
     var p = evt.mouse().page;
-    
+
     setElementPosition(menu, p);
 
-    makeContextMenu(src, kind, relation, val);        
-    
+    makeContextMenu(src, kind, relation, val);
+
     evt.stop();
 }
 
-function open_url(site){
+function open_url(site) {
     var web_site;
 
     isIE = /msie/.test(navigator.userAgent.toLowerCase());
-    
-    if(isIE && site.indexOf('@') > -1) {
+
+    if (isIE && site.indexOf('@') > -1) {
         site = site.split('@');
         site = site[1]
     }
-    
-    if(site.indexOf("://")== -1)
-        web_site='http://'+site;
+
+    if (site.indexOf("://") == -1)
+        web_site = 'http://' + site;
     else
         web_site = site;
 
-    if(site.length > 0) {
+    if (site.length > 0) {
         window.open(web_site);
     }
 }
 
 function submenu_action(action_id, model) {
-	window.location.href = openobject.http.getURL("/form/action_submenu", {	
-	    _terp_action_id: action_id,
-	    _terp_model: model,
-		_terp_id: $('_terp_id').value
-	});
+    window.location.href = openobject.http.getURL("/form/action_submenu", {
+        _terp_action_id: action_id,
+        _terp_model: model,
+        _terp_id: $('_terp_id').value
+    });
 }
 
 // vim: ts=4 sts=4 sw=4 si et
