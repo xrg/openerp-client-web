@@ -43,6 +43,16 @@ from openobject.tools import url, expose
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
+FORMATTERS = {
+    'integer': lambda value, _i: str(value),
+    'float': lambda value, _i: '%.02f' % (value),
+    'date': lambda value, _i: time.strftime('%x', time.strptime(value, DT_FORMAT)),
+    'datetime': lambda value, _i: time.strftime('%x', time.strptime(value, DHM_FORMAT)),
+    'one2one': lambda value, _i: value[1],
+    'many2one': lambda value, _i: value[1],
+    'selection': lambda value, info: info['selection'].get(value, ''),
+}
+
 class Tree(SecuredController):
     _cp_path = "/tree"
 
@@ -148,37 +158,11 @@ class Tree(SecuredController):
 
         # format the data
         for field in fields:
-            if fields_info[field]['type'] in ('integer'):
-                for x in result:
-                    if x[field]:
-                        x[field] = '%s'%(x[field])
-
-            if fields_info[field]['type'] in ('float'):
-                for x in result:
-                    if x[field]:
-                        x[field] = '%.02f'%(round(x[field], 2))
-
-            if fields_info[field]['type'] in ('date',):
-                for x in result:
-                    if x[field]:
-                        date = time.strptime(x[field], DT_FORMAT)
-                        x[field] = time.strftime('%x', date)
-
-            if fields_info[field]['type'] in ('datetime',):
-                for x in result:
-                    if x[field]:
-                        date = time.strptime(x[field], DHM_FORMAT)
-                        x[field] = time.strftime('%x %H:%M:%S', date)
-
-            if fields_info[field]['type'] in ('one2one', 'many2one'):
-                for x in result:
-                    if x[field]:
-                        x[field] = x[field][1]
-
-            if fields_info[field]['type'] in ('selection'):
-                for x in result:
-                    if x[field]:
-                        x[field] = dict(fields_info[field]['selection']).get(x[field], '')
+            field_info = fields_info[field]
+            formatter = FORMATTERS.get(field_info['type'])
+            for x in result:
+                if x[field]:
+                    x[field] = formatter(x[field], field_info)
 
         records = []
         for item in result:
