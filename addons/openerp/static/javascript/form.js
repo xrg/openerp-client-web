@@ -108,7 +108,9 @@ function editSelectedRecord() {
     if (ids && ids.length > 5) {
         var msg = _('You selected to open %(tabs)s tabs - do you want to continue?');
         msg = msg.replace('%(tabs)s', ids.length);
-        if (!confirm(msg)) return;
+        if (!confirm(msg)) {
+            return;
+        }
     }
 
     forEach(ids, function(id) {
@@ -200,8 +202,9 @@ function show_process_view() {
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
-        if (ids.length)
+        if (ids.length) {
             id = ids[0];
+        }
     }
 
     id = parseInt(id) || null;
@@ -215,7 +218,9 @@ function validate_required(form) {
         form = document.forms[form];
     }
 
-    if (!form) return true;
+    if (!form) {
+        return true;
+    }
 
     var elements = MochiKit.Base.filter(function(el) {
         return !el.disabled && el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
@@ -354,16 +359,19 @@ function getFormData(extended) {
         var e = fields[i];
         var n = is_editable ? e.name : e.id;
 
-        if (e.tagName.toLowerCase() != 'img' && !n)
+        if (e.tagName.toLowerCase() != 'img' && !n) {
             continue;
+        }
 
-        var n = n.replace('_terp_listfields/', '');
+        n = n.replace('_terp_listfields/', '');
 
         // don't include _terp_ fields except _terp_id
-        if (/_terp_/.test(n) && ! /_terp_id$/.test(n))
+        if (/_terp_/.test(n) && ! /_terp_id$/.test(n)) {
             continue;
+        }
 
-        // work arround to skip o2m values (list mode)
+        // work around to skip o2m values (list mode)
+        var value;
         if (n.indexOf('/__id') > 0) {
 
             n = n.replace('/__id', '');
@@ -377,9 +385,7 @@ function getFormData(extended) {
                 continue;
             }
 
-
-            var value = openobject.dom.get(n + '/_terp_ids').value;
-
+            value = openobject.dom.get(n + '/_terp_ids').value;
             if (extended) {
                 value = {'value': value,
                     'type': 'one2many',
@@ -395,7 +401,7 @@ function getFormData(extended) {
 
             var attrs = {};
 
-            var value = (is_editable ? e.value : getNodeAttribute(e, 'value')) || "";
+            value = (is_editable ? e.value : getNodeAttribute(e, 'value')) || "";
             var kind = getNodeAttribute(e, 'kind') || "char";
 
             //take care of _terp_id
@@ -419,15 +425,17 @@ function getFormData(extended) {
 
             attrs['value'] = typeof(value) == "undefined" ? '' : value;
 
-            if (kind)
+            if (kind) {
                 attrs['type'] = kind;
+            }
 
             if (extended && (kind == 'many2one' || kind == 'many2many')) {
                 attrs['relation'] = getNodeAttribute(e, 'relation');
             }
 
-            if (extended > 1 && hasElementClass(e, 'requiredfield'))
+            if (extended > 1 && hasElementClass(e, 'requiredfield')) {
                 attrs['required'] = 1;
+            }
 
             if (kind == "picture") {
                 n = e.id;
@@ -461,8 +469,9 @@ function getFormParams(name) {
 
     forEach(fields, function(e) {
 
-        if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1)
+        if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1) {
             return
+        }
 
         if (name && e.name != name) {
             return;
@@ -517,10 +526,10 @@ function onChange(name) {
 
         domains = domains ? domains : {};
 
-        for (var k in domains) {
-            fld = openobject.dom.get(prefix + k);
+        for (var domain in domains) {
+            fld = openobject.dom.get(prefix + domain);
             if (fld) {
-                setNodeAttribute(fld, 'domain', domains[k]);
+                setNodeAttribute(fld, 'domain', domains[domain]);
             }
         }
 
@@ -529,7 +538,9 @@ function onChange(name) {
             flag = false;
             fld = openobject.dom.get(prefix + k);
 
-            if (!fld) continue;
+            if (!fld) {
+                continue;
+            }
 
             value = values[k];
             value = value === false || value === null ? '' : value;
@@ -569,7 +580,7 @@ function onChange(name) {
 
                 if (kind == 'selection') {
                     var opts = [];
-                    opts.push(OPTION({'value': ''}))
+                    opts.push(OPTION({'value': ''}));
 
                     for (i in value) {
                         var item = value[i];
@@ -660,8 +671,9 @@ function eval_domain_context_request(options) {
 
             var fld = openobject.dom.get(obj.error_field) || openobject.dom.get('_terp_listfields/' + obj.error_field);
 
-            if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
+            if (fld && getNodeAttribute(fld, 'kind') == 'many2one') {
                 fld = openobject.dom.get(fld.id + '_text');
+            }
 
             if (fld) {
                 fld.focus();
@@ -751,7 +763,7 @@ function makeContextMenu(id, kind, relation, val) {
         }
 
         if (obj.relates.length > 0) {
-            rows = rows.concat(HR())
+            rows = rows.concat(HR());
 
             for (var r in obj.relates) {
                 var o = obj.relates[r];
@@ -923,14 +935,16 @@ function do_action(action_id, field, relation, src) {
 
 function on_context_menu(evt) {
 
-    if (! evt.modifier().ctrl)
+    if (! evt.modifier().ctrl) {
         return;
+    }
 
     var target = evt.target();
     var kind = getNodeAttribute(target, 'kind');
 
-    if (! kind || target.disabled)
+    if (! kind || target.disabled) {
         return;
+    }
 
     var menu = openobject.dom.get('contextmenu');
 
@@ -987,10 +1001,11 @@ function open_url(site) {
         site = site[1]
     }
 
-    if (site.indexOf("://") == -1)
+    if (site.indexOf("://") == -1) {
         web_site = 'http://' + site;
-    else
+    } else {
         web_site = site;
+    }
 
     if (site.length > 0) {
         window.open(web_site);
@@ -1004,6 +1019,3 @@ function submenu_action(action_id, model) {
         _terp_id: $('_terp_id').value
     });
 }
-
-// vim: ts=4 sts=4 sw=4 si et
-
