@@ -116,10 +116,9 @@ class Tree(SecuredController):
         ids = ids or []
 
         if isinstance(ids, basestring):
-            ids = [int(id) for id in ids.split(',')]
-
-        if isinstance(ids, list):
-            ids = [int(id) for id in ids]
+            ids = map(int, ids.split(','))
+        elif isinstance(ids, list):
+            ids = map(int, ids)
 
         if isinstance(fields, basestring):
             fields = eval(fields)
