@@ -258,7 +258,7 @@ class Tree(SecuredController):
         params, data = TinyDict.split(kw)
 
         ids = params.selection or []
-        if len(ids):
+        if ids:
             import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
         else:
