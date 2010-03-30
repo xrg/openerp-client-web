@@ -207,7 +207,7 @@ class Tree(SecuredController):
             if field_parent and field_parent in item:
                 record['children'] = item.pop(field_parent) or None
 
-            records += [record]
+            records.append(record)
 
         return {'records': records}
 
