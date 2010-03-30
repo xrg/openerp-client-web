@@ -558,37 +558,37 @@ function onChange(name) {
 
                 var kind = getNodeAttribute(fld, 'kind');
 
-                if (kind == 'picture') {
-                    fld.src = value;
-                }
+                switch (kind) {
+                    case 'picture':
+                        fld.src = value;
+                        break;
+                    case 'many2one':
+                        fld.value = value[0] || '';
+                        try {
+                            openobject.dom.get(prefix + k + '_text').value = value[1] || '';
+                        } catch(e) {
+                        }
+                        break;
+                    case 'boolean':
+                        openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
+                        break;
+                    case 'text_html':
+                        tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '');
+                        break;
+                    case 'selection':
+                        var opts = [];
+                        opts.push(OPTION({'value': ''}));
 
-                if (kind == 'many2one') {
-                    fld.value = value[0] || '';
-                    try {
-                        openobject.dom.get(prefix + k + '_text').value = value[1] || '';
-                    } catch(e) {
-                    }
-                }
-
-                if (kind == 'boolean') {
-                    openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
-                }
-
-                if (kind == 'text_html') {
-                    tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '')
-                }
-
-                if (kind == 'selection') {
-                    var opts = [];
-                    opts.push(OPTION({'value': ''}));
-
-                    for (i in value) {
-                        var item = value[i];
-                        opts.push(OPTION({'value': item[0]}, item[1]));
-                    }
-                    MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
-                        return x;
-                    }, opts));
+                        for (i in value) {
+                            var item = value[i];
+                            opts.push(OPTION({'value': item[0]}, item[1]));
+                        }
+                        MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
+                            return x;
+                        }, opts));
+                        break;
+                    default:
+                        // do nothing on default
                 }
 
                 MochiKit.Signal.signal(fld, 'onchange');
