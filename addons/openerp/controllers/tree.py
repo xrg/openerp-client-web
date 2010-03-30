@@ -85,7 +85,8 @@ class Tree(SecuredController):
 
         try:
             view_id = int(view_id)
-        except:
+        except TypeError:
+            # if view_id is None
             view_id = False
 
         params.ids = id
