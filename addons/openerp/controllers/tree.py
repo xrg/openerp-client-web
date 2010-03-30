@@ -166,9 +166,9 @@ class Tree(SecuredController):
 
         records = []
         for item in result:
-            # empty string instead of bool and None
+            # empty string instead of False or None
             for k, v in item.items():
-                if v==None or (v==False and type(v)==bool):
+                if v is None or v is False:
                     item[k] = ''
 
             record = {
