@@ -552,6 +552,7 @@ TreeNode.prototype = {
         forEach(tree.selection, function(node){
             MochiKit.DOM.removeElementClass(node.element, "selected");
             node.element.style.background = 'none';
+            node.element.onmouseover = setNodeAttribute(node.element, 'style', 'background:"url(/openerp/static/images/sidenav-bg-c.gif) repeat-x"');
         });
     
         if (ctr) {
