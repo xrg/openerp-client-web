@@ -520,9 +520,9 @@ class DateTime(Char):
 
 class Boolean(Char):
 
-    params = ['value', 'kind']
-
-    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
+#    params = ['value', 'kind']
+#
+#    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
 
     def get_text(self):
         if int(self.value) == 1:
