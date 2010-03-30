@@ -40,17 +40,14 @@ from openerp.widgets import tree_view
 
 from openobject.tools import url, expose
 
-
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class Tree(SecuredController):
-    
     _cp_path = "/tree"
 
     @expose(template="templates/tree.mako")
     def create(self, params):
-
         view_id = (params.view_ids or False) and params.view_ids[0]
         domain = params.domain
         context = params.context
@@ -59,7 +56,9 @@ class Tree(SecuredController):
         model = params.model
 
         if view_id:
-            view_base =  rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
+            view_base =  rpc.session.execute(
+                    'object', 'execute', 'ir.ui.view', 'read', [view_id],
+                    ['model', 'type'], context)[0]
             model = view_base['model']
             view = cache.fields_view_get(model, view_id, view_base['type'], context)
         else:
@@ -67,9 +66,8 @@ class Tree(SecuredController):
 
         tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
         if tree.toolbar:
-            
             proxy = rpc.RPCProxy(model)
-            
+
             for tool in tree.toolbar:
                 if tool.get('icon'):
                     tool['icon'] = icons.get_icon(tool['icon'])
@@ -78,7 +76,7 @@ class Tree(SecuredController):
                 id = tool['id']
                 ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
                 tool['ids'] = ids
-                
+
         return dict(tree=tree, model=model)
 
     @expose()
@@ -101,7 +99,7 @@ class Tree(SecuredController):
     def sort_callback(self, item1, item2, field, sort_order="asc", type=None):
         a = item1[field]
         b = item2[field]
-        
+
         if type == 'many2one' and isinstance(a, (tuple, list)):
             a = a[1]
             b = b[1]
@@ -112,16 +110,16 @@ class Tree(SecuredController):
         return cmp(a, b)
 
     @expose('json')
-    def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], context={}, sort_by=None, sort_order="asc"):
-
+    def data(self, ids, model, fields, field_parent=None, icon_name=None,
+             domain=[], context={}, sort_by=None, sort_order="asc"):
         ids = ids or []
 
-        if isinstance(ids, basestring):           
+        if isinstance(ids, basestring):
             ids = [int(id) for id in ids.split(',')]
-            
+
         if isinstance(ids, list):
             ids = [int(id) for id in ids]
-        
+
         if isinstance(fields, basestring):
             fields = eval(fields)
 
@@ -148,14 +146,13 @@ class Tree(SecuredController):
         if sort_by:
             result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order, type=fields_info[sort_by]['type']))
 
-        # formate the data
+        # format the data
         for field in fields:
-
             if fields_info[field]['type'] in ('integer'):
                 for x in result:
                     if x[field]:
                         x[field] = '%s'%(x[field])
-            
+
             if fields_info[field]['type'] in ('float'):
                 for x in result:
                     if x[field]:
@@ -185,7 +182,6 @@ class Tree(SecuredController):
 
         records = []
         for item in result:
-
             # empty string instead of bool and None
             for k, v in item.items():
                 if v==None or (v==False and type(v)==bool):
@@ -215,7 +211,7 @@ class Tree(SecuredController):
             record['items'] = item
 
             records += [record]
-            
+
         return dict(records=records)
 
     def do_action(self, name, adds={}, datas={}):
@@ -234,7 +230,9 @@ class Tree(SecuredController):
         id = (ids or False) and ids[0]
 
         if ids:
-            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=ctx, report_type='pdf')
+            return actions.execute_by_keyword(
+                    name, adds=adds, model=model, id=id, ids=ids, context=ctx,
+                    report_type='pdf')
         else:
             raise common.message(_("No record selected!"))
 
@@ -260,10 +258,9 @@ class Tree(SecuredController):
 
     @expose()
     def switch(self, **kw):
-
         params, data = TinyDict.split(kw)
 
-        ids = params.selection or []            
+        ids = params.selection or []
         if len(ids):
             import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
@@ -278,5 +275,3 @@ class Tree(SecuredController):
                  'ids': kw.get('id')}
 
         return self.do_action('tree_but_open', datas=datas)
-
-# vim: ts=4 sts=4 sw=4 si et
