@@ -34,7 +34,7 @@ function get_form_action(action, params) {
     return openobject.http.getURL(act, params);
 }
 
-var openRecord = function(id, src, target, readonly) {
+function openRecord(id, src, target, readonly) {
 
     var kind = getNodeAttribute(src + '_set', 'kind');
 
@@ -92,15 +92,15 @@ var openRecord = function(id, src, target, readonly) {
     window.location.href = get_form_action(action, args);
 }
 
-var editRecord = function(id, src, target) {
+function editRecord(id, src, target) {
     return openRecord(id, src, target, false);
 }
 
-var viewRecord = function(id, src) {
+function viewRecord(id, src) {
     return openRecord(id, src, null, true);
 }
 
-var editSelectedRecord = function() {
+function editSelectedRecord() {
 
     var lst = new ListView('_terp_list');
     var ids = lst.getSelectedRecords();
@@ -116,7 +116,7 @@ var editSelectedRecord = function() {
     });
 }
 
-var switchView = function(view_type, src) {
+function switchView(view_type, src) {
 
     var search_filter_data = getElement('search_filter_data')
     if (search_filter_data) {
@@ -130,7 +130,7 @@ var switchView = function(view_type, src) {
     var params = {
         '_terp_source': src,
         '_terp_source_view_type': view_type
-    }
+    };
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
@@ -142,7 +142,7 @@ var switchView = function(view_type, src) {
     submit_form(get_form_action('switch', params));
 }
 
-var switch_O2M = function(view_type, src) {
+function switch_O2M(view_type, src) {
 
     if (openobject.http.AJAX_COUNT > 0) {
         return;
@@ -193,7 +193,7 @@ var switch_O2M = function(view_type, src) {
     });
 }
 
-var show_process_view = function() {
+function show_process_view() {
     var model = openobject.dom.get('_terp_model').value;
     var id = openobject.dom.get('_terp_id').value;
 
@@ -209,7 +209,7 @@ var show_process_view = function() {
     window.open(openobject.http.getURL('/process', {res_model: model, res_id: id}));
 }
 
-var validate_required = function(form) {
+function validate_required(form) {
 
     if (typeof form == 'string') {
         form = document.forms[form];
@@ -253,7 +253,7 @@ var validate_required = function(form) {
     return result;
 }
 
-var submit_form = function(action, src, target) {
+function submit_form(action, src, target) {
 
     if (openobject.http.AJAX_COUNT > 0) {
         return callLater(1, submit_form, action, src, target);
@@ -291,11 +291,11 @@ var submit_form = function(action, src, target) {
     form.submit();
 }
 
-var pager_action = function(action, src) {
+function pager_action(action, src) {
     return src ? new ListView(src).go(action) : submit_form(action ? action : 'find');
 }
 
-var buttonClicked = function(name, btype, model, id, sure, target) {
+function buttonClicked(name, btype, model, id, sure, target) {
 
     if (sure && !confirm(sure)) {
         return;
@@ -312,7 +312,7 @@ var buttonClicked = function(name, btype, model, id, sure, target) {
     submit_form(act, null, target);
 }
 
-var onBooleanClicked = function(name) {
+function onBooleanClicked(name) {
 
     var source = openobject.dom.get(name + '_checkbox_');
     var target = openobject.dom.get(name);
@@ -329,7 +329,7 @@ var onBooleanClicked = function(name) {
  *    2 then give form data with type info + required flag
  * else gives simple key-value pairs
  */
-var getFormData = function(extended) {
+function getFormData(extended) {
 
     var parentNode = openobject.dom.get('_terp_list') || document.forms['view_form'];
 
@@ -452,7 +452,7 @@ var getFormData = function(extended) {
  * get key-value pair of form params (_terp_)
  * @param name: only return values for given param
  */
-var getFormParams = function(name) {
+function getFormParams(name) {
 
     var parentNode = document.forms['view_form'];
 
@@ -478,7 +478,7 @@ var getFormParams = function(name) {
     return frm;
 }
 
-var onChange = function(name) {
+function onChange(name) {
 
     var caller = openobject.dom.get(name);
     var callback = getNodeAttribute(caller, 'callback');
@@ -701,7 +701,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
-var showCustomizeMenu = function(src, elem) {
+function showCustomizeMenu(src, elem) {
     var elem = openobject.dom.get(elem);
 
     var frame = window.frameElement ? window.frameElement : null;
@@ -798,7 +798,7 @@ function makeContextMenu(id, kind, relation, val) {
     });
 }
 
-var showContextMenu = function() {
+function showContextMenu() {
 
     var menu = openobject.dom.get('contextmenu');
     var ifrm = openobject.dom.get('contextmenu_frm');
@@ -817,7 +817,7 @@ var showContextMenu = function() {
     }
 }
 
-var hideContextMenu = function() {
+function hideContextMenu() {
     var menu = openobject.dom.get('contextmenu');
     var ifrm = openobject.dom.get('contextmenu_frm');
 
