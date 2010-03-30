@@ -471,16 +471,16 @@ table.sidenav-a { width: 0px; list-style: none; margin: 0 0 15px; padding: 0; co
   table.sidenav-a div.accordion div.accordion-block div.accordion-content { overflow: auto; width: 180px; list-style: none; margin: 0; padding-top: 10px; padding-bottom: 0px; background: url(../images/sidenav-bg-b.gif) repeat-x; }
    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row { padding: 0; background: none; }
    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td { border: 0px;}
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char { height: 21px; background: url(../images/sidenav-bg-c.gif) -1px 0 no-repeat; color: #fff; font-size: 1em; line-height: 20px; font-weight: normal; text-transform: none; }
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char:hover,
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char:focus,
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char:active,
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char .active {background-repeat: repeat-x; color: #3f3d3d; text-shadow: #fff 0 1px 0;}
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char a {color: #FFFFFF;}
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char a:hover {color: #3f3d3d;},
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char a:focus {color: #3f3d3d;},
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char a:active {color: #3f3d3d;}
-    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td.char a.active{color: #3f3d3d;}
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row { height: 21px; background: url(../images/sidenav-bg-c.gif) -1px 0 no-repeat; color: #fff; font-size: 1em; line-height: 20px; font-weight: normal; text-transform: none; }
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row:hover,
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row:focus,
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row:active,
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row .active {background-repeat: repeat-x; color: #3f3d3d; text-shadow: #fff 0 1px 0;}
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row a {color: #FFFFFF;}
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row a:hover,
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row a:focus,
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row a:active,
+    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row a.active {background-repeat: repeat-x; color: #3f3d3d; text-shadow: #fff 0 1px 0;}
 
 table.sidenav-a table.tree-grid {width: 100%; border-bottom: 0px; background: none;}
 table.sidenav-a table.tree-field {margin-bottom: 0px; width: 0px; border-bottom: 0px;}
