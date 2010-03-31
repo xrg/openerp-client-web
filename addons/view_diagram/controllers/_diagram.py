@@ -244,14 +244,27 @@ class Workflow(Form):
 
     @expose(template="templates/workflow.mako")
     def index(self, model, rec_id=None):
-
         proxy = rpc.RPCProxy("workflow")
         result = proxy.get_active_workitems(model, rec_id)
         
         if not result['wkf']:
             raise common.message(_('No workflow associated!'))
+        
+        wkf = result['wkf']        
+        d = {'_terp_view_type': 'diagram',
+            '_terp_model': 'workflow',
+            '_terp_ids': [wkf['id']],  
+            '_terp_editable': False, 
+            '_terp_id': wkf['id'],
+            '_terp_view_mode': ['tree', 'form', 'diagram']
+            }
+        
+        params = TinyDict()
+        params.update(d)      
+        
+        form = tw.form_view.ViewForm(params, name="view_form", action="")
 
-        return dict(wkf=result['wkf'], workitems=result['workitems'].keys())
+        return dict(form=form, name=wkf['name'] ,workitems=result['workitems'].keys())
 
     @expose('json')
     def get_info(self, id, model, node_obj, conn_obj, src_node, des_node, **kw):
@@ -333,67 +346,5 @@ class Workflow(Form):
                 n['options'][fld.title()] = act[fld]
 
         return dict(nodes=nodes,conn=connectors)
-
-#    state = State()
-#    connector = Connector()
-
-
-#class WorkflowList(SecuredController):
-#
-#    _cp_path = "/workflowlist"
-#
-#    @expose(template="templates/wkf_list.mako")
-#    def index(self, model, active=False):
-#
-#        params = TinyDict()
-#        params.model = 'workflow'
-#        params.view_mode = ['tree']
-#
-#        params.domain = [('osv', '=', model)]
-#
-#        screen = tw.screen.Screen(params, selectable=1)
-#        screen.widget.pageable = False
-#
-#        return dict(screen=screen, model=model, active=active)
-#
-#    @expose()
-#    def create(self, model, **kw):
-#
-#        wkf_name = kw.get('name')
-#        on_create = kw.get('on_create')
-#
-#        if not wkf_name:
-#            raise redirect('/workflowlist', model=model)
-#
-#        proxy = rpc.RPCProxy('workflow')
-#        proxy.create(dict(osv=model, name=wkf_name, on_create=on_create))
-#
-#        raise redirect('/workflowlist', model=model)
-#
-#    @expose()
-#    def delete(self, model, id):
-#
-#        id = int(id)
-#
-#        proxy = rpc.RPCProxy('workflow')
-#        proxy.unlink(id)
-#
-#        raise redirect('/workflowlist', model=model)
-#
-#    @expose()
-#    def activate(self, model, id):
-#
-#        activate_id = int(id)
-#
-#        proxy = rpc.RPCProxy('workflow')
-#        search_ids = proxy.search([('osv', '=', model)], 0, 0, 0, rpc.session.context)
-#
-#        for id in search_ids:
-#            if id==activate_id:
-#                proxy.write([id], {'on_create': True})
-#            else:
-#                proxy.write([id], {'on_create': False})
-#
-#        raise redirect('/workflowlist', model=model)
 
 # vim: ts=4 sts=4 sw=4 si et

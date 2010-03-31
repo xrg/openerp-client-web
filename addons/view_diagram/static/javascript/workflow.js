@@ -92,17 +92,19 @@ openobject.workflow.Workflow.implement({
 		this.state.initPort();
 		this.state.initPort();
 		
-		//var node_flds_v = getElement('node_flds_visible').value;			
-		//var node_flds_h = getElement('node_flds_invisible').value;
-		//var conn_flds = getElement('conn_flds').value;
-		
 		this.node_flds_v = getElement('node_flds_visible').value;          
         this.node_flds_h = getElement('node_flds_invisible').value;
         this.conn_flds = getElement('conn_flds').value;
         this.bgcolors = getElement('bgcolors').value;
-        this.shapes = getElement('shapes').value;
-        			
-		this.draw_graph(openobject.dom.get('wkf_id').value);
+        this.shapes = getElement('shapes').value;	
+        
+        if (this.workitems.length>0)        			
+            this.draw_graph(openobject.dom.get('wkf_id').value);
+        else {
+            removeElement('toolbox')
+            openobject.dom.get('loading').style.display = 'none';
+        }           
+            	    
 	},
 	
 	draw_graph : function(wkf_id) {
