@@ -50,7 +50,7 @@ FORMATTERS = {
     'datetime': lambda value, _i: time.strftime('%x', time.strptime(value, DHM_FORMAT)),
     'one2one': lambda value, _i: value[1],
     'many2one': lambda value, _i: value[1],
-    'selection': lambda value, info: info['selection'].get(value, ''),
+    'selection': lambda value, info: dict(info['selection']).get(value, ''),
 }
 
 class Tree(SecuredController):
@@ -161,7 +161,7 @@ class Tree(SecuredController):
             field_info = fields_info[field]
             formatter = FORMATTERS.get(field_info['type'])
             for x in result:
-                if x[field]:
+                if x[field] and formatter:
                     x[field] = formatter(x[field], field_info)
 
         records = []
@@ -171,9 +171,10 @@ class Tree(SecuredController):
                 if v is None or v is False:
                     item[k] = ''
 
+            id = item.pop('id')
             record = {
-                'id': item.pop('id'),
-                'action': url('/tree/open', model=model, id=record['id']),
+                'id': id,
+                'action': url('/tree/open', model=model, id=id),
                 'target': None,
                 'icon': None,
                 'children': [],
