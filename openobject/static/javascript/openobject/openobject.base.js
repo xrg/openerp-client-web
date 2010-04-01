@@ -99,6 +99,41 @@ MochiKit.DOM.addLoadEvent(function() {
     }
 });
 
+var MENU_WIDTH = 250;
+/**
+ * Tries to fit the size of the #appFrame frame to better fit its current
+ * content.extend
+ * Has to be called from the document outside of the frame itself.
+ *
+ * Probably won't get it exactly right, you might want to call it
+ * several times
+ */
+function adjustAppFrame() {
+    var frameHeight = jQuery("#appFrame").contents().find("body").height();
+    var frameWidth = jQuery("#appFrame").contents().width();
 
-// vim: ts=4 sts=4 sw=4 si et
+    jQuery("#menubar").width(MENU_WIDTH);
+    jQuery("#appFrame").height(Math.max(0, frameHeight));
 
+    var menuWidth = jQuery("#menubar").height();
+    var windowWidth = jQuery(window).width();
+    var totalWidth = jQuery("#menubar").width() + frameWidth;
+    var rw = windowWidth - jQuery("#menubar").width();
+
+    var newWidth = totalWidth > windowWidth ? frameWidth : rw - 16;
+
+    jQuery("#appFrame").width(Math.max(0, newWidth));
+    jQuery("table#contents").height(Math.max(frameHeight, menuWidth));
+}
+function adjustFrame(delay) {
+    try {
+        adjustAppFrame();
+    } catch (e) {
+        // ignore errors
+    }
+    setTimeout(adjustFrame, delay);
+}
+var FRAME_ADJUSTMENT_INTERVAL = 0.5;
+MochiKit.DOM.addLoadEvent(function () {
+    adjustFrame(FRAME_ADJUSTMENT_INTERVAL);
+});

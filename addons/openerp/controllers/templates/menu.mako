@@ -7,24 +7,9 @@
     <link href="/openerp/static/css/treegrid.css" rel="stylesheet" type="text/css"/>
     <link href="/openerp/static/css/notebook.css" rel="stylesheet" type="text/css"/>
 
-    <script type="text/javascript" src="/openerp/static/javascript/menubar.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
-
-    <script type="text/javascript">
-
-        // call adjustAppFrame every 0.5 second
-        function adjustFrame(wait) {
-            try {
-                adjustAppFrame();
-            } catch(e) {
-            }
-            setTimeout(adjustFrame, wait);
-        }
-        adjustFrame(0.5);
-
-    </script>
 
     <style type="text/css">
         .accordion-content {
