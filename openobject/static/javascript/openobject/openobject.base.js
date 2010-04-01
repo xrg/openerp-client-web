@@ -153,5 +153,9 @@ if (window !== window.parent) {
                         event, do_adjust);
             });
         });
+        // bind to resize event of text area
+        forEach($$('.resizable-textarea'), function (textarea_element) {
+            MochiKit.Signal.connect(textarea_element.textarea, 'onresize', do_adjust);
+        });
     });
 }
