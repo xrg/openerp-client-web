@@ -32,6 +32,10 @@ if (typeof(openerp.ui) == "undefined") {
     throw "openerp.ui is required by 'openerp.ui.textarea'.";
 }
 
+/**
+ * @event onresize triggered when the widget's grip is moved (to resize the text area)
+ *  @parameter 'the TextArea instance'
+ */
 openerp.ui.TextArea = function(ta) {
     this.__init__(ta);
 };
@@ -44,7 +48,9 @@ openerp.ui.TextArea.prototype = {
 
         this.ta = this.textarea.cloneNode(true);
 
-        MochiKit.DOM.swapDOM(this.textarea, DIV({'class' : 'resizable-textarea'}, this.ta, this.gripper));
+        MochiKit.DOM.swapDOM(this.textarea,
+                DIV({'class' : 'resizable-textarea'},
+                    this.ta, this.gripper)).textarea = this;
 
         this.textarea = openobject.dom.get(this.ta);
         this.draggin = false;
@@ -70,6 +76,7 @@ openerp.ui.TextArea.prototype = {
     dragUpdate : function(evt) {
         var h = Math.max(32, this.offset + evt.mouse().page.y);
         this.textarea.style.height = h + 'px';
+        MochiKit.Signal.signal(this, 'onresize', this);
         evt.stop();
     },
 
