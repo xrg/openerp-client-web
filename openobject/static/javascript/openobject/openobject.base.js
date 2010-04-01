@@ -59,7 +59,6 @@ openobject.base = {
     find: function(items, value, start, end) {
         return MochiKit.Base.findIdentical(items, value, start, end);
     }
-
 };
 
 // browser information
