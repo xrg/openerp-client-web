@@ -33,7 +33,7 @@ var InfoBox = function(source) {
 
 InfoBox.prototype = {
 	
-	__init__ : function(source){		
+	__init__ : function(source) {		
 		
 		this.source = source;		
 		this.layer = openobject.dom.get('calInfoLayer');
@@ -50,7 +50,7 @@ InfoBox.prototype = {
         var title = 'Information Box';
         
         if(this.source instanceof openobject.workflow.StateOval || this.source instanceof openobject.workflow.StateRectangle) {
-       	  	var id = 'Id: ' + this.source.get_act_id();
+            var id = 'Id: ' + this.source.get_act_id();
         } else {
         	var id = this.source.from+ ' ---> ' + this.source.to;
         }
@@ -72,19 +72,19 @@ InfoBox.prototype = {
                                     TD(null, btnDelete),
                                     TD({'align': 'right', 'width': '100%'}, btnCancel)))));
          
-         if ($('_terp_editable').value=='False') {
+        if ($('_terp_editable').value=='False') {
             removeElement(btnEdit)
             removeElement(btnDelete)
-         }                           
+        }                           
                                     
-         if (!this.layer) {
+        if (!this.layer) {
             this.layer = DIV({id: 'calInfoLayer'});
             MochiKit.DOM.appendChildNodes(document.body, this.layer);
             setOpacity(this.layer, 0.3);
             connect(this.layer, 'onclick', this, 'hide');
         }
         
-         if (!this.box) {
+        if (!this.box) {
             this.box = DIV({id: 'calInfoBox'});
             MochiKit.DOM.appendChildNodes(document.body, this.box);
         }
@@ -146,5 +146,3 @@ InfoBox.prototype = {
 }
 
 // vim: ts=4 sts=4 sw=4 si et
-
-

@@ -112,15 +112,6 @@ class Diagram(TinyWidget):
                 self.node = attrs['object']
                 self.bgcolor = attrs.get('bgcolor', '')
                 self.shapes = attrs.get('shape', '')
-#                for color_spec in attrs.get('bgcolor', '').split(';'):
-#                    if color_spec:                                            
-#                        colour, test = color_spec.split(':')
-#                        self.bgcolor[colour] = test
-#                
-#                for shape_spec in attrs.get('shape', '').split(';'):
-#                    if shape_spec:
-#                        shape, test = shape_spec.split(':')
-#                        self.shapes[shape] = test
                                         
                 for fld in node.childNodes:
                     if fld.nodeName == 'field':       

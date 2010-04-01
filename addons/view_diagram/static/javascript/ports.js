@@ -44,8 +44,6 @@ openobject.workflow.Port.prototype = $merge(openobject.workflow.Port.prototype, 
 openobject.workflow.Port.implement({
 	
 	initialize : function() {
-	    
-//        draw2d.Port.call(this, new draw2d.ImageFigure('/static/workflow/images/port.gif'));
         
 	    draw2d.Port.call(this);     
 		this.setDimension(2,2);
@@ -66,7 +64,6 @@ openobject.workflow.Port.implement({
 			WORKFLOW.create_connection(source,destination); 
 		}
 	}
-	
 });
 
 // vim: ts=4 sts=4 sw=4 si et

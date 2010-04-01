@@ -65,7 +65,7 @@ openobject.workflow.Workflow.implement({
 		this.states = new draw2d.ArrayList();
 		this.connectors = new draw2d.ArrayList();		
 		this.selected = null;
-		//this.setToolWindow(toolbar, 30, 30);
+		
 		if ($('_terp_editable').value=='True') {
 			var tbar = new openobject.workflow.Toolbar();
 			this.toolPalette = tbar;
@@ -81,8 +81,9 @@ openobject.workflow.Workflow.implement({
 	        MochiKit.DOM.appendChildNodes('toolbox', tbar);
 		}else {
             this.workitems = eval($('workitems').value);
-            log(this.workitems, this.workitems.length)		  
+            removeElement('toolbox');
 		}
+		
 //		dummy state
 		this.state = new openobject.workflow.StateOval({}, []);
         this.state.setDimension(100, 60);
@@ -98,16 +99,14 @@ openobject.workflow.Workflow.implement({
         this.bgcolors = getElement('bgcolors').value;
         this.shapes = getElement('shapes').value;	
         
-        if (this.workitems.length>0)        			
+        if (!getElement('workitems') || this.workitems.length>0)        			
             this.draw_graph(openobject.dom.get('wkf_id').value);
-        else {
-            removeElement('toolbox')
+        else {            
             openobject.dom.get('loading').style.display = 'none';
-        }           
-            	    
+        }   	    
 	},
 	
-	draw_graph : function(wkf_id) {
+    draw_graph : function(wkf_id) {
 		
 		this.id = wkf_id;
 		var self = this;
@@ -120,17 +119,16 @@ openobject.workflow.Workflow.implement({
 		req.addCallback(function(obj) {	
 			
 			for(i in obj.nodes) {
-			    var node = obj.nodes[i];
-	
-		        //if(!node['subflow_id'])
-		        if(node['shape']=='ellipse')
-		          var state = new openobject.workflow.StateOval(node, self.workitems);
+                var node = obj.nodes[i];
+
+                if(node['shape']=='ellipse')
+                    var state = new openobject.workflow.StateOval(node, self.workitems);
 		        else if(node['shape']=='rectangle')
-		          var state = new openobject.workflow.StateRectangle(node, self.workitems);
+                    var state = new openobject.workflow.StateRectangle(node, self.workitems);
 		          
-		        self.addFigure(state, node['x'], node['y']);
-		        state.initPort();
-		        self.states.add(state);
+                self.addFigure(state, node['x'], node['y']);
+                state.initPort();
+                self.states.add(state);
 			}
 			
 			//check for overlapping connections
@@ -156,7 +154,7 @@ openobject.workflow.Workflow.implement({
 						check_for['OverlapingSeq'] = counter;
 					}
 				}
-				check_for['totalOverlaped'] = counter;
+                check_for['totalOverlaped'] = counter;
 			}			
 			 
 			var n = self.states.getSize();
@@ -180,9 +178,7 @@ openobject.workflow.Workflow.implement({
 			}
 			
 	    	openobject.dom.get('loading').style.display = 'none';
-		});	
-	
-		
+		});		
 	},
 	
 	get_overlaping_connection : function(s, e, flag) {
@@ -225,9 +221,8 @@ openobject.workflow.Workflow.implement({
 	add_connection : function(start, end, params) {
         
         var source = this.states.get(start);
-        var destination = this.states.get(end);     
-               
-        //var conn = new openobject.workflow.Connector(params.id, params.signal, params.condition, params.source, params.destination); 
+        var destination = this.states.get(end);
+ 
         var conn = new openobject.workflow.Connector(params.id, params.source, params.destination, params.options);
         var n = this.connectors.getSize();
         
@@ -290,16 +285,14 @@ openobject.workflow.Workflow.implement({
 				var data = obj.data;
 				
 				for(i=0; i<n; i++) {
-					if(self.states.get(i).get_act_id() == id)
-					{
+					if(self.states.get(i).get_act_id() == id) {
 						flag=true;
 						index = i;
 						break;
 					}
 				}			
 			
-				if(!flag) {	
-				    
+				if(!flag) {
 			        if(!data['subflow_id'])
 			             var state = new openobject.workflow.StateOval(data, self.workitems);
 			        else
@@ -308,22 +301,13 @@ openobject.workflow.Workflow.implement({
 			        self.addFigure(state, position.x, position.y);
 			        self.states.add(state);
 			        state.initPort();
-				} else {				    
+				}else {				    
 					var state = self.states.get(index);
 					var span = openobject.dom.get(state.name);
 					span.innerHTML = data['name'];
 					span.id = data['name'];
 					
 					MochiKit.Base.update(state.options, data['options'])
-					//state.action = data['action'];
-					//state.kind = data['kind'];
-                    //state.sname = data['name'];
-									
-//					if(data['flow_start'] || data['flow_stop'])
-//                      this.setBackgroundColor(new draw2d.Color(155, 155, 155))
-//					else
-//                      this.setBackgroundColor(new draw2d.Color(255, 255, 255))
-				
 				}	
 			});
 		} else {
@@ -334,15 +318,13 @@ openobject.workflow.Workflow.implement({
 	create_connection : function(act_from, act_to) {
 		
 		var self = this;
-		
 		req = openobject.http.postJSON('/workflow/connector/auto_create', {conn_obj: self.connector_obj, 
 		                                                                  src: self.src_node_nm, 
 		                                                                  des: self.des_node_nm, 
 		                                                                  act_from: act_from, 
 		                                                                  act_to: act_to,
 		                                                                  conn_flds: this.conn_flds});
-		req.addCallback(function(obj) {	
-			
+		req.addCallback(function(obj) {
 			var data = obj.data;
 			
 			if(obj.flag) {
@@ -360,7 +342,6 @@ openobject.workflow.Workflow.implement({
 				}
 				
 				var counter = self.get_overlaping_connection(data['s_id'], data['d_id'], 1)
-				
 				var params = MochiKit.Base.update({}, obj.data);
 				
 				if(counter>1) {
@@ -370,17 +351,15 @@ openobject.workflow.Workflow.implement({
 				}		
 				
 				self.add_connection(start, end, params);
-//				self.connectors.getLastElement().edit();
 			} else {
 				alert('Could not create transaction at server');
 			}
 		});		
 	},
 	
-	
 	update_connection : function(id) {	
-		var self = this;
 		
+		var self = this;
 		req = openobject.http.postJSON('/workflow/connector/get_info',{conn_obj: self.connector_obj, id: id});
 		req.addCallback(function(obj) {
 			var n = self.connectors.getSize();
@@ -396,23 +375,18 @@ openobject.workflow.Workflow.implement({
 		});
 	},
 	
-	
-	remove_elem : function(elem) {
-
-	if(elem instanceof openobject.workflow.StateOval || elem instanceof openobject.workflow.StateRectangle)
-		this.unlink_state(elem);
-	else if(elem instanceof openobject.workflow.Connector)
-		this.unlink_connector(elem);
+	remove_elem : function(elem) {	
+        if(elem instanceof openobject.workflow.StateOval || elem instanceof openobject.workflow.StateRectangle)
+            this.unlink_state(elem);
+        else if(elem instanceof openobject.workflow.Connector)
+            this.unlink_connector(elem);
 	},
-	
 	
 	unlink_state : function(state) {
 		
 		var self = this;
-		
 		req = openobject.http.postJSON('/workflow/state/delete', {node_obj: self.node_obj, 'id': state.get_act_id()});
 		req.addCallback(function(obj) {
-			
 			if(!obj.error) {
 				state.__delete__();
 				self.remove_state(state);
@@ -422,18 +396,17 @@ openobject.workflow.Workflow.implement({
 		});
 	},
 	
-	
 	remove_state : function(state) {     
         
         var fig = this.getFigure(state.getId());
         var connections = null
                 
         if(fig.getPorts && connections==null) {
-          connections = new draw2d.ArrayList();
-          var ports = fig.getPorts();
-          for(var i=0; i<ports.getSize(); i++) {
-            if(ports.get(i).getConnections) {                
-                connections.addAll(ports.get(i).getConnections());
+            connections = new draw2d.ArrayList();
+            var ports = fig.getPorts();
+            for(var i=0; i<ports.getSize(); i++) {
+                if(ports.get(i).getConnections) {                
+                    connections.addAll(ports.get(i).getConnections());
             }
           }
         }
@@ -455,21 +428,18 @@ openobject.workflow.Workflow.implement({
 	unlink_connector : function(conn) {
 		
 		var self = this;
-		
 		req = openobject.http.postJSON('/workflow/connector/delete', {conn_obj: self.connector_obj, 'id': conn.get_tr_id()});
 		req.addCallback(function(obj) {
-			
 			if(!obj.error) {				
 				conn.__delete__();
 				self.remove_conn(conn);
 			} else
 				alert(obj.error);
-			
 		});
 	},
 	
-	
 	remove_conn : function(conn) {
+		
 		var start = conn.getSource().getParent().get_act_id();
 		var end = conn.getTarget().getParent().get_act_id();
 		
@@ -489,8 +459,6 @@ openobject.workflow.Workflow.implement({
                 
 	    draw2d.Workflow.prototype.onMouseDown.call(this, x, y);
 	}
-	
 });
 
 // vim: ts=4 sts=4 sw=4 si et
-

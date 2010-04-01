@@ -69,7 +69,6 @@ openobject.workflow.Toolbar.implement({
         if (this.hasTitleBar()) {        	
             this.titlebar.style.backgroundImage = "url(/view_diagram/static/images/window_toolbar.png)";
         }
-
         
         return item;
     },
@@ -153,4 +152,3 @@ openobject.workflow.ToolCreateState = openobject.workflow.ToolGeneric.extend({
 });
 
 // vim: ts=4 sts=4 sw=4 si et
-

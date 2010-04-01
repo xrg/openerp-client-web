@@ -46,11 +46,10 @@ openobject.workflow.ConnectionAnchor.implement({
 		this.factor = 6;
 		
 	},
-	
 
     getLocation : function(/*:draw2d.Point*/ reference)	{		
 		
-		var center = this.getReferencePoint();
+        var center = this.getReferencePoint();
 		var bounds = this.getBox();
 		var b2 = (bounds.h/2) * (bounds.h/2);//minor axis of ellipse
 		var a2 = (bounds.w/2) * (bounds.w/2);//major axis of ellipse
@@ -233,4 +232,3 @@ openobject.workflow.ConnectionAnchor.implement({
 });
 
 // vim: ts=4 sts=4 sw=4 si et
-

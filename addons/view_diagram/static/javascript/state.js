@@ -48,17 +48,12 @@ openobject.workflow.StateBase = function(id, action, kind, sname, options) {
 } 
     
 openobject.workflow.StateBase.prototype = {
-    __init__ : function(id, action, kind, name, options) {        
-        
-        //this.action = action;
-        //this.kind = kind || '';        
+    __init__ : function(id, action, kind, name, options) {
         
         this.act_id = id || null;
         this.name = name;
-        
         this.options = MochiKit.Base.update({}, options || {})
-        
-        
+
         this.portR = null;
         this.portU = null;
         this.portL = null;
@@ -77,18 +72,11 @@ openobject.workflow.StateBase.prototype = {
         else                 
             var c = colors[color]
             
-        this.setBackgroundColor(new draw2d.Color(c[0], c[1], c[2]))                                           
-        //if(flow_start || flow_stop)          
-          //  this.setBackgroundColor(new draw2d.Color(155, 155, 155))
-        //else
-          //  this.setBackgroundColor(new draw2d.Color(255, 255, 255)); 
-        try{
+        this.setBackgroundColor(new draw2d.Color(c[0], c[1], c[2]))        
         
-        if (findIdentical(workitems, this.act_id)>-1) {           
+        if (findIdentical(workitems, this.act_id)>-1)           
             this.setColor(new draw2d.Color(236, 20, 60))
-            log('match::::', this.sname, this.act_id)
-            }
-        }catch(e){log('error::',e)}
+
         var html = this.getHTMLElement();    
         html.style.textAlign = 'center';
         html.style.marginLeft = 'auto';
@@ -108,8 +96,7 @@ openobject.workflow.StateBase.prototype = {
                 width = width + Math.round((n-10)/2 * 10);
                 this.setDimension(width,60);
             }            
-        } 
-        
+        }
     },
     
     initPort : function() {
@@ -128,18 +115,17 @@ openobject.workflow.StateBase.prototype = {
         
         this.portL = new openobject.workflow.Port();              
         this.portL.setWorkflow(workflow);
-         this.addPort(this.portL, 0, height/2);
+        this.addPort(this.portL, 0, height/2);
         
         this.portD = new openobject.workflow.Port();      
         this.portD.setWorkflow(workflow);         
         this.addPort(this.portD, width/2, height);
-    },
-        
+    },  
     
     edit : function() {
         
         params = {
-        '_terp_model' : WORKFLOW.node_obj,//'workflow.activity',
+        '_terp_model' : WORKFLOW.node_obj,
         '_terp_wkf_id' : WORKFLOW.id 
         }
         
@@ -148,14 +134,11 @@ openobject.workflow.StateBase.prototype = {
             
         var act = openobject.http.getURL('/workflow/state/edit', params);
         openobject.tools.openWindow(act);
-        
     },
-    
 
     ondblClick : function(event) {
         new InfoBox(this).show(event);
     },
-    
     
     onClick : function(event) {
         
@@ -169,28 +152,23 @@ openobject.workflow.StateBase.prototype = {
             else
                 this.dragged = false;
         }
-    },    
-    
+    },   
     
     onDragend : function() {
         this.dragged = this.isMoving
         draw2d.Node.prototype.onDragend.call(this);  
     },
     
-    
     get_act_id : function() {
         return this.act_id;
     },
-    
         
     __delete__ : function() {
         MochiKit.Signal.disconnectAll(this.getHTMLElement(), 'ondblclick', 'onclick');
     }
-   
 }
 
 //Oval shape node
-
 openobject.workflow.StateOval = new Class;
 openobject.workflow.StateOval.prototype = $merge(openobject.workflow.StateOval.prototype, draw2d.Oval.prototype, openobject.workflow.StateBase.prototype)
 openobject.workflow.StateOval.implement({
@@ -199,15 +177,13 @@ openobject.workflow.StateOval.implement({
         
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.Oval.call(this); 
-        this.dragged = false;
-        //this.init_label(params.flow_start, params.flow_stop, workitems)
-        this.init_label(params.color, workitems);
-    }
         
+        this.dragged = false;
+        this.init_label(params.color, workitems);
+    }   
 });
 
 //Rectangle shape node when it is a sub-workflow
-
 openobject.workflow.StateRectangle = new Class;
 openobject.workflow.StateRectangle.prototype = $merge(openobject.workflow.StateRectangle.prototype, draw2d.VectorFigure.prototype, openobject.workflow.StateBase.prototype)
 openobject.workflow.StateRectangle.implement({
@@ -216,10 +192,9 @@ openobject.workflow.StateRectangle.implement({
         
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.VectorFigure.call(this);
-        this.lineColor = new draw2d.Color(0,0,0);
-        this.setLineWidth(1); 
         
-        //this.init_label(params.flow_start, params.flow_stop, workitems);
+        this.lineColor = new draw2d.Color(0,0,0);
+        this.setLineWidth(1);
         this.init_label(params.color, workitems);
     },
     
@@ -236,4 +211,3 @@ openobject.workflow.StateRectangle.implement({
 });
 
 // vim: ts=4 sts=4 sw=4 si et
-

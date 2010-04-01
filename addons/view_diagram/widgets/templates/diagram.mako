@@ -42,8 +42,7 @@
             <div class="toolbar">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
-                        <td align="left" id="status" style="width: 100%; ">&nbsp;</td>
-                        ##<td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                        <td align="left" id="status" style="width: 100%; ">&nbsp;</td>                       
                     </tr>
                 </table>
             </div>
