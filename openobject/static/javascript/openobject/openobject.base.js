@@ -157,5 +157,10 @@ if (window !== window.parent) {
         forEach($$('.resizable-textarea'), function (textarea_element) {
             MochiKit.Signal.connect(textarea_element.textarea, 'onresize', do_adjust);
         });
+        // bind to alterations of the list views
+        forEach($$('.gridview'), function (listview_element) {
+            var name = listview_element.getAttribute('id');
+            MochiKit.Signal.connect(ListView(name), 'onreload', do_adjust);
+        });
     });
 }
