@@ -125,15 +125,34 @@ function adjustAppFrame() {
     jQuery("#appFrame").width(Math.max(0, newWidth));
     jQuery("table#contents").height(Math.max(frameHeight, menuWidth));
 }
-function adjustFrame(delay) {
-    try {
-        adjustAppFrame();
-    } catch (e) {
-        // ignore errors
+function adjust(count) {
+    if (!count) {
+        count = 0;
     }
-    setTimeout(adjustFrame, delay);
+    if (count < 3) {
+        try {
+            adjustAppFrame();
+        } catch (e) {
+            // don't do anything when adjustment blows up.
+        }
+        setTimeout(adjust, 10, count + 1);
+    }
 }
-var FRAME_ADJUSTMENT_INTERVAL = 0.5;
-MochiKit.DOM.addLoadEvent(function () {
-    adjustFrame(FRAME_ADJUSTMENT_INTERVAL);
-});
+if (window !== window.parent) {
+    MochiKit.DOM.addLoadEvent(function () {
+        // Gecko blows up if we try to directly call window.parent.adjust()
+        // and cross-frame events don't seem to work either
+        // so use intermediate function.
+        var do_adjust = function () {
+            window.parent.adjust();
+        };
+        setTimeout(do_adjust, 10);
+        // bind on all modifying events of notebooks
+        forEach($$('.notebook'), function (notebook_element) {
+            forEach(['remove', 'show', 'hide', 'activate', 'click'], function (event) {
+                MochiKit.Signal.connect(notebook_element.notebook,
+                        event, do_adjust);
+            });
+        });
+    });
+}
