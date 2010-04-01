@@ -520,15 +520,17 @@ class DateTime(Char):
 
 class Boolean(Char):
 
-#    params = ['value', 'kind']
-#
-#    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
+    params = ['val', 'kind']
+
+    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" ${py.checker(val)} value="${val}"> """
 
     def get_text(self):
-        if int(self.value) == 1:
-            return _('Yes')
-        else:
-            return _('No')
+        self.val = int(self.value)
+        self.kind = 'boolean'
+#        if int(self.value) == 1:
+#            return _('Yes')
+#        else:
+#            return _('No')
 
 class Button(TinyInputWidget):
 

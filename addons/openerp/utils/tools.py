@@ -39,7 +39,8 @@ def expr_eval(string, context={}):
     context.update(uid=rpc.session.uid,
                    current_date=time.strftime('%Y-%m-%d'),
                    time=time,
-                   datetime=DT)
+                   datetime=DT,
+                   context=context)
     if isinstance(string, basestring):
         return eval(string.replace("'active_id'", "active_id"),
                     context)
