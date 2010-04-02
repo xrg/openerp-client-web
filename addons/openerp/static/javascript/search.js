@@ -26,7 +26,11 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * @event onaddfilter triggered when adding a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the newly added (or showed for first row?) filter row'
+ */
 function add_filter_row() {
     var filter_table = $('filter_table');
     var vals = [];
@@ -102,8 +106,14 @@ function add_filter_row() {
         appendChildNodes(and_or, select_andor);
         insertSiblingNodesAfter(old_tr, new_tr);
     }
+    MochiKit.Signal.signal(filter_table, 'onaddfilter', new_tr || first_row);
 }
 
+/**
+ * @event onremovefilter triggered when removing a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the removed (or hidden) filter row'
+ */
 function remove_row(id) {
     var filter_table = $('filter_table');
 
@@ -119,6 +129,7 @@ function remove_row(id) {
         $('qstring/0').value = '';
         $('qstring/0').style.background = '#FFFFFF';
     }
+    MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
 }
 // Direct click on icon.
 function search_image_filter(src, id) {
