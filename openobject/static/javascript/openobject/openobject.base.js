@@ -170,5 +170,11 @@ if (window !== window.parent) {
             MochiKit.Signal.connect(filter_table, 'onremovefilter',
                                     do_adjust);
         }
+        // bind to change of the groupby display state in search widget
+        var search_filter = $('search_filter_data');
+        if(search_filter) {
+            MochiKit.Signal.connect(search_filter, 'groupby-toggle',
+                                    do_adjust);
+        }
     });
 }

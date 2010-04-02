@@ -411,14 +411,27 @@ function final_search_domain(custom_domain, all_domain, group_by_ctx) {
     });
 }
 
+/**
+ * @event groupby-toggle triggered when changing the display state of the groupby options
+ *  @target #search_filter_data the element holding the filter rows
+ *  @argument 'the action performed ("expand" or "collapse")
+ */
 function expand_group_option(id, event) {
-    if (getElement(id).style.display == '') {
-        getElement(id).style.display = 'none';
+    var groupbyElement = getElement(id);
+    var action;
+    if (groupbyElement.style.display == '') {
+        groupbyElement.style.display = 'none';
         event.target.className = 'group-expand';
+        action = 'collapse';
     } else {
-        getElement(id).style.display = '';
+        groupbyElement.style.display = '';
         event.target.className = 'group-collapse';
+        action = 'expand';
     }
+    MochiKit.Signal.signal(
+            $('search_filter_data'),
+            'groupby-toggle',
+            action);
 }
 
 MochiKit.DOM.addLoadEvent(function(evt) {
