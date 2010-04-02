@@ -1,3 +1,55 @@
+2010-04-02: 5.0.8
+=================
+
+Bugfixes
+--------
+
+ * Not linked to a bug report:
+   * missing po file
+   * cleanup.
+   * missing context
+   * Many2one non-editable view takes old behaviour.
+   * Calendar view end date problem (improper day span).
+   * Fixed context problem for one2many.
+   * Fixed missing import statement.
+   * Fixed context problem when language changed (split dict, lang:'nl_NL')
+   * Fixed attachment size problem.
+   * Fixed non editable many2one link problem (pass context).
+   * Fixed non editable many2one link problem (wrong view if not context).
+   * Fixed non editable view for many2many.
+   * Fixed Disable link on many2one field.
+   * Disable link on many2one field.
+   * Fixed attrs problem when non editable view.
+   * Fixed edit image display problem for search view.
+ * https://launchpad.net/bugs/537973
+   * Fixed one2many popup when large amount of data.
+ * https://launchpad.net/bugs/539783
+   * Fixed regression of one2many context problem.
+ * https://launchpad.net/bugs/512400
+   * Fixed navigation problem.
+ * https://launchpad.net/bugs/459027
+   * Fixed price_accuracy for float.
+   * Fixed price_accuracy for float value.
+ * https://launchpad.net/bugs/530823
+   * Fixed m2o problem (google chrome).
+ * https://launchpad.net/bugs/530419
+   * Fixed autodetect problem in import.
+ * https://launchpad.net/bugs/534309
+   * Fixed translation problem for export in excel.
+ * https://launchpad.net/bugs/531230
+   * Fixed selection widget for listview.
+ * https://launchpad.net/bugs/532635
+   * Fixed active_id problem in context for wizard.
+ * https://launchpad.net/bugs/548932
+   * Fixed round off value of widget FloatTime
+
+
+Improvements
+------------
+
+ * italian translation
+
+
 2010-03-01: 5.0.7
 =================
 
