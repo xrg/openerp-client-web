@@ -31,6 +31,19 @@ var KEY_ARROW_RIGHT = 39;
 var KEY_ARROW_UP = 38;
 var KEY_ARROW_DOWN = 40;
 
+/**
+ * @event treegrid-render triggered on treegrid rendering
+ *  @target document
+ *  @argument 'the treegrid instance being rendered'
+ *
+ * @event treenode-expand triggered when a sub-node is expanded
+ *  @target document
+ *  @argument 'the treenode being expanded'
+ *
+ * @event treenode-collapse triggered when a sub-node is collaped
+ *  @target document
+ *  @argument 'the treenode being collapsed'
+ */
 var TreeGrid = function(elem, options) {
     this.__init__(elem, options);
 };
@@ -62,6 +75,14 @@ TreeGrid.prototype = {
         // references to ajax url and params
         this.ajax_url = null;
         this.ajax_params = {};
+
+        // receive some events from the treenodes and redispatch to the document
+        MochiKit.Signal.connect(this, 'onNodeExpand', function (tree, node) {
+            MochiKit.Signal.signal(window.document, 'treenode-expand', node);
+        });
+        MochiKit.Signal.connect(this, 'onNodeCollapse', function (tree, node) {
+            MochiKit.Signal.signal(window.document, 'treenode-collapse', node);
+        });
     },
     
     setHeaders : function(headers/*, params */) {
@@ -137,6 +158,7 @@ TreeGrid.prototype = {
         if (openobject.dom.get(this.id) != this.table) {
             MochiKit.DOM.swapDOM(this.id, this.table);
         }
+        MochiKit.Signal.signal(window.document, 'treegrid-render', this);
     },
     
     reload : function() {
