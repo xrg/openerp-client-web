@@ -27,96 +27,80 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * gets the first section of the forward-slash-separated
+ * id attribute of the provided element, and returns it
+ *
+ * @param element the element whose id should be split
+ */
+function first_id_section(element) {
+    return element.id.split('/')[0];
+}
 function add_filter_row() {
-
     var filter_table = $('filter_table');
-    var vals = [];
-
-    row_id = 1;
-
-    first_row = $('filter_row');
+    var first_row = $('filter_row');
 
     if (filter_table.style.display == 'none') {
         filter_table.style.display = '';
     } else if (first_row.style.display == 'none') {
         first_row.style.display = ''
     } else {
-
         var old_tr = MochiKit.DOM.getFirstElementByTagAndClassName('tr', null, filter_table);
         var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
         old_qstring.style.background = '#FFFFFF';
 
         var new_tr = old_tr.cloneNode(true);
 
+        var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName(
+                'td', 'filter_column', new_tr);
+        var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName(
+                'select', 'filter_fields', new_tr);
+        var expr = MochiKit.DOM.getFirstElementByTagAndClassName(
+                'select', 'expr', new_tr);
+        var qstring = MochiKit.DOM.getFirstElementByTagAndClassName(
+                'input', 'qstring', new_tr);
+        qstring.style.background = '#FFFFFF';
+        qstring.value = '';
+        var and_or = MochiKit.DOM.getFirstElementByTagAndClassName(
+                'td', 'and_or', new_tr);
+        var select_andor;
+
         if (new_tr.id.indexOf('/') != -1) {
-            keys = new_tr.id.split('/');
-            id = parseInt(keys[1], 10) + 1;
+            var keys = new_tr.id.split('/');
+            var id = parseInt(keys[1], 10) + 1;
             new_tr.id = keys[0] + '/' + id;
 
-            var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
+            and_or.id = first_id_section(and_or) + '/' + id;
 
-            var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr);
-            var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
-            var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
+            filter_column.id = first_id_section(filter_column) + '/' + id;
+            filter_fields.id = first_id_section(filter_fields) + '/' + id;
+            expr.id = first_id_section(expr) + '/' + id;
 
-            var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
-
-            aid = and_or.id.split('/')[0];
-            and_or.id = aid + '/' + id;
-
-            var select_andor = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'select_andor', and_or);
-            sid = select_andor.id.split('/')[0];
-            select_andor.id = sid + '/' + id;
-
-            fcid = filter_column.id.split('/')[0];
-            filter_column.id = fcid + '/' + id;
-
-            fid = filter_fields.id.split('/')[0];
-            filter_fields.id = fid + '/' + id;
-
-            eid = expr.id.split('/')[0];
-            expr.id = eid + '/' + id;
-
-            qid = qstring.id.split('/')[0];
-            qstring.id = qid + '/' + id;
-            qstring.style.background = '#FFFFFF';
-            qstring.value = '';
+            qstring.id = first_id_section(qstring) + '/' + id;
+            select_andor = MochiKit.DOM.getFirstElementByTagAndClassName(
+                'select', 'select_andor', and_or);
+            select_andor.id = first_id_section(select_andor) + '/' + id;
 
             insertSiblingNodesBefore(old_tr, new_tr);
         } else {
-            new_tr.id = new_tr.id + '/' + row_id;
+            var first_row_id = 1;
+            new_tr.id = new_tr.id + '/' + first_row_id;
 
-            var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
+            and_or.id = and_or.id + '/' + first_row_id;
+            filter_column.id = filter_column.id + '/' + first_row_id;
+            filter_fields.id = filter_fields.id + '/' + first_row_id;
+            expr.id = expr.id + '/' + first_row_id;
+            qstring.id = qstring.id + '/' + first_row_id;
 
-            var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr);
-            var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
-            var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
-
-            filter_column.id = filter_column.id + '/' + row_id;
-
-            filter_fields.id = filter_fields.id + '/' + row_id;
-            expr.id = expr.id + '/' + row_id;
-            qstring.id = qstring.id + '/' + row_id;
-            qstring.style.background = '#FFFFFF';
-            qstring.value = '';
-
-            var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
-            and_or.id = and_or.id + '/' + row_id;
-
-            var select_andor = document.createElement('select');
-            select_andor.id = 'select_andor/' + row_id;
+            select_andor = document.createElement('select');
+            select_andor.id = 'select_andor/' + first_row_id;
             select_andor.className = 'select_andor';
 
-            var option = document.createElement('option');
-
-            vals.push('AND');
-            vals.push('OR');
-
-            option = map(function(x) {
+            var options = map(function(x) {
                 return OPTION({'value': x}, x)
-            }, vals);
+            }, ['AND', 'OR']);
 
-            appendChildNodes(select_andor, option);
+            appendChildNodes(select_andor, options);
             appendChildNodes(and_or, select_andor);
             insertSiblingNodesBefore(old_tr, new_tr);
         }
@@ -124,15 +108,13 @@ function add_filter_row() {
 }
 
 function remove_row(id) {
-
     var filter_table = $('filter_table');
 
     var node = MochiKit.DOM.getFirstParentByTagAndClassName(id, 'tr', 'filter_row_class');
 
     if (node.id.indexOf('/') != -1) {
         removeElement(node);
-    }
-    else {
+    } else {
         node.style.display = 'none';
         $('qstring').value = '';
         $('qstring').style.background = '#FFFFFF';
@@ -145,8 +127,7 @@ function search_image_filter(src, id) {
 }
 
 function onKey_Event(evt) {
-
-    dom = $('search_filter_data');
+    var dom = $('search_filter_data');
 
     var editors = [];
 
@@ -159,7 +140,7 @@ function onKey_Event(evt) {
     }, editors);
 
     forEach(active_editors, function(e) {
-        connect(e, 'onkeydown', self, onKeyDown_search);
+        MochiKit.Signal.connect(e, 'onkeydown', self, onKeyDown_search);
     });
 }
 
