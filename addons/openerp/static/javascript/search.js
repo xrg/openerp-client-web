@@ -38,13 +38,9 @@ function add_filter_row() {
 
     if (filter_table.style.display == 'none') {
         filter_table.style.display = '';
-    }
-
-    else if (first_row.style.display == 'none') {
+    } else if (first_row.style.display == 'none') {
         first_row.style.display = ''
-    }
-
-    else {
+    } else {
 
         var old_tr = MochiKit.DOM.getFirstElementByTagAndClassName('tr', null, filter_table);
         var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
@@ -380,11 +376,13 @@ function search_filter(src, id) {
 }
 
 function final_search_domain(custom_domain, all_domain, group_by_ctx) {
-    var req = openobject.http.postJSON('/search/eval_domain_filter', {source: '_terp_list',
+    var req = openobject.http.postJSON('/search/eval_domain_filter', {
+        source: '_terp_list',
         model: $('_terp_model').value,
         custom_domain: custom_domain,
         all_domains: all_domains,
-        group_by_ctx: group_by_ctx});
+        group_by_ctx: group_by_ctx
+    });
 
     req.addCallback(function(obj) {
         if (obj.flag) {
@@ -401,7 +399,11 @@ function final_search_domain(custom_domain, all_domain, group_by_ctx) {
             window.location.href = openobject.http.getURL('/search/manage_filter', {action: action});
         }
         if (obj.domain) { // For direct search
-            var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain, context: obj.context});
+            var in_req = eval_domain_context_request({
+                source: '_terp_list',
+                domain: obj.domain,
+                context: obj.context
+            });
 
             in_req.addCallback(function(in_obj) {
                 openobject.dom.get('_terp_search_domain').value = in_obj.domain;
@@ -420,8 +422,7 @@ function expand_group_option(id, event) {
     if (getElement(id).style.display == '') {
         getElement(id).style.display = 'none';
         event.target.className = 'group-expand';
-    }
-    else {
+    } else {
         getElement(id).style.display = '';
         event.target.className = 'group-collapse';
     }
