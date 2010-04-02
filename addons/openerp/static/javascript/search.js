@@ -27,7 +27,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var add_filter_row = function() {
+function add_filter_row() {
 
     var filter_table = $('filter_table');
     var vals = [];
@@ -54,8 +54,7 @@ var add_filter_row = function() {
 
         if (new_tr.id.indexOf('/') != -1) {
             keys = new_tr.id.split('/');
-            id = parseInt(keys[1]);
-            id = id + 1;
+            id = parseInt(keys[1], 10) + 1;
             new_tr.id = keys[0] + '/' + id;
 
             var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
@@ -88,8 +87,7 @@ var add_filter_row = function() {
             qstring.value = '';
 
             insertSiblingNodesBefore(old_tr, new_tr);
-        }
-        else {
+        } else {
             new_tr.id = new_tr.id + '/' + row_id;
 
             var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
@@ -129,11 +127,11 @@ var add_filter_row = function() {
     }
 }
 
-var remove_row = function(id) {
+function remove_row(id) {
 
     var filter_table = $('filter_table');
 
-    node = MochiKit.DOM.getFirstParentByTagAndClassName(id, 'tr', 'filter_row_class');
+    var node = MochiKit.DOM.getFirstParentByTagAndClassName(id, 'tr', 'filter_row_class');
 
     if (node.id.indexOf('/') != -1) {
         removeElement(node);
@@ -145,12 +143,12 @@ var remove_row = function(id) {
     }
 }
 // Direct click on icon.
-var search_image_filter = function(src, id) {
+function search_image_filter(src, id) {
     domain = getNodeAttribute(id, 'value');
     search_filter(src);
 }
 
-var onKey_Event = function(evt) {
+function onKey_Event(evt) {
 
     dom = $('search_filter_data');
 
@@ -160,25 +158,22 @@ var onKey_Event = function(evt) {
     editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
     editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
 
-    var editors = filter(function(e) {
+    var active_editors = filter(function(e) {
         return e.type != 'hidden' && !e.disabled
     }, editors);
 
-    forEach(editors, function(e) {
+    forEach(active_editors, function(e) {
         connect(e, 'onkeydown', self, onKeyDown_search);
     });
 }
 
-var onKeyDown_search = function(evt) {
-    var key = evt.key();
-    var src = evt.src();
-
-    if (key.string == "KEY_ENTER") {
+function onKeyDown_search(evt) {
+    if (evt.key().string == "KEY_ENTER") {
         search_filter();
     }
 }
 
-var search_filter = function(src, id) {
+function search_filter(src, id) {
     all_domains = {};
     check_domain = 'None';
     domains = {};
@@ -188,12 +183,13 @@ var search_filter = function(src, id) {
 
     domain = 'None';
     if (src) {
-        if (src.checked == false) {
-            src.checked = true
+        // TODO: simplify
+        if (!src.checked) {
+            src.checked = true;
             id.className = 'active_filter';
         }
         else {
-            src.checked = false
+            src.checked = false;
             id.className = 'inactive_filter';
         }
     }
@@ -299,7 +295,7 @@ var search_filter = function(src, id) {
         search_req.addCallback(function(obj) {
             if (obj.error) {
                 forEach(children, function(child) {
-                    var cids = child['id']
+                    var cids = child['id'];
                     if (cids && cids.indexOf('/') != -1) {
                         id = cids.split('/')[1];
                         var fid = 'filter_fields/' + id;
@@ -336,10 +332,9 @@ var search_filter = function(src, id) {
                         var type = obj.frm[i].type;
 
                         if ($(select_andor).value == 'AND') {
-                            var operator = '&';
-                        }
-                        else {
-                            var operator = '|';
+                            operator = '&';
+                        } else {
+                            operator = '|';
                         }
                     }
                     else {
@@ -357,9 +352,9 @@ var search_filter = function(src, id) {
                     var right_text = obj.frm[i].rec_val;
                     if (expression == 'ilike' || expression == 'not ilike') {
                         if (type == 'integer' || type == 'float' || type == 'date' || type == 'datetime' || type == 'boolean') {
-                            if (expression == 'ilike')
+                            if (expression == 'ilike') {
                                 expression = '=';
-                            else {
+                            } else {
                                 expression = '!=';
                             }
                         }
@@ -385,13 +380,13 @@ var search_filter = function(src, id) {
         });
     }
     else {
-        custom_domain = []
+        custom_domain = [];
         all_domains = serializeJSON(all_domains);
         final_search_domain(custom_domain, all_domains, group_by_ctx);
     }
 }
 
-var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
+function final_search_domain(custom_domain, all_domain, group_by_ctx) {
     var req = openobject.http.postJSON('/search/eval_domain_filter', {source: '_terp_list',
         model: $('_terp_model').value,
         custom_domain: custom_domain,
@@ -403,8 +398,9 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
             var params = {'domain': obj.sf_dom,
                 'model': openobject.dom.get('_terp_model').value,
                 'flag': obj.flag};
-            if (group_by_ctx != '')
-                params['group_by'] = group_by_ctx
+            if (group_by_ctx != '') {
+                params['group_by'] = group_by_ctx;
+            }
             openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
         }
         if (obj.action) { // For manage Filter
@@ -427,9 +423,9 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
     });
 }
 
-var expand_group_option = function(id, event) {
+function expand_group_option(id, event) {
     if (getElement(id).style.display == '') {
-        getElement(id).style.display = 'none'
+        getElement(id).style.display = 'none';
         event.target.className = 'group-expand';
     }
     else {
@@ -439,7 +435,6 @@ var expand_group_option = function(id, event) {
 }
 
 MochiKit.DOM.addLoadEvent(function(evt) {
-
     onKey_Event(evt);
     search_filter();
 });
