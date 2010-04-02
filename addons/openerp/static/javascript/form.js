@@ -66,6 +66,9 @@ function openRecord(id, src, target, readonly) {
     
     var search_data = openobject.dom.get('_terp_search_data');
     search_data = search_data ? search_data.value : null;
+    
+    var search_filter_domain = openobject.dom.get('_terp_filter_domain');
+    search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
 
     var args = {
         'model': model,
@@ -79,7 +82,8 @@ function openRecord(id, src, target, readonly) {
         'limit': limit,
         'count': count,
         'search_domain': search_domain,
-        'search_data': search_data
+        'search_data': search_data,
+        'filter_domain' : search_filter_domain
     };
 
     var action = readonly ? 'view' : 'edit';

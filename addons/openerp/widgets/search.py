@@ -143,16 +143,17 @@ class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
 
-    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list']
+    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain']
     member_widgets = ['frame']
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=None, context=None, values={}):
+    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None):
 
         super(Search, self).__init__(model=model)
 
         self.domain = domain or []
+        self.filter_domain = filter_domain or []
         self.context = context or {}
         self.model = model
         if values == "undefined":
@@ -199,6 +200,9 @@ class Search(TinyInputWidget):
             ('=', _('is equal to')), ('<>', _('is not equal to')),
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
+        
+        if self.filter_domain == []:
+            self.filter_domain += [(self.fields_list[0][0], self.operators_map[0][0], '')]
 
     def parse(self, model=None, root=None, fields=None, values={}):
 
@@ -221,7 +225,7 @@ class Search(TinyInputWidget):
 
             if node.localName in ('form', 'tree', 'search', 'group'):
                 if node.localName == 'group':
-                    attrs['group_by_ctx'] = values.get('group_by_ctx', None)
+                    attrs['group_by_ctx'] = values.get('group_by_ctx')
                     Element = Group
                 else:
                     Element = Frame

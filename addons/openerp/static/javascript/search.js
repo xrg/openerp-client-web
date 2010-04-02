@@ -31,99 +31,76 @@ var add_filter_row = function() {
 	
 	var filter_table = $('filter_table');
 	var vals = [];
+	var row_id = 1;
 	
-	row_id = 1;
-	
-	first_row = $('filter_row');
+	var first_row = $('filter_row/0');
+	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table)
 	
 	if (filter_table.style.display == 'none') {
 		filter_table.style.display = '';
 	}
 	
-	else if (first_row.style.display == 'none') {
+	else if (first_row.style.display == 'none' && trs.length <= 1) {
+		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr).selectedIndex = 0;
+		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr).selectedIndex = 0;
+		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', first_row);
+		old_qstring.value = '';
+		old_qstring.style.background = '#FFFFFF';
 		first_row.style.display = ''
 	}
 	
 	else{
 		
-		var old_tr = MochiKit.DOM.getFirstElementByTagAndClassName('tr', null, filter_table);
+		var old_tr = trs[trs.length-1]
 		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
 		old_qstring.style.background = '#FFFFFF';
 		
 		var new_tr = old_tr.cloneNode(true);
+		keys = new_tr.id.split('/');
+		id = parseInt(keys[1], 0);
 		
-		if (new_tr.id.indexOf('/') != -1) {
-			keys = new_tr.id.split('/');
-			id = parseInt(keys[1]);
-			id = id + 1;
-			new_tr.id = keys[0] + '/' + id;
-			
-			var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
-			
-			var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr);
-			var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
-			var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
-			
-			var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
-			
-			aid = and_or.id.split('/')[0];
-			and_or.id = aid + '/' + id;
-			
-			var select_andor = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'select_andor', and_or);
-			sid = select_andor.id.split('/')[0];
-			select_andor.id = sid + '/' + id;
-			
-			fcid = filter_column.id.split('/')[0];
-			filter_column.id = fcid + '/' + id;
-			
-			fid = filter_fields.id.split('/')[0];
-			filter_fields.id = fid + '/' + id;
-			
-			eid = expr.id.split('/')[0];
-			expr.id = eid + '/' + id;
-			
-			qid = qstring.id.split('/')[0];
-			qstring.id = qid + '/' + id;
-			qstring.style.background = '#FFFFFF';
-			qstring.value = '';
-			
-			insertSiblingNodesBefore(old_tr, new_tr);
+		new_tr.id =  keys[0] +'/'+ row_id;
+		var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
+		
+		var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr);
+		var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
+		var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
+		
+		filter_column.id = filter_column.id.split('/')[0] + '/' + row_id;
+		filter_fields.id = filter_fields.id.split('/')[0] + '/' + row_id;
+		expr.id = expr.id.split('/')[0] + '/' + row_id;
+		qstring.id = qstring.id.split('/')[0] + '/' + row_id;
+		qstring.style.background = '#FFFFFF';
+		qstring.value = '';
+		
+		var image_col = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'image_col', new_tr);
+		image_col.id = 'image_col/' + row_id
+		
+		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
+		if (and_or){removeElement(and_or); }
+		
+		var and_or = document.createElement('td');
+		and_or.id = 'and_or/' + id;
+		and_or.className = 'and_or';
+		
+		var select_andor = document.createElement('select');
+		select_andor.id = 'select_andor/' + id;
+		select_andor.className = 'select_andor';
+		
+		var option = document.createElement('option');
+		
+		vals.push('AND');
+		vals.push('OR');
+		
+		option = map(function(x){return OPTION({'value': x}, x)}, vals);
+		image_replace = openobject.dom.get('image_col/'+ id);
+		if(MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', old_tr)){
+			insertSiblingNodesBefore(image_replace, and_or)
 		}
-		else {
-			new_tr.id = new_tr.id +'/'+ row_id;
-			
-			var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
-			
-			var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr);
-			var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
-			var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
-			
-			filter_column.id = filter_column.id + '/' + row_id;
-			
-			filter_fields.id = filter_fields.id + '/' + row_id;
-			expr.id = expr.id + '/' + row_id;
-			qstring.id = qstring.id + '/' + row_id;
-			qstring.style.background = '#FFFFFF';
-			qstring.value = '';
-			
-			var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
-			and_or.id = and_or.id + '/' + row_id;
-			
-			var select_andor = document.createElement('select');
-			select_andor.id = 'select_andor/' + row_id;
-			select_andor.className = 'select_andor';
-			
-			var option = document.createElement('option');
-
-			vals.push('AND');
-			vals.push('OR');
-
-			option = map(function(x){return OPTION({'value': x}, x)}, vals);
-
-			appendChildNodes(select_andor, option);
-			appendChildNodes(and_or, select_andor);
-			insertSiblingNodesBefore(old_tr, new_tr);
-		}
+		
+		appendChildNodes(select_andor, option);
+		appendChildNodes(and_or, select_andor);
+		insertSiblingNodesAfter(old_tr, new_tr);
 	}
 }
 
@@ -133,13 +110,15 @@ var remove_row = function(id) {
 	
 	node = MochiKit.DOM.getFirstParentByTagAndClassName(id, 'tr', 'filter_row_class');
 	
-	if (node.id.indexOf('/') != -1) {
+	if (node.id != 'filter_row/0') {
 		removeElement(node);
 	}
 	else {
 		node.style.display = 'none';
-		$('qstring').value = '';
-		$('qstring').style.background = '#FFFFFF';
+		if ($('and_or/0'))
+			removeElement($('and_or/0'));
+		$('qstring/0').value = '';
+		$('qstring/0').style.background = '#FFFFFF';
 	}
 }
 // Direct click on icon.
@@ -249,40 +228,25 @@ var search_filter = function(src, id) {
 		all_domains['selection_domain'] = selection_domain;
 	}
 	
-	if(filter_table.style.display != 'none') {
-		var custom_domains = [];
+	if(openobject.dom.get('_terp_filter_domain').value != []) {
+		
 		var params = {};
 		var record = {};
+		
+		filter_table.style.display = ''
 		
 		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
 		forEach(children, function(ch){
 			
 			var ids = ch['id'];	// row id...
-			if(ids && ids.indexOf('/')!= -1) {
-				id = ids.split('/')[1];
-				var qid = 'qstring/' + id;
-				var fid = 'filter_fields/' + id;
-				var eid = 'expr/' + id;
-				
-				if ($(qid) && $(qid).value) {
-					var rec = {};
-					rec[$(fid).value] = $(qid).value;
-					params['_terp_model'] = openobject.dom.get('_terp_model').value;
-				}
-			}
-			
-			else {
-				var qid = 'qstring';
-				var fid = 'filter_fields';
-				var eid = 'expr';
-				
-				var q_val = '';
-				
-				if ($(qid) && $(qid).value) {
-					var rec = {};
-					rec[$(fid).value] = $(qid).value;
-					params['_terp_model'] = openobject.dom.get('_terp_model').value;
-				}
+			var id = ids.split('/')[1];
+			var qid = 'qstring/' + id;
+			var fid = 'filter_fields/' + id;
+			var eid = 'expr/' + id;
+			if ($(qid) && $(qid).value) {
+				var rec = {};
+				rec[$(fid).value] = $(qid).value;
+				params['_terp_model'] = openobject.dom.get('_terp_model').value;
 			}
 			if (rec) {
 				record[ids] = rec;
@@ -299,21 +263,12 @@ var search_filter = function(src, id) {
 			if (obj.error) {
 				forEach(children, function(child){
 					var cids = child['id']
-					if(cids && cids.indexOf('/')!= -1) {
-						id = cids.split('/')[1];
-						var fid = 'filter_fields/' + id;
-					}
-					else {
-						var fid = 'filter_fields';
-					}
+					var id = cids.split('/')[1];
+					var fid = 'filter_fields/' + id;
 					if ($(fid).value == obj.error_field) {
-						if (fid.indexOf('/')!= -1) {
-							f = fid.split('/')[1];
-							$('qstring/'+f).style.background = '#FF6666';
-						}
-						else {
-							$('qstring').style.background = '#FF6666';
-						}						
+						f = fid.split('/')[1];
+						$('qstring/'+f).style.background = '#FF6666';
+						$('qstring/'+f).value = obj.error;
 					}
 				});
 			}
@@ -323,30 +278,21 @@ var search_filter = function(src, id) {
     				var operator = 'None';
     				
     				row_id = serializeJSON(i);
-    				
-    				if(row_id && row_id.indexOf('/')!= -1) {
-
-						id = row_id.split('/')[1];
-						id = parseInt(id);
-						
-						var fid = 'filter_fields/' + id;
-						var eid = 'expr/' + id;
-	    				var select_andor = 'select_andor/' + id;
-	    				var type = obj.frm[i].type;
-						
+					id = row_id.split('/')[1];
+					id = parseInt(id, 10);
+					
+					var fid = 'filter_fields/' + id;
+					var eid = 'expr/' + id;
+					var select_andor = 'select_andor/' + id;
+					var type = obj.frm[i].type;
+					if($(select_andor)){
 						if ($(select_andor).value == 'AND') {
 							var operator = '&';
 						}
 						else {
 							var operator = '|';
 						}
-    				}
-    				else {
-    					var fid = 'filter_fields';
-						var eid = 'expr';
-						var type = obj.frm[i].type;
-    				}
-    				
+					}  				
     				if (operator != 'None') {
     					temp_domain.push(operator);
     				}
@@ -384,7 +330,7 @@ var search_filter = function(src, id) {
 		});
 	}
 	else {
-		custom_domain = []
+		custom_domain = openobject.dom.get('_terp_filter_domain').value || []
 		all_domains = serializeJSON(all_domains);
 		final_search_domain(custom_domain, all_domains, group_by_ctx);	
 	}
@@ -417,9 +363,9 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 		    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
 		    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 		    	openobject.dom.get('_terp_context').value = in_obj.context;
+		    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
 		    	if (getElement('_terp_list') != null){
-		    		var lst = new ListView('_terp_list');
-		    		lst.reload();
+		    		new ListView('_terp_list').reload()
 		    	}
 		    });	
 		}

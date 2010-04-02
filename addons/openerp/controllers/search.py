@@ -265,9 +265,9 @@ class Search(Form):
                 else:
                     domain += [(key, 'ilike', domains[key])]
                     search_data[key] = domains[key]
-
+                    
+        inner_domain = []
         if custom_domains:
-            inner_domain = []
             tmp_domain = ''
 
             custom_domains = eval(custom_domains)
@@ -285,7 +285,13 @@ class Search(Form):
 
             if tmp_domain :
                 cust_domain = tmp_domain.replace('][', ', ')
-                domain += eval(cust_domain)
+                inner_domain += eval(cust_domain)
+                
+                if len(inner_domain)>1 and inner_domain[-2] in ['&','|']:
+                    if len(inner_domain) == 2:
+                        inner_domain = [inner_domain[1]]
+                    else:
+                        inner_domain = inner_domain[:-2] + inner_domain[-1:]
 
         if selection_domain:
             if selection_domain in ['blk', 'sh', 'sf', 'mf']:
@@ -314,7 +320,7 @@ class Search(Form):
         if group_by_ctx:
             search_data['group_by_ctx'] = group_by_ctx
 
-        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data))
+        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(inner_domain))
 
     @expose()
     def manage_filter(self, **kw):
