@@ -105,15 +105,13 @@ function add_filter_row() {
 }
 
 function remove_row(id) {
-
     var filter_table = $('filter_table');
 
     var node = MochiKit.DOM.getFirstParentByTagAndClassName(id, 'tr', 'filter_row_class');
 
     if (node.id != 'filter_row/0') {
         removeElement(node);
-    }
-    else {
+    } else {
         node.style.display = 'none';
         if ($('and_or/0')) {
             removeElement($('and_or/0'));
@@ -142,7 +140,7 @@ function onKey_Event() {
     }, editors);
 
     forEach(active_editors, function(e) {
-        connect(e, 'onkeydown', self, onKeyDown_search);
+        MochiKit.Signal.connect(e, 'onkeydown', self, onKeyDown_search);
     });
 }
 
