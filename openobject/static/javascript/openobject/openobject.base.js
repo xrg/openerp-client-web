@@ -162,5 +162,13 @@ if (window !== window.parent) {
             var name = listview_element.getAttribute('id');
             MochiKit.Signal.connect(ListView(name), 'onreload', do_adjust);
         });
+        // bind to addition and removal of filter rows in search widget
+        var filter_table = $('filter_table');
+        if (filter_table) {
+            MochiKit.Signal.connect(filter_table, 'onaddfilter',
+                                    do_adjust);
+            MochiKit.Signal.connect(filter_table, 'onremovefilter',
+                                    do_adjust);
+        }
     });
 }

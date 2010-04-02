@@ -36,6 +36,11 @@
 function first_id_section(element) {
     return element.id.split('/')[0];
 }
+/**
+ * @event onaddfilter triggered when adding a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the newly added (or showed for first row?) filter row'
+ */
 function add_filter_row() {
     var filter_table = $('filter_table');
     var first_row = $('filter_row');
@@ -105,8 +110,14 @@ function add_filter_row() {
             insertSiblingNodesBefore(old_tr, new_tr);
         }
     }
+    MochiKit.Signal.signal(filter_table, 'onaddfilter', new_tr || first_row);
 }
 
+/**
+ * @event onremovefilter triggered when removing a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the removed (or hidden) filter row'
+ */
 function remove_row(id) {
     var filter_table = $('filter_table');
 
@@ -119,6 +130,7 @@ function remove_row(id) {
         $('qstring').value = '';
         $('qstring').style.background = '#FFFFFF';
     }
+    MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
 }
 // Direct click on icon.
 function search_image_filter(src, id) {
