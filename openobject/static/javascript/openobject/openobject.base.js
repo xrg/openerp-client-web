@@ -180,5 +180,7 @@ if (window !== window.parent) {
         MochiKit.Signal.connect(window.document, 'treegrid-render', do_adjust);
         MochiKit.Signal.connect(window.document, 'treenode-expand', do_adjust);
         MochiKit.Signal.connect(window.document, 'treenode-collapse', do_adjust);
+        // bind to "onchange" attributes on view/form fields, maybe
+        MochiKit.Signal.connect(window.document, 'onfieldchange', do_adjust);
     });
 }
