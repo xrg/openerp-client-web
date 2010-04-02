@@ -183,15 +183,8 @@ function search_filter(src, id) {
 
     domain = 'None';
     if (src) {
-        // TODO: simplify
-        if (!src.checked) {
-            src.checked = true;
-            id.className = 'active_filter';
-        }
-        else {
-            src.checked = false;
-            id.className = 'inactive_filter';
-        }
+        src.checked = !src.checked;
+        id.className = src.checked ? 'active_filter' : 'inactive_filter';
     }
     var filter_table = $('filter_table');
     datas = $$('[name]', 'search_filter_data');
