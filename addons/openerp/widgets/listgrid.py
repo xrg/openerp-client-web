@@ -281,7 +281,7 @@ class List(TinyWidget):
             if node.nodeName == 'button':
                 attrs = node_attributes(node)
                 buttons += [Button(**attrs)]
-                headers.append([("button", len(buttons))])
+                headers.append(("button", len(buttons)))
                 
             elif node.nodeName == 'field':
                 attrs = node_attributes(node)
