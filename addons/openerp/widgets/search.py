@@ -100,10 +100,14 @@ class Filter(TinyInputWidget):
         self.filter_domain = attrs.get('domain', [])
         self.help = attrs.get('help')
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
-        filter_context = attrs.get('context', None)
-
+        filter_context = attrs.get('context')
+        screen_context = attrs.get('screen_context', {})
+        
         self.def_checked = False
         default_val = attrs.get('default', 0)
+        if default_val:
+            default_val = expr_eval(default_val, {'context':screen_context})
+            
         if flag:
             if default_domain and attrs.get('domain'):
                 domain =  expr_eval(attrs.get('domain'))
@@ -241,6 +245,7 @@ class Search(TinyInputWidget):
             elif node.localName=='filter':
                 attrs['model'] = search_model
                 attrs['default_domain'] = self.domain
+                attrs['screen_context'] = self.context
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
                 views.append(Filter(**attrs))
@@ -292,7 +297,7 @@ class Search(TinyInputWidget):
                     field.options = [(1, 'Yes'),(0, 'No')]
                     field.validator.if_empty = ''
 
-                if values.has_key(name) and isinstance(field, (TinyInputWidget, RangeWidget)):
+                if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
                     field.set_value(values[name])
 
                 views.append(field)
@@ -301,6 +306,7 @@ class Search(TinyInputWidget):
                     if n.localName=='filter':
                         attrs = node_attributes(n)
                         attrs['default_domain'] = self.domain
+                        attrs['screen_context'] = self.context
                         if values and values.get('group_by_ctx'):
                             attrs['group_by_ctx'] = values['group_by_ctx']
                         filter_field = Filter(**attrs)
