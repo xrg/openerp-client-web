@@ -227,12 +227,44 @@ MochiKit.Base.update(ListView.prototype, {
 		}
 	},
 	
+	groupbyDrag: function(drag, drop){
+		var args = {};
+		var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
+		var model =  getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_model') || getElement('_terp_model');
+		
+		if(getNodeAttribute(drag,'record') && getNodeAttribute(drop,'record')) {
+			var trs = getElementsByTagAndClassName('tr','grid-row-group');
+			for(var tr=0;tr<trs.length;tr++) {
+				if(getNodeAttribute(trs[tr],'records') == drop.id.split("grid-row ")[1]) {
+					args['domain'] = getNodeAttribute(trs[tr],'grp_domain');
+				}	
+			}
+			args['children'] = '[' + getNodeAttribute(drag,'record') + ']';
+		}
+		else {
+			args['domain'] = getNodeAttribute(drop,'grp_domain');
+			
+			if(getNodeAttribute(drag,'record'))
+				args['children'] = '[' + getNodeAttribute(drag,'record') + ']';
+			else
+				args['children'] = getNodeAttribute(drag,'ch_records');
+		}
+		
+		args['model'] = model.value;
+		var req = openobject.http.postJSON('/listgrid/groupbyDrag', args);
+		req.addCallback(function() {
+			_list_view.reload();
+		})
+	},
+	
 	dragRow: function(drag,drop,event) {
 		var args = {}
+		
 		var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
 		var _terp_model =  getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_model') || getElement('_terp_model')
-		args['_terp_model'] = _terp_model.value
 		var _terp_ids = getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_ids') || getElement('_terp_ids')
+		
+		args['_terp_model'] = _terp_model.value
 		args['_terp_ids'] = _terp_ids.value
 		args['_terp_id'] = getNodeAttribute(drag,'record')
 		args['_terp_swap_id'] = getNodeAttribute(drop,'record')
@@ -639,18 +671,19 @@ MochiKit.Base.update(ListView.prototype, {
 });
 
 var toggle_group_data = function(id) {
-	
 	img = openobject.dom.get('img_'+id);
-	rows = openobject.dom.select('tr.'+id);
+	rows = getElementsByTagAndClassName('tr','grid-row-group')
 	
 	forEach(rows, function(rw){
-		if (rw.style.display == 'none') {
-			rw.style.display = '';
-			setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/collapse.gif');
-		}
-		else {
-			rw.style.display = 'none';
-			setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/expand.gif');
+		if(rw.id && rw.id.indexOf(id)>0) {
+			if (rw.style.display == 'none') {
+				rw.style.display = '';
+				setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/collapse.gif');
+			}
+			else {
+				rw.style.display = 'none';
+				setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/expand.gif');
+			}
 		}
 	});
 }

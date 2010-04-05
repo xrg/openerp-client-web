@@ -243,7 +243,16 @@ class List(SecuredController):
             return dict(ids = ids)
         except Exception , e:
             return dict(error = e.message)
-
+    
+    @expose('json')
+    def groupbyDrag(self, **kw):
+        domain = eval(kw.get('domain'))[0]
+        model = kw.get('model')
+        children = eval(kw.get('children'))
+        proxy = rpc.RPCProxy(model)
+        proxy.write(children, {domain[0]: domain[2]})
+        return dict()
+    
     @expose('json')
     def dragRow(self, **kw):
         params, data = TinyDict.split(kw)

@@ -1,5 +1,6 @@
 <%!
 	background = '#DEDEDE';
+	import itertools
 %>
 
 <table id="${name}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
@@ -18,7 +19,9 @@
                         <th class="grid-cell selector"><div style="width: 0px;"></div></th>
                         % endif
                         % for (field, field_attrs) in headers:
-                        <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+                        % if field!='button':
+                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+                       	% endif
                         % endfor
                         % if buttons:
                         <th class="grid-cell button"><div style="width: 0px;"></div></th>
@@ -31,7 +34,7 @@
 
                 <tbody>
 					% for j, grp_row in enumerate(grp_records):
-					<tr class="grid-row-group" style="cursor: pointer;" grp_domain="${grp_row['__domain']}">
+					<tr class="grid-row-group" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}">
                         % if editable:
                         <td class="grid-cell" style="background-color: ${background};">
                             <img id="img_${grp_row.get('group_id')}" src="/openerp/static/images/treegrid/expand.gif" onclick="toggle_group_data('${grp_row.get('group_id')}');"></img>
@@ -39,24 +42,15 @@
                         % endif
                         
                         % for i, (field, field_attrs) in enumerate(headers):
-                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="background-color: ${background};">
-                        	% if map(lambda x: x[0], hiddens).__contains__('sequence') or  field == 'sequence':
-								<span class="draggable">${grp_row.get(field)}</span>
-								<script type="text/javascript">
-									function make_draggale(){
-										var drag = getElementsByTagAndClassName('span','draggable');
-										for(var j=0; j< drag.length; j++) {
-											new Draggable(drag[j].parentNode.parentNode, {revert: true, ghosting: true});
-											new Droppable(drag[j].parentNode.parentNode, {accept: [drag[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
-										}		
-									}
-							</script>
-							% elif field_attrs.get('type') == 'progressbar':
-								<span>${grouped[j][field].display()}</span>
-							% else:	
-								<span>${grp_row.get(field)}</span>
-							% endif
-                        </td>
+	                        % if field!='button':
+	                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="background-color: ${background};">
+								% if field_attrs.get('type') == 'progressbar':
+									<span>${grouped[j][field].display()}</span>
+								% else:	
+									<span>${grp_row.get(field)}</span>
+								% endif
+	                        </td>
+	                        % endif
                         % endfor
                         
                         % if buttons:
@@ -73,29 +67,18 @@
                     </tr>
                         
                     % for ch in grp_row.get('child_rec'):
-	                    <tr class="grid-row ${grp_row.get('group_id')}" record="${ch.get('id')}" style="cursor: pointer; display: none;">
+	                    <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" record="${ch.get('id')}" style="cursor: pointer; display: none;">
 	                        % if editable:
 	                        <td class="grid-cell">
 	                            <img src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${ch.get('id')}, '${source}')"/>
 	                        </td>
 	                        % endif
 	                        % for i, (field, field_attrs) in enumerate(headers):
-	                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="padding-left: 15px; ${(ch.get(field).color or None) and 'color: ' + ch.get(field).color};" sortable_value="${ch.get(field).get_sortable_text()}">
-	                        	% if map(lambda x: x[0], hiddens).__contains__('sequence') or field == 'sequence':
-									<span class="draggable">${ch.get(field).display()}</span>
-									<script type="text/javascript">
-										function make_draggale(){
-											var drag = getElementsByTagAndClassName('span','draggable');
-											for(var j=0;j< drag.length;j++) {
-												new Draggable(drag[j].parentNode.parentNode,{revert:true,ghosting:true});
-												new Droppable(drag[j].parentNode.parentNode,{accept: [drag[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
-											}		
-										}
-								</script>
-								% else:	
+		                        % if field!='button':
+		                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="padding-left: 15px; ${(ch.get(field).color or None) and 'color: ' + ch.get(field).color};" sortable_value="${ch.get(field).get_sortable_text()}">
 									<span>${ch[field].display()}</span>
-								% endif
-	                        </td>
+		                        </td>
+		                        % endif
 	                        % endfor
 	                        % if buttons:
 	                        <td class="grid-cell button" nowrap="nowrap">
@@ -139,18 +122,20 @@
                         <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
-                        <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
-                             % if 'sum' in field_attrs:
-                                 % for key, val in field_total.items():
-                                     % if field == key:
-                                     <span style="border-top: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
-                                     % endif
-                                 % endfor
-                             % endif
-                             % if 'sum' not in field_attrs:
-                             &nbsp;
-                             % endif
-                        </td>
+	                        % if field!='button':
+	                        <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
+	                             % if 'sum' in field_attrs:
+	                                 % for key, val in field_total.items():
+	                                     % if field == key:
+	                                     <span style="border-top: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
+	                                     % endif
+	                                 % endfor
+	                             % endif
+	                             % if 'sum' not in field_attrs:
+	                             &nbsp;
+	                             % endif
+	                        </td>
+	                        % endif
                         % endfor
                         % if buttons:
                         <td class="grid-cell button"><div style="width: 0px;"></div></td>
@@ -161,8 +146,19 @@
                     </tr>
                 </tfoot>
                 % endif
-
             </table>
+            % if 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
+				<script type="text/javascript">
+					var grid_rows = getElement('${name}_grid').rows;
+					for(var grid=0; grid < grid_rows.length; grid++) {
+						if(grid_rows[grid].className.indexOf('grid-row') == 0)
+						{
+							new Draggable(grid_rows[grid], {revert:true, ghosting:true});
+							new Droppable(grid_rows[grid], {accept: [grid_rows[grid].className], ondrop: new ListView('${name}').groupbyDrag, hoverclass: 'grid-rowdrop'});
+						}
+					}
+				</script>
+			% endif
         </td>
     </tr>
 

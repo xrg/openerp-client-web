@@ -1,3 +1,6 @@
+<%!
+	import itertools
+%>
 <table id="${name}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
@@ -186,9 +189,6 @@
                 % endif
 
             </table>
-            <%!
-				import itertools
-			%>
 			% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
 				<script type="text/javascript">
 					var drag = getElementsByTagAndClassName('tr','grid-row');
