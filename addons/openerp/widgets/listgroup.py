@@ -130,7 +130,7 @@ class ListGroup(List):
                 kind = head.get('type')
                 if kind == 'progressbar':
                     inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
-            self.grouped += [inner]
+            self.grouped.append(inner)
                 
         grp_ids = []
         
