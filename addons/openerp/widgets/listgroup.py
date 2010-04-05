@@ -61,8 +61,8 @@ class ListGroup(List):
             else:
                 ids = proxy.search(self.domain, 0, 0, 0, self.context)
 
-            self.count = proxy.search_count(domain, context)
-
+            if isinstance(ids, list):
+                self.count = len(ids)
 
         if ids and not isinstance(ids, list):
             ids = [ids]

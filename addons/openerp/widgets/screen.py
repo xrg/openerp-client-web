@@ -104,9 +104,9 @@ class Screen(TinyInputWidget):
         self.limit         = params.limit
         self.count         = params.count
 
-        if (self.ids or self.id) and self.count == 0:
-            self.count = rpc.RPCProxy(self.model).search_count(self.domain, self.context)
-
+        if (self.ids or self.id) and self.count == 0 and isinstance(self.ids or self.id, list):
+            self.count = len(self.ids or self.id)
+            
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded or (params.views or {})
 

@@ -68,8 +68,9 @@ class FormView(TinyView):
         if not screen.is_wizard and screen.ids is None:
             proxy = rpc.RPCProxy(screen.model)
             screen.ids = proxy.search(screen.domain, screen.offset or False,
-                                      screen.limit or False, 0, screen.context)
-            screen.count = proxy.search_count(screen.domain, screen.context)
+                                      screen.limit or 20, 0, screen.context)
+            if isinstance (screen.ids, list):
+                screen.count = len(screen.ids)
 
         return widget
 
@@ -81,7 +82,7 @@ class ListView(TinyView):
     _priority = 0
 
     def __call__(self, screen):
-
+        
         if screen.group_by_ctx:
             widget = listgroup.ListGroup(screen.name or '_terp_list',
                                         model=screen.model,
