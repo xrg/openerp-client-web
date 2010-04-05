@@ -66,8 +66,6 @@ class Root(SecuredController):
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
             raise redirect('/');
-#        if 'Menu' in act_id[0]['action_id'][1]:
-#            return self.blank()
         else:
             act_id = act_id[0][id][0]
             from openerp import controllers

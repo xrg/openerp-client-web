@@ -186,22 +186,19 @@
                 % endif
 
             </table>
-
-            <script type="text/javascript">
-                	<% 
-                		import itertools 
-                	   	from itertools import chain	
-                	%>
-                	
-                	% if data and 'sequence' in map(lambda x: x[0], chain(headers,hiddens)):
-                 		var drag = getElementsByTagAndClassName('tr','grid-row');
-                		for(var grid=0; grid < drag.length; grid++) 
-                		{
-						    new Draggable(drag[grid], {revert:true, ghosting:true});
-							new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
- 						}
-                	% endif
-            </script>
+            <%!
+				import itertools
+			%>
+			% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
+				<script type="text/javascript">
+					var drag = getElementsByTagAndClassName('tr','grid-row');
+              		for(var grid=0; grid < drag.length; grid++) 
+              		{
+					    new Draggable(drag[grid], {revert:true, ghosting:true});
+						new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
+					}
+				</script>
+			% endif 
         </td>
     </tr>
 

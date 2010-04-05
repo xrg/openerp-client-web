@@ -331,12 +331,10 @@ class Search(Form):
 
     @expose(template="templates/save_filter.mako")
     def save_filter(self, **kw):
-
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
-        group_by = kw.get('group_by')
-        
+        group_by = kw.get('group_by',None)
         return dict(model=model, domain=domain, flag=flag, group_by=group_by)
     
     @expose()

@@ -349,7 +349,7 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 							'model': openobject.dom.get('_terp_model').value,
 							'flag': obj.flag};
 			if(group_by_ctx!='')
-				params['group_by'] = group_by_ctx					
+				params['group_by'] = group_by_ctx				
 			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
 		}
 		if (obj.action) { // For manage Filter

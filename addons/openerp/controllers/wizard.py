@@ -35,7 +35,7 @@ from openerp.utils import rpc, icons, TinyDict
 
 import form
 from openobject.tools import expose, redirect, validate, error_handler
-
+from openobject import pooler
 
 class Wizard(SecuredController):
 
@@ -159,11 +159,7 @@ class Wizard(SecuredController):
         if 'wizard_parent_params' in cherrypy.session:
             frm = cherrypy.session['wizard_parent_form']
             params = cherrypy.session['wizard_parent_params']
-            from openobject import pooler
-            pool =  pooler.get_pool()
-            
-            frm = pool.get_controller(frm)
-            return frm.create(params)
+            return pooler.get_pool().get_controller(frm).create(params)
 
         import actions
         return actions.close_popup()

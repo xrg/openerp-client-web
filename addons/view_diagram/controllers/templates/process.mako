@@ -73,8 +73,7 @@
             <input type="hidden" id="res_id" value="${res_id}"/>
             <div id="process_canvas"></div>
             <script type="text/javascript">
-            
-                var id = parseInt(openobject.dom.get('id').value) || 0;
+                var id = parseInt(openobject.dom.get('id').value, 10) || 0;
                 var res_model = openobject.dom.get('res_model').value;
                 var res_id = openobject.dom.get('res_id').value;
                 
