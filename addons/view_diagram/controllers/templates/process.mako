@@ -2,8 +2,6 @@
 
 <%def name="header()">
     <title>${_("Process")}</title>
-
-    <link type="text/css" rel="stylesheet" href="/view_diagram/static/css/process_box.css"/>
     <link type="text/css" rel="stylesheet" href="/view_diagram/static/css/process.css"/>
 
     <script src="/view_diagram/static/javascript/draw2d/wz_jsgraphics.js"></script>
@@ -11,7 +9,6 @@
     <script src="/view_diagram/static/javascript/draw2d/moocanvas.js"></script>
     <script src="/view_diagram/static/javascript/draw2d/draw2d.js"></script>
 
-    <script src="/view_diagram/static/javascript/process_box.js"></script>
     <script src="/view_diagram/static/javascript/process.js"></script>
 
     <script type="text/javascript">

@@ -241,7 +241,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         var bg = "node";
         bg = this.data.kind == "subflow" ? "node-subflow" : "node"; 
         bg = this.data.gray ? bg + "-gray" : bg;
-        elem.style.background = 'url(/openerp/static/workflow/images/'+ bg + '.png) no-repeat';
+        elem.style.background = 'url(/view_diagram/static/images/'+ bg + '.png) no-repeat';
 		
         elem.innerHTML = (
         "<div class='node-title'></div>"+
@@ -286,28 +286,8 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         var buttons = [IMG({src: '/openerp/static/images/stock/gtk-info.png', title: _('Help')})];
         buttons[0].onclick = MochiKit.Base.bind(this.onHelp, this);
 
-        if (this.data.res) {
-            buttons.push(IMG({src: '/openerp/static/images/stock/gtk-open.png', title: _('Open')}));
-            buttons.push(IMG({src: '/openerp/static/images/stock/gtk-print.png', title: _('Print')}));
-
-            buttons[1].onclick = MochiKit.Base.bind(this.onView, this);
-            buttons[2].onclick = MochiKit.Base.bind(this.onPrint, this);
-        }
-
-        if (this.data.workflow && this.data.res) {
-            var btn = IMG({src: '/openerp/static/images/stock/gtk-execute.png', title: _('Print workflow')});
-            btn.onclick = MochiKit.Base.bind(this.onPrintWorkflow, this);
-            buttons.push(btn);
-        }
-
-        if ((this.data.res && this.data.res.directory) || (this.data.directory)) {
-            var btn = IMG({src: '/openerp/static/images/stock/gtk-directory-remote.png', title: _('Documents')});
-            btn.onclick = MochiKit.Base.bind(this.onDocument, this);
-            buttons.push(btn);
-        }
-
         if (this.data.active){
-        	elem.style.background = 'url(/openerp/static/workflow/images/node-current.png) no-repeat';
+        	elem.style.background = 'url(/view_diagram/static/images/node-current.png) no-repeat';
         }
 
         MochiKit.DOM.appendChildNodes(bbar, buttons);
@@ -330,29 +310,6 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         
         this.inPort.getHTMLElement().style.display = 'none';    
     	this.outPort.getHTMLElement().style.display = 'none';
-    },
-
-    onView: function() {
-        var params = {model: this.data.res.model, id: this.data.res.id};
-        openobject.tools.openWindow(openobject.http.getURL("/process/resource/edit", params));
-    },
-
-    onPrint: function() {
-        window.open(openobject.http.getURL("/form/report", {
-            _terp_model: this.workflow.res_model, 
-            _terp_id: this.workflow.res_id}));
-    },
-
-    onDocument: function() {
-        if (this.data.res && this.data.res.directory)
-            window.open(this.data.res.directory);
-        else if (this.data.directory)
-            window.open(this.data.directory);
-    },
-
-    onPrintWorkflow: function() {
-        var id = this.data.res ? this.data.res.id : "False";
-        window.open(openobject.http.getURL('/process/print_workflow', {model: this.data.model, id: id}));
     },
 
     onHelp: function() {
@@ -381,7 +338,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         this.setRouter(new draw2d.NullConnectionRouter());
         //this.setRouter(new draw2d.ManhattanConnectionRouter());
 
-        var color = data.active && data.buttons && data.buttons.length ? new draw2d.Color(128, 0, 0) : new draw2d.Color(179, 179, 179);
+        var color = new draw2d.Color(179, 179, 179);
 
         this.setTargetDecorator(new openobject.process.TargetDecorator(color));
         this.setColor(color);
@@ -396,27 +353,8 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         elem.style.cursor = 'pointer';
         elem.title = this._makeTipText();
 
-        if (data.active && data.buttons && data.buttons.length) {
-
-            var description = MochiKit.Base.map(function(role){
-                return TD({align: 'center'}, IMG({src: '/openerp/static/images/stock/stock_person.png'}), BR(), role.name);
-            }, roles);
-
-            description = roles.length ? TABLE({'style': 'height: 70px; font-size: 10px'},
-                                            TBODY(null, TR(null, description))) : '';
-
-            this.infoBox = new InfoBox({
-                'title': this.data.name,
-                'description': description,
-                'buttons': data.buttons || [],
-                'buttonClick': MochiKit.Base.bind(this.onBtnClick, this)
-            });
-
-            MochiKit.Signal.connect(elem, 'onclick', this, this.onClick);
-        }
-
         if (roles.length) {
-            var role_img = new draw2d.ImageFigure('/openerp/static/imagesstock/stock_person.png');
+            var role_img = new draw2d.ImageFigure('/openerp/static/images/stock/stock_person.png');
             role_img.setDimension(32, 32);
             role_img.html.style.cursor = "pointer";
             this.addFigure(role_img, new draw2d.ManhattenMidpointLocator(this));
@@ -453,34 +391,6 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         }
 
         return title;
-    },
-
-    onClick: function(evt) {
-        this.infoBox.show(evt);
-    },
-
-    onBtnClick: function(evt, button) {
-        this.infoBox.hide();
-
-        if (button.state == "dummy" || !button.action)
-            return;
-
-        var req = openobject.http.postJSON('/process/action', {
-            _terp_model: this.workflow.res_model,
-            _terp_id: this.workflow.res_id,
-            _terp_kind: button.state,
-            _terp_action: button.action
-        });
-
-
-        req.addCallback(function(res){
-            if (res.error) {
-                alert(res.error);
-            } else {
-                window.location.reload();
-            }
-        });
-
     }
 });
 
