@@ -228,7 +228,7 @@ var search_filter = function(src, id) {
 		all_domains['selection_domain'] = selection_domain;
 	}
 	
-	if(openobject.dom.get('_terp_filter_domain').value != []) {
+	if(openobject.dom.get('_terp_filter_domain').value != '[]') {
 		
 		var params = {};
 		var record = {};

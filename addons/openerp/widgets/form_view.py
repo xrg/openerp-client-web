@@ -104,7 +104,7 @@ class ViewForm(Form):
 
         self.search_domain = params.search_domain
         self.search_data = params.search_data
-        self.filter_domain = params.filter_domain
+        self.filter_domain = params.filter_domain or []
         
         if params.hidden_fields:
             self.hidden_fields = params.hidden_fields
