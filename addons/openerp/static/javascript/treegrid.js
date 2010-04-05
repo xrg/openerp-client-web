@@ -344,7 +344,7 @@ TreeNode.prototype = {
                     MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
                     MochiKit.Signal.connect(value, 'onclick', function (e) {
                         MochiKit.Signal.signal(e.src().tree, "onaction", e.src());
-                        var frame = $('appFrame');
+                        var frame = jQuery('#appFrame');
                         if(frame.contentWindow) {
                             frame.contentWindow.location.replace(record.action);
                         } else if(frame.contentDocument) {

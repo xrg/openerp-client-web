@@ -6,11 +6,8 @@ import form
 import listgrid
 import listgroup
 
-
-
 __all__ = ["TinyView", "FormView", "ListView",
            "get_view_widget", "get_registered_views"]
-
 
 class ViewType(type):
 
@@ -26,7 +23,6 @@ class ViewType(type):
             pooler.register_object(obj, key=kind, group="view_types", auto_create=True)
 
         return obj
-
 
 class TinyView(object):
 
@@ -44,7 +40,6 @@ class TinyView(object):
 
     def __call__(self, screen):
         pass
-
 
 class FormView(TinyView):
 
@@ -115,7 +110,6 @@ class ListView(TinyView):
             
         return widget
 
-
 def get_view_widget(kind, screen):
 
     pool = pooler.get_pool()
@@ -127,7 +121,6 @@ def get_view_widget(kind, screen):
         raise Exception("view '%s' not supported." % kind)
 
     return view(screen)
-
 
 def get_registered_views():
 

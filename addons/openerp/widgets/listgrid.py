@@ -138,7 +138,7 @@ class List(TinyWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if ids == None:
+        if ids is None:
             if self.limit > 0:
                 ids = proxy.search(domain, self.offset, self.limit, 0, context)
             else:
