@@ -27,22 +27,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- *
- * @event show triggered when a tab of the notebook is displayed
- *  @argument notebook the notebook instance this
- *                     event was triggered from
- *  @argument tab the (DOM element) tab being showed
- * @event hide triggered when a tab of the notebook is hidden
- *  @arguments 'see show'
- * @event activate triggered when a tab is set as the active tab
- *  @arguments 'see show'
- * @event remove triggered when a tab is removed from the notebook
- *  @arguments 'see show'
- * @event click triggered when the notebook's tab bar is clicked
- *  @arguments 'see show'
- *
- */
 var Notebook = function(element, options) {
 
     var cls = arguments.callee;

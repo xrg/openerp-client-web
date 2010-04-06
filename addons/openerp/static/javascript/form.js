@@ -593,7 +593,6 @@ function onChange(name) {
                 }
 
                 MochiKit.Signal.signal(fld, 'onchange');
-                MochiKit.Signal.signal(window.document, 'onfieldchange', fld);
             }
 
             fld.__lock_onchange = false;
