@@ -3,3 +3,4 @@ RE:lib/(?!populate.sh).*
 mako_modules
 profile
 .*
+cktest.html

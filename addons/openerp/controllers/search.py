@@ -213,6 +213,7 @@ class Search(Form):
         domains = all_domains.get('domains')
         selection_domain = all_domains.get('selection_domain')
         search_context = all_domains.get('search_context')
+        group_by_ctx = kw.get('group_by_ctx', [])
 
         if domains:
             domains = eval(domains)
@@ -235,17 +236,38 @@ class Search(Form):
         if domain == None:
             domain = []
 
+        search_data = {}
         if domains:
             for key in domains:
-                if domains[key] in ['0', '1']:
+                if '/' in key:
+                    check = key.split('/')
+                    if check[1] == 'from':
+                        domain += [(check[0], '>=', domains[key])]
+                        if check[0] in search_data.keys():
+                            search_data[check[0]]['from'] = domains[key]
+                        else:
+                            search_data[check[0]] = {'from': domains[key]}
+                    
+                    if check[1] == 'to':
+                        domain += [(check[0], '<=', domains[key])]
+                        if check[0] in search_data.keys():
+                            search_data[check[0]]['to'] = domains[key]
+                        else:
+                            search_data[check[0]] = {'to': domains[key]}
+                            
+                elif domains[key] in ['0', '1']:
                     domains[key] = int(domains[key])
-                if isinstance(domains[key], int):
+                    search_data[key] = domains[key]
+                    
+                elif isinstance(domains[key], int):
                     domain += [(key, '=', domains[key])]
+                    search_data[key] = domains[key]
                 else:
                     domain += [(key, 'ilike', domains[key])]
-
+                    search_data[key] = domains[key]
+                    
+        inner_domain = []
         if custom_domains:
-            inner_domain = []
             tmp_domain = ''
 
             custom_domains = eval(custom_domains)
@@ -263,7 +285,13 @@ class Search(Form):
 
             if tmp_domain :
                 cust_domain = tmp_domain.replace('][', ', ')
-                domain += eval(cust_domain)
+                inner_domain += eval(cust_domain)
+                
+                if len(inner_domain)>1 and inner_domain[-2] in ['&','|']:
+                    if len(inner_domain) == 2:
+                        inner_domain = [inner_domain[1]]
+                    else:
+                        inner_domain = inner_domain[:-2] + inner_domain[-1:]
 
         if selection_domain:
             if selection_domain in ['blk', 'sh', 'sf', 'mf']:
@@ -288,8 +316,11 @@ class Search(Form):
 
         if not domain:
             domain = None
+            
+        if group_by_ctx:
+            search_data['group_by_ctx'] = group_by_ctx
 
-        return dict(domain=ustr(domain), context=ustr(ctx))
+        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(inner_domain))
 
     @expose()
     def manage_filter(self, **kw):
@@ -300,35 +331,12 @@ class Search(Form):
 
     @expose(template="templates/save_filter.mako")
     def save_filter(self, **kw):
-
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
-
-        new_view_ids = rpc.session.execute('object', 'execute', 'ir.ui.view', 'search', [('model', '=', model), ('inherit_id', '=', False)])
-        view_datas = rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', new_view_ids, ['id', 'name', 'type'])
-
-        form_views = []
-        tree_views = []
-        graph_views = []
-        calendar_views = []
-        gantt_views = []
-
-        for data in view_datas:
-            if data['type'] == 'form':
-                form_views.append([data['id'],data['name']])
-            elif data['type'] == 'tree':
-                tree_views.append([data['id'],data['name']])
-            elif data['type'] == 'graph':
-                graph_views.append([data['id'],data['name']])
-            elif data['type'] == 'calendar':
-                calendar_views.append([data['id'],data['name']])
-            elif data['type'] == 'gantt':
-                gantt_views.append([data['id'],data['name']])
-
-        return dict(model=model, domain=domain, flag=flag, form_views=form_views,
-                    tree_views=tree_views, graph_views=graph_views, calendar_views=calendar_views, gantt_views=gantt_views)
-
+        group_by = kw.get('group_by',None)
+        return dict(model=model, domain=domain, flag=flag, group_by=group_by)
+    
     @expose()
     def do_filter_sc(self, **kw):
 

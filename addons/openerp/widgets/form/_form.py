@@ -271,7 +271,6 @@ class Notebook(TinyInputWidget):
 
 register_widget(Notebook, ["notebook"])
 
-
 class Page(Frame):
 
     def __init__(self, **attrs):
@@ -639,15 +638,18 @@ register_widget(Button, ["button"])
 class Group(TinyInputWidget):
 
     template = "templates/group.mako"
-    params = ["expand_grp_id"]
+    params = ["expand_grp_id","default"]
     member_widgets = ["frame"]
     valign = "top"
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
-
+        self.default = False
         self.frame = Frame(**attrs)
         self.nolabel = True
+        
+        if attrs.get('group_by_ctx'):
+            self.default = True
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
         
 register_widget(Group, ["group"])

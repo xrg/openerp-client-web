@@ -51,10 +51,9 @@
                                         ${make_view_button(**view)}
                                     % endfor
                                     % if buttons.process:
-                                        <button 
-                                            type="button" 
-                                            title="${_('Corporate Intelligence...')}"
-                                            onclick="show_process_view()">${_("Process")}</button>
+                                    	 <a target="appFrame" onclick="show_process_view()">
+                                    	 	<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
+                                    	 </a>
                                     % endif
                                     </td>
                                     
@@ -93,18 +92,13 @@
                                             onclick="openobject.tools.openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     % endif
-                                    <td align="center" valign="middle" width="16">
-                                        <a target="_blank" href="${py.url('http://doc.openerp.com/index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
-                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-                                        </a>
-                                    </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     % endif
 
-                    % if form.screen.view_type == 'form' and buttons.toolbar:
+                    % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
                     <tr>
                         <td>
                             <div class="toolbar">
@@ -174,9 +168,12 @@
                                 <a title="${_('Manage views of the current object')}" 
                                    onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
-                                <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
-                                   href="javascript: void(0)">${_("Manage Workflows")}</a>
+                               ## <a title="${_('Manage workflows of the current object')}" 
+                                 ##  onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
+                                  ## href="javascript: void(0)">${_("Manage Workflows")}</a>
+                               <a title="${_('Manage workflows of the current object')}" 
+                                   onclick="javascript: show_wkf()" 
+                                   href="javascript: void(0)">${_("Show Workflow")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
                                    onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
                                    href="javascript: void(0)">${_("Customise Object")}</a>

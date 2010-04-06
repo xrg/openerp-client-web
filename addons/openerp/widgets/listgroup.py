@@ -29,14 +29,15 @@
 import random
 
 from openerp.utils import rpc
+from openerp.widgets import get_widget
 
-from listgrid import List
+from listgrid import List, CELLTYPES
 
 
 class ListGroup(List):
 
     template = "templates/listgroup.mako"
-    params = ['grp_records', 'group_by_ctx']
+    params = ['grp_records', 'group_by_ctx', 'grouped']
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
@@ -60,15 +61,14 @@ class ListGroup(List):
             else:
                 ids = proxy.search(self.domain, 0, 0, 0, self.context)
 
-            self.count = proxy.search_count(domain, context)
-
+            if isinstance(ids, list):
+                self.count = len(ids)
 
         if ids and not isinstance(ids, list):
             ids = [ids]
 
         self.ids = ids
 
-        self.m2m = False
         self.concurrency_info = None
 
         self.group_by_ctx = kw.get('group_by_ctx', [])
@@ -90,7 +90,17 @@ class ListGroup(List):
             selectable=self.selectable)
 
         if self.group_by_ctx:
-            gb = self.group_by_ctx[0]
+            t = []
+            if self.group_by_ctx and isinstance(self.group_by_ctx[0], basestring):
+                self.group_by_ctx = self.group_by_ctx[0].split(',')
+            
+            for i in self.group_by_ctx:
+                if 'group_' in i:
+                    t.append((i.split('group_'))[1])
+                else:
+                    t.append(i)
+                    
+            gb = t[0]
             self.group_by_ctx = gb
 
             new_hidden = ()
@@ -110,10 +120,20 @@ class ListGroup(List):
                         self.headers.insert(0, head)
 
             self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
-                                                fields.keys(), gb, 0, False, self.context)
-
+                                                fields.keys(), gb, 0, False, self.context)    
+        
+        self.grouped = []
+        
+        for grp in self.grp_records:
+            inner = {}
+            for key, head in self.headers:
+                kind = head.get('type')
+                if kind == 'progressbar':
+                    inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
+            self.grouped.append(inner)
+                
         grp_ids = []
-
+        
         if self.grp_records:
             for rec in self.grp_records:
 
@@ -131,3 +151,4 @@ class ListGroup(List):
                             ch_ids.append(d)
                 rec['child_rec'] = ch_ids
                 rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
+                

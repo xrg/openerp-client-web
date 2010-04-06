@@ -7,7 +7,7 @@
                 window.opener.setTimeout("window.location.reload()", 0);
                 window.close();
             } else {
-                openobject.http.redirect('/');
+                openobject.http.redirect('/blank');
             }
         });
     </script>

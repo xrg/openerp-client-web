@@ -176,7 +176,7 @@ class Database(BaseController):
                 raise common.warning(_("Could not create database."))
 
         if ok:
-            raise redirect('/')
+            raise redirect('/menu', {'db': True})
         raise redirect('/login', db=dbname)
 
     @expose(template="templates/database.mako")

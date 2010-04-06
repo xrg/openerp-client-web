@@ -146,6 +146,9 @@ class List(SecuredController):
             params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
+                
+            if params.filter_domain:
+                params.domain += params.filter_domain
 
         # default_get context
         current = params.chain_get(source)
@@ -242,53 +245,36 @@ class List(SecuredController):
             return dict(error = e.message)
 
     @expose('json')
-    def sort_by_drag(self, **kw):
+    def dragRow(self, **kw):
         params, data = TinyDict.split(kw)
         id = params.id
-        ids = params.ids or []
+        swap_id = params.swap_id
+        ids = params.ids
+        
         proxy = rpc.RPCProxy(params.model)
         ctx = rpc.session.context.copy()
-        swap_id = params.swap_id
-
-        res_id = proxy.read([id], ['sequence'], ctx)[0]
-        id_seq = res_id['sequence']
-        res_swap_id = proxy.read([swap_id], ['sequence'], ctx)[0]
-        swap_id_seq = res_swap_id['sequence']
-        if id_seq<= swap_id_seq:
-            new_ids = []
-            if ids[ids.index(id)+1: ids.index(swap_id)]:
-                new_ids.extend(ids[ids.index(id)+1: ids.index(swap_id)+1])
-                new_ids.append(id)
-            else:
-                new_ids.append(id)
-                new_ids.extend(ids[ids.index(swap_id): ids.index(id)])
-
-            res = proxy.read(new_ids,['sequence'], ctx)
-            if swap_id_seq < len(new_ids):
-                for r in res:
-                    if r['id'] == id:
-                        proxy.write([r['id']], {'sequence': len(new_ids)}, ctx)
-                    else:
-                        proxy.write([r['id']], {'sequence': ids.index(r['id'])}, ctx)
-
-            else:
-                for r in res:
-                    if r['id'] == id:
-                        proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
-                    else:
-                        proxy.write([r['id']], {'sequence': r['sequence'] -1}, ctx)
-
+        
+        res_ids = []
+        if ids.index(id) < ids.index(swap_id):
+            if ids[:ids.index(id)]:
+                res_ids.extend(ids[:ids.index(id)])
+            if ids[ids.index(id)+1:ids.index(swap_id)+1]:
+                res_ids.extend(ids[ids.index(id)+1:ids.index(swap_id)+1])
+            res_ids.append(id)
+            if ids[ids.index(swap_id)+1:]:
+                res_ids.extend(ids[ids.index(swap_id)+1:]) 
         else:
-            new_ids = []
-            new_ids.append(id)
-            new_ids.extend(ids[ids.index(swap_id): ids.index(id)])
-            res = proxy.read(new_ids,['sequence'], ctx)
-            for r in res:
-                if r['id'] == id:
-                    proxy.write([r['id']], {'sequence': swap_id_seq}, ctx)
-                else:
-                    proxy.write([r['id']], {'sequence': ids.index(r['id'])+2}, ctx)
-
+            if ids[:ids.index(swap_id)]:
+                res_ids.extend(ids[:ids.index(swap_id)])
+            res_ids.append(id)
+            if ids[ids.index(swap_id):ids.index(id)]:
+                res_ids.extend(ids[ids.index(swap_id):ids.index(id)])
+            if ids[ids.index(id)+1:]:
+                res_ids.extend(ids[ids.index(id)+1:])
+                
+        res = proxy.read(res_ids, ['sequence'], ctx)
+        for r in res:
+            proxy.write([r['id']], {'sequence': res_ids.index(r['id'])+1}, ctx)  
         return dict()
 
     @expose('json')

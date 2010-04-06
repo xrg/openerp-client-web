@@ -47,7 +47,7 @@ except:
         	<table border="0" cellpadding="0" cellspacing="0">
         		<tr>
         			<td nowrap="nowrap">
-			            <a href="${py.url('/')}">
+			            <a target='appFrame' href="${py.url('/home')}">
 			            	<img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home" border="0" width="16px" height="16px"/>
 			            </a>
 			        </td>
@@ -75,7 +75,7 @@ except:
 			        </td>
 			        % endif
 			        <td nowrap="nowrap">
-			        	<a target='appFrame' href="${py.url('/')}">
+			        	<a target='appFrame' href="javascript: void(0)">
 			            	<img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0" width="16px" height="16px"/>
 			            </a>
 			        </td>

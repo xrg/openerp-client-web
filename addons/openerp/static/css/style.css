@@ -108,9 +108,9 @@ button.btn_filter:hover {
 
 /* ============== SEARCH FORM start ==============*/
 
-#search_filter_data input.datetime,
-td.item input.char,
-td.item select.selection {
+div#search_filter_data input.datetime,
+div#search_filter_data input.char,
+div#search_filter_data select.selection {
 	background-color: #fff;
     color: #000;
     border: 1px solid #999999;

@@ -138,14 +138,15 @@ class List(TinyWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if ids == None:
+        if ids is None:
             if self.limit > 0:
                 ids = proxy.search(domain, self.offset, self.limit, 0, context)
             else:
                 ids = proxy.search(domain, 0, 0, 0, context)
-
-            self.count = proxy.search_count(domain, context)
-
+            
+            if isinstance(ids, list):
+                self.count = len(ids)
+                
         self.data_dict = {}
         data = []
 
@@ -281,7 +282,8 @@ class List(TinyWidget):
             if node.nodeName == 'button':
                 attrs = node_attributes(node)
                 buttons += [Button(**attrs)]
-
+                headers.append(("button", len(buttons)))
+                
             elif node.nodeName == 'field':
                 attrs = node_attributes(node)
 
@@ -356,7 +358,7 @@ class List(TinyWidget):
                         continue
 
                     headers += [(name, fields[name])]
-
+                    
         return headers, hiddens, data, field_total, buttons
 
 class Char(TinyWidget):
@@ -415,7 +417,10 @@ class M2O(Char):
             self.value = self.value, rpc.name_get(self.attrs['relation'], self.value)
 
         if self.value and len(self.value) > 0:
-            return self.value[-1]
+            if isinstance(self.value, tuple):
+                return self.value[-1]
+            else:
+                return self.value
 
         return ''
 
@@ -490,6 +495,9 @@ class ProgressBar(Char):
     """
 
     def get_text(self):
+        if not self.value:
+            return 0.0
+        
         if isinstance(self.value, float):
             self.value = '%.2f' % (self.value)
             self.value = float(self.value)
@@ -514,15 +522,17 @@ class DateTime(Char):
 
 class Boolean(Char):
 
-    params = ['value', 'kind']
+    params = ['val', 'kind']
 
-    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
+    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" ${py.checker(val)} value="${val}"> """
 
     def get_text(self):
-        if int(self.value) == 1:
-            return _('Yes')
-        else:
-            return _('No')
+        self.val = int(self.value)
+        self.kind = 'boolean'
+#        if int(self.value) == 1:
+#            return _('Yes')
+#        else:
+#            return _('No')
 
 class Button(TinyInputWidget):
 

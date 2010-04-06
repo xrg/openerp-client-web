@@ -25,7 +25,11 @@
                         <th class="grid-cell selector"><div style="width: 0px;"></div></th>
                         % endif
                         % for (field, field_attrs) in headers:
-                        <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+                        % if field == 'button':
+                        	<th class="grid-cell"></th>
+                        %else: 
+                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+                    	% endif
                         % endfor
                         % if buttons:
                         <th class="grid-cell button"><div style="width: 0px;"></div></th>
@@ -52,9 +56,14 @@
                             <img src="/openerp/static/images/listgrid/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                         </td>
                         % for i, (field, field_attrs) in enumerate(headers):
-                        <td class="grid-cell ${field_attrs.get('type', 'char')}">
-                            ${editors[field].display()}
-                        </td>
+                        	% if field=='button':
+	                        	<td class="grid-cell">
+	                        	</td>
+	                        % else:
+	                        	<td class="grid-cell ${field_attrs.get('type', 'char')}">
+	                            	${editors[field].display()}
+	                        	</td>
+                        	% endif
                         % endfor
                         <td class="grid-cell selector" style="text-align: center; padding: 0px;">
                             <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
@@ -83,30 +92,15 @@
                         </td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
-                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                        	% if map(lambda x: x[0], hiddens).__contains__('sequence') or field == 'sequence':
-								<span class="draggable">${data[field].display()}</span>
-								<script type="text/javascript">
-									function make_draggale(){
-										var drag = getElementsByTagAndClassName('span','draggable');
-										for(var j=0;j< drag.length;j++) {
-											new Draggable(drag[j].parentNode.parentNode,{revert:true,ghosting:true});
-											new Droppable(drag[j].parentNode.parentNode,{accept: [drag[j].parentNode.parentNode.className], ondrop: new ListView('${name}').sort_by_drag});
-										}		
-									}
-							</script>
-							% else:	
+                        %if field=='button':
+                        	<td class="grid-cell"><span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span></td>
+                        %else:
+	                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
 								<span>${data[field].display()}</span>
-							% endif
-                        </td>
-                        % endfor
-                        % if buttons:
-                        <td class="grid-cell button" nowrap="nowrap">
-                            % for button in buttons:
-                            ${button.display(parent_grid=name, **button.params_from(data))}
-                            % endfor
-                        </td>
+	                        </td>
                         % endif
+                        % endfor
+                        
                         % if editable:
                         <td class="grid-cell selector">
                             <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
@@ -143,11 +137,12 @@
                         <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
-                        <td class="grid-cell">&nbsp;</td>
+                        % if field == 'button':
+                        	<td class="grid-cell button">&nbsp;</td>
+                    	% else:
+                        	<td class="grid-cell">&nbsp;</td>
+                    	% endif
                         % endfor
-                        % if buttons:
-                        <td class="grid-cell button">&nbsp;</td>
-                        % endif
                         % if editable:
                         <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         % endif
@@ -166,6 +161,9 @@
                         <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
+                        % if field == 'button':
+                        	<td class="grid-cell button"><div style="width: 0px;"></div></td>
+                        % else:
                         <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
                              % if 'sum' in field_attrs:
                                  % for key, val in field_total.items():
@@ -178,10 +176,8 @@
                              &nbsp;
                              % endif
                         </td>
-                        % endfor
-                        % if buttons:
-                        <td class="grid-cell button"><div style="width: 0px;"></div></td>
                         % endif
+                        % endfor
                         % if editable:
                         <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
@@ -190,17 +186,19 @@
                 % endif
 
             </table>
-
-            <script type="text/javascript">
-               // new SortableGrid('${name}_grid');
-                % if data:
-	                % for i, (field, field_attrs) in enumerate(headers):
-	                	% if field == 'sequence' or map(lambda x: x[0],hiddens).__contains__('sequence'):
-	                		make_draggale()
-	            		% endif
-	                % endfor
-                % endif
-            </script>
+            <%!
+				import itertools
+			%>
+			% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
+				<script type="text/javascript">
+					var drag = getElementsByTagAndClassName('tr','grid-row');
+              		for(var grid=0; grid < drag.length; grid++) 
+              		{
+					    new Draggable(drag[grid], {revert:true, ghosting:true});
+						new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
+					}
+				</script>
+			% endif 
         </td>
     </tr>
 

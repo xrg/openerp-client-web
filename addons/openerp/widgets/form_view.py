@@ -39,7 +39,7 @@ class ViewForm(Form):
 
     template = "templates/viewform.mako"
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain']
     member_widgets = ['screen', 'search', 'sidebar']
 
     css = [CSSLink("openerp", "css/autocomplete.css")]
@@ -77,9 +77,19 @@ class ViewForm(Form):
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 
         self.search = None
+        search_param = params.search_domain or []
+        if search_param:
+            for element in params.domain:
+                if not isinstance(element,tuple):
+                    search_param.append(element)
+                else:
+                    key, op, value = element
+                    search_param.append((key, op, value))
+            params.domain = search_param
 
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {})
+            self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {},
+                                 filter_domain=params.filter_domain or [])
 
         if params.view_type == 'tree':
             self.screen.id = False
@@ -94,7 +104,8 @@ class ViewForm(Form):
 
         self.search_domain = params.search_domain
         self.search_data = params.search_data
-
+        self.filter_domain = params.filter_domain or []
+        
         if params.hidden_fields:
             self.hidden_fields = params.hidden_fields
 

@@ -2,6 +2,7 @@
 
     <div>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
+        <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${search_data}"/>
 
     % for field in hidden_fields:
