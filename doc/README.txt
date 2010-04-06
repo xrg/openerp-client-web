@@ -114,8 +114,8 @@ admin/admin or demo/demo to see OpenERP in action...
 
 This has been tested on `ubuntu` only.
 
-    $ sudo cp /path/to/openerp_web-5.0.8-py2.5.egg/scripts/openerp-web /etc/init.d/
-    $ sudo cp /path/to/openerp_web-5.0.8-py2.5.egg/config/openerp-web.cfg /etc/
+    $ sudo cp /path/to/openerp_web-5.0.9-py2.5.egg/scripts/openerp-web /etc/init.d/
+    $ sudo cp /path/to/openerp_web-5.0.9-py2.5.egg/config/openerp-web.cfg /etc/
 
 edit `/etc/init.d/openerp-web`:
 
