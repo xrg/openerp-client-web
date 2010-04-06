@@ -26,7 +26,20 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * gets the first section of the forward-slash-separated
+ * id attribute of the provided element, and returns it
+ *
+ * @param element the element whose id should be split
+ */
+function first_id_section(element) {
+    return element.id.split('/')[0];
+}
+/**
+ * @event onaddfilter triggered when adding a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the newly added (or showed for first row?) filter row'
+ */
 var add_filter_row = function() {
 	
 	var filter_table = $('filter_table');
@@ -66,10 +79,10 @@ var add_filter_row = function() {
 		var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
 		var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
 		
-		filter_column.id = filter_column.id.split('/')[0] + '/' + row_id;
-		filter_fields.id = filter_fields.id.split('/')[0] + '/' + row_id;
-		expr.id = expr.id.split('/')[0] + '/' + row_id;
-		qstring.id = qstring.id.split('/')[0] + '/' + row_id;
+		filter_column.id = first_id_section(filter_column) + '/' + row_id;
+		filter_fields.id = first_id_section(filter_fields) + '/' + row_id;
+		expr.id = first_id_section(expr) + '/' + row_id;
+		qstring.id = first_id_section(qstring) + '/' + row_id;
 		qstring.style.background = '#FFFFFF';
 		qstring.value = '';
 		
@@ -78,7 +91,7 @@ var add_filter_row = function() {
 		
 		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
 		if (and_or){removeElement(and_or); }
-		
+		 
 		var and_or = document.createElement('td');
 		and_or.id = 'and_or/' + id;
 		and_or.className = 'and_or';
@@ -87,12 +100,10 @@ var add_filter_row = function() {
 		select_andor.id = 'select_andor/' + id;
 		select_andor.className = 'select_andor';
 		
-		var option = document.createElement('option');
+		var options = map(function(x) {
+                return OPTION({'value': x}, x)
+            }, ['AND', 'OR']);
 		
-		vals.push('AND');
-		vals.push('OR');
-		
-		option = map(function(x){return OPTION({'value': x}, x)}, vals);
 		image_replace = openobject.dom.get('image_col/'+ id);
 		if(MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', old_tr)){
 			insertSiblingNodesBefore(image_replace, and_or)
@@ -101,9 +112,14 @@ var add_filter_row = function() {
 		appendChildNodes(select_andor, option);
 		appendChildNodes(and_or, select_andor);
 		insertSiblingNodesAfter(old_tr, new_tr);
+		MochiKit.Signal.signal(filter_table, 'onaddfilter', new_tr || first_row);
 	}
 }
-
+/**
+ * @event onremovefilter triggered when removing a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the removed (or hidden) filter row'
+ */
 var remove_row = function(id) {
 	
 	var filter_table = $('filter_table');
@@ -120,6 +136,7 @@ var remove_row = function(id) {
 		$('qstring/0').value = '';
 		$('qstring/0').style.background = '#FFFFFF';
 	}
+	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
 }
 // Direct click on icon.
 var search_image_filter = function(src, id) {
@@ -137,12 +154,12 @@ var onKey_Event = function(evt) {
     editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
     editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
     
-    var editors = filter(function(e){
+    var active_editors = filter(function(e){
         return e.type != 'hidden' && !e.disabled
     }, editors);
 
-    forEach(editors, function(e){
-        connect(e, 'onkeydown', self, onKeyDown_search);
+    forEach(active_editors, function(e){
+    	MochiKit.Signal.connect(e, 'onkeydown', self, onKeyDown_search);
     });
 }
 
@@ -161,8 +178,6 @@ var search_filter = function(src, id) {
 	domains = {};
 	search_context = {};
 	var group_by_ctx = [];
-	
-	
 	
 	domain = 'None';
 	if(src) {
@@ -338,18 +353,19 @@ var search_filter = function(src, id) {
 
 var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 	var req = openobject.http.postJSON('/search/eval_domain_filter', {source: '_terp_list',
-															model: $('_terp_model').value, 
-															custom_domain: custom_domain,
-															all_domains: all_domains,
-															group_by_ctx: group_by_ctx});
+		model: $('_terp_model').value, 
+		custom_domain: custom_domain,
+		all_domains: all_domains,
+		group_by_ctx: group_by_ctx});
 	
 	req.addCallback(function(obj){
 		if (obj.flag) {
 			var params = {'domain': obj.sf_dom,
-							'model': openobject.dom.get('_terp_model').value,
-							'flag': obj.flag};
-			if(group_by_ctx!='')
-				params['group_by'] = group_by_ctx				
+				'model': openobject.dom.get('_terp_model').value,
+				'flag': obj.flag};
+			if(group_by_ctx!=''){
+				params['group_by'] = group_by_ctx
+			}				
 			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
 		}
 		if (obj.action) { // For manage Filter
@@ -371,20 +387,30 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 		}
 	});
 }
-
+/**
+ * @event groupby-toggle triggered when changing the display state of the groupby options
+ *  @target #search_filter_data the element holding the filter rows
+ *  @argument 'the action performed ("expand" or "collapse")
+ */
 var expand_group_option = function(id, event) {
-	if(getElement(id).style.display == '') {
-		getElement(id).style.display = 'none'
-		event.target.className = 'group-expand';
-	}
-	else {
-		getElement(id).style.display = '';
-		event.target.className = 'group-collapse';
-	}
+    var groupbyElement = getElement(id);
+    var action;
+    if (groupbyElement.style.display == '') {
+        groupbyElement.style.display = 'none';
+        event.target.className = 'group-expand';
+        action = 'collapse';
+    } else {
+        groupbyElement.style.display = '';
+        event.target.className = 'group-collapse';
+        action = 'expand';
+    }
+    MochiKit.Signal.signal(
+            $('search_filter_data'),
+            'groupby-toggle',
+            action);
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
-
 	onKey_Event(evt);
 	search_filter();
 });

@@ -79,7 +79,6 @@ MochiKit.DOM.addLoadEvent(function(evt){
     
     MochiKit.Signal.connect(window, "onresize", onAjaxStatPosition);
     MochiKit.Signal.connect(window, "onscroll", onAjaxStatPosition);
-    
     onAjaxStatPosition();
 });
 
