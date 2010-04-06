@@ -41,8 +41,8 @@ var add_filter_row = function() {
 	}
 	
 	else if (first_row.style.display == 'none' && trs.length <= 1) {
-		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr).selectedIndex = 0;
-		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr).selectedIndex = 0;
+		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', first_row).selectedIndex = 0;
+		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', first_row).selectedIndex = 0;
 		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', first_row);
 		old_qstring.value = '';
 		old_qstring.style.background = '#FFFFFF';
@@ -58,7 +58,7 @@ var add_filter_row = function() {
 		var new_tr = old_tr.cloneNode(true);
 		keys = new_tr.id.split('/');
 		id = parseInt(keys[1], 0);
-		
+		row_id = id + row_id
 		new_tr.id =  keys[0] +'/'+ row_id;
 		var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
 		
@@ -79,22 +79,22 @@ var add_filter_row = function() {
 		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
 		if (and_or){removeElement(and_or); }
 		
-		var and_or = document.createElement('td');
+		var and_or = MochiKit.DOM.createDOM('td');
 		and_or.id = 'and_or/' + id;
 		and_or.className = 'and_or';
 		
-		var select_andor = document.createElement('select');
+		var select_andor = MochiKit.DOM.createDOM('select');
 		select_andor.id = 'select_andor/' + id;
 		select_andor.className = 'select_andor';
 		
-		var option = document.createElement('option');
+		var option = MochiKit.DOM.createDOM('option');
 		
 		vals.push('AND');
 		vals.push('OR');
 		
 		option = map(function(x){return OPTION({'value': x}, x)}, vals);
 		image_replace = openobject.dom.get('image_col/'+ id);
-		if(MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', old_tr)){
+		if(MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', old_tr) == null){
 			insertSiblingNodesBefore(image_replace, and_or)
 		}
 		
@@ -161,8 +161,6 @@ var search_filter = function(src, id) {
 	domains = {};
 	search_context = {};
 	var group_by_ctx = [];
-	
-	
 	
 	domain = 'None';
 	if(src) {
