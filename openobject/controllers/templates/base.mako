@@ -44,9 +44,9 @@
     ${js.display()}
 % endfor
 
-<div id="root">
-	${self.content()}
-</div>
+
+${self.content()}
+
 
 % for js in widget_javascript.get('bodybottom', []):
     ${js.display()}

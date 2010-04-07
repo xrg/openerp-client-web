@@ -340,9 +340,28 @@ TreeNode.prototype = {
                 this.element_a = value;
 
                 this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
+                
                 if (record.action) {
+                	
                     MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
                     MochiKit.Signal.connect(value, 'onclick', function (e) {
+                    
+                    	var treebody = getFirstParentByTagAndClassName(value, 'tbody', 'tree-body');
+	                	var treerows = getElementsByTagAndClassName('tr', 'row', treebody);
+	                	
+	                	forEach(treerows, function(row){
+	                 		if(MochiKit.DOM.hasElementClass(row, 'selected')) {
+	                 			MochiKit.DOM.removeElementClass(row, "selected");
+	                 			row.style.background = 'none';
+				 	 		    row.onmouseover = setNodeAttribute(row, 'style', 'background:"url(/openerp/static/images/sidenav-bg-c.gif) repeat-x"');
+	                 		}
+	                 	});
+                                        	
+	                 	var selected_row = getFirstParentByTagAndClassName(value, 'tr', 'row');
+	                 	MochiKit.DOM.addElementClass(selected_row, "selected");
+	                 	
+	                 	selected_row.style.background = 'url(/openerp/static/images/sidenav-bg-c.gif) repeat-x';
+                    	
                         MochiKit.Signal.signal(e.src().tree, "onaction", e.src());
                         var frame = $('appFrame');
                         if(frame.contentWindow) {
@@ -528,7 +547,7 @@ TreeNode.prototype = {
     },
     
     onSelect : function(evt) {
-
+    
         if (this.tree._ajax_counter > 0) {
             return;
         }
@@ -551,8 +570,6 @@ TreeNode.prototype = {
         
         forEach(tree.selection, function(node){
             MochiKit.DOM.removeElementClass(node.element, "selected");
-            node.element.style.background = 'none';
-            node.element.onmouseover = setNodeAttribute(node.element, 'style', 'background:"url(/openerp/static/images/sidenav-bg-c.gif) repeat-x"');
         });
     
         if (ctr) {
@@ -586,7 +603,6 @@ TreeNode.prototype = {
     
         forEach(tree.selection, function(node){
             MochiKit.DOM.addElementClass(node.element, "selected");
-            node.element.style.background = 'url(/openerp/static/images/sidenav-bg-c.gif) repeat-x';
         });
         
         if (evt && tree.options.onselect) {

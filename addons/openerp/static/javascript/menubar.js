@@ -3,7 +3,7 @@ function adjustAppFrame(evt){
 
     var $ = jQuery;
    
-    var h = $("#appFrame").contents().find("body").height();
+    var h = $("#appFrame").contents().find("#main_form_body").height();
     var w = $("#appFrame").contents().width();
     
     $("#menubar").width();
@@ -17,6 +17,6 @@ function adjustAppFrame(evt){
     var w = tw > ww ? w : rw - 16;
     
     $("#appFrame").width(Math.max(0, w));    
-    $("table#contents").height(Math.max(h, mh));
+    $("div#contents").height(Math.max(h, mh));
 }
 
