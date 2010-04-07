@@ -77,6 +77,8 @@ ListView.prototype = {
         forEach(boxes, function(box){
             box.checked = clear;
         });
+        var sb = openobject.dom.get('sidebar');
+        if (sb) toggle_sidebar();
     },
 
     getRecords: function() {
@@ -99,6 +101,20 @@ ListView.prototype = {
         return filter(function(box){
             return box.id && box.checked;
         }, openobject.dom.select('input.grid-record-selector', this.name));
+    },
+    
+    onBooleanClicked: function() {
+    	var selected_ids = this.getSelectedRecords()
+    	var sb = openobject.dom.get('sidebar');
+    	
+    	if (selected_ids.length <= 1){
+    		if (sb){
+    			if(sb.style.display != ''){toggle_sidebar()}; 
+    		}
+    	}
+    	if (selected_ids.length == 0){
+    		if (sb) toggle_sidebar();
+    	}
     },
 
     getColumns: function(dom){
