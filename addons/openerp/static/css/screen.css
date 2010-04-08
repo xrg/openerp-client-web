@@ -105,6 +105,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
 div.three-a { }
  div.three-a div#primary { margin-right: 200px; }
    div#tertiary table#sidebar_pane td#sidebar div.sideheader-a { margin-left: -10px; }
+   div#tertiary table#sidebar_pane td#attach_sidebar div.sideheader-a { margin-left: -10px; margin-right: -5px;}
 
 
 /* GENERAL
@@ -279,7 +280,7 @@ div.sideheader-a { position: relative; margin: 0 -15px 10px; padding: 0 5px 0 10
  div.sideheader-a ul.side { float: right; list-style: none; margin: 3px 0 0; padding: 0; }
   div.sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
    div.sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
- div.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.9em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
+ div.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.8em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
 
 /* forms */
 
@@ -506,6 +507,7 @@ p.toggle-a { position: erlative; right: 0; z-index: 19; float: right; }
  p.toggle-a a.on { background-position: -21px 0; }
 
 td#sidebar {padding: 0px; border-color: #EAE7E7;}
+td#attach_sidebar {padding: 0px; border-color: #EAE7E7;}
 table#sidebar_pane {margin-bottom: 0px; border-color: #EAE7E7;}
 td#main_sidebar {padding: 5px 0 5px 5px; border-color: #EAE7E7;}
 td#body_form_td {padding: 5px; border-color: #EAE7E7; }
