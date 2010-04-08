@@ -52,11 +52,23 @@ class Sidebar(TinyWidget):
 
                 openobject.http.setCookie("terp_sidebar", sb.style.display);
 
-                var img = openobject.dom.select('img', 'sidebar_hide')[0];
+                var a_img = openobject.dom.get('toggle-click');
+                var tertiary = openobject.dom.get('tertiary');
+                var tertiary_wrap = openobject.dom.get('tertiary_wrap');
+                var main_sidebar = openobject.dom.get('main_sidebar');
+                var sidebar_hide = openobject.dom.get('sidebar_hide');
+                
                 if (sb.style.display == "none") {
-                    img.src = "/openerp/static/images/sidebar_show.gif";
+                    setNodeAttribute(a_img, 'class', 'off');
+                    setNodeAttribute(tertiary, 'style', 'width: 0px');
+                    setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
+                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
+                    
                 } else {
-                    img.src = "/openerp/static/images/sidebar_hide.gif";
+                    setNodeAttribute(a_img, 'class', 'on');
+                    setNodeAttribute(tertiary, 'style', 'width: 180px');
+                    setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 10px');
+                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 14px');
                 }
             }
 

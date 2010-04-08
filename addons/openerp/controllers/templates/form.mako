@@ -20,7 +20,7 @@
 
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td width="100%" valign="top">
+            <td id="body_form_td" width="100%" valign="top">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     % if buttons.toolbar:
                     <tr>
@@ -182,8 +182,12 @@
             </td>
 
             % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
-            <td width="163" valign="top">
-                ${form.sidebar.display()}
+            <td id="main_sidebar" valign="top">
+            	<div id="tertiary" style="width: 180px;">
+					<div id="tertiary_wrap" style="padding: 0 0 0 10px">
+                		${form.sidebar.display()}
+                	</div>
+                </div>
             </td>
             % endif
         </tr>

@@ -1,49 +1,33 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-	    <tr onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
-	        <td>
-	            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
-	        </td>
-	    </tr>
+	    <li onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
+	    	<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+	    </li>
 	% else:
 		<%
 			from openobject import icons
 		%>
-		<tr data="${item}">
+		<li data="${item}">
 	   		% if item['name']:
-				<td>
-					<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
-						${item['name']}
-					</a>
-				</td>
+				<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
+					${item['name']}
+				</a>
 			% endif
-		</tr>
+		</li>
 	% endif
 </%def>
 
 <%def name="sidebox_attach_item(item, model)">
-    <tr>
-        <td>
-            <a href="${py.url(['/attachment/save_as', item[1]], record=item[0])}">${item[1]}</a>
-        </td>
-    </tr>
+    <li>
+        <a href="${py.url(['/attachment/save_as', item[1]], record=item[0])}">${item[1]}</a>
+    </li>
 </%def>
 
 <%def name="make_sidebox(title, model, items, item_cb=None, submenu=0)">
-<table border="0" cellpadding="0" cellspacing="0" width="100%" class="sidebox">
-    <tr>
-        <td class="sidebox-title">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td width="8" class="sidebox-title-l"></td>
-                    <td class="sidebox-title-m">${title}</td>
-                    <td width="35" valign="top" class="sidebox-title-r"></td>
-                </tr>
-            </table>
-        </td>
-    </tr>
 
-    % for item in items:
+<h4 class="a">${title}</h4>
+<ul class="clean-a">
+	% for item in items:
         % if item:
             % if item_cb:
                 ${item_cb(item, model)}
@@ -52,13 +36,16 @@
             % endif
         % endif
     % endfor
-</table>
+</ul>
 </%def>
 
 % if reports or actions or relates or attachments:
 <table id="sidebar_pane" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td id="sidebar" style="display: none">
+			<div class="sideheader-a">
+				<h2>Secondary Options</h2>
+			</div>
             % if reports:
                 ${make_sidebox(_("REPORTS"), model, reports)}
             % endif
@@ -80,9 +67,8 @@
             % endif
         </td>
 
-        <td id="sidebar_hide" valign="top">
-           <img src="/openerp/static/images/sidebar_show.gif" alt="toggle sidebar"
-           border="0" onclick="toggle_sidebar();" style="cursor: pointer;"/>
+		<td id="sidebar_hide" style="padding : 0 0 0 14px; border-color: #EAE7E7;" valign="top">
+			<p class="toggle-a"><a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a></p>
         </td>
     </tr>
 </table>

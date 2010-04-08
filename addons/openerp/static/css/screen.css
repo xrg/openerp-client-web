@@ -102,20 +102,9 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #secondary { float: left; width: 180px; min-height: 100%; border-right: 1px solid #3c3c3c; background: #5a5858; }
   #tertiary { float: right; min-height: 100%; border-left: 1px solid #d2cfcf; background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y; }
 
-div.two-b { }
- div.two-b div#primary { margin: 0 355px 0 20px; }
- div.two-b iframe html body div#tertiary { width: 335px; }
-  div.two-b iframe html body div#tertiary div.wrap { padding: 85px 15px 0; }
-
-div.three-a { }
- div.three-a div#primary { margin-right: 42px; }
- div.three-a iframe html body div#tertiary { width: 21px; }
-
 div.three-a { }
  div.three-a div#primary { margin-right: 200px; }
- div.three-a iframe div#tertiary { width: 180px; }
-  div.three-a iframe div#tertiary div.wrap { padding: 70px 10px 0; }
-   div.three-a iframe div#tertiary div.sideheader-a { margin-left: -10px; margin-right: -10px; }
+   div#tertiary table#sidebar_pane td#sidebar div.sideheader-a { margin-left: -10px; }
 
 
 /* GENERAL
@@ -290,7 +279,7 @@ div.sideheader-a { position: relative; margin: 0 -15px 10px; padding: 0 5px 0 10
  div.sideheader-a ul.side { float: right; list-style: none; margin: 3px 0 0; padding: 0; }
   div.sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
    div.sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
- div.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 1em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
+ div.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.9em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
 
 /* forms */
 
@@ -512,9 +501,14 @@ p.paging-a { color: #a6a5a5; font-size: 0.9em; font-weight: bold; text-transform
  p.paging-a a.prev { width: 4px; background-position: 0 0; }
  p.paging-a a.next { width: 4px; background-position: -8px 0; }
 
-p.toggle-a { position: absolute; right: 0; z-index: 19; float: right; }
+p.toggle-a { position: erlative; right: 0; z-index: 19; float: right; }
  p.toggle-a a { float: left; display: block; overflow: hidden; width: 21px; height: 22px; border: 1px solid #d2cfcf; border-width: 0 0 1px 1px; background: url(../images/toggle-a-bg.png) no-repeat; text-indent: -10001px; }
  p.toggle-a a.on { background-position: -21px 0; }
+
+td#sidebar {padding: 0px; border-color: #EAE7E7;}
+table#sidebar_pane {margin-bottom: 0px; border-color: #EAE7E7;}
+td#main_sidebar {padding: 5px 0 5px 5px; border-color: #EAE7E7;}
+td#body_form_td {padding: 5px; border-color: #EAE7E7; }
 
 /* links */
 
