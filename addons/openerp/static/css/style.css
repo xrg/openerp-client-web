@@ -361,33 +361,6 @@ div.welcome {
     font-weight: bold;
 }
 
-.view .toolbar {
-    background-color: #F6F6F6;
-    border-top: 1px solid #bbb8a9;
-    border-bottom: 1px solid #bbb8a9;
-    padding: 5px;
-    white-space: nowrap;
-}
-
-.view .toolbar button {
-    width: auto;
-    margin: 0 1px;
-    white-space: nowrap;
-}
-
-.view .toolbar img {
-    border: none;
-    margin: 0 1px;
-    vertical-align: middle;
-}
-
-.view .toolbar img.button {
-    cursor: pointer;
-}
-
-.view .fields {
-}
-
 .view table.one2many,
 .view table.many2many {
     border: 1px solid #bbb8a9;
