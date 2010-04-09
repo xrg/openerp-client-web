@@ -246,8 +246,10 @@ class List(SecuredController):
     
     @expose('json')
     def groupbyDrag(self, model, children, domain):
-        domain = eval(domain)[0]
-        children = eval(children)
+        import openobject
+        from openobject.tools import ast
+        domain = ast.literal_eval(domain)[0]
+        children = ast.literal_eval(children)
         rpc.RPCProxy(model).write(children, {domain[0]: domain[2]})
         return {}
     
