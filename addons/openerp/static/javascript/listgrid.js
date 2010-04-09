@@ -625,7 +625,7 @@ MochiKit.Base.update(ListView.prototype, {
             var $ = jQuery;
             var view_type = $('[id*=_terp_view_type]').val();
             var editable = $('[id*=_terp_editable]').val();
-            console.log(view_type)
+            
             $('table[id^="'+table+'"].grid tr.grid-row').each(function(e) { 
             	$(this).dblclick(function(event) {
             		if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
