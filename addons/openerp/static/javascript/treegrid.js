@@ -31,22 +31,34 @@ var KEY_ARROW_RIGHT = 39;
 var KEY_ARROW_UP = 38;
 var KEY_ARROW_DOWN = 40;
 
-var TreeGrid = function(elem, options){
+/**
+ * @event treegrid-render triggered on treegrid rendering
+ *  @target document
+ *  @argument 'the treegrid instance being rendered'
+ *
+ * @event treenode-expand triggered when a sub-node is expanded
+ *  @target document
+ *  @argument 'the treenode being expanded'
+ *
+ * @event treenode-collapse triggered when a sub-node is collaped
+ *  @target document
+ *  @argument 'the treenode being collapsed'
+ */
+var TreeGrid = function(elem, options) {
     this.__init__(elem, options);
 };
 
 TreeGrid.prototype = {
     
     __init__ : function(elem, options) {
-        
         this.id = openobject.dom.get(elem).id;
         
         this.options = MochiKit.Base.update({
             'showheaders': true,
             'expandall' : false,
-            'onselect' : function(){},
-            'onbuttonclick' : function(){},
-            'onheaderclick' : function(){},
+            'onselect' : function() {},
+            'onbuttonclick' : function() {},
+            'onheaderclick' : function() {},
             'linktarget': null
         }, options || {});
         
@@ -63,39 +75,45 @@ TreeGrid.prototype = {
         // references to ajax url and params
         this.ajax_url = null;
         this.ajax_params = {};
+
+        // receive some events from the treenodes and redispatch to the document
+        MochiKit.Signal.connect(this, 'onNodeExpand', function (tree, node) {
+            MochiKit.Signal.signal(window.document, 'treenode-expand', node);
+        });
+        MochiKit.Signal.connect(this, 'onNodeCollapse', function (tree, node) {
+            MochiKit.Signal.signal(window.document, 'treenode-collapse', node);
+        });
     },
     
     setHeaders : function(headers/*, params */) {
-        
         this.headers = headers;
         
-        if (typeof(headers) == 'string'){
+        if (typeof(headers) == 'string') {
             
-           var self = this;
-           var req = openobject.http.postJSON(headers, arguments[1]);
+            var self = this;
+            var req = openobject.http.postJSON(headers, arguments[1]);
            
-           self._ajax_counter += 1;
+            self._ajax_counter += 1;
            
-           req.addCallback(function(obj){
-               self.headers = obj.headers;
-           });
+            req.addCallback(function(obj) {
+                self.headers = obj.headers;
+            });
            
-           req.addBoth(function(){
-               self._ajax_counter -= 1;
-           });
+            req.addBoth(function() {
+                self._ajax_counter -= 1;
+            });
            
         }
     },
     
     setRecords : function(records/*, params */) {
-        
         if (!this.headers) {
             return;
         }
         
         this.records = records;
         
-        if (typeof(records) == 'string'){
+        if (typeof(records) == 'string') {
             
             this.ajax_url = records;
             this.ajax_params = arguments[1] || {};
@@ -108,12 +126,12 @@ TreeGrid.prototype = {
            
             self._ajax_counter += 1;
            
-            req.addCallback(function(obj){
+            req.addCallback(function(obj) {
                 self.records = obj.records;
                 MochiKit.Signal.signal(self, 'onDataLoad', self, null);
             });
            
-            req.addBoth(function(obj){
+            req.addBoth(function() {
                 self._ajax_counter -= 1;
             });
            
@@ -121,8 +139,7 @@ TreeGrid.prototype = {
         
     },
     
-    render : function(){
-        
+    render : function() {
         // wait till ajax calls finish
         if (this._ajax_counter > 0) {
             return MochiKit.Async.callLater(0.01, MochiKit.Base.bind(this.render, this));
@@ -141,6 +158,7 @@ TreeGrid.prototype = {
         if (openobject.dom.get(this.id) != this.table) {
             MochiKit.DOM.swapDOM(this.id, this.table);
         }
+        MochiKit.Signal.signal(window.document, 'treegrid-render', this);
     },
     
     reload : function() {
@@ -153,11 +171,10 @@ TreeGrid.prototype = {
         return new TreeNode(this, record);  
     },
     
-    _makeHeader : function(){
-        
+    _makeHeader : function() {
         var tr = MochiKit.DOM.TR({'class':'header'});
     
-        for(var i in this.headers){
+        for (var i in this.headers) {
             
             var header = this.headers[i];
             var th = MochiKit.DOM.TH(null, header.string);
@@ -167,9 +184,9 @@ TreeGrid.prototype = {
             MochiKit.DOM.setNodeAttribute(th, 'width', header.width);
             MochiKit.DOM.setNodeAttribute(th, 'align', header.align);
             
-            if (this.options.onheaderclick){
-               th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this._onHeaderClick, header), this);
-               th.style.cursor = 'pointer';
+            if (this.options.onheaderclick) {
+                th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this._onHeaderClick, header), this);
+                th.style.cursor = 'pointer';
             }
             
             header.tree = this;
@@ -191,7 +208,6 @@ TreeGrid.prototype = {
     },
     
     copy: function(elem, options, ids) {
-    
         var tree = new TreeGrid(elem, options);
         MochiKit.Base.update(tree.options, this.options);
         
@@ -247,7 +263,7 @@ TreeNode.prototype = {
     __delete__ : function() {
         
 
-        while(this.childNodes.length > 0) {
+        while (this.childNodes.length > 0) {
             this.childNodes[0].__delete__();
         }
         
@@ -258,14 +274,14 @@ TreeNode.prototype = {
         var pn = this.parentNode;
         var idx = MochiKit.Base.findIdentical(pn.childNodes, this);
         
-        pn.childNodes.splice(idx,1);
+        pn.childNodes.splice(idx, 1);
         
         if (pn.firsChild == this) {
             pn.firstChild = pn.childNodes[0] || null;
         }
         
         if (pn.lastChild == this) {
-            pn.lastChild = pn.childNodes[pn.childNodes.length-1] || null;
+            pn.lastChild = pn.childNodes[pn.childNodes.length - 1] || null;
         }
         
         if (this.previousSibling) {
@@ -276,7 +292,7 @@ TreeNode.prototype = {
             this.nextSibling.previousSibling = this.previousSibling;
         }
         
-        this.tree.selection.splice(MochiKit.Base.findIdentical(this.tree.selection, this),1);
+        this.tree.selection.splice(MochiKit.Base.findIdentical(this.tree.selection, this), 1);
         this.tree.selection_last = this.selection_last == this ? null : this.selection_last;
         
         var table = this.tree.table;
@@ -295,7 +311,7 @@ TreeNode.prototype = {
         }
     },
     
-    __repr__ : function(){
+    __repr__ : function() {
         return '<TreeNode ' + this.name + '>';
     },
     
@@ -307,7 +323,7 @@ TreeNode.prototype = {
         var indent = this.getPath().length - 1;
 
         var len = this.tree.headers.length;
-        for (var i=0; i<len; ++i) {            
+        for (var i = 0; i < len; ++i) {
             var header = this.tree.headers[i];
             
             var key = header.name;
@@ -363,10 +379,10 @@ TreeNode.prototype = {
 	                 	selected_row.style.background = 'url(/openerp/static/images/sidenav-bg-c.gif) repeat-x';
                     	
                         MochiKit.Signal.signal(e.src().tree, "onaction", e.src());
-                        var frame = $('appFrame');
-                        if(frame.contentWindow) {
+                        var frame = jQuery('#appFrame');
+                        if (frame.contentWindow) {
                             frame.contentWindow.location.replace(record.action);
-                        } else if(frame.contentDocument) {
+                        } else if (frame.contentDocument) {
                             frame.contentDocument.location.replace(record.action);
                         } else {
                             // just in case there's still a browser needing DOM0 frames
@@ -435,34 +451,34 @@ TreeNode.prototype = {
         
         MochiKit.Base.update(this.record, record || {});
         
-        var record = this.record;
+        var current_record = this.record;
 
-        for (var i in this.tree.headers){
+        for (var i in this.tree.headers) {
             
             var header = this.tree.headers[i];
             
             var key = header.name;
-            var value = record.items[key];
+            var value = current_record.items[key];
             
             var td = this.element.cells[i];
             
             if (i == 0) { // first column                
                 
-                if (record.icon && this.element_i) {
-                    this.element_i.src = record.icon;
+                if (current_record.icon && this.element_i) {
+                    this.element_i.src = current_record.icon;
                 }
                 
                 this.element_a.innerHTML = MochiKit.DOM.escapeHTML(value);
                 
-                if (record.action) {
-                    MochiKit.DOM.setNodeAttribute(this.element_a, 'href', openobject.http.getURL(record.action));
+                if (current_record.action) {
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'href', openobject.http.getURL(current_record.action));
                 }
                 
-                if (record.target) {
-                    MochiKit.DOM.setNodeAttribute(this.element_a, 'target', openobject.http.getURL(record.target));
+                if (current_record.target) {
+                    MochiKit.DOM.setNodeAttribute(this.element_a, 'target', openobject.http.getURL(current_record.target));
                 }
                 
-                if(record.required) {
+                if (current_record.required) {
                     MochiKit.DOM.setNodeAttribute(this.element_a, 'class', 'requiredfield');
                 }
 
@@ -474,7 +490,7 @@ TreeNode.prototype = {
                     case 'email':
                         var link = openobject.dom.select('a', td)[0];
                         MochiKit.DOM.setNodeAttribute(link, 'href', value);
-                        MochiKit.DOM.setNodeAttribute(link, 'target', record.target || '_blank');
+                        MochiKit.DOM.setNodeAttribute(link, 'target', current_record.target || '_blank');
 
                         link.innerHTML = MochiKit.DOM.escapeHTML(value);
                         break;
@@ -501,7 +517,7 @@ TreeNode.prototype = {
             case KEY_ARROW_LEFT:
                 if (this.expanded) {
                     this.collapse();
-                } else if (this.parentNode.element){
+                } else if (this.parentNode.element) {
                     this.parentNode.onSelect(evt);
                 }
                 return evt.stop();
@@ -515,7 +531,7 @@ TreeNode.prototype = {
                 return evt.stop();
 
             case KEY_ARROW_UP:
-                visible_nodes = MochiKit.Base.filter(function(node){
+                visible_nodes = MochiKit.Base.filter(function(node) {
                     return node.element && "none" != node.element.style.display;
                 }, this.tree.rootNode.getAllChildren());
 
@@ -528,11 +544,11 @@ TreeNode.prototype = {
                 return evt.stop();
             
             case KEY_ARROW_DOWN:
-                visible_nodes = MochiKit.Base.filter(function(node){
+                visible_nodes = MochiKit.Base.filter(function(node) {
                     return node.element && "none" != node.element.style.display;
                 }, this.tree.rootNode.getAllChildren());
                 
-                visible_nodes = visible_nodes.slice(MochiKit.Base.findIdentical(visible_nodes, this)+1);
+                visible_nodes = visible_nodes.slice(MochiKit.Base.findIdentical(visible_nodes, this) + 1);
 
                 if (visible_nodes.length > 0) {
                     visible_nodes[0].onSelect(evt);
@@ -554,12 +570,11 @@ TreeNode.prototype = {
                 
         var trg = evt ? evt.target() : this.element;
     
-        if (MochiKit.Base.findValue(['collapse', 'expand', 'loading'], trg.className) > -1){
+        if (MochiKit.Base.findValue(['collapse', 'expand', 'loading'], trg.className) > -1) {
             return;
         }
         
         var tree = this.tree;
-        var src = this.element;
         
         var ctr = evt ? evt.modifier().ctrl : null;
         var sft = evt ? evt.modifier().shift : null;
@@ -568,12 +583,12 @@ TreeNode.prototype = {
             this.element_a.focus();
         }
         
-        forEach(tree.selection, function(node){
+        forEach(tree.selection, function(node) {
             MochiKit.DOM.removeElementClass(node.element, "selected");
         });
     
         if (ctr) {
-            if (MochiKit.Base.findIdentical(tree.selection, this) == -1){
+            if (MochiKit.Base.findIdentical(tree.selection, this) == -1) {
                 tree.selection.push(this);
             } else {
                 tree.selection.splice(MochiKit.Base.findIdentical(tree.selection, this), 1);
@@ -581,7 +596,7 @@ TreeNode.prototype = {
         } else if (sft) {
     
             var nodes = tree.rootNode.getAllChildren();
-            nodes = MochiKit.Base.filter(function(node){
+            nodes = MochiKit.Base.filter(function(node) {
                 return node.element.style.display != 'none';
             }, nodes);
     
@@ -591,17 +606,17 @@ TreeNode.prototype = {
             var begin = MochiKit.Base.findIdentical(nodes, this);
             var end = MochiKit.Base.findIdentical(nodes, last);
     
-            tree.selection = begin > end ? nodes.slice(end, begin+1) : nodes.slice(begin, end+1);
+            tree.selection = begin > end ? nodes.slice(end, begin + 1) : nodes.slice(begin, end + 1);
     
         } else {
             tree.selection = [this];
         }
     
-        if (!sft){
-            tree.selection_last = tree.selection[tree.selection.length-1];
+        if (!sft) {
+            tree.selection_last = tree.selection[tree.selection.length - 1];
         }
     
-        forEach(tree.selection, function(node){
+        forEach(tree.selection, function(node) {
             MochiKit.DOM.addElementClass(node.element, "selected");
         });
         
@@ -623,7 +638,7 @@ TreeNode.prototype = {
         
         var result = [];
         
-        forEach(this.childNodes, function(n){
+        forEach(this.childNodes, function(n) {
             result = result.concat(n);
             result = result.concat(n.getAllChildren());
         });
@@ -648,21 +663,23 @@ TreeNode.prototype = {
     },
     
     _loadChildNodes : function(/* optional */expandall) {
-        
-        if (this._ajax_counter > 0) 
-          return;
+        if (this._ajax_counter > 0) {
+            return;
+        }
         
         var self = this;
         
         function _makeChildNodes(records) {
             
-            MochiKit.Iter.forEach(records, function(record){
+            MochiKit.Iter.forEach(records, function(record) {
                 self.appendChild(self.tree.createNode(record));
             });
             
-            if (!expandall) { return; }
+            if (!expandall) {
+                return;
+            }
             
-            forEach(self.childNodes, function(child){
+            forEach(self.childNodes, function(child) {
                 child.expand(expandall);
             });
         }
@@ -684,13 +701,13 @@ TreeNode.prototype = {
            
             this.setState('loading');
            
-            req.addCallback(function(obj){
+            req.addCallback(function(obj) {
                 _makeChildNodes(obj.records);
                 MochiKit.Signal.signal(self.tree, 'onDataLoad', self.tree, self);
                 MochiKit.Signal.signal(self.tree, 'onNodeExpand', self.tree, self);
             });
            
-            req.addBoth(function(obj){
+            req.addBoth(function(obj) {
                 self.tree._ajax_counter -= 1;
                 self.setState('collapse');
             });
@@ -752,7 +769,8 @@ TreeNode.prototype = {
             return;
         }
 
-        var span = this.element.getElementsByTagName('span'); span = span[span.length-1];
+        var span = this.element.getElementsByTagName('span');
+        span = span[span.length - 1];
         MochiKit.DOM.setNodeAttribute(span, 'class', state);
     },
     

@@ -61,8 +61,8 @@ class ListGroup(List):
             else:
                 ids = proxy.search(self.domain, 0, 0, 0, self.context)
 
-            self.count = proxy.search_count(domain, context)
-
+            if isinstance(ids, list):
+                self.count = len(ids)
 
         if ids and not isinstance(ids, list):
             ids = [ids]
@@ -90,7 +90,17 @@ class ListGroup(List):
             selectable=self.selectable)
 
         if self.group_by_ctx:
-            gb = self.group_by_ctx[0]
+            t = []
+            if self.group_by_ctx and isinstance(self.group_by_ctx[0], basestring):
+                self.group_by_ctx = self.group_by_ctx[0].split(',')
+            
+            for i in self.group_by_ctx:
+                if 'group_' in i:
+                    t.append((i.split('group_'))[1])
+                else:
+                    t.append(i)
+                    
+            gb = t[0]
             self.group_by_ctx = gb
 
             new_hidden = ()
@@ -117,11 +127,10 @@ class ListGroup(List):
         for grp in self.grp_records:
             inner = {}
             for key, head in self.headers:
-                kind = head.get('type', 'char')
-                if kind not in CELLTYPES:
-                    kind = 'char'
-                inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
-            self.grouped += [inner]
+                kind = head.get('type')
+                if kind == 'progressbar':
+                    inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
+            self.grouped.append(inner)
                 
         grp_ids = []
         

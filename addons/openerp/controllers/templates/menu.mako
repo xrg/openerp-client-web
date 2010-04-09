@@ -3,58 +3,42 @@
 <%def name="header()">
     <title>OpenERP</title>
     
-    <!-- <link href="/openerp/static/css/accordion.css" rel="stylesheet" type="text/css"/> -->
     <link href="/openerp/static/css/treegrid.css" rel="stylesheet" type="text/css"/>
     <link href="/openerp/static/css/notebook.css" rel="stylesheet" type="text/css"/>
-    
-    <script type="text/javascript" src="/openerp/static/javascript/menubar.js"></script>
+
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
-    
-    <script type="text/javascript">
-        
-            // call adjustAppFrame every 0.5 second
-            function adjustFrame(wait) {
-                try {
-                    adjustAppFrame();
-                } catch(e){}
-                setTimeout(adjustFrame, wait);
-            }
-            adjustFrame(0.5);
-            
-</script>
-    
-    <style>
+
+    <style type="text/css">
         .accordion-content {
         }
-        
+
         .accordion {
             border: none;
         }
-        
+
         .accordion-title {
             padding: 2px;
         }
-        
+
         #menubar_container {
             overflow: auto;
-            border: 1px solid black;            
+            border: 1px solid black;
         }
-        
+
         #content_iframe {
-        	overflow-x: auto;
-        	overflow-y: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
         }
-        
+
     </style>
-    
+
 </%def>
 
 <%def name="content()">
 	<div id="root">
 	    <%include file="header.mako"/>
-	    
 	    <div id="nav">
 			<ul>
 				%for parent in parents:

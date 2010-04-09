@@ -35,7 +35,7 @@ import random
 import xml.dom.minidom
 
 import cherrypy
-from openerp.utils import rpc, cache, icons, node_attributes
+from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget
 from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
 
@@ -54,7 +54,7 @@ class RangeWidget(TinyInputWidget):
         kind = attrs.get('type', 'integer')
 
         fname = attrs['name']
-
+        
         from_attrs = dict(attrs, name=fname+'/from')
         to_attrs = dict(attrs, name=fname+'/to')
 
@@ -89,17 +89,42 @@ class Filter(TinyInputWidget):
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
         
+        flag = True
+        if cherrypy.request.path_info == '/tree/open':
+            flag = False
+            
+        default_domain = attrs.get('default_domain')
+        group_by_ctx = attrs.get('group_by_ctx', [])
+        self.global_domain = []
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain', [])
         self.help = attrs.get('help')
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
-        filter_context = attrs.get('context', None)
-
+        filter_context = attrs.get('context')
+        screen_context = attrs.get('screen_context', {})
+        
         self.def_checked = False
         default_val = attrs.get('default', 0)
         if default_val:
+            default_val = expr_eval(default_val, {'context':screen_context})
+            
+        if flag:
+            if default_domain and attrs.get('domain'):
+                domain =  expr_eval(attrs.get('domain'))
+                for d in domain:
+                    if d in default_domain:
+                        default_val = 1
+                    else:
+                        default_val = 0
+                        self.global_domain = []
+            else:
+                default_val = 0
+                self.global_domain = []
+                
+        if default_val:
             self.def_checked = True
-
+            self.global_domain += (expr_eval(self.filter_domain, {'context':screen_context}))
+            
         self.group_context = None
         
         # context implemented only for group_by.
@@ -109,7 +134,11 @@ class Filter(TinyInputWidget):
 
         if self.group_context:
             self.group_context = 'group_' + self.group_context
-
+        
+        if group_by_ctx and self.group_context:
+            if self.group_context in group_by_ctx:
+                self.def_checked = True
+                
         self.nolabel = True
         self.readonly = False
 
@@ -121,21 +150,25 @@ class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
 
-    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list']
+    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain']
     member_widgets = ['frame']
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=None, context=None, values={}):
+    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None):
 
         super(Search, self).__init__(model=model)
 
         self.domain = domain or []
+        self.listof_domain = []
+        self.filter_domain = filter_domain or []
+        self.custom_filter_domain = []
         self.context = context or {}
         self.model = model
+        if values == "undefined":
+            values = {}
 
-        ctx = dict(rpc.session.context,
-                   **self.context)
+        ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
 
@@ -176,6 +209,11 @@ class Search(TinyInputWidget):
             ('=', _('is equal to')), ('<>', _('is not equal to')),
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
+        
+        if self.filter_domain == []:
+            self.filter_domain += [(self.fields_list[0][0], self.operators_map[0][0], '')]
+        else:
+            self.custom_filter_domain = self.filter_domain
 
     def parse(self, model=None, root=None, fields=None, values={}):
 
@@ -196,9 +234,9 @@ class Search(TinyInputWidget):
             if 'nolabel' in attrs:
                 attrs['nolabel'] = False
 
-            if node.localName in ('form', 'tree', 'search',
-                                  'group'):
+            if node.localName in ('form', 'tree', 'search', 'group'):
                 if node.localName == 'group':
+                    attrs['group_by_ctx'] = values.get('group_by_ctx')
                     Element = Group
                 else:
                     Element = Frame
@@ -213,7 +251,13 @@ class Search(TinyInputWidget):
 
             elif node.localName=='filter':
                 attrs['model'] = search_model
-                views.append(Filter(**attrs))
+                attrs['default_domain'] = self.domain
+                attrs['screen_context'] = self.context
+                if values and values.get('group_by_ctx'):
+                    attrs['group_by_ctx'] = values['group_by_ctx']
+                v = Filter(**attrs)
+                self.listof_domain = filter(lambda x: type(x)==tuple, set(self.listof_domain + v.global_domain))
+                views.append(v)
 
             elif node.localName == 'field':
                 name = attrs['name']
@@ -269,10 +313,15 @@ class Search(TinyInputWidget):
 
                 for n in node.childNodes:
                     if n.localName=='filter':
-                        filter_field = Filter(**node_attributes(n))
+                        attrs = node_attributes(n)
+                        attrs['default_domain'] = self.domain
+                        attrs['screen_context'] = self.context
+                        if values and values.get('group_by_ctx'):
+                            attrs['group_by_ctx'] = values['group_by_ctx']
+                        filter_field = Filter(**attrs)
                         filter_field.onchange = None
                         filter_field.callback = None
-
+                        self.listof_domain = filter(lambda x: type(x)==tuple, set(self.listof_domain + filter_field.global_domain))
                         views.append(filter_field)
 
         return views

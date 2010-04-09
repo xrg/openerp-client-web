@@ -81,7 +81,10 @@ class List(TinyWidget):
 
         self.context = context or {}
         self.domain = domain or []
-
+        
+        custom_search_domain = cherrypy.request.custom_search_domain
+        custom_filter_domain = cherrypy.request.custom_filter_domain
+        
         if name.endswith('/'):
             self._name = name[:-1]
 
@@ -112,7 +115,16 @@ class List(TinyWidget):
 
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
-
+        
+        search_param = domain or []
+        if custom_search_domain:
+            for elem in custom_search_domain:
+                if elem not in self.domain:
+                    search_param.append(elem)
+                    
+            for elem in custom_filter_domain:
+                if elem not in self.domain:
+                    search_param.append(elem)
         # is relational field (M2M/O2M)
         if self.source:
             self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit)
@@ -138,14 +150,15 @@ class List(TinyWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if ids == None:
+        if ids is None:
             if self.limit > 0:
-                ids = proxy.search(domain, self.offset, self.limit, 0, context)
+                ids = proxy.search(search_param, self.offset, self.limit, 0, context)
             else:
-                ids = proxy.search(domain, 0, 0, 0, context)
-
-            self.count = proxy.search_count(domain, context)
-
+                ids = proxy.search(search_param, 0, 0, 0, context)
+            
+            if isinstance(ids, list):
+                self.count = len(ids)
+                
         self.data_dict = {}
         data = []
 
@@ -281,7 +294,8 @@ class List(TinyWidget):
             if node.nodeName == 'button':
                 attrs = node_attributes(node)
                 buttons += [Button(**attrs)]
-                headers += [("button", len(buttons))]
+                headers.append(("button", len(buttons)))
+                
             elif node.nodeName == 'field':
                 attrs = node_attributes(node)
 
@@ -493,6 +507,9 @@ class ProgressBar(Char):
     """
 
     def get_text(self):
+        if not self.value:
+            return 0.0
+        
         if isinstance(self.value, float):
             self.value = '%.2f' % (self.value)
             self.value = float(self.value)
@@ -517,15 +534,17 @@ class DateTime(Char):
 
 class Boolean(Char):
 
-    params = ['value', 'kind']
+    params = ['val', 'kind']
 
-    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
+    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" ${py.checker(val)} value="${val}"> """
 
     def get_text(self):
-        if int(self.value) == 1:
-            return _('Yes')
-        else:
-            return _('No')
+        self.val = int(self.value)
+        self.kind = 'boolean'
+#        if int(self.value) == 1:
+#            return _('Yes')
+#        else:
+#            return _('No')
 
 class Button(TinyInputWidget):
 

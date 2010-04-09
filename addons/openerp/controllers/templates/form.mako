@@ -40,7 +40,7 @@
                                     		% endif
                                     	</li>
                                     </%def>
-                                   
+                                    
                                     <td id="view_buttons" style="padding: 0px 5px 0px 0px;">
                                     	<ul class="views-a">
                                     		% for i, view in enumerate(buttons.views):
@@ -50,11 +50,9 @@
 									</td>
 									
 									<td style="padding: 0px 5px 0px 0px; cursor: pointer;">
-                                    % if buttons.process:
-                                    	 <a target="_blank" onclick="show_process_view()">
-                                    	 	<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-                                    	 </a>
-                                    % endif
+	                                    <a target="appFrame" onclick="show_process_view()">
+		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
+		                              	</a>
                                     </td>
                                   
                                     % if buttons.can_attach and not buttons.has_attach:
@@ -97,7 +95,7 @@
                     </tr>
                     % endif
 
-                    % if form.screen.view_type == 'form' and buttons.toolbar:
+                    % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
                     <tr>
                         <td>
                             <div class="wrapper">
@@ -149,7 +147,7 @@
                     <tr>
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
-                    % if links:
+                    
                     <tr>
                         <td class="dimmed-text">
                             [<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
@@ -159,16 +157,15 @@
                                 <a title="${_('Manage views of the current object')}" 
                                    onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
-                                <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
-                                   href="javascript: void(0)">${_("Manage Workflows")}</a>
+                               <a title="${_('Manage workflows of the current object')}" 
+                                   onclick="javascript: show_wkf()" 
+                                   href="javascript: void(0)">${_("Show Workflow")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
                                    onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
                                    href="javascript: void(0)">${_("Customise Object")}</a>
                             </div>
                         </td>
                     </tr>
-                    % endif
                 </table>
             </td>
 

@@ -81,11 +81,6 @@ class Sidebar(TinyWidget):
                 Notebook.adjustSize(a);
             }
         }
-
-        MochiKit.DOM.addLoadEvent(function(evt) {
-            var sb = openobject.dom.get('sidebar');
-            if (sb) toggle_sidebar(openobject.http.getCookie('terp_sidebar'));
-        });
     """)]
 
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):

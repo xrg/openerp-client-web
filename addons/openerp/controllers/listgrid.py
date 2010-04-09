@@ -146,6 +146,9 @@ class List(SecuredController):
             params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
+                
+            if params.filter_domain:
+                params.domain += params.filter_domain
 
         # default_get context
         current = params.chain_get(source)

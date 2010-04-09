@@ -113,7 +113,9 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     ctx.update(context)
 
     ids = proxy.search(search_domain, o, l, 0, ctx)
-    count = proxy.search_count(search_domain, ctx)
+        
+    if isinstance(ids, list):
+        count = len(ids)
 
     return dict(model=model, ids=ids, count=count, offset=o, limit=l,
                 search_domain=search_domain, search_data=search_data)
@@ -188,7 +190,7 @@ class Form(SecuredController):
     def create(self, params, tg_errors=None):
 
         params.view_type = params.view_type or params.view_mode[0]
-
+        
         if params.view_type == 'tree':
             params.editable = True
 
@@ -206,14 +208,13 @@ class Form(SecuredController):
         ids = form.screen.ids
 
         buttons = TinyDict()    # toolbar
-        links = TinyDict()      # bottom links (customise view, ...)
 
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
-        buttons.pager =  mode == 'form' # Pager will visible in edit and non-edit mode in form view.
+        buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
         buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
         buttons.i18n = not editable and mode == 'form'
@@ -227,26 +228,18 @@ class Form(SecuredController):
             buttons.views.append(dict(kind=k, name=v.name, desc=v.desc, active=active))
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
-        buttons.toolbar = target != 'new' and not form.is_dashboard
-
-        if cache.can_write('ir.ui.view'):
-            links.view_manager = True
-
-        if cache.can_write('workflow'):
-            links.workflow_manager = True
-
-        buttons.process = cache.can_read('process.process')
+        buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
 
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path)
 
     @expose()
-    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
-             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
+    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],source=None, domain=[],
+             context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, filter_domain=None, **kw):
 
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
@@ -259,7 +252,9 @@ class Form(SecuredController):
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
-                                       '_terp_search_domain': search_domain})
+                                       '_terp_search_domain': search_domain,
+                                       '_terp_search_data': search_data,
+                                       '_terp_filter_domain': filter_domain})
 
         params.editable = True
         params.view_type = 'form'
@@ -285,8 +280,8 @@ class Form(SecuredController):
         return self.create(params)
 
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
-            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
+    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[],
+             context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, filter_domain=None, **kw):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
@@ -298,7 +293,9 @@ class Form(SecuredController):
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
-                                       '_terp_search_domain': search_domain})
+                                       '_terp_search_domain': search_domain,
+                                       '_terp_search_data': search_data,
+                                       '_terp_filter_domain': filter_domain})
 
         params.editable = False
         params.view_type = 'form'
@@ -341,7 +338,9 @@ class Form(SecuredController):
                                                offset=params.offset,
                                                limit=params.limit,
                                                count=params.count,
-                                               search_domain=ustr(params.search_domain))
+                                               search_domain=ustr(params.search_domain),
+                                               search_data = ustr(params.search_data),
+                                               filter_domain= ustr(params.filter_domain))
 
         params.view_type = 'tree'
         return self.create(params)
@@ -430,7 +429,9 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
+                'search_domain': ustr(params.search_domain),
+                'search_data': ustr(params.search_data),
+                'filter_domain': ustr(params.filter_domain)}
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
@@ -527,7 +528,8 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
+                'search_domain': ustr(params.search_domain),
+                'filter_domain': ustr(params.filter_domain)}
 
         if new_id:
             raise redirect(self.path + '/edit', **args)
@@ -566,7 +568,8 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
+                'search_domain': ustr(params.search_domain),
+                'filter_domain': ustr(params.filter_domain)}
 
         if not params.id:
             raise redirect(self.path + '/edit', **args)
@@ -611,7 +614,8 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
+                'search_domain': ustr(params.search_domain),
+                'filter_domain': ustr(params.filter_domain)}
 
         raise redirect(self.path + '/edit', **args)
 

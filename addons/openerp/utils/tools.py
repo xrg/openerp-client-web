@@ -41,8 +41,12 @@ def expr_eval(string, context={}):
                    time=time,
                    datetime=DT)
     if isinstance(string, basestring):
-        return eval(string.replace("'active_id'", "active_id"),
-                    context)
+        try:
+            temp = eval(string.replace("'active_id'", "active_id"),
+                         context)
+        except:
+            return {}
+        return temp
     else:
         return string
 

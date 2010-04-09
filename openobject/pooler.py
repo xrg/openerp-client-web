@@ -21,7 +21,7 @@ def register_object(obj, key, group, auto_create=False):
 
     registry = _REGISTRY.setdefault(group, {})
     objects = registry.setdefault(module, {})
-
+    
     if auto_create:
         objects[key] = lambda: obj()
     else:
@@ -42,11 +42,11 @@ class Pool(object):
         return self.get(name, "controllers")
 
     def instanciate(self, package):
-        for group, groups in _REGISTRY.items():
-            for module, modules in groups.items():
-                for name, obj in modules.items():
+        for group, registry in _REGISTRY.items():
+            if package in registry:
+                for key, obj in registry[package].items():
                     objects = self.obj_pool.setdefault(group, {})
-                    objects[name] = obj()
+                    objects[key] = obj()
 
 pool_dict = {}
 

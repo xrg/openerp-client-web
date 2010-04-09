@@ -7,7 +7,7 @@
                 <input type="text" id="${name}_text" class="${css_class}"
                     ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
                 <input type="hidden" id="_hidden_${name}" value=""/>
-                <div id="autoCompleteResults_${name}" class="autoTextResults"/>
+                <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
                 % if error:
                 <span class="fielderror">${error}</span>
                 % endif

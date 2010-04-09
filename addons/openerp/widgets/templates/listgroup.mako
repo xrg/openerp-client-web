@@ -1,3 +1,7 @@
+<%!
+	background = '#DEDEDE';
+%>
+
 <table id="${name}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
@@ -29,15 +33,15 @@
 					% for j, grp_row in enumerate(grp_records):
 					<tr class="grid-row-group" style="cursor: pointer;" grp_domain="${grp_row['__domain']}">
                         % if editable:
-                        <td class="grid-cell" style="background-color: #DEDEDE;">
+                        <td class="grid-cell" style="background-color: ${background};">
                             <img id="img_${grp_row.get('group_id')}" src="/openerp/static/images/treegrid/expand.gif" onclick="toggle_group_data('${grp_row.get('group_id')}');"></img>
                         </td>
                         % endif
                         
                         % for i, (field, field_attrs) in enumerate(headers):
-                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="background-color: #DEDEDE;">
+                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="background-color: ${background};">
                         	% if map(lambda x: x[0], hiddens).__contains__('sequence') or  field == 'sequence':
-								<span class="draggable">${grouped[j][field].display()}</span>
+								<span class="draggable">${grp_row.get(field)}</span>
 								<script type="text/javascript">
 									function make_draggale(){
 										var drag = getElementsByTagAndClassName('span','draggable');
@@ -47,20 +51,22 @@
 										}		
 									}
 							</script>
-							% else:	
+							% elif field_attrs.get('type') == 'progressbar':
 								<span>${grouped[j][field].display()}</span>
+							% else:	
+								<span>${grp_row.get(field)}</span>
 							% endif
                         </td>
                         % endfor
                         
                         % if buttons:
-                        <td class="grid-cell button" nowrap="nowrap" style="background-color: #DEDEDE;">
+                        <td class="grid-cell button" nowrap="nowrap" style="background-color: ${background};">
                         	<div style="width: 0px;"></div>
                         </td>
                         % endif
                         
                         % if editable:
-                        <td class="grid-cell selector" style="background-color: #DEDEDE;">
+                        <td class="grid-cell selector" style="background-color: ${background};">
                             <div style="width: 0px;"></div>
                         </td>
                         % endif

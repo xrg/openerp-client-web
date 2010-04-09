@@ -27,8 +27,8 @@
 #
 ###############################################################################
 import cherrypy
-from openerp.controllers import SecuredController, unsecured, login as tiny_login, form
-from openerp.utils import rpc, cache
+from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
+from openerp.utils import rpc, cache, common
 
 from openobject.tools import url, expose, redirect
 
@@ -52,6 +52,28 @@ class Root(SecuredController):
         """Index page, loads the view defined by `action_id`.
         """
         raise redirect("/menu")
+    
+    def user_action(self, id='action_id'):
+        """Perform default user action.
+
+        @param id: `action_id` or `menu_id`
+        """
+
+        proxy = rpc.RPCProxy("res.users")
+        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
+
+        if not act_id[0][id]:
+            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
+            rpc.session.logout()
+            raise redirect('/');
+        else:
+            act_id = act_id[0][id][0]
+            from openerp import controllers
+            return controllers.actions.execute_by_id(act_id)
+
+    @expose()
+    def home(self):
+        return self.user_action('action_id')
 
     @expose()
     def info(self):
@@ -68,10 +90,9 @@ class Root(SecuredController):
 
     @expose(template="templates/menu.mako")
     def menu(self, active=None, **kw):
-
         from openerp.utils import icons
         from openerp.widgets import tree_view
-
+        
         try:
             id = int(active)
         except:
@@ -103,7 +124,8 @@ class Root(SecuredController):
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
             tree.tree.linktarget = "'appFrame'"
-
+        if kw.get('db'):
+            return dict(parents=parents, tools=tools, setup = '/home')
         return dict(parents=parents, tools=tools)
 
     @expose(allow_json=True)
@@ -141,6 +163,10 @@ class Root(SecuredController):
         from openobject import release
         version = _("Version %s") % (release.version,)
         return dict(version=version)
+    
+    @expose()
+    def blank(self):
+        return ''
 
 
 # vim: ts=4 sts=4 sw=4 si et
