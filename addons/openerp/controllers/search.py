@@ -273,7 +273,7 @@ class Search(Form):
             custom_domains = eval(custom_domains)
             for inner in custom_domains:
                 if len(inner) == 4:
-                    if isinstance(inner[3], int):
+                    if isinstance(inner[3], (int, list)):
                         tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', ' + ustr(inner[3]) + ')]'
                     else:
                         tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'

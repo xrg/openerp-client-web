@@ -26,7 +26,11 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
-
+/**
+ * @event onaddfilter triggered when adding a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the newly added (or showed for first row?) filter row'
+ */
 var add_filter_row = function() {
 	
 	var filter_table = $('filter_table');
@@ -101,9 +105,15 @@ var add_filter_row = function() {
 		appendChildNodes(select_andor, option);
 		appendChildNodes(and_or, select_andor);
 		insertSiblingNodesAfter(old_tr, new_tr);
+		MochiKit.Signal.signal(filter_table, 'onaddfilter', new_tr || first_row);
 	}
 }
 
+/**
+ * @event onremovefilter triggered when removing a filter row
+ *  @target #filter_table the element holding the filter rows
+ *  @argument 'the removed (or hidden) filter row'
+ */
 var remove_row = function(id) {
 	
 	var filter_table = $('filter_table');
@@ -120,6 +130,7 @@ var remove_row = function(id) {
 		$('qstring/0').value = '';
 		$('qstring/0').style.background = '#FFFFFF';
 	}
+	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
 }
 // Direct click on icon.
 var search_image_filter = function(src, id) {
@@ -137,11 +148,11 @@ var onKey_Event = function(evt) {
     editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
     editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
     
-    var editors = filter(function(e){
+    var active_editors = filter(function(e){
         return e.type != 'hidden' && !e.disabled
     }, editors);
 
-    forEach(editors, function(e){
+    forEach(active_editors, function(e){
         connect(e, 'onkeydown', self, onKeyDown_search);
     });
 }
@@ -249,6 +260,7 @@ var search_filter = function(src, id) {
 	var domains = {};
 	var search_context = {};
 	var group_by_ctx = [];
+	var all_boxes = [];
 	var domain = 'None';
 	
 	if(src) {
@@ -282,8 +294,6 @@ var search_filter = function(src, id) {
 	all_domains['domains'] = domains;
 	all_domains['search_context'] =  search_context;
 	selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
-	
-	all_boxes = [];
 	
 	forEach(selected_boxes, function(box){
 		if (box.id && box.checked && box.value != '[]') {
@@ -322,22 +332,26 @@ var search_filter = function(src, id) {
 
 var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
 	var req = openobject.http.postJSON('/search/eval_domain_filter', 
-			{source: '_terp_list',
-			model: $('_terp_model').value, 
-			custom_domain: custom_domain,
-			all_domains: all_domains,
-			group_by_ctx: group_by_ctx});
+		{source: '_terp_list',
+		model: $('_terp_model').value, 
+		custom_domain: custom_domain,
+		all_domains: all_domains,
+		group_by_ctx: group_by_ctx
+	});
 	
 	req.addCallback(function(obj){
 		if (obj.flag) {
 			var params = {'domain': obj.sf_dom,
-							'model': openobject.dom.get('_terp_model').value,
-							'flag': obj.flag};
+				'model': openobject.dom.get('_terp_model').value,
+				'flag': obj.flag};
 							
 			if(group_by_ctx!=''){
 				params['group_by'] = group_by_ctx;
 			}				
-			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
+			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {
+				width: 400,
+				height: 250
+			});
 		}
 		
 		if (obj.action) { // For manage Filter
@@ -346,29 +360,46 @@ var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
 		}
 		
 		if (obj.domain) { // For direct search
-			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain, context: obj.context});
+			var in_req = eval_domain_context_request({
+				source: '_terp_list', 
+				domain: obj.domain, 
+				context: obj.context
+			});
+			
 			in_req.addCallback(function(in_obj){
 		    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
 		    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 		    	openobject.dom.get('_terp_context').value = in_obj.context;
 		    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
 		    	if (getElement('_terp_list') != null){
-		    		new ListView('_terp_list').reload()
+		    		new ListView('_terp_list').reload();
 		    	}
 			});	
 		}
 	});
 }
 
-var expand_group_option = function(id, event) {
-	if(getElement(id).style.display == '') {
-		getElement(id).style.display = 'none'
-		event.target.className = 'group-expand';
-	}
-	else {
-		getElement(id).style.display = '';
-		event.target.className = 'group-collapse';
-	}
+/**
+ * @event groupby-toggle triggered when changing the display state of the groupby options
+ *  @target #search_filter_data the element holding the filter rows
+ *  @argument 'the action performed ("expand" or "collapse")
+ */
+function expand_group_option(id, event) {
+    var groupbyElement = getElement(id);
+    var action;
+    if (groupbyElement.style.display == '') {
+        groupbyElement.style.display = 'none';
+        event.target.className = 'group-expand';
+        action = 'collapse';
+    } else {
+        groupbyElement.style.display = '';
+        event.target.className = 'group-collapse';
+        action = 'expand';
+    }
+    MochiKit.Signal.signal(
+            $('search_filter_data'),
+            'groupby-toggle',
+            action);
 }
 
 MochiKit.DOM.addLoadEvent(function(evt){
