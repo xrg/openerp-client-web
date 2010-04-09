@@ -1,3 +1,6 @@
+<%!
+import itertools
+%>
 <table id="${name}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
@@ -56,7 +59,7 @@
                             <img src="/openerp/static/images/listgrid/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                         </td>
                         % for i, (field, field_attrs) in enumerate(headers):
-                        	% if field=='button':
+                        	% if field == 'button':
 	                        	<td class="grid-cell">
 	                        	</td>
 	                        % else:
@@ -92,7 +95,7 @@
                         </td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
-                        %if field=='button':
+                        %if field == 'button':
                         	<td class="grid-cell"><span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span></td>
                         %else:
 	                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
@@ -186,9 +189,6 @@
                 % endif
 
             </table>
-            <%!
-				import itertools
-			%>
 			% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
 				<script type="text/javascript">
 					var drag = getElementsByTagAndClassName('tr','grid-row');
