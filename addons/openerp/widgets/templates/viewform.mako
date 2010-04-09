@@ -10,7 +10,7 @@
     </div>
 
 % if screen:
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+	<table border="0" cellpadding="0" cellspacing="0" width="100%">
         % if search:
         <tr>
             <td valign="top">${display_member(search)}</td>
@@ -35,6 +35,7 @@
                     <button type="button" title="${_('Create new record.')}" 
                         onclick="new ListView('_terp_list').create()">${_("New")}</button>
                     % endif
+                    <button type="button" class="clear" title="${_('Clear records.')}" onclick="">${_("Clear")}</button>
                 </div>
             </td>
         </tr>
@@ -45,4 +46,3 @@
     </table>
 % endif
 </form>
-

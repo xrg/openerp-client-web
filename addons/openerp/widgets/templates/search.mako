@@ -23,19 +23,21 @@
 	    	</td>
 	    </tr>
 	</table>
-	
-	<table>
-	    <tr>
-	    	<td align="right">
-	    		<select name="filter_list" id="filter_list" onchange="search_filter();">
+	<div class="custom-filter">
+		<ul>
+			<li>
+				<select name="filter_list" id="filter_list" onchange="search_filter();">
 	                % for f in filters_list:
 	                <option value="${f[0]}">${f[1]}</option>
 	                % endfor
 	            </select>
-	    	</td>
-	    	<td>
-	    		<img width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-add.png" onclick="add_filter_row();" style="cursor: pointer;"/>
-	    	</td>
-	    </tr>
-	</table>
+			</li>
+			<li>
+				<a class="button">
+					<span class="add" onclick="add_filter_row();">Add</span>
+				</a>
+				
+			</li>
+		</ul>
+	</div>
 </div>

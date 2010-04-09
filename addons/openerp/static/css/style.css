@@ -89,9 +89,60 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background: url(../images/button_bg2.png) repeat-x left top;
+div.toolbar button {
+    border: solid 1px #888888;    
+    background: url(../images/button-a.gif) repeat-x;
+    color: #FFFFFF;
+    padding: 0px 2px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 1px 10px 0; 
+    border: 1px solid #aaa9a9; 
+    border-color: #c6c4c4 #aaa9a9 #797878; 
+    border-radius: 3px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px; 
+    box-shadow: 0 1px 0 #fff; 
+    -moz-box-shadow: 0 1px 0 #fff; 
+    -webkit-box-shadow: 0 1px 0 #fff;
+    white-space: nowrap;
+    text-transform: uppercase; 
+    text-shadow: #6a6969 0 1px 0;
 }
+
+div.toolbar button.clear {
+	border: 1px solid #aaa9a9;
+	border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px;
+    background: url(../images/button-a.gif) 0 -25px repeat-x; 
+    color: #8D8D8D; 
+    white-space: nowrap;
+    padding: 0px 2px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 1px 10px 0;
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px; 
+    box-shadow: 0 1px 0 #fff; 
+    -moz-box-shadow: 0 1px 0 #fff; 
+    -webkit-box-shadow: 0 1px 0 #fff;
+    cursor: pointer;
+    text-transform: uppercase; 
+    text-shadow: #fff 0 1px 0;
+}
+
+/*div.toolbar button.clear { float: left; height: 15px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; } */
+
+/* button:hover {
+    background: url(../images/button_bg2.png) repeat-x left top;
+} 
+
+div.toolbar button { float: left; height: 15px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #c6c4c4 #aaa9a9 #797878; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) repeat-x; color: #fff; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #6a6969 0 1px 0; }
+
+*/
 
 button.btn_filter {
 	border: solid 1px #888888;    
@@ -135,31 +186,119 @@ div.active_filter {
 
 div.group-expand {
 	cursor: pointer;
-	background: url(../images/treegrid/expand.gif) no-repeat top left;
-	padding-left: 15px;
+	/*background: url(../images/treegrid/expand.gif) no-repeat top left; */
+	/*padding-left: 15px; */
+	margin: 0 0 10px;
+	overflow: hidden;
+	width: 100%;
 }
 
-div.group-expand:hover {
-	cursor: pointer;
-	background: url(../images/treegrid/expandh.gif) no-repeat top left;
-	padding-left: 15px;
-	padding-left: 15px;
+div.group-expand h2 {
+	margin: 0 0 10px; 
+	padding: 0 0 0 10px; 
+	background: url(../images/group-a-header-a.png) 0 50% no-repeat; 
+	color: #7d7979; 
+	font-size: 1em; 
+	font-weight: bold; 
+	text-transform: uppercase;
+}
+div.group-expand h2 span {
+	padding: 0 6px; 
+	background: #f0eeee;
+}
+
+div.group-expand h2:hover {
+	margin: 0 0 10px; 
+	padding: 0 0 0 10px; 
+	background: url(../images/group-a-header-a2.png) 0 50% no-repeat; 
+	color: #7d7979; 
+	font-size: 1em; 
+	font-weight: bold; 
+	text-transform: uppercase;
+}
+
+#groupdata_table {
+	margin: 0;
+}
+
+#groupdata_table td {
+	padding: 0;
 }
 
 div.group-collapse {
 	cursor: pointer;
-	background: url(../images/treegrid/collapse.gif) no-repeat top left;
-	padding-left: 15px;
-	padding-left: 15px;
+	/*background: url(../images/treegrid/expand.gif) no-repeat top left; */
+	/*padding-left: 15px; */
+	margin: 0 0 10px;
+	overflow: hidden;
+	width: 100%;
 }
 
-div.group-collapse:hover {
-	cursor: pointer;
-	background: url(../images/treegrid/collapseh.gif) no-repeat top left;
-	padding-left: 15px;
-	padding-left: 15px;
+div.group-collapse h2 {
+	margin: 0 0 10px; 
+	padding: 0 0 0 10px; 
+	background: url(../images/group-a-header-b.png) 0 50% no-repeat; 
+	color: #7d7979; 
+	font-size: 1em; 
+	font-weight: bold; 
+	text-transform: uppercase;
+}
+div.group-collapse h2 span {
+	padding: 0 6px; 
+	background: #f0eeee;
 }
 
+div.group-collapse h2:hover {
+	margin: 0 0 10px; 
+	padding: 0 0 0 10px; 
+	background: url(../images/group-a-header-b2.png) 0 50% no-repeat; 
+	color: #7d7979; 
+	font-size: 1em; 
+	font-weight: bold; 
+	text-transform: uppercase;
+}
+
+div.custom-filter {
+	overflow: hidden; width: 100%; margin: 0 0 10px;
+}
+
+div.custom-filter ul {
+	float: left; list-style: none; margin: 0; padding: 0;
+}
+
+div.custom-filter ul li {
+	display: inline; 
+	float: left;
+	margin: 0 0 0 5px;
+}
+
+div.custom-filter ul li select {
+	float: left; 
+	height: 17px; 
+	padding: -1px 10px 0; 
+	border: 1px solid #aaa9a9; 
+	border-color: #e5e3e3 #dad9d9 #cccbcb; 
+	border-radius: 3px; 
+	-moz-border-radius: 3px; 
+	-webkit-border-radius: 3px; 
+	box-shadow: 0 1px 0 #fff; 
+	-moz-box-shadow: 0 1px 0 #fff; 
+	-webkit-box-shadow: 0 1px 0 #fff; 
+	background: url(../images/button-a.gif) 0 -25px repeat-x; 
+	color: #8d8d8d; 
+	white-space: nowrap; 
+	font-size: 1em; 
+	font-weight: 600; 
+	line-height: 11px;
+	text-shadow: #fff 0 1px 0;
+}
+
+div.custom-filter ul li a.button {
+	cursor: pointer; float: left; height: 11px; padding: 3px 9px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0;
+}
+div.custom-filter ul li span.add {
+	display: block; overflow: hidden; width: 7px; margin: 0 -2px; background: url(../images/button-b-icons-add.gif) 0 50% no-repeat; font-size: 0; text-indent: -10001px;
+}
 /* ============== SEARCH FORM end ==============*/
 
 button.inactive {

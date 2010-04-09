@@ -425,14 +425,15 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 	});
 }
 
-var expand_group_option = function(id, event) {
+var expand_group_option = function(id, element) {
 	if(getElement(id).style.display == '') {
-		getElement(id).style.display = 'none'
-		event.target.className = 'group-expand';
+		getElement(id).style.display = 'none';
+		element.className = 'group-expand';
 	}
+	
 	else {
 		getElement(id).style.display = '';
-		event.target.className = 'group-collapse';
+		element.className = 'group-collapse';
 	}
 }
 

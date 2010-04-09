@@ -1,31 +1,33 @@
 <div class="pager">
-    <span id="_${name+str(pager_id)}_link_span">
-        % if prev:
-        <a href="javascript: void(0)" onclick="pager_action('first', '${name}'); return false;">
+    <p id="_${name+str(pager_id)}_link_span" class="paging">
+		% if prev:
+		<a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('first', '${name}'); return false;">
+		% endif
+		<a class="first"></a>
+		<span>|</span>
+		% if prev:
+        </a>
+        <a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('previous', '${name}'); return false;">
         % endif
-        <span>${_("<< First")}</span>
+        <a class="prev"></a>
         % if prev:
         </a>
-        <a href="javascript: void(0)" onclick="pager_action('previous', '${name}'); return false;">
         % endif
-        <span>${_("< Previous")}</span>
-        % if prev:
-        </a>
-        % endif
-        <a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_link_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display=''">${page_info}</a>
+        <font onclick="openobject.dom.get('_${name+str(pager_id)}_link_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display=''" style="cursor: pointer;">${page_info}</font>
         % if next:
-        <a href="javascript: void(0)" onclick="pager_action('next', '${name}'); return false;">
+        <a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('next', '${name}'); return false;">
         % endif
-        <span>${_("Next >")}</span>
-        % if next:
-        </a>
-        <a href="javascript: void(0)" onclick="pager_action('last', '${name}'); return false;">
-        % endif
-        <span>${_("Last >>")}</span>
+        <a class="next"></a>
+        <span>|</span>
         % if next:
         </a>
+        <a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('last', '${name}'); return false;">
         % endif
-    </span>
+        <a class="last"></a>
+        % if next:
+        </a>
+        % endif
+	</p>
 
     <table id="_${name+str(pager_id)}_limit_span" style="width: 100%; display: none" border="0" cellpadding="0" cellspacing="0">
         <tr>

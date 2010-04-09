@@ -121,7 +121,8 @@ h4 { font-size: 1.0em; }
 h5 { font-size: 1.2em; }
 h6 { font-size: 1.0em; }
 
-h1 a.help { display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 14px; height: 14px; background: url(../images/iconset-a-help.gif) no-repeat; font-size: 0; text-indent: -10001px; vertical-align: middle; }
+h1 a.help { display: -moz-inline-stack; cursor: pointer; display: inline-block; overflow: hidden; width: 14px; height: 14px; background: url(../images/iconset-a-help.gif) no-repeat; font-size: 0; text-indent: -10001px; vertical-align: middle; }
+h1 img { display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 14px; height: 14px; vertical-align: middle; }
 * html h1 a.help { display: inline; }
 *:first-child+html h1 a.help { display: inline; }
 h1 small.sub { display: block; color: #7e7979; font-size: 0.5em; font-weight: bold; text-transform: uppercase; }
@@ -196,11 +197,13 @@ div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px; padding: 0 0 5px;
  div.filter-a ul { float: left; list-style: none; margin: 0 10px 0 0; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
   div.filter-a ul li { float: left; border-left: 1px solid #cccbcb; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
   div.filter-a ul li.first { border-left: none; }
+  div.filter-a ul li.active_filter a { background-color: #e8e8e8; cursor: pointer; }
+   div.filter-a ul li.inactive_filter a { background-color: #e8e8e8; cursor: pointer; }
    div.filter-a ul li.products a { background-image: url(../images/filter-a-icons-products.gif); }
    div.filter-a ul li.services a { background-image: url(../images/filter-a-icons-services.gif); }
-   div.filter-a ul li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 8px; background-repeat: no-repeat; }
-   div.filter-a ul li a.active { background-color: #e8e8e8; }
-    div.filter-a ul li a span { display: none; position: absolute; left: 50%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
+   div.filter-a ul li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 8px; background-repeat: no-repeat; white-space: nowrap;}
+   div.filter-a ul li a.active { background-color: #E4E4E9; }
+    div.filter-a ul li a span { display: none; position: absolute; left: 45%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
     div.filter-a ul li a.active span { display: block; }
  div.filter-a div.fields-a { float: left; padding-top: 13px; }
   div.filter-a div.fields-a p { float: left; margin: 0                  ; padding-right: 10px; }
@@ -215,6 +218,9 @@ div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10
  div.footer-a p.one { float: left; }
  div.footer-a p.two { float: right; }
 
+div.search-bar { overflow: hidden; width: 100%; margin: 0 0 10px; }
+div.search-bar ul { float: left; list-style: none; margin: 0; padding: 0; }
+div.search-bar ul li { display: inline; float: left; margin: 0 5px 0 0; }
 div.group-a { overflow: hidden; width: 100%; margin: 0 0 10px; }
  div.group-a h2 { margin: 0 0 10px; padding: 0 0 0 5px; background: url(../images/group-a-header-a.png) 0 50% no-repeat; color: #7d7979; font-size: 1em; font-weight: bold; text-transform: uppercase; }
   div.group-a h2 span { padding: 0 6px; background: #f0eeee; }
@@ -228,6 +234,7 @@ div.group-a { overflow: hidden; width: 100%; margin: 0 0 10px; }
    div.group-a ul li span.link { display: block; overflow: hidden; width: 10px; margin: 0 -5px; background: url(../images/button-b-icons-link.gif) 0 50% no-repeat; font-size: 0; text-indent: -10001px; }
    div.group-a ul li span.add { display: block; overflow: hidden; width: 6px; margin: 0 -3px; background: url(../images/button-b-icons-add.gif) 0 50% no-repeat; font-size: 0; text-indent: -10001px; }
 
+table.list-a { }
 div.list-a { }
  div.list-a div.header { position: absolute; float: left; padding-right: 15px; background: #fff; }
   div.list-a div.header h2 { float: left; margin: 0; padding: 0 10px 0 0; border: none; background: none; color: #252424; font-size: 1.4em; text-transform: none; }

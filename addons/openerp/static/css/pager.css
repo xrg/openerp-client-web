@@ -5,9 +5,28 @@
     vertical-align: middle;
 }
 
-.pager a {
-    color: #333;
+.pager p.paging {
+	color: #a6a5a5; 
+	font-size: 0.9em; 
+	font-weight: bold; 
+	text-transform: uppercase; 
+	text-align: right; 
+	line-height: 1;
+	float: right; margin: 0; padding-left: 10px;
 }
+
+.pager p.paging a{
+	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; background: url(../images/paging-a.gif) no-repeat; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
+}
+
+.pager p.paging span { position: absolute; left: -10001px; top: -10001px; }
+
+.pager p.paging a.first { margin: 0; background-position: 0 0; }
+.pager p.paging a.prev { width: 5px; background-position: 0 0; }
+.pager p.paging a.last { margin: 0; background-position: -8px 0; }
+.pager p.paging a.next { width: 5px; background-position: -8px 0; }
+* html p.paging a { display: inline; text-indent: 0; }
+ *:first-child+html p.paging a { display: inline; text-indent: 0; }
 
 .pager a:hover {
     text-decoration: none;
