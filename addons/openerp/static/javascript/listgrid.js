@@ -540,7 +540,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = this.makeArgs();
-        var table = this.name
+        var table = this.name;
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
@@ -595,7 +595,7 @@ MochiKit.Base.update(ListView.prototype, {
             // update concurrency info
             for(var key in obj.info) {
                 try {
-                    var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]")
+                    var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");
                     var value = "('" + key + "', '" + obj.info[key] + "')";
                     for(var i=0; i<items.length;i++) {
                         items[i].value = value;
