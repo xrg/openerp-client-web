@@ -250,6 +250,10 @@ class List(SecuredController):
         from openobject.tools import ast
         domain = ast.literal_eval(domain)[0]
         children = ast.literal_eval(children)
+        if isinstance(children, list):
+            children = list(children)
+        else:
+            children = [children]
         rpc.RPCProxy(model).write(children, {domain[0]: domain[2]})
         return {}
     

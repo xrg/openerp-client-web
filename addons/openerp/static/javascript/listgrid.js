@@ -246,11 +246,16 @@ MochiKit.Base.update(ListView.prototype, {
 			children = $(drag).attr('ch_records')
 		}
 		else {
-			var group = $(drag).attr('id').split('grid-row ')[1];
-			children = $('tr.grid-row-group[records="'+group+'"]').attr('ch_records')
+			if(drag.id == drop.id) {
+				var group = $(drag).attr('id').split('grid-row ')[1];
+				children = $('tr.grid-row-group[records="'+group+'"]').attr('ch_records')
+			}	
+			else {
+				children = $(drag).attr('record')
+			}
 		}
 		
-		if($(drag).attr('record') && $(drop).attr('record')) {
+		if(($(drag).attr('record') && $(drop).attr('record')) && ($(drag).attr('id')) == $(drop).attr('id')) {
 			_list_view.dragRow(drag, drop);
 		}	
 		else {
