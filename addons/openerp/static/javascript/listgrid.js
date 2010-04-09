@@ -540,7 +540,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = this.makeArgs();
-        var table = this.name
+        var table = this.name;
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
@@ -595,7 +595,7 @@ MochiKit.Base.update(ListView.prototype, {
             // update concurrency info
             for(var key in obj.info) {
                 try {
-                    var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]")
+                    var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");
                     var value = "('" + key + "', '" + obj.info[key] + "')";
                     for(var i=0; i<items.length;i++) {
                         items[i].value = value;
@@ -620,21 +620,20 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-            
+
             //Make all records Editable by Double-click
-            var $ = jQuery;
-            var view_type = $('[id*=_terp_view_type]').val();
-            var editable = $('[id*=_terp_editable]').val();
-            
-            $('table[id^="'+table+'"].grid tr.grid-row').each(function(e) { 
-            	$(this).dblclick(function(event) {
+            var view_type = jQuery('[id*=_terp_view_type]').val();
+            var editable = jQuery('[id*=_terp_editable]').val();
+
+            jQuery('table[id^="'+table+'"].grid tr.grid-row').each(function(e) {
+            	jQuery(this).dblclick(function(event) {
             		if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
             			if (view_type == 'tree') {
             				if (editable != 'True') {
-            					do_select($(this).attr('record'));
+            					do_select(jQuery(this).attr('record'));
             				}
             				else {
-            					editRecord($(this).attr('record'));
+            					editRecord(jQuery(this).attr('record'));
             				}
             			}
             		}
