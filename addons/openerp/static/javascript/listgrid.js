@@ -688,9 +688,14 @@ MochiKit.Base.update(ListView.prototype, {
     }
 });
 
+/**
+ * @event 'toggle-group-data' triggered when expanding or collapsing a groupby group
+ *  @target window.document
+ *  @parameter 'the groupby rows'
+ */
 function toggle_group_data(id) {
     var img = openobject.dom.get('img_'+id);
-    var rows = getElementsByTagAndClassName('tr','grid-row-group')
+    var rows = getElementsByTagAndClassName('tr','grid-row-group');
 
     forEach(rows, function(rw){
         if(rw.id && rw.id.indexOf(id)>0) {
@@ -703,6 +708,7 @@ function toggle_group_data(id) {
             }
         }
     });
+    MochiKit.Signal.signal(document, 'toggle-group-data', rows);
 }
 
 function row_edit(evt) {
