@@ -54,7 +54,7 @@ class RangeWidget(TinyInputWidget):
         kind = attrs.get('type', 'integer')
 
         fname = attrs['name']
-
+        
         from_attrs = dict(attrs, name=fname+'/from')
         to_attrs = dict(attrs, name=fname+'/to')
 
@@ -95,7 +95,7 @@ class Filter(TinyInputWidget):
             
         default_domain = attrs.get('default_domain')
         group_by_ctx = attrs.get('group_by_ctx', [])
-        
+        self.global_domain = []
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain', [])
         self.help = attrs.get('help')
@@ -116,12 +116,15 @@ class Filter(TinyInputWidget):
                         default_val = 1
                     else:
                         default_val = 0
+                        self.global_domain = []
             else:
                 default_val = 0
+                self.global_domain = []
                 
         if default_val:
             self.def_checked = True
-
+            self.global_domain += (expr_eval(self.filter_domain, {'context':screen_context}))
+            
         self.group_context = None
         
         # context implemented only for group_by.
@@ -157,7 +160,9 @@ class Search(TinyInputWidget):
         super(Search, self).__init__(model=model)
 
         self.domain = domain or []
+        self.listof_domain = []
         self.filter_domain = filter_domain or []
+        self.custom_filter_domain = []
         self.context = context or {}
         self.model = model
         if values == "undefined":
@@ -207,6 +212,8 @@ class Search(TinyInputWidget):
         
         if self.filter_domain == []:
             self.filter_domain += [(self.fields_list[0][0], self.operators_map[0][0], '')]
+        else:
+            self.custom_filter_domain = self.filter_domain
 
     def parse(self, model=None, root=None, fields=None, values={}):
 
@@ -248,7 +255,9 @@ class Search(TinyInputWidget):
                 attrs['screen_context'] = self.context
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
-                views.append(Filter(**attrs))
+                v = Filter(**attrs)
+                self.listof_domain = filter(lambda x: type(x)==tuple, set(self.listof_domain + v.global_domain))
+                views.append(v)
 
             elif node.localName == 'field':
                 name = attrs['name']
@@ -312,7 +321,7 @@ class Search(TinyInputWidget):
                         filter_field = Filter(**attrs)
                         filter_field.onchange = None
                         filter_field.callback = None
-
+                        self.listof_domain = filter(lambda x: type(x)==tuple, set(self.listof_domain + filter_field.global_domain))
                         views.append(filter_field)
 
         return views

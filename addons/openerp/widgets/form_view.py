@@ -67,29 +67,36 @@ class ViewForm(Form):
 
         if readonly is None:
             readonly = False
-
-        self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
-                             selectable=params.selectable or 2)
-
-        self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
-                               self.screen.view_type, context=self.screen.context)
-
+       
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
 
         self.search = None
         search_param = params.search_domain or []
         if search_param:
             for element in params.domain:
-                if not isinstance(element,tuple):
-                    search_param.append(element)
-                else:
-                    key, op, value = element
-                    search_param.append((key, op, value))
-            params.domain = search_param
-
+                if element not in search_param:
+                    if not isinstance(element,tuple):
+                        search_param.append(element)
+                    else:
+                        key, op, value = element
+                        search_param.append((key, op, value))
+                        
+        cherrypy.request.custom_search_domain = []
+        cherrypy.request.custom_filter_domain = []
+                       
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(model=params.model, domain=params.domain, context=params.context, values=params.search_data or {},
+            self.search = Search(model=params.model, domain=search_param, context=params.context, values=params.search_data or {},
                                  filter_domain=params.filter_domain or [])
+            
+            cherrypy.request.custom_search_domain = self.search.listof_domain or []
+            cherrypy.request.custom_filter_domain = self.search.custom_filter_domain or []
+        
+        self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
+                             selectable=params.selectable or 2)
+        
+        if self.screen.toolbar:
+            self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
+                                   self.screen.view_type, context=self.screen.context)
 
         if params.view_type == 'tree':
             self.screen.id = False

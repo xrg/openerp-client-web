@@ -155,14 +155,102 @@ var onKeyDown_search = function(evt) {
     }
 }
 
-var search_filter = function(src, id) {
-	all_domains = {};
-	check_domain = 'None';
-	domains = {};
-	search_context = {};
-	var group_by_ctx = [];
+var display_Customfilters = function(all_domains, group_by_ctx){
+
+	var filter_table = $('filter_table');
 	
-	domain = 'None';
+	var params = {};
+	var record = {};
+	
+	children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
+	forEach(children, function(ch){
+		
+		var ids = ch['id'];	// row id...
+		var id = ids.split('/')[1];
+		var qid = 'qstring/' + id;
+		var fid = 'filter_fields/' + id;
+		var eid = 'expr/' + id;
+		if ($(qid) && $(qid).value) {
+			var rec = {};
+			rec[$(fid).value] = $(qid).value;
+			params['_terp_model'] = openobject.dom.get('_terp_model').value;
+		}
+		if (rec) {
+			record[ids] = rec;
+		}
+	});
+	
+	record = serializeJSON(record);
+	params['record'] = record;
+	var custom_domain = [];
+	var search_req = openobject.http.postJSON('/search/get', params);
+	search_req.addCallback(function(obj){
+		if (obj.error) {
+			forEach(children, function(child){
+				var cids = child['id']
+				var id = cids.split('/')[1];
+				var fid = 'filter_fields/' + id;
+				if ($(fid).value == obj.error_field) {
+					f = fid.split('/')[1];
+					$('qstring/'+f).style.background = '#FF6666';
+					$('qstring/'+f).value = obj.error;
+				}
+			});
+		}
+		if (obj.frm) {
+   			for (var i in obj.frm) {
+   				var temp_domain = [];
+   				var operator = 'None';
+   				
+				var id = serializeJSON(i).split('/')[1];
+				id = parseInt(id, 10);
+				
+				var fid = 'filter_fields/' + id;
+				var eid = 'expr/' + id;
+				var select_andor = 'select_andor/' + id;
+				var type = obj.frm[i].type;
+				
+				if($(select_andor)){
+					var operator = $(select_andor).value == 'AND'? '&': '|';
+				}
+				  				
+   				if (operator != 'None') {
+   					temp_domain.push(operator);
+   				}
+   				
+   				var first_text = obj.frm[i].rec;
+   				var expression = $(eid).value;
+   				var right_text = obj.frm[i].rec_val;
+   				
+   				if (expression=='ilike'||expression=='not ilike'){
+   					if (type=='integer'||type=='float'||type=='date'||type=='datetime'||type=='boolean'){
+   						expression = expression == 'ilike'? '=': '!=';
+   					}
+   				}
+   				if ((expression == '<' || expression == '>') && (type!='integer'||type!='float'||type!='date'||type!='datetime'||type!='boolean')){
+   					expression = '=';
+   				}
+   				if (expression == 'in' || expression == 'not in'){
+   					right_text = typeof right_text == 'string'? right_text.split(',') : right_text[right_text.length-1][right_text[right_text.length-1].length-1];
+   				}
+   				
+				temp_domain.push(first_text, expression, right_text);
+				custom_domain.push(temp_domain);
+   			}
+		}
+		custom_domain = serializeJSON(custom_domain);
+		final_search_domain(custom_domain, all_domains, group_by_ctx);
+	});	
+}
+
+var search_filter = function(src, id) {
+	var all_domains = {};
+	var check_domain = 'None';
+	var domains = {};
+	var search_context = {};
+	var group_by_ctx = [];
+	var domain = 'None';
+	
 	if(src) {
 		if(src.checked==false) {
 			src.checked = true
@@ -210,154 +298,56 @@ var search_filter = function(src, id) {
 	openobject.dom.get('_terp_group_by_ctx').value = group_by_ctx;
 	
 	checked_button = all_boxes.toString();
-	
-	if (checked_button.length > 0) {
-		check_domain = checked_button.replace(/(]\,\[)/g, ', ');
-	}
-	else {
-		check_domain = 'None';
-	}
-	
+	check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
 	all_domains['check_domain'] = check_domain;
 	
-	var selection_domain = $('filter_list').value;
-	
-	if (selection_domain) {
-		all_domains['selection_domain'] = selection_domain;
+	if ($('filter_list')) {
+		all_domains['selection_domain'] = $('filter_list').value;
 	}
 	
-	if(openobject.dom.get('_terp_filter_domain').value != '[]') {
+	all_domains = serializeJSON(all_domains);
+	var fil_dom = openobject.dom.get('_terp_filter_domain');
+	if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
 		
-		var params = {};
-		var record = {};
-		
-		filter_table.style.display = ''
-		
-		children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
-		forEach(children, function(ch){
-			
-			var ids = ch['id'];	// row id...
-			var id = ids.split('/')[1];
-			var qid = 'qstring/' + id;
-			var fid = 'filter_fields/' + id;
-			var eid = 'expr/' + id;
-			if ($(qid) && $(qid).value) {
-				var rec = {};
-				rec[$(fid).value] = $(qid).value;
-				params['_terp_model'] = openobject.dom.get('_terp_model').value;
-			}
-			if (rec) {
-				record[ids] = rec;
-			}
-		});
-		
-		record = serializeJSON(record);
-		params['record'] = record;
-		
-		var search_req = openobject.http.postJSON('/search/get', params);
-
-		var custom_domain = [];
-		search_req.addCallback(function(obj){
-			if (obj.error) {
-				forEach(children, function(child){
-					var cids = child['id']
-					var id = cids.split('/')[1];
-					var fid = 'filter_fields/' + id;
-					if ($(fid).value == obj.error_field) {
-						f = fid.split('/')[1];
-						$('qstring/'+f).style.background = '#FF6666';
-						$('qstring/'+f).value = obj.error;
-					}
-				});
-			}
-			if (obj.frm) {
-    			for (var i in obj.frm) {
-    				var temp_domain = [];
-    				var operator = 'None';
-    				
-    				row_id = serializeJSON(i);
-					id = row_id.split('/')[1];
-					id = parseInt(id, 10);
-					
-					var fid = 'filter_fields/' + id;
-					var eid = 'expr/' + id;
-					var select_andor = 'select_andor/' + id;
-					var type = obj.frm[i].type;
-					if($(select_andor)){
-						if ($(select_andor).value == 'AND') {
-							var operator = '&';
-						}
-						else {
-							var operator = '|';
-						}
-					}  				
-    				if (operator != 'None') {
-    					temp_domain.push(operator);
-    				}
-    				
-    				var first_text = obj.frm[i].rec;
-    				var expression = $(eid).value;
-    				var right_text = obj.frm[i].rec_val;
-    				if (expression=='ilike'||expression=='not ilike'){
-    					if (type=='integer'||type=='float'||type=='date'||type=='datetime'||type=='boolean'){
-    						if (expression == 'ilike')
-    							expression = '=';
-    						else {
-    							expression = '!=';
-    						}
-    					}
-    				}
-    				if ((expression == '<' || expression == '>') && (type!='integer'||type!='float'||type!='date'||type!='datetime'||type!='boolean')){
-    					expression = '=';
-    				}
-    				if (expression == 'in' || expression == 'not in'){
-    					right_text = right_text.split(',');
-    				}
-    				
-					temp_domain.push(first_text);
-					temp_domain.push(expression);
-					temp_domain.push(right_text);
-					
-					custom_domain.push(temp_domain);
-    			}
-			}
-			custom_domain = serializeJSON(custom_domain);
-			all_domains = serializeJSON(all_domains);
-			
-			final_search_domain(custom_domain, all_domains, group_by_ctx);
-		});
+		if (filter_table.style.display == 'none'){
+			filter_table.style.display = '';
+		}		
+		display_Customfilters(all_domains, group_by_ctx);
 	}
 	else {
-		custom_domain = openobject.dom.get('_terp_filter_domain').value || []
-		all_domains = serializeJSON(all_domains);
+		custom_domain = fil_dom.value || '[]';		
 		final_search_domain(custom_domain, all_domains, group_by_ctx);	
 	}
 }
 
-var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
-	var req = openobject.http.postJSON('/search/eval_domain_filter', {source: '_terp_list',
-															model: $('_terp_model').value, 
-															custom_domain: custom_domain,
-															all_domains: all_domains,
-															group_by_ctx: group_by_ctx});
+var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
+	var req = openobject.http.postJSON('/search/eval_domain_filter', 
+			{source: '_terp_list',
+			model: $('_terp_model').value, 
+			custom_domain: custom_domain,
+			all_domains: all_domains,
+			group_by_ctx: group_by_ctx});
 	
 	req.addCallback(function(obj){
 		if (obj.flag) {
 			var params = {'domain': obj.sf_dom,
 							'model': openobject.dom.get('_terp_model').value,
 							'flag': obj.flag};
-			if(group_by_ctx!='')
-				params['group_by'] = group_by_ctx				
+							
+			if(group_by_ctx!=''){
+				params['group_by'] = group_by_ctx;
+			}				
 			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {width: 400, height: 250});
 		}
+		
 		if (obj.action) { // For manage Filter
 			action = serializeJSON(obj.action);
 			window.location.href = openobject.http.getURL('/search/manage_filter', {action: action});
 		}
+		
 		if (obj.domain) { // For direct search
 			var in_req = eval_domain_context_request({source: '_terp_list', domain: obj.domain, context: obj.context});
-
-		    in_req.addCallback(function(in_obj){
+			in_req.addCallback(function(in_obj){
 		    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
 		    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 		    	openobject.dom.get('_terp_context').value = in_obj.context;
@@ -365,7 +355,7 @@ var final_search_domain = function(custom_domain, all_domain, group_by_ctx) {
 		    	if (getElement('_terp_list') != null){
 		    		new ListView('_terp_list').reload()
 		    	}
-		    });	
+			});	
 		}
 	});
 }
@@ -383,6 +373,11 @@ var expand_group_option = function(id, event) {
 
 MochiKit.DOM.addLoadEvent(function(evt){
 
-	onKey_Event(evt);
-	search_filter();
+	var fil_dom = openobject.dom.get('_terp_filter_domain');
+	if($('filter_table').style.display == '' || fil_dom && fil_dom.value != '[]') {
+		if($('filter_table').style.display == 'none'){
+			$('filter_table').style.display = '';
+		}
+	}
+	onKey_Event(evt);	
 });

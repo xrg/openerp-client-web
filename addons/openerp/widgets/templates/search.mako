@@ -16,7 +16,7 @@
 								<option value="${operator}" ${py.selector(operator==k[1])}>${description}</option>
 							% endfor
 						</select>
-					       <input type="text" class='qstring' id="qstring/${x}"/>
+					       <input type="text" class='qstring' id="qstring/${x}" value="${k[2] or ''}" />
 					</td>
 					% if len(filter_domain[f -1]) == 1:
 					<td class="and_or" id="and_or/${x}">
