@@ -540,7 +540,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = this.makeArgs();
-        
+        var table = this.name
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
@@ -620,7 +620,26 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-            row_edit();
+            
+            //Make all records Editable by Double-click
+            var $ = jQuery;
+            var view_type = $('[id*=_terp_view_type]').val();
+            var editable = $('[id*=_terp_editable]').val();
+            console.log(view_type)
+            $('table[id^="'+table+'"].grid tr.grid-row').each(function(e) { 
+            	$(this).dblclick(function(event) {
+            		if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+            			if (view_type == 'tree') {
+            				if (editable != 'True') {
+            					do_select($(this).attr('record'));
+            				}
+            				else {
+            					editRecord($(this).attr('record'));
+            				}
+            			}
+            		}
+            	})
+            });
         });
     }
 });
@@ -670,38 +689,6 @@ var toggle_group_data = function(id) {
 		}
 	});
 }
-
-var row_edit = function(evt) {
-	var row = [];
-	row = getElementsByTagAndClassName('tr', 'grid-row');
-	
-    forEach(row, function(e){
-    	MochiKit.Signal.connect(e, 'ondblclick', e, select_row_edit);
-    });
-}
-
-var select_row_edit = function(e){
-	src = e.src();
-	src_record = getNodeAttribute(src, 'record');
-	target = e.target();
-	target_class = getNodeAttribute(target,'class');
-
-    var view_type = getElement('_terp_view_type').value;
-    var editable = getElement('_terp_editable').value;
-
-	if (!(target_class == 'checkbox grid-record-selector' || target_class == 'listImage')) {
-		if ((view_type == 'tree' && editable != 'True')) {
-			do_select(src_record);
-		}
-		if ((view_type == 'tree' && editable == 'True')){
-			editRecord(src_record);
-		}
-	}
-}
-
-MochiKit.DOM.addLoadEvent(function(evt){
-	row_edit(evt);
-});
 
 // vim: ts=4 sts=4 sw=4 si et
 
