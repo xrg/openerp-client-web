@@ -19,13 +19,12 @@
                         <th class="grid-cell selector"><div style="width: 0px;"></div></th>
                         % endif
                         % for (field, field_attrs) in headers:
-                        % if field!='button':
-                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+                        % if field=='button':
+                        	<th class="grid-cell button"><div style="width: 0px;"></div></th>
+                       	% else:
+                    		<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
                        	% endif
                         % endfor
-                        % if buttons:
-                        <th class="grid-cell button"><div style="width: 0px;"></div></th>
-                        % endif
                         % if editable:
                         <th class="grid-cell selector"><div style="width: 0px;"></div></th>
                         % endif
@@ -50,14 +49,12 @@
 									<span>${grp_row.get(field)}</span>
 								% endif
 	                        </td>
+	                        % else:
+	                        	<td class="grid-cell button" nowrap="nowrap" style="background-color: ${background};">
+                        			<span></span>
+                        		</td>
 	                        % endif
                         % endfor
-                        
-                        % if buttons:
-                        <td class="grid-cell button" nowrap="nowrap" style="background-color: ${background};">
-                        	<div style="width: 0px;"></div>
-                        </td>
-                        % endif
                         
                         % if editable:
                         <td class="grid-cell selector" style="background-color: ${background};">
@@ -78,15 +75,13 @@
 		                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="padding-left: 15px; ${(ch.get(field).color or None) and 'color: ' + ch.get(field).color};" sortable_value="${ch.get(field).get_sortable_text()}">
 									<span>${ch[field].display()}</span>
 		                        </td>
+		                        % else:
+		                        	<td class="grid-cell button" nowrap="nowrap">
+		                        		${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(ch))}
+		                        	</td>
 		                        % endif
 	                        % endfor
-	                        % if buttons:
-	                        <td class="grid-cell button" nowrap="nowrap">
-	                            % for button in buttons:
-	                            ${button.display(parent_grid=name, **button.params_from(ch))}
-	                            % endfor
-	                        </td>
-	                        % endif
+	                       
 	                        % if editable:
 	                        <td class="grid-cell selector">
 	                            <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${ch.get('id')})"/>
@@ -104,9 +99,6 @@
                         % for i, (field, field_attrs) in enumerate(headers):
                         <td class="grid-cell">&nbsp;</td>
                         % endfor
-                        % if buttons:
-                        <td class="grid-cell button">&nbsp;</td>
-                        % endif
                         % if editable:
                         <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         % endif
@@ -135,11 +127,11 @@
 	                             &nbsp;
 	                             % endif
 	                        </td>
+	                        % else:
+	                        	<td class="grid-cell button"><span style="width: 0px;"></span></td>
 	                        % endif
                         % endfor
-                        % if buttons:
-                        <td class="grid-cell button"><div style="width: 0px;"></div></td>
-                        % endif
+                        
                         % if editable:
                         <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif

@@ -228,51 +228,61 @@ MochiKit.Base.update(ListView.prototype, {
 	},
 	
 	groupbyDrag: function(drag, drop){
-		var args = {};
-		var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
-		var model =  getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_model') || getElement('_terp_model');
+		var $ = jQuery;
+		var view = $('table.grid[id$=grid]').attr('id').split("_grid")[0]
+		var _list_view = new ListView(view);
+		var self = _list_view;
+		var domain;
+		var children;
+		if($(drop).attr('record')) {
+			var group = $(drop).attr('id').split('grid-row ')[1];
+			domain = $('tr.grid-row-group[records="'+group+'"]').attr('grp_domain');
+		}	
+		else {
+			domain = $(drop).attr('grp_domain');
+		}
 		
-		if(getNodeAttribute(drag,'record') && getNodeAttribute(drop,'record')) {
-			var trs = getElementsByTagAndClassName('tr','grid-row-group');
-			for(var tr=0;tr<trs.length;tr++) {
-				if(getNodeAttribute(trs[tr],'records') == drop.id.split("grid-row ")[1]) {
-					args['domain'] = getNodeAttribute(trs[tr],'grp_domain');
-				}	
-			}
-			args['children'] = '[' + getNodeAttribute(drag,'record') + ']';
+		if($(drag).attr('ch_records')) {
+			children = $(drag).attr('ch_records')
 		}
 		else {
-			args['domain'] = getNodeAttribute(drop,'grp_domain');
-			
-			if(getNodeAttribute(drag,'record'))
-				args['children'] = '[' + getNodeAttribute(drag,'record') + ']';
-			else
-				args['children'] = getNodeAttribute(drag,'ch_records');
+			var group = $(drag).attr('id').split('grid-row ')[1];
+			children = $('tr.grid-row-group[records="'+group+'"]').attr('ch_records')
 		}
 		
-		args['model'] = model.value;
-		var req = openobject.http.postJSON('/listgrid/groupbyDrag', args);
-		req.addCallback(function() {
-			_list_view.reload();
-		})
+		if($(drag).attr('record') && $(drop).attr('record')) {
+			_list_view.dragRow(drag, drop);
+		}	
+		else {
+			$.post(
+					'/listgrid/groupbyDrag',
+					{'model': self.model, 'children': children, 'domain': domain},
+					function() {
+						_list_view.reload();
+					},
+					"json"
+			);
+		}
+		
+		MochiKit.Async.wait(2).addCallback(function() {
+			var id = $('tr.grid-row-group[grp_domain="'+domain+'"]').attr('records')
+			toggle_group_data(id)
+		});
 	},
 	
 	dragRow: function(drag,drop,event) {
-		var args = {}
-		
-		var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
-		var _terp_model =  getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_model') || getElement('_terp_model')
-		var _terp_ids = getElement(drag.parentNode.parentNode.id.split("_grid")[0]+'/_terp_ids') || getElement('_terp_ids')
-		
-		args['_terp_model'] = _terp_model.value
-		args['_terp_ids'] = _terp_ids.value
-		args['_terp_id'] = getNodeAttribute(drag,'record')
-		args['_terp_swap_id'] = getNodeAttribute(drop,'record')
-		
-		var req = openobject.http.postJSON('/listgrid/dragRow', args);
-		req.addCallback(function() {
-			_list_view.reload()
-		})
+		var $ = jQuery;
+		var view = $('table.grid[id$=grid]').attr('id').split("_grid")[0]
+		var _list_view = new ListView(view);
+		var self = _list_view;
+		$.post(
+				'/listgrid/dragRow',
+				{'_terp_model': self.model, '_terp_ids': self.ids, '_terp_id': $(drag).attr('record'), '_terp_swap_id': $(drop).attr('record')},
+				function() {
+					_list_view.reload()
+				},
+				"json"
+			);
 	},
 	
     moveUp: function(id) {

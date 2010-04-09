@@ -245,13 +245,11 @@ class List(SecuredController):
             return dict(error = e.message)
     
     @expose('json')
-    def groupbyDrag(self, **kw):
-        domain = eval(kw.get('domain'))[0]
-        model = kw.get('model')
-        children = eval(kw.get('children'))
-        proxy = rpc.RPCProxy(model)
-        proxy.write(children, {domain[0]: domain[2]})
-        return dict()
+    def groupbyDrag(self, model, children, domain):
+        domain = eval(domain)[0]
+        children = eval(children)
+        rpc.RPCProxy(model).write(children, {domain[0]: domain[2]})
+        return {}
     
     @expose('json')
     def dragRow(self, **kw):
