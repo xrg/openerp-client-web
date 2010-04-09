@@ -352,20 +352,6 @@ div.welcome {
     height: 4px;
 }
 
-.view .titlebar {
-    font-size: 16px;
-    font-weight: bold;
-    color: #950000;
-    border-bottom: 1px solid #363636;
-    margin-bottom: 4px;
-}
-
-.view .titlebar button {
-    width: auto;
-    margin: 0 1px;
-    white-space: nowrap;
-}
-
 .view .title {
     background: url(../images/grdline1.gif) repeat-x left top;
     border-top: 1px solid #E3E3E3;
@@ -389,15 +375,13 @@ div.welcome {
     white-space: nowrap;
 }
 
-.view .toolbar img,
-.view .titlebar img {
+.view .toolbar img {
     border: none;
     margin: 0 1px;
     vertical-align: middle;
 }
 
-.view .toolbar img.button,
-.view .titlebar img.button {
+.view .toolbar img.button {
     cursor: pointer;
 }
 

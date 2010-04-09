@@ -53,7 +53,7 @@
             % endif
         </td>
 
-		<td id="sidebar_hide" style="padding : 0 0 0 14px; border-color: #EAE7E7;" valign="top">
+		<td id="sidebar_hide" style="padding : 0 0 0 8px; border-color: #EAE7E7;" valign="top">
 			<p class="toggle-a"><a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a></p>
         </td>
     </tr>

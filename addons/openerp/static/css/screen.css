@@ -114,7 +114,7 @@ div.three-a { }
 /* headers */
 
 h1, h2, h3, h4, h5, h6 { color: #252424; line-height: 1.2; text-shadow: #fff 0 1px 0; }
-h1 { padding: 0 0 5px; background: url(../images/sep-a.gif) 0 100% repeat-x; font-size: 2.0em; font-weight: normal; }
+h1 { font-size: 1.6em; font-weight: normal; }
 h2 { font-size: 1.6em; font-weight: normal; }
 h3 { font-size: 1.2em; }
 h4 { font-size: 1.0em; }
@@ -451,7 +451,7 @@ ul.sections-a { overflow: hidden; list-style: none; margin: 0 -7px; padding: 0; 
 
 table.sidenav-a { width: 0px; list-style: none; margin: 0 0 15px; padding: 0; color: #fff; text-shadow: #333 0 1px 0; border-bottom: 0px;}
  table.sidenav-a div.accordion div.accordion-block { padding: 0 0 5px; background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x; font-size: 1em; }
-  table.sidenav-a table.accordion-title a { display: block; width: 165px; height: 20px; padding: 0 0 0 15px; background: url(../images/sidenav-link-a.png) no-repeat; color: #fff; line-height: 20px; font-weight: bold; text-decoration: none !important; text-transform: uppercase; }
+  table.sidenav-a table.accordion-title a { display: block; width: 165px; height: 20px; font-size: 0.8em; padding: 0 0 0 15px; background: url(../images/sidenav-link-a.png) no-repeat; color: #fff; line-height: 20px; font-weight: bold; text-decoration: none !important; text-transform: uppercase; }
   table.sidenav-a td.accordion-title-td { padding : 0px; border: 0px;}
   table.sidenav-a table.accordion-title { width: 0px; border-bottom: 0px; margin-bottom: 0px;} 
   table.sidenav-a table.accordion-title a:hover,
@@ -485,14 +485,16 @@ ul.views-a { float: right; list-style: none; margin: 0; padding: 0; }
   ul.views-a li.v1 a { background-position: 0 0; } ul.views-a li.v1 a:hover, ul.views-a li.v1 a:focus, ul.views-a li.v1 a:active, ul.views-a li.v1 a.active { background-position: 0 -21px; }
   ul.views-a li.v2 a { background-position: -22px 0; } ul.views-a li.v2 a:hover, ul.views-a li.v2 a:focus, ul.views-a li.v2 a:active, ul.views-a li.v2 a.active { background-position: -22px -21px; }
   ul.views-a li.v3 a { background-position: -44px 0; } ul.views-a li.v3 a:hover, ul.views-a li.v3 a:focus, ul.views-a li.v3 a:active, ul.views-a li.v3 a.active { background-position: -44px -21px; }
-  ul.views-a li.v4 a { background-position: -66px 0; } ul.views-a li.v4 a:hover, ul.views-a li.v4 a:focus, ul.views-a li.v4 a:active, ul.views-a li.v4 a.active { background-position: -66px -21px; }
-  ul.views-a li.v5 a { background-position: -88px 0; } ul.views-a li.v5 a:hover, ul.views-a li.v5 a:focus, ul.views-a li.v5 a:active, ul.views-a li.v5 a.active { background-position: -88px -21px; }
+  ul.views-a li.v5 a { background-position: -66px 0; } ul.views-a li.v5 a:hover, ul.views-a li.v5 a:focus, ul.views-a li.v5 a:active, ul.views-a li.v5 a.active { background-position: -66px -21px; }
+  ul.views-a li.v4 a { background-position: -88px 0; } ul.views-a li.v4 a:hover, ul.views-a li.v4 a:focus, ul.views-a li.v4 a:active, ul.views-a li.v4 a.active { background-position: -88px -21px; }
   ul.views-a li.v6 a { background-position: -110px 0; } ul.views-a li.v6 a:hover, ul.views-a li.v6 a:focus, ul.views-a li.v6 a:active, ul.views-a li.v6 a.active { background-position: -110px -21px; }
   ul.views-a li.v7 a { background-position: -132px 0; } ul.views-a li.v7 a:hover, ul.views-a li.v7 a:focus, ul.views-a li.v7 a:active, ul.views-a li.v7 a.active { background-position: -132px -21px; }
 
+table#title_header {margin-bottom: 0px; padding: 0 0 5px; background: url(../images/sep-a.gif) 0 100% repeat-x;}
+
 /* paragraphs */
 
-p.paging-a { color: #a6a5a5; font-size: 0.9em; font-weight: bold; text-transform: uppercase; text-align: right; line-height: 1; }
+p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform: uppercase; text-align: right; line-height: 1; }
  p.paging-a span { position: absolute; left: -10001px; top: -10001px; }
  p.paging-a a { display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 8px; height: 7px; margin: 0 5px; background: url(../images/paging-a.gif) no-repeat; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle; }
  * html p.paging-a a { display: inline; text-indent: 0; }
@@ -510,11 +512,11 @@ td#sidebar {padding: 0px; border-color: #EAE7E7;}
 td#attach_sidebar {padding: 0px; border-color: #EAE7E7;}
 table#sidebar_pane {margin-bottom: 0px; border-color: #EAE7E7;}
 td#main_sidebar {padding: 5px 0 5px 5px; border-color: #EAE7E7;}
-td#body_form_td {padding: 5px; border-color: #EAE7E7; }
+td#body_form_td {padding: 0px; border-color: #EAE7E7; }
 
 /* links */
 
-a.button-a { float: left; height: 11px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #c6c4c4 #aaa9a9 #797878; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) repeat-x; color: #fff; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #6a6969 0 1px 0; }
+a.button-a { float: left; height: 11px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #c6c4c4 #aaa9a9 #797878; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) repeat-x; color: #fff; white-space: nowrap; font-size: 0.8em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #6a6969 0 1px 0; }
 /*a.button-a:hover, a.button-a:focus, a.button-a:active { border-color: #e5e3e3 #dad9d9 #cccbcb; background-position: 0 -25px; color: #8d8d8d; text-shadow: #fff 0 1px 0; }*/
 
 a.button-b { float: left; height: 11px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
