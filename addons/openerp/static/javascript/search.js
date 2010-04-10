@@ -140,7 +140,7 @@ var search_image_filter = function(src, id) {
 
 var onKey_Event = function(evt) {
 	
-	dom = $('search_filter_data');
+	dom = openobject.dom.get('search_filter_data');
 	
 	var editors = [];
 	
@@ -405,9 +405,12 @@ function expand_group_option(id, element) {
 MochiKit.DOM.addLoadEvent(function(evt){
 
 	var fil_dom = openobject.dom.get('_terp_filter_domain');
-	if($('filter_table').style.display == '' || fil_dom && fil_dom.value != '[]') {
-		if($('filter_table').style.display == 'none'){
-			$('filter_table').style.display = '';
+	var filter_table = openobject.dom.get('filter_table');
+	if (filter_table) {
+		if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
+			if(filter_table.style.display == 'none'){
+				filter_table.style.display = '';
+			}
 		}
 	}
 	onKey_Event(evt);	

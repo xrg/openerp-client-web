@@ -43,15 +43,12 @@ class Sidebar(TinyWidget):
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
-
             function a() {
-
                 var sb = openobject.dom.get('sidebar');
-
+                
                 sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
-
                 openobject.http.setCookie("terp_sidebar", sb.style.display);
-
+                
                 var a_img = openobject.dom.get('toggle-click');
                 var tertiary = openobject.dom.get('tertiary');
                 var tertiary_wrap = openobject.dom.get('tertiary_wrap');
@@ -65,7 +62,6 @@ class Sidebar(TinyWidget):
                     setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
                     setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
                     setNodeAttribute(attach_sidebar, 'style', 'display: none');
-                    
                 } else {
                     setNodeAttribute(a_img, 'class', 'on');
                     setNodeAttribute(tertiary, 'style', 'width: 180px');
@@ -74,13 +70,17 @@ class Sidebar(TinyWidget):
                     setNodeAttribute(attach_sidebar, 'style', "display: ''");
                 }
             }
-
             if (typeof(Notebook) == "undefined") {
                 a();
             } else {
                 Notebook.adjustSize(a);
             }
         }
+
+        MochiKit.DOM.addLoadEvent(function(evt) {
+            var sb = openobject.dom.get('sidebar');
+            if (sb) toggle_sidebar(openobject.http.getCookie('terp_sidebar'));
+        });
     """)]
 
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):

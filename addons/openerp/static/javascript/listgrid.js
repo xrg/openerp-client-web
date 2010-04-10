@@ -537,7 +537,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = this.makeArgs();
-
+		var table = self.name
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;

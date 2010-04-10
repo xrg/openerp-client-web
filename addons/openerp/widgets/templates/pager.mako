@@ -1,33 +1,31 @@
 <div class="pager">
     <p id="_${name+str(pager_id)}_link_span" class="paging">
-		% if prev:
-		<a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('first', '${name}'); return false;">
-		% endif
-		<a class="first"></a>
-		<span>|</span>
-		% if prev:
-        </a>
-        <a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('previous', '${name}'); return false;">
+        % if prev:
+        <a class="first" href="javascript: void(0)" title="first" onclick="pager_action('first', '${name}'); return false;">
         % endif
-        <a class="prev"></a>
+        <span class="first">${_("<< First")}</span>
+        % if prev:
+        </a>
+        <a class="prev" href="javascript: void(0)" title="previous" onclick="pager_action('previous', '${name}'); return false;">
+        % endif
+        <span class="prev">${_("< Previous")}</span>
         % if prev:
         </a>
         % endif
         <font onclick="openobject.dom.get('_${name+str(pager_id)}_link_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display=''" style="cursor: pointer;">${page_info}</font>
         % if next:
-        <a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('next', '${name}'); return false;">
+        <a class="next" href="javascript: void(0)" title="next" onclick="pager_action('next', '${name}'); return false;">
         % endif
-        <a class="next"></a>
-        <span>|</span>
+        <span class="next">${_("Next >")}</span>
         % if next:
         </a>
-        <a href="javascript: void(0)" style="cursor:pointer;" onclick="pager_action('last', '${name}'); return false;">
+        <a class="last" href="javascript: void(0)" title="last" onclick="pager_action('last', '${name}'); return false;">
         % endif
-        <a class="last"></a>
+        <span class="last">${_("Last >>")}</span>
         % if next:
         </a>
         % endif
-	</p>
+    </p>
 
     <table id="_${name+str(pager_id)}_limit_span" style="width: 100%; display: none" border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -46,4 +44,3 @@
         </tr>
     </table>
 </div>
-

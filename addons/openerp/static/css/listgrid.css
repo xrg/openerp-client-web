@@ -114,6 +114,9 @@
     width: 100%; 
     margin: 0 0 15px; 
     padding: 2px 0;*/
+    padding: 3px 4px 1px 10px;
+    text-align: right;
+    margin: 0;  background: #f3f3f3 url(../images/dot-a.gif) 0 50% repeat-x; line-height: 1;  
 }
 
 .gridview .pagerbar .pagerbar-cell {
@@ -121,9 +124,7 @@
     border-bottom: 1px solid #999; 
     padding-left: 10px;
     padding: 2px 4px;*/
-    padding: 3px 4px 1px 10px;
-    text-align: right;
-    margin: 0;  background: #f3f3f3 url(../images/dot-a.gif) 0 50% repeat-x; line-height: 1;  
+    
 }
 
 .gridview .pagerbar .pagerbar-cell .pagerbar-header {
@@ -137,10 +138,20 @@
 	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.2em; text-transform: none; line-height: 1;
 }
 
+
+.gridview .pagerbar .pagerbar-links {
+    float: left;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    padding: 3px 4px 1px 10px;
+    background : none;
+}
+
 .gridview .pagerbar .pagerbar-links a {
-    color: #333;
+    color: #5C5B5B;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 0.8em;
 }
 
 .gridview .pagerbar .pagerbar-links a:hover {
