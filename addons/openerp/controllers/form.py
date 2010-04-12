@@ -205,7 +205,6 @@ class Form(SecuredController):
         editable = form.screen.editable
         mode = form.screen.view_type
         id = form.screen.id
-        ids = form.screen.ids
 
         buttons = TinyDict()    # toolbar
 
