@@ -30,7 +30,7 @@ import copy
 import math
 import time
 import xml.dom.minidom
-from itertools import chain
+from itertools import chain, count
 
 import cherrypy
 from openerp.utils import rpc, icons, common, expr_eval, node_attributes
@@ -149,7 +149,7 @@ class List(TinyWidget):
                 self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
-
+        
         if ids is None:
             if self.limit > 0:
                 ids = proxy.search(search_param, self.offset, self.limit, 0, context)
@@ -157,8 +157,6 @@ class List(TinyWidget):
                 ids = proxy.search(search_param, 0, 0, 0, context)
                 
             self.count = proxy.search_count(domain, context)
-#            if isinstance(ids, list):
-#                self.count = len(ids)
                 
         self.data_dict = {}
         data = []
@@ -174,7 +172,10 @@ class List(TinyWidget):
             data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
             self._update_concurrency_info(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
-
+            order_data = [(d['id'], d) for d in data]
+            orderer = dict(zip(ids, count()))
+            ordering = sorted(order_data, key=lambda object: orderer[object[0]])
+            data = [i[1] for i in ordering]
             for item in data:
                 self.data_dict[item['id']] = item.copy()
 

@@ -137,7 +137,7 @@ class List(SecuredController):
             
         params['_terp_group_by_ctx'] = group_by_list
                 
-        params.ids = None
+        params.ids = params.ids or None
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
@@ -230,16 +230,11 @@ class List(SecuredController):
         return dict(error=error, result=result, reload=reload)
 
     @expose('json')
-    def sort_by_order(self, **kw):
-        params, data = TinyDict.split(kw)
-        proxy = rpc.RPCProxy(params.model)
-        ctx = rpc.session.context.copy()
+    def sort_by_order(self, model, column, domain, order):
+        domain = ast.literal_eval(domain)
         try:
-
-            if params.sort_domain:
-                ids = proxy.search(params.sort_domain, 0,0, params.sort_order, ctx)
-            else:
-                ids = proxy.search([], 0,0, params.sort_order, ctx)
+            proxy = rpc.RPCProxy(model)
+            ids = proxy.search(domain, 0, 0, column+' '+order)
             return dict(ids = ids)
         except Exception , e:
             return dict(error = e.message)
