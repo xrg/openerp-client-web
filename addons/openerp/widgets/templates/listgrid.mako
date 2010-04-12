@@ -64,7 +64,7 @@ import itertools
                 <td class="grid-cell">
                     <span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span>
                 </td>
-            %else:
+            % else:
                 <td class="grid-cell ${field_attrs.get('type', 'char')}"
                     style="${(data[field].color or None) and 'color: ' + data[field].color};"
                     sortable_value="${data[field].get_sortable_text()}">
@@ -130,8 +130,7 @@ import itertools
                     % for i, d in enumerate(data):
                         % if d['id'] == edit_inline:
                             ${make_editors(d)}
-                        % endif
-                        % if d['id'] != edit_inline:
+                        % else:
                             ${make_row(d)}
                         % endif
                     % endfor
@@ -142,7 +141,7 @@ import itertools
                         </tr>
                     % endif
 
-                    % for i in range(0, min_rows - len(data)):
+                    % for i in range(min_rows - len(data)):
                         <tr class="grid-row">
                             % if selector:
                                 <td width="1%" class="grid-cell selector">&nbsp;</td>
@@ -184,9 +183,8 @@ import itertools
                                                  <span style="border-top: 1px inset ; display: block; padding: 0 1px;">${val[1]}</span>
                                                  % endif
                                              % endfor
-                                         % endif
-                                         % if 'sum' not in field_attrs:
-                                         &nbsp;
+                                         % else:
+                                            &nbsp;
                                          % endif
                                     </td>
                                 % endif
