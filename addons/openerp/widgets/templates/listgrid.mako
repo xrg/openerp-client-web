@@ -18,8 +18,7 @@ import itertools
                         <th width="1" class="grid-cell selector">
                             % if selector=='checkbox':
                             <input type="checkbox" class="checkbox grid-record-selector" onclick="new ListView('${name}').checkAll(!this.checked)"/>
-                            % endif
-                            % if selector!='checkbox':
+                            % else:
                             <span>&nbsp;</span>
                             % endif
                         </th>
@@ -86,10 +85,7 @@ import itertools
                         <td class="grid-cell selector">
                             % if not editors:
                             <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
-                            % elif not editors:
-                            <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" border="0" title="${_('Edit')}"/>
-                            % endif                            
-                            % if editors:
+                            % else:
                             <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
                             % endif
                         </td>
@@ -134,20 +130,20 @@ import itertools
                     % for i in range(0, min_rows - len(data)):
                     <tr class="grid-row">
                         % if selector:
-                        <td width="1%" class="grid-cell selector">&nbsp;</td>
+                            <td width="1%" class="grid-cell selector">&nbsp;</td>
                         % endif
                         % if editable:
-                        <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
+                            <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
-                        % if field == 'button':
-                        	<td class="grid-cell button">&nbsp;</td>
-                    	% else:
-                        	<td class="grid-cell">&nbsp;</td>
-                    	% endif
+                            % if field == 'button':
+                                <td class="grid-cell button">&nbsp;</td>
+                            % else:
+                                <td class="grid-cell">&nbsp;</td>
+                            % endif
                         % endfor
                         % if editable:
-                        <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
+                            <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
                         % endif
                     </tr>
                     % endfor
@@ -158,31 +154,31 @@ import itertools
                 <tfoot>
                     <tr class="field_sum">
                         % if selector:
-                        <td width="1%" class="grid-cell">&nbsp;</td>
+                            <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
                         % if editable:
-                        <td width="1%" class="grid-cell">&nbsp;</td>
+                            <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
-                        % if field == 'button':
-                        	<td class="grid-cell button"><div style="width: 0;"></div></td>
-                        % else:
-                        <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
-                             % if 'sum' in field_attrs:
-                                 % for key, val in field_total.items():
-                                     % if field == key:
-                                     <span style="border-top: 1px inset ; display: block; padding: 0 1px;">${val[1]}</span>
+                            % if field == 'button':
+                                <td class="grid-cell button"><div style="width: 0;"></div></td>
+                            % else:
+                                <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
+                                     % if 'sum' in field_attrs:
+                                         % for key, val in field_total.items():
+                                             % if field == key:
+                                             <span style="border-top: 1px inset ; display: block; padding: 0 1px;">${val[1]}</span>
+                                             % endif
+                                         % endfor
                                      % endif
-                                 % endfor
-                             % endif
-                             % if 'sum' not in field_attrs:
-                             &nbsp;
-                             % endif
-                        </td>
-                        % endif
+                                     % if 'sum' not in field_attrs:
+                                     &nbsp;
+                                     % endif
+                                </td>
+                            % endif
                         % endfor
                         % if editable:
-                        <td width="1%" class="grid-cell">&nbsp;</td>
+                            <td width="1%" class="grid-cell">&nbsp;</td>
                         % endif
                     </tr>
                 </tfoot>
