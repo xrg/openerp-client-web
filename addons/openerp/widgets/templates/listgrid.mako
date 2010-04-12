@@ -56,7 +56,7 @@ import itertools
                             ${editors[field].display()}
                             % endfor
                             <!-- end of hidden fields -->
-                            <img src="/openerp/static/images/listgrid/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
+                            <img alt="save record" src="/openerp/static/images/listgrid/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
                         </td>
                         % for i, (field, field_attrs) in enumerate(headers):
                         	% if field == 'button':
@@ -69,7 +69,7 @@ import itertools
                         	% endif
                         % endfor
                         <td class="grid-cell selector" style="text-align: center; padding: 0;">
-                            <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
+                            <img alt="delete record" src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
                         </td>
                     </tr>
                     % endif
@@ -85,12 +85,12 @@ import itertools
                         % if editable:
                         <td class="grid-cell selector">
                             % if not editors:
-                            <img src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
+                            <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
                             % elif not editors:
-                            <img src="/openerp/static/images/listgrid/edit_inline.gif" border="0" title="${_('Edit')}"/>
+                            <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" border="0" title="${_('Edit')}"/>
                             % endif                            
                             % if editors:
-                            <img src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
+                            <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
                             % endif
                         </td>
                         % endif
