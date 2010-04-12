@@ -137,7 +137,7 @@ class List(SecuredController):
             
         params['_terp_group_by_ctx'] = group_by_list
                 
-        params.ids = params.ids or None
+        params.ids = None
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
