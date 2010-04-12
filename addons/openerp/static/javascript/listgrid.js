@@ -705,9 +705,9 @@ MochiKit.Base.update(ListView.prototype, {
             });
             if(self.sort_key != null) {
             	if(self.name !='_terp_list') 
-            		var th = jQuery('th[id$='+self.name+'/'+self.sort_key+']').get();
+            		var th = jQuery('th[id=grid-data-column/'+self.name+'/'+self.sort_key+']').get();
             	else
-            		var th = jQuery('th[id$='+self.sort_key+']').get();
+            		var th = jQuery('th[id=grid-data-column/'+self.sort_key+']').get();
             		
             	var detail = jQuery(th).html();
             	
