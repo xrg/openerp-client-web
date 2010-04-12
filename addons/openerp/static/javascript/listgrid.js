@@ -103,7 +103,7 @@ ListView.prototype = {
         }, openobject.dom.select('input.grid-record-selector', this.name));
     },
 
-    onBooleanClicked: function() {
+    onBooleanClicked: function(clear, value) {
         var selected_ids = this.getSelectedRecords()
         var sb = openobject.dom.get('sidebar');
 
@@ -114,6 +114,14 @@ ListView.prototype = {
         }
         if (selected_ids.length == 0){
             if (sb) toggle_sidebar();
+        }
+        clear = clear ? false : true;
+        if(!clear) {
+        	var ids = eval(jQuery('[id$=_terp_checked_ids]').val());
+        	var new_ids = jQuery.grep(ids, function(data) {
+        		return data != value;
+        	});
+        	jQuery('[id$=_terp_checked_ids]').attr('value', '[' + new_ids.join(',') + ']');
         }
     },
 
@@ -572,7 +580,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = this.makeArgs();
-        
+        var table = this.name
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
@@ -654,7 +662,34 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-            row_edit();
+            
+            var view_type = jQuery('[id*=_terp_view_type]').val();
+            var editable = jQuery('[id*=_terp_editable]').val();
+            
+            //It Select Selected element in pager operation
+            jQuery.each(eval(jQuery('[id$=_terp_checked_ids]').val()), function(key,value) {
+            	if(value) {
+            		if(jQuery('input:checkbox[value="'+value+'"]').get()) {
+            			jQuery('input:checkbox[value="'+value+'"]').attr('checked', true);
+            		}
+            	}
+            });
+            
+            //Make all records Editable by Double-click
+            jQuery('table[id^="'+table+'"].grid tr.grid-row').each(function(e) {
+            	jQuery(this).dblclick(function(event) {
+            		if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+            			if (view_type == 'tree') {
+            				if (editable != 'True') {
+            					do_select(jQuery(this).attr('record'));
+            				}
+            				else {
+            					editRecord(jQuery(this).attr('record'));
+            				}
+            			}
+            		}
+            	});
+            });
         });
     }
 });
@@ -710,33 +745,3 @@ function toggle_group_data(id) {
     });
     MochiKit.Signal.signal(document, 'toggle-group-data', rows);
 }
-
-function row_edit(evt) {
-    var row = getElementsByTagAndClassName('tr', 'grid-row');
-
-    forEach(row, function(e) {
-        MochiKit.Signal.connect(e, 'ondblclick', e, select_row_edit);
-    });
-}
-
-function select_row_edit(e){
-    var src_record = getNodeAttribute(e.src(), 'record');
-    var target_class = getNodeAttribute(e.target(),'class');
-
-    var view_type = getElement('_terp_view_type').value;
-    var editable = getElement('_terp_editable').value;
-
-    if (!(target_class == 'checkbox grid-record-selector' || target_class == 'listImage')) {
-        if(view_type == 'tree') {
-            if(editable == 'True') {
-                editRecord(src_record);
-            } else {
-                do_select(src_record);
-            }
-        }
-    }
-}
-
-MochiKit.DOM.addLoadEvent(function(evt){
-    row_edit(evt);
-});

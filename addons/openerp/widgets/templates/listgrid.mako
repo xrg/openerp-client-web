@@ -79,7 +79,7 @@ import itertools
                     <tr class="grid-row" record="${data['id']}" style="cursor: pointer;">
                         % if selector:
                         <td class="grid-cell selector">
-                            <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}" onclick="new ListView('${name}').onBooleanClicked()"/>
+                            <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}" onclick="new ListView('${name}').onBooleanClicked(!this.checked, '${data['id']}')"/>
                         </td>
                         % endif
                         % if editable:
