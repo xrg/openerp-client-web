@@ -25,7 +25,7 @@ import itertools
                         </th>
                         % endif
                         % if editable:
-                        <th class="grid-cell selector"><div style="width: 0px;"></div></th>
+                        <th class="grid-cell selector"><div style="width: 0;"></div></th>
                         % endif
                         % for (field, field_attrs) in headers:
                         % if field == 'button':
@@ -35,10 +35,10 @@ import itertools
                     	% endif
                         % endfor
                         % if buttons:
-                        <th class="grid-cell button"><div style="width: 0px;"></div></th>
+                        <th class="grid-cell button"><div style="width: 0;"></div></th>
                         % endif
                         % if editable:
-                        <th class="grid-cell selector"><div style="width: 0px;"></div></th>
+                        <th class="grid-cell selector"><div style="width: 0;"></div></th>
                         % endif
                     </tr>
                 </thead>
@@ -50,7 +50,7 @@ import itertools
                         % if selector:
                         <td class="grid-cell selector">&nbsp;</td>
                         % endif
-                        <td class="grid-cell selector" style="text-align: center; padding: 0px;">
+                        <td class="grid-cell selector" style="text-align: center; padding: 0;">
                             <!-- begin hidden fields -->
                             % for field, field_attrs in hiddens:
                             ${editors[field].display()}
@@ -68,7 +68,7 @@ import itertools
 	                        	</td>
                         	% endif
                         % endfor
-                        <td class="grid-cell selector" style="text-align: center; padding: 0px;">
+                        <td class="grid-cell selector" style="text-align: center; padding: 0;">
                             <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
                         </td>
                     </tr>
@@ -165,13 +165,13 @@ import itertools
                         % endif
                         % for i, (field, field_attrs) in enumerate(headers):
                         % if field == 'button':
-                        	<td class="grid-cell button"><div style="width: 0px;"></div></td>
+                        	<td class="grid-cell button"><div style="width: 0;"></div></td>
                         % else:
                         <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
                              % if 'sum' in field_attrs:
                                  % for key, val in field_total.items():
                                      % if field == key:
-                                     <span style="border-top: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
+                                     <span style="border-top: 1px inset ; display: block; padding: 0 1px;">${val[1]}</span>
                                      % endif
                                  % endfor
                              % endif
