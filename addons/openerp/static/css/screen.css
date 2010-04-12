@@ -84,8 +84,8 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #skip-links { position: absolute; top: 0; left: -10001px; list-style: none; margin: 0; padding: 0; }
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  #nav { position: absolute; left: 0; top: 35px; z-index: 10; width: 100%; height: 34px; border-bottom: 1px solid #511712; background: url(../images/nav-bg-a.png) repeat-x; }
-  #nav ul { position: relative; left: 50%; float: left; list-style: none; margin: 0; padding: 6px 0 0; }
-   #nav ul li { position: relative; left: -50%; float: left; padding: 0 4px; font-size: 1em; text-transform: uppercase; text-align: center; }
+  #nav ul { position: relative; float: left; list-style: none; margin: 0; padding: 6px 0 0; }
+   #nav ul li { position: relative; float: left; padding: 0 4px; font-size: 1em; text-transform: uppercase; text-align: center; }
     #nav ul li a { float: left; padding: 0 0 0 3px; background: url(../images/nav-items-a.png) no-repeat; color: #fff !important; font-weight: bold; text-shadow: #111 0 1px 0; text-decoration: none !important; }
     * html #nav ul li a { background-image: url(../images/nav-items-a-ie.png); }
     *:first-child+html #nav ul li a { background-image: url(../images/nav-items-a-ie.png); }

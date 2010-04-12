@@ -27,12 +27,12 @@
 
 .pager p.paging a.first { margin: 0; background-position: 0 0; }
 .pager p.paging span.first { margin: 0; background-position: 0 0; }
-.pager p.paging a.prev { width: 5px; background-position: 0 0; }
-.pager p.paging span.prev { width: 5px; background-position: 0 0; }
+.pager p.paging a.prev { width: 5px; background-position: 1px 0; }
+.pager p.paging span.prev { width: 5px; background-position: 1px 0; }
 .pager p.paging a.last { margin: 0; background-position: -8px 0; }
 .pager p.paging span.last { margin: 0; background-position: -8px 0; }
-.pager p.paging a.next { width: 5px; background-position: -8px 0; }
-.pager p.paging span.next { width: 5px; background-position: -8px 0; }
+.pager p.paging a.next { width: 5px; background-position: -12px 0; }
+.pager p.paging span.next { width: 5px; background-position: -12px 0; }
 * html p.paging a { display: inline; text-indent: 0; }
  *:first-child+html p.paging a { display: inline; text-indent: 0; }
 
