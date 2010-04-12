@@ -1,6 +1,87 @@
 <%!
 import itertools
 %>
+<%def name="make_editors(data=None)">
+    % if editable and editors:
+        <tr class="grid-row editors">
+            % if selector:
+            <td class="grid-cell selector">&nbsp;</td>
+            % endif
+            <td class="grid-cell selector" style="text-align: center; padding: 0;">
+                <!-- begin hidden fields -->
+                % for field, field_attrs in hiddens:
+                ${editors[field].display()}
+                % endfor
+                <!-- end of hidden fields -->
+                <img alt="save record" src="/openerp/static/images/listgrid/save_inline.gif"
+                     class="listImage editors" border="0" title="${_('Update')}"
+                     onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
+            </td>
+            % for i, (field, field_attrs) in enumerate(headers):
+                % if field == 'button':
+                    <td class="grid-cell">
+                    </td>
+                % else:
+                    <td class="grid-cell ${field_attrs.get('type', 'char')}">
+                        ${editors[field].display()}
+                    </td>
+                % endif
+            % endfor
+            <td class="grid-cell selector" style="text-align: center; padding: 0;">
+                <img alt="delete record" src="/openerp/static/images/listgrid/delete_inline.gif"
+                     class="listImage editors" border="0" title="${_('Cancel')}"
+                     onclick="new ListView('${name}').reload()"/>
+            </td>
+        </tr>
+    % endif
+</%def>
+
+<%def name="make_row(data)">
+    <tr class="grid-row" record="${data['id']}" style="cursor: pointer;">
+        % if selector:
+            <td class="grid-cell selector">
+                <input type="${selector}" class="${selector} grid-record-selector"
+                       id="${name}/${data['id']}" name="${(checkbox_name or None) and name}"
+                       value="${data['id']}"
+                       onclick="new ListView('${name}').onBooleanClicked(!this.checked, '${data['id']}')"/>
+            </td>
+        % endif
+        % if editable:
+            <td class="grid-cell selector">
+                % if not editors:
+                    <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif"
+                         class="listImage" border="0" title="${_('Edit')}"
+                         onclick="editRecord(${data['id']}, '${source}')"/>
+                % else:
+                    <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif"
+                         class="listImage" border="0" title="${_('Edit')}"
+                         onclick="new ListView('${name}').edit(${data['id']})"/>
+                % endif
+            </td>
+        % endif
+        % for i, (field, field_attrs) in enumerate(headers):
+            %if field == 'button':
+                <td class="grid-cell">
+                    <span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span>
+                </td>
+            %else:
+                <td class="grid-cell ${field_attrs.get('type', 'char')}"
+                    style="${(data[field].color or None) and 'color: ' + data[field].color};"
+                    sortable_value="${data[field].get_sortable_text()}">
+                    <span>${data[field].display()}</span>
+                </td>
+            % endif
+        % endfor
+
+        % if editable:
+            <td class="grid-cell selector">
+                <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage"
+                     border="0" title="${_('Delete')}"
+                     onclick="new ListView('${name}').remove(${data['id']})"/>
+            </td>
+        % endif
+    </tr>
+</%def>
 <table id="${name}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
@@ -42,71 +123,6 @@ import itertools
                 </thead>
 
                 <tbody>
-                    <%def name="make_editors(data=None)">
-                        % if editable and editors:
-                            <tr class="grid-row editors">
-                                % if selector:
-                                <td class="grid-cell selector">&nbsp;</td>
-                                % endif
-                                <td class="grid-cell selector" style="text-align: center; padding: 0;">
-                                    <!-- begin hidden fields -->
-                                    % for field, field_attrs in hiddens:
-                                    ${editors[field].display()}
-                                    % endfor
-                                    <!-- end of hidden fields -->
-                                    <img alt="save record" src="/openerp/static/images/listgrid/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
-                                </td>
-                                % for i, (field, field_attrs) in enumerate(headers):
-                                    % if field == 'button':
-                                        <td class="grid-cell">
-                                        </td>
-                                    % else:
-                                        <td class="grid-cell ${field_attrs.get('type', 'char')}">
-                                            ${editors[field].display()}
-                                        </td>
-                                    % endif
-                                % endfor
-                                <td class="grid-cell selector" style="text-align: center; padding: 0;">
-                                    <img alt="delete record" src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
-                                </td>
-                            </tr>
-                        % endif
-                    </%def>
-
-                    <%def name="make_row(data)">
-                        <tr class="grid-row" record="${data['id']}" style="cursor: pointer;">
-                            % if selector:
-                                <td class="grid-cell selector">
-                                    <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}" onclick="new ListView('${name}').onBooleanClicked(!this.checked, '${data['id']}')"/>
-                                </td>
-                            % endif
-                            % if editable:
-                                <td class="grid-cell selector">
-                                    % if not editors:
-                                    <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
-                                    % else:
-                                    <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
-                                    % endif
-                                </td>
-                            % endif
-                            % for i, (field, field_attrs) in enumerate(headers):
-                                %if field == 'button':
-                                    <td class="grid-cell"><span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span></td>
-                                %else:
-                                    <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-                                        <span>${data[field].display()}</span>
-                                    </td>
-                                % endif
-                            % endfor
-
-                            % if editable:
-                                <td class="grid-cell selector">
-                                    <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
-                                </td>
-                            % endif
-                        </tr>
-                    </%def>
-
                     % if edit_inline == -1:
                     ${make_editors()}
                     % endif
