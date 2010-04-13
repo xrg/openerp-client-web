@@ -361,7 +361,7 @@ class Form(SecuredController):
         cherrypy.session['remember_notebooks'] = True
 
         # bypass save, for button action in non-editable view
-        if not (params.button and not params.editable and params.id):
+        if not (params.button and params.editable and params.id):
 
             proxy = rpc.RPCProxy(params.model)
 
