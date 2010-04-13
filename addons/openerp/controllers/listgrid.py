@@ -137,7 +137,16 @@ class List(SecuredController):
             
         params['_terp_group_by_ctx'] = group_by_list
                 
-        params.ids = None
+        if '_terp_sort_key' in params:
+            proxy = rpc.RPCProxy(params.model)
+            if params.search_domain == None:
+                params.search_domain = "[]"
+            ids = self.sort_by_order(params.model, params.sort_key, str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order)
+            sort_ids = ast.literal_eval(ids)
+            params.ids = sort_ids['ids']
+        else:
+            params.ids = None
+            
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
@@ -230,8 +239,12 @@ class List(SecuredController):
         return dict(error=error, result=result, reload=reload)
 
     @expose('json')
-    def sort_by_order(self, model, column, domain, order):
+    def sort_by_order(self, model, column, domain, filter_domain, order):
         domain = ast.literal_eval(domain)
+        filter_domain = ast.literal_eval(filter_domain)
+        if filter_domain:
+            domain.extend(filter_domain)
+            
         try:
             proxy = rpc.RPCProxy(model)
             ids = proxy.search(domain, 0, 0, column+' '+order)
