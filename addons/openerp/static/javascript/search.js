@@ -105,6 +105,8 @@ var add_filter_row = function() {
 		appendChildNodes(select_andor, option);
 		appendChildNodes(and_or, select_andor);
 		insertSiblingNodesAfter(old_tr, new_tr);
+		
+		MochiKit.Signal.connect(new_tr, 'onkeydown', this, onKeyDown_search);
 		MochiKit.Signal.signal(filter_table, 'onaddfilter', new_tr || first_row);
 	}
 }
@@ -153,7 +155,7 @@ var onKey_Event = function(evt) {
     }, editors);
 
     forEach(active_editors, function(e){
-        connect(e, 'onkeydown', self, onKeyDown_search);
+        MochiKit.Signal.connect(e, 'onkeydown', self, onKeyDown_search);
     });
 }
 
@@ -325,7 +327,7 @@ var search_filter = function(src, id) {
 		display_Customfilters(all_domains, group_by_ctx);
 	}
 	else {
-		custom_domain = fil_dom.value || '[]';		
+		custom_domain = fil_dom ? fil_dom.value : '[]';		
 		final_search_domain(custom_domain, all_domains, group_by_ctx);	
 	}
 }
@@ -404,10 +406,13 @@ function expand_group_option(id, event) {
 
 MochiKit.DOM.addLoadEvent(function(evt){
 
+	var filter_table = openobject.dom.get('filter_table');
 	var fil_dom = openobject.dom.get('_terp_filter_domain');
-	if($('filter_table').style.display == '' || fil_dom && fil_dom.value != '[]') {
-		if($('filter_table').style.display == 'none'){
-			$('filter_table').style.display = '';
+	if (filter_table){
+		if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
+			if(filter_table.style.display == 'none'){
+				filter_table.style.display = '';
+			}
 		}
 	}
 	onKey_Event(evt);	

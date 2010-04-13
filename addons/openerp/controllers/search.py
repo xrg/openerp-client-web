@@ -46,7 +46,7 @@ class Search(Form):
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
-
+        params.filter_domain = params.filter_domain or []
         params.editable = 0
 
         form = self.create_form(params, tg_errors)

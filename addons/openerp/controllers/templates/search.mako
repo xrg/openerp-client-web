@@ -13,7 +13,7 @@
             if (src)
                 new ListView(src).go(action);
            else
-                submit_search_form(action);
+                submit_form(action);
         }
 
     </script>
@@ -108,10 +108,11 @@
 
 <%def name="content()">
 <div class="view">
-    <form id="search_form" name="search_form">
+    <form id="search_form" name="search_form" action="" method="post" onsubmit="return false;">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>
+        <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${params.filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
 
         <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
