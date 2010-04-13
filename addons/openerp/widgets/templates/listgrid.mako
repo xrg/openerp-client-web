@@ -210,43 +210,40 @@ import itertools
 			
 			<script type="text/javascript">
 				//Make all records Editable by Double-click
-				var view_type = jQuery('[id*= _terp_view_type]').val();
-            	var editable = jQuery('[id*= _terp_editable]').val();
-            	
-            	jQuery('table.grid tr.grid-row').each(function() {
-            		jQuery(this).dblclick(function(event) {
-	            		if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-	            			if (view_type == 'tree') {
-	            				if (editable != 'True') {
-	            					do_select(jQuery(this).attr('record'));
-	            				}
-	            				else {
-	            					editRecord(jQuery(this).attr('record'));
-	            				}
-	            			}
-	            		}
-	            	});
+				var view_type = jQuery('[id*=_terp_view_type]').val();
+            	var editable = jQuery('[id*=_terp_editable]').val();
+            	jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+            		jQuery(row).dblclick(function(event) {
+            			if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+            				if (view_type == 'tree') {
+            					if (editable != 'True') {
+            						do_select(jQuery(row).attr('record'));
+            					}
+            					else {
+            						editRecord(jQuery(row).attr('record'));
+            					}
+            				}
+            			}
+            		});
             	});
             	
             	if(view_type == 'form') {
-            		if(jQuery('[id$=_set]').length > 0) {
-            			var id = jQuery('[id$=_set]').attr('id').split('_set')[0];
-            			var terp_ids = jQuery('input[id="' + id + '/_terp_ids'+'"]').val()
-            			if(terp_ids != '[]') {
-            				jQuery('table[id="'+id+'_grid'+'"] tr.grid-row').each(function(ev, el) {
-            					var record = jQuery(this).children()[1]
-            					if(jQuery(record).find('span').length > 0) {
-            						var link_set = jQuery(record).find('span')[1]
-            						var record_id = jQuery(this).attr('record');
-            						var link_text = jQuery(link_set).html();
-            						jQuery(link_set).html("<a href='javascript: void(0)' onclick=do_select("+ record_id + "," + "'" + id +"'" +"); return false;>" + link_text + "</a>")
-            						
+            		if(jQuery('[id=${name}_set]').length > 0) {
+            			var ids = eval(jQuery('input[id=${name}/_terp_ids]').val());
+            			
+            			if(ids.length > 0) {
+            				
+            				jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+            					var links = jQuery(jQuery(row).find('td')[1]).find('span');
+            					if(links.length > 0) {
+            						var link_text = jQuery(links[1]).html();
+            						var record_id = jQuery(row).attr('record');
+            						jQuery(links[1]).html("<a href='javascript: void(0)' onclick=do_select("+ record_id + "," + "'" + '${name}' +"'"+")>"+link_text+"</a>")
             					}
-            				});
-            			} 
+            				});	
+            			}
             		}
             	}
-            	
 			</script> 
         </td>
     </tr>
