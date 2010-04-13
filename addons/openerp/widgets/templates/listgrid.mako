@@ -228,6 +228,25 @@ import itertools
 	            	});
             	});
             	
+            	if(view_type == 'form') {
+            		if(jQuery('[id$=_set]').length > 0) {
+            			var id = jQuery('[id$=_set]').attr('id').split('_set')[0];
+            			var terp_ids = jQuery('input[id="' + id + '/_terp_ids'+'"]').val()
+            			if(terp_ids != '[]') {
+            				jQuery('table[id="'+id+'_grid'+'"] tr.grid-row').each(function(ev, el) {
+            					var record = jQuery(this).children()[1]
+            					if(jQuery(record).find('span').length > 0) {
+            						var link_set = jQuery(record).find('span')[1]
+            						var record_id = jQuery(this).attr('record');
+            						var link_text = jQuery(link_set).html();
+            						jQuery(link_set).html("<a href='javascript: void(0)' onclick=do_select("+ record_id + "," + "'" + id +"'" +"); return false;>" + link_text + "</a>")
+            						
+            					}
+            				});
+            			} 
+            		}
+            	}
+            	
 			</script> 
         </td>
     </tr>
