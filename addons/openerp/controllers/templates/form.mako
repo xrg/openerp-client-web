@@ -49,11 +49,7 @@
                                     <td nowrap="nowrap">
                                     % for view in buttons.views:
                                         ${make_view_button(**view)}
-                                    % endfor
-                                    
-	                              	<a target="appFrame" onclick="show_process_view()">
-	                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-	                              	</a>
+                                    % endfor                                    
                                     </td>
                                     
                                   

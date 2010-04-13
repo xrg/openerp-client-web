@@ -115,6 +115,9 @@ ListView.prototype = {
         if (selected_ids.length == 0){
             if (sb) toggle_sidebar();
         }
+        if (openobject.dom.get('_terp_checked_ids')){
+        	jQuery('[id$=_terp_checked_ids]').attr('value', '[' + selected_ids.join(',') + ']');
+        }
         clear = clear ? false : true;
         if(!clear) {
         	var ids = eval(jQuery('[id$=_terp_checked_ids]').val());
