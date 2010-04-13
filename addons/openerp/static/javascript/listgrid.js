@@ -594,7 +594,6 @@ MochiKit.Base.update(ListView.prototype, {
 
         var self = this;
         var args = this.makeArgs();
-        var table = this.name
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
@@ -675,12 +674,10 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-        	
-            var view_type = jQuery('[id*=_terp_view_type]').val();
-            var editable = jQuery('[id*=_terp_editable]').val();
+            
             
             //It Select Selected element in pager operation
-            jQuery.each(eval(jQuery('[id$=_terp_checked_ids]').val()), function(key,value) {
+            jQuery.each(eval(jQuery('[id$= _terp_checked_ids]').val()), function(key, value) {
             	if(value) {
             		if(jQuery('input:checkbox[value="'+value+'"]').get()) {
             			jQuery('input:checkbox[value="'+value+'"]').attr('checked', true);
@@ -688,35 +685,23 @@ MochiKit.Base.update(ListView.prototype, {
             	}
             });
             
-            //Make all records Editable by Double-click
-            jQuery('table[id^="'+table+'"].grid tr.grid-row').each(function(e) {
-            	jQuery(this).dblclick(function(event) {
-            		if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-            			if (view_type == 'tree') {
-            				if (editable != 'True') {
-            					do_select(jQuery(this).attr('record'));
-            				}
-            				else {
-            					editRecord(jQuery(this).attr('record'));
-            				}
-            			}
-            		}
-            	});
-            });
             if(self.sort_key != null) {
-            	if(self.name !='_terp_list') 
-            		var th = jQuery('th[id=grid-data-column/'+self.name+'/'+self.sort_key+']').get();
-            	else
-            		var th = jQuery('th[id=grid-data-column/'+self.sort_key+']').get();
+            	if(self.name !='_terp_list') {
+            		var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
+            	}	
+            	else {
+            		var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
+            	}	
             		
             	var detail = jQuery(th).html();
             	
-				if(self.sort_key_order == 'asc')
-					jQuery(th).html(detail+'&nbsp;<img src="/openerp/static/images/listgrid/arrow_up.gif"/>');
-				else 
-					jQuery(th).html(detail+'&nbsp;<img src="/openerp/static/images/listgrid/arrow_down.gif"/>');
-						
+				if(self.sort_key_order == 'asc') {
+					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif"/>');
 				}
+				else { 
+					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif"/>');
+				}		
+			}
         	
         });
     }

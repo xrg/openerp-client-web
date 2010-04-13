@@ -206,7 +206,29 @@ import itertools
 						new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
 					}
 				</script>
-			% endif 
+			% endif
+			
+			<script type="text/javascript">
+				//Make all records Editable by Double-click
+				var view_type = jQuery('[id*= _terp_view_type]').val();
+            	var editable = jQuery('[id*= _terp_editable]').val();
+            	
+            	jQuery('table.grid tr.grid-row').each(function() {
+            		jQuery(this).dblclick(function(event) {
+	            		if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+	            			if (view_type == 'tree') {
+	            				if (editable != 'True') {
+	            					do_select(jQuery(this).attr('record'));
+	            				}
+	            				else {
+	            					editRecord(jQuery(this).attr('record'));
+	            				}
+	            			}
+	            		}
+	            	});
+            	});
+            	
+			</script> 
         </td>
     </tr>
 
