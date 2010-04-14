@@ -121,7 +121,6 @@ class List(SecuredController):
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
-        
         groupby = params.get('_terp_group_by_ctx')
         
         if groupby and isinstance(groupby, basestring):
@@ -139,11 +138,20 @@ class List(SecuredController):
                 
         if '_terp_sort_key' in params:
             proxy = rpc.RPCProxy(params.model)
-            if params.search_domain == None:
+            if params.search_domain is None:
                 params.search_domain = "[]"
-            ids = self.sort_by_order(params.model, params.sort_key, str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order)
+            
+            ids = self.sort_by_order(params.sort_model, params.sort_key, str(params.sort_domain), str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order)
             sort_ids = ast.literal_eval(ids)
-            params.ids = sort_ids['ids']
+            if params.sort_model != params.model:
+                if len(params.o2m.split('/')) > 1:
+                    parent = params.o2m.split('/')[0]
+                    child = params.o2m.split('/')[1]
+                    ids = params[parent][child].ids
+                else:
+                    ids = params[params.o2m].ids
+            else:    
+                params.ids = sort_ids['ids']
         else:
             params.ids = None
             
@@ -183,7 +191,6 @@ class List(SecuredController):
             for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
-
         return dict(ids=ids, count=count, view=ustr(wid.render()), info=info)
 
     @expose('json')
@@ -239,9 +246,12 @@ class List(SecuredController):
         return dict(error=error, result=result, reload=reload)
 
     @expose('json')
-    def sort_by_order(self, model, column, domain, filter_domain, order):
+    def sort_by_order(self, model, column, domain, search_domain, filter_domain, order):
         domain = ast.literal_eval(domain)
+        search_domain = ast.literal_eval(search_domain)
         filter_domain = ast.literal_eval(filter_domain)
+        if search_domain:
+            domain.extend(search_domain)
         if filter_domain:
             domain.extend(filter_domain)
             

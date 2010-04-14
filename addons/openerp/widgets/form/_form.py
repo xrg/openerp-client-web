@@ -748,13 +748,10 @@ class Form(TinyInputWidget):
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
 
         super(Form, self).__init__(prefix=prefix, model=model, editable=editable, readonly=readonly, nodefault=nodefault)
-        print "\n\n\n COntext ...............",context
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
-        print "\n\n\n\n DOM ... ",dom
         root = dom.childNodes[0]
         attrs = node_attributes(root)
         fields = view['fields']
-        print "\n\n\n View type ...",view['arch']
         self.string = attrs.get('string', '')
         self.link = attrs.get('link', nolinks)
 

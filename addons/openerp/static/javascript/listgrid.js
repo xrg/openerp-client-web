@@ -62,9 +62,11 @@ ListView.prototype = {
 
         // if o2m
         this.m2m = openobject.dom.get(name + '_set');
+        
         this.default_get_ctx = def_ctx ? def_ctx.value : null;
 		this.sort_key = null;
 		this.sort_key_order = null;
+		this.sort_domain = "[]";
         // save the reference
         openobject.dom.get(name).__listview = this;
     },
@@ -222,41 +224,56 @@ MochiKit.Base.update(ListView.prototype, {
 
 // pagination & reordering
 MochiKit.Base.update(ListView.prototype, {
+	
     sort_by_order: function(column) {
         var self = this;
-        if(this.sort_key == column)
-        	order = 'desc'
-    	else
-    		order = 'asc'
+        if(this.sort_key == column) {
+        	if(this.sort_key_order == 'asc') {
+        		order = 'desc';
+        	}
+        	else {
+        		order = 'asc';
+        	}
+        }	
+    	else {
+    		this.sort_key_order = null;
+    		if(this.sort_key_order == 'asc') {
+        		order = 'desc';
+        	}
+        	else {
+        		order = 'asc';
+        	}
+    	}
         
         if(jQuery('input[id$="'+this.name+'/_terp_ids'+'"]').get().length>0) {
         	ids = jQuery('input[id$="'+this.name+'/_terp_ids'+'"]').val();
-        	domain = "[('id','in',"+ids+")]";
-        	filter_domain = "[]";
+        	this.sort_domain = domain = "[('id','in',"+ids+")]";
+        	filter_domain = search_domain = "[]";
         }
+        
         else {
         	ids = this.ids;
         	domain = "[]";
+        	search_domain = "[]";
         	filter_domain = jQuery('input[id=_terp_filter_domain]').val() || "[]";
         	if(jQuery('input[id=_terp_search_domain]').val() != '' && jQuery('input[id=_terp_search_domain]').val() != 'None') {
-        		domain = jQuery('input[id=_terp_search_domain]').val();
+        		search_domain = jQuery('input[id=_terp_search_domain]').val();
         	}
         }
         
         if(eval(ids).length>0) {
         	jQuery.post(
     			'/listgrid/sort_by_order',
-    			{'model': this.model, 'column': column, 'domain': domain, 'filter_domain': filter_domain, 'order': order},
+    			{'model': this.model, 'column': column, 'domain': domain, 'search_domain': search_domain, 'filter_domain': filter_domain, 'order': order},
     			function(obj) {
     				if(obj.error) {
     					alert('error'+obj.error)
     				}
-    				
     				else {
     					var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
             			var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
             			_terp_ids.value = '[' + obj.ids.join(',') + ']';
-            			_terp_id.value = obj.ids.length ? obj.ids[0] : 'False';    					
+            			_terp_id.value = obj.ids.length ? obj.ids[0] : 'False';
     					self.reload();
     				}
     			},
@@ -265,10 +282,9 @@ MochiKit.Base.update(ListView.prototype, {
         	this.sort_key = column;
         	this.sort_key_order = order;
         }
-        
     },
 
-    groupbyDrag: function(drag, drop){
+    groupbyDrag: function(drag, drop) {
         var view = jQuery('table.grid[id$=grid]').attr('id').split("_grid")[0];
         var _list_view = new ListView(view);
         var domain;
@@ -615,9 +631,14 @@ MochiKit.Base.update(ListView.prototype, {
             args['_terp_filter_domain'] = openobject.dom.get('_terp_filter_domain').value;
         }
         
-        if(this.sort_key != null) {
+        if(this.sort_key) {
         	args['_terp_sort_key'] = this.sort_key;
         	args['_terp_sort_order'] = this.sort_key_order;
+        	args['_terp_sort_model'] = self.model
+        	args['_terp_sort_domain'] = this.sort_domain;
+        	if(self.name !='_terp_list') {
+        		args['_terp_o2m'] = self.name;
+        	}
         }
         
         var req = openobject.http.postJSON('/listgrid/get', args);

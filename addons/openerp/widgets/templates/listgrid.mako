@@ -229,10 +229,9 @@ import itertools
             	
             	if(view_type == 'form') {
             		if(jQuery('[id=${name}_set]').length > 0) {
-            			var ids = eval(jQuery('input[id=${name}/_terp_ids]').val());
+            			var ids = jQuery('input[id=${name}/_terp_ids]').val();
             			
-            			if(ids.length > 0) {
-            				
+            			if(ids != '[]') {
             				jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
             					var links = jQuery(jQuery(row).find('td')[1]).find('span');
             					if(links.length > 0) {
