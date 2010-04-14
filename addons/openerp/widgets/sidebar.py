@@ -65,6 +65,7 @@ class Sidebar(TinyWidget):
             } else {
                 Notebook.adjustSize(a);
             }
+            MochiKit.Signal.signal(document, 'toggle_sidebar');
         }
     """)]
 

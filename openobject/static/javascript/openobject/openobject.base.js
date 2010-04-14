@@ -98,7 +98,6 @@ MochiKit.DOM.addLoadEvent(function() {
     }
 });
 
-var MENU_WIDTH = 250;
 /**
  * Tries to fit the size of the #appFrame frame to better fit its current
  * content.extend
@@ -108,10 +107,10 @@ var MENU_WIDTH = 250;
  * several times
  */
 function adjustAppFrame() {
-    var frameHeight = jQuery("#appFrame").contents().find("body").height();
+    var frameHeight = jQuery("#appFrame").contents().find("#main_form_body").height();
     var frameWidth = jQuery("#appFrame").contents().width();
 
-    jQuery("#menubar").width(MENU_WIDTH);
+    jQuery("#menubar").width();
     jQuery("#appFrame").height(Math.max(0, frameHeight));
 
     var menuWidth = jQuery("#menubar").height();
@@ -172,10 +171,16 @@ if (window !== window.parent) {
         }
         // bind to change of the groupby display state in search widget
         var search_filter = $('search_filter_data');
-        if(search_filter) {
+        if (search_filter) {
             MochiKit.Signal.connect(search_filter, 'groupby-toggle',
                                     do_adjust);
         }
+        
+        var sidebar = openobject.dom.get('sidebar');
+        if (sidebar) {
+            MochiKit.Signal.connect(window.document, 'toggle_sidebar', do_adjust);
+        }
+        
         // bind to changes to treegrids and treenodes
         MochiKit.Signal.connect(window.document, 'treegrid-render', do_adjust);
         MochiKit.Signal.connect(window.document, 'treenode-expand', do_adjust);
