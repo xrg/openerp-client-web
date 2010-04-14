@@ -505,12 +505,7 @@ Notebook.prototype = {
          
         w = w < this.widthTabs ? w - 36 : w;
         
-        if (this.element.id == 'static_menu_tabs') {
-        	w = Math.max(0, w - 15);
-        }
-        else {
-        	w = Math.max(0, w - 2);
-        }
+        w = Math.max(0, w - 2);
         
         setElementDimensions(this.elemWrap, {w: w});
         showElement(this.elemWrap);

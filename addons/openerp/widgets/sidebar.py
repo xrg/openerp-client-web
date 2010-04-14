@@ -58,7 +58,7 @@ class Sidebar(TinyWidget):
                 
                 if (sb.style.display == "none") {
                     setNodeAttribute(a_img, 'class', 'off');
-                    setNodeAttribute(tertiary, 'style', 'width: 0px');
+                    setNodeAttribute(tertiary, 'style', 'width: 21px');
                     setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
                     setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
                     setNodeAttribute(attach_sidebar, 'style', 'display: none');
@@ -71,16 +71,15 @@ class Sidebar(TinyWidget):
                 }
             }
             if (typeof(Notebook) == "undefined") {
+                log('undefine');
                 a();
             } else {
                 Notebook.adjustSize(a);
             }
+            
+            MochiKit.Signal.signal(document, 'toggle_sidebar');
         }
-
-        MochiKit.DOM.addLoadEvent(function(evt) {
-            var sb = openobject.dom.get('sidebar');
-            if (sb) toggle_sidebar(openobject.http.getCookie('terp_sidebar'));
-        });
+        
     """)]
 
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):

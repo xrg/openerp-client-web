@@ -175,6 +175,13 @@ if (window !== window.parent) {
             MochiKit.Signal.connect(search_filter, 'groupby-toggle',
                                     do_adjust);
         }
+        
+        // bind to changes sidebar/toolbar
+        var sidebar = openobject.dom.get('sidebar');
+        if (sidebar) {
+            MochiKit.Signal.connect(window.document, 'toggle_sidebar', do_adjust);
+        }
+        
         // bind to changes to treegrids and treenodes
         MochiKit.Signal.connect(window.document, 'treegrid-render', do_adjust);
         MochiKit.Signal.connect(window.document, 'treenode-expand', do_adjust);
