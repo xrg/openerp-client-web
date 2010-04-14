@@ -638,7 +638,7 @@ register_widget(Button, ["button"])
 class Group(TinyInputWidget):
 
     template = "templates/group.mako"
-    params = ["expand_grp_id","default"]
+    params = ["expand_grp_id", "default", "view_type"]
     member_widgets = ["frame"]
     valign = "top"
 
@@ -647,6 +647,7 @@ class Group(TinyInputWidget):
         self.default = False
         self.frame = Frame(**attrs)
         self.nolabel = True
+        self.view_type = cherrypy.request.terp_params.get('_terp_view_type')
         
         if attrs.get('group_by_ctx'):
             self.default = True
@@ -747,12 +748,13 @@ class Form(TinyInputWidget):
     def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
 
         super(Form, self).__init__(prefix=prefix, model=model, editable=editable, readonly=readonly, nodefault=nodefault)
-
+        print "\n\n\n COntext ...............",context
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
+        print "\n\n\n\n DOM ... ",dom
         root = dom.childNodes[0]
         attrs = node_attributes(root)
         fields = view['fields']
-
+        print "\n\n\n View type ...",view['arch']
         self.string = attrs.get('string', '')
         self.link = attrs.get('link', nolinks)
 
@@ -882,7 +884,7 @@ class Form(TinyInputWidget):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Page(children=n, **attrs)]
 
-            elif node.localName=='group':
+            elif node.localName=='group':                
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views += [Group(children=n, **attrs)]
 
