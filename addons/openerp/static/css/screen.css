@@ -518,7 +518,7 @@ p.toggle-a { position: erlative; right: 0; z-index: 19; float: right; margin-bot
 td#sidebar {padding: 0px; border-color: #EAE7E7;}
 td#attach_sidebar {padding: 0px; border-color: #EAE7E7;}
 table#sidebar_pane {margin-bottom: 0px; border-color: #EAE7E7;}
-td#main_sidebar {padding: 5px 0 5px 5px; border-color: #EAE7E7;}
+td#main_sidebar {padding: 5px 0 5px 0px; border-color: #EAE7E7;}
 td#body_form_td {padding: 0px; border-color: #EAE7E7; }
 
 /* links */
