@@ -32,16 +32,15 @@
 		<script type="text/javascript">
 			jQuery('div[id=group_${expand_grp_id}]').click(function() {
 				var action;
-				jQuery(this).toggleClass(function(index, class) {
-					if(class == 'group-expand') {
+				jQuery(this).toggleClass(function (index, cls) {
+					if(cls == 'group-expand') {
 						jQuery('[id=${expand_grp_id}]').css('display', 'block');
-						jQuery(this).removeClass(class);
+						jQuery(this).removeClass(cls);
 						action = 'expand';
 						return 'group-collapse';
-					}
-					else {
+					} else {
 						jQuery('[id=${expand_grp_id}]').css('display', 'none');
-						jQuery(this).removeClass(class);
+						jQuery(this).removeClass(cls);
 						action = 'collapse';
 						return 'group-expand';
 					}
