@@ -84,7 +84,11 @@ div#search_filter_data table.fields td.item {
 }
 
 table.fields td.item {
-	padding: 2px 9px 5px 4px;
+	padding: 0 0 0 0;
+}
+
+form table.fields td.item {
+	padding: 2px 9px 5px 4px;	
 }
 
 /*fieldset table.fields td.item {
