@@ -196,6 +196,35 @@ button.btn_filter:hover {
     background: url(/static/images/button_bg2.png) repeat-x left top;
 }
 
+table#filter_table {
+	margin: 0;
+	width: 50%;
+}
+
+table#filter_table td.filter_column {
+	padding: 0;
+	text-align: left;
+	width: 65%;
+}
+
+table#filter_table td.filter_column select {
+	width: 80px;
+}
+
+table#filter_table td.image_col {
+	padding: 0;
+	text-align: left;
+}
+table#filter_table td.and_or {
+	padding: 0;
+	text-align: left;
+	width: 10%;
+}
+
+table#filter_table td.and_or select {
+	width: 55px;
+}
+
 /* ============== SEARCH FORM start ==============*/
 
 div#search_filter_data input.datetime,
@@ -247,13 +276,12 @@ div.group-expand {
 	cursor: pointer;
 	/*background: url(../images/treegrid/expand.gif) no-repeat top left; */
 	/*padding-left: 15px; */
-	margin: 0 0 10px;
 	overflow: hidden;
 	width: 100%;
 }
 
 div.group-expand h2 {
-	margin: 0 0 10px; 
+	margin: 0; 
 	padding: 0 0 0 10px; 
 	background: url(../images/group-a-header-a.png) 0 50% no-repeat; 
 	color: #7d7979; 
@@ -266,14 +294,8 @@ div.group-expand h2 span {
 	background: #f0eeee;
 }
 
-div.group-expand h2:hover {
-	margin: 0 0 10px; 
-	padding: 0 0 0 10px; 
+div.group-expand h2:hover { 
 	background: url(../images/group-a-header-a2.png) 0 50% no-repeat; 
-	color: #7d7979; 
-	font-size: 1em; 
-	font-weight: bold; 
-	text-transform: uppercase;
 }
 
 #groupdata_table {
@@ -288,13 +310,12 @@ div.group-collapse {
 	cursor: pointer;
 	/*background: url(../images/treegrid/expand.gif) no-repeat top left; */
 	/*padding-left: 15px; */
-	margin: 0 0 10px;
 	overflow: hidden;
 	width: 100%;
 }
 
 div.group-collapse h2 {
-	margin: 0 0 10px; 
+	margin: 0; 
 	padding: 0 0 0 10px; 
 	background: url(../images/group-a-header-b.png) 0 50% no-repeat; 
 	color: #7d7979; 
@@ -308,13 +329,7 @@ div.group-collapse h2 span {
 }
 
 div.group-collapse h2:hover {
-	margin: 0 0 10px; 
-	padding: 0 0 0 10px; 
 	background: url(../images/group-a-header-b2.png) 0 50% no-repeat; 
-	color: #7d7979; 
-	font-size: 1em; 
-	font-weight: bold; 
-	text-transform: uppercase;
 }
 
 div.custom-filter {

@@ -191,11 +191,26 @@ import itertools
 	            % if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
 				<script type="text/javascript">
 					var drag = getElementsByTagAndClassName('tr','grid-row');
-              		for(var grid=0; grid < drag.length; grid++) 
-              		{
-					    new Draggable(drag[grid], {revert:true, ghosting:true});
-						new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
-					}
+					jQuery('tr.grid-row').each(function() {
+						jQuery(this).draggable({
+							revert: 'valid',
+							connectToSortable: 'tr.grid-row',
+							helper: function() {
+								var htmlStr = jQuery(this).html();
+								return jQuery('<table><tr id class="ui-widget-header">'+htmlStr+'</tr></table>');
+							},
+							axis: 'y'
+						});
+											
+						jQuery(this).droppable({ 
+							accept: 'tr.grid-row',
+							hoverClass: 'grid-rowdrop',
+							drop: function(ev, ui) {
+								new ListView('${name}').dragRow(ui.draggable.attr('record'), $(this).attr('record'));
+							}
+						});
+						
+					})
 				</script>
 				% endif 
 	        </td>

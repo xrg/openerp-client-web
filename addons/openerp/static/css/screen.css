@@ -14,7 +14,7 @@ body { height: 100%; background: #f0eeee; font-size: 62.5%; }
 
 body, textarea, input, select, option, button { color: #1f1f1f; font-family: Myriad Pro,Lucida Grande,Lucida Sans Unicode,sans-serif; line-height: 1.25; }
 li, dt, dd, p, th, td, caption, pre { font-size: 1em; }
-ul, ol, dl, p, pre, h1, h2, h3, h4, h5, h6 { margin-bottom: 10px; }
+ul, ol, dl, pre, h1, h2, h3, h4, h5, h6 { margin-bottom: 10px; }
 
 a { color: #555; text-decoration: none; }
 a:hover, a:focus, a:active { color: #000; text-decoration: none; }

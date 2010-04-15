@@ -84,7 +84,7 @@ var add_filter_row = function() {
 		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
 		if (and_or){removeElement(and_or); }
 		
-		var and_or = MochiKit.DOM.createDOM('td', {'style': 'width: 5%;'});
+		var and_or = MochiKit.DOM.createDOM('td');
 		and_or.id = 'and_or/' + id;
 		and_or.className = 'and_or';
 		

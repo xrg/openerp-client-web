@@ -149,14 +149,26 @@ background = '#DEDEDE'
             </table>
             % if 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
                 <script type="text/javascript">
-                    var grid_rows = getElement('${name}_grid').rows;
-                    for (var grid = 0; grid < grid_rows.length; grid++) {
-                        if (grid_rows[grid].className.indexOf('grid-row') == 0)
-                        {
-                            new Draggable(grid_rows[grid], {revert:true, ghosting:true});
-                            new Droppable(grid_rows[grid], {accept: [grid_rows[grid].className], ondrop: new ListView('${name}').groupbyDrag, hoverclass: 'grid-rowdrop'});
-                        }
-                    }
+                    jQuery('table[id=${name}_grid] tbody tr.grid-row-group').each(function(index, row) {
+                   		jQuery(row).draggable({
+                   				revert: 'valid',
+                   				connectToSortable: 'tr.grid-row-group',
+                   				helper: function() {
+                   					var htmlStr = jQuery(this).html();
+                   					return jQuery('<table><tr class="ui-widget-header">'+htmlStr+'</tr></table>');
+                   				},
+                   				axis: 'y'
+                   		});
+                   		
+                   		jQuery(row).droppable({
+                   			accept : 'tr.grid-row-group',
+                   			hoverClass: 'grid-rowdrop',
+                   			drop: function(ev, ui) {
+                   				console.log('drag',ui.draggable);
+                   				console.log('drop',jQuery(this));
+                   			}
+                   		});
+					});
                 </script>
             % endif
             

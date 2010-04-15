@@ -5,7 +5,7 @@
 		% for f,k in enumerate(filter_domain):
 			% if len(k) >1:
 			    <tr id="filter_row/${x}" class="filter_row_class">
-					<td align="right" style="width:35%;" class="filter_column" id="filter_column/${x}">
+					<td align="right" class="filter_column" id="filter_column/${x}">
 						<select id="filter_fields/${x}" class="filter_fields">
 							% for field in fields_list:
 								<option kind="${field[2]}" value="${field[0]}" ${py.selector(field[0]==k[0])}>${field[1]}</option>
@@ -19,7 +19,7 @@
 					       <input type="text" class='qstring' id="qstring/${x}" value="${k[2] or ''}" />
 					</td>
 					% if len(filter_domain[f -1]) == 1:
-					<td class="and_or" id="and_or/${x}" style="width:5%;">
+					<td class="and_or" id="and_or/${x}">
 						<select id="select_andor/${x}" class="and_or">
 						% if filter_domain[f -1] == '&':
 							<option value="AND">AND</option>

@@ -116,7 +116,9 @@
     padding: 2px 0;*/
     padding: 3px 4px 1px 10px;
     text-align: right;
-    margin: 0;  background: #f3f3f3 url(../images/dot-a.gif) 0 50% repeat-x; line-height: 1;  
+    margin: 0;  
+    background: #f3f3f3;
+    line-height: 1;  
 }
 
 .gridview .pagerbar .pagerbar-cell {
@@ -124,7 +126,7 @@
     border-bottom: 1px solid #999; 
     padding-left: 10px;
     padding: 2px 4px;*/
-    
+    vertical-align: middle;
 }
 
 .gridview .pagerbar .pagerbar-cell .pagerbar-header {
