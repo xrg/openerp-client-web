@@ -48,9 +48,9 @@
                         <td></td>
                         <td style="text-align: right; padding-right: 55px;">
                             % if cp.config('dbbutton.visible', 'openobject-web'):
-                            <button type="button" class="login_buttons" tabindex="-1" onclick="location.href='${py.url('/database')}'">${_("Databases")}</button>
+                            <button type="button" class="static_buttons" tabindex="-1" onclick="location.href='${py.url('/database')}'">${_("Databases")}</button>
                             % endif
-                            <button type="submit" class="login_buttons">${_("Login")}</button>
+                            <button type="submit" class="static_buttons">${_("Login")}</button>
                         </td>
                     </tr>
                 </table>                

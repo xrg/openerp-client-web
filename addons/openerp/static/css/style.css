@@ -493,7 +493,7 @@ div#tab_content {
 
 /*------------------------------------------------------------------*/
 
-button.login_buttons {
+button.static_buttons {
 	background: transparent url(/openerp/static/images/nav-bg-a.png) repeat-x scroll 100% 0;
 	white-space: nowrap; 
 	height: 20px;
@@ -503,7 +503,7 @@ button.login_buttons {
 	text-transform: uppercase;
 }
 
-button.login_buttons:hover, button.login_buttons:focus  {
+button.static_buttons:hover, button.static_buttons:focus  {
 	font-weight: bold;
 }
 
