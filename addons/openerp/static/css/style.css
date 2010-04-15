@@ -493,6 +493,20 @@ div#tab_content {
 
 /*------------------------------------------------------------------*/
 
+button.login_buttons {
+	background: transparent url(/openerp/static/images/nav-bg-a.png) repeat-x scroll 100% 0;
+	white-space: nowrap; 
+	height: 20px;
+	font-size: 10px; 
+	color: #FFFFFF; 
+	width: 80px;
+	text-transform: uppercase;
+}
+
+button.login_buttons:hover, button.login_buttons:focus  {
+	font-weight: bold;
+}
+
 div.vline {
     background-color: #C3D9FF;
     width: 1px;
@@ -567,11 +581,14 @@ div.message {
     border: none;
 }
 
-div.welcome {
-    text-align: center;
-    color: #990033;
+div.welcome-message {
+	background: url(../images/nav-bg-a.png) repeat-x;
+	color: #FFFFFF; 
+	font-weight: bold; 
+	text-shadow: #111 0 1px 0; 
+	text-decoration: none !important;
+	text-align: center;
     font-size: 16px;
-    font-weight: bold;
 }
 
 /* view style */
@@ -620,9 +637,13 @@ div.welcome {
 }
 
 td.label {
-    padding: 0 4px;
-    text-align: right;
-    white-space: nowrap;
+	color:#777777;
+	font-size:10px;
+	font-weight:bold;
+	padding:0 4px;
+	text-align:right;
+	text-transform:uppercase;
+	white-space:nowrap;
 }
 
 td.item input,
