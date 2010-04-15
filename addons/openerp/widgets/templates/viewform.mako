@@ -17,7 +17,7 @@
             <td valign="top">${display_member(search)}</td>
         </tr>
         <tr>
-            <td style="padding: 3px; padding-top: 0px">
+            <td style="padding: 0px 10px 3px 10px;">
                 <div class="toolbar">
                     <button type="button" title="${_('Filter records.')}" onclick="search_filter()">${_("Filter")}</button>
                     % if screen.editable and screen.view_type in ('form', 'tree'):

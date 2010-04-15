@@ -158,7 +158,7 @@ div.box-a { margin: 0; padding: 0; border-radius: 4px; -moz-border-radius: 4px; 
   div.box-a ul.head li { float: left; padding-right: 15px; color: #9f9f9f; font-size: 1em; font-weight: bold; text-transform: uppercase; }
    div.box-a ul.head li a { float: left; height: 17px; padding: 7px 0 0; color: #9f9f9f; background: url(../images/calendar-a-head-active.gif) -10001px 100% no-repeat; text-shadow: #fff 0 1px 0; }
    div.box-a ul.head li a.active { color: #555; background-position: 50% 100%; }
- div.box-a div.inner { padding: 10px 15px 1px; }
+ div.box-a div.inner { padding: 10px 10px 5px; }
  div.box-a div.scroll { overflow-y: auto; overflow-x: hidden; height: 275px; padding: 10px 10px 0 15px; }
  * html div.box-a div.scroll { height: 271px; }
  *:first-child+html div.box-a div.scroll { height: 271px; }
