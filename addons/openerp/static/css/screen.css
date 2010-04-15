@@ -193,8 +193,16 @@ div.fields-a { }
   * html div.fields-a p span.lookup { display: inline; text-indent: 0; }
   *:first-child+html div.fields-a p span.lookup { display: inline; text-indent: 0; }
 
-div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px; padding: 0 0 5px; }
- div.filter-a ul { float: left; list-style: none; margin: 0 10px 0 0; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
+/*ul.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px; float: left; list-style: none; margin: 0 10px 0 0; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff;}
+ul.filter-a li { float: left; border-left: 1px solid #cccbcb; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
+ul.filter-a li.active_filter a { background-color: #e8e8e8; cursor: pointer; }
+ul.filter-a li.inactive_filter a { background-color: #e8e8e8; cursor: pointer; }
+ul.filter-a li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 8px; background-repeat: no-repeat; white-space: nowrap;}
+ul.filter-a li a.active { background-color: #E4E4E9; }
+ul.filter-a li a span { display: none; position: absolute; left: 45%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
+ul.filter-a li a.active span { display: block; } */
+div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
+ div.filter-a ul { float: left; list-style: none; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
   div.filter-a ul li { float: left; border-left: 1px solid #cccbcb; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
   div.filter-a ul li.first { border-left: none; }
   div.filter-a ul li.active_filter a { background-color: #e8e8e8; cursor: pointer; }
@@ -207,7 +215,7 @@ div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px; padding: 0 0 5px;
     div.filter-a ul li a.active span { display: block; }
  div.filter-a div.fields-a { float: left; padding-top: 13px; }
   div.filter-a div.fields-a p { float: left; margin: 0                  ; padding-right: 10px; }
-   div.filter-a div.fields-a p label { display: block; margin: 0 0 1px; }
+   div.filter-a div.fields-a p label { display: block; margin: 0 0 1px; } 
 
 div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10px; }
  div.footer-a p { margin: 0; padding: 0 15px; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
@@ -309,7 +317,7 @@ table { width: 100%; border-bottom: 1px solid #f4f2f2; }
   table td .lock { background-image: url(../images/iconset-a-lock.gif); }
   table td .money { background-image: url(../images/iconset-a-money.gif); }
   table td .delete { width: 12px; height: 12px; background-image: url(../images/iconset-b-remove.gif); }
-  table td .grid { background-image: url(../images/iconset-b-grid.gif); }
+  /* table td .grid { background-image: url(../images/iconset-b-grid.gif); } */
   table td .edit { width: 12px; height: 12px; background-image: url(../images/iconset-b-edit.gif); }
   table td .dot { width: 8px; height: 8px; background-image: url(../images/partners-a-dots.gif); }
   table td .dark { background-position: -8px 0; }

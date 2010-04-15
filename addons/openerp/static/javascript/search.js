@@ -33,11 +33,12 @@
  */
 var add_filter_row = function() {
 	
-	var filter_table = $('filter_table');
+	var filter_table = getElement('filter_table');
 	var vals = [];
 	var row_id = 1;
 	
-	var first_row = $('filter_row/0');
+	var first_row = getElement('filter_row/0');
+	
 	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table)
 	
 	if (filter_table.style.display == 'none') {
@@ -83,7 +84,7 @@ var add_filter_row = function() {
 		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
 		if (and_or){removeElement(and_or); }
 		
-		var and_or = MochiKit.DOM.createDOM('td');
+		var and_or = MochiKit.DOM.createDOM('td', {'style': 'width: 5%;'});
 		and_or.id = 'and_or/' + id;
 		and_or.className = 'and_or';
 		
@@ -168,7 +169,7 @@ var onKeyDown_search = function(evt) {
 
 var display_Customfilters = function(all_domains, group_by_ctx){
 
-	var filter_table = $('filter_table');
+	var filter_table = getElement('filter_table');
 	
 	var params = {};
 	var record = {};
@@ -258,22 +259,27 @@ var search_filter = function(src, id) {
 	var all_domains = {};
 	var check_domain = 'None';
 	var domains = {};
+	
 	var search_context = {};
 	var group_by_ctx = [];
 	var all_boxes = [];
 	var domain = 'None';
+	var set_filter = jQuery(id).find("a")[0];
 	
 	if(src) {
 		if(src.checked==false) {
-			src.checked = true
+			src.checked = true;
 			id.className = 'active_filter';
+			jQuery(set_filter).attr('class', 'active')
 		}
 		else {
-			src.checked = false
+			src.checked = false;
 			id.className = 'inactive_filter';
+			jQuery(set_filter).attr('class', 'inactive')
 		}
 	}
-	var filter_table = $('filter_table');
+	
+	var filter_table = getElement('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
 	forEach(datas, function(d) {
@@ -282,6 +288,7 @@ var search_filter = function(src, id) {
 			if (getNodeAttribute(d, 'kind') == 'selection') {
 				value = parseInt(d.value);
 				if(getNodeAttribute(d, 'search_context')) {
+					console.log('get node', getNodeAttribute(d, 'search_context'))
 					search_context['context'] = getNodeAttribute(d, 'search_context');
 					search_context['value'] = value;
 				}
@@ -289,8 +296,8 @@ var search_filter = function(src, id) {
 			domains[d.name] = value;
 		}
 	});
-	
 	domains = serializeJSON(domains);
+//	search_context = serializeJSON(search_context);
 	all_domains['domains'] = domains;
 	all_domains['search_context'] =  search_context;
 	selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
@@ -312,20 +319,22 @@ var search_filter = function(src, id) {
 	all_domains['check_domain'] = check_domain;
 	
 	if ($('filter_list')) {
-		all_domains['selection_domain'] = $('filter_list').value;
+		all_domains['selection_domain'] = jQuery('[id=filter_list]').val();
 	}
 	
 	all_domains = serializeJSON(all_domains);
-	var fil_dom = openobject.dom.get('_terp_filter_domain');
-	if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
+//	var fil_dom = openobject.dom.get('_terp_filter_domain');
+
+	if(jQuery('table[id=filter_table]').css('display') != 'none' || jQuery('[id=_terp_filter_domain]').val() != '[]') {
 		
-		if (filter_table.style.display == 'none'){
-			filter_table.style.display = '';
+		if (jQuery('table[id=filter_table]').css('display') == 'none'){
+			jQuery('table[id=filter_table]').css('display','');
 		}		
 		display_Customfilters(all_domains, group_by_ctx);
 	}
 	else {
-		custom_domain = fil_dom.value || '[]';		
+		
+		custom_domain = jQuery('[id=_terp_filter_domain]').val() || '[]';		
 		final_search_domain(custom_domain, all_domains, group_by_ctx);	
 	}
 }

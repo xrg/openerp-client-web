@@ -29,7 +29,9 @@
 
 var ListView = function(name) {
 
-    var elem = openobject.dom.get(name);
+//    var elem = openobject.dom.get(name);
+    var elem = jQuery('[id="'+name+'"]').get()
+    
     if (elem.__listview) {
         return elem.__listview;
     }
@@ -47,36 +49,36 @@ ListView.prototype = {
     __init__: function(name) {
 
         var prefix = name == '_terp_list' ? '' : name + '/';
-
+		
         this.name = name;
-        this.model = openobject.dom.get(prefix + '_terp_model') ? openobject.dom.get(prefix + '_terp_model').value : null;
+        this.model = $('[id*="'+prefix + '_terp_model'+'"]').get() ? $('[id*="'+prefix + '_terp_model'+'"]').val() : null;
+        
         this.current_record = null;
 
-        this.ids = openobject.dom.get(prefix + '_terp_ids').value;
+        this.ids = $('[id*="'+prefix + '_terp_ids'+'"]').val();
 
-        var view_ids = openobject.dom.get(prefix + '_terp_view_ids');
-        var view_mode = openobject.dom.get(prefix + '_terp_view_mode');
-        var def_ctx = openobject.dom.get(prefix + '_terp_default_get_ctx');
+//        var view_ids = openobject.dom.get(prefix + '_terp_view_ids');
+//        var view_mode = openobject.dom.get(prefix + '_terp_view_mode');
+//        var def_ctx = openobject.dom.get(prefix + '_terp_default_get_ctx');
 
-        this.view_ids = view_ids ? view_ids.value : null;
-        this.view_mode = view_mode ? view_mode.value : null;
+        this.view_ids = $('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? $('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
+        this.view_mode = $('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? $('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
 
         // if o2m
-        this.m2m = openobject.dom.get(name + '_set');
-        this.default_get_ctx = def_ctx ? def_ctx.value : null;
-
+        this.m2m = $('[id*="'+name + '_set'+'"]');
+		this.default_get_ctx = $('[id*="'+prefix + '_terp_default_get_ctx'+'"]').get() ? $('[id*="'+prefix + '_terp_default_get_ctx'+'"]').val() : null;
         // save the reference
-        openobject.dom.get(name).__listview = this;
+        $('[id*="'+name+'"]:first').__listview = this;
     },
 
     checkAll: function(clear) {
 
         clear = clear ? false : true;
-
-        boxes = openobject.dom.get(this.name).getElementsByTagName('input');
-        forEach(boxes, function(box) {
-            box.checked = clear;
-        });
+        
+        $('[id*="'+this.name+'"]:first').find(':checkbox').each(function(i) {
+			$(this).attr('checked', clear)
+		});
+        
         var sb = openobject.dom.get('sidebar');
         if (sb) toggle_sidebar();
     },
@@ -100,13 +102,14 @@ ListView.prototype = {
     getSelectedItems: function() {
         return filter(function(box) {
             return box.id && box.checked;
+//            $('input.grid-record-selector')
         }, openobject.dom.select('input.grid-record-selector', this.name));
     },
     
     onBooleanClicked: function() {
     	var selected_ids = this.getSelectedRecords()
     	var sb = openobject.dom.get('sidebar');
-    	
+//    	var sb = $('[id=sidebar]').get()
     	if (selected_ids.length <= 1){
     		if (sb){
     			if(sb.style.display != ''){toggle_sidebar()}; 
@@ -238,20 +241,17 @@ MochiKit.Base.update(ListView.prototype, {
         }
     },
 
-    dragRow: function(drag, drop, event) {
-        var args = {};
-        var _list_view = new ListView(drag.parentNode.parentNode.id.split("_grid")[0]);
-        var _terp_model = getElement(drag.parentNode.parentNode.id.split("_grid")[0] + '/_terp_model') || getElement('_terp_model');
-        args['_terp_model'] = _terp_model.value;
-        var _terp_ids = getElement(drag.parentNode.parentNode.id.split("_grid")[0] + '/_terp_ids') || getElement('_terp_ids');
-        args['_terp_ids'] = _terp_ids.value;
-        args['_terp_id'] = getNodeAttribute(drag, 'record');
-        args['_terp_swap_id'] = getNodeAttribute(drop, 'record');
-
-        var req = openobject.http.postJSON('/listgrid/dragRow', args);
-        req.addCallback(function() {
-            _list_view.reload();
-        })
+    dragRow: function(drag, drop) {
+        var view = jQuery('table.grid[id$=grid]').attr('id').split("_grid")[0];
+        var _list_view = new ListView(view);
+        jQuery.post(
+            '/listgrid/dragRow',
+            {'_terp_model': _list_view.model,
+             '_terp_ids': _list_view.ids,
+             '_terp_id': drag,
+             '_terp_swap_id': drop},
+            function () { _list_view.reload(); },
+            "json");
     },
 
     moveUp: function(id) {
@@ -346,13 +346,20 @@ MochiKit.Base.update(ListView.prototype, {
         if (btype == "open") {
             return window.open(get_form_action('/form/edit', {
                 id: id,
+//                ids: $('[id*="'+prefix + '_terp_ids'+'"]').val(),
                 ids: openobject.dom.get(prefix + '_terp_ids').value,
                 model: openobject.dom.get(prefix + '_terp_model').value,
+//                model: $('[id*="'+prefix + '_terp_model'+'"]').val(),
                 view_ids: openobject.dom.get(prefix + '_terp_view_ids').value,
+//                view_ids: $('[id*="'+prefix + '_terp_view_ids'+'"]').val(),
                 domain: openobject.dom.get(prefix + '_terp_domain').value,
+//                domain: $('[id*="'+prefix + '_terp_domain'+'"]').val(),
                 context: openobject.dom.get(prefix + '_terp_context').value,
+//                context: $('[id*="'+prefix + '_terp_context'+'"]').val(),
                 limit: openobject.dom.get(prefix + '_terp_limit').value,
+//                limit: $('[id*="'+prefix + '_terp_limit'+'"]').val(),
                 offset: openobject.dom.get(prefix + '_terp_offset').value,
+//                offset: $('[id*="'+prefix + '_terp_offset'+'"]').val(),
                 count: openobject.dom.get(prefix + '_terp_count').value}));
         }
 
@@ -671,21 +678,21 @@ MochiKit.Base.update(ListView.prototype, {
     }
 });
 
-var toggle_group_data = function(id) {
-
-    img = openobject.dom.get('img_' + id);
-    rows = openobject.dom.select('tr.' + id);
-
-    forEach(rows, function(rw) {
-        if (rw.style.display == 'none') {
-            rw.style.display = '';
-            setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/collapse.gif');
-        }
-        else {
-            rw.style.display = 'none';
-            setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/expand.gif');
-        }
-    });
-};
+//var toggle_group_data = function(id) {
+//
+//    img = openobject.dom.get('img_' + id);
+//    rows = openobject.dom.select('tr.' + id);
+//
+//    forEach(rows, function(rw) {
+//        if (rw.style.display == 'none') {
+//            rw.style.display = '';
+//            setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/collapse.gif');
+//        }
+//        else {
+//            rw.style.display = 'none';
+//            setNodeAttribute(img, 'src', '/openerp/static/images/treegrid/expand.gif');
+//        }
+//    });
+//};
 
 // vim: ts=4 sts=4 sw=4 si et

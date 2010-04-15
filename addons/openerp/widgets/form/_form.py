@@ -638,7 +638,7 @@ register_widget(Button, ["button"])
 class Group(TinyInputWidget):
 
     template = "templates/group.mako"
-    params = ["expand_grp_id","default"]
+    params = ["expand_grp_id","default", "view_type"]
     member_widgets = ["frame"]
     valign = "top"
 
@@ -647,6 +647,7 @@ class Group(TinyInputWidget):
         self.default = False
         self.frame = Frame(**attrs)
         self.nolabel = True
+        self.view_type = cherrypy.request.terp_params.get('_terp_view_type')
         
         if attrs.get('group_by_ctx'):
             self.default = True

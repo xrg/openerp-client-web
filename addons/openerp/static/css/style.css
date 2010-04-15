@@ -79,6 +79,10 @@ fieldset {
     border: solid 1px #888888; 
 }
 
+table.fields td.item {
+	padding: 0 0 0 0;
+}
+
 button {
     border: solid 1px #888888;    
     background: url(../images/button_bg.png) repeat-x left top;
@@ -134,6 +138,41 @@ div.toolbar button.clear {
     text-shadow: #fff 0 1px 0;
 }
 
+td.item button {
+	border: solid 1px #888888;    
+    background: url(../images/button-a.gif) repeat-x;
+    color: #FFFFFF;
+    padding: 0px 2px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 1px 10px 0; 
+    border: 1px solid #aaa9a9; 
+    border-color: #c6c4c4 #aaa9a9 #797878; 
+    border-radius: 3px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px; 
+    box-shadow: 0 1px 0 #fff; 
+    -moz-box-shadow: 0 1px 0 #fff; 
+    -webkit-box-shadow: 0 1px 0 #fff;
+    white-space: nowrap;
+    text-transform: uppercase; 
+    text-shadow: #6a6969 0 1px 0;
+    height: 25px;
+    vertical-align: bottom;
+    margin: 2px;
+}
+td.item button table {
+	margin: 0;
+}
+td.item button table td {
+	border: none;
+}
+
+div.group-data table.fields {
+	width: 0%;
+}
 /*div.toolbar button.clear { float: left; height: 15px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; } */
 
 /* button:hover {
@@ -182,6 +221,26 @@ div.active_filter {
 	border: solid 1px #888888; 
 	white-space: nowrap;
 	padding: 1px;
+}
+
+img.group_expand {
+	cursor: pointer;
+	background: url(../images/treegrid/expand.gif) no-repeat top left;
+	padding-left: 15px;
+}
+
+img.group_expand:hover {
+	background: url(../images/treegrid/expandh.gif) no-repeat top left;
+}
+
+img.group_collapse {
+	cursor: pointer;
+	background: url(../images/treegrid/collapse.gif) no-repeat top left;
+	padding-left: 15px;
+}
+
+img.group_collapse:hover {
+	background: url(../images/treegrid/collapseh.gif) no-repeat top left;
 }
 
 div.group-expand {
