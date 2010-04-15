@@ -28,7 +28,11 @@
                             <table width="100%" id="title_header">
                                 <tr>
                                     <td width="50%" style="padding: 0px 5px 1px 0px;">
-                                    	<h1>${form.screen.string}</h1>
+                                    	<h1>${form.screen.string}
+                                    		<a target="appFrame" class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
+                                    			<small>Help</small>
+		                              		</a>
+                                    	</h1>
                                     </td>
                                     
                                     <%def name="make_view_button(i, kind, name, desc, active)">
@@ -49,11 +53,11 @@
 										</ul>
 									</td>
 									
-									<td style="padding: 0px 5px 0px 0px; cursor: pointer;">
+									<!-- <td style="padding: 0px 5px 0px 0px; cursor: pointer;">
 	                                    <a target="appFrame" onclick="show_process_view()">
 		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
 		                              	</a>
-                                    </td>
+                                    </td> -->
                                   
                                     % if buttons.can_attach and not buttons.has_attach:
                                     <td align="center" valign="middle" width="16" style="padding: 0px 5px 0px 0px;">

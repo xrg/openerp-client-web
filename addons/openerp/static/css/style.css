@@ -79,9 +79,17 @@ fieldset {
     border: solid 1px #888888; 
 }
 
-table.fields td.item {
+div#search_filter_data table.fields td.item {
 	padding: 0 0 0 0;
 }
+
+table.fields td.item {
+	padding: 2px 9px 5px 4px;
+}
+
+/*fieldset table.fields td.item {
+	padding: 2px 9px 5px 4px;
+} */
 
 button {
     border: solid 1px #888888;    
@@ -142,16 +150,15 @@ td.item button {
 	border: solid 1px #888888;    
     background: url(../images/button-a.gif) repeat-x;
     color: #FFFFFF;
-    padding: 0px 2px;
-    font-size: 11px;
-    font-weight: 600;
+    /* padding: 0px 2px; */
+    font-size: 10px;
+    font-weight: bold;
     white-space: nowrap;
     cursor: pointer;
-    padding: 1px 10px 0; 
     border: 1px solid #aaa9a9; 
     border-color: #c6c4c4 #aaa9a9 #797878; 
     border-radius: 3px; 
-    -moz-border-radius: 3px; 
+    -moz-border-radius: 3px;
     -webkit-border-radius: 3px; 
     box-shadow: 0 1px 0 #fff; 
     -moz-box-shadow: 0 1px 0 #fff; 
@@ -160,14 +167,16 @@ td.item button {
     text-transform: uppercase; 
     text-shadow: #6a6969 0 1px 0;
     height: 25px;
-    vertical-align: bottom;
+    vertical-align: top;
     margin: 2px;
 }
 td.item button table {
 	margin: 0;
+	border: none;
 }
 td.item button table td {
 	border: none;
+	padding: 0;
 }
 
 div.group-data table.fields {
@@ -209,6 +218,10 @@ table#filter_table td.filter_column {
 
 table#filter_table td.filter_column select {
 	width: 80px;
+}
+
+table#filter_table td.filter_column input.qstring {
+	width:100px;
 }
 
 table#filter_table td.image_col {
@@ -278,6 +291,7 @@ div.group-expand {
 	/*padding-left: 15px; */
 	overflow: hidden;
 	width: 100%;
+	padding: 5px;
 }
 
 div.group-expand h2 {
@@ -612,6 +626,31 @@ td.item select,
 td.item textarea,
 td.item button {
     width: 99%;
+}
+
+td.item input {
+	padding: 3px 2px;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	background: #FFFFFF none repeat scroll 0 0;
+	border-color: #CECBCB #DFDDDD #FFFFFF;
+	border-style: solid;
+	border-width: 1px;
+	vertical-align: middle;
+}
+
+td.item select {
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	background: #FFFFFF none repeat scroll 0 0;
+	border-color: #CECBCB #DFDDDD #FFFFFF;
+	border-style: solid;
+	border-width: 1px;
+	vertical-align: middle;
 }
 
 .resizable-textarea .grip {

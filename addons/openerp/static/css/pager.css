@@ -19,6 +19,10 @@
 	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; background: url(../images/paging-a.gif) no-repeat; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
 }
 
+.pager p.paging a.new {
+	 background: none;
+}
+
 .pager p.paging span{
 	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; background: url(../images/paging-a.gif) no-repeat; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
 }
@@ -27,8 +31,8 @@
 
 .pager p.paging a.first { margin: 0; background-position: 0 0; }
 .pager p.paging span.first { margin: 0; background-position: 0 0; }
-.pager p.paging a.prev { width: 6px; background-position: 2px 0; }
-.pager p.paging span.prev { width: 6px; background-position: 2px 0; }
+.pager p.paging a.prev { width: 7px; background-position: 2px 0; }
+.pager p.paging span.prev { width: 7px; background-position: 2px 0; }
 .pager p.paging a.last { margin: 0; background-position: -8px 0; }
 .pager p.paging span.last { margin: 0; background-position: -8px 0; }
 .pager p.paging a.next { width: 5px; background-position: -12px 0; }

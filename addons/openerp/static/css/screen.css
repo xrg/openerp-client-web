@@ -308,7 +308,7 @@ table { width: 100%; border-bottom: 1px solid #f4f2f2; }
  table thead th { border-bottom: 1px solid #f4f2f2; color: #3a3939; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
  table tfoot th { color: #3a3939; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
  table tfoot td { font-weight: bold; }
- table tbody td { border: 1px solid #f4f2f2; border-width: 0 1px; }
+ /* table tbody td { border: 1px solid #f4f2f2; border-width: 0 1px; } */
  table .alt td { background-color: #fafafa; }
  table .marked td { background-color: #f4f4f4; }
   table td .icon { display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 13px; height: 13px; margin: 0 0 0 3px; font-size: 0; text-indent: -10001px; vertical-align: middle; }
