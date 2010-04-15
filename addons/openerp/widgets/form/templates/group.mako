@@ -15,7 +15,7 @@
 			</div>
 		% endif
 		
-		<table id="groupdata_table">
+		<table id="groupdata_table" style="display: block;">
 			<tr>	
 				<td>
 					% if default:
@@ -30,6 +30,7 @@
 			jQuery('div[id=group_${expand_grp_id}]').click(function() {
 				jQuery(this).toggleClass('group-collapse', 100);
 				jQuery('[id=${expand_grp_id}]').toggle("slow");
+				jQuery('table[id=groupdata_table]').css('display', 'block');
 			});
 		</script>
 	% endif
