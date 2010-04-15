@@ -50,7 +50,7 @@ class ViewTree(Form):
 
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
 
-    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
+    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None, fields={}):
         super(ViewTree, self).__init__(name='view_tree', action=action)
 
         self.model = view['model']
@@ -71,8 +71,7 @@ class ViewTree(Form):
 
         ctx = self.context.copy();
         ctx.update(rpc.session.context)
-
-        fields = cache.fields_get(self.model, False, ctx)
+                
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
 
         root = dom.childNodes[0]

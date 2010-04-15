@@ -112,13 +112,14 @@ class Root(SecuredController):
         tools = proxy.read(ids, ['name', 'icon'], ctx)
 
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
-
+        fields = cache.fields_get(view['model'], False, ctx)
+        
         for tool in tools:
             tid = tool['id']
             tool['icon'] = icons.get_icon(tool['icon'])
             tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
                                     domain=[('parent_id', '=', tid)],
-                                    context=ctx, action="/tree/action")
+                                    context=ctx, action="/tree/action", fields=fields)
             tree._name = "tree_%s" %(tid)
             tree.tree.onselection = None
             tree.tree.onheaderclick = None

@@ -73,8 +73,9 @@ class Tree(SecuredController):
             view = cache.fields_view_get(model, view_id, view_base['type'], context)
         else:
             view = cache.fields_view_get(model, False, 'tree', context)
-
-        tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
+        fields = cache.fields_get(view['model'], False, context)
+            
+        tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action", fields=fields)
         if tree.toolbar:
             proxy = rpc.RPCProxy(model)
 
