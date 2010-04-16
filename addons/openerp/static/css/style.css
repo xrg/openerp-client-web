@@ -81,6 +81,7 @@ fieldset {
 
 div#search_filter_data table.fields td.item {
 	padding: 0 0 0 0;
+	width: auto;
 }
 
 table.fields td.item {
@@ -105,7 +106,7 @@ button {
     cursor: pointer;
 }
 
-div.toolbar button {
+div.toolbar button, td.toolbar button {
     border: solid 1px #888888;    
     background: url(../images/button-a.gif) repeat-x;
     color: #FFFFFF;
@@ -211,13 +212,13 @@ button.btn_filter:hover {
 
 table#filter_table {
 	margin: 0;
-	width: 50%;
+	width: auto;
 }
 
 table#filter_table td.filter_column {
 	padding: 0;
 	text-align: left;
-	width: 65%;
+	width: auto;
 }
 
 table#filter_table td.filter_column select {
@@ -229,13 +230,12 @@ table#filter_table td.filter_column input.qstring {
 }
 
 table#filter_table td.image_col {
-	padding: 0;
+	padding-left: 4px;
 	text-align: left;
 }
 table#filter_table td.and_or {
-	padding: 0;
+	padding-left: 5px;
 	text-align: left;
-	width: 10%;
 }
 
 table#filter_table td.and_or select {

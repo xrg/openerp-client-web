@@ -36,7 +36,6 @@
                     <button type="button" title="${_('Create new record.')}" 
                         onclick="new ListView('_terp_list').create()">${_("New")}</button>
                     % endif
-                    <button type="button" class="clear" title="${_('Clear records.')}" onclick="">${_("Clear")}</button>
                 </div>
             </td>
         </tr>

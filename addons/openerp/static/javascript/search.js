@@ -288,7 +288,6 @@ var search_filter = function(src, id) {
 			if (getNodeAttribute(d, 'kind') == 'selection') {
 				value = parseInt(d.value);
 				if(getNodeAttribute(d, 'search_context')) {
-					console.log('get node', getNodeAttribute(d, 'search_context'))
 					search_context['context'] = getNodeAttribute(d, 'search_context');
 					search_context['value'] = value;
 				}
