@@ -33,7 +33,7 @@ from openerp.widgets import listgrid
 
 import form
 import wizard
-from openobject.tools import expose
+from openobject.tools import expose, ast
 
 
 class List(SecuredController):
@@ -121,7 +121,6 @@ class List(SecuredController):
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
-        
         groupby = params.get('_terp_group_by_ctx')
         
         if groupby and isinstance(groupby, basestring):
@@ -137,7 +136,25 @@ class List(SecuredController):
             
         params['_terp_group_by_ctx'] = group_by_list
                 
-        params.ids = None
+        if '_terp_sort_key' in params:
+            proxy = rpc.RPCProxy(params.model)
+            if params.search_domain is None:
+                params.search_domain = "[]"
+            
+            ids = self.sort_by_order(params.sort_model, params.sort_key, str(params.sort_domain), str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order)
+            sort_ids = ast.literal_eval(ids)
+            if params.sort_model != params.model:
+                if len(params.o2m.split('/')) > 1:
+                    parent = params.o2m.split('/')[0]
+                    child = params.o2m.split('/')[1]
+                    ids = params[parent][child].ids
+                else:
+                    ids = params[params.o2m].ids
+            else:    
+                params.ids = sort_ids['ids']
+        else:
+            params.ids = None
+            
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
@@ -174,7 +191,6 @@ class List(SecuredController):
             for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
-
         return dict(ids=ids, count=count, view=ustr(wid.render()), info=info)
 
     @expose('json')
@@ -230,19 +246,32 @@ class List(SecuredController):
         return dict(error=error, result=result, reload=reload)
 
     @expose('json')
-    def sort_by_order(self, **kw):
-        params, data = TinyDict.split(kw)
-        proxy = rpc.RPCProxy(params.model)
-        ctx = rpc.session.context.copy()
+    def sort_by_order(self, model, column, domain, search_domain, filter_domain, order):
+        domain = ast.literal_eval(domain)
+        search_domain = ast.literal_eval(search_domain)
+        filter_domain = ast.literal_eval(filter_domain)
+        if search_domain:
+            domain.extend(search_domain)
+        if filter_domain:
+            domain.extend(filter_domain)
+            
         try:
-
-            if params.sort_domain:
-                ids = proxy.search(params.sort_domain, 0,0, params.sort_order, ctx)
-            else:
-                ids = proxy.search([], 0,0, params.sort_order, ctx)
+            proxy = rpc.RPCProxy(model)
+            ids = proxy.search(domain, 0, 0, column+' '+order)
             return dict(ids = ids)
         except Exception , e:
             return dict(error = e.message)
+
+    @expose('json')
+    def groupbyDrag(self, model, children, domain):
+        domain = ast.literal_eval(domain)[0]
+        children = ast.literal_eval(children)
+        if isinstance(children, list):
+            children = list(children)
+        else:
+            children = [children]
+        rpc.RPCProxy(model).write(children, {domain[0]: domain[2]})
+        return {}
 
     @expose('json')
     def dragRow(self, **kw):

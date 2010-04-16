@@ -15,7 +15,29 @@ except:
     requests = []
     requests_message = None
 %>
-
+<script type="text/javascript">
+ 	function show_process_view(){
+ 		
+		var f = window.frames["appFrame"]
+		if (f.location == 'about:blank'){
+			alert('Please open menu for detail help...')
+			return;
+		}
+		var frame = f.document.view_form;
+		var model = frame._terp_model.value;
+		var id = frame._terp_id.value;
+		 	
+	 	if (frame._terp_list) {
+			var ids = frame._terp_checked_ids.value;
+	      	if (ids.length) {
+				id = ids[0];
+	      	}
+	 	}
+		id = parseInt(id) || null;    	
+		f.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
+	}
+ 	
+</script>
 <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td rowspan="2">
@@ -90,7 +112,7 @@ except:
 			            </a>
 			        </td>
 			        <td nowrap="nowrap">
-			            <a target='appFrame' href="javascript: void(0)">
+			            <a target='appFrame' onclick="show_process_view()">
 			            	<img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;" title="Help" border="0" width="16px" height="16px"/>
 			            </a>
 			        </td>

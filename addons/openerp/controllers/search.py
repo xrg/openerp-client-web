@@ -46,7 +46,7 @@ class Search(Form):
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
-
+        params.filter_domain = params.filter_domain or []
         params.editable = 0
 
         form = self.create_form(params, tg_errors)
@@ -273,7 +273,7 @@ class Search(Form):
             custom_domains = eval(custom_domains)
             for inner in custom_domains:
                 if len(inner) == 4:
-                    if isinstance(inner[3], int):
+                    if isinstance(inner[3], (int, list)):
                         tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', ' + ustr(inner[3]) + ')]'
                     else:
                         tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'
@@ -415,14 +415,19 @@ class Search(Form):
 
         domain = params.domain or []
         context = params.context or {}
-
+        
         ctx = rpc.session.context.copy()
         ctx.update(context)
+        
+        error = None
+        values = False
+        try:
+            proxy = rpc.RPCProxy(model)
+            values = proxy.name_search(text, domain, 'ilike', ctx, int(limit))
+        except Exception, e:
+            error=ustr(e)
 
-        proxy = rpc.RPCProxy(model)
-        values = proxy.name_search(text, domain, 'ilike', ctx, int(limit))
-
-        return dict(values=values)
+        return dict(values=values, error= error)
 
 
 # vim: ts=4 sts=4 sw=4 si et

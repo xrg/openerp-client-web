@@ -103,7 +103,16 @@ class O2M(TinyInputWidget):
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
         
-        ids = attrs.get('value') or []
+        if '_terp_sort_domain' in params:
+            if len(params.o2m.split('/')) > 1:
+                parent = params.o2m.split('/')[0]
+                child = params.o2m.split('/')[1]
+                ids = params[parent][child].ids
+            else:
+                ids = params[params.o2m].ids
+        else:
+            ids = attrs.get('value') or []
+        
         if not isinstance(ids, list):
             ids = [ids]
             

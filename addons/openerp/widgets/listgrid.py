@@ -30,7 +30,7 @@ import copy
 import math
 import time
 import xml.dom.minidom
-from itertools import chain
+from itertools import chain, count
 
 import cherrypy
 from openerp.utils import rpc, icons, common, expr_eval, node_attributes
@@ -81,7 +81,10 @@ class List(TinyWidget):
 
         self.context = context or {}
         self.domain = domain or []
-
+        
+        custom_search_domain = cherrypy.request.custom_search_domain
+        custom_filter_domain = cherrypy.request.custom_filter_domain
+        
         if name.endswith('/'):
             self._name = name[:-1]
 
@@ -112,7 +115,16 @@ class List(TinyWidget):
 
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
-
+        
+        search_param = domain or []
+        if custom_search_domain:
+            for elem in custom_search_domain:
+                if elem not in self.domain:
+                    search_param.append(elem)
+                    
+            for elem in custom_filter_domain:
+                if elem not in self.domain:
+                    search_param.append(elem)
         # is relational field (M2M/O2M)
         if self.source:
             self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit)
@@ -137,15 +149,14 @@ class List(TinyWidget):
                 self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
-
+        
         if ids is None:
             if self.limit > 0:
-                ids = proxy.search(domain, self.offset, self.limit, 0, context)
+                ids = proxy.search(search_param, self.offset, self.limit, 0, context)
             else:
-                ids = proxy.search(domain, 0, 0, 0, context)
-            
-            if isinstance(ids, list):
-                self.count = len(ids)
+                ids = proxy.search(search_param, 0, 0, 0, context)
+                
+            self.count = proxy.search_count(domain, context)
                 
         self.data_dict = {}
         data = []
@@ -161,7 +172,10 @@ class List(TinyWidget):
             data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
             self._update_concurrency_info(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
-
+            order_data = [(d['id'], d) for d in data]
+            orderer = dict(zip(ids, count()))
+            ordering = sorted(order_data, key=lambda object: orderer[object[0]])
+            data = [i[1] for i in ordering]
             for item in data:
                 self.data_dict[item['id']] = item.copy()
 

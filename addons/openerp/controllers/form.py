@@ -205,11 +205,8 @@ class Form(SecuredController):
         editable = form.screen.editable
         mode = form.screen.view_type
         id = form.screen.id
-        ids = form.screen.ids
 
         buttons = TinyDict()    # toolbar
-        links = TinyDict()      # bottom links (customise view, ...)
-
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
@@ -217,7 +214,7 @@ class Form(SecuredController):
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
-        buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
+        buttons.has_attach = buttons.can_attach and form.sidebar and form.sidebar.attachments
         buttons.i18n = not editable and mode == 'form'
 
         from openerp.widgets import get_registered_views
@@ -231,20 +228,12 @@ class Form(SecuredController):
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
 
-        if cache.can_write('ir.ui.view'):
-            links.view_manager = True
-
-        if cache.can_write('workflow'):
-            links.workflow_manager = True
-
-        buttons.process = cache.can_read('process.process')
-
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path)
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],source=None, domain=[],
@@ -372,7 +361,7 @@ class Form(SecuredController):
         cherrypy.session['remember_notebooks'] = True
 
         # bypass save, for button action in non-editable view
-        if not (params.button and not params.editable and params.id):
+        if not (params.button and params.editable and params.id):
 
             proxy = rpc.RPCProxy(params.model)
 

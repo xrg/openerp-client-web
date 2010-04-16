@@ -127,9 +127,10 @@ class ListGroup(List):
         for grp in self.grp_records:
             inner = {}
             for key, head in self.headers:
-                kind = head.get('type')
-                if kind == 'progressbar':
-                    inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
+                if not isinstance(head, int):
+                    kind = head.get('type')
+                    if kind == 'progressbar':
+                        inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
             self.grouped.append(inner)
                 
         grp_ids = []

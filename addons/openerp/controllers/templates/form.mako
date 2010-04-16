@@ -49,12 +49,7 @@
                                     <td nowrap="nowrap">
                                     % for view in buttons.views:
                                         ${make_view_button(**view)}
-                                    % endfor
-                                    % if buttons.process:
-                                    	 <a target="appFrame" onclick="show_process_view()">
-                                    	 	<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-                                    	 </a>
-                                    % endif
+                                    % endfor                                    
                                     </td>
                                     
                                   
@@ -158,7 +153,7 @@
                     <tr>
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
-                    % if links:
+                    
                     <tr>
                         <td class="dimmed-text">
                             [<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
@@ -168,9 +163,6 @@
                                 <a title="${_('Manage views of the current object')}" 
                                    onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
-                               ## <a title="${_('Manage workflows of the current object')}" 
-                                 ##  onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
-                                  ## href="javascript: void(0)">${_("Manage Workflows")}</a>
                                <a title="${_('Manage workflows of the current object')}" 
                                    onclick="javascript: show_wkf()" 
                                    href="javascript: void(0)">${_("Show Workflow")}</a>
@@ -180,7 +172,6 @@
                             </div>
                         </td>
                     </tr>
-                    % endif
                 </table>
             </td>
 

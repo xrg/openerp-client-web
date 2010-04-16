@@ -401,6 +401,9 @@ ManyToOne.prototype.get_matched = function(){
                                                          _terp_context: obj.context});
         
         req2.addCallback(function(obj2){
+			if (obj2.error) {
+				return alert(obj2.error);
+			}
             if (text && obj2.values.length == 1) {
                 val = obj2.values[0];
                 m2o.field.value = val[0];
