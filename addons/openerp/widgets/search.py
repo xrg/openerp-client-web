@@ -256,7 +256,7 @@ class Search(TinyInputWidget):
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
                 v = Filter(**attrs)
-                self.listof_domain = filter(lambda x: type(x)==tuple, set(self.listof_domain + v.global_domain))
+                self.listof_domain += [i for i in v.global_domain if not i in self.listof_domain]
                 views.append(v)
 
             elif node.localName == 'field':
@@ -321,7 +321,7 @@ class Search(TinyInputWidget):
                         filter_field = Filter(**attrs)
                         filter_field.onchange = None
                         filter_field.callback = None
-                        self.listof_domain = filter(lambda x: type(x)==tuple, set(self.listof_domain + filter_field.global_domain))
+                        self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
                         views.append(filter_field)
 
         return views
