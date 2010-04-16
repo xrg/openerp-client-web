@@ -1,23 +1,27 @@
 <table border="0" id="_o2m_${name}" width="100%" class="one2many">
     <tr>
-        <td class="toolbar">
+        <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid #C0C0C0;"cellpadding="0" cellspacing="0">
                 <tr class="pagebar">
-                	<td class="pagerbar-cell" align="right" width="50%">
+                	<td class="pagerbar-cell" align="right" width="75%">
                 		<div class="pagerbar-header">
-                			<h3>${screen.string}</h3>
+                			<strong>${screen.string}</strong>
                 		</div>
                 	</td>
                 	% if screen.editable and not readonly:
-                	<td width="25%" style="text-align: right" align="right">
-						<button type="button" id="${name}_btn_" title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="width:25px;">
-                            % if parent_id:
-                            <img src="/openerp/static/images/stock/gtk-new.png" width="16" height="16"/>
-                            % endif
-                            % if not parent_id:
-                            <img src="/openerp/static/images/stock/gtk-save.png" width="16" height="16"/>
-                            % endif
-                        </button>
+                	<td style="text-align: right" align="right">
+                		<div class="toolbar">
+                			% if parent_id:
+                				<button type="button" id="${name}_btn_" title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="width:35px;">
+                					new
+                				</button>
+                			% endif
+                			% if not parent_id:
+                				<button type="button" id="${name}_btn_" title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="width:35px;">
+                					save
+                				</button>
+                			% endif
+                        </div>
 					</td>
 					% endif
 					% if pager_info:

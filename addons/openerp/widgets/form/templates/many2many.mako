@@ -4,7 +4,7 @@
         <td>
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td>
+                    <td width="80%">
                         % if inline:
                         <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' value="${screen.ids}" ${py.attrs(attrs)} relation="${relation}"/>
                         <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${screen.ids}" relation="${relation}"/>
@@ -16,16 +16,15 @@
                         <span class="fielderror">${error}</span>
                         % endif
                     </td>
-                    <td width="4px"><div class="spacer"/></td>
-                    <td width="32">
-                        <button type="button" id='_${name}_button1' ${py.attrs(attrs, domain=domain, context=ctx)} onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, openobject.dom.get('${name}_set').value);">
-                            <img width="16" height="16" src="/openerp/static/images/stock/gtk-add.png"/>
+                    <td>
+                        <button type="button" title="${_('Add records...')}" id='_${name}_button1' ${py.attrs(attrs, domain=domain, context=ctx)} onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, openobject.dom.get('${name}_set').value);">
+                            add
                         </button>
                     </td>
                     % if not inline:
-                    <td width="32">
-                        <button type="button" id='_${name}_button2' ${py.attrs(attrs)} onclick="Many2Many('${name}').remove()">
-                            <img src="/openerp/static/images/stock/gtk-remove.png" width="16" height="16"/>
+                    <td style="padding-left: 0px">
+                        <button type="button" title="${_('Delete records...')}" id='_${name}_button2' ${py.attrs(attrs)} onclick="Many2Many('${name}').remove()" style="width: 60px;">
+                            remove
                         </button>
                     </td>
                     % endif

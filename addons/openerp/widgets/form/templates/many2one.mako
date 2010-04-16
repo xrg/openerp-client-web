@@ -1,7 +1,7 @@
 % if editable:
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td>
+            <td style="padding: 0; width:70%;">
                 <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
                     ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
                 <input type="text" id="${name}_text" class="${css_class}"
@@ -12,7 +12,7 @@
                 <span class="fielderror">${error}</span>
                 % endif
             </td>
-            <td width="16" style="padding-left: 2px">
+            <td width="16" style="padding-left: 10px; padding-right: 1px;">
                 <img id='${name}_open' 
                     width="16" 
                     height="16" 
@@ -22,7 +22,7 @@
                     style="cursor: pointer;" 
                     class="imgSelect"/>
             </td>
-            <td width="16" style="padding-left: 2px">
+            <td width="16" style="padding-left: 0px;">
                 % if readonly:
                 <img id='${name}_select'
                     width="16" 

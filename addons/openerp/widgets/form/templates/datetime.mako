@@ -1,7 +1,7 @@
 % if editable:
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-            <td>
+            <td style="padding: 0px;">
                 <input type="text" id="${name}" name="${name}" 
                 class="${css_class}" ${py.attrs(attrs, kind=kind, value=value)}/>
                 % if error:
@@ -9,7 +9,7 @@
                 % endif
             </td>
             % if not attrs.get('disabled'):
-            <td width="16" style="padding-left: 2px">
+            <td width="16" style="padding-left: 10px">
                 <img id="${name}_trigger" width="16" height="16" alt="${_('Select')}" 
                 src="/openerp/static/images/stock/stock_calendar.png" class="${css_class}" style="cursor: pointer;"/>
             </td>

@@ -79,6 +79,10 @@ fieldset {
     border: solid 1px #888888; 
 }
 
+div#search_filter_data table {
+	width: auto;
+}
+
 div#search_filter_data table.fields td.item {
 	padding: 0 0 0 0;
 	width: auto;
@@ -97,16 +101,6 @@ form table.fields td.item {
 } */
 
 button {
-    border: solid 1px #888888;    
-    background: url(../images/button_bg.png) repeat-x left top;
-    color: #000;
-    padding: 0px 2px;
-    font-size: 11px;
-    white-space: nowrap;
-    cursor: pointer;
-}
-
-div.toolbar button, td.toolbar button {
     border: solid 1px #888888;    
     background: url(../images/button-a.gif) repeat-x;
     color: #FFFFFF;
@@ -129,52 +123,6 @@ div.toolbar button, td.toolbar button {
     text-shadow: #6a6969 0 1px 0;
 }
 
-div.toolbar button.clear {
-	border: 1px solid #aaa9a9;
-	border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px;
-    background: url(../images/button-a.gif) 0 -25px repeat-x; 
-    color: #8D8D8D; 
-    white-space: nowrap;
-    padding: 0px 2px;
-    font-size: 11px;
-    font-weight: 600;
-    white-space: nowrap;
-    cursor: pointer;
-    padding: 1px 10px 0;
-    -moz-border-radius: 3px; 
-    -webkit-border-radius: 3px; 
-    box-shadow: 0 1px 0 #fff; 
-    -moz-box-shadow: 0 1px 0 #fff; 
-    -webkit-box-shadow: 0 1px 0 #fff;
-    cursor: pointer;
-    text-transform: uppercase; 
-    text-shadow: #fff 0 1px 0;
-}
-
-td.item button {
-	border: solid 1px #888888;    
-    background: url(../images/button-a.gif) repeat-x;
-    color: #FFFFFF;
-    /* padding: 0px 2px; */
-    font-size: 10px;
-    font-weight: bold;
-    white-space: nowrap;
-    cursor: pointer;
-    border: 1px solid #aaa9a9; 
-    border-color: #c6c4c4 #aaa9a9 #797878; 
-    border-radius: 3px; 
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px; 
-    box-shadow: 0 1px 0 #fff; 
-    -moz-box-shadow: 0 1px 0 #fff; 
-    -webkit-box-shadow: 0 1px 0 #fff;
-    white-space: nowrap;
-    text-transform: uppercase; 
-    text-shadow: #6a6969 0 1px 0;
-    height: 25px;
-    vertical-align: top;
-    margin: 2px;
-}
 td.item button table {
 	margin: 0;
 	border: none;
@@ -655,15 +603,13 @@ td.item button {
 }
 
 td.item input {
-	padding: 3px 2px;
+	padding: 1px 3px;
 	-moz-border-radius-bottomleft: 3px;
 	-moz-border-radius-bottomright: 3px;
 	-moz-border-radius-topleft: 3px;
 	-moz-border-radius-topright: 3px;
 	background: #FFFFFF none repeat scroll 0 0;
-	border-color: #CECBCB #DFDDDD #FFFFFF;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid #CECBCB;
 	vertical-align: middle;
 }
 
@@ -673,10 +619,9 @@ td.item select {
 	-moz-border-radius-topleft: 3px;
 	-moz-border-radius-topright: 3px;
 	background: #FFFFFF none repeat scroll 0 0;
-	border-color: #CECBCB #DFDDDD #FFFFFF;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid #CECBCB;
 	vertical-align: middle;
+	padding: 0px 1px;
 }
 
 .resizable-textarea .grip {

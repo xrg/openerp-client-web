@@ -12,7 +12,8 @@ body { height: 100%; background: #f0eeee; font-size: 62.5%; }
 
 @media only screen and (max-device-width: 480px) { html { -webkit-text-size-adjust: none; } }
 
-body, textarea, input, select, option, button { color: #1f1f1f; font-family: Myriad Pro,Lucida Grande,Lucida Sans Unicode,sans-serif; line-height: 1.25; }
+body, textarea, input, select, option { color: #1f1f1f; font-family: Myriad Pro,Lucida Grande,Lucida Sans Unicode,sans-serif; line-height: 1.25; }
+/* body, textarea, input, select, option, button { color: #1f1f1f; font-family: Myriad Pro,Lucida Grande,Lucida Sans Unicode,sans-serif; line-height: 1.25; } */
 li, dt, dd, p, th, td, caption, pre { font-size: 1em; }
 ul, ol, dl, pre, h1, h2, h3, h4, h5, h6 { margin-bottom: 10px; }
 
@@ -41,8 +42,8 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #logo { float: left; width: 172px; height: 35px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) no-repeat; line-height: 33px; }
    #logo a { }
     #logo img { vertical-align: middle; }
-  #title { float: left; margin: 0; padding: 6px 0 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
-   #title small { display: block; font-size: 0.9em; color: #ccc; font-weight: normal; }
+  #title-menu { float: left; margin: 0; padding: 6px 0 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
+   #title-menu small { display: block; font-size: 0.9em; color: #ccc; font-weight: normal; }
   #corner { float: right; }
    #corner a { color: #fff; text-decoration: none; }
    #corner p.name { float: left; height: 34px; margin: 0; padding: 0 10px 0 12px; background: url(../images/top-sep-a.png) no-repeat; line-height: 34px; font-size: 1em; text-transform: uppercase; }

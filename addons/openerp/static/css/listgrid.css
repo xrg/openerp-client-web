@@ -119,6 +119,9 @@
     margin: 0;  
     background: #f3f3f3;
     line-height: 1;  
+    border-radius: 4px; 
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;
 }
 
 .gridview .pagerbar .pagerbar-cell {

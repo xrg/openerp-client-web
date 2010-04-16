@@ -22,7 +22,7 @@ except:
 			<img src="/openerp/static/images/logo-a.gif" width="83px" height="26px"/>
 		</a>
 	</p>
-	<h1 id="title">Tiny SPRL <small>Administration</small></h1>
+	<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
 		<ul id="skip-links">
 		<li><a href="#nav" accesskey="n">Skip to navigation [n]</a></li>
 		<li><a href="#content" accesskey="c">Skip to content [c]</a></li>
