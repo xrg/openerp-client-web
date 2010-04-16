@@ -8,7 +8,7 @@
 
 <%include file="header.mako"/>
 
-    <div class="view" style="padding-top: 70px;">
+    <div class="view" style="padding-top: 90px;">
 
         <form action="${py.url(target)}" method="post" name="loginform">
             % for key, value in origArgs.items():

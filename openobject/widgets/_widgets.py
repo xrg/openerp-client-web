@@ -254,14 +254,15 @@ class Form(FormField):
             % endfor
         </div>
         % endif
-        <table border="0">
+        <table border="0" style="background:#F1F2F1 none repeat scroll 0 0; 
+                        border:4px double; margin-top:20px; padding:5px;">
             % for child in fields:
             <%
                 error = error_for(child)
                 label = label_for(child)
             %>
             <tr>
-                <td class="labelcol">
+                <td class="label">
                     <label id="${child.name}.label" for="${child.name}" class="fieldlabel">${label}</label>
                 </td>
                 <td class="fieldcol">
@@ -274,7 +275,7 @@ class Form(FormField):
             % endfor
             <tr>
                 <td>&nbsp;</td>
-                <td><input type="submit" class="submitbutton" value="${submit_text}"/></td>
+                <td><button type="submit" class="static_buttons">${submit_text}</button></td>
             </tr>
         </table>
     </form>
