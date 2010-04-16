@@ -5,10 +5,10 @@
     <table align="center" cellspacing="0">
         <tr>
             % if icon:
-            <td><img align="left" src="${icon}" width="16" height="16"/></td>
+            <td style="text-align: center;"><img align="center" src="${icon}" width="16" height="16"/></td>
             % endif
             % if string:
-            <td>${string}</td>
+            <td width="70%">${string}</td>
             % endif
         </tr>
     </table>

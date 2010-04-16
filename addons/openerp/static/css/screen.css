@@ -27,7 +27,7 @@ li *, li p, li li, dt *, dd *, p *, th *, td * { font-size: 1em; }
 img { border: none; -ms-interpolation-mode: bicubic; }
 pre { font-family: "Courier New",monospace; white-space: pre-wrap; }
 table { border-collapse: collapse; border-spacing: 0; }
-button { overflow: visible; padding: 0 10px; cursor: pointer; } button::-moz-focus-inner { padding: 0; border: none; }
+/* button { overflow: visible; padding: 0 10px; cursor: pointer; } button::-moz-focus-inner { padding: 0; border: none; } */
 
 hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8px; padding: 0; border: none; background-color: #ccc; color: #ccc; }
 *:first-child+html hr { margin: -7px 0 8px !important; }
