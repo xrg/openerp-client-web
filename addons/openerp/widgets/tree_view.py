@@ -50,14 +50,16 @@ class ViewTree(Form):
 
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
 
-    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None, fields={}):
+    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None, fields=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)
 
         self.model = view['model']
         self.domain2 = domain or []
         self.context = context or {}
-
         self.domain = []
+        
+        fields_info = {}
+        fields_info.update(fields)
 
         self.field_parent = view.get("field_parent") or None
 
@@ -106,7 +108,8 @@ class ViewTree(Form):
                                       context=self.context,
                                       field_parent=self.field_parent,
                                       onselection="onSelection",
-                                      onheaderclick="onHeaderClick")
+                                      onheaderclick="onHeaderClick",
+                                      fields_info=fields_info)
         self.id = id
         self.ids = ids
 
