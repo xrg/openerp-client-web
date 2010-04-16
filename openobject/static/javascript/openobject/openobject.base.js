@@ -107,7 +107,14 @@ MochiKit.DOM.addLoadEvent(function() {
  * several times
  */
 function adjustAppFrame() {
-    var frameHeight = jQuery("#appFrame").contents().find("#main_form_body").height();
+
+	var frameBody = jQuery('[id=appFrame]').contents().find('table[id=main_form_body]');
+	
+	if (frameBody.length <= 0) {
+		var frameBody = jQuery('[id=appFrame]').contents().find('form[id=view_form]');
+	}
+	
+    var frameHeight = jQuery(frameBody).height();
     var frameWidth = jQuery("#appFrame").contents().width();
 
     jQuery("#menubar").width();

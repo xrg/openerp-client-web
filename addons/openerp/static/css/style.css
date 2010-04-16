@@ -558,6 +558,7 @@ td.welcome {
     color: #990033;
     font-size: 16px;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 td.label_header {
