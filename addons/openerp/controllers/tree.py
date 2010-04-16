@@ -125,7 +125,9 @@ class Tree(SecuredController):
     @expose('json')
     def data(self, ids, model, fields, field_parent=None, icon_name=None,
              domain=[], context={}, sort_by=None, sort_order="asc", fields_info=None):
-        ids = ids or []
+        
+        if ids == 'None' or ids == '':
+            ids = []
 
         if isinstance(ids, basestring):
             ids = map(int, ids.split(','))

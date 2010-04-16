@@ -28,7 +28,8 @@ TreeView.prototype = {
         if (openobject.http.AJAX_COUNT > 0) {
             return;
         }
-    
+        ids = ids == ''? 'None' : ids;
+    	
         var tree = this.trees['tree_' + id] || null;
         
         MochiKit.DOM.removeElementClass(this.current_button, "selected");
