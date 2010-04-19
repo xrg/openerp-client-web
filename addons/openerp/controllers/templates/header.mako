@@ -106,11 +106,11 @@ except:
 			            	<img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preference" border="0" width="16px" height="16px"/>
 			            </a>
 			        </td>
-			        <td nowrap="nowrap">
+			        <!--<td nowrap="nowrap">
 			            <a target='appFrame' href="javascript: void(0)">
 			            	<img src="/openerp/static/images/share.png" style="padding: 4px;" title="Share" border="0" width="18px" height="18px"/>
 			            </a>
-			        </td>
+			        </td> -->
 			        <td nowrap="nowrap">
 			            <a target='appFrame' onclick="show_process_view()">
 			            	<img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;" title="Help" border="0" width="16px" height="16px"/>
