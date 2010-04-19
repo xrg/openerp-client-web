@@ -58,7 +58,7 @@
         </td>
     </tr>
     <tr>
-    	<td id="attach_sidebar" colspan='2'>
+    	<td id="attach_sidebar" colspan='2' style="display: none;">
     		% if attachments:
             	<div class="sideheader-a">
 					<ul class="side">

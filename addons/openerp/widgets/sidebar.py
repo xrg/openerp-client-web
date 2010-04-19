@@ -66,7 +66,7 @@ class Sidebar(TinyWidget):
                     setNodeAttribute(a_img, 'class', 'on');
                     setNodeAttribute(tertiary, 'style', 'width: 180px');
                     setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 10px');
-                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 14px');
+                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 8px');
                     setNodeAttribute(attach_sidebar, 'style', "display: ''");
                 }
             }

@@ -39,8 +39,8 @@
 <%def name="content()">
 	<div id="root">
 	    <%include file="header.mako"/>
-	    <div id="nav">
-			<ul>
+	    <div id="nav" class="sc_menu">
+			<ul class="sc_menu">
 				%for parent in parents:
 					<li id="${parent['id']}" class="menu_tabs"">
 						<a href="#" accesskey="1">
