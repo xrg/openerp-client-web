@@ -247,25 +247,25 @@ class Search(Form):
                             search_data[check[0]]['from'] = domains[key]
                         else:
                             search_data[check[0]] = {'from': domains[key]}
-                    
+
                     if check[1] == 'to':
                         domain += [(check[0], '<=', domains[key])]
                         if check[0] in search_data.keys():
                             search_data[check[0]]['to'] = domains[key]
                         else:
                             search_data[check[0]] = {'to': domains[key]}
-                            
+
                 elif domains[key] in ['0', '1']:
                     domains[key] = int(domains[key])
                     search_data[key] = domains[key]
-                    
+
                 elif isinstance(domains[key], int):
                     domain += [(key, '=', domains[key])]
                     search_data[key] = domains[key]
                 else:
                     domain += [(key, 'ilike', domains[key])]
                     search_data[key] = domains[key]
-                    
+
         inner_domain = []
         if custom_domains:
             tmp_domain = ''
@@ -286,7 +286,7 @@ class Search(Form):
             if tmp_domain :
                 cust_domain = tmp_domain.replace('][', ', ')
                 inner_domain += eval(cust_domain)
-                
+
                 if len(inner_domain)>1 and inner_domain[-2] in ['&','|']:
                     if len(inner_domain) == 2:
                         inner_domain = [inner_domain[1]]
@@ -294,11 +294,11 @@ class Search(Form):
                         inner_domain = inner_domain[:-2] + inner_domain[-1:]
 
         if selection_domain:
-            if selection_domain in ['blk', 'sh', 'sf', 'mf']:
+            if selection_domain in ['blk', 'sf', 'mf']:
                 if selection_domain == 'blk':
                     selection_domain = []
 
-                if selection_domain in ['sh', 'sf']:
+                if selection_domain == 'sf':
                     return dict(flag=selection_domain, sf_dom=ustr(domain))
 
                 if selection_domain == 'mf':
@@ -316,7 +316,7 @@ class Search(Form):
 
         if not domain:
             domain = None
-            
+
         if group_by_ctx:
             search_data['group_by_ctx'] = group_by_ctx
 
@@ -336,7 +336,7 @@ class Search(Form):
         flag = kw.get('flag')
         group_by = kw.get('group_by',None)
         return dict(model=model, domain=domain, flag=flag, group_by=group_by)
-    
+
     @expose()
     def do_filter_sc(self, **kw):
 
@@ -379,22 +379,6 @@ class Search(Form):
                    }
             action_id = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'create', datas)
 
-            if flag == 'sh':
-                parent_menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'search', [('name','=','Custom Shortcuts')])
-
-                if parent_menu_id:
-                    menu_data = {'name': name,
-                               'sequence': 20,
-                               'action': 'ir.actions.act_window,' + str(action_id),
-                               'parent_id': parent_menu_id[0],
-                               }
-
-                    menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'create', menu_data)
-                    sc_data = {'name': name,
-                             'sequence': 1,
-                             'res_id': menu_id,
-                             }
-                    shortcut_id = rpc.session.execute('object', 'execute', 'ir.ui.view_sc', 'create', sc_data)
             return True
 
     @expose('json')
@@ -415,10 +399,10 @@ class Search(Form):
 
         domain = params.domain or []
         context = params.context or {}
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(context)
-        
+
         error = None
         values = False
         try:

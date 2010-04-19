@@ -54,7 +54,7 @@ class RangeWidget(TinyInputWidget):
         kind = attrs.get('type', 'integer')
 
         fname = attrs['name']
-        
+
         from_attrs = dict(attrs, name=fname+'/from')
         to_attrs = dict(attrs, name=fname+'/to')
 
@@ -88,11 +88,11 @@ class Filter(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
-        
+
         flag = True
         if cherrypy.request.path_info == '/tree/open':
             flag = False
-            
+
         default_domain = attrs.get('default_domain')
         group_by_ctx = attrs.get('group_by_ctx', [])
         self.global_domain = []
@@ -102,12 +102,12 @@ class Filter(TinyInputWidget):
         self.filter_id = 'filter_%s' % (random.randint(0,10000))
         filter_context = attrs.get('context')
         screen_context = attrs.get('screen_context', {})
-        
+
         self.def_checked = False
         default_val = attrs.get('default', 0)
         if default_val:
             default_val = expr_eval(default_val, {'context':screen_context})
-            
+
         if flag:
             if default_domain and attrs.get('domain'):
                 domain =  expr_eval(attrs.get('domain'))
@@ -120,13 +120,13 @@ class Filter(TinyInputWidget):
             else:
                 default_val = 0
                 self.global_domain = []
-                
+
         if default_val:
             self.def_checked = True
             self.global_domain += (expr_eval(self.filter_domain, {'context':screen_context}))
-            
+
         self.group_context = None
-        
+
         # context implemented only for group_by.
         if filter_context:
             self.filter_context = eval(filter_context)
@@ -134,18 +134,18 @@ class Filter(TinyInputWidget):
 
         if self.group_context:
             self.group_context = 'group_' + self.group_context
-        
+
         if group_by_ctx and self.group_context:
             if self.group_context in group_by_ctx:
                 self.def_checked = True
-                
+
         self.nolabel = True
         self.readonly = False
 
         self.text_val = self.string or self.help
         if self.icon:
             self.icon = icons.get_icon(self.icon)
-            
+
 class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
@@ -201,7 +201,7 @@ class Search(TinyInputWidget):
 
         self.filters_list = [("blk", "-- Filters --")] \
                           + sorted_filters \
-                          + [("blk", '--Actions--'),("sh", 'Save as a Shortcut'),
+                          + [("blk", '--Actions--'),
                              ("sf", 'Save as a Filter'),("mf", 'Manage Filters')]
 
         self.operators_map = [
@@ -209,7 +209,7 @@ class Search(TinyInputWidget):
             ('=', _('is equal to')), ('<>', _('is not equal to')),
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
-        
+
         if self.filter_domain == []:
             self.filter_domain += [(self.fields_list[0][0], self.operators_map[0][0], '')]
         else:
@@ -240,7 +240,7 @@ class Search(TinyInputWidget):
                     Element = Group
                 else:
                     Element = Frame
-                
+
                 views.append(Element(children=
                                      self.parse(model=search_model, root=node,
                                                 fields=fields, values=values),
