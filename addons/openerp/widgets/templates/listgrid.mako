@@ -1,5 +1,6 @@
 <%!
 import itertools
+import cherrypy
 %>
 <%def name="make_editors(data=None)">
     % if editable and editors:
@@ -195,16 +196,23 @@ import itertools
                         </tr>
                     </tfoot>
                 % endif
-
             </table>
+            
 			% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
 				<script type="text/javascript">
-					var drag = getElementsByTagAndClassName('tr','grid-row');
-              		for(var grid=0; grid < drag.length; grid++) 
-              		{
-					    new Draggable(drag[grid], {revert:true, ghosting:true});
-						new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
-					}
+					// flag is used to check sorting is active or not //
+            
+		            flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}"
+		            
+		            if(flag == 'False') {
+						var drag = getElementsByTagAndClassName('tr','grid-row');
+	              		for(var grid=0; grid < drag.length; grid++) 
+	              		{
+						    new Draggable(drag[grid], {revert:true, ghosting:true});
+							new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
+						}
+		            }
+					
 				</script>
 			% endif
 			
