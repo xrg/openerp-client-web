@@ -730,10 +730,10 @@ MochiKit.Base.update(ListView.prototype, {
             	var detail = jQuery(th).html();
             	
 				if(self.sort_key_order == 'asc') {
-					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif"/>');
+					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" style="vertical-align: middle;"/>');
 				}
 				else { 
-					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif"/>');
+					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" style="vertical-align: middle;"/>');
 				}		
 			}
         	
