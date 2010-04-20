@@ -5,7 +5,7 @@
             <div id="active_filter" class="active_filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
                 % if icon:
                     <div align="center">
-                        <img src="${icon}" width="16" height="16" />
+                        <img src="${icon}" width="16" height="16" alt=""/>
                     </div>
                 % endif
                 % if help !=text_val:
@@ -28,7 +28,7 @@
             <div id="inactive_filter" class="inactive_filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
                 % if icon:
                     <div align="center">
-                        <img src="${icon}" width="16" height="16" />
+                        <img src="${icon}" width="16" height="16" alt=""/>
                     </div>
                 % endif
                 % if help !=text_val:
