@@ -107,11 +107,13 @@ MochiKit.DOM.addLoadEvent(function() {
  * several times
  */
 function adjustAppFrame() {
-
-    var body = jQuery('#appFrame').contents().find('body');
-    var frameBody = jQuery('#appFrame').contents().find('#main_form_body');
-    var formBody = jQuery('#appFrame').contents().find('#view_form');
-    var treeBody = jQuery('#appFrame').contents().find('#treeview');
+    var appFrame = jQuery('#appFrame');
+    var menuBar = jQuery("#menubar");
+    var frameContents = appFrame.contents();
+    var body = frameContents.find('body');
+    var frameBody = frameContents.find('#main_form_body');
+    var formBody = frameContents.find('#view_form');
+    var treeBody = frameContents.find('#treeview');
 
     var frameHeight = 0;
 
@@ -125,19 +127,19 @@ function adjustAppFrame() {
         var frameHeight = jQuery(treeBody).height();
     }
 
-    var frameWidth = jQuery("#appFrame").contents().width();
+    var frameWidth = frameContents.width();
 
-    jQuery("#menubar").width();
-    jQuery("#appFrame").height(Math.max(0, frameHeight));
+    menuBar.width();
+    appFrame.height(Math.max(0, frameHeight));
 
-    var menuWidth = jQuery("#menubar").height();
+    var menuWidth = menuBar.height();
     var windowWidth = jQuery(window).width();
-    var totalWidth = jQuery("#menubar").width() + frameWidth;
-    var rw = windowWidth - jQuery("#menubar").width();
+    var totalWidth = menuBar.width() + frameWidth;
+    var rw = windowWidth - menuBar.width();
 
     var newWidth = totalWidth > windowWidth ? frameWidth : rw - 16;
 
-    jQuery("#appFrame").width(Math.max(0, newWidth));
+    appFrame.width(Math.max(0, newWidth));
     jQuery("#contents").height(Math.max(frameHeight, menuWidth));
 }
 function adjust(count) {
