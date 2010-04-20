@@ -1,46 +1,19 @@
 <%
 # put in try block to prevent improper redirection on connection refuse error
 try:
-ROOT = cp.request.pool.get_controller("/")
-SHORTCUTS = cp.request.pool.get_controller("/shortcuts")
-REQUESTS = cp.request.pool.get_controller("/requests")
+    ROOT = cp.request.pool.get_controller("/")
+    SHORTCUTS = cp.request.pool.get_controller("/shortcuts")
+    REQUESTS = cp.request.pool.get_controller("/requests")
 
-shortcuts = SHORTCUTS.my()
-requests, requests_message = REQUESTS.my()
+    shortcuts = SHORTCUTS.my()
+    requests, requests_message = REQUESTS.my()
 except:
+    ROOT = None
 
-ROOT = None
-
-shortcuts = []
-requests = []
-requests_message = None
+    shortcuts = []
+    requests = []
+    requests_message = None
 %>
-
-<script type="text/javascript">
-
-    function show_process_view() {
-        var f = window.frames["appFrame"]
-
-        if (f.location == 'about:blank') {
-            alert('Please open menu for detail help...')
-            return;
-        }
-
-        var frame = f.document.view_form;
-        var model = frame._terp_model.value;
-        var id = frame._terp_id.value;
-
-        if (frame._terp_list) {
-            var ids = frame._terp_checked_ids.value;
-            if (ids.length) {
-                id = ids[0];
-            }
-        }
-        id = parseInt(id) || null;
-        f.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
-    }
-
-</script>
 <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
     <tr>
         <td rowspan="2">
@@ -136,9 +109,9 @@ requests_message = None
                              </a>
                          </td> -->
                     <td nowrap="nowrap">
-                        <a target='appFrame' onclick="show_process_view()">
-                            <img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;" title="Help"
-                                 border="0" width="16" height="16" alt="Help"/>
+                        <a href="http://doc.openerp.com/" title="OpenERP Help">
+                            <img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;"
+                                 border="0" width="16" height="16" alt="OpenERP Help"/>
                         </a>
                     </td>
                     <td nowrap="nowrap">
