@@ -35,9 +35,4 @@ if (typeof(openerp) == "undefined") {
     openerp = {};
 }
 
-openerp.ui = {
-}
-
-
-// vim: ts=4 sts=4 sw=4 si et
-
+openerp.ui = {};
