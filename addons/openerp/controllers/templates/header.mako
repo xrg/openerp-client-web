@@ -74,7 +74,7 @@ requests_message = None
                     <td nowrap="nowrap">
                         <a target='appFrame' href="${py.url('/home')}">
                             <img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home"
-                                 border="0" width="16" height="16"/>
+                                 border="0" width="16" height="16" alt="Home"/>
                         </a>
                     </td>
                     % if rpc.session.is_logged():
