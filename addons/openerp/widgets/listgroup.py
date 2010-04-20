@@ -61,7 +61,7 @@ class ListGroup(List):
             else:
                 ids = proxy.search(self.domain, 0, 0, 0, self.context)
             
-            if ids and len(ids) < self.limit:
+            if len(ids) < self.limit:
                 self.count = len(ids)
             else:
                 self.count = proxy.search_count(domain, context)
