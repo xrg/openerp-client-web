@@ -88,7 +88,7 @@ requests_message = None
                                              alt="Shortcuts"/>
                                     </a>
                                     <script type="text/javascript">
-                                        jQuery('[id=show_shortcut]').mouseover(function() {
+                                        jQuery('#show_shortcut').mouseover(function() {
                                             jQuery.post('/shortcuts/get_shortcuts',
                                                     function(xmlHttp) {
                                                         jQuery('[id=shortcuts_submenu]').html(xmlHttp);
