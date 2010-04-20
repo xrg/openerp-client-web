@@ -1,6 +1,8 @@
-% for w in hiddens:
-<div style="display: none;">${display_member(w)}</div>
-% endfor
+<div style="display: none;">
+    % for w in hiddens:
+        ${display_member(w)}
+    % endfor
+</div>
 <table width="100%" border="0" class='fields'>
     % for row in table:
     <tr>
