@@ -45,7 +45,7 @@ except:
     <tr>
         <td rowspan="2">
         <img src="/openerp/static/images/openerp_big.png" 
-            alt="OpenERP" border="0" width="200px" height="60px" usemap="#logo_map"/>
+            alt="OpenERP" border="0" width="200" height="60" usemap="#logo_map"/>
             <map name="logo_map">
                 <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
                 <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
@@ -73,7 +73,7 @@ except:
         		<tr>
         			<td nowrap="nowrap">
 			            <a target='appFrame' href="${py.url('/home')}">
-			            	<img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home" border="0" width="16px" height="16px"/>
+			            	<img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home" border="0" width="16" height="16"/>
 			            </a>
 			        </td>
 			        % if rpc.session.is_logged():
@@ -82,7 +82,7 @@ except:
 			                <tr>
 			                    <td id="shortcuts_menu" nowrap="nowrap">
 			                        <a href="javascript: void(0)">
-						            	<img src="/openerp/static/images/shortcut.png" id="show_shortcut" style="padding: 1px;" border="0" width="18px" height="18px"/>
+						            	<img src="/openerp/static/images/shortcut.png" id="show_shortcut" style="padding: 1px;" border="0" width="18" height="18"/>
 						            </a>
 						             <script type="text/javascript">
 			                        		jQuery('[id=show_shortcut]').mouseover(function() {
@@ -100,7 +100,7 @@ except:
 			                            	${sc['name']}
 			                            </a>
 			                            % endfor
-			                            <hr id="shortcut_sep" style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0px"/>
+			                            <hr id="shortcut_sep" style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0"/>
 			                            <a id="manage_shortcuts" target='appFrame' href="/shortcuts" style="height: 10px; padding: 0 2px 8px 5px;">${_("Manage Shortcuts")}</a>
 			                        </div>
 			                    </td>
@@ -113,12 +113,12 @@ except:
 			        % endif
 			        <td nowrap="nowrap">
 			        	<a target='appFrame' href="javascript: void(0)">
-			            	<img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0" width="16px" height="16px"/>
+			            	<img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0" width="16" height="16"/>
 			            </a>
 			        </td>
 			        <td nowrap="nowrap">
 			            <a target='appFrame' href="${py.url('/pref/create')}">
-			            	<img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preference" border="0" width="16px" height="16px"/>
+			            	<img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preference" border="0" width="16" height="16"/>
 			            </a>
 			        </td>
 			        <!--<td nowrap="nowrap">
@@ -128,12 +128,12 @@ except:
 			        </td> -->
 			        <td nowrap="nowrap">
 			            <a target='appFrame' onclick="show_process_view()">
-			            	<img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;" title="Help" border="0" width="16px" height="16px"/>
+			            	<img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;" title="Help" border="0" width="16" height="16"/>
 			            </a>
 			        </td>
 			        <td nowrap="nowrap">
 			            <a target='appFrame' href="${py.url('/about')}">
-			            	<img src="/openerp/static/images/about.png" style="padding: 4px;" title="About" border="0" width="18px" height="18px"/>
+			            	<img src="/openerp/static/images/about.png" style="padding: 4px;" title="About" border="0" width="18" height="18"/>
 			            </a>
 			        </td>
 			    </tr>
