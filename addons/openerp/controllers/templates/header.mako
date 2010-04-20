@@ -46,9 +46,9 @@ requests_message = None
         <td rowspan="2">
             <img src="/openerp/static/images/openerp_big.png"
                  alt="OpenERP" border="0" width="200" height="60" usemap="#logo_map"/>
-            <map name="logo_map">
-                <area shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
-                <area shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
+            <map name="logo_map" id="logo_map">
+                <area alt="OpenERP" shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
+                <area alt="Axelor" shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
             </map>
         </td>
         <td align="right" valign="top" nowrap="nowrap" height="24">
@@ -84,7 +84,8 @@ requests_message = None
                                 <td id="shortcuts_menu" nowrap="nowrap">
                                     <a href="javascript: void(0)">
                                         <img src="/openerp/static/images/shortcut.png" id="show_shortcut"
-                                             style="padding: 1px;" border="0" width="18" height="18"/>
+                                             style="padding: 1px;" border="0" width="18" height="18"
+                                             alt="Shortcuts"/>
                                     </a>
                                     <script type="text/javascript">
                                         jQuery('[id=show_shortcut]').mouseover(function() {
@@ -120,13 +121,13 @@ requests_message = None
                     <td nowrap="nowrap">
                         <a target='appFrame' href="javascript: void(0)">
                             <img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0"
-                                 width="16" height="16"/>
+                                 width="16" height="16" alt="Inbox"/>
                         </a>
                     </td>
                     <td nowrap="nowrap">
                         <a target='appFrame' href="${py.url('/pref/create')}">
-                            <img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preference"
-                                 border="0" width="16" height="16"/>
+                            <img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preferences"
+                                 border="0" width="16" height="16" alt="Preferences"/>
                         </a>
                     </td>
                     <!--<td nowrap="nowrap">
@@ -137,13 +138,13 @@ requests_message = None
                     <td nowrap="nowrap">
                         <a target='appFrame' onclick="show_process_view()">
                             <img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;" title="Help"
-                                 border="0" width="16" height="16"/>
+                                 border="0" width="16" height="16" alt="Help"/>
                         </a>
                     </td>
                     <td nowrap="nowrap">
                         <a target='appFrame' href="${py.url('/about')}">
                             <img src="/openerp/static/images/about.png" style="padding: 4px;" title="About" border="0"
-                                 width="18" height="18"/>
+                                 width="18" height="18" alt="About"/>
                         </a>
                     </td>
                 </tr>
