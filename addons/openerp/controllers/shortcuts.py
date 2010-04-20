@@ -92,13 +92,13 @@ class Shortcuts(SecuredController):
                         raise redirect('/tree/open', id=id, model='ir.ui.menu')
                 elif s['res_id'] == id:
                     raise redirect('/tree/open', id=id, model='ir.ui.menu')
-        else:
-            name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
-            proxy.create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
-    
-            sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context)
-            cherrypy.session['terp_shortcuts'] = sc
-            
-            raise redirect('/tree/open', id=id, model='ir.ui.menu')
+        
+        name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
+        proxy.create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
+
+        sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context)
+        cherrypy.session['terp_shortcuts'] = sc
+        
+        raise redirect('/tree/open', id=id, model='ir.ui.menu')
 
 # vim: ts=4 sts=4 sw=4 si et

@@ -240,8 +240,16 @@ class Form(SecuredController):
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
         can_shortcut = self.can_shortcut_create()
+        shortcut_ids = []
         
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut)
+        if cherrypy.session.get('terp_shortcuts'):
+            for sc in cherrypy.session['terp_shortcuts']:
+                if isinstance(sc['res_id'], tuple):
+                    shortcut_ids.append(sc['res_id'][0])
+                else:
+                    shortcut_ids.append(sc['res_id'])
+                    
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids)
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],source=None, domain=[],

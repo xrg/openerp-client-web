@@ -1029,6 +1029,5 @@ function show_wkf() {
     } else
         id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
        
-    openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: $('_terp_model').value, rec_id:id}));   
-    
+    openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: $('_terp_model').value, rec_id:id}));
 }
