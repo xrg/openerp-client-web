@@ -115,17 +115,11 @@ function adjustAppFrame() {
     var formBody = frameContents.find('#view_form');
     var treeBody = frameContents.find('#treeview');
 
-    var frameHeight = 0;
-
-    if (body) {
-        frameHeight = jQuery(body).height();
-    } else if (frameBody.length > 0) {
-        frameHeight = jQuery(frameBody).height();
-    } else if (formBody.length > 0) {
-        frameHeight = jQuery(formBody).height();
-    } else if (treeBody.length > 0) {
-        frameHeight = jQuery(treeBody).height();
-    }
+    var frameHeight = body             ? jQuery(body).height()
+                    : frameBody.length ? jQuery(frameBody).height()
+                    : formBody.length  ? jQuery(formBody).height()
+                    : treeBody.length  ? jQuery(treeBody).height()
+                    : 0;
 
     var frameWidth = frameContents.width();
 
