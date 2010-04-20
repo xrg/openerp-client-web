@@ -118,13 +118,13 @@ function adjustAppFrame() {
     var frameHeight = 0;
 
     if (body) {
-        var frameHeight = jQuery(body).height();
+        frameHeight = jQuery(body).height();
     } else if (frameBody.length > 0) {
-        var frameHeight = jQuery(frameBody).height();
+        frameHeight = jQuery(frameBody).height();
     } else if (formBody.length > 0) {
-        var frameHeight = jQuery(formBody).height();
+        frameHeight = jQuery(formBody).height();
     } else if (treeBody.length > 0) {
-        var frameHeight = jQuery(treeBody).height();
+        frameHeight = jQuery(treeBody).height();
     }
 
     var frameWidth = frameContents.width();
