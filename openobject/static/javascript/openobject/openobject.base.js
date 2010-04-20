@@ -129,7 +129,6 @@ function adjustAppFrame() {
 
     var frameWidth = frameContents.width();
 
-    menuBar.width();
     appFrame.height(Math.max(0, frameHeight));
 
     var menuWidth = menuBar.height();
