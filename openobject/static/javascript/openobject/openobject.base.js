@@ -108,26 +108,23 @@ MochiKit.DOM.addLoadEvent(function() {
  */
 function adjustAppFrame() {
 
-	var body = jQuery('[id=appFrame]').contents().find('body');
-	var frameBody = jQuery('[id=appFrame]').contents().find('table[id=main_form_body]');
-	var formBody = jQuery('[id=appFrame]').contents().find('form[id=view_form]');
-	var treeBody = jQuery('[id=appFrame]').contents().find('table[id=treeview]');
-	
-	var frameHeight = 0;
-	
-	if (body) {
-		var frameHeight = jQuery(body).height();
-	}
-	else if (frameBody.length > 0) {
-		var frameHeight = jQuery(frameBody).height();
-	}
-	else if (formBody.length > 0) {
-		var frameHeight = jQuery(formBody).height();
-	}
-	else if(treeBody.length > 0) {
-		var frameHeight = jQuery(treeBody).height();
-	}
-	
+    var body = jQuery('[id=appFrame]').contents().find('body');
+    var frameBody = jQuery('[id=appFrame]').contents().find('table[id=main_form_body]');
+    var formBody = jQuery('[id=appFrame]').contents().find('form[id=view_form]');
+    var treeBody = jQuery('[id=appFrame]').contents().find('table[id=treeview]');
+
+    var frameHeight = 0;
+
+    if (body) {
+        var frameHeight = jQuery(body).height();
+    } else if (frameBody.length > 0) {
+        var frameHeight = jQuery(frameBody).height();
+    } else if (formBody.length > 0) {
+        var frameHeight = jQuery(formBody).height();
+    } else if (treeBody.length > 0) {
+        var frameHeight = jQuery(treeBody).height();
+    }
+
     var frameWidth = jQuery("#appFrame").contents().width();
 
     jQuery("#menubar").width();
@@ -185,22 +182,22 @@ if (window !== window.parent) {
         var filter_table = $('filter_table');
         if (filter_table) {
             MochiKit.Signal.connect(filter_table, 'onaddfilter',
-                                    do_adjust);
+                    do_adjust);
             MochiKit.Signal.connect(filter_table, 'onremovefilter',
-                                    do_adjust);
+                    do_adjust);
         }
         // bind to change of the groupby display state in search widget
         var search_filter = $('search_filter_data');
         if (search_filter) {
             MochiKit.Signal.connect(search_filter, 'groupby-toggle',
-                                    do_adjust);
+                    do_adjust);
         }
-        
+
         var sidebar = openobject.dom.get('sidebar');
         if (sidebar) {
             MochiKit.Signal.connect(window.document, 'toggle_sidebar', do_adjust);
         }
-        
+
         // bind to changes to treegrids and treenodes
         MochiKit.Signal.connect(window.document, 'treegrid-render', do_adjust);
         MochiKit.Signal.connect(window.document, 'treenode-expand', do_adjust);
