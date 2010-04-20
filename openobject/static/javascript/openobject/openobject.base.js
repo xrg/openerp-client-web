@@ -131,7 +131,6 @@ function adjustAppFrame() {
 
     appFrame.height(Math.max(0, frameHeight));
 
-    var menuWidth = menuBar.height();
     var windowWidth = jQuery(window).width();
     var totalWidth = menuBar.width() + frameWidth;
     var rw = windowWidth - menuBar.width();
@@ -139,7 +138,7 @@ function adjustAppFrame() {
     var newWidth = totalWidth > windowWidth ? frameWidth : rw - 16;
 
     appFrame.width(Math.max(0, newWidth));
-    jQuery("#contents").height(Math.max(frameHeight, menuWidth));
+    jQuery("#contents").height(Math.max(frameHeight, menuBar.width()));
 }
 function adjust(count) {
     if (!count) {
