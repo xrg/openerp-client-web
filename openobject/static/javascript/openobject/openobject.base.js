@@ -108,10 +108,10 @@ MochiKit.DOM.addLoadEvent(function() {
  */
 function adjustAppFrame() {
 
-    var body = jQuery('[id=appFrame]').contents().find('body');
-    var frameBody = jQuery('[id=appFrame]').contents().find('table[id=main_form_body]');
-    var formBody = jQuery('[id=appFrame]').contents().find('form[id=view_form]');
-    var treeBody = jQuery('[id=appFrame]').contents().find('table[id=treeview]');
+    var body = jQuery('#appFrame').contents().find('body');
+    var frameBody = jQuery('#appFrame').contents().find('#main_form_body');
+    var formBody = jQuery('#appFrame').contents().find('#view_form');
+    var treeBody = jQuery('#appFrame').contents().find('#treeview');
 
     var frameHeight = 0;
 
@@ -138,7 +138,7 @@ function adjustAppFrame() {
     var newWidth = totalWidth > windowWidth ? frameWidth : rw - 16;
 
     jQuery("#appFrame").width(Math.max(0, newWidth));
-    jQuery("table#contents").height(Math.max(frameHeight, menuWidth));
+    jQuery("#contents").height(Math.max(frameHeight, menuWidth));
 }
 function adjust(count) {
     if (!count) {
