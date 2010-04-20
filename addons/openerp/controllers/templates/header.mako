@@ -15,14 +15,17 @@ except:
     requests = []
     requests_message = None
 %>
+
 <script type="text/javascript">
- 	function show_process_view(){
- 		
+
+ 	function show_process_view() {
 		var f = window.frames["appFrame"]
+		
 		if (f.location == 'about:blank'){
 			alert('Please open menu for detail help...')
 			return;
 		}
+		
 		var frame = f.document.view_form;
 		var model = frame._terp_model.value;
 		var id = frame._terp_id.value;
@@ -36,7 +39,7 @@ except:
 		id = parseInt(id) || null;    	
 		f.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
 	}
- 	
+	
 </script>
 <table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
     <tr>
@@ -79,14 +82,26 @@ except:
 			                <tr>
 			                    <td id="shortcuts_menu" nowrap="nowrap">
 			                        <a href="javascript: void(0)">
-						            	<img src="/openerp/static/images/shortcut.png" style="padding: 1px;" border="0" width="18px" height="18px"/>
+						            	<img src="/openerp/static/images/shortcut.png" id="show_shortcut" style="padding: 1px;" border="0" width="18px" height="18px"/>
 						            </a>
+						             <script type="text/javascript">
+			                        		jQuery('[id=show_shortcut]').mouseover(function() {
+			                        			jQuery.post('/shortcuts/get_shortcuts',
+			                        				function(xmlHttp) {
+			                        					jQuery('[id=shortcuts_submenu]').html(xmlHttp);
+			                        				}
+			                        			);
+			                        			
+			                        		});
+		                        	</script> 
 			                        <div class="submenu" id="shortcuts_submenu">
 			                            % for sc in shortcuts:
-			                            <a target='appFrame' href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+			                            <a target='appFrame' href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">
+			                            	${sc['name']}
+			                            </a>
 			                            % endfor
-			                            <hr style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0px;"/>
-			                            <a target='appFrame' href="/shortcuts">${_("Manage Shortcuts")}</a>
+			                            <hr id="shortcut_sep" style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0px"/>
+			                            <a id="manage_shortcuts" target='appFrame' href="/shortcuts" style="height: 10px; padding: 0 2px 8px 5px;">${_("Manage Shortcuts")}</a>
 			                        </div>
 			                    </td>
 			                </tr>

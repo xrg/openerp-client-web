@@ -198,6 +198,8 @@ class Form(SecuredController):
         if params.view_type == 'tree':
             params.editable = True
 
+        can_shortcut = True
+        
         form = self.create_form(params, tg_errors)
 
         if not tg_errors:
@@ -237,7 +239,9 @@ class Form(SecuredController):
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path)
+        can_shortcut = self.can_shortcut_create()
+        
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut)
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],source=None, domain=[],
@@ -1046,6 +1050,13 @@ class Form(SecuredController):
             data[fname] = value
 
         return dict(values=data)
+
+    # Possible to create shortcut for particular object or not.
+    def can_shortcut_create(self):
+        return (rpc.session.is_logged() and
+                rpc.session.active_id and
+                cherrypy.request.path_info == '/tree/open' and
+                cherrypy.request.params.get('model') == 'ir.ui.menu')
 
     @expose()
     def action_submenu(self, **kw):
