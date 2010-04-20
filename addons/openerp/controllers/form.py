@@ -113,6 +113,10 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     ctx.update(context)
 
     ids = proxy.search(search_domain, o, l, 0, ctx)
+    if len(ids) < l:
+        count = len(ids)
+    else:
+        count = proxy.search_count(search_domain, ctx)
         
     if isinstance(ids, list):
         count = len(ids)

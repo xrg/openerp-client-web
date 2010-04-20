@@ -45,7 +45,7 @@ from wizard import Wizard
 from openobject.tools import redirect
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
-                   mode='form,tree', name=None, target=None, limit=None):
+                   mode='form,tree', name=None, target=None, limit=None, search_view=None):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -67,6 +67,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
+    params.search_view = search_view
     
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
@@ -194,9 +195,13 @@ def execute(action, **data):
         return close_popup()
 
     elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
-        for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
+        for key in ('res_id', 'res_model', 'view_type', 'view_mode', 'limit', 'search_view'):
             data[key] = action.get(key, data.get(key, None))
 
+        if not data['search_view'] and data['search_view_id']:
+            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'], 
+                                    'fields_view_get', datas['search_view_id'], 'search', context))
+            
         if not data.get('limit'):
             data['limit'] = 80
 
@@ -247,7 +252,8 @@ def execute(action, **data):
                              ctx, data['view_mode'],
                              name=action.get('name'),
                              target=action.get('target'),
-                             limit=data.get('limit'))
+                             limit=data.get('limit'),
+                             search_view = data['search_view'])
 
         return res
 
@@ -357,7 +363,8 @@ def execute_by_keyword(keyword, adds={}, **data):
 
     if len(keyact) == 1:
         key = keyact.keys()[0]
-        return execute(keyact[key], **data)
+        data['context'].update(rpc.session.context)
+        return execute(action, **data)
     else:
         return Selection().create(keyact, **data)
 

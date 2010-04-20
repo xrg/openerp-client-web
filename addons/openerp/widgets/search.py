@@ -155,7 +155,7 @@ class Search(TinyInputWidget):
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None):
+    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None):
 
         super(Search, self).__init__(model=model)
 
@@ -164,6 +164,7 @@ class Search(TinyInputWidget):
         self.filter_domain = filter_domain or []
         self.custom_filter_domain = []
         self.context = context or {}
+        self.search_view = search_view or "{}"
         self.model = model
         if values == "undefined":
             values = {}
@@ -171,12 +172,16 @@ class Search(TinyInputWidget):
         ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
+        
+        if isinstance (self.search_view, basestring):
+            self.search_view = eval(self.search_view)
 
-        view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
-        fields = cache.fields_get(self.model, [], ctx)
+        if not self.search_view:
+            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)        
 
         self.fields_list = []
-
+        fields = self.search_view['fields']
+        
         for k,v in fields.items():
             if v['type'] in ('many2one', 'char', 'float', 'integer', 'date',
                              'datetime', 'selection', 'many2many', 'boolean',
@@ -185,13 +190,40 @@ class Search(TinyInputWidget):
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
 
-        dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
-
+        dom = xml.dom.minidom.parseString(self.search_view['arch'].encode('utf-8'))
+        self.view_type = dom.firstChild.localName
         self.string = dom.documentElement.getAttribute('string')
 
         self.fields_type = {}
-
-        self.frame = self.parse(model, dom, view['fields'], values)[0]
+        
+        self.fields = fields        
+        dict_select = {'True':'1','False':'0','1':'1','0':'0'}
+        all_field_ids =  rpc.session.execute('object', 'execute', 'ir.model.fields', 'search', [('model','=',str(model))])
+        if len(fields) != len(all_field_ids):
+            new_fields = []
+            all_fields =  rpc.session.execute('object', 'execute', 'ir.model.fields', 'read', all_field_ids)
+            for item in all_fields:
+                if item['name'] not in fields:
+                    new_fields.append(item)
+            field_dict = {}
+            for new_field in new_fields:
+                if isinstance(new_field['select_level'],(str,unicode)):
+                    new_field['select_level'] = eval(new_field['select_level'],dict_select)
+                if isinstance(new_field['selectable'],(str,unicode)):
+                    new_field['selectable'] = eval(new_field['selectable'],dict_select)
+                    
+                field_dict[new_field['name']]= {'string': new_field['field_description'],
+                                                'type' : new_field['ttype'],
+                                                'select': new_field['select_level'],
+                                                'name' : new_field['name'],
+                                                'readonly': new_field['readonly'],
+                                                'relation': new_field['relation'],
+                                                'required': new_field['required'],
+                                                'translate': new_field['translate'],
+                                                'selectable': new_field['selectable']}
+            self.fields.update(field_dict)            
+            
+        self.frame = self.parse(model, dom, self.fields, values)[0]
 
         my_acts = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'get_filters', model)
 
@@ -228,9 +260,6 @@ class Search(TinyInputWidget):
             attrs.update(label_position='True',
                          model=search_model)
 
-#            if 'colspan' in attrs:
-#                attrs['colspan'] = 1
-
             if 'nolabel' in attrs:
                 attrs['nolabel'] = False
 
@@ -260,69 +289,69 @@ class Search(TinyInputWidget):
                 views.append(v)
 
             elif node.localName == 'field':
-                name = attrs['name']
-                if name in self.fields_type:
-                    continue
-
-                # If search view available then select=1 wont consider. All fields will display from search view.
-                if not ('select' in attrs or 'select' in fields[name]):
-                    continue
-
-                if attrs.get('widget'):
-                    if attrs['widget'] == 'one2many_list':
-                        attrs['widget'] = 'one2many'
-                    attrs['type'] = attrs['widget']
-
-
-                # in search view fields should be writable
-                attrs.update(readonly=False,
-                             required=False,
-                             translate=False,
-                             disabled=False,
-                             visible=True,
-                             invisible=False,
-                             editable=True,
-                             attrs=None)
-
-                try:
-                    fields[name].update(attrs)
-                except:
-                    print "-"*30,"\n malformed tag for:", attrs
-                    print "-"*30
-                    raise
-
-                kind = fields[name]['type']
-
-                if kind not in WIDGETS:
-                    continue
-
-                self.fields_type[name] = kind
-
-                field = WIDGETS[kind](**fields[name])
-                field.onchange = None
-                field.callback = None
-
-                if kind == 'boolean':
-                    field.options = [(1, 'Yes'),(0, 'No')]
-                    field.validator.if_empty = ''
-
-                if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
-                    field.set_value(values[name])
-
-                views.append(field)
-
-                for n in node.childNodes:
-                    if n.localName=='filter':
-                        attrs = node_attributes(n)
-                        attrs['default_domain'] = self.domain
-                        attrs['screen_context'] = self.context
-                        if values and values.get('group_by_ctx'):
-                            attrs['group_by_ctx'] = values['group_by_ctx']
-                        filter_field = Filter(**attrs)
-                        filter_field.onchange = None
-                        filter_field.callback = None
-                        self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
-                        views.append(filter_field)
+                val  = attrs.get('select', False) or fields[str(attrs['name'])].get('select', False) or self.view_type == 'search'
+                if val:
+                    name = attrs['name']
+                    if name in self.fields_type:
+                        continue
+    
+                    if attrs.get('widget'):
+                        if attrs['widget'] == 'one2many_list':
+                            attrs['widget'] = 'one2many'
+                        attrs['type'] = attrs['widget']
+    
+    
+                    # in search view fields should be writable
+                    attrs.update(readonly=False,
+                                 required=False,
+                                 translate=False,
+                                 disabled=False,
+                                 visible=True,
+                                 invisible=False,
+                                 editable=True,
+                                 attrs=None)
+    
+                    try:
+                        fields[name].update(attrs)
+                    except:
+                        print "-"*30,"\n malformed tag for:", attrs
+                        print "-"*30
+                        raise
+    
+                    kind = fields[name]['type']
+    
+                    if kind not in WIDGETS:
+                        continue
+    
+                    self.fields_type[name] = kind
+    
+                    field = WIDGETS[kind](**fields[name])
+                    field.onchange = None
+                    field.callback = None
+    
+                    if kind == 'boolean':
+                        field.options = [(1, 'Yes'),(0, 'No')]
+                        field.validator.if_empty = ''
+    
+                    if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
+                        field.set_value(values[name])
+    
+                    views.append(field)
+                    if node.childNodes:                        
+                        for n in node.childNodes:
+                            if n.localName=='filter':                                
+                                attrs_child = node_attributes(n)
+                                attrs_child['default_domain'] = self.domain
+                                attrs_child['screen_context'] = self.context
+                                if attrs_child.get('string'):
+                                    attrs_child['string'] = ''
+                                if values and values.get('group_by_ctx'):
+                                    attrs['group_by_ctx'] = values['group_by_ctx']
+                                filter_field = Filter(**attrs_child)
+                                filter_field.onchange = None
+                                filter_field.callback = None
+                                self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
+                                views.append(filter_field)
 
         return views
 
