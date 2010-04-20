@@ -117,20 +117,21 @@ div#search_filter_data select.selection {
 	width: 85px;
 }
 
-div.inactive_filter {
-	cursor: pointer;
-	background: url(../images/button_unchecked.gif) repeat-x left bottom;
-	border: solid 1px #888888; 
-	white-space: nowrap;
-	padding: 1px;
+.filter-switch {
+    cursor: pointer;
+    border: solid 1px #888888;
+    white-space: nowrap;
+    padding: 1px;
+    text-align: center;
 }
-
-div.active_filter {
-	cursor: pointer;
-	background: url(../images/button_checked.gif) repeat-x left bottom; 
-	border: solid 1px #888888; 
-	white-space: nowrap;
-	padding: 1px;
+.filter-switch img {
+    margin: 0 auto;
+}
+.inactive_filter {
+    background: url(../images/button_unchecked.gif) repeat-x left bottom;
+}
+.active_filter {
+    background: url(../images/button_checked.gif) repeat-x left bottom;
 }
 
 div.group-expand {
