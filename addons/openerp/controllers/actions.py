@@ -198,7 +198,7 @@ def execute(action, **data):
         for key in ('res_id', 'res_model', 'view_type', 'view_mode', 'limit', 'search_view'):
             data[key] = action.get(key, data.get(key, None))
 
-        if not data['search_view'] and data['search_view_id']:
+        if not data.get('search_view') and data.get('search_view_id'):
             data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'], 
                                     'fields_view_get', datas['search_view_id'], 'search', context))
             
