@@ -65,7 +65,7 @@ class FormView(TinyView):
             proxy = rpc.RPCProxy(screen.model)
             screen.ids = proxy.search(screen.domain, screen.offset or False,
                                       limit, 0, screen.context)
-            if len(screen.ids) < limit:
+            if screen.ids and len(screen.ids) < limit:
                 screen.count = len(screen.ids)
             else:
                 screen.count = proxy.search_count(screen.domain, screen.context)
