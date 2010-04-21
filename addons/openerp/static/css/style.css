@@ -81,6 +81,7 @@ fieldset {
 
 div#search_filter_data table {
 	width: auto;
+	border: none;
 }
 
 div#search_filter_data table.fields td.item {
@@ -118,6 +119,10 @@ button {
     white-space: nowrap;
     text-transform: uppercase; 
     text-shadow: #6a6969 0 1px 0;
+}
+
+table.toolbar button {
+	font-size: 0.9em;
 }
 
 td.item button table {

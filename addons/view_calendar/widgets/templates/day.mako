@@ -5,13 +5,23 @@
         <table width="100%" class="toolbar">
             <tr>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-back.png" onclick="getCalendar('${day.prev().isoformat()}')"/></td>
-                <td nowrap="nowrap"><button type="button" title="${_('Today...')}" ${py.disabled(day == day.today())} onclick="getCalendar('${day.today().isoformat()}', 'day')">${_("Today")}</button></td>
+                <td nowrap="nowrap">
+                	% if day == day.today():
+                		<a class="button-a disable" href="javascript: void(0)">${_("Today")}</a>
+               		% else:
+               			<a class="button-a" href="javascript: void(0)" onclick="getCalendar('${day.today().isoformat()}', 'day')">${_("Today")}</a>
+					% endif
+               	</td>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${day.next().isoformat()}')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${day}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="${_('Day Calendar...')}" disabled="disabled">${_("Day")}</button>
-                    <button type="button" title="${_('Week Calendar...')}" onclick="getCalendar(null, 'week')">${_("Week")}</button>
-                    <button type="button" title="${_('Month Calendar...')}" onclick="getCalendar(null, 'month')">${_("Month")}</button>
+                    <a class="button-a disable" href="javascript: void(0)" title="${_('Day Calendar...')}">${_("Day")}</a>
+                </td>
+                <td nowrap="nowrap">
+                    <a class="button-a" href="javascript: void(0)" title="${_('Week Calendar...')}" onclick="getCalendar(null, 'week')">${_("Week")}</a>
+                </td>
+                <td nowrap="nowrap">
+                    <a class="button-a" href="javascript: void(0)" title="${_('Month Calendar...')}" onclick="getCalendar(null, 'month')">${_("Month")}</a>
                 </td>
             </tr>
         </table>

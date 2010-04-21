@@ -17,15 +17,11 @@
                         % endif
                     </td>
                     <td>
-                        <button type="button" title="${_('Add records...')}" id='_${name}_button1' ${py.attrs(attrs, domain=domain, context=ctx)} onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, openobject.dom.get('${name}_set').value);">
-                            add
-                        </button>
+                    	<a id='_${name}_button1' title="${_('Add records...')}" class="button-a" href="javascript: void(0)" ${py.attrs(attrs, domain=domain, context=ctx)} onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, openobject.dom.get('${name}_set').value);">add</a>
                     </td>
                     % if not inline:
                     <td style="padding-left: 0px">
-                        <button type="button" title="${_('Delete records...')}" id='_${name}_button2' ${py.attrs(attrs)} onclick="Many2Many('${name}').remove()" style="width: 60px;">
-                            remove
-                        </button>
+                    	<a class="button-a" title="${_('Delete records...')}" id='_${name}_button2' ${py.attrs(attrs)} onclick="Many2Many('${name}').remove()">remove</a>
                     </td>
                     % endif
                 </tr>

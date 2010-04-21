@@ -19,23 +19,16 @@
         <tr>
             <td style="padding: 0px 10px 3px 10px;">
                 <div class="toolbar">
-                    <button type="button" title="${_('Filter records.')}" onclick="search_filter()">${_("Filter")}</button>
+                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
                     % if screen.editable and screen.view_type in ('form', 'tree'):
-                    <button type="button" title="${_('Delete selected records.')}"
-                        onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>
+                    <a class="button-a" title="${_('Delete selected records.')}" href="javascript: void(0)" onclick="new ListView('_terp_list').remove()">${_("Delete")}</a>
                     % endif
                     % if screen.editable and screen.view_type in ('form', 'tree'):
-                    <button type="button" title="${_('Edit selected records.')}"
-                        onclick="editSelectedRecord()">${_("Edit")}</button>
-                    % endif
-                    % if screen.editable and not (screen.view_type=='tree' and screen.widget.editors):
-                    <button type="button" title="${_('Create new record.')}" 
-                        onclick="editRecord(null)">${_("New")}</button>
+                    <a class="button-a" title="${_('Edit selected records.')}" href="javascript: void(0)" onclick="editSelectedRecord()">${_("Edit")}</a>
                     % endif
                     % if screen.editable and (screen.view_type=='tree' and screen.widget.editors):
-                    <button type="button" title="${_('Create new record.')}" 
-                        onclick="new ListView('_terp_list').create()">${_("New")}</button>
-                    % endif
+                    <a class="button-a" title="${_('Create new record.')}" href="javascript: void(0)" onclick="new ListView('_terp_list').create()">${_("New")}</a>
+                   	% endif
                 </div>
             </td>
         </tr>

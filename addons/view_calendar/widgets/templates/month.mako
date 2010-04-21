@@ -5,13 +5,17 @@
         <table width="100%" class="toolbar">
             <tr>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-back.png" onclick="getCalendar('${month.prev().year}-${month.prev().month}-01')"/></td>
-                <td nowrap="nowrap"><button type="button" title="${_('Today...')}" onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</button></td>
+                <td nowrap="nowrap"><a class="button-a" href="javascript:void(0)" title="${_('Today...')}" onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a></td>
                 <td nowrap="nowrap"><img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-forward.png" onclick="getCalendar('${month.next().year}-${month.next().month}-01')"/></td>
                 <td nowrap="nowrap" width="100%"><strong>${month}</strong></td>
                 <td nowrap="nowrap">
-                    <button type="button" title="${_('Day Calendar...')}" onclick="getCalendar(null, 'day')">${_("Day")}</button>
-                    <button type="button" title="${_('Week Calendar...')}" onclick="getCalendar(null, 'week')">${_("Week")}</button>
-                    <button type="button" title="${_('Month Calendar...')}" disabled="disabled">${_("Month")}</button>
+                	<a class="button-a" href="javascript: void(0)" title="${_('Day Calendar...')}" onclick="getCalendar(null, 'day')">${_("Day")}</a>
+                </td>
+                <td nowrap="nowrap">
+                	<a class="button-a" href="javascript: void(0)" title="${_('Week Calendar...')}" onclick="getCalendar(null, 'week')">${_("Week")}</a>
+                </td>
+                <td nowrap="nowrap">
+                	<a class="button-a disable" href="javascript: void(0)" title="${_('Month Calendar...')}">${_("Month")}</a>
                 </td>
             </tr>
         </table>

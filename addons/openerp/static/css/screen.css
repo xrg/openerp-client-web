@@ -206,12 +206,12 @@ div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
  div.filter-a ul { float: left; list-style: none; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
   div.filter-a ul li { float: left; border-left: 1px solid #cccbcb; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
   div.filter-a ul li.first { border-left: none; }
-  div.filter-a ul li.active_filter a { background-color: #e8e8e8; cursor: pointer; }
-   div.filter-a ul li.inactive_filter a { background-color: #e8e8e8; cursor: pointer; }
+  div.filter-a ul li.active_filter a {font-size: 0.8em; font-weight: 600; cursor: pointer; }
+   div.filter-a ul li.inactive_filter a {font-size: 0.8em; font-weight: 600; cursor: pointer; }
    div.filter-a ul li.products a { background-image: url(../images/filter-a-icons-products.gif); }
    div.filter-a ul li.services a { background-image: url(../images/filter-a-icons-services.gif); }
    div.filter-a ul li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 8px; background-repeat: no-repeat; white-space: nowrap;}
-   div.filter-a ul li a.active { background-color: #E4E4E9; }
+   div.filter-a ul li a.active {font-size: 0.8em; font-weight: 600; background-color: #E8E8E8; }
     div.filter-a ul li a span { display: none; position: absolute; left: 45%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
     div.filter-a ul li a.active span { display: block; }
  div.filter-a div.fields-a { float: left; padding-top: 13px; }
@@ -539,10 +539,13 @@ td#body_form_td {padding: 0px; border-color: #EAE7E7; }
 /* links */
 
 a.button-a { float: left; height: 11px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #c6c4c4 #aaa9a9 #797878; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) repeat-x; color: #fff; white-space: nowrap; font-size: 0.8em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #6a6969 0 1px 0; }
-/*a.button-a:hover, a.button-a:focus, a.button-a:active { border-color: #e5e3e3 #dad9d9 #cccbcb; background-position: 0 -25px; color: #8d8d8d; text-shadow: #fff 0 1px 0; }*/
+a.button-a.disable {background: darkGray none repeat scroll 0 0; color: #8D8D8D;}
+div.toolbar a.button-a {margin: 0 3px 0 0 ; }
+td.toolbar a.button-a {margin: 0 3px 0 0 ; }
+a.button-a:hover, a.button-a:focus, a.button-a:active { border-color: #e5e3e3 #dad9d9 #cccbcb; background-position: 0 -25px; color: #8d8d8d; text-shadow: #fff 0 1px 0; }
 
-a.button-b { float: left; height: 11px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
-/*a.button-b:hover, a.button-b:focus, a.button-b:active { border-color: #c6c4c4 #aaa9a9 #797878; background-position: 0 0; text-shadow: #6a6969 0 1px 0; color: #fff; }*/
+a.button-b { float: left; height: 11px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 0.8em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
+a.button-b:hover, a.button-b:focus, a.button-b:active { border-color: #c6c4c4 #aaa9a9 #797878; background-position: 0 0; text-shadow: #6a6969 0 1px 0; color: #fff; }
 
 a.cta-a { float: left; padding: 5px 10px; border: 1px solid #ccc; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background: #eeeded url(../images/cta-a.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; color: #8c8c8c; font-size: 0.9em; text-transform: uppercase; font-weight: bold; text-shadow: #fff 0 1px 0; }
 a.cta-a:hover, a.cta-a:focus, a.cta-a:active { border-color: #aaa; }
