@@ -3,7 +3,7 @@
         ${display_member(w)}
     % endfor
 </div>
-<table width="100%" border="0" class='fields'>
+<table border="0" class='fields'>
     % for row in table:
     <tr>
         % for attrs, widget  in row:
