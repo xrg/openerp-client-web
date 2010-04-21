@@ -7,7 +7,7 @@
     % for row in table:
     <tr>
         % for attrs, widget  in row:
-            <td title="${getattr(widget, 'help', '')}">
+            <td title="${getattr(widget, 'help', '')}" valign="middle">
                 % if widget.string and not widget.nolabel:
                     <label for="${widget.name}">
                         % if getattr(widget, 'help', None):
