@@ -12,14 +12,10 @@
                 	<td style="text-align: right" align="right">
                 		<div class="toolbar">
                 			% if parent_id:
-                				<button type="button" id="${name}_btn_" title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="width:35px;">
-                					new
-                				</button>
+                				<a class="button-a" id="${name}_btn_" title="${new_attrs['help']}" href="javascript: void(0)" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()">new</a>
                 			% endif
                 			% if not parent_id:
-                				<button type="button" id="${name}_btn_" title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="width:35px;">
-                					save
-                				</button>
+                				<a class="button-a" id="${name}_btn_" title="${new_attrs['help']}" href="javascript: void(0)" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()">save</a>
                 			% endif
                         </div>
 					</td>
