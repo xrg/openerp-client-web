@@ -5,13 +5,9 @@
     % if error:
     <span class="fielderror">${error}</span>
     % endif
-% endif
-
-% if not editable and not password:
+% elif not password:
     <span kind="${kind}" id="${name}">${value}</span>
-% endif
-
-% if not editable and password and value:
+% elif value:
     <span>${'*' * len(value)}</span>
 % endif
 

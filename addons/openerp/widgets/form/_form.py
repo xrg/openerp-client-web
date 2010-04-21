@@ -98,8 +98,6 @@ class Frame(TinyInputWidget):
         self.add_row()
 
         for child in self.children:
-
-            string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
 
@@ -110,7 +108,7 @@ class Frame(TinyInputWidget):
                 self.add_hidden(child)
 
             elif getattr(child, 'visible', True) or isinstance(child, (Button, Group, Page)):
-                self.add(child, string, rowspan, colspan)
+                self.add(child, rowspan, colspan)
 
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
@@ -179,12 +177,12 @@ class Frame(TinyInputWidget):
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields += [widget]
 
-    def add(self, widget, label=None, rowspan=1, colspan=1):
+    def add(self, widget, rowspan=1, colspan=1):
 
         if colspan > self.columns:
             colspan = self.columns
 
-        a = label and 1 or 0
+        a = (widget.string and not widget.nolabel) and 1 or 0
 
         if colspan + self.x + a > self.columns:
             self.add_row()
@@ -193,12 +191,6 @@ class Frame(TinyInputWidget):
             colspan = 2
 
         tr = self.table[-1]
-
-        if label:
-            colspan -= 1
-            attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
-            td = [attrs, label]
-            tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
