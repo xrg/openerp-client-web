@@ -1,9 +1,7 @@
 <div class="filter-switch ${def_checked and 'active_filter' or 'inactive_filter'}"
      onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
     % if icon:
-        <div>
-            <img src="${icon}" width="16" height="16" alt=""/>
-        </div>
+        <img src="${icon}" width="16" height="16" alt=""/>
     % endif
     % if help != text_val:
         ${text_val}

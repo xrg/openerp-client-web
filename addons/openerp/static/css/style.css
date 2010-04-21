@@ -126,6 +126,7 @@ div#search_filter_data select.selection {
 }
 .filter-switch img {
     margin: 0 auto;
+    display: block;
 }
 .inactive_filter {
     background: url(../images/button_unchecked.gif) repeat-x left bottom;
@@ -403,6 +404,15 @@ div.welcome {
 }
 
 .view .fields {
+    clear: both;
+}
+.view .fields div {
+    float: left;
+    clear: left;
+}
+.view .fields div div {
+    margin: 0 5px 0 0;
+    clear: none;
 }
 
 .view table.one2many,
