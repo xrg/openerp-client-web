@@ -9,7 +9,7 @@
                 % endif
             </td>
             % if not attrs.get('disabled'):
-            <td width="16" style="padding-left: 10px">
+            <td width="16" style="padding-left: 5px">
                 <img id="${name}_trigger" width="16" height="16" alt="${_('Select')}" 
                 src="/openerp/static/images/stock/stock_calendar.png" class="${css_class}" style="cursor: pointer;"/>
             </td>

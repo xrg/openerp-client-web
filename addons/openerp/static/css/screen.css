@@ -104,7 +104,6 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #tertiary { float: right; min-height: 100%; border-left: 1px solid #d2cfcf; background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y; }
 
 div.three-a { }
- div.three-a div#primary { margin-right: 200px; }
    div#tertiary table#sidebar_pane td#sidebar div.sideheader-a { margin-left: -10px; }
    div#tertiary table#sidebar_pane td#attach_sidebar div.sideheader-a { margin-left: -10px; margin-right: -5px;}
 
