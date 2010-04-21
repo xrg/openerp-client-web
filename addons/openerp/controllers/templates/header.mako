@@ -40,10 +40,11 @@ except:
 			<li><a href="${py.url('/')}" class="home">Home</a></li>
 			<li><a href="javascript: void(0)" class="shortcuts">Shortcuts</a>
 				<ul>
+					<li class="first"><a href="javascript: void(0);">Shortcuts</a></li>
 					<li class="item">
 						% for sc in shortcuts:
 							<a target='appFrame' href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
-							<small>${sc['name']}</small>
+							${sc['name']}
 						% endfor
 						</a>
 					</li>
