@@ -264,11 +264,16 @@ var search_filter = function(src, id) {
 	var group_by_ctx = [];
 	var all_boxes = [];
 	var domain = 'None';
-
+	
 	if(src) {
-        var filter = jQuery(src);
-        jQuery(id).toggleClass('active_filter inactive_filter');
-        filter.attr('checked', !filter.is(':checked'));
+		if(src.checked==false) {
+			src.checked = true
+			id.className = 'active_filter';
+		}
+		else {
+			src.checked = false
+			id.className = 'inactive_filter';
+		}
 	}
 	var filter_table = $('filter_table');
 	datas = $$('[name]', 'search_filter_data');

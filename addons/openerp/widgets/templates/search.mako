@@ -30,7 +30,7 @@
 					</td>
 					% endif
 					<td id="image_col/${x}" class="image_col">
-						<img id="img_remove" src="/openerp/static/images/stock-disabled/gtk-remove.png" onclick="remove_row(this)" style="cursor: pointer;"/>
+						<img id="img_remove" width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-remove.png" onclick="remove_row(this)" style="cursor: pointer;"/>
 					</td>
 			    </tr>
 			    <% x = x+1 %>
@@ -38,13 +38,18 @@
 		% endfor
 	</table>
 	
-	<div>
-        <select name="filter_list" id="filter_list" onchange="search_filter();">
-            % for f in filters_list:
-                <option value="${f[0]}">${f[1]}</option>
-            % endfor
-        </select>
-        <img alt="add filter" src="/openerp/static/images/stock-disabled/gtk-add.png"
-             onclick="add_filter_row();" style="cursor: pointer; vertical-align:middle;"/>
-	</div>
+	<table>
+	    <tr>
+	    	<td align="right">
+	    		<select name="filter_list" id="filter_list" onchange="search_filter();">
+	                % for f in filters_list:
+	                <option value="${f[0]}">${f[1]}</option>
+	                % endfor
+	            </select>
+	    	</td>
+	    	<td>
+	    		<img width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-add.png" onclick="add_filter_row();" style="cursor: pointer;"/>
+	    	</td>
+	    </tr>
+	</table>
 </div>

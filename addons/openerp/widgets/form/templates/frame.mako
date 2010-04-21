@@ -1,23 +1,21 @@
-<div style="display: none;">
-    % for w in hiddens:
-        ${display_member(w)}
-    % endfor
-</div>
-<table border="0" class='fields'>
+% for w in hiddens:
+<div style="display: none;">${display_member(w)}</div>
+% endfor
+<table width="100%" border="0" class='fields'>
     % for row in table:
     <tr>
         % for attrs, widget  in row:
-            <td title="${getattr(widget, 'help', '')}" valign="middle">
-                % if widget.string and not widget.nolabel:
-                    <label for="${widget.name}">
-                        % if getattr(widget, 'help', None):
-                            <sup style="color: #006400;">?</sup>
-                        % endif
-                        ${widget.string}
-                    </label>
+        <td ${py.attrs(attrs)}>
+            % if isinstance(widget, basestring):
+                % if attrs.get('title'):
+                <sup style="color: darkgreen;">?</sup>
                 % endif
-                ${display_member(widget)}
-            </td>
+                ${(widget or '') and widget + ':'}
+            % endif
+            % if not isinstance(widget, basestring) and widget.visible:
+            ${display_member(widget)}
+            % endif
+        </td>
         % endfor
     </tr>
     % endfor
