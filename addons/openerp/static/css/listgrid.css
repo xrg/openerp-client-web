@@ -110,18 +110,14 @@
 .gridview .pagerbar {
     height:22px;
     vertical-align: middle; 
-   /* overflow: hidden; 
-    width: 100%; 
+    overflow: hidden; 
+   /* width: 100%; 
     margin: 0 0 15px; 
     padding: 2px 0;*/
     padding: 3px 4px 1px 10px;
     text-align: right;
-    margin: 0;  
-    background: #f3f3f3;
-    line-height: 1;  
-    border-radius: 4px; 
-    -moz-border-radius: 4px; 
-    -webkit-border-radius: 4px;
+    margin: 0;
+    line-height: 1;
 }
 
 .gridview .pagerbar .pagerbar-cell {
@@ -132,16 +128,31 @@
     vertical-align: middle;
 }
 
-.gridview .pagerbar .pagerbar-cell .pagerbar-header {
+.gridview .pagerbar .pagerbar-cell .pager-table {
+	background: none;
+	border: none;
+}
+
+.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell{
+	padding: 0;
+	white-space: nowrap;
+}
+
+.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
+	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.1em; text-transform: none; line-height: 1;
+}
+
+ /* .gridview .pagerbar .pagerbar-cell .pagerbar-header {
 	position: absolute; 
 	float: left; 
 	padding-right: 15px; 
 	border: none;
 }
 
+
 .gridview .pagerbar .pagerbar-cell .pagerbar-header h2 {
 	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.2em; text-transform: none; line-height: 1;
-}
+} */
 
 
 .gridview .pagerbar .pagerbar-cell .pagerbar-header ul {

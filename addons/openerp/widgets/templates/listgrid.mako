@@ -7,13 +7,21 @@ import itertools
 	    % if pageable:
 	    <tr class="pagerbar">
 	        <td colspan="2" class="pagerbar-cell" align="right">
-	        	<div class="pagerbar-header">
-	        		<h2>${string} List</h2>
-	        		% if name == '_terp_list':
-	        			<a class="button-a" href="javascript: void(0)" onclick="editRecord(null)" style="float: right; margin: -15px 0 0 140px;">new</a>
-        			% endif
-        		</div>
-        		${pager.display()}
+	        	<table class="pager-table">
+	        		<tr>
+	        			<td class="pager-cell" width="30%">
+	        				<h2>${string} List</h2>
+	        			</td>
+	        			% if name == '_terp_list':
+	        			<td class="pager-cell" width="10%">
+	        				<a class="button-a" href="javascript: void(0)" onclick="editRecord(null)">new</a>
+        				</td>
+        				% endif
+        				<td class="pager-cell">
+        					${pager.display()}
+        				</td>
+	        		</tr>
+	        	</table>
 	        </td>
 	    </tr>
 	    % endif

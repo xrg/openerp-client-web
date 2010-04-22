@@ -3,6 +3,8 @@
     font-weight: bold;
     color: #999;
     vertical-align: middle;
+    background: transparent url(../images/dot-a.gif) repeat-x scroll 0 50%;
+    overflow: hidden;
 }
 
 .pager p.paging {
@@ -12,7 +14,10 @@
 	text-transform: uppercase; 
 	text-align: right; 
 	line-height: 1;
-	float: right; margin: 0; padding-left: 10px;
+	float: right; 
+	margin: 0; 
+	padding-left: 10px;
+	background: #FFFFFF none repeat scroll 0 0;
 }
 
 .pager p.paging a{

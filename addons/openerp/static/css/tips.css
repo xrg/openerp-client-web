@@ -5,10 +5,9 @@ table.tooltip {
     font-size: 11px;
     color: #FFFFFF;
     z-index: 1000;
-    -moz-border-radius-bottomleft: 4px;
-	-moz-border-radius-bottomright: 4px;
-	-moz-border-radius-topleft: 4px;
-	-moz-border-radius-topright: 4px;
+    border-radius: 4px; 
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;
 	background: url(/openerp/static/images/tips/t.png) repeat;
 	border: 2px solid #8D8D8D;
 	padding: 0;
