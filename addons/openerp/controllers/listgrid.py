@@ -209,6 +209,7 @@ class List(SecuredController):
         error = None
         reload = (params.context or {}).get('reload', False)
         result = {}
+        wiz_result = None
 
         name = params.button_name
         btype = params.button_type
@@ -244,15 +245,20 @@ class List(SecuredController):
                 res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
-                elif res:
-                    error = "Button action has returned another view..."
+                elif isinstance(res, basestring):
+                    wiz_result = {}
+                    wiz_result['model'] = model
+                    wiz_result['action_id'] = action_id
+                    wiz_result['id'] = id
+                else:
+                    error = "Button action has returned another view.."
 
             else:
                 error = "Unallowed button type"
         except Exception, e:
             error = ustr(e)
 
-        return dict(error=error, result=result, reload=reload)
+        return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)
 
     @expose('json')
     def sort_by_order(self, model, column, domain, search_domain, filter_domain, order):

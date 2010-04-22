@@ -458,6 +458,15 @@ MochiKit.Base.update(ListView.prototype, {
                 if (obj.result && obj.result.url) {
                     window.open(obj.result.url);
                 }
+                
+                if(obj.wiz_result){
+                	var act = get_form_action('action');
+                	MochiKit.Base.update(params, {
+                		'_terp_action': obj.wiz_result.action_id,
+                		'_terp_id': obj.wiz_result.id,
+                		'_terp_model': obj.wiz_result.model});
+                	window.open(openobject.http.getURL(act, params))
+                }
 
                 if (obj.reload) {
                     window.location.reload();

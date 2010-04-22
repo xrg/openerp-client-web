@@ -190,7 +190,8 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return
-
+    
+    data.get('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
     if action['type'] == 'ir.actions.act_window_close':
         return close_popup()
 
