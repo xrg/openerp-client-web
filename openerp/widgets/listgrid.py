@@ -105,6 +105,7 @@ class List(TinyWidget):
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks', 1)
+        self.attr_limit = 0
         self.m2m = False
         self.concurrency_info = None
         self.selector = None
@@ -123,9 +124,9 @@ class List(TinyWidget):
         self.string = attrs.get('string','')
 
         # is relational field (M2M/O2M)
-        if self.source:
-            self.limit = cherrypy.request.app.config['openerp-web'].get('child.listgrid.limit', self.limit)
-            self.min_rows = cherrypy.request.app.config['openerp-web'].get('child.listgrid.min_rows', 5)
+        if self.source:            
+            self.attr_limit = cherrypy.request.app.config['openerp-web'].get('child.listgrid.limit', self.limit)
+            self.attr_limit = int(attrs.get('limit', self.attr_limit))            
         else:
             self.min_rows = 5
 
@@ -135,7 +136,9 @@ class List(TinyWidget):
             pass
 
         try:
-            self.limit = int(attrs.get('limit'))
+            if self.limit == 0:
+                self.limit = self.attr_limit
+
         except:
             pass
 
@@ -188,7 +191,7 @@ class List(TinyWidget):
         self.columns += (self.buttons or 0) and 1
 
         if self.pageable:
-            self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
+            self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count, def_limit=self.attr_limit)
             self.pager._name = self.name
 
         # make editors

@@ -41,6 +41,7 @@ from openerp import cache
 from openerp import tools
 
 from screen import Screen
+from pager import Pager
 from openerp.utils import TinyDict
 
 from openerp import validators
@@ -106,7 +107,7 @@ class M2M(TinyInputWidget):
             current = TinyDict()
 
         current.offset = current.offset or 0
-        current.limit = current.limit or 20
+        current.limit = current.limit or 0
         current.count = len(ids or [])
 
         if current.view_mode: view_mode = current.view_mode
@@ -164,6 +165,15 @@ class M2M(TinyInputWidget):
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=False, readonly=self.editable,
                              selectable=selectable, nolinks=self.link)
+        
+        if view_type == 'tree':
+            if self.screen.widget.attr_limit:
+                limit = self.screen.widget.attr_limit
+            if current.limit == 0:
+                current.limit = limit
+                
+            self.screen.widget.pageable = Pager(ids=current.ids, offset=current.offset, limit=current.limit,
+                                                count=current.count, def_limit=limit)
 
         self.screen.widget.checkbox_name = False
         self.screen.widget.m2m = True

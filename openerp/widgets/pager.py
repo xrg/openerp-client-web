@@ -27,6 +27,8 @@
 #
 ###############################################################################
 
+import cherrypy
+
 from base import CSSLink
 from interface import TinyWidget
 
@@ -34,26 +36,43 @@ from interface import TinyWidget
 class Pager(TinyWidget):
 
     template = "templates/pager.mako"
-    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id']
+    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id', 'pager_options']
 
     css = [CSSLink('openerp', 'css/pager.css')]
 
     page_info = None
     pager_id = 1
 
-    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
+    def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree', def_limit=0):
 
         super(Pager, self).__init__()
 
         self.id = id
         self.ids = ids or []
         self.view_type = view_type
-
+        
         self.offset = offset or 0
         self.limit = limit or 20
         self.count = count or 0
+        
+        self.pager_options = []
+        
+        steps = cherrypy.request.app.config['openerp-web'].get('listgrid.pager.steps', 20)
+        min_limit = cherrypy.request.app.config['openerp-web'].get('listgrid.pager.min', 10)
+        max_limit = cherrypy.request.app.config['openerp-web'].get('listgrid.pager.max', 1000)
+        
+        if (max_limit > 1000):
+            max_limit = 1000
+            
+        for i in range(min_limit, max_limit, steps):
+            self.pager_options.append(i)
 
-        if len(self.ids) > self.limit:
+        if def_limit:
+            if def_limit not in self.pager_options:
+                self.pager_options.append(int(def_limit))
+                self.pager_options.sort()
+
+        if self.limit != -1 and len(self.ids) > self.limit:
             self.ids = self.ids[self.offset:]
             self.ids = self.ids[:min(self.limit, len(self.ids))]
 

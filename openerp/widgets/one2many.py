@@ -37,6 +37,7 @@ from openerp.utils import TinyDict
 
 from interface import TinyInputWidget
 from screen import Screen
+from pager import Pager
 
 class O2M(TinyInputWidget):
     """One2Many widget
@@ -141,7 +142,7 @@ class O2M(TinyInputWidget):
                 pass
 
         current.offset = current.offset or 0
-        current.limit = current.limit or 20
+        current.limit = current.limit or 0 
         current.count = len(ids or [])
 
         if current.view_type == 'tree' and self.readonly:
@@ -155,6 +156,14 @@ class O2M(TinyInputWidget):
 
         if view_type == 'tree':
             #self.screen.widget.pageable=False
+            if self.screen.widget.attr_limit:
+                limit = self.screen.widget.attr_limit
+            if current.limit == 0:
+                current.limit = limit
+                
+            self.screen.widget.pageable = Pager(ids=current.ids, offset=current.offset, limit=current.limit,
+                                                count=current.count, def_limit=limit)
+
             self.id = None
 
         pager_info = None
