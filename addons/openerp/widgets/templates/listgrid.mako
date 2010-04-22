@@ -235,6 +235,16 @@ import cherrypy
             		});
             	});
             	
+            	jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+            		jQuery(row).click(function(event) {
+            			if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+            				if (view_type == 'tree') {
+            					do_select(jQuery(row).attr('record'));
+            				}
+            			}
+            		});
+            	});
+            	
             	if(view_type == 'form') {
             		if(jQuery('[id=${name}_set]').length > 0) {
             			var ids = jQuery('input[id=${name}/_terp_ids]').val();
