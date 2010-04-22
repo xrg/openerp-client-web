@@ -138,6 +138,9 @@
 	white-space: nowrap;
 }
 
+.gridview .pagerbar .pagerbar-cell .pager .paging {
+	background: #FFFFFF none repeat scroll 0 0;
+}
 .gridview .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
 	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.1em; text-transform: none; line-height: 1;
 }

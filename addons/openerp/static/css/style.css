@@ -33,19 +33,36 @@ a:hover .imglink {
     color: #bbb;
 }
 
-.dimmed-text a {
-    font-size: 10px;
-    color: #bbb;
-    text-transform: uppercase;
-}
-
 .dimmed-text a:hover {
     color: #333;
     text-decoration: none;
 }
 
-td.dimmed-text {    
-    padding-left: 5px;
+td.powered {
+	font-weight: bold;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	color: #969494;
+}
+td.powered a {
+	color: #969494;
+}
+
+td.dimmed-text { 
+    padding: 0 0 0 5px;
+}
+
+td.dimmed-text .footer a{
+	color: #5C5B5B;
+	font-weight: bold;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	margin: 0;
+}
+
+td.dimmed-text span{
+	color: #CCCBCB;
+	padding: 0 5px;
 }
 
 hr {

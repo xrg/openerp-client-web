@@ -21,7 +21,7 @@
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
                     % if buttons.toolbar:
                     <tr>
                         <td>
@@ -142,7 +142,7 @@
 		                    	% if buttons.pager:
                                 	<p class="paging-a">
 						            	${pager.display()}
-									</div>
+									</p>
                                 % endif
                             </div>
                         </td>
@@ -154,20 +154,37 @@
                     
                     <tr>
                         <td class="dimmed-text">
-                            [<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
-                                onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a>]<br/>
-                            <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
-                                 onmouseover="showElement(this);" onmouseout="hideElement(this);">
-                                <a title="${_('Manage views of the current object')}" 
-                                   onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
-                                   href="javascript: void(0)">${_("Manage Views")}</a>
-                               <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="javascript: show_wkf()" 
-                                   href="javascript: void(0)">${_("Show Workflow")}</a>
-                                <a title="${_('Customise current object or create a new object')}" 
-                                   onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
-                                   href="javascript: void(0)">${_("Customise Object")}</a>
-                            </div>
+                            <table style="border: none;">
+                            	<tr>
+                            		<td class="footer">
+                            			<a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
+                            			<span>|</span>
+                            			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
+                            			<script type="text/javascript">
+                            				
+                            			</script>
+                            		</td>
+                            		<td class="powered">
+                            			Powered by <a href="http://www.openerp.com"  target="_blank">openerp.com</a>
+                            		</td>
+                            		<td class="footer" style="text-align: right;">
+                            			<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
+                                onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a><br/>
+		                            <div id="customise_menu_" class="contextmenu" style="text-align: right; position: absolute; display: none;" 
+		                                 onmouseover="showElement(this);" onmouseout="hideElement(this);">
+		                                <a title="${_('Manage views of the current object')}" 
+		                                   onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
+		                                   href="javascript: void(0)">${_("Manage Views")}</a>
+		                               <a title="${_('Manage workflows of the current object')}" 
+		                                   onclick="javascript: show_wkf()" 
+		                                   href="javascript: void(0)">${_("Show Workflow")}</a>
+		                                <a title="${_('Customise current object or create a new object')}" 
+		                                   onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
+		                                   href="javascript: void(0)">${_("Customise Object")}</a>
+		                            </div>
+                            		</td>
+                            	</tr>
+                            </table>
                         </td>
                     </tr>
                 </table>

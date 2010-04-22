@@ -7,17 +7,17 @@ import itertools
 	    % if pageable:
 	    <tr class="pagerbar">
 	        <td colspan="2" class="pagerbar-cell" align="right">
-	        	<table class="pager-table">
+	        	<table class="pager-table" width="0%">
 	        		<tr>
-	        			<td class="pager-cell" width="30%">
+	        			<td class="pager-cell">
 	        				<h2>${string} List</h2>
 	        			</td>
 	        			% if name == '_terp_list':
-	        			<td class="pager-cell" width="10%">
+	        			<td class="pager-cell" style="width: 10%">
 	        				<a class="button-a" href="javascript: void(0)" onclick="editRecord(null)">new</a>
         				</td>
         				% endif
-        				<td class="pager-cell">
+        				<td class="pager-cell" style="width: 90%">
         					${pager.display()}
         				</td>
 	        		</tr>
@@ -223,15 +223,13 @@ import itertools
 						
 					})
 				</script>
+				
 				% endif 
 	        </td>
 	    </tr>
 	
 	    % if pageable:
 	    <tr class="pagerbar">
-	        <td class="pagerbar-cell pagerbar-links" style="text-align: left;" align="left">
-	            <a href="javascript: void(0)" onclick="new ListView('${name}').importData()">${_("Import")}</a> | <a href="javascript: void(0)" onclick="new ListView('${name}').exportData()">${_("Export")}</a>
-	        </td>
 	        <td class="pagerbar-cell" align="right">${pager.display(pager_id=2)}</td>
 	    </tr>
 	    % endif
