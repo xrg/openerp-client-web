@@ -419,16 +419,6 @@ class Char(TinyWidget):
 
 class M2O(Char):
 
-    template = """\
-        <span>
-            % if link:
-                <a href="${link}">${text}</a>
-            % else:
-                ${text}
-            % endif
-        </span>
-    """
-
     def get_text(self):
 
         if isinstance(self.value, int):
