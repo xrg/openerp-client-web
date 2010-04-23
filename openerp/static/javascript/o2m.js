@@ -113,7 +113,6 @@ One2Many.prototype = {
                 _terp_parent_model: this.parent_model,
         		_terp_parent_id: this.parent_id,
                 _terp_parent_view_id: this.parent_view_id,
-                _terp_parent_context: this.parent_context,
                 _terp_o2m: this.name,
                 _terp_o2m_model: this.model,
                 _terp_o2m_id: id,
@@ -130,14 +129,17 @@ One2Many.prototype = {
             //XXX: IE hack, long context value generate long URI
             if (!browser.isIE) {
                 params['_terp_o2m_context'] = res.context;
+                params['_terp_parent_context'] = this.parent_context;
                 return openWindow(getURL('/openo2m/edit', params));
             }
             
             set_cookie('_terp_o2m_context', res.context || '{}');
+            set_cookie('_terp_parent_context', this.parent_context || '{}');
             try {
                 return openWindow(getURL('/openo2m/edit', params));
             } finally {
                 del_cookie('_terp_o2m_context');
+                del_cookie('_terp_parent_context');
             }
         });     
     },
