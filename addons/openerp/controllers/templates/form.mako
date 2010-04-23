@@ -27,7 +27,7 @@
                         <td>
                             <table width="100%" id="title_header">
                                 <tr>
-                                    <td width="50%" style="padding: 0px 5px 1px 0px;">
+                                    <td id="title_details" width="50%" style="padding: 0px 5px 1px 0px;">
                                     	<h1>${form.screen.string}
                                     		<a target="appFrame" class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
                                     			<small>Help</small>

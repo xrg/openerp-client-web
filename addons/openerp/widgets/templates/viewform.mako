@@ -37,5 +37,12 @@
             <td valign="top">${display_member(screen)}</td>
         </tr>
     </table>
+	<script type="text/javascript">
+		if((jQuery('#_terp_id') && jQuery('#_terp_id').val()!='False') && jQuery('#_terp_view_type').val() == 'form') {    		
+			var _field_name = jQuery('table.fields').find('td.label')[0];
+			var _field_value = jQuery('table.fields').find('td.item').find('input[name=name]').val();
+			jQuery('#title_header').find('td[id=title_details]').find('h1').append("<small class='sub'>"+jQuery(_field_name).html()+" "+_field_value+"</small>");
+    	}
+    </script>
 % endif
 </form>
