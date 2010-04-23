@@ -246,10 +246,7 @@ class List(SecuredController):
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
                 elif isinstance(res, basestring):
-                    wiz_result = {}
-                    wiz_result['model'] = model
-                    wiz_result['action_id'] = action_id
-                    wiz_result['id'] = id
+                    wiz_result = {'model': model, 'action_id': action_id, 'id': id}
                 else:
                     error = "Button action has returned another view.."
 
