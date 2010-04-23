@@ -1,3 +1,6 @@
+<%!
+	import cherrypy
+%>
 <table border="0" id="_o2m_${name}" width="100%" class="one2many">
     <tr>
         <td class="toolbar">
@@ -13,6 +16,20 @@
                             % if not parent_id:
                             <img src="/openerp/static/images/stock/gtk-save.png" width="16" height="16"/>
                             % endif
+                            <script type="text/javascript">
+                            	check_parent = eval("${cherrypy.session.keys()}");
+                            	if(jQuery.inArray('o2m_parent_id', check_parent) > 0) {
+                            	
+                            		p_id = eval("${parent_id}");
+                            		id = eval("${cherrypy.session.get('o2m_parent_id')}");
+                            		if(id == p_id) {
+                            			jQuery('#${name}_btn_').find('img').load(function() {
+	                            			jQuery(this).click();
+	                            			
+	                            		});
+                            		}
+                            	}
+                            </script>
                         </button>
                         % endif
                         % if pager_info:

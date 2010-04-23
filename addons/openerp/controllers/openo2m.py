@@ -166,6 +166,8 @@ class OpenO2M(Form):
 
     @expose()
     def edit(self, **kw):
+        if cherrypy.session.get('o2m_parent_id'):
+            cherrypy.session.pop('o2m_parent_id')
         params, data = TinyDict.split(kw)
         return self.create(params)
 

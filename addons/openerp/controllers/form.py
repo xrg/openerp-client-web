@@ -386,6 +386,7 @@ class Form(SecuredController):
                 params.ids = (params.ids or []) + [int(id)]
                 params.id = int(id)
                 params.count += 1
+                cherrypy.session['o2m_parent_id'] = params.id
             else:
                 ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
                 id = proxy.write([params.id], data, ctx)
