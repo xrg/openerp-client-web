@@ -244,24 +244,22 @@ import cherrypy
             			}
             		});
             	});
-            	
-            	if(view_type == 'form') {
-            		if(jQuery('[id=${name}_set]').length > 0) {
-            			var ids = jQuery('input[id=${name}/_terp_ids]').val();
-            			
-            			if(ids != '[]') {
-            				jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
-            					var links = jQuery(jQuery(row).find('td')[1]).find('span');
-            					if(links.length > 0) {
-            						var link_text = jQuery(links[1]).html();
-            						var record_id = jQuery(row).attr('record');
-            						jQuery(links[1]).html("<a href='javascript: void(0)' onclick=do_select("+ record_id + "," + "'" + '${name}' +"'"+")>"+link_text+"</a>")
-            					}
-            				});	
-            			}
-            		}
-            	}
-			</script> 
+
+                if (view_type == 'form') {
+                    if (jQuery('#${name}_set').length) {
+                        if (jQuery('input#${name}/_terp_ids').val() != '[]') {
+                            jQuery('table#${name}_grid tr.grid-row td:nth-child(2) span span').each(function(index, span) {
+                                var link_text = jQuery(span).text();
+                                var record_id = jQuery(span).parents('tr.grid-row').attr('record');
+                                jQuery(span).empty().append(
+                                        jQuery('<a>').attr('href', '#').click(function () {
+                                            do_select(record_id, '${name}');
+                                            return false;
+                                        }).text(link_text));});
+                        }
+                    }
+                }
+            </script>
         </td>
     </tr>
 
