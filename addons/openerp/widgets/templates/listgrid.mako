@@ -220,7 +220,7 @@ import cherrypy
 				//Make all records Editable by Double-click
 				var view_type = jQuery('[id*=_terp_view_type]').val();
             	var editable = jQuery('[id*=_terp_editable]').val();
-            	jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
             		jQuery(row).dblclick(function(event) {
             			if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
             				if (view_type == 'tree') {
@@ -235,7 +235,7 @@ import cherrypy
             		});
             	});
             	
-            	jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
             		jQuery(row).click(function(event) {
             			if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
             				if (view_type == 'tree') {
