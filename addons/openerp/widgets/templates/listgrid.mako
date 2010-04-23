@@ -201,9 +201,8 @@ import cherrypy
 			% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
 				<script type="text/javascript">
 					// flag is used to check sorting is active or not //
-            
-		            flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}"
-		            
+                    var flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}";
+
 		            if(flag == 'False') {
 						var drag = getElementsByTagAndClassName('tr','grid-row');
 	              		for(var grid=0; grid < drag.length; grid++) 
@@ -212,7 +211,6 @@ import cherrypy
 							new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
 						}
 		            }
-					
 				</script>
 			% endif
 			
