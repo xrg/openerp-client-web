@@ -8,7 +8,7 @@
             <td style="text-align: center;"><img align="center" src="${icon}" width="16" height="16"/></td>
             % endif
             % if string:
-            <td width="70%">${string}</td>
+            <td style="text-align: center;" width="70%">${string}</td>
             % endif
         </tr>
     </table>

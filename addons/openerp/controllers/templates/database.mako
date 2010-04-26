@@ -46,7 +46,7 @@
                         		padding:0 4px; text-transform:uppercase;" width="100%">${form.string}</td>
                         <td nowrap="nowrap">
                             <button type="button" 
-                                title="${_('Create new database')}"
+                                title="${_('Create database')}"
                                 ${py.disabled(form.name=='create')}
                                 onclick="dbView('create')" class="static_buttons">${_("Create")}</button>
                             <button type="button" 

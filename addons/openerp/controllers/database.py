@@ -67,7 +67,7 @@ class DBForm(widgets.Form):
 
 class FormCreate(DBForm):
     name = "create"
-    string = _('Create new database')
+    string = _('Create database')
     action = '/database/do_create'
     submit_text = _('OK')
     strip_name = True
