@@ -201,9 +201,8 @@ import cherrypy
 			% if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
 				<script type="text/javascript">
 					// flag is used to check sorting is active or not //
-            
-		            flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}"
-		            
+                    var flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}";
+
 		            if(flag == 'False') {
 						var drag = getElementsByTagAndClassName('tr','grid-row');
 	              		for(var grid=0; grid < drag.length; grid++) 
@@ -212,7 +211,6 @@ import cherrypy
 							new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
 						}
 		            }
-					
 				</script>
 			% endif
 			
@@ -220,7 +218,7 @@ import cherrypy
 				//Make all records Editable by Double-click
 				var view_type = jQuery('[id*=_terp_view_type]').val();
             	var editable = jQuery('[id*=_terp_editable]').val();
-            	jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
             		jQuery(row).dblclick(function(event) {
             			if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
             				if (view_type == 'tree') {
@@ -235,7 +233,7 @@ import cherrypy
             		});
             	});
             	
-            	jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
             		jQuery(row).click(function(event) {
             			if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
             				if (view_type == 'tree') {
@@ -244,24 +242,22 @@ import cherrypy
             			}
             		});
             	});
-            	
-            	if(view_type == 'form') {
-            		if(jQuery('[id=${name}_set]').length > 0) {
-            			var ids = jQuery('input[id=${name}/_terp_ids]').val();
-            			
-            			if(ids != '[]') {
-            				jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
-            					var links = jQuery(jQuery(row).find('td')[1]).find('span');
-            					if(links.length > 0) {
-            						var link_text = jQuery(links[1]).html();
-            						var record_id = jQuery(row).attr('record');
-            						jQuery(links[1]).html("<a href='javascript: void(0)' onclick=do_select("+ record_id + "," + "'" + '${name}' +"'"+")>"+link_text+"</a>")
-            					}
-            				});	
-            			}
-            		}
-            	}
-			</script> 
+
+                if (view_type == 'form') {
+                    if (jQuery('#${name}_set').length) {
+                        if (jQuery('input#${name}/_terp_ids').val() != '[]') {
+                            jQuery('table#${name}_grid tr.grid-row td:nth-child(2) span span').each(function(index, span) {
+                                var link_text = jQuery(span).text();
+                                var record_id = jQuery(span).parents('tr.grid-row').attr('record');
+                                jQuery(span).empty().append(
+                                        jQuery('<a>').attr('href', '#').click(function () {
+                                            do_select(record_id, '${name}');
+                                            return false;
+                                        }).text(link_text));});
+                        }
+                    }
+                }
+            </script>
         </td>
     </tr>
 
