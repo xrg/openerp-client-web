@@ -222,23 +222,24 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 }
 
 ManyToOne.prototype.change_icon = function(evt){
-
-    this.open_img.src = '/openerp/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
-	
-    if (!this.field.value) {
-        this.open_img.style.cursor = '';
-    }
-    
-    if (this.is_inline) {
-    
-        if (this.field.value) {
-            this.select_img.parentNode.style.display = 'none';
-            this.open_img.parentNode.style.display = '';
-        } else {
-            this.select_img.parentNode.style.display = '';
-            this.open_img.parentNode.style.display = 'none';
-        }
-    }
+	if (this.open_img){
+	    this.open_img.src = '/openerp/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
+		
+	    if (!this.field.value) {
+	        this.open_img.style.cursor = '';
+	    }
+	    
+	    if (this.is_inline) {
+	    
+	        if (this.field.value) {
+	            this.select_img.parentNode.style.display = 'none';
+	            this.open_img.parentNode.style.display = '';
+	        } else {
+	            this.select_img.parentNode.style.display = '';
+	            this.open_img.parentNode.style.display = 'none';
+	        }
+	    }
+   }
 }
 
 ManyToOne.prototype.on_keyup = function(evt){
@@ -410,7 +411,9 @@ ManyToOne.prototype.get_matched = function(){
                 m2o.text.value = val[1];
                 m2o.on_change();
             }else{
-                open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
+            	if(!openobject.dom.get('search_filter_data')){
+                	open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
+                }
             }
         });
     });

@@ -255,11 +255,11 @@ class Search(Form):
                         else:
                             search_data[check[0]] = {'to': domains[key]}
 
-                elif domains[key] in ['0', '1']:
+                if isinstance(domains[key], bool) and domains[key]:
                     domains[key] = int(domains[key])
                     search_data[key] = domains[key]
 
-                elif isinstance(domains[key], int):
+                elif isinstance(domains[key], int) and not isinstance(domains[key], bool):
                     domain += [(key, '=', domains[key])]
                     search_data[key] = domains[key]
                 else:

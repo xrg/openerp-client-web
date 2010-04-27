@@ -288,6 +288,9 @@ var search_filter = function(src, id) {
 					search_context['value'] = value;
 				}
 			}
+			if (getNodeAttribute(d, 'kind') == 'many2one'){
+				value = openobject.dom.get(d.name+'_text').value || value;
+			}
 			domains[d.name] = value;
 		}
 	});

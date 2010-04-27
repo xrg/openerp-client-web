@@ -38,6 +38,7 @@ import cherrypy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget
 from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
+from openerp.widgets.form import M2O
 
 from openobject.widgets import JSLink, locations
 
@@ -146,6 +147,35 @@ class Filter(TinyInputWidget):
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
+class M2O_search(M2O):
+    template = """
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
+                        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
+                    <input type="text" id="${name}_text" class="${css_class}" 
+                        ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+                    <input type="hidden" id="_hidden_${name}" value=""/>
+                    <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
+                    % if error:
+                        <span class="fielderror">${error}</span>
+                    % endif
+                </td>
+            </tr>
+        </table>
+        <script type="text/javascript">
+            new ManyToOne('${name}');
+        </script>
+    """
+    javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop)]
+    
+    def __init__(self, **attrs):
+        super(M2O_search, self).__init__(**attrs)
+    
+    def set_value(self, value):
+        return
+
 class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
@@ -202,9 +232,8 @@ class Search(TinyInputWidget):
         if len(fields) != len(all_field_ids):
             new_fields = []
             all_fields =  rpc.session.execute('object', 'execute', 'ir.model.fields', 'read', all_field_ids)
-            for item in all_fields:
-                if item['name'] not in fields:
-                    new_fields.append(item)
+            for item in all_fields:               
+                new_fields.append(item)
             field_dict = {}
             for new_field in new_fields:
                 if isinstance(new_field['select_level'],(str,unicode)):
@@ -322,6 +351,13 @@ class Search(TinyInputWidget):
     
                     if kind not in WIDGETS:
                         continue
+                    
+                    if kind == 'many2one':
+                        attrs['relation'] = fields[name]['relation']
+                        attrs['type'] = fields[name]['type']
+                        string = attrs.get('string', None)
+                        if not string:
+                            attrs['string'] = fields[name]['string']
     
                     self.fields_type[name] = kind
     
@@ -376,7 +412,7 @@ WIDGETS = {
     'one2many_form': Char,
     'one2many_list': Char,
     'many2many': Char,
-    'many2one': Char,
+    'many2one': M2O_search,
     'email' : Char,
     'url' : Char,
     'separator': Separator
