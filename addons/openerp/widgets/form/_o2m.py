@@ -48,7 +48,7 @@ class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "templates/one2many.mako"
-    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx']
+    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source']
     member_widgets = ['screen']
 
     form = None
@@ -66,7 +66,7 @@ class O2M(TinyInputWidget):
 
         # get top params dictionary
         params = cherrypy.request.terp_params
-
+        self.source = params.source
         pprefix = ''
         if '/' in self.name:
             pprefix = self.name[:self.name.rindex('/')]

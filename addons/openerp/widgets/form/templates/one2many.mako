@@ -10,26 +10,14 @@
                     <td>
                         % if screen.editable and not readonly:
                         <button type="button" id="${name}_btn_" title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="padding: 2px">
-                            % if parent_id:
                             <img src="/openerp/static/images/stock/gtk-new.png" width="16" height="16"/>
-                            % endif
-                            % if not parent_id:
-                            <img src="/openerp/static/images/stock/gtk-save.png" width="16" height="16"/>
-                            % endif
-                            <script type="text/javascript">
-                            	check_parent = eval("${cherrypy.session.keys()}");
-                            	if(jQuery.inArray('o2m_parent_id', check_parent) > 0) {
-                            	
-                            		p_id = eval("${parent_id}");
-                            		id = eval("${cherrypy.session.get('o2m_parent_id')}");
-                            		if(id == p_id) {
-                            			jQuery('#${name}_btn_').find('img').load(function() {
-	                            			jQuery(this).click();
-	                            			
-	                            		});
-                            		}
-                            	}
-                            </script>
+                            % if name == source:
+                            	<script type="text/javascript">
+                            		jQuery('#${name}_btn_').find('img').load(function() {
+                            			jQuery(this).click();
+                            		});
+                            	</script>
+                           	% endif
                         </button>
                         % endif
                         % if pager_info:
