@@ -114,7 +114,13 @@ import itertools
 	                        %if field=='button':
 	                        	<td class="grid-cell"><span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span></td>
 	                        %else:
-		                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
+	                        	<%
+	                        	 	if name == '_terp_list':
+	                        			border = "none";
+                        		 	else:
+                        				border = "1px solid #E3E3E3";
+                       			%>
+		                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color}; border-right: ${border};" sortable_value="${data[field].get_sortable_text()}">
 									<span>${data[field].display()}</span>
 		                        </td>
 	                        % endif
