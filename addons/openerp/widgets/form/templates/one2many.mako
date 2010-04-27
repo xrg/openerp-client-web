@@ -1,6 +1,3 @@
-<%!
-	import cherrypy
-%>
 <table border="0" id="_o2m_${name}" width="100%" class="one2many">
     <tr>
         <td class="toolbar">
