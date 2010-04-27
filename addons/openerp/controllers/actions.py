@@ -286,6 +286,8 @@ def execute(action, **data):
         return execute_report('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
+        if not data.get('datas'):
+            data = action.get('datas',[])
         return execute_report(action['report_name'], **data)
 
     elif action['type']=="ir.actions.act_url":
