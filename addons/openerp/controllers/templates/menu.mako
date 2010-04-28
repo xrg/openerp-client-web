@@ -43,7 +43,7 @@
 			<ul class="sc_menu">
 				%for parent in parents:
 					<li id="${parent['id']}" class="menu_tabs"">
-						<a href="#" accesskey="1">
+						<a href="javascript: void(0)" accesskey="1" class="${parent['active']}">
 							<span>${parent['name']}</span>
 						</a>
 						<em>[1]</em>

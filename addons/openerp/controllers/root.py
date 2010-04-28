@@ -126,6 +126,12 @@ class Root(SecuredController):
             tree.tree.linktarget = "'appFrame'"
         if kw.get('db'):
             return dict(parents=parents, tools=tools, setup = '/home')
+        
+        for parent in parents:
+            if parent['id'] == int(active):
+                parent['active'] = 'active'
+            else:
+                parent['active'] = ''
         return dict(parents=parents, tools=tools)
 
     @expose(allow_json=True)
