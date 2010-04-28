@@ -299,6 +299,10 @@ class List(TinyWidget):
 
             if node.nodeName == 'button':
                 attrs = node_attributes(node)
+                if attrs.get('invisible', False):
+                    visible = eval(attrs['invisible'], {'context':self.context})
+                    if visible:
+                        continue
                 buttons += [Button(**attrs)]
                 headers.append(("button", len(buttons)))
                 
