@@ -128,7 +128,7 @@ class Root(SecuredController):
             return dict(parents=parents, tools=tools, setup = '/home')
         
         for parent in parents:
-            if parent['id'] == int(active):
+            if parent['id'] == id:
                 parent['active'] = 'active'
             else:
                 parent['active'] = ''
