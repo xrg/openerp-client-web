@@ -4,7 +4,7 @@
         <td>
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td width="80%">
+                    <td width="80%" style="padding: 0;">
                         % if inline:
                         <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' value="${screen.ids}" ${py.attrs(attrs)} relation="${relation}"/>
                         <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${screen.ids}" relation="${relation}"/>

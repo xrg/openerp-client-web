@@ -586,7 +586,8 @@ div.welcome-message {
 
 .view table.one2many,
 .view table.many2many {
-    border: 1px solid #bbb8a9;
+    /*border: 1px solid #bbb8a9; */
+    border: none;
 }
 
 .view td.grid-cell table.many2many {

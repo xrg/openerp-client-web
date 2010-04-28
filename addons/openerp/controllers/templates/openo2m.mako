@@ -84,12 +84,14 @@
                         <tr>
                             <td width="100%">
                             </td>
-                            <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
-                                % if form.screen.editable:
-                                <button type="button" onclick="submit_form('save')">${_("Save")}</button>
-                                % endif
+                            <td style="padding: 0;">
+                            	<a class="button-a" onclick="window.close()" href="javascript: void(0)">${_("Close")}</a>
                             </td>
+                            % if form.screen.editable:
+                            <td style="padding: 0;">
+                            	<a class="button-a" onclick="submit_form('save')" href="javascript: void(0)">${_("Save")}</a>
+                            </td>
+                            % endif
                         </tr>
                     </table>
                 </div>
