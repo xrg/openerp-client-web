@@ -128,6 +128,10 @@
     vertical-align: middle;
 }
 
+.gridview .pagerbar .pagerbar-cell.footer .pager {
+    background: none;
+}
+
 .gridview .pagerbar .pagerbar-cell .pager-table {
 	background: none;
 	border: none;

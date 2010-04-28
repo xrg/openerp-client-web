@@ -178,7 +178,7 @@ import itertools
 	
 	                % if field_total:
 	                <tfoot>
-	                    <tr class="field_sum">
+	                    <tr class="field_sum" style="border: none; border-bottom: 1px solid #f4f2f2;">
 	                    	<td colspan="${len(headers)}" style="border: none;">
 	                    		<table style="width: 40%; border: none;">
 	                    			<tr>
@@ -236,7 +236,7 @@ import itertools
 	
 	    % if pageable:
 	    <tr class="pagerbar">
-	        <td class="pagerbar-cell" align="right">${pager.display(pager_id=2)}</td>
+	        <td class="pagerbar-cell footer" align="right">${pager.display(pager_id=2)}</td>
 	    </tr>
 	    % endif
 	</table>
