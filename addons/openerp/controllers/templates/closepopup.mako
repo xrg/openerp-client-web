@@ -7,7 +7,8 @@
                 window.opener.location.reload();
                 window.close();
             } else {
-                openobject.http.redirect('/blank');
+            	openobject.http.redirect('/blank');
+            	window.parent.location.href = '/menu';                
             }
         });
     </script>
