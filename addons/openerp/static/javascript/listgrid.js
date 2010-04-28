@@ -324,7 +324,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     dragRow: function(drag,drop,event) {
-        var view = jQuery('table.grid[id$=grid]').attr('id').split("_grid")[0];
+        var view = jQuery(drag).parent().parent().attr('id').split("_grid")[0];
         var _list_view = new ListView(view);
         jQuery.post(
             '/listgrid/dragRow',
