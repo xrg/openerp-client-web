@@ -49,7 +49,7 @@
                     <td width="100%">
                     </td>
                     <td>
-                        <button type="button" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</button>
+                    	<a class="button-a" href="javascript: void(0)" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</a>
                         <button type="submit">${_("OK")}</button>
                     </td>
                 </tr>

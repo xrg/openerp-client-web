@@ -59,11 +59,11 @@
                             <tr>
                                 <td width="100%">
                                 <button type="submit">${_("Save")}</button>
-                                <button type="button" onclick="do_save(form, id)">${_("Save As")}</button>
-                                <button type="button" onclick="do_delete(form, id, field)">${_("Delete")}</button>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_save(form, id)">${_("Save As")}</a>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_delete(form, id, field)">${_("Delete")}</a>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="window.close()">${_("Close")}</button>
+                                	<a href="javascript: void(0)" class="button-a" onclick="window.close()">${_("Close")}</a>
                                 </td>
                             </tr>
                         </table>

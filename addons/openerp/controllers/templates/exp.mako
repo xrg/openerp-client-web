@@ -184,7 +184,7 @@
         </tr>
         <tr>
             <td class="toolbar">
-                <button type="button" onclick="delete_listname(form);">${_("Delete")}</button>
+            	<a class="button-a" href="javascript: void(0)" onclick="delete_listname(form);">${_("Delete")}</a>
             </td>
         </tr>
         % endif

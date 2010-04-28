@@ -16,7 +16,7 @@
             % endfor
             <input type="hidden" name="login_action" value="login"/>
         
-            <div class="box2">${_("Welcome to OpenERP")}</div>
+            <div class="box2 welcome-message">${_("Welcome to OpenERP")}</div>
 
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">

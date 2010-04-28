@@ -126,7 +126,7 @@ function adjustAppFrame() {
     
     var frameWidth = jQuery("#appFrame").contents().width();
 
-    jQuery("#menubar").width(250);
+    jQuery("#menubar").width();
     jQuery("#appFrame").height(Math.max(0, frameHeight));
 
     var menuWidth = jQuery("#menubar").height();

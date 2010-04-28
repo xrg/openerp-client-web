@@ -59,8 +59,12 @@
 	        			<table border="0" cellpadding="0" cellspacing="0" width="100%">
 	                        <tr>
 	                            <td width="100%">&nbsp;</td>
-	                            <td><button type="button" onclick="onFilterClose(form);">${_("Ok")}</button></td>
-	                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+	                            <td>
+	                            	<a class="button-a" href="javascript: void(0)" onclick="onFilterClose(form);">${_("Ok")}</a>
+                            	</td>
+	                            <td>
+	                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	</td>
 	                        </tr>
 	                    </table>
 	        		</div>
