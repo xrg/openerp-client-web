@@ -48,8 +48,8 @@ table.menubar div.submenu a:hover {
 }
 
 div.contextmenu {
-    background-color: #444;
-    border: 1px solid #000;
+    background-color: #F0EEEE;
+    border: 1px solid #505050;
     white-space: nowrap;
     position: absolute;
     padding: 2px;
@@ -63,13 +63,13 @@ div.contextmenu span {
     text-decoration: none;
     white-space: nowrap;
     padding: 2px;
-    color: #FFF;
+    color: #969494;
     cursor: pointer;
 }
 
 div.contextmenu a:hover,
 div.contextmenu span:hover {
-    color: #FFF;
+    color: #969494;
     background-color: #505050;
     text-decoration: none;
 }

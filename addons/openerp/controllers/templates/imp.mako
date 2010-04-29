@@ -79,10 +79,10 @@
                 o.selected = true;
             });
 
-            form.target = "detector";
+            document.getElementsByName(form)[0].target = "detector";
 
             setNodeAttribute(form, 'action', openobject.http.getURL('/impex/import_data'));
-            form.submit();
+            document.getElementsByName(form)[0].submit();
         }
 
         function on_detector(src){
@@ -113,18 +113,18 @@
             if (! openobject.dom.get('csvfile').value ){
                 return alert(_('You must select an import file first!'));
             }
-
-            form.target = "detector";
+			
+            document.getElementsByName(form)[0].target = "detector";
 
             setNodeAttribute(form, 'action',openobject.http.getURL('/impex/detect_data'));
-            form.submit();
+            document.getElementsByName(form)[0].submit();
         }
 
     </script>
 </%def>
 
 <%def name="content()">
-<form action="/impex/import_data" method="post" enctype="multipart/form-data">
+<form name="import_data" action="/impex/import_data" method="post" enctype="multipart/form-data">
 
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
@@ -175,7 +175,7 @@
                         		</tr>
                         		<tr>
                         			<td>
-                        				<a class="button-a" href="javascript: void(0)" onclick="do_autodetect(form)">${_("Auto Detect")}</a>
+                        				<a class="button-a" href="javascript: void(0)" onclick="do_autodetect('import_data')">${_("Auto Detect")}</a>
                         			</td>
                         		</tr>
                         	</table>
@@ -195,7 +195,7 @@
             <td>
                 <fieldset>
                     <legend>${_("File to import")}</legend>
-                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect(form)"/>
+                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
                 </fieldset>
             </td>
         </tr>
@@ -231,7 +231,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><a class="button-a" href="javascript: void(0)" onclick="do_import(form)">${_("Import")}</a></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="do_import('import_data')">${_("Import")}</a></td>
                             <td><a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a></td>
                         </tr>
                     </table>

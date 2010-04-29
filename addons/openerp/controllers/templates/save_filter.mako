@@ -6,7 +6,7 @@
     <script type="text/javascript">
     	
     	var onFilterClose = function(form){
-    		form.submit();
+    		document.getElementsByName(form)[0].submit();
     		window.opener.document.getElementById('filter_list').selectedIndex = 0;
     		window.close();
     		window.opener.location.reload();
@@ -60,7 +60,7 @@
 	                        <tr>
 	                            <td width="100%">&nbsp;</td>
 	                            <td>
-	                            	<a class="button-a" href="javascript: void(0)" onclick="onFilterClose(form);">${_("Ok")}</a>
+	                            	<a class="button-a" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Ok")}</a>
                             	</td>
 	                            <td>
 	                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
