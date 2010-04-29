@@ -6,7 +6,7 @@
                     <td width="100%"><strong>${screen.string}</strong></td>
                     <td>
                         % if screen.editable and not readonly:
-                        <button type="button" id="${name}_btn_" title="${new_attrs['help']}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="padding: 2px">
+                        <button type="button" id="${name}_btn_" title="${_('Create new record.')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()" style="padding: 2px">
                             <img src="/openerp/static/images/stock/gtk-new.png" width="16" height="16"/>
                             % if name == source:
                             	<script type="text/javascript">
