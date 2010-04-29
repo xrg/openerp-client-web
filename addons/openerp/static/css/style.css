@@ -114,6 +114,14 @@ form table.fields td.item {
 	padding: 2px 9px 5px 4px;	
 }
 
+td.item table {
+	border: none;
+}
+
+table.fields {
+	border: none;
+}
+
 /*fieldset table.fields td.item {
 	padding: 2px 9px 5px 4px;
 } */

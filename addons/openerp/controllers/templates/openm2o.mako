@@ -32,17 +32,16 @@
 </%def>
 
 <%def name="content()">
-    <table class="view" cellspacing="5" border="0" width="100%">
+    <table class="view" cellspacing="5" border="0" width="100%" style="border: none;">
         <tr>
             <td>
                 <input type="hidden" id="_terp_load_counter" value="${params.load_counter or 0}"/>
-                <table width="100%" class="titlebar">
+                <table width="100%" class="titlebar" style="border: none;">
                     <tr>
                         <td width="32px" align="center">
                             <img src="/openerp/static/images/stock/gtk-edit.png"/>
                         </td>
-                        <td width="100%">${form.screen.string}
-                        </td>
+                        <td width="100%"><h1>${form.screen.string}</h1></td>
                     </tr>
                 </table>
             </td>
@@ -53,7 +52,7 @@
         <tr>
             <td>
                 <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
                         <tr>
                             <td width="100%">
                             </td>

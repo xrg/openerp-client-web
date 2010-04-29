@@ -114,10 +114,10 @@
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
 
-        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
+        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" style="border: none;">
             <tr>
                 <td>
-                    <table width="100%" class="titlebar">
+                    <table width="100%" class="titlebar" style="border: none;">
                         <tr>
                             <td width="32px" align="center">
                                 <img src="/openerp/static/images/stock/gtk-find.png"/>

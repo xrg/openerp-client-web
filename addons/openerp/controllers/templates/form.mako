@@ -18,7 +18,7 @@
 
 <%def name="content()">
 
-    <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
