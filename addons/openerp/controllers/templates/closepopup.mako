@@ -8,6 +8,7 @@
                 window.close();
             } else {
                 openobject.http.redirect('/blank');
+                window.parent.location.href = '/menu';
             }
         });
     </script>

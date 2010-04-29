@@ -553,10 +553,10 @@ class Button(TinyInputWidget):
 
     template="""
     % if visible and not icon:
-    <button type="button" ${py.attrs(attrs, context=ctx)} title="${help}" style="min-width: ${width}px;"
+    <a class="button-b" href="javascript: void(0)" ${py.attrs(attrs, context=ctx)} title="${help}"
         onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
         ${string}
-    </button>
+    </a>
     % endif
     % if visible and icon:
     <img height="16" width="16" class="listImage" src="${icon}" title="${help}" context="${ctx}" ${py.attrs(attrs)}
