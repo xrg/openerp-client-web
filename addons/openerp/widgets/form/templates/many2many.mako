@@ -21,7 +21,7 @@
                     </td>
                     % if not inline:
                     <td style="padding-left: 0px">
-                    	<a class="button-a" title="${_('Delete records...')}" id='_${name}_button2' ${py.attrs(attrs)} onclick="Many2Many('${name}').remove()">remove</a>
+                    	<a class="button-a" title="${_('Delete records...')}" id='_${name}_button2' ${py.attrs(attrs)} href="javascript: void(0)" onclick="Many2Many('${name}').remove()">remove</a>
                     </td>
                     % endif
                 </tr>
