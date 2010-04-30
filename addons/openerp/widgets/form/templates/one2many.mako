@@ -24,7 +24,7 @@
                         % endif
                     </td>
                     % if pager_info:
-                    <td style="padding: 0px 4px">${pager_info}</td>
+                    <td style="padding: 0 4px">${pager_info}</td>
                     % endif
                     <td>
                         % if pager_info:
