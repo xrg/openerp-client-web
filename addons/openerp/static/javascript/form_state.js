@@ -197,19 +197,20 @@ function form_hookAttrChange() {
 
 function form_onAttrChange(container, widget, attr, expr, evt) {
 
-    var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
+    var prefix = widget.slice(0, widget.lastIndexOf('/') + 1);
     var widget = openobject.dom.get(widget);
 
     var result = form_evalExpr(prefix, expr);
-    
-    if (attr == 'readonly')
-       form_setReadonly(container, widget, result);
-    
-    if (attr == 'required')
-       form_setRequired(container, widget, result);
-    
-    if (attr == 'invisible')
-       form_setVisible(container, widget, !result)
+
+    switch (attr) {
+        case 'readonly': form_setReadonly(container, widget, result);
+            break;
+        case 'required': form_setRequired(container, widget, result);
+            break;
+        case 'invisible': form_setVisible(container, widget, !result);
+            break;
+        default:
+    }
 }
 
 function form_evalExpr(prefix, expr) {
