@@ -195,10 +195,9 @@ function form_hookAttrChange() {
     }
 }
 
-function form_onAttrChange(container, widget, attr, expr, evt) {
-
-    var prefix = widget.slice(0, widget.lastIndexOf('/') + 1);
-    var widget = openobject.dom.get(widget);
+function form_onAttrChange(container, widgetName, attr, expr, evt) {
+    var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
+    var widget = openobject.dom.get(widgetName);
 
     var result = form_evalExpr(prefix, expr);
 
@@ -263,9 +262,9 @@ function form_evalExpr(prefix, expr) {
     return result;
 }
 
-function form_setReadonly(container, field, readonly) {
+function form_setReadonly(container, fieldName, readonly) {
     
-    var field = openobject.dom.get(field);
+    var field = openobject.dom.get(fieldName);
 
     if (!field) {
         return;
