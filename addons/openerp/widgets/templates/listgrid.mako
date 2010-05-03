@@ -15,10 +15,12 @@ import itertools
 	        			<script type="text/javascript">
 	        				if(jQuery('#${name}').length>0) {
 	        					if(jQuery('#_m2m_${name}').length>0) {
-	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell button"> <a title="${_('Add records...')}" class="button-a" href="javascript: void(0)" id="${name}_button1">add</a></td>')
-	        						jQuery('#${name}_button1').click(function() {
-	        							open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val())
-	        						});
+	        						if('${editable}' != 'False') { 
+		        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell button"> <a title="${_('Add records...')}" class="button-a" href="javascript: void(0)" id="${name}_button1">add</a></td>')
+		        						jQuery('#${name}_button1').click(function() {
+		        							open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val())
+		        						});
+	        						}
 	        					}
 	        					else if(jQuery('#_o2m_${name}').length>0) {
 	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" id="${name}_btn_" title="${_('Create new record.')}">new<a/></td>');
@@ -27,7 +29,17 @@ import itertools
 	        						});
 	        					}
 	        					else {
-	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}" onclick="editRecord(null)">new<a/></td>');
+	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new<a/></td>');
+	        						if("${editors}" == "{}") {
+	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {
+	        								editRecord(null);
+	        							});
+	        						}
+	        						else {
+	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {
+	        								new ListView('_terp_list').create()
+	        							});	
+	        						}
 	        					}
 	        				}
 	        			</script>
