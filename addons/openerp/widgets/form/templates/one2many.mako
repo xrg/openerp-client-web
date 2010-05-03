@@ -1,4 +1,4 @@
-<table border="0" id="_o2m_${name}" width="100%" class="one2many">
+<table border="0" id="_o2m_${name}" width="100%" class="one2many" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
     <tr>
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid #C0C0C0;"cellpadding="0" cellspacing="0">
@@ -8,18 +8,7 @@
                 			<strong>${screen.string}</strong>
                 		</div>
                 	</td>
-                	% if screen.editable and not readonly:
-                	<td style="text-align: right" align="right">
-                		<div class="toolbar">
-                			% if parent_id:
-                				<a class="button-a" id="${name}_btn_" title="${new_attrs['help']}" href="javascript: void(0)" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()">new</a>
-                			% endif
-                			% if not parent_id:
-                				<a class="button-a" id="${name}_btn_" title="${new_attrs['help']}" href="javascript: void(0)" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()">save</a>
-                			% endif
-                        </div>
-					</td>
-					% endif
+                	
 					% if pager_info:
 					<td width="25%" style="text-align: left" align="left">
 						<div class="pager">

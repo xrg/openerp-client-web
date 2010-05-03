@@ -167,7 +167,7 @@ class M2M(TinyInputWidget):
                 pass
 
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
-                             editable=False, readonly=self.editable,
+                             editable=self.editable, readonly=self.editable,
                              selectable=selectable, nolinks=self.link)
 
         self.screen.widget.checkbox_name = False

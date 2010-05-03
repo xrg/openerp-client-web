@@ -12,11 +12,26 @@ import itertools
 	        			<td class="pager-cell">
 	        				<h2>${string} List</h2>
 	        			</td>
-	        			% if name == '_terp_list':
-	        			<td class="pager-cell" style="width: 10%">
-	        				<a class="button-a" href="javascript: void(0)" onclick="editRecord(null)">new</a>
-        				</td>
-        				% endif
+	        			<script type="text/javascript">
+	        				if(jQuery('#${name}').length>0) {
+	        					if(jQuery('#_m2m_${name}').length>0) {
+	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell button"> <a title="${_('Add records...')}" class="button-a" href="javascript: void(0)" id="${name}_button1">add</a></td>')
+	        						jQuery('#${name}_button1').click(function() {
+	        							open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val())
+	        						});
+	        					}
+	        					else if(jQuery('#_o2m_${name}').length>0) {
+	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" id="${name}_btn_" title="${_('Create new record.')}">new<a/></td>');
+	        						jQuery('#${name}_btn_').click(function() {
+	        							new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create()
+	        						});
+	        					}
+	        					else {
+	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}" onclick="editRecord(null)">new<a/></td>');
+	        					}
+	        				}
+	        			</script>
+	        			
         				<td class="pager-cell" style="width: 90%">
         					${pager.display()}
         				</td>
@@ -114,13 +129,7 @@ import itertools
 	                        %if field=='button':
 	                        	<td class="grid-cell"><span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span></td>
 	                        %else:
-	                        	<%
-	                        	 	if name == '_terp_list':
-	                        			border = "none";
-                        		 	else:
-                        				border = "1px solid #E3E3E3";
-                       			%>
-		                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color}; border-right: ${border};" sortable_value="${data[field].get_sortable_text()}">
+		                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
 									<span>${data[field].display()}</span>
 		                        </td>
 	                        % endif
