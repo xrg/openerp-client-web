@@ -411,9 +411,7 @@ ManyToOne.prototype.get_matched = function(){
                 m2o.text.value = val[1];
                 m2o.on_change();
             }else{
-            	if(!openobject.dom.get('search_filter_data')){
-                	open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
-                }
+            	open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
             }
         });
     });
