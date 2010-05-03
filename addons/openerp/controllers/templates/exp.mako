@@ -91,7 +91,7 @@
         function do_select(id, src) {
             openobject.dom.get('fields').innerHTML = '';
             model = openobject.dom.get('_terp_model').value;
-            params = {'_terp_id': id, '_terp_model': model}
+            params = {'_terp_id': id, '_terp_model': model};
             
             req = openobject.http.postJSON('/impex/get_namelist', params);
             
@@ -127,7 +127,7 @@
 
             forEach(name_list, function(f){                
                 var text = f[1];
-                var id = f[0]
+                var id = f[0];
                 select.options.add(new Option(text, id));
             });
         }

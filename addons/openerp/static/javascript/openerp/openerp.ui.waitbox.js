@@ -33,41 +33,41 @@ if (typeof(openerp.ui) == "undefined") {
 
 openerp.ui.WaitBox = function(options) {
     this.__init__(options);
-}
+};
 
 openerp.ui.WaitBox.prototype = {
 
     __init__ : function(options) {
-        
+
         this.options = MochiKit.Base.update({
         }, options || {});
 
         this.layer = openobject.dom.get('WaitBoxLayer');
         this.box = openobject.dom.get('WaitBox');
-        
+
         if (!this.layer) {
-        
+
             var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
             MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
-            
+
             var title = this.options.title || _("Please wait...");
             var desc = this.options.description || _("This operation may take a while...");
-            
+
             var info = DIV(null,
-                        DIV({'class': 'WaitTitle'}, title),
-                        DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: '/openerp/static/images/progress.gif'})),
-                            TABLE({'class': 'WaitButtons', 'cellpadding': 2, 'width': '100%'}, 
-                                TBODY(null, 
+                    DIV({'class': 'WaitTitle'}, title),
+                    DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: '/openerp/static/images/progress.gif'})),
+                    TABLE({'class': 'WaitButtons', 'cellpadding': 2, 'width': '100%'},
+                            TBODY(null,
                                     TR(null,
-                                        TD({'align': 'right', 'width': '100%'}, btnCancel)))));
-        
+                                            TD({'align': 'right', 'width': '100%'}, btnCancel)))));
+
             this.layer = DIV({id: 'WaitBoxLayer'});
             appendChildNodes(document.body, this.layer);
             setOpacity(this.layer, 0.3);
-    
+
             this.box = DIV({id: 'WaitBox'});
             appendChildNodes(document.body, this.box);
-        
+
             appendChildNodes(this.box, info);
         }
     },
@@ -81,7 +81,7 @@ openerp.ui.WaitBox.prototype = {
         var h = 125;
 
         setElementDimensions(this.box, {w: w, h: h});
-        
+
         var vd = elementDimensions(document.body);
         var md = elementDimensions(this.box);
 
@@ -90,7 +90,7 @@ openerp.ui.WaitBox.prototype = {
 
         x = Math.max(0, x);
         y = Math.max(0, y);
-        
+
         setElementPosition(this.box, {x: x, y: y});
 
         showElement(this.layer);
@@ -101,6 +101,4 @@ openerp.ui.WaitBox.prototype = {
         hideElement(this.box);
         hideElement(this.layer);
     }
-}
-
-// vim: sts=4 st=4 et
+};

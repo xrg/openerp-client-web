@@ -33,72 +33,72 @@
 
 openerp.ui.Tips = function(elements, options) {
     this.__init__(elements, options);
-}
+};
 
 openerp.ui.Tips.prototype = {
 
-__init__ : function(elements, options) {
+    __init__ : function(elements, options) {
 
-    this.options = MochiKit.Base.update({
-        wait: 1,            // wait for n seconds
-        maxTitleChars: 255  // number of chars in title
-    }, options || {});
+        this.options = MochiKit.Base.update({
+            wait: 1,            // wait for n seconds
+            maxTitleChars: 255  // number of chars in title
+        }, options || {});
 
-    this.deferred = null;
-    this.elements = elements;
+        this.deferred = null;
+        this.elements = elements;
 
-    this.toolTitle = SPAN({'class': 'tipTitle'});
-    this.toolText = P({'class': 'tipText'});
-    
-    this.toolTip = TABLE({'class': 'tooltip'},
-                        TBODY(null,
-                            TR(null,
+        this.toolTitle = SPAN({'class': 'tipTitle'});
+        this.toolText = P({'class': 'tipText'});
+
+        this.toolTip = TABLE({'class': 'tooltip'},
+                TBODY(null,
+                        TR(null,
                                 TD({'class': 'tip-tl', 'nowrap': 'nowrap'}),
                                 TD({'class': 'tip-t'}),
                                 TD({'class': 'tip-tr', 'nowrap': 'nowrap'})),
-                            TR(null,
+                        TR(null,
                                 TD({'class': 'tip-l'}),
-                                TD({'class': 'tip-text'}, 
-                                    this.toolTitle, this.toolText),
+                                TD({'class': 'tip-text'},
+                                        this.toolTitle, this.toolText),
                                 TD({'class': 'tip-r'})),
-                            TR(null,
+                        TR(null,
                                 TD({'class': 'tip-bl'}),
                                 TD({'class': 'tip-b'}),
                                 TD({'class': 'tip-br'}))));
-                                
-                            
-    this.toolTip.cellPadding = 0;
-    this.toolTip.cellSpacing = 0;
-    
-    MochiKit.DOM.appendChildNodes(document.body, this.toolTip);
 
-    MochiKit.Iter.forEach(elements, function(el) {
-        
-        el = openobject.dom.get(el);
-        el.myText = MochiKit.DOM.getNodeAttribute(el, 'title');
 
-        if (el.myText) 
-            el.removeAttribute('title');
+        this.toolTip.cellPadding = 0;
+        this.toolTip.cellSpacing = 0;
 
-        //if (el.href){
-        //    if (el.href.indexOf('http://') > -1) el.myTitle = el.href.replace('http://', '');
-        //    if (el.href.length > this.options.maxTitleChars) el.myTitle = el.href.substr(0,this.options.maxTitleChars-3)+"...";
-        //}
-        
-        if (el.myText && el.myText.indexOf('::') > -1){
-            var dual = el.myText.split('::');
-            el.myTitle = MochiKit.Format.strip(dual[0]);
-            el.myText = MochiKit.Format.strip(dual[1]);
-        }
-        
-        MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
-        MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
+        MochiKit.DOM.appendChildNodes(document.body, this.toolTip);
 
-    }, this);
-},
+        MochiKit.Iter.forEach(elements, function(el) {
 
-    showLater: function(evt){
-        
+            el = openobject.dom.get(el);
+            el.myText = MochiKit.DOM.getNodeAttribute(el, 'title');
+
+            if (el.myText)
+                el.removeAttribute('title');
+
+            //if (el.href){
+            //    if (el.href.indexOf('http://') > -1) el.myTitle = el.href.replace('http://', '');
+            //    if (el.href.length > this.options.maxTitleChars) el.myTitle = el.href.substr(0,this.options.maxTitleChars-3)+"...";
+            //}
+
+            if (el.myText && el.myText.indexOf('::') > -1) {
+                var dual = el.myText.split('::');
+                el.myTitle = MochiKit.Format.strip(dual[0]);
+                el.myText = MochiKit.Format.strip(dual[1]);
+            }
+
+            MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
+            MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
+
+        }, this);
+    },
+
+    showLater: function(evt) {
+
         var e = evt.src();
         var x = evt.mouse().client.x;
         var y = evt.mouse().client.y;
@@ -106,7 +106,7 @@ __init__ : function(elements, options) {
         this.deferred = MochiKit.Async.callLater(this.options.wait, MochiKit.Base.bind(this.show, this), e, x, y);
     },
 
-    show: function(el, x, y){
+    show: function(el, x, y) {
 
         var text = el.myText;
         var title = el.myTitle;
@@ -115,7 +115,7 @@ __init__ : function(elements, options) {
         if (! /<\w+/.test(text)) {
             text = text.replace(/\n|\r/g, '<br/>');
         }
-        
+
         title = text ? title : '';
 
         this.toolTitle.innerHTML = title;
@@ -123,15 +123,16 @@ __init__ : function(elements, options) {
         if (/msie/.test(navigator.userAgent.toLowerCase())) { // hack for strange IE error
             var div = document.createElement('div');
             div.innerHTML = text ? text : el.myTitle;
-            this.toolText.innerHTML = '';        
+            this.toolText.innerHTML = '';
             MochiKit.DOM.appendChildNodes(this.toolText, div.childNodes);
         } else {
-            this.toolText.innerHTML = text ? text : el.myTitle;;
+            this.toolText.innerHTML = text ? text : el.myTitle;
+            ;
         }
-        
+
         this.toolTitle.style.display = title ? 'block' : 'none';
-        
-        if (browser.isIE){
+
+        if (browser.isIE) {
             this.toolTip.style.display = 'block';
         } else {
             MochiKit.Visual.appear(this.toolTip, {duration: 0.5, from: 0});
@@ -142,7 +143,7 @@ __init__ : function(elements, options) {
         var doc = document.documentElement;
         var body = document.body;
 
-        var ps = MochiKit.Style.getElementPosition(el)
+        var ps = MochiKit.Style.getElementPosition(el);
         var vd = MochiKit.DOM.getViewportDimensions();
         var md = MochiKit.Style.getElementDimensions(this.toolTip);
 
@@ -158,17 +159,17 @@ __init__ : function(elements, options) {
         this.toolTip.style.left = x + 'px';
     },
 
-    hide: function(){
+    hide: function() {
         if (this.deferred) {
             this.deferred.cancel();
         }
-        if (browser.isIE){
+        if (browser.isIE) {
             this.toolTip.style.display = 'none';
         } else {
             MochiKit.Visual.fade(this.toolTip, {duration: 0.2, queue: 'end'});
         }
     }
-}
+};
 
 jQuery(document).ready(function(){
 

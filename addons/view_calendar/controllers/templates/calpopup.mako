@@ -21,7 +21,7 @@
                 '_terp_starts' : starts,
                 '_terp_ends' : ends,
                 '_terp_context': openobject.dom.get('_terp_context').value
-            }
+            };
 
             var req = openobject.http.postJSON('/calpopup/get_defaults', params);
             req.addCallback(function(obj){

@@ -49,9 +49,9 @@ var Notebook = function(element, options) {
     if (!(this instanceof cls)) {
         return new cls(element, options);
     }
-  
+
     return this.__init__(element, options);
-}
+};
 
 Notebook.prototype = {
 
@@ -580,7 +580,7 @@ Notebook.prototype = {
         });*/
     }
 
-}
+};
 
 Notebook.adjustSize = function(callback) {
 
@@ -598,7 +598,7 @@ Notebook.adjustSize = function(callback) {
     MochiKit.Iter.forEach(elems, function(e){
         e.notebook.adjustSize();
     });
-}
+};
 
 //==============================================================================
 

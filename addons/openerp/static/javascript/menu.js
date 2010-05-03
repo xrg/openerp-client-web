@@ -27,25 +27,25 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var Menu = function(id, submenu){
+var Menu = function(id, submenu) {
     this.menu = $(id);
     this.layer = $(submenu);
 
     this.visible = false;
 
-    if (this.menu){
+    if (this.menu) {
         MochiKit.Signal.connect(this.menu, "onmouseover", this, this.show);
         MochiKit.Signal.connect(this.menu, "onmouseout", this, this.hide);
         MochiKit.Signal.connect(this.layer, "onmouseover", this, this.show);
         MochiKit.Signal.connect(this.layer, "onmouseout", this, this.hide);
     }
-}
+};
 
-Menu.prototype.show = function(evt){
+Menu.prototype.show = function(evt) {
 
     if (!this.visible) {
 
-        this.layer.style.visibility="visible";
+        this.layer.style.visibility = "visible";
         this.visible = true;
 
         //var vd = getViewportDimensions();
@@ -61,14 +61,11 @@ Menu.prototype.show = function(evt){
             this.layer.style.left = x + 'px';
         }
     }
-}
+};
 
-Menu.prototype.hide = function(evt){
+Menu.prototype.hide = function(evt) {
     if (this.visible) {
-        this.layer.style.visibility="hidden";
+        this.layer.style.visibility = "hidden";
         this.visible = false;
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

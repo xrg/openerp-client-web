@@ -35,7 +35,7 @@ var Accordion = function(container, options) {
     }
 
     this.__init__(container, options);
-}
+};
 
 Accordion.prototype = {
 
@@ -124,7 +124,4 @@ Accordion.prototype = {
 
     toString: MochiKit.Base.forwardCall("repr")
 
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

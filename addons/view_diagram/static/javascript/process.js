@@ -45,7 +45,7 @@ openobject.process.__repr__ = openobject.process.toString = function () {
  */
 openobject.process.Workflow = function(canvas) {
     this.__init__(canvas);
-}
+};
 
 openobject.process.Workflow.prototype = new draw2d.Workflow();
 MochiKit.Base.update(openobject.process.Workflow.prototype, {
@@ -216,7 +216,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
  */
 openobject.process.Node = function(data) {
     this.__init__(data);
-}
+};
 
 openobject.process.Node.prototype = new draw2d.Node();
 MochiKit.Base.update(openobject.process.Node.prototype, {
@@ -323,7 +323,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
  */
 openobject.process.Transition = function(data) {
     this.__init__(data);
-}
+};
 
 openobject.process.Transition.prototype = new draw2d.Connection();
 MochiKit.Base.update(openobject.process.Transition.prototype, {
@@ -372,11 +372,11 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
 
         var _mkList = function(values) {
             var r = '<ul style="margin-bottom: 0px; margin-top: 0px;">';
-            MochiKit.Base.map(function(v){
+            MochiKit.Base.map(function(v) {
                 r += '<li>' + v.name + '</li>';
             }, values);
             return r + '</ul>';
-        }
+        };
 
         if (roles.length || buttons.length) {
             title += '<hr noshade="noshade"/>'
@@ -399,7 +399,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
  */
 openobject.process.TargetDecorator = function(color) {
     this.__init__(color);
-}
+};
 
 openobject.process.TargetDecorator.prototype = new draw2d.ArrowConnectionDecorator();
 MochiKit.Base.update(openobject.process.TargetDecorator.prototype, {

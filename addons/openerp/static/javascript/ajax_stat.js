@@ -31,12 +31,12 @@
 (function() {
     var __ajax_stat_elem = null;
 
-    var onAjaxStart = function(xsh) {
+    var onAjaxStart = function() {
         onAjaxStatPosition();
         MochiKit.DOM.showElement(__ajax_stat_elem);
     };
 
-    var onAjaxStop = function(xhs) {
+    var onAjaxStop = function() {
 
         if (openobject.http.AJAX_COUNT > 0)
             return;
@@ -47,7 +47,7 @@
         }
     };
 
-    var onAjaxStatPosition = function(evt) {
+    var onAjaxStatPosition = function() {
 
         var x = (MochiKit.DOM.getViewportDimensions().w / 2) -
                 (MochiKit.DOM.elementDimensions(__ajax_stat_elem).w / 2);

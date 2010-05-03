@@ -18,7 +18,7 @@
 
         var dbView = function(name) {
             window.location.href = "${py.url('/database/')}" + name;
-        }
+        };
 
         var on_create = function() {
             MochiKit.Async.callLater(2, function(){

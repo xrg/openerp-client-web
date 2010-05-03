@@ -53,12 +53,12 @@ ignoreEvent = function (ev) {
 
 SortableGrid = function (table, options) {
     this.__init__(table, options);
-}
+};
 
 SortableGrid.prototype = {
-    
+
     __init__ : function(table, options) {
-        
+
         this.thead = null;
         this.tbody = null;
         this.columns = [];
@@ -67,10 +67,10 @@ SortableGrid.prototype = {
         this.sortkey = 0;
 
         table = openobject.dom.get(table);
-        
+
         // Find the thead
         this.thead = table.getElementsByTagName('thead')[0];
-        
+
         // get the kind key and contents for each column header
         var cols = this.thead.getElementsByTagName('th');
         for (var i = 0; i < cols.length; i++) {
@@ -81,11 +81,11 @@ SortableGrid.prototype = {
             } catch (err) {
                 // pass
             }
-            
+
             if (attr) {
                 addElementClass(node, 'sortable');
             }
-            
+
             var o = node.childNodes;
             this.columns.push({
                 "format": attr,
@@ -93,13 +93,13 @@ SortableGrid.prototype = {
                 "proto": attr ? node.cloneNode(true) : node
             });
         }
-        
+
         // scrape the tbody for data
         this.tbody = table.getElementsByTagName('tbody')[0];
         // every row
         var rows = openobject.dom.select('tr.grid-row', this.tbody);
         for (var i = 0; i < rows.length; i++) {
-        	
+
             // every cell
             var row = rows[i];
             var cols = openobject.dom.select('td.grid-cell', row);
@@ -156,41 +156,41 @@ SortableGrid.prototype = {
             this.drawColumnHeaders(name, order, true);
         });
     },
-    
-    drawColumnHeaders : function (key, forward, clicked){
-        
+
+    drawColumnHeaders : function (key, forward, clicked) {
+
         for (var i = 0; i < this.columns.length; i++) {
             var col = this.columns[i];
             var node = col.proto.cloneNode(true);
-            
+
             if (col.format) {
                 // remove the existing events to minimize IE leaks
                 col.element.onclick = null;
                 col.element.onmousedown = null;
                 col.element.onmouseover = null;
                 col.element.onmouseout = null;
-                
-                // set new events for the new node                
+
+                // set new events for the new node
                 node.onclick = this.onSortClick(i);
                 node.onmousedown = ignoreEvent;
                 node.onmouseover = mouseOverFunc;
                 node.onmouseout = mouseOutFunc;
             }
-            
+
             // if this is the sorted column
             if (key == i && col.format) {
-                
+
                 var span = SPAN({'class': forward ? "sortup" : "sortdown"}, null);
                 span.innerHTML = '&nbsp;&nbsp;&nbsp;';
-                
+
                 // add the character to the column header
                 node.appendChild(span);
-                
+
                 if (clicked) {
                     node.onmouseover();
                 }
             }
- 
+
             // swap in the new th
             col.element = swapDOM(col.element, node);
         }
@@ -208,7 +208,4 @@ SortableGrid.prototype = {
         // swap in the new tbody
         this.tbody = swapDOM(this.tbody, newBody);
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

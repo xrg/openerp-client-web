@@ -27,7 +27,7 @@
 
                 if (e.name && e.type != 'button' && e.name.indexOf('${params.o2m}') != 0){
 
-                    var attrs = {}
+                    var attrs = {};
                     MochiKit.Iter.forEach(required_attrs, function(n){
                         if (e.attributes[n]) attrs[n] = e.attributes[n].value;
                     });

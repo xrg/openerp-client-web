@@ -129,12 +129,12 @@ ListView.prototype = {
     },
 
     onBooleanClicked: function(clear, value) {
-        var selected_ids = this.getSelectedRecords()
+        var selected_ids = this.getSelectedRecords();
         var sb = openobject.dom.get('sidebar');
 
         if (selected_ids.length <= 1){
             if (sb){
-                if(sb.style.display != ''){toggle_sidebar()};
+                if(sb.style.display != ''){toggle_sidebar()}
             }
         }
         if (selected_ids.length == 0){
@@ -668,7 +668,7 @@ MochiKit.Base.update(ListView.prototype, {
         if(this.sort_key) {
         	args['_terp_sort_key'] = this.sort_key;
         	args['_terp_sort_order'] = this.sort_key_order;
-        	args['_terp_sort_model'] = self.model
+        	args['_terp_sort_model'] = self.model;
         	args['_terp_sort_domain'] = this.sort_domain;
         	if(self.name !='_terp_list') {
         		args['_terp_o2m'] = self.name;

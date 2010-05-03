@@ -13,7 +13,7 @@
                 explanation: openobject.dom.get('explanation').value,
                 remarks: openobject.dom.get('remarks').value,
                 tb: openobject.dom.get('error').value
-            }
+            };
 
             var req = openobject.http.postJSON('/errorpage/submit', args);
 

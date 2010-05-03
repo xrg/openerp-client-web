@@ -16,7 +16,7 @@
             
             <script type="text/javascript">
             
-                var dt_field = openobject.dom.select("[id='${name}']")
+                var dt_field = openobject.dom.select("[id='${name}']");
                 var dt_button = openobject.dom.select("[id='${name}_trigger']");                
                 
                 dt_field = dt_field[dt_field.length-1];

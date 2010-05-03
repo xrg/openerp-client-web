@@ -43,7 +43,7 @@ function getXPath(node) {
             return n.record.items.localName == nd.record.items.localName; 
         }, nd.parentNode.childNodes);
         
-        var idx = MochiKit.Base.findIdentical(similar, nd) + 1
+        var idx = MochiKit.Base.findIdentical(similar, nd) + 1;
         
         xp = '/' + nd.record.items.localName + '[' + idx + ']' + xp;
         nd = path.pop();
@@ -286,10 +286,10 @@ function onMove(direction, node) {
     var data = record.items;
     
     var params = {
-        view_id: data.view_id, 
+        view_id: data.view_id,
         xpath_expr: getXPath(node),
         xpath_ref: getXPath(refNode)
-    }
+    };
     
     var req = openobject.http.postJSON('/viewed/save/move', params);
     
@@ -302,7 +302,7 @@ function onMove(direction, node) {
         var pnode = node.parentNode;
         var nnode = tree.createNode(record);
         
-        pnode.removeChild(node)
+        pnode.removeChild(node);
         pnode.insertBefore(nnode, refNode);
         
         if (direction == 'up') {
