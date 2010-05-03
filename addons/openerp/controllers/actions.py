@@ -204,7 +204,7 @@ def execute(action, **data):
                                     'fields_view_get', datas['search_view_id'], 'search', context))
             
         if not data.get('limit'):
-            data['limit'] = 80
+            data['limit'] = 50
 
         view_ids=False
         if action.get('views', []):

@@ -125,17 +125,6 @@ class List(TinyWidget):
             for elem in custom_filter_domain:
                 if elem not in self.domain:
                     search_param.append(elem)
-        # is relational field (M2M/O2M)
-        if self.source:
-            self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit)
-            self.min_rows = cherrypy.request.app.config['openobject-web'].get('child.listgrid.min_rows', 5)
-        else:
-            self.min_rows = 5
-
-        try:
-            self.min_rows = int(attrs.get('min_rows'))
-        except:
-            pass
 
         try:
             self.limit = int(attrs.get('limit'))
