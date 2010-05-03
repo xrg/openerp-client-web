@@ -35,7 +35,7 @@ var getXPath = function(node) {
     var path = node.getPath(1);
     
     var xp = '';
-    var nd = path.pop()
+    var nd = path.pop();
     
     while (nd.record.items.localName != 'view') {
         
@@ -190,7 +190,7 @@ var onEdit = function(node) {
     
     if (data.localName == 'view') {
         return;
-    };
+    }
     
     var req = openobject.http.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){

@@ -203,10 +203,10 @@ var form_onAttrChange = function(container, widget, attr, expr, evt) {
     var result = form_evalExpr(prefix, expr);
     
     if (attr == 'readonly')
-       form_setReadonly(container, widget, result)
+       form_setReadonly(container, widget, result);
     
     if (attr == 'required')
-       form_setRequired(container, widget, result)
+       form_setRequired(container, widget, result);
     
     if (attr == 'invisible')
        form_setVisible(container, widget, !result)

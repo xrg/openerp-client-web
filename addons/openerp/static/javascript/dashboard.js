@@ -28,7 +28,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function initialize_dashboard() {
-
     if (window.browser.isIE) {
         return;
     }
@@ -106,7 +105,7 @@ function initialize_dashboard() {
         }
     }
 
-    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function(evt) {
+    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function() {
             var embeds = openobject.dom.select('embeds');
             
             MochiKit.Iter.forEach(embeds, function(e){
@@ -114,7 +113,7 @@ function initialize_dashboard() {
             });
     });
 
-    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', function(evt){
+    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', function(){
             var embeds = openobject.dom.select('embeds');
       
             MochiKit.Iter.forEach(embeds, function(e){
@@ -122,6 +121,5 @@ function initialize_dashboard() {
             });
     });
 }
-
 
 jQuery(document).ready(initialize_dashboard);

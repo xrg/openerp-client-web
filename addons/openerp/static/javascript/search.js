@@ -38,7 +38,7 @@ var add_filter_row = function() {
 	var row_id = 1;
 	
 	var first_row = $('filter_row/0');
-	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table)
+	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table);
 	
 	if (filter_table.style.display == 'none') {
 		filter_table.style.display = '';
@@ -55,14 +55,14 @@ var add_filter_row = function() {
 	
 	else{
 		
-		var old_tr = trs[trs.length-1]
+		var old_tr = trs[trs.length-1];
 		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
 		old_qstring.style.background = '#FFFFFF';
 		
 		var new_tr = old_tr.cloneNode(true);
 		keys = new_tr.id.split('/');
 		id = parseInt(keys[1], 0);
-		row_id = id + row_id
+		row_id = id + row_id;
 		new_tr.id =  keys[0] +'/'+ row_id;
 		var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
 		
@@ -78,7 +78,7 @@ var add_filter_row = function() {
 		qstring.value = '';
 		
 		var image_col = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'image_col', new_tr);
-		image_col.id = 'image_col/' + row_id
+		image_col.id = 'image_col/' + row_id;
 		
 		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
 		if (and_or){removeElement(and_or); }
@@ -200,7 +200,7 @@ var display_Customfilters = function(all_domains, group_by_ctx){
 	search_req.addCallback(function(obj){
 		if (obj.error) {
 			forEach(children, function(child){
-				var cids = child['id']
+				var cids = child['id'];
 				var id = cids.split('/')[1];
 				var fid = 'filter_fields/' + id;
 				if ($(fid).value == obj.error_field) {
@@ -267,11 +267,11 @@ var search_filter = function(src, id) {
 	
 	if(src) {
 		if(src.checked==false) {
-			src.checked = true
+			src.checked = true;
 			id.className = 'active_filter';
 		}
 		else {
-			src.checked = false
+			src.checked = false;
 			id.className = 'inactive_filter';
 		}
 	}
