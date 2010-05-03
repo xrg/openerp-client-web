@@ -27,6 +27,19 @@
                         <td>
                             <table width="100%" class="titlebar">
                                 <tr>
+                                	<td>
+                                		% if can_shortcut:
+                                			% if rpc.session.active_id not in shortcut_ids:
+			                                    <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header" title="Add as shortcut">
+			                                    	<img src="/openerp/static/images/add_shortcut.png" style="padding: 1px;" border="0" width="18px" height="18px"/>
+			                                    </a>
+			                                % else:
+			                                	<a href="javascript: void(0);" id="menu_header" title="Shortcut already added">
+			                                    	<img src="/openerp/static/images/shortcut.png" style="padding: 1px;" border="0" width="18px" height="18px"/>
+			                                    </a>
+			                                % endif
+		                                 % endif
+	                                </td>
                                     <td width="32px" align="center">
                                         % if form.screen.view_type in ('tree', 'graph'):
                                         <img src="/openerp/static/images/stock/gtk-find.png"/>

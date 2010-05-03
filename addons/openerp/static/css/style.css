@@ -110,11 +110,12 @@ button.btn_filter:hover {
 
 div#search_filter_data input.datetime,
 div#search_filter_data input.char,
+div#search_filter_data input.m2o_search,
 div#search_filter_data select.selection {
 	background-color: #fff;
     color: #000;
     border: 1px solid #999999;
-	width: 85px;
+	width: 95px;
 }
 
 div.inactive_filter {

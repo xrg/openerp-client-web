@@ -61,11 +61,14 @@ class FormView(TinyView):
                            nodefault=screen.nodefault, nolinks=screen.link)
 
         if not screen.is_wizard and screen.ids is None:
+            limit = screen.limit or 20
             proxy = rpc.RPCProxy(screen.model)
             screen.ids = proxy.search(screen.domain, screen.offset or False,
-                                      screen.limit or 20, 0, screen.context)
-            if isinstance (screen.ids, list):
+                                      limit, 0, screen.context)
+            if len(screen.ids) < limit:
                 screen.count = len(screen.ids)
+            else:
+                screen.count = proxy.search_count(screen.domain, screen.context)
 
         return widget
 

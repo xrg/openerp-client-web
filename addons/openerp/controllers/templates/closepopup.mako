@@ -4,10 +4,11 @@
     <script type="text/javascript">    
         MochiKit.DOM.addLoadEvent(function(evt){
             if (window.opener) {
-                window.opener.setTimeout("window.location.reload()", 0);
+                window.opener.location.reload();
                 window.close();
             } else {
-                openobject.http.redirect('/blank');
+            	openobject.http.redirect('/blank');
+            	window.parent.location.href = '/menu';                
             }
         });
     </script>

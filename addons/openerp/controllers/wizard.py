@@ -159,7 +159,10 @@ class Wizard(SecuredController):
         if 'wizard_parent_params' in cherrypy.session:
             frm = cherrypy.session['wizard_parent_form']
             params = cherrypy.session['wizard_parent_params']
-            return pooler.get_pool().get_controller(frm).create(params)
+            try:
+                return pooler.get_pool().get_controller(frm).create(params)
+            except:
+                pass
 
         import actions
         return actions.close_popup()

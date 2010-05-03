@@ -107,21 +107,32 @@ MochiKit.DOM.addLoadEvent(function() {
  * several times
  */
 function adjustAppFrame() {
-    var frameHeight = jQuery("#appFrame").contents().find("#main_form_body").height();
-    var frameWidth = jQuery("#appFrame").contents().width();
+    var appFrame = jQuery('#appFrame');
+    var menuBar = jQuery("#menubar");
+    var frameContents = appFrame.contents();
+    var body = frameContents.find('body');
+    var frameBody = frameContents.find('#main_form_body');
+    var formBody = frameContents.find('#view_form');
+    var treeBody = frameContents.find('#treeview');
 
-    jQuery("#menubar").width();
-    jQuery("#appFrame").height(Math.max(0, frameHeight));
+    var frameHeight = body             ? jQuery(body).height()
+                    : frameBody.length ? jQuery(frameBody).height()
+                    : formBody.length  ? jQuery(formBody).height()
+                    : treeBody.length  ? jQuery(treeBody).height()
+                    : 0;
 
-    var menuWidth = jQuery("#menubar").height();
+    var frameWidth = frameContents.width();
+
+    appFrame.height(Math.max(0, frameHeight));
+
     var windowWidth = jQuery(window).width();
-    var totalWidth = jQuery("#menubar").width() + frameWidth;
-    var rw = windowWidth - jQuery("#menubar").width();
+    var totalWidth = menuBar.width() + frameWidth;
+    var rw = windowWidth - menuBar.width();
 
     var newWidth = totalWidth > windowWidth ? frameWidth : rw - 16;
 
-    jQuery("#appFrame").width(Math.max(0, newWidth));
-    jQuery("table#contents").height(Math.max(frameHeight, menuWidth));
+    appFrame.width(Math.max(0, newWidth));
+    jQuery("#contents").height(Math.max(frameHeight, menuBar.width()));
 }
 function adjust(count) {
     if (!count) {
@@ -165,22 +176,22 @@ if (window !== window.parent) {
         var filter_table = $('filter_table');
         if (filter_table) {
             MochiKit.Signal.connect(filter_table, 'onaddfilter',
-                                    do_adjust);
+                    do_adjust);
             MochiKit.Signal.connect(filter_table, 'onremovefilter',
-                                    do_adjust);
+                    do_adjust);
         }
         // bind to change of the groupby display state in search widget
         var search_filter = $('search_filter_data');
         if (search_filter) {
             MochiKit.Signal.connect(search_filter, 'groupby-toggle',
-                                    do_adjust);
+                    do_adjust);
         }
-        
+
         var sidebar = openobject.dom.get('sidebar');
         if (sidebar) {
             MochiKit.Signal.connect(window.document, 'toggle_sidebar', do_adjust);
         }
-        
+
         // bind to changes to treegrids and treenodes
         MochiKit.Signal.connect(window.document, 'treegrid-render', do_adjust);
         MochiKit.Signal.connect(window.document, 'treenode-expand', do_adjust);

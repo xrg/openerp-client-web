@@ -32,6 +32,7 @@ This module implementes heirarchical tree view for a tiny model having
     view_type = 'tree'
 """
 import time
+import simplejson
 
 import actions
 from openerp.controllers import SecuredController
@@ -73,8 +74,9 @@ class Tree(SecuredController):
             view = cache.fields_view_get(model, view_id, view_base['type'], context)
         else:
             view = cache.fields_view_get(model, False, 'tree', context)
-
-        tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
+        fields = cache.fields_get(view['model'], False, context)
+            
+        tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action", fields=fields)
         if tree.toolbar:
             proxy = rpc.RPCProxy(model)
 
@@ -122,8 +124,10 @@ class Tree(SecuredController):
 
     @expose('json')
     def data(self, ids, model, fields, field_parent=None, icon_name=None,
-             domain=[], context={}, sort_by=None, sort_order="asc"):
-        ids = ids or []
+             domain=[], context={}, sort_by=None, sort_order="asc", fields_info=None):
+        
+        if ids == 'None' or ids == '':
+            ids = []
 
         if isinstance(ids, basestring):
             ids = map(int, ids.split(','))
@@ -138,6 +142,9 @@ class Tree(SecuredController):
 
         if isinstance(context, basestring):
             context = eval(context)
+        
+        if isinstance(fields_info, basestring):
+            fields_info = simplejson.loads(fields_info)
 
         if field_parent and field_parent not in fields:
             fields.append(field_parent)
@@ -150,15 +157,15 @@ class Tree(SecuredController):
         if icon_name:
             fields.append(icon_name)
 
-        fields_info = cache.fields_get(model, fields, ctx)
         result = proxy.read(ids, fields, ctx)
 
         if sort_by:
-            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order, type=fields_info[sort_by]['type']))
+            fields_info_type = simplejson.loads(fields_info[sort_by])
+            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order, type=fields_info_type['type']))
 
         # format the data
         for field in fields:
-            field_info = fields_info[field]
+            field_info = simplejson.loads(fields_info[field])
             formatter = FORMATTERS.get(field_info['type'])
             for x in result:
                 if x[field] and formatter:

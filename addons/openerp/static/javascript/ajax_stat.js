@@ -33,6 +33,7 @@
 var __ajax_stat_elem = null;
 
 var onAjaxStart = function(xsh){
+	onAjaxStatPosition()
     MochiKit.DOM.showElement(__ajax_stat_elem);
 }
 
@@ -51,8 +52,8 @@ var onAjaxStatPosition = function(evt) {
     var x = (MochiKit.DOM.getViewportDimensions().w / 2) - 
             (MochiKit.DOM.elementDimensions(__ajax_stat_elem).w / 2);
     var y = (window.pageYOffset || 
-             document.body.scrollTop || 
-             document.documentElement.scrollTop) + 5;
+             parent.document.body.scrollTop || 
+             parent.document.documentElement.scrollTop) + 5;
              
     __ajax_stat_elem.style.left = x + 'px';
     __ajax_stat_elem.style.top = y + 'px';
@@ -72,7 +73,7 @@ MochiKit.DOM.addLoadEvent(function(evt){
         zIndex = 1000;
     }
     
-    MochiKit.DOM.appendChildNodes(document.body, __ajax_stat_elem);
+    MochiKit.DOM.appendChildNodes(parent.document.body, __ajax_stat_elem);
     
     MochiKit.Signal.connect(window, "ajaxStart", onAjaxStart);
     MochiKit.Signal.connect(window, "ajaxStop", onAjaxStop);

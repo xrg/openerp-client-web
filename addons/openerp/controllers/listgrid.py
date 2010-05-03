@@ -104,9 +104,18 @@ class List(SecuredController):
     @expose('json')
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
+        sc_ids = [i['id'] for i in cherrypy.session['terp_shortcuts']]
+                
         error = None
         proxy = rpc.RPCProxy(params.model)
         if params.ids:
+            
+            if params.model == 'ir.ui.view_sc' and cherrypy.session.get('terp_shortcuts'):
+                for sc in cherrypy.session.get('terp_shortcuts'):
+                    for id in params.ids:
+                        if id == sc['id']:
+                            cherrypy.session['terp_shortcuts'].remove(sc)
+            
             try:
                 ctx = context_with_concurrency_info(params.context, params.concurrency_info)
                 if isinstance(params.ids, list):
@@ -115,7 +124,7 @@ class List(SecuredController):
                     res = proxy.unlink([params.ids], ctx)
             except Exception, e:
                 error = ustr(e)
-
+                
         return dict(error=error)
 
     @expose('json')
@@ -200,6 +209,7 @@ class List(SecuredController):
         error = None
         reload = (params.context or {}).get('reload', False)
         result = {}
+        wiz_result = None
 
         name = params.button_name
         btype = params.button_type
@@ -235,15 +245,17 @@ class List(SecuredController):
                 res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
-                elif res:
-                    error = "Button action has returned another view..."
+                elif isinstance(res, basestring):
+                    wiz_result = {'model': model, 'action_id': action_id, 'id': id}
+                else:
+                    error = "Button action has returned another view.."
 
             else:
                 error = "Unallowed button type"
         except Exception, e:
             error = ustr(e)
 
-        return dict(error=error, result=result, reload=reload)
+        return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)
 
     @expose('json')
     def sort_by_order(self, model, column, domain, search_domain, filter_domain, order):

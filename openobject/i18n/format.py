@@ -93,7 +93,15 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(server_format, value)
-
+        
+    if isinstance(value, DT.datetime):
+        value = ustr(value)
+        try:
+            value = DT.datetime.strptime(value[:10], server_format)
+            return value.strftime(local_format)
+        except:
+            return ''
+        
     value = value.strip()
 
     # remove trailing miliseconds

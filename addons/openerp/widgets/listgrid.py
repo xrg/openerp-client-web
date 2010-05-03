@@ -155,8 +155,11 @@ class List(TinyWidget):
                 ids = proxy.search(search_param, self.offset, self.limit, 0, context)
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
-                
-            self.count = proxy.search_count(domain, context)
+            
+            if len(ids) < self.limit:
+                self.count = len(ids)
+            else:
+                self.count = proxy.search_count(domain, context)
                 
         self.data_dict = {}
         data = []
@@ -201,13 +204,14 @@ class List(TinyWidget):
         if self.editable and attrs.get('editable') in ('top', 'bottom'):
 
             for f, fa in self.headers:
-                k = fa.get('type', 'char')
-                if not get_widget(k):
-                    k = 'char'
+                if not isinstance(fa, int):
+                    k = fa.get('type', 'char')
+                    if not get_widget(k):
+                        k = 'char'
 
-                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
-                fa['inline'] = True
-                self.editors[f] = get_widget(k)(**fa)
+                    fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
+                    fa['inline'] = True
+                    self.editors[f] = get_widget(k)(**fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
@@ -295,6 +299,10 @@ class List(TinyWidget):
 
             if node.nodeName == 'button':
                 attrs = node_attributes(node)
+                if attrs.get('invisible', False):
+                    visible = eval(attrs['invisible'], {'context':self.context})
+                    if visible:
+                        continue
                 buttons += [Button(**attrs)]
                 headers.append(("button", len(buttons)))
                 
@@ -414,16 +422,6 @@ class Char(TinyWidget):
         return ustr(self.text)
 
 class M2O(Char):
-
-    template = """\
-        <span>
-            % if link:
-                <a href="${link}">${text}</a>
-            % else:
-                ${text}
-            % endif
-        </span>
-    """
 
     def get_text(self):
 

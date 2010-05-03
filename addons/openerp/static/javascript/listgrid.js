@@ -324,7 +324,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     dragRow: function(drag,drop,event) {
-        var view = jQuery('table.grid[id$=grid]').attr('id').split("_grid")[0];
+        var view = jQuery(drag).parent().parent().attr('id').split("_grid")[0];
         var _list_view = new ListView(view);
         jQuery.post(
             '/listgrid/dragRow',
@@ -457,6 +457,15 @@ MochiKit.Base.update(ListView.prototype, {
 
                 if (obj.result && obj.result.url) {
                     window.open(obj.result.url);
+                }
+                
+                if(obj.wiz_result){
+                	var act = get_form_action('action');
+                	MochiKit.Base.update(params, {
+                		'_terp_action': obj.wiz_result.action_id,
+                		'_terp_id': obj.wiz_result.id,
+                		'_terp_model': obj.wiz_result.model});
+                	window.open(openobject.http.getURL(act, params))
                 }
 
                 if (obj.reload) {
@@ -730,10 +739,10 @@ MochiKit.Base.update(ListView.prototype, {
             	var detail = jQuery(th).html();
             	
 				if(self.sort_key_order == 'asc') {
-					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif"/>');
+					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" style="vertical-align: middle;"/>');
 				}
 				else { 
-					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif"/>');
+					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" style="vertical-align: middle;"/>');
 				}		
 			}
         	

@@ -45,14 +45,14 @@ class CKEditor(TinyInputWidget):
     javascript = [JSLink("widget_ckeditor", "javascript/ck_editor/ckeditor.js")]
 
     def __init__(self, **attrs):
-        super(FCK, self).__init__(**attrs)
+        super(CKEditor, self).__init__(**attrs)
         self.validator = validators.String()
         self.readonly = not self.editable or self.readonly
         
     def set_value(self, value):
-        super(FCK, self).set_value(value)
+        super(CKEditor, self).set_value(value)
 
-register_widget(FCK, ["text_html"])
+register_widget(CKEditor, ["text_html"])
 
 # vim: ts=4 sts=4 sw=4 si et
 

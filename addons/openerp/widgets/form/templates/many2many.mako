@@ -16,17 +16,17 @@
                         <span class="fielderror">${error}</span>
                         % endif
                     </td>
-                    <td width="4px"><div class="spacer"/></td>
+                    <td width="4px"><div class="spacer"></div></td>
                     <td width="32" style="padding-left: 2px;">
                         <button type="button" id='_${name}_button1' ${py.attrs(attrs, domain=domain, context=ctx)} onclick="open_search_window('${relation}', getNodeAttribute(this, 'domain'), getNodeAttribute(this, 'context'), '${name}', 2, openobject.dom.get('${name}_set').value);">
-                            <img width="16" height="16" src="/openerp/static/images/stock/gtk-add.png"/>
+                            <img alt="add" width="16" height="16" src="/openerp/static/images/stock/gtk-add.png"/>
                         </button>
                     </td>
                     % if not inline:
-                    <td width="4px"><div class="spacer"/></td>
+                    <td width="4px"><div class="spacer"></div></td>
                     <td width="32" style="padding-left: 2px;">
                         <button type="button" id='_${name}_button2' ${py.attrs(attrs)} onclick="Many2Many('${name}').remove()">
-                            <img src="/openerp/static/images/stock/gtk-remove.png" width="16" height="16"/>
+                            <img alt="remove" src="/openerp/static/images/stock/gtk-remove.png" width="16" height="16"/>
                         </button>
                     </td>
                     % endif
