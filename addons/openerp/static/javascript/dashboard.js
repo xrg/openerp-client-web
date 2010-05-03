@@ -124,7 +124,4 @@ function initialize_dashboard() {
 }
 
 
-MochiKit.DOM.addLoadEvent(initialize_dashboard);
-
-// vim: ts=4 sts=4 sw=4 si et
-
+jQuery(document).ready(initialize_dashboard);

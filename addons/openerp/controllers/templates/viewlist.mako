@@ -75,7 +75,7 @@
             window.location.href = openobject.http.getURL('/viewlist/delete?model=${model}&id=' + boxes[0].value);
         }
 		
-        MochiKit.DOM.addLoadEvent(function(evt){
+        jQuery(document).ready(function(){
             
             if (!window.opener) 
                 return;

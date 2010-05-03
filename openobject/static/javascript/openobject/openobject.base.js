@@ -90,7 +90,7 @@ window.browser = openobject.browser;
 
 // hack to prevent cross-domain security errors, if window is opened
 // from different domain.
-MochiKit.DOM.addLoadEvent(function() {
+jQuery(document).ready(function() {
     try {
         window.opener.document.domain;
     } catch (e) {
@@ -148,7 +148,7 @@ function adjust(count) {
     }
 }
 if (window !== window.parent) {
-    MochiKit.DOM.addLoadEvent(function () {
+    jQuery(document).ready(function () {
         // Gecko blows up if we try to directly call window.parent.adjust()
         // and cross-frame events don't seem to work either
         // so use intermediate function.

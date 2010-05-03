@@ -400,7 +400,7 @@ var addNewFieldName = function(name) {
     op[op.length] = new Option(name, name, 0, 1);
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
+jQuery(document).ready(function(){
 
     window.mbox = new ModalBox({
         title: 'Properties',

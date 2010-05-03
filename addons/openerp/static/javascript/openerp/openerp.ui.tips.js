@@ -170,7 +170,7 @@ __init__ : function(elements, options) {
     }
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
+jQuery(document).ready(function(){
 
     if (window.browser.isOpera){
         return;

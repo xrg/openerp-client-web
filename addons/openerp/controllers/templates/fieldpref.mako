@@ -4,7 +4,7 @@
     <title>${_("Field Preferences")}</title>
     
     <script type="text/javascript">
-        addLoadEvent(function(evt){            
+        jQuery(document).ready(function(){
             if(openobject.dom.get('click_ok').value)
                 window.close();
         });

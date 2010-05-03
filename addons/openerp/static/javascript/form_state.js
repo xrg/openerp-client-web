@@ -344,12 +344,9 @@ var form_setVisible = function(container, field, visible) {
     }
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){    
+jQuery(document).ready(function(){
     form_hookContextMenu();
     form_hookStateChange();
     form_hookAttrChange();
     form_hookOnChange();
 });
-
-// vim: ts=4 sts=4 sw=4 si et
-

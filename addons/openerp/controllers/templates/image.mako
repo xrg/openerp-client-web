@@ -14,7 +14,7 @@
             form.submit();
         }
 
-        addLoadEvent(function(evt){
+        jQuery(document).ready(function(){
             img = window.opener.document.getElementById('${field}');
             img.src = img.src + '&' + Math.random();
             if(openobject.dom.get('saved').value)

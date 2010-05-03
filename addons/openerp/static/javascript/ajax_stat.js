@@ -59,7 +59,7 @@ var onAjaxStatPosition = function(evt) {
     __ajax_stat_elem.style.top = y + 'px';
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
+jQuery(document).ready(function(){
     
     __ajax_stat_elem = DIV({'align': 'center'}, _('Loading...'));
     

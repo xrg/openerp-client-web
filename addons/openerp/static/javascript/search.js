@@ -140,7 +140,7 @@ var search_image_filter = function(src, id) {
 	search_filter(src);
 }
 
-var onKey_Event = function(evt) {
+var onKey_Event = function() {
 	
 	dom = $('search_filter_data');
 	
@@ -407,7 +407,7 @@ function expand_group_option(id, event) {
             action);
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
+jQuery(document).ready(function(){
 
 	var filter_table = openobject.dom.get('filter_table');
 	var fil_dom = openobject.dom.get('_terp_filter_domain');
@@ -418,5 +418,5 @@ MochiKit.DOM.addLoadEvent(function(evt){
 			}
 		}
 	}
-	onKey_Event(evt);	
+	onKey_Event();	
 });

@@ -11,7 +11,7 @@
         ${name}.options.expandall = ${(expandall and 'true') or 'false'};
         ${name}.options.linktarget = ${linktarget};
         
-        MochiKit.DOM.addLoadEvent(function(e){
+        jQuery(document).ready(function(){
         
             ${name}.setHeaders(${headers|n});
             ${name}.setRecords('${url}', ${url_params|n});

@@ -12,7 +12,7 @@
 
         var WAITBOX = null;
 
-        MochiKit.DOM.addLoadEvent(function(evt){
+        jQuery(document).ready(function(){
             WAITBOX = new openerp.ui.WaitBox();
         });
 
