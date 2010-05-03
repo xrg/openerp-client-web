@@ -27,10 +27,10 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var onSelect = function(evt, node){
+function onSelect(evt, node){
 }
 
-var getXPath = function(node) {
+function getXPath(node) {
     
     var path = node.getPath(1);
     
@@ -52,7 +52,7 @@ var getXPath = function(node) {
     return xp;
 }
 
-var onDelete = function(node){
+function onDelete(node){
     
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -85,7 +85,7 @@ var onDelete = function(node){
     });
 }
 
-var onAdd = function(node){
+function onAdd(node){
 
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -121,7 +121,7 @@ var onAdd = function(node){
     });
 }
 
-var doAdd = function() {
+function doAdd() {
     
     var tree = view_tree;
     var selected = tree.selection[0] || null;
@@ -176,7 +176,7 @@ var doAdd = function() {
     return false;
 }
 
-var onEdit = function(node) {
+function onEdit(node) {
 
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -213,7 +213,7 @@ var onEdit = function(node) {
     });
 }
 
-var doEdit = function() {
+function doEdit() {
     
     var tree = view_tree;
     var selected = tree.selection[0] || null;
@@ -266,7 +266,7 @@ var doEdit = function() {
     return false;
 }
 
-var onMove = function(direction, node) {
+function onMove(direction, node) {
     
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -315,7 +315,7 @@ var onMove = function(direction, node) {
     return true;
 }
 
-var onButtonClick = function(evt, node) {
+function onButtonClick(evt, node) {
     
     var src = evt.src();
     
@@ -332,7 +332,7 @@ var onButtonClick = function(evt, node) {
     }
 }
 
-var onInherit = function() {
+function onInherit() {
     
     if (!confirm(_('Do you really wants to create an inherited view here?'))) {
         return;
@@ -364,7 +364,7 @@ var onInherit = function() {
     return false;
 }
 
-var onPreview = function() {
+function onPreview() {
    var act = openobject.http.getURL('/viewed/preview/show', {'model' : openobject.dom.get('view_model').value, 
                                              'view_id' : openobject.dom.get('view_id').value,
                                              'view_type' : openobject.dom.get('view_type').value});
@@ -376,26 +376,26 @@ var onPreview = function() {
     window.open(act);
 }
 
-var onNew = function(model){                          
+function onNew(model){
     var act = openobject.http.getURL('/viewed/new_field/edit', {'for_model' : model});
     openobject.tools.openWindow(act, {width: 650, height: 400});
 }
 
-var onClose = function(){
+function onClose(){
     window.opener.setTimeout("window.location.reload()", 1);
     window.close();
 }
 
-var toggleFields = function(selector) {
+function toggleFields(selector) {
     openobject.dom.get('name').style.display = selector.value == 'field' ? '' : 'none';
     openobject.dom.get('new_field').style.display = selector.value == 'field' ? '' : 'none';
 }
 
-var onUpdate = function(){
+function onUpdate(){
     window.mbox.onUpdate();
 }
 
-var addNewFieldName = function(name) {
+function addNewFieldName(name) {
     var op = openobject.dom.get("name").options;
     op[op.length] = new Option(name, name, 0, 1);
 }

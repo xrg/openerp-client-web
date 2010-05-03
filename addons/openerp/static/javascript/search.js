@@ -31,7 +31,7 @@
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the newly added (or showed for first row?) filter row'
  */
-var add_filter_row = function() {
+function add_filter_row() {
 	
 	var filter_table = $('filter_table');
 	var vals = [];
@@ -116,7 +116,7 @@ var add_filter_row = function() {
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the removed (or hidden) filter row'
  */
-var remove_row = function(id) {
+function remove_row(id) {
 	
 	var filter_table = $('filter_table');
 	
@@ -135,12 +135,12 @@ var remove_row = function(id) {
 	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
 }
 // Direct click on icon.
-var search_image_filter = function(src, id) {
+function search_image_filter(src, id) {
 	domain = getNodeAttribute(id, 'value');
 	search_filter(src);
 }
 
-var onKey_Event = function() {
+function onKey_Event() {
 	
 	dom = $('search_filter_data');
 	
@@ -159,7 +159,7 @@ var onKey_Event = function() {
     });
 }
 
-var onKeyDown_search = function(evt) {
+function onKeyDown_search(evt) {
 	var key = evt.key();
     var src = evt.src();
     
@@ -168,7 +168,7 @@ var onKeyDown_search = function(evt) {
     }
 }
 
-var display_Customfilters = function(all_domains, group_by_ctx){
+function display_Customfilters(all_domains, group_by_ctx){
 
 	var filter_table = $('filter_table');
 	
@@ -256,7 +256,7 @@ var display_Customfilters = function(all_domains, group_by_ctx){
 	});	
 }
 
-var search_filter = function(src, id) {
+function search_filter(src, id) {
 	var all_domains = {};
 	var check_domain = 'None';
 	var domains = {};
@@ -335,7 +335,7 @@ var search_filter = function(src, id) {
 	}
 }
 
-var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
+function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	var req = openobject.http.postJSON('/search/eval_domain_filter', 
 		{source: '_terp_list',
 		model: $('_terp_model').value, 

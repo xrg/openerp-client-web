@@ -27,13 +27,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var form_hookContextMenu = function(){
+function form_hookContextMenu(){
     if (!openobject.dom.get('_terp_list')) {
         MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
     }
 }
 
-var form_hookOnChange = function() {
+function form_hookOnChange() {
 
     var prefix = '';
     try {
@@ -67,7 +67,7 @@ var form_hookOnChange = function() {
     }
 }
 
-var form_hookStateChange = function() {
+function form_hookStateChange() {
     
     var items = [];
     
@@ -107,7 +107,7 @@ var form_hookStateChange = function() {
     }
 }
 
-var form_onStateChange = function(container, widget, states, evt) {
+function form_onStateChange(container, widget, states, evt) {
 
     var src = evt.src();
     var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
@@ -135,7 +135,7 @@ var form_onStateChange = function(container, widget, states, evt) {
 
 }
 
-var form_hookAttrChange = function() {
+function form_hookAttrChange() {
     
     var items = [];
     
@@ -195,7 +195,7 @@ var form_hookAttrChange = function() {
     }
 }
 
-var form_onAttrChange = function(container, widget, attr, expr, evt) {
+function form_onAttrChange(container, widget, attr, expr, evt) {
 
     var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
     var widget = openobject.dom.get(widget);
@@ -212,7 +212,7 @@ var form_onAttrChange = function(container, widget, attr, expr, evt) {
        form_setVisible(container, widget, !result)
 }
 
-var form_evalExpr = function(prefix, expr) {
+function form_evalExpr(prefix, expr) {
     
     var result = true;
     
@@ -262,7 +262,7 @@ var form_evalExpr = function(prefix, expr) {
     return result;
 }
 
-var form_setReadonly = function(container, field, readonly) {
+function form_setReadonly(container, field, readonly) {
     
     var field = openobject.dom.get(field);
 
@@ -300,7 +300,7 @@ var form_setReadonly = function(container, field, readonly) {
     }
 }
 
-var form_setRequired = function(container, field, required) {
+function form_setRequired(container, field, required) {
     
     if (required) {
         MochiKit.DOM.addElementClass(field, 'requiredfield');
@@ -316,7 +316,7 @@ var form_setRequired = function(container, field, required) {
     }
 }
 
-var form_setVisible = function(container, field, visible) {
+function form_setVisible(container, field, visible) {
 
     if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
