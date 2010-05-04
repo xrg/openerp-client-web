@@ -352,29 +352,20 @@ TreeNode.prototype = {
                     row.push(this.element_i);
                 }
 
-                value = A({'href': 'javascript: void();'}, value);
+                value = A({'href': '#'}, value);
                 this.element_a = value;
 
                 this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
                 if (record.action) {
                     MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
-                    MochiKit.Signal.connect(value, 'onclick', function (e) {
-                        MochiKit.Signal.signal(e.src().tree, "onaction", e.src());
-                        var frame = jQuery('#appFrame');
-                        if (frame.contentWindow) {
-                            frame.contentWindow.location.replace(record.action);
-                        } else if (frame.contentDocument) {
-                            frame.contentDocument.location.replace(record.action);
-                        } else {
-                            // just in case there's still a browser needing DOM0 frames
-                            window.frames[0].location.replace(record.action);
-                        }
-                        e.stop();
+                    jQuery(value).click(function (e) {
+                        MochiKit.Signal.signal(this.tree, "onaction", this);
                     });
                 } else {
-                    MochiKit.Signal.connect(value, "onclick", function (e) {
-                        e.src().toggle();
-                        e.stop();
+                    jQuery(value).click(function (e) {
+                        if(this.toggle) {
+                            this.toggle();
+                        }
                     });
                 }
 

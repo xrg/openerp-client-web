@@ -45,7 +45,7 @@ except:
             <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/home')}">
+                        <a href="${py.url('/home')}">
                             <img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home"
                                  border="0" width="16" height="16" alt="Home"/>
                         </a>
@@ -72,15 +72,14 @@ except:
                                     </script>
                                     <div class="submenu" id="shortcuts_submenu">
                                         % for sc in shortcuts:
-                                        <a target='appFrame'
-                                           href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}"
+                                        <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}"
                                            style="height: 10px; padding: 0 2px 8px 5px;">
                                             ${sc['name']}
                                         </a>
                                         % endfor
                                         <hr id="shortcut_sep"
                                             style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0"/>
-                                        <a id="manage_shortcuts" target='appFrame' href="/shortcuts"
+                                        <a id="manage_shortcuts" href="/shortcuts"
                                            style="height: 10px; padding: 0 2px 8px 5px;">${_("Manage Shortcuts")}</a>
                                     </div>
                                 </td>
@@ -92,19 +91,19 @@ except:
                     </td>
                     % endif
                     <td nowrap="nowrap">
-                        <a target='appFrame' href="javascript: void(0)">
+                        <a href="javascript: void(0)">
                             <img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0"
                                  width="16" height="16" alt="Inbox"/>
                         </a>
                     </td>
                     <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/pref/create')}">
+                        <a href="${py.url('/pref/create')}">
                             <img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preferences"
                                  border="0" width="16" height="16" alt="Preferences"/>
                         </a>
                     </td>
                     <!--<td nowrap="nowrap">
-                             <a target='appFrame' href="javascript: void(0)">
+                             <a href="javascript: void(0)">
                                  <img src="/openerp/static/images/share.png" style="padding: 4px;" title="Share" border="0" width="18px" height="18px"/>
                              </a>
                          </td> -->
@@ -115,7 +114,7 @@ except:
                         </a>
                     </td>
                     <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/about')}">
+                        <a href="${py.url('/about')}">
                             <img src="/openerp/static/images/about.png" style="padding: 4px;" title="About" border="0"
                                  width="18" height="18" alt="About"/>
                         </a>

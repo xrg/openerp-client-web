@@ -130,7 +130,6 @@ class Root(SecuredController):
             tree.tree.onselection = None
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
-            tree.tree.linktarget = "'appFrame'"
         if kw.get('db'):
             return dict(parents=parents, tools=tools, setup = '/home')
         return dict(parents=parents, tools=tools)

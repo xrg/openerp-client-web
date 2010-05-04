@@ -12,20 +12,7 @@
     
     <!--[if IE]>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style-ie.css"/>
-    <![endif]-->
-    
-    <script type="text/javascript">
-    
-        var frame = window.frameElement ? window.frameElement.name : null;
-        
-        if (frame == "appFrame") {
-            with (parent) {
-                jQuery("#appFrame").width(0).height(0);
-            }
-        }
-        
-    </script>
-    
+    <![endif]-->    
     ${self.header()}
 </%def>
 
