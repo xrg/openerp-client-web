@@ -47,7 +47,6 @@ Accordion.prototype = {
 
         if (!this.element) {
             throw(container + " doesn't exist!");
-            return false;
         }
 
         MochiKit.DOM.addElementClass(this.element, "accordion");
