@@ -1,3 +1,25 @@
+2010-04-02: 5.0.10
+==================
+
+Bugfixes
+--------
+
+ * Not linked to a bug report:
+   * Add the missing files in the generated SOURCES.txt file
+   * Add the missing setup.cfg
+   * Improve the speed of the packaging process
+   * Add the win32 directory in the tarball
+   * Fixed field size when attrs invisible.
+   * Fixed context problem for one2many(IE).
+   * Fixed pagination problem for m2m, o2m.
+ * https://launchpad.net/bugs/570679
+   * Fixed m2o for request object
+ * https://launchpad.net/bugs/566771
+   * Code improvement.
+
+2010-04-06: 5.0.9
+=================
+
 2010-04-02: 5.0.8
 =================
 
