@@ -150,7 +150,7 @@ Section "OpenERP Web" SecOpenERPWeb
     SetOutPath "$INSTDIR\python25"
 
     ;ADD YOUR OWN FILES HERE...
-    File /r /x "*.pyc" /x "*.pyo" /x "*.msi" /x "*~" "build\python25\*"
+    File /r /x "*.pyc" /x "*.pyo" /x "*.msi" /x "*~" "c:\openerp\cachedir\build\python25\*"
 
     SetOutPath "$INSTDIR\bin"
     File "start.bat"

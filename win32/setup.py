@@ -5,6 +5,9 @@ from distutils.core import setup
 from distutils.core import Command
 from distutils.errors import *
 
+import shutil
+from subprocess import Popen
+
 import fnmatch
 import util
 
@@ -15,7 +18,14 @@ URLS = {
     "pyparsing": ("http://pypi.python.org/packages/source/p/pyparsing/pyparsing-1.5.1.tar.gz", "pyparsing-1.5.1.tar.gz"),
 }
 
-BUILD_DIR=os.path.join(os.path.dirname(os.path.abspath(__file__)), "build")
+CACHEDIR = os.path.join('c:\\', 'openerp', 'cachedir')
+if not os.path.exists(CACHEDIR):
+    os.makedirs(CACHEDIR)
+
+SETUP_DIR = os.path.dirname(os.path.abspath(__file__))
+OPENERP_WEB_DIR = os.path.dirname(SETUP_DIR)
+BUILD_DIR=os.path.join(CACHEDIR, "build")
+#BUILD_DIR=os.path.join(os.path.dirname(os.path.abspath(__file__)), "build")
 PYDIR=os.path.join(BUILD_DIR, "python25")
 
 execfile(os.path.join("openerp", "release.py"))
@@ -128,7 +138,7 @@ class bdist_wininst(Command):
         if self.check_module("babel"):
             return
 
-        self.run_ez("babel==0.9.4")
+        self.run_ez("babel>=0.9.4")
 
     def _check_simplejson(self):
 
@@ -156,7 +166,7 @@ class bdist_wininst(Command):
 
     def _check_openerp_web(self):
 
-        if self.check_module("openerp"):
+        if self.check_module('openerp'):
             # remove old version
             self.run_ez("-m", "openerp-web")
 
@@ -168,21 +178,16 @@ class bdist_wininst(Command):
                 if fnmatch.fnmatch(f, "openerp_web*"):
                     os.system("rd /s /q \"%s\\Lib\\site-packages\\%s\"" %(PYDIR, f))
 
-        self.run_ez("-N", "..\\..")
+        self.run_ez("-N", OPENERP_WEB_DIR)
 
     def _check_fixps(self):
-        os.system("copy /y ..\\fixps.py \"%s\\Scripts\"" % PYDIR)
+        os.system("copy /y \"%s\\fixps.py\" \"%s\\Scripts\"" % (SETUP_DIR, PYDIR))
 
     def _make_nsis(self):
-
-        #TODO: read registry
-        makensis = "C:\\Program Files\\NSIS\\makensis.exe"
-        if not os.path.exists(makensis):
-            makensis = "makensis.exe"
-
-        cmd = '"%s" %s /DVERSION=%s ..\\setup.nsi' % (makensis,
-                                                      self.allinone and '/DALLINONE=1' or '',
-                                                      version,)
+        cmd = 'makensis.exe %s /DVERSION=%s /V1 %s\\setup.nsi' % (
+                self.allinone and '/DALLINONE=1' or '',
+                version,
+                SETUP_DIR)
 
         os.system(cmd)
 
