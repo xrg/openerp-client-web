@@ -1,5 +1,6 @@
 MANIFEST.in
 openerp-web.py
+setup.cfg
 setup.py
 config/openerp-web.cfg
 doc/ChangeLog
@@ -13,6 +14,8 @@ locales/es_ES/LC_MESSAGES/messages.mo
 locales/es_ES/LC_MESSAGES/messages.po
 locales/fr_FR/LC_MESSAGES/messages.mo
 locales/fr_FR/LC_MESSAGES/messages.po
+locales/it_IT/LC_MESSAGES/messages.mo
+locales/it_IT/LC_MESSAGES/messages.po
 openerp/__init__.py
 openerp/cache.py
 openerp/commands.py
@@ -72,6 +75,7 @@ openerp/controllers/templates/openo2m.mako
 openerp/controllers/templates/preferences.mako
 openerp/controllers/templates/process.mako
 openerp/controllers/templates/process_open.mako
+openerp/controllers/templates/process_tip.mako
 openerp/controllers/templates/search.mako
 openerp/controllers/templates/selection.mako
 openerp/controllers/templates/translator.mako
@@ -92,7 +96,8 @@ openerp/i18n/__init__.py
 openerp/i18n/_gettext.py
 openerp/i18n/format.py
 openerp/i18n/utils.py
-openerp/static/open-flash-chart.swf
+openerp/static/calendar/LICENSE
+openerp/static/calendar/README
 openerp/static/calendar/calendar-blue.css
 openerp/static/calendar/calendar-blue2.css
 openerp/static/calendar/calendar-brown.css
@@ -457,7 +462,6 @@ openerp/static/javascript/modalbox.js
 openerp/static/javascript/o2m.js
 openerp/static/javascript/quickmenu.js
 openerp/static/javascript/sortablegrid.js
-openerp/static/javascript/swfobject.js
 openerp/static/javascript/textarea.js
 openerp/static/javascript/tips.js
 openerp/static/javascript/treegrid.js
@@ -491,8 +495,12 @@ openerp/static/javascript/i18n/en_US.js
 openerp/static/javascript/i18n/es_ES.js
 openerp/static/javascript/i18n/fr_FR.js
 openerp/static/javascript/i18n/i18n.js
+openerp/static/javascript/i18n/it_IT.js
+openerp/static/javascript/tabber/LICENSE.txt
 openerp/static/javascript/tabber/tabber.js
 openerp/static/javascript/tabber/tabber_cookie.js
+openerp/static/ofc2/LICENSE.txt
+openerp/static/ofc2/open-flash-chart.swf
 openerp/static/tiny_mce/license.txt
 openerp/static/tiny_mce/tiny_mce.js
 openerp/static/tiny_mce/tiny_mce_popup.js
@@ -770,6 +778,7 @@ openerp/static/workflow/javascript/process_box.js
 openerp/static/workflow/javascript/state.js
 openerp/static/workflow/javascript/toolbar.js
 openerp/static/workflow/javascript/workflow.js
+openerp/static/workflow/javascript/draw2d/LICENSE.txt
 openerp/static/workflow/javascript/draw2d/draw2d.js
 openerp/static/workflow/javascript/draw2d/moocanvas.js
 openerp/static/workflow/javascript/draw2d/mootools.js
@@ -852,9 +861,11 @@ openerp/widgets/tinycalendar/templates/month.mako
 openerp/widgets/tinycalendar/templates/week.mako
 openerp/widgets/wiki/__init__.py
 openerp/widgets/wiki/wiki.py
+openerp/widgets/wiki/rss/LICENSE.txt
 openerp/widgets/wiki/rss/__init__.py
 openerp/widgets/wiki/rss/feedparser.py
 openerp/widgets/wiki/templates/wiki.mako
+openerp/widgets/wiki/wikimarkup/LICENSE.txt
 openerp/widgets/wiki/wikimarkup/__init__.py
 openerp/widgets_search/__init__.py
 openerp/widgets_search/search.py
@@ -868,3 +879,18 @@ openerp_web.egg-info/not-zip-safe
 openerp_web.egg-info/requires.txt
 openerp_web.egg-info/top_level.txt
 scripts/openerp-web
+win32/OpenERPWebService.py
+win32/fixps.py
+win32/setup.nsi
+win32/setup.py
+win32/start.bat
+win32/stop.bat
+win32/util.py
+win32/pixmaps/openerp-header.bmp
+win32/pixmaps/openerp-header.png
+win32/pixmaps/openerp-icon.ico
+win32/pixmaps/openerp-icon.png
+win32/pixmaps/openerp-intro.bmp
+win32/pixmaps/openerp-slogan.bmp
+win32/pixmaps/openerp.ico
+win32/pixmaps/openerp.png
