@@ -6,5 +6,5 @@ recursive-include doc *
 recursive-include config *
 recursive-include locales *
 recursive-include scripts *
-prune win32
+recursive-include win32 *
 global-exclude *pyc *~
