@@ -221,7 +221,7 @@ def execute(action, **data):
             action['domain']='[]'
 
         ctx = data.get('context', {}).copy()
-        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
+        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', []), 'active_model': data.get('model',False)})
         ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
 
         search_view = action.get('search_view_id')
