@@ -91,8 +91,9 @@ class ViewForm(Form):
             cherrypy.request.custom_search_domain = self.search.listof_domain or []
             cherrypy.request.custom_filter_domain = self.search.custom_filter_domain or []
             params.search_domain = self.search.listof_domain
-            params.filter_domain = self.search.custom_filter_domain
-        
+            params.filter_domain = self.search.custom_filter_domain            
+            params.group_by_ctx = self.search.groupby
+            
         self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
         

@@ -84,7 +84,11 @@ class ListGroup(List):
         group_field = None
 
         self.context.update(rpc.session.context.copy())
-
+        grp = self.context.get('group_by', False)
+        self.no_leaf = self.context.get('group_by_no_leaf', False)
+        if self.no_leaf:
+            self.editable = False
+            
         super(ListGroup, self).__init__(
             name=name, model=model, view=view, ids=self.ids, domain=self.domain,
             context=self.context, limit=self.limit, count=self.count,
@@ -139,19 +143,22 @@ class ListGroup(List):
         
         if self.grp_records:
             for rec in self.grp_records:
-
+                child = True
                 if not rec.get(self.group_by_ctx):
                     rec[self.group_by_ctx] = ''
 
                 rec_dom =  rec.get('__domain')
                 dom = [('id', 'in', self.ids), rec_dom[0]]
-
+                inner_gb = self.context.get('group_by', [])
+                if self.no_leaf and not len(inner_gb):
+                    child = False
                 ch_ids = []
-                grp_ids = proxy.search(dom, self.offset, self.limit, 0, self.context)
-                for id in grp_ids:
-                    for d in self.data:
-                        if d.get('id') == id:
-                            ch_ids.append(d)
+                if child:
+                    grp_ids = proxy.search(dom, self.offset, self.limit, 0, self.context)
+                    for id in grp_ids:
+                        for d in self.data:
+                            if d.get('id') == id:
+                                ch_ids.append(d)
                 rec['child_rec'] = ch_ids
                 rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
                 
