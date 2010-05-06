@@ -197,6 +197,21 @@ function switch_O2M(view_type, src) {
     });
 }
 
+function show_process_view() {
+	var model = openobject.dom.get('_terp_model').value;
+	var id = openobject.dom.get('_terp_id').value;
+	
+	if (openobject.dom.get('_terp_list')) {
+		 var list = new ListView('_terp_list');
+		 var ids = list.getSelectedRecords();
+		 if (ids.length) {
+			id = ids[0];
+		 }
+	}
+	id = parseInt(id) || null;
+	window.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
+}
+
 function validate_required(form) {
 
     if (typeof form == 'string') {
