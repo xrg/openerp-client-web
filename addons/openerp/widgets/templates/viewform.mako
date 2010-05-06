@@ -20,21 +20,20 @@
             <td style="padding: 3px; padding-top: 0px">
                 <div class="toolbar">
                     <button type="button" title="${_('Filter records.')}" onclick="search_filter()">${_("Filter")}</button>
-                    % if screen.editable and screen.view_type in ('form', 'tree'):
-                    <button type="button" title="${_('Delete selected records.')}"
-                        onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>
-                    % endif
-                    % if screen.editable and screen.view_type in ('form', 'tree'):
-                    <button type="button" title="${_('Edit selected records.')}"
-                        onclick="editSelectedRecord()">${_("Edit")}</button>
-                    % endif
-                    % if screen.editable and not (screen.view_type=='tree' and screen.widget.editors):
-                    <button type="button" title="${_('Create new record.')}" 
-                        onclick="editRecord(null)">${_("New")}</button>
-                    % endif
-                    % if screen.editable and (screen.view_type=='tree' and screen.widget.editors):
-                    <button type="button" title="${_('Create new record.')}" 
-                        onclick="new ListView('_terp_list').create()">${_("New")}</button>
+                    % if screen.editable:
+                        % if screen.view_type in ('form', 'tree'):
+                        <button type="button" title="${_('Delete selected records.')}"
+                            onclick="new ListView('_terp_list').remove()">${_("Delete")}</button>
+                        <button type="button" title="${_('Edit selected records.')}"
+                            onclick="editSelectedRecord()">${_("Edit")}</button>
+                        % endif
+                        % if (screen.view_type=='tree' and screen.widget.editors):
+                        <button type="button" title="${_('Create new record.')}"
+                            onclick="new ListView('_terp_list').create()">${_("New")}</button>
+                        % else:
+                        <button type="button" title="${_('Create new record.')}"
+                            onclick="editRecord(null)">${_("New")}</button>
+                        % endif
                     % endif
                 </div>
             </td>
