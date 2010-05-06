@@ -99,9 +99,11 @@ jQuery(document).ready(function() {
 });
 
 jQuery(document).ready(function () {
-    jQuery(document).delegate('a[href]:not([target])', 'click', function (e) {
-        jQuery('#appContent').load(jQuery(this).attr('href'));
-        e.preventDefault();
-        e.stopPropagation();
-    });
+    if (jQuery('#appContent').length) {
+        jQuery(document).delegate('a[href]:not([target])', 'click', function (e) {
+            jQuery('#appContent').load(jQuery(this).attr('href'));
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    }
 });
