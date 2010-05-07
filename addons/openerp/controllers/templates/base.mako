@@ -11,7 +11,8 @@
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/menu.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/tips.css"/>
-    
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/waitbox.css"/>
+
     <!--[if IE]>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style-ie.css"/>
     <![endif]-->    
