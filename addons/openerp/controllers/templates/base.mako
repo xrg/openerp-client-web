@@ -1,8 +1,10 @@
 <%inherit file="/openobject/controllers/templates/base.mako"/>
 
 <%def name="header()">
+    <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.base.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.tips.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/ajax_stat.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/menu.js"></script>
     
