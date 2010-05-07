@@ -5,8 +5,7 @@ jQuery(document).ready(function () {
         // external links
         jQuery(document).delegate('a[href]:not([target])', 'click', function (e) {
             app.load(jQuery(this).attr('href'));
-            e.preventDefault();
-            e.stopPropagation();
+            return false;
         });
         // do the same for forms
         jQuery(document).delegate('form:not([target])', 'submit', function (e) {
