@@ -64,6 +64,6 @@ function wizardAction(state) {
     WAITBOX_SHOW = state != 'report';
     
     MochiKit.Async.callLater(2, showWaitBox);
-    
-    form.submit();
+
+    jQuery(form).submit();
 }

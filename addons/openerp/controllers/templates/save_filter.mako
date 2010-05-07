@@ -6,7 +6,7 @@
     <script type="text/javascript">
 
     	var onFilterClose = function(form){
-    		form.submit();
+    		jQuery(form).submit();
     		window.opener.document.getElementById('filter_list').selectedIndex = 0;
     		window.close();
     		window.opener.location.reload();

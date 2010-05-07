@@ -293,7 +293,7 @@ function submit_form(action, src, target) {
     }
 
     form.attributes['action'].value = action;
-    form.submit();
+    jQuery(form).submit();
 }
 
 function pager_action(action, src) {

@@ -12,8 +12,7 @@
         }
         
         function doCreate() {
-            var vf = document.forms['view_form'];
-            vf.submit();
+            jQuery('form#view_form').submit();
         }
         
         function doCancel() {

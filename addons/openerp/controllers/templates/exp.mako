@@ -71,10 +71,9 @@
             forEach(options, function(o){
                 o.selected = true;
             });
-            
-            form.submit();        
+            jQuery(form).submit();
         }
-        
+
         function del_fields(all){
 
             var fields = filter(function(o){return o.selected;}, openobject.dom.get('fields').options);
@@ -119,7 +118,7 @@
             params = {'_terp_id' : id};
 
             setNodeAttribute(form, 'action', openobject.http.getURL('/impex/delete_listname', params));
-            form.submit();
+            jQuery(form).submit();
         }
         
         function reload(name_list) {
@@ -150,13 +149,13 @@
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
             setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + openobject.dom.get('export_as').value));
-            form.submit();
+            jQuery(form).submit();
         }
     </script>
 </%def>
 
 <%def name="content()">
-    <form id='view_form' action="/impex/export_data" method="post" onsubmit="return false;">
+    <form id='view_form' action="/impex/export_data" method="post">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>

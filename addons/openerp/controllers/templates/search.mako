@@ -108,7 +108,7 @@
 
 <%def name="content()">
 <div class="view">
-    <form id="search_form" name="search_form" action="" method="post" onsubmit="return false;">
+    <form id="search_form" name="search_form" action="" method="post">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>

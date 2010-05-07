@@ -6,12 +6,12 @@
 
         function do_delete(form, id, field){
             setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
-            form.submit();
+            jQuery(form).submit();
         }
 
         function do_save(form, id){
             setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
-            form.submit();
+            jQuery(form).submit();
         }
 
         jQuery(document).ready(function(){

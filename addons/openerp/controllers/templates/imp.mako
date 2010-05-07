@@ -82,7 +82,7 @@
             form.target = "detector";
 
             setNodeAttribute(form, 'action', openobject.http.getURL('/impex/import_data'));
-            form.submit();
+            jQuery(form).submit();
         }
 
         function on_detector(src){
@@ -117,7 +117,7 @@
             form.target = "detector";
 
             setNodeAttribute(form, 'action',openobject.http.getURL('/impex/detect_data'));
-            form.submit();
+            jQuery(form).submit();
         }
 
     </script>
