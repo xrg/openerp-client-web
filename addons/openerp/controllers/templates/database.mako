@@ -10,10 +10,10 @@
 
     <script type="text/javascript">
 
-        var WAITBOX = null;
+        var WAIT_BOX = null;
 
         jQuery(document).ready(function(){
-            WAITBOX = new openerp.ui.WaitBox();
+            WAIT_BOX = new openerp.ui.WaitBox();
         });
 
         var dbView = function(name) {
@@ -21,9 +21,7 @@
         };
 
         var on_create = function() {
-            MochiKit.Async.callLater(2, function(){
-                WAITBOX.show();
-            });
+            WAIT_BOX.showAfter(2000);
             return true;
         }
 

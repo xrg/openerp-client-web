@@ -72,7 +72,16 @@ openerp.ui.WaitBox.prototype = {
         }
     },
 
+    /**
+     * Cancels and deletes the internal timer, if there is any.
+     */
+    clearTimeout : function () {
+        clearTimeout(this.timeout);
+        delete this.timeout;
+    },
+
     show : function() {
+        this.clearTimeout();
 
         //setElementDimensions(this.layer, elementDimensions(document.body));
         setElementDimensions(this.layer, getViewportDimensions());
@@ -97,7 +106,24 @@ openerp.ui.WaitBox.prototype = {
         showElement(this.box);
     },
 
+    /**
+     * Shows the wait box after the specified delay, unless it's explicitly showed or hidden before that.
+     *
+     * Creates and sets an internal timer accessible via @property timeout, this is a normal setTimeout return
+     * value.
+     *
+     * @param delay delay before actually showing the wait box, in milliseconds (same as setTimeout)
+     * @returns this
+     */
+    showAfter : function(delay) {
+        this.timeout = setTimeout(jQuery.proxy(function () {
+            this.show();
+        }, this), delay);
+        return this;
+    },
+
     hide : function() {
+        this.clearTimeout();
         hideElement(this.box);
         hideElement(this.layer);
     }
