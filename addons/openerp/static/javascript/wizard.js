@@ -55,7 +55,7 @@ function wizardAction(state) {
     }
     
     if (state != 'end' && !validate_required(form)) {
-        return false;
+        return;
     }
 
     MochiKit.DOM.setNodeAttribute(form, 'action', openobject.http.getURL(act));
