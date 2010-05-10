@@ -81,8 +81,31 @@ ListView.prototype = {
         });
         var sb = openobject.dom.get('sidebar');
         if (sb) toggle_sidebar();
+        
+        this.selectedRow_sum();
     },
-
+	
+	selectedRow_sum: function() {
+		if(jQuery('tr.field_sum').find('td.grid-cell').find('span').length>0) {
+        	var selected_ids = this.getSelectedRecords();
+	    	var sum_fields = new Array();
+	    	 
+	    	jQuery('tr.field_sum').find('td.grid-cell').find('span').each(function() {
+	    		sum_fields.push(jQuery(this).attr('id'))
+	    	});
+	    	
+	    	jQuery.post('/listgrid/count_sum',
+	    				{'model':this.model, 'ids': selected_ids.toSource(), 'sum_fields': sum_fields.toSource()},
+	    				function(obj) {
+	    					for(i in obj.sum) {
+	    						jQuery('tr.field_sum').find('td.grid-cell').find('span[id="'+sum_fields[i]+'"]').html(obj.sum[i])
+	    					}
+	    				},
+	    				"json"
+			);
+        }	
+	},
+	
     getRecords: function() {
         var records = map(function(row) {
             return parseInt(getNodeAttribute(row, 'record')) || 0;
@@ -128,6 +151,8 @@ ListView.prototype = {
         	});
         	jQuery('[id$=_terp_checked_ids]').attr('value', '[' + new_ids.join(',') + ']');
         }
+        
+       	this.selectedRow_sum();     
     },
 
     getColumns: function(dom) {

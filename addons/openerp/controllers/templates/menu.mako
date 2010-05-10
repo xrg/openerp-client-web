@@ -69,7 +69,14 @@
                             <table class="accordion-title">
                                 <tr>
                                     <td><img alt="" src="${tool['icon']}" width="16" height="16" align="left"/></td>
-                                    <td>${tool['name']}</td>
+                                    <td id="${tool['id']}">${tool['name']}</td>
+                                    % if tool.get('action_id'):
+                                    	<script type="text/javascript">
+                                    	jQuery("#${tool['id']}").click(function() {
+                                    		jQuery('#appFrame').attr("src", openobject.http.getURL('/tree/open', {'model': "ir.ui.menu", 'id': "${tool['action_id']}"}))
+                                    	});
+                                    	</script>
+                                    % endif
                                 </tr>
                             </table>
                             <div class="accordion-content">
