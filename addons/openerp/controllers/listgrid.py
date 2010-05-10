@@ -140,8 +140,7 @@ class List(SecuredController):
         if groupby:
             for gb in groupby:
                 if 'group_' in gb:
-                    group_split = gb.split('group_')
-                    print "group_split..........",group_split
+                    group_split = gb.split('group_')                    
                     if group_split:
                         group_by_list.append(group_split[1])
             
