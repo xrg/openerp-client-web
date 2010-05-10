@@ -349,7 +349,7 @@ def execute_by_keyword(keyword, adds={}, **data):
     if 'id' in data:
         try:
             id = data.get('id', False)
-            if (id != False): id = int(id)
+            if (id): id = int(id)
             actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
