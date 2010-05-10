@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -63,10 +63,10 @@ function openRecord(id, src, target, readonly) {
 
     var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
-    
+
     var search_data = openobject.dom.get('_terp_search_data');
     search_data = search_data ? search_data.value : null;
-    
+
     var search_filter_domain = openobject.dom.get('_terp_filter_domain');
     search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
 
@@ -1027,13 +1027,21 @@ function show_wkf() {
     if ($('_terp_list')) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-        
-        if (ids.length<1) 
+
+        if (ids.length<1)
             return alert(_('You must select at least one record.'));
-        id = ids[0]            
+        id = ids[0]
     } else
-        id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
-       
-    openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: $('_terp_model').value, rec_id:id}));   
-    
+        id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;
+
+    openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: $('_terp_model').value, rec_id:id}));
+
+}
+
+function removeAttachment(id) {
+	if (!window.confirm(_('Do you really want to remove this view?'))){
+		return;
+	}
+	openobject.http.postJSON('/attachment/removeAttachment/'+id);
+   	return window.location.reload();
 }

@@ -39,15 +39,15 @@
             % if reports:
                 ${make_sidebox(_("REPORTS"), model, reports)}
             % endif
-            
+
             % if actions:
                 ${make_sidebox(_("ACTIONS"), model, actions)}
             % endif
-            
+
             % if relates:
                 ${make_sidebox(_("LINKS"), model, relates)}
             % endif
-            
+
             % if sub_menu:
                 ${make_sidebox(_("SUBMENU"), model, sub_menu, submenu=1)}
             % endif
@@ -74,7 +74,7 @@
 								${item[1]}
 							</a>
 							<span>|</span>
-							<a href="javascript: void(0);" class="close">Close</a>
+							<a href="javascript: void(0);" class="close" title="${_('Delete')}" onclick="removeAttachment(${item[0]});">Close</a>
 						</li>
 					% endfor
 				</ul>

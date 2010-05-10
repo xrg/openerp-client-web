@@ -72,5 +72,12 @@ class Attachment(SecuredController):
         else:
             return ''
 
+    @expose('json')
+    def removeAttachment(self, id=False, **kw):
+        proxy = rpc.RPCProxy('ir.attachment')
+        proxy.unlink(int(id))
+        return dict()
+
+
 # vim: ts=4 sts=4 sw=4 si et
 
