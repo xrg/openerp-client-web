@@ -7,14 +7,14 @@ jQuery(document).ready(function () {
         var waitBox = new openerp.ui.WaitBox();
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links
-        jQuery(document).delegate('a[href]:not([target])', 'click', function (e) {
+        jQuery(document).delegate('a[href]:not([target])', 'click', function () {
             waitBox.showAfter(LINK_WAIT_NO_SIGN);
             app.load(jQuery(this).attr('href'),
                      jQuery.proxy(waitBox, 'hide'));
             return false;
         });
         // do the same for forms
-        jQuery(document).delegate('form:not([target])', 'submit', function (e) {
+        jQuery(document).delegate('form:not([target])', 'submit', function () {
             var form = jQuery(this);
             // Don't make the wait box appear immediately
             waitBox.showAfter(FORM_WAIT_NO_SIGN);
