@@ -50,7 +50,7 @@
 	                        <tr>
 	                            <td width="100%">&nbsp;</td>
 	                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
-	                            <td><button type="button" onclick="onFilterClose(form);">${_("Ok")}</button></td>
+	                            <td><button type="button" onclick="onFilterClose(form);">${_("Save")}</button></td>
 	                        </tr>
 	                    </table>
 	        		</div>

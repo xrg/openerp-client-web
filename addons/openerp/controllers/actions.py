@@ -68,7 +68,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.context = context or {}
     params.limit = limit
     params.search_view = search_view
-    
+
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
 
@@ -189,8 +189,8 @@ def execute(action, **data):
     if 'type' not in action:
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
-        return
-    
+        return close_popup()
+
     data.get('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
     if action['type'] == 'ir.actions.act_window_close':
         return close_popup()
@@ -200,9 +200,9 @@ def execute(action, **data):
             data[key] = action.get(key, data.get(key, None))
 
         if not data.get('search_view') and data.get('search_view_id'):
-            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'], 
+            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'],
                                     'fields_view_get', datas['search_view_id'], 'search', context))
-            
+
         if not data.get('limit'):
             data['limit'] = 50
 
@@ -241,10 +241,10 @@ def execute(action, **data):
 
         if data.get('domain', False):
             domain.append(data['domain'])
-            
+
         if 'menu' in data['res_model'] and action.get('name') == 'Menu':
             return close_popup()
-        
+
         res = execute_window(view_ids,
                              data['res_model'],
                              data['res_id'],
@@ -311,10 +311,10 @@ def get_action_type(act_id):
     @param act_id: the action id
     @return: action type
     """
-    
+
     proxy = rpc.RPCProxy("ir.actions.actions")
     res = proxy.read([act_id], ["type"], rpc.session.context)[0]
-    
+
     if not (res and len(res)):
         raise common.message(_('Action not found!'))
 
