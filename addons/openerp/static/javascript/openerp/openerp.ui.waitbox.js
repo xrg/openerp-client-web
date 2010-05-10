@@ -46,24 +46,15 @@ openerp.ui.WaitBox.prototype = {
         this.box = openobject.dom.get('WaitBox');
 
         if (!this.layer) {
-
-            var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
-            MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
-
             var title = this.options.title || _("Please wait...");
             var desc = this.options.description || _("This operation may take a while...");
 
             var info = DIV(null,
                     DIV({'class': 'WaitTitle'}, title),
-                    DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: '/openerp/static/images/progress.gif'})),
-                    TABLE({'class': 'WaitButtons', 'cellpadding': 2, 'width': '100%'},
-                            TBODY(null,
-                                    TR(null,
-                                            TD({'align': 'right', 'width': '100%'}, btnCancel)))));
+                    DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: '/openerp/static/images/progress.gif'})));
 
             this.layer = DIV({id: 'WaitBoxLayer'});
             appendChildNodes(document.body, this.layer);
-            setOpacity(this.layer, 0.3);
 
             this.box = DIV({id: 'WaitBox'});
             appendChildNodes(document.body, this.box);
@@ -83,24 +74,14 @@ openerp.ui.WaitBox.prototype = {
     show : function() {
         this.clearTimeout();
 
-        //setElementDimensions(this.layer, elementDimensions(document.body));
-        setElementDimensions(this.layer, getViewportDimensions());
-
-        var w = 350;
-        var h = 125;
-
-        setElementDimensions(this.box, {w: w, h: h});
-
         var vd = elementDimensions(document.body);
         var md = elementDimensions(this.box);
 
-        var x = (vd.w / 2) - (w / 2);
-        var y = (vd.h / 2) - (h / 2);
+        var x = (vd.w / 2) - (md.w / 2);
+        var y = (vd.h / 2) - (md.h / 2);
 
-        x = Math.max(0, x);
-        y = Math.max(0, y);
-
-        setElementPosition(this.box, {x: x, y: y});
+        setElementPosition(this.box,{
+            x: Math.max(0, x), y: Math.max(0, y)});
 
         showElement(this.layer);
         showElement(this.box);
