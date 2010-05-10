@@ -330,7 +330,7 @@ def execute_by_id(act_id, type=None, **data):
     @return: JSON object or XHTML code
     """
 
-    if type==None:
+    if type is None:
         type = get_action_type(act_id)
 
     res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
