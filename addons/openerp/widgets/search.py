@@ -171,6 +171,8 @@ class M2O_search(M2O):
     javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop)]
     
     def __init__(self, **attrs):
+        if attrs.get('default', False) == 'uid':
+            attrs['default'] = rpc.session.uid
         super(M2O_search, self).__init__(**attrs)
     
     def set_value(self, value):

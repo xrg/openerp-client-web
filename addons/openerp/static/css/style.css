@@ -110,6 +110,7 @@ button.btn_filter:hover {
 
 div#search_filter_data input.datetime,
 div#search_filter_data input.char,
+div#search_filter_data input.float,
 div#search_filter_data input.m2o_search,
 div#search_filter_data select.selection {
 	background-color: #fff;
