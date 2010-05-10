@@ -44,7 +44,7 @@ from wizard import Wizard
 
 from openobject.tools import redirect
 
-def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None):
     """Performs `actions.act_window` action.
 
@@ -336,7 +336,7 @@ def execute_by_id(act_id, type=None, **data):
     res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
     return execute(res, **data)
 
-def execute_by_keyword(keyword, adds={}, **data):
+def execute_by_keyword(keyword, adds=None, **data):
     """Performs action represented by the given keyword argument with given data.
 
     @param keyword: action keyword
@@ -359,13 +359,12 @@ def execute_by_keyword(keyword, adds={}, **data):
     for action in actions:
         keyact[action['name']] = action
 
-    keyact.update(adds)
+    keyact.update(adds or {})
 
     if not keyact:
         raise common.message(_('No action defined!'))
 
     if len(keyact) == 1:
-        key = keyact.keys()[0]
         data['context'].update(rpc.session.context)
         return execute(action, **data)
     else:
