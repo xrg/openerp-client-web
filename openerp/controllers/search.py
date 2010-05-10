@@ -90,6 +90,7 @@ class Search(Form):
         params.model = model
         params.domain = domain
         params.context = context
+        params.limit = params.limit or 20
 
         params.source = source
         params.selectable = kind
