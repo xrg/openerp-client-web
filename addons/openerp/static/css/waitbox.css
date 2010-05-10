@@ -35,6 +35,7 @@
 #WaitBox .WaitImage {
     padding: 4px;
     height: 70px;
+    background: transparent url(/openerp/static/images/progress.gif) no-repeat center 65%;
     
     text-align: center;
 }

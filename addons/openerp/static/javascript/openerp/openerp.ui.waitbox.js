@@ -51,7 +51,7 @@ openerp.ui.WaitBox.prototype = {
 
             var info = DIV(null,
                     DIV({'class': 'WaitTitle'}, title),
-                    DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: '/openerp/static/images/progress.gif'})));
+                    DIV({'class': 'WaitImage'}, desc));
 
             this.layer = DIV({id: 'WaitBoxLayer'});
             appendChildNodes(document.body, this.layer);
