@@ -106,7 +106,7 @@ class Filter(TinyInputWidget):
 
         self.def_checked = False
         self.default_search = False
-        self.group_by = []
+        self.groupcontext = []
         
         default_val = attrs.get('default', 0)
         if default_val:
@@ -131,15 +131,18 @@ class Filter(TinyInputWidget):
                 self.global_domain = []
          # context implemented only for group_by.
         self.group_context = None
+        if filter_context:
+            self.filter_context = eval(filter_context)
+            self.group_context = self.filter_context.get('group_by', False)
+            if self.group_context:
+                self.group_context = 'group_' + self.group_context
+        
         if self.default_search:
             self.def_checked = True
             self.global_domain += (expr_eval(self.filter_domain, {'context':screen_context}))
-            if filter_context:
-                self.filter_context = eval(filter_context)
-                self.group_context = self.filter_context.get('group_by', False)
-                if self.group_context:
-                    self.group_context = 'group_' + self.group_context
-
+            if self.group_context:
+                self.groupcontext = self.group_context
+            
         self.nolabel = True
         self.readonly = False
 
@@ -187,7 +190,7 @@ class Search(TinyInputWidget):
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None):
+    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[]):
 
         super(Search, self).__init__(model=model)
 
@@ -199,6 +202,8 @@ class Search(TinyInputWidget):
         self.search_view = search_view or "{}"
         self.model = model
         self.groupby = []
+        if group_by_ctx:
+            self.groupby += group_by_ctx 
         if values == "undefined":
             values = {}
 
@@ -317,8 +322,8 @@ class Search(TinyInputWidget):
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
                 v = Filter(**attrs)
-                if v.group_context:
-                    self.groupby.append(v.group_context)
+                if v.groupcontext:
+                    self.groupby.append(v.groupcontext)
                 self.listof_domain += [i for i in v.global_domain if not i in self.listof_domain]
                 views.append(v)
 
@@ -391,8 +396,8 @@ class Search(TinyInputWidget):
                                 filter_field = Filter(**attrs_child)
                                 filter_field.onchange = None
                                 filter_field.callback = None
-                                if filter_field.group_context:
-                                    self.groupby.append(filter_field.group_context)
+                                if filter_field.groupcontext:
+                                    self.groupby.append(filter_field.groupcontext)
                                 self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
                                 views.append(filter_field)
 

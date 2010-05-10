@@ -139,9 +139,11 @@ class List(SecuredController):
         
         if groupby:
             for gb in groupby:
-                group_split = gb.split('group_')
-                if group_split:
-                    group_by_list.append(group_split[1])
+                if 'group_' in gb:
+                    group_split = gb.split('group_')
+                    print "group_split..........",group_split
+                    if group_split:
+                        group_by_list.append(group_split[1])
             
         params['_terp_group_by_ctx'] = group_by_list
                 
