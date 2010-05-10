@@ -212,7 +212,7 @@ class List(TinyWidget):
                 self.editors[f] = form.Hidden(**fa)
 
         # limit the data
-        if self.pageable and len(self.data) > self.limit:
+        if self.pageable and len(self.data) > self.limit and self.limit != -1:
             self.data = self.data[self.offset:]
             self.data = self.data[:min(self.limit, len(self.data))]
 

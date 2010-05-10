@@ -76,7 +76,7 @@ class Search(Form):
 
         params.source = source
         params.selectable = kind
-
+        params.limit = params.limit or 20
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         params.ids = []
@@ -84,7 +84,11 @@ class Search(Form):
         ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
         if ids:
             params.ids = [id[0] for id in ids]
-            params.count = len(ids)
+            if len(ids) < params.limit:
+                count = len(ids)
+            else:
+                count = proxy.search_count(params.domain, ctx)
+            params.count = count
 
         return self.create(params)
 
