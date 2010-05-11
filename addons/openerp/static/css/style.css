@@ -79,17 +79,23 @@ fieldset {
     border: solid 1px #888888; 
 }
 
-button {
+button, a.button {
     border: solid 1px #888888;    
     background: url(../images/button_bg.png) repeat-x left top;
     color: #000;
-    padding: 0px 2px;
+    padding: 0 2px;
     font-size: 11px;
     white-space: nowrap;
     cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+}
+a.button {
+    display: -moz-inline-box;
+    display: inline-block;
 }
 
-button:hover {
+button:hover, a.button:hover {
     background: url(../images/button_bg2.png) repeat-x left top;
 }
 

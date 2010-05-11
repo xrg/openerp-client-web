@@ -1,13 +1,9 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
     <title>${params.string}</title>
     <script type="text/javascript">
         var form_controller = '/pref';
-        
-        function clear_cache() {
-        	window.location.href = "${py.url('/pref/clear_cache')}";
-        }
     </script>
 </%def>
 
@@ -24,9 +20,9 @@
                 </tr>
                 <td class="toolbar" align="right">
                 	% if environment == 'production':
-                		<button type="button" id="cache_clear" name="cache_clear" onclick="clear_cache()">Clear Cache</button>
+                		<a class="button" id="cache_clear" href="${py.url('/pref/clear_cache')}">Clear Cache</a>
                 	% endif
-                    <button type='button' style="width: 80px" onclick="openobject.http.redirect('/')">${_("Cancel")}</button>
+                    <a class="button" style="width: 80px" href="about:blank">${_("Cancel")}</a>
                     <button type='button' style="width: 80px" onclick="submit_form('ok')">${_("Save")}</button>
                 </td>
             </table>
