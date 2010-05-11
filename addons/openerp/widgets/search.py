@@ -117,6 +117,14 @@ class Filter(TinyInputWidget):
             context_str = 'search_default_' + str(attrs['name'])
             self.default_search = default_context.get(context_str,False)
             
+        # context implemented only for group_by.
+        self.group_context = None
+        if filter_context:
+            self.filter_context = eval(filter_context)
+            self.group_context = self.filter_context.get('group_by', False)
+            if self.group_context:
+                self.group_context = 'group_' + self.group_context
+            
         if flag:
             if default_domain and attrs.get('domain'):
                 domain =  expr_eval(attrs.get('domain'))
@@ -129,13 +137,12 @@ class Filter(TinyInputWidget):
             else:
                 self.default_search = False
                 self.global_domain = []
-         # context implemented only for group_by.
-        self.group_context = None
-        if filter_context:
-            self.filter_context = eval(filter_context)
-            self.group_context = self.filter_context.get('group_by', False)
-            if self.group_context:
-                self.group_context = 'group_' + self.group_context
+                
+            if group_by_ctx and self.group_context:
+                if self.group_context in group_by_ctx:
+                    self.default_search = True
+                else:
+                    self.default_search = False
         
         if self.default_search:
             self.def_checked = True
@@ -202,8 +209,9 @@ class Search(TinyInputWidget):
         self.search_view = search_view or "{}"
         self.model = model
         self.groupby = []
-        if group_by_ctx:
-            self.groupby += group_by_ctx 
+        if group_by_ctx and isinstance(group_by_ctx, basestring):
+            self.groupby += group_by_ctx.split(',')
+
         if values == "undefined":
             values = {}
 
@@ -322,7 +330,7 @@ class Search(TinyInputWidget):
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
                 v = Filter(**attrs)
-                if v.groupcontext:
+                if v.groupcontext and v.groupcontext not in self.groupby:
                     self.groupby.append(v.groupcontext)
                 self.listof_domain += [i for i in v.global_domain if not i in self.listof_domain]
                 views.append(v)
@@ -396,7 +404,7 @@ class Search(TinyInputWidget):
                                 filter_field = Filter(**attrs_child)
                                 filter_field.onchange = None
                                 filter_field.callback = None
-                                if filter_field.groupcontext:
+                                if filter_field.groupcontext and filter_field.groupcontext not in self.groupby:
                                     self.groupby.append(filter_field.groupcontext)
                                 self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
                                 views.append(filter_field)
