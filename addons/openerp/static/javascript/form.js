@@ -96,7 +96,7 @@ function openRecord(id, src, target, readonly) {
         return openobject.tools.openWindow(get_form_action('/openm2m/edit', args));
     }
 
-    window.location.href = get_form_action(action, args);
+    openLink(get_form_action(action, args));
 }
 
 function editRecord(id, src, target) {
@@ -197,18 +197,19 @@ function switch_O2M(view_type, src) {
 }
 
 function show_process_view() {
-	var model = openobject.dom.get('_terp_model').value;
-	var id = openobject.dom.get('_terp_id').value;
-	
-	if (openobject.dom.get('_terp_list')) {
-		 var list = new ListView('_terp_list');
-		 var ids = list.getSelectedRecords();
-		 if (ids.length) {
-			id = ids[0];
-		 }
-	}
-	id = parseInt(id) || null;
-	window.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
+    var model = openobject.dom.get('_terp_model').value;
+    var id;
+    if (openobject.dom.get('_terp_list')) {
+        var list = new ListView('_terp_list');
+        var ids = list.getSelectedRecords();
+        if (ids.length) {
+            id = ids[0];
+        }
+    } else {
+        id = openobject.dom.get('_terp_id').value;
+    }
+    openLink(openobject.http.getURL('/process', {
+        res_model: model, res_id: parseInt(id, 10) || null}));
 }
 
 function validate_required(form) {
@@ -1024,11 +1025,11 @@ function open_url(site) {
 }
 
 function submenu_action(action_id, model) {
-    window.location.href = openobject.http.getURL("/form/action_submenu", {
+    openLink(openobject.http.getURL("/form/action_submenu", {
         _terp_action_id: action_id,
         _terp_model: model,
         _terp_id: $('_terp_id').value
-    });
+    }));
 }
 
 function show_wkf() {

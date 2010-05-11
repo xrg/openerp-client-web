@@ -1,3 +1,24 @@
+/**
+ * Opens the provided URL in the application content section.
+ *
+ * If the application content section (#appContent) does not
+ * exist, simply change the location.
+ *
+ * @param url the URL to GET and insert into #appContent
+ * @default afterLoad callback to execute after URL has been loaded and
+ *                    inserted, if any. Takes the parameters provided
+ *                    by jQuery.load: responseText, textStatus and
+ *                    XMLHttpRequest
+ */
+function openLink(url /*optional afterLoad */) {
+    var app = jQuery('#appContent');
+    if(app.length) {
+        app.load(url, arguments[1]);
+    } else {
+        window.location.assign(url);
+    }
+}
+
 // link probably expects faster feedback than form
 var LINK_WAIT_NO_SIGN = 300;
 var FORM_WAIT_NO_SIGN = 500;
@@ -9,7 +30,7 @@ jQuery(document).ready(function () {
         // external links
         jQuery(document).delegate('a[href]:not([target])', 'click', function () {
             waitBox.showAfter(LINK_WAIT_NO_SIGN);
-            app.load(jQuery(this).attr('href'),
+            openLink(jQuery(this).attr('href'),
                      jQuery.proxy(waitBox, 'hide'));
             return false;
         });

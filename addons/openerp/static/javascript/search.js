@@ -352,11 +352,11 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 				height: 250
 			});
 		}
-		
-		if (obj.action) { // For manage Filter
-			action = serializeJSON(obj.action);
-			window.location.href = openobject.http.getURL('/search/manage_filter', {action: action});
-		}
+
+        if (obj.action) { // For manage Filter
+            openLink(openobject.http.getURL('/search/manage_filter', {
+                action: serializeJSON(obj.action)}));
+        }
 		
 		if (obj.domain) { // For direct search
 			var in_req = eval_domain_context_request({

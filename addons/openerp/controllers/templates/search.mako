@@ -1,21 +1,34 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
+    <%
+        if params.selectable == 1:
+            create_url = "/openm2o/edit"
+        elif params.selectable == 2:
+            create_url = "/openm2m/new"
+    %>
     <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
         var form_controller = '/search';
-    </script>
 
-    <script type="text/javascript">
-
-        function pager_action(action, src){
-            if (src)
+        function pager_action(action, src) {
+            if (src) {
                 new ListView(src).go(action);
-           else
+            } else {
                 submit_form(action);
+            }
         }
 
+        function do_create(){
+            openLink(openobject.http.getURL('${create_url}', {
+                _terp_model: '${params.model}',
+                _terp_source: '${params.source}',
+                _terp_m2o: '${params.source}',
+                _terp_domain: openobject.dom.get('_terp_domain').value,
+                _terp_context: openobject.dom.get('_terp_context').value
+            }));
+        }
     </script>
 
     % if params.selectable == 1:
@@ -51,15 +64,6 @@
             
             window.close();
         }
-
-        function do_create(){
-            act = openobject.http.getURL('/openm2o/edit', {_terp_model: '${params.model}', 
-                                           _terp_source: '${params.source}',
-                                           _terp_m2o: '${params.source}',
-                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-                                           _terp_context: openobject.dom.get('_terp_context').value});
-            window.location.href = act;
-        }
     </script>
     % elif params.selectable == 2:
     <script type="text/javascript">
@@ -92,15 +96,6 @@
                 m2m.setValue(ids);
             }
             window.close();
-        }
-        
-        function do_create(){
-            act = openobject.http.getURL('/openm2m/new', {_terp_model: '${params.model}', 
-                                           _terp_source: '${params.source}',
-                                           _terp_m2m: '${params.source}',
-                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-                                           _terp_context: openobject.dom.get('_terp_context').value});
-            window.location.href = act;
         }
     </script>
     % endif
