@@ -28,7 +28,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function get_form_action(action, params) {
-
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
     return openobject.http.getURL(act, params);
@@ -63,10 +62,10 @@ function openRecord(id, src, target, readonly) {
 
     var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
-    
+
     var search_data = openobject.dom.get('_terp_search_data');
     search_data = search_data ? search_data.value : null;
-    
+
     var search_filter_domain = openobject.dom.get('_terp_filter_domain');
     search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
 
@@ -297,17 +296,17 @@ function submit_form(action, src, target) {
 }
 
 function pager_action(action, src) {
-	if(src) {
-		var $ = jQuery;
-		var records = new ListView(src).getSelectedRecords();
-		var ids = eval($('[id$=_terp_checked_ids]').val());
+    if (src) {
+        var $ = jQuery;
+        var records = new ListView(src).getSelectedRecords();
+        var ids = eval($('[id$=_terp_checked_ids]').val());
 
-		var add_ids = $.grep(records, function(item) {
+        var add_ids = $.grep(records, function(item) {
             if ($.inArray(item, ids) < 0)
                 return item;
         });
-		$('[id$=_terp_checked_ids]').attr('value', '['+ids.concat(add_ids)+']');
-	}
+        $('[id$=_terp_checked_ids]').attr('value', '[' + ids.concat(add_ids) + ']');
+    }
     return src ? new ListView(src).go(action) : submit_form(action ? action : 'find');
 }
 
@@ -599,7 +598,7 @@ function onChange(name) {
                         }, opts));
                         break;
                     default:
-                        // do nothing on default
+                    // do nothing on default
                 }
 
                 MochiKit.Signal.signal(fld, 'onchange');
@@ -1037,12 +1036,12 @@ function show_wkf() {
     if ($('_terp_list')) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-        
-        if (ids.length<1) 
+
+        if (ids.length < 1)
             return alert(_('You must select at least one record.'));
-        id = ids[0]            
+        id = ids[0]
     } else
-        id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
-       
+        id = $('_terp_id') && $('_terp_id').value != 'False' ? $('_terp_id').value : null;
+
     openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: $('_terp_model').value, rec_id:id}));
 }
