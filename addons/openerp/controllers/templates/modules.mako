@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
     <title>${_("Module Management")}</title>
@@ -15,7 +15,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-find.png"/>
+                            <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
                         </td>
                         <td nowrap="nowrap">Web Modules</td>
                      <tr>
