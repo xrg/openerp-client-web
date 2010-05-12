@@ -116,7 +116,7 @@
                     <table width="100%" class="titlebar">
                         <tr>
                             <td width="32px" align="center">
-                                <img src="/openerp/static/images/stock/gtk-find.png"/>
+                                <img alt="find" src="/openerp/static/images/stock/gtk-find.png"/>
                             </td>
                             <td width="100%">${_("Search %(name)s", name=form.screen.string)}</td>
                         </tr>
