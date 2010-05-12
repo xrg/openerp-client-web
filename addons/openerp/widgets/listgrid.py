@@ -82,8 +82,8 @@ class List(TinyWidget):
         self.context = context or {}
         self.domain = domain or []
         
-        custom_search_domain = cherrypy.request.custom_search_domain
-        custom_filter_domain = cherrypy.request.custom_filter_domain
+        custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
+        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])
         
         if name.endswith('/'):
             self._name = name[:-1]

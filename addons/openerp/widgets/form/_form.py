@@ -644,7 +644,7 @@ class Group(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
-        self.default = False
+        self.default = attrs.get('expand', False)
         self.frame = Frame(**attrs)
         self.nolabel = True
         self.view_type = cherrypy.request.terp_params.get('_terp_view_type')

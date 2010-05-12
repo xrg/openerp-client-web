@@ -33,6 +33,78 @@ from openerp.widgets import get_widget
 
 from listgrid import List, CELLTYPES
 
+def parse(group_by, hiddens, headers, padding, groups):
+    
+    for grp in range(len(group_by)):
+        if 'group_' in group_by[grp]:
+            group_by[grp] = group_by[grp].split("group_")[-1]
+            
+    new_hidden = ()
+    for grp_by in groups:
+        for hidden in hiddens:
+            if grp_by == hidden[0]:
+                hiden = {}
+                for h in hidden[1]:
+                    if h != 'invisible':
+                        hiden[h] = hidden[1].get(h)
+                new_hidden = (grp_by, hiden)
+                if padding is None:
+                    headers.insert(groups.index(grp_by), new_hidden)
+                else:
+                    headers.insert(groups.index(grp_by), new_hidden)
+                    
+    if not new_hidden:
+        for grp_by in groups:
+            for cnt, header in enumerate(headers):
+                if header[0] == grp_by:
+                    head = header
+                    headers.pop(cnt)
+                    if padding is None:
+                        headers.insert(groups.index(grp_by), head)
+                    else:
+                        headers.insert(groups.index(grp_by), head)
+    
+    return group_by, hiddens, headers
+
+def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, context, data):
+    proxy = rpc.RPCProxy(model)
+    grouped = []
+    grp_ids = []
+    for grp in grp_records:
+        inner = {}
+        for key, head in headers:
+            if not isinstance(head, int):
+                kind = head.get('type')
+                if kind == 'progressbar':
+                    inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
+        grouped.append(inner)
+        
+    if len(group_by)  > 1:
+        child = False
+    else:
+        child = True
+        
+    if grp_records:
+        for rec in grp_records:
+            for grp_by in group_by:
+                if not rec.get(grp_by):
+                    rec[grp_by] = ''
+
+            rec_dom =  rec.get('__domain')
+            dom = [('id', 'in', ids), rec_dom[0]]
+            ch_ids = []
+            if child:
+                grp_ids = proxy.search(dom, offset, limit, 0, context)
+                for id in grp_ids:
+                    for d in data:
+                        if d.get('id') == id:
+                            ch_ids.append(d)
+            rec['child_rec'] = ch_ids
+            rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
+            rec['group_by_id'] = group_by[0]+'_'+str(grp_records.index(rec))
+            
+    return grouped, grp_ids
+
 
 class ListGroup(List):
 
@@ -52,7 +124,7 @@ class ListGroup(List):
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
-
+        
         proxy = rpc.RPCProxy(model)
 
         if ids == None:
@@ -77,88 +149,88 @@ class ListGroup(List):
 
         if not isinstance(self.group_by_ctx, list):
             self.group_by_ctx = [self.group_by_ctx]
-
+        
         fields = view['fields']
 
         self.grp_records = []
         group_field = None
-
+        
         self.context.update(rpc.session.context.copy())
-        grp = self.context.get('group_by', False)
-        self.no_leaf = self.context.get('group_by_no_leaf', False)
-        if self.no_leaf:
-            self.editable = False
             
         super(ListGroup, self).__init__(
             name=name, model=model, view=view, ids=self.ids, domain=self.domain,
             context=self.context, limit=self.limit, count=self.count,
             offset=self.offset, editable=self.editable,
             selectable=self.selectable)
-
-        if self.group_by_ctx:
-            t = []
-            if self.group_by_ctx and isinstance(self.group_by_ctx[0], basestring):
-                self.group_by_ctx = self.group_by_ctx[0].split(',')
-            
-            for i in self.group_by_ctx:
-                if 'group_' in i:
-                    t.append((i.split('group_'))[1])
-                else:
-                    t.append(i)
-                    
-            gb = t[0]
-            self.group_by_ctx = gb
-
-            new_hidden = ()
-            for hidden in self.hiddens:
-                if gb == hidden[0]:
-                    hiden = {}
-                    for h in hidden[1]:
-                        if h != 'invisible':
-                            hiden[h] = hidden[1].get(h)
-                    new_hidden = (gb, hiden)
-                    self.headers.insert(0, new_hidden)
-            if not new_hidden:
-                for cnt, header in enumerate(self.headers):
-                    head = header
-                    if header[0] == gb:
-                        self.headers.pop(cnt)
-                        self.headers.insert(0, head)
-
-            self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
-                                                fields.keys(), gb, 0, False, self.context)    
         
-        self.grouped = []
+        self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, None, self.group_by_ctx)
+                            
+        self.context['group_by'] = self.group_by_ctx
         
-        for grp in self.grp_records:
-            inner = {}
-            for key, head in self.headers:
-                if not isinstance(head, int):
-                    kind = head.get('type')
-                    if kind == 'progressbar':
-                        inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
-            self.grouped.append(inner)
+        
+        self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
+                                                fields.keys(), self.group_by_ctx, 0, False, self.context)   
+        
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data)
+
                 
-        grp_ids = []
-        
-        if self.grp_records:
-            for rec in self.grp_records:
-                child = True
-                if not rec.get(self.group_by_ctx):
-                    rec[self.group_by_ctx] = ''
+class MultipleGroup(List):
+    
+    template = "templates/multiple_group.mako"
+    params = ['grp_records', 'group_by_ctx', 'grouped', 'parent', 'padding']
+    
+    def __init__(self, name, model, view, ids=[], domain=[], parent=None, padding=0, groups = [], context={}, **kw):
+        self.context = context or {}
+        self.domain = domain or []
 
-                rec_dom =  rec.get('__domain')
-                dom = [('id', 'in', self.ids), rec_dom[0]]
-                inner_gb = self.context.get('group_by', [])
-                if self.no_leaf and not len(inner_gb):
-                    child = False
-                ch_ids = []
-                if child:
-                    grp_ids = proxy.search(dom, self.offset, self.limit, 0, self.context)
-                    for id in grp_ids:
-                        for d in self.data:
-                            if d.get('id') == id:
-                                ch_ids.append(d)
-                rec['child_rec'] = ch_ids
-                rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
+        self.selectable = kw.get('selectable', 0)
+        self.editable = kw.get('editable', False)
+        self.pageable = kw.get('pageable', True)
+
+        self.offset = kw.get('offset', 0)
+        self.limit = kw.get('limit', 80)
+        self.count = kw.get('count', 0)
+        self.link = kw.get('nolinks')
+        self.parent = parent or None
+        self.padding = padding or 0
+        
+        proxy = rpc.RPCProxy(model)
+        if ids == None:
+            if self.limit > 0:
+                ids = proxy.search(self.domain, self.offset, self.limit, 0, rpc.session.context.copy())
+            else:
+                ids = proxy.search(self.domain, 0, 0, 0, rpc.session.context.copy())
+            
+            if len(ids) < self.limit:
+                self.count = len(ids)
+            else:
+                self.count = proxy.search_count(domain, rpc.session.context.copy())
+
+        if ids and not isinstance(ids, list):
+            ids = [ids]
+
+        self.ids = ids
+
+        self.concurrency_info = None
+
+        self.group_by_ctx = kw.get('group_by_ctx', [])
+
+        if not isinstance(self.group_by_ctx, list):
+            self.group_by_ctx = [self.group_by_ctx]
+
+        fields = view['fields']
+
+        self.grp_records = []
+        group_field = None
+        super(MultipleGroup, self).__init__(
+            name=name, model=model, view=view, ids=self.ids, domain=self.domain,
+            parent=parent, padding=padding, groups=groups, context=self.context, limit=self.limit, 
+            count=self.count,offset=self.offset, editable=self.editable,
+            selectable=self.selectable)
+        self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, self.padding, groups)
+                                         
+        self.grp_records = proxy.read_group(self.context.get('__domain', []),
+                                                fields.keys(), self.group_by_ctx, 0, False, self.context)   
+
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data)                            
                 
