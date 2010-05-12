@@ -84,22 +84,26 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
     #corner p.logout a:active { background-image: url(../images/top-over-a.png); }
   #skip-links { position: absolute; top: 0; left: -10001px; list-style: none; margin: 0; padding: 0; }
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
- #nav { position: absolute; left: 0; top: 35px; z-index: 10; width: 100%; height: 34px; border-bottom: 1px solid #511712; background: url(../images/nav-bg-a.png) repeat-x; }
-  #nav ul { position: relative; float: left; list-style: none; margin: 0; padding: 6px 0 0; }
-   #nav ul li { position: relative; float: left; padding: 0 4px; font-size: 1em; text-transform: uppercase; text-align: center; }
-    #nav ul li a { float: left; padding: 0 0 0 3px; background: url(../images/nav-items-a.png) no-repeat; color: #fff !important; font-weight: bold; text-shadow: #111 0 1px 0; text-decoration: none !important; }
+ 
+ 
+ #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 35px;}
+ #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
+  #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}
+   #nav ul li { display: block; float: left; padding: 0 2px; font-size: 1em; text-transform: uppercase; text-align: center; }
+    #nav ul li a { display: block; float: left; padding: 0 0 0 3px; background: url(../images/nav-items-a.png) no-repeat; color: #fff !important; font-weight: bold; text-shadow: #111 0 1px 0; text-decoration: none !important; }
     * html #nav ul li a { background-image: url(../images/nav-items-a-ie.png); }
     *:first-child+html #nav ul li a { background-image: url(../images/nav-items-a-ie.png); }
-     #nav ul li a span { float: left; min-width: 60px; height: 23px; padding: 0 3px 0 0; background: url(../images/nav-items-a.png) 100% 0 no-repeat; line-height: 22px; cursor: pointer; }
+     #nav ul li a span { display: block; text-align: center; float: left; min-width: 60px; height: 23px; padding: 0 3px 0 0; background: url(../images/nav-items-a.png) 100% 0 no-repeat; line-height: 22px; cursor: pointer; }
      * html #nav ul li a span { width: 60px; background-image: url(../images/nav-items-a-ie.png); }
      *:first-child+html #nav ul li a span { background-image: url(../images/nav-items-a-ie.png); }
     #nav ul li a:hover, #nav ul li a:focus, #nav ul li a:active, #nav ul li a.active { background-position: 0 -23px; }
      #nav ul li a:hover span, #nav ul li a:focus span, #nav ul li a:active span, #nav ul li a.active span { background-position: 100% -23px; }
     #nav ul li em { position: absolute; left: -10001px; top: -10001px; }
+ 
  #content { height: 100%; }
-   #content div.wrap { padding: 70px 0 5px; }
+   #content div.wrap { padding: 35px 0 5px; }
   #primary { min-height: 100%; margin: 0 20px 0 195px; }
-   #primary div.wrap { padding-top: 85px; }
+   #primary div.wrap { padding-top: 50px; }
   #secondary { float: left; width: 180px; min-height: 100%; border-right: 1px solid #3c3c3c; background: #5a5858; }
   #tertiary { float: right; min-height: 100%; border-left: 1px solid #d2cfcf; background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y; }
 
