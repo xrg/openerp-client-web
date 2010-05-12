@@ -52,8 +52,8 @@ TreeGrid.prototype = {
     
     __init__ : function(elem, options) {
         this.id = openobject.dom.get(elem).id;
-        
-        this.options = MochiKit.Base.update({
+
+        this.options = MochiKit.Base.merge({
             'showheaders': true,
             'expandall' : false,
             'onselect' : function() {},
