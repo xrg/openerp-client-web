@@ -366,6 +366,8 @@ TreeNode.prototype = {
                         if(this.toggle) {
                             this.toggle();
                         }
+                        // no action, stop everything
+                        return false;
                     });
                 }
 
