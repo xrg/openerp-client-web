@@ -167,6 +167,7 @@ class M2M(TinyInputWidget):
                              selectable=selectable, nolinks=self.link)
         
         if view_type == 'tree':
+            limit = False
             if self.screen.widget.attr_limit:
                 limit = self.screen.widget.attr_limit
             if current.limit == 0:
