@@ -33,7 +33,7 @@ from openerp.widgets import get_widget
 
 from listgrid import List, CELLTYPES
 
-def parse(group_by, hiddens, headers, padding, groups):
+def parse(group_by, hiddens, headers, group_level, groups):
     
     for grp in range(len(group_by)):
         if 'group_' in group_by[grp]:
@@ -48,7 +48,7 @@ def parse(group_by, hiddens, headers, padding, groups):
                     if h != 'invisible':
                         hiden[h] = hidden[1].get(h)
                 new_hidden = (grp_by, hiden)
-                if padding is None:
+                if group_level is None:
                     headers.insert(groups.index(grp_by), new_hidden)
                 else:
                     headers.insert(groups.index(grp_by), new_hidden)
@@ -59,7 +59,7 @@ def parse(group_by, hiddens, headers, padding, groups):
                 if header[0] == grp_by:
                     head = header
                     headers.pop(cnt)
-                    if padding is None:
+                    if group_level is None:
                         headers.insert(groups.index(grp_by), head)
                     else:
                         headers.insert(groups.index(grp_by), head)
@@ -177,9 +177,9 @@ class ListGroup(List):
 class MultipleGroup(List):
     
     template = "templates/multiple_group.mako"
-    params = ['grp_records', 'group_by_ctx', 'grouped', 'parent', 'padding']
+    params = ['grp_records', 'group_by_ctx', 'grouped', 'parent_group', 'group_level']
     
-    def __init__(self, name, model, view, ids=[], domain=[], parent=None, padding=0, groups = [], context={}, **kw):
+    def __init__(self, name, model, view, ids=[], domain=[], parent_group=None, group_level=0, groups = [], context={}, **kw):
         self.context = context or {}
         self.domain = domain or []
 
@@ -191,8 +191,8 @@ class MultipleGroup(List):
         self.limit = kw.get('limit', 80)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
-        self.parent = parent or None
-        self.padding = padding or 0
+        self.parent_group = parent_group or None
+        self.group_level = group_level or 0
         
         proxy = rpc.RPCProxy(model)
         if ids == None:
@@ -224,10 +224,10 @@ class MultipleGroup(List):
         group_field = None
         super(MultipleGroup, self).__init__(
             name=name, model=model, view=view, ids=self.ids, domain=self.domain,
-            parent=parent, padding=padding, groups=groups, context=self.context, limit=self.limit, 
+            parent_group=parent_group, group_level=group_level, groups=groups, context=self.context, limit=self.limit, 
             count=self.count,offset=self.offset, editable=self.editable,
             selectable=self.selectable)
-        self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, self.padding, groups)
+        self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, self.group_level, groups)
                                          
         self.grp_records = proxy.read_group(self.context.get('__domain', []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   

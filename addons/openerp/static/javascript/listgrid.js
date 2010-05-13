@@ -332,7 +332,7 @@ MochiKit.Base.update(ListView.prototype, {
     			jQuery.ajax({
 						url: '/listgrid/multiple_groupby',
 						type: 'POST',
-						data : {'model': this.model, 'name': this.name, 'grp_domain': domain, 'group_by': group_by_context, 'view_id': jQuery('#_terp_view_id').val(), 'view_type': jQuery('#_terp_view_type').val(), 'parent': record, 'padding': jQuery(group).parent().index()+1, 'groups': total_groups},
+						data : {'model': this.model, 'name': this.name, 'grp_domain': domain, 'group_by': group_by_context, 'view_id': jQuery('#_terp_view_id').val(), 'view_type': jQuery('#_terp_view_type').val(), 'parent_group': record, 'group_level': jQuery(group).parent().index()+1, 'groups': total_groups},
 						dataType: 'html',
 						success: function(xmlHttp) {
 							jQuery('[records="'+record+'"]').after(xmlHttp);
