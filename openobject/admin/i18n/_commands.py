@@ -50,7 +50,7 @@ def _get_modules(modules):
 
     for module in modules:
         d = os.path.join(ADDONS_PATH, module)
-        if os.path.isfile(os.path.join(d, '__terp__.py')):
+        if os.path.isfile(os.path.join(d, '__openerp__.py')):
             yield module, os.path.join(d, 'locales')
 
 
