@@ -633,7 +633,7 @@ td.item input,
 td.item select,
 td.item textarea,
 td.item button {
-    width: 99%;
+    /*width: 99%; */
 }
 
 td.item input {

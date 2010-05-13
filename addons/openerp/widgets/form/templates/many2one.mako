@@ -1,47 +1,52 @@
+<style type="text/css">
+	table#m2o_table {
+		
+	}
+	td#m2o {
+	padding: 0px;
+	border: none;
+		border: 1px solid #aaa9a9; 
+	border-color: #e5e3e3 #dad9d9 #cccbcb; 
+	border-radius: 3px; 
+	-moz-border-radius: 3px; 
+	-webkit-border-radius: 3px; 
+	/* box-shadow: 0 1px 0 #fff; 
+	-moz-box-shadow: 0 1px 0 #fff; 
+	-webkit-box-shadow: 0 1px 0 #fff; */
+	}
+	
+	td#m2o input {
+		padding: 0px;
+		border: none;
+		border-style: none;
+		border-radius: 0px;
+		-moz-border-radius: 0px; 
+		-webkit-border-radius: 0px; 
+	}
+</style>
 % if editable:
-    <table width="100%" cellpadding="0" cellspacing="0">
+    <table id="m2o_table" cellpadding="0" cellspacing="0" style="width: auto;">
+    
         <tr>
-            <td style="padding: 0; width:70%;">
+            <td id="m2o"  class="${css_class}" style="border-right: none;">
                 <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
                     ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
                 <input type="text" id="${name}_text" class="${css_class}"
-                    ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+                    ${py.attrs(attrs, kind=kind, relation=relation, value=text)} style="width: 100px; position: relative; height: 17px;"/>
+                   
                 <input type="hidden" id="_hidden_${name}" value=""/>
                 <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
                 % if error:
                 <span class="fielderror">${error}</span>
                 % endif
             </td>
-            <td width="16" style="padding-left: 10px; padding-right: 1px;">
-                <img id='${name}_open' 
-                    width="16" 
-                    height="16" 
-                    alt="${_('Open')}" 
-                    title="${_('Open a resource')}" 
-                    src="/openerp/static/images/stock/gtk-open.png" 
-                    style="cursor: pointer;" 
-                    class="imgSelect"/>
+            <td id="m2o" class="${css_class}" style="border-left: none;">
+            	<input id="${name}_open" class="${css_class}" type="image" src="/openerp/static/images/fields-a-lookup-a.gif" size="16,16" alt="${_('Open')}" title="${_('Open a resource')}"/>
             </td>
-            <td width="16" style="padding-left: 0px;">
-                % if readonly:
-                <img id='${name}_select'
-                    width="16" 
-                    height="16" 
-                    alt="${_('Search')}" 
-                    title="${_('Search')}" 
-                    src="/openerp/static/images/stock-disabled/gtk-find.png"/>
-                % endif
-                % if not readonly:
-                <img id='${name}_select' 
-                    width="16" 
-                    height="16" 
-                    alt="${_('Search')}" 
-                    title="${_('Search')}" 
-                    src="/openerp/static/images/stock/gtk-find.png" 
-                    style="cursor: pointer;" 
-                    class="imgSelect"/>
-                % endif
+            <td>
+            	<img id='${name}_select' style="cursor: pointer;" src="/openerp/static/images/iconset-d-drop.gif" alt="${_('Search')}" title="${_('Search')}"/>
             </td>
+            
         </tr>
     </table>
 % endif

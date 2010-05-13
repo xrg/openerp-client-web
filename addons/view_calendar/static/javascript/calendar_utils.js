@@ -102,32 +102,34 @@ var getCalendar = function(day, mode) {
     params['_terp_color_values'] = values.join(",");
 
     showElement('calLoading');
-
+	
     var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp){
 
         var d = DIV();
         d.innerHTML = xmlHttp.responseText;
-
-        var newContainer = d.getElementsByTagName('table')[0];
-        
-        if (newContainer.id != 'calContainer'){
-            return ;//window.location.href = '/';   
-        }
+		
+        var newContainer = d.getElementsByTagName('table');
+//        
+//        if (newContainer.id != 'calContainer'){
+//            return ;//window.location.href = '/';   
+//        }
 
         // release resources
         CAL_INSTANCE.__delete__();
-
-        swapDOM('calContainer', newContainer);
-
+		swapDOM('Calendar', newContainer[0]);
+//        swapDOM('calContainer', d.getElementsByTagName('table')[1]);
+		
         var ua = navigator.userAgent.toLowerCase();
 
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
             // execute JavaScript
-            var scripts = openobject.dom.select('script', newContainer);
+            
+            	var scripts = openobject.dom.select('script', newContainer[1]);
             forEach(scripts, function(s){
                 eval(s.innerHTML);
             });
+            
         }
 
         callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
