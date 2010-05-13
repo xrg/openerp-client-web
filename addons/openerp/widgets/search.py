@@ -91,7 +91,7 @@ class Filter(TinyInputWidget):
         super(Filter, self).__init__(**attrs)
 
         flag = True
-        if cherrypy.request.path_info == '/tree/open':
+        if cherrypy.request.path_info == '/openerp/tree/open':
             flag = False
 
         default_domain = attrs.get('default_domain')

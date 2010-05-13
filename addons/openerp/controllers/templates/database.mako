@@ -17,7 +17,7 @@
         });
 
         var dbView = function(name) {
-            window.location.href = "${py.url('/database/')}" + name;
+            window.location.href = "${py.url('/openerp/database/')}" + name;
         }
 
         var on_create = function() {

@@ -60,7 +60,7 @@
                         <td></td>
                         <td align="right">
                             % if cp.config('dbbutton.visible', 'openobject-web'):
-                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='${py.url('/database')}'">${_("Databases")}</button>
+                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='${py.url('/openerp/database')}'">${_("Databases")}</button>
                             % endif
                             <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
                         </td>

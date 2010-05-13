@@ -55,7 +55,7 @@
 % if not editable and link:
     % if link=='1':
         <span id="${name}" ${py.attrs(kind=kind, value=value)}>
-            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
+            <a href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
         </span>
     % endif
     % if link=='0':
@@ -66,7 +66,7 @@
 % if not editable and not link == '0':
     <span>
         <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
-            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
+            <a href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>
 % endif

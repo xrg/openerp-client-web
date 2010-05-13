@@ -36,7 +36,7 @@
                 return false;
             }
 
-            var req = openobject.http.getJSON('/login', {
+            var req = openobject.http.getJSON('/openerp/login', {
                 'db': openobject.dom.get('db').value,
                 'user': user,
                 'password': password,
@@ -46,7 +46,7 @@
             req.addCallback(function(obj){
                 if (obj.result) {
                     openobject.dom.get('password').value = '';
-                    window.open(openobject.dom.get('location').value || '/');
+                    window.open(openobject.dom.get('location').value || '/openerp');
                     MochiKit.Style.hideElement('message');
                 } else {
                     MochiKit.Visual.appear('message');
@@ -62,7 +62,7 @@
 <%def name="content()">
     <div class="view">
 
-        <form onsubmit="return do_login()" action="/" method="post" name="loginform">
+        <form onsubmit="return do_login()" action="/openerp" method="post" name="loginform">
             <input type="hidden" id="location" name="location" value="${location}"/>
             <input type="hidden" id="db" name="db" value="${db}"/>
 

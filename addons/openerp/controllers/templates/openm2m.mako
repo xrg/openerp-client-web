@@ -4,7 +4,7 @@
     <title>${form.screen.string} </title>
 
     <script type="text/javascript">
-        var form_controller = '/openm2m';
+        var form_controller = '/openerp/openm2m';
     </script>
 
     <script type="text/javascript">

@@ -35,7 +35,7 @@ from openobject.tools import expose
 
 class Search(Form):
 
-    _cp_path = "/search"
+    _cp_path = "/openerp/search"
 
     @expose(template="templates/search.mako")
     def create(self, params, tg_errors=None):

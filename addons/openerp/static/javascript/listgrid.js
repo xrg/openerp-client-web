@@ -94,7 +94,7 @@ ListView.prototype = {
 	    		sum_fields.push(jQuery(this).attr('id'))
 	    	});
 	    	
-	    	jQuery.post('/listgrid/count_sum',
+	    	jQuery.post('/openerp/listgrid/count_sum',
 	    				{'model':this.model, 'ids': selected_ids.toSource(), 'sum_fields': sum_fields.toSource()},
 	    				function(obj) {
 	    					for(i in obj.sum) {
@@ -288,7 +288,7 @@ MochiKit.Base.update(ListView.prototype, {
         
         if(eval(ids).length>0) {
         	jQuery.post(
-    			'/listgrid/sort_by_order',
+    			'/openerp/listgrid/sort_by_order',
     			{'model': this.model, 'column': column, 'domain': domain, 'search_domain': search_domain, 'filter_domain': filter_domain, 'order': order},
     			function(obj) {
     				if(obj.error) {
@@ -336,7 +336,7 @@ MochiKit.Base.update(ListView.prototype, {
             _list_view.dragRow(drag, drop);
         } else {
             jQuery.post(
-                '/listgrid/groupbyDrag',
+                '/openerp/listgrid/groupbyDrag',
                 {'model': _list_view.model, 'children': children, 'domain': domain},
                 function () { _list_view.reload(); },
                 "json");
@@ -352,7 +352,7 @@ MochiKit.Base.update(ListView.prototype, {
         var view = jQuery(drag).parent().parent().attr('id').split("_grid")[0];
         var _list_view = new ListView(view);
         jQuery.post(
-            '/listgrid/dragRow',
+            '/openerp/listgrid/dragRow',
             {'_terp_model': _list_view.model,
              '_terp_ids': _list_view.ids,
              '_terp_id': jQuery(drag).attr('record'),
@@ -370,7 +370,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_ids'] = this.ids;
         args['_terp_id'] = id;
 
-        var req = openobject.http.postJSON('/listgrid/moveUp', args);
+        var req = openobject.http.postJSON('/openerp/listgrid/moveUp', args);
         req.addCallback(function() {
             self.reload();
         });
@@ -385,7 +385,7 @@ MochiKit.Base.update(ListView.prototype, {
             '_terp_id': id
         };
 
-        var req = openobject.http.postJSON('/listgrid/moveDown', args);
+        var req = openobject.http.postJSON('/openerp/listgrid/moveDown', args);
         req.addCallback(function() {
             self.reload();
         });
@@ -450,7 +450,7 @@ MochiKit.Base.update(ListView.prototype, {
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
         if (btype == "open") {
-            return window.open(get_form_action('/form/edit', {
+            return window.open(get_form_action('/openerp/form/edit', {
                 id: id,
                 ids: openobject.dom.get(prefix + '_terp_ids').value,
                 model: openobject.dom.get(prefix + '_terp_model').value,
@@ -474,7 +474,7 @@ MochiKit.Base.update(ListView.prototype, {
         var req = eval_domain_context_request({source: this.name, context : context || '{}'});
         req.addCallback(function(res) {
             params['_terp_context'] = res.context;
-            var req = openobject.http.postJSON('/listgrid/button_action', params);
+            var req = openobject.http.postJSON('/openerp/listgrid/button_action', params);
             req.addCallback(function(obj) {
                 if (obj.error) {
                     return alert(obj.error);
@@ -549,7 +549,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_source'] = this.name;
 
         var self = this;
-        var req = openobject.http.postJSON('/listgrid/save', args);
+        var req = openobject.http.postJSON('/openerp/listgrid/save', args);
 
         req.addCallback(function(obj) {
             if (obj.error) {
@@ -599,7 +599,7 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_model'] = this.model;
         args['_terp_ids'] = ids;
 
-        var req = openobject.http.postJSON('/listgrid/remove', args);
+        var req = openobject.http.postJSON('/openerp/listgrid/remove', args);
 
         req.addCallback(function(obj) {
             if (obj.error) {
@@ -675,7 +675,7 @@ MochiKit.Base.update(ListView.prototype, {
         	}
         }
         
-        var req = openobject.http.postJSON('/listgrid/get', args);
+        var req = openobject.http.postJSON('/openerp/listgrid/get', args);
         req.addCallback(function(obj) {
             var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
             var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
@@ -788,7 +788,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         ids = '[' + ids.join(',') + ']';
 
-        openobject.tools.openWindow(openobject.http.getURL('/impex/exp', {_terp_model: this.model,
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/exp', {_terp_model: this.model,
             _terp_source: this.name,
             _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
             _terp_ids: ids,
@@ -797,7 +797,7 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     importData: function() {
-        openobject.tools.openWindow(openobject.http.getURL('/impex/imp', {_terp_model: this.model,
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/imp', {_terp_model: this.model,
             _terp_source: this.name,
             _terp_view_ids : this.view_ids,
             _terp_view_mode : this.view_mode}));

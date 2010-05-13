@@ -111,7 +111,7 @@ def _fields_get_all(model, views):
 
 class ImpEx(SecuredController):
 
-    _cp_path = "/impex"
+    _cp_path = "/openerp/impex"
 
     @expose(template="templates/exp.mako")
     def exp(self, **kw):
@@ -130,7 +130,7 @@ class ImpEx(SecuredController):
         tree = treegrid.TreeGrid('export_fields',
                                  model=params.model,
                                  headers=headers,
-                                 url=tools.url('/impex/get_fields'),
+                                 url=tools.url('/openerp/impex/get_fields'),
                                  field_parent='relation',
                                  views=views)
 
@@ -160,7 +160,7 @@ class ImpEx(SecuredController):
                 selected_list = [selected_list]
             proxy.create({'name' : name, 'resource' : params.model, 'export_fields' : [(0, 0, {'name' : f}) for f in selected_list]})
 
-        raise redirect('/impex/exp', **kw)
+        raise redirect('/openerp/impex/exp', **kw)
 
     @expose()
     def delete_listname(self, **kw):
@@ -170,7 +170,7 @@ class ImpEx(SecuredController):
 
         proxy.unlink(params.id)
 
-        raise redirect('/impex/exp', **kw)
+        raise redirect('/openerp/impex/exp', **kw)
 
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
@@ -400,7 +400,7 @@ class ImpEx(SecuredController):
         tree = treegrid.TreeGrid('import_fields',
                                     model=params.model,
                                     headers=headers,
-                                    url=tools.url('/impex/get_fields'),
+                                    url=tools.url('/openerp/impex/get_fields'),
                                     field_parent='relation',
                                     views=views,
                                     is_importing=1)

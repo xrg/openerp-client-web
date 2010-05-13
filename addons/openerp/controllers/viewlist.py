@@ -35,7 +35,7 @@ from openobject.tools import expose, redirect
 
 class ViewList(SecuredController):
 
-    _cp_path = "/viewlist"
+    _cp_path = "/openerp/viewlist"
 
     @expose(template="templates/viewlist.mako")
     def index(self, model):
@@ -59,7 +59,7 @@ class ViewList(SecuredController):
         priority = kw.get('priority', 16)
 
         if not view_name:
-            raise redirect('/viewlist', model=model)
+            raise redirect('/openerp/viewlist', model=model)
 
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get({}).keys()
@@ -88,7 +88,7 @@ class ViewList(SecuredController):
             proxy = rpc.RPCProxy('ir.ui.view')
             proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
 
-        raise redirect('/viewlist', model=model)
+        raise redirect('/openerp/viewlist', model=model)
 
     @expose()
     def delete(self, model, id):
@@ -98,6 +98,6 @@ class ViewList(SecuredController):
         proxy = rpc.RPCProxy('ir.ui.view')
         proxy.unlink(id)
 
-        raise redirect('/viewlist', model=model)
+        raise redirect('/openerp/viewlist', model=model)
 
 # vim: ts=4 sts=4 sw=4 si et

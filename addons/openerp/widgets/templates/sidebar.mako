@@ -24,7 +24,7 @@
 <%def name="sidebox_attach_item(item, model)">
     <tr>
         <td>
-            <a href="${py.url(['/attachment/save_as', item[1]], record=item[0])}">${item[1]}</a>
+            <a href="${py.url(['/openerp/attachment/save_as', item[1]], record=item[0])}">${item[1]}</a>
         </td>
     </tr>
 </%def>

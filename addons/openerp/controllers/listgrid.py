@@ -38,7 +38,7 @@ from openobject.tools import expose, ast
 
 class List(SecuredController):
 
-    _cp_path = "/listgrid"
+    _cp_path = "/openerp/listgrid"
 
     @expose('json')
     def save(self, **kw):

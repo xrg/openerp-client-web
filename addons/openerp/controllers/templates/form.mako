@@ -30,7 +30,7 @@
                                 	<td>
                                 		% if can_shortcut:
                                 			% if rpc.session.active_id not in shortcut_ids:
-			                                    <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header" title="Add as shortcut">
+			                                    <a href="${py.url('/openerp/shortcuts/add', id=rpc.session.active_id)}" id="menu_header" title="Add as shortcut">
 			                                    	<img src="/openerp/static/images/add_shortcut.png" style="padding: 1px;" border="0" width="18px" height="18px"/>
 			                                    </a>
 			                                % else:
@@ -77,7 +77,7 @@
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
                                             src="/openerp/static/images/stock/gtk-paste.png" 
-                                            onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
+                                            onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
                                     </td>
                                     % endif
                                     % if buttons.can_attach and buttons.has_attach:
@@ -85,7 +85,7 @@
                                         <img
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
+                                            src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -93,7 +93,7 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Translate this resource.')}" 
-                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
@@ -102,7 +102,7 @@
                                             class="button" width="16" height="16"
                                             title="${_('View Log.')}" 
                                             src="/openerp/static/images/stock/stock_log.png"
-                                            onclick="openobject.tools.openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
+                                            onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
                                     </td>
                                     % endif
                                 </tr>
@@ -179,13 +179,13 @@
                             <div id="customise_menu_" class="contextmenu" style="position: absolute; display: none;" 
                                  onmouseover="showElement(this);" onmouseout="hideElement(this);">
                                 <a title="${_('Manage views of the current object')}" 
-                                   onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
+                                   onclick="openobject.tools.openWindow('/openerp/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
                                <a title="${_('Manage workflows of the current object')}" 
                                    onclick="javascript: show_wkf()" 
                                    href="javascript: void(0)">${_("Show Workflow")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
-                                   onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
+                                   onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${form.screen.model}')" 
                                    href="javascript: void(0)">${_("Customise Object")}</a>
                             </div>
                         </td>

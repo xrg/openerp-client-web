@@ -94,7 +94,7 @@ function openRecord(id, src, target, readonly) {
 
     if (kind == 'many2many') {
         args['source'] = src;
-        return openobject.tools.openWindow(get_form_action('/openm2m/edit', args));
+        return openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
     }
 
     window.location.href = get_form_action(action, args);
@@ -167,7 +167,7 @@ function switch_O2M(view_type, src) {
         }
     }
 
-    req = openobject.http.post('/form/switch_o2m', params);
+    req = openobject.http.post('/openerp/form/switch_o2m', params);
     req.addCallback(function(xmlHttp) {
 
         var text = xmlHttp.responseText;
@@ -209,7 +209,7 @@ function show_process_view() {
 		 }
 	}
 	id = parseInt(id) || null;
-	window.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
+	window.location.href = openobject.http.getURL('/workflow/process', {res_model: model, res_id: id})
 }
 
 function validate_required(form) {
@@ -524,7 +524,7 @@ function onChange(name) {
     params['_terp_value'] = caller.value;
     params['id'] = id;
 
-    var req = openobject.http.postJSON(callback ? '/form/on_change' : '/form/change_default_get', params);
+    var req = openobject.http.postJSON(callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get', params);
 
     req.addCallback(function(obj) {
 
@@ -635,7 +635,7 @@ function getName(name, relation) {
     }
 
     if (value_field.value) {
-        var req = openobject.http.getJSON('/search/get_name', {model: relation, id : value_field.value});
+        var req = openobject.http.getJSON('/openerp/search/get_name', {model: relation, id : value_field.value});
         req.addCallback(function(obj) {
             text_field.value = obj.name;
         });
@@ -676,7 +676,7 @@ function eval_domain_context_request(options) {
         params['_terp_parent_context'] = parent_context.value;
     }
 
-    var req = openobject.http.postJSON('/search/eval_domain_and_context', params);
+    var req = openobject.http.postJSON('/openerp/search/eval_domain_and_context', params);
     return req.addCallback(function(obj) {
 
         if (obj.error_field) {
@@ -714,7 +714,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
     }
 
     req.addCallback(function(obj) {
-        openobject.tools.openWindow(openobject.http.getURL('/search/new', {
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/search/new', {
             'model': relation,
             'domain': obj.domain,
             'context': obj.context,
@@ -876,7 +876,7 @@ function set_as_default(field, model) {
     args['_terp_model'] = model;
     args['_terp_field'] = field;
 
-    var req = openobject.http.postJSON('/fieldpref/get', args);
+    var req = openobject.http.postJSON('/openerp/fieldpref/get', args);
 
     req.addCallback(function(obj) {
         var text = obj.text;
@@ -888,7 +888,7 @@ function set_as_default(field, model) {
             '_terp_deps': obj.deps
         };
 
-        openobject.tools.openWindow(openobject.http.getURL('/fieldpref', params), {width: 500, height: 350});
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/fieldpref', params), {width: 500, height: 350});
     });
 }
 
@@ -1025,7 +1025,7 @@ function open_url(site) {
 }
 
 function submenu_action(action_id, model) {
-    window.location.href = openobject.http.getURL("/form/action_submenu", {
+    window.location.href = openobject.http.getURL("/openerp/form/action_submenu", {
         _terp_action_id: action_id,
         _terp_model: model,
         _terp_id: $('_terp_id').value
@@ -1044,5 +1044,5 @@ function show_wkf() {
     } else
         id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
        
-    openobject.tools.openWindow(openobject.http.getURL('/workflow', {model: $('_terp_model').value, rec_id:id}));
+    openobject.tools.openWindow(openobject.http.getURL('/openerp/workflow', {model: $('_terp_model').value, rec_id:id}));
 }

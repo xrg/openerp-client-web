@@ -193,7 +193,7 @@ var editCalendarRecord = function(record_id){
         'context': openobject.dom.get('_terp_context').value
     }
 
-    var act = openobject.http.getURL('/calpopup/edit', params);
+    var act = openobject.http.getURL('/calendar/calpopup/edit', params);
     openobject.tools.openWindow(act);
 }
 

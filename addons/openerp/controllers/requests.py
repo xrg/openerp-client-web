@@ -35,7 +35,7 @@ from openobject.tools import expose
 
 class Requests(SecuredController):
 
-    _cp_path = "/requests"
+    _cp_path = "/openerp/requests"
 
     def my(self):
 

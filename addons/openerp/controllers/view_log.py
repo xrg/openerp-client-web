@@ -34,7 +34,7 @@ from openobject.tools import expose
 
 class View_Log(SecuredController):
 
-    _cp_path = "/viewlog"
+    _cp_path = "/openerp/viewlog"
 
     fields = [
         ('id', _('ID')),

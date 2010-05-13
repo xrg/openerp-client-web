@@ -12,7 +12,7 @@
 </%def>
 
 <%def name="content()">
-<form action="/fieldpref/save" method="post">
+<form action="/openerp/fieldpref/save" method="post">
 
     <input id="_terp_model" name="_terp_model" value="${model}" type="hidden"/>
     <input id="_terp_model" name="_terp_field/name" value="${field['name']}" type="hidden"/>

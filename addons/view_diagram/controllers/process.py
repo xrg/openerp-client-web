@@ -37,7 +37,7 @@ from openobject.tools import expose
 
 class Process(SecuredController):
 
-    _cp_path = "/process"
+    _cp_path = "/workflow/process"
 
     @expose(template="templates/process.mako")
     def default(self, id=False, res_model=None, res_id=False):

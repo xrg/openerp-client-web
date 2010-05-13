@@ -90,7 +90,7 @@ def get_info(module):
     info = {}
 
     mod_path = os.path.join(ADDONS_PATH, module)
-    terp_file = os.path.join(ADDONS_PATH, module, '__terp__.py')
+    terp_file = os.path.join(ADDONS_PATH, module, '__openerp__.py')
 
     if not mod_path or not terp_file:
         return info
@@ -201,7 +201,7 @@ _loaded_addons = {}
 def get_module_list():
 
     addons = [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
+              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__openerp__.py"))]
 
     return addons
 
@@ -211,7 +211,7 @@ def load_addons(db_name, config):
         return True
 
     addons = [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
+              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__openerp__.py"))]
 
     base_addons = [m for m in addons if get_info(m).get("active")]
 

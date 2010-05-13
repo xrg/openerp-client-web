@@ -94,7 +94,7 @@ class WikiParser(wikimarkup.Parser):
                     id = int(text)
                 except:
                     id = 0
-            return "[[/form/view?model=%s&amp;id=%d | %s]]" % (model, id, label)
+            return "[[/openerp/form/view?model=%s&amp;id=%d | %s]]" % (model, id, label)
 
         bits = _view.sub(record, text)
         return bits
@@ -126,7 +126,7 @@ class WikiParser(wikimarkup.Parser):
                 if len(ids) > 0:
                     return "<a href='/wiki/getfile?file=%s&amp;id=%d'>%s</a>" % (file, id, file)
                 else:
-                    return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/attachment', {model: 'wiki.wiki', id: %d}),
+                    return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
         bits = _attach.sub(document, text)
         return bits
@@ -142,7 +142,7 @@ class WikiParser(wikimarkup.Parser):
                 if len(ids) > 0:
                     return "<img src='/wiki/getImage?file=%s&amp;id=%d'/>" % (file, id)
                 else:
-                    return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/attachment', {model: 'wiki.wiki', id: %d}),
+                    return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
                 #"[[/attachment/?model=wiki.wiki&amp;id=%d | Attach:%s]]" % (id, file)
         bits = _image.sub(image, text)
@@ -165,7 +165,7 @@ class WikiParser(wikimarkup.Parser):
                     id = int(text)
                 except:
                     id = 0
-            return "[[/form/edit?model=%s&amp;id=%d | %s]]" % (model, id, label)
+            return "[[/openerp/form/edit?model=%s&amp;id=%d | %s]]" % (model, id, label)
 
         bits = _edit.sub(record, text)
         return bits
@@ -180,14 +180,14 @@ class WikiParser(wikimarkup.Parser):
             link_str = ""
             if mids:
                if len(link) == 2:
-                   link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
+                   link_str = "<a href='/openerp/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[1])
                elif len(link) == 1:
-                   link_str = "<a href='/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
+                   link_str = "<a href='/openerp/form/view?model=wiki.wiki&amp;id=%s'>%s</a>" % (mids[0], link[0])
             else:
                 if len(link) == 2:
                     link_str = "<a href='%s'>%s</a>" % (link[0], link[1])
                 elif len(link) == 1:
-                    link_str = "<a href='/form/edit?model=wiki.wiki&amp;id=False'>%s</a>" % (link[0])
+                    link_str = "<a href='/openerp/form/edit?model=wiki.wiki&amp;id=False'>%s</a>" % (link[0])
 
             return link_str
 

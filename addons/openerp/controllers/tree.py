@@ -55,7 +55,7 @@ FORMATTERS = {
 }
 
 class Tree(SecuredController):
-    _cp_path = "/tree"
+    _cp_path = "/openerp/tree"
 
     @expose(template="templates/tree.mako")
     def create(self, params):
@@ -181,7 +181,7 @@ class Tree(SecuredController):
             id = item.pop('id')
             record = {
                 'id': id,
-                'action': url('/tree/open', model=model, id=id),
+                'action': url('/openerp/tree/open', model=model, id=id),
                 'target': None,
                 'icon': None,
                 'children': [],

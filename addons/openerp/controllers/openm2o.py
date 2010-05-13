@@ -36,7 +36,7 @@ from openobject.tools import expose, validate, error_handler, exception_handler
 
 class OpenM2O(Form):
 
-    _cp_path = "/openm2o"
+    _cp_path = "/openerp/openm2o"
 
     @expose(template="templates/openm2o.mako")
     def create(self, params, tg_errors=None):

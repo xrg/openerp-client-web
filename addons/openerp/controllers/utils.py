@@ -158,8 +158,8 @@ def secured(fn):
             cherrypy.response.cookie['terp_user'] = user.encode('utf-8')
             cherrypy.response.cookie['terp_db']['expires'] = expiration_time;
             cherrypy.response.cookie['terp_user']['expires'] = expiration_time;
-            cherrypy.response.cookie['terp_db']['path'] = tools.url("/");
-            cherrypy.response.cookie['terp_user']['path'] = tools.url("/");
+            cherrypy.response.cookie['terp_db']['path'] = tools.url("/openerp");
+            cherrypy.response.cookie['terp_user']['path'] = tools.url("/openerp");
 
             # User is now logged in, so show the content
             clear_login_fields(kw)

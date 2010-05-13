@@ -23,7 +23,7 @@
             var id = parseInt(openobject.dom.get('select_workflow').value) || null;
             var res_model = openobject.dom.get('res_model').value || null;
             var res_id = parseInt(openobject.dom.get('res_id').value) || null;
-            window.location.href = openobject.http.getURL("/process", {id: id, res_model: res_model, res_id: res_id});
+            window.location.href = openobject.http.getURL("/workflow/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
     % endif
@@ -83,7 +83,7 @@
     </tr>
     <tr>
         <td class="dimmed-text">
-            [<a target="_blank" href="${py.url('/form/edit', model='process.process', id=id)}">${_("Customize")}</a>]
+            [<a target="_blank" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customize")}</a>]
         </td>
     </tr>
 </table>

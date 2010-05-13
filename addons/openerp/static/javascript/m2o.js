@@ -166,7 +166,7 @@ ManyToOne.prototype.open = function(id){
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
     req.addCallback(function(obj){
-        openobject.tools.openWindow(openobject.http.getURL('/openm2o/edit', {_terp_model: model, _terp_id: id, 
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/openm2o/edit', {_terp_model: model, _terp_id: id, 
                                             _terp_domain: obj.domain, _terp_context: obj.context,
                                             _terp_m2o: source, _terp_editable: editable}));
     });
@@ -179,7 +179,7 @@ ManyToOne.prototype.get_text = function(evt){
     }
 
     if (this.field.value && ! this.text.value){
-        var req = openobject.http.postJSON('/search/get_name', {model: this.relation, id : this.field.value});
+        var req = openobject.http.postJSON('/openerp/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
 
         req.addCallback(function(obj){
@@ -397,7 +397,7 @@ ManyToOne.prototype.get_matched = function(){
     req.addCallback(function(obj){
         text = m2o.field.value ? '' : m2o.text.value;
         
-        var req2 = openobject.http.postJSON('/search/get_matched', {model: m2o.relation, text: text, 
+        var req2 = openobject.http.postJSON('/openerp/search/get_matched', {model: m2o.relation, text: text, 
                                                          _terp_domain: obj.domain, 
                                                          _terp_context: obj.context});
         
@@ -462,7 +462,7 @@ ManyToOne.prototype.doDelayedRequest = function () {
 	element['text'] = val
 	element['model'] = this.relation    
 	
-    var d = loadJSONDoc('/search/get_matched' + "?" + queryString(element));    
+    var d = loadJSONDoc('/openerp/search/get_matched' + "?" + queryString(element));    
     d.addCallback(this.displayResults);    
     return true;
 }

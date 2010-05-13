@@ -177,7 +177,7 @@ def default_exception_handler(self, tg_exceptions=None, **kw):
 
 class Form(SecuredController):
 
-    _cp_path = "/form"
+    _cp_path = "/openerp/form"
 
     def create_form(self, params, tg_errors=None):
         if tg_errors:
@@ -188,7 +188,7 @@ class Form(SecuredController):
         params.count = params.count or 0
         params.view_type = params.view_type or params.view_mode[0]
 
-        return tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+        return tw.form_view.ViewForm(params, name="view_form", action="/openerp/form/save")
 
     @expose(template="templates/form.mako")
     def create(self, params, tg_errors=None):
@@ -1063,7 +1063,7 @@ class Form(SecuredController):
     def can_shortcut_create(self):
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
-                cherrypy.request.path_info == '/tree/open' and
+                cherrypy.request.path_info == '/openerp/tree/open' and
                 cherrypy.request.params.get('model') == 'ir.ui.menu')
 
     @expose()

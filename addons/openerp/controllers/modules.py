@@ -6,7 +6,7 @@ from openobject.tools import expose
 
 class ModuleForm(form.Form):
 
-    _cp_path = "/modules"
+    _cp_path = "/openerp/modules"
 
     @expose(template="templates/modules.mako")
     def create(self, params, tg_errors=None):

@@ -81,7 +81,7 @@
 
             form.target = "detector";
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/import_data'));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/import_data'));
             form.submit();
         }
 
@@ -116,7 +116,7 @@
 
             form.target = "detector";
 
-            setNodeAttribute(form, 'action',openobject.http.getURL('/impex/detect_data'));
+            setNodeAttribute(form, 'action',openobject.http.getURL('/openerp/impex/detect_data'));
             form.submit();
         }
 
@@ -124,7 +124,7 @@
 </%def>
 
 <%def name="content()">
-<form action="/impex/import_data" method="post" enctype="multipart/form-data">
+<form action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
 
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>

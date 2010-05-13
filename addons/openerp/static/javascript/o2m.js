@@ -113,7 +113,7 @@ One2Many.prototype = {
                 _terp_editable: readonly ? 0 : 1});
                     
         if (id && id != 'False' && !this.default_get_ctx){
-            return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
+            return openobject.tools.openWindow(openobject.http.getURL('/openerp/openo2m/edit', params));
         }
         
         var req = eval_domain_context_request({source: this.name, context : this.default_get_ctx});
@@ -124,13 +124,13 @@ One2Many.prototype = {
             if (!window.browser.isIE) {
                 params['_terp_o2m_context'] = res.context;
                 params['_terp_parent_context'] = this.parent_context;
-                return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
+                return openobject.tools.openWindow(openobject.http.getURL('/openerp/openo2m/edit', params));
             }
             
             openobject.http.setCookie('_terp_o2m_context', res.context || '{}');
             openobject.http.setCookie('_terp_parent_context', this.parent_context || '{}');
             try {
-                return openobject.tools.openWindow(openobject.http.getURL('/openo2m/edit', params));
+                return openobject.tools.openWindow(openobject.http.getURL('/openerp/openo2m/edit', params));
             } finally {
                 openobject.http.delCookie('_terp_o2m_context');
                 openobject.http.delCookie('_terp_parent_context');

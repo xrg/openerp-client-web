@@ -5,12 +5,12 @@
     <script type="text/javascript">
 
         function do_delete(form, id, field){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/delete', {id: id}));
             form.submit();
         }
 
         function do_save(form, id){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/save_as', {id: id}));
             form.submit();
         }
 
@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td>
-                <form action="/image/add" method="post" enctype="multipart/form-data">
+                <form action="/openerp/image/add" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="model" value="${model}"/>
                         <input type="hidden" name="id" value="${id}"/>
                         <input type="hidden" name="field" value="${field}"/>
