@@ -20,7 +20,7 @@
             <td style="padding: 0px 10px 3px 10px;" align="left">
             	<table style="border: none;">
             		<tr>
-            			<td style="padding: 0;" width="30%">
+            			<td style="padding: 0;" width="50%">
             				<div class="toolbar">
 			                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
 			                    % if screen.editable and screen.view_type in ('form', 'tree'):
@@ -35,8 +35,8 @@
 			                   	<a class="button-b" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
                 			</div>
             			</td>
-            			<td width="70%" align="left">
-            				<div class="message-box" style="width: 30%" width="30%" style="display:none;">
+            			<td width="50%" align="left">
+            				<div class="message-box" style="width: 100%" width="100%" style="display:none;">
             				</div>
             			</td>
             		</tr>
