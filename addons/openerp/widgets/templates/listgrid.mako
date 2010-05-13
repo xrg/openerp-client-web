@@ -197,33 +197,45 @@ import itertools
 	
 	                </tbody>
 	
-	                % if field_total:
-	                <tfoot>
-	                    <tr class="field_sum" style="border: none; border-bottom: 1px solid #f4f2f2;">
-	                    	<td colspan="${len(headers)}" style="border: none;">
-	                    		<table style="width: 40%; border: none;">
-	                    			<tr>
-	                    				% for i, (field, field_attrs) in enumerate(headers):
-			                        		% if field != 'button':
-			                        			% if 'sum' in field_attrs:
-			                        				% for key, val in field_total.items():
-					                                     % if field == key:
-					                                     <td align="left" class="grid-cell" style="padding: 2px;" nowrap="nowrap">
-					                                     	<strong style="color: black;">${val[0]}:</strong>
-					                                     	${val[1]}
-					                                     </td>
-					                                     % endif
-					                                 % endfor
-			                        			% endif
-			                        		% endif
-			                        	% endfor
-			                        	
-	                    			</tr>
-	                    		</table>
-	                    	</td>
-	                    </tr>
-	                </tfoot>
-	                % endif
+	               % if field_total:
+                    <tfoot>
+                        <tr class="field_sum" style="border: none; border-bottom: 1px solid #f4f2f2;">
+                            % if selector:
+                                <td width="1%" class="grid-cell">&nbsp;</td>
+                            % endif
+                            % if editable:
+                                <td width="1%" class="grid-cell">&nbsp;</td>
+                            % endif
+                            % for i, (field, field_attrs) in enumerate(headers):
+                                % if field == 'button':
+                                    <td class="grid-cell button"><div style="width: 0;"></div></td>
+                                % else:
+                                    
+                                    	% if i == 0:
+                                    	<td class="grid-cell" style="text-align: left; padding: 2px;" nowrap="nowrap">
+                                    		<strong style="color: black;">Total</strong>
+                                   		</td>
+                                    	% else:
+                                    		<td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
+	                                         % if 'sum' in field_attrs:
+	                                             % for key, val in field_total.items():
+	                                                 % if field == key:
+	                                                 <span id="${field}" style="border-top: 1px inset ; display: block; padding: 0 1px; color: black;">${val[1]}</span>
+	                                                 % endif
+	                                             % endfor
+	                                         % else:
+	                                            &nbsp;
+	                                         % endif
+	                                         </td>
+                                         % endif
+                                % endif
+                            % endfor
+                            % if editable:
+                                <td width="1%" class="grid-cell">&nbsp;</td>
+                            % endif
+                        </tr>
+                    </tfoot>
+                % endif
 	            </table>
 	
 	            % if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
