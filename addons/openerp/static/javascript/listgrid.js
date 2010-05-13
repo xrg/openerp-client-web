@@ -483,8 +483,8 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if (ids.length == 0) {
-        	jQuery('div.message-box').fadeTo("slow", 0.4).html(_('You must select at least one record.')); // show and set the message
-        	return setTimeout(function(){ jQuery('div.message-box').fadeOut("slow").html('')}, 2000);
+        	jQuery('div.message-box').show().html(_('You must select at least one record.')); // show and set the message
+        	return setTimeout(function(){ jQuery('div.message-box').fadeOut("slow").html('')}, 3000);
         } 
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;
