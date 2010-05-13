@@ -297,17 +297,6 @@ function submit_form(action, src, target) {
 }
 
 function pager_action(action, src) {
-	if(src) {
-		var $ = jQuery;
-		var records = new ListView(src).getSelectedRecords()
-		var ids = eval($('[id$=_terp_checked_ids]').val())
-		
-		var add_ids = $.grep(records, function(item) {
-			if($.inArray(item, ids)<0)
-				return item;
-		})
-		$('[id$=_terp_checked_ids]').attr('value', '['+ids.concat(add_ids)+']');
-	}
     return src ? new ListView(src).go(action) : submit_form(action ? action : 'find');
 }
 

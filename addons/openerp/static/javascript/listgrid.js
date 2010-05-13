@@ -140,17 +140,6 @@ ListView.prototype = {
         if (selected_ids.length == 0){
             if (sb) toggle_sidebar();
         }
-        if (openobject.dom.get('_terp_checked_ids')){
-        	jQuery('[id$=_terp_checked_ids]').attr('value', '[' + selected_ids.join(',') + ']');
-        }
-        clear = clear ? false : true;
-        if(!clear) {
-        	var ids = eval(jQuery('[id$=_terp_checked_ids]').val());
-        	var new_ids = jQuery.grep(ids, function(data) {
-        		return data != value;
-        	});
-        	jQuery('[id$=_terp_checked_ids]').attr('value', '[' + new_ids.join(',') + ']');
-        }
         
        	this.selectedRow_sum();     
     },
@@ -742,16 +731,6 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-            
-            
-            //It Select Selected element in pager operation
-            jQuery.each(eval(jQuery('[id$= _terp_checked_ids]').val()), function(key, value) {
-            	if(value) {
-            		if(jQuery('input:checkbox[value="'+value+'"]').get()) {
-            			jQuery('input:checkbox[value="'+value+'"]').attr('checked', true);
-            		}
-            	}
-            });
             
             if(self.sort_key != null) {
             	if(self.name !='_terp_list') {
