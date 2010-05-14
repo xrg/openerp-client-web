@@ -125,7 +125,7 @@ class List(TinyWidget):
 
         # is relational field (M2M/O2M)
         if self.source:            
-            self.attr_limit = cherrypy.request.app.config['openerp-web'].get('child.listgrid.limit', self.limit)
+            self.attr_limit = cherrypy.request.app.config['openerp-web'].get('child.listgrid.limit', 20)
             self.attr_limit = int(attrs.get('limit', self.attr_limit))            
         else:
             self.min_rows = 5

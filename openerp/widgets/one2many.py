@@ -155,7 +155,7 @@ class O2M(TinyInputWidget):
         self.ids = ids
 
         if view_type == 'tree':
-            limit = False
+            limit = 20
             #self.screen.widget.pageable=False
             if self.screen.widget.attr_limit:
                 limit = self.screen.widget.attr_limit
