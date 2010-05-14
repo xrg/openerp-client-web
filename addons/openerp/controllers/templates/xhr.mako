@@ -1,10 +1,13 @@
+<%def name="header()">
+${next.header()}
+</%def>
 % for css in widget_css:
     ${css.display()}
 % endfor
 % for js in widget_javascript.get('head', []):
     ${js.display()}
 % endfor
-${next.header()}
+${header()}
 % for js in widget_javascript.get('bodytop', []):
     ${js.display()}
 % endfor
