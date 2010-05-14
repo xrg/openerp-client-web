@@ -105,7 +105,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-find.png"/>
+                            <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
                         </td>
                         <td width="100%">${_("Manage Views (%s)") % (model)}</td>
                     </tr>
@@ -142,7 +142,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
+                            <img alt="" src="/openerp/static/images/stock/gtk-edit.png"/>
                         </td>
                         <td width="100%">${_("Create a view (%s)") % (model)}</td>
                     </tr>
@@ -155,11 +155,11 @@
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>
-                            <td class="label">${_("View Name:")}</td>
+                            <td class="label"><label for="name">${_("View Name:")}</label></td>
                             <td class="item"><input type="text" id="name" name="name" class="requiredfield"/></td>
                         </tr>
                         <tr>
-                            <td class="label">${_("View Type:")}</td>
+                            <td class="label"><label for="type">${_("View Type:")}</label></td>
                             <td class="item">
                                 <select id="type" name="type" class="requiredfield">
                                     <option value="form">Form</option>
@@ -170,8 +170,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="label">${_("Priority:")}</td>
-                            <td class="item"><input type="text" id="priority" name="priority" value="16" class="requiredfield"/></td>
+                            <td class="label"><label for="priority">${_("Priority:")}</label></td>
+                            <td class="item"><input type="text" id="priority" name="priority"
+                                                    value="16" class="requiredfield"/></td>
                         </tr>
                     </table>
                 </form>

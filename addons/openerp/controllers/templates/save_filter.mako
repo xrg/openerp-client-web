@@ -27,7 +27,7 @@
 	                <table class="titlebar">
 	                    <tr>
 	                        <td width="32px" align="left">
-	                            <img src="/static/images/stock/gtk-index.png"/>
+	                            <img alt="" src="/static/images/stock/gtk-index.png"/>
 	                        </td>
                         	<td align="center" width="100%">${_("Save as a Filter")}</td>
 	                    </tr>
@@ -36,10 +36,10 @@
 	        </tr>
 	        <tr>
 	        	<td class="label">
-	        		Filter Name :
+	        		<label for="sc_name">Filter Name :</label>
 	        	</td>
 	        	<td>
-	        		<input type="text" name="sc_name" style="width: 75%"/>
+	        		<input type="text" name="sc_name" id="sc_name" style="width: 75%"/>
 	        	</td>
 	        </tr>
 	        <tr>

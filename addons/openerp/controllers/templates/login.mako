@@ -33,12 +33,12 @@
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
                     <tr>
-                        <td class="label">${_("Database:")}</td>
+                        <td class="label"><label for="db">${_("Database:")}</label></td>
                         <td>
                             % if dblist is None:
-                                <input type="text" name="db" style="width: 300px;" value="${db}"/>
+                                <input type="text" name="db" id="db" style="width: 300px;" value="${db}"/>
                             % else:
-                            <select name="db" style="width: 302px;">
+                            <select name="db" id="db" style="width: 302px;">
                                 % for v in dblist:
                                 <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
                                 % endfor
@@ -48,12 +48,12 @@
                     </tr>
 
                     <tr>
-                        <td class="label">${_("User:")}</td>
+                        <td class="label"><label for="user">${_("User:")}</label></td>
                         <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
                     </tr>
                     
                     <tr>
-                        <td class="label">${_("Password:")}</td>
+                        <td class="label"><label for="password">${_("Password:")}</label></td>
                         <td><input type="password" value="${password}" id="password" name="password" style="width: 300px;"/></td>
                     </tr>
                     <tr>
