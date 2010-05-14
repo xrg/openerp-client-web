@@ -155,11 +155,11 @@
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>
-                            <td class="label">${_("View Name:")}</td>
+                            <td class="label"><label for="name">${_("View Name:")}</label></td>
                             <td class="item"><input type="text" id="name" name="name" class="requiredfield"/></td>
                         </tr>
                         <tr>
-                            <td class="label">${_("View Type:")}</td>
+                            <td class="label"><label for="type">${_("View Type:")}</label></td>
                             <td class="item">
                                 <select id="type" name="type" class="requiredfield">
                                     <option value="form">Form</option>
@@ -170,8 +170,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="label">${_("Priority:")}</td>
-                            <td class="item"><input type="text" id="priority" name="priority" value="16" class="requiredfield"/></td>
+                            <td class="label"><label for="priority">${_("Priority:")}</label></td>
+                            <td class="item"><input type="text" id="priority" name="priority"
+                                                    value="16" class="requiredfield"/></td>
                         </tr>
                     </table>
                 </form>

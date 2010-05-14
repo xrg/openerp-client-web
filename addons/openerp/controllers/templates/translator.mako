@@ -29,9 +29,9 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td class="label">${_("Add Translation for:")}</td>
+                            <td class="label"><label for="translate">${_("Add Translation for:")}</label></td>
                             <td>
-                                <select name="translate" onchange="window.location.href=openobject.http.getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
+                                <select name="translate" id="translate" onchange="window.location.href=openobject.http.getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
                                     <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
                                     <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
                                     <option value="relates" ${py.selector(translate=='relates')}>${_("Relates")}</option>
@@ -86,9 +86,10 @@
                     <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
                     % for d in data_:
                     <tr>
-                        <td style="width: 50%; text-align: right">${d['src']} = </td>
+                        <td style="width: 50%; text-align: right"><label for="${n}/${d['id']}">${d['src']} = </label></td>
                         <td style="width: 50%">
-                            <input type="text" name="${n}/${d['id']}" value="${d['value']}" style="width: 100%;"/>
+                            <input type="text" name="${n}/${d['id']}" id="${n}/${d['id']}" value="${d['value']}"
+                                   style="width: 100%;"/>
                         </td>
                     </tr>
                     % endfor

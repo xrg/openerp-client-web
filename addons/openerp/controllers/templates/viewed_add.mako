@@ -3,7 +3,7 @@
     <input type="hidden" name="xpath_expr" id="xpath_expr" value="${xpath_expr}"/>
     <table width="100%">
         <tr>
-            <td class="label" width="5">${_("Node Type:")}</td>
+            <td class="label" width="5"><label for="node">${_("Node Type:")}</label></td>
             <td class="item" width="100">
                 <select id="node" name="node" onchange="toggleFields(this)">
                     % for node in nodes:
@@ -24,7 +24,7 @@
             </td>
         </tr>
         <tr>
-            <td class="label" width="5">${_("Position:")}</td>
+            <td class="label" width="5"><label for="position">${_("Position:")}</label></td>
             <td class="item" width="100">
                 <select id="position" name="position">
                     % for v,p in positions:
