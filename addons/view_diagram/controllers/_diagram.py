@@ -37,7 +37,7 @@ from openobject.tools import expose, redirect
 
 class State(Form):
 
-    _cp_path = "/workflow/state"
+    _cp_path = "/view_diagram/workflow/state"
 
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
@@ -140,7 +140,7 @@ class State(Form):
 
 class Connector(Form):
 
-    _cp_path = "/workflow/connector"
+    _cp_path = "/view_diagram/workflow/connector"
 
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
@@ -236,7 +236,7 @@ class Connector(Form):
 
 class Workflow(Form):
 
-    _cp_path = "/workflow"
+    _cp_path = "/view_diagram/workflow"
 
     @expose(template="templates/workflow.mako")
     def index(self, model, rec_id=None):

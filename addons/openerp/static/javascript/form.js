@@ -209,7 +209,7 @@ function show_process_view() {
 		 }
 	}
 	id = parseInt(id) || null;
-	window.location.href = openobject.http.getURL('/workflow/process', {res_model: model, res_id: id})
+	window.location.href = openobject.http.getURL('/view_diagram/process', {res_model: model, res_id: id})
 }
 
 function validate_required(form) {
@@ -1044,5 +1044,5 @@ function show_wkf() {
     } else
         id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
        
-    openobject.tools.openWindow(openobject.http.getURL('/openerp/workflow', {model: $('_terp_model').value, rec_id:id}));
+    openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
 }

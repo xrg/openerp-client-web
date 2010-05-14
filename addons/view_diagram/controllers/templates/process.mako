@@ -23,7 +23,7 @@
             var id = parseInt(openobject.dom.get('select_workflow').value) || null;
             var res_model = openobject.dom.get('res_model').value || null;
             var res_id = parseInt(openobject.dom.get('res_id').value) || null;
-            window.location.href = openobject.http.getURL("/workflow/process", {id: id, res_model: res_model, res_id: res_id});
+            window.location.href = openobject.http.getURL("/view_diagram/process", {id: id, res_model: res_model, res_id: res_id});
         }
     </script>
     % endif

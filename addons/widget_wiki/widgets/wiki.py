@@ -124,7 +124,7 @@ class WikiParser(wikimarkup.Parser):
                 proxy = rpc.RPCProxy('ir.attachment')
                 ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
                 if len(ids) > 0:
-                    return "<a href='/wiki/getfile?file=%s&amp;id=%d'>%s</a>" % (file, id, file)
+                    return "<a href='/widget_wiki/wiki/getfile?file=%s&amp;id=%d'>%s</a>" % (file, id, file)
                 else:
                     return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)
@@ -140,7 +140,7 @@ class WikiParser(wikimarkup.Parser):
                 proxy = rpc.RPCProxy('ir.attachment')
                 ids = proxy.search([('datas_fname','=',file.strip()), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
                 if len(ids) > 0:
-                    return "<img src='/wiki/getImage?file=%s&amp;id=%d'/>" % (file, id)
+                    return "<img src='/widget_wiki/wiki/getImage?file=%s&amp;id=%d'/>" % (file, id)
                 else:
                     return """<a onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/attachment', {model: 'wiki.wiki', id: %d}),
                     {name : 'Wiki Attachments'})">Attach : %s </a>""" % (id, file)

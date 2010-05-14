@@ -76,7 +76,7 @@ var getCalendar = function(day, mode) {
     var day = day || openobject.dom.get('_terp_selected_day').value;
     var mode = mode || openobject.dom.get('_terp_selected_mode').value;
     
-    var act = openobject.http.getURL('/calendar/get', {day: day, mode: mode});
+    var act = openobject.http.getURL('/view_calendar/calendar/get', {day: day, mode: mode});
 
     var form = document.forms['view_form'];
     var contents = formContents(form);
@@ -164,7 +164,7 @@ var saveCalendarRecord = function(record_id, starts, ends){
         '_terp_context': openobject.dom.get('_terp_context').value
     });
 
-    var req = openobject.http.postJSON('/calendar/save', params);
+    var req = openobject.http.postJSON('/view_calendar/calendar/save', params);
     return req.addCallback(function(obj){
 
         // update concurrency info
@@ -193,7 +193,7 @@ var editCalendarRecord = function(record_id){
         'context': openobject.dom.get('_terp_context').value
     }
 
-    var act = openobject.http.getURL('/calendar/calpopup/edit', params);
+    var act = openobject.http.getURL('/view_calendar/calpopup/edit', params);
     openobject.tools.openWindow(act);
 }
 
@@ -205,7 +205,7 @@ var copyCalendarRecord = function(record_id){
         '_terp_context': openobject.dom.get('_terp_context').value
     }
 
-    return openobject.http.post('/calendar/duplicate', params);
+    return openobject.http.post('/view_calendar/calendar/duplicate', params);
 }
 
 // vim: ts=4 sts=4 sw=4 si et

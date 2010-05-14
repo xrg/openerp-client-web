@@ -4,7 +4,7 @@
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/calendar/calpopup';
+        var form_controller = '/view_calendar/calpopup';
     </script>
 
     <script type="text/javascript">
@@ -23,7 +23,7 @@
                 '_terp_context': openobject.dom.get('_terp_context').value
             }
 
-            var req = openobject.http.postJSON('/calendar/calpopup/get_defaults', params);
+            var req = openobject.http.postJSON('/view_calendar/calpopup/get_defaults', params);
             req.addCallback(function(obj){
                 forEach(items(obj), function(item){
                     var k = item[0];

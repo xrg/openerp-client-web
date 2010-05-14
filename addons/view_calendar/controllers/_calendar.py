@@ -47,7 +47,7 @@ from view_calendar import widgets as tc
 
 class TinyCalendar(Form):
 
-    _cp_path = "/calendar"
+    _cp_path = "/view_calendar/calendar"
 
     @expose()
     def mini(self, year, month, forweek=False):
@@ -264,13 +264,13 @@ class TinyCalendar(Form):
 
 class CalendarPopup(Form):
 
-    _cp_path = "/calendar/calpopup"
+    _cp_path = "/view_calendar/calpopup"
 
     @expose(template="templates/calpopup.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
 
-        if params.id and cherrypy.request.path_info == '/calendar/calpopup/view':
+        if params.id and cherrypy.request.path_info == '/view_calendar/calpopup/view':
             params.load_counter = 2
 
         form = self.create_form(params, tg_errors)
