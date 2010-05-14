@@ -38,9 +38,11 @@
                             <table width="100%" class="titlebar">
                                 <tr>
                                 	<td>
-                                        <a href="${shortcut_url}" id="menu_header" title="${shortcut_title}">
-                                            <img src="${shortcut_picture}" alt="${shortcut_title}" style="padding: 1px;" border="0" width="18px" height="18px"/>
-                                        </a>
+                                        % if can_shortcut:
+                                            <a href="${shortcut_url}" id="menu_header" title="${shortcut_title}">
+                                                <img src="${shortcut_picture}" alt="${shortcut_title}" style="padding: 1px;" border="0" width="18px" height="18px"/>
+                                            </a>
+                                        % endif
 	                                </td>
                                     <td width="32px" align="center">
                                         % if form.screen.view_type in ('tree', 'graph'):
