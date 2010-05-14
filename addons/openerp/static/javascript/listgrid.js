@@ -332,7 +332,13 @@ MochiKit.Base.update(ListView.prototype, {
 				});
     		}
     		else {
-    			jQuery('[parent="'+record+'"]').remove();
+    			jQuery('[parent="'+record+'"]').each(function() {
+    				var parent_id = jQuery('[parent="'+record+'"]').attr('records');
+    				if(jQuery('[parent="'+parent_id+'"]').length> 0) {
+    					jQuery('[parent="'+parent_id+'"]').remove();
+    				}
+    				jQuery(this).remove();
+    			})
     		}
     		jQuery(group).toggleClass('group_collapse',200);
     	}
