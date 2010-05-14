@@ -42,27 +42,15 @@ def parse(group_by, hiddens, headers, group_level, groups):
     new_hidden = ()
     for grp_by in groups:
         for hidden in hiddens:
-            if grp_by == hidden[0]:
-                hiden = {}
-                for h in hidden[1]:
-                    if h != 'invisible':
-                        hiden[h] = hidden[1].get(h)
-                new_hidden = (grp_by, hiden)
-                if group_level is None:
-                    headers.insert(groups.index(grp_by), new_hidden)
-                else:
-                    headers.insert(groups.index(grp_by), new_hidden)
-                    
+            if grp_by in hidden:
+                new_hidden = hidden
+                            
     if not new_hidden:
         for grp_by in groups:
             for cnt, header in enumerate(headers):
                 if header[0] == grp_by:
-                    head = header
                     headers.pop(cnt)
-                    if group_level is None:
-                        headers.insert(groups.index(grp_by), head)
-                    else:
-                        headers.insert(groups.index(grp_by), head)
+                    headers.insert(groups.index(grp_by), header)
     
     return group_by, hiddens, headers
 
@@ -79,11 +67,8 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
                     inner[key] = CELLTYPES[kind](value=grp.get(key), **head)
         grouped.append(inner)
         
-    if len(group_by)  > 1:
-        child = False
-    else:
-        child = True
-        
+    child = len(group_by) == 1
+       
     if grp_records:
         for rec in grp_records:
             for grp_by in group_by:
@@ -94,11 +79,10 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
             dom = [('id', 'in', ids), rec_dom[0]]
             ch_ids = []
             if child:
-                grp_ids = proxy.search(dom, offset, limit, 0, context)
-                for id in grp_ids:
-                    for d in data:
-                        if d.get('id') == id:
-                            ch_ids.append(d)
+                ch_ids = [d for id in proxy.search(dom, offset, limit, 0, context)
+                            for  d in data
+                            if d.get('id') == id]
+                
             rec['child_rec'] = ch_ids
             rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
             rec['group_by_id'] = group_by[0]+'_'+str(grp_records.index(rec))

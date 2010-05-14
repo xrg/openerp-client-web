@@ -310,41 +310,32 @@ MochiKit.Base.update(ListView.prototype, {
     },
     
     group_by: function(id, record, group) {
-    	var group_by_context = jQuery('[records="'+record+'"]').attr('grp_context');
-    	var domain = jQuery('[records="'+record+'"]').attr('grp_domain');
+    	var group_record = jQuery('[records="'+record+'"]');
+    	var group_by_context = jQuery(group_record).attr('grp_context');
+    	var domain = jQuery(group_record).attr('grp_domain');
     	var group_id = jQuery(group).attr('id').split('img_')[1];
     	var total_groups = jQuery('table[id="'+this.name+'"]').attr('groups')
     	
     	if(group_by_context == '[]') {
-    		
-    		if(jQuery('[records="'+record+'"]').attr('parent')) {
-    			jQuery('[parent_grp_id="'+id+'"][id$="'+record+'"]').toggle()
-    		}
-    		else {
-    			jQuery('[parent_grp_id="'+id+'"][id$="'+record+'"]').toggle()
-    		}
-    		
+    		jQuery('[parent_grp_id="'+id+'"][id$="'+record+'"]').toggle()
     		jQuery(group).toggleClass('group_collapse',200)
     	}
     	else {
     		if(jQuery(group).attr('class').indexOf('collapse') < 0) {
-    			
     			jQuery.ajax({
 						url: '/listgrid/multiple_groupby',
 						type: 'POST',
 						data : {'model': this.model, 'name': this.name, 'grp_domain': domain, 'group_by': group_by_context, 'view_id': jQuery('#_terp_view_id').val(), 'view_type': jQuery('#_terp_view_type').val(), 'parent_group': record, 'group_level': jQuery(group).parent().index()+1, 'groups': total_groups},
 						dataType: 'html',
 						success: function(xmlHttp) {
-							jQuery('[records="'+record+'"]').after(xmlHttp);
+							jQuery(group_record).after(xmlHttp);
 						}
-					})
-    			
-				jQuery(group).toggleClass('group_collapse',200)
+				});
     		}
     		else {
     			jQuery('[parent="'+record+'"]').remove()
-    			jQuery(group).toggleClass('group_collapse',200)
     		}
+    		jQuery(group).toggleClass('group_collapse',200)
     	}
     	
 	},

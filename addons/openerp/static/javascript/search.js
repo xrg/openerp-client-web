@@ -312,10 +312,6 @@ var search_filter = function(src, id) {
 		if (box.id && box.checked && box.value != '[]') {
 			all_boxes = all_boxes.concat(box.value);
 		}
-//		if (box.id && box.checked && getNodeAttribute(box, 'group_by_ctx').length > 0) {
-//    		group = getNodeAttribute(box, 'group_by_ctx');
-//    		group_by_ctx = group_by_ctx.concat(group);
-//		}
 	});
 	
 	openobject.dom.get('_terp_group_by_ctx').value = group_by;
