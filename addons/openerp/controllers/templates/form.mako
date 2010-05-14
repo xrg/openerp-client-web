@@ -17,7 +17,17 @@
 </%def>
 
 <%def name="content()">
-
+    <%
+        if can_shortcut:
+            if rpc.session.active_id not in shortcut_ids:
+                shortcut_url = py.url('/shortcuts/add', id=rpc.session.active_id)
+                shortcut_title = 'Add as shortcut'
+                shortcut_picture = '/openerp/static/images/add_shortcut.png'
+            else:
+                shortcut_url = 'javascript:void(0);'
+                shortcut_title = 'Shortcut already added'
+                shortcut_picture = '/openerp/static/images/shortcut.png'
+    %>
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td width="100%" valign="top">
@@ -28,31 +38,25 @@
                             <table width="100%" class="titlebar">
                                 <tr>
                                 	<td>
-                                		% if can_shortcut:
-                                			% if rpc.session.active_id not in shortcut_ids:
-			                                    <a href="${py.url('/shortcuts/add', id=rpc.session.active_id)}" id="menu_header" title="Add as shortcut">
-			                                    	<img src="/openerp/static/images/add_shortcut.png" style="padding: 1px;" border="0" width="18px" height="18px"/>
-			                                    </a>
-			                                % else:
-			                                	<a href="javascript: void(0);" id="menu_header" title="Shortcut already added">
-			                                    	<img src="/openerp/static/images/shortcut.png" style="padding: 1px;" border="0" width="18px" height="18px"/>
-			                                    </a>
-			                                % endif
-		                                 % endif
+                                        <a href="${shortcut_url}" id="menu_header" title="${shortcut_title}">
+                                            <img src="${shortcut_picture}" alt="${shortcut_title}" style="padding: 1px;" border="0" width="18px" height="18px"/>
+                                        </a>
 	                                </td>
                                     <td width="32px" align="center">
                                         % if form.screen.view_type in ('tree', 'graph'):
-                                        <img src="/openerp/static/images/stock/gtk-find.png"/>
+                                        <img src="/openerp/static/images/stock/gtk-find.png" alt="Find"/>
                                         % elif form.screen.view_type in ('form'):
-                                        <img src="/openerp/static/images/stock/gtk-edit.png"/>
+                                        <img src="/openerp/static/images/stock/gtk-edit.png" alt="Edit"/>
                                         % elif form.screen.view_type in ('calendar', 'gantt'):
-                                        <img src="/openerp/static/images/stock/stock_calendar.png"/>
+                                        <img src="/openerp/static/images/stock/stock_calendar.png" alt="Calendar"/>
                                         % endif
                                     </td>
                                     <td width="100%">
                                     	${form.screen.string}
                                     	<a target="appFrame" onclick="show_process_view()">
-                                    		<img title="${_('Contextual Help..')}" style="height:14px; width:14px;cursor:pointer;" border="0" src="/openerp/static/images/iconset-a-help.gif"/>
+                                    		<img title="${_('Contextual Help..')}" alt="${_('Contextual Help..')}"
+                                                 style="height:14px; width:14px;cursor:pointer;" border="0"
+                                                 src="/openerp/static/images/iconset-a-help.gif"/>
                                     	</a>
                                     </td>
                                     
@@ -73,7 +77,7 @@
                                   
                                     % if buttons.can_attach and not buttons.has_attach:
                                     <td align="center" valign="middle" width="16">
-                                        <img 
+                                        <img alt="${_('Show attachments.')}"
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
                                             src="/openerp/static/images/stock/gtk-paste.png" 
@@ -82,7 +86,7 @@
                                     % endif
                                     % if buttons.can_attach and buttons.has_attach:
                                     <td align="center" valign="middle" width="16">
-                                        <img
+                                        <img alt="${_('Show attachments.')}"
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
                                             src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
@@ -90,7 +94,7 @@
                                     % endif
                                     % if form.screen.view_type in ('form'):
                                     <td align="center" valign="middle" width="16">
-                                        <img 
+                                        <img alt="${_('Translate this resource.')}"
                                             class="button" width="16" height="16"
                                             title="${_('Translate this resource.')}" 
                                             src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
@@ -98,7 +102,7 @@
                                     % endif
                                     % if form.screen.view_type in ('form'):
                                     <td align="center" valign="middle" width="16">
-                                        <img 
+                                        <img alt="${_('View Log.')}" 
                                             class="button" width="16" height="16"
                                             title="${_('View Log.')}" 
                                             src="/openerp/static/images/stock/stock_log.png"
@@ -182,7 +186,7 @@
                                    onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
                                    href="javascript: void(0)">${_("Manage Views")}</a>
                                <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="javascript: show_wkf()" 
+                                   onclick="show_wkf()" 
                                    href="javascript: void(0)">${_("Show Workflow")}</a>
                                 <a title="${_('Customise current object or create a new object')}" 
                                    onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
