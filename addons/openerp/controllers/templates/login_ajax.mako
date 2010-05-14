@@ -69,13 +69,13 @@
             % if style=='ajax_small':
             <table align="center" border="0">
                 <tr>
-                    <td><strong>${_("User:")}</strong></td>
+                    <td><strong><label for="user">${_("User:")}</label></strong></td>
                 </tr>
                 <tr>
                     <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
                 </tr>
                 <tr>
-                    <td><strong>${_("Password:")}</strong></td>
+                    <td><strong><label for="password">${_("Password:")}</label></strong></td>
                 </tr>
                 <tr>
                     <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
@@ -91,11 +91,11 @@
             % if style=='ajax':
             <table align="center" cellspacing="2px" border="0">
                 <tr>
-                    <td class="label">${_("User:")}</td>
+                    <td class="label"><label for="user">${_("User:")}</label></td>
                     <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
                 </tr>
                 <tr>
-                    <td class="label">${_("Password:")}</td>
+                    <td class="label"><label for="password">${_("Password:")}</label></td>
                     <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
                 </tr>
                 <tr>
