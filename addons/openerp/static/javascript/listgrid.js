@@ -313,12 +313,11 @@ MochiKit.Base.update(ListView.prototype, {
     	var group_record = jQuery('[records="'+record+'"]');
     	var group_by_context = jQuery(group_record).attr('grp_context');
     	var domain = jQuery(group_record).attr('grp_domain');
-    	var group_id = jQuery(group).attr('id').split('img_')[1];
-    	var total_groups = jQuery('table[id="'+this.name+'"]').attr('groups')
+    	var total_groups = jQuery('#'+this.name).attr('groups');
     	
     	if(group_by_context == '[]') {
-    		jQuery('[parent_grp_id="'+id+'"][id$="'+record+'"]').toggle()
-    		jQuery(group).toggleClass('group_collapse',200)
+    		jQuery('[parent_grp_id="'+id+'"][id$="'+record+'"]').toggle();
+    		jQuery(group).toggleClass('group_collapse',200);
     	}
     	else {
     		if(jQuery(group).attr('class').indexOf('collapse') < 0) {
@@ -333,11 +332,10 @@ MochiKit.Base.update(ListView.prototype, {
 				});
     		}
     		else {
-    			jQuery('[parent="'+record+'"]').remove()
+    			jQuery('[parent="'+record+'"]').remove();
     		}
-    		jQuery(group).toggleClass('group_collapse',200)
+    		jQuery(group).toggleClass('group_collapse',200);
     	}
-    	
 	},
 
     groupbyDrag: function(drag, drop) {
