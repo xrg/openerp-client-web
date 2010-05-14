@@ -105,7 +105,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-find.png"/>
+                            <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
                         </td>
                         <td width="100%">${_("Manage Views (%s)") % (model)}</td>
                     </tr>
@@ -142,7 +142,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
+                            <img alt="" src="/openerp/static/images/stock/gtk-edit.png"/>
                         </td>
                         <td width="100%">${_("Create a view (%s)") % (model)}</td>
                     </tr>

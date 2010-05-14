@@ -17,7 +17,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/stock_translate.png"/>
+                            <img alt="" src="/openerp/static/images/stock/stock_translate.png"/>
                         </td>
                         <td width="100%">${_("Add Translation")}</td>
                     </tr>

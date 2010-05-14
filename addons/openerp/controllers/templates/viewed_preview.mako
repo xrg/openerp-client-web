@@ -15,7 +15,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${py.url('/static/images/stock/gtk-print-preview.png')}"/>
+                            <img alt="" src="${py.url('/static/images/stock/gtk-print-preview.png')}"/>
                         </td>
                         <td width="100%">${form.screen.string}</td>
                     </tr>

@@ -27,7 +27,7 @@
 	                <table class="titlebar">
 	                    <tr>
 	                        <td width="32px" align="left">
-	                            <img src="/static/images/stock/gtk-index.png"/>
+	                            <img alt="" src="/static/images/stock/gtk-index.png"/>
 	                        </td>
                         	<td align="center" width="100%">${_("Save as a Filter")}</td>
 	                    </tr>
