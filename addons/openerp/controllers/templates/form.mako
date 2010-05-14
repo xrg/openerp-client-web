@@ -40,7 +40,8 @@
                                 	<td>
                                         % if can_shortcut:
                                             <a href="${shortcut_url}" id="menu_header" title="${shortcut_title}">
-                                                <img src="${shortcut_picture}" alt="${shortcut_title}" style="padding: 1px;" border="0" width="18px" height="18px"/>
+                                                <img src="${shortcut_picture}" alt="${shortcut_title}"
+                                                     style="padding: 1px;" border="0" width="18" height="18"/>
                                             </a>
                                         % endif
 	                                </td>
