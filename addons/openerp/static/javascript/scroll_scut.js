@@ -1,12 +1,13 @@
 $ = jQuery;
 
+
 $(function(){
 	//Get our elements for faster access and set overlay width
 	var div = $('div.sc_menu'),
 	             ul = $('ul.sc_menu');
 	
 	var ulWidth = 0;
-	jQuery('ul.sc_menu li.menu_tabs').each(function(i){
+	$('ul.sc_menu li.menu_tabs').each(function(i){
 	    ulWidth += $(this).outerWidth();
 	});
 	
@@ -46,4 +47,5 @@ $(function(){
 		}
 	});
 });
+
 

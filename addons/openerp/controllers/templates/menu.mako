@@ -42,24 +42,24 @@
 	    <%include file="header.mako"/>
 	    
 	    <div id="main_nav">
-	    <a id="scroll_left" class="scroll_right" style="text-align: center; width: 2%; float: left; padding-top: 12px;" href="javascript: void(0);">
-	    	<img src="/openerp/static/images/scroll_left.png"></img>
-	    </a>
-	    <a id="scroll_right" class="scroll_right" style="text-align: center; width: 2%; float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
-	    	<img src="/openerp/static/images/scroll_right.png"></img>
-	    </a>
-	    <div id="nav" class="sc_menu">
-			<ul class="sc_menu">
-				%for parent in parents:
-					<li id="${parent['id']}" class="menu_tabs"">
-						<a href="javascript: void(0)" accesskey="1" class="${parent['active']}">
-							<span>${parent['name']}</span>
-						</a>
-						<em>[1]</em>
-					</li>
-				% endfor
-			</ul>
-		</div>
+		    <a id="scroll_left" class="scroll_right" style="text-align: center; width: 2%; float: left; padding-top: 12px;" href="javascript: void(0);">
+		    	<img src="/openerp/static/images/scroll_left.png"></img>
+		    </a>
+		    <a id="scroll_right" class="scroll_right" style="text-align: center; width: 2%; float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
+		    	<img src="/openerp/static/images/scroll_right.png"></img>
+		    </a>
+		    <div id="nav" class="sc_menu">
+				<ul class="sc_menu">
+					%for parent in parents:
+						<li id="${parent['id']}" class="menu_tabs"">
+							<a href="javascript: void(0)" accesskey="1" class="${parent['active']}">
+								<span>${parent['name']}</span>
+							</a>
+							<em>[1]</em>
+						</li>
+					% endfor
+				</ul>
+			</div>
 		</div>
 				
 	    <script type="text/javascript">
