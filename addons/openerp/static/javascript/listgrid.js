@@ -81,8 +81,31 @@ ListView.prototype = {
         });
         var sb = openobject.dom.get('sidebar');
         if (sb) toggle_sidebar();
+        
+        this.selectedRow_sum();
     },
-
+	
+	selectedRow_sum: function() {
+		if(jQuery('tr.field_sum').find('td.grid-cell').find('span').length>0) {
+        	var selected_ids = this.getSelectedRecords();
+	    	var sum_fields = new Array();
+	    	 
+	    	jQuery('tr.field_sum').find('td.grid-cell').find('span').each(function() {
+	    		sum_fields.push(jQuery(this).attr('id'))
+	    	});
+	    	
+	    	jQuery.post('/listgrid/count_sum',
+	    				{'model':this.model, 'ids': selected_ids.toSource(), 'sum_fields': sum_fields.toSource()},
+	    				function(obj) {
+	    					for(i in obj.sum) {
+	    						jQuery('tr.field_sum').find('td.grid-cell').find('span[id="'+sum_fields[i]+'"]').html(obj.sum[i])
+	    					}
+	    				},
+	    				"json"
+			);
+        }	
+	},
+	
     getRecords: function() {
         var records = map(function(row) {
             return parseInt(getNodeAttribute(row, 'record')) || 0;
@@ -117,17 +140,8 @@ ListView.prototype = {
         if (selected_ids.length == 0){
             if (sb) toggle_sidebar();
         }
-        if (openobject.dom.get('_terp_checked_ids')){
-        	jQuery('[id$=_terp_checked_ids]').attr('value', '[' + selected_ids.join(',') + ']');
-        }
-        clear = clear ? false : true;
-        if(!clear) {
-        	var ids = eval(jQuery('[id$=_terp_checked_ids]').val());
-        	var new_ids = jQuery.grep(ids, function(data) {
-        		return data != value;
-        	});
-        	jQuery('[id$=_terp_checked_ids]').attr('value', '[' + new_ids.join(',') + ']');
-        }
+        
+       	this.selectedRow_sum();     
     },
 
     getColumns: function(dom) {
@@ -717,16 +731,6 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             MochiKit.Signal.signal(__listview, 'onreload');
-            
-            
-            //It Select Selected element in pager operation
-            jQuery.each(eval(jQuery('[id$= _terp_checked_ids]').val()), function(key, value) {
-            	if(value) {
-            		if(jQuery('input:checkbox[value="'+value+'"]').get()) {
-            			jQuery('input:checkbox[value="'+value+'"]').attr('checked', true);
-            		}
-            	}
-            });
             
             if(self.sort_key != null) {
             	if(self.name !='_terp_list') {

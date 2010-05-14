@@ -44,7 +44,7 @@ from wizard import Wizard
 
 from openobject.tools import redirect
 
-def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None):
     """Performs `actions.act_window` action.
 
@@ -68,7 +68,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.context = context or {}
     params.limit = limit
     params.search_view = search_view
-    
+
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
 
@@ -189,8 +189,8 @@ def execute(action, **data):
     if 'type' not in action:
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
-        return
-    
+        return close_popup()
+
     data.get('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
     if action['type'] == 'ir.actions.act_window_close':
         return close_popup()
@@ -200,11 +200,11 @@ def execute(action, **data):
             data[key] = action.get(key, data.get(key, None))
 
         if not data.get('search_view') and data.get('search_view_id'):
-            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'], 
+            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'],
                                     'fields_view_get', datas['search_view_id'], 'search', context))
-            
+
         if not data.get('limit'):
-            data['limit'] = 80
+            data['limit'] = 50
 
         view_ids=False
         if action.get('views', []):
@@ -221,7 +221,7 @@ def execute(action, **data):
             action['domain']='[]'
 
         ctx = data.get('context', {}).copy()
-        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
+        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', []), 'active_model': data.get('model',False)})
         ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
 
         search_view = action.get('search_view_id')
@@ -241,10 +241,10 @@ def execute(action, **data):
 
         if data.get('domain', False):
             domain.append(data['domain'])
-            
+
         if 'menu' in data['res_model'] and action.get('name') == 'Menu':
             return close_popup()
-        
+
         res = execute_window(view_ids,
                              data['res_model'],
                              data['res_id'],
@@ -311,10 +311,10 @@ def get_action_type(act_id):
     @param act_id: the action id
     @return: action type
     """
-    
+
     proxy = rpc.RPCProxy("ir.actions.actions")
     res = proxy.read([act_id], ["type"], rpc.session.context)[0]
-    
+
     if not (res and len(res)):
         raise common.message(_('Action not found!'))
 
@@ -330,13 +330,13 @@ def execute_by_id(act_id, type=None, **data):
     @return: JSON object or XHTML code
     """
 
-    if type==None:
+    if type is None:
         type = get_action_type(act_id)
 
     res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
     return execute(res, **data)
 
-def execute_by_keyword(keyword, adds={}, **data):
+def execute_by_keyword(keyword, adds=None, **data):
     """Performs action represented by the given keyword argument with given data.
 
     @param keyword: action keyword
@@ -349,7 +349,7 @@ def execute_by_keyword(keyword, adds={}, **data):
     if 'id' in data:
         try:
             id = data.get('id', False)
-            if (id != False): id = int(id)
+            if (id): id = int(id)
             actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
@@ -359,13 +359,12 @@ def execute_by_keyword(keyword, adds={}, **data):
     for action in actions:
         keyact[action['name']] = action
 
-    keyact.update(adds)
+    keyact.update(adds or {})
 
     if not keyact:
         raise common.message(_('No action defined!'))
 
     if len(keyact) == 1:
-        key = keyact.keys()[0]
         data['context'].update(rpc.session.context)
         return execute(action, **data)
     else:

@@ -110,6 +110,7 @@ button.btn_filter:hover {
 
 div#search_filter_data input.datetime,
 div#search_filter_data input.char,
+div#search_filter_data input.float,
 div#search_filter_data input.m2o_search,
 div#search_filter_data select.selection {
 	background-color: #fff;
@@ -132,6 +133,26 @@ div.active_filter {
 	border: solid 1px #888888; 
 	white-space: nowrap;
 	padding: 1px;
+}
+
+img.group_expand {
+	cursor: pointer;
+	background: url(../images/treegrid/expand.gif) no-repeat top left;
+	padding-left: 15px;
+}
+
+img.group_expand:hover {
+	background: url(../images/treegrid/expandh.gif) no-repeat top left;
+}
+
+img.group_collapse {
+	cursor: pointer;
+	background: url(../images/treegrid/collapse.gif) no-repeat top left;
+	padding-left: 15px;
+}
+
+img.group_collapse:hover {
+	background: url(../images/treegrid/collapseh.gif) no-repeat top left;
 }
 
 div.group-expand {

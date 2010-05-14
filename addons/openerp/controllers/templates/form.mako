@@ -49,7 +49,12 @@
                                         <img src="/openerp/static/images/stock/stock_calendar.png"/>
                                         % endif
                                     </td>
-                                    <td width="100%">${form.screen.string}</td>
+                                    <td width="100%">
+                                    	${form.screen.string}
+                                    	<a target="appFrame" onclick="show_process_view()">
+                                    		<img title="${_('Contextual Help..')}" style="height:14px; width:14px;cursor:pointer;" border="0" src="/openerp/static/images/iconset-a-help.gif"/>
+                                    	</a>
+                                    </td>
                                     
                                     <%def name="make_view_button(kind, name, desc, active)">
                                         <button 

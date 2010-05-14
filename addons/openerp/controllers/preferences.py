@@ -26,10 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-from openerp.utils import rpc, TinyDict
+from openerp.utils import rpc, TinyDict, cache
 
 from form import Form
 from openobject.tools import expose, redirect
+
+import cherrypy
 
 
 class Preferences(Form):
@@ -44,6 +46,8 @@ class Preferences(Form):
         action_id = proxy.action_get({})
 
         action = rpc.RPCProxy('ir.actions.act_window').read([action_id], False, rpc.session.context)[0]
+        
+        environment = cherrypy.config.get('server.environment')
 
         view_ids=[]
         if action.get('views', []):
@@ -64,7 +68,7 @@ class Preferences(Form):
         params.editable = True
         form = self.create_form(params, tg_errors)
 
-        return dict(form=form, params=params, editable=True)
+        return dict(form=form, params=params, editable=True, environment=environment)
 
     @expose()
     def ok(self, **kw):
@@ -73,5 +77,10 @@ class Preferences(Form):
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
         raise redirect('/pref/create')
+    
+    @expose()
+    def clear_cache(self):
+        cache.clear()
+        raise redirect('/blank')
 
 # vim: ts=4 sts=4 sw=4 si et

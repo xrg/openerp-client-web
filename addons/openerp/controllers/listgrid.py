@@ -139,9 +139,10 @@ class List(SecuredController):
         
         if groupby:
             for gb in groupby:
-                group_split = gb.split('group_')
-                if group_split:
-                    group_by_list.append(group_split[1])
+                if 'group_' in gb:
+                    group_split = gb.split('group_')                    
+                    if group_split:
+                        group_by_list.append(group_split[1])
             
         params['_terp_group_by_ctx'] = group_by_list
                 
@@ -317,7 +318,30 @@ class List(SecuredController):
         for r in res:
             proxy.write([r['id']], {'sequence': res_ids.index(r['id'])+1}, ctx)  
         return dict()
-
+    
+    @expose('json')
+    def count_sum(self, model, ids, sum_fields):
+        selected_ids = ast.literal_eval(ids)
+        sum_fields = ast.literal_eval(sum_fields)
+        ctx = rpc.session.context.copy()
+        
+        proxy = rpc.RPCProxy(model)
+        res = proxy.read(selected_ids, sum_fields, ctx)
+        
+        total = []
+        for field in sum_fields:
+           total.append([])
+        
+        for i in range(len(selected_ids)):
+            for k in range(len(sum_fields)):
+                total[k].append(res[i][sum_fields[k]])
+        
+        total_sum = []
+        for s in total:
+            total_sum.append(sum(s))
+            
+        return dict(sum = total_sum)
+    
     @expose('json')
     def moveUp(self, **kw):
 

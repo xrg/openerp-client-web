@@ -197,6 +197,21 @@ function switch_O2M(view_type, src) {
     });
 }
 
+function show_process_view() {
+	var model = openobject.dom.get('_terp_model').value;
+	var id = openobject.dom.get('_terp_id').value;
+	
+	if (openobject.dom.get('_terp_list')) {
+		 var list = new ListView('_terp_list');
+		 var ids = list.getSelectedRecords();
+		 if (ids.length) {
+			id = ids[0];
+		 }
+	}
+	id = parseInt(id) || null;
+	window.location.href = openobject.http.getURL('/process', {res_model: model, res_id: id})
+}
+
 function validate_required(form) {
 
     if (typeof form == 'string') {
@@ -282,17 +297,6 @@ function submit_form(action, src, target) {
 }
 
 function pager_action(action, src) {
-	if(src) {
-		var $ = jQuery;
-		var records = new ListView(src).getSelectedRecords()
-		var ids = eval($('[id$=_terp_checked_ids]').val())
-		
-		var add_ids = $.grep(records, function(item) {
-			if($.inArray(item, ids)<0)
-				return item;
-		})
-		$('[id$=_terp_checked_ids]').attr('value', '['+ids.concat(add_ids)+']');
-	}
     return src ? new ListView(src).go(action) : submit_form(action ? action : 'find');
 }
 

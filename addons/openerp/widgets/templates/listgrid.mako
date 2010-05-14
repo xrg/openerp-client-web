@@ -181,7 +181,7 @@ import cherrypy
                                          % if 'sum' in field_attrs:
                                              % for key, val in field_total.items():
                                                  % if field == key:
-                                                 <span style="border-top: 1px inset ; display: block; padding: 0 1px;">${val[1]}</span>
+                                                 <span id="${field}" style="border-top: 1px inset ; display: block; padding: 0 1px;">${val[1]}</span>
                                                  % endif
                                              % endfor
                                          % else:

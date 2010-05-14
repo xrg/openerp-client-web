@@ -104,19 +104,25 @@ class Root(SecuredController):
 
         ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
         parents = proxy.read(ids, ['name', 'icon'], ctx)
-
+        
         if not id and ids:
             id = ids[0]
 
         ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
-        tools = proxy.read(ids, ['name', 'icon'], ctx)
-
+        tools = proxy.read(ids, ['name', 'icon', 'action'], ctx)
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
         fields = cache.fields_get(view['model'], False, ctx)
         
         for tool in tools:
             tid = tool['id']
             tool['icon'] = icons.get_icon(tool['icon'])
+            if tool['action']:
+                act_proxy = rpc.RPCProxy(tool['action'].split(",")[0])
+                res_act = act_proxy.read([tool['action'].split(",")[1]], ['name'], ctx)
+                seach_action_id = proxy.search([('name','=',res_act[0]['name'])], 0, 0, 0, ctx)
+                if seach_action_id:
+                    tool['action_id'] = seach_action_id[-1]
+                
             tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
                                     domain=[('parent_id', '=', tid)],
                                     context=ctx, action="/tree/action", fields=fields)
