@@ -38,8 +38,9 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
 ------------------------------------------- */
 
 #root { height: 100%; }
- #top { position: absolute; left: 0; top: 0; z-index: 15; width: 100%; height: 35px; background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: #333 0 1px 0; }
-  #logo { float: left; width: 172px; height: 35px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) no-repeat; line-height: 33px; }
+ #top { position: absolute; left: 0; top: 0; z-index: 15; width: 100%; height: 65px; background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: #333 0 1px 0; }
+ #top table td{padding: 0px; }
+  #logo { float: left; width: 172px; height: 65px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) repeat-y; line-height: 50px; }
    #logo a { }
     #logo img { vertical-align: middle; }
   #title-menu { float: left; margin: 0; padding: 6px 0 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
@@ -85,8 +86,12 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #skip-links { position: absolute; top: 0; left: -10001px; list-style: none; margin: 0; padding: 0; }
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  
- 
- #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 35px;}
+ div#shortcuts {}
+ div#shortcuts ul { display:block; float:left; position: absolute; padding: 6px 0; left: 180px; top: 33px; list-style: none; width: 100%; height: auto; margin: 0; line-height: 1.2; }
+ div#shortcuts ul  li { margin-left: 5px; border-radius: 3px; border: 1px solid #2e2e2e; border-right: 1px solid #090909; -moz-border-radius: 3px; -webkit-border-radius: 3px; display:block; float: left; text-align: center; color: #fff; }
+ div#shortcuts ul  li.last { float: right;}
+ div#shortcuts ul li a { display: block; float: left; height: auto; padding: 6px 0; border-bottom: 1px solid #090909; border-top: 1px solid #484848; background: #232323 url(../images/top-tools-sub-bg-a.png) repeat-x; color: #ddd; font-weight: 600; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
+ #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
  #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
   #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}
    #nav ul li { display: block; float: left; padding: 0 2px; font-size: 1em; text-transform: uppercase; text-align: center; }
