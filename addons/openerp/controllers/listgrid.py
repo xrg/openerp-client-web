@@ -322,7 +322,7 @@ class List(SecuredController):
     @expose('json')
     def count_sum(self, model, ids, sum_fields):
         selected_ids = ast.literal_eval(ids)
-        sum_fields = ast.literal_eval(sum_fields)
+        sum_fields = sum_fields.split(",")
         ctx = rpc.session.context.copy()
         
         proxy = rpc.RPCProxy(model)
