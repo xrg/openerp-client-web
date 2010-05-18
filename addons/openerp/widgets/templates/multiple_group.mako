@@ -3,24 +3,32 @@ import itertools
 background = '#DEDEDE'
 %>
 % for j, grp_row in enumerate(grp_records):
-	<tr class="grid-row-group" parent="${parent_group}" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
+	<tr class="grid-row-group" parent="${parent_group}" grp_by_id="${grp_row['group_by_id']}" records="${grp_row['group_id']}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
 		% if editable:
 			<td class="grid-cell" style="background-color: ${background};">
 			</td>
 		% endif
 		% for i, (field, field_attrs) in enumerate(headers):
 			% if field != 'button':
-				<td class="grid-cell ${field_attrs.get('type', 'char')}"
-					style="background-color: ${background};">
-					% if field_attrs.get('type') == 'progressbar':
-						<span>${grouped[j][field].display()}</span>
-					% else:
-						% if i  == group_level-1:
-							<img id="img_${grp_row.get('group_id')}" src="/openerp/static/images/treegrid/expand.gif" onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', this)"></img>
-						% else:
-							<span>${grp_row.get(field)}</span>
-						% endif
-					% endif
+                <%
+                    if field_attrs.get('type') != 'progressbar' and i == group_level - 1:
+                        subgroup_expander = "new ListView('%s').group_by('%s', '%s', this)" % (
+                            name, grp_row['group_by_id'], grp_row['group_id'])
+                        subgroup_class = 'group-expand'
+                    else:
+                        subgroup_expander = ''
+                        subgroup_class = ''
+                %>
+                <td class="grid-cell ${subgroup_class} ${field_attrs.get('type', 'char')}"
+                    style="background-color: ${background};"
+                    onclick="${subgroup_expander}">
+                    <span>
+                        % if field_attrs.get('type') == 'progressbar':
+                            ${grouped[j][field].display()}
+                        % elif i != group_level - 1:
+                            ${grp_row.get(field)}
+                        % endif
+                    </span>
 				</td>
 			% else:
 				<td class="grid-cell button" nowrap="nowrap" style="background-color: ${background};">

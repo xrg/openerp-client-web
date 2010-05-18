@@ -310,47 +310,43 @@ MochiKit.Base.update(ListView.prototype, {
     },
     
     group_by: function(id, record, group) {
-    	var group_record = jQuery('[records="'+record+'"]');
-    	var group_by_context = jQuery(group_record).attr('grp_context');
-    	var domain = jQuery(group_record).attr('grp_domain');
-    	var total_groups = jQuery('#'+this.name).attr('groups');
-    	
-    	if(group_by_context == '[]') {
-    		jQuery('[parent_grp_id="'+id+'"][id$="'+record+'"]').toggle();
-    	}
-    	else {
-    		
-    		if(jQuery(group).attr('src').indexOf('collapse') < 0) {
-    			jQuery.ajax({
-						url: '/listgrid/multiple_groupby',
-						type: 'POST',
-						data : {'model': this.model, 'name': this.name, 'grp_domain': domain, 'group_by': group_by_context, 'view_id': jQuery('#_terp_view_id').val(), 'view_type': jQuery('#_terp_view_type').val(), 'parent_group': record, 'group_level': jQuery(group).parent().index()+1, 'groups': total_groups},
-						dataType: 'html',
-						success: function(xmlHttp) {
-							jQuery(group_record).after(xmlHttp);
-						}
-				});
-    		}
-    		else {
-    			jQuery('[parent="'+record+'"]').each(function() {
-    				var parent_id = jQuery('[parent="'+record+'"]').attr('records');
-    				if(jQuery('[parent="'+parent_id+'"]').length> 0) {
-    					jQuery('[parent="'+parent_id+'"]').remove();
-    				}
-    				jQuery(this).remove();
-    			})
-    		}
-    	}
-    	
-    	var img_src = jQuery(group).attr('src');
-    	
-		if(img_src.indexOf('expand') > 0) {
-			jQuery(group).attr('src', img_src.replace('expand', 'collapse'));
-		}
-		else {
-			jQuery(group).attr('src', img_src.replace('collapse', 'expand'));
-		}
-	},
+        var group_record = jQuery('[records="' + record + '"]');
+        var group_by_context = jQuery(group_record).attr('grp_context');
+        var domain = jQuery(group_record).attr('grp_domain');
+        var total_groups = jQuery('#' + this.name).attr('groups');
+
+        if (group_by_context == '[]') {
+            jQuery('[parent_grp_id="' + id + '"][id$="' + record + '"]').toggle();
+        } else {
+            if (jQuery(group).hasClass('group-expand')) {
+                jQuery.ajax({
+                    url: '/listgrid/multiple_groupby',
+                    type: 'POST',
+                    data: { 'model': this.model, 'name': this.name,
+                            'grp_domain': domain, 'group_by': group_by_context,
+                            'view_id': jQuery('#_terp_view_id').val(),
+                            'view_type': jQuery('#_terp_view_type').val(),
+                            'parent_group': record,
+                            'group_level': jQuery(group).index() + 1,
+                            'groups': total_groups},
+                    dataType: 'html',
+                    success: function(xmlHttp) {
+                        jQuery(group_record).after(xmlHttp);
+                    }
+                });
+            } else {
+                jQuery('[parent="' + record + '"]').each(function() {
+                    var parent_id = jQuery('[parent="' + record + '"]').attr('records');
+                    if (jQuery('[parent="' + parent_id + '"]').length > 0) {
+                        jQuery('[parent="' + parent_id + '"]').remove();
+                    }
+                    jQuery(this).remove();
+                })
+            }
+        }
+        
+        jQuery(group).toggleClass('group-collapse group-expand');
+    },
 
     groupbyDrag: function(drag, drop) {
         var view = jQuery('table.grid[id$=grid]').attr('id').split("_grid")[0];
