@@ -15,56 +15,92 @@ except:
     requests = []
     requests_message = None
 %>
+
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		var top_divWidth = jQuery('div#top-menu').width();
+		var logoWidth = jQuery('p#logo').width();
+		
+		var sc_rowWidth = top_divWidth - logoWidth - 20;
+		jQuery('tr#sc_row').css('width', sc_rowWidth);
+	});
+	
+	jQuery(window).resize(function() {
+		var top_divWidth = jQuery('div#top-menu').width();
+		var logoWidth = jQuery('p#logo').width();
+		
+		var sc_rowWidth = top_divWidth - logoWidth - 20;
+		jQuery('tr#sc_row').css('width', sc_rowWidth);
+	});
+	
+</script>
 			
 <div id="top">
 	<div id="top-menu">
-	<p id="logo">
-		<a href="javascript: void(0)" accesskey="h">
-			<img src="/openerp/static/images/logo-a.gif" width="83px" height="26px"/>
-		</a>
-	</p>
-	<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
+		<p id="logo">
+			<a href="javascript: void(0)" accesskey="h">
+				<img src="/openerp/static/images/logo-a.gif" width="83px" height="26px"/>
+			</a>
+		</p>
+		<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
 		<ul id="skip-links">
-		<li><a href="#nav" accesskey="n">Skip to navigation [n]</a></li>
-		<li><a href="#content" accesskey="c">Skip to content [c]</a></li>
-		<li><a href="#footer" accesskey="f">Skip to footer [f]</a></li>
-	</ul>
-	<div id="corner">
-		<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
-		<ul class="tools">
-			<li>
-				% if rpc.session.is_logged():
-					<a target='appFrame' href="${py.url('/requests')}" class="messages">Messages<small>${total_mess}</small></a>
-				% endif
-			</li>
-			<li><a href="${py.url('/')}" class="home">Home</a></li>
-			
-			<li><a href="javascript: void(0)" class="preferences">Preferences</a>
-				<ul>
-					<li class="first last">
-						<a target='appFrame' href="${py.url('/pref/create')}">Edit Preferences</a>
-					</li>
-				</ul>
-			</li>
-			<li><a href="javascript: void(0);" class="help">Help</a></li>
-			<li><a href="javascript: void(0);" class="info">Info</a></li>
+			<li><a href="#nav" accesskey="n">Skip to navigation [n]</a></li>
+			<li><a href="#content" accesskey="c">Skip to content [c]</a></li>
+			<li><a href="#footer" accesskey="f">Skip to footer [f]</a></li>
 		</ul>
-		<p class="logout"><a href="${py.url('/logout')}" target="_top">${_("Logout")}</a></p>
-	</div>
+		<div id="corner">
+			<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
+			<ul class="tools">
+				<li>
+					% if rpc.session.is_logged():
+						<a target='appFrame' href="${py.url('/requests')}" class="messages">Messages<small>${total_mess}</small></a>
+					% endif
+				</li>
+				<li><a href="${py.url('/')}" class="home">Home</a></li>
+				
+				<li><a href="javascript: void(0)" class="preferences">Preferences</a>
+					<ul>
+						<li class="first last">
+							<a target='appFrame' href="${py.url('/pref/create')}">Edit Preferences</a>
+						</li>
+					</ul>
+				</li>
+				<li><a href="javascript: void(0);" class="help">Help</a></li>
+				<li><a href="javascript: void(0);" class="info">Info</a></li>
+			</ul>
+			<p class="logout"><a href="${py.url('/logout')}" target="_top">${_("Logout")}</a></p>
+		</div>
 	</div>
 	
 	% if rpc.session.is_logged():
-	<div id="shortcuts">
-		<ul style="border-top: 1px solid #444444;">
-			% for sc in shortcuts:
-			<li class="item">
-					<a target='appFrame' href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
-					${sc['name']}
-				</a>
-			</li>
-			% endfor
-			<li class="last"><a target='appFrame' href="/shortcuts">Edit</a></li>
-		</ul>
-	</div>
+	    <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
+	        <tr id="sc_row">
+	            % for i, sc in enumerate(shortcuts):
+	                % if i<6:
+			            <td nowrap="nowrap">
+			                <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+			            </td>
+	                % endif
+	            % endfor
+	            % if len(shortcuts)>6:
+	            <td id="shortcuts_menu" nowrap="nowrap">
+	                <a href="javascript: void(0)">>></a>
+	                <div class="submenu" id="shortcuts_submenu">
+	                    % for sc in shortcuts[6:]:
+	                    <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+	                    % endfor
+	                </div>
+	            </td>
+	            % endif
+	            <td id="manage_sc" style="float: right;">
+	            	<a target='appFrame' href="/shortcuts">Edit</a>
+	            </td>
+	        </tr>
+	    </table>
+	    % if len(shortcuts)>6:
+	    <script type="text/javascript">
+	        new Menu('shortcuts_menu', 'shortcuts_submenu');
+	    </script>
+	    % endif
 	% endif
 </div>

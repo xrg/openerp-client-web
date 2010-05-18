@@ -54,7 +54,6 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
      #corner ul.tools li a.messages { position: relative; width: 24px; background-position: 0 0; } #corner ul.tools li a.messages:hover { background-position: 0 -34px; }
       #corner ul.tools li a.messages small { position: absolute; right: 0; top: 5px; padding: 3px 4px 2px; background: #333; background: rgba(0,0,0,0.75); border-radius: 7px; -moz-border-radius: 7px; -webkit-border-radius: 7px; font-size: 0.9em; line-height: 1; font-weight: bold; text-shadow: #111 0 -1px 0; text-indent: 0; }
      #corner ul.tools li a.home { background-position: -22px 0; } #corner ul.tools li a.home:hover { background-position: -22px -34px; }
-     #corner ul.tools li a.shortcuts { background-position: -46px 0; } #corner ul.tools li a.shortcuts:hover { background-position: -46px -34px; }
      #corner ul.tools li a.preferences { background-position: -70px 0; } #corner ul.tools li a.preferences:hover { background-position: -70px -34px; }
      #corner ul.tools li a.help { background-position: -94px 0; } #corner ul.tools li a.help:hover { background-position: -94px -34px; }
      #corner ul.tools li a.info { width: 24px; background-position: -118px 0; } #corner ul.tools li a.info:hover { background-position: -118px -34px; }
@@ -86,11 +85,11 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #skip-links { position: absolute; top: 0; left: -10001px; list-style: none; margin: 0; padding: 0; }
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  
- div#shortcuts {}
- div#shortcuts ul { display:block; float:left; position: absolute; padding: 3px 0; left: 180px; top: 33px; list-style: none; width: 100%; height: auto; margin: 0; line-height: 1.2; }
- div#shortcuts ul li { margin-left: 5px; border-radius: 3px; border: 1px solid #2e2e2e; border-right: 1px solid #090909; -moz-border-radius: 3px; -webkit-border-radius: 3px; display:block; float: left; text-align: center; color: #fff; }
- div#shortcuts ul li.last { float: right;}
- div#shortcuts ul li a { display: block; float: left; height: auto; padding: 6px 2px; border-bottom: 1px solid #090909; border-top: 1px solid #484848; background: #232323 url(../images/top-tools-sub-bg-a.png) repeat-x; color: #ddd; font-weight: 600; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
+ table#shortcuts {border-bottom: 0px;}
+ table#shortcuts tr { display:block; float:left; position: absolute; padding: 3px 5px; border-top: 1px solid #707070; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
+ table#shortcuts tr td { margin-left: 5px; border-radius: 3px; display:block; text-align: center; color: #fff; }
+ table#shortcuts tr td:hover {background-color: #707070;}
+ table#shortcuts tr td a { display: block; float: left; height: auto; padding: 6px 2px; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
  #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
   #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}

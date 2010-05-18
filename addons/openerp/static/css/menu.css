@@ -15,12 +15,12 @@ table.menubar a {
 /*	background-color: #666; */
     padding: 4px 10px;
     margin: 0 1px 0 0;
-    color: #FFF;
+    color: #EEEEEE;
     text-decoration: none
 }
 
 table.menubar a:hover {
-    background-color: #505050;
+    background-color: #707070;
     text-decoration: none;
 }
 
