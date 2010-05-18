@@ -135,51 +135,24 @@ div.active_filter {
 	padding: 1px;
 }
 
-img.group_expand {
-	cursor: pointer;
-	background: url(../images/treegrid/expand.gif) no-repeat top left;
-	padding-left: 15px;
+.group-expand {
+    cursor: pointer;
+    background: url(../images/treegrid/expand.gif) no-repeat left center;
+    padding-left: 15px;
 }
 
-img.group_expand:hover {
-	background: url(../images/treegrid/expandh.gif) no-repeat top left;
+.group-expand:hover {
+    background-image: url(../images/treegrid/expandh.gif);
 }
 
-img.group_collapse {
-	cursor: pointer;
-	background: url(../images/treegrid/collapse.gif) no-repeat top left;
-	padding-left: 15px;
+.group-collapse {
+    cursor: pointer;
+    background: url(../images/treegrid/collapse.gif) no-repeat left center;
+    padding-left: 15px;
 }
 
-img.group_collapse:hover {
-	background: url(../images/treegrid/collapseh.gif) no-repeat top left;
-}
-
-div.group-expand {
-	cursor: pointer;
-	background: url(../images/treegrid/expand.gif) no-repeat top left;
-	padding-left: 15px;
-}
-
-div.group-expand:hover {
-	cursor: pointer;
-	background: url(../images/treegrid/expandh.gif) no-repeat top left;
-	padding-left: 15px;
-	padding-left: 15px;
-}
-
-div.group-collapse {
-	cursor: pointer;
-	background: url(../images/treegrid/collapse.gif) no-repeat top left;
-	padding-left: 15px;
-	padding-left: 15px;
-}
-
-div.group-collapse:hover {
-	cursor: pointer;
-	background: url(../images/treegrid/collapseh.gif) no-repeat top left;
-	padding-left: 15px;
-	padding-left: 15px;
+.group-collapse:hover {
+    background-image: url(../images/treegrid/collapseh.gif);
 }
 
 /* ============== SEARCH FORM end ==============*/

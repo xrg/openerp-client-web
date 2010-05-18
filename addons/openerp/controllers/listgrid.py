@@ -28,8 +28,8 @@
 ###############################################################################
 import cherrypy
 from openerp.controllers import SecuredController
-from openerp.utils import rpc, TinyDict, TinyForm, TinyFormError, context_with_concurrency_info
-from openerp.widgets import listgrid
+from openerp.utils import rpc, TinyDict, TinyForm, TinyFormError, context_with_concurrency_info, cache
+from openerp.widgets import listgrid, listgroup
 
 import form
 import wizard
@@ -126,7 +126,21 @@ class List(SecuredController):
                 error = ustr(e)
                 
         return dict(error=error)
-
+    
+    @expose()
+    def multiple_groupby(self, model, name, grp_domain, group_by, view_id, view_type, parent_group, group_level, groups):
+        grp_domain = ast.literal_eval(grp_domain)
+        view = cache.fields_view_get(model, view_id, view_type, rpc.session.context.copy(), True, True)
+        group_by = ast.literal_eval(group_by)
+        domain = grp_domain
+        group_level = ast.literal_eval(group_level)
+        groups = ast.literal_eval(groups)
+        context = {'group_by_no_leaf': False, 'group_by': group_by, '__domain': domain}
+        args = {'editable': True, 'view_mode': ['tree', 'form', 'calendar', 'graph'], 'nolinks': 1, 'group_by_ctx': group_by, 'selectable': 2, 'multiple_group_by': True}
+        
+        listgrp = listgroup.MultipleGroup(name, model, view, ids=None, domain= domain, parent_group=parent_group, group_level=group_level, groups=groups, context=context, **args)
+        return listgrp.render()
+    
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)

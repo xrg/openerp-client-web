@@ -3,7 +3,7 @@ import itertools
 background = '#DEDEDE'
 %>
 
-<table id="${name}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
+<table id="${name}" groups="${group_by_ctx}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
         <td colspan="2" class="pagerbar-cell" align="right">${pager.display()}</td>
@@ -33,10 +33,10 @@ background = '#DEDEDE'
 
                 <tbody>
 					% for j, grp_row in enumerate(grp_records):
-					<tr class="grid-row-group" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}">
+					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
                         % if editable:
-                            <td class="grid-cell" style="background-color: ${background};">
-                                <img id="img_${grp_row.get('group_id')}" src="/openerp/static/images/treegrid/expand.gif" onclick="toggle_group_data('${grp_row.get('group_id')}');"></img>
+                            <td class="grid-cell group-expand" style="background-color: ${background};"
+                                onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', this);">
                             </td>
                         % endif
 
@@ -65,7 +65,7 @@ background = '#DEDEDE'
                     </tr>
 
                     % for ch in grp_row.get('child_rec'):
-                    <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" record="${ch.get('id')}"
+                    <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" record="${ch.get('id')}"
                         style="cursor: pointer; display: none;">
                         % if editable:
                             <td class="grid-cell">
@@ -76,7 +76,7 @@ background = '#DEDEDE'
                         % for i, (field, field_attrs) in enumerate(headers):
                             % if field != 'button':
                                 <td class="grid-cell ${field_attrs.get('type', 'char')}"
-                                    style="padding-left: 15px; ${(ch.get(field).color or None) and 'color: ' + ch.get(field).color};"
+                                    style="${(ch.get(field).color or None) and 'color: ' + ch.get(field).color};"
                                     sortable_value="${ch.get(field).get_sortable_text()}">
                                     <span>${ch[field].display()}</span>
                                 </td>

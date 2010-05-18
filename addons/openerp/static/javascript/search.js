@@ -256,6 +256,8 @@ var display_Customfilters = function(all_domains, group_by_ctx){
 	});	
 }
 
+var group_by = [];
+
 var search_filter = function(src, id) {
 	var all_domains = {};
 	var check_domain = 'None';
@@ -269,10 +271,16 @@ var search_filter = function(src, id) {
 		if(src.checked==false) {
 			src.checked = true
 			id.className = 'active_filter';
+			if(jQuery(src).attr('group_by_ctx')) {
+				group_by.push(jQuery(src).attr('group_by_ctx'))
+			}
 		}
 		else {
 			src.checked = false
 			id.className = 'inactive_filter';
+			group_by = jQuery.grep(group_by, function(grp) {
+				return grp != jQuery(src).attr('group_by_ctx');
+			})
 		}
 	}
 	var filter_table = $('filter_table');
@@ -304,13 +312,9 @@ var search_filter = function(src, id) {
 		if (box.id && box.checked && box.value != '[]') {
 			all_boxes = all_boxes.concat(box.value);
 		}
-		if (box.id && box.checked && getNodeAttribute(box, 'group_by_ctx').length > 0) {
-    		group = getNodeAttribute(box, 'group_by_ctx');
-    		group_by_ctx = group_by_ctx.concat(group);
-		}
 	});
 	
-	openobject.dom.get('_terp_group_by_ctx').value = group_by_ctx;
+	openobject.dom.get('_terp_group_by_ctx').value = group_by;
 	
 	checked_button = all_boxes.toString();
 	check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
@@ -327,11 +331,11 @@ var search_filter = function(src, id) {
 		if (filter_table.style.display == 'none'){
 			filter_table.style.display = '';
 		}		
-		display_Customfilters(all_domains, group_by_ctx);
+		display_Customfilters(all_domains, group_by);
 	}
 	else {
 		custom_domain = fil_dom ? fil_dom.value : '[]';		
-		final_search_domain(custom_domain, all_domains, group_by_ctx);	
+		final_search_domain(custom_domain, all_domains, group_by);	
 	}
 }
 
