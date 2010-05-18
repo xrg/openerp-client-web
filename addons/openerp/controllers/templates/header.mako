@@ -63,7 +63,7 @@ except:
 				</a>
 			</li>
 			% endfor
-			<li class="last"><a target='appFrame' href="/shortcuts">Manage Shortcuts</a></li>
+			<li class="last"><a target='appFrame' href="/shortcuts">Edit</a></li>
 		</ul>
 	</div>
 	% endif

@@ -87,10 +87,10 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  
  div#shortcuts {}
- div#shortcuts ul { display:block; float:left; position: absolute; padding: 6px 0; left: 180px; top: 33px; list-style: none; width: 100%; height: auto; margin: 0; line-height: 1.2; }
- div#shortcuts ul  li { margin-left: 5px; border-radius: 3px; border: 1px solid #2e2e2e; border-right: 1px solid #090909; -moz-border-radius: 3px; -webkit-border-radius: 3px; display:block; float: left; text-align: center; color: #fff; }
- div#shortcuts ul  li.last { float: right;}
- div#shortcuts ul li a { display: block; float: left; height: auto; padding: 6px 0; border-bottom: 1px solid #090909; border-top: 1px solid #484848; background: #232323 url(../images/top-tools-sub-bg-a.png) repeat-x; color: #ddd; font-weight: 600; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
+ div#shortcuts ul { display:block; float:left; position: absolute; padding: 3px 0; left: 180px; top: 33px; list-style: none; width: 100%; height: auto; margin: 0; line-height: 1.2; }
+ div#shortcuts ul li { margin-left: 5px; border-radius: 3px; border: 1px solid #2e2e2e; border-right: 1px solid #090909; -moz-border-radius: 3px; -webkit-border-radius: 3px; display:block; float: left; text-align: center; color: #fff; }
+ div#shortcuts ul li.last { float: right;}
+ div#shortcuts ul li a { display: block; float: left; height: auto; padding: 6px 2px; border-bottom: 1px solid #090909; border-top: 1px solid #484848; background: #232323 url(../images/top-tools-sub-bg-a.png) repeat-x; color: #ddd; font-weight: 600; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
  #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
   #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}
@@ -106,9 +106,9 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
     #nav ul li em { position: absolute; left: -10001px; top: -10001px; }
  
  #content { height: 100%; }
-   #content div.wrap { padding: 35px 0 5px; }
+   #content div.wrap { padding: 0px 0 5px; }
   #primary { min-height: 100%; margin: 0 20px 0 195px; }
-   #primary div.wrap { padding-top: 50px; }
+   #primary div.wrap { padding-top: 0px; }
   #secondary { float: left; width: 180px; min-height: 100%; border-right: 1px solid #3c3c3c; background: #5a5858; }
   #tertiary { float: right; min-height: 100%; border-left: 1px solid #d2cfcf; background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y; }
 
