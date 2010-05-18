@@ -36,7 +36,7 @@ background = '#DEDEDE'
 					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
                         % if editable:
                             <td class="grid-cell" style="background-color: ${background};">
-                                <img id="img_${grp_row.get('group_id')}" class="group_expand" onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', this)"></img>
+                                <img id="img_${grp_row.get('group_id')}" src="/openerp/static/images/treegrid/expand.gif" onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', this)"></img>
                             </td>
                         % endif
 

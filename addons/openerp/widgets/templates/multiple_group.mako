@@ -16,7 +16,7 @@ background = '#DEDEDE'
 						<span>${grouped[j][field].display()}</span>
 					% else:
 						% if i  == group_level-1:
-							<img id="img_${grp_row.get('group_id')}" class="group_expand" onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', this)"></img>
+							<img id="img_${grp_row.get('group_id')}" src="/openerp/static/images/treegrid/expand.gif" onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', this)"></img>
 						% else:
 							<span>${grp_row.get(field)}</span>
 						% endif

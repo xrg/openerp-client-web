@@ -317,10 +317,10 @@ MochiKit.Base.update(ListView.prototype, {
     	
     	if(group_by_context == '[]') {
     		jQuery('[parent_grp_id="'+id+'"][id$="'+record+'"]').toggle();
-    		jQuery(group).toggleClass('group_collapse',200);
     	}
     	else {
-    		if(jQuery(group).attr('class').indexOf('collapse') < 0) {
+    		
+    		if(jQuery(group).attr('src').indexOf('collapse') < 0) {
     			jQuery.ajax({
 						url: '/listgrid/multiple_groupby',
 						type: 'POST',
@@ -340,8 +340,16 @@ MochiKit.Base.update(ListView.prototype, {
     				jQuery(this).remove();
     			})
     		}
-    		jQuery(group).toggleClass('group_collapse',200);
     	}
+    	
+    	var img_src = jQuery(group).attr('src');
+    	
+		if(img_src.indexOf('expand') > 0) {
+			jQuery(group).attr('src', img_src.replace('expand', 'collapse'));
+		}
+		else {
+			jQuery(group).attr('src', img_src.replace('collapse', 'expand'));
+		}
 	},
 
     groupbyDrag: function(drag, drop) {
