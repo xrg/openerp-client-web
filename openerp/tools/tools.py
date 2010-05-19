@@ -105,6 +105,49 @@ def get_node_xpath(node):
 
     return xp
 
+def get_xpath(pn, expr):
+    
+    if '/' not in expr:
+        name = expr
+        param = None
+        index = None
+        
+        if '[' in expr:
+            name, param = expr.split('[')
+            try:
+                index = int(param.replace(']', ''))
+            except:
+                param = param.replace(']', '')
+                if param and '@' in param:
+                    param = param.strip('@')
+                    key = param.split('=')[0]
+                    value = param.split('=')[1][1:-1]
+                    
+        if index:
+            nodes = [n for n in pn.childNodes if n.localName == name]
+            try:
+                return nodes[index-1]
+            except:
+                return []
+            
+        for child in pn.childNodes:
+            if child.localName and child.localName == name:
+                if param and key in child.attributes.keys():
+                    if child.getAttribute(key) == value:
+                        return child
+                else:
+                    return child
+        return False
+    
+    parts = expr.split('/')
+    for part in parts:
+        if part in ('', '.'):
+            continue
+        n = get_xpath(pn, part)
+        if n:
+            pn = n
+    return [pn]
+
 def get_size(sz):
     """
     Return the size in a human readable format
