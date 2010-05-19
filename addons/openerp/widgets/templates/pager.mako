@@ -1,40 +1,46 @@
+<%
+    name_base = name and (name != '_terp_list' or None) and name + '/'
+%>
 <div class="pager">
     <span id="_${name+str(pager_id)}_link_span">
         % if prev:
-        <a href="javascript: void(0)" onclick="pager_action('first', '${name}'); return false;">
+        <span onclick="pager_action('first', '${name}'); return false;">
         % endif
-        <span>${_("<< First")}</span>
+        ${_("<< First")}
         % if prev:
-        </a>
-        <a href="javascript: void(0)" onclick="pager_action('previous', '${name}'); return false;">
+        </span>
+        <span onclick="pager_action('previous', '${name}'); return false;">
         % endif
-        <span>${_("< Previous")}</span>
+        ${_("< Previous")}
         % if prev:
-        </a>
+        </span>
         % endif
-        <a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_link_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display=''">${page_info}</a>
+        <span onclick="jQuery('#_${name+str(pager_id)}_link_span').hide(); jQuery('#_${name+str(pager_id)}_limit_span').show();">${page_info}</span>
         % if next:
-        <a href="javascript: void(0)" onclick="pager_action('next', '${name}'); return false;">
+        <span onclick="pager_action('next', '${name}'); return false;">
         % endif
-        <span>${_("Next >")}</span>
+        ${_("Next >")}
         % if next:
-        </a>
-        <a href="javascript: void(0)" onclick="pager_action('last', '${name}'); return false;">
+        </span>
+        <span onclick="pager_action('last', '${name}'); return false;">
         % endif
-        <span>${_("Last >>")}</span>
+        ${_("Last >>")}
         % if next:
-        </a>
+        </span>
         % endif
     </span>
 
     <table id="_${name+str(pager_id)}_limit_span" style="width: 100%; display: none" border="0" cellpadding="0" cellspacing="0">
         <tr>
             <td align="right">
-                <a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_link_span').style.display=''">${_("Change Limit:")}</a>&nbsp;
+                <label for="_${name+str(pager_id)}_limit"
+                       onclick="jQuery('#_${name+str(pager_id)}_limit_span').hide(); jQuery('#_${name+str(pager_id)}_link_span').show();">${_("Change Limit:")}</label>&nbsp;
             </td>
             <td width="45px;">
-                <select id='_${name+str(pager_id)}_limit' onchange="openobject.dom.get('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=openobject.dom.get('_${name+str(pager_id)}_limit').value; 
-                	$('${name and (name != '_terp_list' or None) and name + '/'}_terp_offset').value= 0;pager_action('filter', '${name}')">
+                <select id='_${name+str(pager_id)}_limit'
+                        onchange="jQuery('#${name_base}_terp_limit').val(jQuery(this).val());
+                	              jQuery('#${name_base}_terp_offset').val(0);
+                	              pager_action('filter', '${name}')">
                     <option value=""></option>
                     % for k in pager_options:
                     <option value="${k}" ${py.selector(limit=='${k]}')}>${k}</option>

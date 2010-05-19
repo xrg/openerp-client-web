@@ -5,7 +5,10 @@
     vertical-align: middle;
 }
 
+.pager label,
+.pager span span,
 .pager a {
+    cursor: pointer;
     color: #333;
 }
 
