@@ -1,12 +1,6 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
-    <title>
-        % if form:
-            ${form.screen.string}
-        % endif
-    </title>
-
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/wizard.js"></script>
 
@@ -35,7 +29,7 @@
             <table align="center" cellspacing="0">
                 <tr>
                     % if len(state) >= 3:
-                    <td><img align="left" src="${state[2]}" width="16" height="16"/></td>
+                    <td><img alt="" align="left" src="${state[2]}" width="16" height="16"/></td>
                     % endif
                     <td nowrap="nowrap">${state[1]}</td>
                 </tr>

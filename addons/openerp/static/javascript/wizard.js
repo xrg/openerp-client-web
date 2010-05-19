@@ -53,9 +53,5 @@ function wizardAction(state) {
     MochiKit.DOM.setNodeAttribute(form, 'action', openobject.http.getURL(act));
     form._terp_state.value = state;
 
-    if(state != 'report') {
-        WAIT_BOX.showAfter(2000);
-    }
-
     jQuery(form).submit();
 }
