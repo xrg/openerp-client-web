@@ -475,6 +475,46 @@ table.menu_connection a:hover {
     background: transparent url(../images/diagonal_right.gif) no-repeat scroll right;
 }
 
+/* ---------------------- Attachment --------------- */
+
+#attachment-box {
+	font-weight: 600;
+	display:none;
+}
+
+.attachment-header {
+	text-align: center;
+}
+
+#attachment-box input#FormSubmit ,input#FormCancel {
+    background: #EFEFEF;
+    border: 1px solid #888;
+    padding: 3px 4px;
+    color: #af2d21;
+    margin: 0px 5px 0px 0px;
+    border-radius: 7px;
+    -moz-border-radius: 7px;
+    font-weight: 600;
+}
+
+#attachment-box input:focus {
+    outline: none;
+}
+
+span.ValidationErrors {
+    display: inline-block;
+    font-size: 12px;
+    color: #D00;
+    padding-left: 10px;
+    font-style: italic;
+}
+
+.ErrorField {
+    border: 1px solid #D00;
+    color: #D00;
+    background: #FFFFFE;
+}
+
 /*------------------ Header End ---------------*/
 
 /* ----------------- Navigation -------------- */

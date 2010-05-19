@@ -30,6 +30,52 @@
 </%def>
 
 % if reports or actions or relates or attachments:
+<form id="attachment-box" name="attachment-box" action="/form/save_attachment" method="post" enctype="multipart/form-data">
+<div>
+	<table style="height: 150px;">
+		<thead style="border-bottom: 1px solid silver;">
+			<tr>
+				<td colspan="2">
+					<div id="header-message" class="attachment-header" style="text-align: center;">Add an Attachment</div>
+				</td>
+			</tr>
+		</thead>
+		<tbody style="border-bottom: 1px solid silver;">
+		<tr>
+			<td>
+				<div>File:</div>
+			</td>
+			<td>
+				<div id="datas_binary_add">
+				    <input type="hidden" id="model" name="model" value="${model}"/>
+                    <input type="hidden" id="active_id" name="id" value="${active_id}"/>
+					<input type="file" id="datas" class="binary" onchange="onChange(this); set_binary_filename(this, 'datas_fname');" name="datas" kind="binary" size="20"/>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div>Attachment Name:</div>
+			</td>
+			<td>
+				<div id="file-name">
+					<input id="datas_fname" type="text" maxlength="64" name="datas_fname" kind="char" class="char"/>
+				</div>
+			</td>
+		</tr>
+		</tbody>
+		<tfoot style="border-bottom: 1px solid silver; vertical-align: middle;">
+			<tr>
+				<td colspan="2" style="text-align: right;">
+					<input type="submit" id="FormSubmit" value="save">
+					<input type="button" id="FormCancel" value="cancel">
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+</form>
+
 <table id="sidebar_pane" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td id="sidebar" style="display: none">
@@ -62,10 +108,19 @@
     		% if attachments:
             	<div class="sideheader-a">
 					<ul class="side">
-						<li><a href="javascript: void(0);" class="button-a">Create</a></li>
-						<li><a href="javascript: void(0);" class="button-a">Add</a></li>
+						<li><a href="javascript: void(0);" id="add-attachment" class="button-a">Add</a></li>
 					</ul>
 					<h2>Attachments</h2>
+					<script type="text/javascript">
+						jQuery('#add-attachment').click(function() {
+							jQuery.blockUI({
+								css: {border: 'none', opacity: .9},
+								message: jQuery('#attachment-box'),
+								fadeIn: 1000,
+								fadeOut: 1000
+							});
+						});
+					</script>
 				</div>
 				<ul class="attachments-a">
 					% for item in attachments:
@@ -82,5 +137,21 @@
     	</td>
     </tr>
 </table>
+<script type="text/javascript">
+                       
+   jQuery('#FormCancel').click(function() {
+        jQuery.unblockUI();
+    });
+    
+    jQuery('#datas').validate({
+         expression: "if (VAL) return true; else return false;",
+         message: "enter the attachment file"
+    });
+   
+     jQuery("#datas_fname").validate({
+         expression: "if (VAL) return true; else return false;",
+         message: "enter the attachment name"
+    });
+</script>
 % endif
 

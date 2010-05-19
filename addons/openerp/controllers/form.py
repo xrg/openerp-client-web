@@ -178,7 +178,9 @@ class Form(SecuredController):
     def create_form(self, params, tg_errors=None):
         if tg_errors:
             return cherrypy.request.terp_form
-
+        
+        cherrypy.session['params'] = params
+        
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
@@ -591,7 +593,33 @@ class Form(SecuredController):
         res = proxy.read([params.id],[params.field], rpc.session.context)
 
         return base64.decodestring(res[0][params.field])
-
+    
+    @expose()
+    def save_attachment(self, **kw):
+        
+        datas = base64.encodestring(kw.get('datas').file.read())
+        ctx = rpc.session.context.copy()
+        ctx.update({'default_res_model': kw.get('model'), 'default_res_id': int(kw.get('id')), 'active_id': False, 'active_ids': []})
+        
+        add_attachment = rpc.RPCProxy('ir.attachment').create({'name': kw.get('datas_fname'), 'description': False, 'datas': datas, 'datas_fname': kw.get('datas_fname')}, ctx)
+        
+        params, data = TinyDict.split(cherrypy.session['params'])
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain),
+                'search_data': ustr(params.search_data),
+                'filter_domain': ustr(params.filter_domain)}
+        
+        raise redirect(self.path + '/edit', source=params.source, **args)
+    
     @expose()
     def clear_binary_data(self, **kw):
         params, data = TinyDict.split(kw)
