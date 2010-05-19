@@ -14,12 +14,12 @@ background = '#DEDEDE'
             % if field != 'button':
                 <%
                 if field_attrs.get('type') != 'progressbar' and i == group_level - 1:
-                subgroup_expander = "new ListView('%s').group_by('%s', '%s', this)" % (
-                name, grp_row['group_by_id'], grp_row['group_id'])
-                subgroup_class = 'group-expand'
+                    subgroup_expander = "new ListView('%s').group_by('%s', '%s', this)" % (
+                        name, grp_row['group_by_id'], grp_row['group_id'])
+                    subgroup_class = 'group-expand'
                 else:
-                subgroup_expander = ''
-                subgroup_class = ''
+                    subgroup_expander = ''
+                    subgroup_class = ''
                 %>
                 <td class="grid-cell ${subgroup_class} ${field_attrs.get('type', 'char')}"
                     style="background-color: ${background};"
