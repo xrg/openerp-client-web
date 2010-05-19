@@ -85,11 +85,12 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #skip-links { position: absolute; top: 0; left: -10001px; list-style: none; margin: 0; padding: 0; }
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  
- table#shortcuts {border-bottom: 0px;}
- table#shortcuts tr { display:block; float:left; position: absolute; padding: 3px 5px; border-top: 1px solid #707070; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
- table#shortcuts tr td { margin-left: 5px; border-radius: 3px; display:block; text-align: center; color: #fff; }
+ table#shortcuts {border-bottom: 0px; border-collapse: expand;}
+ table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #707070; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
+ table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #CCCCCC;}
  table#shortcuts tr td:hover {background-color: #707070;}
- table#shortcuts tr td a { display: block; float: left; height: auto; padding: 6px 2px; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
+ table#shortcuts tr td a { display: block; float: left; height: auto; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
+ 
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
  #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
   #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}

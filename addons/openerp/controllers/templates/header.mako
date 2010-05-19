@@ -73,7 +73,7 @@ except:
 	</div>
 	
 	% if rpc.session.is_logged():
-	    <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
+	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
 	        <tr id="sc_row">
 	            % for i, sc in enumerate(shortcuts):
 	                % if i<6:
@@ -83,17 +83,17 @@ except:
 	                % endif
 	            % endfor
 	            % if len(shortcuts)>6:
-	            <td id="shortcuts_menu" nowrap="nowrap">
-	                <a href="javascript: void(0)">>></a>
-	                <div class="submenu" id="shortcuts_submenu">
+	            <td id="shortcuts_menu" nowrap="nowrap" style="border-right: 1px solid #CCCCCC;">
+	                <a style="padding-left: 5px;" href="javascript: void(0)">>></a>
+	                <div class="submenu" id="shortcuts_submenu" style="display: none;">
 	                    % for sc in shortcuts[6:]:
-	                    <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+	                    <a style="float: none; padding: 6px 5px 6px 2px;" target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 	                    % endfor
 	                </div>
 	            </td>
 	            % endif
-	            <td id="manage_sc" style="float: right;">
-	            	<a target='appFrame' href="/shortcuts">Edit</a>
+	            <td id="manage_sc" style="width: 60%; border-right: 0;">
+	            	<a style="float: none; text-align: right;" target='appFrame' href="/shortcuts">Edit</a>
 	            </td>
 	        </tr>
 	    </table>

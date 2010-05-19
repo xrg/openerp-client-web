@@ -27,47 +27,17 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+var $ = jQuery;
+
 var Menu = function(id, submenu){
-    this.menu = $(id);
-    this.layer = $(submenu);
 
-    this.visible = false;
-
-    if (this.menu){
-        MochiKit.Signal.connect(this.menu, "onmouseover", this, this.show);
-        MochiKit.Signal.connect(this.menu, "onmouseout", this, this.hide);
-        MochiKit.Signal.connect(this.layer, "onmouseover", this, this.show);
-        MochiKit.Signal.connect(this.layer, "onmouseout", this, this.hide);
-    }
-}
-
-Menu.prototype.show = function(evt){
-
-    if (!this.visible) {
-
-        this.layer.style.visibility="visible";
-        this.visible = true;
-
-        //var vd = getViewportDimensions();
-        var vw = window.document.documentElement.clientWidth + window.document.documentElement.scrollLeft;
-        var mw = getElementDimensions(this.layer).w;
-
-        this.layer.style.left = getElementPosition(this.menu).x + 'px';
-
-        var x = parseInt(this.layer.style.left) || 0;
-
-        if ((x + mw) > vw) {
-            x -= x + mw - vw;
-            this.layer.style.left = x + 'px';
-        }
-    }
-}
-
-Menu.prototype.hide = function(evt){
-    if (this.visible) {
-        this.layer.style.visibility="hidden";
-        this.visible = false;
-    }
+    $('#'+id).click(function(e) {
+        var pos = e.pageX - 200 + 'px';
+        
+        $('#'+submenu).css('left', pos);
+        $('#'+submenu).css('top', 25 + 'px');
+        $('#'+submenu).slideToggle('slow');
+    });
 }
 
 // vim: ts=4 sts=4 sw=4 si et

@@ -13,10 +13,11 @@ table.menubar a {
 /*  display: block; */
     text-align: center;
 /*	background-color: #666; */
-    padding: 4px 10px;
+    padding: 4px 2px;
     margin: 0 1px 0 0;
     color: #EEEEEE;
-    text-decoration: none
+    text-decoration: none;
+    letter-spacing: 0;
 }
 
 table.menubar a:hover {
@@ -29,9 +30,9 @@ table.menubar div.submenu {
     border: 1px solid #333;
     position: absolute;
     left: 0px;
-    visibility: hidden;
     margin-left:  -1px;
-    z-index: 3
+    z-index: 3;
+    padding: 4px;
 }
 
 table.menubar div.submenu a {
