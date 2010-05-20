@@ -82,17 +82,17 @@ except:
 	
 	% if rpc.session.is_logged():
 	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
-	        <tr id="sc_row" style="z-index: 1;">
+	        <tr id="sc_row">
 	            % for i, sc in enumerate(shortcuts):
-	                % if i<7:
+	                % if i < 7:
 			            <td nowrap="nowrap">
-			                <a class="anchor_sc" target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+			                <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 			            </td>
 	                % endif
 	            % endfor
-	            % if len(shortcuts)>7:
+	            % if len(shortcuts) > 7:
 	            <td id="shortcuts_menu" nowrap="nowrap" style="border-right: 1px solid #CCCCCC;">
-	                <a class="anchor_sc" style="padding-left: 5px;" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
+	                <a style="padding-left: 5px;" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
 	                <div class="submenu" id="shortcuts_submenu" style="display: none;">
 	                    % for sc in shortcuts[7:]:
 	                    <a style="float: none; padding: 6px 5px 6px 2px;" target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
@@ -102,7 +102,7 @@ except:
 	            % endif
 	        </tr>
 	    </table>
-	    <div style="text-align: right; margin: -25px 10px 0px 0px; z-index: 5;">
+	    <div style="text-align: right; margin: -25px 10px 0px 0px;">
 	    	<a target="appFrame" style="color: #FFFFFF;" href="/shortcuts">Edit</a>
 	    </div>
 	% endif
