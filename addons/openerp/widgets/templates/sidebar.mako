@@ -104,7 +104,8 @@
     <tr>
     	<td id="attach_sidebar" colspan='2' style="display: none;">
     		% if attachments:
-            	<div class="sideheader-a">
+    		     <div class="poof"></div>
+            	<div class="sideheader-a" id="sideheader-a">
 					<ul class="side">
 						<li><a href="javascript: void(0);" id="add-attachment" class="button-a">Add</a></li>
 					</ul>
@@ -122,12 +123,12 @@
 				</div>
 				<ul class="attachments-a">
 					% for item in attachments:
-						<li>
+						<li id="attachment_item_${item[0]}">
 							<a href="${py.url(['/attachment/save_as', item[1]], record=item[0])}">
 								${item[1]}
 							</a>
 							<span>|</span>
-							<a href="javascript: void(0);" class="close" title="${_('Delete')}" onclick="removeAttachment(${item[0]});">Close</a>
+							<a href="javascript: void(0);" class="close" title="${_('Delete')}" onclick="removeAttachment(event, 'attachment_item_${item[0]}', ${item[0]});">Close</a>
 						</li>
 					% endfor
 				</ul>

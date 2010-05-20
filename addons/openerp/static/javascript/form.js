@@ -1038,10 +1038,55 @@ function show_wkf() {
 
 }
 
-function removeAttachment(id) {
-	if (!window.confirm(_('Do you really want to remove this view?'))){
-		return;
-	}
-	openobject.http.postJSON('/attachment/removeAttachment/'+id);
-   	return window.location.reload();
+function removeAttachment(e, element, id) {
+    var element = jQuery('#'+element);
+	var parent = element.parent();
+	
+	// set the x and y offset of the poof animation from cursor position
+	var xOffset = 100;
+    var yOffset = 19;
+	
+	jQuery.ajax({
+		url: '/attachment/removeAttachment/',
+		type: 'POST',
+		data: {'id': id},
+		dataType: 'json',
+		success: function(obj) {
+			
+            // remove clicked element from the document tree
+            jQuery(element).fadeOut('fast');
+            jQuery(element).remove();
+            
+            jQuery('.poof').css({
+                left: e.pageX - xOffset + 'px',
+                top: e.pageY - yOffset + 'px'
+            }).show(); // display the poof
+            
+            animatePoof()
+            
+	       if(parent.children().length == 0) {
+	       	   parent.remove();
+	       	   jQuery('#sideheader-a').remove();
+	       }
+		}
+	});
+}
+
+function animatePoof() {
+	var bgTop = 0; // initial background-position for the poof sprit is '0 0'
+    var frames = 5; // number of frames in the sprite animation
+    var frameSize = 32; // size of poof <div> in pixels (32 x 32 px in this example)
+    var frameRate = 80; // set length of time each frame in the animation will display (in milliseconds)
+
+    // loop through amination frames
+    // and display each frame by resetting the background-position of the poof <div>
+    for(i=1;i<frames;i++) {
+        jQuery('.poof').animate({
+            backgroundPosition: '0 ' + (bgTop - frameSize) + 'px'
+        }, frameRate);
+        bgTop -= frameSize; // update bgPosition to reflect the new background-position of our poof <div>
+    }
+    
+    // wait until the animation completes and then hide the poof <div>
+    setTimeout("jQuery('.poof').hide()", frames * frameRate);
 }
