@@ -262,7 +262,7 @@ class ViewEd(SecuredController):
             def _find(node, node2):
                 # Check if xpath query or normal inherit (with field matching)
                 if node2.nodeType==node2.ELEMENT_NODE and node2.localName=='xpath':
-                    res = utils.xml_locate(node2.getAttribute('expr'), node)
+                    res = utils.get_xpath(node2.getAttribute('expr'), node)
                     return res and res[0]
                 else:
                     if node.nodeType==node.ELEMENT_NODE and node.localName==node2.localName:
