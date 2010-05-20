@@ -30,8 +30,16 @@ except:
 		var logoWidth = jQuery('p#logo').width();
 		
 		var sc_rowWidth = top_divWidth - logoWidth - 20;
-		jQuery('tr#sc_row').css('width', sc_rowWidth);
+	    jQuery('tr#sc_row').css('width', sc_rowWidth);
 	});
+
+	function showMore_sc(e, id, submenu) {
+        var pos = e.pageX - 200 + 'px';
+        
+        jQuery('#'+submenu).css('left', pos);
+        jQuery('#'+submenu).css('top', 25 + 'px');
+        jQuery('#'+submenu).slideToggle('slow');
+	}
 	
 </script>
 			
@@ -76,17 +84,17 @@ except:
 	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
 	        <tr id="sc_row">
 	            % for i, sc in enumerate(shortcuts):
-	                % if i<6:
+	                % if i<7:
 			            <td nowrap="nowrap">
 			                <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 			            </td>
 	                % endif
 	            % endfor
-	            % if len(shortcuts)>6:
+	            % if len(shortcuts)>7:
 	            <td id="shortcuts_menu" nowrap="nowrap" style="border-right: 1px solid #CCCCCC;">
-	                <a style="padding-left: 5px;" href="javascript: void(0)">>></a>
+	                <a style="padding-left: 5px;" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
 	                <div class="submenu" id="shortcuts_submenu" style="display: none;">
-	                    % for sc in shortcuts[6:]:
+	                    % for sc in shortcuts[7:]:
 	                    <a style="float: none; padding: 6px 5px 6px 2px;" target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 	                    % endfor
 	                </div>
@@ -97,10 +105,5 @@ except:
 	            </td>
 	        </tr>
 	    </table>
-	    % if len(shortcuts)>6:
-	    <script type="text/javascript">
-	        new Menu('shortcuts_menu', 'shortcuts_submenu');
-	    </script>
-	    % endif
 	% endif
 </div>
