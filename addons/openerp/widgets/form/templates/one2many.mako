@@ -3,14 +3,14 @@
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid #C0C0C0;"cellpadding="0" cellspacing="0">
                 <tr class="pagebar">
-                	<td class="pagerbar-cell" align="right" width="75%">
+                	<td class="pagerbar-cell" align="right" width="25%">
                 		<div class="pagerbar-header">
                 			<strong>${screen.string}</strong>
                 		</div>
                 	</td>
                 	
 					% if pager_info:
-					<td width="25%" style="text-align: left" align="left">
+					<td width="75%" style="text-align: left" align="left">
 						<div class="pager">
 							<p id="_${name}_link_span" class="paging">
 								<a class="prev" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}')"></a>

@@ -222,7 +222,7 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 }
 
 ManyToOne.prototype.change_icon = function(evt){
-    this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a' : '/fields-a-lookup-a') + '.gif';
+    this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a' : '/fields-a-lookup-a') + '.jpg';
 	
     if (!this.field.value) {
         this.open_img.style.cursor = '';
