@@ -5,7 +5,7 @@
     <table id="m2o_table" cellpadding="0" cellspacing="0" style="width: auto;">
     
         <tr>
-            <td id="m2o"  style="border-right: none; padding: 0;">
+            <td id="m2o" style="border-right: none; padding: 0;">
                 <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
                     ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
                 <input type="text" id="${name}_text" class="${css_class}"

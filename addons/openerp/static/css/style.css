@@ -312,8 +312,6 @@ img.group_collapse:hover {
 
 div.group-expand {
 	cursor: pointer;
-	/*background: url(../images/treegrid/expand.gif) no-repeat top left; */
-	/*padding-left: 15px; */
 	overflow: hidden;
 	width: 100%;
 	padding: 5px;
@@ -324,7 +322,7 @@ div.group-expand h2 {
 	padding: 0 0 0 10px; 
 	background: url(../images/group-a-header-a.png) 0 50% no-repeat; 
 	color: #7d7979; 
-	font-size: 1em; 
+	font-size: 0.8em; 
 	font-weight: bold; 
 	text-transform: uppercase;
 }
@@ -347,20 +345,12 @@ div.group-expand h2:hover {
 
 div.group-collapse {
 	cursor: pointer;
-	/*background: url(../images/treegrid/expand.gif) no-repeat top left; */
-	/*padding-left: 15px; */
 	overflow: hidden;
 	width: 100%;
 }
 
 div.group-collapse h2 {
-	margin: 0; 
-	padding: 0 0 0 10px; 
-	background: url(../images/group-a-header-b.png) 0 50% no-repeat; 
-	color: #7d7979; 
-	font-size: 1em; 
-	font-weight: bold; 
-	text-transform: uppercase;
+	background: url(../images/group-a-header-b.png) 0 50% no-repeat;
 }
 div.group-collapse h2 span {
 	padding: 0 6px; 
@@ -398,7 +388,6 @@ div.custom-filter ul li select {
 	box-shadow: 0 1px 0 #fff; 
 	-moz-box-shadow: 0 1px 0 #fff; 
 	-webkit-box-shadow: 0 1px 0 #fff; 
-	background: url(../images/button-a.gif) 0 -25px repeat-x; 
 	color: #8d8d8d; 
 	white-space: nowrap; 
 	font-size: 1em; 

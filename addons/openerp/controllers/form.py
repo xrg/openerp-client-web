@@ -598,11 +598,11 @@ class Form(SecuredController):
     def save_attachment(self, **kw):
         params, data = TinyDict.split(cherrypy.session['params'])
         datas = base64.encodestring(kw.get('datas').file.read())
-        
+        file_name = kw.get('datas').filename
         ctx = rpc.session.context.copy()
         ctx.update({'default_res_model': params.model, 'default_res_id': params.id, 'active_id': False, 'active_ids': []})
         
-        add_attachment = rpc.RPCProxy('ir.attachment').create({'name': kw.get('datas_fname'), 'description': False, 'datas': datas, 'datas_fname': kw.get('datas_fname')}, ctx)
+        add_attachment = rpc.RPCProxy('ir.attachment').create({'name': kw.get('datas_fname'), 'description': False, 'datas': datas, 'datas_fname': file_name}, ctx)
         
         args = {'model': params.model,
                 'id': params.id,
