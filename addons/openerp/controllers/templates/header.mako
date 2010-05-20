@@ -21,7 +21,7 @@ except:
 		var top_divWidth = jQuery('div#top-menu').width();
 		var logoWidth = jQuery('p#logo').width();
 		
-		var sc_rowWidth = top_divWidth - logoWidth - 20;
+		var sc_rowWidth = top_divWidth - logoWidth - 82;
 		jQuery('tr#sc_row').css('width', sc_rowWidth);
 	});
 	
@@ -29,7 +29,7 @@ except:
 		var top_divWidth = jQuery('div#top-menu').width();
 		var logoWidth = jQuery('p#logo').width();
 		
-		var sc_rowWidth = top_divWidth - logoWidth - 20;
+		var sc_rowWidth = top_divWidth - logoWidth - 82;
 	    jQuery('tr#sc_row').css('width', sc_rowWidth);
 	});
 
@@ -82,17 +82,17 @@ except:
 	
 	% if rpc.session.is_logged():
 	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
-	        <tr id="sc_row">
+	        <tr id="sc_row" style="z-index: 1;">
 	            % for i, sc in enumerate(shortcuts):
 	                % if i<7:
 			            <td nowrap="nowrap">
-			                <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+			                <a class="anchor_sc" target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 			            </td>
 	                % endif
 	            % endfor
 	            % if len(shortcuts)>7:
 	            <td id="shortcuts_menu" nowrap="nowrap" style="border-right: 1px solid #CCCCCC;">
-	                <a style="padding-left: 5px;" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
+	                <a class="anchor_sc" style="padding-left: 5px;" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
 	                <div class="submenu" id="shortcuts_submenu" style="display: none;">
 	                    % for sc in shortcuts[7:]:
 	                    <a style="float: none; padding: 6px 5px 6px 2px;" target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
@@ -100,10 +100,10 @@ except:
 	                </div>
 	            </td>
 	            % endif
-	            <td id="manage_sc" style="width: 60%; border-right: 0;">
-	            	<a style="float: none; text-align: right;" target='appFrame' href="/shortcuts">Edit</a>
-	            </td>
 	        </tr>
 	    </table>
+	    <div style="text-align: right; margin: -25px 10px 0px 0px; z-index: 5;">
+	    	<a target="appFrame" style="color: #FFFFFF;" href="/shortcuts">Edit</a>
+	    </div>
 	% endif
 </div>

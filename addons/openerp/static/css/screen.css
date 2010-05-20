@@ -86,9 +86,8 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  
  table#shortcuts {border-bottom: 0px; border-collapse: expand;}
- table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #707070; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
- table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #CCCCCC;}
- table#shortcuts tr td:hover {background-color: #707070;}
+ table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #606060; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
+ table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #909090; padding-left: 1px;}
  table#shortcuts tr td a { display: block; float: left; height: auto; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
  
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}

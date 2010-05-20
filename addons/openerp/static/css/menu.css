@@ -68,18 +68,6 @@ div.contextmenu span {
     cursor: pointer;
 }
 
-div.contextmenu a:hover,
-div.contextmenu span:hover {
-    color: #969494;
-    background-color: #505050;
-    text-decoration: none;
-}
-
-div.contextmenu a.disabled,
-div.contextmenu span.disabled {
-    color: #C0C0C0;
-}
-
 /**
  * vim: sts=4 st=4 et 
  *
