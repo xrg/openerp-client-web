@@ -144,6 +144,9 @@ class Filter(TinyInputWidget):
                 else:
                     self.default_search = False
         
+        if default_val and not self.default_search:
+            self.default_search = True
+        
         if self.default_search:
             self.def_checked = True
             self.global_domain += (expr_eval(self.filter_domain, {'context':screen_context}))
