@@ -39,7 +39,7 @@ from screen import Screen
 class Sidebar(TinyWidget):
 
     template = "templates/sidebar.mako"
-    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'active_id']
+    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu']
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
@@ -85,8 +85,7 @@ class Sidebar(TinyWidget):
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
-
-        self.active_id = id
+        
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type

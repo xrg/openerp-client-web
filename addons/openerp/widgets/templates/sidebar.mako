@@ -47,8 +47,6 @@
 			</td>
 			<td>
 				<div id="datas_binary_add">
-				    <input type="hidden" id="model" name="model" value="${model}"/>
-                    <input type="hidden" id="active_id" name="id" value="${active_id}"/>
 					<input type="file" id="datas" class="binary" onchange="onChange(this); set_binary_filename(this, 'datas_fname');" name="datas" kind="binary" size="20"/>
 				</div>
 			</td>
