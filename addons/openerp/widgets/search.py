@@ -43,6 +43,43 @@ from openerp.widgets.form import M2O
 from openobject.widgets import JSLink, locations
 
 
+def get_search_default(attrs={}, screen_context=None, default_domain=[]):
+    
+    flag = True
+    if cherrypy.request.path_info == '/tree/open':
+        flag = False
+    
+    screen_context = screen_context or {}
+    default_domain = attrs.get('default_domain', default_domain)
+    default_search = False
+    
+    default_val = attrs.get('default', 0)
+    if default_val:
+        default_val = expr_eval(default_val, {'context':screen_context})
+        
+    if attrs.get('name', False):
+        context_str = 'search_default_' + str(attrs['name'])
+        default_search = screen_context.get(context_str, False)
+        
+    if flag:
+        if default_domain and attrs.get('domain'):
+            domain =  expr_eval(attrs.get('domain'))
+            for d in domain:
+                if d in default_domain:
+                    default_search = 1
+                    default_val = 1
+                else:
+                    default_search = False
+                    default_val = 0
+        else:
+            default_search = False
+            default_val = 0
+            
+    if default_val and not default_search:
+        default_search = True
+    
+    return default_search
+
 class RangeWidget(TinyInputWidget):
     template = "templates/rangewid.mako"
 
@@ -90,11 +127,6 @@ class Filter(TinyInputWidget):
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
 
-        flag = True
-        if cherrypy.request.path_info == '/tree/open':
-            flag = False
-
-        default_domain = attrs.get('default_domain')
         group_by_ctx = attrs.get('group_by_ctx', [])
         self.global_domain = []
         self.icon = attrs.get('icon')
@@ -104,18 +136,10 @@ class Filter(TinyInputWidget):
         filter_context = attrs.get('context')
         screen_context = attrs.get('screen_context', {})
 
-        self.def_checked = False
-        self.default_search = False
+        self.def_checked = False        
         self.groupcontext = []
         
-        default_val = attrs.get('default', 0)
-        if default_val:
-            default_val = expr_eval(default_val, {'context':screen_context})
-            
-        if attrs.get('name',False):
-            default_context = screen_context
-            context_str = 'search_default_' + str(attrs['name'])
-            self.default_search = default_context.get(context_str,False)
+        default_search = get_search_default(attrs, screen_context)
             
         # context implemented only for group_by.
         self.group_context = None
@@ -125,29 +149,8 @@ class Filter(TinyInputWidget):
             if self.group_context:
                 self.group_context = 'group_' + self.group_context
             
-        if flag:
-            if default_domain and attrs.get('domain'):
-                domain =  expr_eval(attrs.get('domain'))
-                for d in domain:
-                    if d in default_domain:
-                        self.default_search = 1
-                    else:
-                        self.default_search = False
-                        self.global_domain = []
-            else:
-                self.default_search = False
-                self.global_domain = []
-                
-            if group_by_ctx and self.group_context:
-                if self.group_context in group_by_ctx:
-                    self.default_search = True
-                else:
-                    self.default_search = False
-        
-        if default_val and not self.default_search:
-            self.default_search = True
-        
-        if self.default_search:
+     
+        if default_search:            
             self.def_checked = True
             self.global_domain += (expr_eval(self.filter_domain, {'context':screen_context}))
             if self.group_context:
@@ -205,7 +208,7 @@ class Search(TinyInputWidget):
         super(Search, self).__init__(model=model)
 
         self.domain = domain or []
-        self.listof_domain = []
+        self.listof_domain = domain or []
         self.filter_domain = filter_domain or []
         self.custom_filter_domain = []
         self.context = context or {}
@@ -389,6 +392,17 @@ class Search(TinyInputWidget):
                     if kind == 'boolean':
                         field.options = [(1, 'Yes'),(0, 'No')]
                         field.validator.if_empty = ''
+                        
+                    if name:
+                        default_search = get_search_default(fields[name], self.context, self.domain)
+                        if default_search:
+                            domain = []
+                            field.set_value(default_search)
+                            if field.kind == 'char':
+                                domain = [(name,fields[name].get('comparator','ilike'),default_search)]
+                            if field.kind == 'selection':
+                                domain = [(name, '=', default_search)]
+                            self.listof_domain += [i for i in domain if not i in self.listof_domain]
     
                     if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
                         field.set_value(values[name])

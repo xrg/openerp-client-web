@@ -513,12 +513,16 @@ class Selection(TinyInputWidget):
             d.setdefault('css_classes', []).append('selection_search')
 
     def set_value(self, value):
+        
+        if value==False:
+            value=''
 
         if isinstance(value, (tuple, list)):
             value = value[0]
 
-        if self.options and value not in dict(self.options):
-            value = None
+        for s in dict(self.options):
+            if str(s) == str(value):
+                value =  s
 
         super(Selection, self).set_value(value)
 
