@@ -14,9 +14,13 @@ background = '#DEDEDE'
             % if field != 'button':
                 <%
                 if field_attrs.get('type') != 'progressbar' and i == group_level - 1:
-                    subgroup_expander = "new ListView('%s').group_by('%s', '%s', this)" % (
-                        name, grp_row['group_by_id'], grp_row['group_id'])
-                    subgroup_class = 'group-expand'
+                    if len(group_by_ctx) == 1 and group_by_no_leaf:
+                        subgroup_expander = ''
+                        subgroup_class = ''
+                    else:
+	                    subgroup_expander = "new ListView('%s').group_by('%s', '%s', '%s', this)" % (
+	                        name, grp_row['group_by_id'], grp_row['group_id'], group_by_no_leaf)
+	                    subgroup_class = 'group-expand'
                 else:
                     subgroup_expander = ''
                     subgroup_class = ''

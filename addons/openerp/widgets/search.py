@@ -206,7 +206,7 @@ class Search(TinyInputWidget):
     def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[]):
 
         super(Search, self).__init__(model=model)
-
+        
         self.domain = domain or []
         self.listof_domain = domain or []
         self.filter_domain = filter_domain or []
@@ -215,9 +215,12 @@ class Search(TinyInputWidget):
         self.search_view = search_view or "{}"
         self.model = model
         self.groupby = []
+        
         if group_by_ctx and isinstance(group_by_ctx, basestring):
             self.groupby += group_by_ctx.split(',')
-
+        else:
+            self.groupby = group_by_ctx
+             
         if values == "undefined":
             values = {}
 

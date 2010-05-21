@@ -27,6 +27,7 @@
 #
 ###############################################################################
 import random
+import cherrypy
 
 from openerp.utils import rpc
 from openerp.widgets import get_widget
@@ -35,22 +36,31 @@ from listgrid import List, CELLTYPES
 
 def parse(group_by, hiddens, headers, group_level, groups):
     
+    if isinstance(groups, basestring):
+        groups = groups.split(',')
+    if isinstance(group_by, basestring):
+        group_by = group_by.split(',')
+        
     for grp in range(len(group_by)):
         if 'group_' in group_by[grp]:
             group_by[grp] = group_by[grp].split("group_")[-1]
-            
+    
+    for grp in range(len(groups)):
+        if 'group_' in groups[grp]:
+            groups[grp] = groups[grp].split("group_")[-1]
+    
     new_hidden = ()
     for grp_by in groups:
         for hidden in hiddens:
             if grp_by in hidden:
                 new_hidden = hidden
-                            
-    if not new_hidden:
-        for grp_by in groups:
-            for cnt, header in enumerate(headers):
-                if header[0] == grp_by:
-                    headers.pop(cnt)
-                    headers.insert(groups.index(grp_by), header)
+                headers.insert(groups.index(grp_by), new_hidden)
+    
+    for grp_by in groups:
+        for cnt, header in enumerate(headers):
+            if header[0] == grp_by:
+                headers.pop(cnt)
+                headers.insert(groups.index(grp_by), header)
     
     return group_by, hiddens, headers
 
@@ -68,21 +78,21 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
         grouped.append(inner)
         
     child = len(group_by) == 1
-       
+    
     if grp_records:
         for rec in grp_records:
             for grp_by in group_by:
                 if not rec.get(grp_by):
                     rec[grp_by] = ''
 
-            rec_dom =  rec.get('__domain')
-            dom = [('id', 'in', ids), rec_dom[0]]
+            
             ch_ids = []
             if child:
+                rec_dom =  rec.get('__domain')
+                dom = [('id', 'in', ids), rec_dom[0]]
                 ch_ids = [d for id in proxy.search(dom, offset, limit, 0, context)
                             for  d in data
-                            if d.get('id') == id]
-                
+                            if d.get('id') == id] 
             rec['child_rec'] = ch_ids
             rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
             rec['group_by_id'] = group_by[0]+'_'+str(grp_records.index(rec))
@@ -93,13 +103,13 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
 class ListGroup(List):
 
     template = "templates/listgroup.mako"
-    params = ['grp_records', 'group_by_ctx', 'grouped']
+    params = ['grp_records', 'group_by_ctx', 'grouped', 'group_by_no_leaf']
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         self.context = context or {}
         self.domain = domain or []
-
+        self.group_by_no_leaf = self.context.get('group_by_no_leaf', 0)
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
@@ -110,7 +120,17 @@ class ListGroup(List):
         self.link = kw.get('nolinks')
         
         proxy = rpc.RPCProxy(model)
-
+        
+        custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
+        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])
+        
+        if custom_search_domain:
+            self.domain.extend(i for i in custom_search_domain if i not in domain)
+        
+        elif custom_filter_domain:
+            self.domain.extend(i for i in custom_filter_domain if i not in domain)
+        
+        
         if ids == None:
             if self.limit > 0:
                 ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
@@ -147,10 +167,12 @@ class ListGroup(List):
             offset=self.offset, editable=self.editable,
             selectable=self.selectable)
         
-        self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, None, self.group_by_ctx)
-                            
-        self.context['group_by'] = self.group_by_ctx
+        if self.group_by_ctx:
+            self.context['group_by'] = self.group_by_ctx
+        else: 
+            self.group_by_ctx = self.context.get('group_by')
         
+        self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, None, self.group_by_ctx)
         
         self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
@@ -161,7 +183,7 @@ class ListGroup(List):
 class MultipleGroup(List):
     
     template = "templates/multiple_group.mako"
-    params = ['grp_records', 'group_by_ctx', 'grouped', 'parent_group', 'group_level']
+    params = ['grp_records', 'group_by_ctx', 'grouped', 'parent_group', 'group_level', 'group_by_no_leaf']
     
     def __init__(self, name, model, view, ids=[], domain=[], parent_group=None, group_level=0, groups = [], context={}, **kw):
         self.context = context or {}
@@ -175,6 +197,7 @@ class MultipleGroup(List):
         self.limit = kw.get('limit', 80)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
+        
         self.parent_group = parent_group or None
         self.group_level = group_level or 0
         
@@ -211,6 +234,9 @@ class MultipleGroup(List):
             parent_group=parent_group, group_level=group_level, groups=groups, context=self.context, limit=self.limit, 
             count=self.count,offset=self.offset, editable=self.editable,
             selectable=self.selectable)
+        
+        self.group_by_no_leaf = self.context.get('group_by_no_leaf', 0)
+        
         self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, self.group_level, groups)
                                          
         self.grp_records = proxy.read_group(self.context.get('__domain', []),

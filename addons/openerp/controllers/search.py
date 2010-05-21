@@ -101,7 +101,10 @@ class Search(Form):
 
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
-
+        
+        if 'group_by' in parent_context.keys():
+            parent_context['group_by'] = params.group_by
+            
         try:
             ctx = TinyForm(**kw).to_python()
             pctx = ctx

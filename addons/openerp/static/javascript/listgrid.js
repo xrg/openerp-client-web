@@ -307,12 +307,12 @@ MochiKit.Base.update(ListView.prototype, {
         }
     },
     
-    group_by: function(id, record, group) {
+    group_by: function(id, record, no_leaf, group) {
         var group_record = jQuery('[records="' + record + '"]');
         var group_by_context = jQuery(group_record).attr('grp_context');
         var domain = jQuery(group_record).attr('grp_domain');
         var total_groups = jQuery('#' + this.name).attr('groups');
-
+        
         if (group_by_context == '[]') {
             jQuery('[parent_grp_id="' + id + '"][id$="' + record + '"]').toggle();
         } else {
@@ -326,7 +326,8 @@ MochiKit.Base.update(ListView.prototype, {
                             'view_type': jQuery('#_terp_view_type').val(),
                             'parent_group': record,
                             'group_level': jQuery(group).index() + 1,
-                            'groups': total_groups},
+                            'groups': total_groups,
+                            'no_leaf': no_leaf},
                     dataType: 'html',
                     success: function(xmlHttp) {
                         jQuery(group_record).after(xmlHttp);

@@ -263,9 +263,18 @@ var search_filter = function(src, id) {
 	var check_domain = 'None';
 	var domains = {};
 	var search_context = {};
-	var group_by_ctx = [];
 	var all_boxes = [];
 	var domain = 'None';
+	
+	var group_by_ctx =  openobject.dom.get('_terp_group_by_ctx').value;
+	if(group_by_ctx != '[]') {
+		if(group_by_ctx.indexOf('[') >= 0) {
+			group_by_ctx = eval(group_by_ctx);
+			for(i in group_by_ctx) {
+				group_by.push(group_by_ctx[i]);
+			}
+		}
+	}
 	
 	if(src) {
 		if(src.checked==false) {
@@ -372,7 +381,8 @@ var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
 			var in_req = eval_domain_context_request({
 				source: '_terp_list', 
 				domain: obj.domain, 
-				context: obj.context
+				context: obj.context,
+				group_by_ctx: group_by_ctx
 			});
 			
 			in_req.addCallback(function(in_obj){
