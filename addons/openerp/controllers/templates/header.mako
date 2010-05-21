@@ -66,10 +66,10 @@ except:
 				</li>
 				<li><a href="${py.url('/')}" class="home">Home</a></li>
 				
-				<li><a href="javascript: void(0)" class="preferences">Preferences</a>
+				<li><a target="appFrame" href="${py.url('/pref/create')}" class="preferences">Preferences</a>
 					<ul>
 						<li class="first last">
-							<a target='appFrame' href="${py.url('/pref/create')}">Edit Preferences</a>
+							<a href="javascript: void(0);">Edit Preferences</a>
 						</li>
 					</ul>
 				</li>
