@@ -444,6 +444,10 @@ function getFormData(extended) {
             if (kind == 'text_html') {
                 attrs['value'] = tinyMCE.get(e.name).getContent();
             }
+            
+            if (kind == 'reference' && value) { 
+                attrs['value'] = "[" + value + ",'" + getNodeAttribute(e, 'relation') + "']";
+            }
 
             // stringify the attr object
             frm[n] = serializeJSON(attrs);
