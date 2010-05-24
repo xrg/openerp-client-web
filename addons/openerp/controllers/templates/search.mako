@@ -115,10 +115,10 @@
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${params.filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
 
-        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
+        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" style="border: none;">
             <tr>
                 <td>
-                    <table width="100%" class="titlebar">
+                    <table width="100%" class="titlebar" style="border: none;">
                         <tr>
                             <td width="32px" align="center">
                                 <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
@@ -136,12 +136,10 @@
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
-                                <button type="button" onclick="search_filter()">${_("Filter")}</button>
-                                <button type="button" onclick="do_create()">${_("New")}</button>
-                                <button type="button" onclick="do_select()">${_("Select")}</button>
-                            </td>
-                            <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>

@@ -33,7 +33,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>

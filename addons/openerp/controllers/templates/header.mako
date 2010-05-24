@@ -6,7 +6,7 @@ try:
     REQUESTS = cp.request.pool.get_controller("/openerp/requests")
 
     shortcuts = SHORTCUTS.my()
-    requests, requests_message = REQUESTS.my()
+    requests, requests_message, total_mess = REQUESTS.my()
 except:
     ROOT = None
 
@@ -14,114 +14,95 @@ except:
     requests = []
     requests_message = None
 %>
-<table id="header" class="header" cellpadding="0" cellspacing="0" border="0">
-    <tr>
-        <td rowspan="2">
-            <img src="/openerp/static/images/openerp_big.png"
-                 alt="OpenERP" border="0" width="200" height="60" usemap="#logo_map"/>
-            <map name="logo_map" id="logo_map">
-                <area alt="OpenERP" shape="rect" coords="102,42,124,56" href="http://openerp.com" target="_blank"/>
-                <area alt="Axelor" shape="rect" coords="145,42,184,56" href="http://axelor.com" target="_blank"/>
-            </map>
-        </td>
-        <td align="right" valign="top" nowrap="nowrap" height="24">
-            <table class="menu_connection" cellpadding="0" cellspacing="0" border="0">
-                <tr>
-                    <td width="26" class="menu_connection_right" nowrap="nowrap">
-                        <div style="width: 26px;"></div>
-                    </td>
-                    <td class="menu_connection_welcome" nowrap="norwap">
-                        ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
-                    </td>
-                    <td class="menu_connection_links" nowrap="norwap">
-                        <a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td align="right" valign="middle" style="padding-right: 4px;">
-            <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/openerp/home')}">
-                            <img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home"
-                                 border="0" width="16" height="16" alt="Home"/>
-                        </a>
-                    </td>
-                    % if rpc.session.is_logged():
-                    <td nowrap="nowrap">
-                        <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
-                            <tr>
-                                <td id="shortcuts_menu" nowrap="nowrap">
-                                    <a href="javascript: void(0)">
-                                        <img src="/openerp/static/images/shortcut.png" id="show_shortcut"
-                                             style="padding: 1px;" border="0" width="18" height="18"
-                                             alt="Shortcuts"/>
-                                    </a>
-                                    <script type="text/javascript">
-                                        jQuery('#show_shortcut').mouseover(function() {
-                                            jQuery.post('/openerp/shortcuts/get_shortcuts',
-                                                    function(xmlHttp) {
-                                                        jQuery('[id=shortcuts_submenu]').html(xmlHttp);
-                                                    }
-                                                    );
 
-                                        });
-                                    </script>
-                                    <div class="submenu" id="shortcuts_submenu">
-                                        % for sc in shortcuts:
-                                        <a target='appFrame'
-                                           href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}"
-                                           style="height: 10px; padding: 0 2px 8px 5px;">
-                                            ${sc['name']}
-                                        </a>
-                                        % endfor
-                                        <hr id="shortcut_sep"
-                                            style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0"/>
-                                        <a id="manage_shortcuts" target='appFrame' href="/shortcuts"
-                                           style="height: 10px; padding: 0 2px 8px 5px;">${_("Manage Shortcuts")}</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <script type="text/javascript">
-                            new Menu('shortcuts_menu', 'shortcuts_submenu');
-                        </script>
-                    </td>
-                    % endif
-                    <td nowrap="nowrap">
-                        <a target='appFrame' href="javascript: void(0)">
-                            <img src="/openerp/static/images/inbox.png" style="padding: 4px;" title="Inbox" border="0"
-                                 width="16" height="16" alt="Inbox"/>
-                        </a>
-                    </td>
-                    <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/openerp/pref/create')}">
-                            <img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preferences"
-                                 border="0" width="16" height="16" alt="Preferences"/>
-                        </a>
-                    </td>
-                    <!--<td nowrap="nowrap">
-                             <a target='appFrame' href="javascript: void(0)">
-                                 <img src="/openerp/static/images/share.png" style="padding: 4px;" title="Share" border="0" width="18px" height="18px"/>
-                             </a>
-                         </td> -->
-                    <td nowrap="nowrap">
-                        <a href="http://doc.openerp.com/" title="OpenERP Help">
-                            <img src="/openerp/static/images/stock/gtk-help.png" style="padding: 4px;"
-                                 border="0" width="16" height="16" alt="OpenERP Help"/>
-                        </a>
-                    </td>
-                    <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/openerp/about')}">
-                            <img src="/openerp/static/images/about.png" style="padding: 4px;" title="About" border="0"
-                                 width="18" height="18" alt="About"/>
-                        </a>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		var top_divWidth = jQuery('div#top-menu').width();
+		var logoWidth = jQuery('p#logo').width();
+		
+		var sc_rowWidth = top_divWidth - logoWidth - 82;
+		jQuery('tr#sc_row').css('width', sc_rowWidth);
+	});
+	
+	jQuery(window).resize(function() {
+		var top_divWidth = jQuery('div#top-menu').width();
+		var logoWidth = jQuery('p#logo').width();
+		
+		var sc_rowWidth = top_divWidth - logoWidth - 82;
+	    jQuery('tr#sc_row').css('width', sc_rowWidth);
+	});
+
+	function showMore_sc(e, id, submenu) {
+        var pos = e.pageX - 200 + 'px';
+        
+        jQuery('#'+submenu).css('left', pos);
+        jQuery('#'+submenu).css('top', 25 + 'px');
+        jQuery('#'+submenu).slideToggle('slow');
+	}
+	
+</script>
+			
+<div id="top">
+	<div id="top-menu">
+		<p id="logo">
+			<a href="javascript: void(0)" accesskey="h">
+				<img src="/openerp/static/images/logo-a.gif" width="83px" height="26px"/>
+			</a>
+		</p>
+		<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
+		<ul id="skip-links">
+			<li><a href="#nav" accesskey="n">Skip to navigation [n]</a></li>
+			<li><a href="#content" accesskey="c">Skip to content [c]</a></li>
+			<li><a href="#footer" accesskey="f">Skip to footer [f]</a></li>
+		</ul>
+		<div id="corner">
+			<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
+			<ul class="tools">
+				<li>
+					% if rpc.session.is_logged():
+						<a target='appFrame' href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
+					% endif
+				</li>
+				<li><a href="${py.url('/')}" class="home">Home</a></li>
+				
+				<li><a target="appFrame" href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
+					<ul>
+						<li class="first last">
+							<a href="javascript: void(0);">Edit Preferences</a>
+						</li>
+					</ul>
+				</li>
+				<li><a href="javascript: void(0);" class="help">Help</a></li>
+				<li><a href="javascript: void(0);" class="info">Info</a></li>
+			</ul>
+			<p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
+		</div>
+	</div>
+	
+	% if rpc.session.is_logged():
+	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
+	        <tr id="sc_row">
+	            % for i, sc in enumerate(shortcuts):
+	                % if i < 7:
+			            <td nowrap="nowrap">
+			                <a target="appFrame" href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+			            </td>
+	                % endif
+	            % endfor
+	            % if len(shortcuts) > 7:
+	            <td id="shortcuts_menu" nowrap="nowrap" style="border-right: 1px solid #CCCCCC;">
+	                <a style="padding-left: 5px;" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
+	                <div class="submenu" id="shortcuts_submenu" style="display: none;">
+	                    % for sc in shortcuts[7:]:
+	                    <a style="float: none; padding: 6px 5px 6px 2px;" target="appFrame" href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+	                    % endfor
+	                </div>
+	            </td>
+	            % endif
+	        </tr>
+	    </table>
+	    <div style="text-align: right; margin: -25px 10px 0px 0px;">
+	    	<a target="appFrame" style="color: #FFFFFF;" href="/openerp/shortcuts">Edit</a>
+	    </div>
+	% endif
+</div>

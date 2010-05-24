@@ -33,7 +33,7 @@ background = '#DEDEDE'
 
                 <tbody>
 					% for j, grp_row in enumerate(grp_records):
-					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
+					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'], grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
                         % if editable:
                             % if len(group_by_ctx) == 1 and group_by_no_leaf:
                                 <td class="grid-cell" style="background-color: ${background};"></td>
@@ -69,8 +69,8 @@ background = '#DEDEDE'
                     </tr>
 
                     % for ch in grp_row.get('child_rec'):
-                    <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" record="${ch.get('id')}"
-                        style="cursor: pointer; display: none;">
+                    <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" 
+                    	record="${ch.get('id')}" style="cursor: pointer; display: none;">
                         % if editable:
                             <td class="grid-cell">
                                 <img src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0"
@@ -120,31 +120,26 @@ background = '#DEDEDE'
                 % if field_total:
                 <tfoot>
                     <tr class="field_sum">
-                        % if editable:
-                            <td width="1%" class="grid-cell">&nbsp;</td>
-                        % endif
-                        % for i, (field, field_attrs) in enumerate(headers):
-                            % if field!='button':
-                                <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
-                                    % if 'sum' in field_attrs:
-                                        % for key, val in field_total.items():
-                                        % if field == key:
-                                            <span style="border-top: 1px inset ; display: block; padding: 0px 1px;">${val[1]}</span>
-                                        % endif
-                                        % endfor
-                                    % endif
-                                    % if 'sum' not in field_attrs:
-                                        &nbsp;
-                                    % endif
-                                </td>
-                            % else:
-                                <td class="grid-cell button"><span style="width: 0px;"></span></td>
-                            % endif
-                        % endfor
-
-                        % if editable:
-                            <td width="1%" class="grid-cell">&nbsp;</td>
-                        % endif
+                        <td colspan="${len(headers)}" style="border: none;">
+                    		<table style="width: 40%; border: none;">
+                    			<tr>
+                    				% for i, (field, field_attrs) in enumerate(headers):
+		                        		% if field != 'button':
+		                        			% if 'sum' in field_attrs:
+		                        				% for key, val in field_total.items():
+				                                     % if field == key:
+				                                     <td align="left" class="grid-cell" style="padding: 2px;" nowrap="nowrap">
+				                                     	<strong style="color: black;">${val[0]}:</strong>
+				                                     	${val[1]}
+				                                     </td>
+				                                     % endif
+				                                 % endfor
+		                        			% endif
+		                        		% endif
+		                        	% endfor
+                    			</tr>
+                    		</table>
+                    	</td>
                     </tr>
                 </tfoot>
                 % endif

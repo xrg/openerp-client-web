@@ -79,10 +79,10 @@
                 o.selected = true;
             });
 
-            form.target = "detector";
-
+            document.getElementsByName(form)[0].target = "detector";
+            
             setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/import_data'));
-            form.submit();
+            document.getElementsByName(form)[0].submit();
         }
 
         function on_detector(src){
@@ -113,18 +113,18 @@
             if (! openobject.dom.get('csvfile').value ){
                 return alert(_('You must select an import file first!'));
             }
-
-            form.target = "detector";
+			
+            document.getElementsByName(form)[0].target = "detector";
 
             setNodeAttribute(form, 'action',openobject.http.getURL('/openerp/impex/detect_data'));
-            form.submit();
+            document.getElementsByName(form)[0].submit();
         }
 
     </script>
 </%def>
 
 <%def name="content()">
-<form action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
+<form name="import_data" action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
 
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
@@ -157,11 +157,28 @@
                             <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">${_("Add")}</button><br/>
-                            <button type="button" onclick="del_fields()">${_("Remove")}</button><br/>
-                            <button type="button" onclick="del_fields(true)">${_("Nothing")}</button>
-                            <br/><br/>
-                            <button type="button" onclick="do_autodetect(form)">${_("Auto Detect")}</button>
+                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="do_autodetect('import_data')">${_("Auto Detect")}</a>
+                        			</td>
+                        		</tr>
+                        	</table>
                         </td>
                         <td class="fields-selector-right" height="300px">
                             <select name="fields" id="fields" multiple="multiple">
@@ -178,7 +195,7 @@
             <td>
                 <fieldset>
                     <legend>${_("File to import")}</legend>
-                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect(form)"/>
+                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
                 </fieldset>
             </td>
         </tr>
@@ -214,8 +231,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="do_import(form)">${_("Import")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="do_import('import_data')">${_("Import")}</a></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a></td>
                         </tr>
                     </table>
                 </div>

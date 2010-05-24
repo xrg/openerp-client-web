@@ -241,10 +241,10 @@ def execute(action, **data):
 
         if data.get('domain', False):
             domain.append(data['domain'])
-
+            
         if 'menu' in data['res_model'] and action.get('name') == 'Menu':
             return close_popup()
-
+        
         res = execute_window(view_ids,
                              data['res_model'],
                              data['res_id'],

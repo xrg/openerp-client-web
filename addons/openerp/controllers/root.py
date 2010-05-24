@@ -116,6 +116,7 @@ class Root(SecuredController):
         for tool in tools:
             tid = tool['id']
             tool['icon'] = icons.get_icon(tool['icon'])
+            
             if tool['action']:
                 act_proxy = rpc.RPCProxy(tool['action'].split(",")[0])
                 res_act = act_proxy.read([tool['action'].split(",")[1]], ['name'], ctx)
@@ -131,6 +132,13 @@ class Root(SecuredController):
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
             tree.tree.linktarget = "'appFrame'"
+            
+        for parent in parents:
+            if parent['id'] == id:
+                parent['active'] = 'active'
+            else:
+                parent['active'] = ''
+                
         if kw.get('db'):
             return dict(parents=parents, tools=tools, setup = '/openerp/home')
         return dict(parents=parents, tools=tools)

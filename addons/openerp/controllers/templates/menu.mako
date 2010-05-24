@@ -2,14 +2,14 @@
 
 <%def name="header()">
     <title>OpenERP</title>
-
-    <link href="/openerp/static/css/accordion.css" rel="stylesheet" type="text/css"/>
+    
     <link href="/openerp/static/css/treegrid.css" rel="stylesheet" type="text/css"/>
     <link href="/openerp/static/css/notebook.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/scroll_scut.js"></script>
 
     <style type="text/css">
         .accordion-content {
@@ -39,72 +39,87 @@
 
 <%def name="content()">
 
-    <%include file="header.mako"/>
-
-    <div id="menutabs" class="notebook menu-tabs">
-        %for parent in parents:
-        <div id="${parent['id']}" title="${parent['name']}"></div>
-        %endfor
-    </div>
-
-    <script type="text/javascript">
-
-        var nb = new Notebook('menutabs', {
-            'closable': false,
-            'scrollable': true
-        });
-
-        MochiKit.Signal.connect(nb, 'click', function(nb, tab) {
-            window.location.href = openobject.http.getURL("/openerp/menu", {active: tab.id});
-        });
-
-    </script>
-
-    <table id="contents" width="100%">
-        <tr>
-            <td width="250" valign="top">
-                <div id="menubar" class="accordion">
-                    % for tool in tools:
-                        <div class="accordion-block">
-                            <table class="accordion-title">
-                                <tr>
-                                    <td><img alt="" src="${tool['icon']}" width="16" height="16" align="left"/></td>
-                                    <td id="${tool['id']}">${tool['name']}</td>
-                                    % if tool.get('action_id'):
-                                    	<script type="text/javascript">
-                                    	jQuery("#${tool['id']}").click(function() {
-                                    		jQuery('#appFrame').attr("src", openobject.http.getURL('/openerp/tree/open', {'model': "ir.ui.menu", 'id': "${tool['action_id']}"}))
-                                    	});
-                                    	</script>
-                                    % endif
-                                </tr>
-                            </table>
-                            <div class="accordion-content">
-                                ${tool['tree'].display()}
-                            </div>
-                        </div>
-                    % endfor
-                </div>
-                <script type="text/javascript">
-                    new Accordion("menubar");
-                </script>
-            </td>
-            <td valign="top">
-                % if setup:
-                    <iframe id="appFrame" width="100%"
-                        scrolling="no"
-                        frameborder="0"
-                        name="appFrame" src="${py.url('/openerp/home')}"></iframe>
-                % else:
-                    <iframe id="appFrame" width="100%"
-                        scrolling="no"
-                        frameborder="0"
-                        name="appFrame"></iframe>
-                % endif
-            </td>
-        </tr>
-    </table>
-    
-    <%include file="footer.mako"/>
+	<div id="root">
+	    <%include file="header.mako"/>
+	    
+	    <div id="main_nav">
+		    <!-- <a id="scroll_left" class="scroll_right" style="text-align: center; width: 2%; float: left; padding-top: 12px;" href="javascript: void(0);">
+		    	<img src="/openerp/static/images/scroll_left.png"></img>
+		    </a>
+		    <a id="scroll_right" class="scroll_right" style="text-align: center; width: 2%; float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
+		    	<img src="/openerp/static/images/scroll_right.png"></img>
+		    </a> -->
+		    <div id="nav" class="sc_menu">
+				<ul class="sc_menu">
+					%for parent in parents:
+						<li id="${parent['id']}" class="menu_tabs"">
+							<a href="javascript: void(0)" accesskey="1" class="${parent['active']}">
+								<span>${parent['name']}</span>
+							</a>
+							<em>[1]</em>
+						</li>
+					% endfor
+				</ul>
+			</div>
+		</div>
+				
+	    <script type="text/javascript">
+	    
+	    	var tabs = MochiKit.DOM.getElementsByTagAndClassName('li', "menu_tabs");
+	        
+	        MochiKit.Iter.forEach(tabs, function(tab) {
+	        	MochiKit.Signal.connect(tab, 'onclick', function(){
+		            window.location.href = openobject.http.getURL("/openerp/menu", {active: tab.id});
+		        });
+	        });
+	        
+	    </script>
+	    
+	    <div id="content" class="three-a">
+		    <div id="secondary">
+		    	<div class="wrap">
+		    		<table class="sidenav-a">
+				        <tr>
+				            <td class="accordion-title-td">
+				                <div id="menubar" class="accordion">
+				                    % for tool in tools:
+				                    <div class="accordion-block">
+				                        <table class="accordion-title">
+				                            <tr>
+				                                <td class="accordion-title-td"><a href="javascript: void(0);">${tool['name']}</a></td>
+				                            </tr>
+				                        </table>
+				                        <div class="accordion-content">
+				                            ${tool['tree'].display()}
+				                        </div>
+				                    </div>
+				                    % endfor
+				                </div>
+				                <script type="text/javascript">
+				                    new Accordion("menubar");
+				                </script>
+				            </td>
+		           		</tr>
+		        	</table>
+		    	</div>
+			</div>
+			
+			<div id="primary">
+				<div class="wrap">
+					% if setup:
+	                    <iframe id="appFrame" width="100%"
+	                        scrolling="no"
+	                        frameborder="0"
+	                        name="appFrame" src="${py.url('/openerp/home')}"></iframe>
+	                % else:
+	                    <iframe id="appFrame" width="100%"
+	                        scrolling="no"
+	                        frameborder="0"
+	                        name="appFrame"></iframe>
+	                % endif
+				</div>
+			</div>
+		</div>
+	</div>
 </%def>
 

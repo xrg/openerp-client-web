@@ -184,7 +184,7 @@
         </tr>
         <tr>
             <td class="toolbar">
-                <button type="button" onclick="delete_listname(form);">${_("Delete")}</button>
+            	<a class="button-a" href="javascript: void(0)" onclick="delete_listname(form);">${_("Delete")}</a>
             </td>
         </tr>
         % endif
@@ -201,10 +201,28 @@
                             <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">${_("Add")}</button><br/>
-                            <button type="button" onclick="del_fields()">${_("Remove")}</button><br/>
-                            <button type="button" onclick="del_fields(true)">${_("Nothing")}</button><br/><br/>
-                            <button type="button" onclick="open_savelist('savelist')">${_("Save List")}</button>
+                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="open_savelist('savelist')">${_("Save List")}</a>
+                        			</td>
+                        		</tr>
+                        	</table>
                         </td>
                         <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
@@ -225,7 +243,7 @@
                                     <input type="text" id="savelist_name" name="savelist_name"/>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="save_export()">${_("OK")}</button>
+                                	<a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
                                 </td>
                             </tr>
                         </table>
@@ -275,8 +293,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="do_export(form)">${_("Export")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="do_export(form)">${_("Export")}</a></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a></td>
                         </tr>
                     </table>
                 </div>

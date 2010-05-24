@@ -13,6 +13,10 @@
     <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Sortable.js"></script>
 
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-ui-1.8.custom.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.validate.js"></script>
+    
     <script type="text/javascript">
         jQuery.noConflict();
     </script>
@@ -42,13 +46,9 @@
     ${js.display()}
 % endfor
 
-<table id="content_container" width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>
-			${self.content()}
-		</td>
-	</tr>
-</table>
+
+${self.content()}
+
 
 % for js in widget_javascript.get('bodybottom', []):
     ${js.display()}

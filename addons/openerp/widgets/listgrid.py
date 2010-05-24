@@ -48,7 +48,7 @@ class List(TinyWidget):
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
@@ -541,10 +541,10 @@ class Button(TinyInputWidget):
 
     template="""
     % if visible and not icon:
-    <button type="button" ${py.attrs(attrs, context=ctx)} title="${help}" style="min-width: ${width}px;"
+    <a class="button-b" href="javascript: void(0)" ${py.attrs(attrs, context=ctx)} title="${help}"
         onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
         ${string}
-    </button>
+    </a>
     % endif
     % if visible and icon:
     <img height="16" width="16" class="listImage" src="${icon}" title="${help}" context="${ctx}" ${py.attrs(attrs)}

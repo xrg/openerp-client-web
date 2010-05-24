@@ -53,18 +53,10 @@ __init__ : function(elements, options) {
     this.toolTip = TABLE({'class': 'tooltip'},
                         TBODY(null,
                             TR(null,
-                                TD({'class': 'tip-tl', 'nowrap': 'nowrap'}),
-                                TD({'class': 'tip-t'}),
-                                TD({'class': 'tip-tr', 'nowrap': 'nowrap'})),
-                            TR(null,
-                                TD({'class': 'tip-l'}),
                                 TD({'class': 'tip-text'}, 
                                     this.toolTitle, this.toolText),
-                                TD({'class': 'tip-r'})),
-                            TR(null,
-                                TD({'class': 'tip-bl'}),
-                                TD({'class': 'tip-b'}),
-                                TD({'class': 'tip-br'}))));
+                                TD({'class': 'tip-r'}))
+                            ));
                                 
                             
     this.toolTip.cellPadding = 0;
@@ -92,7 +84,7 @@ __init__ : function(elements, options) {
         }
         
         MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
-        MochiKit.Signal.connect(el, 'onmouseout', this, this.hide)
+        MochiKit.Signal.connect(el, 'onmouseout', this, this.hide);
 
     }, this);
 },

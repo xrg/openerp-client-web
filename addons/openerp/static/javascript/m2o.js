@@ -203,7 +203,7 @@ ManyToOne.prototype.on_change_text = function(evt){
     if (this.text.value == ''){
         this.field.value = '';
         this.on_change(evt);
-    }else{
+    }else {
         this.get_text();
     }
 }
@@ -222,24 +222,30 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 }
 
 ManyToOne.prototype.change_icon = function(evt){
-	if (this.open_img){
-	    this.open_img.src = '/openerp/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
-		
-	    if (!this.field.value) {
-	        this.open_img.style.cursor = '';
-	    }
-	    
-	    if (this.is_inline) {
-	    
-	        if (this.field.value) {
-	            this.select_img.parentNode.style.display = 'none';
-	            this.open_img.parentNode.style.display = '';
-	        } else {
-	            this.select_img.parentNode.style.display = '';
-	            this.open_img.parentNode.style.display = 'none';
-	        }
-	    }
-   }
+
+	if (this.open_img) {
+		if(this.open_img.src.indexOf('require') > 0) {
+			this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-require' : '/fields-a-lookup-a-require') + '.jpg';
+		}
+		else {
+	        this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a' : '/fields-a-lookup-a') + '.jpg';
+		}
+	}
+	
+    if (!this.field.value && this.open_img) {
+        this.open_img.style.cursor = '';
+    }
+    
+    if (this.is_inline && this.open_img) {
+    
+        if (this.field.value) {
+            this.select_img.parentNode.style.display = 'none';
+            this.open_img.parentNode.style.display = '';
+        } else {
+            this.select_img.parentNode.style.display = '';
+            this.open_img.parentNode.style.display = 'none';
+        }
+    }
 }
 
 ManyToOne.prototype.on_keyup = function(evt){

@@ -22,13 +22,16 @@
                 <tr>
                     <td>${form.display()}</td>
                 </tr>
-                <td class="toolbar" align="right">
-                	% if environment == 'production':
-                		<button type="button" id="cache_clear" name="cache_clear" onclick="clear_cache()">Clear Cache</button>
-                	% endif
-                    <button type='button' style="width: 80px" onclick="openobject.http.redirect('/openerp')">${_("Cancel")}</button>
-                    <button type='button' style="width: 80px" onclick="submit_form('ok')">${_("Save")}</button>
-                </td>
+
+                <tr>
+	                <td style="text-align: right; padding: 0 30px 0 0;">
+	                	% if environment == 'production':
+	                		<button type="button" id="cache_clear" name="cache_clear" onclick="clear_cache();">Clear Cache</button>
+	                	% endif
+	                    <button type='button' class="static_buttons" onclick="openobject.http.redirect('/openerp')">${_("Cancel")}</button>
+	                    <button type='button' class="static_buttons" onclick="submit_form('ok')">${_("Save")}</button>
+	                </td>
+	            </tr>
             </table>
         </form>
     </div>

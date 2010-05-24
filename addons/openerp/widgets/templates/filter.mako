@@ -1,42 +1,25 @@
-<table>
-    <tr>
-        <td>
-            % if def_checked:
-            <div id="active_filter" class="active_filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
-                % if icon:
-                    <div align="center">
-                        <img src="${icon}" width="16" height="16" />
-                    </div>
-                % endif
-                % if help !=text_val:
-                    <div>
-                        ${text_val}
-                    </div>
-                % endif
-                <input ${py.attrs(attrs)} style="display:none;"
-                    type="checkbox"
-                    id="${filter_id}"
-                    name="${filter_id}"
-                    class="checkbox grid-domain-selector"
-                    onclick="search_filter(this);"
-                    value="${filter_domain}"
-                    group_by_ctx="${group_context}"
-                    checked
-                    title="${help}" />
-            </div>
-        % else:
-            <div id="inactive_filter" class="inactive_filter" onclick="search_filter(getElement('${filter_id}'), this);" title="${help}">
-                % if icon:
-                    <div align="center">
-                        <img src="${icon}" width="16" height="16" />
-                    </div>
-                % endif
-                % if help !=text_val:
-                    <div>
-                        ${text_val}
-                    </div>
-                % endif
-                <input ${py.attrs(attrs)} style="display:none;"
+<div class="filter-a">
+	<%
+		if def_checked:
+			filter_class = "active_filter"
+			a_class = "active"
+		else:
+			filter_class = "inactive_filter"
+			a_class = "inactive"
+			
+		if help!=text_val:
+			text = text_val
+			position = "center top"
+		else:
+			text = ''
+			position = ""
+	%>
+	<ul>
+		<li class="${filter_class}" title="${help}" onclick="search_filter(getElement('${filter_id}'), this);">
+			<a class="${a_class}" style="background-image: url(${icon}); background-position: ${position};">
+				${text}
+				<span>&raquo;</span>
+				<input ${py.attrs(attrs)} style="display:none;"
                     type="checkbox"
                     id="${filter_id}"
                     name="${filter_id}"
@@ -45,8 +28,7 @@
                     value="${filter_domain}"
                     group_by_ctx="${group_context}"
                     title="${help}" />
-            </div>
-        % endif
-        </td>
-    </tr>
-</table>
+			</a>
+		</li>
+	</ul>
+</div>

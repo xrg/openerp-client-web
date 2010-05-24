@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -63,10 +63,10 @@ function openRecord(id, src, target, readonly) {
 
     var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
-    
+
     var search_data = openobject.dom.get('_terp_search_data');
     search_data = search_data ? search_data.value : null;
-    
+
     var search_filter_domain = openobject.dom.get('_terp_filter_domain');
     search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
 
@@ -1035,12 +1035,66 @@ function show_wkf() {
     if ($('_terp_list')) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-        
-        if (ids.length<1) 
+
+        if (ids.length < 1)
             return alert(_('You must select at least one record.'));
-        id = ids[0]            
-    } else
+        id = ids[0]
+    } else {
         id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
-       
+    }
+    
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
+}
+
+function removeAttachment(e, element, id) {
+    var element = jQuery('#' + element);
+	var parent = element.parent();
+	
+	// set the x and y offset of the poof animation from cursor position
+	var xOffset = 100;
+    var yOffset = 19;
+	
+	jQuery.ajax({
+		url: '/attachment/removeAttachment/',
+		type: 'POST',
+		data: {'id': id},
+		dataType: 'json',
+		success: function(obj) {
+			
+            // remove clicked element from the document tree
+            jQuery(element).fadeOut('fast');
+            jQuery(element).remove();
+            
+            jQuery('.poof').css({
+                left: e.pageX - xOffset + 'px',
+                top: e.pageY - yOffset + 'px'
+            }).show(); // display the poof
+            
+            animatePoof()
+            
+	       if(parent.children().length == 0) {
+	       	   parent.remove();
+	       	   jQuery('#sideheader-a').remove();
+	       }
+		}
+	});
+}
+
+function animatePoof() {
+	var bgTop = 0; // initial background-position for the poof sprit is '0 0'
+    var frames = 5; // number of frames in the sprite animation
+    var frameSize = 32; // size of poof <div> in pixels (32 x 32 px in this example)
+    var frameRate = 80; // set length of time each frame in the animation will display (in milliseconds)
+
+    // loop through amination frames
+    // and display each frame by resetting the background-position of the poof <div>
+    for(i=1; i<frames; i++) {
+        jQuery('.poof').animate({
+            backgroundPosition: '0 ' + (bgTop - frameSize) + 'px'
+        }, frameRate);
+        bgTop -= frameSize; // update bgPosition to reflect the new background-position of our poof <div>
+    }
+    
+    // wait until the animation completes and then hide the poof <div>
+    setTimeout("jQuery('.poof').hide()", frames * frameRate);
 }

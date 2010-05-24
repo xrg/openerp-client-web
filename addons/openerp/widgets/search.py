@@ -46,7 +46,7 @@ from openobject.widgets import JSLink, locations
 def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     
     flag = True
-    if cherrypy.request.path_info == '/tree/open':
+    if cherrypy.request.path_info == '/openerp/tree/open':
         flag = False
     
     screen_context = screen_context or {}

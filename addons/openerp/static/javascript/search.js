@@ -33,11 +33,12 @@
  */
 var add_filter_row = function() {
 	
-	var filter_table = $('filter_table');
+	var filter_table = getElement('filter_table');
 	var vals = [];
 	var row_id = 1;
 	
-	var first_row = $('filter_row/0');
+	var first_row = getElement('filter_row/0');
+	
 	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table)
 	
 	if (filter_table.style.display == 'none') {
@@ -142,7 +143,7 @@ var search_image_filter = function(src, id) {
 
 var onKey_Event = function(evt) {
 	
-	dom = $('search_filter_data');
+	dom = openobject.dom.get('search_filter_data');
 	
 	var editors = [];
 	
@@ -170,7 +171,7 @@ var onKeyDown_search = function(evt) {
 
 var display_Customfilters = function(all_domains, group_by_ctx){
 
-	var filter_table = $('filter_table');
+	var filter_table = getElement('filter_table');
 	
 	var params = {};
 	var record = {};
@@ -262,9 +263,11 @@ var search_filter = function(src, id) {
 	var all_domains = {};
 	var check_domain = 'None';
 	var domains = {};
+	
 	var search_context = {};
 	var all_boxes = [];
 	var domain = 'None';
+	var set_filter = jQuery(id).find("a")[0];
 	
 	var group_by_ctx =  openobject.dom.get('_terp_group_by_ctx').value;
 	if(group_by_ctx != '[]') {
@@ -278,21 +281,26 @@ var search_filter = function(src, id) {
 	
 	if(src) {
 		if(src.checked==false) {
-			src.checked = true
+			src.checked = true;
 			id.className = 'active_filter';
+			
 			if(jQuery(src).attr('group_by_ctx')) {
-				group_by.push(jQuery(src).attr('group_by_ctx'))
+				group_by.push(jQuery(src).attr('group_by_ctx'));
 			}
+			jQuery(set_filter).attr('class', 'active');
 		}
 		else {
-			src.checked = false
+			src.checked = false;
 			id.className = 'inactive_filter';
+			
 			group_by = jQuery.grep(group_by, function(grp) {
 				return grp != jQuery(src).attr('group_by_ctx');
 			})
+			jQuery(set_filter).attr('class', 'inactive');
 		}
 	}
-	var filter_table = $('filter_table');
+	
+	var filter_table = getElement('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
 	forEach(datas, function(d) {
@@ -311,8 +319,8 @@ var search_filter = function(src, id) {
 			domains[d.name] = value;
 		}
 	});
-	
 	domains = serializeJSON(domains);
+//	search_context = serializeJSON(search_context);
 	all_domains['domains'] = domains;
 	all_domains['search_context'] =  search_context;
 	selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
@@ -330,21 +338,22 @@ var search_filter = function(src, id) {
 	all_domains['check_domain'] = check_domain;
 	
 	if ($('filter_list')) {
-		all_domains['selection_domain'] = $('filter_list').value;
+		all_domains['selection_domain'] = jQuery('[id=filter_list]').val();
 	}
 	
 	all_domains = serializeJSON(all_domains);
-	var fil_dom = openobject.dom.get('_terp_filter_domain');
-	if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
+//	var fil_dom = openobject.dom.get('_terp_filter_domain');
+
+	if(jQuery('table[id=filter_table]').css('display') != 'none' || jQuery('[id=_terp_filter_domain]').val() != '[]') {
 		
-		if (filter_table.style.display == 'none'){
-			filter_table.style.display = '';
+		if (jQuery('table[id=filter_table]').css('display') == 'none'){
+			jQuery('table[id=filter_table]').css('display','');
 		}		
 		display_Customfilters(all_domains, group_by);
 	}
 	else {
-		custom_domain = fil_dom ? fil_dom.value : '[]';		
-		final_search_domain(custom_domain, all_domains, group_by);	
+		custom_domain = jQuery('[id=_terp_filter_domain]').val() || '[]';		
+		final_search_domain(custom_domain, all_domains, group_by);
 	}
 }
 
@@ -403,16 +412,16 @@ var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
  *  @target #search_filter_data the element holding the filter rows
  *  @argument 'the action performed ("expand" or "collapse")
  */
-function expand_group_option(id, event) {
+function expand_group_option(id, element) {
     var groupbyElement = getElement(id);
     var action;
     if (groupbyElement.style.display == '') {
         groupbyElement.style.display = 'none';
-        event.target.className = 'group-expand';
+        element.className = 'group-expand';
         action = 'collapse';
     } else {
         groupbyElement.style.display = '';
-        event.target.className = 'group-collapse';
+        element.className = 'group-collapse';
         action = 'expand';
     }
     MochiKit.Signal.signal(
@@ -425,7 +434,8 @@ MochiKit.DOM.addLoadEvent(function(evt){
 
 	var filter_table = openobject.dom.get('filter_table');
 	var fil_dom = openobject.dom.get('_terp_filter_domain');
-	if (filter_table){
+	
+	if (filter_table) {
 		if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
 			if(filter_table.style.display == 'none'){
 				filter_table.style.display = '';

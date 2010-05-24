@@ -5,47 +5,32 @@
 			${display_member(frame)}
 		</fieldset>
 	% else:
-		<table>
-			<tr>
+		% if default:
+			<div id="group_${expand_grp_id}" class="group-collapse" style="white-space: nowrap;">
+				<h2><span>${string}</span></h2>
+			</div>
+		% else:
+			<div id="group_${expand_grp_id}" class="group-expand" style="white-space: nowrap;">
+				<h2><span>${string}</span></h2>
+			</div>
+		% endif
+		
+		<table id="groupdata_table" style="display: block;">
+			<tr>	
 				<td>
 					% if default:
-						<div id="group_${expand_grp_id}" class="group-collapse" style="white-space: nowrap;">
-							${string}
-						</div>
+						<div id="${expand_grp_id}" class="group-data" style="white-space: nowrap;">${display_member(frame)}</div>
 					% else:
-						<div id="group_${expand_grp_id}" class="group-expand" style="white-space: nowrap;">
-							${string}
-						</div>
-					% endif
-				</td>
-			</tr>
-			<tr>
-				<td>
-					% if default:
-						<div id="${expand_grp_id}" style="white-space: nowrap;">${display_member(frame)}</div>
-					% else:
-						<div id="${expand_grp_id}" style="display: none; white-space: nowrap;">${display_member(frame)}</div>
+						<div id="${expand_grp_id}" class="group-data" style="display: none; white-space: nowrap;">${display_member(frame)}</div>
 					% endif
 				</td>
 			</tr>
 		</table>
 		<script type="text/javascript">
-			jQuery('div[id=group_${expand_grp_id}]').click(function() {
-				var action;
-				jQuery(this).toggleClass(function (index, cls) {
-					if(cls == 'group-expand') {
-						jQuery('[id=${expand_grp_id}]').css('display', 'block');
-						jQuery(this).removeClass(cls);
-						action = 'expand';
-						return 'group-collapse';
-					} else {
-						jQuery('[id=${expand_grp_id}]').css('display', 'none');
-						jQuery(this).removeClass(cls);
-						action = 'collapse';
-						return 'group-expand';
-					}
-				});
-				MochiKit.Signal.signal(jQuery('[id=search_filter_data]'), 'groupby-toggle', action);
+			jQuery('#group_${expand_grp_id}').click(function() {
+				jQuery(this).toggleClass('group-collapse', 100);
+				jQuery('#${expand_grp_id}').toggle("slow");
+				jQuery('#groupdata_table').css('display', 'block');
 			});
 		</script>
 	% endif

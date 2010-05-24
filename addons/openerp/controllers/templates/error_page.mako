@@ -117,7 +117,7 @@ is displayed on the second tab.""")}
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <button class="button" type="button" onclick="send_maintenance_request()">${_("Send to Maintenance Team")}</button>
+                                        	<a class="button-a" href="javascript: void(0)" onclick="send_maintenance_request()">${_("Send to Maintenance Team")}</a>
                                         </td>
                                     </tr>
                                 </table>
@@ -165,7 +165,7 @@ Choose:
 			   		<tr><td height="5px"/></tr>
 			   		<tr>
 			   			<td class="errorbox" align="right">
-			   				<button type="button" onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</button>
+			   				<a class="button-a" href="javascript: void(0)" onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</a>
 			   				<button type="submit">${_("Write Anyway")}</button>
 			   			</td>
 			   		</tr>
@@ -185,7 +185,7 @@ Choose:
                     <tr><td height="5px"/></tr>
                     <tr>
                         <td class="errorbox" align="right">
-                            <button type="button" onclick="history.length > 1 ? history.back() : window.close()">OK</button>
+                        	<a class="button-a" href="javascript: void(0)" onclick="history.length > 1 ? history.back() : window.close()">OK</a>
                         </td>
                     </tr>
                 </table>

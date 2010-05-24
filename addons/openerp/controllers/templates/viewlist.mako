@@ -121,13 +121,17 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="onNew()">${_("New")}</button>
-                                <button type="button" onclick="onEdit()">${_("Edit")}</button>
-                                <button type="button" onclick="onRemove()">${_("Remove")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="onNew()">${_("New")}</a>
+                            </td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="onEdit()">${_("Edit")}</a>
+                            </td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="onRemove()">${_("Remove")}</a>
                             </td>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doClose()">${_("Close")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="doClose()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>
@@ -185,8 +189,10 @@
                         <tr>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doCreate()">${_("Save")}</button>
-                                <button type="button" onclick="doCancel()">${_("Cancel")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="doCreate()">${_("Save")}</a>
+                            </td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="doCancel()">${_("Cancel")}</a>
                             </td>
                         </tr>
                     </table>

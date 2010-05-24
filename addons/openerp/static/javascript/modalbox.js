@@ -48,11 +48,11 @@ ModalBox.prototype = {
         this.title = DIV({'class': 'modalbox-title'}, this.options.title);
         this.content = DIV({'class': 'modalbox-content'}, this.options.content || '');
         
-        var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
+        var btnCancel = BUTTON({'class': 'static_buttons', 'type': 'button'}, 'Cancel');
         MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
 
         var buttons = MochiKit.Base.map(function(btn){
-            var b = MochiKit.DOM.BUTTON({'class': 'button', 'type': 'button'}, btn.text);
+            var b = MochiKit.DOM.BUTTON({'class': 'static_buttons', 'type': 'button'}, btn.text);
             MochiKit.Signal.connect(b, 'onclick', btn.onclick || MochiKit.Base.noop);
             return b;
         }, this.options.buttons || []);

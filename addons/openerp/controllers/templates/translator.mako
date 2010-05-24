@@ -40,7 +40,9 @@
                             </td>
                             <td width="100%">&nbsp;</td>
                             <td><button type="submit">${_("Save")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                           	</td>
                         </tr>
                     </table>
                 </div>
@@ -106,7 +108,9 @@
                         <tr>
                             <td width="100%">&nbsp;</td>
                             <td><button type="submit">${_("Save")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                           	</td>
                         </tr>
                     </table>
                 </div>

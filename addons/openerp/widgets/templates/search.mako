@@ -37,19 +37,21 @@
 			% endif
 		% endfor
 	</table>
-	
-	<table>
-	    <tr>
-	    	<td align="right">
-	    		<select name="filter_list" id="filter_list" onchange="search_filter();">
+	<div class="custom-filter">
+		<ul>
+			<li>
+				<select name="filter_list" id="filter_list" onchange="search_filter();">
 	                % for f in filters_list:
 	                <option value="${f[0]}">${f[1]}</option>
 	                % endfor
 	            </select>
-	    	</td>
-	    	<td>
-	    		<img width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-add.png" onclick="add_filter_row();" style="cursor: pointer;"/>
-	    	</td>
-	    </tr>
-	</table>
+			</li>
+			<li>
+				<a class="button" href="javascript: void(0)" onclick="add_filter_row();">
+					<span class="add">Add</span>
+				</a>
+				
+			</li>
+		</ul>
+	</div>
 </div>

@@ -178,7 +178,6 @@ class ListGroup(List):
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data)
-
                 
 class MultipleGroup(List):
     
