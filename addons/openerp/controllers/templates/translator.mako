@@ -31,11 +31,7 @@
                         <tr>
                             <td class="label"><label for="translate">${_("Add Translation for:")}</label></td>
                             <td>
-<<<<<<< TREE
-                                <select name="translate" id="translate" onchange="window.location.href=openobject.http.getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
-=======
                                 <select name="translate" onchange="window.location.href=openobject.http.getURL('/openerp/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
->>>>>>> MERGE-SOURCE
                                     <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
                                     <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
                                     <option value="relates" ${py.selector(translate=='relates')}>${_("Relates")}</option>

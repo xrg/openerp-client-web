@@ -94,7 +94,6 @@ ListView.prototype = {
 	    		sum_fields.push(jQuery(this).attr('id'))
 	    	});
 	    	
-<<<<<<< TREE
 	    	var selected_fields = sum_fields.join(",");
 	    	var selected_ids = '[' + selected_ids.join(',') + ']';
 	    	
@@ -113,17 +112,6 @@ ListView.prototype = {
 					}
 	    		}
 	    	});
-=======
-	    	jQuery.post('/openerp/listgrid/count_sum',
-	    				{'model':this.model, 'ids': selected_ids.toSource(), 'sum_fields': sum_fields.toSource()},
-	    				function(obj) {
-	    					for(i in obj.sum) {
-	    						jQuery('tr.field_sum').find('td.grid-cell').find('span[id="'+sum_fields[i]+'"]').html(obj.sum[i])
-	    					}
-	    				},
-	    				"json"
-			);
->>>>>>> MERGE-SOURCE
         }	
 	},
 	

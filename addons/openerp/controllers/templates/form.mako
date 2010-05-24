@@ -38,14 +38,6 @@
                             <table width="100%" class="titlebar">
                                 <tr>
                                 	<td>
-<<<<<<< TREE
-                                        % if can_shortcut:
-                                            <a href="${shortcut_url}" id="menu_header" title="${shortcut_title}">
-                                                <img src="${shortcut_picture}" alt="${shortcut_title}"
-                                                     style="padding: 1px;" border="0" width="18" height="18"/>
-                                            </a>
-                                        % endif
-=======
                                 		% if can_shortcut:
                                 			% if rpc.session.active_id not in shortcut_ids:
 			                                    <a href="${py.url('/openerp/shortcuts/add', id=rpc.session.active_id)}" id="menu_header" title="Add as shortcut">
@@ -57,7 +49,6 @@
 			                                    </a>
 			                                % endif
 		                                 % endif
->>>>>>> MERGE-SOURCE
 	                                </td>
                                     <td width="32px" align="center">
                                         % if form.screen.view_type in ('tree', 'graph'):
