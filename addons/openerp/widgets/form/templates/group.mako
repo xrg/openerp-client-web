@@ -28,7 +28,7 @@
 		</table>
 		<script type="text/javascript">
 			jQuery('#group_${expand_grp_id}').click(function() {
-				jQuery(this).toggleClass('group-collapse', 100);
+				jQuery(this).toggleClass('group-collapse group-expand', 100);
 				jQuery('#${expand_grp_id}').toggle("slow");
 				jQuery('#groupdata_table').css('display', 'block');
 			});
