@@ -38,7 +38,7 @@ from openobject.tools import expose, validate, error_handler, exception_handler
 
 class OpenO2M(Form):
 
-    _cp_path = "/openo2m"
+    _cp_path = "/openerp/openo2m"
 
     def create_form(self, params, tg_errors=None):
 
@@ -58,7 +58,7 @@ class OpenO2M(Form):
         # auto increment of sequence
         vp.id = params.parent_id or False
 
-        form = tw.form_view.ViewForm(vp, name="view_form", action="/openo2m/save")
+        form = tw.form_view.ViewForm(vp, name="view_form", action="/openerp/openo2m/save")
         cherrypy.request.terp_validators = {}
         wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
 
@@ -100,7 +100,7 @@ class OpenO2M(Form):
                                 tw.form.Hidden(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
                                 tw.form.Hidden(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
-        form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
+        form = tw.form_view.ViewForm(params, name="view_form", action="/openerp/openo2m/save")
         form.screen.string = wid.screen.string
 
         return form

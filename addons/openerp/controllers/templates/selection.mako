@@ -20,7 +20,7 @@
     }
 </script>
 
-<form id="selection" action="/selection/action" onsubmit="return onSubmit()">
+<form id="selection" action="/openerp/selection/action" onsubmit="return onSubmit()">
 
     <input type="hidden" name="_terp_data" value="${data}"/>
 

@@ -40,7 +40,7 @@
                         % if not screen.editable and screen.view_type=='form':
                         <img class="button" title="${_('Translate me.')}" alt="${_('Translate me.')}" 
                              src="/openerp/static/images/stock/stock_translate.png" width="16" height="16"
-                             onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
+                             onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
                         % endif
                     </td>
                 </tr>

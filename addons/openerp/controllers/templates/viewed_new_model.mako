@@ -4,7 +4,7 @@
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/viewed/new_model';
+        var form_controller = '/openerp/viewed/new_model';
     </script>
     
     <script type="text/javascript">

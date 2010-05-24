@@ -132,7 +132,7 @@ openobject.workflow.StateBase.prototype = {
         if(!isUndefinedOrNull(this.act_id))
             params['_terp_id'] = this.act_id;
             
-        var act = openobject.http.getURL('/workflow/state/edit', params);
+        var act = openobject.http.getURL('/view_diagram/workflow/state/edit', params);
         openobject.tools.openWindow(act);
     },
 

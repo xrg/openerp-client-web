@@ -36,7 +36,7 @@ from openobject.tools import expose
 
 class Attachment(SecuredController):
 
-    _cp_path = "/attachment"
+    _cp_path = "/openerp/attachment"
 
     @expose()
     def index(self, model, id):

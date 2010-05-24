@@ -39,7 +39,7 @@ from openobject import pooler
 
 class Wizard(SecuredController):
 
-    _cp_path = "/wizard"
+    _cp_path = "/openerp/wizard"
 
     def execute(self, params):
 
@@ -102,7 +102,7 @@ class Wizard(SecuredController):
                                         tw.form.Hidden(name='_terp_state2', default=state),
                                         tw.form.Hidden(name='_terp_wiz_id', default=wiz_id)]
 
-                form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+                form = tw.form_view.ViewForm(params, name="view_form", action="/openerp/wizard/action")
 
                 buttons = []
                 for x in res.get('state', []):
@@ -141,7 +141,7 @@ class Wizard(SecuredController):
             elif res['type']=='state':
                 state = res['state']
 
-        raise redirect('/wizard/end')
+        raise redirect('/openerp/wizard/end')
 
     @expose(template="templates/wizard.mako")
     def create(self, params, tg_errors=None):

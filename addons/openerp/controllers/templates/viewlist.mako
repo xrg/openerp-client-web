@@ -49,7 +49,7 @@
                 return;
             }
 
-            var act = openobject.http.getURL('/viewed', {view_id: boxes[0].value});
+            var act = openobject.http.getURL('/openerp/viewed', {view_id: boxes[0].value});
             if (window.opener) {
                 window.opener.setTimeout("openobject.tools.openWindow('" + act + "')", 0);
                 window.close();
@@ -72,7 +72,7 @@
                 return;
             }
             
-            window.location.href = openobject.http.getURL('/viewlist/delete?model=${model}&id=' + boxes[0].value);
+            window.location.href = openobject.http.getURL('/openerp/viewlist/delete?model=${model}&id=' + boxes[0].value);
         }
 		
         MochiKit.DOM.addLoadEvent(function(evt){
@@ -151,7 +151,7 @@
         </tr>
         <tr>
             <td>
-                <form id="view_form" action="/viewlist/create">
+                <form id="view_form" action="/openerp/viewlist/create">
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>

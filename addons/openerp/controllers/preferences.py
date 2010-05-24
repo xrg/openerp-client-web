@@ -36,7 +36,7 @@ import cherrypy
 
 class Preferences(Form):
 
-    _cp_path = "/pref"
+    _cp_path = "/openerp/pref"
 
     @expose(template="templates/preferences.mako")
     def create(self):
@@ -76,11 +76,11 @@ class Preferences(Form):
         proxy = rpc.RPCProxy('res.users')
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
-        raise redirect('/pref/create')
+        raise redirect('/openerp/pref/create')
     
     @expose()
     def clear_cache(self):
         cache.clear()
-        raise redirect('/blank')
+        raise redirect('/openerp/blank')
 
 # vim: ts=4 sts=4 sw=4 si et

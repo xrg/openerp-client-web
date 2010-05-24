@@ -38,7 +38,7 @@ from openobject.tools import expose, redirect
 
 class Image(SecuredController):
 
-    _cp_path = "/image"
+    _cp_path = "/openerp/image"
 
     @expose(template="templates/image.mako")
     def index(self, **kw):
@@ -123,7 +123,7 @@ class Image(SecuredController):
         res = res.get(field)
 
         if not res:
-            raise redirect('/image', **kw)
+            raise redirect('/openerp/image', **kw)
 
         return base64.decodestring(res)
 

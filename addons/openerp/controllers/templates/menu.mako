@@ -55,7 +55,7 @@
         });
 
         MochiKit.Signal.connect(nb, 'click', function(nb, tab) {
-            window.location.href = openobject.http.getURL("/menu", {active: tab.id});
+            window.location.href = openobject.http.getURL("/openerp/menu", {active: tab.id});
         });
 
     </script>
@@ -73,7 +73,7 @@
                                     % if tool.get('action_id'):
                                     	<script type="text/javascript">
                                     	jQuery("#${tool['id']}").click(function() {
-                                    		jQuery('#appFrame').attr("src", openobject.http.getURL('/tree/open', {'model': "ir.ui.menu", 'id': "${tool['action_id']}"}))
+                                    		jQuery('#appFrame').attr("src", openobject.http.getURL('/openerp/tree/open', {'model': "ir.ui.menu", 'id': "${tool['action_id']}"}))
                                     	});
                                     	</script>
                                     % endif
@@ -94,7 +94,7 @@
                     <iframe id="appFrame" width="100%"
                         scrolling="no"
                         frameborder="0"
-                        name="appFrame" src="${py.url('/home')}"></iframe>
+                        name="appFrame" src="${py.url('/openerp/home')}"></iframe>
                 % else:
                     <iframe id="appFrame" width="100%"
                         scrolling="no"

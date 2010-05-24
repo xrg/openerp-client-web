@@ -127,6 +127,14 @@ class Filter(TinyInputWidget):
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
 
+<<<<<<< TREE
+=======
+        flag = True
+        if cherrypy.request.path_info == '/openerp/tree/open':
+            flag = False
+
+        default_domain = attrs.get('default_domain')
+>>>>>>> MERGE-SOURCE
         group_by_ctx = attrs.get('group_by_ctx', [])
         self.global_domain = []
         self.icon = attrs.get('icon')

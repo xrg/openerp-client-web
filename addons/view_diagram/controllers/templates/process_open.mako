@@ -4,7 +4,7 @@
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/process/resource';
+        var form_controller = '/view_diagram/process/resource';
     </script>
 
     <script type="text/javascript">

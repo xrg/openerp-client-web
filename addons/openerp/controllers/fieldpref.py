@@ -33,7 +33,7 @@ from openobject.tools import expose
 
 class FieldPref(SecuredController):
 
-    _cp_path = "/fieldpref"
+    _cp_path = "/openerp/fieldpref"
 
     @expose(template="templates/fieldpref.mako")
     def index(self, **kw): #_terp_model, _terp_field, _terp_deps

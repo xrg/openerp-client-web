@@ -30,12 +30,11 @@ class Root(BaseController):
         request = cherrypy.request
         path = request.path_info
         app = request.app
-
+        
         pool = request.pool = pooler.get_pool()
 
         names = [x for x in path.strip("/").split("/") if x] + ["index"]
-
-        node = pool.get_controller("/")
+        node = pool.get_controller("/openerp")
         trail = [["/", node]]
 
         curpath = ""

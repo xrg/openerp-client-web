@@ -15,7 +15,7 @@
                 tb: openobject.dom.get('error').value
             }
 
-            var req = openobject.http.postJSON('/errorpage/submit', args);
+            var req = openobject.http.postJSON('/openerp/errorpage/submit', args);
 
             req.addCallback(function(obj){
 

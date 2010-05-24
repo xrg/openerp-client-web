@@ -65,7 +65,7 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = openobject.http.getURL('/impex/save_exp');
+            form.action = openobject.http.getURL('/openerp/impex/save_exp');
             
             var options = openobject.dom.get('fields').options;            
             forEach(options, function(o){
@@ -93,7 +93,7 @@
             model = openobject.dom.get('_terp_model').value;
             params = {'_terp_id': id, '_terp_model': model}
             
-            req = openobject.http.postJSON('/impex/get_namelist', params);
+            req = openobject.http.postJSON('/openerp/impex/get_namelist', params);
             
             req.addCallback(function(obj){
                 if (obj.error){
@@ -118,7 +118,7 @@
     
             params = {'_terp_id' : id};
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/delete_listname', params));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/delete_listname', params));
             form.submit();
         }
         
@@ -149,14 +149,14 @@
 
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + openobject.dom.get('export_as').value));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value));
             form.submit();
         }
     </script>
 </%def>
 
 <%def name="content()">
-    <form id='view_form' action="/impex/export_data" method="post" onsubmit="return false;">
+    <form id='view_form' action="/openerp/impex/export_data" method="post" onsubmit="return false;">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>

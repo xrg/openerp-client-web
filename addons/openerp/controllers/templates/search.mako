@@ -4,7 +4,7 @@
     <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/search';
+        var form_controller = '/openerp/search';
     </script>
 
     <script type="text/javascript">
@@ -53,7 +53,7 @@
         }
 
         function do_create(){
-            act = openobject.http.getURL('/openm2o/edit', {_terp_model: '${params.model}', 
+            act = openobject.http.getURL('/openerp/openm2o/edit', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2o: '${params.source}',
                                            _terp_domain: openobject.dom.get('_terp_domain').value,
@@ -95,7 +95,7 @@
         }
         
         function do_create(){
-            act = openobject.http.getURL('/openm2m/new', {_terp_model: '${params.model}', 
+            act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2m: '${params.source}',
                                            _terp_domain: openobject.dom.get('_terp_domain').value,

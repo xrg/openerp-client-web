@@ -196,7 +196,7 @@ var display_Customfilters = function(all_domains, group_by_ctx){
 	record = serializeJSON(record);
 	params['record'] = record;
 	var custom_domain = [];
-	var search_req = openobject.http.postJSON('/search/get', params);
+	var search_req = openobject.http.postJSON('/openerp/search/get', params);
 	search_req.addCallback(function(obj){
 		if (obj.error) {
 			forEach(children, function(child){
@@ -349,7 +349,7 @@ var search_filter = function(src, id) {
 }
 
 var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
-	var req = openobject.http.postJSON('/search/eval_domain_filter', 
+	var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', 
 		{source: '_terp_list',
 		model: $('_terp_model').value, 
 		custom_domain: custom_domain,
@@ -366,7 +366,7 @@ var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
 			if(group_by_ctx!=''){
 				params['group_by'] = group_by_ctx;
 			}				
-			openobject.tools.openWindow(openobject.http.getURL('/search/save_filter', params), {
+			openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', params), {
 				width: 400,
 				height: 250
 			});
@@ -374,7 +374,7 @@ var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
 		
 		if (obj.action) { // For manage Filter
 			action = serializeJSON(obj.action);
-			window.location.href = openobject.http.getURL('/search/manage_filter', {action: action});
+			window.location.href = openobject.http.getURL('/openerp/search/manage_filter', {action: action});
 		}
 		
 		if (obj.domain) { // For direct search

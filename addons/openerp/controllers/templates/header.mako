@@ -1,9 +1,9 @@
 <%
 # put in try block to prevent improper redirection on connection refuse error
 try:
-    ROOT = cp.request.pool.get_controller("/")
-    SHORTCUTS = cp.request.pool.get_controller("/shortcuts")
-    REQUESTS = cp.request.pool.get_controller("/requests")
+    ROOT = cp.request.pool.get_controller("/openerp")
+    SHORTCUTS = cp.request.pool.get_controller("/openerp/shortcuts")
+    REQUESTS = cp.request.pool.get_controller("/openerp/requests")
 
     shortcuts = SHORTCUTS.my()
     requests, requests_message = REQUESTS.my()
@@ -34,7 +34,7 @@ except:
                         ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
                     </td>
                     <td class="menu_connection_links" nowrap="norwap">
-                        <a href="${py.url('/logout')}" target="_top">${_("Logout")}</a>
+                        <a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a>
                     </td>
                 </tr>
             </table>
@@ -45,7 +45,7 @@ except:
             <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/home')}">
+                        <a target='appFrame' href="${py.url('/openerp/home')}">
                             <img src="/openerp/static/images/stock/gtk-home.png" style="padding: 4px;" title="Home"
                                  border="0" width="16" height="16" alt="Home"/>
                         </a>
@@ -62,7 +62,7 @@ except:
                                     </a>
                                     <script type="text/javascript">
                                         jQuery('#show_shortcut').mouseover(function() {
-                                            jQuery.post('/shortcuts/get_shortcuts',
+                                            jQuery.post('/openerp/shortcuts/get_shortcuts',
                                                     function(xmlHttp) {
                                                         jQuery('[id=shortcuts_submenu]').html(xmlHttp);
                                                     }
@@ -73,7 +73,7 @@ except:
                                     <div class="submenu" id="shortcuts_submenu">
                                         % for sc in shortcuts:
                                         <a target='appFrame'
-                                           href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}"
+                                           href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}"
                                            style="height: 10px; padding: 0 2px 8px 5px;">
                                             ${sc['name']}
                                         </a>
@@ -98,7 +98,7 @@ except:
                         </a>
                     </td>
                     <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/pref/create')}">
+                        <a target='appFrame' href="${py.url('/openerp/pref/create')}">
                             <img src="/openerp/static/images/preferences.png" style="padding: 4px;" title="Preferences"
                                  border="0" width="16" height="16" alt="Preferences"/>
                         </a>
@@ -115,7 +115,7 @@ except:
                         </a>
                     </td>
                     <td nowrap="nowrap">
-                        <a target='appFrame' href="${py.url('/about')}">
+                        <a target='appFrame' href="${py.url('/openerp/about')}">
                             <img src="/openerp/static/images/about.png" style="padding: 4px;" title="About" border="0"
                                  width="18" height="18" alt="About"/>
                         </a>

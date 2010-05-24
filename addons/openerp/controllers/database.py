@@ -129,11 +129,11 @@ _FORMS = {
 
 class Database(BaseController):
 
-    _cp_path = "/database"
+    _cp_path = "/openerp/database"
 
     @expose()
     def index(self, *args, **kw):
-        raise redirect('/database/create')
+        raise redirect('/openerp/database/create')
 
     @expose(template="templates/database.mako")
     def create(self, tg_errors=None, **kw):
@@ -176,8 +176,8 @@ class Database(BaseController):
                 raise common.warning(_("Could not create database."))
 
         if ok:
-            raise redirect('/menu', {'db': True})
-        raise redirect('/login', db=dbname)
+            raise redirect('/openerp/menu', {'db': True})
+        raise redirect('/openerp/login', db=dbname)
 
     @expose(template="templates/database.mako")
     def drop(self, tg_errors=None, **kw):
@@ -196,7 +196,7 @@ class Database(BaseController):
             else:
                 raise common.warning(_("Couldn't drop database"))
 
-        raise redirect("/database/drop")
+        raise redirect("/openerp/database/drop")
 
     @expose(template="templates/database.mako")
     def backup(self, tg_errors=None, **kw):
@@ -216,7 +216,7 @@ class Database(BaseController):
         except Exception, e:
             raise common.warning(_("Could not create backup."))
 
-        raise redirect('/login')
+        raise redirect('/openerp/login')
 
     @expose(template="templates/database.mako")
     def restore(self, tg_errors=None, **kw):
@@ -236,7 +236,7 @@ class Database(BaseController):
             else:
                 raise common.warning(_("Couldn't restore database"))
 
-        raise redirect('/login', db=dbname)
+        raise redirect('/openerp/login', db=dbname)
 
     @expose(template="templates/database.mako")
     def password(self, tg_errors=None, **kw):
@@ -255,7 +255,7 @@ class Database(BaseController):
             else:
                 raise common.warning(_("Error, password not changed."))
 
-        raise redirect('/login')
+        raise redirect('/openerp/login')
 
 # vim: ts=4 sts=4 sw=4 si et
 
