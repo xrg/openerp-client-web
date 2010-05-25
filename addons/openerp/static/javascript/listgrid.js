@@ -700,6 +700,8 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = this.makeArgs();
         
+        var current_id = edit_inline ? (parseInt(edit_inline) || 0) : edit_inline;
+        
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
@@ -728,9 +730,13 @@ MochiKit.Base.update(ListView.prototype, {
             var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
             var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
             var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
-
+            _terp_id.value = current_id > 0 ? current_id : 'False';
+            
             if (obj.ids) {
-                _terp_id.value = obj.ids.length ? obj.ids[0] : 'False';
+                if (typeof(current_id) == "undefined" && obj.ids.length) {
+                    current_id = obj.ids[0];
+                }
+                _terp_id.value = current_id > 0 ? current_id : 'False';
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
                 _terp_count.value = obj.count;
             }
