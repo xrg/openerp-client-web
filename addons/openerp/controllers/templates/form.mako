@@ -29,11 +29,22 @@
                                 	% if can_shortcut:
                                 		% if rpc.session.active_id not in shortcut_ids:
                                 	<td id="add_shortcut" style="padding: 0; width: 30px;">	
-	                                    <a href="${py.url('/openerp/shortcuts/add', id=rpc.session.active_id)}" 
-	                                    	id="menu_header" 
+	                                    <a href="javascript: void(0)" id="menu_header" 
 	                                    	title="${_('Add as shortcut')}" 
 	                                    	class="add_shortcut">
 	                                    </a>
+	                                    <script type="text/javascript">
+	                                       jQuery('#menu_header').click(function() {
+	                                           jQuery.ajax({
+	                                               url: '/openerp/shortcuts/add',
+	                                               type: 'POST',
+	                                               data: {'id': '${rpc.session.active_id}'},
+	                                               success: function() {
+	                                                   window.parent.location.reload();
+	                                               }
+	                                           });
+	                                       });
+	                                    </script>
 	                                </td>
 	                                	% endif
                                     % endif
