@@ -103,6 +103,11 @@ class ViewForm(Form):
 
         if params.view_type == 'tree':
             self.screen.id = False
+            
+        if 'form' not in self.screen.view_mode:
+            self.screen.widget.link = 0
+            self.screen.editable = False
+            self.screen.widget.editable = False
 
         # get the correct view title
         self.screen.string = getattr(cherrypy.request, '_terp_view_name', self.screen.string) or self.screen.string

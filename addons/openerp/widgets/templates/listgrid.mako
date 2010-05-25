@@ -107,13 +107,17 @@ import cherrypy
 	        						}
 	        					}
 	        					else if(jQuery('#_o2m_${name}').length>0) {
-	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" id="${name}_btn_" title="${_('Create new record.')}">new<a/></td>');
+	        					    if('${editable}' != 'False') {
+	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" id="${name}_btn_" title="${_('Create new record.')}">new<a/></td>');
+	        						}
 	        						jQuery('#${name}_btn_').click(function() {
 	        							new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create()
 	        						});
 	        					}
 	        					else {
-	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new<a/></td>');
+	        					    if('${editable}' != 'False') {
+	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new<a/></td>');
+	        						}
 	        						if("${editors}" == "{}") {
 	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {
 	        								editRecord(null);
@@ -335,51 +339,52 @@ import cherrypy
 		            }
 				</script>
 			% endif
-			
-			<script type="text/javascript">
-				//Make all records Editable by Double-click
-				var view_type = jQuery('[id*=_terp_view_type]').val();
-            	var editable = jQuery('[id*=_terp_editable]').val();
-            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-            		jQuery(row).dblclick(function(event) {
-            			if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-            				if (view_type == 'tree') {
-            					if (editable != 'True') {
-            						do_select(jQuery(row).attr('record'));
-            					}
-            					else {
-            						editRecord(jQuery(row).attr('record'));
-            					}
-            				}
-            			}
-            		});
-            	});
-            	
-            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-            		jQuery(row).click(function(event) {
-            			if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-            				if (view_type == 'tree') {
-            					do_select(jQuery(row).attr('record'));
-            				}
-            			}
-            		});
-            	});
-
-                if (view_type == 'form') {
-                    if (jQuery('#${name}_set').length) {
-                        if (jQuery('input#${name}/_terp_ids').val() != '[]') {
-                            jQuery('table#${name}_grid tr.grid-row td:nth-child(2) span span').each(function(index, span) {
-                                var link_text = jQuery(span).text();
-                                var record_id = jQuery(span).parents('tr.grid-row').attr('record');
-                                jQuery(span).empty().append(
-	                                jQuery('<a>').attr('href', '#').click(function () {
-	                                    do_select(record_id, '${name}');
-	                                    return false;
-	                                }).text(link_text));});
-                        }
-                    }
-                }
-            </script>
+			% if 'form' in view_mode:
+				<script type="text/javascript">
+					//Make all records Editable by Double-click
+					var view_type = jQuery('[id*=_terp_view_type]').val();
+	            	var editable = jQuery('[id*=_terp_editable]').val();
+	            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
+	            		jQuery(row).dblclick(function(event) {
+	            			if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+	            				if (view_type == 'tree') {
+	            					if (editable != 'True') {
+	            						do_select(jQuery(row).attr('record'));
+	            					}
+	            					else {
+	            						editRecord(jQuery(row).attr('record'));
+	            					}
+	            				}
+	            			}
+	            		});
+	            	});
+	            	
+	            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
+	            		jQuery(row).click(function(event) {
+	            			if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+	            				if (view_type == 'tree') {
+	            					do_select(jQuery(row).attr('record'));
+	            				}
+	            			}
+	            		});
+	            	});
+	
+	                if (view_type == 'form') {
+	                    if (jQuery('#${name}_set').length) {
+	                        if (jQuery('input#${name}/_terp_ids').val() != '[]') {
+	                            jQuery('table#${name}_grid tr.grid-row td:nth-child(2) span span').each(function(index, span) {
+	                                var link_text = jQuery(span).text();
+	                                var record_id = jQuery(span).parents('tr.grid-row').attr('record');
+	                                jQuery(span).empty().append(
+		                                jQuery('<a>').attr('href', '#').click(function () {
+		                                    do_select(record_id, '${name}');
+		                                    return false;
+		                                }).text(link_text));});
+	                        }
+	                    }
+	                }
+	            </script>
+            % endif
         </td>
     </tr>
 
