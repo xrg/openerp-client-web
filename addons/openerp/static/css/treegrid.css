@@ -22,6 +22,10 @@ table.tree-grid .tree-field td {
 }
 
 table#export_fields .tree-field td {
+	float: left;
+}
+
+table#import_fields .tree-field td {
 	float: left;	
 }
 
