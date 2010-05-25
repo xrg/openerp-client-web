@@ -18,14 +18,10 @@
                 % endif
             </td>
             <td id="m2o" style="border-left: none; padding: 0;">
-                % if 'requiredfield' in css_class:
-                    <input id="${name}_open" class="${css_class}" type="image" src="/openerp/static/images/fields-a-lookup-a-require.jpg" size="16,16" alt="${_('Open')}" style="height: 17px; text-align: right; margin-left: -3px; border-left: none;" title="${_('Open a resource')}"/>
-                % else:
-                    <input id="${name}_open" class="${css_class}" type="image" src="/openerp/static/images/fields-a-lookup-a.jpg" size="16,16" alt="${_('Open')}" style="height: 17px; text-align: right; margin-left: -3px; border-left: none;" title="${_('Open a resource')}"/>
-           	   % endif
+                <img id="${name}_select" class="m2o_select" src="/openerp/static/images/fields-a-lookup-a.jpg" title="${_('Search')}" alt="${_('Search')}"/>
             </td>
-            <td>
-            	<img id='${name}_select' style="cursor: pointer;" src="/openerp/static/images/iconset-d-drop.gif" alt="${_('Search')}" title="${_('Search')}"/>
+            <td>                           
+            	<img id="${name}_open" src="/openerp/static/images/iconset-d-drop.gif" alt="${_('Open')}" title="${_('Open a resource')}"/>
             </td>
             
         </tr>

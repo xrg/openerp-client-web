@@ -17,9 +17,6 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img alt="" src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
                         <td width="100%">${_("View Editor %s - %s") % (view_id, model)}</td>
                     </tr>
                 </table>

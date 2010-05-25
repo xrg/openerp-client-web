@@ -734,6 +734,17 @@ td.item input {
 	vertical-align: middle;
 }
 
+img.m2o_select {
+	-moz-border-radius-bottomleft: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border: 1px solid #CECBCB;
+    vertical-align: middle;
+    margin-left: -4px;
+    height: 19px;
+}
+
 td.item select {
 	-moz-border-radius-bottomleft: 3px;
 	-moz-border-radius-bottomright: 3px;

@@ -26,10 +26,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${_("Field Preferences")}</td>
+                        <td width="100%"><h1>${_("Field Preferences")}</h1></td>
                     </tr>
                 </table>
             </td>

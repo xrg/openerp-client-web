@@ -72,9 +72,8 @@ ManyToOne.prototype.__init__ = function(name){
     this.hasFocus = false;
     this.sugestionBoxMouseOver = false;
 
-    this.select_img = openobject.dom.get(name + '_select');    
+    this.select_img = openobject.dom.get(name + '_select');
     this.open_img = openobject.dom.get(name + '_open');
-    
     this.reference = openobject.dom.get(name + '_reference'); // reference widget
 
     this.callback = getNodeAttribute(this.field, 'callback');
@@ -224,18 +223,16 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 ManyToOne.prototype.change_icon = function(evt){
 
 	if (this.open_img) {
-		if(this.field_class.indexOf('readonlyfield') >= 0) {
-                this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-readonly' : '/fields-a-lookup-a-readonly') + '.jpg';
-        }
-        
-        else {
-			if(this.open_img.src.indexOf('require') > 0) {
-				this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-require' : '/fields-a-lookup-a-require') + '.jpg';
-			}
-			else {
-	           this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a' : '/fields-a-lookup-a') + '.jpg';
-			}
-        }
+		this.open_img.src = '/openerp/static/images' + (this.field.value ? '/iconset-d-drop' : '/iconset-d-drop') + '.gif';
+	}
+	
+	if(this.select_img && this.field_class.indexOf('readonlyfield') >= 0) {
+		this.select_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-readonly' : '/fields-a-lookup-a-readonly') + '.jpg';
+	}
+	else {
+		if(this.select_img && this.field_class.indexOf('require') > 0) {
+			this.select_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-require' : '/fields-a-lookup-a-require') + '.jpg';
+		}
 	}
 	
     if (!this.field.value && this.open_img) {
