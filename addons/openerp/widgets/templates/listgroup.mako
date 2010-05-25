@@ -74,7 +74,7 @@ background = '#DEDEDE'
                     	record="${ch.get('id')}" style="cursor: pointer; display: none;">
                         % if editable:
                             <td class="grid-cell">
-                                <img src="/openerp/static/images/listgrid/edit_inline.gif" class="listImage" border="0"
+                                <img src="/openerp/static/images/iconset-b-edit.gif" class="listImage" border="0"
                                      title="${_('Edit')}" onclick="editRecord(${ch.get('id')}, '${source}')"/>
                             </td>
                         % endif
@@ -94,7 +94,7 @@ background = '#DEDEDE'
 
                         % if editable:
                             <td class="grid-cell selector">
-                                <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage" border="0"
+                                <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage" border="0"
                                      title="${_('Delete')}" onclick="new ListView('${name}').remove(${ch.get('id')})"/>
                             </td>
                         % endif
@@ -156,14 +156,23 @@ background = '#DEDEDE'
             </table>
             % if 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
                 <script type="text/javascript">
-                    var grid_rows = getElement('${name}_grid').rows;
-                    for (var grid = 0; grid < grid_rows.length; grid++) {
-                        if (grid_rows[grid].className.indexOf('grid-row') == 0)
-                        {
-                            new Draggable(grid_rows[grid], {revert:true, ghosting:true});
-                            new Droppable(grid_rows[grid], {accept: [grid_rows[grid].className], ondrop: new ListView('${name}').groupbyDrag, hoverclass: 'grid-rowdrop'});
+                    jQuery('#${name} tr.grid-row-group').draggable({
+                        revert: 'valid',
+                        connectToSortable: 'tr.grid-row-group',
+                        helper: function() {
+                           var htmlStr = jQuery(this).html();
+                           return jQuery('<table><tr class="ui-widget-header">'+htmlStr+'</tr></table>');
+                        },
+                        axis: 'y'
+                    });
+                    
+                    jQuery('#${name} tr.grid-row-group').droppable({
+                        accept : 'tr.grid-row-group',
+                        hoverClass: 'grid-rowdrop',
+                        drop: function(ev, ui) {
+                                new ListView('${name}').groupbyDrag(ui.draggable, jQuery(this), '${name}');
                         }
-                    }
+                    });
                 </script>
             % endif
         </td>
@@ -171,9 +180,6 @@ background = '#DEDEDE'
 
     % if pageable:
     <tr class="pagerbar">
-        <td class="pagerbar-cell pagerbar-links" align="left">
-            <a href="javascript: void(0)" onclick="new ListView('${name}').importData()">${_("Import")}</a> | <a href="javascript: void(0)" onclick="new ListView('${name}').exportData()">${_("Export")}</a>
-        </td>
         <td class="pagerbar-cell" align="right">${pager.display(pager_id=2)}</td>
     </tr>
     % endif

@@ -30,7 +30,7 @@ import cherrypy
                 % endif
             % endfor
             <td class="grid-cell selector" style="text-align: center; padding: 0;">
-                <img alt="delete record" src="/openerp/static/images/listgrid/delete_inline.gif"
+                <img alt="delete record" src="/openerp/static/images/iconset-b-remove.gif"
                      class="listImage editors" border="0" title="${_('Cancel')}"
                      onclick="new ListView('${name}').reload()"/>
             </td>
@@ -51,11 +51,11 @@ import cherrypy
         % if editable:
             <td class="grid-cell selector">
                 % if not editors:
-                    <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif"
+                    <img alt="edit record" src="/openerp/static/images/iconset-b-edit.gif"
                          class="listImage" border="0" title="${_('Edit')}"
                          onclick="editRecord(${data['id']}, '${source}')"/>
                 % else:
-                    <img alt="edit record" src="/openerp/static/images/listgrid/edit_inline.gif"
+                    <img alt="edit record" src="/openerp/static/images/iconset-b-edit.gif"
                          class="listImage" border="0" title="${_('Edit')}"
                          onclick="new ListView('${name}').edit(${data['id']})"/>
                 % endif
@@ -77,7 +77,7 @@ import cherrypy
 
         % if editable:
             <td class="grid-cell selector">
-                <img src="/openerp/static/images/listgrid/delete_inline.gif" class="listImage"
+                <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
                      border="0" title="${_('Delete')}"
                      onclick="new ListView('${name}').remove(${data['id']})"/>
             </td>
@@ -253,12 +253,24 @@ import cherrypy
                     var flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}";
 
 		            if(flag == 'False') {
-						var drag = getElementsByTagAndClassName('tr','grid-row');
-	              		for(var grid=0; grid < drag.length; grid++) 
-	              		{
-						    new Draggable(drag[grid], {revert:true, ghosting:true});
-							new Droppable(drag[grid], {accept: [drag[grid].className], ondrop: new ListView('${name}').dragRow, hoverclass: 'grid-rowdrop'});
-						}
+                        jQuery('#${name} tr.grid-row').draggable({
+                            revert: 'valid',
+                            connectToSortable: 'tr.grid-row',
+                            helper: function() {
+                                var htmlStr = jQuery(this).html();
+                                return jQuery('<table><tr id class="ui-widget-header">'+htmlStr+'</tr></table>');
+                            },
+                            axis: 'y'
+                        });
+                        
+                        jQuery('#${name} tr.grid-row').droppable({
+                            accept: 'tr.grid-row',
+                            hoverClass: 'grid-rowdrop',
+                            drop: function(ev, ui) {
+                                new ListView('${name}').dragRow(ui.draggable, jQuery(this), '${name}');
+                            }
+                        });
+						
 		            }
 				</script>
 			% endif
@@ -312,9 +324,6 @@ import cherrypy
 
     % if pageable:
     <tr class="pagerbar">
-        <td class="pagerbar-cell pagerbar-links" align="left">
-            <a href="javascript: void(0)" onclick="new ListView('${name}').importData()">${_("Import")}</a> | <a href="javascript: void(0)" onclick="new ListView('${name}').exportData()">${_("Export")}</a>
-        </td>
         <td class="pagerbar-cell" align="right">${pager.display(pager_id=2)}</td>
     </tr>
     % endif

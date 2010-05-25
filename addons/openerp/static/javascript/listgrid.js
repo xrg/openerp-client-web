@@ -348,55 +348,66 @@ MochiKit.Base.update(ListView.prototype, {
         jQuery(group).toggleClass('group-collapse group-expand');
     },
 
-    groupbyDrag: function(drag, drop) {
-        var view = jQuery('table.grid[id$=grid]').attr('id').split("_grid")[0];
+    groupbyDrag: function(drag, drop, view) {
         var _list_view = new ListView(view);
         var domain;
         var children;
-        if(jQuery(drop).attr('record')) {
-            var dropGroup = jQuery(drop).attr('id').split('grid-row ')[1];
-            domain = jQuery('tr.grid-row-group[records="'+dropGroup+'"]').attr('grp_domain');
-        } else {
-            domain = jQuery(drop).attr('grp_domain');
+        
+        var drop_record = drop.attr('record');
+        var drag_record = drag.attr('record');
+        if(drop_record) {
+        	var dropGroup = drop.attr('id').split('grid-row ')[1];
+        	domain = jQuery('tr.grid-row-group[records="'+dropGroup+'"]').attr('grp_domain');
         }
-
-        if(jQuery(drag).attr('ch_records')) {
-            children = jQuery(drag).attr('ch_records')
-        } else {
-            if(drag.id == drop.id) {
-                var dragGroup = jQuery(drag).attr('id').split('grid-row ')[1];
-                children = jQuery('tr.grid-row-group[records="'+dragGroup+'"]').attr('ch_records')
-            } else {
-                children = jQuery(drag).attr('record')
-            }
+        else {
+        	domain = drop.attr('grp_domain');
         }
-
-        if((jQuery(drag).attr('record') && jQuery(drop).attr('record')) && (jQuery(drag).attr('id')) == jQuery(drop).attr('id')) {
-            _list_view.dragRow(drag, drop);
-        } else {
-            jQuery.post(
-                '/openerp/listgrid/groupbyDrag',
-                {'model': _list_view.model, 'children': children, 'domain': domain},
-                function () { _list_view.reload(); },
-                "json");
+        
+        var ch_records = drag.attr('ch_records');
+        if(ch_records) {
+        	children = ch_records;
         }
-
-        MochiKit.Async.wait(2).addCallback(function() {
-            var id = jQuery('tr.grid-row-group[grp_domain="'+domain+'"]').attr('records');
-            toggle_group_data(id)
-        });
+        else {
+        	if(drag.attr('id') == drop.attr('id')) {
+        		var dragGroup = drag.attr('id').split('grid-row ')[1];
+                children = jQuery('tr.grid-row-group[records="'+dragGroup+'"]').attr('ch_records');
+        	}
+        	else {
+        		children = drag_record;
+        	}
+        }
+        
+        if((drag_record && drop_record) && (drag.attr('id')) == drop.attr('id')) {
+            _list_view.dragRow(drag, drop, view);
+        } 
+        else {
+        	jQuery.ajax({
+        		url: '/openerp/listgrid/groupbyDrag',
+        		type: 'POST',
+        		data: {'model': _list_view.model, 'children': children, 'domain': domain},
+        		dataType: 'json',
+        		success: function () {
+        			_list_view.reload();
+        		}
+        	});
+        }
     },
 
-    dragRow: function(drag, drop, event) {
-        var view = jQuery(drag).parent().parent().attr('id').split("_grid")[0];
-        var _list_view = new ListView(view);
-            jQuery.post('/openerp/listgrid/dragRow',
-	            {'_terp_model': _list_view.model,
-	             '_terp_ids': _list_view.ids,
-	             '_terp_id': jQuery(drag).attr('record'),
-	             '_terp_swap_id': jQuery(drop).attr('record')},
-	            function () { _list_view.reload(); },
-            "json");
+    dragRow: function(drag, drop, view) {
+    	var _list_view = new ListView(view);
+    	jQuery.ajax({
+    		url: '/openerp/listgrid/dragRow',
+    		type: 'POST',
+    		data: {'_terp_model': _list_view.model,
+    		       '_terp_ids': _list_view.ids,
+    		       '_terp_id': jQuery(drag).attr('record'),
+    		       '_terp_swap_id': jQuery(drop).attr('record')
+    		      },
+            dataType: 'json',
+            success: function() {
+            	_list_view.reload();
+            }
+    	});
     },
 
     moveUp: function(id) {
