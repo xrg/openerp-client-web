@@ -658,7 +658,7 @@ function eval_domain_context_request(options) {
     params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
     params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
     
-    if(options.group_by_ctx.length > 0)
+    if(options.group_by_ctx && options.group_by_ctx.length > 0)
         params['_terp_group_by'] = options.group_by_ctx;
     else
         params['_terp_group_by'] = '[]';

@@ -93,15 +93,6 @@
             }
             window.close();
         }
-        
-        function do_create(){
-            act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
-                                           _terp_source: '${params.source}',
-                                           _terp_m2m: '${params.source}',
-                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-                                           _terp_context: openobject.dom.get('_terp_context').value});
-            window.location.href = act;
-        }
     </script>
     % endif
 </%def>
@@ -120,10 +111,9 @@
                 <td>
                     <table width="100%" class="titlebar" style="border: none;">
                         <tr>
-                            <td width="32px" align="center">
-                                <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
+                            <td width="100%">
+                                <h1>${_("Search %(name)s", name=form.screen.string)}</h1>
                             </td>
-                            <td width="100%">${_("Search %(name)s", name=form.screen.string)}</td>
                         </tr>
                     </table>
                 </td>
@@ -137,7 +127,6 @@
                         <tr>
                             <td width="100%">
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
-                            	<a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
                             	<a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
                             	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
@@ -149,6 +138,18 @@
                 <td>${form.screen.display()}</td>
             </tr>
         </table>
+        <script type="text/javascript">
+            if(jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button')) {
+                   jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button').click(function() {
+		                    act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
+                                           _terp_source: '${params.source}',
+                                           _terp_m2m: '${params.source}',
+                                           _terp_domain: openobject.dom.get('_terp_domain').value,
+                                           _terp_context: openobject.dom.get('_terp_context').value});
+                            window.location.href = act;
+                   });
+            }
+        </script>
     </form>
 </div>
 </%def>
