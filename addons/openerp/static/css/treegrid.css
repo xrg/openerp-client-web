@@ -21,6 +21,10 @@ table.tree-grid .tree-field td {
     border: none;
 }
 
+table#export_fields .tree-field td {
+	float: left;	
+}
+
 table.tree-grid .header th {
     padding: 4px 5px;
     background: url(../images/treegrid/header.gif);
