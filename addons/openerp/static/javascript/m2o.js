@@ -224,12 +224,18 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 ManyToOne.prototype.change_icon = function(evt){
 
 	if (this.open_img) {
-		if(this.open_img.src.indexOf('require') > 0) {
-			this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-require' : '/fields-a-lookup-a-require') + '.jpg';
-		}
-		else {
-	        this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a' : '/fields-a-lookup-a') + '.jpg';
-		}
+		if(this.field_class.indexOf('readonlyfield') >= 0) {
+                this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-readonly' : '/fields-a-lookup-a-readonly') + '.jpg';
+        }
+        
+        else {
+			if(this.open_img.src.indexOf('require') > 0) {
+				this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-require' : '/fields-a-lookup-a-require') + '.jpg';
+			}
+			else {
+	           this.open_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a' : '/fields-a-lookup-a') + '.jpg';
+			}
+        }
 	}
 	
     if (!this.field.value && this.open_img) {

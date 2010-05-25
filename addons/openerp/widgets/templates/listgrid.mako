@@ -96,6 +96,7 @@ import cherrypy
 	        			<td class="pager-cell">
 	        				<h2>${string} List</h2>
 	        			</td>
+	        			% if editable:
 	        			<script type="text/javascript">
 	        				if(jQuery('#${name}').length>0) {
 	        					if(jQuery('#_m2m_${name}').length>0) {
@@ -127,7 +128,7 @@ import cherrypy
 	        					}
 	        				}
 	        			</script>
-	        			
+	        			% endif
         				<td class="pager-cell" style="width: 90%">
         					${pager.display()}
         				</td>

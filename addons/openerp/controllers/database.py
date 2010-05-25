@@ -68,7 +68,7 @@ class DBForm(widgets.Form):
 class FormCreate(DBForm):
     name = "create"
     string = _('Create database')
-    action = '/database/do_create'
+    action = '/openerp/database/do_create'
     submit_text = _('OK')
     strip_name = True
     form_attrs = {'onsubmit': 'return on_create()'}
@@ -84,7 +84,7 @@ class FormCreate(DBForm):
 class FormDrop(DBForm):
     name = "drop"
     string = _('Drop database')
-    action = '/database/do_drop'
+    action = '/openerp//database/do_drop'
     submit_text = _('OK')
     form_attrs = {'onsubmit': 'return window.confirm(_("Do you really want to drop the selected database?"))'}
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
@@ -93,7 +93,7 @@ class FormDrop(DBForm):
 class FormBackup(DBForm):
     name = "backup"
     string = _('Backup database')
-    action = '/database/do_backup'
+    action = '/openerp/database/do_backup'
     submit_text = _('OK')
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
@@ -101,7 +101,7 @@ class FormBackup(DBForm):
 class FormRestore(DBForm):
     name = "restore"
     string = _('Restore database')
-    action = '/database/do_restore'
+    action = '/openerp/database/do_restore'
     submit_text = _('OK')
     fields = [widgets.FileField(name="filename", label=_('File:')),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty()),
@@ -110,7 +110,7 @@ class FormRestore(DBForm):
 class FormPassword(DBForm):
     name = "password"
     string = _('Change Administrator Password')
-    action = '/database/do_password'
+    action = '/openerp/database/do_password'
     submit_text = _('OK')
     fields = [widgets.PasswordField(name='old_password', label=_('Old Password:'), validator=validators.NotEmpty()),
               widgets.PasswordField(name='new_password', label=_('New Password:'), validator=validators.NotEmpty()),
