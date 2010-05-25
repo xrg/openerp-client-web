@@ -29,3 +29,11 @@ input.requiredfield,
 select.selectfield {
 	width: 300px;	
 }
+
+td.db_action_string {
+	color: #777777;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 0 4px;
+	text-transform: uppercase;	
+} 

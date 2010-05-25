@@ -14,6 +14,14 @@
         .fields-selector-left {
             width: 45%;
         }
+        
+        td.fields-selector-left div#import_fields_left {
+        	overflow: scroll;
+        	width: 100%;
+        	height: 100%;
+        	border: solid #999999 1px;
+            
+        }
 
         .fields-selector-center {
             width: 15%;
@@ -154,7 +162,7 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="300px">
-                            <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
+                            <div id="import_fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
                         	<table border="0" cellpadding="0" cellspacing="0" width="100%">

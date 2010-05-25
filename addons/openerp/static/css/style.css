@@ -208,15 +208,6 @@ div.group-data table.fields {
 div.toolbar button {
 	font-size: 0.9em;
 }
-/*div.toolbar button.clear { float: left; height: 15px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; } */
-
-/* button:hover {
-    background: url(../images/button_bg2.png) repeat-x left top;
-} 
-
-div.toolbar button { float: left; height: 15px; padding: 1px 10px 0; border: 1px solid #aaa9a9; border-color: #c6c4c4 #aaa9a9 #797878; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) repeat-x; color: #fff; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #6a6969 0 1px 0; }
-
-*/
 
 button.btn_filter {
 	border: solid 1px #888888;    
@@ -522,15 +513,15 @@ span.ValidationErrors {
     width: 32px;
 }
 
-/*------------------ Header End ---------------*/
+/* ----------------- Form Content Start -------------- */
 
-/* ----------------- Navigation -------------- */
-
-span.disabled_text {
-    color: gray;
+td.content_header_space {
+    padding: 10px 5px 0px 0px;
 }
 
-/* ------------------- Footer --------------- */
+/* ----------------- Form Content End -------------- */
+
+/* ------------------- Footer Start--------------- */
 
 #footer {
     clear: both;
@@ -546,6 +537,8 @@ span.disabled_text {
     color: #777777;
     text-decoration: underline;
 }
+
+/* ------------------- Footer End --------------- */
 
 div.button_right {
     position: relative;
@@ -808,9 +801,39 @@ td.item .radio {
     cursor: pointer;
 }
 
-.treesep {
+/* LOGIN AJAX FORM*/
 
+input.user_pass {
+	width: 150px;
 }
+
+button.click_login {
+	 width: 80px;
+	 white-space: nowrap;	
+}
+
+div.invalid_login {
+	display: none;
+	color: red;
+	text-align: center;
+}
+
+/* NORMAL LOGIN*/
+input.db_user_pass {
+	width: 300px;
+}
+
+td.db_login_buttons {
+	text-align: right;
+	padding-right: 55px;	
+}
+
+/* POPUPS */
+
+td.save_close {
+	padding: 0;
+}
+
 
 /**
  * vim: sts=4 st=4 et 

@@ -111,19 +111,19 @@ except:
 	                % endif
 	            % endfor
 	            % if len(shortcuts) > 7:
-	            <td id="shortcuts_menu" nowrap="nowrap" style="border-right: 1px solid #CCCCCC;">
-	                <a style="padding-left: 5px;" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
-	                <div class="submenu" id="shortcuts_submenu" style="display: none;">
+	            <td id="shortcuts_menu" nowrap="nowrap">
+	                <a class="scMore_arrow" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
+	                <div class="submenu" id="shortcuts_submenu">
 	                    % for sc in shortcuts[7:]:
-	                    <a style="float: none; padding: 6px 5px 6px 2px;" target="appFrame" href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+	                    	<a target="appFrame" href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 	                    % endfor
 	                </div>
 	            </td>
 	            % endif
 	        </tr>
 	    </table>
-	    <div style="text-align: right; margin: -25px 10px 0px 0px;">
-	    	<a target="appFrame" style="color: #FFFFFF;" href="/openerp/shortcuts">Edit</a>
+	    <div id="edit_shortcut">
+	    	<a target="appFrame" href="/openerp/shortcuts">Edit</a>
 	    </div>
 	% endif
 </div>

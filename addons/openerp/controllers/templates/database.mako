@@ -42,8 +42,7 @@
                         <td width="32px" align="center">
                             <img src="/openerp/static/images/stock/stock_person.png"/>
                         </td>
-                        <td style="color:#777777; font-size:12px; font-weight:bold; 
-                        		padding:0 4px; text-transform:uppercase;" width="100%">${form.string}</td>
+                        <td class="db_action_string" width="100%">${form.string}</td>
                         <td nowrap="nowrap">
                             <button type="button" 
                                 title="${_('Create database')}"

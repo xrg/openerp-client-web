@@ -24,7 +24,7 @@
                         <td class="label"><label for="db">${_("Database:")}</label></td>
                         <td>
                             % if dblist is None:
-                                <input type="text" name="db" id="db" style="width: 300px;" value="${db}"/>
+                                <input type="text" name="db" id="db" class="db_user_pass" value="${db}"/>
                             % else:
                             <select name="db" id="db" style="width: 302px;">
                                 % for v in dblist:
@@ -37,16 +37,16 @@
 
                     <tr>
                         <td class="label"><label for="user">${_("User:")}</label></td>
-                        <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
+                        <td><input type="text" id="user" name="user" class="db_user_pass" value="${user}"/></td>
                     </tr>
                     
                     <tr>
                         <td class="label"><label for="password">${_("Password:")}</label></td>
-                        <td><input type="password" value="${password}" id="password" name="password" style="width: 300px;"/></td>
+                        <td><input type="password" value="${password}" id="password" name="password" class="db_user_pass"/></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td style="text-align: right; padding-right: 55px;">
+                        <td class="db_login_buttons">
                             % if cp.config('dbbutton.visible', 'openobject-web'):
 	                            <button type="button" class="static_buttons" tabindex="-1" onclick="location.href='${py.url('/openerp/database')}'">${_("Databases")}</button>
                             % endif

@@ -72,17 +72,17 @@
                     <td><strong><label for="user">${_("User:")}</label></strong></td>
                 </tr>
                 <tr>
-                    <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
+                    <td><input type="text" id="user" name="user" class="user_pass" value="${user}"/></td>
                 </tr>
                 <tr>
                     <td><strong><label for="password">${_("Password:")}</label></strong></td>
                 </tr>
                 <tr>
-                    <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
+                    <td><input type="password" value="${password}" id="password" name="password" class="user_pass"/></td>
                 </tr>
                 <tr>
                     <td>
-                        <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
+                        <button type="submit" class="click_login">${_("Login")}</button>
                     </td>
                 </tr>
             </table>
@@ -92,23 +92,23 @@
             <table align="center" cellspacing="2px" border="0">
                 <tr>
                     <td class="label"><label for="user">${_("User:")}</label></td>
-                    <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
+                    <td><input type="text" id="user" name="user" class="user_pass" value="${user}"/></td>
                 </tr>
                 <tr>
                     <td class="label"><label for="password">${_("Password:")}</label></td>
-                    <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
+                    <td><input type="password" value="${password}" id="password" name="password" class="user_pass"/></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
                     <td align="right">
-                        <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
+                        <button type="submit" class="click_login">${_("Login")}</button>
                     </td>
                 </tr>
             </table> 
             % endif
 
         </form>
-        <div id="message" style="display: none; color: red; text-align: center;">${_("Bad username or password!")}</div>
+        <div id="message" class="invalid_login">${_("Bad username or password!")}</div>
 
     </div>
 </%def>

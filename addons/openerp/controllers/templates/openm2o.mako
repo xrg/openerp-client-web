@@ -53,11 +53,11 @@
                         <tr>
                             <td width="100%">
                             </td>
-                            <td style="padding: 0;">
+                            <td class="save_close">
                             	<a class="button-a" onclick="window.close()" href="javascript: void(0)">${_("Close")}</a>
                             </td>
                             % if form.screen.editable:
-                            <td style="padding: 0;">
+                            <td class="save_close">
                             	<a class="button-a" onclick="submit_form('save')" href="javascript: void(0)">${_("Save")}</a>
                             </td>
                             % endif

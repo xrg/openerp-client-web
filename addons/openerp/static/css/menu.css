@@ -33,6 +33,7 @@ table.menubar div.submenu {
     margin-left:  -1px;
     z-index: 3;
     padding: 4px;
+    display: none;
 }
 
 table.menubar div.submenu a {
@@ -41,6 +42,8 @@ table.menubar div.submenu a {
     text-decoration: none;
     color: #FFF;
     margin: 0px;
+    float: none; 
+    padding: 6px 5px 6px 2px;
 }
 
 table.menubar div.submenu a:hover {
@@ -55,6 +58,8 @@ div.contextmenu {
     position: absolute;
     padding: 2px;
     z-index: 100;
+    text-align: right;
+    display: none;
 }
 
 div.contextmenu a,
@@ -66,6 +71,23 @@ div.contextmenu span {
     padding: 2px;
     color: #969494;
     cursor: pointer;
+}
+
+td#shortcuts_menu {
+	border-right: 1px solid #CCCCCC;
+}
+
+td#shortcuts_menu a.scMore_arrow {
+	padding-left: 5px;
+}
+
+div#edit_shortcut {
+	text-align: right;
+	margin: -25px 10px 0px 0px;
+}
+
+div#edit_shortcut a {
+	color: #FFFFFF;
 }
 
 /**

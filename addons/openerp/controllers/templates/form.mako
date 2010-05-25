@@ -8,11 +8,9 @@
     </script>
 
     <script type="text/javascript">
-    
         function do_select(id, src) {
             viewRecord(id, src);
         }
-
     </script>
 </%def>
 
@@ -49,7 +47,7 @@
 	                                	% endif
                                     % endif
                                     
-                                    <td id="title_details" width="50%" style="padding: 10px 5px 1px 0px;">
+                                    <td id="title_details" width="50%" class="content_header_space">
                                     	<h1>${form.screen.string}
                                     		<a target="appFrame" class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
                                     			<small>Help</small>
@@ -67,7 +65,7 @@
                                     	</li>
                                     </%def>
                                     
-                                    <td id="view_buttons" style="padding: 10px 5px 0px 0px;">
+                                    <td id="view_buttons" class="content_header_space">
                                     	<ul class="views-a">
                                     		% for i, view in enumerate(buttons.views):
 												${make_view_button(i+1, **view)}
@@ -75,14 +73,14 @@
 										</ul>
 									</td>
 									
-									<!-- <td style="padding: 0px 5px 0px 0px; cursor: pointer;">
+									<!-- <td class="content_header_space" cursor: pointer;">
 	                                    <a target="appFrame" onclick="show_process_view()">
 		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
 		                              	</a>
                                     </td> -->
                                   
                                     % if buttons.can_attach and not buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
+                                    <td align="center" valign="middle" width="16" class="content_header_space">
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
@@ -91,7 +89,7 @@
                                     </td>
                                     % endif
                                     % if buttons.can_attach and buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
+                                    <td align="center" valign="middle" width="16" class="content_header_space">
                                         <img
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
@@ -99,13 +97,13 @@
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
-	                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
+	                                    <td align="center" valign="middle" width="16" class="content_header_space">
 	                                        <img 
 	                                            class="button" width="16" height="16"
 	                                            title="${_('Translate this resource.')}" 
 	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
 	                                    </td>
-	                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
+	                                    <td align="center" valign="middle" width="16" class="content_header_space">
 	                                        <img 
 	                                            class="button" width="16" height="16"
 	                                            title="${_('View Log.')}" 
@@ -187,7 +185,7 @@
                             		<td class="footer" style="text-align: right;">
                             			<a onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
                                 			onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a><br/>
-			                            <div id="customise_menu_" class="contextmenu" style="text-align: right; position: absolute; display: none;" 
+			                            <div id="customise_menu_" class="contextmenu"
 			                               	onmouseover="showElement(this);" onmouseout="hideElement(this);">
 		                                <a title="${_('Manage views of the current object')}" 
 		                                   	onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
