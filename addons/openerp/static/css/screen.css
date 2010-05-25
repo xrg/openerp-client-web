@@ -56,8 +56,13 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
      #corner ul.tools li a.home { background-position: -22px 0; } #corner ul.tools li a.home:hover { background-position: -22px -34px; }
      #corner ul.tools li a.preferences { background-position: -70px 0; } #corner ul.tools li a.preferences:hover { background-position: -70px -34px; }
      #corner ul.tools li a.help { background-position: -94px 0; } #corner ul.tools li a.help:hover { background-position: -94px -34px; }
-     #corner ul.tools li a.info { width: 24px; background-position: -118px 0; } #corner ul.tools li a.info:hover { background-position: -118px -34px; }
+     #corner ul.tools li a.info { width: 25px; background-position: -118px 0; } #corner ul.tools li a.info:hover { background-position: -118px -34px; }
      #corner ul.tools li span.inline { display: -moz-inline-stack; display: inline-block; margin: 8px 5px 0; padding: 0 6px; border: 1px solid #4c4a4a; border-color: #424141 #4c4a4a #5a5858; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; background: #2a2a2a url(../images/top-inline-bg.png) repeat-x; color: #999; line-height: 17px; text-shadow: #111 0 -1px 0; }
+     
+     #corner ul.tools li#clear_cache a.clear_cache { float: left; width: 26px; height: 34px; background: url(../images/clear_cache.png) no-repeat; }
+     #corner ul.tools li#clear_cache a.clear_cache { width: 24px; background-position: 0 0; } 
+     #corner ul.tools li#clear_cache a.clear_cache:hover { background-position: 0 -34px; }
+     
      * html #corner ul.tools li span.inline { display: inline; zoom: 1; }
      *:first-child+html #corner ul.tools li span.inline { display: inline; zoom: 1; }
       #corner ul.tools li span.inline strong { float: left; margin-right: 5px; padding-right: 7px; background: url(../images/top-inline-sep-a.png) 100% -1px no-repeat; color: #fff; }
@@ -89,6 +94,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
  td#add_shortcut a { float: left; width: 26px; height: 34px; background: url(../images/top-tools-a.png) no-repeat; }
  td#add_shortcut a.add_shortcut { background-position: -46px 0; }
  /* ================ */
+ 
  table#shortcuts {border-bottom: 0px; border-collapse: expand;}
  table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #606060; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
  table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #909090; padding-left: 1px;}

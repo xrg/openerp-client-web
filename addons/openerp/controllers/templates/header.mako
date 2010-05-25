@@ -58,11 +58,12 @@ except:
 		<div id="corner">
 			<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
 			<ul class="tools">
+				% if rpc.session.is_logged():
 				<li>
-					% if rpc.session.is_logged():
-						<a target='appFrame' href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
-					% endif
+					<a target='appFrame' href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
 				</li>
+				% endif
+				
 				<li><a href="${py.url('/')}" class="home">Home</a></li>
 				
 				<li><a target="appFrame" href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
@@ -74,6 +75,9 @@ except:
 				</li>
 				<li><a href="javascript: void(0);" class="help">Help</a></li>
 				<li><a href="javascript: void(0);" class="info">Info</a></li>
+            	% if cp.config('server.environment', 'openobject-web') == 'production':
+            		<li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">Clear Cache</a></li>
+            	% endif
 			</ul>
 			<p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
 		</div>

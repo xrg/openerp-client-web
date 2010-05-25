@@ -46,8 +46,6 @@ class Preferences(Form):
         action_id = proxy.action_get({})
 
         action = rpc.RPCProxy('ir.actions.act_window').read([action_id], False, rpc.session.context)[0]
-        
-        environment = cherrypy.config.get('server.environment')
 
         view_ids=[]
         if action.get('views', []):
@@ -68,7 +66,7 @@ class Preferences(Form):
         params.editable = True
         form = self.create_form(params, tg_errors)
 
-        return dict(form=form, params=params, editable=True, environment=environment)
+        return dict(form=form, params=params, editable=True)
 
     @expose()
     def ok(self, **kw):
@@ -81,6 +79,5 @@ class Preferences(Form):
     @expose()
     def clear_cache(self):
         cache.clear()
-        raise redirect('/openerp/blank')
-
+        raise redirect('/openerp')
 # vim: ts=4 sts=4 sw=4 si et
