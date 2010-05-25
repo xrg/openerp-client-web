@@ -102,7 +102,7 @@ ListView.prototype = {
 	    	}
 	    	
 	    	jQuery.ajax({
-	    		url: '/listgrid/count_sum',
+	    		url: '/openerp/listgrid/count_sum',
 	    		type: 'POST',
 	    		data: {'model':this.model, 'ids': selected_ids, 'sum_fields': selected_fields},
 	    		dataType: 'json',
@@ -139,9 +139,9 @@ ListView.prototype = {
     },
 
     onBooleanClicked: function(clear, value) {
+    	
         var selected_ids = this.getSelectedRecords()
         var sb = openobject.dom.get('sidebar');
-
         if (selected_ids.length <= 1) {
             if (sb){
                 if(sb.style.display != '') {toggle_sidebar() };

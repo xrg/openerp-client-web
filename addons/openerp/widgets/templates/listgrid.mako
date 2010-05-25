@@ -152,7 +152,7 @@ import cherrypy
 	                        </th>
 	                        % endif
 	                        % if editable:
-	                        <th class="grid-cell selector"><div style="width: 0px;"></div></th>
+	                        <th class="grid-cell selector"><div style="width: 0;"></div></th>
 	                        % endif
 	                        % for (field, field_attrs) in headers:
 	                        % if field == 'button':
@@ -162,123 +162,50 @@ import cherrypy
 	                    	% endif
 	                        % endfor
 	                        % if buttons:
-	                        <th class="grid-cell button"><div style="width: 0px;"></div></th>
+	                        <th class="grid-cell button"><div style="width: 0;"></div></th>
 	                        % endif
 	                        % if editable:
-	                        <th class="grid-cell selector"><div style="width: 0px;"></div></th>
+	                        <th class="grid-cell selector"><div style="width: 0;"></div></th>
 	                        % endif
 	                    </tr>
 	                </thead>
 	
 	                <tbody>
-	                    <%def name="make_editors(data=None)">
-	                    % if editable and editors:
-	                    <tr class="grid-row editors">
-	                        % if selector:
-	                        <td class="grid-cell selector">&nbsp;</td>
-	                        % endif
-	                        <td class="grid-cell selector" style="text-align: center; padding: 0px;">
-	                            <!-- begin hidden fields -->
-	                            % for field, field_attrs in hiddens:
-	                            ${editors[field].display()}
-	                            % endfor
-	                            <!-- end of hidden fields -->
-	                            <img src="/openerp/static/images/listgrid/save_inline.gif" class="listImage editors" border="0" title="${_('Update')}" onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
-	                        </td>
-	                        % for i, (field, field_attrs) in enumerate(headers):
-	                        	% if field=='button':
-		                        	<td class="grid-cell">
-		                        	</td>
-		                        % else:
-		                        	<td class="grid-cell ${field_attrs.get('type', 'char')}">
-		                            	${editors[field].display()}
-		                        	</td>
-	                        	% endif
-	                        % endfor
-	                        <td class="grid-cell selector" style="text-align: center; padding: 0px;">
-	                            <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage editors" border="0" title="${_('Cancel')}" onclick="new ListView('${name}').reload()"/>
-	                        </td>
-	                    </tr>
-	                    % endif
-	                    </%def>
-	
-	                    <%def name="make_row(data)">
-	                    <tr class="grid-row" record="${data['id']}" style="cursor: pointer;">
-	                        % if selector:
-	                        <td class="grid-cell selector">
-	                            <input type="${selector}" class="${selector} grid-record-selector" id="${name}/${data['id']}" name="${(checkbox_name or None) and name}" value="${data['id']}"/>
-	                        </td>
-	                        % endif
-	                        % if editable:
-	                        <td class="grid-cell selector">
-	                            % if not editors:
-	                            <img src="/openerp/static/images/iconset-b-edit.gif" class="listImage" border="0" title="${_('Edit')}" onclick="editRecord(${data['id']}, '${source}')"/>
-	                            % elif not editors:
-	                            <img src="/openerp/static/images/iconset-b-edit.gif" border="0" title="${_('Edit')}"/>
-	                            % endif                            
-	                            % if editors:
-	                            <img src="/openerp/static/images/iconset-b-edit.gif" class="listImage" border="0" title="${_('Edit')}" onclick="new ListView('${name}').edit(${data['id']})"/>
+                        % if edit_inline == -1:
+                            ${make_editors()}
+                        % endif
+                        % for i, d in enumerate(data):
+                            % if d['id'] == edit_inline:
+                                ${make_editors(d)}
+                            % else:
+                                ${make_row(d)}
+                            % endif
+                        % endfor
+                        % if concurrency_info:
+	                        <tr style="display: none">
+	                            <td>${concurrency_info.display()}</td>
+	                        </tr>
+                        % endif
+                        % for i in range(min_rows - len(data)):
+	                        <tr class="grid-row">
+	                            % if selector:
+	                                <td width="1%" class="grid-cell selector">&nbsp;</td>
 	                            % endif
-	                        </td>
-	                        % endif
-	                        % for i, (field, field_attrs) in enumerate(headers):
-	                        %if field=='button':
-	                        	<td class="grid-cell"><span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span></td>
-	                        %else:
-		                        <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
-									<span>${data[field].display()}</span>
-		                        </td>
-	                        % endif
-	                        % endfor
-	                        
-	                        % if editable:
-	                        <td class="grid-cell selector">
-	                            <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage" border="0" title="${_('Delete')}" onclick="new ListView('${name}').remove(${data['id']})"/>
-	                        </td>
-	                        % endif
-	                    </tr>
-	                    </%def>
-	
-	                    % if edit_inline == -1:
-	                    ${make_editors()}
-	                    % endif
-	
-	                    % for i, d in enumerate(data):
-	                        % if d['id'] == edit_inline:
-	                        ${make_editors(d)}
-	                        % endif
-	                        % if d['id'] != edit_inline:
-	                        ${make_row(d)}
-	                        % endif
-	                    % endfor
-	
-	                    % if concurrency_info:
-	                    <tr style="display: none">
-	                        <td>${concurrency_info.display()}</td>
-	                    </tr>
-	                    % endif
-	
-	                    % for i in range(0, min_rows - len(data)):
-	                    <tr class="grid-row">
-	                        % if selector:
-	                        <td width="1%" class="grid-cell selector">&nbsp;</td>
-	                        % endif
-	                        % if editable:
-	                        <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
-	                        % endif
-	                        % for i, (field, field_attrs) in enumerate(headers):
-	                        % if field == 'button':
-	                        	<td class="grid-cell button">&nbsp;</td>
-	                    	% else:
-	                        	<td class="grid-cell">&nbsp;</td>
-	                    	% endif
-	                        % endfor
-	                        % if editable:
-	                        <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
-	                        % endif
-	                    </tr>
-	                    % endfor
-	
+	                            % if editable:
+	                                <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
+	                            % endif
+	                            % for i, (field, field_attrs) in enumerate(headers):
+	                                % if field == 'button':
+	                                    <td class="grid-cell button">&nbsp;</td>
+	                                % else:
+	                                    <td class="grid-cell">&nbsp;</td>
+	                                % endif
+	                            % endfor
+	                            % if editable:
+	                                <td style="text-align: center" class="grid-cell selector">&nbsp;</td>
+	                            % endif
+	                        </tr>
+                        % endfor
 	                </tbody>
 	
 	                % if field_total:
@@ -296,14 +223,14 @@ import cherrypy
                                 % else:
                                    	% if i == 0:
                                    	<td class="grid-cell" style="text-align: left; padding: 2px;" nowrap="nowrap">
-                                   		<strong style="color: black;">Total</strong>
+                                   		<strong style="color: #7D7979; font-size: 0.9em;">Total</strong>
                                   	</td>
                                    	% else:
                                    		<td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
 	                                         % if 'sum' in field_attrs:
 	                                             % for key, val in field_total.items():
 	                                                 % if field == key:
-	                                                 	<span id="${field}" style="border-top: 1px inset ; display: block; padding: 0 1px; color: black;">${val[1]}</span>
+	                                                 	<span id="${field}" style="border-top: 1px inset ; display: block; padding: 0 1px; color: #7D7979; font-size: 0.9em;">${val[1]}</span>
 	                                                 % endif
 	                                             % endfor
 	                                         % else:
