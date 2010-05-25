@@ -85,6 +85,10 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #skip-links { position: absolute; top: 0; left: -10001px; list-style: none; margin: 0; padding: 0; }
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  
+ /* Add Shortcut */
+ td#add_shortcut a { float: left; width: 26px; height: 34px; background: url(../images/top-tools-a.png) no-repeat; }
+ td#add_shortcut a.add_shortcut { background-position: -46px 0; }
+ /* ================ */
  table#shortcuts {border-bottom: 0px; border-collapse: expand;}
  table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #606060; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
  table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #909090; padding-left: 1px;}
@@ -201,14 +205,6 @@ div.fields-a { }
   * html div.fields-a p span.lookup { display: inline; text-indent: 0; }
   *:first-child+html div.fields-a p span.lookup { display: inline; text-indent: 0; }
 
-/*ul.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px; float: left; list-style: none; margin: 0 10px 0 0; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff;}
-ul.filter-a li { float: left; border-left: 1px solid #cccbcb; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
-ul.filter-a li.active_filter a { background-color: #e8e8e8; cursor: pointer; }
-ul.filter-a li.inactive_filter a { background-color: #e8e8e8; cursor: pointer; }
-ul.filter-a li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 8px; background-repeat: no-repeat; white-space: nowrap;}
-ul.filter-a li a.active { background-color: #E4E4E9; }
-ul.filter-a li a span { display: none; position: absolute; left: 45%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
-ul.filter-a li a.active span { display: block; } */
 div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
  div.filter-a ul { float: left; list-style: none; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
   div.filter-a ul li { float: left; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
@@ -222,7 +218,7 @@ div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
     div.filter-a ul li a span { display: none; position: absolute; left: 45%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
     div.filter-a ul li a.active span { display: block; }
  div.filter-a div.fields-a { float: left; padding-top: 13px; }
-  div.filter-a div.fields-a p { float: left; margin: 0                  ; padding-right: 10px; }
+  div.filter-a div.fields-a p { float: left; margin: 0; padding-right: 10px; }
    div.filter-a div.fields-a p label { display: block; margin: 0 0 1px; } 
 
 div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10px; }
@@ -237,8 +233,7 @@ div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10
 div.login_footer-a { position: relative; width: 100%; margin: 0 0 10px; padding: 10px 0;}
  div.login_footer-a div { margin: 0; padding: 0 15px; font-size: 1.2em; font-weight: bold; text-transform: uppercase; }
   div.login_footer-a div a { color: #5c5b5b; }
-  div.login_footer-a div { padding: 0 5px; color: #777777; }
- 
+  div.login_footer-a div { padding: 0 5px; color: #777777; }S
 
 div.search-bar { overflow: hidden; width: 100%; margin: 0 0 10px; }
 div.search-bar ul { float: left; list-style: none; margin: 0; padding: 0; }

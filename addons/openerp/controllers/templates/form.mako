@@ -17,19 +17,7 @@
 </%def>
 
 <%def name="content()">
-    <%
-        if can_shortcut:
-            if rpc.session.active_id not in shortcut_ids:
-                shortcut_url = py.url('/shortcuts/add', id=rpc.session.active_id)
-                shortcut_title = 'Add as shortcut'
-                shortcut_picture = '/openerp/static/images/add_shortcut.png'
-            else:
-                shortcut_url = 'javascript:void(0);'
-                shortcut_title = 'Shortcut already added'
-                shortcut_picture = '/openerp/static/images/shortcut.png'
-    %>
-
-    <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
+	<table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
@@ -38,16 +26,19 @@
                         <td>
                             <table width="100%" id="title_header">
                                 <tr>
-                                	<td>
-                                        % if can_shortcut:
-                                            <a href="${shortcut_url}" id="menu_header" title="${shortcut_title}">
-                                                <img src="${shortcut_picture}" alt="${shortcut_title}"
-                                                     style="padding: 1px;" border="0" width="18" height="18"/>
-                                            </a>
-                                        % endif
+                                	% if can_shortcut:
+                                		% if rpc.session.active_id not in shortcut_ids:
+                                	<td id="add_shortcut" style="padding: 0; width: 30px;">	
+	                                    <a href="${py.url('/openerp/shortcuts/add', id=rpc.session.active_id)}" 
+	                                    	id="menu_header" 
+	                                    	title="${_('Add as shortcut')}" 
+	                                    	class="add_shortcut">
+	                                    </a>
 	                                </td>
+	                                	% endif
+                                    % endif
                                     
-                                    <td id="title_details" width="50%" style="padding: 0px 5px 1px 0px;">
+                                    <td id="title_details" width="50%" style="padding: 10px 5px 1px 0px;">
                                     	<h1>${form.screen.string}
                                     		<a target="appFrame" class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
                                     			<small>Help</small>
@@ -65,7 +56,7 @@
                                     	</li>
                                     </%def>
                                     
-                                    <td id="view_buttons" style="padding: 0px 5px 0px 0px;">
+                                    <td id="view_buttons" style="padding: 10px 5px 0px 0px;">
                                     	<ul class="views-a">
                                     		% for i, view in enumerate(buttons.views):
 												${make_view_button(i+1, **view)}
@@ -80,7 +71,7 @@
                                     </td> -->
                                   
                                     % if buttons.can_attach and not buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" style="padding: 0px 5px 0px 0px;">
+                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
@@ -89,7 +80,7 @@
                                     </td>
                                     % endif
                                     % if buttons.can_attach and buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" style="padding: 0px 5px 0px 0px;">
+                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
                                         <img
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
@@ -97,21 +88,19 @@
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
-                                    <td align="center" valign="middle" width="16" style="padding: 0px 5px 0px 0px;">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('Translate this resource.')}" 
-                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
-                                    </td>
-                                    % endif
-                                    % if form.screen.view_type in ('form'):
-                                    <td align="center" valign="middle" width="16" style="padding: 0px 5px 0px 0px;">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('View Log.')}" 
-                                            src="/openerp/static/images/stock/stock_log.png"
-                                            onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
-                                    </td>
+	                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
+	                                        <img 
+	                                            class="button" width="16" height="16"
+	                                            title="${_('Translate this resource.')}" 
+	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+	                                    </td>
+	                                    <td align="center" valign="middle" width="16" style="padding: 10px 5px 0px 0px;">
+	                                        <img 
+	                                            class="button" width="16" height="16"
+	                                            title="${_('View Log.')}" 
+	                                            src="/openerp/static/images/stock/stock_log.png"
+	                                            onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
+	                                    </td>
                                     % endif
                                 </tr>
                             </table>
