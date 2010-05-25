@@ -319,7 +319,7 @@ MochiKit.Base.update(ListView.prototype, {
         } else {
             if (jQuery(group).hasClass('group-expand')) {
                 jQuery.ajax({
-                    url: '/listgrid/multiple_groupby',
+                    url: '/openerp/listgrid/multiple_groupby',
                     type: 'POST',
                     data: { 'model': this.model, 'name': this.name,
                             'grp_domain': domain, 'group_by': group_by_context,
