@@ -5,6 +5,7 @@
 
     <script type="text/javascript">
         var form_controller = '${path}';
+        var USER_ID = '${rpc.session.uid}';
     </script>
 
     <script type="text/javascript">

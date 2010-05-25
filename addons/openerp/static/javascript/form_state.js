@@ -161,6 +161,7 @@ var form_hookAttrChange = function() {
         attrs = attrs.replace(/\)/g, ']');
         attrs = attrs.replace(/True/g, '1');
         attrs = attrs.replace(/False/g, '0');
+        attrs = attrs.replace(/uid/g, window.USER_ID);
         
         try {
             attrs = eval('(' + attrs + ')');
