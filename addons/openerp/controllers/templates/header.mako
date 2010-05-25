@@ -61,22 +61,39 @@ except:
 				% if rpc.session.is_logged():
 				<li>
 					<a target='appFrame' href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
+					<ul>
+						<li class="first last"><a href="javascript: void(0);">Requests</a></li>
+					</ul>
 				</li>
 				% endif
 				
-				<li><a href="${py.url('/')}" class="home">Home</a></li>
+				<li><a href="${py.url('/')}" class="home">Home</a>
+					<ul>
+						<li class="first last"><a href="javascript: void(0);">Home</a></li>
+					</ul>
+				</li>
 				
 				<li><a target="appFrame" href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
 					<ul>
-						<li class="first last">
-							<a href="javascript: void(0);">Edit Preferences</a>
-						</li>
+						<li class="first last"><a href="javascript: void(0);">Edit Preferences</a></li>
 					</ul>
 				</li>
-				<li><a href="javascript: void(0);" class="help">Help</a></li>
-				<li><a href="javascript: void(0);" class="info">Info</a></li>
+				<li><a href="javascript: void(0);" class="help">Help</a>
+					<ul>
+						<li class="first last"><a href="javascript: void(0);">Help</a></li>
+					</ul>
+				</li>
+				<li><a href="javascript: void(0);" class="info">Info</a>
+					<ul>
+						<li class="first last"><a href="javascript: void(0);">Info</a></li>
+					</ul>
+				</li>
             	% if cp.config('server.environment', 'openobject-web') == 'production':
-            		<li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">Clear Cache</a></li>
+            		<li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">Clear Cache</a>
+            			<ul>
+							<li class="first last"><a href="javascript: void(0);">Clear Cache</a></li>
+						</ul>
+            		</li>
             	% endif
 			</ul>
 			<p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
