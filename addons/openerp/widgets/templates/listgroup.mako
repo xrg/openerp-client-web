@@ -2,7 +2,8 @@
 import itertools
 background = '#DEDEDE'
 %>
-
+<div class="box-a list-a">
+<div class="inner">
 <table id="${name}" groups="${group_by_ctx}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
@@ -177,4 +178,6 @@ background = '#DEDEDE'
     </tr>
     % endif
 </table>
+</div>
+</div>
 

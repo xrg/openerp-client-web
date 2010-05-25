@@ -319,3 +319,5 @@ import cherrypy
     </tr>
     % endif
 </table>
+</div>
+</div>
