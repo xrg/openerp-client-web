@@ -71,7 +71,10 @@ def export_csv(fields, result, write_title=False):
     except IOError, (errno, strerror):
         raise common.message(_("Operation failed!\nI/O error")+"(%s)" % (errno,))
 
-def _fields_get_all(model, views):
+def _fields_get_all(model, views, context=None):
+    
+    if not context:
+        context = {}
 
     def parse(root, fields):
 
@@ -90,8 +93,8 @@ def _fields_get_all(model, views):
 
     proxy = rpc.RPCProxy(model)
 
-    v1 = proxy.fields_view_get(views.get('tree', False), 'tree', rpc.session.context)
-    v2 = proxy.fields_view_get(views.get('form', False), 'form', rpc.session.context)
+    v1 = proxy.fields_view_get(views.get('tree', False), 'tree', context)
+    v2 = proxy.fields_view_get(views.get('form', False), 'form', context)
 
     dom = xml.dom.minidom.parseString(v1['arch'].encode('utf-8'))
     root = dom.childNodes[0]
@@ -116,6 +119,9 @@ class ImpEx(SecuredController):
     @expose(template="templates/exp.mako")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
+        
+        ctx = params.context or {}
+        ctx.update(rpc.session.context.copy())
 
         views = {}
         if params.view_mode and params.view_ids:
@@ -132,11 +138,12 @@ class ImpEx(SecuredController):
                                  headers=headers,
                                  url=tools.url('/openerp/impex/get_fields'),
                                  field_parent='relation',
+                                 context=ctx,
                                  views=views)
 
         tree.show_headers = False
 
-        view = proxy.fields_view_get(False, 'tree', rpc.session.context)
+        view = proxy.fields_view_get(False, 'tree', ctx)
         new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
                                  domain=[('resource', '=', params.model)],
                                  context=rpc.session.context, selectable=1, editable=False, pageable=False)
@@ -176,6 +183,13 @@ class ImpEx(SecuredController):
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
         is_importing = kw.get('is_importing', False)
+        
+        ctx = {}
+        try:
+            ctx = eval(kw['context'])
+        except:
+            pass
+        ctx.update(rpc.session.context.copy())
 
         ids = kw.get('ids', '').split(',')
         ids = [i for i in ids if i]
@@ -186,7 +200,7 @@ class ImpEx(SecuredController):
         except:
             pass
 
-        fields = _fields_get_all(model, views)
+        fields = _fields_get_all(model, views, ctx)
         fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
 
         fields_order = fields.keys()
@@ -259,12 +273,15 @@ class ImpEx(SecuredController):
     def get_namelist(self, **kw):
 
         params, data = TinyDict.split(kw)
+        
+        ctx = params.context or {}
+        ctx.update(rpc.session.context.copy())
 
         res = []
         ids = []
         id = params.id
 
-        res = self.get_data(params.model)
+        res = self.get_data(params.model, ctx)
 
         ir_export = rpc.RPCProxy('ir.exports')
         ir_export_line = rpc.RPCProxy('ir.exports.line')
@@ -280,11 +297,14 @@ class ImpEx(SecuredController):
 
         return dict(name_list=name_list)
 
-    def get_data(self, model):
+    def get_data(self, model, context=None):
 
         name = ''
         prefix = ''
         ids = []
+        
+        if not context:
+            context = {}
 
         fields_data = {}
         proxy = rpc.RPCProxy(model)
@@ -292,8 +312,8 @@ class ImpEx(SecuredController):
 
         # XXX: in GTK client, top fields comes from Screen
         if not ids:
-            f1 = proxy.fields_view_get(False, 'tree', rpc.session.context)['fields']
-            f2 = proxy.fields_view_get(False, 'form', rpc.session.context)['fields']
+            f1 = proxy.fields_view_get(False, 'tree', context)['fields']
+            f2 = proxy.fields_view_get(False, 'form', context)['fields']
 
             fields = {}
             fields.update(f1)
@@ -332,7 +352,7 @@ class ImpEx(SecuredController):
         if isinstance(fields, basestring):
             fields = [fields]
 
-        ctx = {}
+        ctx = params.context or {}
         ctx.update(rpc.session.context.copy())
         ctx['import_comp'] = import_compat
 
@@ -390,7 +410,10 @@ class ImpEx(SecuredController):
     @expose(template="templates/imp.mako")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
+        ctx = params.context or {}
+        ctx.update(rpc.session.context.copy())
+        
         views = {}
         if params.view_mode and params.view_ids:
             for i, view in enumerate(params.view_mode):
@@ -403,6 +426,7 @@ class ImpEx(SecuredController):
                                     url=tools.url('/openerp/impex/get_fields'),
                                     field_parent='relation',
                                     views=views,
+                                    context=ctx,
                                     is_importing=1)
 
         tree.show_headers = False

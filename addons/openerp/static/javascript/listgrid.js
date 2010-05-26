@@ -833,6 +833,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/exp', {_terp_model: this.model,
             _terp_source: this.name,
+            _terp_context: $('_terp_context').value,
             _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
             _terp_ids: ids,
             _terp_view_ids : this.view_ids,
@@ -841,6 +842,7 @@ MochiKit.Base.update(ListView.prototype, {
 
     importData: function() {
         openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/imp', {_terp_model: this.model,
+            _terp_context: $('_terp_context').value,
             _terp_source: this.name,
             _terp_view_ids : this.view_ids,
             _terp_view_mode : this.view_mode}));
