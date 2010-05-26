@@ -566,7 +566,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         var parent_field = this.name.split('/');
-        var data = getFormData(true);
+        var data = getFormData(2);
         var args = getFormParams('_terp_concurrency_info');
 
         for (var k in data) {
