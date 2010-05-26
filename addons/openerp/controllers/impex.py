@@ -455,11 +455,14 @@ class ImpEx(SecuredController):
                     _fields_invert[st_name] = prefix_node+field
                     if fields[field]['type']=='one2many' and level>0:
                         fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
+                        fields2.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id':{'type': 'char', 'string': 'Database ID'}})
                         model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
-
+                    if fields[field].get('type','') in ('many2one', 'many2many' ) and level>0:
+                        model_populate({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}},
+                                       prefix_node+field+':', None, st_name+'/', level-1)
         proxy = rpc.RPCProxy(params.model)
         fields = proxy.fields_get(False, rpc.session.context)
-        fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
+        fields.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}})
         model_populate(fields)
 
         try:
