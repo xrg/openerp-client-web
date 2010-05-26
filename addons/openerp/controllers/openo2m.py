@@ -54,10 +54,6 @@ class OpenO2M(Form):
         # to get proper view, first generate form using the view_params
         vp = params.view_params
 
-        # this prevents calling default_get, causes unnecessary
-        # auto increment of sequence
-        vp.id = params.parent_id or False
-
         form = tw.form_view.ViewForm(vp, name="view_form", action="/openerp/openo2m/save")
         cherrypy.request.terp_validators = {}
         wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
