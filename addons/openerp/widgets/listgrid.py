@@ -144,11 +144,8 @@ class List(TinyWidget):
                 ids = proxy.search(search_param, self.offset, self.limit, 0, context)
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
-            
-            if len(ids) < self.limit:
-                self.count = len(ids)
-            else:
-                self.count = proxy.search_count(domain, context)
+                
+            self.count = proxy.search_count(domain, context)
                 
         self.data_dict = {}
         data = []
