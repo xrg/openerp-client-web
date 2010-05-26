@@ -442,7 +442,9 @@ function getFormData(extended) {
             }
 
             if (kind == 'text_html') {
-                attrs['value'] = tinyMCE.get(e.name).getContent();
+                if(tinyMCE.get(e.name)){
+                    attrs['value'] =  tinyMCE.get(e.name).getContent();
+                }
             }
             
             if (kind == 'reference' && value) { 
@@ -577,7 +579,9 @@ function onChange(name) {
                         openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
                         break;
                     case 'text_html':
-                        tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '');
+                        if(tinyMCE.get(prefix + k)){
+                            tinyMCE.execInstanceCommand(prefix + k, 'mceSetContent', false, value || '')
+                        }
                         break;
                     case 'selection':
                         var opts = [];
