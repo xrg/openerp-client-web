@@ -10,7 +10,7 @@
             name="${name}"/>
         % endif
     </div>
-    <div id="${name}_binary_buttons" style="white-space: nowrap; width: 150px;">
+    <div id="${name}_binary_buttons" class="binary_buttons">
         <span>${value or text or ''}</span>
         % if text:
         <button type="button" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</button>

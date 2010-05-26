@@ -6,22 +6,22 @@
 		</fieldset>
 	% else:
 		% if default:
-			<div id="group_${expand_grp_id}" class="group-collapse" style="white-space: nowrap;">
+			<div id="group_${expand_grp_id}" class="group-collapse">
 				<h2><span>${string}</span></h2>
 			</div>
 		% else:
-			<div id="group_${expand_grp_id}" class="group-expand" style="white-space: nowrap;">
+			<div id="group_${expand_grp_id}" class="group-expand">
 				<h2><span>${string}</span></h2>
 			</div>
 		% endif
 		
-		<table id="groupdata_table" style="display: block;">
+		<table id="groupdata_table">
 			<tr>	
 				<td>
 					% if default:
-						<div id="${expand_grp_id}" class="group-data" style="white-space: nowrap;">${display_member(frame)}</div>
+						<div id="${expand_grp_id}" class="group-data">${display_member(frame)}</div>
 					% else:
-						<div id="${expand_grp_id}" class="group-data" style="display: none; white-space: nowrap;">${display_member(frame)}</div>
+						<div id="${expand_grp_id}" class="group-data" style="display: none;">${display_member(frame)}</div>
 					% endif
 				</td>
 			</tr>

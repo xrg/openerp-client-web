@@ -1,15 +1,5 @@
 .gridview {
     border: none;
-    /*border-top: 1px solid #999;
-    margin: 0 0 10px; 
-    padding: 0; 
-    border-radius: 4px; 
-    -moz-border-radius: 4px; 
-    -webkit-border-radius: 4px; 
-    background: #fff; 
-    box-shadow: 0 1px 1px #ddd; 
-    -moz-box-shadow: 0 1px 1px #ddd; 
-    -webkit-box-shadow: 0 1px 1px #ddd; */
 }
 
 .grid {
@@ -19,6 +9,7 @@
 
 .grid-row {
     background-color: white;
+    cursor: pointer;
 }
 
 .grid-row:hover {
@@ -78,6 +69,11 @@
     border-bottom: 1px solid #E3E3E3;
 }
 
+tr.grid-row-group {
+	cursor: pointer;
+	display: none;
+}
+
 .grid-row-group .grid-cell {
     border-bottom: 2px solid #E3E3E3;
     border-right: 2px solid #FFFFFF;
@@ -110,10 +106,7 @@
 .gridview .pagerbar {
     height:22px;
     vertical-align: middle; 
-    overflow: hidden; 
-   /* width: 100%; 
-    margin: 0 0 15px; 
-    padding: 2px 0;*/
+    overflow: hidden;
     padding: 3px 4px 1px 10px;
     text-align: right;
     margin: 0;
@@ -121,10 +114,6 @@
 }
 
 .gridview .pagerbar .pagerbar-cell {
-    /*background: #f3f3f3;
-    border-bottom: 1px solid #999; 
-    padding-left: 10px;
-    padding: 2px 4px;*/
     vertical-align: middle;
 }
 
@@ -149,23 +138,9 @@
 	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.1em; text-transform: none; line-height: 1;
 }
 
- /* .gridview .pagerbar .pagerbar-cell .pagerbar-header {
-	position: absolute; 
-	float: left; 
-	padding-right: 15px; 
-	border: none;
-}
-
-
-.gridview .pagerbar .pagerbar-cell .pagerbar-header h2 {
-	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.2em; text-transform: none; line-height: 1;
-} */
-
-
 .gridview .pagerbar .pagerbar-cell .pagerbar-header ul {
 	float: left; list-style: none; margin: 0; padding: 0;
 }
-
 
 .gridview .pagerbar .pagerbar-links {
     float: left;
@@ -199,10 +174,35 @@
 	font-weight: bold;
 	color: #BAB8B8;
 	text-transform: uppercase;
-    /*border-bottom: 1px solid #999;
-    border-top: 1px solid #999; */
 }
 
+tr.field_sum {
+	border: none;
+	border-bottom: 1px solid #f4f2f2;	
+}
+
+tr.field_sum td#total_sum_value {
+	text-align: right;
+	padding: 2px;	
+}
+
+tr.field_sum td#total_sum_title {
+	text-align: left;
+	padding: 2px;
+}
+
+strong#total_sum_label {
+	color: #7D7979;
+	font-size: 0.9em;
+}
+
+.sum_value_field {
+	border-top: 1px inset;
+	display: block;
+	padding: 0 1px;
+	color: #7D7979;
+	font-size: 0.9em;
+}
 /**
  * vim: sts=4 st=4 et 
  *

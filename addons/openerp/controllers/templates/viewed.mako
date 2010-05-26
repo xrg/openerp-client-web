@@ -27,7 +27,7 @@
         </tr>
         <tr>
             <td id="view_tr" height="500" width="auto">
-                <div style="overflow-x: auto; overflow-y: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
+                <div class="viewed_tree">${tree.display()}</div>
             </td>
         </tr>
         <tr class="toolbar">

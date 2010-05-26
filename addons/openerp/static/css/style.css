@@ -162,10 +162,6 @@ table.fields {
 	border: none;
 }
 
-/*fieldset table.fields td.item {
-	padding: 2px 9px 5px 4px;
-} */
-
 button {
     border: solid 1px #888888;    
     background: url(../images/button-a.gif) repeat-x;
@@ -199,6 +195,10 @@ td.item button table {
 td.item button table td {
 	border: none;
 	padding: 0;
+}
+
+div.group-data {
+	white-space: nowrap;
 }
 
 div.group-data table.fields {
@@ -308,6 +308,7 @@ div.group-expand {
 	overflow: hidden;
 	width: 100%;
 	padding: 5px;
+	white-space: nowrap;
 }
 
 div.group-expand h2 {
@@ -330,6 +331,7 @@ div.group-expand h2:hover {
 
 #groupdata_table {
 	margin: 0;
+	display: block;
 }
 
 #groupdata_table td {
@@ -340,6 +342,7 @@ div.group-collapse {
 	cursor: pointer;
 	overflow: hidden;
 	width: 100%;
+	white-space: nowrap;
 }
 
 div.group-collapse h2 {
@@ -466,9 +469,13 @@ table.menu_connection a:hover {
 
 /* ---------------------- Attachment --------------- */
 
-#attachment-box {
+form#attachment-box {
 	font-weight: 600;
 	display:none;
+}
+
+form#attachment-box .attachment_box_head {
+	border-bottom: 1px solid silver;
 }
 
 .attachment-header {
@@ -791,6 +798,10 @@ td.item .radio {
     background-color: #EEEEEE;
 }
 
+td.view_form_options {
+	 padding: 0px 10px 3px 10px;
+}
+
 /* treebar */
 .treebar {
     padding-right: 5px;
@@ -834,6 +845,52 @@ td.save_close {
 	padding: 0;
 }
 
+/* VIEWED */
+
+div.viewed_tree {
+	overflow-x: auto;
+	overflow-y: scroll;
+	width: 100%;
+	height: 100%;
+	border: solid #999999 1px;
+}
+
+/* Binary Widget */
+div.binary_buttons {
+	white-space: nowrap; width: 150px;
+}
+
+/* Button Widget */
+div.button_wid_string {
+	text-align: center;
+	background-repeat: no-repeat;
+	padding: 3px 0 0 20px;
+	height: 17px;	
+}
+
+/* Progreds Bar Widget */
+div#progress_div1 {
+	position: relative;
+	border: 1px solid gray;
+	font-size: 11px;
+}
+
+div#progress_div2 {
+	position: absolute;
+	top:0px;
+	left: 0px;
+	background: #afafaf;
+	height: 100%;
+}
+
+div#progress_div3 {
+	 position: absolute;
+	 top:0px;
+	 left: 0px;
+	 width: 100%;
+	 height: 100%;
+	 text-align: center;	
+}
 
 /**
  * vim: sts=4 st=4 et 

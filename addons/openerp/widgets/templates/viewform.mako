@@ -17,7 +17,7 @@
             <td valign="top">${display_member(search)}</td>
         </tr>
         <tr>
-            <td style="padding: 0px 10px 3px 10px;" align="left">
+            <td class="view_form_options" align="left">
             	<table style="border: none;">
             		<tr>
             			<td style="padding: 0;" width="50%">

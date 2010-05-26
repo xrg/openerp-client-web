@@ -46,7 +46,7 @@ $(function(){
 	//Get menu width
 	var divWidth = div.width();
 	
-	$('#scroll_left').mouseover(function(){
+	$('#scroll_left').click(function(){
 		if (divWidth < ulWidth) {
 			wd = ulWidth-divWidth;
 			if (wd < 30 ) {
@@ -60,7 +60,7 @@ $(function(){
 		}
 	});
 	
-	$('#scroll_right').mouseover(function(){
+	$('#scroll_right').click(function(){
 		var left_css = $("ul.sc_menu").css('left');
 		left_css = parseInt(left_css.split('px')[0]);
 		if (left_css != 0 || left_css < 0) {

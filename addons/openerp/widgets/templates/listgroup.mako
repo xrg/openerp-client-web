@@ -71,7 +71,7 @@ background = '#DEDEDE'
 
                     % for ch in grp_row.get('child_rec'):
                     <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" 
-                    	record="${ch.get('id')}" style="cursor: pointer; display: none;">
+                    	record="${ch.get('id')}">
                         % if editable:
                             <td class="grid-cell">
                                 <img src="/openerp/static/images/iconset-b-edit.gif" class="listImage" border="0"
@@ -120,7 +120,7 @@ background = '#DEDEDE'
 
                 % if field_total:
                     <tfoot>
-                        <tr class="field_sum" style="border: none; border-bottom: 1px solid #f4f2f2;">
+                        <tr class="field_sum">
                             % if editable:
                                 <td width="1%" class="grid-cell">&nbsp;</td>
                             % endif
@@ -129,15 +129,15 @@ background = '#DEDEDE'
                                     <td class="grid-cell button"><div style="width: 0;"></div></td>
                                 % else:
                                     % if i == 0:
-                                    <td class="grid-cell" style="text-align: left; padding: 2px;" nowrap="nowrap">
-                                        <strong style="color: #7D7979; font-size: 0.9em;">Total</strong>
+                                    <td class="grid-cell" id="total_sum_title" nowrap="nowrap">
+                                        <strong id="total_sum_label">Total</strong>
                                     </td>
                                     % else:
-                                        <td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
+                                        <td class="grid-cell" id="total_sum_value" nowrap="nowrap">
                                              % if 'sum' in field_attrs:
                                                  % for key, val in field_total.items():
                                                      % if field == key:
-                                                        <span id="${field}" style="border-top: 1px inset ; display: block; padding: 0 1px; color: #7D7979; font-size: 0.9em;">${val[1]}</span>
+                                                        <span id="${field}" class="sum_value_field">${val[1]}</span>
                                                      % endif
                                                  % endfor
                                              % else:

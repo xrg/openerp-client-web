@@ -33,14 +33,14 @@
 <form id="attachment-box" name="attachment-box" action="/openerp/form/save_attachment" method="post" enctype="multipart/form-data">
 <div>
 	<table style="height: 150px;">
-		<thead style="border-bottom: 1px solid silver;">
+		<thead class="attachment_box_head">
 			<tr>
 				<td colspan="2">
 					<div id="header-message" class="attachment-header" style="text-align: center;">Add an Attachment</div>
 				</td>
 			</tr>
 		</thead>
-		<tbody style="border-bottom: 1px solid silver;">
+		<tbody class="attachment_box_head">
 		<tr>
 			<td>
 				<div>File:</div>
@@ -62,7 +62,7 @@
 			</td>
 		</tr>
 		</tbody>
-		<tfoot style="border-bottom: 1px solid silver; vertical-align: middle;">
+		<tfoot class="attachPopup_footer">
 			<tr>
 				<td colspan="2" style="text-align: right;">
 					<input type="submit" id="FormSubmit" value="save">
@@ -97,12 +97,12 @@
             % endif
         </td>
 
-		<td id="sidebar_hide" style="padding : 0px; border-color: #EAE7E7;" valign="top">
+		<td id="sidebar_hide" valign="top">
 			<p class="toggle-a"><a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a></p>
         </td>
     </tr>
     <tr>
-    	<td id="attach_sidebar" colspan='2' style="display: none;">
+    	<td id="attach_sidebar" colspan='2'>
     		% if attachments:
     		     <div class="poof"></div>
             	<div class="sideheader-a" id="sideheader-a">

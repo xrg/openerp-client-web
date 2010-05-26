@@ -39,7 +39,7 @@ import cherrypy
 </%def>
 
 <%def name="make_row(data)">
-    <tr class="grid-row" record="${data['id']}" style="cursor: pointer;">
+    <tr class="grid-row" record="${data['id']}">
         % if selector:
             <td class="grid-cell selector">
                 <input type="${selector}" class="${selector} grid-record-selector"
@@ -211,7 +211,7 @@ import cherrypy
 	
 	                % if field_total:
                     <tfoot>
-                        <tr class="field_sum" style="border: none; border-bottom: 1px solid #f4f2f2;">
+                        <tr class="field_sum">
                             % if selector:
                                 <td width="1%" class="grid-cell">&nbsp;</td>
                             % endif
@@ -223,15 +223,15 @@ import cherrypy
                                     <td class="grid-cell button"><div style="width: 0;"></div></td>
                                 % else:
                                    	% if i == 0:
-                                   	<td class="grid-cell" style="text-align: left; padding: 2px;" nowrap="nowrap">
-                                   		<strong style="color: #7D7979; font-size: 0.9em;">Total</strong>
+                                   	<td class="grid-cell" id="total_sum_title" nowrap="nowrap">
+                                   		<strong id="total_sum_label">Total</strong>
                                   	</td>
                                    	% else:
-                                   		<td class="grid-cell" style="text-align: right; padding: 2px;" nowrap="nowrap">
+                                   		<td class="grid-cell" id="total_sum_value" nowrap="nowrap">
 	                                         % if 'sum' in field_attrs:
 	                                             % for key, val in field_total.items():
 	                                                 % if field == key:
-	                                                 	<span id="${field}" style="border-top: 1px inset ; display: block; padding: 0 1px; color: #7D7979; font-size: 0.9em;">${val[1]}</span>
+	                                                 	<span id="${field}" class="sum_value_field">${val[1]}</span>
 	                                                 % endif
 	                                             % endfor
 	                                         % else:
