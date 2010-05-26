@@ -145,10 +145,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img alt="" src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${_("Create a view (%s)") % (model)}</td>
+                        <td width="100%"><h1>${_("Create a view (%s)") % (model)}</h1></td>
                     </tr>
                 </table>
             </td>
