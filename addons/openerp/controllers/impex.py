@@ -146,10 +146,10 @@ class ImpEx(SecuredController):
         view = proxy.fields_view_get(False, 'tree', ctx)
         new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
                                  domain=[('resource', '=', params.model)],
-                                 context=rpc.session.context, selectable=1, editable=False, pageable=False)
+                                 context=ctx, selectable=1, editable=False, pageable=False)
 
 
-        return dict(new_list=new_list, model=params.model, ids=params.ids,
+        return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
                     tree=tree)
 
