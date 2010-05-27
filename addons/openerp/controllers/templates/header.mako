@@ -32,8 +32,11 @@ except:
 	    jQuery('tr#sc_row').css('width', sc_rowWidth);
 	});
 
-	function showMore_sc(e, id, submenu) {
-        var pos = e.pageX - 200 + 'px';
+	function showMore_sc(id, submenu) {
+		var pos = jQuery('#'+id).position();
+		var logoWidth = jQuery('#logo').innerWidth();
+		
+		var pos = pos.left;
         
         jQuery('#'+submenu).css('left', pos);
         jQuery('#'+submenu).css('top', 25 + 'px');
@@ -112,8 +115,9 @@ except:
 	            % endfor
 	            % if len(shortcuts) > 7:
 	            <td id="shortcuts_menu" nowrap="nowrap">
-	                <a class="scMore_arrow" href="javascript: void(0)" onclick="showMore_sc(event, 'shortcuts_menu', 'shortcuts_submenu');">>></a>
-	                <div class="submenu" id="shortcuts_submenu">
+	                <a class="scMore_arrow" href="javascript: void(0)" 
+	                	onmouseover="showMore_sc('shortcuts_menu', 'shortcuts_submenu');">>></a>
+	                <div class="submenu" id="shortcuts_submenu" onmouseover="showElement(this);" onmouseout="hideElement(this);">
 	                    % for sc in shortcuts[7:]:
 	                    	<a target="appFrame" href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 	                    % endfor

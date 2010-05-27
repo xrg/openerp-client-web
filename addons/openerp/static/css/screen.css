@@ -71,13 +71,13 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
       #corner ul.tools li span.inline a { display: block; float: left; overflow: hidden; width: 6px; height: 7px; margin: 4px 0 0 5px; background: url(../images/top-inline-close-a.gif) no-repeat; text-indent: -10001px; }
       * html #corner ul.tools li span.inline em { font-size: 0; text-indent: 0; }
       *:first-child+html #corner ul.tools li span.inline em { font-size: 0; text-indent: 0; }
-     #corner ul.tools li ul { display: none; position: absolute; left: -51px; top: 34px; list-style: none; width: 130px; height: auto; margin: 0; padding: 8px 0 0; background: url(../images/top-tools-sub-point-a.png) 50% 0 no-repeat; line-height: 1.2; }
+     #corner ul.tools li ul { display: none; position: absolute; left: -51px; top: 34px; list-style: none; width: 130px; height: auto; margin: 0; padding: 8px 0 0; background: url(../images/top-tools-sub-point-a.png) 50% 0 no-repeat; line-height: 1.2;  z-index: 120;}
      #corner ul.tools li:hover ul { display: block; }
       #corner ul.tools li ul li { float: left; width: 130px; text-align: center; color: #fff; }
        #corner ul.tools li ul li a { display: block; float: none; width: auto; height: auto; padding: 6px 0; border-bottom: 1px solid #090909; border-top: 1px solid #484848; background: #232323 url(../images/top-tools-sub-bg-a.png) repeat-x; color: #ccc; font-size: 1em; line-height: 1; text-indent: 0; text-shadow: #111 0 -1px 0; }
        #corner ul.tools li ul li.item a { padding-left: 10px; padding-right: 5px; border-bottom-color: #2e2e2e; background: #3b3a3a; color: #ddd; text-align: left; }
         #corner ul.tools li ul li.item a small { display: block; margin: 0 0 2px; color: #aaa; font-size: 0.9em; }
-       #corner ul.tools li ul li.first a { border-top: none; color: #fff; }
+       #corner ul.tools li ul li.first a { border-top: none; color: #fff;}
        #corner ul.tools li ul li.last a { border-bottom: none; border-bottom-left-radius: 3px; -moz-border-radius-bottomleft: 3px; -webkit-border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; -moz-border-radius-bottomright: 3px; -webkit-border-bottom-right-radius: 3px; }
        #corner ul.tools li ul li a:hover,
        #corner ul.tools li ul li a:focus,
@@ -98,7 +98,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
  table#shortcuts {border-bottom: 0px; border-collapse: expand;}
  table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #606060; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
  table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #909090; padding-left: 1px;}
- table#shortcuts tr td a { display: block; float: left; height: auto; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
+ table#shortcuts tr td a { display: block; height: auto; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
  
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
  #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}

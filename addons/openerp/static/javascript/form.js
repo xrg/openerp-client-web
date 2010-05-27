@@ -723,7 +723,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
-function showCustomizeMenu(e, src, elem) {
+function showCustomizeMenu(src, elem) {
 	
 	var pos = jQuery('#show_customize_menu').position();
 	var left_position = pos.left - 50 + 'px';

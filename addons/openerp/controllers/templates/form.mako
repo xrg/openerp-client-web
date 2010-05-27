@@ -183,7 +183,7 @@
                             			Powered by <a href="http://www.openerp.com"  target="_blank">openerp.com</a>
                             		</td>
                             		<td class="footer" style="text-align: right;">
-                            			<a id="show_customize_menu" onmouseover="showCustomizeMenu(event, this, 'customise_menu_')" 
+                            			<a id="show_customize_menu" onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
                                 			onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a><br/>
 			                            <div id="customise_menu_" class="contextmenu" onmouseover="showElement(this);" onmouseout="hideElement(this);">
 			                                <a class="customise_menu_options" title="${_('Manage views of the current object')}" 
