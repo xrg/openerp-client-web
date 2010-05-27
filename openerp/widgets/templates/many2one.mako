@@ -3,9 +3,9 @@
         <tr>
             <td>
                 <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                    ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
+                    ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, link=link)}/>
                 <input type="text" id="${name}_text" class="${css_class}"
-                    ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+                    ${py.attrs(attrs, kind=kind, relation=relation, value=text, link=link)}/>
                 % if error:
                 <span class="fielderror">${error}</span>
                 % endif
