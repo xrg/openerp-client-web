@@ -993,12 +993,19 @@ class Form(SecuredController):
         values2 = {}
         for k, v in values.items():
             key = ((prefix or '') and prefix + '/') + k
+            kind =  data[key].get('type')
 
             if key in data and key != 'id':
                 values2[k] = data[key]
                 values2[k]['value'] = v
             else:
                 values2[k] = {'value': v}
+                
+            if kind == 'float':
+                field = proxy.fields_get([k], ctx2)
+                digit = field[k].get('digits')
+                if digit: digit = digit[1]
+                values2[k]['digit'] = digit or 2
 
         values = TinyForm(**values2).from_python().make_plain()
 
