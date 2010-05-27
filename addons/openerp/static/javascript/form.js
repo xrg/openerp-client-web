@@ -159,6 +159,7 @@ function switch_O2M(view_type, src) {
 
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
+    params['_terp_editable'] = $(prefix + '_terp_editable').value
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();

@@ -294,6 +294,10 @@ var form_setReadonly = function(container, field, readonly) {
         return ManyToOne(field).setReadonly(readonly);
     }
     
+    if (!kind && MochiKit.DOM.getElement(field.id + '_btn_') || MochiKit.DOM.getElement('_o2m_'+field.id)) { // one2many
+        return new One2Many(field.id).setReadonly(readonly);
+    }
+    
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
         var img = openobject.dom.get(field.name + '_trigger');
         if (img)

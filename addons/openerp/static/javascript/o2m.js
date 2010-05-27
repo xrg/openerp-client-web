@@ -140,6 +140,23 @@ One2Many.prototype = {
                 openobject.http.delCookie('_terp_parent_context');
             }
         });
+    },
+    
+    setReadonly: function(readonly) {
+        var btn=MochiKit.DOM.getElement(this.name+'_btn_');
+        var grid=MochiKit.DOM.getElement(this.name+'_grid');
+        var edit=MochiKit.DOM.getElement(this.name + '/_terp_editable');
+        
+        if (readonly) {
+            btn.style.display='none';
+            MochiKit.Base.map(function (el) {el.style.display='none'},MochiKit.Selector.findChildElements(grid,['.selector']));
+            edit.value= 0;
+        }
+        else{
+            btn.style.display='';
+            MochiKit.Base.map(function (el) {el.style.display=''},MochiKit.Selector.findChildElements(grid,['.selector']));
+             edit.value = 1;
+        }
     }
 }
 
