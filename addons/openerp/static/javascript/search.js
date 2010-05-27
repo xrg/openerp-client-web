@@ -283,8 +283,7 @@ var search_filter = function(src, id) {
 		if(src.className=='inactive') {
 			src.checked = true;
 			id.className = 'active_filter';
-			
-			if(jQuery(src).attr('group_by_ctx')) {
+			if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False') {
 				group_by.push(jQuery(src).attr('group_by_ctx'));
 			}
 			src.className = 'active'
@@ -330,6 +329,7 @@ var search_filter = function(src, id) {
 			all_boxes = all_boxes.concat(box.value);
 		}
 	});
+	console.log(group_by)
 	if(group_by.length)
 	   openobject.dom.get('_terp_group_by_ctx').value = group_by;
     else

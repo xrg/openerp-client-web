@@ -1073,6 +1073,9 @@ function removeAttachment(e, element, id) {
 	       if(parent.children().length == 0) {
 	       	   parent.remove();
 	       	   jQuery('#sideheader-a').remove();
+	       	   
+	       	   var attach_src = jQuery('#attachments').attr('src'); 
+               jQuery('#attachments').attr('src', attach_src.replace('gtk-paste-v', 'gtk-paste'));
 	       }
 		}
 	});

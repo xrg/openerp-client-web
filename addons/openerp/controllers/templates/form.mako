@@ -90,7 +90,7 @@
                                     % endif
                                     % if buttons.can_attach and buttons.has_attach:
                                     <td align="center" valign="middle" width="16" class="content_header_space">
-                                        <img
+                                        <img id="attachments"
                                             class="button" width="16" height="16"
                                             title="${_('Show attachments.')}" 
                                             src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
