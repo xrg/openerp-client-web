@@ -69,11 +69,6 @@
     border-bottom: 1px solid #E3E3E3;
 }
 
-tr.grid-row-group {
-	cursor: pointer;
-	display: none;
-}
-
 .grid-row-group .grid-cell {
     border-bottom: 2px solid #E3E3E3;
     border-right: 2px solid #FFFFFF;
