@@ -23,7 +23,7 @@
                     type="checkbox"
                     id="${filter_id}"
                     name="${filter_id}"
-                    class="checkbox grid-domain-selector"
+                    class="${a_class}"
                     onclick="search_filter(this);"
                     value="${filter_domain}"
                     group_by_ctx="${group_context}"
