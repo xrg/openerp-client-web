@@ -118,11 +118,7 @@ class Root(SecuredController):
             tool['icon'] = icons.get_icon(tool['icon'])
             
             if tool['action']:
-                act_proxy = rpc.RPCProxy(tool['action'].split(",")[0])
-                res_act = act_proxy.read([tool['action'].split(",")[1]], ['name'], ctx)
-                seach_action_id = proxy.search([('name','=',res_act[0]['name'])], 0, 0, 0, ctx)
-                if seach_action_id:
-                    tool['action_id'] = seach_action_id[-1]
+                tool['action_id'] = tid
                 
             tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
                                     domain=[('parent_id', '=', tid)],

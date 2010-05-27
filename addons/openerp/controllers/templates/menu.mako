@@ -86,7 +86,14 @@
 				                    <div class="accordion-block">
 				                        <table class="accordion-title">
 				                            <tr>
-				                                <td class="accordion-title-td"><a href="javascript: void(0);">${tool['name']}</a></td>
+				                                <td class="accordion-title-td" id="${tool['id']}"><a href="javascript: void(0);">${tool['name']}</a></td>
+                                                % if tool.get('action_id'):
+                                                    <script type="text/javascript">
+                                                        jQuery("#${tool['id']}").click(function() {
+                                                            jQuery('#appFrame').attr("src", openobject.http.getURL('/openerp/tree/open', {'model': "ir.ui.menu", 'id': "${tool['id']}"}))
+                                                        });
+                                                    </script>
+                                                % endif
 				                            </tr>
 				                        </table>
 				                        <div class="accordion-content">
