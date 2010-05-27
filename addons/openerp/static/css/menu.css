@@ -52,7 +52,7 @@ table.menubar div.submenu a:hover {
 }
 
 div.contextmenu {
-    background-color: #F0EEEE;
+    background-color: #5C5B5B;
     border: 1px solid #505050;
     white-space: nowrap;
     position: absolute;
@@ -62,15 +62,20 @@ div.contextmenu {
     display: none;
 }
 
-div.contextmenu a,
+div.contextmenu a.customise_menu_options,
 div.contextmenu span {
     display: block;
     text-align: left;
     text-decoration: none;
     white-space: nowrap;
     padding: 2px;
-    color: #969494;
+    color: #FFFFFF;
     cursor: pointer;
+}
+
+div.contextmenu a:hover {
+	background-color: #CCCCCC;
+	color: #5C5B5B
 }
 
 td#shortcuts_menu {

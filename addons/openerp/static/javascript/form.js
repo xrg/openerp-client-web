@@ -723,15 +723,13 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
-function showCustomizeMenu(src, elem) {
-    var elem = openobject.dom.get(elem);
-
-    var frame = window.frameElement ? window.frameElement : null;
-    if (frame) {
-        frame.style.height = elementDimensions(openobject.dom.get('main_form_body')).h + 70 + 'px';
-    }
-
-    MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
+function showCustomizeMenu(e, src, elem) {
+	
+	var pos = jQuery('#show_customize_menu').position();
+	var left_position = pos.left - 50 + 'px';
+        
+    jQuery('#'+elem).css('left', left_position);
+    jQuery('#'+elem).slideToggle('slow');
 }
 
 function makeContextMenu(id, kind, relation, val) {
