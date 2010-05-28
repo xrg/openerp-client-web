@@ -180,19 +180,12 @@ class TinyInputWidget(TinyWidget, InputWidget):
         self.kind = attrs.get('type', None)
 
     def set_state(self, state):
-
         if isinstance(self.states, dict) and state in self.states:
-
             attrs = dict(self.states[state])
 
-            if 'readonly' in attrs:
-                self.readonly = attrs['readonly']
-
-            if 'required' in attrs:
-                self.required = attrs['required']
-
-            if 'value' in attrs:
-                self.default = attrs['value']
+            self.readonly = attrs.get('readonly', self.readonly)
+            self.required = attrs.get('required', self.required)
+            self.default = attrs.get('value', self.default)
 
     def get_value(self):
         """Get the value of the field.
