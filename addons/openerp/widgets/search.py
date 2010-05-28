@@ -75,6 +75,19 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
             default_search = False
             default_val = 0
             
+        if attrs.get('context'):
+            ctx =  eval(attrs.get('context'))
+            if ctx.get('group_by', False):
+                str_ctx = 'group_' + ctx.get('group_by', False)
+                
+                if isinstance(screen_context.get('group_by'), list):
+                    if str_ctx in screen_context.get('group_by'):
+                        default_val = 1
+                    else:
+                        default_val = 0
+                else:
+                    default_val = 1
+            
     if default_val and not default_search:
         default_search = True
     
