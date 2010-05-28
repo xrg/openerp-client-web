@@ -270,7 +270,15 @@ var search_filter = function(src, id) {
 	var set_filter = jQuery(id).find("a")[0];
 	
 	var filter_class = jQuery(set_filter).attr('class');
-	
+	var check_groups = jQuery('#_terp_group_by_ctx').val();
+    if(check_groups!='[]') {
+        check_groups = eval(check_groups)
+        for(i in check_groups) {
+            if(jQuery.inArray(check_groups[i], group_by) < 0) {
+                group_by.push(check_groups[i])
+            }
+        }   
+    }
 	if(src) {
 		if(filter_class == 'active') {
 			jQuery(src).attr('checked',false);
@@ -285,18 +293,11 @@ var search_filter = function(src, id) {
 			jQuery(src).attr('checked',true);
 			jQuery(set_filter).attr('class', 'active');
             jQuery(id).attr('class', 'active_filter');
-            var check_groups = jQuery('#_terp_group_by_ctx').val();
-            if(check_groups!='[]') {
-                check_groups = eval(check_groups)
-                for(i in check_groups) {
-                	if(jQuery.inArray(check_groups[i], group_by) < 0) {
-                		group_by.push(check_groups[i])
-                	}
-                }	
-            }
             
-            if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False') {
+            
+            if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False' && jQuery(src).attr('group_by_ctx')!='') {
                 group_by.push(jQuery(src).attr('group_by_ctx'));
+                
             }
             
 		}
@@ -306,7 +307,7 @@ var search_filter = function(src, id) {
 	   jQuery('#_terp_group_by_ctx').val(group_by.toSource());
    else
        jQuery('#_terp_group_by_ctx').val('[]');
-	
+   
 	var filter_table = getElement('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
