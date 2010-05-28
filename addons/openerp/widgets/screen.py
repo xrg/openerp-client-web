@@ -82,17 +82,17 @@ class Screen(TinyInputWidget):
         self.view_type     = params.view_type
         self.view_id       = False
         
-        if params.get('_terp_search_data') or params.get('_terp_context').get('group_by'):
+        if params.get('_terp_search_data'):
             if params.get('_terp_search_data') and params.get('_terp_search_data').get('group_by_ctx'):
                 if isinstance(params.get('_terp_search_data').get('group_by_ctx'), basestring):
                     self.group_by_ctx = params.get('_terp_search_data').get('group_by_ctx').split(',')
+                    
                 else:    
                     self.group_by_ctx = params.get('_terp_search_data').get('group_by_ctx')
-            else:
+        elif params.get('_terp_context').get('group_by'):
                 self.group_by_ctx = params.get('_terp_context').get('group_by') or []
         else:
             self.group_by_ctx  = params.group_by_ctx or []
-            
         self.is_wizard = params.is_wizard
 
         while len(self.view_ids) < len(self.view_mode):

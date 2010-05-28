@@ -161,7 +161,11 @@ class Filter(TinyInputWidget):
             
         self.nolabel = True
         self.readonly = False
-
+        if self.filter_context:
+            if not self.filter_context.get('group_by'):
+                self.filter_context = self.filter_context
+            else:
+                self.filter_context = {}
         self.text_val = self.string or self.help
         if self.icon:
             self.icon = icons.get_icon(self.icon)

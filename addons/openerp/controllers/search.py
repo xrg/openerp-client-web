@@ -100,9 +100,11 @@ class Search(Form):
 
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
-        
         if 'group_by' in parent_context.keys():
-            parent_context['group_by'] = params.group_by
+            if isinstance(params.group_by, str):
+                parent_context['group_by'] = [params.group_by]
+            else:
+                parent_context['group_by'] = params.group_by
             
         try:
             ctx = TinyForm(**kw).to_python()
@@ -220,7 +222,6 @@ class Search(Form):
         selection_domain = all_domains.get('selection_domain')
         search_context = all_domains.get('search_context')
         group_by_ctx = kw.get('group_by_ctx', [])
-
         if domains:
             domains = eval(domains)
 
