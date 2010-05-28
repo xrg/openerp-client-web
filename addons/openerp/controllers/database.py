@@ -84,7 +84,7 @@ class FormCreate(DBForm):
 class FormDrop(DBForm):
     name = "drop"
     string = _('Drop database')
-    action = '/openerp//database/do_drop'
+    action = '/openerp/database/do_drop'
     submit_text = _('OK')
     form_attrs = {'onsubmit': 'return window.confirm(_("Do you really want to drop the selected database?"))'}
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),

@@ -16,6 +16,10 @@ form select {
     height: 18px;
 }
 
+.fieldcol {
+	width: 70%;	
+}
+
 .fieldcol .requiredfield {
     background-color: #CCD9FF;
     height: 18px;
