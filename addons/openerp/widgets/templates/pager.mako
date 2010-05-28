@@ -29,12 +29,13 @@
     <p>
     	<div id="_${name+str(pager_id)}_limit_span" style="display: none" align="right">
     		<a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_link_span').style.display=''">${_("Change Limit:")}</a>&nbsp;
-    		<select id='_${name+str(pager_id)}_limit' onchange="openobject.dom.get('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=openobject.dom.get('_${name+str(pager_id)}_limit').value; pager_action('filter', '${name}')">
-                    <option value="20" ${py.selector(limit==20)}>20</option>
-                    <option value="40" ${py.selector(limit==40)}>40</option>
-                    <option value="60" ${py.selector(limit==60)}>60</option>
-                    <option value="80" ${py.selector(limit==80)}>80</option>
-                    <option value="100" ${py.selector(limit==100)}>100</option>
+    		<select id='_${name+str(pager_id)}_limit' onchange="openobject.dom.get('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=openobject.dom.get('_${name+str(pager_id)}_limit').value;
+    		 $('${name and (name != '_terp_list' or None) and name + '/'}_terp_offset').value= 0;pager_action('filter', '${name}')">
+	             <option value=""></option>
+	             % for k in pager_options:
+	             <option value="${k}" ${py.selector(limit=='${k]}')}>${k}</option>
+	             %endfor
+	             <option value="-1" ${py.selector(limit==-1)}>unlimited</option>
                </select>
     	</div>
     </p>
