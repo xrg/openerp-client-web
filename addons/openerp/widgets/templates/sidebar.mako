@@ -101,40 +101,40 @@
 			<p class="toggle-a"><a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a></p>
         </td>
     </tr>
+     % if attachments:
     <tr>
-    	<td id="attach_sidebar" colspan='2'>
-    		% if attachments:
-    		     <div class="poof"></div>
-            	<div class="sideheader-a" id="sideheader-a">
-					<ul class="side">
-						<li><a href="javascript: void(0);" id="add-attachment" class="button-a">Add</a></li>
-					</ul>
-					<h2>Attachments</h2>
-					<script type="text/javascript">
-						jQuery('#add-attachment').click(function() {
-							jQuery.blockUI({
-								css: {border: 'none', opacity: .9},
-								message: jQuery('#attachment-box'),
-								fadeIn: 1000,
-								fadeOut: 1000
-							});
-						});
-					</script>
-				</div>
-				<ul class="attachments-a">
-					% for item in attachments:
-						<li id="attachment_item_${item[0]}">
-							<a href="${py.url(['/openerp/attachment/save_as', item[1]], record=item[0])}">
-								${item[1]}
-							</a>
-							<span>|</span>
-							<a href="javascript: void(0);" class="close" title="${_('Delete')}" onclick="removeAttachment(event, 'attachment_item_${item[0]}', ${item[0]});">Close</a>
-						</li>
-					% endfor
-				</ul>
-            % endif
-    	</td>
+        <td id="attach_sidebar" colspan='2' style="display: none;">
+            <div class="poof"></div>
+            <div class="sideheader-a" id="sideheader-a">
+                <ul class="side">
+                    <li><a href="javascript: void(0);" id="add-attachment" class="button-a">Add</a></li>
+                </ul>
+                <h2>Attachments</h2>
+                <script type="text/javascript">
+                    jQuery('#add-attachment').click(function() {
+                        jQuery.blockUI({
+                            css: {border: 'none', opacity: .9},
+                            message: jQuery('#attachment-box'),
+                            fadeIn: 1000,
+									fadeOut: 1000
+                        });
+                    });
+                </script>
+            </div>
+            <ul class="attachments-a">
+                % for item in attachments:
+                    <li id="attachment_item_${item[0]}">
+                        <a href="${py.url(['/openerp/attachment/save_as', item[1]], record=item[0])}">
+                            ${item[1]}
+                        </a>
+                        <span>|</span>
+                        <a href="javascript: void(0);" class="close" title="${_('Delete')}" onclick="removeAttachment(event, 'attachment_item_${item[0]}', ${item[0]});">Close</a>
+                    </li>
+                % endfor
+            </ul>
+        </td>
     </tr>
+    % endif
 </table>
 <script type="text/javascript">
                        

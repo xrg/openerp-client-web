@@ -540,7 +540,7 @@ p.toggle-a { position: relative; right: 0; z-index: 19; float: right; margin-bot
  td.toggle-a a.off { background-position:  0; }
 
 td#sidebar {padding: 0px; border-color: #EAE7E7;}
-td#attach_sidebar {padding: 0px; border-color: #EAE7E7; display: none;}
+td#attach_sidebar {padding: 0px; border-color: #EAE7E7;}
 table#sidebar_pane {margin-bottom: 0px; border-color: #EAE7E7;}
 td#main_sidebar {padding: 5px 0 5px 0px; border-color: #EAE7E7;}
 tfoot.attachPopup_footer { border-bottom: 1px solid silver; vertical-align: middle; }

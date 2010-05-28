@@ -1053,7 +1053,7 @@ function removeAttachment(e, element, id) {
     var yOffset = 19;
 	
 	jQuery.ajax({
-		url: '/attachment/removeAttachment/',
+		url: '/openerp/attachment/removeAttachment/',
 		type: 'POST',
 		data: {'id': id},
 		dataType: 'json',

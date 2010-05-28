@@ -13,10 +13,10 @@
     <div id="${name}_binary_buttons" class="binary_buttons">
         <span>${value or text or ''}</span>
         % if text:
-        <button type="button" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</button>
+        <a class="button-a" href="javascript: void(0)" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</a>
         % endif
         % if editable:
-        <button type="button" onclick="add_binary('${name}')">${_("Change")}</button>
+        <a class="button-a" href="javascript: void(0)" onclick="add_binary('${name}')">${_("add attachment")}</a>
         % endif
     </div>
     % if editable and error:
