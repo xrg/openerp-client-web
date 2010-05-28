@@ -266,11 +266,12 @@ def execute(action, **data):
         res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
         if res:
             return execute(res, **data)
+        else:
+            return ''
 
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
             del data['window']
-
 
         ctx1 = data.get('context', {}).copy()
         ctx2 = action.get('context', {}).copy()
