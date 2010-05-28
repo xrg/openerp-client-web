@@ -107,6 +107,7 @@ MochiKit.DOM.addLoadEvent(function() {
  * several times
  */
 function adjustAppFrame() {
+
     var appFrame = jQuery('#appFrame');
     var menuBar = jQuery("#menubar");
     var frameContents = appFrame.contents();
@@ -115,12 +116,14 @@ function adjustAppFrame() {
     var formBody = frameContents.find('#view_form');
     var treeBody = frameContents.find('#treeview');
 
-    var frameHeight = body             ? jQuery(body).height()
-                    : frameBody.length ? jQuery(frameBody).height()
-                    : formBody.length  ? jQuery(formBody).height()
-                    : treeBody.length  ? jQuery(treeBody).height()
-                    : 0;
+	var frameHeight = [];
+	
+	frameHeight.push(jQuery(body).height());
+    frameHeight.push(jQuery(frameBody).height());
+    frameHeight.push(jQuery(formBody).height());
+    frameHeight.push(jQuery(treeBody).height());
 
+	appFrame.height(Math.max.apply(Math, frameHeight));
     var frameWidth = frameContents.width();
 
     appFrame.height(Math.max(0, frameHeight));
@@ -183,15 +186,14 @@ if (window !== window.parent) {
         // bind to change of the groupby display state in search widget
         var search_filter = $('search_filter_data');
         if (search_filter) {
-            MochiKit.Signal.connect(search_filter, 'groupby-toggle',
-                    do_adjust);
+            MochiKit.Signal.connect(search_filter, 'groupby-toggle', do_adjust);
         }
 
+        // bind to changes sidebar/toolbar
         var sidebar = openobject.dom.get('sidebar');
         if (sidebar) {
             MochiKit.Signal.connect(window.document, 'toggle_sidebar', do_adjust);
         }
-
         // bind to changes to treegrids and treenodes
         MochiKit.Signal.connect(window.document, 'treegrid-render', do_adjust);
         MochiKit.Signal.connect(window.document, 'treenode-expand', do_adjust);

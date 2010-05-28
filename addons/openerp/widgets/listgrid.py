@@ -48,7 +48,7 @@ class List(TinyWidget):
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
@@ -82,8 +82,8 @@ class List(TinyWidget):
         self.context = context or {}
         self.domain = domain or []
         
-        custom_search_domain = cherrypy.request.custom_search_domain
-        custom_filter_domain = cherrypy.request.custom_filter_domain
+        custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
+        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])        
         
         if name.endswith('/'):
             self._name = name[:-1]
@@ -144,11 +144,8 @@ class List(TinyWidget):
                 ids = proxy.search(search_param, self.offset, self.limit, 0, context)
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
-            
-            if len(ids) < self.limit:
-                self.count = len(ids)
-            else:
-                self.count = proxy.search_count(domain, context)
+                
+            self.count = proxy.search_count(domain, context)
                 
         self.data_dict = {}
         data = []
@@ -429,7 +426,7 @@ class M2O(Char):
         m2o_link = int(self.attrs.get('link', 1))
 
         if m2o_link == 1:
-            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+            return tools.url('/openerp/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
         else:
             return None
 
@@ -541,10 +538,10 @@ class Button(TinyInputWidget):
 
     template="""
     % if visible and not icon:
-    <button type="button" ${py.attrs(attrs, context=ctx)} title="${help}" style="min-width: ${width}px;"
+    <a class="button-b" href="javascript: void(0)" ${py.attrs(attrs, context=ctx)} title="${help}"
         onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
         ${string}
-    </button>
+    </a>
     % endif
     % if visible and icon:
     <img height="16" width="16" class="listImage" src="${icon}" title="${help}" context="${ctx}" ${py.attrs(attrs)}

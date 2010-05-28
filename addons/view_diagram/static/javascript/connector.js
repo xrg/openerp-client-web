@@ -109,7 +109,7 @@ openobject.workflow.Connector.prototype.edit = function() {
 	if(!isUndefinedOrNull(this.tr_id))
 		params['_terp_id'] = this.tr_id;	
 		
-	var act = openobject.http.getURL('/workflow/connector/edit', params);
+	var act = openobject.http.getURL('/view_diagram/workflow/connector/edit', params);
 	openobject.tools.openWindow(act);
 }
 
@@ -130,7 +130,7 @@ openobject.workflow.Connector.prototype.setSource = function(port) {
 	else if(this.sourceId != port.getParent().get_act_id())	{
 		this.sourceId = port.getParent().get_act_id();
 
-		req = openobject.http.postJSON('/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
+		req = openobject.http.postJSON('/view_diagram/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
 		                                                                  id: this.tr_id, 
 		                                                                  field: WORKFLOW.src_node_nm, 
 		                                                                  value: this.sourceId});
@@ -145,7 +145,7 @@ openobject.workflow.Connector.prototype.setTarget = function(port) {
 	else if(this.destId != port.getParent().get_act_id()) {
 		this.destId = port.getParent().get_act_id();
 
-        req = openobject.http.postJSON('/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
+        req = openobject.http.postJSON('/view_diagram/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
                                                                            id: this.tr_id, 
                                                                            field: WORKFLOW.des_node_nm, 
                                                                            value: this.destId});

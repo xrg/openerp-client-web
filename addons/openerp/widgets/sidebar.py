@@ -43,36 +43,49 @@ class Sidebar(TinyWidget):
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
-
             function a() {
-
                 var sb = openobject.dom.get('sidebar');
-
+                
                 sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
-
                 openobject.http.setCookie("terp_sidebar", sb.style.display);
-
-                var img = openobject.dom.select('img', 'sidebar_hide')[0];
+                
+                var a_img = openobject.dom.get('toggle-click');
+                var tertiary = openobject.dom.get('tertiary');
+                var tertiary_wrap = openobject.dom.get('tertiary_wrap');
+                var main_sidebar = openobject.dom.get('main_sidebar');
+                var sidebar_hide = openobject.dom.get('sidebar_hide');
+                var attach_sidebar = openobject.dom.get('attach_sidebar');
+                
                 if (sb.style.display == "none") {
-                    img.src = "/openerp/static/images/sidebar_show.gif";
+                    setNodeAttribute(a_img, 'class', 'off');
+                    setNodeAttribute(tertiary, 'style', 'width: 21px');
+                    setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
+                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
+                    setNodeAttribute(attach_sidebar, 'style', 'display: none');
                 } else {
-                    img.src = "/openerp/static/images/sidebar_hide.gif";
+                    setNodeAttribute(a_img, 'class', 'on');
+                    setNodeAttribute(tertiary, 'style', 'width: 180px');
+                    setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 10px');
+                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 8px');
+                    setNodeAttribute(attach_sidebar, 'style', "display: ''");
                 }
             }
-
             if (typeof(Notebook) == "undefined") {
+                log('undefine');
                 a();
             } else {
                 Notebook.adjustSize(a);
             }
+            
             MochiKit.Signal.signal(document, 'toggle_sidebar');
         }
+        
     """)]
 
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
-
+        
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type

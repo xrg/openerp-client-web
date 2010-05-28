@@ -4,7 +4,7 @@
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/viewed/new_field';
+        var form_controller = '/openerp/viewed/new_field';
     </script>
 
     <script type="text/javascript">
@@ -32,10 +32,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${form.screen.string}</td>
+                        <td width="100%"><h1>${form.screen.string}</h1></td>
                     </tr>
                 </table>
             </td>
@@ -51,8 +48,10 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
-                                <button type="button" onclick="submit_form('save')">${_("Save")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            </td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
                             </td>
                         </tr>
                     </table>

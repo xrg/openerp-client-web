@@ -8,19 +8,7 @@
 
 <%include file="header.mako"/>
 
-    <div class="view">
-
-        <br/>
-        <center>
-        <img border="0" width="200" height="60" 
-            alt="${_('Developped by Axelor and Tiny')}" usemap="#devby_map"
-            src="/openerp/static/images/company_logo.png" />
-            <map name="devby_map">
-                <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
-                <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
-            </map>
-        </center>
-        <br/>
+    <div class="view" style="padding-top: 90px;">
 
         <form action="${py.url(target)}" method="post" name="loginform">
             % for key, value in origArgs.items():
@@ -28,17 +16,17 @@
             % endfor
             <input type="hidden" name="login_action" value="login"/>
         
-            <div class="box2 welcome">${_("Welcome to OpenERP")}</div>
+            <div class="box2 welcome-message">${_("Welcome to OpenERP")}</div>
 
             <div class="box2">
                 <table align="center" cellspacing="2px" border="0">
                     <tr>
-                        <td class="label">${_("Database:")}</td>
+                        <td class="label"><label for="db">${_("Database:")}</label></td>
                         <td>
                             % if dblist is None:
-                                <input type="text" name="db" style="width: 300px;" value="${db}"/>
+                                <input type="text" name="db" id="db" class="db_user_pass" value="${db}"/>
                             % else:
-                            <select name="db" style="width: 302px;">
+                            <select name="db" id="db" style="width: 302px;">
                                 % for v in dblist:
                                 <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
                                 % endfor
@@ -48,21 +36,21 @@
                     </tr>
 
                     <tr>
-                        <td class="label">${_("User:")}</td>
-                        <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
+                        <td class="label"><label for="user">${_("User:")}</label></td>
+                        <td><input type="text" id="user" name="user" class="db_user_pass" value="${user}"/></td>
                     </tr>
                     
                     <tr>
-                        <td class="label">${_("Password:")}</td>
-                        <td><input type="password" value="${password}" id="password" name="password" style="width: 300px;"/></td>
+                        <td class="label"><label for="password">${_("Password:")}</label></td>
+                        <td><input type="password" value="${password}" id="password" name="password" class="db_user_pass"/></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td align="right">
+                        <td class="db_login_buttons">
                             % if cp.config('dbbutton.visible', 'openobject-web'):
-                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='${py.url('/database')}'">${_("Databases")}</button>
+	                            <button type="button" class="static_buttons" tabindex="-1" onclick="location.href='${py.url('/openerp/database')}'">${_("Databases")}</button>
                             % endif
-                            <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
+                            <button type="submit" class="static_buttons">${_("Login")}</button>
                         </td>
                     </tr>
                 </table>                

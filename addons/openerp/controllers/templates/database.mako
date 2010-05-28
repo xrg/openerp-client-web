@@ -17,7 +17,7 @@
         });
 
         var dbView = function(name) {
-            window.location.href = "${py.url('/database/')}" + name;
+            window.location.href = "${py.url('/openerp/database/')}" + name;
         }
 
         var on_create = function() {
@@ -34,36 +34,36 @@
 
 <%include file="header.mako"/>
 
-    <table class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td valign="top">
+            <td style="padding-top: 65px;" valign="top">
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
                             <img src="/openerp/static/images/stock/stock_person.png"/>
                         </td>
-                        <td width="100%">${form.string}</td>
+                        <td class="db_action_string" width="100%">${form.string}</td>
                         <td nowrap="nowrap">
                             <button type="button" 
-                                title="${_('Create new database')}"
+                                title="${_('Create database')}"
                                 ${py.disabled(form.name=='create')}
-                                onclick="dbView('create')">${_("Create")}</button>
+                                onclick="dbView('create')" class="static_buttons">${_("Create")}</button>
                             <button type="button" 
                                 title="${_('Drop database')}"
                                 ${py.disabled(form.name=='drop')}
-                                onclick="dbView('drop')">${_("Drop")}</button>
+                                onclick="dbView('drop')" class="static_buttons">${_("Drop")}</button>
                             <button type="button" 
                                 title="${_('Backup database')}"
                                 ${py.disabled(form.name=='backup')}
-                                onclick="dbView('backup')">${_("Backup")}</button>
+                                onclick="dbView('backup')" class="static_buttons">${_("Backup")}</button>
                             <button type="button" 
                                 title="${_('Restore database')}"
                                 ${py.disabled(form.name=='restore')}
-                                onclick="dbView('restore')">${_("Restore")}</button>
+                                onclick="dbView('restore')" class="static_buttons">${_("Restore")}</button>
                             <button type="button" 
                                 title="${_('Change Administrator Password')}"
                                 ${py.disabled(form.name=='password')}
-                                onclick="dbView('password')">${_("Password")}</button>
+                                onclick="dbView('password')" class="static_buttons">${_("Password")}</button>
                         </td>
                     </tr>
                 </table>

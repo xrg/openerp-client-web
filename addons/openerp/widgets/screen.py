@@ -71,7 +71,6 @@ class Screen(TinyInputWidget):
         # get params dictionary
         params = params or cherrypy.request.terp_params
         prefix = prefix or (params.prefix or '')
-
         super(Screen, self).__init__(prefix=prefix, name=name)
 
         self.model         = params.model
@@ -82,8 +81,7 @@ class Screen(TinyInputWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
-        self.group_by_ctx  = params.group_by_ctx or []
-
+        self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
 
         while len(self.view_ids) < len(self.view_mode):

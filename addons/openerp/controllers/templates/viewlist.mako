@@ -49,7 +49,7 @@
                 return;
             }
 
-            var act = openobject.http.getURL('/viewed', {view_id: boxes[0].value});
+            var act = openobject.http.getURL('/openerp/viewed', {view_id: boxes[0].value});
             if (window.opener) {
                 window.opener.setTimeout("openobject.tools.openWindow('" + act + "')", 0);
                 window.close();
@@ -72,7 +72,7 @@
                 return;
             }
             
-            window.location.href = openobject.http.getURL('/viewlist/delete?model=${model}&id=' + boxes[0].value);
+            window.location.href = openobject.http.getURL('/openerp/viewlist/delete?model=${model}&id=' + boxes[0].value);
         }
 		
         MochiKit.DOM.addLoadEvent(function(evt){
@@ -105,7 +105,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-find.png"/>
+                            <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
                         </td>
                         <td width="100%">${_("Manage Views (%s)") % (model)}</td>
                     </tr>
@@ -121,13 +121,17 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td>
-                                <button type="button" onclick="onNew()">${_("New")}</button>
-                                <button type="button" onclick="onEdit()">${_("Edit")}</button>
-                                <button type="button" onclick="onRemove()">${_("Remove")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="onNew()">${_("New")}</a>
+                            </td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="onEdit()">${_("Edit")}</a>
+                            </td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="onRemove()">${_("Remove")}</a>
                             </td>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doClose()">${_("Close")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="doClose()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>
@@ -141,25 +145,22 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${_("Create a view (%s)") % (model)}</td>
+                        <td width="100%"><h1>${_("Create a view (%s)") % (model)}</h1></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
             <td>
-                <form id="view_form" action="/viewlist/create">
+                <form id="view_form" action="/openerp/viewlist/create">
                     <input type="hidden" id="model" name="model" value="${model}"/>
                     <table width="400" align="center" class="fields">
                         <tr>
-                            <td class="label">${_("View Name:")}</td>
+                            <td class="label"><label for="name">${_("View Name:")}</label></td>
                             <td class="item"><input type="text" id="name" name="name" class="requiredfield"/></td>
                         </tr>
                         <tr>
-                            <td class="label">${_("View Type:")}</td>
+                            <td class="label"><label for="type">${_("View Type:")}</label></td>
                             <td class="item">
                                 <select id="type" name="type" class="requiredfield">
                                     <option value="form">Form</option>
@@ -170,8 +171,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="label">${_("Priority:")}</td>
-                            <td class="item"><input type="text" id="priority" name="priority" value="16" class="requiredfield"/></td>
+                            <td class="label"><label for="priority">${_("Priority:")}</label></td>
+                            <td class="item"><input type="text" id="priority" name="priority"
+                                                    value="16" class="requiredfield"/></td>
                         </tr>
                     </table>
                 </form>
@@ -184,8 +186,10 @@
                         <tr>
                             <td width="100%"></td>
                             <td>
-                                <button type="button" onclick="doCreate()">${_("Save")}</button>
-                                <button type="button" onclick="doCancel()">${_("Cancel")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="doCreate()">${_("Save")}</a>
+                            </td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="doCancel()">${_("Cancel")}</a>
                             </td>
                         </tr>
                     </table>

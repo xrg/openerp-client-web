@@ -43,7 +43,7 @@ def adapt_context(val):
 
 class Translator(SecuredController):
 
-    _cp_path = "/translator"
+    _cp_path = "/openerp/translator"
 
     @expose(template="templates/translator.mako")
     def index(self, translate='fields', **kw):

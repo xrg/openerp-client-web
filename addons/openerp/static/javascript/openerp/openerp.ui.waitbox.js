@@ -47,7 +47,7 @@ openerp.ui.WaitBox.prototype = {
         
         if (!this.layer) {
         
-            var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
+            var btnCancel = BUTTON({'class': 'static_buttons', 'type': 'button'}, 'Cancel');
             MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
             
             var title = this.options.title || _("Please wait...");

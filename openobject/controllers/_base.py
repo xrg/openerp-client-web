@@ -43,7 +43,7 @@ class ControllerType(type):
 
         obj = super(ControllerType, cls).__new__(cls, name, bases, attrs)
         path = attrs.get("_cp_path")
-
+        
         if "path" in attrs and name != "BaseController":
             raise Exception("Can't override 'path' attribute.")
 

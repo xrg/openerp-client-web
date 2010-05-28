@@ -35,7 +35,7 @@ from openobject.tools import url, expose, redirect
 
 def _cp_on_error():
 
-    errorpage = cherrypy.request.pool.get_controller("/errorpage")
+    errorpage = cherrypy.request.pool.get_controller("/openerp/errorpage")
     message = errorpage.render()
     cherrypy.response.status = 500
     #cherrypy.response.headers['Content-Type'] = 'text/html'
@@ -45,13 +45,13 @@ cherrypy.config.update({'request.error_response': _cp_on_error})
 
 class Root(SecuredController):
 
-    _cp_path = "/"
+    _cp_path = "/openerp"
 
     @expose()
     def index(self):
         """Index page, loads the view defined by `action_id`.
         """
-        raise redirect("/menu")
+        raise redirect("/openerp/menu")
     
     def user_action(self, id='action_id'):
         """Perform default user action.
@@ -65,7 +65,7 @@ class Root(SecuredController):
         if not act_id[0][id]:
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
-            raise redirect('/');
+            raise redirect('/openerp');
         else:
             act_id = act_id[0][id][0]
             from openerp import controllers
@@ -116,23 +116,27 @@ class Root(SecuredController):
         for tool in tools:
             tid = tool['id']
             tool['icon'] = icons.get_icon(tool['icon'])
+            
             if tool['action']:
-                act_proxy = rpc.RPCProxy(tool['action'].split(",")[0])
-                res_act = act_proxy.read([tool['action'].split(",")[1]], ['name'], ctx)
-                seach_action_id = proxy.search([('name','=',res_act[0]['name'])], 0, 0, 0, ctx)
-                if seach_action_id:
-                    tool['action_id'] = seach_action_id[-1]
+                tool['action_id'] = tid
                 
             tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
                                     domain=[('parent_id', '=', tid)],
-                                    context=ctx, action="/tree/action", fields=fields)
+                                    context=ctx, action="/openerp/tree/action", fields=fields)
             tree._name = "tree_%s" %(tid)
             tree.tree.onselection = None
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
             tree.tree.linktarget = "'appFrame'"
+            
+        for parent in parents:
+            if parent['id'] == id:
+                parent['active'] = 'active'
+            else:
+                parent['active'] = ''
+                
         if kw.get('db'):
-            return dict(parents=parents, tools=tools, setup = '/home')
+            return dict(parents=parents, tools=tools, setup = '/openerp/home')
         return dict(parents=parents, tools=tools)
 
     @expose(allow_json=True)
@@ -140,7 +144,7 @@ class Root(SecuredController):
     def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
 
         location = url(location or '/', kw or {})
-
+        print "\n\n\n Loacation in login root.py...",location
         if db and user and user.startswith("anonymous"):
             if rpc.session.login(db, user, password):
                 raise redirect(location)
@@ -162,7 +166,7 @@ class Root(SecuredController):
         """ Logout method, will terminate the current session.
         """
         rpc.session.logout()
-        raise redirect('/')
+        raise redirect('/openerp')
 
     @expose(template="templates/about.mako")
     @unsecured

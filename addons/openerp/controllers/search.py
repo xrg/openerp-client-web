@@ -35,7 +35,7 @@ from openobject.tools import expose
 
 class Search(Form):
 
-    _cp_path = "/search"
+    _cp_path = "/openerp/search"
 
     @expose(template="templates/search.mako")
     def create(self, params, tg_errors=None):
@@ -53,8 +53,7 @@ class Search(Form):
 
         # don't show links in list view, except the do_select link
         form.screen.widget.show_links = 0
-
-        return dict(form=form, params=params)
+        return dict(form=form, params=params, form_name = form.screen.widget.name)
 
     @expose()
     def new(self, model, source=None, kind=0, text=None, domain=[], context={}):
@@ -101,7 +100,12 @@ class Search(Form):
 
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
-
+        if 'group_by' in parent_context.keys():
+            if isinstance(params.group_by, str):
+                parent_context['group_by'] = [params.group_by]
+            else:
+                parent_context['group_by'] = params.group_by
+            
         try:
             ctx = TinyForm(**kw).to_python()
             pctx = ctx
@@ -218,7 +222,6 @@ class Search(Form):
         selection_domain = all_domains.get('selection_domain')
         search_context = all_domains.get('search_context')
         group_by_ctx = kw.get('group_by_ctx', [])
-
         if domains:
             domains = eval(domains)
 

@@ -520,7 +520,7 @@ GanttCalendar.List.prototype = {
         }
 
         var self = this;
-        var req = openobject.http.postJSON('/calendar/gantt_reorder', params);
+        var req = openobject.http.postJSON('/view_calendar/calendar/gantt_reorder', params);
         req.addCallback(function(obj){
             if (obj.error) {
                 return alert(obj.error);

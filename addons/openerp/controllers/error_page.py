@@ -38,13 +38,13 @@ from openobject.tools import expose, redirect
 
 class ErrorPage(BaseController):
 
-    _cp_path = "/errorpage"
+    _cp_path = "/openerp/errorpage"
 
     nb = widgets.form.Notebook()
 
     @expose()
     def index(self, *args, **kw):
-        raise redirect('/')
+        raise redirect('/openerp')
 
     def render(self):
         etype, value, tb = sys.exc_info()
@@ -68,7 +68,7 @@ class ErrorPage(BaseController):
         title=value.title
         error=value.message
 
-        target = cherrypy.request.path_info or '/form/save'
+        target = cherrypy.request.path_info or '/openerp/form/save'
 
         if isinstance(value, common.Concurrency):
             concurrency = True

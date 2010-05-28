@@ -72,7 +72,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
         this.res_id = res_id;
 
         var self = this;
-        var req = openobject.http.postJSON('/process/get', {id: id, res_model: res_model, res_id: res_id});
+        var req = openobject.http.postJSON('/view_diagram/process/get', {id: id, res_model: res_model, res_id: res_id});
         req.addCallback(function(obj){
             self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions, obj.related);            
         });
@@ -177,12 +177,12 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
 
         for(var k in subflows) {
             if (k != this.process_id)
-                sflows += "<a href='" + openobject.http.getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
+                sflows += "<a href='" + openobject.http.getURL('/view_diagram/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + subflows[k] + "</a><br/>";
         }
 
         for(var k in related) {
             if (k != this.process_id)
-                rflows += "<a href='" + openobject.http.getURL('/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + related[k] + "</a><br/>";
+                rflows += "<a href='" + openobject.http.getURL('/view_diagram/process', {id: k, res_model: self.res_model, res_id: self.res_id}) + "'>" + related[k] + "</a><br/>";
         }
 
         var text = (
@@ -264,7 +264,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow && this.data.subflow.length) {
-            var href = openobject.http.getURL('/process', {id: this.data.subflow[0], res_model: this.data.res_model, res_id: this.data.res_id});
+            var href = openobject.http.getURL('/view_diagram/process', {id: this.data.subflow[0], res_model: this.data.res_model, res_id: this.data.res_id});
             title.innerHTML = "<a href='" + href + "'>" + this.data.name + "</a>";
         }
 
@@ -278,7 +278,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
             var menu_img = IMG({src: '/openerp/static/images/stock/gtk-jump-to.png'});
             menu_img.title = this.data.menu.name;
             menu_img.onclick = MochiKit.Base.bind(function(){
-                window.location.href = openobject.http.getURL('/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id});
+                window.location.href = openobject.http.getURL('/openerp/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id});
             }, this);
             MochiKit.DOM.appendChildNodes(menu, menu_img);
         }

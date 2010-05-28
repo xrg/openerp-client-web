@@ -513,12 +513,16 @@ class Selection(TinyInputWidget):
             d.setdefault('css_classes', []).append('selection_search')
 
     def set_value(self, value):
+        
+        if value==False:
+            value=''
 
         if isinstance(value, (tuple, list)):
             value = value[0]
 
-        if self.options and value not in dict(self.options):
-            value = None
+        for s in dict(self.options):
+            if str(s) == str(value):
+                value =  s
 
         super(Selection, self).set_value(value)
 
@@ -644,7 +648,7 @@ class Group(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
-        self.default = False
+        self.default = attrs.get('expand', False)
         self.frame = Frame(**attrs)
         self.nolabel = True
         self.view_type = cherrypy.request.terp_params.get('_terp_view_type')

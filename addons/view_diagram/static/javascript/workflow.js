@@ -111,7 +111,7 @@ openobject.workflow.Workflow.implement({
 		this.id = wkf_id;
 		var self = this;
 		
-		req = openobject.http.postJSON('/workflow/get_info',{id:wkf_id, model:$('_terp_model').value,
+		req = openobject.http.postJSON('/view_diagram/workflow/get_info',{id:wkf_id, model:$('_terp_model').value,
 		                                                      node_obj: self.node_obj, conn_obj:self.connector_obj,
 		                                                      src_node: self.src_node_nm, des_node:self.des_node_nm,
 		                                                      node_flds_v: this.node_flds_v, node_flds_h: this.node_flds_h, conn_flds: this.conn_flds,
@@ -273,7 +273,7 @@ openobject.workflow.Workflow.implement({
 			this.state.setPosition(100, 20);	
 			var self = this;
 			
-			req = openobject.http.postJSON('/workflow/state/get_info',{node_obj: self.node_obj, id: id, 
+			req = openobject.http.postJSON('/view_diagram/workflow/state/get_info',{node_obj: self.node_obj, id: id, 
 			                                                         node_flds_v: this.node_flds_v, 
 			                                                         node_flds_h: this.node_flds_h,
 			                                                         bgcolors: this.bgcolors, 
@@ -318,7 +318,7 @@ openobject.workflow.Workflow.implement({
 	create_connection : function(act_from, act_to) {
 		
 		var self = this;
-		req = openobject.http.postJSON('/workflow/connector/auto_create', {conn_obj: self.connector_obj, 
+		req = openobject.http.postJSON('/view_diagram/workflow/connector/auto_create', {conn_obj: self.connector_obj, 
 		                                                                  src: self.src_node_nm, 
 		                                                                  des: self.des_node_nm, 
 		                                                                  act_from: act_from, 
@@ -360,7 +360,7 @@ openobject.workflow.Workflow.implement({
 	update_connection : function(id) {	
 		
 		var self = this;
-		req = openobject.http.postJSON('/workflow/connector/get_info',{conn_obj: self.connector_obj, id: id});
+		req = openobject.http.postJSON('/view_diagram/workflow/connector/get_info',{conn_obj: self.connector_obj, id: id});
 		req.addCallback(function(obj) {
 			var n = self.connectors.getSize();
 			
@@ -385,7 +385,7 @@ openobject.workflow.Workflow.implement({
 	unlink_state : function(state) {
 		
 		var self = this;
-		req = openobject.http.postJSON('/workflow/state/delete', {node_obj: self.node_obj, 'id': state.get_act_id()});
+		req = openobject.http.postJSON('/view_diagram/workflow/state/delete', {node_obj: self.node_obj, 'id': state.get_act_id()});
 		req.addCallback(function(obj) {
 			if(!obj.error) {
 				state.__delete__();
@@ -428,7 +428,7 @@ openobject.workflow.Workflow.implement({
 	unlink_connector : function(conn) {
 		
 		var self = this;
-		req = openobject.http.postJSON('/workflow/connector/delete', {conn_obj: self.connector_obj, 'id': conn.get_tr_id()});
+		req = openobject.http.postJSON('/view_diagram/workflow/connector/delete', {conn_obj: self.connector_obj, 'id': conn.get_tr_id()});
 		req.addCallback(function(obj) {
 			if(!obj.error) {				
 				conn.__delete__();

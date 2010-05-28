@@ -4,7 +4,7 @@
     <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/search';
+        var form_controller = '/openerp/search';
     </script>
 
     <script type="text/javascript">
@@ -53,7 +53,7 @@
         }
 
         function do_create(){
-            act = openobject.http.getURL('/openm2o/edit', {_terp_model: '${params.model}', 
+            act = openobject.http.getURL('/openerp/openm2o/edit', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2o: '${params.source}',
                                            _terp_domain: openobject.dom.get('_terp_domain').value,
@@ -93,15 +93,6 @@
             }
             window.close();
         }
-        
-        function do_create(){
-            act = openobject.http.getURL('/openm2m/new', {_terp_model: '${params.model}', 
-                                           _terp_source: '${params.source}',
-                                           _terp_m2m: '${params.source}',
-                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-                                           _terp_context: openobject.dom.get('_terp_context').value});
-            window.location.href = act;
-        }
     </script>
     % endif
 </%def>
@@ -115,15 +106,14 @@
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${params.filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
 
-        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
+        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" style="border: none;">
             <tr>
                 <td>
-                    <table width="100%" class="titlebar">
+                    <table width="100%" class="titlebar" style="border: none;">
                         <tr>
-                            <td width="32px" align="center">
-                                <img src="/openerp/static/images/stock/gtk-find.png"/>
+                            <td width="100%">
+                                <h1>${_("Search %(name)s", name=form.screen.string)}</h1>
                             </td>
-                            <td width="100%">${_("Search %(name)s", name=form.screen.string)}</td>
                         </tr>
                     </table>
                 </td>
@@ -136,12 +126,9 @@
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
-                                <button type="button" onclick="search_filter()">${_("Filter")}</button>
-                                <button type="button" onclick="do_create()">${_("New")}</button>
-                                <button type="button" onclick="do_select()">${_("Select")}</button>
-                            </td>
-                            <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>
@@ -151,6 +138,18 @@
                 <td>${form.screen.display()}</td>
             </tr>
         </table>
+        <script type="text/javascript">
+            if(jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button')) {
+                   jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button').click(function() {
+		                    act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
+                                           _terp_source: '${params.source}',
+                                           _terp_m2m: '${params.source}',
+                                           _terp_domain: openobject.dom.get('_terp_domain').value,
+                                           _terp_context: openobject.dom.get('_terp_context').value});
+                            window.location.href = act;
+                   });
+            }
+        </script>
     </form>
 </div>
 </%def>

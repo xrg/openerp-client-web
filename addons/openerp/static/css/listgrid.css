@@ -1,6 +1,5 @@
 .gridview {
     border: none;
-    border-top: 1px solid #999;
 }
 
 .grid {
@@ -10,6 +9,7 @@
 
 .grid-row {
     background-color: white;
+    cursor: pointer;
 }
 
 .grid-row:hover {
@@ -18,7 +18,7 @@
 
 .grid-rowdrop {
 	background-color: #C0C0C0;
-	position: absolute;
+	position: relative;
 }
 
 .grid-cell {
@@ -43,12 +43,12 @@
 .grid-cell.button button {
     margin: 0px;
     margin-right: 1px;
-        width: auto;
+	width: auto;
 }
 
 .grid-header .grid-cell {
     background:url(../images/gradientlinebg.gif);
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid #E3E3E3; 
     font-weight: bold;
     text-align: left;
 }
@@ -100,19 +100,56 @@
 
 .gridview .pagerbar {
     height:22px;
-    vertical-align: middle;
+    vertical-align: middle; 
+    overflow: hidden;
+    padding: 3px 4px 1px 10px;
+    text-align: right;
+    margin: 0;
+    line-height: 1;
 }
 
 .gridview .pagerbar .pagerbar-cell {
-    background: #f3f3f3;
-    border-bottom: 1px solid #999;
-    padding: 2px 4px;
+    vertical-align: middle;
+}
+
+.gridview .pagerbar .pagerbar-cell.footer .pager {
+    background: none;
+}
+
+.gridview .pagerbar .pagerbar-cell .pager-table {
+	background: none;
+	border: none;
+}
+
+.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell{
+	padding: 0;
+	white-space: nowrap;
+}
+
+.gridview .pagerbar .pagerbar-cell .pager .paging {
+	background: #FFFFFF none repeat scroll 0 0;
+}
+.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
+	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.1em; text-transform: none; line-height: 1;
+}
+
+.gridview .pagerbar .pagerbar-cell .pagerbar-header ul {
+	float: left; list-style: none; margin: 0; padding: 0;
+}
+
+.gridview .pagerbar .pagerbar-links {
+    float: left;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    padding: 3px 4px 1px 10px;
+    background : none;
 }
 
 .gridview .pagerbar .pagerbar-links a {
-    color: #333;
+    color: #5C5B5B;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 0.8em;
 }
 
 .gridview .pagerbar .pagerbar-links a:hover {
@@ -129,10 +166,38 @@
 }
 
 .field_sum .grid-cell {
-    border-bottom: 1px solid #999;
-    border-top: 1px solid #999;
+	font-weight: bold;
+	color: #BAB8B8;
+	text-transform: uppercase;
 }
 
+tr.field_sum {
+	border: none;
+	border-bottom: 1px solid #f4f2f2;	
+}
+
+tr.field_sum td#total_sum_value {
+	text-align: right;
+	padding: 2px;	
+}
+
+tr.field_sum td#total_sum_title {
+	text-align: left;
+	padding: 2px;
+}
+
+strong#total_sum_label {
+	color: #7D7979;
+	font-size: 0.9em;
+}
+
+.sum_value_field {
+	border-top: 1px inset;
+	display: block;
+	padding: 0 1px;
+	color: #7D7979;
+	font-size: 0.9em;
+}
 /**
  * vim: sts=4 st=4 et 
  *

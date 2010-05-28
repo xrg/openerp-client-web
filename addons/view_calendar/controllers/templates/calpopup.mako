@@ -4,7 +4,7 @@
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/calpopup';
+        var form_controller = '/view_calendar/calpopup';
     </script>
 
     <script type="text/javascript">
@@ -23,7 +23,7 @@
                 '_terp_context': openobject.dom.get('_terp_context').value
             }
 
-            var req = openobject.http.postJSON('/calpopup/get_defaults', params);
+            var req = openobject.http.postJSON('/view_calendar/calpopup/get_defaults', params);
             req.addCallback(function(obj){
                 forEach(items(obj), function(item){
                     var k = item[0];
@@ -66,10 +66,7 @@
                 <input type="hidden" id="_terp_load_counter" value="${params.load_counter or 0}"/>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${form.screen.string}</td>
+                        <td width="100%"><h1>${form.screen.string}</h1></td>
                     </tr>
                 </table>
             </td>

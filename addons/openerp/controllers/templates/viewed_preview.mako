@@ -4,7 +4,7 @@
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
-        var form_controller = '/viewed/preview';
+        var form_controller = '/openerp/viewed/preview';
     </script>
 </%def>
 
@@ -15,7 +15,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="${py.url('/static/images/stock/gtk-print-preview.png')}"/>
+                            <img alt="" src="${py.url('/static/images/stock/gtk-print-preview.png')}"/>
                         </td>
                         <td width="100%">${form.screen.string}</td>
                     </tr>
@@ -33,7 +33,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>

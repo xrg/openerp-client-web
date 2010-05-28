@@ -44,7 +44,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">${_("OK")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("OK")}</a>
                             </td>
                         </tr>
                     </table>

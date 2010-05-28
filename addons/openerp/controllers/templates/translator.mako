@@ -7,7 +7,7 @@
 </%def>
 
 <%def name="content()">
-<form action="/translator/save" method="post" enctype="multipart/form-data">
+<form action="/openerp/translator/save" method="post" enctype="multipart/form-data">
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_id" name="_terp_id" value="${id}"/>
 
@@ -17,7 +17,7 @@
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/stock_translate.png"/>
+                            <img alt="" src="/openerp/static/images/stock/stock_translate.png"/>
                         </td>
                         <td width="100%">${_("Add Translation")}</td>
                     </tr>
@@ -29,9 +29,9 @@
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td class="label">${_("Add Translation for:")}</td>
+                            <td class="label"><label for="translate">${_("Add Translation for:")}</label></td>
                             <td>
-                                <select name="translate" onchange="window.location.href=openobject.http.getURL('/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
+                                <select name="translate" onchange="window.location.href=openobject.http.getURL('/openerp/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
                                     <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
                                     <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
                                     <option value="relates" ${py.selector(translate=='relates')}>${_("Relates")}</option>
@@ -40,7 +40,9 @@
                             </td>
                             <td width="100%">&nbsp;</td>
                             <td><button type="submit">${_("Save")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                           	</td>
                         </tr>
                     </table>
                 </div>
@@ -86,9 +88,10 @@
                     <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
                     % for d in data_:
                     <tr>
-                        <td style="width: 50%; text-align: right">${d['src']} = </td>
+                        <td style="width: 50%; text-align: right"><label for="${n}/${d['id']}">${d['src']} = </label></td>
                         <td style="width: 50%">
-                            <input type="text" name="${n}/${d['id']}" value="${d['value']}" style="width: 100%;"/>
+                            <input type="text" name="${n}/${d['id']}" id="${n}/${d['id']}" value="${d['value']}"
+                                   style="width: 100%;"/>
                         </td>
                     </tr>
                     % endfor
@@ -105,7 +108,9 @@
                         <tr>
                             <td width="100%">&nbsp;</td>
                             <td><button type="submit">${_("Save")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                            <td>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                           	</td>
                         </tr>
                     </table>
                 </div>

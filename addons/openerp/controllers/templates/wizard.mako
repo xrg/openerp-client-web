@@ -35,7 +35,7 @@
             <table align="center" cellspacing="0">
                 <tr>
                     % if len(state) >= 3:
-                    <td><img align="left" src="${state[2]}" width="16" height="16"/></td>
+                    <td><img alt="" align="left" src="${state[2]}" width="16" height="16"/></td>
                     % endif
                     <td nowrap="nowrap">${state[1]}</td>
                 </tr>

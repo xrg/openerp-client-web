@@ -14,6 +14,13 @@
         .fields-selector-left {
             width: 45%;
         }
+        
+        td.fields-selector-left div#export_fields_left {
+        	overflow: scroll;
+        	width: 100%; 
+        	height: 100%; 
+        	border: solid #999999 1px;
+        }
 
         .fields-selector-center {
             width: 15%;
@@ -65,7 +72,7 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = openobject.http.getURL('/impex/save_exp');
+            form.action = openobject.http.getURL('/openerp/impex/save_exp');
             
             var options = openobject.dom.get('fields').options;            
             forEach(options, function(o){
@@ -93,7 +100,7 @@
             model = openobject.dom.get('_terp_model').value;
             params = {'_terp_id': id, '_terp_model': model}
             
-            req = openobject.http.postJSON('/impex/get_namelist', params);
+            req = openobject.http.postJSON('/openerp/impex/get_namelist', params);
             
             req.addCallback(function(obj){
                 if (obj.error){
@@ -118,7 +125,7 @@
     
             params = {'_terp_id' : id};
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/delete_listname', params));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/delete_listname', params));
             form.submit();
         }
         
@@ -149,14 +156,14 @@
 
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + openobject.dom.get('export_as').value));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value));
             form.submit();
         }
     </script>
 </%def>
 
 <%def name="content()">
-    <form id='view_form' action="/impex/export_data" method="post" onsubmit="return false;">
+    <form id='view_form' action="/openerp/impex/export_data" method="post" onsubmit="return false;">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>
@@ -184,7 +191,7 @@
         </tr>
         <tr>
             <td class="toolbar">
-                <button type="button" onclick="delete_listname(form);">${_("Delete")}</button>
+            	<a class="button-a" href="javascript: void(0)" onclick="delete_listname(form);">${_("Delete")}</a>
             </td>
         </tr>
         % endif
@@ -198,13 +205,31 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
-                            <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
+                            <div id="export_fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">${_("Add")}</button><br/>
-                            <button type="button" onclick="del_fields()">${_("Remove")}</button><br/>
-                            <button type="button" onclick="del_fields(true)">${_("Nothing")}</button><br/><br/>
-                            <button type="button" onclick="open_savelist('savelist')">${_("Save List")}</button>
+                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td>
+                        				<a class="button-a" href="javascript: void(0)" onclick="open_savelist('savelist')">${_("Save List")}</a>
+                        			</td>
+                        		</tr>
+                        	</table>
                         </td>
                         <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
@@ -225,7 +250,7 @@
                                     <input type="text" id="savelist_name" name="savelist_name"/>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="save_export()">${_("OK")}</button>
+                                	<a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
                                 </td>
                             </tr>
                         </table>
@@ -275,8 +300,8 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="do_export(form)">${_("Export")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="do_export(form)">${_("Export")}</a></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a></td>
                         </tr>
                     </table>
                 </div>

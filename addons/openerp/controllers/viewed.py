@@ -40,7 +40,7 @@ from openobject.tools import url, expose
 
 class NewField(Form):
 
-    _cp_path = "/viewed/new_field"
+    _cp_path = "/openerp/viewed/new_field"
 
     def create_form(self, params, tg_errors=None):
 
@@ -80,7 +80,7 @@ class NewField(Form):
 
 class NewModel(Form):
 
-    _cp_path = "/viewed/new_model"
+    _cp_path = "/openerp/viewed/new_model"
 
     @expose(template="templates/viewed_new_model.mako")
     def create(self, params, tg_errors=None):
@@ -111,7 +111,7 @@ class NewModel(Form):
 
 class Preview(Form):
 
-    _cp_path = "/viewed/preview"
+    _cp_path = "/openerp/viewed/preview"
 
     @expose(template="templates/viewed_preview.mako")
     def create(self, params, tg_errors=None):
@@ -222,7 +222,7 @@ def _get_field_attrs(node, parent_model):
 
 class ViewEd(SecuredController):
 
-    _cp_path = "/viewed"
+    _cp_path = "/openerp/viewed"
 
     @expose(template="templates/viewed.mako")
     def default(self, view_id):
@@ -248,7 +248,7 @@ class ViewEd(SecuredController):
                    {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
                    {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
 
-        tree = widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=url('/viewed/data?view_id='+str(view_id)))
+        tree = widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=url('/openerp/viewed/data?view_id='+str(view_id)))
         tree.showheaders = False
         tree.onselection = 'onSelect'
         tree.onbuttonclick = 'onButtonClick'
@@ -262,7 +262,7 @@ class ViewEd(SecuredController):
             def _find(node, node2):
                 # Check if xpath query or normal inherit (with field matching)
                 if node2.nodeType==node2.ELEMENT_NODE and node2.localName=='xpath':
-                    res = utils.xml_locate(node2.getAttribute('expr'), node)
+                    res = utils.get_xpath(node2.getAttribute('expr'), node)
                     return res and res[0]
                 else:
                     if node.nodeType==node.ELEMENT_NODE and node.localName==node2.localName:

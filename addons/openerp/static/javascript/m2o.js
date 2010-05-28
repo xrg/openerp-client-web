@@ -72,9 +72,8 @@ ManyToOne.prototype.__init__ = function(name){
     this.hasFocus = false;
     this.sugestionBoxMouseOver = false;
 
-    this.select_img = openobject.dom.get(name + '_select');    
+    this.select_img = openobject.dom.get(name + '_select');
     this.open_img = openobject.dom.get(name + '_open');
-    
     this.reference = openobject.dom.get(name + '_reference'); // reference widget
 
     this.callback = getNodeAttribute(this.field, 'callback');
@@ -166,7 +165,7 @@ ManyToOne.prototype.open = function(id){
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
     req.addCallback(function(obj){
-        openobject.tools.openWindow(openobject.http.getURL('/openm2o/edit', {_terp_model: model, _terp_id: id, 
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/openm2o/edit', {_terp_model: model, _terp_id: id, 
                                             _terp_domain: obj.domain, _terp_context: obj.context,
                                             _terp_m2o: source, _terp_editable: editable}));
     });
@@ -179,7 +178,7 @@ ManyToOne.prototype.get_text = function(evt){
     }
 
     if (this.field.value && ! this.text.value){
-        var req = openobject.http.postJSON('/search/get_name', {model: this.relation, id : this.field.value});
+        var req = openobject.http.postJSON('/openerp/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
 
         req.addCallback(function(obj){
@@ -203,7 +202,7 @@ ManyToOne.prototype.on_change_text = function(evt){
     if (this.text.value == ''){
         this.field.value = '';
         this.on_change(evt);
-    }else{
+    }else {
         this.get_text();
     }
 }
@@ -222,24 +221,34 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
 }
 
 ManyToOne.prototype.change_icon = function(evt){
-	if (this.open_img){
-	    this.open_img.src = '/openerp/static/images/stock' + (this.field.value ? '/gtk-open' : '-disabled/gtk-open') + '.png';
-		
-	    if (!this.field.value) {
-	        this.open_img.style.cursor = '';
-	    }
-	    
-	    if (this.is_inline) {
-	    
-	        if (this.field.value) {
-	            this.select_img.parentNode.style.display = 'none';
-	            this.open_img.parentNode.style.display = '';
-	        } else {
-	            this.select_img.parentNode.style.display = '';
-	            this.open_img.parentNode.style.display = 'none';
-	        }
-	    }
-   }
+
+	if (this.open_img) {
+		this.open_img.src = '/openerp/static/images' + (this.field.value ? '/iconset-d-drop' : '/iconset-d-drop') + '.gif';
+	}
+	
+	if(this.select_img && this.field_class.indexOf('readonlyfield') >= 0) {
+		this.select_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-readonly' : '/fields-a-lookup-a-readonly') + '.jpg';
+	}
+	else {
+		if(this.select_img && this.field_class.indexOf('require') > 0) {
+			this.select_img.src = '/openerp/static/images' + (this.field.value ? '/fields-a-lookup-a-require' : '/fields-a-lookup-a-require') + '.jpg';
+		}
+	}
+	
+    if (!this.field.value && this.open_img) {
+        this.open_img.style.cursor = '';
+    }
+    
+    if (this.is_inline && this.open_img) {
+    
+        if (this.field.value) {
+            this.select_img.parentNode.style.display = 'none';
+            this.open_img.parentNode.style.display = '';
+        } else {
+            this.select_img.parentNode.style.display = '';
+            this.open_img.parentNode.style.display = 'none';
+        }
+    }
 }
 
 ManyToOne.prototype.on_keyup = function(evt){
@@ -397,7 +406,7 @@ ManyToOne.prototype.get_matched = function(){
     req.addCallback(function(obj){
         text = m2o.field.value ? '' : m2o.text.value;
         
-        var req2 = openobject.http.postJSON('/search/get_matched', {model: m2o.relation, text: text, 
+        var req2 = openobject.http.postJSON('/openerp/search/get_matched', {model: m2o.relation, text: text, 
                                                          _terp_domain: obj.domain, 
                                                          _terp_context: obj.context});
         
@@ -462,7 +471,7 @@ ManyToOne.prototype.doDelayedRequest = function () {
 	element['text'] = val
 	element['model'] = this.relation    
 	
-    var d = loadJSONDoc('/search/get_matched' + "?" + queryString(element));    
+    var d = loadJSONDoc('/openerp/search/get_matched' + "?" + queryString(element));    
     d.addCallback(this.displayResults);    
     return true;
 }

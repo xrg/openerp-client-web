@@ -219,7 +219,7 @@ def load_addons(db_name, config):
     load_module_graph(db_name, graph, config)
 
     try:
-        obj = pooler.get_pool().get_controller("/modules")
+        obj = pooler.get_pool().get_controller("/openerp/modules")
         module_list = obj.get_installed_modules()
     except Exception, e:
         module_list = []

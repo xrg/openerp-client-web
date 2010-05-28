@@ -12,7 +12,7 @@
 </%def>
 
 <%def name="content()">
-<form action="/fieldpref/save" method="post">
+<form action="/openerp/fieldpref/save" method="post">
 
     <input id="_terp_model" name="_terp_model" value="${model}" type="hidden"/>
     <input id="_terp_model" name="_terp_field/name" value="${field['name']}" type="hidden"/>
@@ -26,10 +26,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${_("Field Preferences")}</td>
+                        <td width="100%"><h1>${_("Field Preferences")}</h1></td>
                     </tr>
                 </table>
             </td>
@@ -100,7 +97,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
+                            	<a class="button-b" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                             <td>
                                 <button type="submit">${_("OK")}</button>

@@ -34,7 +34,7 @@ from openobject.tools import expose
 
 class Selection(SecuredController):
 
-    _cp_path = "/selection"
+    _cp_path = "/openerp/selection"
 
     @expose(template="templates/selection.mako")
     def create(self, values, **data):

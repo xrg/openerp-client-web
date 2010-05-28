@@ -59,5 +59,5 @@ class Schema(Schema):
 
     def from_python(self, value, state=None):
         # The Schema shouldn't do any from_python conversion because
-        # adjust_value already takes care of that for all childs.
+        # adjust_value already takes care of that for all children.
         return value

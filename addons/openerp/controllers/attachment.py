@@ -36,7 +36,7 @@ from openobject.tools import expose
 
 class Attachment(SecuredController):
 
-    _cp_path = "/attachment"
+    _cp_path = "/openerp/attachment"
 
     @expose()
     def index(self, model, id):
@@ -71,6 +71,13 @@ class Attachment(SecuredController):
             return base64.decodestring(data[0]['datas'])
         else:
             return ''
+
+    @expose('json')
+    def removeAttachment(self, id=False, **kw):
+        proxy = rpc.RPCProxy('ir.attachment')
+        proxy.unlink(int(id))
+        return dict()
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -177,18 +177,20 @@ def default_exception_handler(self, tg_exceptions=None, **kw):
 
 class Form(SecuredController):
 
-    _cp_path = "/form"
+    _cp_path = "/openerp/form"
 
     def create_form(self, params, tg_errors=None):
         if tg_errors:
             return cherrypy.request.terp_form
-
+        
+        cherrypy.session['params'] = params
+        
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
         params.view_type = params.view_type or params.view_mode[0]
 
-        return tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+        return tw.form_view.ViewForm(params, name="view_form", action="/openerp/form/save")
 
     @expose(template="templates/form.mako")
     def create(self, params, tg_errors=None):
@@ -605,7 +607,33 @@ class Form(SecuredController):
         res = proxy.read([params.id],[params.field], rpc.session.context)
 
         return base64.decodestring(res[0][params.field])
-
+    
+    @expose()
+    def save_attachment(self, **kw):
+        params, data = TinyDict.split(cherrypy.session['params'])
+        datas = base64.encodestring(kw.get('datas').file.read())
+        file_name = kw.get('datas').filename
+        ctx = rpc.session.context.copy()
+        ctx.update({'default_res_model': params.model, 'default_res_id': params.id, 'active_id': False, 'active_ids': []})
+        
+        add_attachment = rpc.RPCProxy('ir.attachment').create({'name': kw.get('datas_fname'), 'description': False, 'datas': datas, 'datas_fname': file_name}, ctx)
+        
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain),
+                'search_data': ustr(params.search_data),
+                'filter_domain': ustr(params.filter_domain)}
+        
+        raise redirect(self.path + '/edit', source=params.source, **args)
+    
     @expose()
     def clear_binary_data(self, **kw):
         params, data = TinyDict.split(kw)
@@ -1063,7 +1091,7 @@ class Form(SecuredController):
     def can_shortcut_create(self):
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
-                cherrypy.request.path_info == '/tree/open' and
+                cherrypy.request.path_info == '/openerp/tree/open' and
                 cherrypy.request.params.get('model') == 'ir.ui.menu')
 
     @expose()
