@@ -3,9 +3,11 @@
 		if def_checked:
 			filter_class = "active_filter"
 			a_class = "active"
+			checked_default = "true"
 		else:
 			filter_class = "inactive_filter"
 			a_class = "inactive"
+			checked_default = "false"
 			
 		if help!=text_val:
 			text = text_val
@@ -23,11 +25,11 @@
                     type="checkbox"
                     id="${filter_id}"
                     name="${filter_id}"
-                    class="${a_class}"
+                    class="grid-domain-selector"
                     onclick="search_filter(this);"
                     value="${filter_domain}"
                     group_by_ctx="${group_context}"
-                    title="${help}" />
+                    title="${help}" filter_context="${filter_context}"/>
 			</a>
 		</li>
 	</ul>

@@ -122,7 +122,7 @@ class RangeWidget(TinyInputWidget):
 class Filter(TinyInputWidget):
     template = "templates/filter.mako"
 
-    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'group_context', 'def_checked']
+    params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'group_context', 'def_checked', 'filter_context']
 
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
@@ -152,7 +152,6 @@ class Filter(TinyInputWidget):
             self.group_context = self.filter_context.get('group_by', False)
             if self.group_context:
                 self.group_context = 'group_' + self.group_context
-            
      
         if default_search:            
             self.def_checked = True

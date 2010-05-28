@@ -257,7 +257,7 @@ var display_Customfilters = function(all_domains, group_by_ctx){
 	});	
 }
 
-var group_by = [];
+var group_by = new Array();
 
 var search_filter = function(src, id) {
 	var all_domains = {};
@@ -269,36 +269,44 @@ var search_filter = function(src, id) {
 	var domain = 'None';
 	var set_filter = jQuery(id).find("a")[0];
 	
-	var group_by_ctx =  openobject.dom.get('_terp_group_by_ctx').value;
-	if(group_by_ctx != '[]') {
-		if(group_by_ctx.indexOf('[') >= 0) {
-			group_by_ctx = eval(group_by_ctx);
-			for(i in group_by_ctx) {
-				group_by.push(group_by_ctx[i]); 
-			}
+	var filter_class = jQuery(set_filter).attr('class');
+	
+	if(src) {
+		if(filter_class == 'active') {
+			jQuery(src).attr('checked',false);
+			group_by = jQuery.grep(group_by, function(grp) {
+                return grp != jQuery(src).attr('group_by_ctx');
+            });
+            
+            jQuery(set_filter).attr('class', 'inactive');
+            jQuery(id).attr('class', 'inactive_filter');
+		}
+		else {
+			jQuery(src).attr('checked',true);
+			jQuery(set_filter).attr('class', 'active');
+            jQuery(id).attr('class', 'active_filter');
+            var check_groups = jQuery('#_terp_group_by_ctx').val();
+            if(check_groups!='[]') {
+                check_groups = eval(check_groups)
+                for(i in check_groups) {
+                	if(jQuery.inArray(check_groups[i], group_by) < 0) {
+                		group_by.push(check_groups[i])
+                	}
+                }	
+            }
+            
+            if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False') {
+                group_by.push(jQuery(src).attr('group_by_ctx'));
+            }
+            
 		}
 	}
 	
-	if(src) {
-		if(src.className=='inactive') {
-			src.checked = true;
-			id.className = 'active_filter';
-			if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False') {
-				group_by.push(jQuery(src).attr('group_by_ctx'));
-			}
-			src.className = 'active'
-			jQuery(set_filter).attr('class', 'active');
-		}
-		else {
-			src.checked = false;
-			id.className = 'inactive_filter';
-			group_by = jQuery.grep(group_by, function(grp) {
-				return grp != jQuery(src).attr('group_by_ctx');
-			})
-			src.className = 'inactive'
-			jQuery(set_filter).attr('class', 'inactive');
-		}
-	}
+	if(group_by.length)
+	   jQuery('#_terp_group_by_ctx').val(group_by.toSource());
+   else
+       jQuery('#_terp_group_by_ctx').val('[]');
+	
 	var filter_table = getElement('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
@@ -329,11 +337,7 @@ var search_filter = function(src, id) {
 			all_boxes = all_boxes.concat(box.value);
 		}
 	});
-	console.log(group_by)
-	if(group_by.length)
-	   openobject.dom.get('_terp_group_by_ctx').value = group_by;
-    else
-       openobject.dom.get('_terp_group_by_ctx').value = '[]';
+	
 	checked_button = all_boxes.toString();
 	check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
 	all_domains['check_domain'] = check_domain;
