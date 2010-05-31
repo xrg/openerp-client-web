@@ -504,7 +504,10 @@ class ImpEx(SecuredController):
             fields = [fields]
 
         for line in data:
-            datas.append(map(lambda x:x.decode(csvcode).encode('utf-8'), line))
+            try:
+                datas.append(map(lambda x:x.decode(csvcode).encode('utf-8'), line))
+            except:
+                datas.append(map(lambda x:x.decode('latin').encode('utf-8'), line))
         try:
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas, 'init', '', False, ctx)
         except Exception, e:
