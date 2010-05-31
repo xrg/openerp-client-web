@@ -110,7 +110,13 @@ PRINT_FORMATS = {
      'doc' : 'application/vnd.ms-word',
      'html': 'text/html',
      'sxw' : 'application/vnd.sun.xml.writer',
-     'odt' : 'application/vnd.sun.xml.writer',
+     'odt' : 'application/vnd.oasis.opendocument.text',
+     'ods' : 'application/vnd.oasis.opendocument.spreadsheet',
+     'xls' : 'application/vnd.ms-excel',
+     'doc' : 'application/msword',
+     'csv' : 'text/csv',
+     'rtf' : 'application/rtf',
+     'txt' : 'text/plain',
 }
 
 def _print_data(data):
