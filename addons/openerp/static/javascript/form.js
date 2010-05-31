@@ -1057,8 +1057,11 @@ function removeAttachment(e, element, id) {
 		data: {'id': id},
 		dataType: 'json',
 		success: function(obj) {
+			if(obj.error) {
+				return alert(obj.error);
+			}
 			
-            // remove clicked element from the document tree
+            // remove clicked element from the document list
             jQuery(element).fadeOut('fast');
             jQuery(element).remove();
             
