@@ -27,21 +27,14 @@
 #
 ###############################################################################
 
-import os
 import base64
 
 import cherrypy
-from pyparsing import *
 
 from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-
 
 from openerp.utils import rpc
-from openerp.utils import TinyDict
 
-from openerp.controllers import form
 from openerp.controllers import SecuredController
 
 
