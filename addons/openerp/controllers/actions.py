@@ -277,7 +277,7 @@ def execute(action, **data):
 
         ctx1.update(ctx2)
 
-        data['context'] = ctx2
+        data['context'] = ctx1
 
         return execute_wizard(action['wiz_name'], **data)
 
