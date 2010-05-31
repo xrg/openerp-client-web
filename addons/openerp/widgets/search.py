@@ -86,7 +86,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                     else:
                         default_val = 0
                 else:
-                    default_val = 1
+                    default_val = 0
             
     if default_val and not default_search:
         default_search = True
