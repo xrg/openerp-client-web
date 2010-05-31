@@ -78,8 +78,8 @@ class Float(Number):
         try:
             value = format.parse_decimal(value)
         except ValueError:
-            pass
-        return Number.to_python(value, state)
+            raise Invalid(_('Invalid literal for float'), value, state)
+        return value
 
 class FloatTime(Float):
 
