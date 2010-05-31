@@ -780,9 +780,11 @@ class Form(TinyInputWidget):
                     values[d[0]] = d[2][0]
 
         if ids:
-            values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
-            self.id = ids[0]
-            self._update_concurrency_info(self.model, [values])
+            lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)
+            if lval:
+                values = lval[0]
+                self.id = ids[0]
+                self._update_concurrency_info(self.model, [values])
 
         elif 'datas' in view: # wizard data
 
