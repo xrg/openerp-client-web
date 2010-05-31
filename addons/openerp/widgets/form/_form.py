@@ -98,11 +98,10 @@ class Frame(TinyInputWidget):
         self.add_row()
 
         for child in self.children:
-
+            
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
-
             if isinstance(child, NewLine):
                 self.add_row()
 
@@ -130,17 +129,14 @@ class Frame(TinyInputWidget):
         for row in self.table:
 
             sn = len([w for a, w in row if isinstance(w, (basestring, Label, Image))])
-
             sw = 5                                  # label & image width
             ww = 100.00 - sw * sn                   # remaining width
             cn = self.columns - sn                  # columns - (lables + image)
 
             cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
-
             if cn < 1: cn = 1
 
             for i, (a, wid) in enumerate(row):
-
                 if isinstance(wid, (basestring, Label, Image)):
                     w = sw
 
@@ -153,9 +149,10 @@ class Frame(TinyInputWidget):
                         w = ww * c / cn
                     else:
                         w = 0
-
-                a['width'] = '%d%%' % (w)
-
+                if isinstance(wid, Separator) and not string:
+                    a['width'] = '2%'
+                else:
+                    a['width'] = '%d%%' % (w)
     def add_row(self):
 
         if len(self.table) and len(self.table[-1]) == 0:
@@ -286,15 +283,15 @@ class Separator(TinyInputWidget):
     """
 
     template = "templates/separator.mako"
-    params = ["orientation"]
+    params = ["orientation", "position"]
 
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
-
         self.colspan = int(attrs.get('colspan', 4))
         self.orientation = attrs.get('orientation', False)
-        self.rowspan = 1
+        self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
+        self.position = attrs.get('position', 'horizontal')
 
 register_widget(Separator, ["separator"])
 

@@ -699,13 +699,6 @@ div.welcome-message {
     margin: 6px 0px;
 }
 
-.view .separator_vertical {
-    font-weight: bold;
-    border-left: 3px solid #666;
-    margin: 6px 0px;
-    height: 30px;
-}
-
 .view .selection_search {
 	background-color: turquoise;
 }
