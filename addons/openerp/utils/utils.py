@@ -244,6 +244,15 @@ class TinyForm(object):
                         from openerp.utils import rpc
                         proxy = rpc.RPCProxy(attrs['relation'])
                         res = proxy.read(value, [], rpc.session.context)
+                        res1 = proxy.fields_get(False, rpc.session.context)
+                        for values in res:
+                            for key, val in values.items():
+                                if key in res1.keys():
+                                    if res1[key]['type'] == 'many2many':
+                                        if val == []:
+                                            values[key] = [(6, 0, [])]
+                                        else:
+                                            values[key] = [(6, 0, val)]
                         value = []
                         for r in res:
                             id = r.pop('id')
