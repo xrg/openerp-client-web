@@ -189,6 +189,7 @@ _VALIDATORS = {
     'text': lambda *a: validators.String(),
     'text_tag': lambda *a: validators.String(),
     'many2many': lambda *a: validators.many2many(),
+    'one2many': lambda *a: validators.one2many(),
     'many2one': lambda *a: validators.many2one(),
     'email' : lambda *a: validators.Email(),
     'url' : lambda *a: validators.URL(),

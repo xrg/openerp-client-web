@@ -227,6 +227,10 @@ class many2one(BaseValidator):
             value = (len(value) or False) and value[0]
 
         return value or ''
+    
+class one2many(FancyValidator):
+    
+    if_empty = []
 
 
 # Let some FormEncode strings goes into message catalog.
