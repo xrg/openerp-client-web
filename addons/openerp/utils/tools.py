@@ -48,6 +48,10 @@ def expr_eval(string, context={}):
             return {}
         return temp
     else:
+        if isinstance(string, dict):
+            for i,v in string.items():
+                if v=='active_id':
+                    string[i] = eval(v,context)
         return string
 
 def node_attributes(node):
