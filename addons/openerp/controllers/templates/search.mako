@@ -140,7 +140,7 @@
         </table>
         <script type="text/javascript">
             if(jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button')) {
-                   jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button').click(function() {
+                   jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button:first a').click(function() {
 		                    act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
                                            _terp_source: '${params.source}',
                                            _terp_m2m: '${params.source}',

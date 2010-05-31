@@ -114,7 +114,7 @@ import cherrypy
 	        						});
 	        					}
 	        					else {
-	        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new<a/></td>');
+	        						jQuery('#${name}').find('td.pager-cell:first').after('<td class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new</a></td>');
 	        						if("${editors}" == "{}") {
 	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {
 	        								editRecord(null);
@@ -122,9 +122,18 @@ import cherrypy
 	        						}
 	        						else {
 	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {
-	        								new ListView('_terp_list').create()
+	        								new ListView('_terp_list').create();
 	        							});	
 	        						}
+	        						
+	        						jQuery('#${name}').find('td.pager-cell-button:first').after('<td class="pager-cell-button second"><a id="delete_record" class="button-a" href="javascript: void(0)" title="${_('Delete record(s).')}">delete<a/></td>');
+	        						jQuery('#${name}').find('td.pager-cell-button:last').after('<td class="pager-cell-button second"><a id="edit_record" class="button-a" href="javascript: void(0)" title="${_('Edit record(s).')}">edit<a/></td>');
+	        						jQuery('#delete_record').click(function() {
+                                        new ListView('_terp_list').remove(null,this);
+	        						});
+	        						jQuery('#edit_record').click(function() {
+                                        editSelectedRecord();
+                                    });
 	        					}
 	        				}
 	        			</script>

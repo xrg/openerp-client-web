@@ -66,7 +66,6 @@ ListView.prototype = {
 		this.sort_key = null;
 		this.sort_key_order = null;
 		this.sort_domain = "[]";
-		
         // save the reference
         $('[id*="'+name+'"]:first').__listview = this;
     },
@@ -86,33 +85,42 @@ ListView.prototype = {
     },
 	
 	selectedRow_sum: function() {
+		var selected_ids = this.getSelectedRecords();
+		if(selected_ids.length) {
+			jQuery('#'+this.name+' tr.pagerbar:first td.pager-cell-button:hidden').fadeIn(2000);
+	   }
+	   else {
+	   	   if(jQuery('#'+this.name+' tr.pagerbar:first td.second').css('display') != 'none') {
+	   	   	   jQuery('#'+this.name+' tr.pagerbar:first td.second').fadeOut(2000)
+	   	   }
+	   }	
 		if(jQuery('tr.field_sum').find('td.grid-cell').find('span').length>0) {
-        	var selected_ids = this.getSelectedRecords();
-	    	var sum_fields = [];
-	    	 
-	    	jQuery('tr.field_sum').find('td.grid-cell').find('span').each(function() {
-	    		sum_fields.push(jQuery(this).attr('id'))
-	    	});
-	    	
-	    	var selected_fields = sum_fields.join(",");
-	    	var selected_ids = '[' + selected_ids.join(',') + ']';
-	    	
-	    	if(selected_ids == '[]') {
-	    			selected_ids =this.ids;
-	    	}
-	    	
-	    	jQuery.ajax({
-	    		url: '/openerp/listgrid/count_sum',
-	    		type: 'POST',
-	    		data: {'model':this.model, 'ids': selected_ids, 'sum_fields': selected_fields},
-	    		dataType: 'json',
-	    		success: function(obj) {
-	    			for(i in obj.sum) {
-						jQuery('tr.field_sum').find('td.grid-cell').find('span[id="'+sum_fields[i]+'"]').html(obj.sum[i])
-					}
-	    		}
-	    	});
-        }	
+		    	var sum_fields = [];
+		    	 
+		    	jQuery('tr.field_sum').find('td.grid-cell').find('span').each(function() {
+		    		sum_fields.push(jQuery(this).attr('id'))
+		    	});
+		    	
+		    	var selected_fields = sum_fields.join(",");
+		    	var selected_ids = '[' + selected_ids.join(',') + ']';
+		    	if(selected_ids == '[]') {
+		    		if(this.ids) {
+		    		 selected_ids =this.ids;
+		    		}
+		    	}
+		    	
+		    	jQuery.ajax({
+		    		url: '/openerp/listgrid/count_sum',
+		    		type: 'POST',
+		    		data: {'model':this.model, 'ids': selected_ids, 'sum_fields': selected_fields},
+		    		dataType: 'json',
+		    		success: function(obj) {
+		    			for(i in obj.sum) {
+							jQuery('tr.field_sum').find('td.grid-cell').find('span[id="'+sum_fields[i]+'"]').html(obj.sum[i])
+						}
+		    		}
+		    	});
+	        }
 	},
 	
     getRecords: function() {

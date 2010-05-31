@@ -83,7 +83,6 @@ class Screen(TinyInputWidget):
         self.view_id       = False
         self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
-
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 

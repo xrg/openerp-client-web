@@ -150,17 +150,7 @@ class List(SecuredController):
         if groupby and isinstance(groupby, basestring):
             groupby = groupby.split(',')
             
-        group_by_list = []
-        
-        if groupby:
-            for gb in groupby:
-                if 'group_' in gb:
-                    group_split = gb.split('group_')                    
-                    if group_split:
-                        group_by_list.append(group_split[1])
-            
-        params['_terp_group_by_ctx'] = group_by_list
-                
+        params['_terp_group_by_ctx'] = groupby        
         if '_terp_sort_key' in params:
             proxy = rpc.RPCProxy(params.model)
             if params.search_domain is None:

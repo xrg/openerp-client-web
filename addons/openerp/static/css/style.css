@@ -399,10 +399,14 @@ div.custom-filter ul li select {
 }
 
 div.custom-filter ul li a.button {
-	cursor: pointer; float: left; height: 11px; padding: 3px 9px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -25px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0;
+	cursor: pointer; float: left; height: 11px; padding: 3px 9px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -26px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0;
+}
+
+div.custom-filter ul li a.button:hover, div.custom-filter ul li a.button:focus, div.custom-filter ul li a.button:active {
+	border-color: #c6c4c4 #aaa9a9 #797878; background-position: 0 0; text-shadow: #6a6969 0 1px 0; color: #fff;
 }
 div.custom-filter ul li span.add {
-	display: block; overflow: hidden; width: 7px; margin: 0 -2px; background: url(../images/button-b-icons-add.gif) 0 50% no-repeat; font-size: 0; text-indent: -10001px;
+	display: block; overflow: hidden; width: 6px; margin: 0 -2px; background: url(../images/button-b-icons-add.gif) 0 50% no-repeat; font-size: 0; text-indent: -10001px;
 }
 
 /* ============== SEARCH FORM end ==============*/
@@ -724,14 +728,21 @@ td.item button {
 }
 
 td.item input {
-	padding: 1px 3px;
 	-moz-border-radius-bottomleft: 3px;
-	-moz-border-radius-bottomright: 3px;
-	-moz-border-radius-topleft: 3px;
-	-moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+	padding: 1px 3px;
 	background: #FFFFFF none repeat scroll 0 0;
 	border: 1px solid #CECBCB;
 	vertical-align: middle;
+}
+
+table#m2o_table td#m2o input {
+	height: 16px;
+	width: 100px;
+	position: relative; 
+	border-right: none;
 }
 
 img.m2o_select {
@@ -742,7 +753,7 @@ img.m2o_select {
     border: 1px solid #CECBCB;
     vertical-align: middle;
     margin-left: -4px;
-    height: 19px;
+    height: 18px;
 }
 
 td.item select {

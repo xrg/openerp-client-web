@@ -71,7 +71,6 @@ class Sidebar(TinyWidget):
                 }
             }
             if (typeof(Notebook) == "undefined") {
-                log('undefine');
                 a();
             } else {
                 Notebook.adjustSize(a);

@@ -662,7 +662,6 @@ function eval_domain_context_request(options) {
         params['_terp_group_by'] = options.group_by_ctx;
     else
         params['_terp_group_by'] = '[]';
-    
     if (options.active_id) {
         params['_terp_active_id'] = options.active_id;
         params['_terp_active_ids'] = options.active_ids;

@@ -23,12 +23,7 @@
             			<td style="padding: 0;" width="50%">
             				<div class="toolbar">
 			                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
-			                    % if screen.editable and screen.view_type in ('form', 'tree'):
-			                    <a class="button-a" title="${_('Delete selected records.')}" href="javascript: void(0)" onclick="new ListView('_terp_list').remove(null,this)">${_("Delete")}</a>
-			                    % endif
-			                    % if screen.editable and screen.view_type in ('form', 'tree'):
-			                    <a class="button-a" title="${_('Edit selected records.')}" href="javascript: void(0)" onclick="editSelectedRecord()">${_("Edit")}</a>
-			                    % endif
+			                    
 			                    % if screen.editable and (screen.view_type=='tree' and screen.widget.editors):
 			                    <a class="button-a" title="${_('Create new record.')}" href="javascript: void(0)" onclick="new ListView('_terp_list').create()">${_("New")}</a>
 			                   	% endif

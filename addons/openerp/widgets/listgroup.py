@@ -150,10 +150,10 @@ class ListGroup(List):
         self.concurrency_info = None
 
         self.group_by_ctx = kw.get('group_by_ctx', [])
-
+        
         if not isinstance(self.group_by_ctx, list):
             self.group_by_ctx = [self.group_by_ctx]
-        
+            
         fields = view['fields']
 
         self.grp_records = []
