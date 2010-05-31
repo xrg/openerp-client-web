@@ -120,6 +120,10 @@ class Search(Form):
         if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
             pctx = pctx.chain_get(prefix)
+            
+        #update active_id in context for links
+        parent_context['active_id'] = params.active_id or False
+        parent_context['active_ids'] = params.active_ids or []
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context
