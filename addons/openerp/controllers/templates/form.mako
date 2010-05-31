@@ -102,7 +102,7 @@
                                         <img 
                                             class="button" width="16" height="16"
                                             title="${_('Translate this resource.')}" 
-                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
                                     </td>
                                     % endif
                                     % if form.screen.view_type in ('form'):
