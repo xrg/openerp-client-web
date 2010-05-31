@@ -38,14 +38,7 @@ from openerp.utils import rpc
 from openerp.controllers import SecuredController
 
 
-FILE_FORMATS = {
-     'pdf' : 'application/pdf',
-     'doc' : 'application/vnd.ms-word',
-     'html': 'text/html',
-}
-
 class WikiView(SecuredController):
-
     _cp_path = "/widget_wiki/wiki"
 
     @expose(content_type='application/octet')
@@ -71,6 +64,5 @@ class WikiView(SecuredController):
         ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
         res = proxy.read(ids, ['datas'])[0]
         res = res.get('datas')
-        #cherrypy.response.headers['Content-Type'] = FILE_FORMATS[data['format']]
-        cherrypy.response.headers['Content-Disposition'] = 'filename="' + file + '"';
+        cherrypy.response.headers['Content-Disposition'] = 'filename="' + file + '"'
         return base64.decodestring(res)
