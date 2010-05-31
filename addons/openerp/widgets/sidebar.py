@@ -124,7 +124,7 @@ class Sidebar(TinyWidget):
                 rep['context'] = self.context
                 self.reports.append(rep)
 
-        if self.view_type == 'form':
+        if self.view_type == 'form' and id:
 
             proxy = rpc.RPCProxy('ir.attachment')
             ids = proxy.search([('res_model', '=', model), ('res_id', '=', id)], 0, 0, 0, self.context)
