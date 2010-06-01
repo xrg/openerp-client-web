@@ -9,7 +9,7 @@ from distutils.util import convert_path
 
 execfile(os.path.join("openobject", "release.py"))
 
-if sys.argv[1] == 'bdist_rpm':
+if (len(sys.argv) > 1) and sys.argv[1] == 'bdist_rpm':
     version = version.split('-')[0]
 
 # Provided as an attribute, so you can append to these instead
