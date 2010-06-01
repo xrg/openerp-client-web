@@ -48,8 +48,8 @@ except:
 <div id="top">
 	<div id="top-menu">
 		<p id="logo">
-			<a href="javascript: void(0)" accesskey="h">
-				<img id="company_logo" src="/openerp/static/images/openerp_big.png"/>
+			<a href="http://www.openerp.com" target="_blank" accesskey="h">
+				<img id="company_logo" src="/openerp/static/images/openerp_small.png"/>
 			</a>
 		</p>
 		<ul id="skip-links">
@@ -99,7 +99,7 @@ except:
             	% endif
 			</ul>
 			<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
-			<img src="/openerp/static//images/top-sep-a.png" style="float: left;"/>
+			<img src="/openerp/static//images/top-sep-a.png" style="float: left; padding: 0 6px 0;"/>
 			<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
 			<p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
 		</div>
@@ -137,8 +137,8 @@ except:
 	    </div>
     % else:
         <script type="text/javascript">
-           jQuery('div#top').css('height','35px');
-           jQuery('p#logo').css('height','35px');
+           jQuery('div#top').css('height','34px');
+           jQuery('p#logo').css('height','33px');
            jQuery('img#company_logo').css('vertical-align', 'top');
            jQuery('img#company_logo').css('width', '75%');
         </script>
