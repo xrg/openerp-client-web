@@ -998,7 +998,9 @@ class Form(SecuredController):
         values2 = {}
         for k, v in values.items():
             key = ((prefix or '') and prefix + '/') + k
-            kind =  data[key].get('type')
+            kind = ''
+            if data.get(key):
+                kind =  data[key].get('type')
 
             if key in data and key != 'id':
                 values2[k] = data[key]
