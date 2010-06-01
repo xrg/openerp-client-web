@@ -382,8 +382,8 @@ class ImpEx(SecuredController):
             wb = xlwt.Workbook()
             worksheet = wb.add_sheet('Sheet 1')
 
-            for col in range(len(fields)):
-                worksheet.write(0, col, str(fields[col]))
+            for col in range(len(params.fields2)):
+                worksheet.write(0, col, ustr(params.fields2[col]))
                 col+1
 
             heading_xf = ezxf('align: wrap yes')
@@ -391,7 +391,7 @@ class ImpEx(SecuredController):
             for data in range(len(result)):
                 for d in range(len(result[data])):
                     try:
-                        result[data][d] = str(result[data][d])
+                        result[data][d] = ustr(result[data][d])
                     except:
                         pass
                     result[data][d] = re.sub("\r", " ", result[data][d])
