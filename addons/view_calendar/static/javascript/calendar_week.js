@@ -403,7 +403,10 @@ WeekCalendar.AllDayGrid.prototype = {
         forEach(events, function(e){
             var dt = toISODate(e.starts);
 
-            if (!(dt in containers)) return;
+            if (!(dt in containers)){
+                 e.style.display = 'none';
+                 return;
+            }
 
             var container = containers[dt];
 
