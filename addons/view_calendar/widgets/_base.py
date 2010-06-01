@@ -332,7 +332,7 @@ class ICalendar(TinyWidget):
             h = ends
 
             if ends == self.day_length:
-                n += 1
+                span = 1
 
             elif ends > self.day_length:
                 n = ends / self.day_length
@@ -340,9 +340,11 @@ class ICalendar(TinyWidget):
 
                 n = int(math.floor(n))
 
-                if h > 0: n += 1
+                if h > 0:
+                    span = n + 1
+                else:
+                    span = n
 
-            span = n
             ends = time.localtime(time.mktime(starts) + (h * 60 * 60) + (n * 24 * 60 * 60))
 
         if starts and self.date_stop:
