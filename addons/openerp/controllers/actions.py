@@ -265,7 +265,13 @@ def execute(action, **data):
 
         res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
         if res:
-            return execute(res, **data)
+            if not isinstance(res, list):
+                res = [res]
+                
+            output = None
+            for r in res:
+                output = execute(r, **data)
+            return output
 
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
