@@ -38,11 +38,11 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
 ------------------------------------------- */
 
 #root { height: 100%; }
- #top { position: absolute; left: 0; top: 0; z-index: 15; width: 100%; height: 65px; background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: #333 0 1px 0; }
+ #top { position: absolute; left: 0; top: 0; z-index: 15; width: 100%; background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: #333 0 1px 0; }
  #top table td{padding: 0px; }
-  #logo { float: left; width: 172px; height: 65px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) repeat-y; line-height: 50px; }
+  #logo { float: left; width: 172px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) repeat-y; line-height: 50px; }
    #logo a { }
-    #logo img { vertical-align: middle; }
+    #logo img { vertical-align: middle; width: 100%; }
   #title-menu { float: left; margin: 0; padding: 6px 0 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
    #title-menu small { display: block; font-size: 0.9em; color: #ccc; font-weight: normal; }
   #corner { float: right; }
@@ -219,7 +219,7 @@ div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
    div.filter-a ul li.inactive_filter a {font-size: 0.8em; font-weight: 600; cursor: pointer; }
    div.filter-a ul li.products a { background-image: url(../images/filter-a-icons-products.gif); }
    div.filter-a ul li.services a { background-image: url(../images/filter-a-icons-services.gif); }
-   div.filter-a ul li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 8px; background-repeat: no-repeat; white-space: nowrap;}
+   div.filter-a ul li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 4px; background-repeat: no-repeat; white-space: nowrap;}
    div.filter-a ul li a.active {font-size: 0.8em; font-weight: 600; background-color: #E8E8E8; }
     div.filter-a ul li a span { display: none; position: absolute; left: 45%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
     div.filter-a ul li a.active span { display: block; }

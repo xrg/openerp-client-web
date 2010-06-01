@@ -49,17 +49,16 @@ except:
 	<div id="top-menu">
 		<p id="logo">
 			<a href="javascript: void(0)" accesskey="h">
-				<img src="/openerp/static/images/logo-a.gif" width="83px" height="26px"/>
+				<img id="company_logo" src="/openerp/static/images/openerp_big.png"/>
 			</a>
 		</p>
-		<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
 		<ul id="skip-links">
 			<li><a href="#nav" accesskey="n">Skip to navigation [n]</a></li>
 			<li><a href="#content" accesskey="c">Skip to content [c]</a></li>
 			<li><a href="#footer" accesskey="f">Skip to footer [f]</a></li>
 		</ul>
 		<div id="corner">
-			<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
+			
 			<ul class="tools">
 				% if rpc.session.is_logged():
 				<li>
@@ -99,11 +98,18 @@ except:
             		</li>
             	% endif
 			</ul>
+			<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
+			<img src="/openerp/static//images/top-sep-a.png" style="float: left;"/>
+			<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
 			<p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
 		</div>
 	</div>
 	
 	% if rpc.session.is_logged():
+	    <script type="text/javascript">
+	       jQuery('div#top').css('height','65px');
+	       jQuery('p#logo').css('height','65px');
+	    </script>
 	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
 	        <tr id="sc_row">
 	            % for i, sc in enumerate(shortcuts):
@@ -129,5 +135,12 @@ except:
 	    <div id="edit_shortcut">
 	    	<a target="appFrame" href="/openerp/shortcuts">Edit</a>
 	    </div>
+    % else:
+        <script type="text/javascript">
+           jQuery('div#top').css('height','35px');
+           jQuery('p#logo').css('height','35px');
+           jQuery('img#company_logo').css('vertical-align', 'top');
+           jQuery('img#company_logo').css('width', '75%');
+        </script>
 	% endif
 </div>

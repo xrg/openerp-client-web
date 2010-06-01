@@ -146,6 +146,11 @@ div#search_filter_data table.fields td.item {
 	width: auto;
 }
 
+table#search_table td{
+	text-align: center;
+	font-weight: bold;
+}
+
 table.fields td.item {
 	padding: 0 0 0 0;
 }

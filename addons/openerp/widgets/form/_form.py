@@ -88,7 +88,8 @@ class Frame(TinyInputWidget):
             self.columns = int(attrs.get('col', 4))
  
         self.nolabel = True
-
+        self.label_position = attrs.get('label_position')
+        
         self.x = 0
         self.y = 0
 
@@ -190,11 +191,13 @@ class Frame(TinyInputWidget):
             colspan = 2
 
         tr = self.table[-1]
-
+        label_table = []
         if label:
             colspan -= 1
             attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
             td = [attrs, label]
+            if widget.full_name and self.label_position:
+                label_table = td
             tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
@@ -233,8 +236,14 @@ class Frame(TinyInputWidget):
             attrs['widget'] = widget.name
 
         td = [attrs, widget]
-        tr.append(td)
-
+        if widget.full_name and self.label_position:
+            if label_table:
+                label_table[0]['widget_item'] = td
+                label_table[0]['label_position'] = self.label_position
+            else:
+                tr.append(td)
+        else:
+            tr.append(td)
         self.x += colspan + a
 
     def add_hidden(self, widget):

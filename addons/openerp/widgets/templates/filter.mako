@@ -11,14 +11,12 @@
 			
 		if help!=text_val:
 			text = text_val
-			position = "center top"
 		else:
 			text = ''
-			position = ""
 	%>
 	<ul>
 		<li class="${filter_class}" title="${help}" onclick="search_filter(getElement('${filter_id}'), this);">
-			<a class="${a_class}" style="background-image: url(${icon}); background-position: ${position};">
+			<a class="${a_class}" style="background-image: url(${icon});">
 				${text}
 				<span>&raquo;</span>
 				<input ${py.attrs(attrs)} style="display:none;"

@@ -180,7 +180,7 @@
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
                             		</td>
                             		<td class="powered">
-                            			Powered by <a href="http://www.openerp.com"  target="_blank">openerp.com</a>
+                            			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
                             		</td>
                             		<td class="footer" style="text-align: right;">
                             			<a id="show_customize_menu" onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
