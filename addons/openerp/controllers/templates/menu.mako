@@ -83,8 +83,8 @@
 				            <td class="accordion-title-td">
 				                <div id="menubar" class="accordion">
 				                    % for tool in tools:
-				                    <div class="accordion-block">
-				                        <table class="accordion-title">
+				                    <div class="accordion-block" id="block_${tool['id']}">
+				                        <table class="accordion-title" id="title_${tool['id']}">
 				                            <tr>
 				                                <td class="accordion-title-td" id="${tool['id']}"><a href="javascript: void(0);">${tool['name']}</a></td>
                                                 % if tool.get('action_id'):
@@ -96,7 +96,7 @@
                                                 % endif
 				                            </tr>
 				                        </table>
-				                        <div class="accordion-content">
+				                        <div class="accordion-content" id="content_${tool['id']}">
 				                            ${tool['tree'].display()}
 				                        </div>
 				                    </div>
