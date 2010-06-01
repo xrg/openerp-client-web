@@ -267,7 +267,7 @@ class Notebook(TinyInputWidget):
 
         self.fake_widget = '_fake'
         if attrs.get('prefix'):
-            self.fake_widge = attrs['prefix'] + '/_fake'
+            self.fake_widget = attrs['prefix'] + '/_fake'
 
 register_widget(Notebook, ["notebook"])
 
