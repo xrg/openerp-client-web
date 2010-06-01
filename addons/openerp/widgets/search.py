@@ -41,6 +41,7 @@ from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selectio
 from openerp.widgets.form import M2O
 
 from openobject.widgets import JSLink, locations
+from openobject.tools import ast
 
 
 def get_search_default(attrs={}, screen_context=None, default_domain=[]):
@@ -53,7 +54,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     default_domain = attrs.get('default_domain', default_domain)
     default_search = False
     
-    default_val = attrs.get('default', 0)
+    default_val = attrs.get('default')
     if default_val:
         default_val = expr_eval(default_val, {'context':screen_context})
         
@@ -65,33 +66,20 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
         if default_domain and attrs.get('domain'):
             domain =  expr_eval(attrs.get('domain'))
             for d in domain:
-                if d in default_domain:
-                    default_search = 1
+                if d in default_domain:                    
                     default_val = 1
-                else:
-                    default_search = False
+                else:                    
                     default_val = 0
-        else:
-            default_search = False
+        else:            
             default_val = 0
             
         if attrs.get('context'):
-            ctx =  eval(attrs.get('context'))
-            if ctx.get('group_by', False):
-                str_ctx = 'group_' + ctx.get('group_by', False)
-                
-                if isinstance(screen_context.get('group_by'), list):
-                    if str_ctx in screen_context.get('group_by'):
-                        default_val = 1
-                    else:
-                        default_val = 0
-                else:
-                    default_val = 0
-            
-    if default_val and not default_search:
-        default_search = True
+            ctx =  ast.literal_eval(attrs.get('context'))
+            if ctx.get('group_by'):
+                str_ctx = 'group_' + ctx.get('group_by')
+                default_val = str_ctx in screen_context.get('group_by', [])            
     
-    return default_search
+    return default_search or default_val 
 
 class RangeWidget(TinyInputWidget):
     template = "templates/rangewid.mako"
